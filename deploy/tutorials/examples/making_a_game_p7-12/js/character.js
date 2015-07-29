@@ -357,7 +357,7 @@ function setup_attack(touch_attack, elapsed) {
 
     var damage_enemies_cb = function(obj, id, pulse) {
 
-        if (!_char_wrapper.state == m_conf.CH_ATTACK)
+        if (_char_wrapper.state != m_conf.CH_ATTACK)
             return;
 
         if (!char_attack_done) {

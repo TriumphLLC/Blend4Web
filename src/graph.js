@@ -1,13 +1,15 @@
 "use strict";
 
 /**
- * Generic graph routines. 
+ * Generic graph routines.
  *
  * @name graph
  * @namespace
  * @exports exports as graph
  */
 b4w.module["__graph"] = function(exports, require) {
+
+var m_util    = require("__util");
 
 var NULL_NODE    = -1;
 var NULL         = 0;
@@ -26,7 +28,7 @@ exports.TWO_WAY      = TWO_WAY;
 /**
  * Create graph using constructor pattern.
  * @param node_or_edge1 Node [ID, ATTR] or Edge [ID1, ID2, ATTR]
- * @param node_or_edge2 ... 
+ * @param node_or_edge2 ...
  */
 exports.create = function() {
 
@@ -52,6 +54,34 @@ exports.create = function() {
             break;
         }
     }
+
+    var graph = {
+        nodes: nodes,
+        edges: edges
+    };
+
+    return graph;
+}
+
+exports.clone = function(graph, nodes_cb, edges_cb) {
+    if (nodes_cb) {
+        var nodes = new Array(graph.nodes.length);
+        for (var i = 0; i < graph.nodes.length; i+=2) {
+            nodes[i] = graph.nodes[i];
+            nodes[i+1] = nodes_cb(graph.nodes[i+1]);
+        }
+    } else
+        var nodes = m_util.clone_object_r(graph.nodes);
+
+    if (edges_cb) {
+        var edges = new Array(graph.edges.length);
+        for (var i = 0; i < graph.edges.length; i+=3) {
+            edges[i] = graph.edges[i];
+            edges[i+1] = graph.edges[i+1];
+            edges[i+2] = edges_cb(graph.edges[i+2]);
+        }
+    } else
+        var edges = m_util.clone_object_r(graph.edges);
 
     var graph = {
         nodes: nodes,
@@ -153,6 +183,20 @@ function remove_edge(graph, id1, id2, edge_num) {
             }
 
             i-=3;
+        }
+    }
+}
+exports.remove_edge_by_attr = remove_edge_by_attr;
+function remove_edge_by_attr(graph, id1, id2, attr) {
+    if (!has_edge(graph, id1, id2))
+        throw "Edge not found";
+    var edges = graph.edges;
+
+    for (var i = 0; i < edges.length; i+=3) {
+        if (edges[i] == id1 && edges[i+1] == id2
+                && edges[i+2][0] == attr[0] && edges[i+2][1] == attr[1]) {
+            edges.splice(i, 3);
+            break;
         }
     }
 }
@@ -491,7 +535,7 @@ exports.match = function(graph1, graph2, node_comp, edge_comp) {
     state.t2both_len = state.t2in_len = state.t2out_len = 0;
 
 	state.added_node1 = NULL_NODE;
- 
+
     state.core_1 = Array(n1);
     state.core_2 = Array(n2);
 
@@ -676,7 +720,7 @@ function state_next_pair(state, next_pair, prev_n1, prev_n2) {
 	if (t1both_len > core_len && t2both_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE ||
                 out_2[prev_n2] == 0 || in_2[prev_n2] == 0)) {
-            prev_n2++;    
+            prev_n2++;
         }
 	} else if (t1out_len > core_len && t2out_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || out_2[prev_n2] == 0)) {
@@ -684,11 +728,11 @@ function state_next_pair(state, next_pair, prev_n1, prev_n2) {
         }
 	} else if (t1in_len > core_len && t2in_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || in_2[prev_n2] == 0)) {
-            prev_n2++;    
+            prev_n2++;
         }
 	} else {
         while (prev_n2 < n2 && core_2[prev_n2] != NULL_NODE) {
-            prev_n2++;    
+            prev_n2++;
         }
 	}
 
@@ -1206,6 +1250,8 @@ exports.enforce_acyclic = function(graph, main_node) {
     if (!main_node)
         var main_node = get_sink_nodes(graph)[0];
     var edges = graph.edges;
+    if (!edges.length)
+        return graph;
     var graph_data = {};
     var count = 0;
     for (var i = 0; i < edges.length; i=i+3) {

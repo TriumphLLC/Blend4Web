@@ -169,6 +169,12 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
 def create_server():
     port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
     root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+    allow_ext_requests = bpy.context.user_preferences.addons[__package__].preferences.b4w_enable_ext_requests
+
+    if allow_ext_requests:
+        address = ""
+    else:
+        address = ADDRESS
 
     application = tornado.web.Application([
         (r"/(.*)$", StaticFileHandlerNoCache, 
@@ -177,7 +183,7 @@ def create_server():
 
     try:
         B4WStartServer.server = tornado.httpserver.HTTPServer(application)
-        B4WStartServer.server.listen(port, address=ADDRESS)
+        B4WStartServer.server.listen(port, address=address)
         B4WStartServer.server_status = SUB_THREAD_START_SERV_OK
         print("serving at port", port)
         tornado.ioloop.IOLoop.instance().start()

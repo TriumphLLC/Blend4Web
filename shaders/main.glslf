@@ -3,7 +3,6 @@
 #var NUM_LAMP_LIGHTS 0
 #var NUM_VALUES 0
 #var NUM_RGBS 0
-#var PRECISION lowp
 
 #var PARALLAX_STEPS 0.0
 #var PARALLAX_LOD_DIST 0.0
@@ -214,8 +213,9 @@ uniform float u_refr_bump;
 
 varying vec3 v_pos_world;
 
-#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT \
-        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
+#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || USE_NODE_TEX_COORD_NO
 varying vec3 v_normal;
 #endif
 
@@ -261,7 +261,7 @@ varying float v_view_depth;
 #endif
 
 /*============================================================================
-                                  FUNCTIONS
+                                  INCLUDES
 ============================================================================*/
 
 #if !SHADELESS
@@ -564,7 +564,9 @@ void main(void) {
 # else  // ALPHA_CLIP
 #  if !SHADELESS && !NODES
     // make pixels with high specular more opaque; note: only the first channel of S is used
-    alpha += lresult.color.a * S.r * u_specular_alpha;
+    float t = max(max(lresult.specular.r, lresult.specular.g), lresult.specular.b)
+             * u_specular_alpha;
+    alpha = diffuse_color.a * (1.0 - t) + t;
 #  endif  // SHADELESS
 # endif  // ALPHA CLIP
 #else  // ALPHA

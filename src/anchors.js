@@ -320,10 +320,9 @@ exports.remove = function(obj) {
 }
 
 exports.update = function() {
-
     var det_vis_cnt = 0;
 
-    for (var i = 0, len = _anchors.length; i < len; i++) {
+    for (var i = _anchors.length; i--;) {
         var anchor = _anchors[i];
 
         // update always because the anchor may change it's depth
@@ -345,15 +344,18 @@ exports.update = function() {
         case "ANNOTATION":
             // position by left down angle
             var element = anchor.element;
+
             element.style.left = Math.floor(x) + "px";
             element.style.top = Math.floor(y - anchor.annotation_height) + "px";
             break;
         case "ELEMENT":
             // position by center, no width/height optimization here, may change
             var element = anchor.element;
+            var bounding_box = element.getBoundingClientRect();
 
-            element.style.left = Math.floor(x - element.offsetWidth / 2) + "px";
-            element.style.top = Math.floor(y - element.offsetHeight / 2) + "px";
+            element.style.cssText +=
+                "left:" + Math.floor(x - bounding_box.width / 2) + "px;" +
+                "top:" + Math.floor(y - bounding_box.height / 2) + "px;";
             break;
         case "GENERIC":
             break;
@@ -383,7 +385,7 @@ function anchor_project(anchor, dest) {
 exports.update_visibility = function() {
     var canvas_cont = m_cont.get_container();
 
-    for (var i = 0; i < _anchors.length; i++) {
+    for (var i = _anchors.length; i--;) {
         var anchor = _anchors[i];
         var obj = anchor.obj;
 

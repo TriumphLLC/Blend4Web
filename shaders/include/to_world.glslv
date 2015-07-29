@@ -4,7 +4,6 @@
 #export to_world
 #export billboard_matrix billboard_matrix_global bend_jitter_matrix billboard_spherical
 
-#define SKIN_SLERP 0
 #define M_PI 3.14159265359
 #define MAX_BILLBOARD_ANGLE (M_PI / 4.0)
 

@@ -37,7 +37,16 @@ uniform mat4 u_model_matrix;
 
 varying float v_alpha;
 varying vec3 v_color;
-varying vec3 v_pos_view;
+
+#if !DISABLE_FOG || SOFT_PARTICLES
+varying vec4 v_pos_view;
+#endif
+
+#if SOFT_PARTICLES
+varying vec3 v_tex_pos_clip;
+#endif
+
+varying float v_size;
 
 #include <particles.glslv>
 
@@ -46,13 +55,29 @@ void main(void) {
     pp = calc_part_params();
 
     vec4 pos_view = u_view_matrix * vec4(pp.position, 1.0);
-    gl_Position = u_proj_matrix * pos_view;
+    vec4 pos_clip = u_proj_matrix * pos_view;
+    gl_Position = pos_clip;
     
     v_alpha = pp.alpha;
     v_color = pp.color;
 
-    v_pos_view = pos_view.xyz;
+#if !DISABLE_FOG || SOFT_PARTICLES
+    v_pos_view = pos_view;
+#endif
 
     float pos_size = u_height * u_proj_matrix[1][1] * u_p_size / gl_Position.z;
-    gl_PointSize = pp.size * pos_size;
+    float size = pp.size * pos_size;
+
+#if SOFT_PARTICLES
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+
+    v_tex_pos_clip.x = (xc + wc) / 2.0;
+    v_tex_pos_clip.y = (yc + wc) / 2.0;
+    v_tex_pos_clip.z = wc;
+    v_size = size;
+#endif
+
+    gl_PointSize = size;
 }

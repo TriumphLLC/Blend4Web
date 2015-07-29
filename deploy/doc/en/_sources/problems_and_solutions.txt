@@ -1,98 +1,97 @@
-.. _problems_and_solutions:
 
-******************
-Проблемы и решения
-******************
+Problems and Solutions
+**********************
 
 
-.. _renderer_not_working:
+Problems Upon Startup
+=====================
 
-Проблемы при запуске движка
-===========================
+*1. The "Browser could not initialize WebGL" message is shown*.
 
-*1. Появляется сообщение "Browser could not initialize WebGL."*
+[image]
 
-.. image:: src_images/problems_and_solutions/no_webgl.png
-   :align: center
-   :width: 100%
+Follow the instructions listed in the WebGL Failed to Init section.
 
-Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`. 
+*2. The user interface or background is shown but the default scene is
+not rendered. At the same time the* http://get.webgl.org/ *site and
+other WebGL applications are working correctly.*
 
-*2. Видны элементы интерфейса или пустой экран, но сцена не отображается. При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения работают корректно.*
+   Possible causes:
 
-    Вероятные причины:
+   * A local web server is not used or the browser is not set up for
+     loading local resources. See the Setting up the Browser for
+     Loading Local Resources section.
 
-    * Не используется локальный веб-сервер или браузер не настроен для работы с локальными ресурсами. См. раздел :ref:`browser_for_local_loading`.
+   * The engine tries to load resource files which were moved or
+     deleted.
 
-    * Файлы ресурсов, которые пытается загрузить движок, были перемещены или удалены.
+   * You are using the old versions of video drivers.
 
-    * Используются старые версии драйверов.
+   * You are using open source drivers which do not fully support
+     WebGL.
 
-    * Используются открытые драйвера, не обеспечивающие поддержку WebGL.
+        For Linux users - due to incomplete OpenGL implementation in
+        open source drivers at the moment it is recommended to use
+        current versions of proprietary drivers for Nvidia and AMD
+        video cards.
 
-        Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах
-        с открытым кодом в настоящий момент рекомендуется
-        использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.
-
-    * Используется устаревшая операционная система, такая как Windows XP.
-
-
-.. _webgl_not_working:
-
-Ошибка инициализации WebGL
-==========================
-
-Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать? 
+   * You are using an outdated operating system, such as Windows XP.
 
 
-1. Установить доступные обновления для системы (для Windows см. `инструкцию <http://support.microsoft.com/kb/311047/ru>`_). В случае Windows установить последнюю версию `DirectX <http://www.microsoft.com/ru-ru/download/details.aspx?id=35>`_. Перезагрузить систему.
+WebGL Failed to Init
+====================
 
-2. Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu** (или **chrome://gpu**) в адресную строку браузера Chrome...
+The http://get.webgl.org/ page tells about problems when viewing it in
+recent Chrome or Firefox. What can I do?
 
-.. image:: src_images/problems_and_solutions/chrome_gpu.png
-   :align: center
-   :width: 100%
+1. Install the latest updates for your system (for MS Windows see
+   the guide). In case of MS Windows install the latest DirectX
+   runtime. Reboot.
 
-|
+2. It is recommended to timely update video card drivers. To detect
+   your video card and its vendor please type **about:gpu** (or
+   **chrome://gpu**) to the address bar of Chrome browser...
 
-или Firefox...
-
-.. image:: src_images/problems_and_solutions/firefox_gpu.png
-   :align: center
-   :width: 100%
-
-|
-
-Для операционных систем семейства Windows можно воспользоваться средством диагностики DirectX **dxdiag**.
-
-.. image:: src_images/problems_and_solutions/dxdiag.png
-   :align: center
-   :width: 100%
-
-|
+[image]
 
 
-Необходимо загрузить драйверы с соответствующего центра поддержки (например, `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI <http://support.amd.com/ru-ru/download>`_). После установки драйверов перезагрузить систему.
 
-3. Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера. 
+or Firefox...
 
-*В Chrome*:
-
-Ввести **about:flags** (или **chrome://flags**) в адресную строку браузера, нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение списка программного рендеринга` (:file:`Override software rendering list`) и перезапустить браузер.
-
-|
-
-.. image:: src_images/problems_and_solutions/about_flags_force_webgl.png
-   :align: center
-   :width: 100%
-
-|
-
-*В Firefox*: 
-
-Ввести **about:config** в адресную строку браузера, найти параметр ``webgl.force-enabled`` и переключить его двойным щелчком мыши из ``false`` в ``true``. 
+[image]
 
 
-.. image:: src_images/problems_and_solutions/about_config_force_webgl.png
-   :align: center
-   :width: 100%
+
+For Windows, you can run the DirectX Diagnostic Tool called
+**dxdiag**.
+
+[image]
+
+
+
+Download the drivers from the corresponding support center (for
+example Intel, Nvidia, AMD/ATI). Reboot the system after the drivers
+are installed.
+
+3. If the measures described above did not help to initialize
+   rendering (or there is no possibility to update the system) try to
+   change the browser settings.
+
+*For Chrome*:
+
+Enter **about:flags** (or **chrome://flags**) into the browser's
+address bar, click "Enable" under the "Override software rendering
+list" option and restart the browser.
+
+
+ [image]
+
+
+
+*For Firefox*:
+
+Enter **about:config** into the browser's address bar, search for the
+"webgl.force-enabled" parameter and double-click on it to switch from
+"false" to "true".
+
+[image]

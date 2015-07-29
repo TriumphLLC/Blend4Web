@@ -30,9 +30,14 @@ class B4W_RenderReflRefr(RenderButtonsPanel, bpy.types.Panel):
         scene = context.scene
 
         layout = self.layout
-
-        layout.prop(scene, "b4w_render_reflections", text="Reflections")
-        layout.prop(scene, "b4w_render_refractions", text="Refractions")
+        split = layout.split()
+        col = split.column()
+        col.prop(scene, "b4w_render_reflections", text="Reflections")
+        row = col.row()
+        row.active = scene.b4w_render_reflections == "ON"
+        row.prop(scene, "b4w_reflection_quality", text="Quality")
+        col = split.column()
+        col.prop(scene, "b4w_render_refractions", text="Refractions")
 
 class B4W_RenderMotionBlur(RenderButtonsPanel, bpy.types.Panel):
     bl_label = "Motion Blur"

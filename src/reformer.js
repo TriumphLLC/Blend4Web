@@ -39,9 +39,39 @@ function reform_node (node) {
         break;
     case "MATERIAL":
     case "MATERIAL_EXT":
+        if (!("alpha" in node)) {
+            node["alpha"] = 1;
+            report("node material", node, "alpha");
+        }
+
+        if (!("darkness" in node)) {
+            node["darkness"] = 1;
+            report("node material", node, "darkness");
+        }
+
+        if (!("diffuse_toon_size" in node)) {
+            node["diffuse_toon_size"] = 0.5;
+            report("node material", node, "diffuse_toon_size");
+        }
+
+        if (!("diffuse_toon_smooth" in node)) {
+            node["diffuse_toon_smooth"] = 0.1;
+            report("node material", node, "diffuse_toon_smooth");
+        }
+
+        if (!("diffuse_intensity" in node)) {
+            node["diffuse_intensity"] = 1;
+            report("node material", node, "diffuse_intensity");
+        }
+
         if (!("specular_shader" in node)) {
             node["specular_shader"] = "COOKTORR";
             report("node material", node, "specular_shader");
+        }
+
+        if (!("specular_ior" in node)) {
+            node["specular_ior"] = 4;
+            report("node material", node, "specular_ior");
         }
 
         if (!("specular_hardness" in node)) {
@@ -287,6 +317,11 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("timeline_markers" in scene)) {
             scene["timeline_markers"] = null;
             report("scene", scene, "timeline_markers");
+        }
+
+        if (!("b4w_reflection_quality" in scene)) {
+            scene["b4w_reflection_quality"] = "MEDIUM";
+            report("scene", scene, "b4w_reflection_quality");
         }
 
         if (!("b4w_use_nla" in scene)) {
@@ -692,6 +727,11 @@ exports.check_bpy_data = function(bpy_data) {
             report_deprecated("camera", camera, "b4w_eye_target_dist");
         }
 
+        if (!("b4w_hover_zero_level" in camera)) {
+            camera["b4w_hover_zero_level"] = 0;
+            report("camera", camera, "b4w_hover_zero_level");
+        }
+
         if (!("b4w_trans_velocity" in camera)) {
             camera["b4w_trans_velocity"] = 1;
             report("camera", camera, "b4w_trans_velocity");
@@ -1095,6 +1135,21 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_water_detailed_dist" in mat)) {
                 mat["b4w_water_detailed_dist"] = 1000;
                 report("material", mat, "b4w_water_detailed_dist");
+            }
+
+            if (!("b4w_water_enable_caust" in mat)) {
+                mat["b4w_water_enable_caust"] = false;
+                report("material", mat, "b4w_water_enable_caust");
+            }
+
+            if (!("b4w_water_caust_scale" in mat)) {
+                mat["b4w_water_caust_scale"] = 0.25;
+                report("material", mat, "b4w_water_caust_scale");
+            }
+
+            if (!("b4w_water_caust_brightness" in mat)) {
+                mat["b4w_water_caust_brightness"] = 0.5;
+                report("material", mat, "b4w_water_caust_brightness");
             }
         }
 
@@ -1750,6 +1805,16 @@ exports.check_bpy_data = function(bpy_data) {
                 pset["b4w_allow_nla"] = true;
                 report("particle_settings", pset, "b4w_allow_nla");
             }
+
+            if (!("b4w_enable_soft_particles" in pset)) {
+                pset["b4w_enable_soft_particles"] = false;
+                report("particle_settings", pset, "b4w_enable_soft_particles");
+            }
+
+            if (!("b4w_particles_softness" in pset)) {
+                pset["b4w_particles_softness"] = 1.0;
+                report("particle_settings", pset, "b4w_particles_softness");
+            }
         }
 
         if (!("constraints" in obj)) {
@@ -1795,6 +1860,13 @@ exports.check_bpy_data = function(bpy_data) {
 
         if (!check_uniform_scale(obj))
             report_raw("non-uniform scale for object " + obj["name"]);
+
+        if (check_negative_scale(obj)) {
+            report_raw("negative scale for object " + obj["name"] + ", using positive scale instead");
+            obj["scale"][0] = Math.abs(obj["scale"][0]);
+            obj["scale"][1] = Math.abs(obj["scale"][1]);
+            obj["scale"][2] = Math.abs(obj["scale"][2]);
+        }
     }
 
     if (_unreported_compat_issues)
@@ -1973,6 +2045,10 @@ function check_uniform_scale(obj) {
     var delta2 = Math.abs((scale[1] - scale[2]) / scale[1]);
 
     return (delta1 < eps && delta2 < eps);
+}
+
+function check_negative_scale(obj) {
+    return obj["scale"][0] < 0 || obj["scale"][1] < 0 || obj["scale"][2] < 0;
 }
 
 exports.check_anim_fcurve_completeness = function(fcurve, action) {
@@ -2306,6 +2382,9 @@ exports.create_material = function(name) {
         "b4w_collision": false,
         "b4w_collision_id": "",
         "b4w_double_sided_lighting": false,
+        "b4w_water_enable_caust": false,
+        "b4w_water_caust_scale": 0.25,
+        "b4w_water_caust_brightness": 0.5,
         "physics": {
             "friction": 0.5,
             "elasticity": 0

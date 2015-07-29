@@ -94,7 +94,7 @@ scripts/graph.sh
 scripts/make_dist.py
 scripts/memory.sh
 scripts/plot.sh
-scripts/reexporter.py
+scripts/process_blend.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
 scripts/shader_analyzer.py
@@ -145,3 +145,6 @@ VERSION
 # not ready
 !blender/website/slider/
 !deploy/assets/website/slider/
+
+# internal script
+!apps_dev/website/compile.sh

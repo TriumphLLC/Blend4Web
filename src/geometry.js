@@ -978,18 +978,19 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     else
         var use_tangent = false;
 
+    var texslot = mat["texture_slots"][0];
     if (use_normal && mat["texture_slots"].length && has_attr(attr_names, "a_tangent") &&
-            mat["texture_slots"][0]["texture_coords"] == "ORCO")
-        var use_orco_coords = true;
+             texslot["texture_coords"] == "ORCO" && texslot["use_map_normal"])
+        var use_orco_nmap_coords = true;
     else
-        var use_orco_coords = false;
+        var use_orco_nmap_coords = false;
 
     if (mesh["b4w_shape_keys"].length > 0)
         use_shape_keys = true;
 
     for (var i = 0; i < frames; i++) {
         var va_frame = create_frame(submesh, bsub, attr_names, base_length, use_normal,
-                use_tangent, use_orco_coords, i);
+                use_tangent, use_orco_nmap_coords, i, mesh["name"]);
         if (use_shape_keys) {
             var sk_frame = {};
             sk_frame.name = mesh["b4w_shape_keys"][i]["name"];
@@ -1001,7 +1002,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
             } else {
                 // NOTE: create new object for base shape key geometry
                 sk_frame.geometry = create_frame(submesh, bsub, attr_names, base_length, use_normal,
-                        use_tangent, use_orco_coords, i);
+                        use_tangent, use_orco_nmap_coords, i, mesh["name"]);
                 sk_frame.init_value = 1;
             }
         }
@@ -1028,13 +1029,13 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
 }
 
 function create_frame(submesh, bsub, attr_names, base_length, use_normal,
-        use_tangent, use_orco_coords, frame_index) {
+        use_tangent, use_orco_nmap_coords, frame_index, mesh_name) {
 
     var va_frame = {};
 
     var pos_arr = new Float32Array(base_length * POS_NUM_COMP);
     var nor_arr = new Float32Array(use_normal ? base_length * NOR_NUM_COMP : 0);
-    var tan_arr = new Float32Array((use_tangent || use_orco_coords) ? base_length * TAN_NUM_COMP : 0);
+    var tan_arr = new Float32Array((use_tangent || use_orco_nmap_coords) ? base_length * TAN_NUM_COMP : 0);
 
     var from_index = frame_index * base_length * POS_NUM_COMP;
     var to_index = from_index + base_length * POS_NUM_COMP;
@@ -1050,8 +1051,8 @@ function create_frame(submesh, bsub, attr_names, base_length, use_normal,
         var from_index = frame_index * base_length * TAN_NUM_COMP;
         var to_index = from_index + base_length * TAN_NUM_COMP;
         tan_arr.set(bsub["tangent"].subarray(from_index, to_index), 0);
-    } else if (use_orco_coords) {
-        generate_orco_tangents(nor_arr, tan_arr, base_length, mesh["name"]);
+    } else if (use_orco_nmap_coords) {
+        generate_orco_tangents(nor_arr, tan_arr, base_length, mesh_name);
     } else if (use_normal && has_attr(attr_names, "a_tangent")) {
         var tan_arr = new Float32Array(base_length * TAN_NUM_COMP);
         for (var i = 0; i < tan_arr.length; i++)

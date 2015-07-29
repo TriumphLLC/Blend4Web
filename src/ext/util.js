@@ -277,8 +277,20 @@ exports.angle_wrap_periodic = util.angle_wrap_periodic;
  * Smooth step function.
  * @method module:util.smooth_step
  * @param {Number} t Input value.
+ * @param {Number} min Min clamping value.
+ * @param {Number} max Max clamping value.
  * @returns {Number} Result value.
  */
 exports.smooth_step = util.smooth_step;
+
+/**
+ * Linear interpolation function.
+ * @method module:util.lerp
+ * @param {Number} t Input value.
+ * @param {Number} from Start interpolation value.
+ * @param {Number} to End interpolation value.
+ * @returns {Number} Result value.
+ */
+exports.lerp = util.lerp;
 
 }

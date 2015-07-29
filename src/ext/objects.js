@@ -116,9 +116,9 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
     var node_id = name_list.join("%join%");
     var ind = m_obj.get_rgb_node_ind_by_id(obj, node_id);
     if (ind != null) {
-        obj._render.mats_rgbs[ind]     = r;
-        obj._render.mats_rgbs[ind + 1] = g;
-        obj._render.mats_rgbs[ind + 2] = b;
+        obj._render.mats_rgbs[3 * ind]     = r;
+        obj._render.mats_rgbs[3 * ind + 1] = g;
+        obj._render.mats_rgbs[3 * ind + 2] = b;
     } else {
         m_print.error("The RGB node \"" + node_id +
             "\" was not found in the object \"" + obj["name"] + "\".");

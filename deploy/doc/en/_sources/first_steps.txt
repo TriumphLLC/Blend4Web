@@ -1,82 +1,68 @@
-.. _quick_install:
 
-******************
-Экспресс-установка
-******************
+Quick Install
+*************
 
-Экспресс-установка аддона Blend4Web подойдет обычным пользователям, которым не требуется разработка полноценных 3D приложений. 
-Основной возможностью в этом случае является экспорт сцены в один HTML-файл с последующим просмотром в браузере, поддерживающем WebGL.
+Quick install of the Blend4Web addon suits Blender artists who have no
+need in full-scale 3D applications development. In this case the main
+benefit is the opportunity to export a scene into a single HTML file
+for viewing in WebGL-capable browsers.
 
-Для более серьезных задач необходима установка :ref:`комплекта средств разработки <setup>`.
-
-
-.. _quick_install_blender:
-
-.. index:: Blender; установка
-
-Установка программы Blender
-===========================
-
-Создание 3D сцен осуществляется в графическом пакете `Blender <http://ru.wikipedia.org/wiki/Blender>`_, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.
-
-Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с `официального сайта <http://www.blender.org/download>`_.
-
-.. image:: src_images/first_steps/blender_first_run.jpg
-   :align: center
-   :width: 100%
+For more serious tasks an SDK setup is required.
 
 
-.. _quick_install_addon:
+Installing Blender
+==================
 
-.. index:: аддон; установка
+Authoring 3D scenes is carried out directly in Blender which is open
+source software and is distributed free of charge.
 
-Установка аддона движка
-=======================
+A current stable version of Blender should be used. It can be
+downloaded from the official site.
 
-Запустить Blender, загрузить сцену по умолчанию :file:`File > New`.
-Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Во вкладке :file:`Addons` нажать :file:`Install from File...` и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив :file:`Import-Export: Blend4Web`.
+[image]
 
-.. image:: src_images/first_steps/user_preferences_install_b4w.jpg
-   :align: center
-   :width: 100%
 
-|
+Installing the Addon
+====================
 
-Далее нажать :file:`Save User Settings` и закрыть окно пользовательских настроек.
+Run Blender, load the default scene "File > New". Open the user
+preferences "File > User Preferences...". Under the "Addons" tab click
+"Install from File..." and then select the zip archive with the addon
+files. After that turn on the "Import-Export: Blend4Web"  checkbox.
+
+[image]
 
 
 
-.. index:: экспорт
-
-.. _quick_install_export_viewer:
+Then click "Save User Settings" and close the user preferences window.
 
 
-Экспорт и просмотр сцены
-========================
+Exporting and Viewing Scenes
+============================
 
-Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию :file:`File > Export > Blend4Web (.html)` и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL.
+The created scenes can be exported in HTML format. To do this use the
+"File > Export > Blend4Web (.html)" menu option and choose the export
+filepath. The resulting HTML file can be opened with any browser with
+WebGL support.
+
+See also: WebGL Browsers Support
 
 
-.. seealso:: :ref:`browser_webgl_support`
+Upgrading the Addon
+===================
 
+To upgrade the addon **first disable the old version and then remove
+it**.
 
+To disable the addon: run Blender, load the default scene "File >
+New". Open the user preferences "File > User Preferences...". Go to
+the "Addons" tab and choose the "Import-Export" category. Disable the
+"Import-Export: Blend4Web" checkbox. Then click "Save User Settings"
+and **restart Blender**.
 
-.. index:: аддон; установка новой версии
+Then to remove the addon open the user preferences window again,
+expand the Blend4Web info panel and click the "Remove" button.
 
-.. _quick_install_addon_upgrade:
+[image]
 
-Установка новой версии аддона
-=============================
-
-Чтобы установить новую версию аддона, необходимо **сначала отключить, а затем удалить** старую версию. 
-
-Для отключения аддона запустить Blender, загрузить сцену по умолчанию :file:`File > New`. Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Снять галочку напротив :file:`Import-Export: Blend4Web`. Далее нажать :file:`Save User Settings` и **перезапустить Blender**. 
-
-Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку :file:`Remove`.
-
-.. image:: src_images/first_steps/user_preferences_disable_addon.jpg
-   :align: center
-   :width: 100%
-
-|
 

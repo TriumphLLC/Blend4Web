@@ -29,6 +29,8 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
+    aplha_clip_filtering_hack  : false,
+
     min_format_version         : [5, 4],
 
     max_fps                    : 10000, // not accurate
@@ -70,8 +72,6 @@ exports.defaults = {
     anaglyph_use               : false,
 
     reflections                : true,
-
-    reflect_multiplier         : 0.5,
 
     refractions                : true,
 
@@ -135,6 +135,8 @@ exports.defaults = {
 
     chrome_disable_doppler_effect_hack: false,
 
+    cors_chrome_hack           : false,
+
     init_wa_context_hack       : false,
 
     clear_procedural_sky_hack  : false,
@@ -148,6 +150,8 @@ exports.defaults = {
     gyro_use                   : false,
 
     firefox_shadows_slink_hack : false,
+
+    mobile_firefox_media_hack  : false,
 
     intel_cubemap_hack         : false,
 
@@ -192,6 +196,7 @@ exports.assets_save = m_util.clone_object_r(exports.assets);
 exports.paths = {
     shaders_dir         : "",
     shaders_include_dir : "include/",
+    shaders_postp_dir : "postprocessing/",
 
     built_in_data_module : "built_in_data",
 
@@ -214,14 +219,21 @@ exports.physics = {
     enabled: true,
     max_fps: 60,
     uranium_path: "",
-    calc_fps: false
+    calc_fps: false,
+    ping: false
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
 exports.scenes = {
     grass_tex_size: 2*512,
     // default adjusted size
-    cubemap_tex_size: 384
+    cubemap_tex_size: 384,
+    cube_reflect_low: 32,
+    cube_reflect_medium: 128,
+    cube_reflect_high: 256,
+    plane_reflect_low: 0.25,
+    plane_reflect_medium: 0.5,
+    plane_reflect_high: 1.0
 }
 exports.scenes_save = m_util.clone_object_r(exports.scenes);
 
@@ -279,8 +291,6 @@ exports.apply_quality = function() {
         cfg_def.bloom = true;
 
         cfg_def.reflections = true;
-
-        cfg_def.reflect_multiplier = 1.0;
 
         cfg_def.refractions = true;
 
@@ -342,8 +352,6 @@ exports.apply_quality = function() {
 
         cfg_def.reflections = true;
 
-        cfg_def.reflect_multiplier = 0.5;
-
         cfg_def.refractions = true;
 
         cfg_def.foam = true;
@@ -403,8 +411,6 @@ exports.apply_quality = function() {
         cfg_def.bloom = false;
 
         cfg_def.reflections = false;
-
-        cfg_def.reflect_multiplier = 0.5;
 
         cfg_def.refractions = false;
 

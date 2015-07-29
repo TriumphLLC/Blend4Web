@@ -17,6 +17,7 @@ var m_print     = require("__print");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_util      = require("__util");
+var m_lights    = require("__lights");
 var m_tex       = require("__textures");
 
 var cfg_ani = m_cfg.animation;
@@ -74,6 +75,7 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
                     m_cam.is_camera(sobj) ||
                     m_util.is_mesh(sobj) ||
                     m_util.is_empty(sobj) ||
+                    m_lights.is_lamp(sobj) ||
                     // no need for separate slot in case of sound
                     m_sfx.is_speaker(sobj)) {
 
@@ -501,7 +503,6 @@ exports.update = function(timeline, elapsed) {
 
     for (var i = 0; i < _nla_arr.length; i++) {
         var nla = _nla_arr[i];
-
         if (nla.is_stopped) {
             nla.frame_offset -= cfg_ani.framerate * elapsed;
             if (!nla.force_update)
@@ -514,7 +515,8 @@ exports.update = function(timeline, elapsed) {
 
         var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
 
-        if (cf >= nla.range_end + 1) {
+        // NOTE: cf must be more than nla.range_end + 1 to copy Blender's behaviour
+        if (cf >= nla.range_end) {
             if (nla.cyclic) {
                 if (nla.user_callback)
                     nla.user_callback();
@@ -523,10 +525,9 @@ exports.update = function(timeline, elapsed) {
                 cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
             } else {
                 nla.is_stopped = true;
-
+                nla.frame_offset -= cf - nla.range_end;
                 if (nla.user_callback)
                     nla.user_callback();
-
                 continue;
             }
         }
@@ -852,7 +853,7 @@ function process_clip_event_start(obj, ev, frame, elapsed) {
     // NOTE: should not be required
     m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, ev.anim_slot);
     var action_frame = get_curr_frame_strip(ev.frame_start, ev);
-    m_anim.set_current_frame_float(obj, action_frame, ev.anim_slot);
+    m_anim.set_frame(obj, action_frame, ev.anim_slot);
 }
 
 function process_clip_event(obj, ev, frame, elapsed) {
@@ -861,7 +862,7 @@ function process_clip_event(obj, ev, frame, elapsed) {
     // do not update animation if the frame is not changed
     // to allow object movement in between
     if (Math.abs(new_anim_frame - curr_anim_frame) > CF_FREEZE_EPSILON)
-        m_anim.set_current_frame_float(obj, new_anim_frame, ev.anim_slot);
+        m_anim.set_frame(obj, new_anim_frame, ev.anim_slot);
 
 }
 

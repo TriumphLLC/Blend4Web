@@ -18,7 +18,8 @@ b4w.module["data"] = function(exports, require) {
 /**
  * Loading stage callback.
  * @callback StageloadCallback
- * @param {Number} percentage Loading progress (0-100)
+ * @param {Number} percentage Loading progress (0-100).
+ * @param {Number} load_time Loading time in ms.
  */
 
 var m_data  = require("__data");

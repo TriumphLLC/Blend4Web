@@ -52,7 +52,6 @@
     <script type="text/javascript" src="../../src/ext/nla.js"></script>
 
     <script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
-    <script type="text/javascript" src="../../src/libs/gpp_eval.js"></script>
     <script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
     <script type="text/javascript" src="../../src/libs/md5.js"></script>
 
@@ -76,7 +75,6 @@
     <script type="text/javascript" src="../../src/ext/physics.js"></script>
     <script type="text/javascript" src="../../src/ext/scenes.js"></script>
     <script type="text/javascript" src="../../src/ext/sfx.js"></script>
-    <script type="text/javascript" src="../../src/ext/shaders.js"></script>
     <script type="text/javascript" src="../../src/ext/textures.js"></script>
     <script type="text/javascript" src="../../src/ext/time.js"></script>
     <script type="text/javascript" src="../../src/ext/tsr.js"></script>
@@ -93,7 +91,20 @@
 
     <script type="text/javascript" src="logo_3d.js"></script>
 
-    <script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
+    <style type="text/css">
+
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #main_canvas_container {
+        position: absolute;
+        width: 100%;
+        height: 50%;
+    }
+
+    </style>
 </head>
 <body>
     <div id="main_canvas_container"></div>

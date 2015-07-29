@@ -62,7 +62,7 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
- * @method module:npc_ai.npc_ai
+ * @method module:npc_ai.new_event_track
  * @cc_externs path delay actions obj collider empty speed random rig
  * @cc_externs type rot_speed max_height min_height
  */

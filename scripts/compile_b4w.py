@@ -108,7 +108,6 @@ SRC_EXT_FILES     = ['src/ext/animation.js',
                      'src/ext/rgb.js',
                      'src/ext/scenes.js',
                      'src/ext/sfx.js',
-                     'src/ext/shaders.js',
                      'src/ext/textures.js',
                      'src/ext/time.js',
                      'src/ext/transform.js',
@@ -120,7 +119,6 @@ SRC_EXT_FILES     = ['src/ext/animation.js',
                      'src/ext/nla.js']
 
 SRC_LIBS_FILES    = ['src/libs/gl-matrix2.js',
-                     'src/libs/gpp_eval.js',
                      'src/libs/md5.js',
                      'src/libs/shader_texts.js']
 

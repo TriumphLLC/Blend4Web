@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-18 17:57\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-07-28 15:14+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -448,16 +448,6 @@ msgstr "The default value is 0.001."
 msgid "Текстура сцены позади объекта с внесённым возмущением."
 msgstr "Rendered texture behind object with perturbations."
 
-#: ../node_materials.rst:200
-msgid ""
-"Для отображения эффекта необходимо включить опцию ``Render refraction`` на "
-"панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
-"Blend."
-msgstr ""
-"It's neccessary to enable the ``Render refraction``  option from the ``Scene"
-" > Blend4Web`` panel. The object's transparency type must be set to ``Alpha "
-"Blend``."
-
 #: ../node_materials.rst:201
 msgid ":ref:`alpha_blend`"
 msgstr ""
@@ -591,6 +581,16 @@ msgid "*Factor* :math:`\\in (0, 1]` - свечение цветом *Glow Color*
 msgstr ""
 "*Factor* :math:`\\in (0, 1]` - there is a glow, colored with *Glow Color*."
 
-#: ../node_materials.rst:275
+#: ../node_materials.rst:272
 msgid "*Factor*"
 msgstr ""
+
+#: ../node_materials.rst:200
+msgid ""
+"Для отображения эффекта необходимо переключить опцию ``Refractions`` на "
+"панели ``Render > Reflections and Refractions`` в состояние ``AUTO`` или "
+"``ON``. Объект должен быть с типом прозрачности Alpha Blend."
+msgstr ""
+"It's neccessary to set the ``Refractions`` option from the ``Render"
+" > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. "
+" The object's transparency type must be set to ``Alpha Blend``."

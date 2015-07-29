@@ -1,165 +1,198 @@
-.. _gamma:
 
-***********************************
-Гамма-коррекция и альфа-композитинг
-***********************************
+Gamma and Alpha
+***************
 
-Общее описание
+
+Gamma Overview
 ==============
 
-Сущность гамма-коррекции заключается в упаковке яркости канала изображения в 8
-битах информации.
+The essence of gamma correction is packing the image brightness
+channel into 8 bits of information.
 
-Стандартные (не HDR) изображения всегда сохраняются в нелинейном пространстве, где тёмные компоненты кодируются большим числом битов чем светлые. Это означает, что значению 0.5 от реальной интенсивности света (физической величины, называемой освещённость) будет соответствовать большее значение, содержащееся в каналах RGB (в самом простом случае :math:`0.5^{1/2.2} = 0.73)`.
+Standard (non-HDR) images are always stored in non-linear color space
+where the darker components are encoded using more bits than the
+brighter ones. That means that a bigger RGB value corresponds to 0.5
+of the real light intensity (a physical quantity called illuminance) -
+in a simplest case this value equals to 0.5 ^ (1/2.2) = 0.73.
 
-В противном случае 8 бит информации не достаточно для кодирования интенсивности света, что приведёт к тому, что тёмные тона будут отображаться некорректно (например, тёмный градиент будет иметь ступенчатый характер переходов между соседними цветами).
+Overwise, 8 bit of information will not be enough to encode the light
+intensity. This will result in incorrect rendering of darker tones.
+For example, dark gradients will look stepped.
 
-Таким образом, веб-браузеры, как и многие другие программы для просмотра и обработки изображений, работают в нелинейном цветовом пространстве. Однако трёхмерные движки и рендереры работают в линейном пространстве, поскольку только оно может адекватно представлять поведение света в реальном мире. Например, освещённость от двух одинаковых ламп будет ровно в два раза превышать освещённость только от одной. 
+Therefore, web browsers, as well as many other programs for viewing
+and manipulating images, work in non-linear space. However, 3D engines
+and renderers work in linear space, because it is the only correct way
+to represent light behavior in the real world. For example, the
+illuminance from two identical lamps exceeds the illuminance from one
+lamp exactly by two times.
 
-Безусловно, в таком случае 8 бит информации не будет достаточно, что наглядно иллюстрирует таблица, в которой приведены примерные значения величин освещённости от реальных источников.
+Undoubtedly, 8 bit of information will not be enough in this case.
+This can be clearly seen from the table in which approximate
+illuminance values for some real light sources are shown.
 
-+---------------------+------------------+
-| Описание            | Освещённость, лк | 
-+=====================+==================+
-| Летом в полдень     | 17 000           |
-+---------------------+------------------+
-| Зимой в полдень     | 5 000            |
-+---------------------+------------------+
-| В пасмурный день    | 1 000            |
-+---------------------+------------------+
-| В светлой комнате   | 100              |
-+---------------------+------------------+
-| Ночью в полнолуние  | 0.2              |
-+---------------------+------------------+
-| В безлунную ночь    | 0.001            |
-+---------------------+------------------+
-
-|
-
-Blender при настройке сцены ``Color Management > Display Device > sRGB`` работает в линейном
-пространстве. Значения цветов материалов и настройки источников света соответствует физическим величинам. При работе с текстурами, за исключением карт нормалей необходимо выставить настройку изображения ``Image > Input Color Space > sRGB``. В этом случае при рендеринге будет производится автоматическая распаковка изображения: sRGB->Linear.
-
-
-Человеческое зрение и мониторы
-==============================
-
-Человеческое восприятие света нелинейно (человек лучше различает градации
-тусклого света чем яркого), однако свет, поступающий в глаз, по-прежнему должен подчиняться физическим законам (см. пример с лампочками).
-
-Мониторы с электронно-лучевыми трубками (ЭЛТ) имеют нелинейную характеристику яркости от приложенного к их входу электрического напряжения, которое, в свою очередь, определяется значением
-канала цветности в видеопамяти. Подобную же характеристику копируют жидкокристаллические мониторы. Тем не менее свет, излучаемый такими мониторами, по-прежнему должен подчиняться физическим законам. Например, в идеальном случае при добавлении второго источника света на сцену в виртуальном мире, яркость пикселей на экране монитора должна увеличиваться в два раза.
-
-Таким образом, особенности восприятия человеческого глаза являются причиной, по которой стало возможным осуществлять упаковку каналов цветности, в то время как технические характеристики мониторов имеют вторичное значение по отношению к гамма-коррекции.
++-----------------------+--------------------+
+| Description           | Illuminance, lux   |
++=======================+====================+
+| Summer noon           | 17 000             |
++-----------------------+--------------------+
+| Winter noon           | 5 000              |
++-----------------------+--------------------+
+| Dull day              | 1 000              |
++-----------------------+--------------------+
+| In a light room       | 100                |
++-----------------------+--------------------+
+| Full moon by night    | 0.2                |
++-----------------------+--------------------+
+| Moonless light        | 0.001              |
++-----------------------+--------------------+
 
 
-Гамма
-=====
 
-Используется в следующей упрощенной формуле:
-
-    V\ :sub:`out` = V\ :sub:`in`\ :sup:`γ`
-
-γ < 1 - упаковывающая гамма, γ > 1 - распаковывающая гамма. В наиболее простом
-случае используются значения 1/2.2 и 2.2 соответственно. Далее вместо термина
-"гамма-коррекция" будут использованы термины "упаковка" (Linear -> sRGB) и "распаковка" (sRGB -> Linear). 
-
-.. image:: src_images/gamma_alpha/gamma.jpg
-   :align: center
-   :width: 100%
+When the "Color Management > Display Device > sRGB" option is enabled
+for a scene, Blender works in a linear space. Material colors and lamp
+settings correspond to physical values. For texture images (except
+normal maps) it is required to select the "Image > Input Color Space >
+sRGB" option. In this case an automatic image unpacking (sRGB ->
+Linear) is performed at the time of rendering.
 
 
-.. _gamma_node_materials:
+Human Vision and Monitors
+=========================
 
-Коррекция в нодовых материалах
-==============================
+While the human vision is non-linear (a human recognizes the darker
+light tints better than the brighter ones), the light coming into the
+eye still obeys the physical laws (see the lamps example).
 
-Ноды для окраски
-----------------
+In CRT monitors the brightness is dependent non-linearly upon the
+electric voltage applied to the monitor's input (the voltage itself is
+determined by the color channel value in the video memory). LCD
+monitors mimic the same characteristics. Nevertheless the light
+emitted by such monitors obeys the physical laws. For example the
+addition of a second light source to a virtual scene should cause the
+brightness to double (in the perfect case).
 
-При использовании текстур и вертексных цветов для окраски (не в качестве масок),
-необходима распаковка (sRGB -> Linear). Нода текстуры реализует распаковку автоматически. Для вертексного цвета распаковку необходимо осуществлять явно, с помощью специальной ноды
-`SRGB_TO_LINEAR`.
-
-Отметим, что альфа-канал ноды текстуры коррекции не подвергается, его значения находятся в линейном пространстве.
-
-Ноды для масок
---------------
-
-Текстуры и вертексные цвета могут использоваться в качестве масок, т.е. для смешения
-цветов или других математических операций. В таком случае в преобразованиях нет необходимости.
-
-В случае текстуры, тем не менее, имеется нюанс: нода текстуры реализует распаковку автоматически. Это приводит к
-необходимости дополнительного преобразования обратно в нелинейное пространство, для
-чего используется нода `LINEAR_TO_SRGB`.
-
-Карты нормалей
---------------
-
-При использовании карт нормалей никакие преобразования не производятся.
+Therefore, the perception characteristics of the human eye are the
+reason due to which it is possible to pack color channels. At the same
+time, the technical characteristics of monitors have a secondary
+significance for gamma correction.
 
 
-Сводная таблица коррекции в нодовых материалах
-----------------------------------------------
+Gamma Formula
+=============
+
+Used in the following simplified formula:
+
+   V_out = V_in^γ
+
+γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case
+1/2.2 and 2.2 values are used respectively. Hereinafter the "packing"
+(Linear -> sRGB) and "unpacking" (sRGB -> Linear) terms are used
+instead of "gamma correction".
+
+[image]
 
 
-+-----------------------------+-----------------------------+
-| Случай использования        | Коррекция                   |
-+=============================+=============================+
-| Текстура для окраски        | реализуется автоматически   |
-|                             | в ноде текстуры             |
-|                             | (альфа-канал коррекции      |
-|                             | не подвергается)            |
-+-----------------------------+-----------------------------+
-| Текстура для маски          | LINEAR_TO_SRGB              |
-+-----------------------------+-----------------------------+
-| Вертексный цвет для окраски | SRGB_TO_LINEAR              |
-+-----------------------------+-----------------------------+
-| Вертексный цвет для маски   | не требуется                |
-+-----------------------------+-----------------------------+
-| Карта нормалей              | не требуется                |
-+-----------------------------+-----------------------------+
+Gamma in Node Materials
+=======================
 
 
-.. seealso:: :ref:`node_gamma`
+Nodes for Colouring
+-------------------
+
+Unpacking (sRGB -> Linear) is required when textures and vertex colors
+are used for colouring (not for masking). The texture node implements
+unpacking automatically. For vertex colors the unpacking should be
+performed explicitely with the *SRGB_TO_LINEAR* special node.
+
+Note that the alpha channel of a texture node is not corrected. Its
+values are in the linear space.
 
 
-.. _alpha_compositing:
+Nodes for Masking
+-----------------
 
-Альфа-композитинг
+Textures and vertex colors can be used as masks i.e. for mixing colors
+and for other mathematical operations. In such a case no
+transformations are required.
+
+In case of a texture however there is a nuance: a texture node
+implements unpacking automatically. This results in necessity of the
+additional transformation back to the non-linear space, for which the
+*LINEAR_TO_SRGB* node is used.
+
+
+Normal Maps
+-----------
+
+No transformations are performed for normal maps.
+
+
+Summary Table
+-------------
+
++-------------------------------+-------------------------------+
+| Use case                      | Correction                    |
++===============================+===============================+
+| Texture for colouring         | implemented automatically in  |
+|                               | the texture node (the alpha   |
+|                               | channel is not corrected)     |
++-------------------------------+-------------------------------+
+| Texture for masking           | LINEAR_TO_SRGB                |
++-------------------------------+-------------------------------+
+| Vertex color for colouring    | SRGB_TO_LINEAR                |
++-------------------------------+-------------------------------+
+| Vertex color for masking      | not required                  |
++-------------------------------+-------------------------------+
+| Normal map                    | not required                  |
++-------------------------------+-------------------------------+
+
+See also: B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR
+
+
+Alpha Compositing
 =================
 
-Общие сведения
+
+Overview
+--------
+
+Physically correct alpha compositing is performed according to the
+formula [source]:
+
+   C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a).
+
+This formula differs from the classic mix operation (aka convex
+combination) because it has the \alpha_b multiplier in the second
+summand. Therefore not only the \alpha_a value of the source pixel
+should be known for alpha compositing, but also the \alpha_b value of
+the pixel over which the rendering is performed.
+
+In case of preliminary multiplication of the \alpha values by the
+color channels (so called premultiplied alpha) the formula becomes as
+following:
+
+   C_o = C_a + C_b (1 - \alpha_a).
+
+The last formula is used also to calculate the resulting \alpha_o
+value:
+
+   \alpha_o = \alpha_a + \alpha_b (1 - \alpha_a).
+
+Preliminary multiplication of the color channels by the \alpha values
+allows to save two multiplication operations. The more significant
+thing is that the derived formula can be used repeatedly without the
+need to divide the C_o color by the \alpha_o value on each consequent
+iteration.
+
+
+Implementation
 --------------
 
-Физически корректный альфа-композитинг осуществляется по формуле [`источник <http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
+The blending function used in Blend4Web is the following:
 
-    :math:`C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)`.
+   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-Формула отличается от классической операции смешивания (mix, выпуклая комбинация) наличием множителя :math:`\alpha_b` во втором слагаемом. Таким образом, для осуществления альфа-композитинга должно быть известно не только значение :math:`\alpha_a` пикселя-источника, но и значение :math:`\alpha_b` пикселя, поверх которого осуществляется рендеринг.
-
-В случае предварительного умножения значений :math:`\alpha` на цветовые каналы (т.н.
-premultiplied alpha) формула принимает вид:
-
-    :math:`C_o = C_a + C_b (1 - \alpha_a)`.
-    
-Последняя формула используется также для расчёта результирующего значения :math:`\alpha_o`:
-
-    :math:`\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)`.
-    
-Предварительное умножение цветовых каналов на значения :math:`\alpha` позволяет сэкономить две операции умножения. Еще более существенным является тот факт, что полученная формула может использоваться многократно, без необходимости деления цвета :math:`C_o` на значение :math:`\alpha_o` на каждой последующей итерации.
-
-
-Реализация
-----------
-
-Функция смешивания в движке Blend4Web имеет вид:
-
-.. code-block:: none
-
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-
-Инициализация контекста WebGL производится с параметром `premultipliedAlpha = true` (что является значением по умолчанию). Кроме того, на выходе шейдеров производится умножение всех каналов цветности на значение :math:`\alpha`.
-
-
-
-
+WebGL context initialization is performed using the
+*premultipliedAlpha = true* parameter (that is the default value).
+Also multiplication of all the color channels by the \alpha value is
+performed on the output of the shaders.

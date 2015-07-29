@@ -84,99 +84,114 @@ var OUT_DEBUG                        = exports.OUT_DEBUG                        
 
 var _worker = null;
 
+var _buf_arr = [];
+
+
 var _msg_cache_IN_TRANSFORM = {
-    "msg_id":   IN_TRANSFORM,
+    msg_id:   IN_TRANSFORM,
 
-    "body_id":  0,
-    "time":     0,
-    "trans":    new Float32Array(3),
-    "quat":     new Float32Array(4),
-    "linvel":   new Float32Array(3),
-    "angvel":   new Float32Array(3),
+    body_id:  0,
+    time:     0,
+    trans:    new Float32Array(3),
+    quat:     new Float32Array(4),
+    linvel:   new Float32Array(3),
+    angvel:   new Float32Array(3),
 
-    raw_data:   new Float32Array(1+1+1+3+4+3+3)
+    len:      0
 };
-_msg_cache_IN_TRANSFORM.raw_data[0] = IN_TRANSFORM;
 
 var _msg_cache_IN_PROP_OFFSET = {
-    "msg_id":               IN_PROP_OFFSET,
+    msg_id:               IN_PROP_OFFSET,
 
-    "chassis_hull_body_id": 0,
-    "prop_ind":             0,
-    "trans":                new Float32Array(3),
-    "quat":                 new Float32Array(4),
+    chassis_hull_body_id: 0,
+    prop_ind:             0,
+    trans:                new Float32Array(3),
+    quat:                 new Float32Array(4),
 
-    raw_data:               new Float32Array(1+1+1+3+4)
+    len:                  0
 };
-_msg_cache_IN_PROP_OFFSET.raw_data[0] = IN_PROP_OFFSET;
 
 var _msg_cache_IN_RAY_HIT = {
-    "msg_id":      IN_RAY_HIT,
+    msg_id:      IN_RAY_HIT,
 
-    "id":          0,
-    "body_id_hit": 0,
-    "hit_fract":   0,
-    "hit_time":    0,
+    id:          0,
+    body_id_hit: 0,
+    hit_fract:   0,
+    hit_time:    0,
 
-    raw_data:      new Float32Array(1+1+1+1+1)
+    len:         0
 };
-_msg_cache_IN_RAY_HIT.raw_data[0] = IN_RAY_HIT;
 
 var _msg_cache_IN_RAY_HIT_POS_NORM = {
-    "msg_id":      IN_RAY_HIT_POS_NORM,
+    msg_id:      IN_RAY_HIT_POS_NORM,
 
-    "id":          0,
-    "body_id_hit": 0,
-    "hit_fract":   0,
-    "hit_time":    0,
-    "hit_pos":     new Float32Array(3),
-    "hit_norm":    new Float32Array(3),
+    id:          0,
+    body_id_hit: 0,
+    hit_fract:   0,
+    hit_time:    0,
+    hit_pos:     new Float32Array(3),
+    hit_norm:    new Float32Array(3),
 
-    raw_data:      new Float32Array(1+1+1+1+1+3+3)
+    len:         0
 };
-_msg_cache_IN_RAY_HIT_POS_NORM.raw_data[0] = IN_RAY_HIT_POS_NORM;
 
 var _msg_cache_IN_COLLISION = {
-    "msg_id":     IN_COLLISION,
+    msg_id:     IN_COLLISION,
 
-    "body_id_a":  0,
-    "body_id_b":  0,
-    "result":     0,
+    body_id_a:  0,
+    body_id_b:  0,
+    result:     0,
 
-    raw_data:     new Float32Array(1+1+1+1)
+    len:        0
 };
-_msg_cache_IN_COLLISION.raw_data[0] = IN_COLLISION;
 
 var _msg_cache_IN_COLLISION_POS_NORM = {
-    "msg_id":     IN_COLLISION_POS_NORM,
+    msg_id:     IN_COLLISION_POS_NORM,
 
-    "body_id_a":  0,
-    "body_id_b":  0,
-    "result":     0,
-    "coll_point": new Float32Array(3),
-    "coll_norm":  new Float32Array(3),
-    "coll_dist":  0,
+    body_id_a:  0,
+    body_id_b:  0,
+    result:     0,
+    coll_point: new Float32Array(3),
+    coll_norm:  new Float32Array(3),
+    coll_dist:  0,
 
-    raw_data:     new Float32Array(1+1+1+1+3+3+1)
+    len:        0
 };
-_msg_cache_IN_COLLISION_POS_NORM.raw_data[0] = IN_COLLISION_POS_NORM;
 
 var _msg_cache_OUT_SET_TRANSFORM = {
-    "msg_id":  OUT_SET_TRANSFORM,
+    msg_id:  OUT_SET_TRANSFORM,
 
-    "body_id": 0,
-    "trans":   new Float32Array(3),
-    "quat":    new Float32Array(4),
+    body_id: 0,
+    trans:   new Float32Array(3),
+    quat:    new Float32Array(4),
 
-    raw_data:  new Float32Array(1+1+3+4)
+    len:     0
 };
-_msg_cache_OUT_SET_TRANSFORM.raw_data[0] = OUT_SET_TRANSFORM;
+
+var _msg_cache_list = [
+    _msg_cache_IN_TRANSFORM,
+    _msg_cache_IN_PROP_OFFSET,
+    _msg_cache_IN_RAY_HIT,
+    _msg_cache_IN_RAY_HIT_POS_NORM,
+    _msg_cache_IN_COLLISION,
+    _msg_cache_IN_COLLISION_POS_NORM,
+    _msg_cache_OUT_SET_TRANSFORM
+];
 
 
 exports.init = function(worker, process_message_cb) {
-    worker.addEventListener("message", function(event) {
 
-        var event_data = event.data;
+    assign_msg_cache_length(_msg_cache_list);
+
+    var preprocess_message_cb = function(event_data) {
+
+        if (event_data.constructor == ArrayBuffer) {
+            event_data = new Float32Array(event_data);
+        } else if (event_data[0].constructor == ArrayBuffer) {
+            for (var i = 0; i < event_data.length; i++)
+                preprocess_message_cb(event_data[i]);
+            return;
+        }
 
         var msg_id = event_data[0] | 0;
 
@@ -184,91 +199,91 @@ exports.init = function(worker, process_message_cb) {
         case IN_TRANSFORM:
             var data = _msg_cache_IN_TRANSFORM;
 
-            data["body_id"]   = event_data[1 ];
-            data["time"]      = event_data[2 ];
-            data["trans"][0]  = event_data[3 ];
-            data["trans"][1]  = event_data[4 ];
-            data["trans"][2]  = event_data[5 ];
-            data["quat"][0]   = event_data[6 ];
-            data["quat"][1]   = event_data[7 ];
-            data["quat"][2]   = event_data[8 ];
-            data["quat"][3]   = event_data[9 ];
-            data["linvel"][0] = event_data[10];
-            data["linvel"][1] = event_data[11];
-            data["linvel"][2] = event_data[12];
-            data["angvel"][0] = event_data[13];
-            data["angvel"][1] = event_data[14];
-            data["angvel"][2] = event_data[15];
+            data.body_id   = event_data[1 ] | 0;
+            data.time      = event_data[2 ];
+            data.trans[0]  = event_data[3 ];
+            data.trans[1]  = event_data[4 ];
+            data.trans[2]  = event_data[5 ];
+            data.quat[0]   = event_data[6 ];
+            data.quat[1]   = event_data[7 ];
+            data.quat[2]   = event_data[8 ];
+            data.quat[3]   = event_data[9 ];
+            data.linvel[0] = event_data[10];
+            data.linvel[1] = event_data[11];
+            data.linvel[2] = event_data[12];
+            data.angvel[0] = event_data[13];
+            data.angvel[1] = event_data[14];
+            data.angvel[2] = event_data[15];
             break;
         case IN_PROP_OFFSET:
             var data = _msg_cache_IN_PROP_OFFSET;
 
-            data["chassis_hull_body_id"] = event_data[1];
-            data["prop_ind"]             = event_data[2];
-            data["trans"][0]             = event_data[3];
-            data["trans"][1]             = event_data[4];
-            data["trans"][2]             = event_data[5];
-            data["quat"][0]              = event_data[6];
-            data["quat"][1]              = event_data[7];
-            data["quat"][2]              = event_data[8];
-            data["quat"][3]              = event_data[9];
+            data.chassis_hull_body_id = event_data[1] | 0;
+            data.prop_ind             = event_data[2] | 0;
+            data.trans[0]             = event_data[3];
+            data.trans[1]             = event_data[4];
+            data.trans[2]             = event_data[5];
+            data.quat[0]              = event_data[6];
+            data.quat[1]              = event_data[7];
+            data.quat[2]              = event_data[8];
+            data.quat[3]              = event_data[9];
             break;
         case IN_RAY_HIT:
             var data = _msg_cache_IN_RAY_HIT;
 
-            data["id"]          = event_data[1] | 0;
-            data["body_id_hit"] = event_data[2] | 0;
-            data["hit_fract"]   = event_data[3];
-            data["hit_time"]    = event_data[4];
+            data.id          = event_data[1] | 0;
+            data.body_id_hit = event_data[2] | 0;
+            data.hit_fract   = event_data[3];
+            data.hit_time    = event_data[4];
 
             break;
         case IN_RAY_HIT_POS_NORM:
             var data = _msg_cache_IN_RAY_HIT_POS_NORM;
 
-            data["id"]          = event_data[ 1] | 0;
-            data["body_id_hit"] = event_data[ 2] | 0;
-            data["hit_fract"]   = event_data[ 3];
-            data["hit_time"]    = event_data[ 4];
-            data["hit_pos"][0]  = event_data[ 5];
-            data["hit_pos"][1]  = event_data[ 6];
-            data["hit_pos"][2]  = event_data[ 7];
-            data["hit_norm"][0] = event_data[ 8];
-            data["hit_norm"][1] = event_data[ 9];
-            data["hit_norm"][2] = event_data[10];
+            data.id          = event_data[ 1] | 0;
+            data.body_id_hit = event_data[ 2] | 0;
+            data.hit_fract   = event_data[ 3];
+            data.hit_time    = event_data[ 4];
+            data.hit_pos[0]  = event_data[ 5];
+            data.hit_pos[1]  = event_data[ 6];
+            data.hit_pos[2]  = event_data[ 7];
+            data.hit_norm[0] = event_data[ 8];
+            data.hit_norm[1] = event_data[ 9];
+            data.hit_norm[2] = event_data[10];
 
             break;
         case IN_COLLISION:
             var data = _msg_cache_IN_COLLISION;
 
-            data["body_id_a"]     = event_data[1] | 0;
-            data["body_id_b"]     = event_data[2] | 0;
-            data["result"]        = event_data[3];
+            data.body_id_a     =   event_data[1] | 0;
+            data.body_id_b     =   event_data[2] | 0;
+            data.result        = !!event_data[3];
             break;
         case IN_COLLISION_POS_NORM:
             var data = _msg_cache_IN_COLLISION_POS_NORM;
 
-            data["body_id_a"]     = event_data[ 1] | 0;
-            data["body_id_b"]     = event_data[ 2] | 0;
-            data["result"]        = event_data[ 3];
-            data["coll_point"][0] = event_data[ 4];
-            data["coll_point"][1] = event_data[ 5];
-            data["coll_point"][2] = event_data[ 6];
-            data["coll_norm"][0]  = event_data[ 7];
-            data["coll_norm"][1]  = event_data[ 8];
-            data["coll_norm"][2]  = event_data[ 9];
-            data["coll_dist"]     = event_data[10];
+            data.body_id_a     =   event_data[ 1] | 0;
+            data.body_id_b     =   event_data[ 2] | 0;
+            data.result        = !!event_data[ 3];
+            data.coll_point[0] =   event_data[ 4];
+            data.coll_point[1] =   event_data[ 5];
+            data.coll_point[2] =   event_data[ 6];
+            data.coll_norm[0]  =   event_data[ 7];
+            data.coll_norm[1]  =   event_data[ 8];
+            data.coll_norm[2]  =   event_data[ 9];
+            data.coll_dist     =   event_data[10];
             break;
         case OUT_SET_TRANSFORM:
             var data = _msg_cache_OUT_SET_TRANSFORM;
 
-            data["body_id"]  = event_data[1] | 0;
-            data["trans"][0] = event_data[2];
-            data["trans"][1] = event_data[3];
-            data["trans"][2] = event_data[4];
-            data["quat"][0]  = event_data[5];
-            data["quat"][1]  = event_data[6];
-            data["quat"][2]  = event_data[7];
-            data["quat"][3]  = event_data[8];
+            data.body_id  = event_data[1] | 0;
+            data.trans[0] = event_data[2];
+            data.trans[1] = event_data[3];
+            data.trans[2] = event_data[4];
+            data.quat[0]  = event_data[5];
+            data.quat[1]  = event_data[6];
+            data.quat[2]  = event_data[7];
+            data.quat[3]  = event_data[8];
             break;
         default:
             var data = event_data;
@@ -276,13 +291,46 @@ exports.init = function(worker, process_message_cb) {
         }
 
         process_message_cb(msg_id, data);
+    }
+
+    worker.addEventListener("message", function(event) {
+        preprocess_message_cb(event.data);
     }, false);
 
     _worker = worker;
 }
 
+function assign_msg_cache_length(msg_cache_list) {
+
+    for (var i = 0; i < msg_cache_list.length; i++) {
+        var cache = msg_cache_list[i];
+        var len = 0;
+
+        for (var j in cache) {
+            var prop = cache[j];
+
+            switch (prop.constructor) {
+            case Float32Array:
+                len += prop.length;
+                break;
+            case Number:
+                len += 1;
+                break;
+            default:
+                break;
+            }
+        }
+
+        // exclude "len" itself
+        len -= 1;
+
+        cache.len = len;
+    }
+}
+
 exports.cleanup = function() {
     _worker = null;
+    _buf_arr.length = 0;
 }
 
 /**
@@ -290,119 +338,144 @@ exports.cleanup = function() {
  * messages with same id must have same length
  * @methodOf physics
  */
-exports.post_msg = function() {
+exports.post_msg = function(msg_id) {
 
     // not initialized for worker warm-up
     if (!_worker)
         return;
 
-    var msg_id = arguments[0] | 0;
-
     switch (msg_id) {
     case IN_TRANSFORM:
         var data = _msg_cache_IN_TRANSFORM;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[1 ] = data["body_id"];
-        msg[2 ] = data["time"];
-        msg[3 ] = data["trans"][0];
-        msg[4 ] = data["trans"][1];
-        msg[5 ] = data["trans"][2];
-        msg[6 ] = data["quat"][0];
-        msg[7 ] = data["quat"][1];
-        msg[8 ] = data["quat"][2];
-        msg[9 ] = data["quat"][3];
-        msg[10] = data["linvel"][0];
-        msg[11] = data["linvel"][1];
-        msg[12] = data["linvel"][2];
-        msg[13] = data["angvel"][0];
-        msg[14] = data["angvel"][1];
-        msg[15] = data["angvel"][2];
+        msg[0 ] = data.msg_id;
+        msg[1 ] = data.body_id;
+        msg[2 ] = data.time;
+        msg[3 ] = data.trans[0];
+        msg[4 ] = data.trans[1];
+        msg[5 ] = data.trans[2];
+        msg[6 ] = data.quat[0];
+        msg[7 ] = data.quat[1];
+        msg[8 ] = data.quat[2];
+        msg[9 ] = data.quat[3];
+        msg[10] = data.linvel[0];
+        msg[11] = data.linvel[1];
+        msg[12] = data.linvel[2];
+        msg[13] = data.angvel[0];
+        msg[14] = data.angvel[1];
+        msg[15] = data.angvel[2];
+
+        _buf_arr.push(msg.buffer);
         break;
     case IN_PROP_OFFSET:
         var data = _msg_cache_IN_PROP_OFFSET;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[1] = data["chassis_hull_body_id"];
-        msg[2] = data["prop_ind"];
-        msg[3] = data["trans"][0];
-        msg[4] = data["trans"][1];
-        msg[5] = data["trans"][2];
-        msg[6] = data["quat"][0];
-        msg[7] = data["quat"][1];
-        msg[8] = data["quat"][2];
-        msg[9] = data["quat"][3];
+        msg[0] = data.msg_id;
+        msg[1] = data.chassis_hull_body_id;
+        msg[2] = data.prop_ind;
+        msg[3] = data.trans[0];
+        msg[4] = data.trans[1];
+        msg[5] = data.trans[2];
+        msg[6] = data.quat[0];
+        msg[7] = data.quat[1];
+        msg[8] = data.quat[2];
+        msg[9] = data.quat[3];
+
+        _buf_arr.push(msg.buffer);
         break;
     case IN_RAY_HIT:
         var data = _msg_cache_IN_RAY_HIT;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[1] = data["id"];
-        msg[2] = data["body_id_hit"];
-        msg[3] = data["hit_fract"];
-        msg[4] = data["hit_time"];
+        msg[0] = data.msg_id;
+        msg[1] = data.id;
+        msg[2] = data.body_id_hit;
+        msg[3] = data.hit_fract;
+        msg[4] = data.hit_time;
 
+        _buf_arr.push(msg.buffer);
         break;
     case IN_RAY_HIT_POS_NORM:
         var data = _msg_cache_IN_RAY_HIT_POS_NORM;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[ 1] = data["id"];
-        msg[ 2] = data["body_id_hit"];
-        msg[ 3] = data["hit_fract"];
-        msg[ 4] = data["hit_time"];
-        msg[ 5] = data["hit_pos"][0];
-        msg[ 6] = data["hit_pos"][1];
-        msg[ 7] = data["hit_pos"][2];
-        msg[ 8] = data["hit_norm"][0];
-        msg[ 9] = data["hit_norm"][1];
-        msg[10] = data["hit_norm"][2];
+        msg[ 0] = data.msg_id;
+        msg[ 1] = data.id;
+        msg[ 2] = data.body_id_hit;
+        msg[ 3] = data.hit_fract;
+        msg[ 4] = data.hit_time;
+        msg[ 5] = data.hit_pos[0];
+        msg[ 6] = data.hit_pos[1];
+        msg[ 7] = data.hit_pos[2];
+        msg[ 8] = data.hit_norm[0];
+        msg[ 9] = data.hit_norm[1];
+        msg[10] = data.hit_norm[2];
 
+        _buf_arr.push(msg.buffer);
         break;
     case IN_COLLISION:
         var data = _msg_cache_IN_COLLISION;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[1] = data["body_id_a"];
-        msg[2] = data["body_id_b"];
-        msg[3] = data["result"];
+        msg[0] = data.msg_id;
+        msg[1] = data.body_id_a;
+        msg[2] = data.body_id_b;
+        msg[3] = data.result;
+
+        _buf_arr.push(msg.buffer);
         break;
     case IN_COLLISION_POS_NORM:
         var data = _msg_cache_IN_COLLISION_POS_NORM;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[ 1] = data["body_id_a"];
-        msg[ 2] = data["body_id_b"];
-        msg[ 3] = data["result"];
-        msg[ 4] = data["coll_point"][0];
-        msg[ 5] = data["coll_point"][1];
-        msg[ 6] = data["coll_point"][2];
-        msg[ 7] = data["coll_norm"][0];
-        msg[ 8] = data["coll_norm"][1];
-        msg[ 9] = data["coll_norm"][2];
-        msg[10] = data["coll_dist"];
+        msg[ 0] = data.msg_id;
+        msg[ 1] = data.body_id_a;
+        msg[ 2] = data.body_id_b;
+        msg[ 3] = data.result;
+        msg[ 4] = data.coll_point[0];
+        msg[ 5] = data.coll_point[1];
+        msg[ 6] = data.coll_point[2];
+        msg[ 7] = data.coll_norm[0];
+        msg[ 8] = data.coll_norm[1];
+        msg[ 9] = data.coll_norm[2];
+        msg[10] = data.coll_dist;
+
+        _buf_arr.push(msg.buffer);
         break;
     case OUT_SET_TRANSFORM:
         var data = _msg_cache_OUT_SET_TRANSFORM;
-        var msg = data.raw_data;
+        var msg = new Float32Array(data.len);
 
-        msg[1] = data["body_id"];
-        msg[2] = data["trans"][0];
-        msg[3] = data["trans"][1];
-        msg[4] = data["trans"][2];
-        msg[5] = data["quat"][0];
-        msg[6] = data["quat"][1];
-        msg[7] = data["quat"][2];
-        msg[8] = data["quat"][3];
+        msg[0] = data.msg_id;
+        msg[1] = data.body_id;
+        msg[2] = data.trans[0];
+        msg[3] = data.trans[1];
+        msg[4] = data.trans[2];
+        msg[5] = data.quat[0];
+        msg[6] = data.quat[1];
+        msg[7] = data.quat[2];
+        msg[8] = data.quat[3];
+
+        _buf_arr.push(msg.buffer);
         break;
     default:
         var msg = [];
         for (var i = 0; i < arguments.length; i++)
             msg.push(arguments[i]);
+        _worker.postMessage(msg);
         break;
     }
+}
 
-    _worker.postMessage(msg);
+exports.post_msg_arr = function() {
+    if (!_buf_arr.length)
+        return;
+
+    _worker.postMessage(_buf_arr);
+
+    _buf_arr.length = 0;
 }
 
 exports.get_msg_cache = function(msg_id) {

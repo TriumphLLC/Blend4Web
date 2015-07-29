@@ -394,10 +394,10 @@ exports.check_finite = function(o) {
     }
 }
 
-exports.assert_type = function(value, type) {
-    if (typeof value != type)
-        m_util.panic("Type assertion failed: value type is not a {" + type +
-                "}:", value);
+exports.assert_cons = function(value, constructor) {
+    if (value.constructor != constructor)
+        m_util.panic("Type assertion failed: value <" + value + "> has type <"
+                + value.constructor + ">, required <" + constructor + ">");
 }
 
 /**

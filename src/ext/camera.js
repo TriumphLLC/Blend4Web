@@ -618,6 +618,50 @@ exports.clear_vertical_limits = function(camobj) {
 }
 
 /**
+ * Get the vertical angle limits of the TARGET/EYE camera (converted to the [-PI, PI] range), or
+ * the vertical translation limits of the HOVER camera.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
+ * @method module:camera.get_vertical_limits
+ * @param {Object3D} camobj Camera Object 3D
+ * @param {Vec2} [dest] Destination vector for the camera limits: [down, up] rotation or [Min, Max] translation limits.
+ * @returns {?Vec2} Destination vector for the camera limits: [down, up] rotation or [Min, Max] translation limits.
+ */
+exports.get_vertical_limits = function(camobj, dest) {
+    if (!camera.is_target_camera(camobj)
+            && !camera.is_eye_camera(camobj)
+            && !camera.is_hover_camera(camobj)) {
+        m_print.error("get_vertical_limits(): wrong object");
+        return null;
+    }
+    var render = camobj._render;
+
+    dest = dest || new Float32Array(2);
+    if (render.vertical_limits) {
+        dest[0] = render.vertical_limits.down;
+        dest[1] = render.vertical_limits.up;
+        return dest;
+    }
+    return null;
+}
+
+ /**
+ * Check whether the camera has any vertical limits.
+ * @method module:camera.has_vertical_limits
+ * @param {Object3D} camobj Camera Object 3D
+ * @returns {Boolean} True if the camera has vertical limits.
+ */
+exports.has_vertical_limits = function(camobj) {
+    if (!camera.is_target_camera(camobj)
+            && !camera.is_eye_camera(camobj)
+            && !camera.is_hover_camera(camobj)) {
+        m_print.error("has_vertical_limits(): wrong object");
+        return;
+    }
+
+    return Boolean(camobj._render.vertical_limits);
+}
+
+/**
  * Set the horizontal angle limits for the TARGET/EYE camera, or the horizontal (X axis)
  * translation limits for the HOVER camera.
  * @see https://www.blend4web.com/doc/en/camera.html#api
@@ -674,8 +718,8 @@ exports.clear_horizontal_limits = function(camobj) {
  * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.get_horizontal_limits
  * @param {Object3D} camobj Camera Object 3D
- * @param {Vec2} [dest] Destination vector for the camera angle limits: [left, right].
- * @returns {?Vec2} Destination vector for the camera angle limits: [left, right].
+ * @param {Vec2} [dest] Destination vector for the camera limits: [left, right] rotation or [Min, Max] translation limits.
+ * @returns {?Vec2} Destination vector for the camera limits: [left, right] rotation or [Min, Max] translation limits.
  */
 exports.get_horizontal_limits = function(camobj, dest) {
     if (!camera.is_target_camera(camobj)
@@ -710,7 +754,7 @@ exports.has_horizontal_limits = function(camobj) {
     }
 
     return Boolean(camobj._render.horizontal_limits);
- }
+}
 
 
 /**

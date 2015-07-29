@@ -1,626 +1,650 @@
-.. _lighting:
+
+Lighting, Shadows and Background
+********************************
 
 
-.. index:: освещение
+Shading Types
+=============
 
-*********************
-Освещение, тени и фон
-*********************
+Lighting (shading) depends on the direction of normal vectors. The
+standard Blender's shading types are supported: "Shading: Flat" (face
+normals are used), "Shading: Smooth" (interpolated vertex normals are
+used) and their combinations.
 
-.. index:: затенение, затенение; типы
-
-Типы затенения
-==============
-
-Результат расчета освещения (затенения) зависит от направления векторов нормалей. Поддерживаются стандартные типы затенения, использующиеся в Blender, ``Shading: Flat`` (используются нормали граней) и ``Shading: Smooth`` (используются интерполированные нормали вершин), а также их комбинации.
+[image]
 
 
-.. image:: src_images/lighting/flat_smooth_shading.png
-   :align: center
-   :width: 100%
 
-|
+If the required effect is impossible to achieve with the standard
+tools, you can use the normals editor.
 
+The result of applying different shading types and using the normals
+editor:
 
-Если желаемый результат недостижим стандартными средствами, можно воспользоваться :ref:`редактором нормалей <normals_editor>`.
+[image]
 
-Результат применения различных типов затенения и использования редактора нормалей:
+1. Flat Shading
 
-.. image:: src_images/lighting/different_shadings_comparison.jpg
-   :align: center
-   :width: 100%
+2. Smooth Shading
 
+3. Smooth Shading + bevel
 
-#. Flat Shading
-#. Smooth Shading
-#. Smooth Shading + фаска
-#. Smooth Shading + фаска + редактирование нормалей
+4. Smooth Shading + bevel + editing normals
 
 
-.. _normals_editor:
+Normal Editor
+=============
 
-.. index:: нормали, нормали; редактор
+Editing the selected normals is a pretty easy and effective way to
+customize 3d model shading without complicating its geometry.
 
-Редактор нормалей
-=================
+In some cases, using the normal editor you may achieve the effect
+which is similar to the result of using normal maps. At the same
+time, editing normals is preferred because it is more computationally
+effective and consumes less video memory.
 
-Редактирование нормалей - достаточно простой и эффективный способ изменить собственное затенение трехмерной модели, не усложняя ее геометрию.
+Normal editor workflow example:
 
-С помощью редактора нормалей, в некоторых случаях, можно достичь результатов, аналогичных применению :ref:`карт нормалей <normal_map>`. При этом метод редактирования нормалей является более предпочтительным с точки зрения потребления вычислительных ресурсов и видео-памяти.
+   [image]
 
-Пример работы редактора нормалей:
+Simple geometry shading is to the left, a tree with edited normals is
+to the right.
 
-    .. image:: src_images/lighting/vnt_img01.jpg
-       :align: center
-       :width: 100%
+   [image]
 
-Слева - обычное затенение геометрии, справа - дерево с редактированными нормалями.
+To the left - gates with common shading; at the center - gates with
+edited normals; to the right - gates geometry with a wireframe.
+
+   [image]
+
+To the left - common grass geometry shading; to the right - grass with
+edited normals.
+
+   [image]
+
+To the left - glasses with common shading; to the right - geometry
+with edited normals shading.
 
 
-    .. image:: src_images/lighting/vnt_img02.jpg
-       :align: center
-       :width: 100%
+Main features of the normal editor:
+-----------------------------------
 
-Слева - ворота с обычным затенением, в центре - ворота с редактированными нормалями, справа - геометрия модели ворот с сеткой.
+1. native Blender storage is used as a container for edited
+   vertices normals directions (it appeared in Blender 2.74);
 
-    .. image:: src_images/lighting/vnt_img03.jpg
-       :align: center
-       :width: 100%
+2. normals editing and shading visualization are processed in "Edit
+   Mode" now;
 
-Слева - обычное затенение геометрии травы, справа - трава с редактированными нормалями.
+3. all changes are being saved automatically;
 
-    .. image:: src_images/lighting/vnt_img04.jpg
-       :align: center
-       :width: 100%
+4. selected vertex normal rotation can be performed directly in the
+   Viewport window with "Shift+Ctrl+R" hotkey, similary to other
+   rotation operations in Blender;
 
-Слева - очки с обычным затенением, справа - затенение геометрии с редактированными нормалями.
+5. edited normals are being exported automatically.
 
-Основные особенности редактора нормалей:
-----------------------------------------
 
-#. для хранилища массива данных с направлениями вертексных нормалей используется "родной" блок данных Blender (появился в версии 2.74);
-#. редактирование нормалей и отображение затенения теперь происходит в режиме редактирования (``Edit Mode``);
-#. все изменения записываются сразу же автоматически;
-#. вращение нормали выделенного вертекса можно производить непосредственно в окне Viewport'a по горячим клавишам ``Shift+Ctrl+R``, подобно остальным операциям вращения в Blender;
-#. редактированные нормали экспортируются автоматически.
+Interface of the Vertex Normal Editor
+-------------------------------------
 
-Интерфейс редактора вертексных нормалей
----------------------------------------
+The interface of the normal editor is located on the tools panel
+"Blend4Web > Normal Editor". The "Shading: Smooth" mode should be
+enabled and "Activate" button should be pressed or "Auto Smooth" flag
+should be enabled in the mesh settings, before starting to work with
+the editor.
 
-Интерфейс редактора нормалей располагается на панели инструментов ``Blend4Web > Normal Editor``. Перед началом работы редактора для объекта необходимо включить режим затенения ``Shading: Smooth`` и нажать кнопку ``Activate`` на панели редактора нормалей или выставить галочку ``Auto Smooth`` в настройках меша.
+[image]
 
-.. image:: src_images/lighting/vnt_img05.jpg
-   :align: center
-   :width: 100%
 
 Activate
 --------
 
-*Описание*
+*Description*
 
-Новая кнопка ``Activate`` включает режим редактирования вертекных нормалей.
+The new "Activate" button turns on vertex normal editing mode.
 
-*Использование*
+*Usage*
 
-Достаточно в режиме ``Edit Mode`` нажать кнопу ``Activate``, и можно приступать к редактированию вертексных нормалей. Пока она остаётся в активном режиме, затенение объекта и его экспорт будут осуществляться с учетом редактированных вертексных нормалей. Другими словами, после внесения изменений, для их отображения во Viewport'е Blender и в движке Blend4Web кнопка должна быть оставлена активной.
+You can just press "Activate" button while in "Edit Mode" and start
+editing vertex normals. As it is active, object shading and its export
+would be processed taking edited vertex normals into account. In other
+words, after making some changes, this button should be left active if
+you want to see the changes in the Blender Viewport and in the
+Blend4Web engine.
+
 
 Show Normals
 ------------
 
-*Описание*
+*Description*
 
-Для удобства в панель продублирована оригинальная кнопка Blender, включающая отображение маркеров вертексных нормалей во Viewport'е, а так же настройка их длины.
+This button actually duplicates the original Blender's button. It
+turns on displaying the normals in the viewport, while the Size field
+allows you to set their length.
 
-*Использование*
+*Usage*
 
-Достаточно просто включить кнопку ``Show Normals`` прямо на панели редактора вертексных нормалей Blend4Web или в правой панели Blender в разделе ``Mesh Display`` и настроить комфортную длину маркера в поле ``Size``.
+You just need to push the Show Normals button either on the normal
+editor panel or on the Blender's right panel in the Mesh Display
+section. You can also set the convenient length of normals by tweaking
+the Size.
 
-.. only:: latex
 
-    .. image:: src_images/lighting/vnt_img07.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img07.gif
-       :align: center
-       :width: 100%
-
-Вращение
+Rotation
 --------
 
-*Описание*
+*Description*
 
-При помощи этого инструментария можно вращать нормаль каждого вертекса индивидуально.
+Using these instruments you can change direction of the normals.
 
-Кнопка ``Rotate`` (горячие клавиши ``Shift+Ctrl+R``) позволяет вращать вертексные нормали в привычном для пользователя Blender режиме.
+The Rotate function is also available through the Shift+Ctrl+R
+hotkeys, which allows rotation of vertex normals similarly to Blender.
 
-*Использование*
+*Usage*
 
-Выделив один или несколько вертексов, которые хотите изменить, вращайте их, используя визуальную сферу на панели редактора вертексных нормалей Blend4Web, или задайте направление каждой координате в цифровом значении.
+Select one or more vertices that you want to edit and then rotate
+their normals using the visual sphere or specify the direction as
+numerical values.
 
-Более удобный вариант манипуляции с вертексными нормалями предоставляет кнопка ``Rotate``. Вращение происходит по координатам в пространстве экрана, но, как и при обычном вращении объектов в Blender, можно изолировать нужную ось координат и вращать только по ней (нажав ``X``, ``Y`` или ``Z``).
+The Rotate button provides a more convenient way to manipulate
+normals. The rotation is performed in the screen space. Nevertheless,
+as with any other rotations in Blender, you can isolate the desired
+axis during rotation (by typing X, Y or Z).
 
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img08.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img08.gif
-       :align: center
-       :width: 100%
 
 Split Normals
 -------------
 
-*Описание*
+*Description*
 
-Режим ``Split Normals`` позволяет редактировать вертексные нормали индивидуально для каждой грани (``face`` в Blender), образующей редактируемую вершину (``vertex`` в Blender). Переключатель вертексных индексов позволяет перемещаться между нормалями разделенного вертекса.
+The "Split Normals" mode allows to edit vertex normals separately for
+each "face" that form the "vertex". Index allows you to navigate
+between the split normals.
 
-Использование
+Usage
 
-Перейдя в режим ``Split Normals``, выберите нужный вертекc и измените направление его нормали. Прежде всего подвергнется модификации та нормаль, которая имеет наименьший индекс в очереди (то есть 0) редактируемого вертекса. Далее, перемещаясь по индексам, перейдите на следующую нормаль этого вертекса и редактируйте ее.
+Turn on the "Split Normals" mode, select the vertex and change the
+direction of its normals. Firstly, the normal which has the zero index
+in the queue will be modified. Then, by switching between indexes you
+can go to the next normal of this vertex and edit it, then to the next
+and so on.
 
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img09.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img09.gif
-       :align: center
-       :width: 100%
 
 Average Split
 -------------
 
-*Описание*
+*Description*
 
-``Average Split`` усредняет направление вертексной нормали, исходя из направлений нормалей, разделенных функцией ``Split Normals``.
+The "Average Split" button averages the direction of the vertex
+normals which was modified in the "Split Normals" mode.
 
-*Использование*
+*Usage*
 
-Для того, чтобы объединить несколько разделенных вертексных нормалей в одну так, чтобы она имела их среднее направление, достаточно выделить нужный вертекс и нажать ``Average Split``.
+To combine several split vertex normals into one, in order to obtain
+the average direction of these normals, you just need to select the
+desired vertex and press the "Average Split" button.
 
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img10.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img10.gif
-       :align: center
-       :width: 100%
 
 Restore
 -------
 
-*Описание*
+*Description*
 
-Кнопка ``Restore`` восстанавливает исходное направление нормалей выделенных вертексов.
+The "Restore" button restores the original direction of normals for
+the selected vertices.
 
-*Использование*
+*Usage*
 
-Для того, чтобы восстановить нормали к исходному направлению (которое раcсчитывается на основе нормалей полигонов), нужно выделить нужные вертексы и нажать кнопку ``Restore``.
+In order to restore the normal's direction to its original (which is
+calculated on the basis of face normals), you need to select the
+desired vertices and click the Restore button.
 
-.. only:: latex
 
-    .. image:: src_images/lighting/vnt_img11.jpg
-       :align: center
-       :width: 100%
+Tree, Foliage and Face
+----------------------
 
-.. only:: html
+*Description*
 
-    .. image:: src_images/lighting/vnt_img11.gif
-       :align: center
-       :width: 100%
+The "Tree" button directs the normals of the selected vertices away
+from the 3D cursor. The "Foliage" button directs the normals of the
+vertices strictly up. The "Face" button directs the normals of the
+selected face parallel to the normal of this face.
 
-Tree, Foliage и Face
---------------------
+Usage
 
-*Описание*
+In order to use the "Tree" function, select the desired vertices and
+place the 3D cursor in the desired position. Then click the "Tree"
+button so all the selected vertices will turn their direction away
+from the cursor, as if they were shot from one point.
 
-Функция ``Tree`` направляет нормали выделенных вертексов в сторону от 3D-курсора. ``Foliage`` направляет нормали вертекcов строго вверх по глобальной оси ``Z``. ``Face`` направляет нормали вертексов выделенного полигона параллельно нормали этого полигона.
+The "Foliage" function is very easy to use: just select the vertices
+and press the button, so the function will direct their normals
+straight up.
 
-Использование
+In order to direct the normals parallel to the face normal, just
+select the desired face and click the "Face" button. The normals of
+the vertices which form the face will be directed parallel to the face
+normal. This function works only with one selected face at a time.
 
-Чтобы воспользоваться функцией ``Tree``, выделите нужные вертексы и расположите курсор в нужном вам месте. После нажатия кнопки ``Tree`` все выделенные вертексы будут направлены в сторону от курсора, как будто бы они выстреливают из одной точки.
-
-Функция ``Foliage`` очень проста в использовании: выделите нужные вертексы и нажмите кнопку, и функция направит их строго вверх.
-
-Чтобы направить нормали вертексов параллельно нормали полигона, выделите нужный полигон и нажмите ``Face``. Все нормали вертексов, образующих этот полигон, будут направлены параллельно нормали самого полигона. Эта функция работает только с одним выделенным полигоном одновременно.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img12_01.jpg
-       :align: center
-       :width: 100%
-
-    .. image:: src_images/lighting/vnt_img12_02.jpg
-       :align: center
-       :width: 100%
-
-    .. image:: src_images/lighting/vnt_img12_03.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img12.gif
-       :align: center
-       :width: 100%
 
 Copy/Paste
 ----------
 
-*Описание*
+*Description*
 
-Копирует направление нормали с одного вертекса на другой.
+Copies the normal direction from one vertex to another.
 
-*Использование*
+*Usage*
 
-Выделите вертекс для копирования и нажмите ``Copy``. Затем выделите вертекс, на который хотите копировать результат, и нажмите ``Paste``. Вставлять скопированную информацию можно на множество разных вертексов. Кнопки не активны в режиме ``Split Mode`` и не переносят данные уже "разделенных" нормалей на другие вертексы.
+Select the vertex you want to copy from and click the "Copy" button.
+Then, select the vertex you want to copy to and click the "Paste"
+button. You may copy information from one selected vertex to many
+different vertices. The buttons are not active in the "Split Mode" and
+do not copy data of split vertices.
 
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img13.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img13.gif
-       :align: center
-       :width: 100%
 
 Copy From Mesh
 --------------
 
-*Описание*
+*Description*
 
-Эта функция позволяет копировать направление вертексных нормалей с одной геометрии на другую. Существует два режима копирования, ``Matched Vertices`` и ``Nearest Vertices``.
+This function allows you to copy the normals from one object to
+another. There are two modes: "Matched Vertices" and "Nearest
+Vertices".
 
-В режиме ``Matched Vertices`` копируются направления нормалей с вертекса одной модели на вертекс другой, если у них одинаковые координаты; прочие вертексы игнорируются. В режиме ``Nearest Vertices`` копируются нормали с ближайших вертексов другой модели.
+The "Matched Vertices" mode copies the normals from the vertices of
+one object to another object's vertices only if they have the same
+coordinates; the other vertices are ignored. The "Nearest Vertices"
+mode copies the normals of the nearest vertices of the source object.
 
-*Использование*
+*Usage*
 
-Работа с этой функцией производится в объектном режиме. Первым нужно выделить объект, с которого будет происходить копирование, далее объект, на который будет происходить копирование. Необходимо также выделить вертексы целевого объекта, на которые необходимо произвести перенос направления нормалей.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img14.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img14.gif
-       :align: center
-       :width: 100%
-
-.. index:: источники света
-
-Освещение от источников света
-=============================
-
-На сцене может быть несколько (но не менее одного) источников света разного типа.
+This function works in Blender's object mode. At first, you need to
+select the object you need to copy from, then the object you need to
+copy to. It is also necessary to select the target object's vertices
+to which normals are copied.
 
 
-Типы источников света
----------------------
+Lighting with Light Sources
+===========================
 
-Поддерживаются источники света следующих типов:
+A scene can have multiple (but not less than one) light sources of
+different types.
+
+
+Light source types
+------------------
+
+The following light source types are supported:
 
 *Point*
-    Точечный. Свет распространяется из одной точки равномерно во все стороны, с постепенным затуханием.
+   Light propagates from one point uniformly to all directions with
+   gradual attenuation.
 
 *Sun*
-    "Солнце". Свет распространяется из бесконечной плоскости прямолинейно в одном направлении, без затухания.
+   Light propagates from an infinite plane in one direction without
+   attenuation.
 
 *Spot*
-    Прожектор. Свет распространяется из одной точки, с ограничением угла распространения, с постепенным затуханием.
+   Light propagates from one point within the angular limit, with
+   gradual attenuation.
 
 *Hemi*
-    Полусфера. Свет распространяется из бесконечной полусферы, без затухания.
+   Hemispherical. Light propagates from an infinite hemisphere without
+   attenuation.
 
 
-Настройка источников света
---------------------------
+Light source setup
+------------------
 
-Производится во вкладке ``Object Data`` при выборе объекта-лампы.
+Performed in the "Object Data" tab when a lamp object is selected.
 
-.. image:: src_images/lighting/lighting_setup.jpg
-   :align: center
-   :width: 100%
+[image]
 
-|
+
 
 *Color*
-    Цветовая характеристика света. Значение по умолчанию (1.0, 1.0, 1.0) (белый).
+   Light color. The default value is (1.0, 1.0, 1.0) (i.e. white).
 
 *Energy*
-    Интенсивность излучения. Значение по умолчанию 1.0.
+   Radiation intensity. The default value is 1.0.
 
 *Falloff*
-    Тип затухания. Значение экспортируется, но в движке всегда используется ``Inverse Square`` (обратный квадратичный). Применяется для источников света типа ``Point`` и ``Spot``. Значение по умолчанию ``Inverse Square``.
+   Attenuation type. The value is exported but the engine always uses
+   "Inverse Square". It is applicable to the "Point" and "Spot" light
+   source types. The default value is "Inverse Square".
 
 *Distance*
-    Параметр затухания. Применяется для источников света типа ``Point`` и ``Spot``. Значение по умолчанию 25.0.
+   Attenuation parameter. It is applicable to the "Point" and "Spot"
+   light source types. The default value is 25.0.
 
 *Specular*
-    Создание отблеска на объектах. По умолчанию включено.
+   Create specular highlights. Enabled by default.
 
 *Diffuse*
-    Применение рассеянного освещения к объектам. По умолчанию включено.
+   Do diffuse shading. Enabled by default.
 
 *Spot Shape > Size*
-    Угол конуса в градусах. Применяется для источников света типа ``Spot``. Значение по умолчанию 45º.
+   Cone angle in degrees. It is applicable to the "Spot" light source
+   type. The default value is 45º.
 
 *Spot Shape > Blend*
-    Параметр смягчения края светового пятна. Применяется для источников света типа ``Spot``. Значение по умолчанию 0.15.
+   Parameter for blurring light spot edges. It is applicable to the
+   "Spot" light source type. The default value is 0.15.
 
 *Dynamic intesity*
-    Источник света используется для расчета изменения времени суток. Применяется для источников света типа "Солнце". По умолчанию отключено.
+   Use this light source for calculating the time of day. Applicable
+   only to the "Sun" light source type. Disabled by default.
 
 *Shadows > Generate shadows*
-    Источник света используется для расчета падающих теней. Применяется в случае наличия нескольких источников света. По умолчанию отключено.
+   Use this light source for shadow calculation. Should be used when
+   multiple light sources are present. Disabled by default.
 
 
-.. _environment_lighting:
+Environment Lighting (Ambient)
+==============================
 
-Освещение от окружающей среды
-=============================
+The engine supports 3 methods of the environment lighting simulation.
 
-Движок поддерживает 3 метода симуляции рассеянного освещения от окружающих объектов.
+1. Flat white lighting.
 
-1. "Плоское" освещение белым цветом.
-2. Полусферическая модель освещения, в которой задается цвет горизонта и цвет зенита, в результате чего объекты заливаются градиентом между этими цветами в зависимости от направления нормалей.
-3. Освещение с помощью :ref:`карты окружения <environment_map>` - т.н. методика image-based lighting.
+2. Hemispherical lighting model in which horizon and zenith colors
+   should be specified. As a result objects are filled with a gradient
+   between these two colors depending on the direction of normals.
 
-Активация
----------
-
-Включить опцию ``Environment Lighting`` во вкладке ``World``.
-
-.. image:: src_images/lighting/lighting_environment.jpg
-   :align: center
-   :width: 100%
+3. Lighting using an environment map - so called image-based
+   lighting.
 
 
-Настройка
----------
+Activation
+----------
+
+Enable the "Environment Lighting" checkbox on the "World" tab.
+
+[image]
+
+
+Setup
+-----
 
 *World > Environment Lighting > Energy*
-    Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0.
+   Environment lighting intensity. The default value is 1.0.
 
 *World > Environment Lighting > Environment Color*
-    Выбор метода симуляции рассеянного освещения: ``White`` - "плоское" освещение белым цветом, ``Sky Color`` - полусферическая модель , ``Sky Texture`` - освещение с помощью :ref:`карты окружения <environment_map>`. Значение по умолчанию ``White``.
+   Selection of the environment lighting simulation method: "White" -
+   flat white lighting, "Sky Color" - hemisperical model, "Sky
+   Texture" - lighting using an environment map. The default value is
+   "White".
 
-*World > Horizon Color* и *World > Zenith Color*
-    Если выбрана полусферическая модель рассеянного освещения ``Sky Color``, цвет горизонта и цвет зенита задаются цветоподборщиками ``World > Horizon Color`` (цвет горизонта) и ``World > Zenith Color`` (цвет зенита). При выборе цвета рекомендуется активировать опцию ``World > Blend Sky``.
-
-
-Использование карты окружения
------------------------------
-
-Для того, чтобы использовать карту окружения в целях реализации освещения от окружающей среды, необходимо:
-
-#. Включить опцию ``Environment Lighting`` во вкладке ``World``.
-#. Выбрать метод ``Environment Lighting > Environment Color > Sky Texture``.
-#. Перейти из вкладки ``World`` во вкладку ``Texture``.
-#. Создать :ref:`карту окружения <environment_map>`, загрузить в нее соответствующее изображение.
-#. Для карты окружения на панели ``Blend4Web`` для значения ``Sky texture usage`` выбрать ``ENVIRONMENT_LIGHTING`` или ``BOTH`` (опция ``BOTH`` активирует также использование этой текстуры в качестве :ref:`текстуры неба <skydome_texture>`).
+*World > Horizon Color* and *World > Zenith Color*
+   If the hemisperical model ("Sky Color") is selected the horizon and
+   zenith colors can be specified by means of the "World > Horizon
+   Color" and "World > Zenith Color" color pickers. It is recommended
+   to activate the "World > Blend Sky" option for better color
+   selection.
 
 
-.. image:: src_images/lighting/lighting_environment_texture.jpg
-   :align: center
-   :width: 100%
+Environment map method
+----------------------
 
-|
+To use an environment map for environment lighting:
 
-.. _shadows:
+1. Enable the "Environment Lighting" checkbox on the "World" tab.
 
-Тени
-====
+2. Select "Environment Lighting > Sky Texture".
 
-Тени - один из важнейших элементов при рендеринге конечного изображения. Они предоставляют зрителю не только информацию о силуэте объектов, но и об их высоте и взаимном расположении, положении источника света и т.д.
+3. Go from the "World" tab to the "Texture" tab.
 
-Платформой Blend4Web реализуются такие техники, как каскадные карты теней (CSM) и смягченные тени (PCF).
+4. Create an environment map, load the corresponding image to it.
 
-Активация
----------
+5. For the environment map select "ENVIRONMENT_LIGHTING" or "BOTH"
+   as the "Sky Texture Usage" value on the "Export Options" panel (the
+   "BOTH" option also enables using this texture as a skydome
+   texture).
 
-#. На объектах, **отбрасывающих** тени, включить опцию ``Blend4Web > Shadows: Cast`` во вкладке ``Object``.
-#. На объектах, **получающих** тени, включить опцию ``Blend4Web > Shadows: Receive`` во вкладке ``Object``.
-#. Убедиться, что включена опция ``Blend4Web > Render shadows`` во вкладке ``Scene``.
-
-.. note::
-
-    Объекты, имеющие :ref:`прозрачные материалы с градиентом <alpha_blend>`, не отбрасывают теней.
-
-    .. image:: src_images/lighting/alpha_shadows.jpg
-       :align: center
-       :width: 100%
-
-|
-
-Настройка
----------
-
-*Направление*
-    В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию ``Blend4Web > Generate shadows`` во вкладке ``Object Data`` при выборе объекта-лампы.
-
-*Цвет*
-    Цвет тени определяется настройками :ref:`освещения от окружающей среды <environment_lighting>`.
+[image]
 
 
-Во вкладке ``World`` на панели ``Blend4Web > Shadow Settings`` находятся дополнительные настройки:
 
-.. image:: src_images/lighting/b4w_shadow_settings.png
-   :align: center
-   :width: 100%
+
+Shadows
+=======
+
+Shadows are exceptionally important for rendering the final picture.
+They provide the viewer not only with information about the objects'
+outline but also about their height and relative position, light
+source position and so on.
+
+Blend4Web implements the following shadow rendering techniques:
+cascaded shadow maps (CSM) and softened shadows (PCF).
+
+
+Activation
+----------
+
+1. Enable the "Shadows: Cast" checkbox under the "Object" tab for
+   the objects which **cast** shadows.
+
+2. Enable the "Shadows: Receive" checkbox under the "Object" tab
+   for the objects which **receive** shadows.
+
+3. Make sure that the "Shadows" option in the "Render" tab has the
+   value "AUTO" or "ON".
+
+Note: Objects, which have transparent materials with a gradient, do
+  not cast shadows.[image]
+
+
+
+
+Setup
+-----
+
+*Direction*
+   If there are multiple light sources, it is recommended to specify
+   the exact light source which is used for shadow calculations, by
+   enabling the "Shadows > Generate shadows" checkbox under the
+   "Object Data" tab for the selected lamp object.
+
+*Color*
+   The shadow color is determined by the environment lighting
+   settings.
+
+The following additional settings are located on the "Shadows" panel
+of the "Render" tab:
+
+[image]
 
 *Resolution*
-    Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px.
+   Shadow map resolution. The default value is 2048x2048px.
 
 *Self-shadow polygon offset*
-    Коэффициент смещения полигона в зависимости от ориентации к источнику света. Значение по умолчанию: 1.
+   Coefficient for shifting polygons relative to light source
+   orientation. The default value is 1.
 
 *Self-shadow normal offset*
-    Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01.
+   Coefficient for shifting polygons along their normals. The default
+   value is 0.01.
 
-Последние две настройки служат для борьбы с артефактами самозатенения. Они проявляются на объектах, одновременно отбрасывающих и принимающих тени.
-Параметр ``Self-shadow polygon offset`` лучше справляется с артефактами во внутренних областях полигонов, а ``Self-shadow normal offset`` - в приграничных.
-Оба параметра приводят к искажению теней, поэтому рекомендуется держать их как можно меньшими.
+The last two parameters can be used to reduce self-shadowing
+artifacts. These artifacts appear for the objects that cast and
+receive shadows at the same time. The "Self-shadow polygon offset"
+parameter is more effective for fighting against artifacts in inner
+areas of poligons while "Self-shadow normal offset" is better for the
+boundary areas. Both these parameters lead to shadow distortions so we
+recommend to set them as low as possible.
 
-.. image:: src_images/lighting/self_shadow_artifacts.png
-   :align: center
-   :width: 100%
+[image]
 
-|
+
 
 *Enable CSM*
-    Включение каскадной модели теней; открывает доступ к расширенным настройкам. Отключено по умолчанию.
+   Activates the using of cascaded shadows model; reveals additional
+   options. Disabled by default.
 
-Эта опция позволяет выбрать один из следующих вариантов наложения теней:
+This option allows to choose between the following shadow generation
+models:
 
-* Стандартная модель, использующая одну оптимизированную карту теней, охватывающую всю сцену (``Enable CSM`` отключена).
-* Каскады теней (``Enable CSM`` включена).
+* Generic model which uses a single optimized shadow map for the
+  whole scene ("Enable CSM" is turned off).
+
+* Shadow cascades ("Enable CSM" is turned on).
 
 *Blur radius*
-    Коэффициент размытия теней, позволяющий настроить cмягченные тени. Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени.
+   Blur ratio for setting up softened shadows. The default value is 3.
+   Zero value produces hard shadows.
 
-.. image:: src_images/lighting/blur_radius.png
-   :align: center
-   :width: 100%
-
-|
-
-Смягченные тени могут повысить качество и реалистичность изображения. Они скрывают неизбежную при использовании основанных на изображениях техник зубчатость краев, особенно сильно проявляющуюся для карт теней низкого разрешения. Использование смягченных теней часто позволяет снизить разрешение без существенной потери качества.
+[image]
 
 
-Стандартная модель
-..................
 
-Этот вариант больше подходит для маленьких сцен, состоящих из небольшого числа объектов. Благодаря оптимизации на таких сценах можно добиться более высокого качества теней по сравнению с каскадной моделью. Данный вариант проще и быстрее настроить, а использование всего лишь одной карты теней положительно сказывается на производительности.
+Softened shadows can improve visual quality and realism. They hide the
+jugged edges inevitable when using image-based techniques, that is
+especially noticable for low-resolution shadow maps. The using of
+softened shadows often allows to decrease resolution without
+substantial quality loss.
 
 
-Каскады теней
-.............
+Generic shadows
+~~~~~~~~~~~~~~~
 
-.. note::
+This option suits well smaller scenes with a limited number of
+objects. Thanks to optimizations applied for such scenes, one can
+achieve better shadow quality as compared with cascaded shadows. Also
+this option is simpler and faster for setting up, while using a single
+shadow map greatly improves the performance.
 
-    Данные настройки поддерживаются только для источников освещения типа ``Sun``. Для других источников каскады автоматически отключаются.
 
-Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.
-Этот вариант больше подходит для сцен среднего и большого размера, например, игровых уровней.
+Shadow cascades
+~~~~~~~~~~~~~~~
 
-При включении предоставляет расширенные настройки:
+Note: These settings are supported only for "Sun" light sources.
+  Cascades are turned off for other types of light sources.
 
-.. image:: src_images/lighting/b4w_shadow_settings_csm.png
-   :align: center
+In order to provide acceptable shadow quality and to cover
+considerable space at the same time it is required to use multiple
+stages for shadow generation (cascades). Thus the best quality
+cascades are situated near the observer while the worst quality
+cascades are in the distance. This option suits well middle-to-large
+scenes, e.g. game levels.
 
-|
+When enabled the following extended settings are revealed:
+
+[image]
+
+
 
 *CSM number*
-    Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по умолчанию: 1.
+   Number of shadow cascades. From 1 to 4 cascades are supported. The
+   default value is 1.
 
 *CSM first cascade border*
-    Размер первого каскада. Значение по умолчанию: 10.0.
+   First cascade size. The default value is 10.0.
 
 *CSM last cascade border*
-    Размер последнего каскада. Значение по умолчанию: 100.0.
+   Last cascade size. The default value is 100.0.
 
-Размеры промежуточных каскадов интерполируются на основе последних двух параметров.
+The sizes of the intermediate cascades are interpolated between the
+two above-mentioned parameters.
 
-.. note::
+Note: When setting up the shadows keep in mind that the bigger the
+  cascade size is, the worse and less detailed are the shadows inside
+  it. On the other hand, reducing the "CSM first cascade border"
+  parameter makes the subsequent less detailed cascades closer to the
+  camera and thus more noticeable. Reducing the "CSM last cascade
+  border" parameter forces shadows to disappear at more close distance
+  from the camera. However when softened shadows are used the overall
+  quality will improve thanks to blurring at the edges.
 
-    При настройке следует помнить, что, увеличивая размер каскада, мы получаем на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM first cascade border`` приблизит к камере и сделает более заметными последующие менее детальные каскады. Уменьшение параметра ``CSM last cascade border`` приведет к исчезновению теней на более близком расстоянии от камеры. Однако, при использовании мягких теней качество в целом улучшится благодаря размытию на границах.
+[image]
 
-.. image:: src_images/lighting/csm_cascade_distance.png
-   :align: center
-   :width: 100%
 
-|
 
 *CSM first cascade blur radius*
-    Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени.
+   Blur ratio for the first cascade. The default value is 3. Zero
+   value produces hard shadows.
 
 *CSM last cascade blur radius*
-    Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5. Коэффициент 0 даст жесткие тени.
+   Blur ratio for the last cascade. The default value is 1.5. Zero
+   value produces hard shadows.
 
-Радиус размытия каждого промежуточного каскада интерполируется на основе этих параметров.
+The blur radii of the intermediate cascades are interpolated between
+the two above-mentioned parameters.
 
-.. note::
-
-    Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией ``CSM first cascade blur radius``, а далее на всех остальных с помощью ``CSM last cascade blur radius``. Часто на последнем каскаде может потребоваться размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому же это уменьшит нежелательные артефакты самозатенения.
-
+Note: We recommend to start setting up the softened shadows with the
+  first cascade (using "CSM first cascade blur radius") and then
+  proceed to other cascades (using "CSM last cascade blur radius").
+  Often the last cascade may need less blurring than the first one.
+  This may be needed to prevent the shadows on the last cascade being
+  too faded due to low resolution. This also reduces undesirable self-
+  shadowing artifacts.
 
 *Fade-out last cascade*
-    Плавное исчезновение последнего каскада. По умолчанию включено.
+   Smooth dying-out of the last cascade. Enabled by default.
 
 *Blend between cascades*
-    Сглаживание границ между каскадами. По умолчанию включено.
+   Smoothing the boundaries between the cascades. Enabled by default.
 
-.. image:: src_images/lighting/blend_between_cascades.png
-   :align: center
-   :width: 100%
-
-|
-
-.. index:: цвет фона
-
-Цвет фона
-=========
-
-Цвет фона можно задать несколькими способами:
-
-1. Установить параметры ``Horizon Color`` и ``Zenith Color`` на вкладке ``World`` в Blender, предварительно выставив опцию ``Sky Settings > Render Sky``.
-
-2. Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.
-
-3. Разместить перед камерой поверхность с материалом и опциональной текстурой, присоединить ее к камере связью родитель-потомок. При необходимости настроить расстояние до поверхности, переднюю и заднюю плоскости отсечения камеры.
-
-.. image:: src_images/lighting/parented_background.jpg
-   :align: center
-   :width: 100%
-
-4. Использовать :ref:`текстуру неба <skydome_texture>`.
-
-5. Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`.
-
-6. Установить параметр движка ``background_color``, используя программный метод ``config.set()``, предварительно отключив опцию ``Sky Settings > Render Sky`` на вкладке ``World`` в Blender. Установленное значение используется в качестве аргумента метода WebGL ``clearColor()``. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр ``alpha``). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.
-
-    .. code-block:: javascript
-
-        var m_cfg = b4w.require("config");
-        var m_main = b4w.require("main");
-
-        // gray
-        m_cfg.set("background_color", new Float32Array([0.224, 0.224, 0.224, 1.0]));
-        m_cfg.set("alpha", false);
-
-        m_main.init(...);
-
-7. В качестве фона можно использовать любой HTML контент, находящийся позади элемента ``canvas``, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр ``alpha``), предварительно отключив опцию ``Sky Settings > Render Sky`` на вкладке ``World`` в Blender. Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном :ref:`просмотрщике сцен <viewer>` SDK движка.
-
-    .. code-block:: javascript
-
-        var m_cfg = b4w.require("config");
-        var m_main = b4w.require("main");
-
-        m_cfg.set("background_color", new Float32Array([0.0, 0.0, 0.0, 0.0]));
-        m_cfg.set("alpha", true);
-
-        m_main.init(...);
+[image]
 
 
-    .. seealso:: :ref:`alpha_compositing`
+
+
+Background
+==========
+
+You can change the background in the following ways:
+
+1. Enable "World > Render Sky", then set the "Horizon Color" and
+   the "Zenith Color" under Blender's "World" tab.
+
+2. Place the whole scene inside a model (e.g. a cube or a sphere)
+   with its normals directed inside, with a material and an optional
+   texture.
+
+3. Place a surface with a material and an optional texture in front
+   of the camera. Parent it to the camera. If required, tweak the
+   distance to this surface, starting and ending clipping planes for
+   the camera.
+
+[image]
+
+4. Use a skydome.
+
+5. Set up the procedurally generated atmosphere.
+
+6. Set the engine's "background_color" parameter with the
+   "config.set()" method. Please note, that "World > Render Sky" under
+   Blender's "World" tab must be disabled. This value is used as
+   argument for the WebGL "clearColor()" method. For correct results,
+   it's recommended to turn the WebGL context transparency off (the
+   "alpha" parameter). Such the configuration is used by default in
+   the engine's standard web player.
+
+         var m_cfg = b4w.require("config");
+         var m_main = b4w.require("main");
+
+         // gray
+         m_cfg.set("background_color", new Float32Array([0.224, 0.224, 0.224, 1.0]));
+         m_cfg.set("alpha", false);
+
+         m_main.init(...);
+
+7. You can use any HTML content behind the *canvas* element, to
+   which the rendering is performed, as a background. To do this,
+   activate the WebGL context transparency (the "alpha" parameter).
+   Please note, that "World  > Render Sky" under Blender's "World" tab
+   must be disabled. For correct results, it's recommended to set
+   absolutely transparent black background color. Such the
+   configuration is used by default in the scene viewer of Blend4Web
+   SDK.
+
+         var m_cfg = b4w.require("config");
+         var m_main = b4w.require("main");
+
+         m_cfg.set("background_color", new Float32Array([0.0, 0.0, 0.0, 0.0]));
+         m_cfg.set("alpha", true);
+
+         m_main.init(...);
+
+      See also: Alpha Compositing

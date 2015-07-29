@@ -81,7 +81,8 @@ exports.init_scene_physics = function(scene) {
 
     _active_scene = scene;
 
-    //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
+    if (cfg_phy.ping)
+        setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
 }
 
 exports.check_worker_loaded = function(scene) {
@@ -263,16 +264,16 @@ function process_message(msg_id, msg) {
         m_debug.fbmsg.apply(this, msg.slice(1));
         break;
     case m_ipc.IN_TRANSFORM:
-        var obj = find_obj_by_body_id(msg["body_id"]);
+        var obj = find_obj_by_body_id(msg.body_id);
         if (obj)
-            update_interpolation_data(obj, msg["time"], msg["trans"],
-                                msg["quat"], msg["linvel"], msg["angvel"]);
+            update_interpolation_data(obj, msg.time, msg.trans,
+                                msg.quat, msg.linvel, msg.angvel);
         break;
     case m_ipc.IN_PROP_OFFSET:
-        var obj_chassis_hull = find_obj_by_body_id(msg["chassis_hull_body_id"]);
+        var obj_chassis_hull = find_obj_by_body_id(msg.chassis_hull_body_id);
         if (obj_chassis_hull)
-            update_prop_offset(obj_chassis_hull, msg["prop_ind"], msg["trans"],
-                               msg["quat"]);
+            update_prop_offset(obj_chassis_hull, msg.prop_ind, msg.trans,
+                               msg.quat);
         break;
     case m_ipc.IN_FLOATER_BOB_TRANSFORM:
         var obj_floater = find_obj_by_body_id(msg[1]);
@@ -285,15 +286,15 @@ function process_message(msg_id, msg) {
             obj._vehicle.speed = msg[2];
         break;
     case m_ipc.IN_COLLISION:
-        traverse_collision_tests(_active_scene, msg["body_id_a"] | 0,
-                                 msg["body_id_b"] | 0, msg["result"],
+        traverse_collision_tests(_active_scene, msg.body_id_a,
+                                 msg.body_id_b, msg.result,
                                  null, null, 0);
         break;
     case m_ipc.IN_COLLISION_POS_NORM:
-        traverse_collision_tests(_active_scene, msg["body_id_a"] | 0,
-                                 msg["body_id_b"] | 0, msg["result"],
-                                 msg["coll_point"], msg["coll_norm"], 
-                                 msg["coll_dist"]);
+        traverse_collision_tests(_active_scene, msg.body_id_a,
+                                 msg.body_id_b, msg.result,
+                                 msg.coll_point, msg.coll_norm, 
+                                 msg.coll_dist);
         break;
     case m_ipc.IN_COLLISION_IMPULSE:
         var obj = find_obj_by_body_id(msg[1]);
@@ -307,25 +308,28 @@ function process_message(msg_id, msg) {
     case m_ipc.IN_RAY_HIT:
     case m_ipc.IN_RAY_HIT_POS_NORM:
         var sphy = _active_scene._physics;
-        var test = sphy.ray_tests[msg["id"]]
+        var test = sphy.ray_tests[msg.id]
 
         // NOTE: ignoring the case when there is no test (may be removed in cb)
         if (test) {
-            var body_id_hit = msg["body_id_hit"];
+            var body_id_hit = msg.body_id_hit;
             var obj_hit = find_obj_by_body_id(body_id_hit);
 
             if (msg_id == m_ipc.IN_RAY_HIT)
-                exec_ray_test_cb(test, msg["hit_fract"], obj_hit, msg["hit_time"], null, null);
+                exec_ray_test_cb(test, msg.hit_fract, obj_hit, msg.hit_time, null, null);
             else
-                exec_ray_test_cb(test, msg["hit_fract"], obj_hit, msg["hit_time"], msg["hit_pos"],
-                        msg["hit_norm"]);
+                exec_ray_test_cb(test, msg.hit_fract, obj_hit, msg.hit_time, msg.hit_pos,
+                        msg.hit_norm);
         }
         break;
     case m_ipc.IN_REMOVE_RAY_TEST:
         remove_ray_test(id);
         break;
     case m_ipc.IN_PING:
-        console.log("Physics message ping: ", performance.now() - msg[1]);
+        var out_time = (msg[2] - msg[1]).toFixed(3);
+        var in_time = (performance.now() - msg[2]).toFixed(3);
+        var all_time = (performance.now() - msg[1]).toFixed(3);
+        console.log("Physics Ping: OUT " + out_time + " ms, IN " + in_time + " ms, ALL " + all_time + " ms");
         break;
     case m_ipc.IN_FPS:
         _phy_fps = msg[1];
@@ -398,11 +402,7 @@ function traverse_collision_tests(scene, body_id_a, body_id_b, pair_result,
 
             if (results_changed) {
                 var pair_results = test.pair_results;
-                var result = 0;
-
-                // OR
-                for (var k = 0; k < pair_results.length; k++)
-                    result = result || pair_results[k];
+                var result = calc_coll_result(test);
 
                 if (coll_pos && test.body_id_src != body_id_a)
                     correct_coll_pos_norm(coll_pos, coll_norm, coll_dist);
@@ -419,6 +419,20 @@ function traverse_collision_tests(scene, body_id_a, body_id_b, pair_result,
         }
     }
 }
+
+function calc_coll_result(test) {
+    
+    var pair_results = test.pair_results;
+
+    var result = false;
+
+    // OR
+    for (var i = 0; i < pair_results.length; i++)
+        result = result || pair_results[i];
+
+    return result;
+}
+
 
 /**
  * NOTE: same is in bindings.js
@@ -497,6 +511,8 @@ exports.update = function(timeline, delta) {
             m_ipc.post_msg(m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
     }
+
+    m_ipc.post_msg_arr();
 }
 
 function update_prop_transforms(obj_chassis_hull) {
@@ -1198,11 +1214,11 @@ exports.set_transform = function(obj, trans, quat) {
     m_tsr.set_sep(obj._render.trans, 1, obj._render.quat, phy.curr_tsr);
 
     var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-    msg_cache["body_id"] = obj._physics.body_id;
-    msg_cache["trans"] = trans;
-    msg_cache["quat"] = quat;
+    msg_cache.body_id = obj._physics.body_id;
+    msg_cache.trans = trans;
+    msg_cache.quat = quat;
 
-    m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
+    m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
 }
 
 exports.sync_transform = sync_transform;
@@ -1212,20 +1228,22 @@ exports.sync_transform = sync_transform;
  */
 function sync_transform(obj) {
     if (allows_transform(obj) && transform_changed(obj)) {
-        obj._physics.cached_trans.set(obj._render.trans);
-        obj._physics.cached_quat.set(obj._render.quat);
         var phy = obj._physics;
+        var render = obj._render;
+
+        m_vec3.copy(render.trans, phy.cached_trans);
+        m_quat.copy(render.quat, phy.cached_quat);
 
         var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-        msg_cache["body_id"] = obj._physics.body_id;
-        msg_cache["trans"] = obj._render.trans;
-        if (phy.type === "DYNAMIC") {
-            msg_cache["quat"] = _vec4_tmp;
-            m_quat.identity(_vec4_tmp);
-        } else
-            msg_cache["quat"] = obj._render.quat;
+        msg_cache.body_id = phy.body_id;
+        msg_cache.trans = render.trans;
 
-        m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
+        if (phy.type == "DYNAMIC")
+            m_quat.identity(msg_cache.quat);
+        else
+            msg_cache.quat = render.quat;
+
+        m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
     }
 
     var descends = obj._descends;
@@ -1488,10 +1506,10 @@ function append_collision_pairs(test) {
         // sorted pairs, but comparison does not have any special meaning
         if (body_id_a < body_id_b && !has_pair(pairs, body_id_a, body_id_b)) {
             pairs.push([body_id_a, body_id_b]);
-            pair_results.push(0);
+            pair_results.push(false);
         } else if (body_id_a > body_id_b && !has_pair(pairs, body_id_b, body_id_a)) {
             pairs.push([body_id_b, body_id_a]);
-            pair_results.push(0);
+            pair_results.push(false);
         }
         // == ignored
     }
@@ -1543,19 +1561,26 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
     var phy = obj._physics;
     var body_id = phy.body_id;
 
-    var collision_id = collision_id || "ANY";
-
     for (var i = 0; i < phy.collision_tests.length; i++) {
         var test = phy.collision_tests[i];
         if (test.collision_id == collision_id && test.callback == callback) {
 
+            // report negative collision result as there is no collision anymore
+            if (calc_coll_result(test)) {
+                var zero = m_vec3.set(0, 0, 0, _vec3_tmp);
+                test.callback(false, null, zero, zero, 0);
+            }
+
             phy.collision_tests.splice(i, 1);
+
             i--;
 
             remove_unused_collision_pairs(_active_scene, test.pairs);
         }
     }
 }
+
+
 
 /**
  * Find from pairs unused and remove
@@ -1605,11 +1630,19 @@ function remove_collision_pairs_by_id(scene, body_id) {
 
             for (var k = 0; k < test.pairs.length; k++) {
                 var pair = test.pairs[k];
+                var pair_result = test.pair_results[k];
 
                 if (pair[0] == body_id || pair[1] == body_id) {
+
                     test.pairs.splice(k, 1);
                     test.pair_results.splice(k, 1);
                     k--;
+
+                    // last positive pair removed
+                    if (pair_result && !calc_coll_result(test)) {
+                        var zero = m_vec3.set(0, 0, 0, _vec3_tmp);
+                        test.callback(false, null, zero, zero, 0);
+                    }
 
                     // do not check for uniqueness, uranium allows that
                     removed_pairs.push(pair);

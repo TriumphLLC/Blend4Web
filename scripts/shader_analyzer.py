@@ -8,7 +8,7 @@ ROOT_REL = "../"
 CGC_PATH = "cgc"
 TMP_GLSL_FILE = "/tmp/tmp_b4w_shader_analyzer.glsl"
 TMP_OUT = "/tmp/tmp_b4w_shader_analyzer.out.txt"
-PORT = 6687
+PORT = 6683
 
 class http_handler(SimpleHTTPRequestHandler):
 

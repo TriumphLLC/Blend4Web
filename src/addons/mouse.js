@@ -3,6 +3,7 @@
 /**
  * Pointer lock and mouse actions add-on.
  * Provides support for mouse pointer lock and low-level movement.
+ * For more generic cases use {@link module:controls|sensor-based API}.
  * @see http://www.w3.org/TR/pointerlock/
  * @module mouse
  * @local UseMouseControlCallback
@@ -94,8 +95,20 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
 
     mouse_move_cb = mouse_move_cb || function(e) {
         if (use_mouse_control_cb()) {
-            var mx = e.movementX || e.webkitMovementX || e.mozMovementX || 0;
-            var my = e.movementY || e.webkitMovementY || e.mozMovementY || 0;
+            // NOTE: for compatibility with older browsers
+            if (typeof e.movementX == "number") {
+                var mx = e.movementX;
+                var my = e.movementY;
+            } else if (typeof e.webkitMovementX == "number") {
+                var mx = e.webkitMovementX;
+                var my = e.webkitMovementY;
+            } else if (typeof e.mozMovementX == "number") {
+                var mx = e.mozMovementX;
+                var my = e.mozMovementY;
+            } else {
+                var mx = 0;
+                var my = 0;
+            }
 
             _mouse_delta[0] += mx;
             _mouse_delta[1] += my;

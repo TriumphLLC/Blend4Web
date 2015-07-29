@@ -156,8 +156,8 @@ class B4WReexport(bpy.types.Operator):
 
         scripts_path = os.path.join(prefs.b4w_src_path, "scripts")
 
-        rmod = imp.find_module("reexporter", [scripts_path])
-        reexporter = imp.load_module("reexporter", rmod[0], rmod[1], rmod[2])
+        pmod = imp.find_module("process_blend", [scripts_path])
+        processor = imp.load_module("process_blend", pmod[0], pmod[1], pmod[2])
 
         path_collection = prefs.b4w_reexport_paths
 
@@ -168,7 +168,7 @@ class B4WReexport(bpy.types.Operator):
 
             if path and os.path.exists(path):
                 context.window_manager.progress_update(i)
-                reexporter.reexport(bpy.app.binary_path, path, path, self.report)
+                processor.process_files(bpy.app.binary_path, path, path, self.report)
 
         context.window_manager.progress_end()
 

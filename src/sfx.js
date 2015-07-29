@@ -12,8 +12,7 @@ var m_cfg   = require("__config");
 var m_print = require("__print");
 var m_time  = require("__time");
 var m_util  = require("__util");
-
-var m_vec3 = require("vec3");
+var m_vec3  = require("__vec3");
 
 var cfg_ani = m_cfg.animation;
 var cfg_sfx = m_cfg.sfx;
@@ -614,12 +613,12 @@ function update_proc_chain(obj) {
 
 
         ap.setPosition(pos[0], pos[1], pos[2]);
-        sfx.last_position.set(pos);
+        m_vec3.copy(pos, sfx.last_position);
 
         var orient = _vec3_tmp;
         m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
         ap.setOrientation(orient[0], orient[1], orient[2]);
-        sfx.direction.set(orient);
+        m_vec3.copy(orient, sfx.direction);
 
         ap.refDistance = sfx.dist_ref;
         ap.maxDistance = sfx.dist_max;
@@ -1080,7 +1079,7 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     var listener = _wa.listener;
     listener.setPosition(trans[0], trans[1], trans[2]);
     listener.setOrientation(front[0], front[1], front[2], up[0], up[1], up[2]);
-    scene._sfx.listener_direction.set(front);
+    m_vec3.copy(front, scene._sfx.listener_direction);
 
     if (!scene._sfx.disable_doppler && elapsed) {
         var speed = _vec3_tmp3;
@@ -1093,10 +1092,10 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
                 SPEED_SMOOTH_PERIOD, speed);
 
         listener.setVelocity(speed[0], speed[1], speed[2]);
-        scene._sfx.listener_speed_avg.set(speed);
+        m_vec3.copy(speed, scene._sfx.listener_speed_avg);
     }
 
-    scene._sfx.listener_last_eye.set(trans);
+    m_vec3.copy(trans, scene._sfx.listener_last_eye);
 }
 
 exports.listener_reset_speed = function(speed, dir) {
@@ -1110,15 +1109,15 @@ exports.listener_reset_speed = function(speed, dir) {
     var velocity = _vec3_tmp;
 
     if (dir)
-        velocity.set(dir);
+        m_vec3.copy(dir, velocity);
     else
-        velocity.set(_active_scene._sfx.listener_direction);
+        m_vec3.copy(_active_scene._sfx.listener_direction, velocity);
 
     m_vec3.scale(velocity, speed, velocity);
 
     var listener = _wa.listener;
     listener.setVelocity(velocity[0], velocity[1], velocity[2]);
-    _active_scene._sfx.listener_speed_avg.set(velocity);
+    m_vec3.copy(velocity, _active_scene._sfx.listener_speed_avg);
 }
 
 /**
@@ -1152,10 +1151,10 @@ exports.speaker_update_transform = function(obj, elapsed) {
 
         panner.setVelocity(speed[0], speed[1], speed[2]);
 
-        sfx.speed_avg.set(speed);
+        m_vec3.copy(speed, sfx.speed_avg);
     }
 
-    lpos.set(pos);
+    m_vec3.copy(pos, lpos);
 }
 
 exports.speaker_reset_speed = function(obj, speed, dir) {
@@ -1167,18 +1166,18 @@ exports.speaker_reset_speed = function(obj, speed, dir) {
     var velocity = _vec3_tmp;
 
     if (dir)
-        velocity.set(dir);
+        m_vec3.copy(dir, velocity);
     else
-        velocity.set(sfx.direction);
+        m_vec3.copy(sfx.direction, velocity);
 
     m_vec3.scale(velocity, speed, velocity);
 
     var panner = sfx.panner_node;
     panner.setVelocity(velocity[0], velocity[1], velocity[2]);
-    sfx.speed_avg.set(velocity);
+    m_vec3.copy(velocity, sfx.speed_avg);
 
     var pos = obj._render.trans;
-    sfx.last_position.set(obj._render.trans);
+    m_vec3.copy(obj._render.trans, sfx.last_position);
 }
 
 exports.is_speaker = is_speaker;

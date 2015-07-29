@@ -395,7 +395,7 @@ function request_image(asset) {
 
 function request_audio(asset) {
     var audio = document.createElement("audio");
-    if (cfg_def.allow_cors)
+    if (cfg_def.allow_cors || cfg_def.cors_chrome_hack)
         audio.crossOrigin = "Anonymous";
     
     audio.addEventListener("loadeddata", function() {
@@ -435,6 +435,11 @@ function request_audio(asset) {
         audio.src = asset.filepath;
         if (cfg_def.is_mobile_device)
             audio.load();
+    }
+
+    if (cfg_def.mobile_firefox_media_hack) {
+        audio.autoplay = true;
+        audio.pause();
     }
 
     // HACK: workaround for some garbage collector bug
@@ -487,6 +492,12 @@ function request_video(asset) {
         if (cfg_def.is_mobile_device)
             video.load();
     }
+    
+    if (cfg_def.mobile_firefox_media_hack) {
+        video.autoplay = true;
+        video.pause();
+    }
+    
     // HACK: workaround for some garbage collector bug
     setTimeout(function() {video.some_prop_to_prevent_gc = 1}, 10000);
 }

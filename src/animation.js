@@ -26,6 +26,10 @@ var m_vec3 = require("vec3");
 
 var cfg_ani = m_config.animation;
 
+var LAST_FRAME_EPSILON = 0.000001;
+
+exports.LAST_FRAME_EPSILON = LAST_FRAME_EPSILON;
+
 var OBJ_ANIM_TYPE_NONE       =  0;
 var OBJ_ANIM_TYPE_ARMATURE   = 10;
 var OBJ_ANIM_TYPE_OBJECT     = 20;
@@ -136,7 +140,7 @@ function handle_finish_callback(obj, slot_num) {
 
     if (anim_slot.finish_callback && anim_slot.exec_finish_callback) {
         anim_slot.exec_finish_callback = false;
-        anim_slot.finish_callback(obj);
+        anim_slot.finish_callback(obj, slot_num);
     }
 }
 
@@ -288,20 +292,22 @@ exports.apply_def = function(obj) {
 
     var actions = get_default_actions(obj);
 
-    // NOTE: particle system actions are more foreground
-    var psystems = obj["particle_systems"];
-    for (var i = 0; i < psystems.length; i++) {
-        var psys = psystems[i];
-        var psettings = psys["settings"];
-        if (psettings["type"] == "EMITTER") {
-            do_before_apply(obj, slot_num);
-            apply_particles_anim(obj, psys, slot_num);
-            do_after_apply(obj, slot_num);
-            obj._anim_slots[slot_num].behavior =
-                    anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
-            if (psettings["b4w_cyclic"])
-                obj._anim_slots[slot_num].behavior = AB_CYCLIC;
-            slot_num++
+    // NOTE: psys._internal is undefined if b4w_do_not_render is set
+    if (!obj["b4w_do_not_render"]) {
+        var psystems = obj["particle_systems"];
+        for (var i = 0; i < psystems.length; i++) {
+            var psys = psystems[i];
+            var psettings = psys["settings"];
+            if (psettings["type"] == "EMITTER") {
+                do_before_apply(obj, slot_num);
+                apply_particles_anim(obj, psys, slot_num);
+                do_after_apply(obj, slot_num);
+                obj._anim_slots[slot_num].behavior =
+                        anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
+                if (psettings["b4w_cyclic"])
+                    obj._anim_slots[slot_num].behavior = AB_CYCLIC;
+                slot_num++
+            }
         }
     }
 
@@ -451,18 +457,6 @@ function has_vertex_anim(obj) {
         return false;
 }
 
-exports.get_first_armature_object = get_first_armature_object;
-function get_first_armature_object(obj) {
-    var modifiers = obj["modifiers"];
-    for (var i = 0; i < modifiers.length; i++) {
-        var modifier = modifiers[i];
-        if (modifier["type"] == "ARMATURE")
-            return modifier["object"];
-    }
-
-    return null;
-}
-
 
 /**
  * Start to play preset animation
@@ -505,7 +499,10 @@ exports.is_play = function(obj, slot_num) {
     return false;
 }
 
-exports.set_current_frame_float = function(obj, cff, slot_num) {
+/**
+ * Set frame and update animation.
+ */
+exports.set_frame = function(obj, cff, slot_num) {
     var anim_slots = obj._anim_slots;
     if (slot_num == SLOT_ALL) {
         for (var i = 0; i < 8; i++) {
@@ -640,6 +637,23 @@ exports.is_animatable = function(bpy_obj) {
     return false;
 }
 
+exports.get_first_armature_object = get_first_armature_object;
+function get_first_armature_object(bpy_obj) {
+
+    if (!m_util.is_mesh(bpy_obj))
+        return null;
+
+    var modifiers = bpy_obj["modifiers"];
+    for (var i = 0; i < modifiers.length; i++) {
+        var modifier = modifiers[i];
+        if (modifier["type"] == "ARMATURE")
+            return modifier["object"];
+    }
+
+    return null;
+}
+
+
 exports.is_animated = function(obj) {
     return Boolean(obj._anim_slots.length);
 }
@@ -652,6 +666,12 @@ exports.is_animated = function(obj) {
 function apply_action(obj, action, slot_num) {
 
     var frame_range = action["frame_range"];
+
+    if (frame_range[0] > frame_range[1]) {
+        m_print.warn("Incompatible action \"" + action["name"] + 
+                "\" has been applied to object \"" + obj["name"] + "\"");
+        return false;
+    }
 
     var act_render = action._render;
 
@@ -1011,25 +1031,27 @@ function animate(obj, elapsed, slot_num, force_update) {
 
     if ((speed >= 0 && cff >= start + length) ||
         (speed < 0 && cff < start)) {
-        anim_slot.exec_finish_callback = true;
+
+        if (!force_update)
+            anim_slot.exec_finish_callback = true;
 
         switch (anim_slot.behavior) {
         case AB_CYCLIC:
             if (speed >= 0)
                 cff = (cff - start) % length + start;
             else
-                cff = start + length - 0.000001;
+                cff = start + length - LAST_FRAME_EPSILON;
             break;
         case AB_FINISH_RESET:
             if (speed >= 0)
                 cff = start;
             else
-                cff = start + length - 0.000001;
+                cff = start + length - LAST_FRAME_EPSILON;
             anim_slot.play = false;
             break;
         case AB_FINISH_STOP:
             if (speed >= 0)
-                cff = start + length - 0.000001;
+                cff = start + length - LAST_FRAME_EPSILON;
             else
                 cff = start;
             anim_slot.play = false;
@@ -1188,15 +1210,14 @@ function action_anim_finfo(anim_slot, cff, dest) {
     index_float /= step;
 
     var frame = Math.floor(index_float);
-    var frame_next = frame + 1;
-
-    var frame_factor;
 
     // NOTE: get from first group
     if (anim_slot.action_bflags[frame])
-        frame_factor = index_float - frame;
+        var frame_factor = index_float - frame;
     else
-        frame_factor = 0;
+        var frame_factor = 0;
+
+    var frame_next = Math.ceil(frame + frame_factor);
 
     dest[0] = frame;
     dest[1] = frame_next;
@@ -2110,15 +2131,16 @@ exports.validate_action_by_name = function(obj, name) {
     var action = m_util.keysearch("name", name, _actions) ||
             m_util.keysearch("name", name + "_B4W_BAKED", _actions);
 
-    if (!action) {
+    if (action) {
+        if (!m_util.get_dict_length(action["fcurves"]))
+            return false;    
+    } else {
         var psys = m_util.keysearch("name", name, obj["particle_systems"]);
-        if (psys)
-            return true;
-        return false
+        if (!psys)
+            if (!m_util.is_mesh(obj) || 
+                    !m_util.keysearch("name", name, obj["data"]["b4w_vertex_anim"]))
+                return false;
     }
-
-    if (!m_util.get_dict_length(action["fcurves"]))
-        return false;
 
     return true;
 }

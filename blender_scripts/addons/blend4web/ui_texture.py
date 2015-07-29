@@ -7,6 +7,7 @@ import cProfile
 import bgl
 
 from bpy.types import Panel
+from bl_ui.properties_material import active_node_mat
 
 from bpy.types import (
         Brush,
@@ -19,7 +20,7 @@ from bpy.types import (
         World,
         )
 
-SUPPORTED_TEX_TYPES = {'VORONOI','IMAGE','ENVIRONMENT_MAP','NONE','BLEND'}
+SUPPORTED_TEX_TYPES = {'IMAGE','ENVIRONMENT_MAP','NONE','BLEND'}
 
 # common properties for all B4W texture panels
 class TextureButtonsPanel:
@@ -57,8 +58,6 @@ class TextureSlotPanel(TextureButtonsPanel):
         engine = context.scene.render.engine
         return TextureButtonsPanel.poll(cls, context) and (engine in cls.COMPAT_ENGINES)
 
-from bl_ui.properties_material import active_node_mat
-
 def context_tex_datablock(context):
     idblock = context.material
     if idblock:
@@ -84,6 +83,43 @@ def context_tex_datablock(context):
         idblock = context.particle_system.settings
 
     return idblock
+
+class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
+    bl_label = "Preview"
+
+    @classmethod
+    def poll(cls, context):
+        idblock = context_tex_datablock(context)
+        if isinstance(idblock, Brush) and not context.sculpt_object:
+            return False
+
+        if not getattr(context, "texture_slot", None):
+            return False
+
+        engine = context.scene.render.engine
+        return (engine in cls.COMPAT_ENGINES)
+
+    def draw(self, context):
+
+        layout = self.layout
+        tex = context.texture
+
+        if not tex.type in SUPPORTED_TEX_TYPES:
+            layout.label(text="This texture type is not supported.", icon="ERROR")
+            return False
+
+        slot = getattr(context, "texture_slot", None)
+        idblock = context_tex_datablock(context)
+
+        if idblock:
+            layout.template_preview(tex, parent=idblock, slot=slot)
+        else:
+            layout.template_preview(tex, slot=slot)
+
+        #Show Alpha Button for Brush Textures, see #29502
+        if context.space_data.texture_context == 'BRUSH':
+            layout.prop(tex, "use_preview_alpha")
+
 
 class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
     bl_label = "Mapping"
@@ -236,7 +272,10 @@ class B4W_TextureExport(TextureButtonsPanel, Panel):
 
                 row = layout.row()
                 row.active = active
-                row.prop(tex, "b4w_anisotropic_filtering", text="Anisotropic Filtering:")
+                row.prop(tex, "b4w_enable_tex_af", text="Enable Anisotropic Filtering")
+                row = layout.row()
+                row.active = tex.b4w_enable_tex_af
+                row.prop(tex, "b4w_anisotropic_filtering", text="Anisotropic Filtering")
 
                 if tex.type == "NONE":
                     icon_source = "NONE"
@@ -272,7 +311,7 @@ class B4W_TextureExport(TextureButtonsPanel, Panel):
             elif isinstance(idblock, World) and tex.type == "ENVIRONMENT_MAP":
                 row = layout.row()
                 row.active = active
-                row.prop(tex, "b4w_use_sky", text="Sky Texture Usage:")
+                row.prop(tex, "b4w_use_sky", text="Sky Texture Usage")
 
 class B4W_TextureWaterFoam(TextureTypePanel, Panel):
     bl_label = "Water Foam"
@@ -316,11 +355,12 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
 
         tex = context.texture_slot
 
-        def factor_but(layout, toggle, factor, name):
+        def factor_but(layout, toggle, factor, name, active=True):
             row = layout.row(align=True)
             row.prop(tex, toggle, text="")
+            row.active = active
             sub = row.row(align=True)
-            sub.active = getattr(tex, toggle)
+            sub.active = getattr(tex, toggle) and active
             sub.prop(tex, factor, text=name, slider=True)
             return sub  # XXX, temp. use_map_normal needs to override.
 
@@ -332,7 +372,7 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
                 col.label(text="Diffuse:")
                 #factor_but(col, "use_map_diffuse", "diffuse_factor", "Intensity")
                 factor_but(col, "use_map_color_diffuse", "diffuse_color_factor", "Color")
-                factor_but(col, "use_map_alpha", "alpha_factor", "Alpha")
+                factor_but(col, "use_map_alpha", "alpha_factor", "Alpha", active=tex.use_map_color_diffuse)
                 #factor_but(col, "use_map_translucency", "translucency_factor", "Translucency")
 
                 col.label(text="Specular:")
@@ -430,6 +470,7 @@ class B4W_ParallaxPanel(TextureTypePanel, Panel):
         row.prop(tex, "b4w_parallax_lod_dist", text="Lod Distance", slider=True)
 
 def register():
+    bpy.utils.register_class(B4W_TEXTURE_PT_preview)
     bpy.utils.register_class(B4W_TEXTURE_PT_envmap)
     bpy.utils.register_class(B4W_TEXTURE_PT_colors)
     bpy.utils.register_class(B4W_TEXTURE_PT_image_sampling)
@@ -442,6 +483,7 @@ def register():
     bpy.utils.register_class(B4W_TextureWaterFoam)
 
 def unregister():
+    bpy.utils.unregister_class(B4W_TEXTURE_PT_preview)
     bpy.utils.unregister_class(B4W_TEXTURE_PT_envmap)
     bpy.utils.unregister_class(B4W_TEXTURE_PT_colors)
     bpy.utils.unregister_class(B4W_TEXTURE_PT_image_sampling)

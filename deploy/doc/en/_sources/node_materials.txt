@@ -1,276 +1,326 @@
-.. index:: материалы; ноды
 
-.. _node_materials:
+Node Materials
+**************
 
-*****************
-Нодовые материалы
-*****************
+Shader nodes extend significantly the potential of Blender's standard
+materials by means of presenting shading as a batch of basic
+transformations.
 
-Шейдерные ноды (Shader Nodes) существенно расширяют возможности стандартных материалов Blender, позволяя представить освещение как серию базовых преобразований.
-
-.. image:: src_images/node_materials/node_example.jpg
-   :align: center
-   :width: 100%
+[image]
 
 
-.. _generic_node_materials:
+Standard Nodes
+==============
 
-Стандартные ноды
-================
+All Blender functions are supported except the following cases:
 
-.. index:: материалы; ноды
+* "Geometry" - The "Vertex Alpha" output is not supported
 
-Полностью поддерживаются все возможности Blender, за исключением следующих случаев:
+* "Lamp data" - The "Shadow" output is not supported.
 
-* ``Geometry`` - не поддерживается выход ``Vertex Alpha``.
-* ``Lamp data`` - не поддерживается выход ``Shadow``.
-* ``Material``, ``Extended Material`` - допускается не больше одной ноды на материал,
-  не поддерживаются входы ``Refl``, ``Ambient``, ``SpecTra`` и выход ``AO``.
-* ``RGB Curves``, ``Vector Curves``, ``ColorRamp`` и Cycles-ноды поддерживаются ограниченно.
+* "Material", "Extended Material" - no more than one node per
+  material is allowed; the "Refl", "Ambient", "SpecTra" inputs are not
+  supported; the "AO" output is not supported.
 
-Кроме того, в контексте рендеринга в реальном времени, следует учитывать низкую производительность некоторых нод. Не рекомендуется к использованию:
+* "RGB Curves", "Vector Curves", "ColorRamp" and Cycles-nodes have
+  limited support.
 
-* ``Hue/Saturation``
-* ``MixRGB`` типы ``Burn``, ``Dodge``, ``Value``, ``Saturation``, ``Hue``, ``Color``
+In addition a poor performance of some nodes in real-time context
+should be taken into account. It is not recommended to use the
+following nodes:
 
-Не рекомендуется создавать сложные материалы, особенно использующие большое
-количество нод ``Geometry`` и ``Texture``.
+* "Hue/Saturation"
 
+* "MixRGB" - the "Burn", "Dodge", "Value", "Saturation", "Hue",
+  "Color" types.
 
-.. _custom_node_materials:
-
-Дополнительные ноды
-===================
-
-.. index:: материалы; ноды
-
-Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (``Node groups`` или ``Node tree``) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды добавляются в blend-файл при его открытии.
-
-.. image:: src_images/node_materials/b4w_nodes.png
-   :align: center
+It is not recommended to create very complex materials especially if
+they use many "Geometry" or "Texture" nodes.
 
 
-.. _node_gamma:
+Engine Specific Nodes
+=====================
 
-B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR
----------------------------------------
+Engine-specific nodes extend functionality of the standard nodes to
+support extra features. These nodes are created as node groups ("Node
+groups" or "Node tree") with specially determined names and input
+formats. For convenience, all special nodes are added to a blend file
+when it is opened.
 
-Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот. Функционал объявлен устаревшим с версии 15.04 - вместо этих нод должна использоваться нативная нода Gamma. 
-
-.. image:: src_images/node_materials/node_srgb_to_linear.png
-   :align: center
+[image]
 
 
-.. seealso:: :ref:`gamma_node_materials`
+B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR
+-----------------------------------------
+
+Color correction from linear color space to sRGB space and back. This
+functionality is declared deprecated since version 15.04 - use
+Blender's native Gamma node instead.
+
+[image]
+
+See also: Gamma in Node Materials
+
 
 B4W_REPLACE
 -----------
 
-Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender'а или движок) в данный момент работает текущая сцена. При работе в Blender вход ``Color1`` подключается к выходу ``Color``, вход ``Color2`` игнорируется. При работе в движке входы меняются местами (``Color1`` игнорируется, ``Color2`` подключается к выходу). Нода предназначена для отображения во viewport'e одной конструкции нодов, а в движке - другой. 
+The node replaces the inputs depending on the working environment
+(i.e. Blender viewport or Blend4Web). When working in Blender the
+"Color1" input is connected to the "Color" output and the "Color2"
+input is ignored. On the contrary when working in the engine the
+inputs are interchanged (the "Color1" one is ignored and the "Color2"
+one is connected to the output). The node is intended to display one
+node structure in the viewport and another - in the engine.
 
-.. image:: src_images/node_materials/replace.jpg
-   :align: center
-   :width: 100%
+[image]
 
-|
 
-Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender'а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport'e - их подключение внутри нод Material. 
+
+As a rule it is used for normal mapping. Blender's node materials do
+not support a tangent space of coordinates. Therefore the only
+possible method to display normal maps in the viewport correctly is
+their usage inside the Material nodes.
+
 
 B4W_CLAMP
 ---------
 
-Осуществить операцию ограничения над входом. В результате, все элементы вектора на выходе
-получают значения от 0 до 1 включительно.
+The node limits the output value. As a result all the output vector
+components take values from 0 to 1 inclusive.
 
-
-.. _node_time:
 
 B4W_TIME
 --------
 
-Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах - UV координат, факторов смешивания, прозрачности и т.п.
+Provides the timeline counting from the engine start (in seconds). Can
+be used for animating any parameters in node materials, such as UV
+coordinates, mixing factors, transparency etc.
 
-.. image:: src_images/node_materials/node_time.png
-   :align: center
+[image]
 
-|
 
-.. seealso:: :ref:`node_anim`
+
+See also: Animation of Value and RGB Nodes
 
 
 B4W_VECTOR_VIEW
 ---------------
 
-Осуществить преобразование вектора в пространство камеры. Преобразование необходимо, поскольку при работе в движке большинство векторов определены в мировой системе координат (например нормали, направления источников освещения и т.д). Преобразованный таким образом вектор нормали используется только для различных эффектов и не должен подключаться к входу ноды ``Material`` или ``Extended Material``.
+The node transforms a vector into the camera's space of coordinates.
+Transformation is necessary because the engine defines most of vectors
+in the world space of coordinates. If normal vector is being
+transformed by this node it should be used only for effects and not
+for connecting to the output of the "Material" or "Extended Material"
+nodes.
+
 
 B4W_PARALLAX
 ------------
 
-Реализует смещение текстурных координат в соответствии с картой высот.
+The node implements the texture coordinates offset using a height map.
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *UV*
-   Исходные текстурные координаты.
+   Source texture coordinates
 
 *Height Map*
-   RGBA текстура с картой высот в альфа канале.
+   RGBA texture with a height map packed into the alpha channel.
 
 *Scale*
-   Коэффициент смещения текстурных координат.
+   Texture coordinates offset factor
 
 *Steps*
-   Количество шагов при генерации смещенных текстурных координат. Чем больше данное значение, тем выше качество получаемой текстуры.
+   The number of steps for iterative generation of texture coordinates
+   offset. The bigger this value is the better is the final quality.
 
 *Lod Distance*
-   Максимальное расстояние от камеры, на котором виден эффект.
+   Maximum distance from camera at which the effect is observed.
 
-Выходные параметры
-..................
+
+Output parameters
+~~~~~~~~~~~~~~~~~
 
 *UV*
-   Измененные текстурные координаты, которые используются как вход для текстурных нод.
+   Resulting texture coordinates which are used as input for the
+   texture nodes.
+
 
 B4W_TRANSLUCENCY
 ----------------
 
-Реализует эффект полупрозрачности (только по отношению к источникам света) для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из двух частей: засвечивание обратной по отношению к источнику стороны объекта и появление светового пятна непосредственно в том месте, где должен был находится источник.
+The node implements a translucency effect (with respect to light
+sources only) for thin objects such as cloth, leaves, paper etc. The
+effect consists of two parts: 1) brightening of the object side which
+is opposite to the light source and 2) appearance of a light spot
+right in the light source place.
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *Color*
-    Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый.
+   One-channel texture which defines material heterogeneity - the
+   white color denotes maximum translucency effect while the black
+   color denotes its absence. White color is used by default.
+
 *Backside Factor*
-    Коэффицент коррекции цвета материала на обратной от источника света стороне. Основан на визуальном эффекте большей насыщенности цвета при просвечивании.
+   Material color correction coefficient for the side which is
+   opposite to the light source. It describes the color richness
+   effect for the translucent areas.
 
-    * *Backside Factor < 1* - коррекция в сторону осветления
-    * *Backside Factor = 1* - без коррекции
-    * *Backside Factor > 1* - коррекция в сторону затемнения
+   * *Backside Factor < 1* - brightening
 
-    Значение по умолчанию: 1.
+   * *Backside Factor = 1* - no correction
+
+   * *Backside Factor > 1* - darkening
+
+   The default value is 1.
+
 *Spot Hardness*
-    Коэффициент размытия светового пятна. При увеличении размеры пятна уменьшаются, края становятся более резкими.
-    Значение по умолчанию: 1000.
+   Light spot blurring factor. The bigger this value is the smaller is
+   the spot and the sharper are the spot edges. The default value is
+   1000.
+
 *Spot Intensity*
-    Интенсивность светового пятна. При увеличении становится более ярким.
-    Значение по умолчанию: 1.
+   Light spot intesity. The bigger this value is the brighter is the
+   light spot. The default value is 1.
+
 *Spot Diffuse Factor*
-    Коэффициент влияния диффузного цвета материала на цвет светового пятна. 
+   Material diffuse color influence on the light spot color.
 
-    * *Spot Diffuse Factor = 0* - световое пятно имеет диффузный цвет
-    * *Spot Diffuse Factor = 1* - световое пятно имеет белый цвет
+   * *Spot Diffuse Factor = 0* - the light spot has the diffuse
+     color
 
-    Значение по умолчанию: 1.
+   * *Spot Diffuse Factor = 1* - the light spot color is white
 
-Выходные параметры
-..................
+   The default value is 1.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
 
 *Translucency*
-	Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended Material``.
+   The output should be connected to the "Translucency" input of the
+   "Extended Material" node.
 
-.. note::
+Note: This node can work incorrectly, if the mesh normals were
+  edited.
 
-  Возможно некорректное поведение ноды, если используются :ref:`отредактированные нормали <normals_editor>`.
 
 B4W_REFRACTION
 --------------
 
-Реализует эффект преломления.
+Get the refracted image behind object.
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *Normal*
-    Карта нормалей, по которой происходит возмущение (сдвиг).
+   Normal map for adding perturbations.
+
 *Refraction bump*
-    Коэффицент возмущения (сдвига) текстуры сцены позади объекта.
+   Value of perturbation strength.
 
-    Значение по умолчанию: 0.001.
+   The default value is 0.001.
 
-Выходные параметры
-..................
+
+Output parameters
+~~~~~~~~~~~~~~~~~
 
 *Color*
-    Текстура сцены позади объекта с внесённым возмущением.
+   Rendered texture behind object with perturbations.
 
-.. note::
+Note: It's neccessary to set the "Refractions" option from the
+  "Render > Reflections and Refractions" panel to value "AUTO" or
+  "ON".  The object's transparency type must be set to "Alpha Blend".
 
-    Для отображения эффекта необходимо включить опцию ``Render refraction`` на панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha Blend.
-.. seealso:: :ref:`alpha_blend`
+See also: Transparency
+
 
 B4W_LEVELS_OF_QUALITY
 ---------------------
 
-Устанавливает значение выходного цвета в зависимости от установленного профиля качества изображения.
+This node sets output color value depending on the quality profile.
 
-.. seealso:: :ref:`quality_settings`
+See also: Quality Profiles
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *HIGH*
-    Значение, которое будет подано в выходной параметр ``Color`` при высоком и максимальном качестве изображения.
-*LOW*
-    Значение, которое будет подано в выходной параметр ``Color`` при низком качестве изображения.
+   Node links this parameter to "Color" parameter in case of high and
+   maximum quality usage.
 
-Выходные параметры
-..................
+*LOW*
+   Node links this parameter to "Color" parameter in case of low
+   quality usage.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
 
 *Color*
-    Значение выходного цвета.
+   Output color.
 
-.. note::
+Note: "HIGH" input parameter is used for rendering in the Blender
+  viewport.
 
-    Для отображения во вьюпорте Blender'а используется входной параметр ``HIGH``.
 
 B4W_SMOOTHSTEP
 --------------
 
-Осуществить мягкую интерполяцию двух значений, исходя из первого значения.
+Perform smooth interpolation between two input values based on first
+value.
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *Value*
-    Значение, на основе которого осуществляется интерполяция.
+   Value which determines interpolation smoothness.
+
 *Edge0*
-    Первое значениe для интерполяции.
-*Edge1*
-    Второе значениe для интерполяции.
+   First interpolation value.
 
-Выходные параметры
-..................
+*Edge1*
+   Second interpolation value.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
 
 *Value*
-    Сглаженное значение.
+   Interpolated value.
 
-.. note::
-    Для корректной интерполяции входное значение ''Value'' должно лежать в диапазоне между ''Edge0'' и ''Edge1''.
-    
+Note: For the correct interpolation input ''Value'' had to be
+  between ''Edge0'' and ''Edge1''.
 
-.. _glow_output:
 
 B4W_GLOW_OUTPUT
 ---------------
 
-Применяет :ref:`эффект свечения (Glow) <glow>` к нодовому материалу. Помимо ноды *B4W_GLOW_OUTPUT* в нодовом материале должна присутствовать нода *Output*.
+Applies the Glow effect to the node material. Besides the
+*B4W_GLOW_OUTPUT* node, the node material should have the *Output*.
 
-.. image:: src_images/node_materials/glow_output.png
-   :align: center
-   :width: 100%
+[image]
 
-Входные параметры
-.................
+
+Input parameters
+~~~~~~~~~~~~~~~~
 
 *Glow Color*
-    Цвет свечения.
+   Glow color.
+
 *Factor*
-    Степень свечения. *Factor* :math:`\in [0, 1]`.
+   Glow ratio. *Factor* \in [0, 1].
 
-    * *Factor = 0* - свечение отсутствует. 
-    * *Factor* :math:`\in (0, 1]` - свечение цветом *Glow Color*.
+   * *Factor = 0* - no glow.
 
-
-
+   * *Factor* \in (0, 1] - there is a glow, colored with *Glow
+     Color*.

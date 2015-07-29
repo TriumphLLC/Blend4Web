@@ -12,17 +12,16 @@ var m_bounds    = require("__boundings");
 var m_cam       = require("__camera");
 var m_cons      = require("__constraints");
 var m_lights    = require("__lights");
+var m_mat3      = require("__mat3");
+var m_mat4      = require("__mat4");
 var m_particles = require("__particles");
+var m_quat      = require("__quat");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_tsr       = require("__tsr");
 var m_util      = require("__util");
-
-var m_vec3 = require("vec3");
-var m_vec4 = require("vec4");
-var m_quat = require("quat");
-var m_mat3 = require("mat3");
-var m_mat4 = require("mat4");
+var m_vec3      = require("__vec3");
+var m_vec4      = require("__vec4");
 
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
@@ -46,7 +45,7 @@ exports.set_translation = function(obj, trans) {
         m_tsr.set_trans(trans, offset);
     } else {
         var render = obj._render;
-        render.trans.set(trans);
+        m_vec3.copy(trans, render.trans);
     }
 }
 
@@ -66,7 +65,7 @@ exports.set_rotation = function(obj, quat) {
         m_tsr.set_quat(quat, offset);
     } else {
         var render = obj._render;
-        render.quat.set(quat);
+        m_quat.copy(quat, render.quat);
     }
 }
 
@@ -204,13 +203,15 @@ function update_transform(obj) {
     var render = obj._render;
     var main_scene = m_scs.get_main();
 
+    var obj_type = obj["type"];
+
     // NOTE: need to update before constraints, because they rely on to this flag
-    if (obj["type"] == "CAMERA")
+    if (obj_type == "CAMERA")
         m_cam.update_camera_upside_down(obj);
 
     m_cons.update_constraint(obj, _elapsed);
 
-    if (obj["type"] == "CAMERA")
+    if (obj_type == "CAMERA")
         m_cam.update_camera(obj);
 
     // should not change after constraint update
@@ -222,11 +223,10 @@ function update_transform(obj) {
 
     var wm = render.world_matrix;
 
-    m_mat4.identity(wm);
     m_mat4.fromQuat(quat, wm);
 
     // TODO: remove world matrix and move to tsr system
-    if (obj["type"] != "CAMERA")
+    if (obj_type != "CAMERA")
         m_util.scale_mat4(wm, scale, wm);
 
     wm[12] = trans[0];
@@ -261,7 +261,7 @@ function update_transform(obj) {
         }
     }
 
-    switch (obj["type"]) {
+    switch (obj_type) {
     case "SPEAKER":
         m_sfx.speaker_update_transform(obj, _elapsed);
         break;
@@ -281,14 +281,7 @@ function update_transform(obj) {
             m_scs.update_force(obj);
         break;
     case "MESH":
-        var modifiers = obj["modifiers"];
-        var armobj = null;
-        for (var i = 0; i < modifiers.length; i++) {
-            var modifier = modifiers[i];
-            if (modifier["type"] == "ARMATURE")
-                armobj = modifier["object"];
-        }
-
+        var armobj = obj._armobj;
         if (armobj) {
             var armobj_tsr = armobj._render.tsr;
             m_tsr.invert(armobj_tsr, _tsr_tmp);
@@ -302,7 +295,7 @@ function update_transform(obj) {
         break;
     }
 
-    if (obj["type"] == "LAMP" || obj["type"] == "CAMERA") {
+    if (obj_type == "LAMP" || obj_type == "CAMERA") {
         if (main_scene) {
             var active_scene = main_scene;
             m_scs.schedule_shadow_update(active_scene);

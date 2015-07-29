@@ -1,4 +1,4 @@
-/** 
+/**
  * GLSL preprocessor parser
  * see some doc here: http://www.nongnu.org/hcb/
  */
@@ -47,7 +47,7 @@ IfSection
     }
 
 IfGroup
-  = "#" _ "if" MSS expression:Tokens _ LineTerminatorSequence __ group:Group {
+  = "#" _ "if" MSS expression:PPExpression _ LineTerminatorSequence __ group:Group {
       return {
         type: "if",
         expression: expression,
@@ -70,7 +70,7 @@ IfGroup
     }
 
 ElIfGroup
-  = "#" _ "elif" MSS expression:Tokens _ LineTerminatorSequence __ group:Group __ {
+  = "#" _ "elif" MSS expression:PPExpression _ LineTerminatorSequence __ group:Group __ {
       return {
         type: "elif",
         expression: expression,
@@ -245,7 +245,7 @@ NodeIfSection
     }
 
 NodeIfGroup
-  = "#" _ "node_if" MSS expression:Tokens _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+  = "#" _ "node_if" MSS expression:PPExpression _ LineTerminatorSequence __ stat:(NodeStatement __)* {
       var statements = [];
       for (var i = 0; i < stat.length; i++)
         statements.push(stat[i][0]);
@@ -280,7 +280,7 @@ NodeIfGroup
     }
 
 NodeElIfGroup
-  = "#" _ "node_elif" MSS expression:Tokens _ LineTerminatorSequence __ stat:(NodeStatement __)* __ {
+  = "#" _ "node_elif" MSS expression:PPExpression _ LineTerminatorSequence __ stat:(NodeStatement __)* __ {
       var statements = [];
       for (var i = 0; i < stat.length; i++)
         statements.push(stat[i][0]);
@@ -420,6 +420,422 @@ Tokens
       }
       return result;
     }
+
+PPExpression
+  = head:ConditionalExpression
+    tail:(_ "," _ ConditionalExpression)* {
+      if (tail.length == 0)
+        return head;
+      else
+        return tail[tail.length-1];
+    }
+
+ConditionalExpression
+  = condition:LogicalORExpression _
+    "?" _ trueExpression:PPExpression _
+    ":" _ falseExpression:PPExpression {
+      var result = condition;
+      var op = {
+        type: "conditional_expr",
+        places: 3
+      }
+      result.push.apply(result, trueExpression);
+      result.push.apply(result, falseExpression);
+      result.push(op);
+      return result;
+    }
+  / LogicalORExpression
+
+LogicalORExpression
+  = head:LogicalANDExpression
+    tail:(_ LogicalOROperator _ LogicalANDExpression)* {
+      var result = head;
+      if (tail.length) {
+        var op = {
+          type: "logical_or_expr",
+          places: tail.length + 1
+        }
+        for (var i = 0; i < tail.length; i++)
+          result.push.apply(result, tail[i][3]);
+        result.push(op);
+      }
+      return result;
+    }
+
+LogicalANDExpression
+  = head:BitwiseORExpression
+    tail:(_ LogicalANDOperator _ BitwiseORExpression)* {
+      var result = head;
+      if (tail.length) {
+        var op = {
+          type: "logical_and_expr",
+          places: tail.length + 1
+        }
+        for (var i = 0; i < tail.length; i++)
+          result.push.apply(result, tail[i][3]);
+        result.push(op);
+      }
+      return result;
+    }
+
+BitwiseORExpression
+  = head:BitwiseXORExpression
+    tail:(_ BitwiseOROperator _ BitwiseXORExpression)* {
+      var result = head;
+      if (tail.length) {
+        var op = {
+          type: "logical_bitor_expr",
+          places: tail.length + 1
+        }
+        for (var i = 0; i < tail.length; i++)
+          result.push.apply(result, tail[i][3]);
+        result.push(op);
+      }
+      return result;
+    }
+
+BitwiseXORExpression
+  = head:BitwiseANDExpression
+    tail:(_ BitwiseXOROperator _ BitwiseANDExpression)* {
+      var result = head;
+      if (tail.length) {
+        var op = {
+          type: "logical_bitxor_expr",
+          places: tail.length + 1
+        }
+        for (var i = 0; i < tail.length; i++)
+          result.push.apply(result, tail[i][3]);
+        result.push(op);
+      }
+      return result;
+    }
+
+BitwiseANDExpression
+  = head:EqualityExpression
+    tail:(_ BitwiseANDOperator _ EqualityExpression)* {
+      var result = head;
+      if (tail.length) {
+        var op = {
+          type: "logical_bitand_expr",
+          places: tail.length + 1
+        }
+        for (var i = 0; i < tail.length; i++)
+          result.push.apply(result, tail[i][3]);
+        result.push(op);
+      }
+      return result;
+    }
+
+EqualityExpression
+  = head:RelationalExpression
+    tail:(_ EqualityOperator _ RelationalExpression)* {
+      var result = head;
+      for (var i = 0; i < tail.length; i++) {
+        switch (tail[i][1]) {
+        case "==":
+          var op = {
+            type: "equal_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case "!=":
+          var op = {
+            type: "non_equal_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        }
+      }
+      return result;
+    }
+
+RelationalExpression
+  = head:ShiftExpression
+    tail:(_ RelationalOperator _ ShiftExpression)* {
+      var result = head;
+      for (var i = 0; i < tail.length; i++) {
+        switch (tail[i][1]) {
+        case "<=":
+          var op = {
+            type: "le_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case ">=":
+          var op = {
+            type: "ge_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case "<":
+          var op = {
+            type: "l_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case ">":
+          var op = {
+            type: "g_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        }
+      }
+      return result;
+    }
+
+ShiftExpression
+  = head:AdditiveExpression
+    tail:(_ ShiftOperator _ AdditiveExpression)* {
+      var result = head;
+      for (var i = 0; i < tail.length; i++) {
+        switch (tail[i][1]) {
+        case "<<":
+          var op = {
+            type: "left_shift_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case ">>":
+          var op = {
+            type: "right_shift_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        }
+      }
+      return result;
+    }
+
+AdditiveExpression
+  = head:MultiplicativeExpression
+    tail:(_ AdditiveOperator _ MultiplicativeExpression)* {
+      var result = head;
+      for (var i = 0; i < tail.length; i++) {
+        switch (tail[i][1]) {
+        case "+":
+          var op = {
+            type: "add_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case "-":
+          var op = {
+            type: "sub_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        }
+      }
+      return result;
+    }
+
+MultiplicativeExpression
+  = head:UnaryExpression
+    tail:(_ MultiplicativeOperator _ UnaryExpression)* {
+      var result = head;
+      for (var i = 0; i < tail.length; i++) {
+        switch (tail[i][1]) {
+        case "*":
+          var op = {
+            type: "mul_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case "/":
+          var op = {
+            type: "div_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        case "%":
+          var op = {
+            type: "mod_expr",
+            places: 2
+          }
+          result.push.apply(result, tail[i][3]);
+          result.push(op);
+          break;
+        }
+      }
+      return result;
+    }
+
+UnaryExpression
+  = "defined" _ expression:DefinedExpression {
+      return expression;
+    }
+  / PostfixExpression
+  / operator:UnaryOperator _ expression:UnaryExpression {
+      var result = expression;
+      switch (operator) {
+        case "++":
+          var op = {
+            type: "pre_inc_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "--":
+          var op = {
+            type: "pre_dec_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "+":
+          var op = {
+            type: "positive_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "-":
+          var op = {
+            type: "negative_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "~":
+          var op = {
+            type: "one_compl_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "!":
+          var op = {
+            type: "logic_negative_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+      }
+      return result;
+    }
+
+PostfixExpression
+  = expression:PrimaryExpression _ operator:PostfixOperator {
+      var result = expression;
+      switch (operator) {
+        case "++":
+          var op = {
+            type: "post_inc_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+        case "--":
+          var op = {
+            type: "post_dec_expr",
+            places: 1
+          }
+          result.push(op);
+          break;
+      }
+      return result;
+    }
+  / PrimaryExpression
+
+PrimaryExpression
+  = number:NumericLiteral { return [number]; }
+  / identifier:Identifier { return [identifier]; }
+  / "(" _ expression:PPExpression _ ")" { return expression; }
+
+DefinedExpression
+  = identifier:Identifier { return [identifier]; }
+  // NOTE: hack
+  / (!("(" / ")") SourceCharacter)+  { return 1; }
+  / "(" _ expression:DefinedExpression _ ")" { return expression; }
+
+NumericLiteral "number"
+  = literal:(HexIntegerLiteral / IntegerLiteral) {
+      return literal;
+    }
+
+IntegerLiteral
+  = parts:$(DecimalIntegerLiteral) { return parseInt(parts); }
+
+Identifier "identifier"
+  = !ReservedWord name:IdentifierName { return name; }
+
+ReservedWord
+  = "defined" !IdentifierPart
+
+PostfixOperator
+  = "++"
+  / "--"
+
+UnaryOperator
+  = "++"
+  / "--"
+  / "+"
+  / "-"
+  / "~"
+  /  "!"
+
+MultiplicativeOperator
+  = operator:("*" / "/" / "%") !"=" { return operator; }
+
+AdditiveOperator
+  = "+" !("+" / "=") { return "+"; }
+  / "-" !("-" / "=") { return "-"; }
+
+ShiftOperator
+  = "<<"
+  / ">>"
+
+RelationalOperator
+  = "<="
+  / ">="
+  / "<"
+  / ">"
+
+EqualityOperator
+  = "=="
+  / "!="
+
+BitwiseANDOperator
+  = "&" !"&" { return "&"; }
+
+BitwiseXOROperator
+  = "^" !"^" { return "^"; }
+
+BitwiseOROperator
+  = "|" !"|" { return "|"; }
+
+LogicalANDOperator
+  = "&&" { return "&&"; }
+
+LogicalOROperator
+  = "||" { return "||"; }
+
+
 
 HeaderFile
   = "<" _ name:HCharSequence _ ">" { return name; }
@@ -728,4 +1144,3 @@ EOF
   = !.
 
 /* vim: set et si ts=2 sw=2: */
-

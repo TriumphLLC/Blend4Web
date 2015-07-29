@@ -55,6 +55,8 @@
  * @module controls
  * @local ManifoldCallback
  * @local ManifoldLogicFunction
+ * @local CollisionPayload
+ * @local RayPayload
  */
 b4w.module["controls"] = function(exports, require) {
 
@@ -72,8 +74,6 @@ var m_print = require("__print");
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
  * object to communicate between different manifolds.
  */
-
-
 /**
  * Manifold's logic function. Specifies a logic expression which consists of
  * sensor values. This logic expression will be evaluated every frame. As a
@@ -82,6 +82,27 @@ var m_print = require("__print");
  * @callback ManifoldLogicFunction
  * @param {Array} s Numeric array with sensor values.
  * @returns {Number} Result of evaluation of the logic expression
+ */
+/**
+ * Collision sensor payload.
+ * @callback CollisionPayload
+ * @param {?Object3D} coll_obj The target collision object, i.e the object
+ * the source object collides with (null for no collision or when this object 
+ * is represented by collision material).
+ * @param {?Vec3} coll_pos Position of collision point.
+ * @param {?Vec3} coll_norm Normal of collision point.
+ * @param {?Number} coll_dist Distance between collision points of colliding
+ * objects.
+ */
+/**
+ * Ray sensor payload.
+ * @callback RayPayload
+ * @param {Number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * or -1 if there is no hit anymore.
+ * @param {?Object3D} obj_hit The hit object.
+ * @param {Number} hit_time Time the hit happened.
+ * @param {Vec3} hit_pos Hit position in world space.
+ * @param {Vec3} hit_norm Hit normal in world space.
  */
 
 /**
@@ -121,6 +142,15 @@ exports.CT_SHOT = m_ctl.CT_SHOT;
  * @const module:controls.CT_LEVEL
  */
 exports.CT_LEVEL = m_ctl.CT_LEVEL;
+
+/**
+ * Manifold control type: change.
+ * Such manifold generates a single positive pulse (+1) once the value
+ * of any sensor is changed. The logic function is ignored.
+ * Produces no negative pulses.
+ * @const module:controls.CT_CHANGE
+ */
+exports.CT_CHANGE = m_ctl.CT_CHANGE;
 
 /**
  * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
@@ -593,9 +623,10 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * Detects collisions between the object and the entities (objects or physics
  * materials) with the specified collision ID. If the collision ID is not
  * specified, the sensor will detect collisions with any entities.
+ * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj Collision object.
- * @param {String} [collision_id="ANY"] Collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID
  * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
  * @returns {Sensor} Sensor object
@@ -627,6 +658,7 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * Checks intersection of this ray with the specified collision ID. If the
  * collision ID is not specified, the sensor will detect collisions with any
  * entities.
+ * This sensor carries the following {@link module:controls~RayPayload|payload}.
  * @method module:controls.create_ray_sensor
  * @param {Object3D} obj_src Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space.
@@ -1034,13 +1066,13 @@ exports.unregister_device_orientation = m_ctl.unregister_device_orientation;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jul 29 2015 10:22:43 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

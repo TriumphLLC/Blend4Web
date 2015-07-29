@@ -53,7 +53,7 @@ var _bpy_data_array = null;
 var _all_objects_cache = null;
 var _debug_resources_root = "";
 
-var _primary_data = false;
+var _primary_data = null;
 var _dupli_obj_id_overrides = {};
 
 var PLAY_MEDIA_IMAGE_MOBILE = "data:image/png;base64,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";
@@ -165,6 +165,8 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
         for (var prop in loaded_bpy_data)
             bpy_data[prop] = loaded_bpy_data[prop];
 
+        assign_primary_data(bpy_data, thread);
+
         var bin_name = bpy_data["binaries"][0]["binfile"];
         if (bin_name)
             thread.binary_name = bin_name;
@@ -186,15 +188,25 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 }
 
 function show_export_warnings(bpy_data) {
+    var is_primary = data_is_primary(bpy_data);
+
     if (bpy_data["b4w_export_warnings"])
-        for (var i = 0; i < bpy_data["b4w_export_warnings"].length; i++)
-            m_print.export_warn(bpy_data["b4w_export_warnings"][i]);
+        for (var i = 0; i < bpy_data["b4w_export_warnings"].length; i++) {
+            var warn_data = bpy_data["b4w_export_warnings"][i];
+            if (is_primary && warn_data["type"] == "PRIMARY" || warn_data["type"] == "ALL")
+                m_print.export_warn(warn_data["text"]);
+        }
 }
 
 function show_export_errors(bpy_data) {
+    var is_primary = data_is_primary(bpy_data);
+
     if (bpy_data["b4w_export_errors"])
-        for (var i = 0; i < bpy_data["b4w_export_errors"].length; i++)
-            m_print.export_error(bpy_data["b4w_export_errors"][i]);
+        for (var i = 0; i < bpy_data["b4w_export_errors"].length; i++) {
+            var err_data = bpy_data["b4w_export_errors"][i];
+            if (is_primary && err_data["type"] == "PRIMARY" || err_data["type"] == "ALL")
+                m_print.export_error(err_data["text"]);
+        }
 }
 
 /**
@@ -227,6 +239,13 @@ function load_binaries(bpy_data, thread, stage, cb_param, cb_finish,
 
     m_assets.enqueue([[binary_path, m_assets.AT_ARRAYBUFFER, binary_path]],
             binary_cb, null, progress_cb);
+}
+
+function wait_for_shaders(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+
+    if (m_shaders.check_shaders_loaded())
+        cb_finish(thread, stage);
 }
 
 function check_format_version(loaded_bpy_data) {
@@ -353,6 +372,9 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
         var arr_length = m_anim.get_approx_curve_length(start, end);
         var bflags = null;
 
+        if (arr_length < 0)
+            arr_length = 0;
+
         // HACK: do not process euler rotation if quaternion rotation exists
         // currently applied in Blender b4w addon; temporary backward compatibility
         var has_euler_rot = false;
@@ -435,6 +457,7 @@ function extract_bindata_uint(bin_data, offset, length, is_le) {
  * Extract float data packed into shorts (floats in range [-1; 1])
  */
 function extract_bindata_short(bin_data, offset, length) {
+
     var arr = new Float32Array(length);
     var dataview = new DataView(bin_data);
     for (var i = 0; i < length; i++)
@@ -508,7 +531,6 @@ function report_odd_uvs(meshes) {
  */
 function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
-    assign_primary_data(bpy_data, thread);
 
     make_links(bpy_data);
 
@@ -616,10 +638,7 @@ function assign_primary_data(bpy_data, thread) {
 }
 
 function data_is_primary(bpy_data) {
-    if (bpy_data == _primary_data)
-        return true;
-    else
-        return false;
+    return bpy_data == _primary_data;
 }
 
 function get_primary_main_scene() {
@@ -694,9 +713,22 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
 
         var metabatches = [];
         var meta_objects = [];
-        m_batch.generate_main_batches(scene_graph, grid_size, scene_objects, primary_scene._render.world_light_set,
-                                    primary_scene._render.sky_params, metabatches, meta_objects,
-                                    primary_scene._render.lamps_number);
+
+        m_batch.generate_main_batches(scene_graph, grid_size, scene_objects, metabatches, meta_objects);
+
+        // generate sky batch
+        var sky = primary_scene._render.sky_params;
+        if (sky.render_sky || sky.procedural_skydome) {
+            var wls = primary_scene._render.world_light_set;
+            var meta_obj = m_batch.generate_sky_meta_obj(wls, sky);
+            meta_objects.push(meta_obj);
+        }
+
+        //create forked batches
+        for (var j = 0; j < scene_objects.length; j++)
+            m_batch.create_forked_batches(scene_objects[j], scene_graph);
+        for (var j = 0; j < meta_objects.length; j++)
+            m_batch.create_forked_batches(meta_objects[j], scene_graph);
 
         if (data_is_primary(bpy_data)) {
             m_scenes.add_meta_objects(scene, meta_objects);
@@ -1102,14 +1134,22 @@ function make_links(bpy_data) {
 
             make_link_uuid(obj, "data", storage);
 
-            // also make links for armature modifier
+            var found_armat_mod = false;
+
+            // also make links for armature/curve modifiers
             var modifiers = obj["modifiers"];
             for (var j = 0; j < modifiers.length; j++) {
                 var modifier = modifiers[j];
 
-                if (modifier["type"] == "ARMATURE")
+                if (modifier["type"] == "ARMATURE") {
+
+                    if (found_armat_mod)
+                        m_print.warn("Object \"" + obj["name"] + "\" has more " +
+                            "than one armature modifiers. Only the first one will be used.");
+
+                    found_armat_mod = true;
                     make_link_uuid(modifier, "object", storage);
-                else if (modifier["type"] == "CURVE")
+                } else if (modifier["type"] == "CURVE")
                     make_link_uuid(modifier, "object", storage);
             }
 
@@ -1444,7 +1484,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             if (tex_users[0]["b4w_shore_dist_map"])
                 continue;
 
-            var image_path = normpath_preserve_protocol(dir_path + 
+            var image_path = m_util.normpath_preserve_protocol(dir_path + 
                     image["filepath"]);
 
             if (image["source"] === "FILE") {
@@ -1568,7 +1608,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             if (!(uuid in spks_by_uuid)) {
                 spks_by_uuid[uuid] = [];
 
-                var sound_path = normpath_preserve_protocol(
+                var sound_path = m_util.normpath_preserve_protocol(
                         dir_path + sound["filepath"]);
 
                 switch (m_sfx.source_type(obj)) {
@@ -2364,7 +2404,7 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
             if (image && image["source"] === "FILE") {
                 var uuid = image["uuid"];
                 var dir_path = dirname(thread.filepath);
-                var image_path = normpath_preserve_protocol(dir_path + 
+                var image_path = m_util.normpath_preserve_protocol(dir_path + 
                         image["filepath"]);
 
                 if (image._is_dds)
@@ -2779,55 +2819,6 @@ function dirname(path) {
     return dirname;
 }
 
-/**
- * Normalize path, based on python os.path.normpath() function
- */
-function normpath(path) {
-    var sep = '/';
-    var empty = '';
-    var dot = '.';
-    var dotdot = '..';
-
-    if (path == empty)
-        return dot;
-
-    var initial_slashes = (path.indexOf(sep) == 0) | 0;
-
-    // allow one or two initial slashes, more than two treats as single
-    if (initial_slashes && (path.indexOf(sep + sep) == 0)
-            && (path.indexOf(sep + sep + sep) != 0))
-        initial_slashes = 2;
-
-    var comps = path.split(sep);
-    var new_comps = [];
-    for (var i = 0; i < comps.length; i++) {
-        var comp = comps[i];
-        if (comp == empty || comp == dot)
-            continue;
-        if (comp != dotdot || (!initial_slashes && !new_comps.length)
-                || (new_comps.length && (new_comps[new_comps.length - 1] == dotdot)))
-            new_comps.push(comp);
-        else if (new_comps.length)
-            new_comps.pop();
-    }
-
-    comps = new_comps;
-    path = comps.join(sep);
-    for (var i = 0; i < initial_slashes; i++)
-        path = sep + path;
-
-    return path || dot;
-}
-
-function normpath_preserve_protocol(dir_path) {
-    var separated_str = dir_path.split('://',2);
-    if (separated_str.length > 1) {
-        separated_str[1] = normpath(separated_str[1]);
-        return separated_str.join('://');
-    } else
-        return normpath(dir_path);
-}
-
 exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         load_hidden) {
 
@@ -2859,6 +2850,16 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
             primary_only: false,
             cb_before: load_binaries
         },
+        "wait_for_shaders": {
+            priority: m_loader.ASYNC_PRIORITY,
+            background_loading: true,
+            inputs: [],
+            is_resource: false,
+            relative_size: 50,
+            primary_only: true,
+            cb_before: wait_for_shaders,
+            cb_loop: wait_for_shaders
+        },
         "prepare_bindata": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
@@ -2880,7 +2881,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         "prepare_root_scenes": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
-            inputs: ["prepare_root_datablocks"],
+            inputs: ["prepare_root_datablocks", "wait_for_shaders"],
             is_resource: false,
             relative_size: 350,
             primary_only: false,
@@ -3039,7 +3040,7 @@ exports.unload = function(data_id) {
 
         _all_objects_cache = null;
         _dupli_obj_id_overrides = {};
-        _primary_data = false;
+        _primary_data = null;
         _bpy_data_array = null;
     } else {
         m_print.log("%cUNLOAD DATA " + data_id, "color: #00a");
@@ -3178,8 +3179,8 @@ function update_all_objects_iter(objects, grp_num, is_primary, object_levels) {
     }
 }
 
-function parent_num(obj) {
-    var par = obj["parent"] || m_anim.get_first_armature_object(obj);
+function parent_num(bpy_obj) {
+    var par = bpy_obj["parent"] || m_anim.get_first_armature_object(bpy_obj);
     if (par)
         return 1 + parent_num(par);
     else

@@ -1,12 +1,13 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
 #var SHADOW_TEX_RES 0.0
-#var PRECISION lowp
+#var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
 
 /*============================================================================
                                   INCLUDES
 ============================================================================*/
 #include <std_enums.glsl>
+#include <precision_statement.glslf>
 
 #include <math.glslv>
 #include <to_world.glslv>
@@ -18,8 +19,14 @@
 
 attribute vec3 a_position;
 
-#if WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || SHADOW_USAGE == SHADOW_MASK_GENERATION
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || SHADOW_USAGE == SHADOW_MASK_GENERATION
 attribute vec3 a_normal;
+#endif
+
+#if NODES && ALPHA && CALC_TBN_SPACE
+attribute vec4 a_tangent;
 #endif
 
 #if SKINNED
@@ -49,9 +56,17 @@ AU_QUALIFIER float au_wind_bending_freq;
 
 #if VERTEX_ANIM
 attribute vec3 a_position_next;
-#endif
+# if NODES && ALPHA
+#  if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+attribute vec3 a_normal_next;
+#   if CALC_TBN_SPACE
+attribute vec4 a_tangent_next;
+#   endif
+#  endif
+# endif
+#endif // VERTEX_ANIM
 
-#if TEXTURE_COLOR
+#if !(NODES && ALPHA) && TEXTURE_COLOR
 attribute vec2 a_texcoord;
 #endif
 
@@ -116,7 +131,7 @@ uniform float u_time;
 uniform float u_va_frame_factor;
 #endif
 
-#if TEXTURE_COLOR
+#if !(NODES && ALPHA) && TEXTURE_COLOR
 uniform vec3 u_texture_scale;
 #endif
 
@@ -140,19 +155,39 @@ uniform mat4 u_p_light_matrix2;
 # if CSM_SECTION3
 uniform mat4 u_p_light_matrix3;
 # endif
+#endif
 
+#if USE_NODE_B4W_REFRACTION
+uniform PRECISION float u_view_max_depth;
 #endif
 
 /*============================================================================
                                    VARYINGS
 ============================================================================*/
 
-#if TEXTURE_COLOR
+#if NODES && ALPHA
+//varying vec3 v_eye_dir;
+varying vec3 v_pos_world;
+
+# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+varying vec3 v_normal;
+# endif
+# if CALC_TBN_SPACE
+varying vec4 v_tangent;
+# endif
+
+#else
+# if TEXTURE_COLOR
 varying vec2 v_texcoord;
+# endif
+#endif
+
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
+varying vec4 v_pos_view;
 #endif
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
-varying vec4 v_pos_view;
 varying vec4 v_shadow_coord0;
 
 # if CSM_SECTION1
@@ -168,9 +203,14 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-// NOTE: impossible case, needed for shader validator
-#if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
+#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
+#endif
+
+#if NODES && ALPHA
+# if USE_NODE_B4W_REFRACTION && REFRACTIVE
+varying float v_view_depth;
+# endif
 #endif
 
 /*============================================================================
@@ -182,6 +222,9 @@ varying vec3 v_tex_pos_clip;
 #include <skin.glslv>
 #include <wind_bending.glslv>
 
+#if NODES && ALPHA
+#include <nodes.glslv>
+#endif
 /*============================================================================
                                     MAIN
 ============================================================================*/
@@ -189,21 +232,39 @@ varying vec3 v_tex_pos_clip;
 void main(void) {
     vec3 position = a_position;
 
-#if VERTEX_ANIM
-    position = mix(position, a_position_next, u_va_frame_factor);
-#endif
-
-#if SKINNED
-    vec3 t = vec3(0.0); 
-    vec3 b = vec3(0.0);
-    vec3 n = vec3(0.0);
-    skin(position, t, b, n);
-#endif
-
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN_SPACE || USE_NODE_MATERIAL \
+        || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND 
     vec3 normal = a_normal;
 #else
     vec3 normal = vec3(0.0);
+#endif
+
+#if NODES && ALPHA && CALC_TBN_SPACE
+    vec3 tangent = vec3(a_tangent);
+    vec3 binormal = a_tangent[3] * cross(normal, tangent);
+#else
+    vec3 tangent = vec3(0.0);
+    vec3 binormal = vec3(0.0);
+#endif
+
+#if VERTEX_ANIM
+    position = mix(position, a_position_next, u_va_frame_factor);
+# if NODES && ALPHA
+#  if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+    normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
+#  endif
+#  if CALC_TBN_SPACE
+    vec3 tangent_next = vec3(a_tangent);
+    vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
+    tangent = mix(tangent, tangent_next, u_va_frame_factor);
+    binormal = mix(binormal, binormal_next, u_va_frame_factor);
+#  endif
+# endif // NODES && ALPHA
+#endif // VERTEX_ANIM
+
+#if SKINNED
+    skin(position, tangent, binormal, normal);
 #endif
 
 #if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
@@ -257,6 +318,22 @@ void main(void) {
     bend_vertex(world.position, world.center, bend_normal);
 #endif
 
+#if NODES && ALPHA
+    v_pos_world = world.position;
+
+# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+    v_normal = world.normal;
+# endif
+# if CALC_TBN_SPACE
+    // calculate handedness as described in Math for 3D GP and CG, page 185
+    float m = (dot(cross(world.normal, world.tangent),
+                   world.binormal) < 0.0) ? -1.0 : 1.0;
+
+    v_tangent = vec4(world.tangent, m);
+# endif
+
+#endif // NODES && ALPHA
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
 
@@ -264,12 +341,26 @@ void main(void) {
     pos_clip.xy += u_subpixel_jitter * pos_clip.w;
 #endif
 
-#if TEXTURE_COLOR
+#if NODES && ALPHA
+# if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
+    v_tex_pos_clip = clip_to_tex(pos_clip);
+# endif
+
+# if USE_NODE_B4W_REFRACTION && REFRACTIVE
+    v_view_depth = -v_pos_view.z / u_view_max_depth;
+# endif
+    nodes_main();
+#else
+# if TEXTURE_COLOR
     v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);
-#endif
+# endif
+#endif // NODES && ALPHA
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
     get_shadow_coords(world.position, world.normal);
+#endif
+
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
     v_pos_view = pos_view;
 #endif
 

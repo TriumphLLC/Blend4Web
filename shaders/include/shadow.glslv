@@ -1,7 +1,6 @@
 #import u_normal_offset u_b_light_matrix u_v_light_matrix \
 u_p_light_matrix0 u_p_light_matrix1 u_p_light_matrix2 u_p_light_matrix3
-#import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3 \
-v_tex_pos_clip
+#import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3
 
 #export get_shadow_coords
 
@@ -48,18 +47,4 @@ void get_shadow_coords(vec3 pos, vec3 nor) {
     v_shadow_coord3 = get_shadow_coords_shifted(u_p_light_matrix3, pos_light);
 # endif
 }
-
-#elif SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
-
-void get_shadow_coords(vec4 pos_clip) {
-
-    float xc = pos_clip.x;
-    float yc = pos_clip.y;
-    float wc = pos_clip.w;
-
-    v_tex_pos_clip.x = (xc + wc) / 2.0;
-    v_tex_pos_clip.y = (yc + wc) / 2.0;
-    v_tex_pos_clip.z = wc;
-}
-
 #endif

@@ -1,3 +1,5 @@
+#define SKIN_SLERP 0
+
 #import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence
 #import u_arm_rel_trans u_arm_rel_quat
 #import qrot tsr_translate tsr_translate_inv
@@ -7,7 +9,6 @@
 #if SKINNED
 
 # if SKIN_SLERP
-
 /*
  * Ported from gl-matrix
  */
@@ -99,7 +100,6 @@ vec4 quat4_slerp(in vec4 quat, in vec4 quat2, in float slerp) {
     return quat*cos(theta) + v2*sin(theta);
 }
 */
-
 # endif // SKIN_SLERP
 
 # if FRAMES_BLENDING
@@ -111,18 +111,14 @@ vec3 skin_point(in vec3 position,
                 in vec4 trana,
                 in float frame_factor)
 {
+    vec3 pos_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                                          vec4(position, 1.0));
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
     vec4 tran = mix(tranb, trana, frame_factor);
-
-    vec3 pos_rot = qrot(quat, position);
+    vec3 pos_rot = qrot(quat, pos_armobj_space);
     vec3 pos_tran_rot = pos_rot * tran.w + tran.xyz;
-    return pos_tran_rot;
 #  else
-
-    vec3 pos_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
-                                          vec4(position, 1.0));
-
     vec3 pos_rot_before = qrot(quatb, pos_armobj_space);
     vec3 pos_rot_after  = qrot(quata, pos_armobj_space);
     // uniform scale in w, translation in xyz
@@ -130,9 +126,11 @@ vec3 skin_point(in vec3 position,
     vec3 pos_tran_rot_after  = pos_rot_after  * trana.w + trana.xyz;
     // blending performed AFTER quat transforms 
     // to avoid distortions on sharp angles (knees, elbows etc)
-    vec3 pos_tran_rot = mix(pos_tran_rot_before, pos_tran_rot_after, frame_factor);
-    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(pos_tran_rot, 1.0));
+    vec3 pos_tran_rot = mix(pos_tran_rot_before, pos_tran_rot_after,
+                            frame_factor);
 #  endif
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
+                             vec4(pos_tran_rot, 1.0));
 }
 
 vec3 skin_vector(in vec3 vector, 
@@ -145,29 +143,26 @@ vec3 skin_vector(in vec3 vector,
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
     vec3 vector_rot = qrot(quat, vec_armobj_space);
-
-    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(vector_rot, 0.0));
 #  else
     vec3 vector_rot_before = qrot(quatb, vec_armobj_space);
     vec3 vector_rot_after  = qrot(quata, vec_armobj_space);
     vec3 vector_rot = mix(vector_rot_before, vector_rot_after, frame_factor);
-    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
-                         vec4(vector_rot, 0.0));
 #  endif
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
+                             vec4(vector_rot, 0.0));
 }
 
-# else //  FRAMES_BLENDING
+# else // FRAMES_BLENDING
 
 vec3 skin_point(in vec3 position, in vec4 quatb, in vec4 tranb)
 {
     vec3 pos_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
                                           vec4(position, 1.0));
-
     vec3 pos_rot = qrot(quatb, pos_armobj_space);
     // uniform scale in w, translation in xyz
     vec3 pos_tran_rot = pos_rot * tranb.w + tranb.xyz;
-
-    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(pos_tran_rot, 1.0));
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
+                             vec4(pos_tran_rot, 1.0));
 }
 
 vec3 skin_vector(in vec3 vector, in vec4 quatb)
@@ -175,7 +170,8 @@ vec3 skin_vector(in vec3 vector, in vec4 quatb)
     vec3 vec_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
                                           vec4(vector, 0.0));
     vec3 vector_rot = qrot(quatb, vec_armobj_space);
-    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(vector_rot, 0.0));
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
+                             vec4(vector_rot, 0.0));
 }
 # endif // FRAMES_BLENDING
 

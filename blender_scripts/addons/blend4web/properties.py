@@ -1137,6 +1137,19 @@ def add_b4w_props():
     )
     bpy.types.Camera.b4w_move_style = b4w_move_style
 
+    b4w_hover_zero_level = bpy.props.FloatProperty(
+        name = "B4W: zero level",
+        description = "Zero level for the HOVER camera (Z-coordinate of the initial supporting plane)",
+        default = 0.0,
+        min = -1000000.0,
+        soft_min = -1000.0,
+        max = 1000000.0,
+        soft_max = 1000.0,
+        precision = 2,
+    )
+    bpy.types.Camera.b4w_hover_zero_level \
+            = b4w_hover_zero_level
+
     b4w_trans_velocity = bpy.props.FloatProperty(
            name = "B4W: Translation velocity of the camera",
            description = "Translation velocity of the camera",
@@ -1535,6 +1548,18 @@ def add_scene_properties():
         default = "ON"
     )
     scene_type.b4w_render_reflections = b4w_render_reflections
+
+    b4w_reflection_quality = bpy.props.EnumProperty(
+        name = "B4W: reflection resolution quality",
+        description = "Reflection resolution quality",
+        items = [
+            ("LOW",      "LOW",      "LOW", 1),
+            ("MEDIUM",   "MEDIUM",   "MEDIUM", 2),
+            ("HIGH",     "HIGH",     "HIGH", 3)
+        ],
+        default = "MEDIUM"
+    )
+    scene_type.b4w_reflection_quality = b4w_reflection_quality
 
     b4w_render_refractions = bpy.props.EnumProperty(
         name = "B4W: render refractions",
@@ -2282,7 +2307,7 @@ def add_material_properties():
     mat_type.b4w_waves_height = bpy.props.FloatProperty(
         name = "B4W: waves height",
         description = "Waves height",
-        default = 0.0,
+        default = 1.0,
         min = 0.0,
         soft_min = 0.0,
         max = 10.0,
@@ -2575,6 +2600,25 @@ def add_material_properties():
         step = 0.005,
         precision = 3,
     )
+    mat_type.b4w_water_enable_caust = bpy.props.BoolProperty(
+        name = "B4W: water caustics",
+        description = "Enable caustics on underwater objects",
+        default = False,
+    )
+    mat_type.b4w_water_caust_scale = bpy.props.FloatProperty(
+        name = "B4W: water caustics scale",
+        description = "Scale of the caustics effect",
+        default = 0.25,
+        min = 0.0,
+        max = 10.0,
+    )
+    mat_type.b4w_water_caust_brightness = bpy.props.FloatProperty(
+        name = "B4W: water caustics brightness",
+        description = "Brightness of the caustics effect",
+        default = 0.5,
+        min = 0.0,
+        max = 3.0,
+    )
 
     mat_type.b4w_terrain = bpy.props.BoolProperty(
         name = "B4W: Terrain dynamic grass",
@@ -2661,16 +2705,16 @@ def add_material_properties():
         name = "B4W: collision group",
         subtype = "LAYER",
         description = "Material collision group",
-        default = (False, False, False, False, False, False, False, True),
-        size = 8
+        default = (False, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False),
+        size = 16
     )
 
     mat_type.b4w_collision_mask = bpy.props.BoolVectorProperty(
         name = "B4W: collision mask",
         subtype = "LAYER",
         description = "Material collision mask",
-        default = (True, True, True, True, True, True, True, False),
-        size = 8
+        default = (True, True, True, True, True, True, True, False, True, True, True, True, True, True, True, True),
+        size = 16
     )
 
     mat_type.b4w_wettable = bpy.props.BoolProperty(
@@ -2778,13 +2822,19 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_extension = b4w_extension
 
+    b4w_enable_tex_af = bpy.props.BoolProperty(
+        name = "B4W: enable texture anisotropic filtering",
+        description = "Enable anisotropic filtering",
+        default = True
+    )
+    bpy.types.Texture.b4w_enable_tex_af = b4w_enable_tex_af
+
     # see also b4w_anisotropic_filtering for scene
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
         name = "B4W: anisotropic filtering",
         description = "Anisotropic filtering for the texture",
         items = [
             ("DEFAULT", "DEFAULT", "0", 0),
-            ("OFF",     "OFF",     "1", 1),
             ("2x",      "2x",      "2", 2),
             ("4x",      "4x",      "3", 3),
             ("8x",      "8x",      "4", 4),
@@ -3070,6 +3120,20 @@ def add_particle_settings_properties():
         default = ""
     )
 
+    pset_type.b4w_enable_soft_particles = bpy.props.BoolProperty(
+        name = "B4W: enable soft particles",
+        description = "Enable softness in areas where particles touch other objects",
+        default = False
+    )
+
+    pset_type.b4w_particles_softness = bpy.props.FloatProperty(
+        name = "B4W: particle softness",
+        description = "How soft should the particles be",
+        default = 0.25,
+        min = 0.0,
+        max = 10.0
+    )
+
 def replace_prop(prop, src, dest):
     if hasattr(src[prop], 'items'):
         for sub_prop in src[prop].items():
@@ -3104,11 +3168,11 @@ def replace_deprecated_props(arg):
 
         world = scene.world
 
-        if "b4w_glow_color" in world.keys() and hasattr(scene, "b4w_outline_color"):
+        if world and ("b4w_glow_color" in world.keys()) and hasattr(scene, "b4w_outline_color"):
             scene["b4w_outline_color"] = world["b4w_glow_color"]
             del world["b4w_glow_color"]
 
-        if "b4w_glow_factor" in world.keys() and hasattr(scene, "b4w_outline_factor"):
+        if world and ("b4w_glow_factor" in world.keys()) and hasattr(scene, "b4w_outline_factor"):
             scene["b4w_outline_factor"] = world["b4w_glow_factor"]
             del world["b4w_glow_factor"]
 
@@ -3124,6 +3188,36 @@ def replace_deprecated_props(arg):
                     glow_set[new_name] = world[prop]
 
                     del world[prop]
+
+    for mat in bpy.data.materials:
+        if ("b4w_collision_group" in mat and
+                len(mat["b4w_collision_group"]) == 8 and
+                hasattr(mat, "b4w_collision_group")):
+
+            print(mat.name + ": Replacing b4w_collision_group property (8->16)")
+
+            group_saved = list(mat["b4w_collision_group"])
+
+            for i in range(len(mat.b4w_collision_group)):
+                if i < 8:
+                    mat.b4w_collision_group[i] = bool(group_saved[i])
+                else:
+                    mat.b4w_collision_group[i] = False
+
+
+        if ("b4w_collision_mask" in mat and
+                len(mat["b4w_collision_mask"]) == 8 and
+                hasattr(mat, "b4w_collision_mask")):
+
+            print(mat.name + ": Replacing b4w_collision_mask property (8->16)")
+
+            mask_saved = list(mat["b4w_collision_mask"])
+
+            for i in range(len(mat.b4w_collision_mask)):
+                if i < 8:
+                    mat.b4w_collision_mask[i] = bool(mask_saved[i])
+                else:
+                    mat.b4w_collision_mask[i] = False
 
 def register():
     bpy.utils.register_class(B4W_VehicleSettings)

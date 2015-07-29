@@ -93,6 +93,8 @@
 в настройках сцены можно изменить значение по умолчанию.
 
 .. image:: src_images/web_player/title.jpg
+   :align: center
+   :width: 100%
 
 Ошибки сцены
 ------------

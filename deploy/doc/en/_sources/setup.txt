@@ -1,123 +1,117 @@
-.. _setup:
 
-******************************
-Развёртывание среды разработки
-******************************
+Installing the SDK
+******************
 
-Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее :ref:`экспресс-установка <quick_install>`.
+Setting up the development environment suits 3D application
+developers. To familiarize yourself with the Blend4Web addon quick
+install can be a better option.
 
-Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_.
-
-
-Распаковка архива
-=================
-
-Стабильные версии дистрибутива поставляются в виде архива
-(``blend4web_sdk_free_YY_MM.zip`` -- бесплатный SDK, ``blend4web_sdk_pro_YY_MM.zip`` --
-коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.
+Before installation, please download and install the compatible
+Blender version, according to this table.
 
 
-Подключение аддона
-==================
+Unpacking the Archive
+=====================
 
-.. note::
-
-   Если аддон ранее был установлен с помощью :ref:`экспресс-установки <quick_install>`, то рекомендуется прежде его удалить.
-
-Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие клавиши :file:`Ctrl-N`).
-Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории :file:`blender_scripts`. 
-
-.. image:: src_images/setup/user_preferences_scripts_path.jpg
-   :align: center
-   :width: 100%
-
-|
-
-Нажать :file:`Save User Settings` и **перезапустить** Blender.
+Stable versions of the distribution are available as an archive
+("blend4web_sdk_free_YY_MM.zip" -- free SDK,
+"blend4web_sdk_pro_YY_MM.zip" -- commercial SDK). Simply unpack this
+archive somewhere.
 
 
-Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Отметить галочку напротив :file:`Import-Export: Blend4Web`. 
+Setting up the Add-on
+=====================
 
-.. image:: src_images/setup/user_preferences_enable_addon.jpg
-   :align: center
-   :width: 100%
+Note: We strongly recommend to remove the addon first if it was
+  originally installed using quick install.
 
-|
+Run Blender, load the default scene "File > New" (hot keys "Ctrl-N").
+Open the user preferences window "File > User Preferences..." (hot
+keys "Ctrl-Alt-U"). Under the "File" tab in the "Scripts" field,
+choose the path to the "blender_scripts" directory.
 
-Нажать :file:`Save User Settings`. Перезапуск Blender не требуется.
-
-*Для проверки:*
-
-В меню :file:`File > Export` должны появиться опции :file:`Blend4Web (.json)` и :file:`Blend4Web (.html)`.
-
-
-.. _local_development_server:
-
-Локальный сервер разработки
-===========================
-
-Настройки локального сервера разработки находятся в меню :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`).
-Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender'a: для этого достаточно включить опцию ``Run development server automatically`` в настройках аддона.
-
-.. image:: src_images/setup/server_setup.png
-   :align: center
-   :width: 100%
-
-|
-
-После изменения настроек локального сервера разработчика требуется перезапуск Blender'a.
-
-Если не был настроен автоматический запуск сервера, то его можно стартовать вручную по кнопке ``Start`` во вкладке ``Render->Blend4Web``:
-
-.. image:: src_images/setup/start_serv.png
-   :align: center
-   :width: 100%
-
-|
-
-.. note::
-    
-    Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки ``Start`` будет выведено соответствующее сообщение.
-
-    В случае ошибки запуска сервера будет показано окно с описанием причины:
-
-    .. image:: src_images/setup/error.png
-       :align: center
-
-    Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже используется другим приложением.
-
-Нажмите кнопку ``Open SDK`` для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу http://localhost:6687.
-
-.. image:: src_images/setup/stop_open.png
-   :align: center
-   :width: 100%
-
-|
-
-При этом будет автоматически запущен браузер, используемой в операционной системе по умолчанию. 
-
-Сервер может быть остановлен по нажатию на кнопку ``Stop``. Сервер также прекращает работу при закрытии программы Blender.
-
-
-.. index:: просмотрщик; запуск
-
-.. _getting_started_launching_viewer:
-
-Запуск просмотрщика сцен и демо-приложений 
-==========================================
-
-На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL <browser_webgl_support>`.
-
-.. image:: src_images/setup/sdk_index.jpg
-   :align: center
-   :width: 100%  
-
-|
-
-.. note::
-
-   Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе :ref:`renderer_not_working`.
+[image]
 
 
 
+Click "Save User Settings" and **restart** Blender.
 
+Again load the default scene, open the user preferences window, go to
+the "Addons" tab and choose the "Import-Export" category. Enable the
+"Import-Export: Blend4Web" checkbox.
+
+[image]
+
+
+
+Click "Save User Settings". Restarting Blender isn't required.
+
+*To check:*
+
+In the "File > Export" menu, the "Blend4Web (.json)" and "Blend4Web
+(.html)" options should appear.
+
+
+Local Development Server
+========================
+
+Settings for the local development server can be found in "File > User
+Preferences..." (hot keys "Ctrl-Alt-U"). Here you can change the port
+number to be used to run the development server (6687 by default), and
+also enable its launching upon Blender startup. To do this, enable
+"Run on Startup" option in the add-on settings.
+
+[image]
+
+
+
+After changing local development server settings in it required to
+restart Blender.
+
+It is possible for the local server to process external requests. To
+do that enable the option "Enable External Requests".
+
+If you chose not to start the server automatically, you can always do
+it manually: go to the "Render" tab and press the "Start" button on
+the "Development Server" panel:
+
+[image]
+
+
+
+Note: If the path to the Blend4Web SDK is not specified, the local
+  development server cannot be launched. In this case the
+  corresponding message will be displayed instead of the "Start"
+  button.If the server is failed to run, an error message will be
+  shown describing the reason:[image]This error can arise if the
+  server port is already used by some other application.
+
+Press the "Open SDK" button to open the index web page of the
+Blend4Web SDK in the browser. This page is available at
+http://localhost:6687.
+
+[image]
+
+
+
+As a result, the default browser for your operating system will be
+launched.
+
+The server can be stopped by pressing the "Stop" button. It is also
+stopped when Blender is closed.
+
+
+Running Viewer and Demos
+========================
+
+The index page contains links for launching the scene viewer and the
+demo applications. A WebGL-capable browser is required to run these
+apps.
+
+[image]
+
+
+
+Note: If the SDK apps are not displayed correctly, or error messages
+  are shown, follow the instructions in the Problems Upon Startup
+  section.

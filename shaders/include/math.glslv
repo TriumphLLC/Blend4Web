@@ -5,6 +5,7 @@
 #export tbn_norm
 #export tsr_translate
 #export tsr_translate_inv
+#export clip_to_tex
 
 float ZERO_VALUE_MATH = 0.0;
 float UNITY_VALUE_MATH = 1.0;
@@ -130,3 +131,20 @@ vertex tbn_norm(in vertex v) {
     return vertex(v.position, v.center, normalize(v.tangent),
             normalize(v.binormal), normalize(v.normal), v.color);
 }
+
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
+        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+vec3 clip_to_tex(vec4 pos_clip) {
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+
+    vec3 tex_pos_clip;
+
+    tex_pos_clip.x = (xc + wc) / 2.0;
+    tex_pos_clip.y = (yc + wc) / 2.0;
+    tex_pos_clip.z = wc;
+
+    return tex_pos_clip;
+}
+#endif

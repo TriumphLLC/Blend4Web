@@ -27,7 +27,6 @@
 #define COLLISION_MIN_DISTANCE 0.2
 #define COMB_SORT_JUMP_COEFF 1.247330950103979
 
-static btMotionState *get_motion_state(btCollisionObject *obj);
 static btCollisionShape *consider_compound(btCollisionShape *shape, 
         float cm_x, float cm_y, float cm_z);
 static void delete_shape(btCollisionShape *shape);
@@ -71,9 +70,6 @@ void du_cleanup_world()
     for (i = _world->getNumCollisionObjects() - 1; i >= 0; i--) {
         btCollisionObject* obj = _world->getCollisionObjectArray()[i];
         btRigidBody* body = btRigidBody::upcast(obj);
-
-        if (body && body->getMotionState())
-            delete body->getMotionState();
 
         delete_shape(obj->getCollisionShape());
 
@@ -384,71 +380,35 @@ const char *du_get_shape_name(du_body_id body)
 void du_set_trans(du_body_id body, float tx, float ty, float tz)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
-    btMotionState *mstate = get_motion_state(bt_obj);
 
-    btTransform transform;
-    if (mstate)
-        mstate->getWorldTransform(transform);
-    else
-        transform = bt_obj->getWorldTransform();
-
+    btTransform transform = bt_obj->getWorldTransform();
     transform.setOrigin(btVector3(tx, ty, tz));
-
-    // always set object transform since motion state may also be initialized
-    // from that value during addition to world (enable_simulation)
     bt_obj->setWorldTransform(transform);
-
-    if (mstate)
-        mstate->setWorldTransform(transform);
 }
 
 void du_set_quat(du_body_id body, float qx, float qy, float qz, float qw)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
-    btMotionState *mstate = get_motion_state(bt_obj);
 
-    btTransform transform;
-    if (mstate)
-        mstate->getWorldTransform(transform);
-    else
-        transform = bt_obj->getWorldTransform();
-
+    btTransform transform = bt_obj->getWorldTransform();
     transform.setRotation(btQuaternion(qx, qy, qz, qw));
-
     bt_obj->setWorldTransform(transform);
-
-    if (mstate)
-        mstate->setWorldTransform(transform);
 }
 
 void du_set_trans_quat(du_body_id body, float tx, float ty, float tz,
         float qx, float qy, float qz, float qw)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
-    btMotionState *mstate = get_motion_state(bt_obj);
 
-    btTransform transform;
-    transform.setIdentity();
-    transform.setOrigin(btVector3(tx, ty, tz));
-    transform.setRotation(btQuaternion(qx, qy, qz, qw));
-
+    btTransform transform(btQuaternion(qx, qy, qz, qw), btVector3(tx, ty, tz));
     bt_obj->setWorldTransform(transform);
-
-    if (mstate)
-        mstate->setWorldTransform(transform);
 }
 
 void du_get_trans(du_body_id body, float *dest)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
 
-    btMotionState *mstate = get_motion_state(bt_obj);
-    btTransform transform;
-    if (mstate)
-        mstate->getWorldTransform(transform);
-    else
-        transform = bt_obj->getWorldTransform();
-
+    btTransform transform = bt_obj->getWorldTransform();
     btVector3 origin = transform.getOrigin();
 
     dest[0] = origin.x();
@@ -460,12 +420,7 @@ void du_get_trans_quat(du_body_id body, float *dest_trans, float* dest_quat)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
 
-    btMotionState *mstate = get_motion_state(bt_obj);
-    btTransform transform;
-    if (mstate)
-        mstate->getWorldTransform(transform);
-    else
-        transform = bt_obj->getWorldTransform();
+    btTransform transform = bt_obj->getWorldTransform();
 
     btVector3 origin = transform.getOrigin();
 
@@ -479,19 +434,6 @@ void du_get_trans_quat(du_body_id body, float *dest_trans, float* dest_quat)
     dest_quat[1] = rotation.y();
     dest_quat[2] = rotation.z();
     dest_quat[3] = rotation.w();
-}
-
-/**
- * NOTE: Always returns NULL since all motion states was disabled
- */
-btMotionState *get_motion_state(btCollisionObject *obj)
-{
-    btRigidBody* body = btRigidBody::upcast(obj);
-
-    if (body && body->getMotionState())
-        return body->getMotionState();
-    else
-        return NULL;
 }
 
 void du_get_interp_data(du_body_id body, float *dest_trans, float* dest_quat,

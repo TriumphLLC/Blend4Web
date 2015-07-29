@@ -169,7 +169,7 @@ class B4W_MATERIAL_PT_transp(MaterialButtonsPanel, Panel):
     def poll(cls, context):
         mat = context.material
         engine = context.scene.render.engine
-        return (check_material(mat) and (mat.type in {'SURFACE', 'WIRE','HALO'})
+        return (mat and (mat.type in {'SURFACE', 'WIRE','HALO'})
                 and (engine in cls.COMPAT_ENGINES))
 
     def draw(self, context):
@@ -180,6 +180,7 @@ class B4W_MATERIAL_PT_transp(MaterialButtonsPanel, Panel):
         layout.prop(mat, "use_transparency", text="Show Transparency")
         split = layout.split()
         col = split.column()
+        col.active = not mat.use_nodes
         col.prop(mat, "alpha")
         col.prop(mat, "specular_alpha", text="Specular")
 
@@ -511,10 +512,24 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
         layout.separator()
 
-        row = layout.row()
-        row.prop(mat, "b4w_generated_mesh", text="Generate Mesh")
+        split = layout.split()
 
-        row = layout.row()
+        col = split.column()
+        col.prop(mat, "b4w_generated_mesh", text="Generate Mesh")
+
+        row = col.row()
+        row.active = getattr(mat, "b4w_generated_mesh")
+        row.prop(mat, "b4w_water_num_cascads", text="Cascades Number")
+
+        row = col.row()
+        row.active = getattr(mat, "b4w_generated_mesh")
+        row.prop(mat, "b4w_water_subdivs", text="Subdivisions")
+
+        row = col.row()
+        row.active = getattr(mat, "b4w_generated_mesh")
+        row.prop(mat, "b4w_water_detailed_dist", text="Detailed Distance")
+
+        row = col.row()
         row.active = getattr(mat, "b4w_generated_mesh")
 
         # calculate vertices number in generated mesh
@@ -525,17 +540,17 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
                + 8)
         row.label(text = ("Number of vertices " + repr(count)))
 
-        row = layout.row()
-        row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_num_cascads", text="Cascades Number")
+        col = split.column()
+        row = col.row()
+        row.prop(mat, "b4w_water_enable_caust", text="Caustics")
 
-        row = layout.row()
-        row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_subdivs", text="Subdivisions")
+        row = col.row()
+        row.active = getattr(mat, "b4w_water_enable_caust")
+        row.prop(mat, "b4w_water_caust_scale", text="Scale")
 
-        row = layout.row()
-        row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_detailed_dist", text="Detailed Distance")
+        row = col.row()
+        row.active = getattr(mat, "b4w_water_enable_caust")
+        row.prop(mat, "b4w_water_caust_brightness", text="Brightness")
 
 
 def register():

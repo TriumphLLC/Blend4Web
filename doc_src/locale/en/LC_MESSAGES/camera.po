@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: B4W 14.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-18 11:34+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-07-27 12:05+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,12 +57,6 @@ msgstr ""
 #: ../camera.rst:27
 msgid "*Hover*"
 msgstr ""
-
-#: ../camera.rst:28
-msgid ""
-"В режиме нависания камера движется параллельно горизонтальной плоскости."
-msgstr ""
-"In the ``Hover`` mode the camera is gliding over the horizontal plane."
 
 #: ../camera.rst:30
 msgid "*Static*"
@@ -308,27 +302,6 @@ msgstr ""
 msgid "*Camera Move Style > Camera Limits > Use Vertical Translation Limits*"
 msgstr ""
 
-#: ../camera.rst:181
-msgid ""
-"Задание минимального и максимального расстояний от камеры до точки "
-"пересечения (опорная точка) направления взгляда камеры с горизонтальной "
-"плоскостью (по умолчанию с плоскостью XOY мировых координат в Blender'е). "
-"Допустимые значения: *Min* :math:`\\le` *Max*. При отключении камера будет "
-"свободно двигаться вдоль оси Z мировых координат в Blender'е, опорная точка "
-"не будет задана, а настройки ``Camera Move Style > Camera Limits > Use "
-"Horizontal Translation Limits`` и ``Camera Move Style > Camera Limits > Use "
-"Vertical Translation Limits`` будут ограничивать позицию самой камеры. По "
-"умолчанию отключено."
-msgstr ""
-"Set minimum and maximum distances from the camera to the point of "
-"intersection between the camera view direction and the horizontal plane "
-"(Blender's world XOY plane by default). Allowable values: *Min* :math:`\\le`"
-" *Max*. If turned off, the camera will freely move along Blender's world Z "
-"axis, the pivot point will not be defined, and the ``Camera Move Style > "
-"Camera Limits > Use Horizontal Translation Limits`` and ``Camera Move Style > "
-"Camera Limits > Use Vertical Translation Limits`` settings will limit the "
-"position of the camera itself. Disabled by default."
-
 #: ../camera.rst:185
 msgid "*Camera Move Style > Camera Limits > Camera Angle Limits*"
 msgstr ""
@@ -343,11 +316,11 @@ msgid ""
 msgstr ""
 "Limit the camera's inclination (the angle between camera view direction and "
 "the horizontal plane). Becomes available when the ``Camera Move Style > "
-"Camera Limits > Use Distance Limits`` option is enabled. Allowable values: 0 "
-":math:`\\le` Down Angle :math:`\\le` Up Angle :math:`\\le` 90. Default values: "
-"*Down Angle = 0, Up Angle = 90*."
+"Camera Limits > Use Distance Limits`` option is enabled. Allowable values: 0"
+" :math:`\\le` Down Angle :math:`\\le` Up Angle :math:`\\le` 90. Default "
+"values: *Down Angle = 0, Up Angle = 90*."
 
-#: ../camera.rst:187
+#: ../camera.rst:190
 msgid ""
 "При включении настройки ``Blend4Web > Use Distance Limits`` лимиты по "
 "расстоянию и углу подъема будут действовать одновременно, задавая траекторию"
@@ -357,7 +330,7 @@ msgstr ""
 "for distance and inclination angle will be applied simultaneously, to define"
 " the camera movement path in the vertical plane."
 
-#: ../camera.rst:201
+#: ../camera.rst:204
 msgid ""
 "Некорректное задание лимитов по расстоянию либо углу подъема приведет к "
 "отключению опции ``Camera Move Style > Camera Limits > Use Distance "
@@ -366,25 +339,25 @@ msgstr ""
 "Setting incorrect limits for distance or inclination angle will disable the "
 "``Camera Move Style > Camera Limits > Use Distance Limits`` option."
 
-#: ../camera.rst:204
+#: ../camera.rst:207
 msgid "*Camera Move Style > Camera Limits > Use Horizontal Rotation*"
 msgstr ""
 
-#: ../camera.rst:204
+#: ../camera.rst:207
 msgid ""
 "Разрешить вращение камеры в плоскости XOY Blender'а относительно опорной "
 "точки. Становятся доступными при включении опции ``Camera Move Style > "
 "Camera Limits > Use Distance Limits``. По умолчанию включено."
 msgstr ""
 "Allow camera rotation in Blender's XOY plane around to the pivot point. "
-"Becomes available upon turning ``Camera Move Style > Camera Limits > "
-"Use Distance Limits`` setting on. Enabled by default."
+"Becomes available upon turning ``Camera Move Style > Camera Limits > Use "
+"Distance Limits`` setting on. Enabled by default."
 
-#: ../camera.rst:220
+#: ../camera.rst:223
 msgid "**Особенности задания ограничений**"
 msgstr "**Peculiarities of Limiting Settings**"
 
-#: ../camera.rst:222
+#: ../camera.rst:225
 msgid ""
 "Для EYE/TARGET камеры перемена мест значений *Left/Right* или *Down/Up* "
 "приводит к движению по противоположной дуге окружности вращения."
@@ -392,7 +365,7 @@ msgstr ""
 "For EYE/TARGET cameras, interchanging *Left/Right* or *Down/Up* values "
 "results in movement along the opposite arc of a circle."
 
-#: ../camera.rst:236
+#: ../camera.rst:239
 msgid ""
 "При ограничении горизонтального и вертикального вращения камеры можно "
 "выбрать пространство координат:"
@@ -400,11 +373,11 @@ msgstr ""
 "When limiting the camera's horizontal and vertical rotation, it is possible "
 "to choose between the following coordinate spaces:"
 
-#: ../camera.rst:239
+#: ../camera.rst:242
 msgid "*Camera Space*"
 msgstr ""
 
-#: ../camera.rst:239
+#: ../camera.rst:242
 msgid ""
 "Все углы отсчитываются относительно начального положения и ориентации "
 "камеры."
@@ -412,11 +385,11 @@ msgstr ""
 "All angles are measured relative to the initial camera position and "
 "orientation."
 
-#: ../camera.rst:242
+#: ../camera.rst:245
 msgid "*World Space*"
 msgstr ""
 
-#: ../camera.rst:242
+#: ../camera.rst:245
 msgid ""
 "Горизонтальные углы отсчитываются относительно направления оси Y в "
 "пространстве мировых координат, вертикальные - относительно плоскости XOY в "
@@ -426,44 +399,36 @@ msgstr ""
 "vertical angles are measured relative to the Blender's XOY plane in world "
 "space."
 
-#: ../camera.rst:244
+#: ../camera.rst:247
 msgid "Значение по умолчанию: ``Camera Space``."
 msgstr "Default value: ``Camera Space``."
 
-#: ../camera.rst:246
+#: ../camera.rst:249
 msgid "Ограничения по горизонтали на примере TARGET камеры:"
 msgstr "Horizontal limits by the example of the TARGET camera:"
 
-#: ../camera.rst:260
+#: ../camera.rst:263
 msgid "Ограничения по вертикали на примере TARGET камеры:"
 msgstr "Vertical limits by the example of the TARGET camera:"
 
-#: ../camera.rst:277
+#: ../camera.rst:280
 msgid "Управление камерой через API"
 msgstr "Camera Controls API"
 
-#: ../camera.rst:279
+#: ../camera.rst:282
 msgid "Основные функции управления камерой находятся в модуле ``camera.js``."
 msgstr ""
 "Basic camera controls method are contained in the ``camera.js`` module."
 
-#: ../camera.rst:281
-msgid ""
-"При работе с камерой через API (вращение, выставление ограничений) отсчет "
-"угловых координат ведется в системе координат движка следующим образом:"
-msgstr ""
-"When working with camera API (rotation, setting limits), all angles are "
-"defined in the engine's coordinate system as follows:"
-
-#: ../camera.rst:283
+#: ../camera.rst:286
 msgid "Для типов ``TARGET/HOVER``:"
 msgstr "For the ``TARGET/HOVER`` camera:"
 
-#: ../camera.rst:297
+#: ../camera.rst:300
 msgid "Для типа ``EYE``:"
 msgstr "For the ``EYE`` camera:"
 
-#: ../camera.rst:313
+#: ../camera.rst:316
 msgid ""
 "При выставлении лимитов перемещения для камеры типа ``HOVER`` значения "
 "лимитов будут соответствовать осям системы координат движка:"
@@ -471,19 +436,19 @@ msgstr ""
 "When setting translation limits for the ``HOVER`` camera, the limits' values"
 " will correspond to the engine's coordinate axis as follows:"
 
-#: ../camera.rst:315
+#: ../camera.rst:318
 msgid "``Horizontal Translation Limits`` - ось X"
 msgstr "``Horizontal Translation Limits`` - X axis"
 
-#: ../camera.rst:317
+#: ../camera.rst:320
 msgid "``Vertical Translation Limits`` - ось Z"
 msgstr "``Vertical Translation Limits`` - Z axis"
 
-#: ../camera.rst:335
+#: ../camera.rst:338
 msgid "**Изменение режима управления**"
 msgstr "**Changing Movement Style of the Camera**"
 
-#: ../camera.rst:337
+#: ../camera.rst:340
 msgid ""
 "Для изменения режима управления камерой (опция в Blender - :ref:`Blend4Web >"
 " Move Style <camera_move_style>`) достаточно использовать метод "
@@ -493,7 +458,7 @@ msgstr ""
 "<camera_move_style>` option in Blender) can be changed by using the "
 "``set_camera_move_style()`` method of the ``app.js`` module:"
 
-#: ../camera.rst:348
+#: ../camera.rst:351
 msgid ""
 "Если приложение не использует функционал модуля ``app.js``, для этих же "
 "целей можно использовать метод ``set_move_style()`` модуля ``camera.js``:"
@@ -501,7 +466,7 @@ msgstr ""
 "If an application does not use the ``app.js`` module, this can be achieved "
 "by using the ``set_move_style()`` method of the ``camera.js`` module:"
 
-#: ../camera.rst:360
+#: ../camera.rst:363
 msgid ""
 "При изменении режима происходит сброс лимитов перемещения и позиции опорной "
 "точки (для камер типа ``TARGET`` и ``HOVER``), поэтому их необходимо "
@@ -511,3 +476,54 @@ msgstr ""
 "camera movement limits and the pivot position (for ``TARGET`` and ``HOVER`` "
 "cameras). These parameters should be set again by using the corresponding "
 "methods of the ``camera.js`` module."
+
+#: ../camera.rst:284
+msgid ""
+"При работе с камерой через API (вращение, выставление ограничений) отсчет "
+"угловых координат ведется в :ref:`системе координат движка "
+"<b4w_blender_coordinates>` следующим образом:"
+msgstr ""
+"When working with the camera's APIs (rotation, setting limits), all angles are "
+"defined in the :ref:`engine's coordinate system <b4w_blender_coordinates>` "
+"as follows:"
+
+#: ../camera.rst:28
+msgid ""
+"В режиме нависания камера движется параллельно горизонтальной опорной "
+"плоскости."
+msgstr ""
+"In the ``Hover`` mode the camera is gliding over the horizontal plane."
+
+#: ../camera.rst:181
+msgid ""
+"Задание минимального и максимального расстояний от камеры до точки "
+"пересечения (опорная точка) направления взгляда камеры с горизонтальной "
+"опорной плоскостью (по умолчанию с плоскостью XOY мировых координат в "
+"Blender'е). Допустимые значения: *Min* :math:`\\le` *Max*. При отключении "
+"камера будет свободно двигаться вдоль оси Z мировых координат в Blender'е, "
+"опорная точка не будет задана, а настройки ``Camera Move Style > Camera "
+"Limits > Use Horizontal Translation Limits`` и ``Camera Move Style > Camera "
+"Limits > Use Vertical Translation Limits`` будут ограничивать позицию самой "
+"камеры. По умолчанию отключено."
+msgstr ""
+"Set minimum and maximum distances from the camera to the point of "
+"intersection between the camera's view direction and the horizontal reference plane "
+"(Blender's world XOY plane by default). Allowable values: *Min* :math:`\\le`"
+" *Max*. If turned off, the camera will freely move along Blender's world Z "
+"axis, the pivot point will not be defined and the ``Camera Move Style > "
+"Camera Limits > Use Horizontal Translation Limits`` and ``Camera Move Style "
+"> Camera Limits > Use Vertical Translation Limits`` settings will limit the "
+"position of the camera itself. Disabled by default."
+
+#: ../camera.rst:188
+msgid "*Camera Move Style > Camera Limits > Zero Level*"
+msgstr ""
+
+#: ../camera.rst:188
+msgid ""
+"Расстояние от опорной плоскости камеры до центра координат. Доступно при "
+"включении опции ``Camera Move Style > Camera Limits > Use Distance Limits``."
+msgstr ""
+"A distance between reference plane and the coordinates origin."
+"Avaliable in ``Hover`` move style with the "
+"``Camera Move Style > Camera Limits > Use Distance Limits`` option enabled."

@@ -234,12 +234,12 @@ class B4W_ObjectReflections(ObjectButtonsPanel, Panel):
 
         if obj.b4w_reflective:
             col.prop(obj, "b4w_reflection_type", text="Type")
+
             if obj.b4w_reflection_type == "PLANE":
                 index = obj.b4w_refl_plane_index
                 locked_cons = get_locked_track_constraint(obj, index)
-
-                row = col.row()
-                row.prop(locked_cons, "target", text="Reflection Plane")
+                col.label("Reflection Plane:")
+                col.prop(locked_cons, "target", text="")
 
         col = split.column()
         col.prop(obj, "b4w_reflexible", text="Reflexible")

@@ -638,94 +638,74 @@ exports.clone_object_json = function(obj) {
 }
 
 /**
- * Clone object alone (do not follow datablock links)
- * object must be one of datablock entities
- * TODO: Do something with Float32Arrays links
- */
-exports.clone_object = function(obj, bpy_data) {
-
-    var links = [];
-
-    for (var datablock in bpy_data) {
-        var block_objs = bpy_data[datablock];
-
-        if (block_objs)
-            for (var j = 0; j < block_objs.length; j++)
-                links.push(block_objs[j]);
-    }
-
-    var new_obj = clone_iteration(obj, links);
-    return new_obj
-}
-
-function clone_iteration(obj, links) {
-    var new_obj = (obj instanceof Array) ? [] : {};
-
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object") &&
-                (links.indexOf(obj[i]) == -1) &&
-                !(obj[i] instanceof Float32Array)) {
-
-            //links.push(obj[i]);
-            new_obj[i] = clone_iteration(obj[i], links);
-
-        } else
-            new_obj[i] = obj[i];
-    }
-
-    return new_obj;
-}
-
-/**
  * Clone object recursively
  * operation is dangerous because of possible cyclic links
  */
 exports.clone_object_r = function(obj) {
-    var new_obj = (obj instanceof Array) ? [] : {};
-
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object")) {
-            if (obj[i] instanceof Float32Array)
-                new_obj[i] = new Float32Array(obj[i]);
-            else if (obj[i] instanceof Uint32Array)
-                new_obj[i] = new Uint32Array(obj[i]);
-            else if (obj[i] instanceof Uint16Array)
-                new_obj[i] = new Uint16Array(obj[i]);
-            else
-                new_obj[i] = exports.clone_object_r(obj[i]);
-        } else
-            new_obj[i] = obj[i];
+    if (!(obj instanceof Object)) {
+        return obj;
     }
 
-    return new_obj;
+    var obj_clone;
+
+    var Constructor = obj.constructor;
+
+    switch (Constructor) {
+    case Float32Array:
+    case Uint32Array:
+    case Uint16Array:
+        obj_clone = new Constructor(obj);
+        break;
+    case Array:
+        obj_clone = new Constructor(obj.length);
+
+        for (var i = 0; i < obj.length; i++)
+            obj_clone[i] = exports.clone_object_r(obj[i]);
+
+        break;
+    default:
+        obj_clone = new Constructor();
+
+        for (var prop in obj)
+            obj_clone[prop] = exports.clone_object_r(obj[prop]);
+
+        break;
+    }
+
+    return obj_clone;
 }
 
 /**
  * Clone object non-recursively
  */
 exports.clone_object_nr = function(obj) {
+
     var new_obj = (obj instanceof Array) ? [] : {};
 
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object")) {
-            if (obj[i] instanceof Float32Array)
-                new_obj[i] = new Float32Array(obj[i]);
-            else if (obj[i] instanceof Uint32Array)
-                new_obj[i] = new Uint32Array(obj[i]);
-            else if (obj[i] instanceof Uint16Array)
-                new_obj[i] = new Uint16Array(obj[i]);
-            else if (obj[i] instanceof Array)
-                new_obj[i] = obj[i].slice(0);
-            else
-                new_obj[i] = obj[i];
+    for (var prop in obj) {
+        if (obj[prop] instanceof Object) {
+
+            var Constructor = obj[prop].constructor;
+
+            switch (Constructor) {
+            case Float32Array:
+            case Uint32Array:
+            case Uint16Array:
+                new_obj[prop] = new Constructor(obj[prop]);
+                break;
+            case Array:
+                new_obj[prop] = obj[prop].slice(0);
+                break;
+            default:
+                new_obj[prop] = obj[prop];
+                break;
+            }
         } else
-            new_obj[i] = obj[i];
+            new_obj[prop] = obj[prop];
     }
 
     return new_obj;
-
 }
-
 
 exports.is_mesh = function(obj) {
     if (obj["type"] === "MESH")
@@ -2292,8 +2272,15 @@ exports.calc_returning_angle = function(angle, min_angle, max_angle) {
     return 0;
 }
 
-exports.smooth_step = function(t) {
+exports.smooth_step = function(t, min, max) {
+    if (isFinite(min) && isFinite(max))
+        t = clamp(t, min, max);
+
     return t * t * (3.0 - 2.0 * t);
+}
+
+exports.lerp = function(t, from, to) {
+    return from + t * (to - from);
 }
 
 exports.arrays_have_common = function(arr_1, arr_2) {
@@ -2357,5 +2344,53 @@ exports.lin_to_srgb = function(color, dest) {
     return dest;
 }
 
+exports.normpath_preserve_protocol = function(dir_path) {
+    var separated_str = dir_path.split('://',2);
+    if (separated_str.length > 1) {
+        separated_str[1] = normpath(separated_str[1]);
+        return separated_str.join('://');
+    } else
+        return normpath(dir_path);
+}
+
+/**
+ * Normalize path, based on python os.path.normpath() function
+ */
+function normpath(path) {
+    var sep = '/';
+    var empty = '';
+    var dot = '.';
+    var dotdot = '..';
+
+    if (path == empty)
+        return dot;
+
+    var initial_slashes = (path.indexOf(sep) == 0) | 0;
+
+    // allow one or two initial slashes, more than two treats as single
+    if (initial_slashes && (path.indexOf(sep + sep) == 0)
+            && (path.indexOf(sep + sep + sep) != 0))
+        initial_slashes = 2;
+
+    var comps = path.split(sep);
+    var new_comps = [];
+    for (var i = 0; i < comps.length; i++) {
+        var comp = comps[i];
+        if (comp == empty || comp == dot)
+            continue;
+        if (comp != dotdot || (!initial_slashes && !new_comps.length)
+                || (new_comps.length && (new_comps[new_comps.length - 1] == dotdot)))
+            new_comps.push(comp);
+        else if (new_comps.length)
+            new_comps.pop();
+    }
+
+    comps = new_comps;
+    path = comps.join(sep);
+    for (var i = 0; i < initial_slashes; i++)
+        path = sep + path;
+
+    return path || dot;
+}
 
 }

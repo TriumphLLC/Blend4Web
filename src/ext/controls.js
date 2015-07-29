@@ -27,6 +27,8 @@
  * @module controls
  * @local ManifoldCallback
  * @local ManifoldLogicFunction
+ * @local CollisionPayload
+ * @local RayPayload
  */
 b4w.module["controls"] = function(exports, require) {
 
@@ -44,8 +46,6 @@ var m_print = require("__print");
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
  * object to communicate between different manifolds.
  */
-
-
 /**
  * Manifold's logic function. Specifies a logic expression which consists of
  * sensor values. This logic expression will be evaluated every frame. As a
@@ -54,6 +54,27 @@ var m_print = require("__print");
  * @callback ManifoldLogicFunction
  * @param {Array} s Numeric array with sensor values.
  * @returns {Number} Result of evaluation of the logic expression
+ */
+/**
+ * Collision sensor payload.
+ * @callback CollisionPayload
+ * @param {?Object3D} coll_obj The target collision object, i.e the object
+ * the source object collides with (null for no collision or when this object 
+ * is represented by collision material).
+ * @param {?Vec3} coll_pos Position of collision point.
+ * @param {?Vec3} coll_norm Normal of collision point.
+ * @param {?Number} coll_dist Distance between collision points of colliding
+ * objects.
+ */
+/**
+ * Ray sensor payload.
+ * @callback RayPayload
+ * @param {Number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * or -1 if there is no hit anymore.
+ * @param {?Object3D} obj_hit The hit object.
+ * @param {Number} hit_time Time the hit happened.
+ * @param {Vec3} hit_pos Hit position in world space.
+ * @param {Vec3} hit_norm Hit normal in world space.
  */
 
 /**
@@ -93,6 +114,15 @@ exports.CT_SHOT = m_ctl.CT_SHOT;
  * @const module:controls.CT_LEVEL
  */
 exports.CT_LEVEL = m_ctl.CT_LEVEL;
+
+/**
+ * Manifold control type: change.
+ * Such manifold generates a single positive pulse (+1) once the value
+ * of any sensor is changed. The logic function is ignored.
+ * Produces no negative pulses.
+ * @const module:controls.CT_CHANGE
+ */
+exports.CT_CHANGE = m_ctl.CT_CHANGE;
 
 /**
  * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
@@ -565,9 +595,10 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * Detects collisions between the object and the entities (objects or physics
  * materials) with the specified collision ID. If the collision ID is not
  * specified, the sensor will detect collisions with any entities.
+ * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj Collision object.
- * @param {String} [collision_id="ANY"] Collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID
  * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
  * @returns {Sensor} Sensor object
@@ -599,6 +630,7 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * Checks intersection of this ray with the specified collision ID. If the
  * collision ID is not specified, the sensor will detect collisions with any
  * entities.
+ * This sensor carries the following {@link module:controls~RayPayload|payload}.
  * @method module:controls.create_ray_sensor
  * @param {Object3D} obj_src Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space.

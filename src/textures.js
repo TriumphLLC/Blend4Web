@@ -378,7 +378,6 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
                     1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
         break;
 
-    case "VORONOI":
     case "BLEND":
         return null;
 
@@ -389,7 +388,8 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
     }
 
     if (tex_type == "NONE" && !(bpy_texture["b4w_enable_canvas_mipmapping"] && 
-            bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D")
+            bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D"
+            || tex_type == "IMAGE" && bpy_texture["image"]["source"] == "MOVIE")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else {
         if (cfg_def.intel_cubemap_hack && tex_type == "ENVIRONMENT_MAP")
@@ -681,44 +681,47 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             // Restore default OpenGL state in case it was changed earlier
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
 
-            var dim = image_data.width / 3;
+            var img_dim = image_data.width / 3;
 
-            if (check_cube_map_size(dim,dim)) {
-                m_print.error("Cubemap texture \"" + filepath 
-                        + "\" has unsupported size: " + image_data.width + "x" 
-                        + image_data.height + ". Max available: " 
+            if (check_cube_map_size(img_dim, img_dim)) {
+                m_print.warn("Cubemap texture \"" + filepath
+                        + "\" has unsupported size: " + image_data.width + "x"
+                        + image_data.height + ". Max available: "
                         + cfg_def.max_cube_map_size * 3 + "x"
-                        + cfg_def.max_cube_map_size * 2 + ".");
-                return;
-            }
+                        + cfg_def.max_cube_map_size * 2 + ". "
+                        + "Reduced image size will be used.");
+                var scale_fac = cfg_def.max_cube_map_size / img_dim;
+                var tex_dim = image_data.width / 3 * scale_fac;
+            } else
+                var tex_dim = img_dim;
 
             for (var i = 0; i < 6; i++) {
                 var info = infos[i];
 
                 var tmpcanvas = document.createElement("canvas");
-                tmpcanvas.width = dim;
-                tmpcanvas.height = dim;
+                tmpcanvas.width = tex_dim;
+                tmpcanvas.height = tex_dim;
                 var ctx = tmpcanvas.getContext("2d");
 
                 // OpenGL ES 2.0 Spec, 3.7.5 Cube Map Texture Selection
                 // vertical flip for Y, horizontal flip for X and Z
                 if (info[0] == "POSITIVE_Y" || info[0] == "NEGATIVE_Y") {
-                    ctx.translate(0, dim);
+                    ctx.translate(0, tex_dim);
                     ctx.scale(1, -1);
                 } else {
-                    ctx.translate(dim, 0);
+                    ctx.translate(tex_dim, 0);
                     ctx.scale(-1, 1);
                 }
 
-                ctx.drawImage(image_data, info[1] * dim, info[2] * dim, dim, dim,
-                    0, 0, dim, dim);
+                ctx.drawImage(image_data, info[1] * img_dim, info[2] * img_dim,
+                              img_dim, img_dim, 0, 0, tex_dim, tex_dim);
 
                 _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + info[0]], 0, _gl.RGBA,
                     _gl.RGBA, _gl.UNSIGNED_BYTE, tmpcanvas);
             }
 
-            texture.width = 3 * dim;
-            texture.height = 2 * dim;
+            texture.width = 3 * tex_dim;
+            texture.height = 2 * tex_dim;
 
             if (is_non_power_of_two(image_data.width / 3, image_data.height / 2)) {
                 m_print.warn("using NPOT cube map texture", filepath);

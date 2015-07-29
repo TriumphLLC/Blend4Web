@@ -915,8 +915,8 @@ msgid ""
 "например, в одном и том же include-файле - это необходимо для корректной "
 "валидации шейдеров."
 msgstr ""
-"The ``#nodes_main``, ``#nodes_global`` and ``#lamps_main`` directives are recommended"
-" to use in the file, containing these shader nodes description, "
+"The ``#nodes_main``, ``#nodes_global`` and ``#lamps_main`` directives are "
+"recommended to use in the file, containing these shader nodes description, "
 "for example, in the same include-file. This is necessary for the correct "
 "shader validation."
 
@@ -1177,3 +1177,43 @@ msgstr ""
 msgid ""
 "В файле FILE_NAME объявлена переменная NAME, которая нигде не используется."
 msgstr "An unused variable NAME is declared in the FILE_NAME file."
+
+#: ../developers_advanced.rst:564
+msgid "Перевод аддона"
+msgstr "Addon's translation"
+
+#: ../developers_advanced.rst:566
+msgid ""
+"Для перевода новых текстовых строк необходимо выполнить ряд подготовительных"
+" действий."
+msgstr "To translate the new text strings some prepaparing must be done."
+
+#: ../developers_advanced.rst:568
+msgid ""
+"Первым делом убедитесь, что у вас установлена программа *Subversion*. Затем "
+"склонируйте репозиторий с переводами Blender'a. Сделать это можно следующей "
+"командой:"
+msgstr "At first be sure you have *Subversion* installed. Then clone the"
+"repository with Blender's translations. You can use this command:"
+
+#: ../developers_advanced.rst:574
+msgid ""
+"Вторым шагом будет подключение и настройка аддона *Manage UI translations*. "
+"Единственно важной настройкой является ``Translation root``, где необходимо "
+"указать путь к репозиторию из первого шага."
+msgstr "The second step is to install and to set up the "
+"*Manage UI translations* addon.The only option we'll need is "
+"``Translation root`` where the path to the directory from the step one must "
+"be specified."
+
+#: ../developers_advanced.rst:580
+msgid ""
+"Затем необходимо вызвать скрипт translator.py из директории /scripts для "
+"обновления файла *ru_RU.po*:"
+msgstr "Then the translator.py script from the /scripts directory must be "
+"run to update *ru_RU.po* file:"
+
+#: ../developers_advanced.rst:586
+msgid "Теперь осталось открыть этот файл и написать перевод новых строк."
+msgstr "The only thing left is to open this file and write the translation "
+"of the new strings."

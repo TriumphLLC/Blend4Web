@@ -43,4 +43,12 @@ exports.get_timeline = m_time.get_timeline;
  */
 exports.animate = m_time.animate;
 
+/**
+ * Clear the animation.
+ * @method module:time.clear_animation
+ * @param {Number} id Animator ID
+ */
+exports.clear_animation = m_time.clear_animation;
+
+
 }

@@ -4,6 +4,8 @@
 <title>Blend4Web Scene Viewer</title>
 <meta charset="utf-8">
 
+<link rel="shortcut icon" href="images/favicon.png"/>
+
 <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" href="colorpicker.css" type="text/css" />
 <link rel="stylesheet" href="viewer.css" type="text/css" />
@@ -12,7 +14,7 @@
 <script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
 <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
 <script type="text/javascript" src="colorpicker.js"></script>
 
 <script type="text/javascript" src="../../src/b4w.js"></script>
@@ -60,7 +62,6 @@
 <script type="text/javascript" src="../../src/version.js"></script>
 
 <script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
-<script type="text/javascript" src="../../src/libs/gpp_eval.js"></script>
 <script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
 <script type="text/javascript" src="../../src/libs/md5.js"></script>
 
@@ -85,7 +86,6 @@
 <script type="text/javascript" src="../../src/ext/rgb.js"></script>
 <script type="text/javascript" src="../../src/ext/scenes.js"></script>
 <script type="text/javascript" src="../../src/ext/sfx.js"></script>
-<script type="text/javascript" src="../../src/ext/shaders.js"></script>
 <script type="text/javascript" src="../../src/ext/textures.js"></script>
 <script type="text/javascript" src="../../src/ext/time.js"></script>
 <script type="text/javascript" src="../../src/ext/tsr.js"></script>
@@ -331,8 +331,16 @@
                     <div><div id="light_color" class="color_selector"><div></div></div></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="light_energy">Energy:</label>
-                    <input id="light_energy" data-highlight="true" min="0" max="10.0" value="0" type="range" step="0.01">
+                    <label for="rude_light_energy">Energy coarse:</label>
+                    <input id="rude_light_energy" data-highlight="true" min="0" max="100.0" value="0" type="range" step="1">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="pre_light_energy">Energy precise:</label>
+                    <input id="pre_light_energy" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_energy">Light energy: </label>
+                    <label id="light_energy"></label>
                 </div>
 
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -781,7 +789,7 @@
                     <input id="small_glow_mask_coeff" data-highlight="true" value="2.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="large_glow_mask_coeff">Large glow mask intensity:</label> 
+                    <label for="large_glow_mask_coeff">Large glow mask intensity:</label>
                     <input id="large_glow_mask_coeff" data-highlight="true" value="2.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -906,7 +914,7 @@
                     <input id="canvas_rf" data-highlight="true" value="1" min="1" max="10" type="range" step="1">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <input type="button" value="Make Screenshot" 
+                    <input type="button" value="Make Screenshot"
                         id="make_screenshot" data-inline="true"
                         data-icon="camera" data-mini="true" />
                 </div>

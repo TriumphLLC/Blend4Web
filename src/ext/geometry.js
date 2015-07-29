@@ -27,8 +27,7 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
         return null;
     }
 
-    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN") ||
-            m_batch.find_batch_material(obj, mat_name, "NODES");
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     if (batch) {
         var bufs_data = batch.bufs_data;
         if (bufs_data && bufs_data.pointers
@@ -58,8 +57,7 @@ exports.extract_index_array = function(obj, mat_name) {
         return null;
     }
 
-    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN") ||
-            m_batch.find_batch_material(obj, mat_name, "NODES");
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
 
     if (batch) {
         var bufs_data = batch.bufs_data;
@@ -84,7 +82,7 @@ exports.extract_index_array = function(obj, mat_name) {
  * @param {Float32Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
-    var types = ["MAIN", "NODES", "DEPTH", "COLOR_ID"];
+    var types = ["MAIN", "DEPTH", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);
@@ -118,7 +116,7 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
 exports.override_geometry = function(obj, mat_name, ibo_array,
                                         positions_array, smooth_normals) {
 
-    var types = ["MAIN", "NODES", "DEPTH", "COLOR_ID"];
+    var types = ["MAIN", "DEPTH", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);

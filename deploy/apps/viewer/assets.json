@@ -175,6 +175,10 @@
                 "load_file": "materials/material_matcap.json"
             },
             {
+                "name": "Node Alpha Clip",
+                "load_file": "materials/node_alpha_clip.json"
+            },
+            {
                 "name": "Node Front Back",
                 "load_file": "materials/node_front_back_mask.json"
             },
@@ -240,6 +244,10 @@
             {
                 "name": "Particles Rotation",
                 "load_file": "particles/particles_rotation.json"
+            },
+            {
+                "name": "Soft Particles",
+                "load_file": "particles/soft_particles.json"
             }
         ]
     },
@@ -313,7 +321,7 @@
                 "load_file": "../tutorials/examples/web_page_integration/flying_letters.json"
             },
             {
-                "name": "Game - Main Scene - Level 01 - p7",
+                "name": "Pyatigor's Tale - Level 01",
                 "load_file": "../tutorials/examples/making_a_game_p7-12/main_scene_level_01.json"
             },
             {

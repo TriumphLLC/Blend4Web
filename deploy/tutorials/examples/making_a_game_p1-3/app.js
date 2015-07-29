@@ -120,28 +120,32 @@ var _vec3_tmp4 = new Float32Array(3);
  * @param {Boolean}  [options.key_pause_enabled=true] Enable key pause
  * @param {Boolean}  [options.autoresize=false] Automatically resize canvas to
  * match the size of container element.
+ * @param {Number}  [options.force_container_ratio=0] Automatically resize
+ * canvas container height, based on its width and passed ratio value.
  * @cc_externs canvas_container_id callback gl_debug show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
  * @cc_externs alpha alpha_sort_threshold assets_dds_available
  * @cc_externs assets_min50_available quality fps_wrapper_id
  * @cc_externs console_verbose physics_enabled autoresize track_container_position
+ * @cc_externs force_container_ratio
  */
 
 exports.init = function(options) {
     options = options || {};
 
+    var autoresize = false;
     var canvas_container_id = null;
     var callback = function() {};
-    var autoresize = false;
-    var gl_debug = false;
     var error_purge_elements = null;
     var fps_elem_id = null;
+    var force_container_ratio = 0;
     var fps_wrapper_id = null;
+    var gl_debug = false;
     var key_pause_enabled = true;
-    var sfx_mix_mode = false;
     var pause_invisible = true;
     var report_init_failure = true;
+    var sfx_mix_mode = false;
     var show_fps = false;
     var show_hud_debug_info = false;
     var track_container_position = false;
@@ -193,6 +197,9 @@ exports.init = function(options) {
         case "key_pause_enabled":
             key_pause_enabled = options.key_pause_enabled;
             break;
+        case "force_container_ratio":
+            force_container_ratio = options.force_container_ratio;
+            break;
         default:
             m_cfg.set(opt, options[opt]);
             break;
@@ -241,6 +248,13 @@ exports.init = function(options) {
 
         if (pause_invisible)
             handle_page_visibility();
+
+        if (force_container_ratio) {
+            m_main.append_loop_cb(function() {
+                canvas_container_elem.style.height =
+                    canvas_container_elem.clientWidth / force_container_ratio + "px";
+            });
+        }
 
         if (autoresize) {
             m_main.append_loop_cb(function() {
@@ -292,10 +306,15 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         report_init_failure, purge_elements) {
 
     var canvas_elem = document.createElement("canvas");
+    var append_to = document.getElementById(canvas_container_id);
 
     canvas_elem.style.position = "absolute";
     canvas_elem.style.left = 0;
     canvas_elem.style.top = 0;
+    canvas_elem.style.width = append_to.offsetWidth + "px";
+    canvas_elem.style.height = append_to.offsetHeight + "px";
+    canvas_elem.width = append_to.offsetWidth * window.devicePixelRatio;
+    canvas_elem.height = append_to.offsetHeight * window.devicePixelRatio;
 
     if (init_hud_canvas) {
         var canvas_elem_hud = document.createElement("canvas");
@@ -306,8 +325,6 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         canvas_elem_hud.style.pointerEvents = "none";
     } else
         var canvas_elem_hud = null;
-
-    var append_to = document.getElementById(canvas_container_id);
 
     if (!append_to) {
 
@@ -1063,6 +1080,8 @@ exports.disable_camera_controls = disable_camera_controls;
 function disable_camera_controls() {
     var cam = m_scs.get_active_camera();
 
+    _camera_controls_is_used = false;
+
     var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN",
             "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT",
             "MOUSE_WHEEL", "TOUCH_ZOOM", "ZOOM_INTERPOL", "MOUSE_X", "MOUSE_Y",
@@ -1076,18 +1095,21 @@ function disable_camera_controls() {
 }
 
 /**
- * Set the movement style for the active camera.
+ * Set the movement style for the active camera and reload controls assigned by
+ * {@link module:app.enable_camera_controls|enable_camera_controls()}.
  * @method module:app.set_camera_move_style
- * @param {CameraMoveStyle} move_style Camera movement style
+ * @param {CameraMoveStyle} move_style New camera movement style.
  */
 exports.set_camera_move_style = function(move_style) {
-    if (_camera_controls_is_used)
+    var disable_enable = _camera_controls_is_used;
+
+    if (disable_enable)
         disable_camera_controls();
 
     var cam = m_scs.get_active_camera();
     m_cam.set_move_style(cam, move_style);
 
-    if (_camera_controls_is_used)
+    if (disable_enable)
         enable_camera_controls(_disable_default_pivot, _disable_letter_controls);
 }
 
@@ -1190,15 +1212,23 @@ exports.disable_object_controls = function(obj) {
 
 /**
  * Enable engine controls.
- * Execute before using any of the controls.*() functions
+ * Registers common event listeners for input sensors. If you need different
+ * set of event handlers/parameters, register event listeners manually by
+ * using register_* functions from {@link module:controls}.
+ * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
+ * even when the mouse is leaving the HTML element.
  */
-exports.enable_controls = function() {
-    var canvas_elem = m_cont.get_canvas();
+exports.enable_controls = function(allow_element_exit) {
+    var elem = m_cont.get_container();
+
+    allow_element_exit = allow_element_exit || false;
 
     m_ctl.register_keyboard_events(document, false);
-    m_ctl.register_mouse_events(canvas_elem, true);
-    m_ctl.register_wheel_events(canvas_elem, true);
-    m_ctl.register_touch_events(canvas_elem, true);
+
+    m_ctl.register_mouse_events(elem, true, allow_element_exit);
+    m_ctl.register_wheel_events(elem, true);
+    m_ctl.register_touch_events(elem, true);
+
     m_ctl.register_device_orientation();
 }
 
@@ -1206,12 +1236,14 @@ exports.enable_controls = function() {
  * Disable engine controls.
  */
 exports.disable_controls = function() {
-    var canvas_elem = m_cont.get_canvas();
+    var elem = m_cont.get_container();
 
     m_ctl.unregister_keyboard_events(document);
-    m_ctl.unregister_mouse_events(canvas_elem);
-    m_ctl.unregister_wheel_events(canvas_elem);
-    m_ctl.unregister_touch_events(canvas_elem);
+
+    m_ctl.unregister_mouse_events(elem);
+    m_ctl.unregister_wheel_events(elem);
+    m_ctl.unregister_touch_events(elem);
+
     m_ctl.unregister_device_orientation();
 }
 
@@ -1418,9 +1450,9 @@ exports.get_url_params = function(allow_param_array) {
  * @param {Number} from Value from.
  * @param {Number} to Value to.
  * @param {Number} timeout Time for animation.
- * @param {String} opt_prefix Prefix of css-property (" scale(", "%" and etc).
- * @param {String} opt_suffix Suffix of css-property (" px", "%" and etc).
- * @param {Function} opt_callback Callback function.
+ * @param {String} [opt_prefix] Prefix of css-property (" scale(", "%" and etc).
+ * @param {String} [opt_suffix] Suffix of css-property (" px", "%" and etc).
+ * @param {GenericCallback} [opt_callback] Finish callback function.
  */
 exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_suffix, opt_callback) {
     if (!elem || !prop || !isFinite(from) || !isFinite(to) || !isFinite(timeout))
@@ -1430,24 +1462,25 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
     opt_suffix   = opt_suffix || "";
     opt_callback = opt_callback || function() {};
 
+    var elem_style  = elem.style;
     var vendor_prop = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-    if (elem.style[prop] != undefined) {
+    if (elem_style[prop] != undefined) {
 
-    } else if (elem.style["webkit" + vendor_prop] != undefined) {
+    } else if (elem_style["webkit" + vendor_prop] != undefined) {
         prop = "webkit" + vendor_prop;
-    } else if (elem.style["ms" + vendor_prop] != undefined) {
+    } else if (elem_style["ms" + vendor_prop] != undefined) {
         prop = "ms" + vendor_prop;
-    } else if (elem.style["moz" + vendor_prop] != undefined) {
+    } else if (elem_style["moz" + vendor_prop] != undefined) {
         prop = "moz" + vendor_prop;
     } else
         return;
 
     function css_anim_cb(val) {
-        elem.style[prop] = opt_prefix + val + opt_suffix;
+        elem_style[prop] = opt_prefix + val + opt_suffix;
 
         if (from > to && val <= to || from < to && val >= to) {
-            elem.style[prop] = opt_prefix + to + opt_suffix;
+            elem_style[prop] = opt_prefix + to + opt_suffix;
             opt_callback();
         }
     }
@@ -1463,7 +1496,7 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
  * @param {Number} from Value from.
  * @param {Number} to Value to.
  * @param {Number} timeout Time for animation.
- * @param {Function} opt_callback Callback function.
+ * @param {GenericCallback} [opt_callback] Finish callback function.
  */
 exports.attr_animate = function(elem, attr_name, from, to, timeout, opt_callback) {
     if (!elem || !attr_name || !isFinite(from) || !isFinite(to) || !isFinite(timeout))

@@ -11,10 +11,9 @@ b4w.module["__prerender"] = function(exports, require) {
 var m_cfg    = require("__config");
 var m_debug  = require("__debug");
 var m_geom   = require("__geometry");
-var m_util   = require("__util");
 var m_render = require("__renderer");
-
-var m_vec3  = require("vec3");
+var m_util   = require("__util");
+var m_vec3   = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 
@@ -112,7 +111,7 @@ function zsort(subs) {
 
     // remember new coords
     if (cam_updated)
-        subs.zsort_eye_last.set(eye);
+        m_vec3.copy(eye, subs.zsort_eye_last);
 }
 
 /**

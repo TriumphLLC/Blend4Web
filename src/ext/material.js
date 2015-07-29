@@ -453,6 +453,7 @@ exports.get_alpha_factor = function(obj, mat_name) {
  * @param {Object3D} obj Object
  * @param {String} mat_name Material name
  * @returns {(MaterialExtParams|null)} Material extended params or null
+ * @cc_externs reflect_factor fresnel fresnel_factor parallax_scale parallax_steps
  */
 exports.get_material_extended_params = function(obj, mat_name) {
 

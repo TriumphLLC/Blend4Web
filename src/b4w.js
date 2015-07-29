@@ -104,6 +104,11 @@
  */
 
 /**
+ * Generic callback function with no parameters.
+ * @callback GenericCallback
+ */
+
+/**
  * Blend4Web namespace.
  * @namespace
  */

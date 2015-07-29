@@ -18,9 +18,9 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 RUOPT = -D language='ru' -c conf_ru
 ENOPT = -D language='en' -c conf_en
 
-.PHONY: help clean html latexpdf gettext
+.PHONY: help clean html latexpdf gettext text
 
-all: clean gettext_build html
+all: clean gettext_build html text
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -76,3 +76,7 @@ gettext_build:
 
 sorttext:
 	python3 ../scripts/sort_doc_texts.py
+
+text:
+	$(SPHINXBUILD) -b text -c conf_en . ../deploy/doc/en/_sources/
+	@echo "Build en search pages."

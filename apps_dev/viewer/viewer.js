@@ -22,7 +22,6 @@ var m_nla      = require("nla");
 var m_rgb      = require("rgb");
 var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
-var m_shaders  = require("shaders");
 var m_storage  = require("storage");
 var m_trans    = require("transform");
 var m_util     = require("util");
@@ -377,7 +376,8 @@ function init_ui() {
     // lighting
     bind_control(set_lighting_params, "light_name", "string");
     bind_colpick(set_lighting_params, "light_color");
-    bind_control(set_lighting_params, "light_energy", "number");
+    bind_control(set_lighting_params, "pre_light_energy", "number");
+    bind_control(set_lighting_params, "rude_light_energy", "number");
     bind_control(set_lighting_params, "light_spot_size", "number");
     bind_control(set_lighting_params, "light_spot_blend", "number");
     bind_control(set_lighting_params, "light_distance", "number");
@@ -2089,8 +2089,12 @@ function set_water_material_params(value) {
 function get_lighting_params(light_obj) {
     var lparams = m_lights.get_light_params(light_obj);
     if(lparams) {
+        var pre_light_energy = lparams["light_energy"] - Math.floor(lparams["light_energy"]);
+        var rude_light_energy = Math.floor(lparams["light_energy"]);
         set_color_picker("light_color", lparams["light_color"]);
-        set_slider("light_energy", lparams["light_energy"]);
+        set_slider("pre_light_energy", pre_light_energy);
+        set_slider("rude_light_energy", rude_light_energy);
+        set_label("light_energy", rude_light_energy + pre_light_energy);
         set_label("light_type", lparams["light_type"]);
         if (lparams["light_type"] == "SPOT") {
             forbid_params(["light_spot_blend", "light_spot_size"], "enable");
@@ -2119,8 +2123,13 @@ function set_lighting_params(value) {
     if ("light_color" in value)
         light_params["light_color"] = value["light_color"];
 
-    if ("light_energy" in value)
-        light_params["light_energy"] = parseFloat(value["light_energy"]);
+    if ("pre_light_energy" in value)
+        light_params["light_energy"] = parseFloat(value["pre_light_energy"])
+                + get_slider_value("rude_light_energy");
+
+    if ("rude_light_energy" in value)
+        light_params["light_energy"] = parseFloat(value["rude_light_energy"])
+                + get_slider_value("pre_light_energy");
 
     if ("light_spot_size" in value)
         light_params["light_spot_size"] = parseFloat(value["light_spot_size"] * TO_RAD);
@@ -2133,6 +2142,7 @@ function set_lighting_params(value) {
 
     var lamp = m_scenes.get_object_by_name($("#light_name").val());
     m_lights.set_light_params(lamp, light_params);
+    set_label("light_energy", (m_lights.get_light_params(lamp)["light_energy"]).toFixed(2));
 }
 
 function get_sun_params() {
@@ -2540,6 +2550,10 @@ function set_slider(id, val) {
     $("#" + id).val(val);
     $("#" + id).slider("refresh");
     $("#" + id).trigger("change");
+}
+
+function get_slider_value(id) {
+    return parseFloat(document.getElementById(id).value);
 }
 
 function set_label(id, val) {

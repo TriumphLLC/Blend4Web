@@ -37,7 +37,7 @@ msgstr "Mobile version:"
 
 #: ../web_player.rst:29
 msgid "Использование"
-msgstr "Use"
+msgstr "Usage"
 
 #: ../web_player.rst:31
 msgid ""
@@ -208,18 +208,18 @@ msgstr ""
 "the meta tag ``title`` on the scene in Blender you can change that value to "
 "something else."
 
-#: ../web_player.rst:98
+#: ../web_player.rst:100
 msgid "Ошибки сцены"
 msgstr "Scene Errors"
 
-#: ../web_player.rst:100
+#: ../web_player.rst:102
 msgid ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 msgstr ""
 "If the player is used incorrectly it displays the corresponding errors."
 
-#: ../web_player.rst:103
+#: ../web_player.rst:105
 msgid ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
@@ -227,10 +227,10 @@ msgstr ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the file "
 "is corrupt;"
 
-#: ../web_player.rst:111
+#: ../web_player.rst:113
 msgid "атрибут ``load`` не найден или его значение пустое;"
 msgstr "the ``load`` attribute is not found or is void;"
 
-#: ../web_player.rst:119
+#: ../web_player.rst:121
 msgid "ошибка инициализации WebGL."
 msgstr "WebGL initialization error."

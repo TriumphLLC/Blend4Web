@@ -163,8 +163,9 @@ uniform PRECISION float u_view_max_depth;
 ============================================================================*/
 
 varying vec3 v_pos_world;
-#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT \
-        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
+#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || USE_NODE_TEX_COORD_NO
 varying vec3 v_normal;
 #endif
 
@@ -354,20 +355,13 @@ void main(void) {
     pos_clip.xy += u_subpixel_jitter * pos_clip.w;
 #endif
 
-#if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
-    get_shadow_coords(pos_clip);
-#elif SHADOW_USAGE == SHADOW_MAPPING_BLEND
-    get_shadow_coords(world.position, world.normal);
-#endif
-
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
         || REFRACTIVE || USE_NODE_B4W_REFRACTION
-    float xc = pos_clip.x;
-    float yc = pos_clip.y;
-    float wc = pos_clip.w;
-    v_tex_pos_clip.x = (xc + wc) / 2.0;
-    v_tex_pos_clip.y = (yc + wc) / 2.0;
-    v_tex_pos_clip.z = wc;
+    v_tex_pos_clip = clip_to_tex(pos_clip);
+#endif
+
+#if SHADOW_USAGE == SHADOW_MAPPING_BLEND
+    get_shadow_coords(world.position, world.normal);
 #endif
 
 #if REFRACTIVE && (!NODES || USE_NODE_B4W_REFRACTION)

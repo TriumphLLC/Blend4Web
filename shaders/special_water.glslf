@@ -158,16 +158,18 @@ varying vec3 v_pos_world;
 varying vec2 v_texcoord;
 #endif
 
-#if DYNAMIC
-varying vec3 v_normal;
-# if NUM_NORMALMAPS > 0
+#if NUM_NORMALMAPS > 0
 varying vec3 v_tangent;
 varying vec3 v_binormal;
-# endif
-# if GENERATED_MESH
+#endif
+
+#if DYNAMIC || NUM_NORMALMAPS > 0
+varying vec3 v_normal;
+#endif
+
+#if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
 varying vec3 v_calm_pos_world;
 # endif
-#endif
 
 #if SHORE_PARAMS
 varying vec3 v_shore_params;
@@ -250,19 +252,15 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
 
 void main(void) {
 
-#if DYNAMIC
-# if NUM_NORMALMAPS > 0
+#if NUM_NORMALMAPS > 0
     mat3 tbn_matrix = mat3(v_tangent, v_binormal, v_normal);
-# endif
+#endif
+
+#if DYNAMIC
     vec3 normal = normalize(v_normal);
-#else // DYNAMIC
-# if NUM_NORMALMAPS > 0
-    mat3 tbn_matrix = mat3(1.0, 0.0, 0.0,
-                           0.0, 0.0, -1.0,
-                           0.0, 1.0, 0.0);
-# endif
+#else
     vec3 normal = vec3(0.0, 1.0, 0.0);
-#endif // DYNAMIC
+#endif
 
 #if DYNAMIC && FOAM
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
@@ -277,7 +275,7 @@ void main(void) {
 #  endif // DYNAMIC
 # else
     vec2 texcoord = v_texcoord;
-# endif
+# endif // GENERATED_MESH
 #endif
 
 #if NUM_NORMALMAPS > 0
@@ -543,7 +541,7 @@ void main(void) {
     lin_to_srgb(color);
 
 #if !REFRACTIVE
-    // when there is no refraction make alpha stronger
+    // when there is no refractions make alpha stronger
     // in shiny areas and in areas with foam
     alpha = max(alpha, lresult.specular.r);
  #if FOAM

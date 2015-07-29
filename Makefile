@@ -76,15 +76,15 @@ reexport: reexport_json reexport_html
 
 .PHONY: reexport_json
 reexport_json:
-	@$(SH) ./$(SCRIPTSDIR)/reexporter.py json_only
+	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -j reexport
 
 .PHONY: reexport_html
 reexport_html:
-	@$(SH) ./$(SCRIPTSDIR)/reexporter.py html_only
+	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -h reexport
 
 .PHONY: report_broken_exports
 report_broken_exports:
-	@$(SH) ./$(SCRIPTSDIR)/reexporter.py report_only
+	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -jh report
 
 .PHONY: dist
 dist:
@@ -104,7 +104,7 @@ dist_addon_force:
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web.lst
 
 resave:
-	@$(SH) ./$(SCRIPTSDIR)/resaver.py
+	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -jh resave
 
 asan:
 	@$(SH) ./$(SCRIPTSDIR)/asan.py

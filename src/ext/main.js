@@ -130,7 +130,9 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     init_context(_elem_canvas_webgl, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
-    
+
+    shaders.load_shaders();
+
     if (cfg_def.ie11_touchscreen_hack)
         elem_canvas_webgl.style["touch-action"] = "none";
 
@@ -187,7 +189,8 @@ function get_context(canvas) {
             break;
     }
 
-    m_compat.detect_tegra_invalid_enum_issue(ctx);
+    if (ctx)
+        m_compat.detect_tegra_invalid_enum_issue(ctx);
 
     return ctx;
 }
@@ -579,7 +582,10 @@ exports.canvas_data_url = function(callback) {
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
 }
-
+/**
+ * Check using device.
+ * @method module:main.detect_mobile
+ */
 exports.detect_mobile = function() {
     return m_compat.detect_mobile();
 }

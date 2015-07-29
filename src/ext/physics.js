@@ -692,15 +692,19 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
 /**
  * Remove the collision test from the given object.
  * @method module:physics.remove_collision_test
- * @param {Object3D} obj Object 3D
- * @param {String} collision_id Collision ID
+ * @param {Object3D} obj Object 3D.
+ * @param {?String} collision_id Collision ID.
+ * @param {CollisionCallback} callback Collision callback.
  */
-exports.remove_collision_test = function(obj, collision_id) {
+exports.remove_collision_test = function(obj, collision_id, callback) {
     if (!m_phy.has_physics(obj)) {
         m_print.error("No physics for object " + obj["name"]);
         return;
     }
-    m_phy.remove_collision_test(obj, collision_id);
+
+    var collision_id = collision_id || "ANY";
+
+    m_phy.remove_collision_test(obj, collision_id, callback);
 }
 /**
  * Apply a new async collision impulse test to the given object.

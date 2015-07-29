@@ -1,13 +1,12 @@
 "use strict"
 
 /**
- * Auto-generated set of modules.
- * using glMatrix 2.1.0
- * NOTE: pay attention to quat.rotationTo() and quat.setAxes()
+ * Auto-generated set of math modules.
+ * based on glMatrix 2.1.0
+ * pay attention to parameters order, quat.rotationTo() and quat.setAxes()
  */
 
-b4w.module["vec3"] = function(exports, require) {
-
+b4w.module["__vec3"] = function(exports, require) {
 
 
 var GLMAT_EPSILON = 0.0000001;
@@ -713,9 +712,10 @@ if(typeof(exports) !== 'undefined') {
 }
 }
 
+b4w.module["vec3"] = b4w.module["__vec3"];
 
-b4w.module["vec4"] = function(exports, require) {
 
+b4w.module["__vec4"] = function(exports, require) {
 
 
 var GLMAT_EPSILON = 0.0000001;
@@ -1295,13 +1295,14 @@ if(typeof(exports) !== 'undefined') {
 }
 }
 
+b4w.module["vec4"] = b4w.module["__vec4"];
 
-b4w.module["quat"] = function(exports, require) {
 
+b4w.module["__quat"] = function(exports, require) {
 
-var vec3 = require("vec3");
-var vec4 = require("vec4");
-var mat3 = require("mat3");
+var vec3 = require("__vec3");
+var vec4 = require("__vec4");
+var mat3 = require("__mat3");
 
 var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
@@ -1864,9 +1865,10 @@ if(typeof(exports) !== 'undefined') {
 }
 }
 
+b4w.module["quat"] = b4w.module["__quat"];
 
-b4w.module["mat3"] = function(exports, require) {
 
+b4w.module["__mat3"] = function(exports, require) {
 
 
 var GLMAT_EPSILON = 0.0000001;
@@ -2462,9 +2464,10 @@ if(typeof(exports) !== 'undefined') {
 }
 }
 
+b4w.module["mat3"] = b4w.module["__mat3"];
 
-b4w.module["mat4"] = function(exports, require) {
 
+b4w.module["__mat4"] = function(exports, require) {
 
 
 var GLMAT_EPSILON = 0.0000001;
@@ -3663,5 +3666,7 @@ if(typeof(exports) !== 'undefined') {
     exports.mat4 = mat4;
 }
 }
+
+b4w.module["mat4"] = b4w.module["__mat4"];
 
 

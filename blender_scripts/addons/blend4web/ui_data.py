@@ -335,8 +335,8 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
-                row.prop(cam, "b4w_horizontal_translation_min", text="Min")
-                row.prop(cam, "b4w_horizontal_translation_max", text="Max")
+                row.prop(cam, "b4w_horizontal_translation_min", text="MinX")
+                row.prop(cam, "b4w_horizontal_translation_max", text="MaxX")
 
                 row = col.row()
                 row.prop(cam, "b4w_use_vertical_clamping", 
@@ -344,8 +344,8 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_vertical_clamping")
-                row.prop(cam, "b4w_vertical_translation_min", text="Min")
-                row.prop(cam, "b4w_vertical_translation_max", text="Max")
+                row.prop(cam, "b4w_vertical_translation_min", text="MinY")
+                row.prop(cam, "b4w_vertical_translation_max", text="MaxY")
 
             if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "HOVER":
                 row = col.row()
@@ -364,6 +364,10 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                 row.active = getattr(cam, "b4w_use_distance_limits")
                 row.prop(cam, "b4w_hover_angle_min", text="Down Angle")
                 row.prop(cam, "b4w_hover_angle_max", text="Up Angle")
+
+                row = col.row()
+                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.prop(cam, "b4w_hover_zero_level", text="Zero Level")
 
                 row = col.row()
                 row.active = getattr(cam, "b4w_use_distance_limits")

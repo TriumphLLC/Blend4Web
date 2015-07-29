@@ -8,11 +8,10 @@
  */
 b4w.module["__tsr"] = function(exports, require) {
 
+var m_mat4 = require("__mat4");
+var m_quat = require("__quat");
 var m_util = require("__util");
-
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
-var m_mat4 = require("mat4");
+var m_vec3 = require("__vec3");
 
 var _vec3_tmp = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
@@ -38,8 +37,18 @@ exports.from_values = function(x, y, z, s, qx, qy, qz, qw) {
     return tsr;
 }
 
-exports.copy = function(tsr, tsr2) {
-    tsr2.set(tsr);
+exports.copy = function(tsr, dest) {
+    // faster than .set()
+
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+    dest[3] = tsr[3];
+    dest[4] = tsr[4];
+    dest[5] = tsr[5];
+    dest[6] = tsr[6];
+    dest[7] = tsr[7];
+    return dest;
 }
 
 exports.identity = function(tsr) {

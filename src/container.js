@@ -84,7 +84,7 @@ exports.get_viewport_height = function() {
 exports.set_canvas_offsets = set_canvas_offsets;
 function set_canvas_offsets(left, top) {
     _viewport_layout.offset_left = left;
-    _viewport_layout.offset_top = top;   
+    _viewport_layout.offset_top = top;
 }
 
 exports.update_canvas_offsets = update_canvas_offsets;
@@ -161,6 +161,16 @@ exports.viewport_to_canvas_coords = function(viewport_x, viewport_y, dest, camer
     }
 
     return dest;
+}
+
+exports.is_child = function(elem) {
+
+    if (!elem || !elem.parentNode)
+        return false;
+    else if (elem.parentNode == _canvas_cont)
+        return true;
+    else
+        return exports.is_child(elem.parentNode);
 }
 
 }

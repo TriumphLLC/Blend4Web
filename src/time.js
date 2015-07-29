@@ -17,6 +17,7 @@ var _timeline_epoch = 0;
 
 var _timeouts = [];
 var _timeout_counter = 0;
+var _animator_counter = 0;
 
 var _animators = [];
 
@@ -60,6 +61,11 @@ function get_timeout_id() {
     return _timeout_counter;
 }
 
+function get_animation_id() {
+    _animator_counter++;
+    return _animator_counter;
+}
+
 /**
  * Same behavior as window.setTimeout()
  */
@@ -91,12 +97,24 @@ exports.clear_timeout = function(id) {
     }
 }
 
+exports.clear_animation = function(id) {
+    for (var i = _animators.length; i--;) {
+        var animator = _animators[i];
+
+        if (animator.id == id) {
+            _animators.splice(i, 1);
+            break;
+        }
+    }
+}
+
 exports.animate = function(from, to, timeout, anim_cb) {
 
     var duration = timeout / 1000;
+    var id = get_animation_id();
 
     var animator = {
-        //id: id,
+        id: id,
         callback: anim_cb,
         from: from,
         to: to,
@@ -107,6 +125,8 @@ exports.animate = function(from, to, timeout, anim_cb) {
     _animators.push(animator);
 
     anim_cb(from);
+
+    return id;
 }
 
 exports.reset = function(id) {
@@ -114,7 +134,9 @@ exports.reset = function(id) {
     _timeline_epoch = 0;
 
     _timeouts.length = 0;
+    _animators.length = 0;
     _timeout_counter = 0;
+    _animator_counter = 0;
 }
 
 }

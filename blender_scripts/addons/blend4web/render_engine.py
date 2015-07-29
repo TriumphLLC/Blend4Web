@@ -18,6 +18,8 @@
 
 import bpy
 
+_RENDER_PT_encoding = bpy.types.RENDER_PT_encoding
+
 _OBJECT_PT_delta_transform = bpy.types.OBJECT_PT_delta_transform
 _OBJECT_PT_relations_extras = bpy.types.OBJECT_PT_relations_extras
 _OBJECT_PT_duplication = bpy.types.OBJECT_PT_duplication
@@ -229,7 +231,7 @@ def get_supported_native_panels():
         "TEXTURE_MT_specials",
         "TEXTURE_MT_envmap_specials",
         "TEXTURE_PT_context_texture",
-        "TEXTURE_PT_preview",
+        # "TEXTURE_PT_preview",
         # "TEXTURE_PT_colors",
         # "TEXTURE_PT_clouds",
         # "TEXTURE_PT_wood",
@@ -243,7 +245,7 @@ def get_supported_native_panels():
         # "TEXTURE_PT_envmap",
         # "TEXTURE_PT_envmap_sampling",
         # "TEXTURE_PT_musgrave",
-        "TEXTURE_PT_voronoi",
+        # "TEXTURE_PT_voronoi",
         # "TEXTURE_PT_distortednoise",
         # "TEXTURE_PT_voxeldata",
         # "TEXTURE_PT_pointdensity",
@@ -299,6 +301,13 @@ class PHYSICS_PT_add_new(bpy.types.PHYSICS_PT_add):
     def poll(cls, context):
         rd = context.scene.render
         return not rd.use_game_engine and custom_poll(context)
+
+class RENDER_PT_encoding_new(bpy.types.RENDER_PT_encoding):
+    @classmethod
+    def poll(cls, context):
+        rd = context.scene.render
+        return (rd.image_settings.file_format in {'FFMPEG', 'XVID', 'H264', 'THEORA'}
+               and "BLEND4WEB" not in context.scene.render.engine)
 
 # cloth physics panels
 def custom_cloth_poll(context):
@@ -608,6 +617,7 @@ def register():
 
     bpy.utils.register_class(B4WRenderEngine)
 
+    global _RENDER_PT_encoding
     global _OBJECT_PT_delta_transform
     global _OBJECT_PT_relations_extras
     global _OBJECT_PT_duplication
@@ -663,6 +673,7 @@ def register():
     ##############
 
     # Replacing existent panels by subclasses with custom poll method
+    bpy.utils.unregister_class(_RENDER_PT_encoding)
     bpy.utils.unregister_class(_OBJECT_PT_delta_transform)
     bpy.utils.unregister_class(_OBJECT_PT_relations_extras)
     bpy.utils.unregister_class(_OBJECT_PT_duplication)
@@ -727,6 +738,7 @@ def register():
     ############
     # REGISTER #
     ############
+    bpy.utils.register_class(RENDER_PT_encoding_new)
     bpy.utils.register_class(OBJECT_PT_delta_transform_new)
     bpy.utils.register_class(OBJECT_PT_relations_extras_new)
     bpy.utils.register_class(OBJECT_PT_duplication_new)
@@ -789,6 +801,7 @@ def register():
     bpy.utils.register_class(PHYSICS_PT_softbody_field_weights_new)
 
 def unregister():
+    global _RENDER_PT_encoding
     global _OBJECT_PT_delta_transform
     global _OBJECT_PT_relations_extras
     global _OBJECT_PT_duplication
@@ -839,6 +852,7 @@ def unregister():
     ##############
     # UNREGISTER #
     ##############
+    bpy.utils.unregister_class(RENDER_PT_encoding_new)
     bpy.utils.unregister_class(OBJECT_PT_delta_transform_new)
     bpy.utils.unregister_class(OBJECT_PT_relations_extras_new)
     bpy.utils.unregister_class(OBJECT_PT_duplication_new)
@@ -903,6 +917,7 @@ def unregister():
     ############
     # REGISTER #
     ############
+    bpy.utils.register_class(_RENDER_PT_encoding)
     bpy.utils.register_class(_OBJECT_PT_delta_transform)
     bpy.utils.register_class(_OBJECT_PT_relations_extras)
     bpy.utils.register_class(_OBJECT_PT_duplication)

@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 6, 0),
+    "version": (15, 7, 0),
     "blender": (2, 75, 0),
     "b4w_format_version": "5.04",
     "location": "File > Import-Export",
@@ -38,6 +38,7 @@ for m in b4w_modules:
 import bpy
 from bpy.types import AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty, PointerProperty
+from . import translator
 
 PATH_TO_ASSETS = "apps_dev/viewer"
 ASSETS_NAME = "assets.json"
@@ -139,14 +140,18 @@ class B4WPreferences(AddonPreferences):
     # when defining this in a submodule of a python package.
     bl_idname = __name__
     b4w_src_path = StringProperty(name="Blend4Web SDK Directory", \
-            subtype='DIR_PATH', update=update_b4w_src_path)
+            subtype='DIR_PATH', update=update_b4w_src_path,
+            description="Path to SDK")
     b4w_port_number = IntProperty(name="Server Port", default=6687, min=0,
-            max=65535)
+            max=65535, description="Server port number")
     b4w_server_auto_start = BoolProperty(name="Run development server "
-            "automatically", default = True)
-    b4w_autodetect_sdk_path = bpy.props.StringProperty()
+            "automatically", default = True, description="Run on Startup")
     b4w_check_for_updates = BoolProperty(name="Check for updates",
-                        default = False)
+            default = False, description="Check for new addon version")
+    b4w_autodetect_sdk_path = bpy.props.StringProperty()
+    b4w_enable_ext_requests = BoolProperty(name="Enable External Requests",
+            default = False, description="Enable external requests to the server")
+
     b4w_available_for_update_version = bpy.props.StringProperty()
 
     b4w_reexport_paths = bpy.props.CollectionProperty(
@@ -167,6 +172,7 @@ class B4WPreferences(AddonPreferences):
         row = layout.row()
         row.prop(self, "b4w_server_auto_start", text="Run on Startup")
         row.prop(self, "b4w_port_number")
+        row.prop(self, "b4w_enable_ext_requests")
 
 
 def init_runtime_addon_data():
@@ -184,6 +190,7 @@ def register():
 
     nla_script.register()
 
+    bpy.app.translations.register("B4WTranslator", translator.get_translation_dict())
     # core
     properties.register()
     interface.register()
@@ -221,10 +228,14 @@ def register():
 
     bpy.app.handlers.load_post.append(mass_reexport.load_reexport_paths)
 
+    # NOTE: this line must be commented before translation creation start
     render_engine.register()
 
 def unregister():
+    # NOTE: this line must be commented before translation creation start
     render_engine.unregister()
+
+    bpy.app.translations.unregister("B4WTranslator")
 
     mass_reexport.unregister();
     nla_script.unregister()

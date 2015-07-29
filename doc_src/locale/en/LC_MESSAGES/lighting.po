@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-18 17:57\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-07-28 15:20+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -319,7 +319,7 @@ msgstr ""
 
 #: ../lighting.rst:164 ../lighting.rst:233
 msgid "Использование"
-msgstr ""
+msgstr "Usage"
 
 #: ../lighting.rst:166
 msgid ""
@@ -380,7 +380,7 @@ msgstr ""
 
 #: ../lighting.rst:227
 msgid "Tree, Foliage и Face"
-msgstr ""
+msgstr "Tree, Foliage and Face"
 
 #: ../lighting.rst:231
 msgid ""
@@ -768,13 +768,6 @@ msgid ""
 " окружающей среды, необходимо:"
 msgstr "To use an environment map for environment lighting:"
 
-#: ../lighting.rst:417
-msgid ""
-"Выбрать метод ``Environment Lighting > Environment Color > Sky Texture``."
-msgstr ""
-"Select the ``Environment Lighting > Environment Color > Sky Texture`` "
-"method."
-
 #: ../lighting.rst:418
 msgid "Перейти из вкладки ``World`` во вкладку ``Texture``."
 msgstr "Go from the ``World`` tab to the ``Texture`` tab."
@@ -786,18 +779,6 @@ msgid ""
 msgstr ""
 "Create an :ref:`environment map <environment_map>`, load the corresponding "
 "image to it."
-
-#: ../lighting.rst:420
-msgid ""
-"Для карты окружения на панели ``Blend4Web`` для значения ``Sky texture "
-"usage`` выбрать ``ENVIRONMENT_LIGHTING`` или ``BOTH`` (опция ``BOTH`` "
-"активирует также использование этой текстуры в качестве :ref:`текстуры неба "
-"<skydome_texture>`)."
-msgstr ""
-"For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as the "
-"``Sky texture usage`` value on the ``Blend4Web`` panel (the ``BOTH`` option "
-"also enables using this texture as a :ref:`skydome texture "
-"<skydome_texture>`)."
 
 #: ../lighting.rst:432
 msgid "Тени"
@@ -822,30 +803,6 @@ msgstr ""
 "Blend4Web implements the following shadow rendering techniques: cascaded "
 "shadow maps (CSM) and softened shadows (PCF). "
 
-#: ../lighting.rst:441
-msgid ""
-"На объектах, **отбрасывающих** тени, включить опцию ``Blend4Web > Shadows: "
-"Cast`` во вкладке ``Object``."
-msgstr ""
-"Enable the ``Blend4Web > Shadows Cast`` checkbox under the ``Object`` tab "
-"for the objects which **cast** shadows."
-
-#: ../lighting.rst:442
-msgid ""
-"На объектах, **получающих** тени, включить опцию ``Blend4Web > Shadows: "
-"Receive`` во вкладке ``Object``."
-msgstr ""
-"Enable the ``Blend4Web > Shadows Receive`` checkbox under the ``Object`` tab"
-" for the objects which **receive** shadows."
-
-#: ../lighting.rst:443
-msgid ""
-"Убедиться, что включена опция ``Blend4Web > Render shadows`` во вкладке "
-"``Scene``."
-msgstr ""
-"Make sure that the ``Blend4Web > Render shadows`` checkbox is enabled in the"
-" ``Scene`` tab."
-
 #: ../lighting.rst:447
 msgid ""
 "Объекты, имеющие :ref:`прозрачные материалы с градиентом <alpha_blend>`, не "
@@ -858,18 +815,6 @@ msgstr ""
 msgid "*Направление*"
 msgstr "*Direction*"
 
-#: ../lighting.rst:459
-msgid ""
-"В случае наличия нескольких источников света рекомендуется указать, какой "
-"именно источник света будет использоваться для расчета падающих теней, "
-"включив опцию ``Blend4Web > Generate shadows`` во вкладке ``Object Data`` "
-"при выборе объекта-лампы."
-msgstr ""
-"If there are multiple light sources, it is recommended to specify the exact "
-"light source which is used for shadow calculations, by enabling the "
-"``Blend4Web > Generate shadows`` checkbox under the ``Object Data`` tab for "
-"the selected lamp object."
-
 #: ../lighting.rst:462
 msgid ""
 "Цвет тени определяется настройками :ref:`освещения от окружающей среды "
@@ -881,14 +826,6 @@ msgstr ""
 #: ../lighting.rst:463
 msgid "*Цвет*"
 msgstr "*Color*"
-
-#: ../lighting.rst:465
-msgid ""
-"Во вкладке ``World`` на панели ``Blend4Web > Shadow Settings`` находятся "
-"дополнительные настройки:"
-msgstr ""
-"The following additional settings are located on the ``Blend4Web > Shadow "
-"Settings`` panel of the ``World`` tab:"
 
 #: ../lighting.rst:472
 msgid "*Resolution*"
@@ -1173,15 +1110,6 @@ msgstr "Background"
 msgid "Цвет фона можно задать несколькими способами:"
 msgstr "You can change the background in the following ways:"
 
-#: ../lighting.rst:586
-msgid ""
-"Установить параметры ``Horizon Color`` и ``Zenith Color`` на вкладке "
-"``World`` в Blender, предварительно выставив опцию ``Sky Settings > Render "
-"Sky``."
-msgstr ""
-"Enable ``Sky Settings > Render Sky``, then set the ``Horizon Color`` and the"
-" ``Zenith Color`` under Blender's ``World`` tab."
-
 #: ../lighting.rst:588
 msgid ""
 "Поместить сцену внутрь модели (например, куба или сферы) с направленными "
@@ -1209,20 +1137,88 @@ msgstr "Use a :ref:`skydome <skydome_texture>`."
 msgid "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
 msgstr "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 
+#: ../lighting.rst:626
+msgid ":ref:`alpha_compositing`"
+msgstr ""
+
+#: ../lighting.rst:420
+msgid ""
+"Для карты окружения на панели ``Export Options`` для значения ``Sky Texture "
+"Usage`` выбрать ``ENVIRONMENT_LIGHTING`` или ``BOTH`` (опция ``BOTH`` "
+"активирует также использование этой текстуры в качестве :ref:`текстуры неба "
+"<skydome_texture>`)."
+msgstr ""
+"For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as the "
+"``Sky Texture Usage`` value on the ``Export Options`` panel (the ``BOTH`` "
+"option also enables using this texture as a :ref:`skydome texture "
+"<skydome_texture>`)."
+
+#: ../lighting.rst:441
+msgid ""
+"На объектах, **отбрасывающих** тени, включить опцию ``Shadows: Cast`` во "
+"вкладке ``Object``."
+msgstr ""
+"Enable the ``Shadows: Cast`` checkbox under the ``Object`` tab for the "
+"objects which **cast** shadows."
+
+#: ../lighting.rst:442
+msgid ""
+"На объектах, **получающих** тени, включить опцию ``Shadows: Receive`` во "
+"вкладке ``Object``."
+msgstr ""
+"Enable the ``Shadows: Receive`` checkbox under the ``Object`` tab for the "
+"objects which **receive** shadows."
+
+#: ../lighting.rst:443
+msgid ""
+"Убедиться, что включена опция ``Shadows`` ``AUTO`` или ``ON`` во вкладке "
+"``Render``."
+msgstr ""
+"Make sure that the ``Shadows`` option in the ``Render`` tab has the value "
+"``AUTO`` or ``ON``."
+
+#: ../lighting.rst:459
+msgid ""
+"В случае наличия нескольких источников света рекомендуется указать, какой "
+"именно источник света будет использоваться для расчета падающих теней, "
+"включив опцию ``Shadows > Generate Shadows`` во вкладке ``Object Data`` при "
+"выборе объекта-лампы."
+msgstr ""
+"If there are multiple light sources, it is recommended to specify the exact "
+"light source which is used for shadow calculations, by enabling the "
+"``Shadows > Generate shadows`` checkbox under the ``Object Data`` tab for "
+"the selected lamp object."
+
+#: ../lighting.rst:465
+msgid ""
+"Во вкладке ``Render`` на панели ``Shadows`` находятся дополнительные "
+"настройки:"
+msgstr ""
+"The following additional settings are located on the ``Shadows`` panel of "
+"the ``Render`` tab:"
+
+#: ../lighting.rst:586
+msgid ""
+"Установить параметры ``Horizon Color`` и ``Zenith Color`` на вкладке "
+"``World`` в Blender, предварительно выставив опцию ``World > Render Sky``."
+msgstr ""
+"Enable ``World > Render Sky``, then set the ``Horizon Color`` and the "
+"``Zenith Color`` under Blender's ``World`` tab."
+
 #: ../lighting.rst:600
 msgid ""
 "Установить параметр движка ``background_color``, используя программный метод"
-" ``config.set()``, предварительно отключив опцию ``Sky Settings > Render "
-"Sky`` на вкладке ``World`` в Blender. Установленное значение используется в "
-"качестве аргумента метода WebGL ``clearColor()``. Для получения корректных "
+" ``config.set()``, предварительно отключив опцию ``World > Render Sky`` на "
+"вкладке ``World`` в Blender. Установленное значение используется в качестве "
+"аргумента метода WebGL ``clearColor()``. Для получения корректных "
 "результатов рекомендуется отключить прозрачность контекста WebGL (параметр "
 "``alpha``). Такая конфигурация используется по умолчанию в стандартном веб-"
 "плеере движка."
 msgstr ""
 "Set the engine's ``background_color`` parameter with the ``config.set()`` "
-"method. Please note, that ``Sky Settings > Render Sky`` under Blender's "
-"``World`` tab must be disabled. This value is used as argument for the WebGL"
-" ``clearColor()`` method. For correct results, it's recommended to turn the "
+"method. Please note, that ``World > Render Sky`` under Blender's ``World`` "
+"tab must be disabled. This value is used as argument for the WebGL "
+"``clearColor()`` method. For correct results, it's recommended to turn the "
 "WebGL context transparency off (the ``alpha`` parameter). Such the "
 "configuration is used by default in the engine's standard web player."
 
@@ -1231,20 +1227,19 @@ msgid ""
 "В качестве фона можно использовать любой HTML контент, находящийся позади "
 "элемента ``canvas``, который используется для рендеринга. Для это необходимо"
 " активировать прозрачность контекста WebGL (параметр ``alpha``), "
-"предварительно отключив опцию ``Sky Settings > Render Sky`` на вкладке "
-"``World`` в Blender. Для получения корректных результатов рекомендуется "
-"выставить полностью прозрачный черный цвет фона. Такая конфигурация "
-"используется по умолчанию в стандартном :ref:`просмотрщике сцен <viewer>` "
-"SDK движка."
+"предварительно отключив опцию ``World > Render Sky`` на вкладке ``World`` в "
+"Blender. Для получения корректных результатов рекомендуется выставить "
+"полностью прозрачный черный цвет фона. Такая конфигурация используется по "
+"умолчанию в стандартном :ref:`просмотрщике сцен <viewer>` SDK движка."
 msgstr ""
-"You can use any HTML content behind the ``canvas`` element, to which the "
+"You can use any HTML content behind the *canvas* element, to which the "
 "rendering is performed, as a background. To do this, activate the WebGL "
-"context transparency (the ``alpha`` parameter). Please note, that ``Sky "
-"Settings > Render Sky`` under Blender's ``World`` tab must be disabled. For "
-"correct results, it's recommended to set absolutely transparent black "
-"background color. Such the configuration is used by default in the "
-":ref:`scene viewer <viewer>` of Blend4Web SDK."
+"context transparency (the ``alpha`` parameter). Please note, that ``World  >"
+" Render Sky`` under Blender's ``World`` tab must be disabled. For correct "
+"results, it's recommended to set absolutely transparent black background "
+"color. Such the configuration is used by default in the :ref:`scene viewer "
+"<viewer>` of Blend4Web SDK."
 
-#: ../lighting.rst:626
-msgid ":ref:`alpha_compositing`"
-msgstr ""
+#: ../lighting.rst:417
+msgid "Выбрать метод ``Environment Lighting > Sky Texture``."
+msgstr "Select ``Environment Lighting > Sky Texture``."

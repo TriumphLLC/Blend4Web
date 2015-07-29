@@ -1,20 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Lighting, Shadows and Background &mdash; User Manual: Blend4Web v15.06</title>
+    <title>Lighting, Shadows and Background &mdash; User Manual: Blend4Web vv15.07</title>
     
-    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.06',
+        VERSION:     'v15.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,38 +26,172 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
     <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html" />
-    <link rel="prev" title="Node Materials" href="node_materials.html" /> 
+    <link rel="prev" title="Node Materials" href="node_materials.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
   </head>
   <body role="document">
-    <div class="header-wrapper" role="banner">
-      <div class="header">
-          <p class="logo"><a href="index.html">
-            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
-          </a></p>
-        <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.06</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="node_materials.html" title="Node Materials"
-             accesskey="P">previous</a> |
-          <a href="postprocessing_effects.html" title="Postprocessing Effects"
-             accesskey="N">next</a> |
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a>
-        </div>
-       </div>
-    </div>
 
-    <div class="content-wrapper">
-      <div class="content">
-        <div class="document">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
             
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
             
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Lighting, Shadows and Background</a><ul>
+<li><a class="reference internal" href="#index-1">Shading Types</a></li>
+<li><a class="reference internal" href="#index-2">Normal Editor</a><ul>
+<li><a class="reference internal" href="#id4">Main features of the normal editor:</a></li>
+<li><a class="reference internal" href="#id5">Interface of the Vertex Normal Editor</a></li>
+<li><a class="reference internal" href="#activate">Activate</a></li>
+<li><a class="reference internal" href="#show-normals">Show Normals</a></li>
+<li><a class="reference internal" href="#id6">Rotation</a></li>
+<li><a class="reference internal" href="#split-normals">Split Normals</a></li>
+<li><a class="reference internal" href="#average-split">Average Split</a></li>
+<li><a class="reference internal" href="#restore">Restore</a></li>
+<li><a class="reference internal" href="#tree-foliage-face">Tree, Foliage and Face</a></li>
+<li><a class="reference internal" href="#copy-paste">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh">Copy From Mesh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-3">Lighting with Light Sources</a><ul>
+<li><a class="reference internal" href="#id8">Light source types</a></li>
+<li><a class="reference internal" href="#id9">Light source setup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-lighting">Environment Lighting (Ambient)</a><ul>
+<li><a class="reference internal" href="#id11">Activation</a></li>
+<li><a class="reference internal" href="#id12">Setup</a></li>
+<li><a class="reference internal" href="#id13">Environment map method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shadows">Shadows</a><ul>
+<li><a class="reference internal" href="#id15">Activation</a></li>
+<li><a class="reference internal" href="#id16">Setup</a><ul>
+<li><a class="reference internal" href="#id17">Generic shadows</a></li>
+<li><a class="reference internal" href="#id18">Shadow cascades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4">Background</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="node_materials.html" title="Previous Chapter: Node Materials"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Node Materials</span>
+    </a>
+  </li>
+  <li>
+    <a href="postprocessing_effects.html" title="Next Chapter: Postprocessing Effects"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Postprocessing E... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <span class="target" id="lighting"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Lighting, Shadows and Background<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="index-1">
@@ -147,7 +283,7 @@
 <h3>Split Normals<a class="headerlink" href="#split-normals" title="Permalink to this headline">¶</a></h3>
 <p><em>Description</em></p>
 <p>The <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode allows to edit vertex normals separately for each <code class="docutils literal"><span class="pre">face</span></code> that form the <code class="docutils literal"><span class="pre">vertex</span></code>. Index allows you to navigate between the split normals.</p>
-<p>Использование</p>
+<p>Usage</p>
 <p>Turn on the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.</p>
 <a class="reference internal image-reference" href="_images/vnt_img09.gif"><img alt="_images/vnt_img09.gif" class="align-center" src="_images/vnt_img09.gif" style="width: 100%;" /></a>
 </div>
@@ -168,10 +304,10 @@
 <a class="reference internal image-reference" href="_images/vnt_img11.gif"><img alt="_images/vnt_img11.gif" class="align-center" src="_images/vnt_img11.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="tree-foliage-face">
-<h3>Tree, Foliage и Face<a class="headerlink" href="#tree-foliage-face" title="Permalink to this headline">¶</a></h3>
+<h3>Tree, Foliage and Face<a class="headerlink" href="#tree-foliage-face" title="Permalink to this headline">¶</a></h3>
 <p><em>Description</em></p>
 <p>The <code class="docutils literal"><span class="pre">Tree</span></code> button directs the normals of the selected vertices away from the 3D cursor. The <code class="docutils literal"><span class="pre">Foliage</span></code> button directs the normals of the vertices strictly up. The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
-<p>Использование</p>
+<p>Usage</p>
 <p>In order to use the <code class="docutils literal"><span class="pre">Tree</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">Tree</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.</p>
 <p>The <code class="docutils literal"><span class="pre">Foliage</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.</p>
 <p>In order to direct the normals parallel to the face normal, just select the desired face and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
@@ -293,13 +429,13 @@
 <ol class="arabic simple">
 <li><p class="first">Enable the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox on the <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
 </li>
-<li><p class="first">Select the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Environment</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code> method.</p>
+<li><p class="first">Select <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>.</p>
 </li>
 <li><p class="first">Go from the <code class="docutils literal"><span class="pre">World</span></code> tab to the <code class="docutils literal"><span class="pre">Texture</span></code> tab.</p>
 </li>
 <li><p class="first">Create an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>, load the corresponding image to it.</p>
 </li>
-<li><p class="first">For the environment map select <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> or <code class="docutils literal"><span class="pre">BOTH</span></code> as the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span></code> value on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel (the <code class="docutils literal"><span class="pre">BOTH</span></code> option also enables using this texture as a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome texture</span></a>).</p>
+<li><p class="first">For the environment map select <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> or <code class="docutils literal"><span class="pre">BOTH</span></code> as the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> value on the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> panel (the <code class="docutils literal"><span class="pre">BOTH</span></code> option also enables using this texture as a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome texture</span></a>).</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/lighting_environment_texture.jpg"><img alt="_images/lighting_environment_texture.jpg" class="align-center" src="_images/lighting_environment_texture.jpg" style="width: 100%;" /></a>
@@ -315,11 +451,11 @@
 <div class="section" id="id15">
 <h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span> <span class="pre">Cast</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>cast</strong> shadows.</p>
+<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Cast</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>cast</strong> shadows.</p>
 </li>
-<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span> <span class="pre">Receive</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>receive</strong> shadows.</p>
+<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Receive</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>receive</strong> shadows.</p>
 </li>
-<li><p class="first">Make sure that the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">shadows</span></code> checkbox is enabled in the <code class="docutils literal"><span class="pre">Scene</span></code> tab.</p>
+<li><p class="first">Make sure that the <code class="docutils literal"><span class="pre">Shadows</span></code> option in the <code class="docutils literal"><span class="pre">Render</span></code> tab has the value <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>.</p>
 </li>
 </ol>
 <div class="admonition note">
@@ -335,13 +471,13 @@
 <h3>Setup<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Direction</em></dt>
-<dd><p class="first last">If there are multiple light sources, it is recommended to specify the exact light source which is used for shadow calculations, by enabling the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab for the selected lamp object.</p>
+<dd><p class="first last">If there are multiple light sources, it is recommended to specify the exact light source which is used for shadow calculations, by enabling the <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab for the selected lamp object.</p>
 </dd>
 <dt><em>Color</em></dt>
 <dd><p class="first last">The shadow color is determined by the <a class="reference internal" href="#environment-lighting"><span>environment lighting</span></a> settings.</p>
 </dd>
 </dl>
-<p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span> <span class="pre">Settings</span></code> panel of the <code class="docutils literal"><span class="pre">World</span></code> tab:</p>
+<p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Shadows</span></code> panel of the <code class="docutils literal"><span class="pre">Render</span></code> tab:</p>
 <a class="reference internal image-reference" href="_images/b4w_shadow_settings.png"><img alt="_images/b4w_shadow_settings.png" class="align-center" src="_images/b4w_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Resolution</em></dt>
@@ -449,7 +585,7 @@
 <span id="id19"></span><h2>Background<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
 <p>You can change the background in the following ways:</p>
 <ol class="arabic simple">
-<li><p class="first">Enable <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then set the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and the <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
+<li><p class="first">Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then set the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and the <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
 </li>
 <li><p class="first">Place the whole scene inside a model (e.g. a cube or a sphere) with its normals directed inside, with a material and an optional texture.</p>
 </li>
@@ -462,7 +598,7 @@
 </li>
 <li><p class="first">Set up the procedurally generated <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>atmosphere</span></a>.</p>
 </li>
-<li><p class="first">Set the engine&#8217;s <code class="docutils literal"><span class="pre">background_color</span></code> parameter with the <code class="docutils literal"><span class="pre">config.set()</span></code> method. Please note, that <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. This value is used as argument for the WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code> method. For correct results, it&#8217;s recommended to turn the WebGL context transparency off (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Such the configuration is used by default in the engine&#8217;s standard web player.</p>
+<li><p class="first">Set the engine&#8217;s <code class="docutils literal"><span class="pre">background_color</span></code> parameter with the <code class="docutils literal"><span class="pre">config.set()</span></code> method. Please note, that <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. This value is used as argument for the WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code> method. For correct results, it&#8217;s recommended to turn the WebGL context transparency off (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Such the configuration is used by default in the engine&#8217;s standard web player.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -476,7 +612,7 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">You can use any HTML content behind the <code class="docutils literal"><span class="pre">canvas</span></code> element, to which the rendering is performed, as a background. To do this, activate the WebGL context transparency (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Please note, that <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. For correct results, it&#8217;s recommended to set absolutely transparent black background color. Such the configuration is used by default in the <a class="reference internal" href="viewer.html#viewer"><span>scene viewer</span></a> of Blend4Web SDK.</p>
+<li><p class="first">You can use any HTML content behind the <em>canvas</em> element, to which the rendering is performed, as a background. To do this, activate the WebGL context transparency (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Please note, that <code class="docutils literal"><span class="pre">World</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. For correct results, it&#8217;s recommended to set absolutely transparent black background color. Such the configuration is used by default in the <a class="reference internal" href="viewer.html#viewer"><span>scene viewer</span></a> of Blend4Web SDK.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -498,94 +634,22 @@
 </div>
 
 
-          </div>
-        </div>
-      </div>
-        </div>
-        <div class="sidebar">
-          <h3>Table Of Contents</h3>
-          <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Lighting, Shadows and Background</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Shading Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Normal Editor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-3">Lighting with Light Sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#environment-lighting">Environment Lighting (Ambient)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shadows">Shadows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-4">Background</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-</ul>
-
-          <div role="search">
-            <h3 style="margin-top: 1.5em;">Search</h3>
-            <form class="search" action="search.html" method="get">
-                <input type="text" name="q" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-            </form>
-            <p class="searchtip" style="font-size: 90%">
-                Enter search terms or a module, class or function name.
-            </p>
-          </div>
-        </div>
-        <div class="clearer"></div>
-      </div>
     </div>
-
-    <div class="footer-wrapper">
-      <div class="footer">
-        <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="node_materials.html" title="Node Materials"
-              >previous</a> |
-            <a href="postprocessing_effects.html" title="Postprocessing Effects"
-              >next</a> |
-            <a href="genindex.html" title="General Index"
-              >index</a>
-          </div>
-          <div role="note" aria-label="source link">
-          </div>
-        </div>
-
-        <div class="right">
-          
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-06-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
-        </div>
-        <div class="clearer"></div>
-      </div>
-    </div>
-
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
   </body>
 </html>

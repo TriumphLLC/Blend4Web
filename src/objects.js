@@ -113,7 +113,7 @@ function create_render(type) {
         reflexible: false,
         reflexible_only: false,
         reflective: false,
-        reflection_type: false,
+        reflection_type: "",
         caustics: false,
         wind_bending: false,
         disable_fogging: false,
@@ -144,6 +144,7 @@ function create_render(type) {
 
         // billboarding properties
         billboard: false,
+        billboard_pres_glob_orientation: false,
         billboard_type: "",
         billboard_spherical: false,
 
@@ -227,8 +228,9 @@ function update_object(obj, non_recursive) {
     obj._physics = null;
     obj._sfx = null;
     obj._light = null;
-    if (!obj._dg_parent)
-        obj._dg_parent = null;
+    obj._armobj = obj._armobj || null;
+    obj._dg_parent = obj._dg_parent || null;
+    obj._scene_data = obj._scene_data || [];
 
     var render = obj._render;
 
@@ -326,6 +328,7 @@ function update_object(obj, non_recursive) {
         // apply pose if any
         var armobj = m_anim.get_first_armature_object(obj);
         if (armobj) {
+            obj._armobj = armobj;
             prepare_skinning_info(obj, armobj);
             var bone_pointers = obj._render.bone_pointers;
             var pose_data = m_anim.calc_pose_data(armobj, bone_pointers);
@@ -484,27 +487,38 @@ function process_reflections(obj) {
         render.cube_reflection_id = _cube_refl_counter++;
     else {
         var refl_plane_obj = get_reflection_plane_obj(obj);
+        if (!refl_plane_obj)
+            refl_plane_obj = create_default_refl_plane(obj);
 
-        if (refl_plane_obj) {
-            var refl_plane_id = null;
-            for (var j = 0; j < _refl_plane_objs.length; j++) {
-                var rp = _refl_plane_objs[j];
-                if (rp == refl_plane_obj) {
-                     refl_plane_id = j;
-                     break;
-                }
+        var refl_plane_id = null;
+        for (var j = 0; j < _refl_plane_objs.length; j++) {
+            var rp = _refl_plane_objs[j];
+            if (rp == refl_plane_obj) {
+                 refl_plane_id = j;
+                 break;
             }
-
-            if (refl_plane_id == null) {
-                // we need only unique reflection planes
-                _refl_plane_objs.push(refl_plane_obj);
-                render.plane_reflection_id = _refl_plane_objs.length - 1;
-            } else {
-                render.plane_reflection_id = refl_plane_id;
-            }
-            obj._reflection_plane_obj = refl_plane_obj;
         }
+
+        if (refl_plane_id == null) {
+            // we need only unique reflection planes
+            _refl_plane_objs.push(refl_plane_obj);
+            render.plane_reflection_id = _refl_plane_objs.length - 1;
+        } else {
+            render.plane_reflection_id = refl_plane_id;
+        }
+        obj._reflection_plane_obj = refl_plane_obj;
     }
+}
+
+function create_default_refl_plane(obj) {
+    var reflection_plane = init_object(m_util.unique_name("%reflection%"),
+            "EMPTY", false);
+
+    var render = create_render("EMPTY");
+    reflection_plane._render = render;
+    m_cons.append_stiff_obj(reflection_plane, obj, [0, 0, 0], null, 1);
+
+    return reflection_plane;
 }
 
 function get_reflection_plane_obj(obj) {
@@ -605,7 +619,6 @@ function has_lens_flares_mat(obj) {
  */
 function prepare_skinning_info(obj, armobj) {
 
-    // search for armature modifiers
     var render = obj._render;
 
     var mesh = obj["data"];
@@ -870,7 +883,9 @@ function init_object(name, type, is_meta) {
     var obj = {
         "name": name,
         "type": type,
-        "modifiers": [],
+
+        // hacks for update_object
+        "modifiers": [],    
         "particle_systems": [],
         "constraints": [],
         "data": null,
@@ -881,6 +896,7 @@ function init_object(name, type, is_meta) {
         "b4w_vehicle": false,
         "b4w_character": false,
         "b4w_floating": false,
+
         _batches: [],
         _is_meta: is_meta,
         _descends: [],
@@ -893,8 +909,10 @@ function init_object(name, type, is_meta) {
         _anim_slots: [],
         _physics: null,
         _sfx: null,
-        _light: null
-
+        _light: null,
+        _armobj: null,
+        _dg_parent: null,
+        _scene_data: []
     };
     return obj;
 }
@@ -980,10 +998,11 @@ function copy_bpy_object_props_by_link(obj) {
 }
 exports.copy_object_props_by_value = copy_object_props_by_value;
 function copy_object_props_by_value(obj) {
-    if (typeof obj != "object" || obj === null)
-        return obj;
 
-    var new_obj = (obj instanceof Array) ? [] : {};
+    // better than typeof - no need to check for null
+    if (!(obj instanceof Object)) {
+        return obj;
+    }
 
     var textures = null;
     var texture_names = null;
@@ -1002,43 +1021,57 @@ function copy_object_props_by_value(obj) {
         obj.shape_keys = null;
     }
 
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object")) {
-            if (obj[i] instanceof Float32Array)
-                new_obj[i] = new Float32Array(obj[i]);
-            else if (obj[i] instanceof Uint32Array)
-                new_obj[i] = new Uint32Array(obj[i]);
-            else if (obj[i] instanceof Uint16Array)
-                new_obj[i] = new Uint16Array(obj[i]);
-            else if (obj[i] instanceof WebGLUniformLocation)
-                new_obj[i] = obj[i];
-            else if (obj[i] instanceof WebGLProgram)
-                new_obj[i] = obj[i];
-            else if (obj[i] instanceof WebGLShader)
-                new_obj[i] = obj[i];
-            else if (obj[i] instanceof WebGLBuffer)
-                // NOTE: update geometry will be later
-                new_obj[i] = null;
-            else
-                new_obj[i] = copy_object_props_by_value(obj[i]);
-        } else
-            new_obj[i] = obj[i];
+    var obj_clone;
+    var Constructor = obj.constructor;
+
+    switch (Constructor) {
+    case Float32Array:
+    case Uint32Array:
+    case Uint16Array:
+        obj_clone = new Constructor(obj);
+        break;
+    case Array:
+        obj_clone = new Constructor(obj.length);
+
+        for (var i = 0; i < obj.length; i++)
+            obj_clone[i] = copy_object_props_by_value(obj[i]);
+        break;
+    case WebGLUniformLocation:
+    case WebGLProgram:
+    case WebGLShader:
+        obj_clone = obj;
+        break;
+    case WebGLFramebuffer:
+    case WebGLTexture:
+    case WebGLBuffer:
+        // NOTE: update geometry will be later
+        obj_clone = null;
+        break;
+    case Function:
+        obj_clone = obj;
+        break;
+    default:
+        obj_clone = new Constructor();
+
+        for (var prop in obj)
+            obj_clone[prop] = copy_object_props_by_value(obj[prop]);
+        break;
     }
 
     if (textures) {
-        new_obj.textures = textures;
+        obj_clone.textures = textures;
         obj.textures = textures;
     }
     if (texture_names) {
-        new_obj.texture_names = texture_names;
+        obj_clone.texture_names = texture_names;
         obj.texture_names = texture_names;
     }
     if (shape_keys) {
-        new_obj.shape_keys = shape_keys;
+        obj_clone.shape_keys = shape_keys;
         obj.shape_keys = shape_keys;
     }
 
-    return new_obj;
+    return obj_clone;
 }
 
 exports.get_value_node_ind_by_id = function(obj, id) {

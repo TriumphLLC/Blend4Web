@@ -162,11 +162,11 @@ function loaded_callback(data_id) {
 }
 
 function apply_anim_cycle(cessna_arm, cessna_spk, pilot) {
-    m_anim.set_frame(cessna_arm, 0);
+    m_anim.set_first_frame(cessna_arm);
     m_anim.play(cessna_arm, finish_anim_callback);
 
     m_anim.stop(pilot);
-    m_anim.set_frame(pilot, 0);
+    m_anim.set_first_frame(pilot);
     m_anim.play(pilot);
 
     m_sfx.speaker_reset_speed(cessna_spk, APPROX_CESSNA_SPEED);
@@ -335,7 +335,7 @@ function preloader_callback(percentage) {
     m_preloader.update_preloader(percentage);
 }
 
-function finish_anim_callback(obj) {
+function finish_anim_callback() {
     if (_trigger_state != TS_CAM_ANIM)
         switch_view_mode();
 

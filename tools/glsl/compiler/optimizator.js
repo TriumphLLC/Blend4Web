@@ -93,7 +93,7 @@ exports.optimize_declarations = function(max_uid) {
                     if (ast_node.is_last_usage) {
                         if (!free_global_id[ast_node.decl_id_type])
                             free_global_id[ast_node.decl_id_type] = [];
-                        free_global_id[ast_node.decl_id_type].push(func_global_id);
+                        free_global_id[ast_node.decl_id_type].unshift(func_global_id);
                     }
 
                     // change ast
@@ -140,7 +140,7 @@ exports.optimize_declarations = function(max_uid) {
                             || !(ast_node.id_usage_id.name in out_nodes_lamps_main_ident))) {
                         if (!free_global_id[last_definition["type"]])
                             free_global_id[last_definition["type"]] = [];
-                        free_global_id[last_definition["type"]].push(last_definition["global_id"]);
+                        free_global_id[last_definition["type"]].unshift(last_definition["global_id"]);
                     } else if (is_in_nodes_lamps_main 
                             && ast_node.id_usage_id.name in out_nodes_lamps_main_ident) {
                         if (!names_should_be_freed[last_definition["type"]])
@@ -206,7 +206,7 @@ exports.optimize_declarations = function(max_uid) {
                 out_nodes_lamps_main_ident = {};
             else
                 for (var type in names_should_be_freed)
-                    free_global_id.push.apply(free_global_id, names_should_be_freed[type]);
+                    free_global_id.unshift.apply(free_global_id, names_should_be_freed[type]);
             break;
         }
     }

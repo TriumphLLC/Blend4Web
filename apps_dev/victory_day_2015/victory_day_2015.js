@@ -295,9 +295,6 @@ function action_rails() {
     if (!_rocket_num)
         return;
 
-    var set_frame       = m_anim.set_frame;
-    var get_start_frame = m_anim.get_anim_start_frame;
-
     _canvas_elem.removeEventListener("mousedown", get_clicked_object);
     _canvas_elem.removeEventListener("touchstart", get_clicked_object);
 
@@ -312,8 +309,7 @@ function action_rails() {
 
     m_anim.play(_rockets_box, function() {
         m_anim.apply(_bm_13_Armature, "bm_13_Armature_rotate_-37_Action");
-        m_anim.set_frame(_bm_13_Armature,
-                         m_anim.get_anim_start_frame(_bm_13_Armature));
+        m_anim.set_first_frame(_bm_13_Armature);
         m_anim.set_behavior(_bm_13_Armature, m_anim.AB_FINISH_STOP);
         m_anim.play(_bm_13_Armature, action_camera);
     });
@@ -325,8 +321,7 @@ function action_camera() {
     var set_beh    = m_anim.set_behavior;
 
     apply_anim(_cam, _camera_action);
-    m_anim.set_frame(_cam,
-                     m_anim.get_anim_start_frame(_bm_13_Armature));
+    m_anim.set_frame(_cam, m_anim.get_anim_start_frame(_bm_13_Armature));
     set_beh(_cam, m_anim.AB_FINISH_STOP);
     play_anim(_cam, action_fire);
 
@@ -355,8 +350,6 @@ function fire(rocket_num) {
     var remove_obj      = m_scs.remove_object;
     var set_beh         = m_anim.set_behavior;
     var show_obj        = m_scs.show_object;
-    var set_frame       = m_anim.set_frame;
-    var get_start_frame = m_anim.get_anim_start_frame;
 
     var number_prefix = "";
 
@@ -470,11 +463,10 @@ function fire(rocket_num) {
             apply_anim(_rocket_smoke, "rocket_smoke_finalscale",
                        m_anim.SLOT_1);
 
-            set_frame(_residual_armature, get_start_frame(_residual_armature));
-            set_frame(_residual_smoke, get_start_frame(_residual_smoke));
-            set_frame(_rocket_smoke, get_start_frame(_rocket_smoke));
-            set_frame(_rocket_smoke, get_start_frame(_rocket_smoke),
-                      m_anim.SLOT_1);
+            m_anim.set_first_frame(_residual_armature);
+            m_anim.set_first_frame(_residual_smoke);
+            m_anim.set_first_frame(_rocket_smoke);
+            m_anim.set_first_frame(_rocket_smoke, m_anim.SLOT_1);
 
             set_beh(_residual_armature, m_anim.AB_FINISH_STOP);
             set_beh(_residual_smoke, m_anim.AB_FINISH_STOP);
@@ -809,17 +801,7 @@ function set_camera_action() {
 
 function replace_camera() {
     m_anim.apply(_cam, _camera_action);
-
-    var end_frame = get_cam_anim_end_frame();
-
-    m_anim.set_frame(_cam, end_frame);
-}
-
-function get_cam_anim_end_frame() {
-    var start_frame = m_anim.get_anim_start_frame(_cam);
-    var anim_length = m_anim.get_anim_length(_cam);
-
-    return start_frame + anim_length - 0.001;
+    m_anim.set_last_frame(_cam);
 }
 
 function init_url_params() {
@@ -856,8 +838,7 @@ function run_firework() {
 
     m_anim.apply(_9_may_logo, "9may_atlas_Shader_NodetreeAction");
 
-    m_anim.set_frame(_9_may_logo,
-                     m_anim.get_anim_start_frame(_9_may_logo));
+    m_anim.set_first_frame(_9_may_logo);
     m_anim.set_behavior(_9_may_logo, m_anim.AB_FINISH_STOP);
 
     m_sfx.stop(_fireworks_spk);
@@ -993,14 +974,10 @@ function show_replay() {
 
     m_anim.apply(_bm_13_Armature, "bm_13_Armature_rotate_-20_Action");
     m_anim.set_behavior(_bm_13_Armature, m_anim.AB_FINISH_STOP);
-    m_anim.set_frame(_bm_13_Armature,
-                     m_anim.get_anim_start_frame(_bm_13_Armature));
-
+    m_anim.set_first_frame(_bm_13_Armature);
 }
 
 function return_to_begin() {
-    var set_frame       = m_anim.set_frame;
-    var get_start_frame = m_anim.get_anim_start_frame;
 
     _blend4web_logo.style.display = "";
     _social_buttons.style.display = "";
@@ -1008,7 +985,7 @@ function return_to_begin() {
 
     m_obj.set_nodemat_value(_control_box, ["control_box", "Value"], 0);
 
-    set_frame(_cam, get_start_frame(_cam));
+    m_anim.set_first_frame(_cam);
 
     _replay_circle.removeEventListener("click", return_to_begin);
 
@@ -1022,8 +999,8 @@ function return_to_begin() {
 
     m_anim.apply(_cam, _camera_action);
 
-    set_frame(_control_box, get_start_frame(_control_box));
-    set_frame(_control_box_button, get_start_frame(_control_box_button));
+    m_anim.set_first_frame(_control_box);
+    m_anim.set_first_frame(_control_box_button);
 
     m_sfx.play_def(_noise_spk);
 
@@ -1178,16 +1155,14 @@ function run_initial_sounds() {
 
 function open_rocket_box() {
     m_anim.apply(_rockets_box, "opening_rockets_box_Action");
-    m_anim.set_frame(_rockets_box,
-                     m_anim.get_anim_start_frame(_rockets_box));
+    m_anim.set_first_frame(_rockets_box);
     m_anim.set_behavior(_rockets_box, m_anim.AB_FINISH_STOP);
     m_anim.play(_rockets_box, up_20_degrees);
 }
 
 function up_20_degrees() {
     m_anim.apply(_bm_13_Armature, "bm_13_Armature_rotate_-20_Action");
-    m_anim.set_frame(_bm_13_Armature,
-                     m_anim.get_anim_start_frame(_bm_13_Armature));
+    m_anim.set_first_frame(_bm_13_Armature);
     m_anim.set_behavior(_bm_13_Armature, m_anim.AB_FINISH_STOP);
     m_anim.play(_bm_13_Armature, add_listeners);
 }

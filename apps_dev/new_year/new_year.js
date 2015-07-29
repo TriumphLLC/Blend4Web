@@ -60,7 +60,8 @@ exports.init = function() {
         key_pause_enabled: false,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
-        console_verbose: DEBUG
+        console_verbose: DEBUG,
+        gl_debug: DEBUG
     });
 }
 
@@ -204,7 +205,7 @@ function prepare_objects_anim() {
     var obj_monkey = m_scenes.get_object_by_dupli_name("gift_monkey.001", "Armature");
      m_anim.apply(obj_monkey_box, "cap_fly");
      m_anim.set_behavior(obj_monkey_box, m_anim.AB_FINISH_STOP);
-    m_anim.set_frame(obj_monkey, 0);
+    m_anim.set_first_frame(obj_monkey);
     m_anim.apply(obj_monkey, "jump_B4W_BAKED");
     m_anim.set_behavior(obj_monkey, m_anim.AB_FINISH_STOP);
 
@@ -236,7 +237,7 @@ function prepare_objects_anim() {
     var obj_bear = m_scenes.get_object_by_dupli_name("bear", "bear");
     m_anim.apply(obj_bear, "bear_wiggle");
     m_anim.set_behavior(obj_bear, m_anim.AB_FINISH_STOP);
-    m_anim.set_frame(obj_bear, 0);
+    m_anim.set_first_frame(obj_bear);
 
     set_letter_objs_visibility(true);
     set_monkey_objs_visibility(true);
@@ -642,12 +643,12 @@ function play_confetti_box_anim() {
 
         for (var i = 0; i < _objs_confetti.length; i++) {
             m_anim.stop(_objs_confetti[i]);
-            m_anim.set_frame(_objs_confetti[i], 0);
+            m_anim.set_first_frame(_objs_confetti[i]);
         }
         m_anim.stop(confetti_ribbons_below);
-        m_anim.set_frame(confetti_ribbons_below, 0);
+        m_anim.set_first_frame(confetti_ribbons_below);
         m_anim.stop(confetti_ribbons_above);
-        m_anim.set_frame(confetti_ribbons_above, 0);
+        m_anim.set_first_frame(confetti_ribbons_above);
         set_confetti_objs_visibility(true);
     }
     _trigger_confetti_box = !_trigger_confetti_box;

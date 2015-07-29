@@ -21,6 +21,7 @@ var m_util  = require("__util");
  * Animation finish callback.
  * @callback AnimFinishCallback
  * @param {Object3D} obj Animated object.
+ * @param {AnimSlot} slot_num Animation slot.
  */
 
 /**
@@ -370,8 +371,44 @@ exports.set_frame = function(obj, frame, slot_num) {
         return;
 
     slot_num = slot_num || m_anim.SLOT_0;
-    m_anim.set_current_frame_float(obj, frame, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num, true);
+    m_anim.set_frame(obj, frame, slot_num);
+}
+
+/**
+ * Set the first frame of the object's animation.
+ * @method module:animation.set_first_frame
+ * @param {Object3D} obj Object 3D
+ * @param {Number} frame Current frame (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ */
+exports.set_first_frame = function(obj, slot_num) {
+    if (!m_anim.is_animated(obj))
+        return;
+
+    slot_num = slot_num || m_anim.SLOT_0;
+
+    var start = m_anim.get_anim_start_frame(obj, slot_num);
+    m_anim.set_frame(obj, start, slot_num);
+}
+
+/**
+ * Set the last frame of the object's animation.
+ * @method module:animation.set_last_frame
+ * @param {Object3D} obj Object 3D
+ * @param {Number} frame Current frame (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ */
+exports.set_last_frame = function(obj, slot_num) {
+    if (!m_anim.is_animated(obj))
+        return;
+
+    slot_num = slot_num || m_anim.SLOT_0;
+
+    var start = m_anim.get_anim_start_frame(obj, slot_num);
+    var len = m_anim.get_anim_length(obj, slot_num);
+
+    m_anim.set_frame(obj, start + len -
+            m_anim.LAST_FRAME_EPSILON, slot_num);
 }
 
 /**
@@ -616,6 +653,7 @@ exports.get_bone_translation = function(armobj, bone_name, dest) {
  * @method module:animation.get_first_armature_object
  * @param {Object3D} obj Object 3D
  * @returns {?Object3D} Armature object or null
+ * @deprecated Unused
  */
 exports.get_first_armature_object = function(obj) {
     if (m_util.is_mesh(obj))

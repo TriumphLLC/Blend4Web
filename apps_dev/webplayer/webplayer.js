@@ -861,7 +861,7 @@ function preloader_callback(percentage, load_time) {
     }
 
     if (percentage == 100) {
-        if (!m_sfx.check_active_speakers()) {
+        if (!m_sfx.get_speaker_objects().length) {
             var sound_on_button = document.querySelector("#sound_on_button");
 
             sound_on_button.parentElement.removeChild(sound_on_button);

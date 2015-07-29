@@ -8,31 +8,101 @@
  */
 b4w.module["__shaders"] = function(exports, require) {
 
-var config     = require("__config");
+var m_cfg     = require("__config");
 var m_print    = require("__print");
 var m_debug    = require("__debug");
-var gpp_eval   = require("__gpp_eval");
-var assets     = require("__assets");
-var util       = require("__util");
+var m_assets   = require("__assets");
+var m_util       = require("__util");
 
-var cfg_pth = config.paths;
-
-// shader texts available for compiled version only
-if (b4w.module_check("shader_texts")) {
-    var shader_texts = require("shader_texts");
-    var gpp_parser = null;
-} else {
-    var shader_texts = null;
-    var gpp_parser = require("__gpp_parser");
-}
+var cfg_pth = m_cfg.paths;
 
 var _compiled_shaders = {};
 var _shader_ast_cache = {};
+var _shader_texts = null;
+
+var SHADERS = ["anchors.glslf",
+    "anchors.glslv",
+    "color_id.glslf",
+    "color_id.glslv",
+    "depth.glslf",
+    "depth.glslv",
+    "grass_map.glslf",
+    "grass_map.glslv",
+    "halo.glslf",
+    "halo.glslv",
+    "main.glslf",
+    "main.glslv",
+    "particles_color.glslf",
+    "particles_color.glslv",
+    "particles_texture.glslf",
+    "particles_texture.glslv",
+    "procedural_skydome.glslf",
+    "procedural_skydome.glslv",
+    "special_lens_flares.glslf",
+    "special_lens_flares.glslv",
+    "special_skydome.glslf",
+    "special_skydome.glslv",
+    "special_water.glslf",
+    "special_water.glslv",
+    "wireframe.glslf",
+    "wireframe.glslv",
+
+    "postprocessing/anaglyph.glslf",
+    "postprocessing/antialiasing.glslf",
+    "postprocessing/bloom_combine.glslf",
+    "postprocessing/compositing.glslf",
+    "postprocessing/depth_pack.glslf",
+    "postprocessing/dof.glslf",
+    "postprocessing/glow.glslf",
+    "postprocessing/bloom_blur.glslf",
+    "postprocessing/god_rays.glslf",
+    "postprocessing/god_rays.glslv",
+    "postprocessing/god_rays_combine.glslf",
+    "postprocessing/luminance.glslf",
+    "postprocessing/luminance_av.glslf",
+    "postprocessing/luminance_trunced.glslf",
+    "postprocessing/luminance_trunced.glslv",
+    "postprocessing/motion_blur.glslf",
+    "postprocessing/outline.glslf",
+    "postprocessing/postprocessing.glslf",
+    "postprocessing/postprocessing.glslv",
+    "postprocessing/smaa.glslf",
+    "postprocessing/smaa.glslv",
+    "postprocessing/ssao.glslf",
+    "postprocessing/ssao_blur.glslf",
+    //"postprocessing/velocity.glslf",
+
+    "include/blending.glslf",
+    "include/caustics.glslf",
+    "include/depth_fetch.glslf",
+    "include/dynamic_grass.glslv",
+    "include/environment.glslf",
+    "include/fog.glslf",
+    "include/gamma.glslf",
+    "include/lighting.glslf",
+    "include/math.glslv",
+    "include/mirror.glslf",
+    "include/nodes.glslf",
+    "include/nodes.glslv",
+    "include/pack.glslf",
+    "include/particles.glslv",
+    "include/precision_statement.glslf",
+    "include/procedural.glslf",
+    "include/refraction.glslf",
+    "include/scale_texcoord.glslv",
+    "include/shadow.glslf",
+    "include/shadow.glslv",
+    "include/skin.glslv",
+    "include/std_enums.glsl",
+    "include/to_world.glslv",
+    "include/wind_bending.glslv"];
 
 var DEBUG_COMPILATION_UNIQUENESS = false;
 var _debug_hash_codes = [];
 
 var _gl = null;
+
+var _shaders_loaded = false;
 
 /**
  * Setup WebGL context
@@ -339,10 +409,10 @@ exports.set_default_directives = function(sinfo) {
             val = "TEXTURE_COORDS_UV_ORCO";
             break;
         case "PRECISION":
-            val = config.defaults.precision;
+            val = m_cfg.defaults.precision;
             break;
         case "EPSILON":
-            if (config.defaults.precision == "highp")
+            if (m_cfg.defaults.precision == "highp")
                 val = 0.000001;
             else
                 val = 0.0001;
@@ -429,26 +499,66 @@ function get_compiled_shader(shaders_info) {
  * Uses _shader_ast_cache
  */
 function get_shader_ast(dir, filename) {
-
     var cache_id = dir + filename;
 
     if (_shader_ast_cache[cache_id])
         return _shader_ast_cache[cache_id];
 
-    if (shader_texts) {
-        var ast = shader_texts[filename];
+    if (!_shader_texts) {
+        var ast = require("shader_texts")[filename];
         if (!ast)
             return null;
     } else {
-        var main_text = assets.get_text_sync(dir + filename, false);
+        var main_text = _shader_texts[filename];
         if (!main_text)
             return null;
-        var ast = gpp_parser.parser.parse(main_text);
+        var ast = require("__gpp_parser").parser.parse(main_text);
     }
 
     _shader_ast_cache[cache_id] = ast;
 
     return ast;
+}
+
+function set_shader_texts(shader_name, shadet_text) {
+    if (!_shader_texts)
+        _shader_texts = {};
+    _shader_texts[shader_name] = shadet_text;
+}
+
+exports.load_shaders = function() {
+
+    _shaders_loaded = false;
+
+    if (!b4w.module_check("shader_texts")) {
+
+        var shader_assets = [];
+        var asset_type = m_assets.AT_TEXT;
+
+        for (var i = 0; i < SHADERS.length; i++) {
+            var shader_path = m_util.normpath_preserve_protocol(cfg_pth.shaders_dir
+                    + SHADERS[i]);
+            shader_assets.push([SHADERS[i], asset_type, shader_path]);
+        }
+
+        var asset_cb = function(shader_text, shader_name, type, path) {
+            set_shader_texts(shader_name, shader_text);
+        }
+
+        var pack_cb = function() {
+            _shaders_loaded = true;
+        }
+
+        if (shader_assets.length)
+            m_assets.enqueue(shader_assets, asset_cb, pack_cb);
+        else
+            m_print.error("Shaders have not been found.");
+    } else
+        _shaders_loaded = true;
+}
+
+exports.check_shaders_loaded = function() {
+    return _shaders_loaded;
 }
 
 function preprocess_shader(type, ast, shaders_info) {
@@ -477,7 +587,7 @@ function preprocess_shader(type, ast, shaders_info) {
     for (var i in node_elements)
         for (var j in node_elements[i].inputs)
             usage_inputs.push(node_elements[i].inputs[j]);
-        
+
     // entry element
     process_group(ast);
 
@@ -486,7 +596,7 @@ function preprocess_shader(type, ast, shaders_info) {
     var input_index = 0;
     var output_index = 0;
     var param_index = 0;
-    
+
     return text;
 
     function process_group(elem) {
@@ -568,13 +678,7 @@ function preprocess_shader(type, ast, shaders_info) {
             case "if":
             case "elif":
                 var expression = pelem.expression;
-                try {
-                    var result = expression_result(expression)
-                } catch (e) {
-                    // TODO: need better error explanation
-                    throw "Failed to process #" + pelem.type + " expression: "
-                        + expression.join(" ");
-                }
+                var result = expression_result(expression)
 
                 if (result) {
                     process_group(pelem.group);
@@ -598,10 +702,170 @@ function preprocess_shader(type, ast, shaders_info) {
 
     // throws SyntaxError if not parsed
     function expression_result(expression, node_dirs) {
-        var expr_str = expand_macro(expression, dirs, fdirs, true, node_dirs);
-        return gpp_eval.parser.parse(expr_str);
+        var expr_list = expand_macro(expression, dirs, fdirs, true, node_dirs);
+        return eval_expression(expr_list);
     }
 
+    function eval_expression(expr_list) {
+        var operand_stack = [];
+
+        for (var i = 0; i < expr_list.length; i++) {
+            if (!(expr_list[i] instanceof Object)) {
+                var operand = expr_list[i];
+
+                var expr_identifier = /^[a-zA-Z_$][a-zA-Z_$0-9]*$/;
+
+                if (expr_identifier.test(operand))
+                    operand_stack.push(0);
+                else
+                    operand_stack.push(parseFloat(expr_list[i]));
+            } else {
+                switch (expr_list[i].type) {
+                case "conditional_expr":
+                    var falseExpression = operand_stack.pop();
+                    var trueExpression = operand_stack.pop();
+                    var condition = operand_stack.pop();
+                    if (condition)
+                        operand_stack.push(trueExpression);
+                    else
+                        operand_stack.push(falseExpression);
+                    break;
+                case "logical_or_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                        var operand = operand_stack.pop();
+                        result = result || operand;
+                    }
+                    operand_stack.push(result);
+                    break;
+                case "logical_and_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                        var operand = operand_stack.pop();
+                        result = result && operand;
+                    }
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitor_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result |= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitxor_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result ^= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitand_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result &= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "equal_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 == operand2);
+                    break;
+                case "non_equal_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 != operand2);
+                    break;
+                case "le_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 <= operand2);
+                    break;
+                case "ge_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 >= operand2);
+                    break;
+                case "l_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 < operand2);
+                    break;
+                case "g_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 > operand2);
+                    break;
+                case "left_shift_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 << operand2);
+                    break;
+                case "right_shift_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 >> operand2);
+                    break;
+                case "add_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 + operand2);
+                    break;
+                case "sub_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 - operand2);
+                    break;
+                case "mul_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 * operand2);
+                    break;
+                case "div_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 / operand2);
+                    break;
+                case "mod_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 % operand2);
+                    break;
+                case "pre_inc_expr":
+                case "post_inc_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(++operand);
+                    break;
+                case "pre_dec_expr":
+                case "post_dec_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(--operand);
+                    break;
+                case "positive_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(+operand);
+                    break;
+                case "negative_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(-operand);
+                    break;
+                case "one_compl_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(~operand);
+                    break;
+                case "logic_negative_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(!operand);
+                    break;
+                default:
+                    m_util.panic("Unknown operation type: " + expr_list[i].type);
+                    break;
+                }
+            }
+        }
+        if (operand_stack.length == 1)
+            return operand_stack[0];
+        else
+            m_util.panic("Incorrect expression: " + expr_list.join(" "));
+    }
 
     function process_include(elem) {
         var file = elem.file;
@@ -638,7 +902,8 @@ function preprocess_shader(type, ast, shaders_info) {
     }
     function process_extension(elem) {
         var tokens = elem.tokens;
-        lines.push("#extension " + expand_macro(tokens, dirs, fdirs, false));
+        var token_list = expand_macro(tokens, dirs, fdirs, false);
+        lines.push("#extension " + token_list.join(" "));
     }
 
 
@@ -679,13 +944,13 @@ function preprocess_shader(type, ast, shaders_info) {
                 }
             }
         }
-    } 
+    }
 
     function process_nodes_main(nodes) {
         for (var i = 0; i < nodes.length; i++) {
             var nelem = nodes[i];
             var node_parts = shader_nodes[nelem.id];
-            
+
             // ignore node not found in shader
             if (!node_parts)
                 continue;
@@ -718,12 +983,12 @@ function preprocess_shader(type, ast, shaders_info) {
 
                 // value != null for nonlinked inputs
                 if (nelem.input_values[input_index] !== null) {
-                    // NOTE: don't create variable for some shader nodes in 
+                    // NOTE: don't create variable for some shader nodes in
                     //       case of using is_optional flag
                     // input_index === 3 --- normal_in
-                    if ((nelem.id == "MATERIAL" && input_index === 3 
+                    if ((nelem.id == "MATERIAL" && input_index === 3
                             || nelem.id == "MATERIAL_EXT" && input_index === 3
-                            || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL") 
+                            || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL")
                             && decl.is_optional) {
 
                         replaces[decl.name] = nelem.input_values[input_index];
@@ -742,7 +1007,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 break;
             case "node_out":
                 var new_name = nelem.outputs[output_index];
-                
+
                 if (!decl.is_optional || usage_inputs.indexOf(new_name) > -1) {
                     var main_var_line = decl.qualifier.join(" ") + " ";
                     main_var_line += new_name;
@@ -791,7 +1056,8 @@ function preprocess_shader(type, ast, shaders_info) {
                         tokens.push(tok);
                 }
 
-                lines.push(expand_macro(tokens, dirs, fdirs, true, node_dirs));
+                var token_list = expand_macro(tokens, dirs, fdirs, true, node_dirs);
+                lines.push(token_list.join(" "));
                 break;
             }
         }
@@ -805,13 +1071,7 @@ function preprocess_shader(type, ast, shaders_info) {
             case "node_if":
             case "node_elif":
                 var expression = nielem.expression;
-                try {
-                    var result = expression_result(expression, node_dirs);
-                } catch (e) {
-                    // TODO: need better error explanation
-                    throw "Failed to process #" + nielem.type + " expression: "
-                        + expression.join(" ");
-                }
+                var result = expression_result(expression, node_dirs);
                 if (result) {
                     process_node_statements(nelem, nielem.statements, replaces, node_dirs);
                     return;
@@ -835,7 +1095,8 @@ function preprocess_shader(type, ast, shaders_info) {
 
     function process_textline(elem) {
         var tokens = elem.tokens;
-        lines.push(expand_macro(tokens, dirs, fdirs, false));
+        var token_list = expand_macro(tokens, dirs, fdirs, false);
+        lines.push(token_list.join(" "));
     }
 
     function process_lamp(elem) {
@@ -900,7 +1161,7 @@ function preprocess_shader(type, ast, shaders_info) {
 function expand_macro(tokens, dirs, fdirs, empty_as_zero, node_dirs) {
     var result = [];
     expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
-    return result.join(" ");
+    return result;
 }
 
 function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs) {
@@ -991,7 +1252,7 @@ function debug_compilation_uniqueness(shader_id, shader_text, shader_type, shade
     else
         var shader_filename = shaders_info.frag;
 
-    var hc = util.hash_code_string(shader_text, 0);
+    var hc = m_util.hash_code_string(shader_text, 0);
     var info = _debug_hash_codes[hc];
 
     if (info) {

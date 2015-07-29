@@ -1,1325 +1,2096 @@
-.. _release_notes:
 
-*******************
-Замечания к релизам
-*******************
+Release Notes
+*************
 
-.. index:: замечания к релизам
+
+v15.07
+======
+
+
+New Features
+------------
+
+* Support for "Alpha Clip" transparency for node materials.
+
+     It is now possible to specify a transparency mask for "Alpha
+     Clip" materials using node logic.
+
+* Support for soft particles.
+
+     The new property "Soft Particles" has been added to the "Render"
+     panel of the "Emitter" particle system. When activated, this
+     property renders smooth edges near opaque objects located on the
+     scene. This effect is available only for materials with "Alpha
+     Sort", "Alpha Blend" or "Add" type of transparency.
+
+* New preprocessor for shader instructions.
+
+     This new preprocessor has more straightforward architecture and
+     works faster, which, in turn, greatly reduces overall scene
+     loading time, especially in  cases with many different shaders.
+
+* Improved *Viewer* app performance.
+
+     Performance problems caused by event handling in jQuery Mobile
+     library have been fixed.
+
+* Zero level property for *HOVER* cameras.
+
+     This property represents a Z coordinate of the reference plane in
+     which the camera's pivot point is located.
+
+* New sensor manifold type: "CT_CHANGE".
+
+     Along with "CT_CONTINOUS", "CT_TRIGGER", "CT_SHOT" and "CT_LEVEL"
+     manifold types the new "CT_CHANGE" type can now be used. This
+     type allows to execute a manifold's callback right after any of
+     the sensors' values in the manifold has been changed.
+
+* New APIs in *camera_anim* module.
+
+     New API methods such as move_camera_to_point(), rotate_camera(),
+     is_moving() and is_rotating() have been added to module
+     camera_anim.
+
+* A new option to assign materials to objects.
+
+     Until now it has not been possible to assign meterials on objects
+     using "Object" property. Now, this feature is supported.
+
+* Support for external requests to the local development server.
+
+     This feature is enabled by the *Enable external requests*
+     property in addon prefrences.
+
+* New method clear_animation() in the time module.
+
+* New camera APIs.
+
+     APIs of camera module has been extended by get_vertical_limits()
+     and has_vertical_limits() methods which are used to get or check
+     the camera's vertical rotation and translation limits.
+
+* Documentation improvements.
+
+     New user manual design optimized for devices of all kind.
+
+     The differences between coordinate systems used in Blender and
+     Blend4Web are now specified in documentation.
+
+* Support for addon i18n.
+
+     This feature allows translation of addon interface to different
+     languages. The translation into Russian is almost complete.
+
+
+Changes
+-------
+
+* Various usability improvements in the addon interface.
+
+* New "force_container_ratio" option in the init() method.
+
+* Simplified usage of water caustics.
+
+     Water caustics effect is now activated by the "Caustics" option
+     located on the material's "Water" panel.
+
+* New way of evaluating mouse movement sensors.
+
+     Now all elements inside the Canvas Container element (e.g
+     Anchors) do not lock mouse events, thus allowing us to prevent
+     glitches during camera movement.
+
+* Option to change quality of reflections.
+
+     Now it is possible to choose one of three predefined reflection
+     quality modes: "LOW", "MEDIUM" or "HIGH".
+
+* New properties "--project" and "--app" in the *project.py*
+  utility.
+
+* New animation APIs.
+
+     New methods to simplify frame setting:
+     set_first_frame()/set_last_frame().
+
+* New behavior of plane reflections.
+
+     It is now possible to omit specifying the reflection normal by
+     leaving the "Reflection Plane" option empty. In this case, local
+     Z axis will be used instead.
+
+* New SSAO behavior.
+
+     Now there is no need to have shadow casters in the scene to use
+     the SSAO effect.
+
+* New texture anisotropic filtering settings.
+
+     There is a new "Default" value for anisotropic filtering option
+     assigned to textures. By selecting this value you can use the
+     anisotropic filtering specified on the scene. If you need to
+     disable anisotropic filtering on all textures, again, use the
+     setting from the scene.
+
+* New specular alpha shading behavior to match Blender's.
+
+* The physics mask/group, assigned for collision materials, has been
+  extended from 8 to 16 bits.
+
+* New asynchronous shader loader for developer version of Blend4Web.
+
+* Elimination of *shaders* module.
+
+     The methods of this module is now available from the debug
+     module.
+
+* New script for batch processing exported json/html files.
+
+     The scripts *reexporter.py* and *resaver.py* have been combined
+     into *process_blend.py*, which has options for processing
+     exported json/html files.
+
+* Minor refactoring and improvements in API documentation.
+
+
+Fixes
+-----
+
+* Fixed a bug with incorrect Canvas element size appeared on the
+  engine's startup.
+
+* Fixed a lighting bug on objects with the negative "Scale" option.
+
+     This condition is properly handled and reported to the user (in
+     the browser console).
+
+* Fixed a bug with object's vertex animation.
+
+* Fixed a bug with animation played in reverse.
+
+* Fixed an error with incorrect state of *Collision* and *Ray*
+  sensors which appeared after deleting physics objects.
+
+* *Environment* textures with dimensions exceeding the supported
+  ones are now processed correctly.
+
+     Now, such textures are not being turned off but rendered in
+     reduced scale instead. Dimensions are reduced synthetically for
+     NVIDIA GeForce 8000 GPUs on Windows Chrome.
+
+* Fixed an issue with incorrectly reported error which appeared
+  while loading scenes with missing camera/world.
+
+* Fixed a Blender startup error with the world missing from the
+  scene.
+
+* Fixed a bug in the "Webplayer" app when the sound button was
+  missing in some scenes.
+
+* Fixed a bug in the scenes when *motion blur* is the only effect to
+  appear.
+
+* Fixed the get_material_extended_params() method in the material
+  module.
+
+* Fixed Firefox Mobile crashes when using shadows. Improved overall
+  stability for this browser.
+
+* Improved reexporter stability.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     The addons which have version 15.05 or earlier should be deleted
+     before a newer version of addon can be installed. This is
+     especially important on Windows. After deleting the old version,
+     Blender must be restarted.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* There is a bug with video textures on Chrome 43 for Android.
+
+     Please update your Chrome browser to Beta or wait until the next
+     Chrome update.
+
+* Fixed issues with the "Background Music" speakers in the scenes
+  exported to html.
+
+     Currently, there is a bug in Google Chrome (Issue 511251),
+     related to an error with audio file origin. Currently, this issue
+     is partially resolved by our workaround with forced *crossOrigin*
+     attribute on audio sources.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
 
 
 v15.06
 ======
 
-Новый функционал
-----------------
 
-* Новый интерфейс аддона.
+New Features
+------------
 
-    Интерфейс аддона был полностью переработан, для чего был создан специализированный профиль `Blend4Web`, при переключении в который все панели содержат только те опции, которые поддерживаются движком. Кроме того, на смену многострочным панелям Blend4Web пришли небольшие тематические разделы, в которых значительно проще ориентироваться.
+* New add-on user interface.
 
-    Кроме того, реализована возможность автоматически определять необходимость включения эффектов, настраиваемых на сцене. В частности, тени, эффекты преломления, эффекты свечения `Glow` и `Outline` в настройках рендера имеют опцию `AUTO`, позволяющую автоматически активировать их при наличии на сцене соответствующих объектов и материалов.
+     Add-on interface has been redesigned. It is now activated by the
+     new rendering profile, *Blend4Web*, which only contains panels
+     and options explicitly supported by the engine. To simplify
+     navigation, the old multi-line Blend4Web panels have been re-
+     grouped into the smaller ones, based on functionality.
 
-* Новый редактор нормалей.
+     Also, there is a new feature to automatically assign graphic
+     effects required for a scene. In particular, shadows, refraction,
+     *Glow* and *Outline* effects acquired the new *AUTO* property
+     which automatically activates them if some objects or materials
+     located on the scene require such effects.
 
-    Редактор нормалей был полностью переработан. Теперь он совместим с нативным хранилищем редактируемых нормалей Blender. Редактор имеет более удобный интерфейс пользователя, а также позволяет редактировать раздельные (split) нормали.
+* New normal editor.
 
-* Поддержка новых нод.
+     The normal editor has been substantially upgraded. Now it is
+     fully compatible with the native Blender datablock used to store
+     normals. This new editor has more efficient UI and also allows to
+     edit split normals.
 
-    Были поддержаны недостающие выходы ноды `Geometry`: ``Orco`` и ``Local``. Начата работа по поддержке нод `RGB Curves`, `Vector Curves`, `ColorRamp`, а также всех нод движка Cycles.
+* Support for new material nodes.
 
-* Поддержка новых моделей шейдинга.
+     "Orco" and "Local" outputs of *Geometry* node are now supported.
+     There are also some preliminary steps to support *RGB Curves*,
+     *Vector Curves*, *ColorRamp* and Cycles nodes.
 
-    Были поддержаны модели `Minnaert` и `Toon` для диффузного шейдинга и `Blinn` для спекулярного. Таким образом, начиная с этого релиза движком поддерживаются все без исключения модели шейдинга Blender.
+* New shading models.
 
-* Поддержка Blender 2.75.
+     *Minnaert*/*Toon* diffuse shaders and *Blinn* specular shader
+     have been implemented. Thus, starting from this release the
+     engine supports all shading models of Blender.
 
-* Улучшения в физической подсистеме.
-    
-    Переработан код определения столкновений. Теперь имеется возможность определить объекты, участвующие в столкновениях, а также позицию и нормаль точки контакта.
-    
-    В системе трассировки лучей расширены возможности API, в частности, возможно указание опции автоматической очистки связанного в трассировкой объекта (теста), а также функция трассировки через несколько объектов, расположенных один за другим. Как и в случае с API для определения столкновений, теперь возможно определить позицию и нормаль точки контакта. Сама трассировка лучей может производится от точки до точки в глобальном пространстве, без участия вспомогательных объектов-источников.
+* Support for Blender 2.75
 
-    Расширены возможности физических сенсоров `Collision` и `Ray`.
+* Multiple physics improvements.
 
-    Реализована возможность удаления физических объектов со сцены, а также пересчёт тестов столкновений и трассировки лучей после добавления или удаления физических объектов.
+     Code for collision detection has been rewritten. Now it is
+     possible to determine colliding objects, and also the coordinates
+     and the normal at the collision point.
 
-* Инструмент для автоматического переэкспорта множества сцен.
+     Improved ray casting API. In particular, one can specify an
+     option to perform an automatic cleanup of the ray test object and
+     also another option to cast a ray through multiple objects. As in
+     the case of collision detection, this new API allows to determine
+     the target object and the position/normal of the hit point. There
+     is also a new possibility to cast rays from point to point in
+     global space, without requirement to specify a source object.
 
-    В аддон добавлен инструмент `Mass Reexporter`, позволяющий осуществить автоматический переэкспорт сцен из указанного списка директорий.
+     Extended possibilites of *Collision* and *Ray* sensors.
 
-* Возможность автоматической проверки обновлений.
+     Support for deleting physics objects and automatic recalculation
+     of collision/ray tests after physics objects have been
+     added/removed.
 
-    Автоматическая проверка новой версии Blend4Web будет осуществляться при включенном флажке ``Check for Updates on Startup`` в настройках аддона.
+* A new tool for reexporting multiple scenes.
 
-* API для управления параметрами эффекта постобработки *Motion Blur*.
+     A new *Mass Reexporter* tool has been added to addon. This tool
+     allows to automatically reexport all scenes from the specified
+     list of directories.
 
-    В модуле ``scenes.js`` были добавлены функции ``get_mb_params()`` и ``set_mb_params()`` для управления эффектом `Motion Blur`.
+* Possibility to check for updates.
 
-* *Поддержка Timeline-маркеров.*
+     You can now enable a "Check for Updates on Startup" option in
+     addon settings to perform automatic checks for the new versions
+     of Blend4Web.
 
-    В модуль ``scenes.js`` была добавлена функция ``marker_frame()``, которая возвращает значение кадра в маркере, расположенном на шкале времени Blender.
+* API to control *Motion Blur* postprocessing effect.
 
-* Добавлен новый функционал в модуле ``nla.js``.
+     New methods to control Motion Blur effect "get_mb_params()" and
+     "set_mb_params()" has been added to "scenes.js" module.
 
-    В модуле ``nla.js`` были добавлены функции ``set_range()``, ``reset_range()``, ``set_cyclic()`` и ``clear_callback()``. Так же появилась возможность передать callback в функцию ``play()``.
+* Support for Timeline markers.
 
-* *Появилось API для изменения разрешения Canvas'a.*
+     To extract frame numbers from timeline markers a new method
+     "marker_frame()" has been implemented in "scenes.js" module.
 
-    Для изменения разрешения элемента Canvas достаточно вызвать функцию ``set()`` из модуля ``config.js``, в которую необходимо передать параметры ``canvas_resolution_factor`` и ``value``, где ``value`` - новое значения фактора разрешения Canvas'a. Данный функционал удобно использовать, когда требуется повышенное разрешение скриншота.
+* New NLA APIs.
 
-* Поддержка опции ``Vertex Groups -> Length`` для системы частиц типа *Hair*.
+     A new set of methods: "set_range()", "reset_range()",
+     "set_cyclic()" and "clear_callback()" has been added to "nla.js"
+     module. Also, it's now possible to specify callback in "play()"
+     method.
 
-* Новый формат документации разработчика.
+* New API to change Canvas resolution.
 
-    Разработана новая система формальных типов данных, используемых в целях документирования. Например, если раньше трёхмерный вектор имел в документации тип ``Float32Array``, теперь он имеет формальный тип ``Vec3``, унаследованный от ``Float32Array``. Данное нововведение позволяет более точно описывать используемые в движке типы, что позволяет создавать более надёжный и качественный код приложений.
+     To change Canvas resolution it's sufficient to execute method
+     "set()" from "config.js" module with the following parameters:
+     "canvas_resolution_factor" and "value", where "value" is the new
+     resolution of Canvas. This feature is particulary useful for
+     creating high-definition screenshots.
 
-* Новые API для работы с цветом.
+* Support for "Vertex Groups -> Length" option in *Hair* particle
+  system.
 
-    Для работы с цветом реализованы два новых модуля: `rgb <https://www.blend4web.com/api_doc/module-rgb.html>`_ и `rgba <https://www.blend4web.com/api_doc/module-rgba.html>`_. Они содержат API для создания и конвертации цветов из различных цветовых профилей.
+* New API documentation.
 
-* Автоматическое определение пути к SDK в аддоне.
+     To document types used by Blend4Web applications we developed a
+     new formal type system. For example, in our old API docs 3D
+     vectors had "Float32Array" type. Now they have formal "Vec3"
+     type. This solution allows us to formulate more clear and
+     intelligible descriptions for API and, more importantly, helps
+     our users to develop more readable and reliable applications.
 
-    Путь к SDK автоматически заполняется если аддон подключен из директории SDK `blender_scripts`.
+* New colors API.
 
-* API для корректного расчета 2D-координат над Canvas'ом.
+     To work with colors in efficient way two new modules: rgb and
+     rgba have been created. They include APIs to create new color
+     vectors and convert  them between different profiles.
 
-    При работе с позицией курсора или точкой касания на touch-устройстве движку требуются корректно рассчитанные координаты над Canvas-элементом.
+* Automatic determination of path to SDK.
 
-    Тонкости расчета и случаи, когда их необходимо учесть, описаны в соответствующем :ref:`разделе <canvas_nonfullscreen_coords>` документации.
+     Addon option "Blend4Web SDK Directory" is filled up
+     automatically, if the addon is located in default
+     "blender_scripts" directory inside SDK.
 
-    В связи с этим в модуле ``container.js`` добавлены методы ``client_to_canvas_coords()``, ``set_canvas_offsets()``, ``update_canvas_offsets()`` и ``force_offsets_updating()``. Также добавлена настройка конфигурации приложения ``track_container_position``.
+* API for correct calculation of Canvas 2D coordinates.
 
-* API для изменения плавности движения камеры.
+     For proper manipulations with mouse cursor and touchscreen
+     devices the engine requires correct 2D Canvas coordinates.
 
-    В аддоне ``mouse.js`` добавлены методы ``set_plock_smooth_factor()`` и ``get_plock_smooth_factor()``, позволяющие управлять плавностью движения камеры при использовании режима Pointer Lock. При отсутствии этого режима можно воспользоваться аналогичными методами ``set_camera_smooth_factor()`` и ``get_camera_smooth_factor()`` аддона ``app.js``.
+     Details about calculation and use cases of such coordinates are
+     described in the separate topic.
 
-* Поддержка иконки favicon в просмотрщике Webplayer.
+     To support this feature the following methods have been added to
+     engine's APIs: "client_to_canvas_coords()",
+     "set_canvas_offsets()", "update_canvas_offsets()" and
+     "force_offsets_updating()". Also, there is a new configuration
+     option: "track_container_position".
 
-Изменения
----------
+* API to change smooth factors of the camera's movement.
 
-* Новый формат API для определения столкновений и трассировки лучей.
+     To change smooth factors of the camera's movement the following
+     APIs have been implemented: "set_plock_smooth_factor()" and
+     "get_plock_smooth_factor()" in "mouse.js" module (for Pointer
+     Lock mode)  and also "set_camera_smooth_factor()" and
+     "get_camera_smooth_factor()" in "app.js" addon (for general use
+     cases).
 
-    Функции ``append_collision_test()`` и ``append_ray_test()``, а также ``create_collision_sensor()`` и ``create_ray_sensor()`` имеют новый формат вызова, несовместимый с предыдущими версиями движка. Разработчикам настоятельно рекомендуется ознакомится с новыми API и внести соответствующие правки в приложения.
+* New favicon picture has been added to Webplayer.
 
-* Изменения рендеринга сцен в текстуру.
 
-    Теперь доступен циклический рендеринг сцен в текстуру, например, когда две сцены рендерят друг друга. Основным условием является то, что имеется хотя бы одна основная сцена, которую никто не рендерит.
+Changes
+-------
 
-* Отключение опции ``Apply Default Animation`` при наличии нелинейной анимации у объекта.
+* New API spec for collision detection and ray casting.
 
-    В случае использования объектом нелинейной анимации, на объекте отключается опция ``Apply Default Animation``, которая приводила к конфликту с другими типами анимации.
+     Methods "append_collision_test()" and "append_ray_test()", as
+     well as "create_collision_sensor()" and "create_ray_sensor()" are
+     now have new spec, which is incompatible with the previous
+     versions of Blend4Web engine. All developers should consider
+     upgrading their applications to match this new behavior.
 
-* Изменение поведения лампы типа *Hemi*.
+* Rendering to texture changes.
 
-    В случае использования лампы типа *Hemi*, для объектов будет использоваться шейдинговая модель *Lambert*, что соответствует поведению Blender.
+     It's now possible to render scene into texture cyclically, e.g.
+     when two scenes render one into another. The main constraint here
+     is the requirement to have at least one scene, into which is
+     nothing is being rendered.
 
-* Поддержка экспорта в HTML-формат для видеотекстур в Firefox.
+* The option "Apply Default Animation" is now disabled if an object
+  already have an NLA animation attached.
 
-    Поскольку в Firefox, начиная с 38.0 версии, устранена ошибка, связанная с видеофайлами, записанными в base64, видеотекстуры больше не будут отключаться при экспорте в HTML.
+     In cases when the object already have an NLA animation attached,
+     the option "Apply Default Animation" is disabled to eliminate
+     possible animation conflicts.
 
-* Использование UV-слоев в движке приближено к поведению Blender.
+* Changed *Hemi* lamp behavior.
 
-    При отсутствии явно указанных UV-слоёв в нодовом материале, они определяются автоматически, в соответствии с поведением Blender.
+     If the object is being illuminated by the *Hemi* lamp, the
+     *Lambert* shading model will allways be applied to it's
+     materials. This is done to match the Blender's behavior.
 
-* Улучшена стабильность видеотекстуры при HTML-экспорте.
-  
-* Оптимизация рендеринга теней при использовании CSM-схемы.
+* Support for exported-to-HTML video textures in Firefox browser.
 
-* Оптимизация этапа рендеринга глубины в шейдерном конвейере.
+     Since Firefox 38 an error with video textures exported to base64
+     was fixed, so it's now possible to use them in such browsers.
 
-* Оптимизация рендеринга billboard-объектов.
+* Changed assignment of UV layers to match Blender's behavior.
 
-* Параметр конфигурации приложения ``resolution_factor`` переименован в ``render_resolution_factor``.
+     Missing from node materials UV layers are determined
+     automatically as it's done in Blender.
 
-* Улучшена поддержка объекта-эмиттера системы частиц, имеющего несколько материалов.
+* Improved stability of exported to HTML video textures.
 
-    Распределение частиц по мешу эмиттера, а также :ref:`наследование вертексного цвета <particles_inheritance>` теперь всегда происходит с учетом каждого материала и соответствующей ему части меша.
+* Optimizations of CSM shadows.
 
-* Изменено наследование свойства ``Wind Bending`` на системе частиц.
-    
-    При выставлении данного свойства в положение ``Instance`` у объекта-эмиттера теперь не отключается собственный "Wind Bending".
+* Depth shader optimizations.
 
-* Обновление сообщений об ошибках несовместимости версий аддона и движка.
-    
-    :ref:`Описание ошибок <version_errors>` в документации.
+* Billboard objects optimizations.
 
-* Удалены API sensor locks.
-    
-    Из модуля ``controls.js`` удалены неиспользуемые API, связанные с блокировкий сенсоров: `sensor locks`.
+* Configuration option "resolution_factor" was renamed to
+  "render_resolution_factor".
 
-* Поддержка поведения Blender'a для нодового материала при отсутствии ноды *Output*.
-  
-Исправления
------------
+* Improved support for particle emitters which have several
+  materials.
 
-* Исправлена работа аддона ``screenshooter.js``.
+     Distribution of the particles to emitters as well as vertex
+     colors inheritance is being done taking into account each
+     material i.e mesh part.
 
-    Была исправлена ошибка, приводящая к невозможности сделать скриншот.
+* Changed "Wind Bending" inheritance on particle systems.
 
-* Исправлена работа функции ``set_frame()`` из модуля ``nla.js``.
+     If *Wind Bending Inheritance* property is set to "Instance" then
+     "Wind beinding" property for emitter object is not switched of
+     anymore.
 
-    Была исправлена погрешность выставления кадров функцией ``set_frame()``.
+* Updated messages about addon/engine version incompatibilities.
 
-* Улучшена стабильность экспортера.
+     For more info see version errors.
 
-* Исправлена ошибка удаления/обновления аддона на Windows.
+* Remove sensor locks API.
 
-    Переработана система загрузки бинарной библиотеки.
+     Unused sensor locks API was removed from "controls.js" module.
 
-* Исправлен ошибка освещения от источников типа *SPOT*/*POINT*.
+* Fixed behavior of node materials with missing *Output* node.
 
-* Исправлено некорректное определение экранных координат методами ``get_coords_x()`` и ``get_coords_y()`` аддона ``mouse.js``.
-    
-* Исправлен расчет alpha-канала у эффекта *Outline*.
 
-* Исправлена ошибка эффекта *Wind Bending*.
+Fixes
+-----
 
-* Исправлена ошибка системы частиц, при которой не учитывался *Scale* самой частицы.
+* Fixes in "screenshooter.js" addon.
 
-* Исправлена ошибка, связанная с нарушением синхронизации анимации системы частиц типа *EMITTER*.
+     Fixed an error with impossibilty to take a screenshot.
 
-* Исправлен баг наложения теней на billboard-объекты.
+* Fixed a bug in "set_frame()" method from "nla.js" module.
 
-* Исправлен некорректный экспорт настроек *Override Mesh Boundings*.
+     Fixed "set_frame()" inaccurancy.
 
-* Исправлен баг рендеринга billboard-объектов на iPad.
+* Improved exported stability.
 
-Известные проблемы
-------------------
+* Fixed a bug with addon removal/update on Windows.
 
-* Проблемы с обновлением старых версий аддона.
+     Refined binary loader in addon.
 
-    Аддоны с версией меньше 15.06 требуется удалять перед обновлением на более свежие версии, особенно это касается систем Windows. Удаление старой версии должно сопровождаться перезагрузкой Blender.
+* Fixed a bug with shading from *SPOT*/*POINT* lamps.
 
-* Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам WebGL.
+* Fixed incorrect behavior of coordinate calculations in methods
+  "get_coords_x()" and "get_coords_y()" from "mouse.js" addon.
 
-* Версии Google Chrome 43.x под Android имеют `баг с рендерингом видео-текстур <https://code.google.com/p/chromium/issues/detail?id=485482>`_. 
+* Fixed calculations of alpha channel in *Outline* effect.
 
-    Баг уже исправлен в бета-версии и должен исчезнуть с будущими обновлениями браузера.
+* Fixed *Wind Bending* effect error.
+
+* Fixed an error when particle's *Scale* was not taken into account
+  on particle systems.
+
+* Fixed synchronization error on animated *EMITTER* particle
+  systems.
+
+* Fixed a bug with shadows on billboard objects.
+
+* Fixed incorrect exporting of *Override Mesh Boundings* settings.
+
+* Fixed a bug with billboard rendering on iPad.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     The addons which have version 15.05 or earlier should be deleted
+     before a newer version of addon can be installed. This is
+     especially important on Windows. After deleting the old version,
+     Blender must be restarted.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* There is a bug with video textures on Chrome 43 for Android.
+
+     Please update your Chrome browser to Beta or wait until the next
+     Chrome update.
 
 
 v15.05
 ======
 
-Новый функционал
-----------------
 
-* *Эффект свечения (Glow).*
-    
-    Реализован :ref:`эффект <glow>` возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.
+New Features
+------------
 
-* *Автоматический запуск локального сервера разработки.*
+* *Glow effect*.
 
-    В настройках аддона появилась опция, включающая автоматический запуск :ref:`локального сервера разработки <local_development_server>` при старте программы Blender. Фунционал позволяет запускать разрабатываемые веб-приложения в браузере без проведения какой-либо подготовительной работы.
+     Supported an effect which occurs when the light scatters in the
+     atmosphere and inside of the human eye and looks like a halo
+     around glowing objects.
 
-* *Кубические отражения*
+* *The local development server runs automatically.*
 
-    Помимо плоских отражений теперь возможно настроить также и кубические отражения. Для этого в настройках объекта при включенном свойстве ``Reflective`` появилась опция ``Reflection Type``, где можно выбрать тип отражений ``Cube``.
+     A new option has been added to the addon settings. This option
+     turns on automatic start of local development server upon opening
+     Blender. With the help of this functional web applications in
+     development can be run without any preparations.
 
-* *Поддержка опций нелинейной анимации.*
+* *Cube reflections.*
 
-    Добавлена поддержка имеющегося в Blender инструментария для манипулирования полосами NLA: ``Scale`` (масштабирование), ``Muted`` (сделать неактивной), ``Reversed`` (проигрывать в обратном направлении) и ``Repeat`` (повторять). Данные опции позволяют существенно расширить инструментарий разработчиков интерактивных сцен.
+     Apart from plane reflections, there are now cube reflections
+     available. There is a new "Reflection Type" option available when
+     "Reflective" flag is set on the object. Setting it to "Cube"
+     turns this feature on.
 
-    Кроме того, для управления нелинейной анимацией через API был создан новый модуль ``nla.js``. В него входят такие методы как ``play()``, ``stop()``, ``get_frame()``, ``set_frame()``, позволяющие проигрывать и останавливать нелинейную анимацию, а также получать и выставлять текущий кадр. Новые методы были задействованы в приложении Viewer для реализации интерфейса панели управления ``NLA``.
+* *More NLA options supported.*
 
-* *Расширение возможностей отображения текстур неба.*
+     Added support of Blender's NLA tools: "Scale", "Muted",
+     "Reversed" and "Repeat". The support of these tools broadens
+     capabilities of interactive scene developers.
 
-    Добавлена поддержка параметров вкладки ``Influence`` для настройки отображения текстуры неба. К таким параметрам относятся: ``Blend``, ``Horizon``, ``Zenith Up``, ``Zenith Down``, ``Blend``, ``Negative``, ``RGB to Intensity``, ``DVar``.
+     Furthermore, to control NLA through API a new "nla.js" module was
+     added. This module contains methods like "play()", "stop()",
+     "get_frame()", "set_frame()" that can play/stop NLA and get/set
+     the current frame. New methods have been involved in implementing
+     control panel interface in the Viewer app.
 
-* *Добавлена обработка соединений входов с выходами разного типа в нодовом материале.*
+* *Increased rendering possibilities for sky textures.*
 
-    Теперь в нодовых материалах разрешено соединять входы одного типа с выходами другого типа в виде :ref:`некритической ошибки экспорта <export_errors_warnings>`. В движке для данного случая реализовано поведение аналогичное Blender Internal Render.
+     "Influence" parameters for sky texture rendering are now
+     supported. Those parameters are: "Blend", "Horizon", "Zenith Up",
+     "Zenith Down",``Blend``, "Negative", "RGB to Intensity", "DVar".
 
-* *Добавлена поддержка опций на панели Rotation для системы частиц типа Hair.*
+* *In node materials, the engine now correctly processes connections
+  between inputs and outputs of different types.*
 
-    Теперь положение частиц, заданное в Blender, полностью воспроизводится движком. В частности, теперь поддерживаются не только позиционирование и масштабирование, но и поворот частиц.
+     It is now possible to connect outputs of one type with inputs of
+     another type (Non-critical error). Now Blender's native behaviour
+     is supported by the engine.
 
-* *Добавлены примеры для демонстрации возможностей постпроцессинговых эффектов.*
+* *For Hair particles the options on the Rotation panel are now
+  supported.*
 
-    Примеры подготовлены для следующих эффектов: Bloom, Depth of Field, God Rays, Motion Blur и SSAO.
+     Now the engine fully supports the state of particles set in
+     Blender. In particular not only location and scale are supported
+     now, but rotation as well.
 
-* *Добавлен новый модуль container.js.*
+* *Some demos for postprocessing effects demostration were added.*
 
-    С помощью методов модуля ``container.js`` можно добавлять DOM-элементы дерева на определенную глубину относительно ``canvas`` элемента. Для этого используется метод ``insert_to_container()``. Реализованный метод позволил полностью отказаться от использования CSS-свойства ``z-index``, поскольку глубина расположения элементов теперь определяется исключительно их позицией в контейнерном элементе.
+     Examples were prepared for the following effects: Bloom, Depth of
+     Field, God Rays, Motion Blur and SSAO.
 
-* *Улучшения в физическом движке.*
+* *Added a new module container.js.*
 
-    Добавлена поддержка свойства ``Margin`` для физических объектов и материалов. Данная настройка позволяет улучшить стабильность симуляций столкновений объектов. Физический движок Bullet обновлен до версии 2.83.
+     DOM tree elements can be added with a specific depth relative to
+     the  depth of the "canvas" element with the help of
+     "container.js"'s "insert_to_container()" method. This method
+     replaces CSS property "z-index" because location depth of
+     elements is now determined by their position in the container
+     element.
 
-* *API для изменения режима управления камерой.*
-    
-    Добавлены методы :ref:`изменения режима управления <camera_switch_move_style>` камерой. Смену режимов управления демонстрирует пример "Camera Move Styles" в приложении :ref:`Code Snippets <code_snippets>`. Также в модуль ``camera.js`` добавлен метод ``set_hover_pivot()``, позволяющий перемещать опорную точку для камеры типа ``HOVER``.
+* *Improvements in the physical engine.*
 
-Изменения
----------
+     "Margin" property of physical elements and materials is now
+     supported. This option allows for improved stability of object
+     collision simulation. Bullet engine was updated to version 2.83.
 
-* *Переработан список сцен из состава SDK.*
+* *API for changing camera controls mode.*
 
-    Все сцены в приложении Viewer были рассортированы по группам: *App* - готовые приложения, *Demos* - демонстрационные сцены-примеры, *Tutorial Exports* - исходные файлы уроков.
+     Added methods of changing movement style of the camera. The
+     example can be found in Code Snippets app in the "Camera Move
+     Styles" section. Also has been added "set_hover_pivot()" method.
+     This method allows to shift the control point of "HOVER" camera.
 
-* *Добавлена подсветка синтаксиса в приложение Code Snippets.*
 
-    Помимо появления подсветки синтаксиса, немного изменился дизайн самого приложения ``Code Snippets``, а также улучшена его работа на экранах с низким разрешением.
+Changes
+-------
 
-* *Изменено управление видео и canvas-текстурами через API.*
+* *Reorganized SDK's scene list.*
 
-    В методах управления этими текстурами появился параметр data_id, соответствующий номеру динамически загружаемой сцены.
+     All the scenes in the Viewer app has been sorted by groups: *App*
+     contains finished apps, *Demos* contains demo-scenes and
+     examples, *Tutorial Exports* contains tutorials source files.
 
-* *Изменилось поведение при превышении максимального числа анимационных костей.*
+* *Added syntax highlight in Code Snippets app.*
 
-    Теперь при превышении максимального числа костей скелетная анимация отключается. Ранее это приводило к ошибке компиляции шейдера и нарушению работы приложения. 
+     Code Snippets app now has a new design. Also it was optimized for
+     low-resolution screens.
 
-* *Некоторые свойства систем частиц были переименованы и теперь отключены по умолчанию.*
+* *API controls of video and canvas textures have been changed.*
 
-    В частности, по умолчанию теперь отключены свойства ``Randomize Location And Size`` и ``Randomize Initial Rotation`` для систем частиц типа ``Hair``.
+     A new parameter "data_id" has been added to these textures'
+     control methods. This parameter contains an ID of dynamically
+     loaded scene.
 
-* *В некоторых браузерах отключен эффект Допплера для источников звука.*
+* *Handling of animated bone excess has been changed.*
 
-    Поддержка эффекта Допплера в Web Audio объявлена устаревшей и будет удалена в браузере Chrome начиная с версии 45. В остальных браузерах данный функционал по-прежнему доступен.
+     The skeletal animation now just turns off when exceeding the
+     maximum number of bones. It resulted in shader compilation error
+     and unstable application behaviour before.
 
-* *Изменено поведение объектов при наличии одновременно скелетной и вертексной анимации.*
+* *Some particle system properties has been renamed and now they are
+  turned off by default.*
 
-    При наличии у объекта арматурного модификатора и вертексной анимации одновременно, арматурный модификатор экспортироваться не будет.
+     In particular, Hair particle system's properties "Randomize
+     Location And Size" and "Randomize Initial Rotation" are turned
+     off by default now.
 
-* *Оптимизирован рендеринг систем частиц c процедурной анимацией (эффект Wind Bending).*
-  
-* *Улучшена обработка ошибки загрузки главного json- и bin-файлов сцены.*
+* *Doppler effect for speakers is now turned off in some browsers.*
 
-* *32-разрядный addon для Windows собран без использования кросскомпиляции на нативной системе.*
+     Doppler effect support in Web Audio has been pronounced as
+     deprecated and will be removed in Chrome starting from version
+     45. Other browsers still support this functionality.
 
-    Данное нововведение улучшает совместимость аддона с указанными системами.
+* *Changed objects' behavior when both skeletal and vertex animation
+  are applied.*
 
-Исправления
------------
+     If an object has both armature modifier and vertex animation
+     applied on it, the armature modifier won't be exported.
 
-* *Исправлена ошибка, приводящая к установке неправильной высоты элемента с описанием в модуле "anchors.js".*
+* *Rendering of particle system procedural animation (Wind Bending
+  effect) has been optimized.*
 
-* *Поддержка работы в Epiphany и других браузерах, работающих на движке WebKit.*
+* *The main .json and .bin scene files loading error handling has
+  been improved.*
 
-    Обеспечена посредством исправления блоков кода, по-разному обрабатывающихся различными движками JavaScript.
+* *Windows 32 version of Blend4Web addon is now compiled natively.*
 
-* *Отключено использование жестов для touch-устройств на базе Microsoft Windows при использовании Internet Explorer 11.*
+     This feature improves addons compatibility on such systems.
 
-    Раньше использование жестов (Windows Touch Gestures) в данной конфигурации приводило к нежелательному масштабированию и перемещению HTML-элементов. Ожидается, что корректная работа жестов будет обеспечена в будущих версиях браузера.
 
-* *Исправлена ошибка запекания вертексной анимации при наличии анимационного скелета.*
-  
-* *Исправлена ошибка рендеринга billboard-объектов на iPad.*
+Fixes
+-----
 
-* *Исправлена NLA анимация нодовых материалов, используемая на нескольких объектах.*
+* *The error that led to the wrong height of the description element
+  in module "anchors.js" has been fixed.*
 
-* *Исправлен баг эффекта Motion Blur.*
+* *Support for Epiphany and other WebKit-based browsers.*
 
-Известные проблемы
-------------------
+     Achieved by fixing the code which works differently in the
+     different JavaScript engines.
 
-* *Проблемы с обновлением аддона в Blender.*
+* *Gestures on Internet Explorer 11 were disabled for Microsoft
+  Windows touch devices.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона, не удалив предварительно старой, особенно это касается систем Windows. Удаление старой версии должно сопровождаться перезагрузкой Blender.
+     Previously, gestures usage (Windows Touch Gestures) was leading
+     to unnecessary HTML-elements scaling and movement on such
+     configurations. It is expected that correct gestures behaviour
+     will be supported in further browser releases.
+
+* *Vertex animation with animated armature bake error was fixed.*
+
+* *The error with rendering billboard objects on the iPad has been
+  fixed.*
+
+* *Node material's NLA animation applied to several objects was
+  fixed.*
+
+* *Fixed a bug related to the Motion Blur effect.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly recommend not installing a new version of an addon
+     without deleting the old one, especially on Windows. After
+     deleting the old version, Blender must be restarted.
 
 
 v15.04
 ======
 
-Новый функционал
-----------------
 
-* *Добавлена поддержка ключей деформации (Shape Keys).*
+New Features
+------------
 
-    Была осуществлена поддержка :ref:`ключей деформации <morphing>` (`Shape Keys <http://wiki.blender.org/index.php/Doc:2.6/Manual/Animation/Techs/Shape/Shape_Keys>`_) в Blender'e. Для применения ключей в модуль ``geometry.js`` была добавлена функция ``set_shape_key_value``. Пример использования данного функционала доступен в приложении :ref:`Code Snippets <code_snippets>`.
+* *Deformations by using Shape Keys (Morphing).*
 
-* *Добавлена поддержка фона с использованием Horizon Color и Zenith Color.*
+     Added support for object's Morph targets (known as Shape Keys in
+     Blender). To apply such keys, use the "set_shape_key_value"
+     method of the "geometry.js" module. Simple example of how to use
+     such functionality is given in the Code Snippets app.
 
-    Теперь поддерживается настройка фона сцены с использованием ``Horizon Color`` и ``Zenith Color``, а также флагов ``Paper Sky``, ``Blend Sky`` и ``Real Sky``.
+* *Support for Horizon Color and Zenith Color background settings.*
 
-* *Добавлена поддержка ноды Gamma.*
+     It's now possible to tweak scene background by using the "Horizon
+     Color" and "Zenith Color" properties as well as the "Paper Sky",
+     "Blend Sky" and "Real Sky" options directly from Blender.
 
-    Силами команды Blend4Web в Blender v2.74 была добавлена поддержка ноды Gamma. Теперь эта нода также доступна и в движке.
+* *Support for the Gamma node.*
 
-* *Улучшения в инструменте для создания подписей Anchors.*
+     We have implemented the Gamma node back in Blender v2.74. Now
+     this node is finally supported by Blend4Web.
 
-    В настройках в Blender добавлена возможность ограничивать размеры подписей. Реализована поддержка динамической загрузки/выгрузки подписей. Добавлена возможность сокрытия подписей с помощью штатных методов show()/hide() или в инструменте NLA Script.
+* *Various improvements in the Anchors tool.*
 
-* *Оптимизация шейдеров.*
+     It's now possible to limit the pixel size of an annotation. Added
+     support for dynamic loading/unloading of Anchors. Implemented the
+     possibility to hide and show Anchors by using the
+     *show()*/*hide()* API functions and/or by the NLA Script tool.
 
-    Улучшение шейдерного компилятора. Добавлен следующий функционал: оптимизация локальных переменных, удаление избыточных фигурных скобок. Улучшение производительности нодовых материалов.
+* *Shader optimizations.*
 
-* *Оптимизации физического движка uranium.js.*
+     Shader compiler improvements. Added the following features: local
+     variables optimizations, brackets removal. Improved the
+     performance of node materials.
 
-    Модуль с физическим движком загружается только в тех случаях, когда это необходимо. Размер модуля сокращён на 20%.
+* *Physics engine optimizations.*
 
-* *Расширены инструменты для отладки физики.*
+     To save the load time, the physics modules are now loaded only
+     when explicitly required. Overall size of the modules has been
+     decreased by 20%.
 
-    Добавлен метод `physics_stat()` модуля `debug <https://www.blend4web.com/api_doc/module-debug.html>`_ для вывода статистики о количестве физических объектов (по типам), сложности геометрии и прочей информации. Для визуальной оценки производительности физической симуляции добавлена возможность вывода числа итераций: Physics FPS (активируется в модуле `config`).
+* *Extended tools for physics debugging.*
 
-* *Новый API для присоединения объектов к камере независимо от соотношений сторон и углов обзора камеры.*
+     The new *physics_stat()* method has been added to the debug
+     module. This method returns physics statistics such as the number
+     of physics objects (separated by type), amount of geometry and
+     other info. It is now also possible to display the number of
+     physics iterations per second aka Physics FPS (activated in the
+     *config* module).
 
-    Реализуется с помощью метода `append_stiff_viewport()` модуля `constraints <https://www.blend4web.com/api_doc/module-constraints.html>`_.
+* *The new API method to attach objects to the camera independently
+  from the camera's aspect ratio or the field of view.*
 
-* *Новый модуль для применения трансформаций "tsr.js".*
+     Implemented in the *append_stiff_viewport()* method of the
+     constraints module.
 
-    Позволяет применять произвольные трансформации к объектам с помощью универсальных векторов TSR, включающих в себя перемещение, масштабирование и поворот. Данные векторы могут быть использованы в качестве более удобной и эффективной замены матриц.
+* *The new module to perform transformations: "tsr.js".*
 
-* *Добавлена возможность игнорирования директорий для конвертера ресурсов.*
+     This new module makes it possible to apply a variety of
+     tranformations to objects by using versatile TSR vectors. Each
+     TSR vector combines translation, scale and rotation (hence the
+     name). These vectors may be used instead of matrices as a more
+     convenient and effective way to apply transformations.
 
-    Была добавлена возможность игнорирования директорий для :ref:`конвертера ресурсов <converter>`. Для этого надо разместить в этой директории файл с именем ``.b4w_no_conv``.
+* *The possibility to exclude any directories from being converted
+  by the resource converter.*
 
-Изменения
----------
+     To exclude some directory from being converted by the resource
+     converter, it is enough to place a file named ".b4w_no_conv" to
+     this directory.
 
-* *Изменен внешний вид документации API движка. Появились ссылки для быстрого перехода к описаниям методов и свойств.*
 
-* *Скелетная анимация учитывает взаимное расположение арматуры и объекта.*
+Changes
+-------
 
-    Теперь поддерживается родное поведение Blender. Больше нет необходимости размещать арматуру и анимируемый объект в одной точке и с одинаковым поворотом и масштабом.
+* *The API documentation has changed its appearance. Links for quick
+  access to methods and properties were added.*
 
-* *Объектная анимация теперь позволяет анимировать независимо перемещение, поворот и масштаб.*
+* *Skeletal animation now takes into account the relative
+  translation of an armature and a skinned object.*
 
-    В объектной анимации теперь нет жесткой простановки ключей на все каналы, что позволяет сохранять изначальные значения в незатронутых каналах или изменять их через API.
+     Native Blender's behavior is now supported. There is now no need
+     to position an armature and an animated object in the same place
+     and with the same rotation and scale.
 
-* *Опциональная поддержка фона.*
+* *Independent translation, rotation and scale animations are now
+  supported.*
 
-    Активация фона или неба регулируется опцией ``Sky Settings > Render Sky`` на вкладке ``World``. По умолчанию отключено.
+     The animation system no more forces keyframes to be present in
+     every channel, which makes it possible to save original values in
+     unused channels or change them with API.
 
-* *Физический движок Uranium теперь состоит из двух модулей.*
+* *World background support.*
 
-    Для работы физики теперь требуется два модуля: код движка uranium.js и файл инициализации памяти uranium.js.mem. Оба модуля должны находится в одной директории.
+     Background and sky can be enabled with the "Sky Settings > Render
+     Sky" option under the "World" tab. It is turned off by default.
 
-* *Эффект Glow и все связанные с ним компоненты движка были переименованы в Outline.*
+* *The Uranium physics engine now consists of two modules.*
 
-    Новое имя более ясно описывает суть эффекта: подсвечивание объекта на его границах.
+     There are now two physics modules instead of one: *uranium.js* -
+     the engine's code and *uranium.js.mem* - the file for memory
+     initialization. Both modules must be placed in the same
+     directory.
 
-* *Применение ограничителя движения при помощи функции "append_semi_stiff_cam" модуля "constraints.js" теперь разрешено только для камер типа "EYE".*
+* *The glow effect together with its related components was renamed
+  to Outline.*
 
-* *Изменения локального сервера разработки в Blender.*
+     The new name better describes the principle of this effect:
+     highlighting objects' edges.
 
-    В качестве :ref:`локального сервера <local_development_server>` теперь вместо стандартного SimpleHTTPServer на Python используется Tornado Web Server. Новый сервер имеет высокую производительность, а также содержит расширенные настройки для отключения кеширования браузерами.
+* *Limiting the camera translation using the "append_semi_stiff_cam"
+  method of the "constraints.js" module is now possible only for the
+  "EYE" type.*
 
-* *Добавлено управление слайдерами с помощью клавиатуры в приложении Viewer.*
+* *Local development server for Blender was replaced by a new one.*
 
-    Теперь управление слайдером осуществляется при помощи клавиш ``<`` и ``>``.
+     Now, instead of the standard Python SimpleHTTPServer, the Tornado
+     web server is used as the local development server. The new
+     server has greater performance and it also offers more options to
+     disable browser cache.
 
-* *Изменения в методе "update_object_animation" модуля "animation.js".*
-  
-    Добавлен необязательный параметр "force_update", заставляющий обновлять состояние анимированного объекта даже при остановленной анимации.
+* *Keyboard controls for sliders in the Viewer application were
+  added.*
 
-* *Изменения API модуля mouse.js.*
-    
-    Добавлены методы: *enable_mouse_hover_outline*, *disable_mouse_hover_outline*.
+     You can now control sliders with "<" and ">"  keys.
 
-    Следующие методы объявлены устаревшими и будут удалены в последующих релизах: *enable_mouse_hover_glow*, *disable_mouse_hover_glow*.
+* *Changes in the "update_object_animation" method of the
+  "animation.js" module.*
 
-* *Изменения API модуля scenes.js.*
-    
-    Добавлены методы: *outlining_is_enabled*, *set_outline_intensity*, *get_outline_intensity*, *apply_outline_anim*, *apply_outline_anim_def*, *clear_outline_anim*, *set_outline_color*, *get_outline_color*.
+     The optional "force_update" parameter was added. It forces
+     animated objects to be updated even when their animation is not
+     being played back.
 
-    Следующие методы объявлены устаревшими и будут удалены в последующих релизах: *set_glow_intensity*, *get_glow_intensity*, *apply_glow_anim*, *apply_glow_anim_def*, *clear_glow_anim*, *set_glow_color*, *get_glow_color*.
+* *API changes in the mouse.js module.*
 
-* *В панели Object > Blend4Web изменены настройки.*
+     The *enable_mouse_hover_outline* and
+     *disable_mouse_hover_outline* methods were added.
 
-    Добавлен флаг *Enable Outline*, который устанавливает возможность использования эффекта :ref:`подсветки контура <outline>` на данном объекте. Так же добавлен флаг *Ouline on Select*, устанавливающий активацию анимации подсветки при выделении объекта (раньше данное поведение определялось флагом Selectable).
+     The following methods were declared deprecated and will be
+     removed in the next releases: *enable_mouse_hover_glow* and
+     *disable_mouse_hover_glow*.
 
-* *В панель Scene > Blend4Web добавлены новые настройки.*
-    
-    Добавлено поле *Enable Object Outlining*, которое управляет возможностью подсветки контура объектов. Аналогично, новое поле *Enable Object Selectable* управляет возможностью выделения объектов.
+* API changes in the *scenes.js module.*
 
-* *Теперь свойства объекта Apply Scale, Apply Modifiers, Export Vertex Animation, Export Edited Normals и Export Shape Keys взаимно исключают друг друга.*
+     The *outlining_is_enabled*, *set_outline_intensity*,
+     *get_outline_intensity*, *apply_outline_anim*,
+     *apply_outline_anim_def*, *clear_outline_anim*,
+     *set_outline_color* and *get_outline_color* methods were added.
 
-* *Изменение API модулей.*
+     The following methods were declared deprecated and will be
+     removed in the next releases: *set_glow_intensity*,
+     *get_glow_intensity*, *apply_glow_anim*, *apply_glow_anim_def*,
+     *clear_glow_anim*, *set_glow_color* and *get_glow_color*.
 
-    В `API модуля util.js <https://www.blend4web.com/api_doc/module-util.html>`_ добавился метод *is_armature*, позволяющий проверить, является ли данный объект объектом типа ``ARMATURE``.
-    
-    В `API модуля constraints.js <https://www.blend4web.com/api_doc/module-constraints.html>`_ добавился метод *get_parent*, возвращающий для данного объекта родительский объект.
+* *Some settings were changed in the Object > Blend4Web panel.*
 
-Исправления
------------
+     The *Enable Outline* option was added to enable using the outline
+     effect on the given object. Also, the *Outline on Select* option
+     was added to activate glow animation when the object is selected
+     (previously this behavior was defined by the *Selectable* flag).
 
-* *Исправлена ошибка, приводящая к исчезновению описания объекта в модуле "anchors.js".*
+* *New settings were added to the Scene > Blend4Web panel.*
 
-* *Исправлена ошибка запекателя скелетной анимации при наличии арматурных объектов на скрытых слоях.*
+     The *Enable Object Outlining* option was added to control the
+     overall possibility of outlining. Similarly, the new *Enable
+     Object Selectable* option controls the overall possibility of
+     objects' selection.
 
-* *Исправлено поведение камеры при использовании функции "append_semi_stiff_cam" модуля "constraints.js".*
+* *Now the following object properties: Apply Scale, Apply
+  Modifiers, Export Vertex Animation, Export Edited Normals and Export
+  Shape Keys are mutually exclusive.*
 
-   Исправлено вертикальное выравнивание камеры относительно родительского объекта. Также теперь учитывается начальная ориентация камеры, что может потребовать корректировки лимитов вращения, передаваемых в эту функцию.
+* *API changes in modules.*
 
-* *Исправлена ошибка обновления плейлиста, если он оказывался пустым.*
+     The new *is_armature* method was added to the API of the util.js
+     module. It checks if the given object is of the "ARMATURE" type.
 
-* *Исправлено некорректное поведение физических объектов при удалении хотя бы одного из них со сцены.*
+     The new *get_parent* method was added to the API of the
+     constraints.js  module. It returns the parent object of the given
+     object.
 
-* *Исправлен баг при наличии нулевого масштабирования у объекта, размноженного через DupliGroup.*
 
-* *Исправлена ошибка компиляции шейдера воды на Windows и некоторых мобильных устройствах.*
+Fixes
+-----
 
-* *Исправлена ошибка при наличии дублированных ключей анимации.*
+* *Fixed a bug in the "anchors.js" module which caused objects'
+  descriptions to disappear.*
 
-* *В анимации NLA теперь можно использовать акторы из разных файлов, имеющие одинаковое имя.*
+* *Fixed a bug in the Animation Baker script that occured when there
+  were armature objects in hidden layers.*
 
-* *Устранено размножение обработчиков перемещения мыши при многократном вызове "pointerlock".*
+* *Fixed the camera's behavior while using "append_semi_stiff_cam"
+  method of the "constraints.js" module.*
 
-* *Исправлен тип прозрачности "Alpha Sort" для динамических объектов.*
+     Fixed correction of the camera's vertical axis relative to the
+     parent object. Also the original camera orientation is now being
+     taken into account. This can require some adjusments of the
+     camera's rotation limits that are passed to this function.
 
-* *Исправлена ошибка сборки аддона, приводящая к неработоспособности на системах Windows без установленного C++ 2010 runtime.*
+* *Fixed a bug with reloading of the playlist when it was empty.*
 
-* *Исправлен баг рендеринга billboard-объектов на iPad.*
+* *Fixed the buggy behavior of physical objects that occured after
+  deleting at least one of them from the scene.*
+
+* *Fixed a bug that occured when there were zero-scaled objects
+  instanced through DupliGroups.*
+
+* *Fixed a compilation error of the water shader occured on Windows
+  and some mobile devices.*
+
+* *Fixed a bug that occured when there were duplicates of animation
+  keyframes.*
+
+* *Actions from different files sharing one name can be now used for
+  NLA animation.*
+
+* *Fixed duplication of event listeners that occured when the
+  "pointerlock" function was repeatedly called.*
+
+* *Fixed behavior of the "Alpha sort" transparency type for dynamic
+  objects.*
+
+* *Fixed an add-on compilation error that occured on Windows without
+  C++ 2010 runtime installed.*
+
+* *Fixed a bug with rendering of billboard objects on iPad.*
+
 
 v15.03
 ======
 
-Новый функционал
-----------------
 
-* *Инструмент для создания подписей к трёхмерным объектам.*
+New Features
+------------
 
-    Теперь имеется возможность создавать подписи к трёхмерным объектам ("якори"). Данные якори могут быть трёх различных типов: Аннотации (Annotation) - используется информация из мета-тегов, назначенных на объектах, Элементы (Custom Element) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы и Общий (Generic) - якорь, положение которого можно определить с помощью API модуля anchors.
+* *New tool for adding annotations to 3D objects.*
 
-* *Анимация и возможность управления через API значениями нод типа Value и RGB.*
+     Now it is possible to assign anchors to empty objects. These
+     anchors can be of three different types: "Annotations" -
+     information from object's meta-tags is used, "Custom Element" - a
+     custom HTML-element from the current web-page can be used as
+     annotation, "Generic" - an invisible anchor with coordinates
+     calculated using "anchors.js" module API.
 
-    Теперь помимо анимации нод типа Value возможна анимация нод RGB. Так же в модуле objects.js появились соответствующие функции для изменения значений таких нод.
+* *Animation and API methods for Value and RGB nodes in node
+  materials.*
 
-* *Новое приложение "Code Snippets".*
+     Now it is possible to animate not only "Value" nodes but also
+     "RGB" nodes. Also, the corresponding API methods for changing
+     such nodes were added in the "objects.js" module.
 
-    Это :ref:`приложение <code_snippets>` было создано для более быстрого и легкого просмотра уроков по функционалу движка. В нем также можно ознакомиться со скриптами, составляющими основу логики работы приведенных уроков. Приложение доступно из файла index.html, находящегося в корне Blend4Web SDK.
+* *New "Code Snippets" application.*
 
-* *Новые функции управления эффектом Glow.*
+     This application was created to simplify access to the examples
+     of engine's functionality. It is also possible to look at the
+     examples' scripts. This application can be launched from the
+     index.html file located in the Blend4Web SDK's root directory.
 
-    В модуль *scenes* были добавлены новые API: *get_glow_intensity()* и *get_glow_color()*.
+* *New control functions for the Glow effect.*
 
-* *Улучшения в просмотрщике сцен Viewer.*
+     New APIs were added in the *scenes* module:
+     *get_glow_intensity()* and *get_glow_color()*.
 
-    Изменён дизайн кнопки перехода на "домашнюю" сцену, добавлена кнопка "All objects selectable", позволяющая отключить автоматическое назначение свойства "Selectable" для всех объектов на сцене. Также в просмотрщике теперь можно увидеть суммарное количество шейдеров, выполняющихся на загруженной сцене.
+* *Improvements in the Scene Viewer.*
 
-* *Динамическое копирование объектов сцены.*
+     Design of the "Home" button was changed. A new button "All
+     objects selectable" was added. It allows to turn off automatic
+     "Selectable" option assignment for all scene objects. Also, it is
+     now possible to see the total number of shaders on the loaded
+     scene.
 
-    Появилась возможность динамического :ref:`копирования и удаления <copy_obj>` объектов сцены (инстансинг).
+* *Dynamic copying of scene objects (instancing).*
 
-* *Обработка ошибок, связанных со специальной нодой B4W_PARALLAX.*
+     Now it is possible to dynamically copy and remove scene objects
+     (to create and remove instances).
 
-    Добавлена обработка некорректного использования ноды B4W_PARALLAX в виде :ref:`некритической ошибки экспорта <export_errors_warnings>`.
+* *Handling errors related to the B4W_PARALLAX Blend4Web-specific
+  node.*
 
-* *Новые опции в сборщике приложений.*
+     In case of incorrect usage of the B4W_PARALLAX node, an export
+     error warning is generated.
 
-    В сборщике приложений появились новые опции ``-j`` и ``-c``, которые позволяют добавлять в исключения, соответственно, скрипты и стили, не требующие компиляции.
+* *New options in the applications builder.*
 
-* *Экспериментальный Blend4Web рендер движок.*
+     There are now new options in the application builder: "-j" and
+     "-c". They add scripts and styles correspondingly to the
+     exceptions in order to be not compiled.
 
-    Включается в настройках аддона: флаг "Register Blend4Web render engine (Experimental)". Предназначен для упрощения редактирования свойств объектов. Упрощает интерфейс, отключив неподдерживаемые аддоном панели. В данный момент в режиме Blend4Web рендера отсутствует возможность редактирования шейдерного нодового дерева. 
+* *Experimental Blend4Web render engine.*
 
-Изменения
----------
+     It can be turned on in the addon settings using the "Register
+     Blend4Web render engine (Experimental)" flag. This mode is
+     designed to simplify customization of scene properties. Also, it
+     simplifies the interface by removing unsupported panels. At the
+     moment, it is not possible to edit shader node tree in the
+     Blend4Web render mode.
 
-* *Изменение точки отсчета лимитов перемещения камеры.*
 
-    Выставление лимитов перемещения камеры через API теперь полностью соответствует :ref:`отсчету значений <camera_api_notes>` в системе координат движка. Выставление в Blender'е горизонтальных лимитов для камеры типа ``TARGET`` в пространстве координат ``World Space`` изменилось, поэтому может потребовать перенастройки для старых сцен.
+Changes
+-------
 
-* *Обновление документации по настройкам камеры.*
+* *Origin for counting off the camera limits has been changed.*
 
-* *Горизонтальные и вертикальные лимиты вращения камеры теперь полностью независимы друг от друга.*
+     Setting camera movement limits via API now perfectly corresponds
+     to values measured in the engine's coordinate system. Setting
+     horizontal limits for the "TARGET" camera in the Blender's world
+     space has been changed. Thus, it may require changeovers for old
+     scenes.
 
-* *Изменения API модуля camera.js.*
+* *Documentation update for the camera settings.*
 
-    `API <https://www.blend4web.com/api_doc/module-camera.html>`_ модуля camera.js претерпело ряд изменений. 
-    
-    Добавились новые методы: *is_target_camera*, *is_eye_camera*, *is_hover_camera*, *rotate_camera*, *rotate_target_camera*, *rotate_eye_camera*, *rotate_hover_camera*, *get_camera_angles*, *hover_cam_set_translation*. 
+* *Horizontal and vertical limits of the camera rotation are
+  completely independent from each other.*
 
-    Объявлены устаревшими и будут удалены в последующих релизах: *rotate_pivot*, *rotate_hover_cam*, *rotate*, *set_eye_params*, *get_angles*, *translate_hover_cam_v*, *set_hover_cam_angle*.
+* *Some APIs in the camera.js module were changed.*
 
-    Методы *set_ortho_scale* и *get_ortho_scale* при применении их к камере отличного от ``Orthographic`` типа теперь выводят сообщение об ошибке. Также изменено поведение метода *get_hover_angle_limits*, который теперь возвращает угловые лимиты для ``HOVER`` камеры в формате [down, up] вместо [up, down] как было раньше.
+     APIs of the "camera.js" module have undergone a number of
+     changes.
 
-* *Значительно оптимизирована система освещения.*
+     New methods were added: *is_target_camera*, *is_eye_camera*,
+     *is_hover_camera*, *rotate_camera*, *rotate_target_camera*,
+     *rotate_eye_camera*, *rotate_hover_camera*, *get_camera_angles*,
+     *hover_cam_set_translation*.
 
-    Многие свойства источников света теперь обрабатываются на этапе компиляции. Теперь нет ограничения в 4 источника для некоторых мобильных устройств.
+     The following methods were declared as deprecated and will be
+     removed in the next releases: *rotate_pivot*, *rotate_hover_cam*,
+     *rotate*, *set_eye_params*, *get_angles*,
+     *translate_hover_cam_v*, *set_hover_cam_angle*.
 
-* *Изменён способ вёрстки приложений, использующих модуль app.*
+     The *set_ortho_scale* and *get_ortho_scale* methods now print
+     error message when they are applied to the "Orthographic" camera.
+     The behavior of the *get_hover_angle_limits* method was also
+     changed. This method now returns angle limits for the "HOVER"
+     camera in the [down, up] format instead of [up, down] as it was
+     before.
 
-    При инициализации приложения с использованием модуля app размеры создаваемого элемента ``<canvas>`` теперь полностью определяются размерами элемента-контейнера. Это нужно иметь в виду, например, в случае использования элемента ``<div>`` в качестве контейнера, поскольку по умолчанию его высота равна нулю. Задать правильные размеры контейнера можно с использованием CSS, например с помощью inline-стиля. Также, при любых преобразованиях контейнера теперь необходимо вызывать функцию модуля *app* *resize_to_container()*. Аналогичного эффекта можно добиться, если задать опцию *autoresize* при инициализации приложения (в функции *app.init()*). Поддержка низкоуровневого метода изменения размеров элемента ``<canvas>`` с использованием функции *main.resize()* сохранена.
+* *The lighting system was significantly optimized.*
 
-* *Функция модуля app enable_controls() теперь вызывается без параметров.*
+     Many of the lamp props are calculated at the compile time now.
+     Now, there is no 4 lamp restriction is imposed for some mobile
+     devices.
 
-* *Удалены устаревшие методы API.*
+* *The HTML layout method was changed for apps using the app
+  module.*
 
-    Модуль `textures.js <https://www.blend4web.com/api_doc/module-textures.html>`_: *stop_video*.
+     Now, upon initializing an application using the "app.js" module,
+     the dimensions of the created "<canvas>" element are completely
+     determined by the size of the container element. Thus, if a
+     "<div>" element is used as a container, the size of "<canvas>"
+     will be zero by default since div's default size is zero. You can
+     set correct params for the container with CSS and inline-style.
+     Also, you have to use *resize_to_container()* method from the
+     *app* module when the container is changed. The same effect may
+     be achieved if the *autoresize* option is set upon initializing
+     the application (in the *app.init()* function). The low level
+     method for changing the element's dimensions with *main.resize()*
+     function is still supported.
 
-    Модуль `scenes.js <https://www.blend4web.com/api_doc/module-scenes.html>`_: *add_object*, *get_screen_scenes*, *set_light_pos*, *set_light_direction*, *set_dir_light_color*, *get_lights_names*, *remove_all*, *check_collision*, *check_ray_hit*, *get_appended_objs*, *get_object_by_empty_name*.
+* *Now, the enable_controls() function from the app module should be
+  called without any params.*
 
-    Модуль `physics.js <https://www.blend4web.com/api_doc/module-physics.html>`_: *set_character_dist_to_water*.
+* *Deprecated API methods were removed.*
 
-    Модуль `material.js <https://www.blend4web.com/api_doc/module-material.html>`_: *set_batch_param*, *set_max_bones*, *max_bones*.
+     textures.js module : *stop_video*.
 
-    Модуль `main.js <https://www.blend4web.com/api_doc/module-main.html>`_: *set_shaders_dir*, *set_texture_quality*.
+     scenes.js module: *add_object*, *get_screen_scenes*,
+     *set_light_pos*, *set_light_direction*, *set_dir_light_color*,
+     *get_lights_names*, *remove_all*, *check_collision*,
+     *check_ray_hit*, *get_appended_objs*, *get_object_by_empty_name*.
 
-    Модуль `data.js <https://www.blend4web.com/api_doc/module-data.html>`_: *get_bpy_world*.
+     physics.js module: *set_character_dist_to_water*.
 
-    Модуль `controls.js <https://www.blend4web.com/api_doc/module-controls.html>`_: *sensor_make_positive*, *sensor_make_negative*.
+     material.js module: *set_batch_param*, *set_max_bones*,
+     *max_bones*.
 
-    Модуль `camera.js <https://www.blend4web.com/api_doc/module-camera.html>`_: *change_eye_target_dist* (также удалена устаревшая константа *MS_CONTROLS*).
+     main.js module: *set_shaders_dir*, *set_texture_quality*.
 
-* *Новые условия для изменения положения объектов через API.*
+     data.js module: *get_bpy_world*.
 
-    Функции модуля ``transform.js``, связанные с изменением положения объекта, доступны только для :ref:`динамических объектов <static_dynamic_objects>`.
+     controls.js module: *sensor_make_positive*,
+     *sensor_make_negative*.
 
-* *Разрешено использование ноды типа TEXTURE с отсутствующей текстурой.*
+     camera.js module: *change_eye_target_dist* (deprecated
+     *MS_CONTROLS* was also removed).
 
-    Отображение нодового материала в этом случае целиком соответствует Blender'у.
+* *There are now new conditions to allow changing object's position
+  via API.*
 
-* *Обновление механизма проверки совместимости версий экспортированных файлов и движка.*
+     The functions from the "transform.js" module related to changing
+     object position can be now applied to dynamic objects only.
 
-    Движок будет сигнализировать о несовместимости загружаемой сцены специальными :ref:`сообщениями в консоли браузера<version_errors>`.
+* *You can now use TEXTURE nodes without textures.*
 
-* *Свойство объекта "Do not batch" переименовано в "Force Dynamic Object"*
+     In this case the rendering of the node material completely
+     corresponds to Blender.
 
-    Данная опция сообщает движку о том, что объект обязан быть динамическим независимо от других настроек. Теперь она носит более понятное имя.
+* *Updated the procedure of compatibility checks for versions of
+  exported files and the engine itself.*
 
+     The engine will report about the scene's incompatibility by
+     printing messages in the browser console.
 
-Исправления
------------
+* *The  "Do Not Batch" property was renamed to "Force Dynamic
+  Object"*
 
-* *Исправлена ошибка автоповорота камеры в веб-плеере.*
+     This option instructs the engine that the object must be dynamic
+     regardless of other settings. Now its name is more clear.
 
-* *Исправлена ошибка полноэкранного режима в веб-плеере.*
 
-* *Исправлена ошибка определения угловых координат камеры в некоторых положениях.*
+Fixes
+-----
 
-* *Исправлена ошибка автовращения камеры при наличии горизонтальных лимитов, ограничивающих поворот.*
+* *Fixed camera autorotate feature of the web player.*
 
-* *Исправлена ошибка множественного добавления специальных нод в blend-файл.*
+* *Fixed an error related to the fullscreen mode in the Web Player.*
 
-* *Исправлена ошибка замены материала на объекте функцией "inherit_material" из модуля "material.js".*
+* *Fixed an error related to the determination of the camera's
+  angular coordinates in some positions.*
 
-* *Исправлены ошибки при отражении зеркальной поверхностью объекта, имеющего свойства, измененные с использованием модуля "material.js".*
+* *Fixed an error with camera autorotation if the horizontal limits
+  are enabled.*
 
-* *Исправлена генерация сферических WIREFRAME-объектов в режиме отладки сцены.*
+* *Fixed an error when Blend4Web-specific nodes were being added
+  multiple times to a .blend file.*
 
-* *Исправлена процедура оптимизации нод типа TEXTURE в нодовом материале.*
+* *Fixed a bug with replacing materials by using the
+  "inherit_material" function from the "material.js" module.*
 
-* *Исправлена работа опции "Clamp" в ноде типа MixRGB(Linear Light).*
+* *Fixed an error occured while rendering reflections on an object
+  which has been changed through the "material.js" module APIs.*
 
-* *Исправлена ошибка, возникающая при экспорте, если на сцене присутствуют объекты с разделяемым мешем и настройками "Apply Scale", "Apply Modifiers", "Export Vertex Animation" или "Export Edited Normals".*
+* *Fixed generation of the debugging wireframe spheres.*
 
-* *Исправлена ошибка при использовании опции "Blend4Web > Preserve global orientation and scale" на ряде мобильных устройств.*
+* *Fixed optimization of the TEXTURE nodes in node materials.*
 
-* *Исправлена ошибка рендеринга тумана в отдельных версиях Chrome и Firefox под Windows.*
+* *Fixed "Clamp" option behavior in the MixRGB (Linear Light) node.*
 
+* *Fixed an export error occured when an object shares its mesh with
+  another object and one of the following flags is set to true: "Apply
+  Scale", "Apply Modifiers", "Export Vertex Animation" or "Export
+  Edited Normals".*
 
-Известные проблемы
-------------------
+* *Fixed an error with "Blend4Web > Preserve Global Orientation and
+  Scale" option on some mobile devices.*
 
-* *Проблемы с обновлением аддона в Blender.*
+* *Fixed fog rendering error in some versions of Chrome/Firefox
+  under Windows.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
 
-* *Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.*
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
 
 v15.02
 ======
 
-Новый функционал
-----------------
 
-* *Добавлена возможность запуска локального сервера разработки непосредственно из Blender.*
+New Features
+------------
 
-    При использовании Blend4Web SDK имеется возможность запуска :ref:`локального сервера разработки <local_development_server>`. Сервер предоставляет быстрый доступ к содержимому Blend4Web SDK, а также позволяет :ref:`автоматически открывать экспортированные сцены <run_in_viewer>` в просмотрщике сцен.
+* *The local development server can be run from Blender.*
 
-* *Поддержка теней от источников света типа Spot.*
+     It's possible now to run local development server when using
+     Blend4Web SDK. This server allows fast access to the Blend4Web
+     SDK content and also make it possible to automatically open
+     exported scenes in the Viewer application.
 
-    Ранее на лампах Spot тени строились так же, как для ламп типа Sun. Теперь расчет производится аналогично тому, как это делается в Blender, с учетом расхождения лучей света в пространстве.
+* *Support for Spot lights shadows.*
 
-* *Добавлена/расширена поддержка объектов типа "Metaball", "Surface" и "Curve".*
+     Shadows for Spot lamps were processed in the same way as for Sun
+     lamps. Now the calculations are performed in the same way as it's
+     done in blender i.e the light scattering is taken into account.
 
-    Была добавлена поддержка объектов типа ``Metaball``, ``Surface`` и ``Curve``. Объекты этих типов автоматически конвертируются в меши при экспорте. Поддержка использования объектов типа ``Curve`` в модификаторах сохранена.
+* *Added/improved support for "Metaball", "Surface" and "Curve"
+  objects.*
 
-* *В веб-плеер добавлены кнопки социальных сетей.*
+     Support for "Metaball", "Surface" and "Curve" objects was added.
+     Objects of these types are automatically converted into meshes
+     during export. Support for "Curve" objects in modifiers was
+     preserved.
 
-    Данные кнопки позволяют разместить ссылку на 3D сцену, а также ее описание в одной их четырёх популярных социальных сетей.
+* *Social networks buttons are added to the Web Player.*
 
-* *Добавлена возможность редактирования файла списка сцен для просмотрщика непосредственно в Blender.*
+     These buttons allow placing a link and a description to the 3D
+     scene in one of the four popular social networks.
 
-    Была добавлена возможность :ref:`быстрого редактирования файла assets.json <assets_json>` для приложения Viewer через Blender, если используется Blend4Web SDK.
+* *Added support for editing the list of Viewer scenes directly in
+  Blender.*
 
-* *Добавлена возможность изготовления скриншотов в приложении Viewer.*
+     It is now possible to edit assets.json file with a list of Viewer
+     scenes inside Blender. This works only when using Blend4Web SDK.
 
-* *В веб-плеер добавлена опция fallback_video.*
+* *Screenshots can now be taken in the Viewer application.*
 
-    С помощью опции ``fallback_video=/path/to/video/`` можно указывать видео-файл, который будет проигрываться вместо 3D контента на системах без поддержки WebGL.
+* *New fallback_video option is added to the Web Player.*
 
-* *Расширение функционала рендеринга в текстуру.*
+     Now the user can choose a video file to play instead of 3D
+     content on systems without WebGL support. It is possible with the
+     help of the new "fallback_video=/path/to/video/" option.
 
-    Добавлена поддержка рендеринга сцен сразу в несколько текстур. Сцены теперь могут иметь любую степень вложенности.
+* *Improved rendering to texture functionality.*
 
-* *Для билбордов появилась возможность сохранять ориентацию и масштабирование объектов в мировом пространстве.*
+     Added support for rendering scenes into several textures at a
+     time. Scenes now can have any nesting level.
 
-    Для этого нужно выставить опцию :ref:`Blend4Web > Preserve global orientation and scale <billboarding_preserve>` на панели настроек объекта.
+* *Billboards now can save orientation and scale in world
+  coordinates.*
 
-* *Улучшения на главной веб-странице SDK.*
+     To use the feature you need to set Blend4Web > Preserve global
+     orientation and scale flag in the object's settings panel.
 
-    Теперь на главной странице можно узнать версию используемого SDK и проверить систему на совместимость с WebGL.
+* *Improvements on the main SDK web page.*
 
-* *Добавлена поддержка флага Clamp в нодах MATH и MIX_RGB.*
-    
-    Функциональность была реализована сначала в Blender 2.73, и теперь в движке.
+     It is now possible to find out the version of the SDK and check
+     the system for WebGL compatibility on the main web page.
 
-* *Улучшено качество рендеринга при отсутствии аппаратной поддержки текстуры глубины.*
+* *Added support for the Clamp flag in MATH and MIX_RGB nodes*
 
-    Увеличены возможности рендеринга для устройств, не поддерживающих текстуру глубины. Стали доступны эффекты, такие как отражение, свечение, засветка, размытие при движении, сглаживание.
+     At first this functionality was released in Blender 2.73, and now
+     it's also supported in the engine.
 
-* *Добавлена новая документация.*
+* *Considerable imporovements in rendering quality on systems
+  without depth-texture support.*
 
-    Добавлена документация по модулям ``vec3``, ``vec4``, ``quat``, ``mat3``, ``mat4``, а также глобальному пространству имён ``b4w``. Улучшен дизайн веб-страниц документации.
+     Supported rendering features on systems without depth-texture
+     support were extended. There are such effects available now:
+     reflections, bloom, glow, motion blur, antialiasing.
 
-* *Добавлена возможность иметь несколько запущенных копий движка на одной странице.*
+* *New documentation is added.*
 
-    Несколько приложений теперь могут работать одновременно, указывая имя пространства имён при инициализации.
+     Added documentation for the "vec3", "vec4", "quat", "mat3",
+     "mat4" modules and for the global namespace "b4w". Documentation
+     web pages design was improved.
 
-* *Возможность использования SDK в Apple OS X.*
+* *Support for several engine instances on the same web page.*
 
-    В OS X теперь доступны все функции SDK, включая сборку движка и приложений, конвертацию ресурсов и генерирование документации.
+     Several engine instances can now work simultaniously, by
+     specifying the namespace on engine's initialization stage.
 
-* *В модуль camera добавлен метод set_trans_pivot().*
+* *Possibility to use SDK on Apple OS X.*
 
-    Данная функция позволяет устанавливать произвольное положение опорной точки и положение камеры типа ``Target``.
+     On OS X all SDK functionality including engine and applications
+     building, resource conversation and documentation generation is
+     now available.
 
-* *В утилиту ``project.py`` добавлено новое свойство ``version``.*
+* *The new set_trans_pivot() method is added to the camera module.*
 
-    Использование данного свойства позволяет добавлять версию к скриптам и стилям скомпилированного приложения.
+     This function allows setting an arbitrary position of the pivot
+     point and the position of the camera of the "Target" type.
 
+* *A new ``version`` property is added to the ``project.py``
+  utility.*
 
-Изменения
----------
+     This property allows adding a version to the scripts and styles
+     of the compiled application.
 
-* *Теперь в приложение можно добавлять опции с одинаковыми именами через адресную строку браузера.*
 
-    В функции ``get_url_params()`` модуля ``app`` появился необязательный параметр ``allow_param_array``, по умолчание равный ``false``.
-    При назначении этом параметру ``true`` одинаковые опции будут объединены в массив, в противном случае будет использоваться последняя.
+Changes
+-------
 
-* *Улучшения работы источников звука типа ``Background Music``.*
+* *Now it is possible to add options with the same names via browser
+  address bar.*
 
-    Теперь для таких источников поддерживается возможность указания параметров задержки и времени воспроизведения. Также появилась возможность зацикливать их воспроизведение.
+     A new optional parameter "allow_param_array" is added to
+     "get_url_params()" function of "app" module. It is set to "false"
+     by default. Setting this parameter to "true" leads to a merge of
+     identical functions into a massive, other way the last one will
+     be used.
 
-* *Специальные ноды аддона Blend4Web теперь присутствуют в blend-файле по умолчанию.*
+* *Improved ``Background Music`` speaker.*
 
-    Теперь нет необходимости добавлять :ref:`специальные ноды <custom_node_materials>` аддона в файл. Это доступно как при использовании Blend4Web SDK, так и при экспресс-установке аддона.
+     Now the user can specify parameters of delay and playback time.
 
-* *Изменен экспорт пустых объектов типа "Mesh".*
+* *Blend-file now includes special Blend4Web nodes by default.*
 
-    Теперь объекты типа ``Mesh``, не имеющие полигонов, экспортируются как ``Empty``.
+     Now there's no need to add Blend4Web special nodes into a file.
+     It is available in both SDK and addon versions of Blend4Web.
 
-* *Изменения модуля "light.js".*
+* *Changed export of empty "Mesh" objects.*
 
-    Была добавлена новая функция ``get_light_type``, а также теперь в функции ``get_light_params`` и ``set_light_params`` передается не имя объекта, а сам объект типа ``LAMP``. Также теперь доступны для изменения через эти функции свойства ``spot_blend``, ``spot_size``, ``distance`` для источника света типа ``SPOT``. Для источника света типа ``POINT`` теперь доступно для изменения свойство ``distance``.
+     Now "Mesh" objects without polygons are exported as "Empty".
 
-* *Улучшение рефракции при низких настройках качества.*
+* *Changed "light.js" module.*
 
-    При активации профиля качества ``LOW``, теперь используется упрощённая модель рефракции (без искажений).
+     Added function "get_light_type"; functions "get_light_params" and
+     "set_light_params" now get object "LAMP" instead of objects name.
+     Also the user now can change "spot_blend", "spot_size" and
+     "distance" properties of the "SPOT" light source through those
+     functions.
 
-* *Оптимизация нодовых шейдеров.*
+* *Improved refractions on LOW quality settings.*
 
-* *Теперь режим автоматического вращения камеры отключается при касании сенсорного экрана.*
+     New simplified (without distortion) refraction model is now used
+     when "LOW" quality is chosen.
 
+* *Shader nodes optimization.*
 
-Исправления
------------
+* *Now automatic camera rotation can be turned off by touching touch
+  screen.*
 
-* *Исправлено поведение прелоадера для веб-плеера.*
 
-    При открытии веб-плеера в новой вкладке могли наблюдаться артефакты на логотипе ``B4W``.
+Fixes
+-----
 
-* *Исправлена ошибка рендеринга однокаскадных теней, связанная с возникновением жесткой неосвещенной линии по границе всего каскада.*
+* *Corrected behavior of the preloader for the Web Player.*
 
+     Some artifacts could be visible on "B4W" logo while opening Web
+     Player.
 
-* *Исправлена ошибка, связанная с коллизией имен при линковке объектов в Blender'e.*
+* *Fixed an error in rendering of one-cascaded shadows. The error
+  was related to appearing of a hard non-lighted line on the cascade
+  border.*
 
-* *Исправлена ошибка с недостаточной оптимизацией приложений из состава SDK.*
+* *Fixed an error related to names collision while linking objects
+  in Blender.*
 
-* *Исправлена проблема экспорта мешей с плоским шейдингом (flat shading) в Linux x32.*
+* *Fixed an error with optimization of SDK apps.*
 
-* *Исправлено некорректное поведение Target камеры в отдельных случаях.*
+* *Fixed export error of flat shaded meshes on Linux x32.*
 
-* *Исправлена ошибка с попыткой использования карты теней размером большим, чем поддерживаемый конкретным устройством.*
+* *Fixed incorrect behavior of Target camera in particular cases.*
 
-* *Исправлена ошибка, приводящая к снижению FPS в Firefox 35/36 под Windows при включении теней.*
+* *Fixed an error when using a shadow map with size exceeding device
+  limits.*
 
+* *Fixed an error that leads to FPS drop in Firefox 35/36 on Windows
+  when shadows are turned ON.*
 
-Известные проблемы
-------------------
 
-* *Проблемы с обновлением аддона в Blender.*
+Known Issues
+------------
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
+* *Blender add-on upgrading problems.*
 
-* *Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.*
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
 
 
 v15.01
 ======
 
-Новый функционал
-----------------
 
-* *Поддержка режима панорамирования для устройств с сенсорным экраном.*
+New Features
+------------
 
-    Движение камеры в режиме панорамирования осуществляется параллельным перемещением двух пальцев по поверхности экрана.
+* *Support for panning on touchscreen devices.*
 
-* *Поддержка объектов типа "Text".*
+     Panning is performed by swiping two fingers on the surface of the
+     screen.
 
-    Данные объекты теперь автоматически конвертируются в меш при экспорте.
+* *Support for "Text" objects.*
 
-* *Расширение функционала инструмента NLA Script.*
+     These objects are now automatically converted to meshes during
+     export.
 
-    Добавлены новые логические слоты: ``Show Object`` и ``Hide Object`` используются для скрытия и отображения объектов, ``Page Redirect`` - для перенаправления на другие веб-страницы, ``Page Param`` - для сохранения произвольного параметра веб-страницы в выбранном числовом регистре. Упрощено использование слотов ``Select & Jump`` и ``Select & Play`` - теперь для выделяемых объектов нет необходимости указывать свойство ``Selectable``.  
+* *Extended support for the NLA Script tool.*
 
-* *Поддержка экранов сверхвысокого разрешения (HIDPI, Retina).*
+     Added new logic slots: "Show Object" and "Hide Object" used for
+     hiding and showing the obects, "Page Redirect" - for redirecting
+     to other webpages , "Page Param" - for storing any webpage
+     parameter in given numerical register. Simplified usage of
+     "Select & Jump" and "Select & Play" slots. Now it's not required
+     to specify "Selectable" property on selectable objects.
 
-    Режим HIDPI позволяет достичь существенного улучшения качества картинки на устройствах с высоким разрешением. Режим включается автоматически при запуске приложений с настройками качества ULTRA. При необходимости, высокое разрешение может быть включено и для других профилей качества.  
+* *Support for high definition displays (HIDPI, Retina).*
 
-* *Поддержка масштабирования для ортографической камеры.*
+     The HIDPI mode allows to achieve considerable improvement of
+     picture quality on devices with high resolution. This mode is
+     activated automatically upon application startup if ULTRA quality
+     profile has been selected. If necessary, high resolution can be
+     turned on for other quality profiles.
 
-    Добавлено API для изменения масштабирования камеры типа ``Orthographic`` (``Orthographic scale`` в Blender'e).
+* *Support orthographic camera scaling.*
 
-* *В веб-плеер добавлена опция autorotate.*
+     An API to change the "Orthographic" camera scale has been added
+     ("Orthographic scale" in Blender).
 
-    :ref:`Опция <webplayer_attributes>` autorotate используется для автоматического включения вращения камеры сразу после загрузки сцены.
+* *"autorotate" option has been added to the webplayer.*
 
-* *В функцию "enable_camera_controls" из аддона "app.js" добавлен облегченный режим управления с клавиатуры.*
+     The option autorotate is used to turn on the automatic camera
+     rotation as soon as the scene loads.
 
-    Включить режим можно передав необязательный параметр ``disable_letter_controls``. При этом будет отключено управление посредством алфавитно-цифровых клавиш клавиатуры (WASD и т.д.). Указанная функциональность может быть использована для тех случаев, когда в приложении необходимо использовать клавиши для целей, не связанных с перемещением камеры.
+* *Simplied keyboard control mode has been added to function
+  "enable_camera_controls.*
 
-* *Поддержка работы с гироскопом на мобильном устройстве.*
+     The mode is enabled by passing the optional parameter
+     "disable_letter_controls" Thus, the keyboard controls with letter
+     keys (WASD and so on) will be turned off.This feature can be used
+     in cases when you need to use the letter keys for purposes other
+     than moving the camera.
 
-    Добавлены два сенсора для работы с гироскопом на мобильных устройствах. Первый сенсор позволяет оперировать с разностью текущего положения устройства с предыдущим, создается функцией ``create_gyro_delta_sensor`` из модуля "controls.js". Второй сенсор - с текущим значением угла. Создается функцией ``create_gyro_angles_sensor`` из модуля "controls.js". Стоит отметить, что все значения вычисляются в радианах. Также был создан аддон "gyroscope.js", в котором реализовано движение камеры при угловых перемещениях устройства. С примером работы данного функционала для мобильных устройств можно ознакомиться в нашей программе "Viewer", включив опцию "Gyroscope" в меню программы.
+* *Support for gyroscope on mobile devices.*
 
-* *Добавлено новое свойство ``Do not Render`` в настройках материала.*
+     To work with gyroscope on mobile devices the two sensors was
+     implemented. The first sensor allows to operate with current
+     device position compared with the previous one (position delta).
+     It's created by using the function "create_gyro_delta_sensor"
+     from "controls.js" module. The second sensor returns current
+     device angle and created by "create_gyro_angles_sensor" from
+     "controls.js" module. It's worth to mention that all angles are
+     given in radians. Also the special addon "gyroscope.js" was
+     created. This addon implements simple camera movements due to
+     device rotation. You can find an example of using such feature in
+     our Viewer application by selecting the "Gyroscope" menu option.
 
-    Включение данного свойства позволяет не отображать на сцене все объекты, использующие этот материал.
+* *New ``Do not Render`` property has been added to material
+  settings.*
 
-* *Поддержка видеотекстур на IE 11 и iPhone.*
+     Enabling the property allows to hide parts of the scene objects
+     which use such material.
 
-    Поддержка добавлена посредством создания простого формата видео-секвенции ``*.seq``.  Более полную информацию можно посмотреть :ref:`в соответствующем разделе документации <seq>`.
+* *Support for video-textures on IE 11 and iPhone.*
 
-* *Поддержка тега "title" в веб-плеере.*
+     The support is achieved by creating a new video-sequence format,
+     "*.seq". For more info check the following topic in
+     documentation.
 
-    Тег "title" для веб-плеера, необходимый для вывода названия сцены в браузере, теперь берется из JSON-файла сцены. С более подробной информацией
-    можно ознакомиться :ref:`в соответствующем разделе документации <wp_title>`.
+* *Support for "title" tag in Web Player.*
 
-* *Поддержка мета-тегов в Blender.*
+     The Web Player's title (shown as web browser header) is now
+     extracted from JSON file of the loaded scene. For more info about
+     this feature check the following topic in documentation.
 
-    В Blender появилась возмосжность добавлять мета-теги к сцене и к объектам. Для сцены это "title" и "description", для
-    объекта "title", "description" и "category".
+* *Support for meta tags in Blender.*
 
-* *Добавлена возможность вызова пользовательских функций каждый кадр.*
+     It's now possible to append meta tag information to scenes and
+     objects in Blender. Possible tags for scenes are "title" and
+     "description". Possible tags for objects are "title",
+     "description" and "category".
 
-    Для возможности создания более сложных приложений в модуле "main.js" была добавлена функция ``append_loop_cb``, позволяющая вызывать переданную в нее функцию каждый кадр. При этом в эту функцию каждый кадр будут передаваться два параметра: время с начала старта приложения и разница во времени между текущим кадром и предыдущим. Обе величины измеряются в секундах. Для того, чтобы больше не вызывать переданную функцию необходимо удалить ее вызовом функции ``remove_loop_cb`` из модуля "main.js".
+* *Added support for execution of user-defined functions every
+  frame.*
 
-* *Добавлена анимация простого экрана загрузки приложения.*
+     To help users to create sophisticated application the new
+     function "append_loop_cb" has been added to "main.js" module.
+     This function allows to execute given callback every frame. This
+     callback has two parameters: time since the application start and
+     time delta between current and previous frame. Both parameters
+     are in seconds. To cancel the callback execution every frame you
+     should remove it by using the "remove_loop_cb" function from the
+     module "main.js".
 
-    Для создания приложения с анимированным экраном загрузки в функцию ``create_simple_preloader`` из модуля "preloader.js" необходимо передать опцию "preloader_fadeout" со значением "true".
+* *Added support for simple preloader screen animation.*
 
-* *Добавлена возможность экспорта конвертированных медиаданных в HTML-файл.*
+     To create an application with animated preloader pass an option
+     "preloader_fadeout" with the value "true" to the function
+     "create_simple_preloader" from "preloader.js" module.
 
-    Теперь при экспорте в html имеется возможность записать конвертированные данные в файл. Для этого при экспорте необходимо задать свойство "Export converted media" в :ref:`опциях экспорта <export_opts>`.
+* *Added support to export converted media files to HTML file.*
 
-* *Добавлена возможность использования min50 и dds текстур при просмотре сцен через webplayer.*
+     Now then you export HTML files it's possible to store converted
+     files in them. To do so you need to enable "Export Converted
+     Media" option in the export options.
 
-    Для этого необходимо :ref:`передать атрибут <webplayer_attributes>` "compressed_textures" при запуске приложения.
+* *Added support for using min50 and dds textures in Web Player.*
 
-
-Изменения
----------
-
-* *Упрощена файловая структура SDK.*
-
-    Директория ``external`` больше не существует, всё её содержимое перемещено на уровень выше - в кореневую директорию SDK. Файл со списком сцен для просмоторщика ``assets.json`` теперь находится в директории ``apps_dev/viewer``.
-
-* *Изменено поведение автовращения камеры (экспериментально).*
-
-    При наличии ограничений на горизонтальное вращение камера, приближаясь к границам, плавно замедляется и продолжает движение в обратном направлении.
-
-* *Изменено поведение настройки ``Special: Collision`` в настройках материала.*
-
-    Ранее включение опции автоматически приводило к сокрытию объектов, теперь для этой цели необходимо использовать настройку материала ``Do not Render``.
-
-* *Изменен суффикс конвертированных медиаданных.*
-
-    Суффикс ``*.lossconv.*`` заменен на ``*.altconv.*``.
-
-* *Изменена работа опции "Do not render" на объекте.*
-
-    Теперь выставление данной опции на объекте не приводит к потере физических свойств объекта. Объект всего лишь становится невидимым.
-
-* *Доработана комплектация SDK.*
-
-    В бесплатной и коммерческой версиях SDK были добавлены новые сцены с примерами использования движка; устаревшие и малоинформативные сцены исключены.
-
-Исправления
------------
-
-* *При выставлении в Blender'е камере типа "Panoramic" в движке принудительно используется камера типа "Perspective".*
-
-* *Исправлено дрожание камеры типа "Target" в отдельных случаях.*
-
-* *Небольшие исправления в работе аддона "B4W Anim Baker".*
-
-* *Исправлена проблема со звуком на сценах с несколькими камерами.*
-
-* *В модуле "controls" улучшена стабильность работы сенсоров типа "Timer".*
-
-* *Устранена ошибка, возникающая при просмотре сцены через IE при экспорте в HTML.*
-
-* *Оптимизирована работа видеотекстуры. Теперь не производится обновление видеотекстуры при остановке видео.*
-
-* *Исправлена ошибка рендеринга нодового материала, содержащего ноду ``REFRACTION``.*
+     To enable this feature pass "compressed_textures" parameter to
+     Web Player.
 
 
-Известные проблемы
-------------------
+Changes
+-------
 
-* *Проблемы с обновлением аддона в Blender.*
+* *SDK file hierarchy was simplified.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
+     The "external" directory was removed, all its content was moved
+     to the upper level - in the root directory of the SDK. The file
+     with the list of the scenes used by the Viewer application is now
+     located in "apps_dev/viewer" directory.
 
-* *Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.*
+* *Changed camera autorotation behavior (experimental).*
 
-* *Текущая реализация depth-текстур в Firefox 35 приводит к значительному снижению FPS и другим неисправностям.*
-    
-    В различных сценах наблюдается снижение FPS, например, при включении теней. Также некорректно отображаются тени для текстур с использованием прозрачности, например, ``ALPHA_CLIP``. Соответствующая `ошибка <https://bugzilla.mozilla.org/show_bug.cgi?id=1125445>`_, 
-    возможно, будет исправлена в ближайшее время в будущих обновлениях браузера.
+     If the camera limits are present, the camera smoothly slows down
+     when approaching the limits, then moves in the opposite
+     direction.
+
+* *The usage of ``Special: Collision`` property was changed.*
+
+     Earlier, enabling the option automatically resulted in objects'
+     hiding. Now, to do the same thing, you have to specify "Do not
+     Render" property in the material settings.
+
+* *Changed suffix for converted media files.*
+
+     Old "*.lossconv.*" suffix was replaced by "*.altconv.*".
+
+* *Behavior of "Do not render" object property was changed.*
+
+     Now, when the option is activated, an object's physics is not
+     disabled. The object simply becomes invisible.
+
+* *Improved the SDK structure.*
+
+     Free and Pro SDK now come with the new and more polished
+     examples; old and arid examples were dropped.
+
+
+Fixes
+-----
+
+* *When using "Panoramic" camera type in Blender the camera
+  automatically obtains "Perspective" type when exported.*
+
+* *Fixed bug with "Target" camera dragging in rare cases.*
+
+* *Minor fixes in the "B4W Anim Baker" addon.*
+
+* *Fixed issue with sound for scenes with multiple cameras.*
+
+* *Improved stability of "Timer" sensors in "controls" module.*
+
+* *Fixed issue when browsing exported HTMLs in IE browser.*
+
+* *Video texture optimizations. Now the video texture is not updated
+  for suspended video playback.*
+
+* *Fixed rendering issue in node materials with ``REFRACTION``
+  node.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
+* *Slow and unstable rendering of depth textures in Firefox 35.*
+
+     In various scenes the FPS is degraded when shadows are turned on.
+     There is also an incorrect rendering of transparent materials.
+     The issue is reported here and is to be fixed in the future
+     browser updates.
 
 
 v14.12
 ======
 
-Новый функционал
-----------------
 
-* *Поддержка настройки скоростей камеры.*
+New Features
+------------
 
-    Осуществлена поддержка пользовательской :ref:`настройки скоростей 
-    <camera_velocity>` перемещения, вращения, масштабирования камер типа ``Target``, 
-    ``Hover``, ``Eye``. Настройка может быть выполнена как в интерфейсе Blender'а, так и посредством API Blend4Web.
+* *Camera velocity settings are now available.*
 
-* *Поддержка MIP-текстурирования для Canvas-текстур.*
+     Now camera movement velocity can be set up, including
+     translation, rotation and zooming. Velocity for all camera types
+     ("Target", "Hover", "Eye") can be tweaked both using Blender UI
+     and through Blend4Web API.
 
-    Осуществлена поддержка MIP-текстурирования для :ref:`Canvas-текстур <render_to_texture_canvas>`.
+* *Mipmapping is now supported for Canvas textures.*
+
+     We have added mipmapping support for Canvas textures.
+
+* *Full support for the "MAPPING" node.*
+
+     Now all "Vector type" options available for the "MAPPING" node
+     are supported, including "Texture", "Point", "Vector" and
+     "Normal".
+
+* *Glow on mouse over.*
+
+     API in the "mouse.js" module were created for the effect of
+     outlining the objects under the mouse pointer. Also, for purposes
+     of controlling this effect, "enable_mouse_hover_glow()" and
+     "disable_mouse_hover_glow()" methods were added. The objects
+     should have "Object > Blend4Web > Selectable" checkbox enabled.
+
+* *A brand new app building system.*
+
+     Now, the users can develop their apps right in the SDK thanks to
+     the new "project.py" utility. This script makes it possible to
+     build the apps together with the engine, to minify JavaScript and
+     CSS files and to export the final apps to be deployed on a
+     server.
 
 
-* *Полная поддержка ноды "MAPPING".*
+Changes
+-------
 
-    Осуществлена поддержка всех возможных значений ``Vector type`` для ноды ``MAPPING``: ``Texture``, ``Point``, ``Vector`` и ``Normal``.
+* *Removed support for deprecated "UV translation velocity" texture
+  settings.*
 
-* *Glow-эффект при наведении курсора мыши на объект.*
+     We recommend to use node materials instead.
 
-    Для эффекта подсветки объекта под курсором мыши доступно API модуля ``mouse.js``. Управление эффектом осуществляется с помощью функций ``enable_mouse_hover_glow()`` и ``disable_mouse_hover_glow()``. При этом на объекте должно быть выставлено свойство ``Object > Blend4Web > Selectable``.
+* *Removed deprecated "Levels of Detail" user interface.*
 
-* *Новая система сборки приложений.*
+     This functionality can be used through Blender's standard "Levels
+     of Detail" tool.
 
-    Теперь пользователи имеют возможность вести разработку приложений непосредственно в составе SDK, благодаря новой утилите ``project.py``. :ref:`Данный скрипт <app_building>` позволяет собирать приложения вместе с движком, минимизировать JavaScript и CSS-файлы, а также экспортировать готовое приложение для последующего развертывания на сервере.
+* *The pointerlock.js add-on was renamed into mouse.js.*
 
-Изменения
----------
+* *A mouseup event is now fired when the mouse pointer is leaving
+  the app viewport.*
 
-* *Удалена поддержка устаревшей опции текстур "UV translation velocity".*
+     So the problem with broken camera controls is no longer observed.
 
-    Вместо неё рекомендуется использовать функционал нодовых материалов.
+* *Error message about "Clear parent inverse" is no more shown.*
 
-* *Удалена поддержка устаревшего интерфейса "Levels of Detail".*
+     Before, when using parenting, it was required to reset
+     translation, rotation and scale of child objects ("Object >
+     Parent > Clear Parent Inverse"). Now such transformation is
+     natively supported by the engine.
 
-    Аналогичный функционал теперь реализуется штатным инструментом Blender
-    "Levels of Detail".
+* *"Apply scale" option no longer applies modifiers.*
 
-* *Аддон pointerlock.js переименован в mouse.js.*
+     As before, Apply modifiers should be used in order to apply
+     modifiers.
 
-* *Добавлено срабатывание события mouseup при покидании курсора мыши вьюпорта приложения.*
+* *Use of normal maps in node materials no longer requires a
+  Material or Extended Material node.*
 
-    Таким образом была исправлена наблюдавшаяся ранее проблема с нарушением контроля камеры.
+     In some cases (e.g. refraction) normal maps can be used in
+     shadeless materials.
 
-* *Сообщение об ошибке "Clear parent inverse" более не появляется.* 
 
-    Ранее при использовании отношения родитель-потомок требовалось сбрасывать перемещение, вращение и масштаб 
-    объекта-потомка (``Object > Parent > Clear Parent Inverse``). Указанная трансформация теперь поддерживается движком.
+Fixes
+-----
 
-* *Использование "Apply scale" теперь не приводит к применению модификаторов.*
+* *Fixed audio playback error occured when using NLA.*
 
-    Для применения модификаторов по-прежнему следует использовать флаг :ref:`Apply modifiers <apply_modifiers>`.
+     This happened due to insufficient float number precision.
 
-* *Использование карты нормалей в нодовом материале больше не требует наличия нод Material или Extended Material.*
-    
-    В некоторых случаях (например, рефракция) карты нормалей могут применяться в материалах без освещения. 
+* *Fixed incorrect rendering of light sources on mobile devices.*
 
-Исправления
------------
+* *Layering shadows is fixed when multiple active light sources are
+  present.*
 
-* *Исправлена ошибка воспроизведения звуков через инструмент NLA.*
+     Now the shadows are calculated like in Blender, that is areas
+     illuminated by other light sources are not darkened.
 
-    Ошибка проявлялась вследствие недостаточной точности чисел с плавающей
-    запятой.
+* *Node material rendering error has been fixed.*
 
-* *Исправлен некорректный рендеринг источников света на мобильных устройствах.*
+     The error occured when a "MATERIAL" node (or "MATERIAL_EXT") with
+     a linked (from another .blend file) material was used.
 
-* *Исправлено наложение тени при нескольких активных источниках освещения.*
+* *Animation baker ("B4W Animation Bake" operator) no longer resets
+  an armature pose.*
 
-    Теперь тень накладывается так же как в Blender, не затеняя те участки, куда попадает
-    свет от других источников.
+     Now, when using the animation baking tool, the armature pose is
+     being left intact.
 
-* *Исправлена ошибка отображения нодовых материалов.*
+* *Fixed jerky camera movement upon application startup.*
 
-    Ошибка возникала при использовании нод ``MATERIAL`` и ``MATERIAL_EXT`` с добавленным по ссылке (из 
-    другого .blend-файла) материалом.
+* *Fixed error with incorrect determination of the camera's
+  horizontal movement limits.*
 
-* *Исправлен сброс позы арматуры при использовании "B4W Animation Bake".*
+* *Fixed error occured when unused textures were exported.*
 
-    Теперь при использовании инструмента :ref:`запекания анимации <animation_bake>`
-    арматурный объект остаётся в позе, в которой он находился до запекания.
 
-* *Исправлено резкое движение камеры после старта приложения.*
+Known Issues
+------------
 
-* *Исправлена ошибка, связанная с неверным определением лимитов горизонтального вращения камеры.*
+* *Blender add-on upgrading problems.*
 
-* *Исправлена ошибка, связанная с экспортом неиспользуемых текстур.*
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
 
-Известные проблемы
-------------------
-
-* *Проблемы с обновлением аддона в Blender.*
-
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
-
-* *Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.*
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
 
 
 v14.11
 ======
 
-Новый функционал
-----------------
 
-* *Поддержка видео-текстур.*
+New Features
+------------
 
-    Осуществлена поддержка :ref:`видео-текстур <video_texture>` для текстур типа ``Image or Movie``.
+* *Video textures support.*
 
-* *Частота кадров.*
+     Video textures are now supported for "Image or Movie" textures.
 
-    Добавлена поддержка изменения частоты кадров для анимации и видеотекстур. Частоту кадров можно задать опцией ``Scene > Dimensions > Frame rate``.
+* *Frame rate.*
 
-* *Поддержка текстур типа Canvas.*
+     Frame rate for animation and video textures can now be changed
+     through the "Scene > Dimensions > Frame rate" option.
 
-    В качестве :ref:`текстуры <render_to_texture_canvas>` используется HTML-элемент Canvas. Работа с ней :ref:`описана <canvas_texture>` в документации.
+* *Canvas textures support.*
+
+     A canvas HTML element can be now used as a texture. The workflow
+     is described in the manual.
 
 * *Сamera panning.*
 
-    В режиме вращающейся вокруг точки камеры (``Target``) теперь имеется возможность перемещения точки вращения в плоскости обзора (т.н. панорамирование) при зажатой правой или средней кнопках мыши. Функция включена по умолчанию и при необходимости выключается в настройках в Blender'е.
+     In the mode when the camera is rotating around a single point
+     ("Target") the users now have the ability to move the pivot point
+     within the view plane (so called camera panning) while the right
+     or middle mouse buttons are pressed. This function is turned on
+     by default and can be turned off in Blender settings at need.
 
-* *Новый режим управления камерой - Hover.*
+* *New camera control mode - Hover.*
 
-    Реализован режим скольжения камеры над плоскостью (``Hover``), включающий возможность приближения и удаления. Этот режим камеры позволяет реализовывать сценарии удобного просмотра протяженных в двух измерениях сцен (помещений, игровых уровней).
+     The "Hover" mode is now available when the camera is gliding over
+     the horizontal plane (including zooming in and out). This camera
+     mode makes it possible to realize scenarios for a convenient
+     viewing of scenes which are spread in two dimensions (rooms, game
+     levels).
 
-* *В SDK добавлена корневая веб-страница index.html для упрощения навигации по
-  дистрибутиву.*
+* *The SDK now contains a root index.html webpage for simplifying
+  navigation within the distribution.*
 
-* *Поддержка преобразования форматов видео-файлов в конвертере ресурсов.*
+* *The resource converter now has the ability to convert videos.*
 
-* *Добавлена система сборки, ранее отсутствовавшая в публичных дистрибутивах SDK.*
+* *We have added a build system which was absent in previous public
+  SDK distributions.*
 
-* *Поддержка режима экспорта "Strict mode" в аддоне.*
+* *The export Strict mode is implemented in the add-on.*
 
-    Активация режима ``Strict mode`` позволяет вывести все возможные ошибки и
-    предупреждения, связанные с некорректной настройкой сцены. Опция полезна для
-    финальной отладки сцены с целью получения максимально корректных и
-    оптимизированных ресурсных файлов.
+     Activating "Strict mode" gives the possibility to display all
+     possible errors and warnings connected with incorrect scene
+     settings. The option is useful for final scene debugging for
+     getting the most correct and optimized resource files.
 
-* *Поддержка воспроизведения звуков на устройствах с iOS.*
+* *Audio playback support for iOS devices.*
 
 
-Изменения
----------
+Changes
+-------
 
-* *Опция "bg" веб-плеера переименована в "fallback_image".*
+* *The webplayer's "bg" parameter is renamed to "fallback_image".*
 
-    Также притерпела изменение логика поведения опции. При указании
-    ``fallback_image`` информация об отсутствии поддержки WebGL теперь не
-    выводится, вместо неё пользователю демонстрируется изображение.
+     This option also has changed its behavior. If the
+     "fallback_image" is defined the error message that WebGL is
+     unavailable is not shown any more, instead the user sees just the
+     image.
 
-* *В веб-плеере опция отключения звука теперь не показывается для сцен, не имеющих источников звука.*
+* *If there are no sound sources in the scene the sound mute button
+  is no longer shown in the webplayer.*
 
-* *Улучшена стабильность работы стековых материалов.*
+* *Generic materials workflow is now more predictable.*
 
-* *В сенсор "mouse_down" добавлен код нажатой кнопки мыши, который доступен в поле payload сенсора.*
+* *The "mouse_down" sensor provides the code of the mouse button
+  pressed. This code can be obtained from the payload sensor's
+  parameter.*
 
-* *Значительно оптимизирован экспорт систем частиц типа Hair.*
+* *Hair particle systems can be now exported significantly faster.*
 
-Исправления
------------
 
-* *Карты нормалей теперь работают с типами текстурных координат Generated и Normal.*
+Fixes
+-----
 
-    При использовании карт нормалей теперь нет необходимости использовать UV-развертку.
+* *Normal maps now work with Generated and Normal texture
+  coordinates.*
 
-* *Исправлена проблема с неверными путями к физическому движку в веб-плеере.*
+     Using UV layers is no more required for normal maps.
 
-    Ошибка проявлялась при перемещении файла uranium.js из директории с главным
-    HTML-файлом веб-плеера.
+* *Fixed the problem with the wrong path to the physics engine in
+  the webplayer.*
 
-* *В аддоне исправлена проблема с упакованными текстурами, проявляющаяся при
-  экспорте при включённой опции "Automatically Pack Into .blend".*
+     This error arose when uranium.js was moved out of the directory
+     containing the main HTML file of the webplayer.
 
-Известные проблемы
-------------------
+* *In the add-on we have fixed the problem with packed textures.
+  Export crashed when the "Automatically Pack Into .blend" option was
+  enabled.*
 
-* *Проблемы с обновлением аддона в Blender.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
 
 v14.10
 ======
 
-Новый функционал
-----------------
 
-* *Новый веб-плеер.*
+New Features
+------------
 
-    Новый минималистичный дизайн веб-плеера удачно сочетается с любыми трёхмерными
-    сценами, имеет упрощённый интерфейс и встроенную подсказку по управлению.
-    Веб-плеер работает на всём спектре оборудования, включая мобильные устройства.
+* *A new Web Player.*
 
-* *Улучшение системы теней.*
+     The new minimalistic Web Player design blends perfectly with any
+     3D scenes. It has a simplified user interface and build-in help.
+     The Web Player works on all devices including mobile ones.
 
-    Добавлена возможность выбора некаскадной модели теней на основе одной
-    оптимизированной карты теней. Такая модель проще в настройке и хорошо
-    подходит для небольших сцен. Подробности в :ref:`документации <shadows>`.
+* *Improved shadows.*
 
-* *Многочисленные улучшения в системе нелинейной анимации (NLA).*
+     It's now possible to choose a non-cascaded shadow model, based on
+     a single optimized shadow map. Such model is easier to configure
+     and suits well for relatively small scenes. For more info see the
+     docs.
 
-    Появилась возможность создания сложной логики в инструменте NLA Script
-    с помощью блоков ``Conditional Jump``, ``Register Store`` и ``Math
-    Operation``, а также переменных, сохраняемых в регистрах.
+* *Many NLA system improvements.*
 
-    Возможность использования в NLA всех типов анимации, поддерживаемых движком,
-    включая воспроизведение звуков, вертексную анимацию и эмиссию частиц.
-    Анимацию различных типов теперь возможно проигрывать параллельно.
+     It's now possible to create a complex logic using the
+     "Conditional Jump", "Register Store", "Math Operation" NLA Script
+     logic blocks and register-stored variables.
 
-* *Поддержка биллбординга объектов.*
+     It's now possible to use all types of supported animations in the
+     NLA, including sound playback, vertex animation and particle
+     emission. It's now possible to play different animation types
+     simultaneously.
 
-    Объектам добавлены :ref:`опции <objects_billboarding_properties>`, позволяющие настроить биллбординг.
+* *Supported objects billboarding.*
 
-* *Поддержка режима "XYZ Euler" для анимации поворота.*
+     The objects received the new set of options, allowing to
+     configure billboarding.
 
-    Объектная и скелетная анимация теперь поддерживают режим ``XYZ Euler`` для анимации поворота.
+* *The "XYZ Euler" mode is supported for animating rotations.*
 
-* *Поддержка текстурных координат типа GENERATED.*
+     Object and skeletal animations now support the "XYZ Euler" mode
+     for rotations.
 
-* *Добавлена поддержка загрузки ресурсов с удаленного сервера (Cross-origin resource sharing).*
+* *Support for the GENERATED texture coordinates.*
 
-* *Упрощен процесс экспорта сцен.*
+* *Support for Cross-origin resource sharing (CORS).*
 
-    Ряд ошибок, возникающих при экспорте материала, теперь не блокирует экспорт.
-    Вместо этого при загрузке сцены данный материал будет
-    отображаться розовым цветом. Более подробное описание ошибок доступно в
-    :ref:`документации <export_errors_warnings>`.
+* *Scene export process simplified.*
 
-* *Добавлена поддержка опции "Do not export" для системы частиц.*
+     The range of material export errors are now not blocking the
+     export. Instead this material will be highlighted pink at scene
+     loading. Detailed error descriptions can be found in the manual.
 
-* *Улучшена стабильность работы приложений на устройствах с мобильной
-  операционной системой Apple iOS.*
+* *Added support for the "Do not export" option for particle
+  systems.*
+
+* *Improved stability on iOS devices.*
 
 
-Изменения
----------
+Changes
+-------
 
-* *В SDK изменился путь для настройки экспорта в HTML.*
+* *Changed SDK path setting for HTML export.*
 
-    В настройках аддона, установленного через SDK, теперь достаточно указывать
-    путь непосредственно к корневой директории SDK. Ранее требовалось указывать
-    путь к приложению embed. Обратите внимание, старое поведение более не
-    поддерживается.
+     It's now needed to set the SDK path setting for HTML export to
+     SDK root directory. Earlier it was required to provide the full
+     path to embed application. Pay attention, the old behavior is not
+     supported anymore.
 
-* *Объявлена устаревшей опция текстур "UV translation velocity".*
+* *Deprecated the "UV translation velocity" option.*
 
-    Опция будет удалена начиная с версии 14.12.
+     The option will be removed since version 14.12.
 
-* *Удалена опция "Do not export" на панели "Object data".*
+* *Removed option "Do not export" from the "Object data" panel.*
 
-* *Опция Blend4Web>Animation>Cyclic на вкладке свойств объектов удалена.*
+* *Removed "Blend4Web > Animation > Cyclic" option from the object
+  properties panel*.
 
-    Вместо неё следует использовать опцию ``Blend4Web > Animation >
-    Behavior``, расположенную там же. В сценах, где циклическая анимация
-    назначается по умолчанию, возможно нарушение работы анимации, соответственно
-    в них необходимо установить поведение в ``Cyclic``.
+     Instead one should use "Blend4Web > Animation > Behavior" option
+     located in the same place. Scenes with default animations may
+     work incorrectly, so they need behavior property to be set to
+     "Cyclic".
 
-* *Изменена реализация алгоритма SSAO.*
+* *Modified SSAO algorythm realisation.*
 
-    Новая реализация работает значительно быстрее и показывает лучшее качество изображения.
-    Параметры настройки алгоритма также изменились. Подробнее в :ref:`документации <ssao>`.
+     The new implementation is much faster and shows better quality.
+     The settings of the algorithm are changed too. For more info see
+     the manual section.
 
-Исправления
------------
 
-* *Исправлена ошибка рендеринга материала типа HALO.*
+Fixes
+-----
 
-* *Исправлена ошибка рендеринга объекта при выставлении опции "Force Dynamic Object", если он имел родительский объект.*
+* *Fixed rendering error for HALO materials.*
 
-* *Исправлена ошибка назначения горячих клавиш на экспорт аддона Blend4Web.*
+* *Fixed a rendering error when an object with the enabled "Force
+  Dynamic Object" property has a parent object.*
 
-    Устранена ошибка, не позволяющая назначить горячие клавиши на экспорт в форматы JSON и HTML:
-    ``File->Export->Blend4Web(.json)`` и ``File->Export->Blend4Web(.html)``.
+* *Fixed error with keyboard shortcuts in Blender.*
 
-* *Исправлена ошибка загрузки текстур, превышающих допустимый размер для данного устройства.*
+     Fixed error with inability to assign keyboard shortcuts in
+     Blender for export menu items:"File->Export->Blend4Web(.json)"
+     and "File->Export->Blend4Web(.html)".
 
-* *Исправлены ошибки анимации нодовых материалов, приводившие к нестабильной работе движка.*
+* *Fixed crash when loading textures with size exceeding device
+  limits.*
 
-* *Устранена ошибка нодовых материалов, содержащих сложные группы нод (Node
-  Groups).*
+* *Fixed node material errors resulting in unstable engine
+  behavior*.
 
-* *Исправлены ошибки компиляции шейдеров на устройствах с мобильной графикой
-  Qualcomm Adreno 305.*
+* *Fixed error in node materials that contained complex Node
+  Groups.*
 
-* *Исправлена ошибка рендеринга при использовании ноды REFRACTION на непрозрачных материалах.*
+* *Fixed errors of shaders compilation on devices with mobile
+  graphics Qualcomm Adreno 305.*
 
-* *Исправлен сброс значения текущего кадра анимации после её запечения при
-  помощи инструмента "B4W Vertex Anim Baker".*
+* *Fixed rendering error when using REFRACTION nodes in transparent
+  meterials.*
 
-Известные проблемы
-------------------
+* *Fixed an issue in "B4W Vertex Anim Baker" tool when current frame
+  reset was occured after using bake.*
 
-* *Проблемы с обновлением аддона в Blender.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
+Known Issues
+------------
 
-* *Карты нормалей не работают с типом текстурных координат Generated.*
+* *Blender add-on upgrading problems.*
 
-    При использовании карт нормалей необходимо использовать UV-развертку.
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Normal maps don't work for Generated texture type.*
+
+     It is necessary to use UV mapping for normal maps.
+
 
 v14.09
 ======
 
-Новый функционал
-----------------
 
-* *Поддержка типа ABSOLUTE для ноды MATH.*
+New Features
+------------
 
-* *Поддержка специализированной ноды LEVELS_OF_QUALITY.*
+* *ABSOLUTE type support for the MATH node.*
 
-    Позволяет управлять сложностью материала в зависимости от профиля качества,
-    указанного пользователем при загрузке движка.
+* *Support for LEVELS_OF_QUALITY special node.*
 
-* *Поддержка специализированной ноды SMOOTHSTEP.*
+     Allows to control the material's complexity depending on the
+     quality profile which is specified by the user upon engine start.
 
-    Упрощает создание некоторых эффектов в нодовом материале.
+* *Support for SMOOTHSTEP special node.*
 
-* *Поддержка нодовых групп.*
+     Simplifies the creation of some effects in node materials.
 
-    `Нодовые группы <http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups>`_ позволяют повторное использования блока нод одного материала в составе другого.
+* *Node groups support.*
 
-* *Возможность вывода промежуточных результатов рендеринга с целью отладки.*
+     Node groups allow the sharing of node blocks between materials.
 
-    Результат рендеринга конкретной стадии теперь можно вывести поверх основного изображения. Настройка осуществляется в модуле ``config.js`` опциями группы ``debug_subs``.
+* *The ability to output intermediate rendering results for
+  debugging.*
 
-* *Реализация логики управления NLA-анимацией в Blender с помощью визуального редактора.*
+     The rendering result for a certain stage can be now output above
+     the main picture. This can be set up in the "config.js" module
+     through the "debug_subs" options.
 
-    В интерфейс Blender добавлен инструмент NLA Script, который позволяет с
-    помощью визуальных блоков реализовывать простые сценарии, например
-    осуществить управление текущей анимацией в ответ на действия пользователя.
+* *The logic for controling Blender's NLA animation using a visual
+  editor has been implemented.*
 
-* *Многочисленные улучшения системы сенсоров.*
+     The NLA Script tool has been added to Blender's interface to
+     allow the implementing of simple scenarios using visual blocks,
+     for example playing an animation in response to the user actions.
 
-    В модуле ``controls`` разрешено регистрировать *множества сенсоров*
-    глобально, без привязки к конкретному объекту, для чего в соответствующие
-    API необходимо подавать параметр ``null``. Обеспечена более предсказуемая и
-    надёжная обработка логики сенсоров, в соответствии с последовательностью
-    создания их *множеств*. Обработчики событий, связанных с действиями
-    пользователя теперь назначаются с помощью функций вида
-    ``register_<inputtype>_events()``. В данные функции теперь можно подавать
-    флаг ``prevent_default``, позволяющий заблокировать стандартное поведение
-    браузера, происходящее после возникновения соответствующих событий.
+* *Multiple sensor system improvements.*
 
-* *Поддержка использования физики в веб-плеере.*
+     It is now permitted to register *sensor manifolds* globally using
+     a "controls" module method with no connection to any object. To
+     do this "null" should be passed into the corresponding API. The
+     sensor logic is processed in a more predictable and robust way
+     according to the sequence in which their *manifolds* are created.
+     Callbacks of the user action events are now assigned using the
+     "register_<inputtype>_events()" functions. To these functions it
+     is now possible to pass the "prevent_default" flag which allows
+     to unblock the standard browser behavior for the corresponding
+     events.
 
-    Работает только в версии веб-плеера с раздельной загрузкой JSON-файлов. В
-    одиночных HTML файлах физика не поддерживается.
+* *The Web Player now supports physics.*
 
-* *Поддержка смешивания различных скелетных анимаций.*
+     Works only in the Web Player version where JSON files are loaded
+     separately. Physics still not supported in the single HTML files.
 
-    В модуле ``animation.js`` добавились API, позволяющие осуществлять плавные
-    переходы между скелетными анимациями: get_skel_mix_factor() - для получения
-    текущего значения коэффициента смешинвания и set_skel_mix_factor() - для его
-    назначения.
+* *Skeletal animation mixing is now supported.*
 
-* *Поддержка анимации ноды Value в нодовых материалах.*
+     The "animation.js" module now contains API for smooth transitions
+     betweeen skeletal animations: get_skel_mix_factor() - for getting
+     the current mixing factor value and set_skel_mix_factor() - for
+     setting it.
 
-    Функциональность работает аналогично другим видам анимации. Поддерживается работа в NLA.
+* *The Value node can now be animated in node materials.*
 
-* *Поддержка параметров Specular и Diffuse в источниках освещения.*
+     The functionality is similar to other animation types. Working in
+     NLA is also supported.
 
-* *Возможность рендеринга полупрозрачного объекта поверх остальных объектов на сцене.*
+* *Diffuse and Specular lamp's properties are now supported.*
 
-    Активируется с помощью опции ``Render above all`` для прозрачных материалов (т.е. не ``Opaque``).
+* *The possibility to render a transparent object above other
+  objects on the scene.*
 
-* *Автоматическое применение масштаба к мешу объекта.*
+     Activated with the "Render above all" checkbox for transparent
+     materials (i.e. not "Opaque").
 
-    Реализуется включением опции ``Apply scale`` в настройках объекта.
+* *Scale is applied automatically to the object mesh.*
 
-* *Поддержка профиля высокого качества (включая тени, динамическое отражение и антиалиасинг) для iOS.*
+     Activated by enabling the "Apply scale" checkbox in the object
+     settings.
+
+* *High quality profile (including shadows, dynamic reflections and
+  anti-aliasing) has been implemented for iOS.*
 
 
-Изменения
----------
+Changes
+-------
 
-* *Улучшение рендеринга теней.*
+* *Shadow rendering improved.*
 
-    Существенно изменена система отрисовки теней, которая теперь основывается на технике ``Stable Cascaded Shadow Maps``. Техника позволяет существенно уменьшить мерцание краев теней при движении камеры. Между каскадами реализовано сглаживание. Также тени последнего каскада плавно исчезают при удалении. Для рендеринга мягких теней реализована техника ``Percentage Closer Shadows``. Переработана и упрощена система пользовательских настроек теней. Теперь можно задавать размеры карт теней, степень размытия, настройки для компенсации ошибок самозатенения. Новые настройки подробно :ref:`документированы <shadows>`.
+     Shadow rendering system is significantly changed: it is now based
+     on the "Stable Cascaded Shadow Maps" technique. This technique
+     allows to greatly diminish the flickering of shadow edges when
+     the camera moves. Smoothing is implemented between cascades. Also
+     shadows of the last cascade fade out at distancing. Softened
+     shadows are rendered using the "Percentage Closer Shadows"
+     technique. The shadows' user settings are reworked and
+     simplified. Now its possible to tweak the size of shadow maps,
+     blur ratio and the setting for removing self-shadowing artefacts.
+     The new settings are documented in detail.
 
-* *Настройка качества графики в веб-плеере теперь сохраняется для каждой сцены независимо.*
+* *In the Web Player graphics quality settings are now saved
+  independently for each scene.*
 
-* *Изменено поведение настроек конфигурации приложения: physics_uranium_path, smaa_search_texture_path и smaa_area_texture_path.*
+* *The behavior of the app configuration parameters has been
+  changed: physics_uranium_path, smaa_search_texture_path and
+  smaa_area_texture_path.*
 
-    Данные настройки конфигурации теперь рассчитываются автоматически в зависимости от местоположения запускаемого HTML-файла, если они не были переопределены при инициализации приложения.
+     These parameters are now calculated automatically depending on
+     the running HTML files location, if they haven't been overriden
+     during the app's initialization.
 
-* *Завершён переход на систему модулей, подключаемых через вызов b4w.require().*
+* *Transition is completed to the system of modules which are linked
+  via b4w.require() call.*
 
-    Это также означает, что начиная с текущей версии в релиз-версии движка
-    модули нельзя вызывать с помощью устаревшего интерфейса ``b4w.<module>``.
-    С целью совместимости создан аддон ``ns_compat.js``, подключение которого
-    позволяет восстановить старое поведение.
+     This also means that starting form the current version its
+     impossible to call modules in the engine's release version using
+     the old "b4w.<module>" namespaces. For compatibility purposes the
+     "ns_compat.js" add-on has been implemeted, the linking of which
+     allows to restore the old behavior.
 
-* *Добавлена возможность сокрытия панели управления в веб-плеере.*
+* *The Web Player's control panel can now be hidden.*
 
-* *Скелетная анимация применяется только к объекту арматуры.*
+* *Skeletal animation is now applied to armature objects only.*
 
-    Нет необходимости применять скелетную анимацию к объектам типа ``MESH``.
-    Eсли они привязаны к какой-либо анимированной арматуре, скиннинг будет происходить автоматически.
+     There is no need to apply skeletal animation to "MESH" objects.
+     If they are linked to some animated armature, their skinning will
+     be automatic.
 
-* *Демонстрационные приложения и обучающие материалы приведены в соответствие с новым функционалом.*
+* *Demos and tutorials are updated according to the newly
+  implemented features.*
 
-Исправления
------------
 
-* *Индикатор загрузки не скрывался, если в процессе происходила ошибка загрузки ресурса (текстуры либо звукового файла).*
+Fixes
+-----
 
-* *Исправлены лаги при масштабировании и повороте на touch-устройствах.*
+* *The preloader didn't diappear in case of a loading error (texture
+  or sound file).*
 
-* *Устранено дрожание камеры типа TARGET при небольших поворотах.*
+* *Lagging during scaling and turning on mobile devices is fixed.*
 
-* *Исправлено управление камерой типа EYE на мобильных устройствах.*
+* *TARGET-type camera shimmering has been removed for small
+  turnings.*
 
-* *Улучшено управление в приложении Ферма в браузере Safari.*
+* *EYE-type camera controls was fixed for mobile devices.*
 
-* *Исправлены ошибки при использовании неподдерживаемых моделей освещения на нодовых материалах.*
+* *The Farm demo controls are improved for Safari browser.*
 
-* *Для объектов без материалов теперь работает опция "Selectable".*
+* *Errors concerning using the unsupported shading models in node
+  materials are now fixed.*
 
-* *Более нет необходимости включать "Force Dynamic Object" для объектов, анимирующихся с использованием NLA.*
+* *"Selectable" option now works for the objects without materials.*
 
-* *Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит в иерархию с другими объектами.*
+* *There is no longer need to enable "Force Dynamic Object"* for the
+  objects that are animated using NLA.
 
-Известные проблемы
-------------------
+* *The particle system error when the object being instanced is
+  parented to another object, has been fixed.*
 
-* *Проблемы с обновлением аддона в Blender.*
 
-    Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.
+Known Issues
+------------
 
-* *Смешивание скелетной анимации не работает в некоторых браузерах.*
+* *Blender add-on upgrading problems.*
 
-    Если при использовании API смешивания скелетной анимации возникают необработанные ошибки, следует переопределить стандартную функцию Math.sign следующим образом:
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
 
-    .. code-block:: javascript
+* *Armature animation mixing doesn't work with some browsers.*
+
+     If skeletal animation mixing API brings unexpected errors, it is
+     neccessary to override standard Math.sign function as follows:
 
         var m_util  = require("util");
         Math.sign = m_util.sign;

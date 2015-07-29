@@ -72,7 +72,7 @@ vec2 cellular2x2(vec2 P) {
 }
 
 //Special Voronoi noise for caustics with aberration
-mat3 cellular2x2_caust(vec2 P, float aber) {
+vec3 cellular2x2_caust(vec2 P, float aber) {
     vec2 Pi = mod289(floor(P));
     vec2 Pf = fract(P);
     vec4 Pfx = Pf.x + vec4(-0.5, -1.5, -0.5, -1.5);
@@ -102,9 +102,7 @@ mat3 cellular2x2_caust(vec2 P, float aber) {
     d2.x = min(d2.x, d2.y);
     d3.xy = min(d3.xy, d3.zw);
     d3.x = min(d3.x, d3.y);
-    return mat3(d1.xx, ZERO_VALUE_PROCEDURAL, d2.xx, ZERO_VALUE_PROCEDURAL, 
-            d3.xx, ZERO_VALUE_PROCEDURAL); // F1 duplicated, F2 not computed
-
+    return vec3(d1.x, d2.x, d3.x); // F1 duplicated, F2 not computed
 }
 
 //
@@ -136,7 +134,7 @@ float snoise(vec2 v)
     //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
     //i1.y = 1.0 - i1.x;
     i1 = (x0.x > x0.y) ? vec2(UNITY_VALUE_PROCEDURAL, ZERO_VALUE_PROCEDURAL) 
-            : vec2(ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL);
+                       : vec2(ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL);
     // x0 = x0 - 0.0 + 0.0 * C.xx ;
     // x1 = x0 - i1 + 1.0 * C.xx ;
     // x2 = x0 - 1.0 + 2.0 * C.xx ;
@@ -150,7 +148,7 @@ float snoise(vec2 v)
             + i.x + vec3(ZERO_VALUE_PROCEDURAL, i1.x, UNITY_VALUE_PROCEDURAL ));
 
     vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 
-            ZERO_VALUE_PROCEDURAL);
+                 ZERO_VALUE_PROCEDURAL);
     m = m*m ;
     m = m*m ;
 

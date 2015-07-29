@@ -147,14 +147,18 @@ function push_shared_id(name, id, type) {
 function get_not_shared_id(curr_id) {
     var out_id = curr_id;
     var curr_incl_name = _incl_shared_stack[_incl_shared_stack.length - 1];
-    if (curr_incl_name === null)
-        for (var i = 0; i < _shared_ids_data.length; i++) {
+
+    for (var i = 0; i < _shared_ids_data.length; i++) {
+        // NOTE: take into account all shared identifiers when we're outside an 
+        // include and only varying identifiers when inside
+        if (curr_incl_name === null || _shared_ids_data[i].type == m_consts.SHARED_VARYING) {
             var ids = _shared_ids_data[i].ids;
             if (curr_id >= ids[0] && curr_id < ids[1]) {
                 out_id = get_not_shared_id(ids[1]);
                 break;
             }
         }
+    }
 
     return out_id;
 }
@@ -231,9 +235,8 @@ function interrupt_gen_id(new_id) {
 }
 
 function restore_gen_id() {
-    var id = _id_generator.id_stash.pop();
-    if (id)
-        _id_generator.generator_counter = id;
+    if (_id_generator.id_stash.length)
+        _id_generator.generator_counter = _id_generator.id_stash.pop();
 }
 
 exports.cleanup = function() {

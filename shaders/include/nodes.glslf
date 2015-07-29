@@ -35,7 +35,6 @@
 #import u_node_rgbs
 #import u_node_values
 #import u_refractmap
-#import u_specular_alpha
 #import u_time
 #import u_view_matrix_frag
 
@@ -250,6 +249,28 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 global_out
 
     global_out = vec3(nin_pos_world.r, -nin_pos_world.b, nin_pos_world.g);
+#endnode
+
+
+#node NEW_GEOMETRY
+    #node_out vec3 position
+    #node_out vec3 normal
+    #node_out vec3 tangent
+    #node_out vec3 true_normal
+    #node_out vec3 incoming
+    #node_out vec3 parametric
+    #node_out float backfacing
+    #node_out float pointiness
+
+    position = ZERO_VECTOR;
+    normal = ZERO_VECTOR;
+    tangent = ZERO_VECTOR;
+    true_normal = ZERO_VECTOR;
+    incoming = ZERO_VECTOR;
+    parametric = ZERO_VECTOR;
+    backfacing = ZERO_VALUE_NODES;
+    pointiness = ZERO_VALUE_NODES;
+
 #endnode
 
 #node HUE_SAT
@@ -1503,12 +1524,14 @@ vec2 vec_to_uv(vec3 vec)
 
 #node MATERIAL
     #node_in vec3 color_in
-    #node_in float alpha_in
     #node_in vec3 specular_color
+    #node_in float diff_intensity
     #node_in optional vec3 normal_in
     #node_out optional vec3 color_out
     #node_out optional float alpha_out
     #node_out optional vec3 normal_out
+    #node_param float alpha_param
+    #node_param float specular_alpha
     #node_param const vec2 diffuse_params // vec2(diffuse_param, diffuse_param2)
     #node_param const vec3 specular_params// vec3(intensity, spec_param_0, spec_param_1)
 
@@ -1526,6 +1549,11 @@ vec2 vec_to_uv(vec3 vec)
 # node_if !SHADELESS_MAT && !NODES_GLOW
     // emission
     vec3 E = nin_emit * D;
+
+#  node_if USE_MATERIAL_DIFFUSE
+    D *= diff_intensity;
+#  node_endif
+
     // ambient
     vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
     float shadow_factor = calc_shadow_factor(D);
@@ -1561,10 +1589,11 @@ vec2 vec_to_uv(vec3 vec)
 
 // alpha_out
 # node_if USE_OUT_alpha_out
-    alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    alpha_out = clamp(alpha_param, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #  node_if USE_MATERIAL_SPECULAR
-    alpha_out += nloc_lresult.color.a * S.r * nin_spec_alpha;
-    alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float t = max(max(nloc_lresult.specular.r, nloc_lresult.specular.g), nloc_lresult.specular.b) 
+            * specular_alpha;
+    alpha_out = alpha_param * (UNITY_VALUE_NODES - t) + t;
 #  node_endif
 # node_endif
 
@@ -1583,14 +1612,15 @@ vec2 vec_to_uv(vec3 vec)
 
 #node MATERIAL_EXT
     #node_in vec3 color_in
-    #node_in float alpha_in
     #node_in vec3 specular_color
+    #node_in float diff_intensity
     #node_in optional vec3 normal_in
     #node_in float emit_intensity
     #node_in float translucency_color
     #node_in vec4 translucency_params
     #node_in float reflect_factor
     #node_in float specular_alpha
+    #node_in float alpha_in
     #node_out optional vec3 color_out
     #node_out optional float alpha_out
     #node_out optional vec3 normal_out
@@ -1611,9 +1641,15 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if !SHADELESS_MAT && !NODES_GLOW
-    float shadow_factor = calc_shadow_factor(D);
     // emission
     vec3 E = emit_intensity * D;
+
+#  node_if USE_MATERIAL_DIFFUSE
+    D *= diff_intensity;
+#  node_endif
+
+    float shadow_factor = calc_shadow_factor(D);
+
     // ambient
     vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
 #  node_if NUM_LIGHTS > 0
@@ -1651,8 +1687,9 @@ vec2 vec_to_uv(vec3 vec)
 # node_if USE_OUT_alpha_out
     alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #  node_if USE_MATERIAL_SPECULAR
-    alpha_out += nloc_lresult.color.a * S.r * specular_alpha;
-    alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float t = max(max(nloc_lresult.specular.r, nloc_lresult.specular.g), nloc_lresult.specular.b) 
+            * specular_alpha;
+    alpha_out = clamp(alpha_in * (UNITY_VALUE_NODES - t) + t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #  node_endif
 # node_endif
 
@@ -1689,7 +1726,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 color_in
     #node_out float value
 
-    value = color_in.r * 0.35 + color_in.g * 0.45 + color_in.b * 0.2;
+    value = dot(color_in, vec3(0.35, 0.45, 0.2));
 #endnode
 
 #node SEPRGB
@@ -2166,7 +2203,6 @@ void nodes_main(in vec3 nin_eye_dir,
     vec3 nin_pos_world = v_pos_world;
     vec4 nin_pos_view = v_pos_view;
     float nin_emit = u_emit;
-    float nin_spec_alpha = u_specular_alpha;
     float nin_ambient = u_ambient;
 
     lighting_result nloc_lresult;

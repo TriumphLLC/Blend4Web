@@ -165,7 +165,6 @@ class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
 class B4W_ScenePhysics(SceneButtonsPanel, Panel):
     bl_label = "Physics"
     bl_idname = "SCENE_PT_b4w_physics"
-    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
         scene = context.scene

@@ -4,8 +4,12 @@
 #include <gamma.glslf>
 #include <lighting.glslf>
 #include <fog.glslf>
+#if SOFT_PARTICLES
+#include <pack.glslf>
+#endif
 
 #var PARTICLES_SHADELESS 0
+#var SOFT_STRENGTH 1.0
 
 #if TEXTURE_COLOR
 uniform sampler2D u_sampler;
@@ -39,6 +43,11 @@ uniform vec3 u_horizon_color;
 uniform vec3 u_zenith_color;
 #endif
 
+#if SOFT_PARTICLES
+uniform PRECISION sampler2D u_scene_depth;
+uniform float u_view_max_depth;
+#endif
+
 /*============================================================================
                                MATERIAL UNIFORMS
 ============================================================================*/
@@ -57,8 +66,12 @@ varying vec3 v_color;
 varying vec2 v_texcoord;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
-#if !DISABLE_FOG
+#if !DISABLE_FOG || SOFT_PARTICLES
 varying vec4 v_pos_view;
+#endif
+
+#if SOFT_PARTICLES
+varying vec3 v_tex_pos_clip;
 #endif
 
 /*============================================================================
@@ -127,6 +140,15 @@ void main(void) {
 #endif
 
     float alpha = diffuse_color.a * v_alpha;
+
+#if SOFT_PARTICLES
+    float view_depth = -v_pos_view.z / u_view_max_depth;
+    vec4 scene_depth_rgba = texture2DProj(u_scene_depth, v_tex_pos_clip);
+    float scene_depth = unpack_float(scene_depth_rgba);
+    float delta = scene_depth - view_depth;
+    float depth_diff = u_view_max_depth / SOFT_STRENGTH * delta;
+    alpha = alpha * min(depth_diff, 1.0);
+#endif
 
     lin_to_srgb(color);
 #if ALPHA && !ALPHA_CLIP 

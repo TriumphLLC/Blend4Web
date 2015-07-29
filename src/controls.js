@@ -91,6 +91,7 @@ exports.CT_CONTINUOUS = 10;
 exports.CT_TRIGGER    = 20;
 exports.CT_SHOT       = 30;
 exports.CT_LEVEL      = 40;
+exports.CT_CHANGE     = 50;
 
 exports.PL_SINGLE_TOUCH_MOVE    = 0;
 exports.PL_MULTITOUCH_MOVE_ZOOM = 1;
@@ -119,14 +120,12 @@ exports.update = function(timeline, elapsed) {
 
             manifold.update_counter = _update_counter;
 
-            var logic_result = manifold_logic_result(manifold);
-            var pulse = manifold_gen_pulse(manifold, logic_result);
+            var pulse = manifold_gen_pulse(manifold);
 
             if (pulse) {
                 var cb_obj = (obj == _global_object) ? null : obj;
                 _manifolds_updated = false;
                 manifold.callback(cb_obj, manifold.id, pulse, manifold.callback_param);
-                manifold.last_logic_result = logic_result;
                 // go to loop start
                 if (_manifolds_updated) {
                     i = -1;
@@ -656,44 +655,50 @@ function update_sensor(sensor, timeline, elapsed) {
  * -1 - negative pulse
  *  0 - no pulse
  */
-function manifold_gen_pulse(manifold, logic_result) {
+function manifold_gen_pulse(manifold) {
 
-    var last_pulse = manifold.last_pulse;
-
-    var pulse;
-    var new_last_pulse;
+    var pulse = 0;
 
     switch (manifold.type) {
     case exports.CT_CONTINUOUS:
+        var last_pulse = manifold.last_pulse;
+        var logic_result = manifold_logic_result(manifold);
+
         if (logic_result) {
             pulse = 1;
-            new_last_pulse = 1;
+            manifold.last_pulse = 1;
         } else if (last_pulse == 1) {
             pulse = -1;
-            new_last_pulse = -1;
+            manifold.last_pulse = -1;
         } else
             pulse = 0;
 
         break;
     case exports.CT_TRIGGER:
+        var last_pulse = manifold.last_pulse;
+        var logic_result = manifold_logic_result(manifold);
+
         if (logic_result && last_pulse == -1) {
             pulse = 1;
-            new_last_pulse = 1;
+            manifold.last_pulse = 1;
         } else if (!logic_result && last_pulse == 1) {
             pulse = -1;
-            new_last_pulse = -1;
+            manifold.last_pulse = -1;
         } else
             pulse = 0;
 
         break;
     case exports.CT_SHOT:
+        var last_pulse = manifold.last_pulse;
+        var logic_result = manifold_logic_result(manifold);
+
         if (logic_result && last_pulse == -1) {
             pulse = 1;
-            new_last_pulse = 1;
+            manifold.last_pulse = 1;
         } else if (!logic_result && last_pulse == 1) {
             // give no ouput, but register negative pulse
             pulse = 0;
-            new_last_pulse = -1;
+            manifold.last_pulse = -1;
         } else
             pulse = 0;
 
@@ -701,19 +706,34 @@ function manifold_gen_pulse(manifold, logic_result) {
 
     case exports.CT_LEVEL:
         // ignore previous pulses
-        var last_logic_result = manifold.last_logic_result;
-        if (last_logic_result != logic_result)
+        var logic_result = manifold_logic_result(manifold);
+
+        if (manifold.last_logic_result != logic_result) {
             pulse = 1;
-        else
+            manifold.last_logic_result = logic_result;
+        } else
             pulse = 0;
+        break;
+
+    case exports.CT_CHANGE:
+        // ignore previous pulses and logic result
+        var sensors = manifold.sensors;
+        var last_values = manifold.last_sensor_values;
+
+        for (var i = 0; i < sensors.length; i++) {
+            var value = sensors[i].value;
+
+            if (!pulse && value != last_values[i])
+                pulse = 1;
+
+            last_values[i] = value;
+        }
+
         break;
     default:
         m_util.panic("Wrong sensor manifold type: " + manifold.type);
         break;
     }
-
-    if (new_last_pulse)
-        manifold.last_pulse = new_last_pulse;
 
     return pulse;
 }
@@ -938,9 +958,14 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
         callback: callback,
         callback_param: callback_param,
 
+        // for CONTINUOUS, TRIGGER, SHOT control type
         last_pulse: -1,
+        
         // for LEVEL control type
         last_logic_result: 0,
+
+        // for CHANGE control type
+        last_sensor_values: new Array(sensors.length),
 
         update_counter: -1
     };
@@ -1197,6 +1222,14 @@ function mouse_move_cb(e) {
 
     if (_callback_mouse_events)
         _callback_mouse_events(e);
+}
+
+function mouse_out_cb(e) {
+
+    // do UP logic of the sensor
+    
+    if (!m_cont.is_child(e.relatedTarget))
+        mouse_up_cb(e);
 }
 
 function mouse_wheel_cb(e) {
@@ -1471,12 +1504,11 @@ exports.register_mouse_events = function(element, prevent_default,
     else {
         var replace_elem = element;
 
-        replace_elem.addEventListener("mouseout", mouse_up_cb, false);
+        replace_elem.addEventListener("mouseout", mouse_out_cb, false);
     }
 
     element.addEventListener("mousedown", mouse_down_cb, false);
     replace_elem.addEventListener("mousemove", mouse_move_cb, false);
-    // NOTE: use mouse_up_cb in case mouse leave "element"
     replace_elem.addEventListener("mouseup", mouse_up_cb, false);
 
     _prev_def_mouse_events = prevent_default;
@@ -1514,7 +1546,7 @@ exports.unregister_keyboard_events = function(element) {
 exports.unregister_mouse_events = function(element) {
     element.removeEventListener("mousedown", mouse_down_cb, false);
     element.removeEventListener("mousemove", mouse_move_cb, false);
-    element.removeEventListener("mouseout", mouse_up_cb, false);
+    element.removeEventListener("mouseout", mouse_out_cb, false);
     element.removeEventListener("mouseup", mouse_up_cb, false);
 }
 

@@ -74,12 +74,6 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.clear_procedural_sky_hack = true;
     }
 
-    if (check_user_agent("Mac OS X")) {
-        m_print.warn("OS X detected, disable texture reusing.");
-        cfg_def.macos_tex_reuse_hack = true;
-        cfg_def.glow_materials = false;
-    }
-
     if (detect_mobile()) {
         m_print.warn("Mobile detected, applying various hacks for video textures.");
         cfg_def.is_mobile_device = true;
@@ -149,11 +143,17 @@ exports.set_hardware_defaults = function(gl) {
                 cfg_def.precision = "highp";
             }
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("NVIDIA") > -1
-               && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Tegra 3") > -1) {
+        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("NVIDIA") > -1 &&
+                gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Tegra 3") > -1) {
             m_print.warn("NVIDIA Tegra 3 detected, force low quality for "
                                               + "B4W_LEVELS_OF_QUALITY nodes.");
             cfg_def.force_low_quality_nodes = true;
+        }
+        if (check_user_agent("Windows") && check_user_agent("Chrome") && 
+                gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).match(/NVIDIA GeForce 8..0/)) {
+            m_print.warn("Chrome / Windows / NVIDIA GeForce 8000 series detected, " +
+                         "setting max cubemap size to 256.");
+            cfg_def.max_cube_map_size = 256;
         }
     }
 
@@ -209,6 +209,17 @@ exports.set_hardware_defaults = function(gl) {
     if (check_user_agent("Chrome")) {
         m_print.log("Chrome detected. Some of deprecated functions related to the Doppler effect won't be called.");
         cfg_def.chrome_disable_doppler_effect_hack = true;
+        cfg_def.cors_chrome_hack = true;
+    }
+
+    if (is_ie11() || check_user_agent("iPad")) {
+        m_print.warn("iPad or Internet Explorer detected. Applying alpha clip hack.");
+        cfg_def.aplha_clip_filtering_hack = true;
+    }
+
+    if (detect_mobile() && check_user_agent("Firefox")) {
+        m_print.log("Mobile firefox detected. Applying autoplay media hack.");
+        cfg_def.mobile_firefox_media_hack = true;
     }
 }
 

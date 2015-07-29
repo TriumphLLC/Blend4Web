@@ -50,8 +50,12 @@ varying vec3 v_color;
 varying vec2 v_texcoord;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
-#if !DISABLE_FOG
+#if !DISABLE_FOG || SOFT_PARTICLES
 varying vec4 v_pos_view;
+#endif
+
+#if SOFT_PARTICLES
+varying vec3 v_tex_pos_clip;
 #endif
 
 #include <particles.glslv>
@@ -95,6 +99,17 @@ void main(void) {
     vec4 pos_view = u_view_matrix * pos_world;
 
     vec4 pos_clip = u_proj_matrix * pos_view;
+
+#if SOFT_PARTICLES
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+
+    v_tex_pos_clip.x = (xc + wc) / 2.0;
+    v_tex_pos_clip.y = (yc + wc) / 2.0;
+    v_tex_pos_clip.z = wc;
+#endif
+
     gl_Position = pos_clip;
 
     v_alpha = pp.alpha;
@@ -102,7 +117,7 @@ void main(void) {
     v_texcoord = a_p_bb_vertex + 0.5;
     v_pos_world = pos_world.xyz;
     v_eye_dir = u_camera_eye - pos_world.xyz;
-#if !DISABLE_FOG
+#if !DISABLE_FOG || SOFT_PARTICLES
     v_pos_view = pos_view;
 #endif
 }

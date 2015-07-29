@@ -8,6 +8,8 @@ import bgl
 
 from bpy.types import Panel
 
+from bl_ui.properties_physics_common import point_cache_ui
+
 def check_vertex_color(mesh, vc_name):
     for color_layer in mesh.vertex_colors:
         if color_layer.name == vc_name:
@@ -71,7 +73,7 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
 
         ob = context.object
         psys = context.particle_system
-        part = 0
+        pset = None
 
         if ob:
             row = layout.row()
@@ -85,20 +87,20 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
             col.menu("PARTICLE_MT_specials", icon='DOWNARROW_HLT', text="")
 
         if psys is None:
-            part = particle_get_settings(context)
+            pset = particle_get_settings(context)
 
             layout.operator("object.particle_system_add", icon='ZOOMIN', text="New")
 
-            if part is None:
+            if pset is None:
                 return
 
             layout.template_ID(context.space_data, "pin_id")
 
-            if part.is_fluid:
+            if pset.is_fluid:
                 layout.label(text="Settings used for fluid")
                 return
 
-            layout.prop(part, "type", text="Type")
+            layout.prop(pset, "type", text="Type")
 
         elif not psys.settings:
             split = layout.split(percentage=0.32)
@@ -109,46 +111,48 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
             col = split.column()
             col.template_ID(psys, "settings", new="particle.new")
         else:
-            part = psys.settings
+            pset = psys.settings
 
             split = layout.split(percentage=0.32)
             col = split.column()
-            if part.is_fluid is False:
+            if pset.is_fluid is False:
                 col.label(text="Settings:")
                 col.label(text="Type:")
 
             col = split.column()
-            if part.is_fluid is False:
+            if pset.is_fluid is False:
                 row = col.row()
                 row.enabled = particle_panel_enabled(context, psys)
                 row.template_ID(psys, "settings", new="particle.new")
 
-            if part.is_fluid:
-                layout.label(text=iface_("%d fluid particles for this frame") % part.count, translate=False)
+            if pset.is_fluid:
+                layout.label(text=iface_("%d fluid particles for this frame") % pset.count, translate=False)
                 return
 
             row = col.row()
             row.enabled = particle_panel_enabled(context, psys)
-            row.prop(part, "type", text="")
+            row.prop(pset, "type", text="")
             row.prop(psys, "seed")
 
-        if part:
-            split = layout.split(percentage=0.65)
-            if part.type == 'HAIR':
+        if pset:
+            if pset.type == 'HAIR':
+                split = layout.split(percentage=0.65)
                 if psys is not None and psys.is_edited:
                     split.operator("particle.edited_clear", text="Free Edit")
                 else:
                     row = split.row()
                     row.enabled = particle_panel_enabled(context, psys)
-                    row.prop(part, "regrow_hair")
+                    row.prop(pset, "regrow_hair")
                 row = split.row()
                 row.enabled = particle_panel_enabled(context, psys)
-                row.prop(part, "hair_step")
+                row.prop(pset, "hair_step")
                 if psys is not None and psys.is_edited:
                     if psys.is_global_hair:
                         layout.operator("particle.connect_hair")
                     else:
                         layout.operator("particle.disconnect_hair")
+            else:
+                layout.label(text="Enable emission with Object->Animation->Apply default animation.")
 
 
 class B4W_PARTICLE_PT_emission(ParticleButtonsPanel, Panel):
@@ -173,57 +177,57 @@ class B4W_PARTICLE_PT_emission(ParticleButtonsPanel, Panel):
         layout = self.layout
 
         psys = context.particle_system
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
         layout.enabled = particle_panel_enabled(context, psys) and (psys is None or not psys.has_multiple_caches)
 
         row = layout.row()
-        row.prop(part, "count")
+        row.prop(pset, "count")
 
-        if part.type == 'HAIR':
-            row.prop(part, "hair_length")
+        if pset.type == 'HAIR':
+            row.prop(pset, "hair_length")
         else:
             split = layout.split()
 
             col = split.column(align=True)
-            col.prop(part, "frame_start")
-            col.prop(part, "frame_end")
+            col.prop(pset, "frame_start")
+            col.prop(pset, "frame_end")
 
             col = split.column(align=True)
-            col.prop(part, "lifetime")
-            col.prop(part, "lifetime_random", slider=True)
+            col.prop(pset, "lifetime")
+            col.prop(pset, "lifetime_random", slider=True)
 
         layout.label(text="Emit From:")
-        layout.prop(part, "emit_from", expand=True)
+        layout.prop(pset, "emit_from", expand=True)
 
-        if part.type == "HAIR":
+        if pset.type == "HAIR":
             row = layout.row()
-            row.prop(part, "use_emit_random")
+            row.prop(pset, "use_emit_random")
             
-            if part.emit_from == 'FACE' or part.emit_from == 'VOLUME':
-                row.prop(part, "use_even_distribution")
-                layout.prop(part, "distribution", expand=True)
+            if pset.emit_from == 'FACE' or pset.emit_from == 'VOLUME':
+                row.prop(pset, "use_even_distribution")
+                layout.prop(pset, "distribution", expand=True)
 
                 row = layout.row()
-                if part.distribution == 'JIT':
-                    row.prop(part, "userjit", text="Particles/Face")
-                    row.prop(part, "jitter_factor", text="Jittering Amount", slider=True)
+                if pset.distribution == 'JIT':
+                    row.prop(pset, "userjit", text="Particles/Face")
+                    row.prop(pset, "jitter_factor", text="Jittering Amount", slider=True)
         else:
-            if part.emit_from == 'VOLUME':
-                layout.label(text="Particle emission from \"Volume\" is not supported.", icon="ERROR")
+            if pset.emit_from == 'VOLUME':
+                layout.label(text="Particle emission from 'Volume' is not supported.", icon="ERROR")
 
         row = layout.row()
-        row.prop(part, "use_modifier_stack")
+        row.prop(pset, "use_modifier_stack")
 
-        if part.type == 'EMITTER':
+        if pset.type == 'EMITTER':
             row = layout.row()
-            row.prop(part, "b4w_cyclic", text="Cyclic Emission")
-
-            row = layout.row()
-            row.prop(part, "b4w_allow_nla", text="Allow NLA")
+            row.prop(pset, "b4w_cyclic", text="Cyclic Emission")
 
             row = layout.row()
-            row.prop(part, "b4w_randomize_emission", text="Random Emission")
+            row.prop(pset, "b4w_allow_nla", text="Allow NLA")
+
+            row = layout.row()
+            row.prop(pset, "b4w_randomize_emission", text="Random Delay")
 
 
 class B4W_PARTICLE_PT_velocity(ParticleButtonsPanel, Panel):
@@ -245,7 +249,7 @@ class B4W_PARTICLE_PT_velocity(ParticleButtonsPanel, Panel):
         layout = self.layout
 
         psys = context.particle_system
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
         layout.enabled = particle_panel_enabled(context, psys)
 
@@ -253,29 +257,29 @@ class B4W_PARTICLE_PT_velocity(ParticleButtonsPanel, Panel):
 
         col = split.column()
         col.label(text="Emitter Geometry:")
-        col.prop(part, "normal_factor")
+        col.prop(pset, "normal_factor")
 
-        if part.type == "HAIR":
+        if pset.type == "HAIR":
             sub = col.column(align=True)
-            sub.prop(part, "tangent_factor")
-            sub.prop(part, "tangent_phase", slider=True)
+            sub.prop(pset, "tangent_factor")
+            sub.prop(pset, "tangent_phase", slider=True)
 
             col = split.column()
             col.label(text="Emitter Object:")
-            col.prop(part, "object_align_factor", text="")
+            col.prop(pset, "object_align_factor", text="")
 
         layout.label(text="Other:")
         split = layout.split()
 
-        if part.type == "HAIR":
+        if pset.type == "HAIR":
             col = split.column()
-            if part.emit_from == 'PARTICLE':
-                col.prop(part, "particle_factor")
+            if pset.emit_from == 'PARTICLE':
+                col.prop(pset, "particle_factor")
             else:
-                col.prop(part, "object_factor", slider=True)
+                col.prop(pset, "object_factor", slider=True)
 
         col = split.column()
-        col.prop(part, "factor_random")
+        col.prop(pset, "factor_random")
 
 class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
     bl_label = "Rotation"
@@ -296,34 +300,34 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
     def draw_header(self, context):
         psys = context.particle_system
         if psys:
-            part = psys.settings
+            pset = psys.settings
         else:
-            part = context.space_data.pin_id
+            pset = context.space_data.pin_id
 
-        self.layout.prop(part, "use_rotations", text="")
+        self.layout.prop(pset, "use_rotations", text="")
 
     def draw(self, context):
         layout = self.layout
 
         psys = context.particle_system
         if psys:
-            part = psys.settings
+            pset = psys.settings
         else:
-            part = context.space_data.pin_id
+            pset = context.space_data.pin_id
 
-        layout.enabled = particle_panel_enabled(context, psys) and part.use_rotations
+        layout.enabled = particle_panel_enabled(context, psys) and pset.use_rotations
 
-        if part.type == "HAIR":
+        if pset.type == "HAIR":
             layout.label(text="Initial Orientation:")
             split = layout.split()
 
             col = split.column(align=True)
-            col.prop(part, "rotation_mode", text="")
-            col.prop(part, "rotation_factor_random", slider=True, text="Random")
+            col.prop(pset, "rotation_mode", text="")
+            col.prop(pset, "rotation_factor_random", slider=True, text="Random")
 
             col = split.column(align=True)
-            col.prop(part, "phase_factor", slider=True)
-            col.prop(part, "phase_factor_random", text="Random", slider=True)
+            col.prop(pset, "phase_factor", slider=True)
+            col.prop(pset, "phase_factor_random", text="Random", slider=True)
 
         else:
             layout.label(text="Angular Velocity:")
@@ -331,17 +335,17 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
             split = layout.split()
 
             col = split.column(align=True)
-            col.prop(part, "angular_velocity_mode", text="")
+            col.prop(pset, "angular_velocity_mode", text="")
 
-            if (part.angular_velocity_mode != "NONE" 
-                    and part.angular_velocity_mode != "VELOCITY"
-                    and part.angular_velocity_mode != "RAND"):
-                col.label("\"" + part.angular_velocity_mode + "\" angular " 
+            if (pset.angular_velocity_mode != "NONE"
+                    and pset.angular_velocity_mode != "VELOCITY"
+                    and pset.angular_velocity_mode != "RAND"):
+                col.label("'" + pset.angular_velocity_mode + "' angular "
                         + "velocity mode isn't supported.", icon="ERROR");
 
             sub = col.column(align=True)
-            sub.active = part.angular_velocity_mode != 'NONE'
-            sub.prop(part, "angular_velocity_factor", text="")
+            sub.active = pset.angular_velocity_mode != 'NONE'
+            sub.prop(pset, "angular_velocity_factor", text="")
 
 
 class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
@@ -363,42 +367,42 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
         layout = self.layout
 
         psys = context.particle_system
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
         layout.enabled = particle_panel_enabled(context, psys)
 
-        if part.type == "HAIR":
-            layout.prop(part, "physics_type", expand=True)
+        if pset.type == "HAIR":
+            layout.prop(pset, "physics_type", expand=True)
 
             row = layout.row()
             col = row.column(align=True)
-            col.prop(part, "particle_size")
-            col.prop(part, "size_random", slider=True)
+            col.prop(pset, "particle_size")
+            col.prop(pset, "size_random", slider=True)
 
-            if part.physics_type in {'NEWTON', 'FLUID'}:
+            if pset.physics_type in {'NEWTON', 'FLUID'}:
                 split = layout.split()
 
                 col = split.column()
                 col.label(text="Forces:")
-                col.prop(part, "brownian_factor")
-                col.prop(part, "drag_factor", slider=True)
-                col.prop(part, "damping", slider=True)
+                col.prop(pset, "brownian_factor")
+                col.prop(pset, "drag_factor", slider=True)
+                col.prop(pset, "damping", slider=True)
 
                 col = split.column()
                 col.label(text="Integration:")
-                col.prop(part, "integrator", text="")
-                col.prop(part, "timestep")
+                col.prop(pset, "integrator", text="")
+                col.prop(pset, "timestep")
                 sub = col.row()
-                sub.prop(part, "subframes")
-                supports_courant = part.physics_type == 'FLUID'
+                sub.prop(pset, "subframes")
+                supports_courant = pset.physics_type == 'FLUID'
                 subsub = sub.row()
                 subsub.enabled = supports_courant
-                subsub.prop(part, "use_adaptive_subframes", text="")
-                if supports_courant and part.use_adaptive_subframes:
-                    col.prop(part, "courant_target", text="Threshold")
+                subsub.prop(pset, "use_adaptive_subframes", text="")
+                if supports_courant and pset.use_adaptive_subframes:
+                    col.prop(pset, "courant_target", text="Threshold")
 
-                if part.physics_type == 'FLUID':
-                    fluid = part.fluid
+                if pset.physics_type == 'FLUID':
+                    fluid = pset.fluid
 
                     split = layout.split()
                     sub = split.row()
@@ -436,7 +440,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         # With the classical solver, it is possible to calculate the
                         # spacing between particles when the fluid is at rest. This
                         # makes it easier to set stable initial conditions.
-                        particle_volume = part.mass / fluid.rest_density
+                        particle_volume = pset.mass / fluid.rest_density
                         spacing = pow(particle_volume, 1.0 / 3.0)
                         sub = col.row()
                         sub.label(text="Spacing: %g" % spacing)
@@ -464,20 +468,20 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         sub.prop(fluid, "use_initial_rest_length")
                         sub.prop(fluid, "spring_frames", text="Frames")
 
-            elif part.physics_type == 'KEYED':
+            elif pset.physics_type == 'KEYED':
                 split = layout.split()
                 sub = split.column()
 
                 row = layout.row()
                 col = row.column()
                 col.active = not psys.use_keyed_timing
-                col.prop(part, "keyed_loops", text="Loops")
+                col.prop(pset, "keyed_loops", text="Loops")
                 if psys:
                     row.prop(psys, "use_keyed_timing", text="Use Timing")
 
                 layout.label(text="Keys:")
-            elif part.physics_type == 'BOIDS':
-                boids = part.boids
+            elif pset.physics_type == 'BOIDS':
+                boids = pset.boids
 
                 row = layout.row()
                 row.prop(boids, "use_flight")
@@ -522,10 +526,10 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                 col.prop(boids, "pitch", slider=True)
                 col.prop(boids, "height", slider=True)
 
-            if psys and part.physics_type in {'KEYED', 'BOIDS', 'FLUID'}:
-                if part.physics_type == 'BOIDS':
+            if psys and pset.physics_type in {'KEYED', 'BOIDS', 'FLUID'}:
+                if pset.physics_type == 'BOIDS':
                     layout.label(text="Relations:")
-                elif part.physics_type == 'FLUID':
+                elif pset.physics_type == 'FLUID':
                     layout.label(text="Fluid interaction:")
 
                 row = layout.row()
@@ -544,7 +548,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                 key = psys.active_particle_target
                 if key:
                     row = layout.row()
-                    if part.physics_type == 'KEYED':
+                    if pset.physics_type == 'KEYED':
                         col = row.column()
                         #doesn't work yet
                         #col.alert = key.valid
@@ -554,7 +558,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         col.active = psys.use_keyed_timing
                         col.prop(key, "time")
                         col.prop(key, "duration")
-                    elif part.physics_type == 'BOIDS':
+                    elif pset.physics_type == 'BOIDS':
                         sub = row.row()
                         #doesn't work yet
                         #sub.alert = key.valid
@@ -562,7 +566,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         sub.prop(key, "system", text="System")
 
                         layout.prop(key, "alliance", expand=True)
-                    elif part.physics_type == 'FLUID':
+                    elif pset.physics_type == 'FLUID':
                         sub = row.row()
                         #doesn't work yet
                         #sub.alert = key.valid
@@ -571,9 +575,9 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
         else:
             row = layout.row()
             col = row.column(align=True)
-            col.prop(part, "particle_size")
+            col.prop(pset, "particle_size")
             col = row.column(align=True)
-            col.prop(part, "mass")
+            col.prop(pset, "mass")
 
 
 class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
@@ -592,44 +596,44 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
         layout = self.layout
 
         psys = context.particle_system
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
-        if part.type == "EMITTER":
+        if pset.type == "EMITTER":
             if psys:
                 row = layout.row()
-                if part.render_type in {'OBJECT', 'GROUP'}:
+                if pset.render_type in {'OBJECT', 'GROUP'}:
                     row.enabled = False
-                row.prop(part, "material_slot", text="")
+                row.prop(pset, "material_slot", text="")
 
-        layout.prop(part, "use_render_emitter")
-        layout.prop(part, "render_type", expand=True)
+        layout.prop(pset, "use_render_emitter")
+        layout.prop(pset, "render_type", expand=True)
 
-        if part.type == "HAIR":
-            if part.render_type == 'OBJECT':
+        if pset.type == "HAIR":
+            if pset.render_type == 'OBJECT':
                 row = layout.row()
-                row.prop(part, "dupli_object")
+                row.prop(pset, "dupli_object")
                 row = layout.row()
-                row.prop(part, "use_rotation_dupli")
-            elif part.render_type == 'GROUP':
+                row.prop(pset, "use_rotation_dupli")
+            elif pset.render_type == 'GROUP':
                 row = layout.row()
-                row.prop(part, "dupli_group")
+                row.prop(pset, "dupli_group")
                 split = layout.split()
 
                 col = split.column()
-                col.prop(part, "use_whole_group")
+                col.prop(pset, "use_whole_group")
                 sub = col.column()
-                sub.active = (part.use_whole_group is False)
-                sub.prop(part, "use_group_count")
+                sub.active = (pset.use_whole_group is False)
+                sub.prop(pset, "use_group_count")
 
                 col = split.column()
                 sub = col.column()
-                sub.active = (part.use_whole_group is False)
-                sub.prop(part, "use_rotation_dupli")
+                sub.active = (pset.use_whole_group is False)
+                sub.prop(pset, "use_rotation_dupli")
 
-                if part.use_group_count and not part.use_whole_group:
+                if pset.use_group_count and not pset.use_whole_group:
                     row = layout.row()
-                    row.template_list("UI_UL_list", "particle_dupli_weights", part, "dupli_weights",
-                                      part, "active_dupliweight_index")
+                    row.template_list("UI_UL_list", "particle_dupli_weights", pset, "dupli_weights",
+                                      pset, "active_dupliweight_index")
 
                     col = row.column()
                     sub = col.row()
@@ -639,59 +643,66 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
                     subsub.operator("particle.dupliob_move_up", icon='MOVE_UP_VEC', text="")
                     subsub.operator("particle.dupliob_move_down", icon='MOVE_DOWN_VEC', text="")
 
-                    weight = part.active_dupliweight
+                    weight = pset.active_dupliweight
                     if weight:
                         row = layout.row()
                         row.prop(weight, "count")
 
-            if part.render_type != "OBJECT" and part.render_type != "GROUP":
-                layout.label("The \"Hair\" Particle System requires \"Object\"" + 
-                        " or \"Group\" render type.", icon="ERROR")
+            if pset.render_type != "OBJECT" and pset.render_type != "GROUP":
+                layout.label("The 'Hair' Particle System requires 'Object'" + 
+                        " or 'Group' render type.", icon="ERROR")
 
             row = layout.row()
-            row.prop(part, "b4w_randomize_location", text="Randomize Location And Size")
+            row.prop(pset, "b4w_randomize_location", text="Randomize Location And Size")
 
             row = layout.row()
-            row.prop(part, "b4w_initial_rand_rotation", text="Randomize Initial Rotation")
+            row.prop(pset, "b4w_initial_rand_rotation", text="Randomize Initial Rotation")
 
-            if getattr(part, "b4w_initial_rand_rotation"):
+            if getattr(pset, "b4w_initial_rand_rotation"):
                 row = layout.row()
-                row.prop(part, "b4w_rotation_type", text="Rotation Type")
+                row.prop(pset, "b4w_rotation_type", text="Rotation Type")
                 row = layout.row()
-                row.prop(part, "b4w_rand_rotation_strength", text="Rotation Strength")
+                row.prop(pset, "b4w_rand_rotation_strength", text="Rotation Strength")
 
             row = layout.row()
-            row.prop(part, "b4w_hair_billboard", text="Billboard")
+            row.prop(pset, "b4w_hair_billboard", text="Billboard")
 
-            if getattr(part, "b4w_hair_billboard"):
+            if getattr(pset, "b4w_hair_billboard"):
                 row = layout.row()
-                row.prop(part, "b4w_hair_billboard_type", text="Billboard Type")
+                row.prop(pset, "b4w_hair_billboard_type", text="Billboard Type")
 
-                if getattr(part, "b4w_hair_billboard_type") == "JITTERED":
+                if getattr(pset, "b4w_hair_billboard_type") == "JITTERED":
                     row = layout.row(align=True)
-                    row.prop(part, "b4w_hair_billboard_jitter_amp", text="Jitter Amplitude")
-                    row.prop(part, "b4w_hair_billboard_jitter_freq", text="Jitter Frequency")
+                    row.prop(pset, "b4w_hair_billboard_jitter_amp", text="Jitter Amplitude")
+                    row.prop(pset, "b4w_hair_billboard_jitter_freq", text="Jitter Frequency")
 
                 row = layout.row()
                 row.label("Billboard Geometry:")
-                row.prop(part, "b4w_hair_billboard_geometry", expand=True)
+                row.prop(pset, "b4w_hair_billboard_geometry", expand=True)
         else:
-            if part.render_type != "HALO" and part.render_type != "BILLBOARD":
-                layout.label("The \"Emitter\" Particle System requires \"Halo\"" + 
-                        " or \"Billboard\" render type.", icon="ERROR")
+            if pset.render_type != "HALO" and pset.render_type != "BILLBOARD":
+                layout.label("The 'Emitter' Particle System requires 'Halo'" + 
+                        " or 'Billboard' render type.", icon="ERROR")
 
             row = layout.row()
-            row.prop(part, "b4w_billboard_align", text="Billboard Align")
+            row.prop(pset, "b4w_billboard_align", text="Billboard Align")
 
             row = layout.row()
             row.label("Dissolve Intervals:")
 
             row = layout.row(align=True)
-            row.prop(part, "b4w_fade_in", text="Fade-In")
-            row.prop(part, "b4w_fade_out", text="Fade-Out")
+            row.prop(pset, "b4w_fade_in", text="Fade-In")
+            row.prop(pset, "b4w_fade_out", text="Fade-Out")
 
             row = layout.row()
-            row.prop(part, "b4w_coordinate_system", text="Coordinate System")
+            row.prop(pset, "b4w_coordinate_system", text="Coordinate System")
+
+            split = layout.split()
+            col = split.column()
+            col.prop(pset, "b4w_enable_soft_particles", text="Soft Particles")
+            col = split.column()
+            col.active = pset.b4w_enable_soft_particles
+            col.prop(pset, "b4w_particles_softness", text="Particle Softness")
 
 
 class B4W_PARTICLE_PT_field_weights(ParticleButtonsPanel, Panel):
@@ -700,15 +711,15 @@ class B4W_PARTICLE_PT_field_weights(ParticleButtonsPanel, Panel):
 
     @classmethod
     def poll(cls, context):
-        part = particle_get_settings(context)
-        return particle_panel_poll(cls, context) and part.type == "EMITTER"
+        pset = particle_get_settings(context)
+        return particle_panel_poll(cls, context) and pset.type == "EMITTER"
 
     def draw(self, context):
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
         split = self.layout.split()
-        split.prop(part.effector_weights, "gravity", slider=True)
-        split.prop(part.effector_weights, "wind", slider=True)
+        split.prop(pset.effector_weights, "gravity", slider=True)
+        split.prop(pset.effector_weights, "wind", slider=True)
 
 
 class B4W_PARTICLE_PT_vertexgroups(ParticleButtonsPanel, Panel):
@@ -722,8 +733,8 @@ class B4W_PARTICLE_PT_vertexgroups(ParticleButtonsPanel, Panel):
         if context.particle_system is None:
             return False
 
-        part = particle_get_settings(context)
-        return particle_panel_poll(cls, context) and part.type == "HAIR"
+        pset = particle_get_settings(context)
+        return particle_panel_poll(cls, context) and pset.type == "HAIR"
 
     def draw(self, context):
         layout = self.layout
@@ -782,50 +793,50 @@ class B4W_PARTICLE_PT_draw(ParticleButtonsPanel, Panel):
         layout = self.layout
 
         psys = context.particle_system
-        part = particle_get_settings(context)
+        pset = particle_get_settings(context)
 
         row = layout.row()
-        row.prop(part, "draw_method", expand=True)
-        row.prop(part, "show_guide_hairs")
+        row.prop(pset, "draw_method", expand=True)
+        row.prop(pset, "show_guide_hairs")
 
-        if part.draw_method == 'NONE' or (part.render_type == 'NONE' and part.draw_method == 'RENDER'):
+        if pset.draw_method == 'NONE' or (pset.render_type == 'NONE' and pset.draw_method == 'RENDER'):
             return
 
-        path = (part.render_type == 'PATH' and part.draw_method == 'RENDER') or part.draw_method == 'PATH'
+        path = (pset.render_type == 'PATH' and pset.draw_method == 'RENDER') or pset.draw_method == 'PATH'
 
         row = layout.row()
-        row.prop(part, "draw_percentage", slider=True)
-        if part.draw_method != 'RENDER' or part.render_type == 'HALO':
-            row.prop(part, "draw_size")
+        row.prop(pset, "draw_percentage", slider=True)
+        if pset.draw_method != 'RENDER' or pset.render_type == 'HALO':
+            row.prop(pset, "draw_size")
         else:
             row.label(text="")
 
-        if part.draw_percentage != 100 and psys is not None:
-            if part.type == 'HAIR':
+        if pset.draw_percentage != 100 and psys is not None:
+            if pset.type == 'HAIR':
                 if psys.use_hair_dynamics and psys.point_cache.is_baked is False:
                     layout.row().label(text="Display percentage makes dynamics inaccurate without baking!")
             else:
-                phystype = part.physics_type
+                phystype = pset.physics_type
                 if phystype != 'NO' and phystype != 'KEYED' and psys.point_cache.is_baked is False:
                     layout.row().label(text="Display percentage makes dynamics inaccurate without baking!")
 
         row = layout.row()
         col = row.column()
-        col.prop(part, "show_size")
-        col.prop(part, "show_velocity")
-        col.prop(part, "show_number")
-        if part.physics_type == 'BOIDS':
-            col.prop(part, "show_health")
+        col.prop(pset, "show_size")
+        col.prop(pset, "show_velocity")
+        col.prop(pset, "show_number")
+        if pset.physics_type == 'BOIDS':
+            col.prop(pset, "show_health")
 
         col = row.column(align=True)
         col.label(text="Color:")
-        col.prop(part, "draw_color", text="")
+        col.prop(pset, "draw_color", text="")
         sub = col.row(align=True)
-        sub.active = (part.draw_color in {'VELOCITY', 'ACCELERATION'})
-        sub.prop(part, "color_maximum", text="Max")
+        sub.active = (pset.draw_color in {'VELOCITY', 'ACCELERATION'})
+        sub.prop(pset, "color_maximum", text="Max")
 
         if path:
-            col.prop(part, "draw_step")
+            col.prop(pset, "draw_step")
 
 
 class B4W_ParticleExportOptions(ParticleButtonsPanel, Panel):
@@ -860,11 +871,11 @@ class B4W_ParticleDynamicGrassOptions(ParticleButtonsPanel, Panel):
     def draw_header(self, context):
         psys = context.particle_system
         if psys:
-            part = psys.settings
+            pset = psys.settings
         else:
-            part = context.space_data.pin_id
+            pset = context.space_data.pin_id
 
-        self.layout.prop(part, "b4w_dynamic_grass", text="")
+        self.layout.prop(pset, "b4w_dynamic_grass", text="")
 
     def draw(self, context):
         layout = self.layout

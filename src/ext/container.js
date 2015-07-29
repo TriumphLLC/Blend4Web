@@ -67,7 +67,7 @@ exports.update_canvas_offsets = m_cont.update_canvas_offsets;
  * @method module:container.client_to_canvas_coords
  * @param {Number} x X client coordinate.
  * @param {Number} y Y client coordinate.
- * @param {Vec2} dest CSS coordinates relative to the Canvas.
+ * @param {Vec2} [dest=Float32Array(2)] CSS coordinates relative to the Canvas.
  * @returns {Vec2} CSS coordinates relative to the Canvas.
  */
 exports.client_to_canvas_coords = m_cont.client_to_canvas_coords;

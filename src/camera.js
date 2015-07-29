@@ -64,7 +64,7 @@ var DEF_PERSP_FOV   = 40;
 var DEF_PERSP_NEAR  = 0.1;
 var DEF_PERSP_FAR   = 1000;
 
-var MAX_HOVER_INIT_CORRECT_DIST = 100;
+var MAX_HOVER_INIT_ANGLE = (Math.PI/180) / 2; 
 
 // for internal usage
 var _vec2_tmp = new Float32Array(2);
@@ -176,11 +176,17 @@ function init_hover_pivot(camobj) {
     normal_plane_oxy.set(m_util.AXIS_Y);
     normal_plane_oxy[3] = 0;
 
-    var res = m_util.line_plane_intersect(normal_plane_oxy, 0, render.trans, 
-            view_vector, render.hover_pivot);
+    var res = m_util.line_plane_intersect(normal_plane_oxy, 
+            -camobj["data"]["b4w_hover_zero_level"], render.trans, view_vector, 
+            render.hover_pivot);
+
+    var theta = get_camera_angles(camobj, _vec2_tmp)[1];
 
     // NOTE: It is used to check parallel line and plane
-    if (!res || m_vec3.len(res) > MAX_HOVER_INIT_CORRECT_DIST) {
+    if (!res || Math.abs(theta) < MAX_HOVER_INIT_ANGLE) {
+        m_print.warn("Active hover camera view vector and the supporting plane " 
+                + "are parallel to each other. Set hover pivot based on the " 
+                + "camera position.");
         render.hover_pivot[0] = render.trans[0];
         render.hover_pivot[1] = 0;
         render.hover_pivot[2] = render.trans[2];

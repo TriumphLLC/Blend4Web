@@ -33,9 +33,16 @@
 ============================================================================*/
 
 attribute vec3 a_position;
-#if !GENERATED_MESH
+
+#if NUM_NORMALMAPS > 0 && !DYNAMIC
+attribute vec3 a_normal;
+attribute vec3 a_tangent;
+#endif
+
+#if !GENERATED_MESH && (NUM_NORMALMAPS > 0 || FOAM)
 attribute vec2 a_texcoord;
 #endif
+
 #if DEBUG_WIREFRAME
 attribute float a_polyindex;
 #endif
@@ -51,7 +58,6 @@ uniform mat4 u_model_matrix;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
-
 uniform vec3 u_camera_eye;
 
 #if DYNAMIC 
@@ -74,19 +80,21 @@ uniform sampler2D u_shore_dist_map;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 
-#if !GENERATED_MESH && (NUM_NORMALMAPS > 0 || FOAM)
+#if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
 varying vec2 v_texcoord;
 #endif
 
-#if DYNAMIC
-varying vec3 v_normal;
-# if NUM_NORMALMAPS > 0
+#if NUM_NORMALMAPS > 0
 varying vec3 v_tangent;
 varying vec3 v_binormal;
 # endif
-# if GENERATED_MESH
+
+#if DYNAMIC || NUM_NORMALMAPS > 0
+varying vec3 v_normal;
+#endif
+
+#if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
 varying vec3 v_calm_pos_world;
-# endif
 #endif
 
 #if SHORE_PARAMS
@@ -178,7 +186,6 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 # endif // GENERATED_MESH
 
     pos.y += waves_height;
-
 }
 #endif // DYNAMIC
 
@@ -206,10 +213,6 @@ void main(void) {
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), 
             vec3(0.0), u_model_matrix);
 
-#if DYNAMIC && GENERATED_MESH
-    v_calm_pos_world = world.position;
-#endif
-
 #if SHORE_PARAMS
     v_shore_params = extract_shore_params(world.position.xz);
 #endif
@@ -221,13 +224,22 @@ void main(void) {
 
 # if GENERATED_MESH
     float vertex_delta = casc_step;
-# else
-    float vertex_delta = 0.1;
-# endif
-
     // generate two neighbour vertices
     vec3 neighbour1 = world.position + vec3(vertex_delta, 0.0, 0.0);
     vec3 neighbour2 = world.position + vec3(0.0, 0.0, vertex_delta);
+    // Last cascad needs to be flat and a bit lower than others
+    if (a_position.y < 0.0) {
+        world.position.y = WATER_LEVEL - 1.0;
+        neighbour1.y = world.position.y;
+        neighbour2.y = world.position.y;
+    }
+#  if NUM_NORMALMAPS > 0 || FOAM
+    v_calm_pos_world = world.position;
+#  endif
+# else
+    vec3 neighbour1 = world.position + vec3(0.05, 0.0, 0.0);
+    vec3 neighbour2 = world.position + vec3(0.0, 0.0, 0.05);
+# endif // GENERATED_MESH
 
 # if SHORE_PARAMS
     vec3 shore_params_n1 = extract_shore_params(neighbour1.xz);
@@ -240,33 +252,26 @@ void main(void) {
     offset(neighbour2, w_time, vec3(0.0));
     offset(world.position, w_time, vec3(0.0));
 # endif
-
-# if GENERATED_MESH
-    // Last need to be flat and a bit lower
-    if (a_position.y < 0.0) {
-        world.position.y = WATER_LEVEL - 1.0;
-        neighbour1.y = world.position.y;
-        neighbour2.y = world.position.y;
-    }
-# endif
     // calculate all surface vectors based on 3 positions
     vec3 bitangent = normalize(neighbour1 - world.position);
     vec3 tangent   = normalize(neighbour2 - world.position);
     v_normal       = normalize(cross(tangent, bitangent));
 
-# if NUM_NORMALMAPS > 0
-    v_tangent = tangent;
-    v_binormal     = cross(v_normal, v_tangent);
-# endif
-
-# if SHORE_PARAMS
     // NOTE: protect mesh from extreme normal values
     float up_dot_norm = dot(v_normal, vec3(0.0, 1.0, 0.0));
     float factor = clamp(0.8 - up_dot_norm, 0.0, 1.0);
     v_normal = mix(v_normal, vec3(0.0, 1.0, 0.0), factor);
-# endif
 
 #endif // DYNAMIC
+
+#if NUM_NORMALMAPS > 0
+# if !DYNAMIC
+    vec3 tangent = a_tangent;
+    v_normal = a_normal;
+# endif
+    v_tangent = tangent;
+    v_binormal = cross(v_normal, v_tangent);
+#endif // NUM_NORMALMAPS > 0
 
     v_pos_world = world.position;
     v_eye_dir = u_camera_eye - world.position;

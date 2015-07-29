@@ -20,37 +20,37 @@ uniform float u_sky_tex_dvar;
 vec3 col_blending(vec3 col1, vec3 col2, float factor, float facg)
 {
     float fact = factor * facg;
-#if BLENDTYPE == MTEX_BLEND
+#if BLENDTYPE == MIX
     return col_blend(col2, col1, fact);
-#elif BLENDTYPE == MTEX_ADD
+#elif BLENDTYPE == ADD
     return col_add(col1, col2, fact);
-#elif BLENDTYPE == MTEX_SUB
+#elif BLENDTYPE == SUBTRACT
     return col_sub(col1, col2, fact);
-#elif BLENDTYPE == MTEX_MUL
+#elif BLENDTYPE == MULTIPLY
     return col_mul(col1, col2, fact);
-#elif BLENDTYPE == MTEX_SCREEN
+#elif BLENDTYPE == SCREEN
     return col_screen(col1, col2, fact);
-#elif BLENDTYPE == MTEX_OVERLAY
+#elif BLENDTYPE == OVERLAY
     return col_overlay(col1, col2, fact);
-#elif BLENDTYPE == MTEX_DIFF
+#elif BLENDTYPE == DIFFERENCE
     return col_diff(col1, col2, fact);
-#elif BLENDTYPE == MTEX_DIV
+#elif BLENDTYPE == DIVIDE
     return col_div(col1, col2, fact);
-#elif BLENDTYPE == MTEX_DARK
+#elif BLENDTYPE == DARKEN
     return col_dark(col1, col2, fact);
-#elif BLENDTYPE == MTEX_LIGHT
+#elif BLENDTYPE == LIGHTEN
     return col_light(col1, col2, fact);
-#elif BLENDTYPE == MTEX_BLEND_HUE
+#elif BLENDTYPE == HUE
     return col_hue(col2, col1, fact);
-#elif BLENDTYPE == MTEX_BLEND_SAT
+#elif BLENDTYPE == SATURATION
     return col_sat(col2, col1, fact);
-#elif BLENDTYPE == MTEX_BLEND_VAL
+#elif BLENDTYPE == VALUE
     return col_val(col2, col1, fact);
-#elif BLENDTYPE == MTEX_BLEND_COLOR
+#elif BLENDTYPE == COLOR
     return col_color(col2, col1, fact);
-#elif BLENDTYPE == MTEX_SOFT_LIGHT
+#elif BLENDTYPE == SOFT_LIGHT
     return col_soft_light(col2, col1, fact);
-#elif BLENDTYPE == MTEX_LIN_LIGHT
+#elif BLENDTYPE == LINEAR_LIGHT
     return col_lin_light(col2, col1, fact);
 #endif
     return vec3(1.0, 0.0, 1.0);
@@ -60,29 +60,29 @@ float val_blending(float val1, float val2, float factor, float facg)
 {
     vec3 col1 = vec3(val1), col2 = vec3(val2);
     float fact = factor * facg;
-#if BLENDTYPE == MTEX_BLEND
+#if BLENDTYPE == MIX
     return col_blend(col2, col1, fact).x;
-#elif BLENDTYPE == MTEX_ADD
+#elif BLENDTYPE == ADD
     return col_add(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_SUB
+#elif BLENDTYPE == SUBTRACT
     return col_sub(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_MUL
+#elif BLENDTYPE == MULTIPLY
     return val_mul(val1, val2, fact, facg);
-#elif BLENDTYPE == MTEX_SCREEN
+#elif BLENDTYPE == SCREEN
     return val_screen(val1, val2, fact, facg);
-#elif BLENDTYPE == MTEX_OVERLAY
+#elif BLENDTYPE == OVERLAY
     return val_overlay(val1, val2, fact, facg);
-#elif BLENDTYPE == MTEX_DIFF
+#elif BLENDTYPE == DIFFERENCE
     return col_diff(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_DIV
+#elif BLENDTYPE == DIVIDE
     return col_div(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_DARK
+#elif BLENDTYPE == DARKEN
     return col_dark(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_LIGHT
+#elif BLENDTYPE == LIGHTEN
     return col_light(col1, col2, fact).x;
-#elif BLENDTYPE == MTEX_SOFT_LIGHT
+#elif BLENDTYPE == SOFT_LIGHT
     return col_soft_light(col2, col1, fact).x;
-#elif BLENDTYPE == MTEX_LIN_LIGHT
+#elif BLENDTYPE == LINEAR_LIGHT
     return col_lin_light(col2, col1, fact).x;
 #endif
     return 0.0;
@@ -128,7 +128,7 @@ void main(void) {
 
     // shadeSkyView
     // skip skyflag
-    float blend;
+    float blend = 0.0;
 # if WO_SKYBLEND
 #  if WO_SKYPAPER
 #   if WO_SKYREAL
