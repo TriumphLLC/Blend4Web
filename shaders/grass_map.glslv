@@ -30,11 +30,11 @@ uniform mat4 u_model_matrix;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
-# if HAIR_BILLBOARD
+# if BILLBOARD
 uniform vec3 u_camera_eye;
 # endif
 
-#if WIND_BEND && HAIR_BILLBOARD_JITTERED
+#if WIND_BEND && BILLBOARD_JITTERED
 uniform vec3 u_wind;
 uniform float u_time;
 uniform float u_jitter_amp;
@@ -62,11 +62,11 @@ varying vec3 v_grass_params;
 ============================================================================*/
 
 void main(void) {
-# if HAIR_BILLBOARD
+# if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(vec3(0.0), 1.0)).xyz;
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-# if WIND_BEND && HAIR_BILLBOARD_JITTERED
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time, 
+# if WIND_BEND && BILLBOARD_JITTERED
+    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
         u_jitter_amp, u_jitter_freq, vec3(0.0));
 # endif
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),

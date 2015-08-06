@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lighting, Shadows and Background &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html" />
+    <link rel="prev" title="Node Materials" href="node_materials.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Lighting, Shadows and Background</a><ul>
+<li><a class="reference internal" href="#index-1">Shading Types</a></li>
+<li><a class="reference internal" href="#index-2">Normal Editor</a><ul>
+<li><a class="reference internal" href="#id4">Main features of the normal editor:</a></li>
+<li><a class="reference internal" href="#id5">Interface of the Vertex Normal Editor</a></li>
+<li><a class="reference internal" href="#activate">Activate</a></li>
+<li><a class="reference internal" href="#show-normals">Show Normals</a></li>
+<li><a class="reference internal" href="#id6">Rotation</a></li>
+<li><a class="reference internal" href="#split-normals">Split Normals</a></li>
+<li><a class="reference internal" href="#average-split">Average Split</a></li>
+<li><a class="reference internal" href="#restore">Restore</a></li>
+<li><a class="reference internal" href="#tree-foliage-face">Tree, Foliage and Face</a></li>
+<li><a class="reference internal" href="#copy-paste">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh">Copy From Mesh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-3">Lighting with Light Sources</a><ul>
+<li><a class="reference internal" href="#id8">Light source types</a></li>
+<li><a class="reference internal" href="#id9">Light source setup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-lighting">Environment Lighting (Ambient)</a><ul>
+<li><a class="reference internal" href="#id11">Activation</a></li>
+<li><a class="reference internal" href="#id12">Setup</a></li>
+<li><a class="reference internal" href="#id13">Environment map method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shadows">Shadows</a><ul>
+<li><a class="reference internal" href="#id15">Activation</a></li>
+<li><a class="reference internal" href="#id16">Setup</a><ul>
+<li><a class="reference internal" href="#id17">Generic shadows</a></li>
+<li><a class="reference internal" href="#id18">Shadow cascades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4">Background</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="node_materials.html" title="Previous Chapter: Node Materials"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Node Materials</span>
+    </a>
+  </li>
+  <li>
+    <a href="postprocessing_effects.html" title="Next Chapter: Postprocessing Effects"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Postprocessing E... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <span class="target" id="lighting"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Lighting, Shadows and Background<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="index-1">
+<span id="id2"></span><h2>Shading Types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>Lighting (shading) depends on the direction of normal vectors. The standard Blender&#8217;s shading types are supported: <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></code> (face normals are used), <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> (interpolated vertex normals are used) and their combinations.</p>
+<a class="reference internal image-reference" href="_images/flat_smooth_shading.png"><img alt="_images/flat_smooth_shading.png" class="align-center" src="_images/flat_smooth_shading.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>If the required effect is impossible to achieve with the standard tools, you can use the <a class="reference internal" href="#normals-editor"><span>normals editor</span></a>.</p>
+<p>The result of applying different shading types and using the normals editor:</p>
+<a class="reference internal image-reference" href="_images/different_shadings_comparison.jpg"><img alt="_images/different_shadings_comparison.jpg" class="align-center" src="_images/different_shadings_comparison.jpg" style="width: 100%;" /></a>
+<ol class="arabic simple">
+<li>Flat Shading</li>
+<li>Smooth Shading</li>
+<li><p class="first">Smooth Shading + bevel</p>
+</li>
+<li><p class="first">Smooth Shading + bevel + editing normals</p>
+</li>
+</ol>
+<span class="target" id="normals-editor"></span></div>
+<div class="section" id="index-2">
+<span id="id3"></span><h2>Normal Editor<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>Editing the selected normals is a pretty easy and effective way to customize 3d model shading without complicating its geometry.</p>
+<p>In some cases, using the normal editor you may achieve the effect which is similar to the result of using <a class="reference internal" href="textures.html#normal-map"><span>normal maps</span></a>. At the same  time, editing normals is preferred because it is more computationally effective and consumes less video memory.</p>
+<p>Normal editor workflow example:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/vnt_img01.jpg"><img alt="_images/vnt_img01.jpg" class="align-center" src="_images/vnt_img01.jpg" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Simple geometry shading is to the left, a tree with edited normals is to the right.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/vnt_img02.jpg"><img alt="_images/vnt_img02.jpg" class="align-center" src="_images/vnt_img02.jpg" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - gates with common shading; at the center - gates with edited normals; to the right - gates geometry with a wireframe.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/vnt_img03.jpg"><img alt="_images/vnt_img03.jpg" class="align-center" src="_images/vnt_img03.jpg" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - common grass geometry shading; to the right - grass with edited normals.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/vnt_img04.jpg"><img alt="_images/vnt_img04.jpg" class="align-center" src="_images/vnt_img04.jpg" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - glasses with common shading; to the right - geometry with edited normals shading.</p>
+<div class="section" id="id4">
+<h3>Main features of the normal editor:<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p class="first">native Blender storage is used as a container for edited vertices normals directions (it appeared in Blender 2.74);</p>
+</li>
+<li><p class="first">normals editing and shading visualization are processed in <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> now;</p>
+</li>
+<li><p class="first">all changes are being saved automatically;</p>
+</li>
+<li><p class="first">selected vertex normal rotation can be performed directly in the Viewport window with <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkey, similary to other rotation operations in Blender;</p>
+</li>
+<li><p class="first">edited normals are being exported automatically.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>Interface of the Vertex Normal Editor<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>The interface of the normal editor is located on the tools panel <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Normal</span> <span class="pre">Editor</span></code>. The <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> mode should be enabled and <code class="docutils literal"><span class="pre">Activate</span></code> button should be pressed or <code class="docutils literal"><span class="pre">Auto</span> <span class="pre">Smooth</span></code> flag should be enabled in the mesh settings, before starting to work with the editor.</p>
+<a class="reference internal image-reference" href="_images/vnt_img05.jpg"><img alt="_images/vnt_img05.jpg" class="align-center" src="_images/vnt_img05.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="activate">
+<h3>Activate<a class="headerlink" href="#activate" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>The new <code class="docutils literal"><span class="pre">Activate</span></code> button turns on vertex normal editing mode.</p>
+<p><em>Usage</em></p>
+<p>You can just press <code class="docutils literal"><span class="pre">Activate</span></code> button while in <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> and start editing vertex normals. As it is active, object shading and its export would be processed taking edited vertex normals into account. In other words, after making some changes, this button should be left active if you want to see the changes in the Blender Viewport and in the Blend4Web engine.</p>
+</div>
+<div class="section" id="show-normals">
+<h3>Show Normals<a class="headerlink" href="#show-normals" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>This button actually duplicates the original Blender&#8217;s button. It turns on displaying the normals in the viewport, while the Size field allows you to set their length.</p>
+<p><em>Usage</em></p>
+<p>You just need to push the Show Normals button either on the normal editor panel or on the Blender&#8217;s right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.</p>
+<a class="reference internal image-reference" href="_images/vnt_img07.gif"><img alt="_images/vnt_img07.gif" class="align-center" src="_images/vnt_img07.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id6">
+<h3>Rotation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>Using these instruments you can change direction of the normals.</p>
+<p>The Rotate function is also available through the Shift+Ctrl+R hotkeys, which allows rotation of vertex normals similarly to Blender.</p>
+<p><em>Usage</em></p>
+<p>Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.</p>
+<p>The Rotate button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing X, Y or Z).</p>
+<a class="reference internal image-reference" href="_images/vnt_img08.gif"><img alt="_images/vnt_img08.gif" class="align-center" src="_images/vnt_img08.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="split-normals">
+<h3>Split Normals<a class="headerlink" href="#split-normals" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>The <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode allows to edit vertex normals separately for each <code class="docutils literal"><span class="pre">face</span></code> that form the <code class="docutils literal"><span class="pre">vertex</span></code>. Index allows you to navigate between the split normals.</p>
+<p>Usage</p>
+<p>Turn on the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.</p>
+<a class="reference internal image-reference" href="_images/vnt_img09.gif"><img alt="_images/vnt_img09.gif" class="align-center" src="_images/vnt_img09.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="average-split">
+<h3>Average Split<a class="headerlink" href="#average-split" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>The <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> button averages the direction of the vertex normals which was modified in the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode.</p>
+<p><em>Usage</em></p>
+<p>To combine several split vertex normals into one, in order to obtain the average direction of these normals, you just need to select the desired vertex and press the <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> button.</p>
+<a class="reference internal image-reference" href="_images/vnt_img10.gif"><img alt="_images/vnt_img10.gif" class="align-center" src="_images/vnt_img10.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="restore">
+<h3>Restore<a class="headerlink" href="#restore" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>The <code class="docutils literal"><span class="pre">Restore</span></code> button restores the original direction of normals for the selected vertices.</p>
+<p><em>Usage</em></p>
+<p>In order to restore the normal&#8217;s direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.</p>
+<a class="reference internal image-reference" href="_images/vnt_img11.gif"><img alt="_images/vnt_img11.gif" class="align-center" src="_images/vnt_img11.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="tree-foliage-face">
+<h3>Tree, Foliage and Face<a class="headerlink" href="#tree-foliage-face" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>The <code class="docutils literal"><span class="pre">Tree</span></code> button directs the normals of the selected vertices away from the 3D cursor. The <code class="docutils literal"><span class="pre">Foliage</span></code> button directs the normals of the vertices strictly up. The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
+<p>Usage</p>
+<p>In order to use the <code class="docutils literal"><span class="pre">Tree</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">Tree</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.</p>
+<p>The <code class="docutils literal"><span class="pre">Foliage</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.</p>
+<p>In order to direct the normals parallel to the face normal, just select the desired face and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
+<a class="reference internal image-reference" href="_images/vnt_img12.gif"><img alt="_images/vnt_img12.gif" class="align-center" src="_images/vnt_img12.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="copy-paste">
+<h3>Copy/Paste<a class="headerlink" href="#copy-paste" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>Copies the normal direction from one vertex to another.</p>
+<p><em>Usage</em></p>
+<p>Select the vertex you want to copy from and click the <code class="docutils literal"><span class="pre">Copy</span></code> button. Then, select the vertex you want to copy to and click the <code class="docutils literal"><span class="pre">Paste</span></code> button. You may copy information from one selected vertex to many different vertices. The buttons are not active in the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Mode</span></code> and do not copy data of split vertices.</p>
+<a class="reference internal image-reference" href="_images/vnt_img13.gif"><img alt="_images/vnt_img13.gif" class="align-center" src="_images/vnt_img13.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="copy-from-mesh">
+<h3>Copy From Mesh<a class="headerlink" href="#copy-from-mesh" title="Permalink to this headline">¶</a></h3>
+<p><em>Description</em></p>
+<p>This function allows you to copy the normals from one object to another. There are two modes: <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> and <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> mode copies the normals from the vertices of one object to another object&#8217;s vertices only if they have the same coordinates; the other vertices are ignored. The <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> mode copies the normals of the nearest vertices of the source object.</p>
+<p><em>Usage</em></p>
+<p>This function works in Blender&#8217;s object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object&#8217;s vertices to which normals are copied.</p>
+<a class="reference internal image-reference" href="_images/vnt_img14.gif"><img alt="_images/vnt_img14.gif" class="align-center" src="_images/vnt_img14.gif" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="index-3">
+<span id="id7"></span><h2>Lighting with Light Sources<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h2>
+<p>A scene can have multiple (but not less than one) light sources of different types.</p>
+<div class="section" id="id8">
+<h3>Light source types<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>The following light source types are supported:</p>
+<dl class="docutils">
+<dt><em>Point</em></dt>
+<dd><p class="first last">Light propagates from one point uniformly to all directions with gradual attenuation.</p>
+</dd>
+<dt><em>Sun</em></dt>
+<dd><p class="first last">Light propagates from an infinite plane in one direction without attenuation.</p>
+</dd>
+<dt><em>Spot</em></dt>
+<dd><p class="first last">Light propagates from one point within the angular limit, with gradual attenuation.</p>
+</dd>
+<dt><em>Hemi</em></dt>
+<dd><p class="first last">Hemispherical. Light propagates from an infinite hemisphere without attenuation.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id9">
+<h3>Light source setup<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Performed in the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab when a lamp object is selected.</p>
+<a class="reference internal image-reference" href="_images/lighting_setup.jpg"><img alt="_images/lighting_setup.jpg" class="align-center" src="_images/lighting_setup.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Color</em></dt>
+<dd><p class="first last">Light color. The default value is (1.0, 1.0, 1.0) (i.e. white).</p>
+</dd>
+<dt><em>Energy</em></dt>
+<dd><p class="first last">Radiation intensity. The default value is 1.0.</p>
+</dd>
+<dt><em>Falloff</em></dt>
+<dd><p class="first last">Attenuation type. The value is exported but the engine always uses <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>. It is applicable to the <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> light source types. The default value is <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</p>
+</dd>
+<dt><em>Distance</em></dt>
+<dd><p class="first last">Attenuation parameter. It is applicable to the <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> light source types. The default value is 25.0.</p>
+</dd>
+<dt><em>Specular</em></dt>
+<dd><p class="first last">Create specular highlights. Enabled by default.</p>
+</dd>
+<dt><em>Diffuse</em></dt>
+<dd><p class="first last">Do diffuse shading. Enabled by default.</p>
+</dd>
+<dt><em>Spot Shape &gt; Size</em></dt>
+<dd><p class="first last">Cone angle in degrees. It is applicable to the <code class="docutils literal"><span class="pre">Spot</span></code> light source type. The default value is 45º.</p>
+</dd>
+<dt><em>Spot Shape &gt; Blend</em></dt>
+<dd><p class="first last">Parameter for blurring light spot edges. It is applicable to the <code class="docutils literal"><span class="pre">Spot</span></code> light source type. The default value is 0.15.</p>
+</dd>
+<dt><em>Dynamic intesity</em></dt>
+<dd><p class="first last">Use this light source for calculating the time of day. Applicable only to the <code class="docutils literal"><span class="pre">Sun</span></code> light source type. Disabled by default.</p>
+</dd>
+<dt><em>Shadows &gt; Generate shadows</em></dt>
+<dd><p class="first last">Use this light source for shadow calculation. Should be used when multiple light sources are present. Disabled by default.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="environment-lighting">
+<span id="id10"></span><h2>Environment Lighting (Ambient)<a class="headerlink" href="#environment-lighting" title="Permalink to this headline">¶</a></h2>
+<p>The engine supports 3 methods of the environment lighting simulation.</p>
+<ol class="arabic simple">
+<li><p class="first">Flat white lighting.</p>
+</li>
+<li><p class="first">Hemispherical lighting model in which horizon and zenith colors should be specified. As a result objects are filled with a gradient between these two colors depending on the direction of normals.</p>
+</li>
+<li><p class="first">Lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a> - so called image-based lighting.</p>
+</li>
+</ol>
+<div class="section" id="id11">
+<h3>Activation<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Enable the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox on the <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
+<a class="reference internal image-reference" href="_images/lighting_environment.jpg"><img alt="_images/lighting_environment.jpg" class="align-center" src="_images/lighting_environment.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id12">
+<h3>Setup<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
+<dd><p class="first last">Environment lighting intensity. The default value is 1.0.</p>
+</dd>
+<dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
+<dd><p class="first last">Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemisperical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</p>
+</dd>
+<dt><em>World &gt; Horizon Color</em> and <em>World &gt; Zenith Color</em></dt>
+<dd><p class="first last">If the hemisperical model (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>) is selected the horizon and zenith colors can be specified by means of the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> color pickers. It is recommended to activate the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> option for better color selection.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id13">
+<h3>Environment map method<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>To use an environment map for environment lighting:</p>
+<ol class="arabic simple">
+<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox on the <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
+</li>
+<li><p class="first">Select <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>.</p>
+</li>
+<li><p class="first">Go from the <code class="docutils literal"><span class="pre">World</span></code> tab to the <code class="docutils literal"><span class="pre">Texture</span></code> tab.</p>
+</li>
+<li><p class="first">Create an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>, load the corresponding image to it.</p>
+</li>
+<li><p class="first">For the environment map select <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> or <code class="docutils literal"><span class="pre">BOTH</span></code> as the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> value on the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> panel (the <code class="docutils literal"><span class="pre">BOTH</span></code> option also enables using this texture as a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome texture</span></a>).</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/lighting_environment_texture.jpg"><img alt="_images/lighting_environment_texture.jpg" class="align-center" src="_images/lighting_environment_texture.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="shadows">
+<span id="id14"></span><h2>Shadows<a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h2>
+<p>Shadows are exceptionally important for rendering the final picture. They provide the viewer not only with information about the objects&#8217; outline but also about their height and relative position, light source position and so on.</p>
+<p>Blend4Web implements the following shadow rendering techniques: cascaded shadow maps (CSM) and softened shadows (PCF).</p>
+<div class="section" id="id15">
+<h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Cast</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>cast</strong> shadows.</p>
+</li>
+<li><p class="first">Enable the <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Receive</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span></code> tab for the objects which <strong>receive</strong> shadows.</p>
+</li>
+<li><p class="first">Make sure that the <code class="docutils literal"><span class="pre">Shadows</span></code> option in the <code class="docutils literal"><span class="pre">Render</span></code> tab has the value <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Objects, which have <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials with a gradient</span></a>, do not cast shadows.</p>
+<a class="last reference internal image-reference" href="_images/alpha_shadows.jpg"><img alt="_images/alpha_shadows.jpg" class="align-center" src="_images/alpha_shadows.jpg" style="width: 100%;" /></a>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3>Setup<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Direction</em></dt>
+<dd><p class="first last">If there are multiple light sources, it is recommended to specify the exact light source which is used for shadow calculations, by enabling the <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab for the selected lamp object.</p>
+</dd>
+<dt><em>Color</em></dt>
+<dd><p class="first last">The shadow color is determined by the <a class="reference internal" href="#environment-lighting"><span>environment lighting</span></a> settings.</p>
+</dd>
+</dl>
+<p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Shadows</span></code> panel of the <code class="docutils literal"><span class="pre">Render</span></code> tab:</p>
+<a class="reference internal image-reference" href="_images/b4w_shadow_settings.png"><img alt="_images/b4w_shadow_settings.png" class="align-center" src="_images/b4w_shadow_settings.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Resolution</em></dt>
+<dd><p class="first last">Shadow map resolution. The default value is 2048x2048px.</p>
+</dd>
+<dt><em>Self-shadow polygon offset</em></dt>
+<dd><p class="first last">Coefficient for shifting polygons relative to light source orientation. The default value is 1.</p>
+</dd>
+<dt><em>Self-shadow normal offset</em></dt>
+<dd><p class="first last">Coefficient for shifting polygons along their normals. The default value is 0.01.</p>
+</dd>
+</dl>
+<p>The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></code> parameter is more effective for fighting against artifacts in inner areas of poligons while <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></code> is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.</p>
+<a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Enable CSM</em></dt>
+<dd><p class="first last">Activates the using of cascaded shadows model; reveals additional options. Disabled by default.</p>
+</dd>
+</dl>
+<p>This option allows to choose between the following shadow generation models:</p>
+<ul class="simple">
+<li><p class="first">Generic model which uses a single optimized shadow map for the whole scene (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> is turned off).</p>
+</li>
+<li><p class="first">Shadow cascades (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> is turned on).</p>
+</li>
+</ul>
+<dl class="docutils">
+<dt><em>Blur radius</em></dt>
+<dd><p class="first last">Blur ratio for setting up softened shadows. The default value is 3. Zero value produces hard shadows.</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/blur_radius.png"><img alt="_images/blur_radius.png" class="align-center" src="_images/blur_radius.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, that is especially noticable for low-resolution shadow maps. The using of softened shadows often allows to decrease resolution without substantial quality loss.</p>
+<div class="section" id="id17">
+<h4>Generic shadows<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p>This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, one can achieve better shadow quality as compared with cascaded shadows. Also this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance.</p>
+</div>
+<div class="section" id="id18">
+<h4>Shadow cascades<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These settings are supported only for <code class="docutils literal"><span class="pre">Sun</span></code> light sources. Cascades are turned off for other types of light sources.</p>
+</div>
+<p>In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.</p>
+<p>When enabled the following extended settings are revealed:</p>
+<img alt="_images/b4w_shadow_settings_csm.png" class="align-center" src="_images/b4w_shadow_settings_csm.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>CSM number</em></dt>
+<dd><p class="first last">Number of shadow cascades. From 1 to 4 cascades are supported. The default value is 1.</p>
+</dd>
+<dt><em>CSM first cascade border</em></dt>
+<dd><p class="first last">First cascade size. The default value is 10.0.</p>
+</dd>
+<dt><em>CSM last cascade border</em></dt>
+<dd><p class="first last">Last cascade size. The default value is 100.0.</p>
+</dd>
+</dl>
+<p>The sizes of the intermediate cascades are interpolated between the two above-mentioned parameters.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">border</span></code> parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">border</span></code> parameter forces shadows to disappear at more close distance from the camera. However when softened shadows are used the overall quality will improve thanks to blurring at the edges.</p>
+</div>
+<a class="reference internal image-reference" href="_images/csm_cascade_distance.png"><img alt="_images/csm_cascade_distance.png" class="align-center" src="_images/csm_cascade_distance.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>CSM first cascade blur radius</em></dt>
+<dd><p class="first last">Blur ratio for the first cascade. The default value is 3. Zero value produces hard shadows.</p>
+</dd>
+<dt><em>CSM last cascade blur radius</em></dt>
+<dd><p class="first last">Blur ratio for the last cascade. The default value is 1.5. Zero value produces hard shadows.</p>
+</dd>
+</dl>
+<p>The blur radii of the intermediate cascades are interpolated between the two above-mentioned parameters.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We recommend to start setting up the softened shadows with the first cascade (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>) and then proceed to other cascades (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>). Often the last cascade may need less blurring than the first one. This may be needed to prevent the shadows on the last cascade being too faded due to low resolution. This also reduces undesirable self-shadowing artifacts.</p>
+</div>
+<dl class="docutils">
+<dt><em>Fade-out last cascade</em></dt>
+<dd><p class="first last">Smooth dying-out of the last cascade. Enabled by default.</p>
+</dd>
+<dt><em>Blend between cascades</em></dt>
+<dd><p class="first last">Smoothing the boundaries between the cascades. Enabled by default.</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/blend_between_cascades.png"><img alt="_images/blend_between_cascades.png" class="align-center" src="_images/blend_between_cascades.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="index-4">
+<span id="id19"></span><h2>Background<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<p>You can change the background in the following ways:</p>
+<ol class="arabic simple">
+<li><p class="first">Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then set the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and the <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
+</li>
+<li><p class="first">Place the whole scene inside a model (e.g. a cube or a sphere) with its normals directed inside, with a material and an optional texture.</p>
+</li>
+<li><p class="first">Place a surface with a material and an optional texture in front of the camera. Parent it to the camera. If required, tweak the distance to this surface, starting and ending clipping planes for the camera.</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/parented_background.jpg"><img alt="_images/parented_background.jpg" class="align-center" src="_images/parented_background.jpg" style="width: 100%;" /></a>
+<ol class="arabic" start="4">
+<li><p class="first">Use a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome</span></a>.</p>
+</li>
+<li><p class="first">Set up the procedurally generated <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>atmosphere</span></a>.</p>
+</li>
+<li><p class="first">Set the engine&#8217;s <code class="docutils literal"><span class="pre">background_color</span></code> parameter with the <code class="docutils literal"><span class="pre">config.set()</span></code> method. Please note, that <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. This value is used as argument for the WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code> method. For correct results, it&#8217;s recommended to turn the WebGL context transparency off (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Such the configuration is used by default in the engine&#8217;s standard web player.</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="c1">// gray</span>
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]));</span>
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">You can use any HTML content behind the <em>canvas</em> element, to which the rendering is performed, as a background. To do this, activate the WebGL context transparency (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Please note, that <code class="docutils literal"><span class="pre">World</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. For correct results, it&#8217;s recommended to set absolutely transparent black background color. Such the configuration is used by default in the <a class="reference internal" href="viewer.html#viewer"><span>scene viewer</span></a> of Blend4Web SDK.</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#alpha-compositing"><span>Alpha Compositing</span></a></p>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,255 @@
+a, a:link, a:visited {
+    color: #218bb0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a img {
+    border: none;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: arial, Sans-Serif;
+    font-size: 26pt;
+}
+
+body {
+    font-family: arial, Sans-Serif;
+    font-size: 16px;
+    color: white;
+    background-image: url(images/mtimoon_fromSTK_3d.jpg);
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-color: black;
+    margin: 0px;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.main-output {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+    text-align: center;
+}
+
+.main-left-column {
+    width: 190px;
+}
+
+.webglVersionTabs {
+    text-align: left;
+    padding-left: 4px;
+    font-size: 20px;
+}
+
+.webglVersionTabs a,
+.webglVersionTabs a:visited {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 5px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    vertical-align: bottom;
+    color: #218bb0;
+}
+
+.webglVersionTabs a.active,
+.webglVersionTabs a.active:visited {
+    background-color: #00A900;
+    color: #FFF;
+    padding: 8px 15px;
+}
+
+.warn .webglVersionTabs a.active,
+.warn .webglVersionTabs a.active:visited {
+    background-color: #A90000;
+    color: #FFF;
+}
+
+.header {
+    background: #00A900;
+    overflow: hidden;
+    margin-bottom: 8px;
+    padding: 0 5px;
+}
+
+.warn .header {
+    background: #A90000;
+}
+
+.header a,
+.header a:visited,
+.warn .header a,
+.warn .header a:visited {
+    color: #42CEFF;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.report {
+    position: relative;
+    width: 100%;
+    color: black;
+    box-sizing: border-box;
+    font-size: 12px;
+    text-align: left;
+    border-style: ridge;
+    border-width: 3px;
+    padding: 6px;
+    border-color: #AFC7C7;
+    background-color: #FFFFFF;
+}
+
+.report > table {
+    width: 700px;
+}
+
+td, th {
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    font-weight: bold;
+}
+
+.pipeline {
+    width: 660px;
+    height: 660px;
+    color: white;
+    position: relative;
+}
+
+.webgl2 .pipeline {
+    height: 730px;
+}
+
+.pipeline table {
+    width: 100%;
+}
+
+.pipeline .vertexShader,
+.pipeline .transformFeedback,
+.pipeline .rasterizer,
+.pipeline .fragmentShader,
+.pipeline .framebuffer,
+.pipeline .textures,
+.pipeline .uniformBuffers {
+    position: absolute;
+    width: 265px;
+}
+
+.pipeline h1 {
+    font-size: 2em;
+    margin: 0px;
+}
+
+.pipeline .vertexShader {
+    top: 10px;
+    left: 5px;
+}
+
+.pipeline .transformFeedback {
+    top: 10px;
+    left: 360px;
+}
+
+.pipeline .rasterizer {
+    top: 220px;
+    left: 5px;
+}
+
+.webgl2 .pipeline .rasterizer {
+    top: 320px;
+}
+
+.pipeline .fragmentShader {
+    top: 335px;
+    left: 5px;
+}
+
+.webgl2 .pipeline .fragmentShader {
+    top: 435px;
+}
+
+.pipeline .framebuffer {
+    top: 520px;
+    left: 5px;
+}
+
+.webgl2 .pipeline .framebuffer {
+    top: 550px;
+    left: 360px;
+}
+
+.pipeline .textures {
+    top: 140px;
+    left: 360px;
+}
+
+.webgl2 .pipeline .textures {
+    top: 150px;
+}
+
+.pipeline .uniformBuffers {
+    top: 300px;
+    left: 360px;
+}
+
+.webgl2 .pipeline .uniformBuffers {
+    top: 345px;
+}
+
+.pipeline a,
+.pipeline a:visited {
+    color: #fff;
+}
+
+a.extension {
+    font-family: "Courier New", monospace;
+}
+
+a.unsupported {
+    color: rgb(200, 200, 200);
+}
+
+.comingSoon {
+    text-align: center;
+    padding: 10px;
+}
+
+@media only screen and (min-width:1470px) {
+    .main-output {
+        width: 1365px;
+    }
+    .report {
+        min-height: 680px;
+    }
+    .webgl2 .report {
+        min-height: 750px;
+    }
+    .warn .report {
+        min-height: 0;
+    }
+    .pipeline {
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+}

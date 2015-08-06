@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Materials &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Textures" href="textures.html" />
+    <link rel="prev" title="Camera" href="camera.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Materials</a><ul>
+<li><a class="reference internal" href="#material-lighting-params">Lighting Parameters</a></li>
+<li><a class="reference internal" href="#alpha-blend">Transparency</a><ul>
+<li><a class="reference internal" href="#index-3">Types</a></li>
+<li><a class="reference internal" href="#index-4">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#material-mirror">Reflection</a><ul>
+<li><a class="reference internal" href="#reflection-static">Static reflection</a></li>
+<li><a class="reference internal" href="#index-7">Dynamic reflection</a><ul>
+<li><a class="reference internal" href="#id9">Activation</a></li>
+<li><a class="reference internal" href="#id10">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fresnel">Fresnel effect for reflection</a><ul>
+<li><a class="reference internal" href="#id12">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-9">Rendering Properties</a></li>
+<li><a class="reference internal" href="#index-10">Engine Specific Parameters</a></li>
+<li><a class="reference internal" href="#halo">Halo Materials</a><ul>
+<li><a class="reference internal" href="#id15">Activation</a></li>
+<li><a class="reference internal" href="#id16">Additional settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="camera.html" title="Previous Chapter: Camera"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Camera</span>
+    </a>
+  </li>
+  <li>
+    <a href="textures.html" title="Next Chapter: Textures"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Textures &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <span class="target" id="materials"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Materials<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>Materials describe the object surface&#8217;s response to light and also contain information about its transparency, reflectivity, physical parameters and so on.</p>
+<p>Meshes can have one or more materials. In case of multiple materials they can be assigned to different polygons in the <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>. To do this select the needed polygons, select the needed material from the list and click the <code class="docutils literal"><span class="pre">Assign</span></code> button.</p>
+<p>The following material types are supported: <code class="docutils literal"><span class="pre">Surface</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>.</p>
+<div class="section" id="material-lighting-params">
+<span id="index-1"></span><span id="id2"></span><h2>Lighting Parameters<a class="headerlink" href="#material-lighting-params" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Diffuse &gt; Color</em></dt>
+<dd><p class="first last">Diffuse light color. The default value is (0.8, 0.8, 0.8). It may interact with the diffuse map color.</p>
+</dd>
+<dt><em>Diffuse &gt; Intensity</em></dt>
+<dd><p class="first last">Diffuse light intensity. The default value is 0.8.</p>
+</dd>
+<dt><em>Diffuse &gt; Shader</em></dt>
+<dd><p class="first last">Diffuse shading algorithm. The default value is <code class="docutils literal"><span class="pre">Lambert</span></code>.</p>
+</dd>
+<dt><em>Specular &gt; Color</em></dt>
+<dd><p class="first last">Specular light color. The default value is (1.0, 1.0, 1.0). It may interact with the specular map color.</p>
+</dd>
+<dt><em>Specular &gt; Intensity</em></dt>
+<dd><p class="first last">Specular light intensity. The default value is 0.5.</p>
+</dd>
+<dt><em>Specular &gt; Hardness</em></dt>
+<dd><p class="first last">Exponent in the specular shading calculation formula. The default value is 50. Note that the formula used in the engine differs slightly from the Blender&#8217;s one.</p>
+</dd>
+<dt><em>Specular &gt; Shader</em></dt>
+<dd><p class="first last">Specular shading algorithm. The default value is <code class="docutils literal"><span class="pre">CookTorr</span></code>.</p>
+</dd>
+<dt><em>Shading &gt; Emit</em></dt>
+<dd><p class="first last">Emission intensity. The default value is 0.0.</p>
+</dd>
+<dt><em>Shading &gt; Ambient</em></dt>
+<dd><p class="first last">Ambient influence factor on material. The default value is 1.0.</p>
+</dd>
+<dt><em>Shading &gt; Shadeless</em></dt>
+<dd><p class="first last">When enabled, a material doesn&#8217;t react to light. Disabled by default.</p>
+</dd>
+<dt><em>Shading &gt; Double-sided Lighting</em></dt>
+<dd><p class="first last">Enables the double-sided lighting mode. This option is useful for non-transparent objects with a single-layered mesh.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="alpha-blend">
+<span id="index-2"></span><span id="id3"></span><h2>Transparency<a class="headerlink" href="#alpha-blend" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/panel_transparency.png"><img alt="_images/panel_transparency.png" class="align-center" src="_images/panel_transparency.png" style="width: 100%;" /></a>
+<div class="section" id="index-3">
+<span id="id4"></span><h3>Types<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<p>Transparency implementation type can be selected in the <code class="docutils literal"><span class="pre">Transparency</span></code> menu on the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> panel.</p>
+<p>The engine supports the following transparency implementation types (sorted in the ascending order by performance):</p>
+<dl class="docutils">
+<dt><em>Alpha Sort</em></dt>
+<dd><p class="first last">Transparent with a gradient. The engine sorts the triangles by camera distance in order to render overlapping transparent surfaces correctly. This operation is computationally expensive. It is recommended to use this feature for closed transparent geometry (bottle, car glass etc).</p>
+</dd>
+<dt><em>Alpha Blend</em></dt>
+<dd><p class="first last">Transparent with a gradient. The sorting of triangles is not performed. It is recommended to use this feature for unclosed transparent geometry (water surface, decals).</p>
+</dd>
+<dt><em>Add</em></dt>
+<dd><p class="first last">Transparent with a gradient. The sorting of triangles is not performed. The engine disables writing to the depth buffer which causes transparent surfaces to be rendered in arbitrary order. It is recommended to use this feature for effects (particle systems, glowing beams).</p>
+</dd>
+<dt><em>Alpha Clip</em></dt>
+<dd><p class="first last">Transparent without a gradient. The engine discards pixels if their alpha is less than 0.5. The sorting of triangles is not performed. It is recommended to use this feature with a mask texture to visualize smaller details (tree leaves, grass).</p>
+</dd>
+<dt><em>Opaque</em></dt>
+<dd><p class="first last">Non-transparent. Alpha is ignored. This is the default value.</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="_images/alpha_types.jpg" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="index-4">
+<span id="id5"></span><h3>Additional settings<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Transparency &gt; Show Transparency</em></dt>
+<dd><p class="first last">Enabling the transparency checkbox is required for viewing transparent objects in Blender. The engine ignores this option - the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> option is used instead.</p>
+</dd>
+<dt><em>Transparency &gt; Alpha</em></dt>
+<dd><p class="first last">Material transparency level. The engine ignores this parameter (in contrast to Blender) if there is a diffuse texture - the alpha channel values of a texture are used instead.</p>
+</dd>
+<dt><em>Transparency &gt; Z Offset</em>, depth offset</dt>
+<dd><p class="first last">This option explicitly specifies relative positioning order of objects with <strong>different</strong> materials with the purpose of depth sorting. The option can take both negative and positive values. The more distant the object is the lesser parameter value should be to provide correct rendering. The default value is 0.0.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="material-mirror">
+<span id="index-5"></span><span id="id6"></span><h2>Reflection<a class="headerlink" href="#material-mirror" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/panel_mirror.png"><img alt="_images/panel_mirror.png" class="align-center" src="_images/panel_mirror.png" style="width: 100%;" /></a>
+<div class="section" id="reflection-static">
+<span id="index-6"></span><span id="id7"></span><h3>Static reflection<a class="headerlink" href="#reflection-static" title="Permalink to this headline">¶</a></h3>
+<p>A surface reflects the same image no matter how the environment changes. For activation simply use the <a class="reference internal" href="textures.html#mirror-map"><span>mirror map</span></a>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#fresnel"><span>Fresnel effect for reflection</span></a></p>
+</div>
+</div>
+<div class="section" id="index-7">
+<span id="id8"></span><h3>Dynamic reflection<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<p>A surface reflects the selected objects in their current position. The engine supports planar and spherical reflections</p>
+<div class="section" id="id9">
+<h4>Activation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p class="first">Check <code class="docutils literal"><span class="pre">Reflections</span></code> setting on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> panel.</p>
+</li>
+<li><p class="first">For <em>reflective</em> objects enable the <code class="docutils literal"><span class="pre">Reflective</span></code> option on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> panel.</p>
+<ul>
+<li><p class="first">For planar reflections, set the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> property to <code class="docutils literal"><span class="pre">Plane</span></code>. After that, add an empty object to be used as a reflection plane by executing for example <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span> <span class="pre">&gt;</span> <span class="pre">Single</span> <span class="pre">Arrow</span></code>. Rename it for convenience and specify its name in the <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">plane</span></code> field of the reflective object.</p>
+</li>
+<li><p class="first">For cube-mapped reflections, set the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> property to <code class="docutils literal"><span class="pre">Cube</span></code>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">For the needed materials of the <em>reflective</em> objects, set the <code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span></code> value.</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span> <span class="pre">&gt;</span> <span class="pre">Show</span> <span class="pre">Reflectivity</span></code> is required for displaying reflections on objects in Blender. The engine ignores this option.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">For the <em>reflexible</em> objects, enable the <code class="docutils literal"><span class="pre">Reflexible</span></code> checkbox on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> panel.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also recommended to enable the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox.</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h4>Limitations<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>Normal maps and shadows are ignored in the reflected image for optimization purposes.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#fresnel"><span>Fresnel effect for reflection</span></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="fresnel">
+<span id="index-8"></span><span id="id11"></span><h3>Fresnel effect for reflection<a class="headerlink" href="#fresnel" title="Permalink to this headline">¶</a></h3>
+<p>The Fresnel effect manifests itself as the dependency of the intencity of passing and reflected light on the incidence angle. If the angle of incidence is close to zero (i.e. light falls almost at right angle to the surface) the passing light portion is large and the reflected light portion is small. On the contrary if the angle of incidence is close to 90 degrees (i.e. light falls almost parallel to the surface) almost all light is reflected.</p>
+<p>The engine uses the approximate Schlick&#8217;s formula:</p>
+<blockquote>
+<div><p>R = R<sub>0</sub> + (1 − R<sub>0</sub>)(1 - cos θ)<sup>N</sup>, where</p>
+<p>R - reflection coefficient,</p>
+<p>R<sub>0</sub> - reflection coefficient in case of viewing at a right angle to the surface (i.e. when θ = 0),</p>
+<p>θ - angle of incidence (which is equal to the angle of reflection under which light enters the camera), it is calculated by the engine in real-time,</p>
+<p>N - exponent.</p>
+</div></blockquote>
+<div class="section" id="id12">
+<h4>Settings<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>Fresnel effect can be set up both for static and dynamic reflection.</p>
+<dl class="docutils">
+<dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
+<dd><p class="first last">Fresnel power for reflection. This is the N exponent in the Schlick&#8217;s formula. In Blender it is limited to values from 0 to 5. If this parameter is equal to zero the Fresnel effect is not observed and the <em>full</em> reflection at all angles occurs. If this parameter is greater than zero, the material is less reflective when viewing surfaces at angles which are close to the right angle. The bigger this parameter is the bigger is the angle deviation from the right angle for which the Fresnel effect is observed.</p>
+</dd>
+<dt><em>Material &gt; Mirror &gt; Blend</em></dt>
+<dd><p class="first last">Fresnel factor for reflection. It is reduced to R<sub>0</sub> in the Schlick&#8217;s formula by the following expression: R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5. In Blender it is limited to values from 0 to 5. This parameter defines the Fresnel effect intensity: the bigger the <code class="docutils literal"><span class="pre">Blend</span></code> factor is, the more is the Fresnel effect influence. If it is equal to zero the Fresnel effect is not observed.</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.jpg"><img alt="_images/reflection_dynamic_and_fresnel.jpg" class="align-center" src="_images/reflection_dynamic_and_fresnel.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="index-9">
+<span id="id13"></span><h2>Rendering Properties<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Material &gt; Rendering Options &gt; Do not Render</em></dt>
+<dd><p class="first last">Disable rendering of this object.</p>
+</dd>
+<dt><em>Material &gt; Rendering Options &gt; Backface Culling</em></dt>
+<dd><p class="first last">When enabled, poligons&#8217; back faces are not rendered by the engine. Enabled by default.</p>
+</dd>
+<dt><em>Material &gt; Rendering Options &gt; Wettable</em></dt>
+<dd><p class="first">Water wetting effect is activated for the material.</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Water</span></a></p>
+</div>
+</dd>
+<dt><em>Material &gt; Rendering Options &gt; Render above all</em></dt>
+<dd><p class="first last">Material is rendered on top of all scene objects. Transparency type with a gradient is requred (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> or <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
+</dd>
+<dt><em>Material &gt; Rendering Options &gt; Vertex Color Paint</em></dt>
+<dd><p class="first last">Mesh vertex color is used instead of the material diffuse color when the checkbox is enabled.</p>
+</dd>
+<dt><em>Material &gt; Rendering Options &gt; Refractive</em></dt>
+<dd><p class="first">Make object refractive. Perturbation factor can be set with the option <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Bump</span></code> on the <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Settings</span></code> panel. The default value is 0.001.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order to use this effect, select <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code> on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span> <span class="pre">&gt;</span> <span class="pre">Refractions</span></code> panel. The object must have <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> transparency type.</p>
+</div>
+<div class="last admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><span>Transparency</span></a></p>
+</div>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="index-10">
+<span id="id14"></span><h2>Engine Specific Parameters<a class="headerlink" href="#index-10" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/panel_b4w.png"><img alt="_images/panel_b4w.png" class="align-center" src="_images/panel_b4w.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Material &gt; Water</em></dt>
+<dd><p class="first last">Special material for <a class="reference internal" href="outdoor_rendering.html#water"><span>water rendering</span></a>.</p>
+</dd>
+<dt><em>Material &gt; Terrain dynamic grass</em></dt>
+<dd><p class="first last">Material is used for <a class="reference internal" href="particles_instancing.html#particles-grass"><span>grass rendering</span></a>.</p>
+</dd>
+<dt><em>Material &gt; Collision</em></dt>
+<dd><p class="first">A special material for collision geometry.</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="physics.html#physics"><span>Physics</span></a></p>
+</div>
+</dd>
+<dt><em>Material &gt; Export Options &gt; Do Not Export</em></dt>
+<dd><p class="first last">Material is not to be exported.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="halo">
+<span id="material-halo"></span><span id="index-11"></span><h2>Halo Materials<a class="headerlink" href="#halo" title="Permalink to this headline">¶</a></h2>
+<p>Halo materials are used in particle systems and in static meshes. Using the halo in static meshes is described below.</p>
+<div class="section" id="id15">
+<h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>Select the <code class="docutils literal"><span class="pre">Halo</span></code> type under the <code class="docutils literal"><span class="pre">Materials</span></code> tab. It&#8217;s also recommended to select the transparency type with a gradient (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> or <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
+<a class="reference internal image-reference" href="_images/halo.jpg"><img alt="_images/halo.jpg" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id16">
+<h3>Additional settings<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Halo &gt; Alpha</em></dt>
+<dd><p class="first last">Material transparency factor. The default value is 1.0 (non-transparent).</p>
+</dd>
+<dt><em>Halo &gt; Color</em></dt>
+<dd><p class="first last">Material color. The default value is (0.8, 0.8, 0.8) (almost white).</p>
+</dd>
+<dt><em>Halo &gt; Size</em></dt>
+<dd><p class="first last">Particle size. The default value is 0.5.</p>
+</dd>
+<dt><em>Halo &gt; Hardness</em></dt>
+<dd><p class="first last">Exponent for computing the gradient. Affects visible dimensions of particles. The default value is 50.</p>
+</dd>
+<dt><em>Halo &gt; Rings</em></dt>
+<dd><p class="first last">Use rings. Relative quantity and color can be set up.</p>
+</dd>
+<dt><em>Halo &gt; Lines</em></dt>
+<dd><p class="first last">Use lines. Relative quantity and color can be set up.</p>
+</dd>
+<dt><em>Halo &gt; Star Tips</em></dt>
+<dd><p class="first last">Use stars. The quantity of edges can be set up.</p>
+</dd>
+<dt><em>Halo &gt; Special: Stars</em></dt>
+<dd><p class="first last">Enables the starry sky rendering mode. The mesh is fixed relative to the camera. For the <code class="docutils literal"><span class="pre">Sun</span></code> lamp it is also required to enable the <code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> checkbox. Applications should set up the hours of darkness via API.</p>
+</dd>
+<dt><em>Halo &gt; Blending Height</em></dt>
+<dd><p class="first last">Height range for the fading of stars.</p>
+</dd>
+<dt><em>Halo &gt; Minimum Height</em></dt>
+<dd><p class="first last">Minimum height in the object&#8217;s local space at which stars are visible.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

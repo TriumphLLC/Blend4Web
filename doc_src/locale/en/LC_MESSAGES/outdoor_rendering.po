@@ -19,23 +19,23 @@ msgstr "Outdoor Rendering"
 msgid "Вода"
 msgstr "Water"
 
-#: ../outdoor_rendering.rst:13 ../outdoor_rendering.rst:94
-#: ../outdoor_rendering.rst:186 ../outdoor_rendering.rst:367
-#: ../outdoor_rendering.rst:391
+#: ../outdoor_rendering.rst:13 ../outdoor_rendering.rst:92
+#: ../outdoor_rendering.rst:169 ../outdoor_rendering.rst:352
+#: ../outdoor_rendering.rst:376
 msgid "Активация"
 msgstr "Activation"
 
 #: ../outdoor_rendering.rst:15
 msgid ""
-"Для предполагаемого материала воды включить опцию ``Blend4Web > Special: "
-"Water`` во вкладке ``Material``."
+"Для предполагаемого материала воды активировать панель ``Water`` во вкладке "
+"``Material``."
 msgstr ""
-"For the supposed water material enable the ``Blend4Web > Special: Water`` "
-"option under the ``Material`` tab."
+"For the supposed water material activate the ``Water`` panel option under "
+"the ``Material`` tab."
 
 #: ../outdoor_rendering.rst:22
 msgid "Базовые настройки"
-msgstr "Basic settings"
+msgstr "Basic Settings"
 
 #: ../outdoor_rendering.rst:25
 msgid "*Прозрачность*"
@@ -43,11 +43,11 @@ msgstr "*Transparency*"
 
 #: ../outdoor_rendering.rst:25
 msgid ""
-"Рекомендуется включить прозрачность с градиентом ``Game Settings > Alpha "
-"Blend`` и настроить значение ``Transparency > Alpha``."
+"Рекомендуется включить прозрачность с градиентом ``Transparency > Alpha "
+"Blend`` и настроить значение ``Alpha``."
 msgstr ""
-"It is recommended to enable the gradient transparency ``Game Settings > "
-"Alpha Blend`` and to tweak the ``Transparency > Alpha`` value."
+"It is recommended to enable the gradient transparency ``Transparency > Alpha"
+" Blend`` and to tweak the ``Alpha`` value."
 
 #: ../outdoor_rendering.rst:28
 msgid "*Параметры освещения*"
@@ -63,38 +63,39 @@ msgstr ""
 
 #: ../outdoor_rendering.rst:31
 msgid "Динамика волн"
-msgstr "Waves dynamics"
+msgstr "Waves Dynamics"
 
 #: ../outdoor_rendering.rst:33
 msgid ""
-"Симуляция волн осуществляется картами нормалей с анимированными развертками "
-"(в количестве от 0 до 4). Для текстур - карт нормалей используется только "
-"одно общее изображение, текстуры различаются параметрами ``Mapping > Size`` "
-"и ``Blend4Web > UV translation velocity``. Меш для воды должен иметь "
-"текстурную развертку."
+"Рябь на водной поверхности симулируется при помощи карт нормалей с "
+"анимированными развертками (в количестве от 0 до 4). Для текстур - карт "
+"нормалей используется только одно общее изображение, текстуры различаются "
+"параметрами ``Mapping > Size``. Меш для воды должен иметь текстурную "
+"развертку."
 msgstr ""
-"Waves simulation is carried out by normal maps with animated UVs (from 0 up "
-"to 4 pieces). For normal textures the only shared image is used - the "
-"textures differs only by the ``Mapping > Size`` and ``Blend4Web > UV "
-"translation velocity`` parameters. The water mesh should have a UV layer. "
+"Ripples on the water are simulated by normal maps with animated UVs (from 0 "
+"up to 4 pieces). For normal map the only shared image is used - the textures"
+" differs only by the ``Mapping > Size`` parameters. The water mesh must have"
+" a UV layer."
 
-#: ../outdoor_rendering.rst:40
+#: ../outdoor_rendering.rst:36
 msgid "Смачивание поверхностей"
-msgstr "Surface wetting"
+msgstr "Surface Wetting"
 
-#: ../outdoor_rendering.rst:42
+#: ../outdoor_rendering.rst:38
 msgid ""
 "Осуществляется автоматически. Для включения эффекта на соответствующих "
-"материалах выставляется флаг ``Wettable``."
+"материалах необходимо активировать опцию ``Wettable`` на панели ``Rendering "
+"Options``."
 msgstr ""
-"Is carried out automatically. To turn the effect on enable the ``Wettable`` "
-"checkbox on the needed materials."
+"Is carried out automatically. To turn the effect on activate the "
+"``Wettable`` option on the needed materials ``Rendering Options`` panel."
 
-#: ../outdoor_rendering.rst:46
+#: ../outdoor_rendering.rst:42
 msgid "Отражение и эффект Френеля"
-msgstr "Reflection and Fresnel effect"
+msgstr "Reflection and Fresnel Effect"
 
-#: ../outdoor_rendering.rst:48
+#: ../outdoor_rendering.rst:44
 msgid ""
 "Для материала воды поддерживается как статическое, так и динамическое "
 "зеркальное отражение, с эффектом Френеля. См. раздел :ref:`material_mirror`."
@@ -102,128 +103,134 @@ msgstr ""
 "For the water material both static and dynamic reflection is supported as "
 "well as the Fresnel effect. See the :ref:`material_mirror` section."
 
-#: ../outdoor_rendering.rst:56
-msgid "Сглаживание береговой линии"
-msgstr "Shoreline smoothing"
+#: ../outdoor_rendering.rst:52
+msgid "Сглаживание у береговой линии"
+msgstr "Shoreline Smoothing"
 
-#: ../outdoor_rendering.rst:59
-msgid "*Blend4Web > Water Settings > Shore smoothing*"
+#: ../outdoor_rendering.rst:54
+msgid ""
+"Эффект заключается в том, что вода ближе к берегу становится прозрачнее."
 msgstr ""
+"The effect affects the water near the shoreline - it becomes more "
+"transparent."
 
-#: ../outdoor_rendering.rst:59
+#: ../outdoor_rendering.rst:57
 msgid "Включить сглаживание."
 msgstr "Enable smoothing."
 
-#: ../outdoor_rendering.rst:63
-msgid "*Blend4Web > Water Settings > Water absorb factor*"
+#: ../outdoor_rendering.rst:57
+msgid "*Water > Shore Smoothing*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:62
+#: ../outdoor_rendering.rst:60
 msgid "Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода."
 msgstr ""
 "Light absorption coefficient for the water. The higher it is the more "
-"transparent isthe water. "
+"transparent is the water. "
 
-#: ../outdoor_rendering.rst:66
+#: ../outdoor_rendering.rst:61
+msgid "*Water > Absorb Factor*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:64
 msgid "Градиент цвета"
-msgstr "Color gradient"
+msgstr "Color Gradient"
 
-#: ../outdoor_rendering.rst:67
+#: ../outdoor_rendering.rst:65
 msgid ""
 "Для создания цветого градиента на материале воды должна быть наложена "
-"текстура с включенной опцией ``Blend4Web > Shore distance map``, "
+"текстура с включенной опцией ``Export Options > Shore Distance Map``, "
 "генерируемая с помощью скрипта для :ref:`запекания параметров береговой "
 "линии <shore_distance_bake>`."
 msgstr ""
-"For color gradient the water material should have a texture with the "
-"``Blend4Web > Shore distance map`` option enabled which can be generated "
-"using the script for :ref:`baking shoreline parameters "
-"<shore_distance_bake>`."
+"For color gradient the water material must have a texture with the ``Export "
+"Options > Shore Distance Map`` option enabled. This texture can be generated"
+" using the script for :ref:`baking shoreline parameters "
+"<shore_distance_bake>`"
 
-#: ../outdoor_rendering.rst:70
-msgid "*Blend4Web > Water Settings > Shallow water color*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:70
+#: ../outdoor_rendering.rst:68
 msgid "Цвет воды на мелководье."
 msgstr "Shallow water color."
 
-#: ../outdoor_rendering.rst:73
-msgid "*Blend4Web > Water Settings > Shallow water color factor*"
+#: ../outdoor_rendering.rst:68
+msgid "*Shallow water > Color*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:73
+#: ../outdoor_rendering.rst:71
 msgid "Коэффициент примешивания цвета воды на мелководье."
 msgstr "Shallow water color mixing factor."
 
-#: ../outdoor_rendering.rst:76
-msgid "*Blend4Web > Water Settings > Shore water color*"
+#: ../outdoor_rendering.rst:71
+msgid "*Shallow water > Factor*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:76
+#: ../outdoor_rendering.rst:74
 msgid "Цвет воды непосредственно у береговой линии."
 msgstr "Water color just at the shore line."
 
-#: ../outdoor_rendering.rst:79
-msgid "*Blend4Web > Water Settings > Shore water color factor*"
+#: ../outdoor_rendering.rst:74
+msgid "*Shore water > Color*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:79
+#: ../outdoor_rendering.rst:77
 msgid "Коэффициент примешивания цвета воды на береговой линии."
 msgstr "Factor for mixing water color just near the shoreline."
 
-#: ../outdoor_rendering.rst:82
+#: ../outdoor_rendering.rst:77
+msgid "*Shore water > Factor*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:80
 msgid "Преломление"
 msgstr "Refraction"
 
-#: ../outdoor_rendering.rst:84
+#: ../outdoor_rendering.rst:82
 msgid ""
-"Во вкладке ``Scene`` включить опцию ``Blend4Web > Render refractions``."
+"Во вкладке ``Render``  в панели ``Reflections and Refractions`` выставить "
+"опцию ``Refractions`` в положение ``ON`` или ``AUTO``."
 msgstr ""
-"Under the ``Scene`` tab enable the ``Blend4Web > Render refractions`` "
-"checkbox."
+"Under the ``Render`` tab in the ``Reflections and Refractions`` panel set "
+"the ``Refractions`` option to ``ON`` or ``AUTO``."
 
-#: ../outdoor_rendering.rst:91
+#: ../outdoor_rendering.rst:89
 msgid "Пена"
 msgstr "Foam"
 
-#: ../outdoor_rendering.rst:96
+#: ../outdoor_rendering.rst:94
 msgid ""
-"Для создания пены необходимо добавить в текстурные слоты материала воды две "
-"диффузные текстуры. Для текстур необходимо выставить опцию ``Blend4Web > "
-"Water Foam``."
+"Для создания пены необходимо добавить в текстурный слот материала воды "
+"диффузную текстуру, в каждом из RGB - каналов которой сделует расположить "
+"черно-белые текстуры пены. Для полученной текстуры необходимо активировать "
+"панель ``Water Foam``."
 msgstr ""
-"For creating foam add two diffuse textures into the water material slots. "
-"For these textures enable the ``Blend4Web > Water Foam`` option."
+"For creating foam add a diffuse texture into the water material slot. Every "
+"RGB channel of this image must contain a BW foam texture in it. Then enable "
+"the ``Water Foam`` panel."
 
-#: ../outdoor_rendering.rst:105
+#: ../outdoor_rendering.rst:103
 msgid "Настройка текстур"
-msgstr "Setting up the textures"
+msgstr "Setting up the Textures"
 
-#: ../outdoor_rendering.rst:108
+#: ../outdoor_rendering.rst:106
 msgid "*Influence > Color*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:108
+#: ../outdoor_rendering.rst:106
 msgid "Фактор влияния цвета текстуры. Значение по умолчанию 1.0."
 msgstr "Texture color influence factor. The default value is 1.0."
 
-#: ../outdoor_rendering.rst:111
-msgid "*Blend4Web > UV Frequency*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:111
+#: ../outdoor_rendering.rst:109
 msgid ""
 "Частота колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0)."
 msgstr ""
 "Oscillation frequency of the animated UV coordinates. The default value is "
 "(1.0, 1.0)."
 
-#: ../outdoor_rendering.rst:115
-msgid "*Blend4Web > UV Magnitude*"
+#: ../outdoor_rendering.rst:109
+msgid "*Water Foam > UV Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:114
+#: ../outdoor_rendering.rst:112
 msgid ""
 "Амплитуда колебаний анимированной развертки. Значение по умолчанию (1.0, "
 "1.0)."
@@ -231,73 +238,52 @@ msgstr ""
 "Oscillation amplitude of the animated UV coordinates. The default value is "
 "(1.0, 1.0)."
 
-#: ../outdoor_rendering.rst:118
-msgid "Настройка материала"
-msgstr "Setting up the material"
-
-#: ../outdoor_rendering.rst:122
-msgid "*Blend4Web > Water Settings > Water foam factor*"
+#: ../outdoor_rendering.rst:113
+msgid "*Water Foam > UV Magnitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:121
+#: ../outdoor_rendering.rst:116
+msgid "Настройка материала"
+msgstr "Setting up the Material"
+
+#: ../outdoor_rendering.rst:119
 msgid "Фактор общего влияния пены. Значение по умолчанию 0.5."
 msgstr "General influence factor for the foam. The default value is 0.5."
 
-#: ../outdoor_rendering.rst:125
-msgid "Каустика и хроматическая аберрация"
-msgstr "Caustics and chromatic aberration"
-
-#: ../outdoor_rendering.rst:127
-msgid ""
-"Для создания каустики необходимо добавить в текстурные слоты материала воды "
-"одну текстуру типа ``Voronoi``."
+#: ../outdoor_rendering.rst:120
+msgid "*Foam > Factor*"
 msgstr ""
-"To create the caustics effect add one ``Voronoi`` type texture to the water "
-"material slot. "
 
-#: ../outdoor_rendering.rst:135 ../outdoor_rendering.rst:197
-#: ../outdoor_rendering.rst:373 ../outdoor_rendering.rst:397
+#: ../outdoor_rendering.rst:123
+msgid "Каустика и хроматическая аберрация"
+msgstr "Caustics and Chromatic Aberration"
+
+#: ../outdoor_rendering.rst:178 ../outdoor_rendering.rst:358
+#: ../outdoor_rendering.rst:382
 msgid "Настройка"
 msgstr "Setting up"
 
-#: ../outdoor_rendering.rst:142
-msgid "*Voronoi > Coloring: Intensity*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:142
-msgid "Фактор влияния каустики. Значение по умолчанию 1.0."
-msgstr "Caustics influence factor. The default value is 1.0."
-
-#: ../outdoor_rendering.rst:145
-msgid "*Voronoi > Noise: Size*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:145
+#: ../outdoor_rendering.rst:132
 msgid "Размер ячеек процедурной текстуры. Значение по умолчанию 0.25."
 msgstr "Cell size for the procedural texture. The default value is 0.25."
 
-#: ../outdoor_rendering.rst:149
-msgid "*Blend4Web > UV translation velocity*"
+#: ../outdoor_rendering.rst:138
+msgid "Подводная среда"
+msgstr "Underwater Environment"
+
+#: ../outdoor_rendering.rst:145
+msgid "Настройки видимости (\"туман\")"
+msgstr "Visibility Settings (\"fog\")"
+
+#: ../outdoor_rendering.rst:148
+msgid "*Underwater Fog > Color*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:148
-msgid ""
-"Скорость анимации текстурных координат. Значение по умолчанию (0.0, 0.0)."
-msgstr "Texture coordinates animation speed. The default value is (0.0, 0.0)."
+msgid "Цвет тумана. Значение по умолчанию (0.4, 0.6, 0.7)."
+msgstr "Fog color. The default value is (0.4, 0.6, 0.7)."
 
-#: ../outdoor_rendering.rst:152
-msgid "Подводная среда"
-msgstr "Underwater environment"
-
-#: ../outdoor_rendering.rst:159
-msgid "Настройки видимости (\"туман\")"
-msgstr "Visibility settings (\"fog\")"
-
-#: ../outdoor_rendering.rst:162
-msgid "*Blend4Web > Water Settings > Underwater fog density*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:162
+#: ../outdoor_rendering.rst:151
 msgid ""
 "Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по "
 "умолчанию 0.06."
@@ -305,199 +291,199 @@ msgstr ""
 "Exponential factor which affects the density and visibility distance. The "
 "default value is 0.06."
 
-#: ../outdoor_rendering.rst:166
-msgid "*Blend4Web > Water Settings > Underwater fog color*"
+#: ../outdoor_rendering.rst:151
+msgid "*Underwater Fog > Density*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:165 ../outdoor_rendering.rst:328
-msgid "Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый)."
-msgstr "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
-
-#: ../outdoor_rendering.rst:168
+#: ../outdoor_rendering.rst:153
 msgid "Применяются также настройки :ref:`сумеречных лучей <god_rays>`."
 msgstr "The :ref:`god rays effect <god_rays>` settings are also applied."
 
-#: ../outdoor_rendering.rst:172
-msgid "Граница сред"
-msgstr "Boundary between environments"
+#: ../outdoor_rendering.rst:157
+msgid ""
+"Для корректного отображения водной поверхности необходимо выключить опцию "
+"``Rendering Options > Backface Culling``."
+msgstr ""
+"The ``Rendering Options > Backface culling`` option must be turned off for "
+"the correct water surface rendering."
 
-#: ../outdoor_rendering.rst:174
-msgid "Выключить опцию ``Game Settings > Backface Culling``."
-msgstr "Disable the ``Game Settings > Backface Culling`` option."
-
-#: ../outdoor_rendering.rst:183
+#: ../outdoor_rendering.rst:166
 msgid "Объемные волны"
-msgstr "Volumetric waves"
+msgstr "Volumetric Waves"
 
-#: ../outdoor_rendering.rst:188
-msgid "*Blend4Web > Water Settings > Water Dynamic*"
-msgstr ""
+#: ../outdoor_rendering.rst:171
+msgid "Для создания объемных волн следует включить опцию ``Waves``."
+msgstr "To enable procedural waves the ``Waves`` option must be turned on."
 
-#: ../outdoor_rendering.rst:190
-msgid "Включить объемные волны."
-msgstr "Enable volumetric waves."
-
-#: ../outdoor_rendering.rst:200
-msgid "*Blend4Web > Water Settings > Wave height*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:200
+#: ../outdoor_rendering.rst:181
 msgid "Высота волн. Значение по умолчанию 0.0."
 msgstr "Wave height. The default value is 0.0."
 
-#: ../outdoor_rendering.rst:203
-msgid "*Blend4Web > Water Settings > Wave length*"
+#: ../outdoor_rendering.rst:181
+msgid "*Wave Height*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:203
+#: ../outdoor_rendering.rst:184
 msgid "Длина волн. Значение по умолчанию 10.0."
 msgstr "Wave length. The default value is 10.0."
 
-#: ../outdoor_rendering.rst:206
-msgid "*Blend4Web > Water Settings > Dist noise scale 0*"
+#: ../outdoor_rendering.rst:184
+msgid "*Wave Length*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:206
-msgid "Размер первого компонента волн, удаленных от берега"
+#: ../outdoor_rendering.rst:187
+msgid "Размер первого компонента волн, удаленных от берега."
 msgstr "Size of the first component of the open water waves."
 
-#: ../outdoor_rendering.rst:209
-msgid "*Blend4Web > Water Settings > Dist noise scale 1*"
+#: ../outdoor_rendering.rst:187
+msgid "*Noise Dist Scale 0*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:209
-msgid "Размер второго компонента волн, удаленных от берега"
+#: ../outdoor_rendering.rst:190
+msgid "Размер второго компонента волн, удаленных от берега."
 msgstr "Size of the second component of the open water waves."
 
-#: ../outdoor_rendering.rst:212
-msgid "*Blend4Web > Water Settings > Dist noise freq 0*"
+#: ../outdoor_rendering.rst:190
+msgid "*Noise Dist Scale 1*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:212
-msgid "Частота первого компонента волн, удаленных от берега"
+#: ../outdoor_rendering.rst:193
+msgid "Частота первого компонента волн, удаленных от берега."
 msgstr "Frequency of the first component of the open water waves."
 
-#: ../outdoor_rendering.rst:215
-msgid "*Blend4Web > Water Settings > Dist noise freq 1*"
+#: ../outdoor_rendering.rst:193
+msgid "*Noise Dist Freq 0*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:215
-msgid "Частота второго компонента волн, удаленных от берега"
+#: ../outdoor_rendering.rst:196
+msgid "Частота второго компонента волн, удаленных от берега."
 msgstr "Frequency of the second component of the open water waves."
 
-#: ../outdoor_rendering.rst:218
-msgid "*Blend4Web > Water Settings > Dir min shore fac*"
+#: ../outdoor_rendering.rst:196
+msgid "*Noise Dist Freq 1*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:218
-msgid "Минимальный коэффициент уменьшения высоты прибрежных волн"
+#: ../outdoor_rendering.rst:199
+msgid "Минимальный коэффициент уменьшения высоты прибрежных волн."
 msgstr "Minimum height decrease coefficient of the shore waves."
 
-#: ../outdoor_rendering.rst:221
-msgid "*Blend4Web > Water Settings > Dir frequency*"
+#: ../outdoor_rendering.rst:199
+msgid "*Min Dir Shore Fac*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:221
-msgid "Частота накатывания прибрежных волн"
+#: ../outdoor_rendering.rst:202
+msgid "Частота накатывания прибрежных волн."
 msgstr "Frequency of the rolling of the shore waves."
 
-#: ../outdoor_rendering.rst:224
-msgid "*Blend4Web > Water Settings > Dir noise scale*"
+#: ../outdoor_rendering.rst:202
+msgid "*Dir Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:224
-msgid "Размер шума на прибрежных волнах"
+#: ../outdoor_rendering.rst:205
+msgid "Размер шума на прибрежных волнах."
 msgstr "Noise size for the shore waves."
 
-#: ../outdoor_rendering.rst:227
-msgid "*Blend4Web > Water Settings > Dir noise freq*"
+#: ../outdoor_rendering.rst:205
+msgid "*Noise Dir Scale*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:227
-msgid "Частота шума на прибрежных волнах"
+#: ../outdoor_rendering.rst:208
+msgid "Частота шума на прибрежных волнах."
 msgstr "Noise frequency for the shore waves."
 
-#: ../outdoor_rendering.rst:230
-msgid "*Blend4Web > Water Settings > Dir min noise fac*"
+#: ../outdoor_rendering.rst:208
+msgid "*Noise Dir Freq*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:230
-msgid "Минимальное значение шума на прибрежных волнах"
+#: ../outdoor_rendering.rst:211
+msgid "Минимальное значение шума на прибрежных волнах."
 msgstr "Noise minimum for the shore waves."
 
-#: ../outdoor_rendering.rst:233
-msgid "*Blend4Web > Water Settings > Dist min fac*"
+#: ../outdoor_rendering.rst:211
+msgid "*Min Dir Noise Fac*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:233
-msgid "Минимальный коэффициент примешивания волн, удаленных от берега"
+#: ../outdoor_rendering.rst:214
+msgid "Минимальный коэффициент примешивания волн, удаленных от берега."
 msgstr "Minimum coefficient of mixing for open water waves."
 
-#: ../outdoor_rendering.rst:236
-msgid "*Blend4Web > Water Settings > Waves horizontal factor*"
+#: ../outdoor_rendering.rst:214
+msgid "*Min Dist Fac*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:236
-msgid "Коэффициент смещения прибрежных волн в направлении к берегу"
+#: ../outdoor_rendering.rst:217
+msgid "Коэффициент смещения прибрежных волн в направлении к берегу."
 msgstr ""
 "Coefficient that shows how much the shore waves are shifted in the shoreline"
 " direction."
 
-#: ../outdoor_rendering.rst:239
-msgid "Настройки генерируемой поверхности"
-msgstr "Generated surface settings"
-
-#: ../outdoor_rendering.rst:242
-msgid "*Blend4Web > Water Settings > Generate mesh*"
+#: ../outdoor_rendering.rst:217
+msgid "*Horizontal Factor*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:242
-msgid "Включить генерируемую поверхность"
+#: ../outdoor_rendering.rst:220
+msgid "Настройки генерируемой поверхности"
+msgstr "Settings for Surface Generation"
+
+#: ../outdoor_rendering.rst:223
+msgid "Включить генерируемую поверхность."
 msgstr "Enable generated surface."
 
-#: ../outdoor_rendering.rst:245
-msgid "*Blend4Web > Water Settings > Number of cascades*"
+#: ../outdoor_rendering.rst:223
+msgid "*Generate Mesh*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:245
-msgid "Количество каскадов в генерируемой поверхности"
+#: ../outdoor_rendering.rst:226
+msgid "Количество каскадов в генерируемой поверхности."
 msgstr "Number of cascades in the generated surface."
 
-#: ../outdoor_rendering.rst:248
-msgid "*Blend4Web > Water Settings > Detailed distance*"
+#: ../outdoor_rendering.rst:226
+msgid "*Cascades Number*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:248
-msgid "Максимальное расстояние от камеры до края последнего каскада"
+#: ../outdoor_rendering.rst:229
+msgid "*Subdivisions*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:229
+msgid "Количество подразделений в генерируемой поверхности."
+msgstr "Generated mesh subdivisions."
+
+#: ../outdoor_rendering.rst:232
+msgid "Максимальное расстояние от камеры до края последнего каскада."
 msgstr "Maximum distance from camera to the last cascades edge."
 
-#: ../outdoor_rendering.rst:250
+#: ../outdoor_rendering.rst:233
+msgid "*Detailed Distance*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:235
 msgid "параметры берега"
 msgstr "shore line parameters"
 
-#: ../outdoor_rendering.rst:250
+#: ../outdoor_rendering.rst:235
 msgid "береговая линия"
 msgstr "shore line"
 
-#: ../outdoor_rendering.rst:255
+#: ../outdoor_rendering.rst:240
 msgid "Создание текстуры с параметрами береговой линии"
-msgstr "Creating a texture with shoreline parameters."
+msgstr "Baking Shoreline Data to Texture"
 
-#: ../outdoor_rendering.rst:257
+#: ../outdoor_rendering.rst:242
 msgid ""
 "На панели инструментов (горячая клавиша \"T\") во вкладке ``Blend4Web`` "
-"открыть панель ``B4W Shore Distance Baker``. Выставить настройки "
+"открыть панель ``Bake Shore Distance Map``. Выставить настройки "
 "максимального расстояния до берега ``Maximum Distance`` и размера получаемой"
 " текстуры ``Texture Size``. Выбрать сначала объект (или несколько объектов) "
-"ландшафта, затем объект воды. Нажать кнопку ``Bake Shore Distance``."
+"ландшафта, затем объект воды. Нажать кнопку ``Bake``."
 msgstr ""
-"On the tools panel (hotkey \"T\") under the ``Blend4Web`` tab open the ``B4W"
-" Shore Distance Baker`` panel. Set the parameters: maximum distance to shore"
-" (``Maximum Distance``) and the resulting texture size (``Texture Size``). "
-"Select a landscape object (or multiple objects) first, and then - a water "
-"object. Click the ``Bake Shore Distance`` button."
+"On the tools panel (hotkey \"T\") under the ``Blend4Web`` tab open the "
+"``Bake Shore Distance Map`` panel. Set the parameters: maximum distance to "
+"shore (``Maximum Distance``) and the resulting texture size (``Texture "
+"Size``). Select a landscape object (or multiple objects) first, and then - a"
+" water object. Click the ``Bake`` button."
 
-#: ../outdoor_rendering.rst:259
+#: ../outdoor_rendering.rst:244
 msgid ""
 "В зависимости от размера текстуры и количества вершин в обрабатываемых мешах"
 " время выполнения скрипта варьируется от долей секунды до нескольких минут. "
@@ -508,7 +494,7 @@ msgstr ""
 " up to several minutes. Make sure that the texture named ``ShoreDistance`` "
 "is created for the water mesh."
 
-#: ../outdoor_rendering.rst:261
+#: ../outdoor_rendering.rst:246
 msgid ""
 "При вызове скрипта в материале воды сохраняются некоторые системные "
 "свойства. Поэтому, после его работы обязательно нужно сохранять сцену."
@@ -517,58 +503,54 @@ msgstr ""
 "material. Therefore the scene must be saved after the script has finished "
 "working."
 
-#: ../outdoor_rendering.rst:267
+#: ../outdoor_rendering.rst:252
 msgid "Атмосфера"
 msgstr "Atmosphere"
 
-#: ../outdoor_rendering.rst:270
+#: ../outdoor_rendering.rst:255
 msgid "Рассеивание"
 msgstr "Scattering"
 
-#: ../outdoor_rendering.rst:272
+#: ../outdoor_rendering.rst:257
 msgid ""
-"Во вкладке ``World`` выставить опцию ``Sky Settings > Procedural skydome``. "
-"Если одновременно с этим используется статическая :ref:`текстура неба "
-"<skydome_texture>`, она будет заменена."
+"Во вкладке ``World`` активировать панель ``Procedural Sky``, предварительно "
+"выставив опцию ``World > Render Sky``. Если одновременно с этим используется"
+" статическая :ref:`текстура неба <skydome_texture>`, она будет заменена."
 msgstr ""
-"Enable the ``Sky Settings > Procedural skydome`` option under the ``World`` "
-"tab. If a static :ref:`skydome texture <skydome_texture>` is being used at "
-"the same time, it will be replaced."
+"Enable ``World > Render Sky``, then activate ``Procedural Sky`` panel under "
+"the ``World`` tab. Please note, that if a static :ref:`skydome texture "
+"<skydome_texture>` is being used at the same time, it will be replaced."
 
-#: ../outdoor_rendering.rst:276
+#: ../outdoor_rendering.rst:261
 msgid ""
 "Кроме того, процедурная текстура неба может быть использована для имитации "
 "рассеянного :ref:`освещения от окружающей среды <environment_lighting>`, по "
 "аналогии со статической :ref:`текстурой неба <skydome_texture>`. Для этого "
-"необходимо выставить опции ``Sky Settings > Use as environment lighting`` и "
-"``Environment Lighting > Sky Texture``. Если текстура мира для рассеянного "
-"освещения уже существует, она будет заменена."
+"необходимо выставить опции ``Procedural Sky > Use as Environment Lighting`` "
+"и ``Environment Lighting > Sky Texture``. Если текстура мира для рассеянного"
+" освещения уже существует, она будет заменена."
 msgstr ""
 "Also, a procedural sky texture can be used to imitate scattered "
 ":ref:`environment lighting <environment_lighting>` similar to the static "
-":ref:`skydome texture <skydome_texture>`. To do this, enable the ``Sky "
-"Settings > Use as environment lighting`` and ``Environment Lighting > Sky "
-"Texture`` checkboxes. If the world texture for environment lighting already "
-"exists, it will be replaced."
+":ref:`skydome texture <skydome_texture>`. To do this, enable the "
+"``Procedural Sky > Use as Environment Lighting`` and ``Environment Lighting "
+"> Sky Texture`` options. If the world texture for environment lighting "
+"already exists, it will be replaced."
 
-#: ../outdoor_rendering.rst:285
+#: ../outdoor_rendering.rst:270
 msgid "Движком поддерживаются следующие настройки:"
 msgstr "Supported settings:"
 
-#: ../outdoor_rendering.rst:288
-msgid "*Sky Settings > Sky color*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:288
+#: ../outdoor_rendering.rst:273
 msgid ""
 "Базовый цвет неба. Значение по умолчанию (0.087, 0.255, 0.6) (голубой)."
 msgstr "Base sky color. The default value is (0.087, 0.255, 0.6) (blue)."
 
-#: ../outdoor_rendering.rst:291
-msgid "*Sky Settings > Rayleigh brightness*"
+#: ../outdoor_rendering.rst:273
+msgid "*Procedural Sky > Sky Color*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:291
+#: ../outdoor_rendering.rst:276
 msgid ""
 "Яркость рэлеевского рассеяния (на малых частицах). Значение по умолчанию "
 "3.3."
@@ -576,86 +558,86 @@ msgstr ""
 "Rayleigh scattering brightness (i.e. scattering on small particles). The "
 "default value is 3.3."
 
-#: ../outdoor_rendering.rst:294
-msgid "*Sky Settings > Mie brightness*"
+#: ../outdoor_rendering.rst:276
+msgid "*Procedural Sky > Rayleigh Brightness*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:294
+#: ../outdoor_rendering.rst:279
 msgid "Яркость рассеяния Ми (на крупных частицах). Значение по умолчанию 0.1."
 msgstr ""
 "Mie scattering brightness (i.e. scattering on large particles). The default "
 "value is 0.1."
 
-#: ../outdoor_rendering.rst:297
-msgid "*Sky Settings > Spot brightness*"
+#: ../outdoor_rendering.rst:279
+msgid "*Procedural Sky > Mie Brightness*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:297
+#: ../outdoor_rendering.rst:282
 msgid "Яркость пятна солнца. Значение по умолчанию 20.0."
 msgstr "Sun spot brightness. The default value is 20.0."
 
-#: ../outdoor_rendering.rst:300
-msgid "*Sky Settings > Scatter strength*"
+#: ../outdoor_rendering.rst:282
+msgid "*Procedural Sky > Spot Brightness*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:300
+#: ../outdoor_rendering.rst:285
 msgid "Фактор рассеяния света. Значение по умолчанию 0.2."
 msgstr "Light scattering factor. The default value is 0.2."
 
-#: ../outdoor_rendering.rst:303
-msgid "*Sky Settings > Rayleigh strength*"
+#: ../outdoor_rendering.rst:285
+msgid "*Procedural Sky > Scatter Strength*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:303
+#: ../outdoor_rendering.rst:288
 msgid "Фактор рэлеевского рассеяния. Значение по умолчанию 0.2."
 msgstr "Rayleigh scattering factor. The default value is 0.2."
 
-#: ../outdoor_rendering.rst:306
-msgid "*Sky Settings > Mie strength*"
+#: ../outdoor_rendering.rst:288
+msgid "*Procedural Sky > Rayleigh Strength*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:306
+#: ../outdoor_rendering.rst:291
 msgid "Фактор рассеяния Ми. Значение по умолчанию 0.006."
 msgstr "Mie scattering factor. The default value is 0.006."
 
-#: ../outdoor_rendering.rst:309
-msgid "*Sky Settings > Rayleigh collection power*"
+#: ../outdoor_rendering.rst:291
+msgid "*Procedural Sky > Mie Strength*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:309
+#: ../outdoor_rendering.rst:294
 msgid ""
 "Степенной коэффицент рэлеевского рассеяния. Значение по умолчанию 0.35."
 msgstr "Rayleigh scattering exponent. The default value is 0.35."
 
-#: ../outdoor_rendering.rst:312
-msgid "*Sky Settings > Mie collection power*"
+#: ../outdoor_rendering.rst:294
+msgid "*Procedural Sky > Rayleigh Collection Power*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:312
+#: ../outdoor_rendering.rst:297
 msgid "Степенной коэффицент рассеяния Ми. Значение по умолчанию 0.5."
 msgstr "Mie scattering exponent. The default value is 0.5."
 
-#: ../outdoor_rendering.rst:317
-msgid "*Sky Settings > Mie distribution*"
+#: ../outdoor_rendering.rst:297
+msgid "*Procedural Sky > Mie Collection Power*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:315
+#: ../outdoor_rendering.rst:300
 msgid "Распределение рассеяния Ми. Значение по умолчанию 0.4."
 msgstr "Mie scattering distribution. The default value is 0.4."
 
-#: ../outdoor_rendering.rst:320
+#: ../outdoor_rendering.rst:302
+msgid "*Procedural Sky > Mie Distribution*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:305
 msgid "Туман"
 msgstr "Fog"
 
-#: ../outdoor_rendering.rst:322
+#: ../outdoor_rendering.rst:307
 msgid "Настраивается во вкладке ``World``."
 msgstr "Can be set up under the ``World`` tab."
 
-#: ../outdoor_rendering.rst:325
-msgid "*Blend4Web > Fog Settings > Fog density*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:325
+#: ../outdoor_rendering.rst:310
 msgid ""
 "Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по "
 "умолчанию 0.0."
@@ -663,26 +645,33 @@ msgstr ""
 "Exponential factor which affects density and the visibility distance. The "
 "default value is 0.0."
 
-#: ../outdoor_rendering.rst:328
-msgid "*Blend4Web > Fog Settings > Fog color*"
+#: ../outdoor_rendering.rst:310
+msgid "*Mist > Density*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:330
+#: ../outdoor_rendering.rst:313
+msgid "Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый)."
+msgstr "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
+
+#: ../outdoor_rendering.rst:313
+msgid "*Mist > Color*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:315
 msgid ""
 "При использовании динамического неба цвет тумана определяется цветом неба."
 msgstr ""
 "When a dynamic skydome is used the fog color is defined by the sky color."
 
-#: ../outdoor_rendering.rst:334
+#: ../outdoor_rendering.rst:319
 msgid "Время суток"
-msgstr "Time of day"
+msgstr "Time of Day"
 
-#: ../outdoor_rendering.rst:336
-msgid ""
-"Для лампы необходимо выставить опцию ``Blend4Web > Dynamic intensity``."
-msgstr "Enable the ``Blend4Web > Dynamic intensity`` checkbox for the lamp."
+#: ../outdoor_rendering.rst:321
+msgid "Для лампы необходимо выставить опцию ``Dynamic Intensity``."
+msgstr "Enable the ``Dynamic Intensity`` options for the lamp."
 
-#: ../outdoor_rendering.rst:338
+#: ../outdoor_rendering.rst:323
 msgid ""
 "Время суток устанавливается приложениями с использованием соответствующего "
 "API. В частности, время суток может устанавливаться в интерфейсе "
@@ -692,31 +681,27 @@ msgstr ""
 " be set using the ``Lighting`` interface of the :ref:`Scene viewer "
 "<viewer>`."
 
-#: ../outdoor_rendering.rst:347
+#: ../outdoor_rendering.rst:332
 msgid "Звезды"
 msgstr "Stars"
 
-#: ../outdoor_rendering.rst:349
-msgid "Настраиваются как описано в разделе :ref:`material_halo`."
+#: ../outdoor_rendering.rst:334
+msgid "Настройка данного эффекта описывается в разделе :ref:`material_halo`."
 msgstr "Stars setup is described in the :ref:`material_halo` section."
 
-#: ../outdoor_rendering.rst:358
+#: ../outdoor_rendering.rst:343
 msgid "Ветер"
 msgstr "Wind"
 
-#: ../outdoor_rendering.rst:364
-msgid "Сила и направление ветра оказывает воздействие на"
-msgstr "Wind strength and direction affect"
-
-#: ../outdoor_rendering.rst:361
+#: ../outdoor_rendering.rst:346
 msgid ":ref:`анимацию травы и крон деревьев <wind_bending>`"
 msgstr ":ref:`grass and tree leaves animation <wind_bending>`"
 
-#: ../outdoor_rendering.rst:362
+#: ../outdoor_rendering.rst:347
 msgid ":ref:`динамику систем частиц <particles_force_fields>`"
 msgstr ":ref:`particle system dynamics <particles_force_fields>`"
 
-#: ../outdoor_rendering.rst:363
+#: ../outdoor_rendering.rst:348
 msgid ""
 ":ref:`частоту колебаний волн воды <water_volumetric_waves>` (в настоящий "
 "момент влияет только сила)"
@@ -724,33 +709,37 @@ msgstr ""
 ":ref:`water waves rolling frequency <water_volumetric_waves>` (at the moment"
 " only strength is taken into account)"
 
-#: ../outdoor_rendering.rst:369
+#: ../outdoor_rendering.rst:349
+msgid "Сила и направление ветра оказывает воздействие на:"
+msgstr "Wind strength and direction affect:"
+
+#: ../outdoor_rendering.rst:354
 msgid "Добавить на сцену объект - силовое поле типа ``Wind``."
 msgstr "Add a force field object of the ``Wind`` type."
 
-#: ../outdoor_rendering.rst:376
+#: ../outdoor_rendering.rst:361
 msgid "*Направление*"
 msgstr "*Direction*"
 
-#: ../outdoor_rendering.rst:376
+#: ../outdoor_rendering.rst:361
 msgid "Направление задается посредством вращения объекта - силового поля."
 msgstr "Direction can be set by rotating the force field object."
 
-#: ../outdoor_rendering.rst:380
-msgid "*Force Fields > Strength*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:379
+#: ../outdoor_rendering.rst:364
 msgid ""
 "Сила ветра. Располагается во вкладке ``Physics``. Значение по умолчанию 1.0."
 msgstr ""
 "Wind strength. Located under the ``Physics`` tab. The default value is 1.0."
 
-#: ../outdoor_rendering.rst:385
-msgid "Анимация травы и крон деревьев"
-msgstr "Grass and tree leaves animation"
+#: ../outdoor_rendering.rst:365
+msgid "*Force Fields > Strength*"
+msgstr ""
 
-#: ../outdoor_rendering.rst:387
+#: ../outdoor_rendering.rst:370
+msgid "Анимация травы и крон деревьев"
+msgstr "Animation of Grass and Tree Leaves"
+
+#: ../outdoor_rendering.rst:372
 msgid ""
 "Подготовка ресурсов для рендеринга травы описана в разделе "
 ":ref:`particles_grass`."
@@ -758,26 +747,22 @@ msgstr ""
 "Authoring resources for grass rendering is described in the "
 ":ref:`particles_grass` section."
 
+#: ../outdoor_rendering.rst:378
+msgid "На объекте травы или дерева активировать панель ``Wind Bending``."
+msgstr "Enable the ``Wind Bending`` panel for the grass or tree object.object"
+
+#: ../outdoor_rendering.rst:384
+msgid ""
+"Интерфейс для настроек появляется после активации панели ``Wind Bending``."
+msgstr ""
+"The interface panel becomes visible after turning on the ``Wind Bending`` "
+"panel."
+
 #: ../outdoor_rendering.rst:393
-msgid ""
-"На объекте травы или дерева включить опцию ``Blend4Web > Wind bending``."
-msgstr ""
-"Enable the ``Blend4Web > Wind bending`` checkbox for the grass or tree "
-"object."
-
-#: ../outdoor_rendering.rst:399
-msgid ""
-"Интерфейс для настроек появляется после активации опции ``Blend4Web > Wind "
-"bending``."
-msgstr ""
-"The interface panel becomes visible after the activation of the ``Blend4Web "
-"> Wind bending`` checkbox."
-
-#: ../outdoor_rendering.rst:408
 msgid "*Main bending > Angle*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:393
 msgid ""
 "Амплитуда угла \"основного\" отклонения под действием ветра (в градусах). "
 "Значение по умолчанию 10.0."
@@ -785,11 +770,11 @@ msgstr ""
 "Angle amplitude of the \"main\" deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:396
 msgid "*Main bending > Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:396
 msgid ""
 "Частота \"основного\" отклонения под действием ветра. Значение по умолчанию "
 "0.25."
@@ -797,11 +782,11 @@ msgstr ""
 "Frequency of the \"main\" deviation under the influence of wind. The default"
 " value is 0.25."
 
-#: ../outdoor_rendering.rst:414
-msgid "*Main bending > Main stiffness (A)*"
+#: ../outdoor_rendering.rst:399
+msgid "*Main bending > Main Stiffness (A)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:399
 msgid ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего информацию о"
 " жесткости \"основного\" отклонения. Может быть оставлено пустым."
@@ -810,11 +795,7 @@ msgstr ""
 "the information about the stiffness of the \"main\" deviation. Can be left "
 "empty."
 
-#: ../outdoor_rendering.rst:417
-msgid "*Detail bending > Detail amplitude*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:417
+#: ../outdoor_rendering.rst:402
 msgid ""
 "Амплитуда угла \"детализованного\" отклонения под действием ветра (в "
 "градусах). Значение по умолчанию 0.1."
@@ -822,11 +803,15 @@ msgstr ""
 "Angle amplitude of the \"detail\" deviation caused by the influence of wind "
 "(in degrees). The default value is 0.1."
 
-#: ../outdoor_rendering.rst:420
-msgid "*Detail bending > Branch amplitude*"
+#: ../outdoor_rendering.rst:402
+msgid "*Detail bending > Amplitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:405
+msgid "*Detail bending > Branch Amplitude*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:405
 msgid ""
 "Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение "
 "по умолчанию 0.3."
@@ -834,11 +819,19 @@ msgstr ""
 "Angle amplitude of the branch deviation caused by the influence of wind (in "
 "degrees). The default value is 0.3."
 
-#: ../outdoor_rendering.rst:423
-msgid "*Detail bending > Leaves stiffness (R)*"
+#: ../outdoor_rendering.rst:408
+msgid "*Detail bending > Bending Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:408
+msgid "Частота колебаний ветвей. Значение по умолчанию 1.0."
+msgstr "Detail bendind frequency. The default value is 1.0."
+
+#: ../outdoor_rendering.rst:411
+msgid "*Detail bending > Leaves Stiffness (R)*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:411
 msgid ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего информацию о"
 " жесткости листвы. Может быть оставлено пустым."
@@ -846,11 +839,11 @@ msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the stiffness of leaves. Can be left empty."
 
-#: ../outdoor_rendering.rst:426
-msgid "*Detail bending > Leaves phase (G)*"
+#: ../outdoor_rendering.rst:414
+msgid "*Detail bending > Leaves Phase (G)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:426
+#: ../outdoor_rendering.rst:414
 msgid ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего информацию о"
 " фазе отклонения листвы. Может быть оставлено пустым."
@@ -858,11 +851,11 @@ msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the phase of leaves deviation. Can be left empty."
 
-#: ../outdoor_rendering.rst:429
-msgid "*Detail bending > Overall stiffness (B)*"
+#: ../outdoor_rendering.rst:417
+msgid "*Detail bending > Overall Stiffness (B)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:429
+#: ../outdoor_rendering.rst:417
 msgid ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего информацию "
 "об общей жесткости листвы. Может быть оставлено пустым."
@@ -870,7 +863,7 @@ msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the overall stiffness of leaves. Can be left empty."
 
-#: ../outdoor_rendering.rst:431
+#: ../outdoor_rendering.rst:419
 msgid ""
 "Слои вертексных цветов с указанными в настройках названиями должны "
 "существовать в меше."
@@ -878,3 +871,23 @@ msgstr ""
 "Vertex color layers should be present in the mesh if their names are "
 "specified. "
 
+#: ../outdoor_rendering.rst:132
+msgid "*Scale*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:135
+msgid "*Brightness*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:135
+msgid "Фактор влияния каустики. Значение по умолчанию 0.5."
+msgstr "Caustics influence factor. The default value is 0.5."
+
+#: ../outdoor_rendering.rst:125
+msgid ""
+"Для создания каустики на подводных объектах следует включить опцию "
+"``Caustics``. Так же на сцене должен присутстовать источник освещение типа "
+"``Sun``."
+msgstr ""
+"To create the caustics effect turn on the ``Caustics`` option on the water "
+"material. Also, there has to be at least one sun on the scene."

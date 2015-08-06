@@ -26,6 +26,7 @@ var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
+var _mat4_tmp2 = new Float32Array(16);
 
 var _hash_buffer_in = new Float64Array(1);
 var _hash_buffer_out = new Uint32Array(_hash_buffer_in.buffer);
@@ -47,6 +48,19 @@ var RAND_M = 2147483647;
 var RAND_R = RAND_M % RAND_A;
 var RAND_Q = Math.floor(RAND_M / RAND_A);
 
+var MIN_CLAMPING_INTERVAL = 0.001;
+
+// view matrixes representing 6 cube sides
+var INV_CUBE_VIEW_MATRS =
+    [new Float32Array([ 0, 0, -1, 0, 0, -1,  0, 0, -1,  0,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 0, 0,  1, 0, 0, -1,  0, 0,  1,  0,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0,  0, -1, 0,  0,  1,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0,  0,  1, 0,  0, -1,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0, -1,  0, 0,  0,  0, -1, 0, 0, 0, 0, 1]),
+     new Float32Array([-1, 0,  0, 0, 0, -1,  0, 0,  0,  0,  1, 0, 0, 0, 0, 1])];
+
+var GAMMA = 2.2;
+
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
 exports.TSR8_IDENT = TSR8_IDENT;
@@ -58,12 +72,9 @@ exports.AXIS_MX = AXIS_MX;
 exports.AXIS_MY = AXIS_MY;
 exports.AXIS_MZ = AXIS_MZ;
 
+exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
+
 exports.keyfind = keyfind;
-/**
- * Helper search function.
- * returns an array of results
- * @methodOf util
- */
 function keyfind(key, value, array) {
     var results = [];
 
@@ -135,7 +146,8 @@ exports.array_intersect = function(arr1, arr2) {
  * Taken from http://stackoverflow.com/questions/7624920/number-sign-in-javascript
  * @returns {Number} Signum function from argument
  */
-exports.sign = function(value) {
+exports.sign = sign;
+function sign(value) {
     return (value > 0) ? 1 : (value < 0 ? -1 : 0);
 }
 
@@ -153,10 +165,6 @@ exports.keycheck = function(key, value, array) {
     return false;
 }
 
-/**
- * Helper search function.
- * Returns single element or null
- */
 exports.keysearch = function(key, value, array) {
     for (var i = 0; i < array.length; i++) {
         var obj = array[i];
@@ -347,9 +355,10 @@ exports.init_rand_r_seed = function(seed_number, dest) {
 }
 
 /**
- * Convert euler angles to quaternion
+ * <p>Translate GL euler to GL quat
  */
 exports.euler_to_quat = function(euler, quat) {
+
     if (!quat)
         quat = new Float32Array(4);
 
@@ -370,24 +379,55 @@ exports.euler_to_quat = function(euler, quat) {
 
     return quat;
 }
-/**
- * <p>Translate GL quat to GL euler
+
+ /**
+ * <p>Return rotation matrix from euler angles
  *
  * <p>Euler angles have following meaning:
  * <ol>
- * <li>heading, y
- * <li>attitude, z
- * <li>bank, x
+ * <li>heading, x
+ * <li>attitude, y
+ * <li>bank, z
  * </ol>
  * <p>Usage discouraged
  *
  * @methodOf util
- * @see http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
- * @param {vec4} quat Quaternion
+ * @param {vec3} euler Euler
  */
-exports.quat_to_euler = function(quat) {
-    var euler = [];
+exports.euler_to_rotation_matrix = function(euler) {
 
+    var matrix = m_mat3.create();
+
+    var cosX = Math.cos(euler[0]);
+    var cosY = Math.cos(euler[1]);
+    var cosZ = Math.cos(euler[2]);
+    var sinX = Math.sin(euler[0]);
+    var sinY = Math.sin(euler[1]);
+    var sinZ = Math.sin(euler[2]);
+
+    var cosXcosZ = cosX * cosZ;
+    var cosXsinZ = cosX * sinZ;
+    var sinXcosZ = sinX * cosZ;
+    var sinXsinZ = sinX * sinZ;
+
+    matrix[0] = cosY * cosZ;
+    matrix[1] = cosY * sinZ;
+    matrix[2] = - sinY;
+
+    matrix[3] = sinY * sinXcosZ - cosXsinZ;
+    matrix[4] = sinY * sinXsinZ + cosXcosZ;
+    matrix[5] = cosY * sinX;
+
+    matrix[6] = sinY * cosXcosZ + sinXsinZ;
+    matrix[7] = sinY * cosXsinZ - sinXcosZ;
+    matrix[8] = cosY * cosX;
+
+    return matrix;
+}
+/**
+ * @see http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+ */
+exports.quat_to_euler = function(quat, euler) {
     //var quat = new Float32Array([quat[0], quat[2], quat[1], quat[3]])
     //var quat_rot = [-0.7071, 0, 0, 0.7071];
     //var quat = m_quat.multiply(quat_rot, quat, []);
@@ -538,15 +578,14 @@ function blend_arrays(a1, a2, f, dest) {
     return dest;
 }
 
-exports.unique_id = unique_id;
 /**
- * Return string containing unique ID
- * @methodOf util
+ * Compose unique string ID.
  */
-function unique_id() {
+exports.unique_id = function() {
     _unique_counter++;
     return _unique_counter.toString(16);
 }
+
 
 /**
  * Compose unique name based on given name.
@@ -585,22 +624,9 @@ exports.create_empty_submesh = function(name) {
         base_length: 0,
         indices: null,
         va_frames: [],
-        va_common: va_common
+        va_common: va_common,
+        shape_keys: []
     };
-}
-
-/**
- * Create empty object
- * @deprecated Used only to create a new camobj or meta_object
- */
-exports.init_object = function(name, type) {
-    var obj = {
-        "name": name,
-        "type": type,
-        "modifiers": [],
-        "particle_systems": []
-    };
-    return obj;
 }
 
 /**
@@ -612,94 +638,74 @@ exports.clone_object_json = function(obj) {
 }
 
 /**
- * Clone object alone (do not follow datablock links)
- * object must be one of datablock entities
- * TODO: Do something with Float32Arrays links
- */
-exports.clone_object = function(obj, bpy_data) {
-
-    var links = [];
-
-    for (var datablock in bpy_data) {
-        var block_objs = bpy_data[datablock];
-
-        if (block_objs)
-            for (var j = 0; j < block_objs.length; j++)
-                links.push(block_objs[j]);
-    }
-
-    var new_obj = clone_iteration(obj, links);
-    return new_obj
-}
-
-function clone_iteration(obj, links) {
-    var new_obj = (obj instanceof Array) ? [] : {};
-
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object") &&
-                (links.indexOf(obj[i]) == -1) &&
-                !(obj[i] instanceof Float32Array)) {
-
-            //links.push(obj[i]);
-            new_obj[i] = clone_iteration(obj[i], links);
-
-        } else
-            new_obj[i] = obj[i];
-    }
-
-    return new_obj;
-}
-
-/**
  * Clone object recursively
  * operation is dangerous because of possible cyclic links
  */
 exports.clone_object_r = function(obj) {
-    var new_obj = (obj instanceof Array) ? [] : {};
-
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object")) {
-            if (obj[i] instanceof Float32Array)
-                new_obj[i] = new Float32Array(obj[i]);
-            else if (obj[i] instanceof Uint32Array)
-                new_obj[i] = new Uint32Array(obj[i]);
-            else if (obj[i] instanceof Uint16Array)
-                new_obj[i] = new Uint16Array(obj[i]);
-            else
-                new_obj[i] = exports.clone_object_r(obj[i]);
-        } else
-            new_obj[i] = obj[i];
+    if (!(obj instanceof Object)) {
+        return obj;
     }
 
-    return new_obj;
+    var obj_clone;
+
+    var Constructor = obj.constructor;
+
+    switch (Constructor) {
+    case Float32Array:
+    case Uint32Array:
+    case Uint16Array:
+        obj_clone = new Constructor(obj);
+        break;
+    case Array:
+        obj_clone = new Constructor(obj.length);
+
+        for (var i = 0; i < obj.length; i++)
+            obj_clone[i] = exports.clone_object_r(obj[i]);
+
+        break;
+    default:
+        obj_clone = new Constructor();
+
+        for (var prop in obj)
+            obj_clone[prop] = exports.clone_object_r(obj[prop]);
+
+        break;
+    }
+
+    return obj_clone;
 }
 
 /**
  * Clone object non-recursively
  */
 exports.clone_object_nr = function(obj) {
+
     var new_obj = (obj instanceof Array) ? [] : {};
 
-    for (var i in obj) {
-        if (obj[i] && (typeof obj[i] == "object")) {
-            if (obj[i] instanceof Float32Array)
-                new_obj[i] = new Float32Array(obj[i]);
-            else if (obj[i] instanceof Uint32Array)
-                new_obj[i] = new Uint32Array(obj[i]);
-            else if (obj[i] instanceof Uint16Array)
-                new_obj[i] = new Uint16Array(obj[i]);
-            else if (obj[i] instanceof Array)
-                new_obj[i] = obj[i].slice(0);
-            else
-                new_obj[i] = obj[i];
+    for (var prop in obj) {
+        if (obj[prop] instanceof Object) {
+
+            var Constructor = obj[prop].constructor;
+
+            switch (Constructor) {
+            case Float32Array:
+            case Uint32Array:
+            case Uint16Array:
+                new_obj[prop] = new Constructor(obj[prop]);
+                break;
+            case Array:
+                new_obj[prop] = obj[prop].slice(0);
+                break;
+            default:
+                new_obj[prop] = obj[prop];
+                break;
+            }
         } else
-            new_obj[i] = obj[i];
+            new_obj[prop] = obj[prop];
     }
 
     return new_obj;
-
 }
-
 
 exports.is_mesh = function(obj) {
     if (obj["type"] === "MESH")
@@ -707,8 +713,9 @@ exports.is_mesh = function(obj) {
     else
         return false;
 }
-exports.is_dynamic_mesh = function(obj) {
-    if (obj["type"] === "MESH" && obj._render && obj._render.type === "DYNAMIC")
+
+exports.is_empty = function(obj) {
+    if (obj["type"] === "EMPTY")
         return true;
     else
         return false;
@@ -1176,9 +1183,16 @@ exports.transform_mat4 = function(matrix, scale, quat, trans, dest) {
 exports.transform_vec3 = function(vec, scale, quat, trans, dest) {
     if (!dest)
         var dest = new Float32Array(3);
-    var m = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
+    
+    var m1 = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
+    if (scale !== 1) {
+        var m2 = m_mat4.identity(_mat4_tmp2);
+        var s = m_vec3.set(scale, scale, scale, _vec3_tmp);
+        m_mat4.scale(m2, s, m2);
+        m_mat4.multiply(m1, m2, m1);
+    }
 
-    m_vec3.transformMat4(vec, m, dest);
+    m_vec3.transformMat4(vec, m1, dest);
 
     return dest;
 }
@@ -1256,7 +1270,8 @@ exports.rotate_point_pivot = function(point, pivot, quat, dest) {
  */
 exports.generate_cubemap_matrices = function() {
 
-    var eye_pos = new Float32Array([0, 0, 0]);
+    var eye_pos = _vec3_tmp;
+    eye_pos[0] = 0; eye_pos[1] = 0; eye_pos[2] = 0;
     var x_pos   = new Float32Array(16);
     var x_neg   = new Float32Array(16);
     var y_pos   = new Float32Array(16);
@@ -1268,15 +1283,41 @@ exports.generate_cubemap_matrices = function() {
     m_mat4.scale(x_pos, [-1, 1, 1], x_pos);
     m_mat4.scale(x_pos, [-1, 1,-1], x_neg);
 
-    m_mat4.lookAt(eye_pos, [0, 0, -1], [0, -1, 0], y_pos);
-    m_mat4.scale(y_pos, [-1, 1, 1], y_pos);
-    m_mat4.scale(y_pos, [-1, 1,-1], y_neg);
+    m_mat4.lookAt(eye_pos, [0, -1, 0], [0, 0, -1], y_pos);
+    m_mat4.scale(y_pos, [1, 1,-1], y_pos);
+    m_mat4.scale(y_pos, [1,-1,-1], y_neg);
 
-    m_mat4.lookAt(eye_pos, [0, -1, 0], [0, 0, -1], z_neg);
-    m_mat4.scale(z_neg, [ 1, 1,-1], z_neg);
-    m_mat4.scale(z_neg, [-1,-1,-1], z_pos);
+    m_mat4.lookAt(eye_pos, [0, 0, -1], [0, -1, 0], z_pos);
+    m_mat4.scale(z_pos, [-1, 1, 1], z_pos);
+    m_mat4.scale(z_pos, [-1, 1,-1], z_neg);
 
-    return [z_pos, z_neg, x_pos, x_neg, y_pos, y_neg];
+    return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
+}
+/**
+ * Construct 6 view matrices for 6 cubemap sides
+ */
+exports.generate_inv_cubemap_matrices = function() {
+
+    var eye_pos = _vec3_tmp;
+    eye_pos[0] = 0; eye_pos[1] = 0; eye_pos[2] = 0;
+
+    var x_pos   = new Float32Array(16);
+    var x_neg   = new Float32Array(16);
+    var y_pos   = new Float32Array(16);
+    var y_neg   = new Float32Array(16);
+    var z_pos   = new Float32Array(16);
+    var z_neg   = new Float32Array(16);
+
+    m_mat4.lookAt(eye_pos, [1, 0, 0], [0, -1, 0], x_pos);
+    m_mat4.scale(x_pos, [-1, 1,-1], x_neg);
+
+    m_mat4.lookAt(eye_pos, [0, 1, 0], [0, 0, 1], y_pos);
+    m_mat4.scale(y_pos, [1,-1, -1], y_neg);
+
+    m_mat4.lookAt(eye_pos, [0, 0, 1], [0, -1, 0], z_pos);
+    m_mat4.scale(z_pos, [-1, 1,-1], z_neg);
+
+    return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
 }
 
 /**
@@ -1352,10 +1393,10 @@ function hash_code_string(str, init_val) {
 /**
  * Translates a matrix by the given vector (from glMatrix 1)
  *
- * @param {mat4} mat mat4 to translate
- * @param {vec3} vec vec3 specifying the translation
- * @param {mat4} [dest] mat4 receiving operation result. If not specified result is written to mat
- * @returns {mat4} dest if specified, mat otherwise
+ * @param {Mat4} mat mat4 to translate
+ * @param {Vec3} vec vec3 specifying the translation
+ * @param {Mat4} [dest] mat4 receiving operation result. If not specified result is written to mat
+ * @returns {Mat4} dest if specified, mat otherwise
  * @deprecated Use function from mat4 module
  */
 exports.mat4_translate = function(mat, vec, dest) {
@@ -1884,10 +1925,10 @@ exports.xz_direction = function(a, b, dest) {
 /**
  * Transforms the vec3 with a quat (alternative implementation)
  *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec3} out
+ * @param {Vec3} out the receiving vector
+ * @param {Vec3} a the vector to transform
+ * @param {Quat} q quaternion to transform with
+ * @returns {Vec3} out
  */
 exports.transformQuatFast = function(a, q, out) {
     // nVidia SDK implementation
@@ -1922,6 +1963,11 @@ exports.transformQuatFast = function(a, q, out) {
     return out;
 };
 
+exports.assert = function(cond) {
+    if (!cond)
+        throw new Error("Assertion failed");
+}
+
 exports.panic = function(s) {
     if (s)
         m_print.error.apply(m_print, arguments);
@@ -1929,10 +1975,18 @@ exports.panic = function(s) {
 }
 
 /**
- * Convert radian angle into range [0, 2PI]
+ * Convert radian angle into range [from, to]
  */
-exports.angle_wrap_0_2pi = function(angle) {
-    return angle - Math.floor(angle / (2 * Math.PI)) * 2 * Math.PI;
+exports.angle_wrap_periodic = angle_wrap_periodic;
+function angle_wrap_periodic(angle, from, to) {
+    var rel_angle = angle - from;
+    var period = to - from;
+    return from + (rel_angle - Math.floor(rel_angle / period) * period);
+}
+
+exports.angle_wrap_0_2pi = angle_wrap_0_2pi;
+function angle_wrap_0_2pi(angle) {
+    return angle_wrap_periodic(angle, 0, 2 * Math.PI);
 }
 
 exports.get_file_extension = function(file_path) {
@@ -2064,22 +2118,22 @@ exports.gen_color_id = function(counter) {
     counter %= 51;
     var b = counter;
 
-    var color_id = [r/51, g/51, b/51];
+    var color_id = new Float32Array([r/51, g/51, b/51]);
 
     return color_id;
 }
 
 /**
- * Calculate intersection point of a line and a plane
+ * Calculate intersection point of a line and a plane.
  * @methodOf util
  * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
  * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
- * @param {Float32Array} pn Plane normal
- * @param {Number} p_dist Plane signed distance from the origin
- * @param {Float32Array} lp Point belonging to the line
- * @param {Float32Array} l_dir Line direction
- * @param {Float32Array} dest Destination vector
- * @returns {?Float32Array} Intersection point or null if the line is parallel to the plane
+ * @param {Vec3} pn Plane normal.
+ * @param {Number} p_dist Plane signed distance from the origin.
+ * @param {Vec3} lp Point belonging to the line.
+ * @param {Vec3} l_dir Line direction.
+ * @param {Vec3} dest Destination vector.
+ * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
  */
 exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     // four-dimensional representation of a plane
@@ -2111,6 +2165,27 @@ exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     dest[0] = lp[0] + t * l_dir[0];
     dest[1] = lp[1] + t * l_dir[1];
     dest[2] = lp[2] + t * l_dir[2];
+
+    return dest;
+}
+
+/**
+ * Calculate plane normal by 3 points through the point-normal form of the
+ * plane equation
+ */
+exports.get_plane_normal = function(a, b, c, dest) {
+    var a12 = b[0] - a[0];
+    var a13 = c[0] - a[0];
+
+    var a22 = b[1] - a[1];
+    var a23 = c[1] - a[1];
+
+    var a32 = b[2] - a[2];
+    var a33 = c[2] - a[2];
+
+    dest[0] = a22 * a33 - a32 * a23;
+    dest[1] = a13 * a32 - a12 * a33;
+    dest[2] = a12 * a23 - a22 * a13;
 
     return dest;
 }
@@ -2158,5 +2233,164 @@ exports.rotation_to_stable = function(a, b, out) {
 
     return out;
 };
+
+/**
+ * Get the angle which returns current angle into range [min_angle, max_angle]
+ */
+exports.calc_returning_angle = function(angle, min_angle, max_angle) {
+    if (min_angle == max_angle)
+        return max_angle - angle;
+
+    // convert all type of angles (phi, theta) regardless of their domain of definition
+    // for simplicity
+    angle = angle_wrap_0_2pi(angle);
+    min_angle = angle_wrap_0_2pi(min_angle);
+    max_angle = angle_wrap_0_2pi(max_angle);
+
+    // disable err clamping
+    var delta = Math.abs(min_angle - max_angle);
+    if (delta < MIN_CLAMPING_INTERVAL 
+            || Math.abs(delta - 2 * Math.PI) < MIN_CLAMPING_INTERVAL)
+        return 0;
+
+    // rotate unit circle to ease calculation
+    var rotation = 2 * Math.PI - min_angle;
+    min_angle = 0;
+    max_angle += rotation;
+    max_angle = angle_wrap_0_2pi(max_angle);
+    angle += rotation;
+    angle = angle_wrap_0_2pi(angle);
+
+    if (angle > max_angle) {
+        // clamp to the proximal edge
+        var delta_to_max = max_angle - angle;
+        var delta_to_min = 2 * Math.PI - angle;
+        return (- delta_to_max > delta_to_min) ? delta_to_min : delta_to_max;
+    }
+
+    // clamping not needed
+    return 0;
+}
+
+exports.smooth_step = function(t, min, max) {
+    if (isFinite(min) && isFinite(max))
+        t = clamp(t, min, max);
+
+    return t * t * (3.0 - 2.0 * t);
+}
+
+exports.lerp = function(t, from, to) {
+    return from + t * (to - from);
+}
+
+exports.arrays_have_common = function(arr_1, arr_2) {
+    for (var i = 0; i < arr_1.length; i++) {
+        for (var k = 0; k < arr_2.length; k++) {
+            if (arr_2[k] == arr_1[i]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+exports.create_zero_array = function(length) {
+    var array = new Array(length);
+
+    for (var i = 0; i < length; i++)
+        array[i] = 0;
+
+    return array;
+}
+
+exports.version_cmp = function(ver1, ver2) {
+    var max_len = Math.max(ver1.length, ver2.length);
+
+    for (var i = 0; i < max_len; i++) {
+        var n1 = (i >= ver1.length) ? 0 : ver1[i];
+        var n2 = (i >= ver2.length) ? 0 : ver2[i];
+
+        var s = sign(n1 - n2);
+        if (s)
+            return s;
+    }
+
+    return 0;
+}
+
+/**
+ * It doesn't worry about leading zeros; unappropriate for date 
+ * (month, hour, minute, ...) values.
+ */
+exports.version_to_str = function(ver) {
+    return ver.join(".");
+}
+
+exports.str_to_version = function(str) {
+    return str.split(".").map(function(val){ return val | 0 });
+}
+
+exports.srgb_to_lin = function(color, dest) {
+    dest[0] = Math.pow(color[0], GAMMA);
+    dest[1] = Math.pow(color[1], GAMMA);
+    dest[2] = Math.pow(color[2], GAMMA);
+    return dest;
+}
+
+exports.lin_to_srgb = function(color, dest) {
+    dest[0] = Math.pow(color[0], 1/GAMMA);
+    dest[1] = Math.pow(color[1], 1/GAMMA);
+    dest[2] = Math.pow(color[2], 1/GAMMA);
+    return dest;
+}
+
+exports.normpath_preserve_protocol = function(dir_path) {
+    var separated_str = dir_path.split('://',2);
+    if (separated_str.length > 1) {
+        separated_str[1] = normpath(separated_str[1]);
+        return separated_str.join('://');
+    } else
+        return normpath(dir_path);
+}
+
+/**
+ * Normalize path, based on python os.path.normpath() function
+ */
+function normpath(path) {
+    var sep = '/';
+    var empty = '';
+    var dot = '.';
+    var dotdot = '..';
+
+    if (path == empty)
+        return dot;
+
+    var initial_slashes = (path.indexOf(sep) == 0) | 0;
+
+    // allow one or two initial slashes, more than two treats as single
+    if (initial_slashes && (path.indexOf(sep + sep) == 0)
+            && (path.indexOf(sep + sep + sep) != 0))
+        initial_slashes = 2;
+
+    var comps = path.split(sep);
+    var new_comps = [];
+    for (var i = 0; i < comps.length; i++) {
+        var comp = comps[i];
+        if (comp == empty || comp == dot)
+            continue;
+        if (comp != dotdot || (!initial_slashes && !new_comps.length)
+                || (new_comps.length && (new_comps[new_comps.length - 1] == dotdot)))
+            new_comps.push(comp);
+        else if (new_comps.length)
+            new_comps.pop();
+    }
+
+    comps = new_comps;
+    path = comps.join(sep);
+    for (var i = 0; i < initial_slashes; i++)
+        path = sep + path;
+
+    return path || dot;
+}
 
 }

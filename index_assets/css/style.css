@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: rgba(0, 100, 200, 1.0);
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.tut a {
+    display: block;
+}
+
+.tut td {
+    line-height: 25px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+h2, h3 {
+    cursor: pointer;
+    text-align: center;
+    font-family: Open Sans Semibold;
+}
+
+h3 {
+    cursor: default;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table .doc th,
+table .doc td {
+    height: 50px;
+}
+
+p, td, th {
+    font-family: Open Sans Light;
+    font-size: 16px;
+    color: #002350;
+}
+
+th {
+    font-family: Open Sans Light Italic;
+    height: 100px;
+    border-left: 1px solid rgba(0, 142, 204, 0.2);
+}
+
+tr {
+    border: 1px solid rgba(0, 142, 204, 0.2);
+    border-bottom: 0;
+}
+
+tr:last-child {
+    border-bottom: 1px solid rgba(0, 142, 204, 0.2);
+}
+
+td {
+    height: 100px;
+    border-left: 1px solid rgba(0, 142, 204, 0.2);
+    text-align: center;
+    vertical-align: middle;
+    width: 350px;
+}
+
+td:first-child {
+    padding: 5px;
+    width: 150px;
+}
+
+table > tbody > tr:nth-child(odd) {
+    background-color: rgba(0, 72, 165, 0.03);
+}
+
+.row {
+    width: 1200px;
+    margin: 20px auto;
+}
+
+@font-face {
+    font-family: Open Sans Light Italic;
+    src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
+}
+
+@font-face {
+    font-family: Open Sans Light;
+    src: url(../fonts/Open_Sans/OpenSans-Light.woff);
+}
+
+@font-face {
+    font-family: Open Sans Semibold;
+    src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
+}
+
+#support_message.green {
+    color: green;
+    font-weight: bold;
+}
+
+#support_message.red {
+    color: red;
+    font-weight: bold;
+}

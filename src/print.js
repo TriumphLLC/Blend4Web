@@ -12,7 +12,6 @@ b4w.module["__print"] = function(exports, require) {
 // no module requires
 
 var _verbose = false;
-
 var _error_count = 0;
 var _warning_count = 0;
 
@@ -23,22 +22,66 @@ exports.set_verbose = function(v) {
     _verbose = v;
 }
 
+exports.log_raw = function() {
+    console.log.apply(console, arguments);
+}
+
 exports.log = function() {
-    if (_verbose)
-        console.log.apply(console, arguments);
+    if (_verbose) {
+        var args = compose_args_prefix(arguments, "B4W LOG");
+        console.log.apply(console, args);
+    }
+}
+
+function compose_args_prefix(args_in, prefix) {
+    var args_out = [];
+
+    if (args_in[0].indexOf("%c") > -1)
+        args_out.push(args_in[0].replace("%c", "%c" + prefix + ": "));
+    else
+        args_out.push(prefix + ": " + args_in[0]);
+
+    for (var i = 1; i < args_in.length; i++)
+        args_out.push(args_in[i]);
+
+    return args_out;
 }
 
 exports.error = function() {
     // always reporting errors
     _error_count++;
-    console.error.apply(console, arguments);
+
+    var args = compose_args_prefix(arguments, "B4W ERROR");
+    console.error.apply(console, args);
 }
 
 exports.warn = function() {
-    if (_verbose) {
-        _warning_count++;
-        console.warn.apply(console, arguments);
-    }
+    // always reporting warnings
+    _warning_count++;
+
+    var args = compose_args_prefix(arguments, "B4W WARN");
+    console.warn.apply(console, args);
+}
+
+exports.info = function() {
+    var args = compose_args_prefix(arguments, "B4W INFO");
+    console.info.apply(console, args);
+}
+
+exports.export_error = function() {
+    // always reporting errors
+    _error_count++;
+
+    var args = compose_args_prefix(arguments, "B4W EXPORT ERROR");
+    console.error.apply(console, args);
+}
+
+exports.export_warn = function() {
+    // always reporting warnings
+    _warning_count++;
+
+    var args = compose_args_prefix(arguments, "B4W EXPORT WARNING");
+    console.warn.apply(console, args);
 }
 
 exports.time = function() {

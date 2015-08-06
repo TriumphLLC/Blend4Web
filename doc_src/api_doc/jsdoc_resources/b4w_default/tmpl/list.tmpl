@@ -1,0 +1,11 @@
+<?js
+var data = obj;
+var self = this;
+
+// BLEND4WEB NOTE: remove nested <a> tags
+if (data.signature)
+    var sig = data.signature.replace(/<a href=\"[\w#\.]+\">/, "").replace("</a>", "")
+else
+    var sig = '';
+?>
+<li> <a href="#<?js= id ?>"><?js= name + (sig) ?></a></li>

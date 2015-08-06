@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scene Viewer &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Web Player" href="web_player.html" />
+    <link rel="prev" title="Workflow" href="workflow.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Scene Viewer</a><ul>
+<li><a class="reference internal" href="#id2">Navigation</a></li>
+<li><a class="reference internal" href="#id3">The Side Panel</a><ul>
+<li><a class="reference internal" href="#id4">Control elements list in top-to-bottom order</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Indicators</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="workflow.html" title="Previous Chapter: Workflow"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Workflow</span>
+    </a>
+  </li>
+  <li>
+    <a href="web_player.html" title="Next Chapter: Web Player"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Web Player &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="viewer">
+<span id="index-0"></span><span id="id1"></span><h1>Scene Viewer<a class="headerlink" href="#viewer" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>Running The Scenes Viewer</span></a>.</p>
+<div class="section" id="id2">
+<h2>Navigation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>To control the camera hold down a mouse button and move the mouse. Also control can be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
+</div>
+<div class="section" id="id3">
+<h2>The Side Panel<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>The side panel consists of three areas: the information board, basic control buttons and the list of drop-down panels with additional control elements differentiated by functionality.</p>
+<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="_images/default_page.jpg" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id4">
+<h3>Control elements list in top-to-bottom order<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Build</strong></dt>
+<dd><p class="first last">The engine build date and time. In the developer version this shows the page load time.</p>
+</dd>
+<dt><strong>Scene</strong></dt>
+<dd><p class="first last">Loaded scene name from the <code class="docutils literal"><span class="pre">assets.json</span></code> file. Path to the file pops-up on mouse hover.</p>
+</dd>
+<dt><strong>Loaded</strong></dt>
+<dd><p class="first last">Loading progress and time.</p>
+</dd>
+<dt><strong>Reset</strong></dt>
+<dd><p class="first last">This button deletes the saved name of the last viewed scene and reloads the page back to display the default scene.</p>
+</dd>
+<dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
+<dd><p class="first">Drop-down menu for choosing the performance profile of the engine.</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
+</div>
+</dd>
+<dt><strong>Pause</strong></dt>
+<dd><p class="first last">Pause rendering.</p>
+</dd>
+<dt><strong>Resume</strong></dt>
+<dd><p class="first last">Resume rendering.</p>
+</dd>
+<dt><strong>Auto View</strong></dt>
+<dd><p class="first last">Activate the automatic scene switching mode; the delay between views is 1 second.</p>
+</dd>
+<dt><strong>Scenes</strong></dt>
+<dd><p class="first last">A double-level list of the categories and scenes from the <code class="docutils literal"><span class="pre">assets.json</span></code> file.</p>
+</dd>
+<dt><strong>Animation</strong></dt>
+<dd><p class="first last">Animation controls. When viewing animated models it&#8217;s possible: to select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped).</p>
+</dd>
+<dt><strong>Materials</strong></dt>
+<dd><p class="first last">Material properties setup. A material can be selected using the drop-down menu. At the moment only a limited range of properties is supported.</p>
+</dd>
+<dt><strong>Lighting</strong></dt>
+<dd><p class="first last">Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.</p>
+</dd>
+<dt><strong>Ambient</strong></dt>
+<dd><p class="first last">Ambient lighting parameters setup. Changing the colors and intensity of a hemispheric ambient model is supported.</p>
+</dd>
+<dt><strong>Shadows</strong></dt>
+<dd><p class="first last">Shadow parameters setup, including shadow cascades and shadow edges softening parameters.</p>
+</dd>
+<dt><strong>Sky</strong></dt>
+<dd><p class="first last">Dynamic sky parameters setup such as color, sun light scattering parameters etc.</p>
+</dd>
+<dt><strong>Sea</strong></dt>
+<dd><p class="first last">Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.</p>
+</dd>
+<dt><strong>Fog</strong></dt>
+<dd><p class="first last">Fog parameters setup, including density and color.</p>
+</dd>
+<dt><strong>Wind</strong></dt>
+<dd><p class="first last">Wind parameters setup, including direction and strength.</p>
+</dd>
+<dt><strong>Screen Space Amb Occlus</strong></dt>
+<dd><p class="first last">Ambient occlusion parameters setup.</p>
+</dd>
+<dt><strong>God Rays</strong></dt>
+<dd><p class="first last">Crepuscular rays effect parameters setup.</p>
+</dd>
+<dt><strong>Bloom</strong></dt>
+<dd><p class="first last">Bright light effect parameters setup.</p>
+</dd>
+<dt><strong>Depth of Field</strong></dt>
+<dd><p class="first last">Depth of field effect parameters setup.</p>
+</dd>
+<dt><strong>Color correction</strong></dt>
+<dd><p class="first last">Color correction parameters setup, including brightness, contrast, exposure and saturation.</p>
+</dd>
+<dt><strong>Anti-aliasing</strong></dt>
+<dd><p class="first last">Selecting the anti-aliasing method.</p>
+</dd>
+<dt><strong>Audio</strong></dt>
+<dd><p class="first last">There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</p>
+</dd>
+<dt><strong>Stereo View</strong></dt>
+<dd><p class="first last">There is a stereoscopy mode switch on the panel.</p>
+</dd>
+<dt><strong>Debug</strong></dt>
+<dd><p class="first last">This panel contains a range of debugging tools, including the wireframe mode and the postprocessing stages viewer switches.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Indicators<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Frames per second counter</strong></dt>
+<dd><p class="first last">This is located in the top right corner. It displays the averaged and rounded value for the last 1.5 seconds.</p>
+</dd>
+<dt><strong>Viewport dimensions</strong></dt>
+<dd><p class="first last">This is located in the top left corner. It displays the viewport dimensions in pixels.</p>
+</dd>
+<dt><strong>Selected object and controlled object</strong></dt>
+<dd><p class="first last">This is located in the left bottom corner. It displays the names of selected and controlled objects. Object selection can be performed with the mouse. To control the object directly (normally for physics debugging) press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on the object. The object movement is performed with the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> keys. To exit the control mode press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).</p>
+</dd>
+<dt><strong>Scene complexity indicator</strong></dt>
+<dd><p class="first last">Is located in the top right corner of the rendering area. It displays the number of vertices, triangles and WebGL calls on the main rendering scene (i.e. shadow rendering calls are not included, for example).</p>
+</dd>
+<dt><strong>Video memory indicator</strong></dt>
+<dd><p class="first last">Is located in the bottom right corner of the rendering area. It displays the amount of video memory used by geometry, textures, render targets, and also the total memory usage.</p>
+</dd>
+<dt><strong>Scene load errors indicator</strong></dt>
+<dd><p class="first last">Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/indicators.jpg"><img alt="_images/indicators.jpg" class="align-center" src="_images/indicators.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

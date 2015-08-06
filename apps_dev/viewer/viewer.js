@@ -12,12 +12,16 @@ var m_cons     = require("constraints");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_debug    = require("debug");
+var m_geom     = require("geometry");
+var m_gyro     = require("gyroscope");
 var m_lights   = require("lights");
 var m_main     = require("main");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
+var m_nla      = require("nla");
+var m_rgb      = require("rgb");
+var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
-var m_shaders  = require("shaders");
 var m_storage  = require("storage");
 var m_trans    = require("transform");
 var m_util     = require("util");
@@ -28,12 +32,20 @@ var m_vec3 = require("vec3");
 var DEBUG = (m_version.type() === "DEBUG");
 var AUTO_VIEW_INTERVAL = 1000;
 var AUTO_ROTATE_RATIO  = 0.3;
-var DEFAULT_SCENE      = "dev/logo.json";
+var DEFAULT_SCENE     = "misc/logo.json";
+var DEFAULT_NAME      = "Logo";
+
+var TO_RAD = Math.PI/180;
+var TO_DEG = 180/Math.PI;
+
+var DEC_SLIDER = 188;
+var INC_SLIDER = 190; 
 
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
 
-var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp  = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
 
 var _auto_view = false;
 var _auto_view_timeout_handle;
@@ -43,6 +55,8 @@ var _auto_view_timeout_handle;
 var _manifest = null;
 
 var _anim_obj = null;
+var _shape_key_obj = null;
+var _shape_key_name = "";
 
 var _settings = null;
 var _scene_settings = null;
@@ -59,24 +73,29 @@ exports.init = function() {
     m_storage.init("b4w_viewer");
     set_quality_config();
     set_stereo_view_config();
+    set_gyro_cam_rotate_config();
+    set_outlining_overview_mode_config();
 
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
+        autoresize: false,
         gl_debug: true,
         show_hud_debug_info: get_show_hud_debug_info_config(),
         sfx_mix_mode: get_mix_mode_config(),
         show_fps: true,
+        fps_elem_id: "fps_logger",
+        fps_wrapper_id: "fps_container",
 
         // engine config
         alpha : true,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
         console_verbose: true,
-        all_objs_selectable: true,
         physics_enabled: true,
         wireframe_debug: true
     });
+
 }
 
 function init_cb(canvas_elem, success) {
@@ -99,7 +118,7 @@ function init_cb(canvas_elem, success) {
         return false;
     };
 
-    m_app.enable_controls(canvas_elem);
+    m_app.enable_controls();
 
     window.addEventListener("resize", on_resize, false);
 
@@ -107,25 +126,37 @@ function init_cb(canvas_elem, success) {
     tmp_event.initEvent("resize", false, false);
     window.dispatchEvent(tmp_event);
 
+    if (!m_main.detect_mobile())
+        forbid_params(["gyro_use"], "disable");
+
+    var url_params = m_app.get_url_params();
+
     var asset_cb = function(data, uri, type, path) {
         _manifest = data;
         init_ui();
         var item_id = retrieve_last_item_id();
-        process_scene(item_id, false, false);
+        process_scene(item_id, false, false, url_params && url_params["load"]);
     }
 
-    m_assets.enqueue([["manifest", m_assets.AT_JSON,
-            get_asset_path("assets.json")]], asset_cb, null);
+    m_assets.enqueue([["manifest", m_assets.AT_JSON, "assets.json"]],
+            asset_cb, null);
 }
 
-function get_asset_path(filename) {
-    // path to assets directory
-    if (DEBUG)
-        var assets_dir =  "../../external/deploy/assets/";
-    else
-        var assets_dir = "../../assets/";
-
-    return assets_dir + filename;
+function assign_sliders_controls() {
+    $(document).ready(function() {
+        $(".ui-slider-handle").off("keydown");
+        $(".ui-slider-handle").on("keydown",function(e) {
+            var slider_id = this.parentElement.parentElement.children[0].getAttribute("id");
+            if (!slider_id)
+                return;
+            var slider_value = parseFloat(document.getElementById(slider_id).value);
+            var slider_step = parseFloat(document.getElementById(slider_id).getAttribute("step"));
+            if (e.keyCode == DEC_SLIDER)
+                set_slider(slider_id, slider_value - slider_step);
+            if (e.keyCode == INC_SLIDER)
+                set_slider(slider_id, slider_value + slider_step);
+        });
+    });
 }
 
 function get_selected_object() {
@@ -147,14 +178,13 @@ function main_canvas_clicked(event) {
     var prev_obj = get_selected_object();
 
     if (prev_obj)
-        m_scenes.clear_glow_anim(prev_obj);
+        m_scenes.clear_outline_anim(prev_obj);
 
     var obj = m_scenes.pick_object(x, y);
     _selected_object = obj;
 
     if (obj) {
         _object_selected_callback(obj);
-        m_scenes.apply_glow_anim(obj, 0.2, 3.8, 1);
     } else
         forbid_material_params();
 
@@ -264,7 +294,7 @@ function init_ui() {
     _lights_elem = document.getElementById("lights_cont");
 
     // build date
-    document.getElementById("build_date").innerHTML = m_version.date();
+    document.getElementById("build_date").innerHTML = m_version.date_str();
 
     // general buttons
     bind_control(save_quality_and_reload, "quality", "string");
@@ -278,6 +308,7 @@ function init_ui() {
 
     // list of scenes
     init_scenes_list();
+    load_users_scene();
 
     // animation
     bind_control(set_animation_params, "anim_active_object", "string");
@@ -288,7 +319,16 @@ function init_ui() {
     bind_control(set_animation_params, "anim_frame_current", "number");
     m_app.set_onclick("anim_play", anim_play_clicked);
     m_app.set_onclick("anim_stop", anim_stop_clicked);
-    m_app.set_onclick("get_max_bones", get_max_bones);
+
+    // nla
+    bind_control(set_nla_params, "nla_frame_current", "number");
+    m_app.set_onclick("nla_play", nla_play_clicked);
+    m_app.set_onclick("nla_stop", nla_stop_clicked);
+
+    //shape keys
+    bind_control(set_shape_keys_params, "shape_key_obj", "string");
+    bind_control(set_shape_keys_params, "shape_key_name", "string");
+    bind_control(set_shape_keys_params, "shape_key_value", "number");
 
     // materials
     bind_control(set_material_params, "material_name", "string");
@@ -312,6 +352,7 @@ function init_ui() {
     bind_colpick(set_water_material_params, "shore_water_col");
     bind_control(set_water_material_params, "shore_water_col_fac", "number");
     bind_control(set_water_material_params, "foam_factor", "number");
+    bind_control(set_water_material_params, "norm_uv_velocity", "number");
     bind_control(set_water_material_params, "water_dynamic", "bool");
     bind_control(set_water_material_params, "waves_height", "number");
     bind_control(set_water_material_params, "waves_length", "number");
@@ -335,7 +376,11 @@ function init_ui() {
     // lighting
     bind_control(set_lighting_params, "light_name", "string");
     bind_colpick(set_lighting_params, "light_color");
-    bind_control(set_lighting_params, "light_energy", "number");
+    bind_control(set_lighting_params, "pre_light_energy", "number");
+    bind_control(set_lighting_params, "rude_light_energy", "number");
+    bind_control(set_lighting_params, "light_spot_size", "number");
+    bind_control(set_lighting_params, "light_spot_blend", "number");
+    bind_control(set_lighting_params, "light_distance", "number");
     bind_colpick(set_sky_params, "sky_color");
     bind_control(set_sky_params, "rayleigh_brightness", "number");
     bind_control(set_sky_params, "mie_brightness", "number");
@@ -365,11 +410,10 @@ function init_ui() {
 
     // ssao
     bind_control(set_ssao_params, "ssao_quality", "string");
+    bind_control(set_ssao_params, "ssao_hemisphere", "bool");
+    bind_control(set_ssao_params, "ssao_blur_depth", "bool");
+    bind_control(set_ssao_params, "ssao_blur_discard_value", "number");
     bind_control(set_ssao_params, "ssao_radius_increase", "number");
-    bind_control(set_ssao_params, "ssao_dithering_amount", "number");
-    bind_control(set_ssao_params, "ssao_gauss_center", "number");
-    bind_control(set_ssao_params, "ssao_gauss_width_square", "number");
-    bind_control(set_ssao_params, "ssao_gauss_width_left_square", "number");
     bind_control(set_ssao_params, "ssao_influence", "number");
     bind_control(set_ssao_params, "ssao_dist_factor", "number");
     bind_control(set_ssao_params, "ssao_only", "bool");
@@ -406,19 +450,40 @@ function init_ui() {
     bind_control(set_stereo_view_and_reload, "anaglyph_use", "bool");
     refresh_stereo_view_ui();
 
+    // gyroscope use
+    bind_control(set_gyro_cam_rotate_reload, "gyro_use", "bool");
+    refresh_gyro_use_ui();
+    
     // wind
     bind_control(set_wind_params, "wind_dir", "number");
     bind_control(set_wind_params, "wind_strength", "number");
 
+    //motion blur
+    bind_control(set_mb_params, "mb_factor", "number");
+    bind_control(set_mb_params, "mb_decay_threshold", "number");
+
+    // bloom
     bind_control(set_bloom_params, "bloom_key", "number");
     bind_control(set_bloom_params, "bloom_blur", "number");
     bind_control(set_bloom_params, "bloom_edge_lum", "number");
 
+    // glow material
+    bind_control(set_glow_material_params, "small_glow_mask_coeff", "number");
+    bind_control(set_glow_material_params, "large_glow_mask_coeff", "number");
+    bind_control(set_glow_material_params, "small_glow_mask_width", "number");
+    bind_control(set_glow_material_params, "large_glow_mask_width", "number");
+
     // debug
+    bind_control(set_canvas_resolution_factor, "canvas_rf", "number");
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
+    bind_control(set_outlining_overview_mode, "outlining_overview_mode", "bool");
+    refresh_outlining_overview_mode_ui();
+    m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_hud_debug_info_ui();
+
+    assign_sliders_controls();
 }
 
 function fill_select_options(elem_id, values) {
@@ -438,6 +503,17 @@ function fill_select_options(elem_id, values) {
     $("#" + elem_id).selectmenu("refresh");
 }
 
+function load_users_scene() {
+    var load_button = document.getElementById("default_scene");
+    if (load_button)
+        load_button.onclick = function() {
+            // cancel auto view
+            _auto_view = false;
+            clearTimeout(_auto_view_timeout_handle);
+            process_scene(null, true, false, true);
+        };
+}
+
 function init_scenes_list() {
     var manifest_elem = document.getElementById("manifest");
 
@@ -448,6 +524,18 @@ function init_scenes_list() {
     }
 
     var s = "";
+    var url_params = m_app.get_url_params();
+    if (url_params && url_params["load"]) {
+        var elems = url_params["load"].split("/");
+        var scene_name = "Home (" + elems[elems.length - 1] + ")"
+    } else {
+        var elems = DEFAULT_SCENE.split("/");
+        var scene_name = "Home (" + elems[elems.length - 1] + ")"
+    }
+    s += "<div class='min_font' id='default_scene'>";
+    s += "<h6 class='ui-collapsible-heading'><a class='ui-mini ui-btn ui-btn-icon-right ui-icon-home'>" + scene_name + "</a></h6>";
+    s += "</div>"
+
     for (var i = 0; i < _manifest.length; i++)
         s += init_scenes_list_category(_manifest[i]);
 
@@ -471,7 +559,7 @@ function init_scenes_list_category(category) {
     for (var i = 0; i < items.length; i++) {
         var item_name = items[i].name;
         var item_id = "MANIFEST_ITEM_" + item_name + "__SEPARATOR__" + name;
-        s += "<li data-mini='true'><a href='#' class='min_font' id='" + item_id + "'>" + item_name + "</a></li>"
+        s += "<li data-mini='true'><a href='#' class='min_font' id=\"" + item_id + "\">" + item_name + "</a></li>"
     }
     s += "</ul>"
     s += "</div>"
@@ -481,20 +569,33 @@ function init_scenes_list_category(category) {
 
 function reset_settings_to_default() {
 
-    for (var i = 0; i <_lights_elem.children.length; i++)
-        _lights_elem.children[i].style.visibility = "hidden";
+    if (_lights_elem)
+        for (var i = 0; i <_lights_elem.children.length; i++)
+            _lights_elem.children[i].style.visibility = "hidden";
 
-    _settings = {
-        load_file         : DEFAULT_SCENE,
-        animated_objects  : []
-    };
+    var url_params = m_app.get_url_params();
+    
+    if (url_params && url_params["load"]) {
+        var elems = url_params["load"].split("/");
+        _settings = {
+            load_file         : url_params["load"],
+            name              : elems[elems.length - 1].split(".")[0],
+            animated_objects  : []
+        };
+    } else
+        _settings = {
+            load_file         : m_cfg.get_std_assets_path() + DEFAULT_SCENE,
+            name              : DEFAULT_NAME,
+            animated_objects  : []
+        };
 
     _anim_obj = null;
+    _shape_key_obj = null;
     _scene_settings = null;
 }
 
 function load_scene(wait_textures) {
-    var name = _settings.name || "Logo";
+    var name = _settings.name;
     var file = _settings.load_file;
 
     // update ui
@@ -503,8 +604,8 @@ function load_scene(wait_textures) {
     cf_elem.setAttribute("title", name + " (" + file + ")");
 
     // load
-    m_data.load(get_asset_path(file), loaded_callback, preloader_callback,
-            wait_textures);
+    m_data.load(file, loaded_callback,
+            preloader_callback, wait_textures);
 }
 
 function manifest_item_clicked(e) {
@@ -520,23 +621,28 @@ function manifest_item_clicked(e) {
     _auto_view = false;
     clearTimeout(_auto_view_timeout_handle);
 
-    process_scene({category: category_name, item: item_name}, true, false);
+    process_scene({category: category_name, item: item_name}, true, false, false);
 }
 
-function process_scene(names, call_reset_b4w, wait_textures) {
+function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
     reset_settings_to_default();
 
-    if (names) {
-        var category = m_util.keyfind("name", names.category, _manifest)[0];
-        var item = m_util.keyfind("name", names.item, category.items)[0];
+    if (!load_from_url) {
+        if (names) {
+            var category = m_util.keyfind("name", names.category, _manifest)[0];
+            var item = m_util.keyfind("name", names.item, category.items)[0];
 
-        for (var prop in item)
-            _settings[prop] = item[prop];
+            for (var prop in item) {
+                if (prop == "load_file")
+                    _settings[prop] = m_cfg.get_std_assets_path() + item[prop];
+                else
+                    _settings[prop] = item[prop];
+            }
 
-        m_storage.set("last_item_name", names.item);
-    } else
-        m_storage.set("last_item_name", "");
-
+            m_storage.set("last_item_name", names.item);
+        } else
+            m_storage.set("last_item_name", "");
+    }
     if (call_reset_b4w)
         reset_b4w();
 
@@ -551,8 +657,6 @@ function loaded_callback(data_id) {
     var canvas_elem = m_main.get_canvas_elem();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
-    m_scenes.set_glow_color([1, 0.4, 0.05]);
-
     _selected_object = null;
     prepare_scenes(_settings);
 
@@ -561,6 +665,9 @@ function loaded_callback(data_id) {
 
     if (get_mix_mode_config())
         m_mixer.enable_mixer_controls();
+
+    if (m_cfg.get("gyro_use"))
+        m_gyro.enable_camera_rotation();
 
     m_main.set_render_callback(render_callback);
 
@@ -577,7 +684,7 @@ function loaded_callback(data_id) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
                 m_trans.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
-                var cam_eye = m_cam.get_eye(obj);
+                var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
                 var dist = m_vec3.dist(sel_obj_pos, cam_eye);
                 _dist_to_camera = dist.toFixed(3);
             }
@@ -620,7 +727,7 @@ function auto_view_load_next() {
         item_id = {category: category.name, item: item.name};
     }
 
-    process_scene(item_id, true, true);
+    process_scene(item_id, true, true, false);
 }
 
 function preloader_callback(percentage, load_time) {
@@ -665,8 +772,9 @@ function add_error_tooltip() {
 
     if (warnings || errors)
         _lights_elem.setAttribute("title",
-                                  "warnings:" + warnings +
-                                  '\n' + "errors:" + errors);
+                                  "Errors: " + errors + ", " +
+                                  "Warnings: " + warnings + "\n" +  
+                                  "See browser console for more info");
     else
         _lights_elem.setAttribute("title", "Loaded OK");
 }
@@ -675,9 +783,11 @@ function display_scene_stats() {
     var verts = m_debug.num_vertices();
     var tris = m_debug.num_triangles();
     var calls = m_debug.num_draw_calls();
+    var shaders = m_debug.num_shaders();
 
     document.getElementById("info_right_up").innerHTML =
-        verts + " verts" + ", " + tris + " tris" + ", " + calls + " draw calls";
+        verts + " verts" + ", " + tris + " tris" + ", " + 
+        calls + " draw calls" + ", " + shaders + " shaders";
 
     var gstats = m_debug.geometry_stats();
     var texinfo = m_debug.num_textures();
@@ -727,9 +837,13 @@ function prepare_scenes(global_settings) {
     get_ambient_params();
 
     // init lights list
-    var lnames = m_lights.get_lights_names();
+    var lights = m_scenes.get_all_objects("LAMP");
+    var lnames = [];
+    for (var i = 0; i < lights.length; i ++)
+        lnames.push(lights[i].name)
     fill_select_options("light_name", lnames);
-    get_lighting_params(lnames[0]);
+    if (lights.length > 0)
+        get_lighting_params(lights[0]);
 
     get_shadow_params();
     get_ssao_params();
@@ -740,7 +854,9 @@ function prepare_scenes(global_settings) {
     get_wind_params();
     get_sun_params();
     get_sky_params();
+    get_mb_params();
     get_bloom_params();
+    get_glow_material_params();
     check_lighting_params();
     forbid_material_params();
     forbid_debug_params();
@@ -778,20 +894,7 @@ function change_apply_scene_settings(scene_name, settings) {
     m_scenes.set_active(scene_name);
     var camera = m_scenes.get_active_camera();
 
-    // camera settings
-    if (settings.camera_target) {
-        var targ = settings.camera_target;
-        m_cons.append_follow(camera, targ);
-    }
-
-    var hang = settings.h_angle;
-    var vang = settings.v_angle;
-
-    if ((hang === 0 || hang) && (vang === 0 || vang))
-        m_cam.set_eye_params(camera, hang, vang);
-
     // init anim active objects list
-
     var anim_obj_names = [];
     var scene_objs = m_scenes.get_all_objects();
     for (var i = 0; i < scene_objs.length; i++) {
@@ -811,19 +914,59 @@ function change_apply_scene_settings(scene_name, settings) {
                             "anim_mix_factor",
                             "anim_frame_current",
                             "anim_play",
-                            "anim_stop",
-                            "get_max_bones"];
+                            "anim_stop"];
 
-    if (_anim_obj)
+    if (_anim_obj) {
         forbid_params(anim_param_names, "enable");
-    else {
+        fill_select_options("anim_active_object", anim_obj_names);
+        set_animation_params({anim_active_object :
+                m_scenes.get_object_name(_anim_obj)});
+    } else
         forbid_params(anim_param_names, "disable");
-        return;
+
+    var nla_params = ["nla_play",
+                     "nla_stop",
+                     "nla_status",
+                     "nla_frame_current",
+                     "nla_playing"];
+    var nla_all_params = ["nla_frame_range"];
+    if (m_nla.check_nla()) {
+        if (!m_nla.check_nla_scripts())
+            forbid_params(nla_params, "enable");
+        else {
+            forbid_params(nla_params, "disable");
+            var elem_status = document.getElementById("nla_status");
+            elem_status.innerHTML = "CONTROLLED BY NLA SCRIPT";
+        }
+        forbid_params(nla_all_params, "enable");
+        update_nla_info();
+    } else {
+        forbid_params(nla_params, "disable");
+        forbid_params(nla_all_params, "disable");
     }
 
-    fill_select_options("anim_active_object", anim_obj_names);
-    set_animation_params({anim_active_object :
-            m_scenes.get_object_name(_anim_obj)});
+    // init shape keys
+
+    var shape_keys_objs_names = [];
+    for (var i = 0; i < scene_objs.length; i++) {
+        var sobj = scene_objs[i];
+        if (m_geom.check_shape_keys(sobj)) {
+            if (!_shape_key_obj)
+                _shape_key_obj = sobj;
+            shape_keys_objs_names.push(m_scenes.get_object_name(sobj));
+        }
+    }
+
+    var shape_keys_params = ["shape_key_obj",
+                            "shape_key_name",
+                            "shape_key_value",];
+    if (_shape_key_obj) {
+        forbid_params(shape_keys_params, "enable");
+        fill_select_options("shape_key_obj", shape_keys_objs_names);
+        set_shape_keys_params({shape_key_obj :
+                m_scenes.get_object_name(_shape_key_obj)});
+    } else
+        forbid_params(shape_keys_params, "disable");
 }
 
 function render_callback(elapsed, current_time) {
@@ -843,6 +986,19 @@ function render_callback(elapsed, current_time) {
             elem_status.innerHTML = "PLAYING";
         else
             elem_status.innerHTML = "STOPPED";
+    }
+    if (m_nla.check_nla()) {
+        
+        if (!m_nla.check_nla_scripts()) {
+            var elem_status = document.getElementById("nla_status");
+            if (m_nla.is_play())
+                elem_status.innerHTML = "PLAYING";
+            else
+                elem_status.innerHTML = "STOPPED";
+        }
+        var frame = parseInt(m_nla.get_frame());
+        if (parseInt($("#nla_frame_current").val()) !== frame)
+            set_slider("nla_frame_current", frame);
     }
 }
 
@@ -946,6 +1102,17 @@ function set_stereo_view_config() {
     m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
 }
 
+function set_outlining_overview_mode_config() {
+    if (m_storage.get("outlining_overview_mode") == "")
+        m_cfg.set("outlining_overview_mode", true)
+    else
+        m_cfg.set("outlining_overview_mode", m_storage.get("outlining_overview_mode") === "true");
+}
+
+function set_gyro_cam_rotate_config() {
+    m_cfg.set("gyro_use", m_storage.get("gyro_use") === "true");
+}
+
 function refresh_hud_debug_info_ui() {
     var opt_index = Number(m_storage.get("show_hud_debug_info") === "true");
     document.getElementById("show_hud_debug_info").options[opt_index].selected = true;
@@ -974,8 +1141,35 @@ function refresh_stereo_view_ui() {
     $("#anaglyph_use").slider("refresh");
 }
 
+function refresh_outlining_overview_mode_ui() {
+    if (m_storage.get("outlining_overview_mode") == "")
+        var opt_index = 1;
+    else
+        var opt_index = Number(m_storage.get("outlining_overview_mode") === "true");
+
+    document.getElementById("outlining_overview_mode").options[opt_index].selected = true;
+
+    $("#outlining_overview_mode").slider("refresh");
+}
+
+function refresh_gyro_use_ui() {
+    var opt_index = Number(m_storage.get("gyro_use") === "true");
+    document.getElementById("gyro_use").options[opt_index].selected = true;
+    $("#gyro_use").slider("refresh");
+}
+
 function set_stereo_view_and_reload(value) {
     m_storage.set("anaglyph_use", value.anaglyph_use);
+    window.location.reload();
+}
+
+function set_gyro_cam_rotate_reload(value) {
+    m_storage.set("gyro_use", value.gyro_use);
+    window.location.reload();
+}
+
+function set_outlining_overview_mode(value) {
+    m_storage.set("outlining_overview_mode", value.outlining_overview_mode);
     window.location.reload();
 }
 
@@ -985,19 +1179,18 @@ function start_auto_view() {
 }
 
 function on_resize(e) {
-    var w = e.target.innerWidth;
-    var h = e.target.innerHeight;
 
-    var controls_width = document.getElementById("controls_container").offsetWidth;
-    w -= controls_width;
+    m_app.resize_to_container();
 
-    m_main.resize(w, h);
+    var canvas = m_main.get_canvas_elem();
 
-    document.getElementById("info_left_up").innerHTML = w + "x" + h;
+    document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
+            canvas.height + " (" + canvas.width / canvas.clientWidth + ":1)";
 }
 
 function cleanup() {
     _anim_obj = null;
+    _shape_key_obj = null;
     _settings = null;
     _scene_settings = null;
 }
@@ -1021,15 +1214,47 @@ function anim_stop_clicked() {
     m_anim.stop(_anim_obj, slot_num);
 }
 
-function get_max_bones() {
-    m_main.pause();
+function nla_play_clicked() {
+    m_nla.play();
+}
 
-    var rslt = m_shaders.determine_max_bones();
+function nla_stop_clicked() {
+    m_nla.stop();
+}
 
-    document.getElementById("max_bones").innerHTML = rslt.max_bones;
-    document.getElementById("max_bones_no_blending").innerHTML = rslt.max_bones_no_blending;
+function set_shape_keys_params(value) {
+    if ("shape_key_obj" in value) {
+        _shape_key_obj = m_scenes.get_object_by_name(value["shape_key_obj"]);
 
-    m_main.resume();
+        var shape_keys_names = m_geom.get_shape_keys_names(_shape_key_obj);
+
+        if (shape_keys_names.length) {
+            fill_select_options("shape_key_name" ,shape_keys_names);
+            _shape_key_name = shape_keys_names[0];
+            var key_value = m_geom.get_shape_key_value(_shape_key_obj,_shape_key_name);
+            set_slider("shape_key_value", key_value);
+        } else
+            fill_select_options("shape_key_name", ["N/K"]);
+    }
+
+    if ("shape_key_name" in value) {
+        _shape_key_name = value["shape_key_name"];
+        var key_value = m_geom.get_shape_key_value(_shape_key_obj,_shape_key_name);
+        set_slider("shape_key_value", key_value);
+    }
+
+    if ("shape_key_value" in value)
+        m_geom.set_shape_key_value(_shape_key_obj, _shape_key_name, value["shape_key_value"]);
+
+}
+
+function set_nla_params(value) {
+
+    if ("nla_frame_current" in value)
+        if (!m_nla.is_play()) {
+            var current = parseInt(value.nla_frame_current);
+            m_nla.set_frame(current);
+        }
 }
 
 function set_animation_params(value) {
@@ -1088,7 +1313,7 @@ function set_animation_params(value) {
     if ("anim_cyclic" in value) {
         var anim_name = document.getElementById("animation").value;
         var slot_num = m_anim.get_slot_num_by_anim(_anim_obj, anim_name);
-        m_anim.cyclic(_anim_obj, value.anim_cyclic, slot_num);
+        m_anim.set_behavior(_anim_obj, value.anim_cyclic ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET, slot_num);
     }
 
     if ("anim_frame_current" in value) {
@@ -1156,7 +1381,7 @@ function get_anim_type_color(anim_type) {
 }
 
 function update_anim_ui_name(obj, slot_num) {
-    var anim_name = m_anim.get_anim_name(obj, slot_num);
+    var anim_name = m_anim.get_current_anim_name(obj, slot_num);
     anim_name = anim_name || "None";
 
     var anim_elem = $("#" + "animation");
@@ -1173,20 +1398,37 @@ function update_anim_ui_name(obj, slot_num) {
     }
 }
 
+function update_nla_info() {
+    var slider = document.getElementById("nla_frame_current");
+    var fr_elem = document.getElementById("nla_frame_range");
+    var start_fr = m_nla.get_frame_start();
+    var end_fr = m_nla.get_frame_end();
+
+    if (start_fr != -1 && end_fr != -1) {
+        fr_elem.innerHTML = start_fr + " - " + end_fr;
+        slider.min = "" + start_fr;
+        slider.max = "" + end_fr;
+    } else
+        fr_elem.innerHTML = "N/A";
+}
+
 function update_anim_info(obj, slot_num) {
     // cyclic
-    var cyclic = m_anim.is_cyclic(obj, slot_num);
-    set_slider("anim_cyclic", Number(cyclic));
+    set_slider("anim_cyclic", Number(m_anim.get_behavior(obj, slot_num) 
+            == m_anim.AB_CYCLIC));
 
     // frame range
     var fr_elem = document.getElementById("anim_frame_range");
-    var fr = m_anim.get_frame_range(obj, slot_num);
 
-    if (fr) {
-        fr_elem.innerHTML = fr[0] + " - " + fr[1];
+    var start_fr = m_anim.get_anim_start_frame(obj, slot_num);
+    var len = m_anim.get_anim_length(obj, slot_num);
+
+    if (start_fr != -1 && len != -1) {
+        var finish_fr = start_fr + len;
+        fr_elem.innerHTML = start_fr + " - " + finish_fr;
         var slider = document.getElementById("anim_frame_current");
-        slider.min = "" + fr[0];
-        slider.max = "" + fr[1];
+        slider.min = "" + start_fr;
+        slider.max = "" + finish_fr;
     } else
         fr_elem.innerHTML = "N/A";
 }
@@ -1214,11 +1456,10 @@ function update_anim_ui_slots(obj) {
 function get_ssao_params() {
     var ssao = m_scenes.get_ssao_params();
     var ssao_param_names = ["ssao_quality",
+                            "ssao_hemisphere",
+                            "ssao_blur_depth",
+                            "ssao_blur_discard_value",
                             "ssao_radius_increase",
-                            "ssao_dithering_amount",
-                            "ssao_gauss_center",
-                            "ssao_gauss_width_square",
-                            "ssao_gauss_width_left_square",
                             "ssao_influence",
                             "ssao_dist_factor",
                             "ssao_only",
@@ -1230,15 +1471,19 @@ function get_ssao_params() {
     }
 
     forbid_params(ssao_param_names, "enable");
-
     sel_by_val(document.getElementById("ssao_quality"), ssao["ssao_quality"]);
     $("#ssao_quality").selectmenu("refresh");
 
+    var opt_index = Number(ssao["ssao_hemisphere"]);
+    document.getElementById("ssao_hemisphere").options[opt_index].selected = true;
+    $("#ssao_hemisphere").slider("refresh");
+
+    var opt_index = Number(ssao["ssao_blur_depth"]);
+    document.getElementById("ssao_blur_depth").options[opt_index].selected = true;
+    $("#ssao_blur_depth").slider("refresh");
+
+    set_slider("ssao_blur_discard_value", ssao["blur_discard_value"]);
     set_slider("ssao_radius_increase", ssao["radius_increase"]);
-    set_slider("ssao_dithering_amount", 1000 * ssao["dithering_amount"]);
-    set_slider("ssao_gauss_center", ssao["gauss_center"]);
-    set_slider("ssao_gauss_width_square", Math.sqrt(ssao["gauss_width_square"]));
-    set_slider("ssao_gauss_width_left_square", Math.sqrt(ssao["gauss_width_left_square"]));
     set_slider("ssao_influence", ssao["influence"]);
     set_slider("ssao_dist_factor", ssao["dist_factor"]);
 
@@ -1259,21 +1504,18 @@ function set_ssao_params(value) {
     if ("ssao_quality" in value)
         ssao_params["ssao_quality"] = get_sel_val(document.getElementById("ssao_quality"));
 
+    if ("ssao_hemisphere" in value)
+        ssao_params["ssao_hemisphere"] = Number(value.ssao_hemisphere);
+
+    if ("ssao_blur_depth" in value)
+        ssao_params["ssao_blur_depth"] = Number(value.ssao_blur_depth);
+
+    if ("ssao_blur_discard_value" in value)
+        ssao_params["ssao_blur_discard_value"] = value.ssao_blur_discard_value;
+
     if ("ssao_radius_increase" in value)
         ssao_params["ssao_radius_increase"] = value.ssao_radius_increase;
 
-    if ("ssao_dithering_amount" in value)
-        ssao_params["ssao_dithering_amount"] = value.ssao_dithering_amount / 1000;
-
-    if ("ssao_gauss_center" in value)
-        ssao_params["ssao_gauss_center"] = value.ssao_gauss_center;
-
-    if ("ssao_gauss_width_square" in value)
-        ssao_params["ssao_gauss_width_square"] = value.ssao_gauss_width_square *
-                                                 value.ssao_gauss_width_square;
-    if ("ssao_gauss_width_left_square" in value)
-        ssao_params["ssao_gauss_width_left_square"] = value.ssao_gauss_width_left_square *
-                                                      value.ssao_gauss_width_left_square;
     if ("ssao_influence" in value)
         ssao_params["ssao_influence"] = value.ssao_influence;
 
@@ -1398,29 +1640,41 @@ function get_shadow_params() {
         "self_shadow_polygon_offset",
         "self_shadow_normal_offset",
         "first_cascade_blur_radius",
-        "last_cascade_blur_radius"
+        "last_cascade_blur_radius",
+        "res_ui-block-b",
+        "num_ui-block-b",
+        "blur_ui-block-b"
     ];
 
     if (!shadow_params) {
         forbid_params(shadow_param_names, "disable");
+        document.getElementById("csm_resolution").innerHTML = "";
+        document.getElementById("csm_num").innerHTML = "";
+        document.getElementById("csm_borders").innerHTML = "";
+        document.getElementById("blur_radii").innerHTML = "";
         return null;
     }
 
     forbid_params(shadow_param_names, "enable");
 
-    display_csm_info(shadow_params);
-
-    set_slider("csm_first_cascade_border", shadow_params["csm_first_cascade_border"]);
-    set_slider("first_cascade_blur_radius", shadow_params["first_cascade_blur_radius"]);
-
-    if (shadow_params["csm_num"] > 1) {
-        set_slider("csm_last_cascade_border", shadow_params["csm_last_cascade_border"]);
-        set_slider("last_cascade_blur_radius", shadow_params["last_cascade_blur_radius"]);
-    } else
-        forbid_params(["csm_last_cascade_border", "last_cascade_blur_radius"], "disable");
+    display_shadows_info(shadow_params);
 
     set_slider("self_shadow_polygon_offset", shadow_params["self_shadow_polygon_offset"]);
     set_slider("self_shadow_normal_offset", shadow_params["self_shadow_normal_offset"]);
+
+    set_slider("first_cascade_blur_radius", shadow_params["first_cascade_blur_radius"]);
+
+    if (shadow_params["enable_csm"]) {
+        set_slider("csm_first_cascade_border", shadow_params["csm_first_cascade_border"]);
+
+        if (shadow_params["csm_num"] > 1) {
+            set_slider("csm_last_cascade_border", shadow_params["csm_last_cascade_border"]);
+            set_slider("last_cascade_blur_radius", shadow_params["last_cascade_blur_radius"]);
+        } else
+            forbid_params(["csm_last_cascade_border", "last_cascade_blur_radius"], "disable");
+    } else
+        forbid_params(["csm_first_cascade_border", "csm_last_cascade_border",
+                "last_cascade_blur_radius"], "disable");
 }
 
 function set_shadow_params(value) {
@@ -1441,30 +1695,38 @@ function set_shadow_params(value) {
 
     m_scenes.set_shadow_params(shadow_params);
 
-    display_csm_info(m_scenes.get_shadow_params());
+    display_shadows_info(m_scenes.get_shadow_params());
 }
 
-function display_csm_info(shadow_params) {
-
-    document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
+function display_shadows_info(shadow_params) {
     document.getElementById("csm_resolution").innerHTML = "&nbsp;&nbsp;"
             + shadow_params["csm_resolution"];
 
-    var data_blocks = ["csm_borders", "blur_radii"];
+    if (shadow_params["enable_csm"]) {
+        document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
 
-    for (var i = 0; i < data_blocks.length; i++) {
-        var name = data_blocks[i];
+        var data_blocks = ["csm_borders", "blur_radii"];
+        for (var i = 0; i < data_blocks.length; i++) {
+            var name = data_blocks[i];
 
-        var values = shadow_params[name];
-        var elem = document.getElementById(name);
+            var values = shadow_params[name];
+            var elem = document.getElementById(name);
 
-        elem.innerHTML = "(";
-        for (var j = 0; j < values.length; j++) {
-            if (j > 0)
-                elem.innerHTML += " __ ";
-            elem.innerHTML += Math.round(10 * values[j]) / 10;
+            elem.innerHTML = "(";
+            for (var j = 0; j < values.length; j++) {
+                if (j > 0)
+                    elem.innerHTML += " __ ";
+                elem.innerHTML += Math.round(10 * values[j]) / 10;
+            }
+            elem.innerHTML += ")";
         }
-        elem.innerHTML += ")";
+    } else {
+        document.getElementById("cascades-info-block").style.display = "none";
+        document.getElementById("csm_first_cascade_border-info-block").style.display = "none";
+        document.getElementById("csm_last_cascade_border-info-block").style.display = "none";
+        document.getElementById("blur_radii-info-block").style.display = "none";
+        document.getElementById("first_cascade_blur_radius-label").innerHTML = "Blur radius";
+        document.getElementById("last_cascade_blur_radius-info-block").style.display = "none";
     }
 }
 
@@ -1496,6 +1758,10 @@ function set_debug_params(value) {
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
 
     m_debug.set_debug_params(debug_params);
+}
+
+function make_screenshot_clicked() {
+    m_sshot.shot();
 }
 
 function get_sky_params() {
@@ -1593,8 +1859,7 @@ function get_material_params(obj, mat_name) {
     }
 
     var diffuse_color = m_mat.get_diffuse_color(obj, mat_name);
-    diffuse_color.pop();
-    mparams["diffuse_color"] = diffuse_color;
+    mparams["diffuse_color"] = diffuse_color.subarray(0, 3);
 
     forbid_params(mat_param_names, "enable");
 
@@ -1652,6 +1917,7 @@ function get_water_material_params(obj, mat_name) {
                              "sss_strength",
                              "sss_width",
                              "foam_factor",
+                             "norm_uv_velocity",
                              "waves_height",
                              "waves_length",
                              "dst_noise_scale0",
@@ -1699,6 +1965,7 @@ function get_water_material_params(obj, mat_name) {
     set_slider("sss_strength",      mparams["sss_strength"]);
     set_slider("sss_width",         mparams["sss_width"]);
     set_slider("foam_factor",       mparams["foam_factor"]);
+    set_slider("norm_uv_velocity",  mparams["norm_uv_velocity"]);
     set_slider("waves_height",      mparams["waves_height"]);
     set_slider("waves_length",      mparams["waves_length"]);
     set_slider("dst_noise_scale0",  mparams["dst_noise_scale0"]);
@@ -1771,6 +2038,8 @@ function set_water_material_params(value) {
         water_material_params["shore_water_col_fac"] = value["shore_water_col_fac"];
     if ("foam_factor" in value)
         water_material_params["foam_factor"] = value["foam_factor"];
+    if ("norm_uv_velocity" in value)
+        water_material_params["norm_uv_velocity"] = value["norm_uv_velocity"];
 
     // water dynamic
     if ("sss_strength" in value)
@@ -1817,26 +2086,63 @@ function set_water_material_params(value) {
     m_scenes.set_water_params(water_material_params);
 }
 
-function get_lighting_params(light_name) {
-    var lparams = m_lights.get_light_params(light_name);
-
-    set_color_picker("light_color", lparams["light_color"]);
-    set_slider("light_energy", lparams["light_energy"]);
+function get_lighting_params(light_obj) {
+    var lparams = m_lights.get_light_params(light_obj);
+    if(lparams) {
+        var pre_light_energy = lparams["light_energy"] - Math.floor(lparams["light_energy"]);
+        var rude_light_energy = Math.floor(lparams["light_energy"]);
+        set_color_picker("light_color", lparams["light_color"]);
+        set_slider("pre_light_energy", pre_light_energy);
+        set_slider("rude_light_energy", rude_light_energy);
+        set_label("light_energy", rude_light_energy + pre_light_energy);
+        set_label("light_type", lparams["light_type"]);
+        if (lparams["light_type"] == "SPOT") {
+            forbid_params(["light_spot_blend", "light_spot_size"], "enable");
+            if ("light_spot_blend" in lparams)
+                set_slider("light_spot_blend", lparams["light_spot_blend"]);
+            if ("light_spot_size" in lparams)
+                set_slider("light_spot_size", Math.round(lparams["light_spot_size"] * TO_DEG));   
+        } else
+            forbid_params(["light_spot_blend", "light_spot_size"], "disable");
+        if (lparams["light_type"] == "SPOT" || lparams["light_type"] == "POINT") {
+            forbid_params(["light_distance"], "enable");
+            if ("light_distance" in lparams)
+                set_slider("light_distance", lparams["light_distance"]);
+        } else
+            forbid_params(["light_distance"], "disable");
+    }       
 }
 
 function set_lighting_params(value) {
+
     if ("light_name" in value)
-        get_lighting_params(value["light_name"]);
+        get_lighting_params(m_scenes.get_object_by_name(value["light_name"]));
 
     var light_params = {};
 
     if ("light_color" in value)
         light_params["light_color"] = value["light_color"];
 
-    if ("light_energy" in value)
-        light_params["light_energy"] = parseFloat(value["light_energy"]);
+    if ("pre_light_energy" in value)
+        light_params["light_energy"] = parseFloat(value["pre_light_energy"])
+                + get_slider_value("rude_light_energy");
 
-    m_lights.set_light_params($("#light_name").val(), light_params);
+    if ("rude_light_energy" in value)
+        light_params["light_energy"] = parseFloat(value["rude_light_energy"])
+                + get_slider_value("pre_light_energy");
+
+    if ("light_spot_size" in value)
+        light_params["light_spot_size"] = parseFloat(value["light_spot_size"] * TO_RAD);
+
+    if ("light_spot_blend" in value)
+        light_params["light_spot_blend"] = parseFloat(value["light_spot_blend"]);
+
+    if ("light_distance" in value)
+        light_params["light_distance"] = parseFloat(value["light_distance"]);
+
+    var lamp = m_scenes.get_object_by_name($("#light_name").val());
+    m_lights.set_light_params(lamp, light_params);
+    set_label("light_energy", (m_lights.get_light_params(lamp)["light_energy"]).toFixed(2));
 }
 
 function get_sun_params() {
@@ -1912,17 +2218,18 @@ function run_sun_clicked() {
 
 function check_lighting_params() {
     var sun = m_lights.get_lamps("SUN")[0];
-
-    var light_param_names = ["run_sun",
+    var lamps = m_lights.get_lamps();
+    var light_param_turn_off = ["sn-ui-grid-b"];
+    if (!lamps.length)
+        forbid_params(light_param_turn_off,"disable");
+    else if (!sun) {
+        var light_param_names = ["run_sun",
                              "stop_sun",
                              "date",
                              "sun_time_multiplier",
                              "day_time",
                              "max_sun_angle"];
-
-    if (!sun) {
         forbid_params(light_param_names, "disable");
-        return null;
     }
 }
 
@@ -1949,6 +2256,7 @@ function forbid_material_params() {
                    "sss_strength",
                    "sss_width",
                    "foam_factor",
+                   "norm_uv_velocity",
                    "waves_height",
                    "waves_length",
                    "dst_noise_scale0",
@@ -1986,20 +2294,32 @@ function get_dof_params() {
     var dof_params  = m_scenes.get_dof_params();
 
     var dof_param_names = ["dof_distance",
-                       "dof_front",
-                       "dof_rear",
-                       "dof_power",
-                       "dof_on"];
+                           "dof_object",
+                           "dof_front",
+                           "dof_rear",
+                           "dof_power",
+                           "dof_on"];
 
     if (dof_params) {
-        set_slider("dof_distance", dof_params["dof_distance"]);
         set_slider("dof_front", dof_params["dof_front"]);
         set_slider("dof_rear", dof_params["dof_rear"]);
         set_slider("dof_power", dof_params["dof_power"]);
-
+        
+        $("#" + "dof_distance").parent().parent().parent().removeClass('ui-disabled');
+        if (dof_params["dof_object"]) {
+            set_label("dof_object", dof_params["dof_object"].name);
+            dof_param_names.splice(0, 1);
+            $("#" + "dof_distance").parent().addClass('ui-disabled');
+            $("#" + "dof_object").parent().removeClass('ui-disabled');
+        } else {
+            set_slider("dof_distance", dof_params["dof_distance"]);
+            dof_param_names.splice(1, 1);
+            $("#" + "dof_distance").parent().removeClass('ui-disabled'); 
+            $("#" + "dof_object").parent().addClass('ui-disabled');
+        }
         forbid_params(dof_param_names, "enable");
 
-        var opt_index = (dof_params["dof_distance"] > 0) ? 0 : 1;
+        var opt_index = (dof_params["dof_distance"] > 0) ? 1 : 0;
         document.getElementById("dof_on").options[opt_index].selected = true;
 
         $("#dof_on").slider("refresh");
@@ -2073,6 +2393,45 @@ function set_god_rays_params(value) {
     m_scenes.set_god_rays_params(god_rays_params);
 }
 
+function set_canvas_resolution_factor(value) {
+
+    if ("canvas_rf" in value) {
+        m_cfg.set("canvas_resolution_factor", value.canvas_rf);
+        on_resize();
+    }
+}
+
+function get_mb_params() {
+    var mb_params = m_scenes.get_mb_params();
+    var mb_param_names = ["mb_factor",
+                            "mb_decay_threshold"];
+
+    if (!mb_params) {
+        forbid_params(mb_param_names, "disable");
+        return;
+    }
+
+    forbid_params(mb_param_names, "enable");
+
+    if (mb_params) {
+        set_slider("mb_factor", mb_params["mb_factor"]);
+        set_slider("mb_decay_threshold", mb_params["mb_decay_threshold"]);
+    }
+}
+
+function set_mb_params(value) {
+    var mb_params = {};
+
+    if ("mb_factor" in value) {
+        mb_params["mb_factor"] = value.mb_factor;
+    }
+    if ("mb_decay_threshold" in value) {
+        mb_params["mb_decay_threshold"] = value.mb_decay_threshold;
+    }
+
+    m_scenes.set_mb_params(mb_params);
+}
+
 function get_bloom_params() {
     var bloom_params = m_scenes.get_bloom_params();
     var bloom_param_names = ["bloom_key",
@@ -2109,43 +2468,56 @@ function set_bloom_params(value) {
     m_scenes.set_bloom_params(bloom_params);
 }
 
-function set_color_picker(id, color) {
-    // copied from colorpicker
-    function RGBToHex(rgb) {
-        var hex = [rgb.r.toString(16), rgb.g.toString(16), rgb.b.toString(16)];
-        $.each(hex, function(nr, val) {
-            if (val.length == 1) {
-                hex[nr] = '0' + val;
-            }
-        });
-        return hex.join('');
-    };
+function get_glow_material_params() {
+    var glow_material_params = m_scenes.get_glow_material_params();
+    var glow_material_param_names = ["small_glow_mask_coeff",
+                                     "large_glow_mask_coeff",
+                                     "small_glow_mask_width",
+                                     "large_glow_mask_width"];
 
-    color = lin_to_srgb(color);
+    if (!glow_material_params) {
+        forbid_params(glow_material_param_names, "disable");
+        return;
+    }
+
+    forbid_params(glow_material_param_names, "enable");
+
+    set_slider("small_glow_mask_coeff", glow_material_params["small_glow_mask_coeff"]);
+    set_slider("large_glow_mask_coeff", glow_material_params["large_glow_mask_coeff"]);
+    set_slider("small_glow_mask_width", glow_material_params["small_glow_mask_width"]);
+    set_slider("large_glow_mask_width", glow_material_params["large_glow_mask_width"]);
+}
+
+function set_glow_material_params(value) {
+    var glow_material_params = {};
+
+    if ("small_glow_mask_coeff" in value) {
+        glow_material_params["small_glow_mask_coeff"] = value.small_glow_mask_coeff;
+    }
+    if ("large_glow_mask_coeff" in value) {
+        glow_material_params["large_glow_mask_coeff"] = value.large_glow_mask_coeff;
+    }
+    if ("small_glow_mask_width" in value) {
+        glow_material_params["small_glow_mask_width"] = value.small_glow_mask_width;
+    }
+    if ("large_glow_mask_width" in value) {
+        glow_material_params["large_glow_mask_width"] = value.large_glow_mask_width;
+    }
+
+    m_scenes.set_glow_material_params(glow_material_params);
+}
+
+function set_color_picker(id, color) {
+    var css_rgb = m_rgb.rgb_to_css(color);
+    var css_hex = m_rgb.rgb_to_css_hex(color);
 
     var rgb = {
-        r: Math.round(color[0] * 255),
-        g: Math.round(color[1] * 255),
-        b: Math.round(color[2] * 255)
+        r: css_rgb[0],
+        g: css_rgb[1],
+        b: css_rgb[2]
     };
     $("#" + id).ColorPickerSetColor(rgb);
-    $("#" + id + " div").css('backgroundColor', '#' + RGBToHex(rgb));
-}
-
-function srgb_to_lin(color) {
-    return [
-        Math.pow(color[0], 2.2),
-        Math.pow(color[1], 2.2),
-        Math.pow(color[2], 2.2)
-    ];
-}
-
-function lin_to_srgb(color) {
-    return [
-        Math.pow(color[0], 1/2.2),
-        Math.pow(color[1], 1/2.2),
-        Math.pow(color[2], 1/2.2)
-    ];
+    $("#" + id + " div").css('backgroundColor', css_hex);
 }
 
 function get_wind_params() {
@@ -2177,6 +2549,15 @@ function set_wind_params(value) {
 function set_slider(id, val) {
     $("#" + id).val(val);
     $("#" + id).slider("refresh");
+    $("#" + id).trigger("change");
+}
+
+function get_slider_value(id) {
+    return parseFloat(document.getElementById(id).value);
+}
+
+function set_label(id, val) {
+    $("#" + id).text(val);
 }
 
 function bind_control(fun, id, type) {
@@ -2203,22 +2584,14 @@ function bind_control(fun, id, type) {
 }
 
 function bind_colpick(fun, id) {
-    $("#" + id).ColorPicker({onChange: function (hsb, hex, rgb) {
-        $("#" + id + " div").css('backgroundColor', '#' + hex);
+    $("#" + id).ColorPicker({onChange: function (hsb, css_hex, css_rgb) {
+        $("#" + id + " div").css('backgroundColor', '#' + css_hex);
         var arg = {};
-        arg[id] = srgb_to_lin(rgb_to_float(rgb));
+        var color = m_rgb.css_to_rgb(css_rgb.r, css_rgb.g, css_rgb.b);
+        // need untyped array here
+        arg[id] = [color[0], color[1], color[2]];
         fun(arg);
     }});
-}
-
-function rgb_to_float(rgb, opt_dest) {
-    opt_dest = opt_dest || [];
-
-    opt_dest[0] = rgb.r / 255;
-    opt_dest[1] = rgb.g / 255;
-    opt_dest[2] = rgb.b / 255;
-
-    return opt_dest;
 }
 
 function init_jQM_select(id) {

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Snippets</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+
+    <link href="code_snippets.css" rel="stylesheet" type="text/css" />
+    <link href="github.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="../../src/b4w.js"></script>
+    <script type="text/javascript" src="../../src/anchors.js"></script>
+    <script type="text/javascript" src="../../src/animation.js"></script>
+    <script type="text/javascript" src="../../src/assets.js"></script>
+    <script type="text/javascript" src="../../src/batch.js"></script>
+    <script type="text/javascript" src="../../src/boundings.js"></script>
+    <script type="text/javascript" src="../../src/camera.js"></script>
+    <script type="text/javascript" src="../../src/compat.js"></script>
+    <script type="text/javascript" src="../../src/config.js"></script>
+    <script type="text/javascript" src="../../src/constraints.js"></script>
+    <script type="text/javascript" src="../../src/container.js"></script>
+    <script type="text/javascript" src="../../src/controls.js"></script>
+    <script type="text/javascript" src="../../src/curve.js"></script>
+    <script type="text/javascript" src="../../src/data.js"></script>
+    <script type="text/javascript" src="../../src/dds.js"></script>
+    <script type="text/javascript" src="../../src/debug.js"></script>
+    <script type="text/javascript" src="../../src/extensions.js"></script>
+    <script type="text/javascript" src="../../src/geometry.js"></script>
+    <script type="text/javascript" src="../../src/graph.js"></script>
+    <script type="text/javascript" src="../../src/hud.js"></script>
+    <script type="text/javascript" src="../../src/ipc.js"></script>
+    <script type="text/javascript" src="../../src/lights.js"></script>
+    <script type="text/javascript" src="../../src/loader.js"></script>
+    <script type="text/javascript" src="../../src/nla.js"></script>
+    <script type="text/javascript" src="../../src/nodemat.js"></script>
+    <script type="text/javascript" src="../../src/objects.js"></script>
+    <script type="text/javascript" src="../../src/particles.js"></script>
+    <script type="text/javascript" src="../../src/physics.js"></script>
+    <script type="text/javascript" src="../../src/prerender.js"></script>
+    <script type="text/javascript" src="../../src/primitives.js"></script>
+    <script type="text/javascript" src="../../src/print.js"></script>
+    <script type="text/javascript" src="../../src/reformer.js"></script>
+    <script type="text/javascript" src="../../src/renderer.js"></script>
+    <script type="text/javascript" src="../../src/scenegraph.js"></script>
+    <script type="text/javascript" src="../../src/scenes.js"></script>
+    <script type="text/javascript" src="../../src/sfx.js"></script>
+    <script type="text/javascript" src="../../src/shaders.js"></script>
+    <script type="text/javascript" src="../../src/textures.js"></script>
+    <script type="text/javascript" src="../../src/time.js"></script>
+    <script type="text/javascript" src="../../src/transform.js"></script>
+    <script type="text/javascript" src="../../src/tsr.js"></script>
+    <script type="text/javascript" src="../../src/util.js"></script>
+    <script type="text/javascript" src="../../src/version.js"></script>
+    <script type="text/javascript" src="../../src/ext/nla.js"></script>
+
+    <script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
+    <script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
+    <script type="text/javascript" src="../../src/libs/md5.js"></script>
+
+    <script type="text/javascript" src="../../src/ext/anchors.js"></script>
+    <script type="text/javascript" src="../../src/ext/animation.js"></script>
+    <script type="text/javascript" src="../../src/ext/assets.js"></script>
+    <script type="text/javascript" src="../../src/ext/camera.js"></script>
+    <script type="text/javascript" src="../../src/ext/config.js"></script>
+    <script type="text/javascript" src="../../src/ext/constraints.js"></script>
+    <script type="text/javascript" src="../../src/ext/container.js"></script>
+    <script type="text/javascript" src="../../src/ext/controls.js"></script>
+    <script type="text/javascript" src="../../src/ext/data.js"></script>
+    <script type="text/javascript" src="../../src/ext/debug.js"></script>
+    <script type="text/javascript" src="../../src/ext/geometry.js"></script>
+    <script type="text/javascript" src="../../src/ext/hud.js"></script>
+    <script type="text/javascript" src="../../src/ext/lights.js"></script>
+    <script type="text/javascript" src="../../src/ext/main.js"></script>
+    <script type="text/javascript" src="../../src/ext/material.js"></script>
+    <script type="text/javascript" src="../../src/ext/objects.js"></script>
+    <script type="text/javascript" src="../../src/ext/particles.js"></script>
+    <script type="text/javascript" src="../../src/ext/physics.js"></script>
+    <script type="text/javascript" src="../../src/ext/scenes.js"></script>
+    <script type="text/javascript" src="../../src/ext/sfx.js"></script>
+    <script type="text/javascript" src="../../src/ext/textures.js"></script>
+    <script type="text/javascript" src="../../src/ext/time.js"></script>
+    <script type="text/javascript" src="../../src/ext/tsr.js"></script>
+    <script type="text/javascript" src="../../src/ext/transform.js"></script>
+    <script type="text/javascript" src="../../src/ext/util.js"></script>
+    <script type="text/javascript" src="../../src/ext/version.js"></script>
+
+
+    <script type="text/javascript" src="../../src/addons/storage.js"></script>
+    <script type="text/javascript" src="../../src/addons/app.js"></script>
+    <script type="text/javascript" src="../../src/addons/mouse.js"></script>
+    <script type="text/javascript" src="../../src/addons/preloader.js"></script>
+
+    <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
+
+    <script type="text/javascript" src="scripts/canvas_texture.js" data-name="Canvas Texture" data-scene="canvas_texture"></script>
+    <script type="text/javascript" src="scripts/camera_animation.js" data-name="Camera Animation" data-scene="camera_animation"></script>
+    <script type="text/javascript" src="scripts/camera_move_styles.js" data-name="Camera Move Styles" data-scene="camera_move_styles" data-styles="true"></script>
+    <script type="text/javascript" src="scripts/custom_anchors.js" data-name="Custom Anchors" data-scene="custom_anchors_main"></script>
+    <script type="text/javascript" src="scripts/dynamic_geometry.js" data-name="Dynamic Geometry" data-scene="dynamic_geometry"></script>
+    <script type="text/javascript" src="scripts/gyro.js" data-name="Gyro" data-scene="gyro"></script>
+    <script type="text/javascript" src="scripts/instancing.js" data-name="Instancing" data-scene="instancing"></script>
+    <script type="text/javascript" src="scripts/material_api.js" data-name="Material API" data-scene="material_api"></script>
+    <script type="text/javascript" src="scripts/morphing.js" data-name="Morphing" data-scene="morphing" data-styles="true"></script>
+    <script type="text/javascript" src="scripts/raytest.js" data-name="Ray Test" data-scene="raytest"></script>
+    <script type="text/javascript" src="code_snippets.js"></script>
+    <script type="text/javascript" src="highlight.js"></script>
+</head>
+<style type="text/css">
+
+</style>
+<body>
+    <div id="canvas_cont" oncontextmenu="return false"></div>
+    <div id="schedule"></div>
+    <div id="interface">
+        <div class="container">
+            <a class="text" id="open_script" target="_blank" style="cursor: pointer;">View Code</a>
+        </div>
+        <div class="container">
+            <a class="text" id="auto_view" target="_self" style="cursor: pointer;">Auto view</a>
+        </div>
+    </div>
+
+    <div id="code_panel">
+        <table>
+            <tr>
+                <th>
+                    <h3>HTML</h3>
+                </th>
+                <th>
+                    <h3>JavaScript</h3>
+                    <div id="code_close"></div>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <pre><code id="code_text_html" data-language="html"></code></pre>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <pre><code id="code_text_js" data-language="javascript"></code></pre>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

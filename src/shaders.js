@@ -8,31 +8,101 @@
  */
 b4w.module["__shaders"] = function(exports, require) {
 
-var config     = require("__config");
+var m_cfg     = require("__config");
 var m_print    = require("__print");
 var m_debug    = require("__debug");
-var gpp_eval   = require("__gpp_eval");
-var assets     = require("__assets");
-var util       = require("__util");
+var m_assets   = require("__assets");
+var m_util       = require("__util");
 
-var cfg_pth = config.paths;
-
-// shader texts available for compiled version only
-if (b4w.module_check(config.paths.shader_texts_module)) {
-    var shader_texts = require(config.paths.shader_texts_module);
-    var gpp_parser = null;
-} else {
-    var shader_texts = null;
-    var gpp_parser = require("__gpp_parser");
-}
+var cfg_pth = m_cfg.paths;
 
 var _compiled_shaders = {};
 var _shader_ast_cache = {};
+var _shader_texts = null;
+
+var SHADERS = ["anchors.glslf",
+    "anchors.glslv",
+    "color_id.glslf",
+    "color_id.glslv",
+    "depth.glslf",
+    "depth.glslv",
+    "grass_map.glslf",
+    "grass_map.glslv",
+    "halo.glslf",
+    "halo.glslv",
+    "main.glslf",
+    "main.glslv",
+    "particles_color.glslf",
+    "particles_color.glslv",
+    "particles_texture.glslf",
+    "particles_texture.glslv",
+    "procedural_skydome.glslf",
+    "procedural_skydome.glslv",
+    "special_lens_flares.glslf",
+    "special_lens_flares.glslv",
+    "special_skydome.glslf",
+    "special_skydome.glslv",
+    "special_water.glslf",
+    "special_water.glslv",
+    "wireframe.glslf",
+    "wireframe.glslv",
+
+    "postprocessing/anaglyph.glslf",
+    "postprocessing/antialiasing.glslf",
+    "postprocessing/bloom_combine.glslf",
+    "postprocessing/compositing.glslf",
+    "postprocessing/depth_pack.glslf",
+    "postprocessing/dof.glslf",
+    "postprocessing/glow.glslf",
+    "postprocessing/bloom_blur.glslf",
+    "postprocessing/god_rays.glslf",
+    "postprocessing/god_rays.glslv",
+    "postprocessing/god_rays_combine.glslf",
+    "postprocessing/luminance.glslf",
+    "postprocessing/luminance_av.glslf",
+    "postprocessing/luminance_trunced.glslf",
+    "postprocessing/luminance_trunced.glslv",
+    "postprocessing/motion_blur.glslf",
+    "postprocessing/outline.glslf",
+    "postprocessing/postprocessing.glslf",
+    "postprocessing/postprocessing.glslv",
+    "postprocessing/smaa.glslf",
+    "postprocessing/smaa.glslv",
+    "postprocessing/ssao.glslf",
+    "postprocessing/ssao_blur.glslf",
+    //"postprocessing/velocity.glslf",
+
+    "include/blending.glslf",
+    "include/caustics.glslf",
+    "include/depth_fetch.glslf",
+    "include/dynamic_grass.glslv",
+    "include/environment.glslf",
+    "include/fog.glslf",
+    "include/gamma.glslf",
+    "include/lighting.glslf",
+    "include/math.glslv",
+    "include/mirror.glslf",
+    "include/nodes.glslf",
+    "include/nodes.glslv",
+    "include/pack.glslf",
+    "include/particles.glslv",
+    "include/precision_statement.glslf",
+    "include/procedural.glslf",
+    "include/refraction.glslf",
+    "include/scale_texcoord.glslv",
+    "include/shadow.glslf",
+    "include/shadow.glslv",
+    "include/skin.glslv",
+    "include/std_enums.glsl",
+    "include/to_world.glslv",
+    "include/wind_bending.glslv"];
 
 var DEBUG_COMPILATION_UNIQUENESS = false;
 var _debug_hash_codes = [];
 
 var _gl = null;
+
+var _shaders_loaded = false;
 
 /**
  * Setup WebGL context
@@ -115,6 +185,7 @@ exports.set_default_directives = function(sinfo) {
         "ALPHA",
         "ALPHA_CLIP",
         "BEND_CENTER_ONLY",
+        "BILLBOARD_PRES_GLOB_ORIENTATION",
         "CAUSTICS",
         "CSM_BLEND_BETWEEEN_CASCADES",
         "CSM_FADE_LAST_CASCADE",
@@ -133,27 +204,35 @@ exports.set_default_directives = function(sinfo) {
         "DYNAMIC_GRASS_SIZE",
         "FOAM",
         "FRAMES_BLENDING",
-        "HAIR_BILLBOARD_JITTERED",
-        "HAIR_BILLBOARD_SPHERICAL",
+        "BILLBOARD_JITTERED",
+        "BILLBOARD_SPHERICAL",
+        "HAIR_BILLBOARD",
         "SHADOW_TEX_RES",
         "MAIN_BEND_COL",
         "MAX_BONES",
+        "NODES_GLOW",
         "NUM_NORMALMAPS",
         "PARALLAX",
         "PARALLAX_STEPS",
+        "PERSPECTIVE_SHADOW_CAST",
         "PROCEDURAL_FOG",
+        "PROCEDURAL_SKYDOME",
         "REFLECTION",
         "REFLECTION_PASS",
-        "REFLECTIVE",
+        "REFLECTION_TYPE",
         "REFRACTIVE",
+        "USE_REFRACTION",
+        "USE_REFRACTION_CORRECTION",
         "SHORE_SMOOTHING",
         "SKINNED",
+        "SKY_COLOR",
         "SKY_TEXTURE",
+        "SSAO_HEMISPHERE",
+        "SSAO_BLUR_DEPTH",
         "SSAO_ONLY",
         "SSAO_WHITE",
         "STATIC_BATCH",
         "TEXTURE_COLOR",
-        "TEXTURE_MIRROR",
         "TEXTURE_NORM",
         "TEXTURE_SPEC",
         "TEXTURE_STENCIL_ALPHA_MASK",
@@ -166,22 +245,33 @@ exports.set_default_directives = function(sinfo) {
         "SHORE_PARAMS",
         "ALPHA_AS_SPEC",
         "DEPTH_RGBA",
+        "MTEX_NEGATIVE",
+        "MTEX_RGBTOINT",
         "NUM_LIGHTS",
+        "NUM_LFACTORS",
         "NUM_LAMP_LIGHTS",
         "MAX_STEPS",
         "BILLBOARD_ALIGN",
-        "SHADOW_SRC",
-        "SHADOW_DST",
+        "SHADOW_USAGE",
         "POST_EFFECT",
         "SSAO_QUALITY",
         "TEXTURE_BLEND_TYPE",
         "TEXTURE_COORDS",
         "AA_METHOD",
         "AU_QUALIFIER",
-        "HAIR_BILLBOARD",
-        "HAIR_BILLBOARD_RANDOM",
+        "BILLBOARD",
+        "BILLBOARD_RANDOM",
         "PRECISION",
         "EPSILON",
+        "USE_ENVIRONMENT_LIGHT",
+        "WO_SKYBLEND",
+        "WO_SKYPAPER",
+        "WO_SKYREAL",
+        "WO_SKYTEX",
+        "WOMAP_BLEND",
+        "WOMAP_HORIZ",
+        "WOMAP_ZENUP",
+        "WOMAP_ZENDOWN",
         "WIREFRAME_QUALITY",
         "SIZE_RAMP_LENGTH",
         "COLOR_RAMP_LENGTH",
@@ -196,6 +286,7 @@ exports.set_default_directives = function(sinfo) {
         // default 0
         case "ALPHA":
         case "ALPHA_CLIP":
+        case "BILLBOARD_PRES_GLOB_ORIENTATION":
         case "CAUSTICS":
         case "CSM_SECTION0":
         case "CSM_SECTION1":
@@ -212,25 +303,36 @@ exports.set_default_directives = function(sinfo) {
         case "DYNAMIC_GRASS_SIZE":
         case "FOAM":
         case "FRAMES_BLENDING":
-        case "HAIR_BILLBOARD_JITTERED":
+        case "BILLBOARD_JITTERED":
         case "MAIN_BEND_COL":
         case "MAX_BONES":
+        case "MTEX_NEGATIVE":
+        case "MTEX_RGBTOINT":
+        case "NODES_GLOW":
+        case "NUM_LIGHTS":
+        case "NUM_LFACTORS":
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
+        case "PERSPECTIVE_SHADOW_CAST":
         case "PROCEDURAL_FOG":
+        case "PROCEDURAL_SKYDOME":
         case "REFLECTION":
         case "REFLECTION_PASS":
-        case "REFLECTIVE":
+        case "REFLECTION_TYPE":
         case "REFRACTIVE":
+        case "USE_REFRACTION":
+        case "USE_REFRACTION_CORRECTION":
         case "SHORE_SMOOTHING":
         case "SKINNED":
+        case "SKY_COLOR":
         case "SKY_TEXTURE":
+        case "SSAO_HEMISPHERE":
+        case "SSAO_BLUR_DEPTH":
         case "SSAO_ONLY":
         case "SSAO_WHITE":
         case "STATIC_BATCH":
         case "TEXTURE_COLOR":
-        case "TEXTURE_MIRROR":
         case "TEXTURE_NORM":
         case "TEXTURE_SPEC":
         case "TEXTURE_STENCIL_ALPHA_MASK":
@@ -240,8 +342,18 @@ exports.set_default_directives = function(sinfo) {
         case "WIND_BEND":
         case "DETAIL_BEND":
         case "SHORE_PARAMS":
+        case "BILLBOARD":
+        case "BILLBOARD_RANDOM":
         case "HAIR_BILLBOARD":
-        case "HAIR_BILLBOARD_RANDOM":
+        case "USE_ENVIRONMENT_LIGHT":
+        case "WO_SKYBLEND":
+        case "WO_SKYPAPER":
+        case "WO_SKYREAL":
+        case "WO_SKYTEX":
+        case "WOMAP_BLEND":
+        case "WOMAP_HORIZ":
+        case "WOMAP_ZENUP":
+        case "WOMAP_ZENDOWN":
         case "WIREFRAME_QUALITY":
         case "SIZE_RAMP_LENGTH":
         case "COLOR_RAMP_LENGTH":
@@ -256,8 +368,7 @@ exports.set_default_directives = function(sinfo) {
         case "CSM_BLEND_BETWEEEN_CASCADES":
         case "CSM_FADE_LAST_CASCADE":
         case "DEPTH_RGBA":
-        case "HAIR_BILLBOARD_SPHERICAL":
-        case "NUM_LIGHTS":
+        case "BILLBOARD_SPHERICAL":
         case "NUM_LAMP_LIGHTS":
         case "MAX_STEPS":
             val = 1;
@@ -285,11 +396,8 @@ exports.set_default_directives = function(sinfo) {
         case "POST_EFFECT":
             val = "POST_EFFECT_NONE";
             break;
-        case "SHADOW_SRC":
-            val = "SHADOW_SRC_NONE";
-            break;
-        case "SHADOW_DST":
-            val = "SHADOW_DST_NONE";
+        case "SHADOW_USAGE":
+            val = "NO_SHADOWS";
             break;
         case "SSAO_QUALITY":
             val = "SSAO_QUALITY_32";
@@ -298,13 +406,13 @@ exports.set_default_directives = function(sinfo) {
             val = "TEXTURE_BLEND_TYPE_MIX";
             break;
         case "TEXTURE_COORDS":
-            val = "TEXTURE_COORDS_UV";
+            val = "TEXTURE_COORDS_UV_ORCO";
             break;
         case "PRECISION":
-            val = config.defaults.precision;
+            val = m_cfg.defaults.precision;
             break;
         case "EPSILON":
-            if (config.defaults.precision == "highp")
+            if (m_cfg.defaults.precision == "highp")
                 val = 0.000001;
             else
                 val = 0.0001;
@@ -358,9 +466,9 @@ exports.get_compiled_shader = get_compiled_shader;
  * @param shader_id JSONified shaders_info object
  * @methodOf shaders
  */
-function get_compiled_shader(shaders_info, node_elements) {
+function get_compiled_shader(shaders_info) {
 
-    var shader_id = JSON.stringify(shaders_info) + JSON.stringify(node_elements);
+    var shader_id = JSON.stringify(shaders_info);
 
     var compiled_shader = _compiled_shaders[shader_id];
     if (compiled_shader)
@@ -376,11 +484,8 @@ function get_compiled_shader(shaders_info, node_elements) {
     if (!vshader_ast || !fshader_ast)
         return null;
 
-    // prepend by define directives
-
-    var directives = shaders_info.directives || [];
-    var vshader_text = preprocess_shader("vert", vshader_ast, directives, node_elements);
-    var fshader_text = preprocess_shader("frag", fshader_ast, directives, node_elements);
+    var vshader_text = preprocess_shader("vert", vshader_ast, shaders_info);
+    var fshader_text = preprocess_shader("frag", fshader_ast, shaders_info);
 
     // compile
     _compiled_shaders[shader_id] = compiled_shader =
@@ -394,21 +499,20 @@ function get_compiled_shader(shaders_info, node_elements) {
  * Uses _shader_ast_cache
  */
 function get_shader_ast(dir, filename) {
-
     var cache_id = dir + filename;
 
     if (_shader_ast_cache[cache_id])
         return _shader_ast_cache[cache_id];
 
-    if (shader_texts) {
-        var ast = shader_texts[filename];
+    if (!_shader_texts) {
+        var ast = require("shader_texts")[filename];
         if (!ast)
             return null;
     } else {
-        var main_text = assets.get_text_sync(dir + filename, false);
+        var main_text = _shader_texts[filename];
         if (!main_text)
             return null;
-        var ast = gpp_parser.parser.parse(main_text);
+        var ast = require("__gpp_parser").parser.parse(main_text);
     }
 
     _shader_ast_cache[cache_id] = ast;
@@ -416,7 +520,54 @@ function get_shader_ast(dir, filename) {
     return ast;
 }
 
-function preprocess_shader(type, ast, dirs_arr, node_elements) {
+function set_shader_texts(shader_name, shadet_text) {
+    if (!_shader_texts)
+        _shader_texts = {};
+    _shader_texts[shader_name] = shadet_text;
+}
+
+exports.load_shaders = function() {
+
+    _shaders_loaded = false;
+
+    if (!b4w.module_check("shader_texts")) {
+
+        var shader_assets = [];
+        var asset_type = m_assets.AT_TEXT;
+
+        for (var i = 0; i < SHADERS.length; i++) {
+            var shader_path = m_util.normpath_preserve_protocol(cfg_pth.shaders_dir
+                    + SHADERS[i]);
+            shader_assets.push([SHADERS[i], asset_type, shader_path]);
+        }
+
+        var asset_cb = function(shader_text, shader_name, type, path) {
+            set_shader_texts(shader_name, shader_text);
+        }
+
+        var pack_cb = function() {
+            _shaders_loaded = true;
+        }
+
+        if (shader_assets.length)
+            m_assets.enqueue(shader_assets, asset_cb, pack_cb);
+        else
+            m_print.error("Shaders have not been found.");
+    } else
+        _shaders_loaded = true;
+}
+
+exports.check_shaders_loaded = function() {
+    return _shaders_loaded;
+}
+
+function preprocess_shader(type, ast, shaders_info) {
+
+    var node_elements = shaders_info.node_elements;
+    var lights_info = shaders_info.lights_info;
+    // prepend by define directives
+    var dirs_arr = shaders_info.directives || [];
+
     // output GLSL lines
     var lines = [];
     // set with predefined macros {"name": tokens}
@@ -430,15 +581,27 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
     var fdirs = {};
 
     var shader_nodes = {};
+    var shader_lamp_nodes = {};
+
+    var usage_inputs = [];
+    for (var i in node_elements)
+        for (var j in node_elements[i].inputs)
+            usage_inputs.push(node_elements[i].inputs[j]);
 
     // entry element
     process_group(ast);
 
     var text = lines.join("\n");
+
+    var input_index = 0;
+    var output_index = 0;
+    var param_index = 0;
+
     return text;
 
     function process_group(elem) {
         var parts = elem.parts;
+
         for (var i = 0; i < parts.length; i++) {
             var pelem = parts[i];
             switch(pelem.type) {
@@ -488,6 +651,13 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                 process_nodes_main(node_elements);
                 break;
 
+            case "lamp":
+                process_lamp(pelem);
+                break;
+            case "lamps_main":
+                process_lamps_main(lights_info, pelem);
+                break;
+
             case "textline":
                 process_textline(pelem);
                 break;
@@ -508,13 +678,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
             case "if":
             case "elif":
                 var expression = pelem.expression;
-                try {
-                    var result = expression_result(expression)
-                } catch (e) {
-                    // TODO: need better error explanation
-                    throw "Failed to process #" + pelem.type + " expression: "
-                        + expression.join(" ");
-                }
+                var result = expression_result(expression)
 
                 if (result) {
                     process_group(pelem.group);
@@ -523,25 +687,185 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                 break;
             case "else":
                 process_group(pelem.group);
-                break;
+                return;
             case "ifdef":
                 if (pelem.name in dirs)
                     process_group(pelem.group);
-                break
+                break;
             case "ifndef":
                 if (!(pelem.name in dirs))
                     process_group(pelem.group);
-                break
+                break;
             }
         }
     }
 
     // throws SyntaxError if not parsed
-    function expression_result(expression) {
-        var expr_str = expand_macro(expression, dirs, fdirs, true);
-        return gpp_eval.parser.parse(expr_str);
+    function expression_result(expression, node_dirs) {
+        var expr_list = expand_macro(expression, dirs, fdirs, true, node_dirs);
+        return eval_expression(expr_list);
     }
 
+    function eval_expression(expr_list) {
+        var operand_stack = [];
+
+        for (var i = 0; i < expr_list.length; i++) {
+            if (!(expr_list[i] instanceof Object)) {
+                var operand = expr_list[i];
+
+                var expr_identifier = /^[a-zA-Z_$][a-zA-Z_$0-9]*$/;
+
+                if (expr_identifier.test(operand))
+                    operand_stack.push(0);
+                else
+                    operand_stack.push(parseFloat(expr_list[i]));
+            } else {
+                switch (expr_list[i].type) {
+                case "conditional_expr":
+                    var falseExpression = operand_stack.pop();
+                    var trueExpression = operand_stack.pop();
+                    var condition = operand_stack.pop();
+                    if (condition)
+                        operand_stack.push(trueExpression);
+                    else
+                        operand_stack.push(falseExpression);
+                    break;
+                case "logical_or_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                        var operand = operand_stack.pop();
+                        result = result || operand;
+                    }
+                    operand_stack.push(result);
+                    break;
+                case "logical_and_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                        var operand = operand_stack.pop();
+                        result = result && operand;
+                    }
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitor_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result |= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitxor_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result ^= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "logical_bitand_expr":
+                    var result = operand_stack.pop();
+                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                      result &= operand_stack.pop();
+                    operand_stack.push(result);
+                    break;
+                case "equal_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 == operand2);
+                    break;
+                case "non_equal_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 != operand2);
+                    break;
+                case "le_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 <= operand2);
+                    break;
+                case "ge_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 >= operand2);
+                    break;
+                case "l_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 < operand2);
+                    break;
+                case "g_expr":
+                    var operand2 = operand_stack.pop();
+                    var operand1 = operand_stack.pop();
+                    operand_stack.push(operand1 > operand2);
+                    break;
+                case "left_shift_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 << operand2);
+                    break;
+                case "right_shift_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 >> operand2);
+                    break;
+                case "add_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 + operand2);
+                    break;
+                case "sub_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 - operand2);
+                    break;
+                case "mul_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 * operand2);
+                    break;
+                case "div_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 / operand2);
+                    break;
+                case "mod_expr":
+                    var operand1 = operand_stack.pop();
+                    var operand2 = operand_stack.pop();
+                    operand_stack.push(operand1 % operand2);
+                    break;
+                case "pre_inc_expr":
+                case "post_inc_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(++operand);
+                    break;
+                case "pre_dec_expr":
+                case "post_dec_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(--operand);
+                    break;
+                case "positive_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(+operand);
+                    break;
+                case "negative_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(-operand);
+                    break;
+                case "one_compl_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(~operand);
+                    break;
+                case "logic_negative_expr":
+                    var operand = operand_stack.pop();
+                    operand_stack.push(!operand);
+                    break;
+                default:
+                    m_util.panic("Unknown operation type: " + expr_list[i].type);
+                    break;
+                }
+            }
+        }
+        if (operand_stack.length == 1)
+            return operand_stack[0];
+        else
+            m_util.panic("Incorrect expression: " + expr_list.join(" "));
+    }
 
     function process_include(elem) {
         var file = elem.file;
@@ -578,29 +902,30 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
     }
     function process_extension(elem) {
         var tokens = elem.tokens;
-        lines.push("#extension " + expand_macro(tokens, dirs, fdirs, false));
+        var token_list = expand_macro(tokens, dirs, fdirs, false);
+        lines.push("#extension " + token_list.join(" "));
     }
 
 
     function process_node(elem) {
-        var name = elem.name;
-        var group_parts = elem.group.parts;
-        shader_nodes[name] = group_parts;
+        shader_nodes[elem.name] = elem;
     }
 
     function process_nodes_global(node_elements) {
+
         for (var i = 0; i < node_elements.length; i++) {
             var nelem = node_elements[i];
 
             var node_parts = shader_nodes[nelem.id];
+
             // ignore node not found in shader
             if (!node_parts)
                 continue;
 
             var param_index = 0;
 
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
+            for (var j = 0; j < node_parts.declarations.length; j++) {
+                var part = node_parts.declarations[j];
                 if (part.type == "node_param") {
                     var glob_var_line = part.qualifier.join(" ") + " ";
 
@@ -612,7 +937,6 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                         if (nelem.param_values[param_index] !== null)
                             glob_var_line += " = " + nelem.param_values[param_index];
                     }
-
                     glob_var_line += ";";
 
                     lines.push(glob_var_line);
@@ -622,104 +946,210 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
         }
     }
 
-    function process_nodes_main(node_elements) {
-        for (var i = 0; i < node_elements.length; i++) {
-            var nelem = node_elements[i];
-
+    function process_nodes_main(nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            var nelem = nodes[i];
             var node_parts = shader_nodes[nelem.id];
+
             // ignore node not found in shader
             if (!node_parts)
                 continue;
 
-            var input_index = 0;
-            var output_index = 0;
-            var param_index = 0;
+            var replaces = {};
+            var node_dirs = {};
 
-            nelem.replaces = {};
+            for (var j = 0; j < nelem.dirs.length; j++) {
+                node_dirs[nelem.dirs[j][0]] = [nelem.dirs[j][1]];
+            }
 
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
+            input_index = 0;
+            output_index = 0;
+            param_index = 0;
 
-                switch (part.type) {
-                case "node_in":
-                    var new_name = nelem.inputs[input_index];
+            process_node_declaration(nelem, node_parts.declarations, replaces, node_dirs);
+            lines.push("{");
+            process_node_statements(nelem, node_parts.statements, replaces, node_dirs);
+            lines.push("}");
+        }
+    }
 
-                    if (nelem.input_values[input_index] !== null) {
-                        var main_var_line = part.qualifier.join(" ") + " ";
-                        main_var_line += new_name;
-                        main_var_line += " = " + nelem.input_values[input_index];
+    function process_node_declaration(nelem, declarations, replaces, node_dirs) {
+        for (var j = 0; j < declarations.length; j++) {
+            var decl = declarations[j];
 
-                        main_var_line += ";";
-                        lines.push(main_var_line);
+            switch (decl.type) {
+            case "node_in":
+                var new_name = nelem.inputs[input_index];
+
+                // value != null for nonlinked inputs
+                if (nelem.input_values[input_index] !== null) {
+                    // NOTE: don't create variable for some shader nodes in
+                    //       case of using is_optional flag
+                    // input_index === 3 --- normal_in
+                    if ((nelem.id == "MATERIAL" && input_index === 3
+                            || nelem.id == "MATERIAL_EXT" && input_index === 3
+                            || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL")
+                            && decl.is_optional) {
+
+                        replaces[decl.name] = nelem.input_values[input_index];
+                        input_index++;
+                        continue;
                     }
 
-                    nelem.replaces[part.name] = new_name;
+                    var main_var_line = decl.qualifier.join(" ") + " ";
+                    main_var_line += new_name;
+                    main_var_line += " = " + nelem.input_values[input_index];
+                    main_var_line += ";";
+                    lines.push(main_var_line);
+                }
+                replaces[decl.name] = new_name;
+                input_index++;
+                break;
+            case "node_out":
+                var new_name = nelem.outputs[output_index];
 
-                    input_index++;
-                    break;
-                case "node_out":
-                    var new_name = nelem.outputs[output_index];
-
-                    var main_var_line = part.qualifier.join(" ") + " ";
+                if (!decl.is_optional || usage_inputs.indexOf(new_name) > -1) {
+                    var main_var_line = decl.qualifier.join(" ") + " ";
                     main_var_line += new_name;
                     main_var_line += ";";
                     lines.push(main_var_line);
 
-                    nelem.replaces[part.name] = new_name;
-
-                    output_index++;
-                    break;
-                case "node_param":
-
-                    if (type == "vert")
-                        var new_name = nelem.vparams[param_index];
-                    else if (type == "frag")
-                        var new_name = nelem.params[param_index];
-
-                    nelem.replaces[part.name] = new_name;
-
-                    param_index++;
-                    break;
+                    replaces[decl.name] = new_name;
                 }
+
+                if (usage_inputs.indexOf(new_name) > -1)
+                    node_dirs["USE_OUT_" + decl.name] = [1];
+
+                output_index++;
+                break;
+            case "node_param":
+                if (type == "vert")
+                    var new_name = nelem.vparams[param_index];
+                else if (type == "frag")
+                    var new_name = nelem.params[param_index];
+
+                replaces[decl.name] = new_name;
+
+                param_index++;
+                break;
             }
         }
+        return replaces;
+    }
 
-        for (var i = 0; i < node_elements.length; i++) {
-            var nelem = node_elements[i];
+    function process_node_statements(nelem, statements, replaces, node_dirs) {
+        for (var i = 0; i < statements.length; i++) {
+            var part = statements[i];
 
-            var node_parts = shader_nodes[nelem.id];
-            // ignore node not found in shader
-            if (!node_parts)
-                continue;
+            switch(part.type) {
+            case "node_condition":
+                process_node_condition(nelem, part.parts, replaces, node_dirs);
+                break;
+            case "textline":
+                var tokens = [];
+                for (var k = 0; k < part.tokens.length; k++) {
+                    var tok = part.tokens[k];
 
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
-
-                if (part.type == "textline") {
-                    var new_part = {
-                        type: "textline",
-                        tokens: []
-                    }
-
-                    for (var k = 0; k < part.tokens.length; k++) {
-                        var tok = part.tokens[k];
-
-                        if (tok in nelem.replaces)
-                            new_part.tokens.push(nelem.replaces[tok]);
-                        else
-                            new_part.tokens.push(tok);
-                    }
-
-                    process_textline(new_part);
+                    if (tok in replaces)
+                        tokens.push(replaces[tok]);
+                    else
+                        tokens.push(tok);
                 }
-            }
 
+                var token_list = expand_macro(tokens, dirs, fdirs, true, node_dirs);
+                lines.push(token_list.join(" "));
+                break;
+            }
+        }
+    }
+
+    function process_node_condition(nelem, node_if_elements, replaces, node_dirs) {
+        for (var i = 0; i < node_if_elements.length; i++) {
+            var nielem = node_if_elements[i];
+
+            switch(nielem.type) {
+            case "node_if":
+            case "node_elif":
+                var expression = nielem.expression;
+                var result = expression_result(expression, node_dirs);
+                if (result) {
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                    return;
+                }
+
+                break;
+            case "node_else":
+                process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                return;
+            case "node_ifdef":
+                if (nielem.name in dirs || nielem.name in node_dirs)
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                break;
+            case "node_ifndef":
+                if (!(nielem.name in dirs) && !(nielem.name in node_dirs))
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                break;
+            }
         }
     }
 
     function process_textline(elem) {
         var tokens = elem.tokens;
-        lines.push(expand_macro(tokens, dirs, fdirs, false));
+        var token_list = expand_macro(tokens, dirs, fdirs, false);
+        lines.push(token_list.join(" "));
+    }
+
+    function process_lamp(elem) {
+        shader_lamp_nodes[elem.name] = elem;
+    }
+
+    function process_lamps_main(lights_info, elem) {
+        for (var i = 0; i < lights_info.length; i++) {
+            var linfo = lights_info[i];
+
+            if (!linfo.is_on)
+                continue;
+
+            lines.push("{");
+            var lamp_node = shader_lamp_nodes[linfo.type];
+            var statements = lamp_node.statements;
+
+            for (var j = 0; j < statements.length; j++) {
+                var part = statements[j];
+
+                var tokens = [];
+                for (var k = 0; k < part.tokens.length; k++) {
+                    var tok = part.tokens[k];
+                    switch (tok) {
+                    case "LAMP_IND":
+                        tok = linfo.index;
+                        break;
+                    case "LAMP_LIGHT_FACT_IND":
+                        tok = linfo.lfac_index;
+                        break;
+                    case "LAMP_FAC_CHANNELS":
+                        tok = linfo.lfac_channels;
+                        break;
+                    case "LAMP_SPOT_SIZE":
+                        tok = glsl_value(linfo.spot_size);
+                        break;
+                    case "LAMP_SPOT_BLEND":
+                        tok = glsl_value(linfo.spot_blend || 0.01);
+                        break;
+                    case "LAMP_LIGHT_DIST":
+                        tok = glsl_value(linfo.distance);
+                        break;
+                    case "LAMP_SHADOW_MAP_IND":
+                        tok = linfo.gen_shadow ? 1: 0;
+                        break;
+                    }
+                    tokens.push(tok);
+                }
+                var line = tokens.join(" ");
+                lines.push(line);
+            }
+            lines.push("}");
+        }
     }
 }
 
@@ -728,26 +1158,25 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
  * @param empty_as_zero treat empty directive as zero or just ignore
  * (#define ABC ... #if ABC => #if 0) vs (#define ABC ... #if ABC => #if ABC)
  */
-function expand_macro(tokens, dirs, fdirs, empty_as_zero) {
+function expand_macro(tokens, dirs, fdirs, empty_as_zero, node_dirs) {
     var result = [];
-    expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result);
-    return result.join(" ");
+    expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
+    return result;
 }
 
-
-function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result) {
+function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs) {
     for (var i = 0; i < tokens.length; i++) {
         var token = tokens[i];
-        if (token in dirs) {
+        if (token in dirs || node_dirs && token in node_dirs) {
             // TODO
             //if (token in fdirs) {
             //}
 
-            var new_tokens = dirs[token];
+            var new_tokens = node_dirs && node_dirs[token] || dirs[token];
             if (new_tokens.length == 0 && empty_as_zero)
                 result.push(0);
             else
-                expand_macro_iter(new_tokens, dirs, fdirs, empty_as_zero, result);
+                expand_macro_iter(new_tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
         } else
             result.push(token);
     }
@@ -769,7 +1198,7 @@ function init_shader(gl, vshader_text, fshader_text,
 
     gl.validateProgram(program);
     if (gl.getProgramParameter(program, gl.VALIDATE_STATUS) == gl.FALSE)
-        m_print.error("B4W Error - shader program is not valid", shader_id);
+        m_print.error("shader program is not valid", shader_id);
 
     m_debug.check_shader_linking(program, shader_id, vshader, fshader,
         vshader_text, fshader_text);
@@ -823,7 +1252,7 @@ function debug_compilation_uniqueness(shader_id, shader_text, shader_type, shade
     else
         var shader_filename = shaders_info.frag;
 
-    var hc = util.hash_code_string(shader_text, 0);
+    var hc = m_util.hash_code_string(shader_text, 0);
     var info = _debug_hash_codes[hc];
 
     if (info) {
@@ -942,6 +1371,10 @@ exports.check_uniform = function(shader, name) {
         return true;
     else
         return false;
+}
+
+exports.get_varyings_count = function(shader) {
+    return (_gl.getShaderSource(shader).match(/(?:^|\s)varying(?=\s)/g) || []).length;
 }
 
 }

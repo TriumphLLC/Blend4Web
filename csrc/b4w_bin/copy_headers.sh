@@ -1,8 +1,11 @@
 #!/bin/bash
 
-BLENDER_SRC_PATH="$HOME/src/blender-v2.71/source"
+BLENDER_SRC_PATH="$HOME/src/blender/source"
 
 cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_sys_types.h" ./includes/blenlib
+cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_utildefines.h" ./includes/blenlib
+cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_compiler_typecheck.h" ./includes/blenlib
+cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_compiler_compat.h" ./includes/blenlib
 
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_action_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_color_types.h" ./includes/makesdna
@@ -19,6 +22,12 @@ cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_userdef_types.h" ./includes/makesd
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_vec_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_view2d_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_packedFile_types.h" ./includes/makesdna
+cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_key_types.h" ./includes/makesdna
+cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_boid_types.h" ./includes/makesdna
+cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_particle_types.h" ./includes/makesdna
+
+cp -v "$BLENDER_SRC_PATH/blender/blenkernel/BKE_particle.h" ./includes/blenkernel
+cp -v "$BLENDER_SRC_PATH/blender/blenkernel/BKE_customdata.h" ./includes/blenkernel
 
 
 

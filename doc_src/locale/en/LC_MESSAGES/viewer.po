@@ -11,6 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../viewer.rst:1
+msgid "просмотрщик"
+msgstr "viewer"
+
 #: ../viewer.rst:7
 msgid "Просмотрщик сцен"
 msgstr "Scene Viewer"
@@ -99,9 +103,17 @@ msgstr ""
 "This button deletes the saved name of the last viewed scene and reloads the "
 "page back to display the default scene."
 
+#: ../viewer.rst:44
+msgid "Выпадающее меню выбора профиля работы движка."
+msgstr "Drop-down menu for choosing the performance profile of the engine."
+
 #: ../viewer.rst:46
 msgid "**LOW Q - HIGH Q - ULTRA Q**"
 msgstr "**LOW Q - HIGH Q - ULTRA Q**"
+
+#: ../viewer.rst:46
+msgid ":ref:`quality_settings`"
+msgstr ""
 
 #: ../viewer.rst:49
 msgid "**Pause**"
@@ -414,10 +426,6 @@ msgstr ""
 msgid "**Индикатор видео-памяти**"
 msgstr "**Video memory indicator**"
 
-#: ../viewer.rst:1
-msgid "просмотрщик"
-msgstr "viewer"
-
 #: ../viewer.rst:134
 msgid "**Индикатор ошибок при загрузке сцены**"
 msgstr "**Scene load errors indicator**"
@@ -431,11 +439,3 @@ msgstr ""
 "Is located under the FPS counter. Shows errors and warnings which occurred "
 "during scene load. Red light means errors, yellow - warnings and green means"
 " that the scene was loaded successfully."
-
-#: ../viewer.rst:44
-msgid "Выпадающее меню выбора профиля работы движка."
-msgstr "Drop-down menu for choosing the performance profile of the engine."
-
-#: ../viewer.rst:46
-msgid ":ref:`quality_settings`"
-msgstr ""

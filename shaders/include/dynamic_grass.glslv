@@ -1,3 +1,5 @@
+#var PRECISION lowp
+
 #import u_scale_threshold
 #import vertex qrot
 #import to_world billboard_matrix tbn_norm
@@ -9,7 +11,7 @@
 // U along X, V along -Z (0..1)
 vec2 pos_to_uv(vec3 position, float dim, vec2 base_point)
 {
-    vec2 pos_uv = vec2((position.x - base_point.x) / dim, 
+    vec2 pos_uv = vec2((position.x - base_point.x) / dim,
             -(position.z - base_point.y) / dim);
     return fract(pos_uv);
 }
@@ -28,8 +30,8 @@ vertex infinity_vertex()
 
 // Translate grass vertex from local to world space using grass maps
 vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
-        vec3 center, sampler2D grass_map_depth, sampler2D grass_map_color,
-        vec3 grass_map_dim, float grass_size, vec3 camera_eye, vec4 camera_quat, 
+        vec3 center, PRECISION sampler2D grass_map_depth, sampler2D grass_map_color,
+        vec3 grass_map_dim, float grass_size, vec3 camera_eye, vec4 camera_quat,
         mat4 view_matrix)
 {
 
@@ -39,7 +41,7 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     float cos_alpha = -cam_view.z;
 
     // get world position of base point ([0.0, 0.0] (left lower) on UV)
-    vec2 base_point =vec2(camera_eye.x + grass_size * (-1.0 - sin_alpha) / 2.0, 
+    vec2 base_point =vec2(camera_eye.x + grass_size * (-1.0 - sin_alpha) / 2.0,
             camera_eye.z + grass_size * (1.0 - cos_alpha) / 2.0);
 
     vec2 cen_uv = pos_to_uv(center, grass_size, base_point);
@@ -83,7 +85,7 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     position.y += height;
 
     vec3 color = scale_color.gba;
-# if HAIR_BILLBOARD
+# if BILLBOARD
     // NOTE: position in local space: position - center
     position -= center;
     mat4 bill_matrix = billboard_matrix(camera_eye, center, view_matrix);

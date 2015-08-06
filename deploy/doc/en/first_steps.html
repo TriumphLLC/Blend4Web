@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quick Install &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Installing the SDK" href="setup.html" />
+    <link rel="prev" title="Features" href="features.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Quick Install</a><ul>
+<li><a class="reference internal" href="#blender">Installing Blender</a></li>
+<li><a class="reference internal" href="#index-1">Installing the Addon</a></li>
+<li><a class="reference internal" href="#quick-install-export-viewer">Exporting and Viewing Scenes</a></li>
+<li><a class="reference internal" href="#quick-install-addon-upgrade">Upgrading the Addon</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="features.html" title="Previous Chapter: Features"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Features</span>
+    </a>
+  </li>
+  <li>
+    <a href="setup.html" title="Next Chapter: Installing the SDK"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Installing the S... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="quick-install">
+<span id="id1"></span><h1>Quick Install<a class="headerlink" href="#quick-install" title="Permalink to this headline">¶</a></h1>
+<p>Quick install of the Blend4Web addon suits Blender artists who have no need in full-scale 3D applications development. In this case the main benefit is the opportunity to export a scene into a single HTML file for viewing in WebGL-capable browsers.</p>
+<p>For more serious tasks an <a class="reference internal" href="setup.html#setup"><span>SDK</span></a> setup is required.</p>
+<span class="target" id="quick-install-blender"></span><div class="section" id="blender">
+<span id="index-0"></span><h2>Installing Blender<a class="headerlink" href="#blender" title="Permalink to this headline">¶</a></h2>
+<p>Authoring 3D scenes is carried out directly in <a class="reference external" href="http://en.wikipedia.org/wiki/Blender_(software)">Blender</a> which is open source software and is distributed free of charge.</p>
+<p>A current stable version of Blender should be used. It can be downloaded from the <a class="reference external" href="http://www.blender.org/download">official site</a>.</p>
+<a class="reference internal image-reference" href="_images/blender_first_run.jpg"><img alt="_images/blender_first_run.jpg" class="align-center" src="_images/blender_first_run.jpg" style="width: 100%;" /></a>
+<span class="target" id="quick-install-addon"></span></div>
+<div class="section" id="index-1">
+<span id="id4"></span><h2>Installing the Addon<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>Run Blender, load the default scene <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>. Open the user preferences <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Under the <code class="file docutils literal"><span class="pre">Addons</span></code> tab click <code class="file docutils literal"><span class="pre">Install</span> <span class="pre">from</span> <span class="pre">File...</span></code> and then select the zip archive with the addon files. After that turn on the <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>  checkbox.</p>
+<a class="reference internal image-reference" href="_images/user_preferences_install_b4w.jpg"><img alt="_images/user_preferences_install_b4w.jpg" class="align-center" src="_images/user_preferences_install_b4w.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Then click <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> and close the user preferences window.</p>
+</div>
+<div class="section" id="quick-install-export-viewer">
+<span id="index-2"></span><span id="id5"></span><h2>Exporting and Viewing Scenes<a class="headerlink" href="#quick-install-export-viewer" title="Permalink to this headline">¶</a></h2>
+<p>The created scenes can be exported in HTML format. To do this use the <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> menu option and choose the export filepath. The resulting HTML file can be opened with any browser with WebGL support.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL Browsers Support</span></a></p>
+</div>
+</div>
+<div class="section" id="quick-install-addon-upgrade">
+<span id="index-3"></span><span id="id6"></span><h2>Upgrading the Addon<a class="headerlink" href="#quick-install-addon-upgrade" title="Permalink to this headline">¶</a></h2>
+<p>To upgrade the addon <strong>first disable the old version and then remove it</strong>.</p>
+<p>To disable the addon: run Blender, load the default scene <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>. Open the user preferences <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Go to the <code class="file docutils literal"><span class="pre">Addons</span></code> tab and choose the <code class="file docutils literal"><span class="pre">Import-Export</span></code> category. Disable the <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code> checkbox. Then click <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> and <strong>restart Blender</strong>.</p>
+<p>Then to remove the addon open the user preferences window again, expand the Blend4Web info panel and click the <code class="file docutils literal"><span class="pre">Remove</span></code> button.</p>
+<a class="reference internal image-reference" href="_images/user_preferences_disable_addon.jpg"><img alt="_images/user_preferences_disable_addon.jpg" class="align-center" src="_images/user_preferences_disable_addon.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

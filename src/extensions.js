@@ -109,7 +109,7 @@ function get(name) {
     _ext_cache[name] = ext;
 
     if (ext)
-        var color = "0a0";        
+        var color = "0a0";
     else
         var color = "a00";
 

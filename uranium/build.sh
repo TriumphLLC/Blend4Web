@@ -1,6 +1,5 @@
 #!/bin/bash
 
-EMCONFIGURE=emconfigure
 EMMAKE=emmake
 EMCC=emcc
 
@@ -13,35 +12,25 @@ PROJECT=uranium
 
 DU_MODULES=(duCharacter duBoat duFloatingBody duWater duWorld bindings)
 
-if [ ! -d "$BUILDDIR" ]; then
-	mkdir $BUILDDIR
-fi
-cd $BUILDDIR
+CMAKE_TOOLCHAIN=../emcmake/Emscripten.cmake 
 
-echo "Compile du modules"
+#COPTS="-O1 -DDEBUG"
+#COPTS="-Oz -DNDEBUG"
+COPTS="-O2 --llvm-lto 1 -DNDEBUG"
+#COPTS="-O3 -s INLINING_LIMIT=100 -DNDEBUG"
+#COPTS="-O3 --llvm-lto 1 -DNDEBUG"
 
-for module in "${DU_MODULES[@]}" 
-do
-    $EMCC -Wall -O2 -I../bullet/src ../$module.cpp -c -o $module.bc
-done
+#LOPTS="-O1"
+#LOPTS="-Oz -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
+LOPTS="-O2 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
+#LOPTS="-O3 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s INLINING_LIMIT=100"
+#LOPTS="-O3 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1"
 
-echo "Compile bullet" 
-
-$EMCONFIGURE ../bullet/configure --disable-demos --disable-dependency-tracking
-$EMMAKE make -j8
-
-#OPTS="-O1 -s TOTAL_MEMORY=$MEMORY -s EMCC_DEBUG=1"
-#OPTS="-O2 -s TOTAL_MEMORY=$MEMORY -s DOUBLE_MODE=0 -s PRECISE_I64_MATH=0 -s CORRECT_OVERFLOWS=0"
-OPTS="-O2 -s TOTAL_MEMORY=$MEMORY -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 --closure 1 --memory-init-file 0"
-#OPTS="-O3 -s I64_MODE=1 -s DOUBLE_MODE=1 -s CORRECT_SIGNS=1 -s TOTAL_MEMORY=$MEMORY"
-
-OPTS2="-s WARN_ON_UNDEFINED_SYMBOLS=1 -s ASM_JS=1 --pre-js ../../src/modules.js --pre-js ../../src/ipc.js --post-js ../bindings.js"
+LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --memory-init-file 1 -s ASM_JS=1 --pre-js ../../src/b4w.js --pre-js ../../src/ipc.js --post-js ../bindings.js"
 
 EXPFUN="\
 _du_create_world \
 _du_cleanup_world \
-_du_set_active_world \
-_du_test \
 _du_alloc_int_array \
 _du_alloc_float_array \
 _du_alloc_body_array \
@@ -49,12 +38,16 @@ _du_store_body \
 _du_free \
 _du_alloc_body_id_pointer \
 _du_get_body_id_by_pointer \
-_du_vec3 \
-_du_quat4 \
-_du_array6 \
-_du_get_active_world \
+_du_create_float_pointer \
+_du_create_vec3 \
+_du_create_quat \
+_du_create_array6 \
+_du_create_mesh_shape \
 _du_create_static_mesh_body \
 _du_create_ghost_mesh_body \
+_du_create_dynamic_bounding_body \
+_du_create_ghost_bounding_body \
+_du_delete_body \
 _du_create_box_shape \
 _du_create_cylinder_shape \
 _du_create_sphere_shape \
@@ -66,8 +59,10 @@ _du_set_quat \
 _du_set_trans_quat \
 _du_get_trans \
 _du_get_trans_quat \
-_du_create_dynamic_bounding_body \
-_du_create_ghost_bounding_body \
+_du_set_collision_id \
+_du_get_collision_id \
+_du_set_margin \
+_du_get_margin \
 _du_pre_simulation \
 _du_calc_sim_time \
 _du_single_step_simulation \
@@ -83,7 +78,7 @@ _du_set_cone_twist_limit \
 _du_set_constraint_param \
 _du_cons_param_stop_cfm \
 _du_cons_param_stop_erp \
-_du_add_constraint \
+_du_append_constraint \
 _du_remove_constraint \
 _du_create_vehicle_tuning \
 _du_create_vehicle \
@@ -97,10 +92,16 @@ _du_check_collisions \
 _du_check_collision_impulse \
 _du_add_collision_result \
 _du_remove_collision_result \
+_du_create_ray_test_results \
+_du_cleanup_ray_test_results \
 _du_check_ray_hit \
-_du_add_body \
+_du_get_ray_hit_body \
+_du_get_ray_hit_fraction \
+_du_get_ray_hit_position \
+_du_get_ray_hit_normal \
+_du_append_body \
 _du_remove_body \
-_du_add_action \
+_du_append_action \
 _du_remove_action \
 _du_activate \
 _du_disable_deactivation \
@@ -142,28 +143,55 @@ _du_floater_set_water_wrapper_ind \
 _du_boat_set_water_wrapper_ind \
 _du_character_set_water_wrapper_ind \
 _du_create_compound \
-_du_compound_add_child \
+_du_compound_append_child \
 _du_get_collision_result_by_id \
 _du_get_collision_result \
+_du_get_shape_name \
 "
 
+
+# EXEC
+
+[ -z "$EMSCRIPTEN" ] && echo "Need to set EMSCRIPTEN environment variable" && exit 1;
+
+echo "Preparing target directory"
+
+if [ ! -d "$BUILDDIR" ]; then
+    mkdir $BUILDDIR
+else
+    rm -rf $BUILDDIR/*
+fi
+
+cd $BUILDDIR
+
+
+echo "Compiling du modules"
+
+#set -x
+for module in "${DU_MODULES[@]}" 
+do
+    $EMCC $COPTS -I../bullet/src ../$module.cpp -c -o $module.bc
+done
+
+if [ $? -ne 0 ]; then
+   echo "Compilation failed"
+   exit 1
+fi
+
+
+echo "Compiling bullet" 
+
+cmake -D CMAKE_CXX_FLAGS_RELEASE="$COPTS -Wno-warn-absolute-paths" -D BUILD_BULLET2_DEMOS:BOOL=OFF -D BUILD_BULLET3:BOOL=OFF -D BUILD_EXTRAS:BOOL=OFF -D BUILD_UNIT_TESTS:BOOL=OFF -D CMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN -G Unix\ Makefiles ../bullet/
+VERBOSE=1 $EMMAKE make -j8
+
 for i in $EXPFUN; do
-	OPTS3="$OPTS3,'"$i"'";
+    LOPTS3="$LOPTS3,'"$i"'";
 done
 
 # remove first comma
-OPTS3="-s EXPORTED_FUNCTIONS=[${OPTS3:1}]"
+LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
-echo "Generate JS ($OPTS)"
+echo "Generating uranium.js ($LOPTS)"
 
-EMCC_DEBUG=1 $EMCC $OPTS $OPTS2 $OPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/.libs/libBulletDynamics.a src/.libs/libBulletCollision.a src/.libs/libLinearMath.a -o $PROJECT.js
-
-echo "Wrap in closure"
-
-(	#echo "\"use strict\"" && \
-	echo "var physics_worker = (function() {" && \
-	echo "var Module = this;" && \
-	cat $PROJECT.js && \
-	echo "return this;" && \
-	echo "}).call({});" ) > $PROJECT.all.js
+EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
 

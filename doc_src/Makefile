@@ -5,8 +5,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         = a4
-BUILDDIR      = ../external/deploy/doc
-PUBDIR       = ../external/deploy/pub
+BUILDDIR      = ../deploy/doc
+PUBDIR       = ../deploy/pub
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -18,15 +18,16 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 RUOPT = -D language='ru' -c conf_ru
 ENOPT = -D language='en' -c conf_en
 
-.PHONY: help clean html latexpdf gettext
+.PHONY: help clean html latexpdf gettext text
 
-all: clean gettext_build html
+all: clean gettext_build html text
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html       to make standalone HTML files"
 	@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
 	@echo "  gettext    to make PO message catalogs"
+	@echo "  sorttext   to sort lines in PO messages"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -72,3 +73,10 @@ gettext_build:
 	sphinx-intl -d locale -c conf_ru/conf.py build
 	mkdir -p $(BUILDDIR)
 	cp -rv locale $(BUILDDIR)
+
+sorttext:
+	python3 ../scripts/sort_doc_texts.py
+
+text:
+	$(SPHINXBUILD) -b text -c conf_en . ../deploy/doc/en/_sources/
+	@echo "Build en search pages."

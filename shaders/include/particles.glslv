@@ -1,6 +1,7 @@
 #import u_p_time u_p_cyclic u_p_length
 #import u_p_nfactor u_p_gravity u_p_mass u_p_wind u_p_max_lifetime
 #import u_p_size_ramp u_p_fade_in u_p_fade_out u_p_color_ramp
+#import u_model_matrix
 #import a_position a_normal a_p_vels a_p_delay a_p_lifetime
 
 #export fade_alpha calc_part_params part_params
@@ -36,23 +37,16 @@ float size_from_ramp(float t, float lifetime, vec2 ramp[SIZE_RAMP_LENGTH]) {
 
     float where = t/lifetime;
     float size = ramp[0].y;
-
-# if UNROLL_LOOPS
-#  if SIZE_RAMP_LENGTH > 1
+    // avoid loops becaus of performance issues on some mobiles
+# if SIZE_RAMP_LENGTH > 1
         process_size_ramp(size, where, ramp[0], ramp[1]);
-#  endif
-#  if SIZE_RAMP_LENGTH > 2
-        process_size_ramp(size, where, ramp[1], ramp[2]);
-#  endif
-#  if SIZE_RAMP_LENGTH > 3
-        process_size_ramp(size, where, ramp[2], ramp[3]);
-#  endif
-
-# else // UNROLL LOOPS
-    for (int i = 1; i < SIZE_RAMP_LENGTH; i++)
-        process_size_ramp(size, where, ramp[i-1], ramp[i]);
 # endif
-
+# if SIZE_RAMP_LENGTH > 2
+        process_size_ramp(size, where, ramp[1], ramp[2]);
+# endif
+# if SIZE_RAMP_LENGTH > 3
+        process_size_ramp(size, where, ramp[2], ramp[3]);
+# endif
     return size;
 }
 #endif
@@ -62,23 +56,16 @@ vec3 color_from_ramp(float t, float lifetime, vec4 ramp[COLOR_RAMP_LENGTH]) {
 
     float where = t/lifetime;
     vec3 color = ramp[0].yzw;
-
-# if UNROLL_LOOPS
-#  if COLOR_RAMP_LENGTH > 1
-        process_color_ramp(color, where, ramp[0], ramp[1]);
-#  endif
-#  if COLOR_RAMP_LENGTH > 2
-        process_color_ramp(color, where, ramp[1], ramp[2]);
-#  endif
-#  if COLOR_RAMP_LENGTH > 3
-        process_color_ramp(color, where, ramp[2], ramp[3]);
-#  endif
-
-# else // UNROLL LOOPS
-    for (int i = 1; i < COLOR_RAMP_LENGTH; i++)
-        process_color_ramp(color, where, ramp[i-1], ramp[i]);
+    // avoid loops becaus of performance issues on some mobiles
+# if COLOR_RAMP_LENGTH > 1
+    process_color_ramp(color, where, ramp[0], ramp[1]);
 # endif
-
+# if COLOR_RAMP_LENGTH > 2
+    process_color_ramp(color, where, ramp[1], ramp[2]);
+# endif
+# if COLOR_RAMP_LENGTH > 3
+    process_color_ramp(color, where, ramp[2], ramp[3]);
+# endif
     return color;
 }
 #endif
@@ -120,8 +107,14 @@ part_params calc_part_params(void) {
     //} else {
     if (!(t < 0.0 || t >= a_p_lifetime)) {
         /* position */
+
+#if WORLD_SPACE
         vec3 pos = a_position;
         vec3 norm = a_normal;
+#else
+        vec3 pos = (u_model_matrix * vec4(a_position, 1.0)).xyz;
+        vec3 norm = (u_model_matrix * vec4(a_normal, 0.0)).xyz;
+#endif
 
         /* cinematics */
         pos += u_p_nfactor * t * norm;

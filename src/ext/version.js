@@ -12,26 +12,42 @@ var version = require("__version");
 
 /**
  * Get the version.
- * The version string has the format: "yy.mm" or "yy.mm.bugfix" for "RELEASE"
- * version or just "" for "DEBUG" version.
+ * The version is an array of the format: [yy, mm] or [yy, mm, bugfix] for "RELEASE"
+ * version or [yy, mm] for "DEBUG" version.
  * @method module:version.version
- * @returns {String} version string
+ * @returns {Array} Version: [yy, mm]
  */
 exports.version = version.version;
 
 /**
+ * Get the version.
+ * The version string has the format: "yy.mm" or "yy.mm.bugfix" for "RELEASE"
+ * version or "yy.mm" for "DEBUG" version.
+ * @method module:version.version_str
+ * @returns {String} Version string
+ */
+exports.version_str = version.version_str;
+
+/**
  * Get the release type: "DEBUG" or "RELEASE".
  * @method module:version.type
- * @returns {String} release type
+ * @returns {String} Release type
  */
 exports.type = version.type;
 
 /**
  * Return the build date or the current date for the "DEBUG" version.
  * @method module:version.date
- * @returns {String} date string in the format: "dd.mm.yyyy hh.mm.ss"
+ * @returns {Date} Date
  */
 exports.date = version.date;
+
+/**
+ * Return the build date or the current date for the "DEBUG" version.
+ * @method module:version.date_str
+ * @returns {String} Date string in the format: "dd.mm.yyyy hh.mm.ss"
+ */
+exports.date_str = version.date_str;
 
 }
 

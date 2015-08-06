@@ -1,3 +1,7 @@
+#var PRECISION lowp
+
+precision PRECISION sampler2D;
+
 #include <precision_statement.glslf>
 #include <depth_fetch.glslf>
 

@@ -182,11 +182,11 @@ msgid "Полная поддержка"
 msgstr "Full Support"
 
 #: ../about.rst:75
-msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
+msgid "`Chrome <http://www.google.com/chrome>`_"
 msgstr ""
 
 #: ../about.rst:76
-msgid "`Chrome <http://www.google.com/chrome>`_"
+msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
 msgstr ""
 
 #: ../about.rst:77
@@ -540,17 +540,23 @@ msgid ""
 "многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_"
 msgstr "multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_"
 
-#: ../about.rst:176
+#: ../about.rst:175
+msgid ""
+"ориентация и перемещение мобильных устройств, `Device Orientation "
+"<http://www.w3.org/TR/orientation-event/>`_"
+msgstr "`Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
+
+#: ../about.rst:177
 msgid "Другие перспективные технологии:"
 msgstr "Other promising technologies:"
 
-#: ../about.rst:178
+#: ../about.rst:179
 msgid ""
 "векторная графика, `Scalable Vector Graphics (SVG) "
 "<http://www.w3.org/TR/SVG/>`_"
 msgstr "`Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_"
 
-#: ../about.rst:179
+#: ../about.rst:180
 msgid ""
 "безопасный доступ к файлам, `File API <http://www.w3.org/TR/FileAPI/>`_, "
 "`File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_"
@@ -558,7 +564,7 @@ msgstr ""
 "safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: "
 "Directories and System <http://www.w3.org/TR/file-system-api/>`_"
 
-#: ../about.rst:180
+#: ../about.rst:181
 msgid ""
 "потоковое соединение между браузерами, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
@@ -566,7 +572,7 @@ msgstr ""
 "real-time communication between browsers, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 
-#: ../about.rst:181
+#: ../about.rst:182
 msgid ""
 "постоянное сетевое подключение, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
@@ -574,7 +580,7 @@ msgstr ""
 "persistent network connection, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
 
-#: ../about.rst:182
+#: ../about.rst:183
 msgid ""
 "игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-"
 "file/default/gamepad.html>`_"
@@ -675,4 +681,3 @@ msgstr ""
 "the system. Drivers can be installed (or upgraded) from corresponding "
 "websites of graphics processors vendors. See detailed info in the section "
 ":ref:`webgl_not_working`."
-

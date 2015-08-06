@@ -1,0 +1,277 @@
+
+Overview
+********
+
+
+What's Blend4Web
+================
+
+Blend4Web is a web-oriented 3D engine - a software framework for
+authoring and interactive rendering of three-dimensional graphics and
+audio in browsers.
+
+The platform is intended for visualizations, presentations, online-
+shops, games and other rich internet applications.
+
+The Blend4Web framework is integrated tightly with Blender - a 3D
+modeling and animation tool (hence the name). The content is rendered
+by means of WebGL and other browser technologies, without the use of
+plugins.
+
+Technically Blend4Web is a library for web pages, a Blender addon and
+some tools for debugging and optimization.
+
+The Blend4Web 3D engine has been developed by Triumph LLC employees
+since 2010. The engine was first released on March 28 2014.
+
+
+About Engines
+=============
+
+An engine is a separate part of software code which is used by
+external applications for implementing the required functionality.
+
+Engine examples are: site engine, blog engine, online shop engine,
+wiki engine, search egine, game engine etc. The economical reason for
+the existance of software engines is multiple usage of the same
+functionality. For example developers may create relatively cheap
+online shops or games using one or another engine.
+
+
+Graphics Engine, Game Engine
+============================
+
+A graphics engine performs special functions in displaying graphics.
+It is an intermediary between:
+
+   * high-level application part (game logic, business logic) and
+
+   * low-level system part (for example, the graphics library WebGL
+     and underlying drivers).
+
+A graphics engine may be combined with the sound system, the physics
+engine, the artificial intelligence system, the networking system and
+the scene and logic editors producing a **three-dimensional engine** -
+an integrated environment for authoring 3D applications.
+
+
+What's WebGL
+============
+
+WebGL (Web Graphics Library) is one of the modern browser technologies
+which allows authoring 3D graphics applications. In other words WebGL
+is "3D in a browser".
+
+
+WebGL Browsers Support
+======================
+
+At the moment WebGL is supported in to a varying degree by all
+browsers.
+
+
+Full Support
+------------
+
+* Chrome
+
+* Yandex Browser
+
+* Firefox
+
+* Opera
+
+* Safari 8+
+
+
+Experimental Support
+--------------------
+
+* Internet Explorer 11
+
+
+Mobile Platforms
+----------------
+
+* Android (on modern devices)
+
+* BlackBerry
+
+* Firefox OS
+
+* iOS 8
+
+* Tizen
+
+* Ubuntu Touch
+
+* WebOS
+
+
+Advantages of WebGL
+===================
+
+* works in browsers without installing additional software (plugins)
+
+* crossplatform, intended for all desktop and embedded systems
+
+* open standard, does not require licensing fees
+
+* supported by the leading participants of the IT market (Google,
+  Apple, Microsoft, Nvidia, Samsung, Adobe and others)
+
+* based on OpenGL which is familiar to developers
+
+* can be integrated with other browser technologies
+
+
+What's Blender
+==============
+
+Blender is a popular piece of software for 3D modeling and animation
+and is free and open source. Models and scenes which are created in
+this software can be displayed, for example, by means of a three-
+dimensional engine on a web page.
+
+
+3D Modeling
+===========
+
+Authoring graphics resources requires trained specialists - 3D
+artists.
+
+A typical workflow may include the following stages:
+
+* choosing photos and/or creating concepts and sketches (views from
+  the front - from the side - from the above) of the future model or
+  scene
+
+* modeling - a 3D model consisting of polygons is created
+
+* UV mapping - the model is unwrapped for further overlaying of
+  textures (flat images)
+
+* texturing - textures are overlayed on the 3D model
+
+* materials setup - materials are assigned for different parts of
+  the model and tuned (for example, a wooden door with a metal handle)
+
+* rigging - the controlling elements ("skeletal bones") are attached
+  to the model to animate it
+
+* animation - the model is set in motion to visualize actions for
+  example - of characters
+
+* export - can be performed on any stage to display the 3D model in
+  its final form, for example, on a web page
+
+In addition, realism improving techniques are often used in the
+process of creating 3D models which require additional stages:
+
+* creating a high-poly model - a detailed version of the model is
+  created
+
+* "baking" of a normal map - details from the high-poly model are
+  transferred to the main model in the form of a special texture
+  (normal map)
+
+* creating a specular map - different reflection color and ratio are
+  assigned to different model parts
+
+* baking environment maps - is performed to visualize the
+  surrounding environment reflection on the model surface
+
+* setting up the camera and the light sources on the scene
+
+* physical simulation parameters setup - particles, cloth
+
+The time required to author 3D models and animation depends on their
+complexity and required quality and may vary from 1-2 days (for
+example a game item) to 1-2 weeks (for example a detailed aircraft
+model) and even to several months (realistic characters with clothing,
+hair, face sets, with animation and figure parameters setup).
+
+
+Browser Technologies
+====================
+
+Browser is a program for viewing Internet content. At the dawn of
+Internet technologies the browser's role was to view text pages with
+the inclusion of static images ("hyper-text"). Modern browsers are
+full-scale platforms for multimedia web applications.
+
+Among the already implemented and promising browser features which are
+used in Blend4Web the following technologies can be noted:
+
+* three-dimensional graphics, WebGL
+
+* Typed Array
+
+* Timing control for script-based animations (requestAnimationFrame)
+
+* two-dimensional graphics, HTML Canvas 2D Context
+
+* sound processing, Web Audio API
+
+* binary data loading, XMLHttpRequest Level 2
+
+* Fullscreen
+
+* Pointer Lock
+
+* multithreading, Web Workers
+
+* Device Orientation
+
+Other promising technologies:
+
+* Scalable Vector Graphics (SVG)
+
+* safe file access, File API, File API: Directories and System
+
+* real-time communication between browsers, WebRTC
+
+* persistent network connection, The WebSocket API
+
+* Gamepad
+
+
+Interactive Graphics
+====================
+
+Applied to computer graphics the term "interactive" means that the
+user can interact with a constantly changing image. For example the
+user can change the view direction in a 3D scene, move the objects,
+trigger animation and carry out other actions normally associated with
+computer games.
+
+Graphics interactivity is achieved by utilizing a frequent change of
+images, so the user action (for example a mouse movement or the
+pressing of a key) between frames leads to the image changing in the
+next frame. Images must replace each other so frequently that the
+human eye could not recognize them individually (at least 30 frames
+per second).
+
+"Real-time graphics" or "real-time rendering" are also similar in
+meaning to the term.
+
+
+Video Cards and Drivers
+=======================
+
+Interactive graphics is provided by a special-purpose hardware part of
+modern computers so called graphics processor which can be implemeted
+as a discrete device (video card) or as a part of the central
+processing unit.
+
+Main graphics processors vendors for desktop computers are:  - NVidia
+(GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices -
+ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade
+marks are specified in brackets).
+
+Program access to graphics processor resources is carried out via an
+intermediate program called driver. It's important for the correct
+working of interactive graphics programs to have drivers of the latest
+version in the system. Drivers can be installed (or upgraded) from
+corresponding websites of graphics processors vendors. See detailed
+info in the section WebGL Failed to Init.

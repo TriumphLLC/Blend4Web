@@ -3,36 +3,40 @@
 /**
  * Data API. Used to load/unload exported json data files.
  * @module data
+ * @local StageloadCallback
+ * @local LoadedCallback
  */
 b4w.module["data"] = function(exports, require) {
 
-var data    = require("__data");
-var m_print = require("__print");
-var m_util  = require("__util");
-
 /**
  * Data loaded callback.
- * @callback loaded_callback
+ * @callback LoadedCallback
  * @param {Number} data_id Data ID
+ * @param {Boolean} success Load success
  */
 
 /**
  * Loading stage callback.
- * @callback stageload_callback
- * @param {Number} percentage Loading progress (0-100)
+ * @callback StageloadCallback
+ * @param {Number} percentage Loading progress (0-100).
+ * @param {Number} load_time Loading time in ms.
  */
+
+var m_data  = require("__data");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 /**
  * Load data from the json file exported from Blender.
  * @method module:data.load
  * @param {String} path Path to JSON file
- * @param {loaded_callback} [loaded_cb=null] Callback to be executed right after load
- * @param {stageload_callback} [stageload_cb=null] Callback to report about the loading progress
+ * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
+ * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
  * @param {Boolean} [wait_complete_loading=false] Wait until all resources are loaded
- * @param {Boolean} [load_hidden=false] Hide/disable loaded objects
+ * @param {Boolean} [load_hidden=false] Hide loaded and disable physics objects
  * @returns {Number} ID of loaded data.
  */
-exports.load = data.load;
+exports.load = m_data.load;
 
 /**
  * Unload the previously loaded data.
@@ -41,7 +45,7 @@ exports.load = data.load;
  */
 exports.unload = function(data_id) {
     data_id = data_id | 0;
-    data.unload(data_id);
+    m_data.unload(data_id);
 }
 
 
@@ -52,24 +56,16 @@ exports.unload = function(data_id) {
  * @method module:data.set_debug_resources_root
  * @param {String} debug_resources_root App root directory.
  */
-exports.set_debug_resources_root = data.set_debug_resources_root;
+exports.set_debug_resources_root = m_data.set_debug_resources_root;
 
 /**
  * Check if the engine primary data is loaded (detect the last loading stage).
  * @method module:data.is_primary_loaded
  * @returns {Boolean} Check result
  */
-exports.is_primary_loaded = data.is_primary_loaded;
+exports.is_primary_loaded = m_data.is_primary_loaded;
 
-
-// DEPRECATED
-
-exports.load_and_add_new = data.load;
-
-exports.get_bpy_world = function(world_name) {
-    m_util.panic("get_bpy_world() deprecated");
-    return null;
-}
+exports.load_and_add_new = m_data.load;
 
 exports.cleanup = exports.unload;
 

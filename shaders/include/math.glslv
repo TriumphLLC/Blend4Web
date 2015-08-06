@@ -1,10 +1,14 @@
 #var EPSILON 0.0001
 #export is_equal3f
-#export identity qrot rotation_x rotation_y rotation_z
+#export identity qrot rotation_x rotation_y rotation_z qinv
 #export vertex
 #export tbn_norm
+#export tsr_translate
+#export tsr_translate_inv
+#export clip_to_tex
 
 float ZERO_VALUE_MATH = 0.0;
+float UNITY_VALUE_MATH = 1.0;
 
 struct vertex
 {
@@ -29,6 +33,36 @@ bool is_equal3f(vec3 a, vec3 b) {
 vec3 qrot(in vec4 q, in vec3 v)
 {
     return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+}
+
+vec4 qinv(in vec4 quat) {
+    return vec4(-quat.xyz, quat.w) / dot(quat, quat);
+}
+
+vec3 tsr_translate(vec4 trans, vec4 quat, vec4 vec)
+{
+    // scale
+    vec3 dest = vec.xyz * trans.w;
+    // quat * vec
+    dest = qrot(quat, dest);
+    // translate
+    dest += trans.xyz * vec.w;
+
+    return dest;
+}
+
+// translate vec4 with tsr in inverse direction
+vec3 tsr_translate_inv(vec4 trans, vec4 quat, vec4 vec)
+{
+    // translate
+    vec3 dest = vec.xyz - trans.xyz * vec.w;
+    // inverse quat * vec
+    vec4 quat_inv = qinv(quat);
+    dest = qrot(quat_inv, dest);
+    // scale
+    dest /= trans.w;
+
+    return dest;
 }
 
 /*
@@ -66,34 +100,51 @@ mat3 mat3_transpose(mat3 m) {
 }
 */
 mat4 identity() {
-    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+    return mat4(UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_x(float angle) {
-    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+    return mat4(UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                 ZERO_VALUE_MATH, cos(angle), sin(angle), ZERO_VALUE_MATH,
                 ZERO_VALUE_MATH,-sin(angle), cos(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_y(float angle) {
     return mat4(cos(angle), ZERO_VALUE_MATH,-sin(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                 sin(angle), ZERO_VALUE_MATH, cos(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_z(float angle) {
     return mat4(cos(angle), sin(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                -sin(angle), cos(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 vertex tbn_norm(in vertex v) {
     return vertex(v.position, v.center, normalize(v.tangent),
             normalize(v.binormal), normalize(v.normal), v.color);
 }
+
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
+        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+vec3 clip_to_tex(vec4 pos_clip) {
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+
+    vec3 tex_pos_clip;
+
+    tex_pos_clip.x = (xc + wc) / 2.0;
+    tex_pos_clip.y = (yc + wc) / 2.0;
+    tex_pos_clip.z = wc;
+
+    return tex_pos_clip;
+}
+#endif

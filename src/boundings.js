@@ -8,7 +8,6 @@
  */
 b4w.module["__boundings"] = function(exports, require) {
 
-var m_geom = require("__geometry");
 var m_util = require("__util");
 var m_tsr  = require("__tsr");
 
@@ -489,8 +488,17 @@ exports.recalculate_mesh_boundings = function(mesh) {
     mesh["b4w_bounding_box"]["max_z"] = max_z;
     mesh["b4w_bounding_box"]["min_z"] = min_z;
 
+    // NOTE: original bounding box is recalculated because of modifiers is applied
+    mesh["b4w_bounding_box_source"]["max_x"] = max_x;
+    mesh["b4w_bounding_box_source"]["min_x"] = min_x;
+    mesh["b4w_bounding_box_source"]["max_y"] = max_y;
+    mesh["b4w_bounding_box_source"]["min_y"] = min_y;
+    mesh["b4w_bounding_box_source"]["max_z"] = max_z;
+    mesh["b4w_bounding_box_source"]["min_z"] = min_z;
+
     mesh["b4w_bounding_sphere_radius"]  = srad;
     mesh["b4w_bounding_cylinder_radius"] = crad;
+
 }
 
 /**
@@ -511,7 +519,7 @@ exports.get_frustum_mec = function(corners) {
     m_vec3.normalize(l, l);
 
     // basis vector: m
-    var normal = m_geom.get_plane_normal(p0, p1, p2, _vec3_tmp2);
+    var normal = m_util.get_plane_normal(p0, p1, p2, _vec3_tmp2);
     var m = m_vec3.cross(normal, l, normal);
     m_vec3.normalize(m, m);
 

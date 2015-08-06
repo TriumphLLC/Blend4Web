@@ -1,3 +1,4 @@
 #!/bin/bash
-DEST=../external/deploy/apps/common
-cp -v build/uranium.all.js $DEST/uranium.js
+DEST=../deploy/apps/common
+cp -v build/uranium.js $DEST/
+cp -v build/uranium.js.mem $DEST/

@@ -3,6 +3,10 @@
 /**
  * Animation API.
  * @module animation
+ * @local AnimFinishCallback
+ * @local AnimBehavior
+ * @local AnimType
+ * @local AnimSlot
  */
 b4w.module["animation"] = function(exports, require) {
 
@@ -12,58 +16,166 @@ var m_phy   = require("__physics");
 var m_print = require("__print");
 var m_util  = require("__util");
 
+
+/**
+ * Animation finish callback.
+ * @callback AnimFinishCallback
+ * @param {Object3D} obj Animated object.
+ * @param {AnimSlot} slot_num Animation slot.
+ */
+
+/**
+ * Animation behavior enum.
+ * @see {@link module:animation.AB_CYCLIC},
+ * {@link module:animation.AB_FINISH_RESET},
+ * {@link module:animation.AB_FINISH_STOP}
+ * @typedef AnimBehavior
+ * @type {Number}
+ */
+
+/**
+ * Animation type enum. One of OBJ_ANIM_TYPE_*.
+ * @typedef AnimType
+ * @type {Number}
+ */
+
+/**
+ * Animation slot enum. One of SLOT_*.
+ * @typedef AnimSlot
+ * @type {Number}
+ */
+
+/**
+ * Object's animation slot 0.
+ * @const {AnimSlot} module:animation.SLOT_0
+ */
 exports.SLOT_0   = m_anim.SLOT_0;
+
+/**
+ * Object's animation slot 1.
+ * @const {AnimSlot} module:animation.SLOT_1
+ */
 exports.SLOT_1   = m_anim.SLOT_1;
+
+/**
+ * Object's animation slot 2.
+ * @const {AnimSlot} module:animation.SLOT_2
+ */
 exports.SLOT_2   = m_anim.SLOT_2;
+
+/**
+ * Object's animation slot 3.
+ * @const {AnimSlot} module:animation.SLOT_3
+ */
 exports.SLOT_3   = m_anim.SLOT_3;
+
+/**
+ * Object's animation slot 4.
+ * @const {AnimSlot} module:animation.SLOT_4
+ */
 exports.SLOT_4   = m_anim.SLOT_4;
+
+/**
+ * Object's animation slot 5.
+ * @const {AnimSlot} module:animation.SLOT_5
+ */
 exports.SLOT_5   = m_anim.SLOT_5;
+
+/**
+ * Object's animation slot 6.
+ * @const {AnimSlot} module:animation.SLOT_6
+ */
 exports.SLOT_6   = m_anim.SLOT_6;
+
+/**
+ * Object's animation slot 7.
+ * @const {AnimSlot} module:animation.SLOT_7
+ */
 exports.SLOT_7   = m_anim.SLOT_7;
+
+/**
+ * All object's animation slots.
+ * @const {AnimSlot} module:animation.SLOT_ALL
+ */
 exports.SLOT_ALL = m_anim.SLOT_ALL;
 
+/**
+ * Animation type: none.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_NONE
+ */
+exports.OBJ_ANIM_TYPE_NONE      = m_anim.OBJ_ANIM_TYPE_NONE;
+
+/**
+ * Animation type: armature.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_ARMATURE
+ */
 exports.OBJ_ANIM_TYPE_ARMATURE  = m_anim.OBJ_ANIM_TYPE_ARMATURE;
+
+/**
+ * Animation type: object.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_OBJECT
+ */
 exports.OBJ_ANIM_TYPE_OBJECT    = m_anim.OBJ_ANIM_TYPE_OBJECT;
+
+/**
+ * Animation type: vertex.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_VERTEX
+ */
 exports.OBJ_ANIM_TYPE_VERTEX    = m_anim.OBJ_ANIM_TYPE_VERTEX;
+
+/**
+ * Animation type: sound.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_SOUND
+ */
 exports.OBJ_ANIM_TYPE_SOUND     = m_anim.OBJ_ANIM_TYPE_SOUND;
+
+/**
+ * Animation type: particles.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_PARTICLES
+ */
 exports.OBJ_ANIM_TYPE_PARTICLES = m_anim.OBJ_ANIM_TYPE_PARTICLES;
+
+/**
+ * Animation type: material.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_MATERIAL
+ */
 exports.OBJ_ANIM_TYPE_MATERIAL  = m_anim.OBJ_ANIM_TYPE_MATERIAL;
-exports.OBJ_ANIM_TYPE_STATIC    = m_anim.OBJ_ANIM_TYPE_STATIC;
 
 /**
  * Animation behavior: cyclic.
- * @const module:animation.AB_CYCLIC
+ * @const {AnimBehavior} module:animation.AB_CYCLIC
  */
 exports.AB_CYCLIC = m_anim.AB_CYCLIC;
 /**
- * Animation behavior: go back to frame zero after finishing.
- * @const module:animation.AB_FINISH_RESET
+ * Animation behavior: go back to the zero frame after finishing.
+ * @const {AnimBehavior} module:animation.AB_FINISH_RESET
  */
 exports.AB_FINISH_RESET = m_anim.AB_FINISH_RESET;
 /**
- * Animation behavior: stop animation after finishing.
- * @const module:animation.AB_FINISH_STOP
+ * Animation behavior: stop the animation after finishing.
+ * @const {AnimBehavior} module:animation.AB_FINISH_STOP
  */
 exports.AB_FINISH_STOP = m_anim.AB_FINISH_STOP;
 
 var _vec4_tmp = new Float32Array(4);
 
 /**
- * Check if object is currently animated
+ * Check if the object is animated.
  * @method module:animation.is_animated
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.is_animated = function(obj) {
     return m_anim.is_animated(obj);
 }
 
 /**
- * Return all available animation names
+ * Return the names of all available animations.
  * @method module:animation.get_actions
- * @returns {Array} Animation names.
- * @deprecated Use get_anim_names()
+ * @returns {String[]} Animation names.
+ * @deprecated Use get_anim_names() instead.
  */
 exports.get_actions = function() {
+    m_print.error("get_actions() deprecated, use get_anim_names() instead");
     var anames = [];
     var actions = m_anim.get_all_actions();
     for (var i = 0; i < actions.length; i++)
@@ -73,21 +185,22 @@ exports.get_actions = function() {
 }
 
 /**
- * Return applied action name
+ * Return the name of the applied animation.
  * @method module:animation.get_current_action
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_current_anim_name()
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @deprecated Use get_current_anim_name() instead.
  */
 exports.get_current_action = function(obj, slot_num) {
+    m_print.error("get_current_action() deprecated, use get_current_anim_name() instead");
     return exports.get_current_anim_name(obj, slot_num);
 }
 
 /**
- * Return all available animation names.
+ * Return the names of all available animations.
  * @method module:animation.get_anim_names
- * @param {Object} obj Object ID
- * @returns {Array} Array of animation names
+ * @param {Object3D} obj Object 3D
+ * @returns {String[]} Array of animation names.
  */
 exports.get_anim_names = function(obj) {
     if (!m_anim.is_animatable(obj))
@@ -97,26 +210,26 @@ exports.get_anim_names = function(obj) {
 }
 
 /**
- * Return applied animation name.
+ * Return the name of the applied animation.
  * @method module:animation.get_current_anim_name
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @returns Current animation name or null
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {?String} Current animation name or null.
  */
 exports.get_current_anim_name = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return null;
 
     slot_num = slot_num || m_anim.SLOT_0;
-    return m_anim.get_current_animation_name(obj, slot_num);
+    return m_anim.get_anim_by_slot_num(obj, slot_num);
 }
 
 /**
- * Apply animation to object
+ * Apply the animation to the object.
  * @method module:animation.apply
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} name Animation name
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number.
  */
 exports.apply = function(obj, name, slot_num) {
     if (slot_num > m_anim.SLOT_7) {
@@ -137,22 +250,28 @@ exports.apply = function(obj, name, slot_num) {
         }
     }
 
+    if (!m_anim.validate_action_by_name(obj, name)) {
+        m_print.error("No fcurves in action \"" + name + "\"");
+        return;
+    }
+
     m_anim.apply(obj, name, slot_num);
 }
 
 /**
- * Remove animation from object
+ * Remove the animation from the object.
  * @method module:animation.remove
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.remove = function(obj) {
     m_anim.remove(obj);
 }
 
 /**
- * Remove slot animation from object
+ * Remove the animation from the given animation slot of the object.
  * @method module:animation.remove_slot_animation
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number.
  */
 exports.remove_slot_animation = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -163,20 +282,22 @@ exports.remove_slot_animation = function(obj, slot_num) {
 }
 
 /**
- * Apply default (specified in Blender) animation to object
+ * Apply the default animation (i.e. assigned in Blender) to the object.
  * @method module:animation.apply_def
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.apply_def = function(obj) {
     m_anim.apply_def(obj);
 }
 
 /**
- * Play object animation.
+ * Play the object's animation. 
+ * The animation must be applied to the object before,
+ * or the object must have the default animation (i.e. assigned in Blender).
  * @method module:animation.play
- * @param {Object} obj Object ID
- * @param [finish_callback] Callback to execute on finished animation
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimFinishCallback} [finish_callback] Callback to execute on finished animation
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number.
  */
 exports.play = function(obj, finish_callback, slot_num) {
     if (!m_anim.is_animated(obj)) {
@@ -186,14 +307,14 @@ exports.play = function(obj, finish_callback, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
     m_anim.play(obj, finish_callback, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.update_object_animation(obj, 0, slot_num, true);
 }
 
 /**
- * Stop object animation
+ * Stop the object's animation.
  * @method module:animation.stop
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.stop = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
@@ -202,10 +323,10 @@ exports.stop = function(obj, slot_num) {
     }
 }
 /**
- * Check if object animation is being run
+ * Check if the object's animation is being played back.
  * @method module:animation.is_play
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.is_play = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -215,47 +336,86 @@ exports.is_play = function(obj, slot_num) {
     return m_anim.is_play(obj, slot_num);
 }
 /**
- * Set the current frame
+ * Set the current frame.
  * @method module:animation.set_current_frame_float
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} cff Current frame
- * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Replaced by set_frame
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @deprecated Use set_frame() instead.
  */
 exports.set_current_frame_float = function(obj, cff, slot_num) {
+    m_print.error("set_current_frame_float() deprecated, use set_frame() instead");
     exports.set_frame(obj, cff, slot_num);
 }
 /**
+ * Get the current frame.
  * @method module:animation.get_current_frame_float
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Replaced by get_frame()
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @deprecated Use get_frame() instead
  */
 exports.get_current_frame_float = function(obj, slot_num) {
+    m_print.error("get_current_frame_float() deprecated, use get_frame() instead");
     return exports.get_frame(obj, slot_num);
 }
 
 /**
- * Set the current frame and update object animation.
+ * Set the current frame of the object's animation.
  * @method module:animation.set_frame
- * @param {Object} obj Object ID.
- * @param {Number} frame Current frame (float).
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {Number} frame Current frame (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_frame = function(obj, frame, slot_num) {
     if (!m_anim.is_animated(obj))
         return;
 
     slot_num = slot_num || m_anim.SLOT_0;
-    m_anim.set_current_frame_float(obj, frame, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.set_frame(obj, frame, slot_num);
 }
 
 /**
- * Get the current frame.
+ * Set the first frame of the object's animation.
+ * @method module:animation.set_first_frame
+ * @param {Object3D} obj Object 3D
+ * @param {Number} frame Current frame (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ */
+exports.set_first_frame = function(obj, slot_num) {
+    if (!m_anim.is_animated(obj))
+        return;
+
+    slot_num = slot_num || m_anim.SLOT_0;
+
+    var start = m_anim.get_anim_start_frame(obj, slot_num);
+    m_anim.set_frame(obj, start, slot_num);
+}
+
+/**
+ * Set the last frame of the object's animation.
+ * @method module:animation.set_last_frame
+ * @param {Object3D} obj Object 3D
+ * @param {Number} frame Current frame (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ */
+exports.set_last_frame = function(obj, slot_num) {
+    if (!m_anim.is_animated(obj))
+        return;
+
+    slot_num = slot_num || m_anim.SLOT_0;
+
+    var start = m_anim.get_anim_start_frame(obj, slot_num);
+    var len = m_anim.get_anim_length(obj, slot_num);
+
+    m_anim.set_frame(obj, start + len -
+            m_anim.LAST_FRAME_EPSILON, slot_num);
+}
+
+/**
+ * Get the current frame of the object's animation.
  * @method module:animation.get_frame
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @returns {Number} Current frame
  */
 exports.get_frame = function(obj, slot_num) {
@@ -267,11 +427,11 @@ exports.get_frame = function(obj, slot_num) {
 }
 
 /**
- * Set animation speed.
+ * Set the speed of the object's animation.
  * @method module:animation.set_speed
- * @param {Object} obj Object ID.
- * @param {Number} speed Speed (may be negative) (float).
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {Number} speed Speed (may be negative) (float)
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_speed = function(obj, speed, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -283,28 +443,33 @@ exports.set_speed = function(obj, speed, slot_num) {
 }
 
 /**
- * Get animation speed.
+ * Get the speed of the object's animation.
  * @method module:animation.get_speed
- * @param {Object} obj Object ID.
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.get_speed = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return 0;
 
     slot_num = slot_num || m_anim.SLOT_0;
+
+    if (!obj._anim_slots[slot_num])
+        return 0;
+
     return m_anim.get_speed(obj, slot_num);
 }
 
 /**
  * Get animation frame range.
  * @method module:animation.get_frame_range
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @returns {Array} Frame range pair or null for incorrect object
- * @deprecated Use get_anim_start_frame() and get_anim_length() functions
+ * @deprecated Use get_anim_start_frame() and get_anim_length() instead
  */
 exports.get_frame_range = function(obj, slot_num) {
+    m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
         var anim_slot = obj._anim_slots[slot_num];
@@ -317,58 +482,67 @@ exports.get_frame_range = function(obj, slot_num) {
 }
 
 /**
- * Get animation starting frame
+ * Get the starting frame of the object's animation.
  * @method module:animation.get_anim_start_frame
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @returns {Number} Animation start frame or -1 for incorrect object
  */
 exports.get_anim_start_frame = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
-        return m_anim.get_anim_start_frame(obj, slot_num);
+
+        if (!obj._anim_slots[slot_num])
+            return -1;
+        else
+            return m_anim.get_anim_start_frame(obj, slot_num);
     }
 
     return -1;
 }
 
 /**
- * Get animation length in frames
+ * Get the length of the object's animation measured in frames.
  * @method module:animation.get_anim_length
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @returns {Number} Animation length or -1 for incorrect object
  */
 exports.get_anim_length = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
-        var anim_slot = obj._anim_slots[slot_num];
-        return m_anim.get_anim_length(obj, slot_num);
+
+        if (!obj._anim_slots[slot_num])
+            return -1;
+        else
+            return m_anim.get_anim_length(obj, slot_num);
     }
 
     return -1;
 }
 
 /**
- * Whether animation playback should be looped or not
+ * Whether the object's animation playback should be looped or not.
  * @method module:animation.cyclic
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Boolean} cyclic_flag
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @deprecated Use set_behavior() instead.
  */
 exports.cyclic = function(obj, cyclic_flag, slot_num) {
+    m_print.error("cyclic() deprecated, use set_behavior() instead");
     var behavior = cyclic_flag ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET;
     exports.set_behavior(obj, behavior, slot_num);
 }
 /**
- * Check if animation is cyclic
+ * Check if the object's animation is looped.
  * @method module:animation.is_cyclic
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @deprecated Use get_behavior() instead.
  */
 exports.is_cyclic = function(obj, slot_num) {
+    m_print.error("is_cyclic() deprecated, use get_behavior() instead");
     if (!m_anim.is_animated(obj))
         return false;
 
@@ -377,11 +551,11 @@ exports.is_cyclic = function(obj, slot_num) {
 }
 
 /**
- * Set animation behavior.
+ * Set behavior for the object's animation.
  * @method module:animation.set_behavior
- * @param {Object} obj Object ID
- * @param behavior Behavior enum
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Object3D} obj Object 3D
+ * @param {AnimBehavior} behavior Behavior enum
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_behavior = function(obj, behavior, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -392,11 +566,11 @@ exports.set_behavior = function(obj, behavior, slot_num) {
 }
 
 /**
- * Get animation behavior.
+ * Get behavior of the object's animation.
  * @method module:animation.get_behavior
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @returns Behavior enum
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {AnimBehavior} Behavior enum
  */
 exports.get_behavior = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -407,13 +581,13 @@ exports.get_behavior = function(obj, slot_num) {
 }
 
 /**
- * Apply smoothing.
- * Specify zero periods in order to disable
+ * Apply smoothing to the object's animation.
+ * In order to disable the smoothing, specify the zero periods.
  * @method module:animation.apply_smoothing
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} [trans_period=0] Translation smoothing period
  * @param {Number} [quat_period=0] Rotation smoothing period
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
     slot_num = slot_num || m_anim.SLOT_0;
@@ -424,17 +598,20 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
 /**
  * Update object animation (set the pose)
  * @method module:animation.update_object_animation
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} elapsed Animation delay
- * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @param {Boolean} [force_update = false] Update animation even stopped one.
+ * @deprecated Use set_frame() instead.
  */
-exports.update_object_animation = function(obj, elapsed, slot_num) {
+exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
     if (!m_anim.is_animated(obj))
         return;
 
     slot_num = slot_num || m_anim.SLOT_0;
     elapsed = elapsed || 0;
-    m_anim.update_object_animation(obj, elapsed, slot_num);
+    force_update = force_update || false;
+    m_anim.update_object_animation(obj, elapsed, slot_num, force_update);
 }
 
 /**
@@ -446,10 +623,13 @@ exports.update_object_animation = function(obj, elapsed, slot_num) {
 exports.frame_to_sec = function(frame) {
     return m_anim.frame_to_sec(frame);
 }
+
 /**
- * Get bone translation for object with skeletal animation.
+ * Get the translation of the armature's bone.
  * @method module:animation.get_bone_translation
- * @param {Object} armobj Aramture object
+ * @param {Object3D} armobj Armature object
+ * @param {String} bone_name Bone name
+ * @param {Vec3} dest Destination vector
  */
 exports.get_bone_translation = function(armobj, bone_name, dest) {
     if (!m_util.is_armature(armobj))
@@ -469,10 +649,11 @@ exports.get_bone_translation = function(armobj, bone_name, dest) {
 }
 
 /**
- * Get the first armature object used for mesh skinning.
+ * Get the first armature object used for skinning of the given mesh object.
  * @method module:animation.get_first_armature_object
- * @param {Object} obj Object ID
- * @returns {?Object} Armature object ID or null
+ * @param {Object3D} obj Object 3D
+ * @returns {?Object3D} Armature object or null
+ * @deprecated Unused
  */
 exports.get_first_armature_object = function(obj) {
     if (m_util.is_mesh(obj))
@@ -482,9 +663,9 @@ exports.get_first_armature_object = function(obj) {
 }
 
 /**
- * Get objects animation slot number by animation name
+ * Get the slot number of the object to which the animation is assigned.
  * @method module:animation.get_slot_num_by_anim
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} anim_name Animation name
  * @returns {?Number} Animation slot number
  */
@@ -496,27 +677,11 @@ exports.get_slot_num_by_anim = function(obj, anim_name) {
 }
 
 /**
- * Get objects animation name by slot number
- * @method module:animation.get_anim_name
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Slot number
- * @returns {?String} Animation name
- */
-exports.get_anim_name = function(obj, slot_num) {
-    if (!m_anim.is_animated(obj))
-        return null;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-
-    return m_anim.get_anim_by_slot_num(obj, slot_num);
-}
-
-/**
- * Get objects animation type
+ * Get the object's animation type.
  * @method module:animation.get_anim_type
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Slot number
- * @returns {?Number} Animation type
+ * @param {Object3D} obj Object 3D
+ * @param {AnimSlot} [slot_num = SLOT_0] Slot number
+ * @returns {AnimType} Animation type
  */
 exports.get_anim_type = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -526,31 +691,32 @@ exports.get_anim_type = function(obj, slot_num) {
 }
 
 /**
- * Apply animation to first animation slot
+ * Apply the animation to the first available animation slot.
  * @method module:animation.apply_to_first_empty_slot
- * @param {Object} obj Object ID
- * @param {String} name Animation name
- * @returns {Number} Slot number
+ * @param {Object3D} obj Object 3D
+ * @param {String} name Animation name.
+ * @returns {Number} Slot number or -1 if no empty slots found.
  */
 exports.apply_to_first_empty_slot = function(obj, name) {
     return m_anim.apply_to_first_empty_slot(obj, name);
 }
+
 /**
- * Get the mix factor for two last skeletal animations.
+ * Get the mix factor for the skeletal animations assigned to the last two animation slots.
  * @method module:animation.get_skel_mix_factor
- * @param {Object} armobj Armature object ID
- * @returns {Number} Mix factor
+ * @param {Object3D} armobj Armature object.
+ * @returns {Number} Mix factor.
  */
 exports.get_skel_mix_factor = function(armobj) {
     return armobj._render.anim_mix_factor;
 }
 
 /**
- * Change mix factor used to mix the last two skeletal animations.
- * The non-zero time allows to perform smooth animation transitions.
+ * Set the mix factor for the skeletal animations assigned to the last two animation slots.
+ * Specify the non-zero time for smooth animation transitions.
  * @method module:animation.set_skel_mix_factor
- * @param {Object} armobj Armature object ID
- * @param {Number} factor Target animation mix factor
+ * @param {Object3D} armobj Armature object.
+ * @param {Number} factor Target animation mix factor.
  * @param {Number} [time=0] Time interval for changing the mix factor from
  * the current to the target value.
  */

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Audio System &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Physics" href="physics.html" />
+    <link rel="prev" title="Gamma and Alpha" href="gamma_alpha.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Audio System</a><ul>
+<li><a class="reference internal" href="#id2">Audio Source Settings</a></li>
+<li><a class="reference internal" href="#encoding">Processing and Decoding</a><ul>
+<li><a class="reference internal" href="#id4">Supported formats (containers):</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="gamma_alpha.html" title="Previous Chapter: Gamma and Alpha"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Gamma and Alpha</span>
+    </a>
+  </li>
+  <li>
+    <a href="physics.html" title="Next Chapter: Physics"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Physics &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="audio">
+<span id="id1"></span><h1>Audio System<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h1>
+<p>Audio sources are created in Blender. The standard <code class="docutils literal"><span class="pre">Speaker</span></code> object is used.</p>
+<a class="reference internal image-reference" href="_images/speaker.jpg"><img alt="_images/speaker.jpg" class="align-center" src="_images/speaker.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id2">
+<h2>Audio Source Settings<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Speaker parameters can be set up on the <code class="docutils literal"><span class="pre">Properties</span></code> panel under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab.</p>
+<p>The engine supports all the standard Blender sound parameters and some engine-specific settings.</p>
+<p><em>Speaker behavior</em>:</p>
+<blockquote>
+<div><p>The behavior of the audio source.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
+</div></blockquote>
+<p>The following options are available on the <code class="docutils literal"><span class="pre">Sound</span></code> panel:</p>
+<p><em>Volume</em></p>
+<blockquote>
+<div><p>Speaker volume</p>
+</div></blockquote>
+<p><em>Random Volume</em></p>
+<blockquote>
+<div><p>Additional volume randomization. The resulting value is calculated as for the delay.</p>
+</div></blockquote>
+<p><em>Pitch</em></p>
+<blockquote>
+<div><p>Sound playback velocity.</p>
+</div></blockquote>
+<p><em>Random Pitch</em></p>
+<blockquote>
+<div><p>Additional randomization of the sound playback speed. The resulting value is calculated as for the delay.</p>
+</div></blockquote>
+<p><em>Fade-In</em></p>
+<blockquote>
+<div><p>Fade-in time interval.</p>
+</div></blockquote>
+<p><em>Fade-Out</em></p>
+<blockquote>
+<div><p>Fade-out time interval.</p>
+</div></blockquote>
+<p><em>Disable doppler</em></p>
+<blockquote>
+<div><p>Ignore source&#8217;s frequency shift upon its moving.</p>
+</div></blockquote>
+<p><em>Cyclic play</em></p>
+<blockquote>
+<div><p>Loop the sound playback.</p>
+</div></blockquote>
+<p><em>Delay</em></p>
+<blockquote>
+<div><p>Delay before sound playback starts.</p>
+</div></blockquote>
+<p><em>Random Delay</em></p>
+<blockquote>
+<div><p>Additional delay randomization. The resulting value is calculated according to the formula <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
+</div></blockquote>
+<p><em>Loop</em></p>
+<blockquote>
+<div><p>Loop the sound playback. Contrary to the <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <code class="docutils literal"><span class="pre">Positional</span></code> or <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> behavior.</p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="encoding">
+<span id="id3"></span><h2>Processing and Decoding<a class="headerlink" href="#encoding" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Supported formats (containers):<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p class="first">ogg, Vorbis codec (Chrome, Firefox)</p>
+</li>
+<li>mp3 (Chrome, Safari)</li>
+<li><p class="first">mp4, AAC codec (Chrome, Safari)</p>
+</li>
+</ul>
+<p>It is recommended to use <strong>Ogg</strong> as it is an open standard, is widespread in browsers and provides good sound quality. The optimal format in respect to the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is used to store shot samples while two-channel sound (stereo) is used for music playback.</p>
+<p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><span>corresponding section</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

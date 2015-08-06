@@ -8,13 +8,13 @@ if (!window["b4w"])
  * <code>b4w.MODULE</code>. Provides no external methods.
  * @module ns_compat
  *
- * @cc_externs animation assets camera config controls constraints
+ * @cc_externs animation assets camera config controls constraints container
  * @cc_externs data debug geometry hud lights main material particles physics
- * @cc_externs scenes sfx shaders transform util version 
+ * @cc_externs rgb rgba scenes sfx textures transform util version nla
  *
  * @cc_externs vec3 vec4 quat mat3 mat4
  *
- * @cc_externs app camera_anim mixer npc_ai ns_compat pointerlock preloader storage
+ * @cc_externs app camera_anim gyroscope mixer mouse npc_ai ns_compat preloader storage
  */
 b4w.module["ns_compat"] = function(exports, require) {
 

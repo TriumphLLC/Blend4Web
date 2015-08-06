@@ -51,17 +51,18 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
 /**
  * Creates a new event track based on a given graph.
  * @param {Object} graph Animation graph with a number of movement params.
- * @param {Array} graph.path A path which the NPC will be moving around.
+ * @param {Array} graph.path A list of [x,y,z] points NPC will be moving around.
  * @param {Number} graph.delay Time delay before each path step.
- * @param {Object} graph.actions Actions for every movement type (move, idle, etc).
- * @param {Object} graph.obj Animated object ID.
- * @param {Object} graph.collider Collider object ID which will be used for collision detection.
- * @param {Object} graph.empty The corresponding empty object.
+ * @param {Object3D} graph.actions Actions for every movement type (move, idle, etc).
+ * @param {Object3D} graph.obj Animated object ID.
+ * @param {Object3D} graph.rig Armature object ID.
+ * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
+ * @param {Object3D} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
+ * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
- * @param {Number} graph.rot_speed Rotation speed.
- * @method module:npc_ai.npc_ai
+ * @method module:npc_ai.new_event_track
  * @cc_externs path delay actions obj collider empty speed random rig
  * @cc_externs type rot_speed max_height min_height
  */
@@ -162,12 +163,11 @@ function move_destination_if_too_close(ev_track, dest, cur_loc) {
 
     var cur_rot_q = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_3;
-    var hor_dir_to_dest = _vec3_tmp_4;
 
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_hor_dir);
     cur_hor_dir[1] = 0;
     m_vec3.normalize(cur_hor_dir, cur_hor_dir);
@@ -193,7 +193,7 @@ function anim_translation(elapsed, ev_track) {
     var speed      = ev_track.speed;
     var actions    = ev_track.actions;
 
-    var cur_anim   = m_anim.get_current_action(rig);
+    var cur_anim   = m_anim.get_current_anim_name(rig);
 
     // skip iteration if idle animation is playing
     if (m_anim.is_play(rig) && actions.idle
@@ -216,7 +216,7 @@ function anim_translation(elapsed, ev_track) {
         hor_rot (ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir);
         vert_rot(ev_track, cur_dir, elapsed, new_rot_q);
 
-        m_trans.set_rotation_quat_v(collider, new_rot_q);
+        m_trans.set_rotation_v(collider, new_rot_q);
 
         // translation
         trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest);
@@ -245,7 +245,7 @@ function hor_rot(ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir) {
     var cur_rot_q   = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_4;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     cur_hor_dir[0]  = cur_dir[0];
@@ -348,7 +348,7 @@ exports.disable_animation = function() {
         var ev = _ev_tracks[i];
 
         if (m_ctl.check_sensor_manifolds(ev.collider))
-            m_ctl.remove_sensor_manifolds(ev.collider);
+            m_ctl.remove_sensor_manifold(ev.collider);
 
         if (m_anim.is_play(ev.rig))
             m_anim.stop(ev.rig);
@@ -434,7 +434,7 @@ function ground_cb(obj, id, pulse, ev) {
                     ev.y_correction = 0;
             break;
             case NT_WALKING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
 
                 if (ev.prev_hit_pos == hit_pos)
                     ev.y_correction = 0;
@@ -444,7 +444,7 @@ function ground_cb(obj, id, pulse, ev) {
                 ev.prev_hit_pos = hit_pos;
             break;
             case NT_SWIMMING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
                 if (id == "CLOSE_GROUND") {
                     ev.y_correction = hit_pos * 100 - 1;
 
@@ -472,7 +472,7 @@ function ground_cb(obj, id, pulse, ev) {
 
 function flying_npc_hit_position(obj, id) {
     for (var i = 0; i < 3; i++) {
-        var hit_pos = m_ctl.get_sensor_payload(obj, id, i);
+        var hit_pos = m_ctl.get_sensor_payload(obj, id, i).hit_fract;
         if (hit_pos)
             return hit_pos;
     }
@@ -486,25 +486,25 @@ function create_sensors() {
         create_track_ray_sensors(ev_track);
         create_track_collision_sensors(ev_track);
 
-        if (ev_track.rig && m_anim.get_current_action(ev_track.rig))
+        if (ev_track.rig && m_anim.get_current_anim_name(ev_track.rig))
             m_anim.play(ev_track.rig);
     }
 }
 
 function create_track_ray_sensors(ev_track) {
 
-    var ZERO_POINT = [0, 0, 0];
+    var ZERO_POINT = m_vec3.create();
 
     var collider = ev_track.collider;
 
     switch (ev_track.type) {
     case NT_FLYING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100, 0], false, "TERRAIN");
+                ZERO_POINT, [0, -100, 0], "TERRAIN", true);
         var near_stone_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "STONE");
+                ZERO_POINT, [0, -100 , 0], "STONE", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "WATER");
+                ZERO_POINT, [0, -100 , 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
 
@@ -515,7 +515,7 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_WALKING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
 
         var ground_sens_arr = [near_ground_sens];
         m_ctl.create_sensor_manifold(collider,
@@ -525,9 +525,9 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_SWIMMING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                [0, 0, 0], [0, 100, 0], false, "WATER");
+                ZERO_POINT, [0, 100, 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens];
         var water_sens_arr  = [near_water_sens];
@@ -553,7 +553,7 @@ function create_track_collision_sensors(ev_track) {
     var collision_sensor = m_ctl.create_collision_sensor(collider, "CONSTRUCTION",
                                                          need_payload);
 
-    function collision_cb (obj, id, pulse) {
+    function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
             m_trans.get_translation(ev_track.empty, ev_track.destination);
             ev_track.rotation_mult = 4.0;
@@ -574,7 +574,7 @@ function need_proper_animation(ev_track) {
         return true;
     }
 
-    var cur_anim  = m_anim.get_current_action(obj);
+    var cur_anim  = m_anim.get_current_anim_name(obj);
     if (!cur_anim)
         return true;
 
@@ -628,8 +628,8 @@ function apply_animation(ev_track) {
 
     if (anim_to_play) {
         m_anim.apply(obj, anim_to_play);
-        m_anim.cyclic(obj, false);
-        m_anim.set_current_frame_float(obj, 0);
+        m_anim.set_behavior(obj, m_anim.AB_FINISH_RESET);
+        m_anim.set_frame(obj, 0);
         m_anim.play(obj);
     }
 }
@@ -645,7 +645,7 @@ function get_idle_animation(ev_track) {
 
 function get_move_animation(ev_track) {
 
-    var cur_anim = m_anim.get_current_action(ev_track.rig);
+    var cur_anim = m_anim.get_current_anim_name(ev_track.rig);
     var actions = ev_track.actions;
 
     if (need_move_blend_animation(ev_track, cur_anim)) {
@@ -754,7 +754,7 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
     var speed        = ev_track.speed;
     var left_to_pass = l_to_p;
 
-    var cur_frame         = m_anim.get_current_frame_float(obj);
+    var cur_frame         = m_anim.get_frame(obj);
     var anim_length       = m_anim.get_anim_length(obj);
     var path_per_cycle    = anim_length / 24 * speed;
     var left_to_pass_anim = (1 - cur_frame / anim_length) * path_per_cycle;

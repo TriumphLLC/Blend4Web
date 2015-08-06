@@ -22,18 +22,156 @@ var m_mat4 = require("mat4");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
+var REQUIRED_FOR_PART_SYS_BIN_FORMAT = [5, 4];
+
 var _unreported_compat_issues = false;
+
+var _params_reported = {};
+
+function reform_node (node) {
+
+    switch(node["type"]) {
+    case "MAPPING":
+        if(!node["vector_type"]) {
+            node["vector_type"] = "POINT";
+            report("node Mapping", node, "vector_type");
+        }
+        break;
+    case "MATERIAL":
+    case "MATERIAL_EXT":
+        if (!("alpha" in node)) {
+            node["alpha"] = 1;
+            report("node material", node, "alpha");
+        }
+
+        if (!("darkness" in node)) {
+            node["darkness"] = 1;
+            report("node material", node, "darkness");
+        }
+
+        if (!("diffuse_toon_size" in node)) {
+            node["diffuse_toon_size"] = 0.5;
+            report("node material", node, "diffuse_toon_size");
+        }
+
+        if (!("diffuse_toon_smooth" in node)) {
+            node["diffuse_toon_smooth"] = 0.1;
+            report("node material", node, "diffuse_toon_smooth");
+        }
+
+        if (!("diffuse_intensity" in node)) {
+            node["diffuse_intensity"] = 1;
+            report("node material", node, "diffuse_intensity");
+        }
+
+        if (!("specular_shader" in node)) {
+            node["specular_shader"] = "COOKTORR";
+            report("node material", node, "specular_shader");
+        }
+
+        if (!("specular_ior" in node)) {
+            node["specular_ior"] = 4;
+            report("node material", node, "specular_ior");
+        }
+
+        if (!("specular_hardness" in node)) {
+            node["specular_hardness"] = 50;
+            report("node material", node, "specular_hardness");
+        }
+
+        if (!("specular_slope" in node)) {
+            node["specular_slope"] = 0.1;
+            report("node material", node, "specular_slope");
+        }
+
+        if (!("specular_toon_size" in node)) {
+            node["specular_toon_size"] = 0.5;
+            report("node material", node, "specular_toon_size");
+        }
+
+        if (!("specular_toon_smooth" in node)) {
+            node["specular_toon_smooth"] = 0.1;
+            report("node material", node, "specular_toon_smooth");
+        }
+
+        if (!("specular_intensity" in node)) {
+            node["specular_intensity"] = 0.5;
+            report("node material", node, "specular_intensity");
+        }
+
+        if (!("diffuse_shader" in node)) {
+            node["diffuse_shader"] = "LAMBERT";
+            report("node material", node, "diffuse_shader");
+        }
+
+        if (!("roughness" in node)) {
+            node["roughness"] = 0.5;
+            report("node material", node, "roughness");
+        }
+
+        if (!("diffuse_fresnel" in node)) {
+            node["diffuse_fresnel"] = 0.1;
+            report("node material", node, "diffuse_fresnel");
+        }
+
+        if (!("diffuse_fresnel_factor" in node)) {
+            node["diffuse_fresnel_factor"] = 0.5;
+            report("node material", node, "diffuse_fresnel_factor");
+        }
+        break;
+    case "MATH":
+    case "MIX_RGB":
+        if (!("use_clamp" in node)) {
+            node["use_clamp"] = false;
+            report("node " + node["type"], node, "use_clamp");
+        }
+        break;
+    case "GROUP":
+        // NOTE: allow auto-generated names for custom nodes
+        // (e.g consider TIME.001 as TIME)
+        node["node_tree_name"] = node["node_tree_name"].replace(/\.[0-9]{3,}$/g, "");
+
+        // HACK: prepend B4W_ prefix for special nodes; temporary backward compatibility
+        switch(node["node_tree_name"]) {
+        case "CLAMP":
+        case "LEVELS_OF_QUALITY":
+        case "LINEAR_TO_SRGB":
+        case "NORMAL_VIEW":
+        case "PARALLAX":
+        case "REFLECT":
+        case "REFRACTION":
+        case "REPLACE":
+        case "SMOOTHSTEP":
+        case "SRGB_TO_LINEAR":
+        case "TIME":
+        case "TRANSLUCENCY":
+        case "VECTOR_VIEW":
+            node["node_tree_name"] = "B4W_" + node["node_tree_name"];
+            break;
+        default:
+            break;
+        }
+        break;
+    }
+}
+
+exports.check_particles_bin_format = function(loaded_data_version) {
+    return m_util.version_cmp(loaded_data_version, REQUIRED_FOR_PART_SYS_BIN_FORMAT) != -1;
+}
 
 /**
  * Check bpy_data, perform necessary compatibility hacks.
  */
 exports.check_bpy_data = function(bpy_data) {
 
+    _params_reported = {};
+
     var check_modifier = function(mod, obj) {
         switch (mod["type"]) {
         case "ARRAY":
             if (!("fit_type" in mod)) {
-                report_modifier(mod["type"], obj);
+                report_modifier(mod["type"], obj,
+                                bpy_data["b4w_filepath_blend"]);
                 return false;
             }
             break;
@@ -48,18 +186,22 @@ exports.check_bpy_data = function(bpy_data) {
     var worlds = bpy_data["worlds"];
 
     if (worlds.length == 0) {
-        report_missing_datablock("world");
+        report_missing_datablock("world", bpy_data["b4w_filepath_blend"]);
         var world = {
             "name": "DEFAULT",
-            "horizon_color": [0,0,0],
-            "zenith_color": [0,0,0],
+            "horizon_color": new Float32Array([0,0,0]),
+            "zenith_color": new Float32Array([0,0,0]),
             "light_settings": {
                 "use_environment_light": false,
                 "environment_energy": 1,
                 "environment_color": "PLAIN"
             },
+            "use_sky_paper": false,
+            "use_sky_blend": false,
+            "use_sky_real": false,
             "b4w_fog_color": [0.5, 0.5, 0.5],
-            "b4w_fog_density": 0.0
+            "b4w_fog_density": 0.0,
+            "texture_slots": []
         }
         worlds.push(world);
     }
@@ -68,73 +210,25 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < worlds.length; i++) {
         var world = worlds[i];
 
-        var shadows = world["b4w_shadow_settings"];
-        if(!("csm_num" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_num");
-            shadows["csm_num"] = 1;
-        }
-        if(!("csm_first_cascade_border" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_first_cascade_border");
-            shadows["csm_first_cascade_border"] = 10;
-        }
-        if(!("first_cascade_blur_radius" in shadows)) {
-            report("world", world, "b4w_shadow_settings.first_cascade_blur_radius");
-            shadows["first_cascade_blur_radius"] = 3;
-        }
-        if(!("csm_last_cascade_border" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_last_cascade_border");
-            shadows["csm_last_cascade_border"] = 100;
-        }
-        if(!("last_cascade_blur_radius" in shadows)) {
-            report("world", world, "b4w_shadow_settings.last_cascade_blur_radius");
-            shadows["last_cascade_blur_radius"] = 1.5;
-        }
-        if(!("csm_resolution" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_resolution");
-            shadows["csm_resolution"] = 2048;
-        }
-        if(!("self_shadow_polygon_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_polygon_offset");
-            shadows["self_shadow_polygon_offset"] = 1;
-        }
-        if(!("self_shadow_normal_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_normal_offset");
-            shadows["self_shadow_normal_offset"] = 0.01;
-        }
-        if(!("fade_last_cascade" in shadows)) {
-            report("world", world, "b4w_shadow_settings.fade_last_cascade");
-            shadows["fade_last_cascade"] = true;
-        }
-        if(!("blend_between_cascades" in shadows)) {
-            report("world", world, "b4w_shadow_settings.blend_between_cascades");
-            shadows["blend_between_cascades"] = true;
+        if (!("use_sky_blend" in world)) {
+            report("world", world, "use_sky_blend");
+            world["use_sky_blend"] = false;
         }
 
-        var ssao = world["b4w_ssao_settings"];
-        if(!("dist_factor" in ssao)) {
-            report("world", world, "b4w_ssao_settings.dist_factor");
-            ssao["dist_factor"] = 0.0;
-            ssao["samples"] = 16;
+        if (!("use_sky_paper" in world)) {
+            report("world", world, "use_sky_paper");
+            world["use_sky_paper"] = false;
         }
 
-        if (!("b4w_glow_color" in world)) {
-            world["b4w_glow_color"] = [1.0,1.0,1.0];
-            report("object", world, "b4w_glow_color");
-        }
-
-        if (!("b4w_glow_factor" in world)) {
-            world["b4w_glow_factor"] = 1.0;
-            report("object", world, "b4w_glow_factor");
-        }
-
-        if(!("b4w_fog_density" in world)) {
-            report("world", world, "b4w_fog_density");
-            world["b4w_fog_density"] = 0.0;
+        if (!("use_sky_real" in world)) {
+            report("world", world, "use_sky_real");
+            world["use_sky_real"] = false;
         }
 
         if(!("b4w_sky_settings" in world) || !("rayleigh_brightness" in world["b4w_sky_settings"])) {
             report("world", world, "rayleigh_brightness");
             world["b4w_sky_settings"] = {
+                "render_sky": false,
                 "procedural_skydome": false,
                 "use_as_enviroment_map": false,
                 "color": [0.24, 0.43, 0.75],
@@ -150,57 +244,67 @@ exports.check_bpy_data = function(bpy_data) {
             };
         }
 
-        if(!("b4w_bloom_settings" in world)) {
-            report("world", world, "b4w_bloom_settings");
-            world["b4w_bloom_settings"] = {
-                "key": 0.2,
-                "blur": 4.0
-            }
-        } else {
-
-            if(!("blur" in world["b4w_bloom_settings"])) {
-                report("world", world, "b4w_bloom_settings.blur");
-                world["b4w_bloom_settings"]["blur"] = 4.0;
-            }
-
-            if(!("edge_lum" in world["b4w_bloom_settings"])) {
-                report("world", world, "b4w_bloom_settings.edge_lum");
-                world["b4w_bloom_settings"]["edge_lum"] = 1.0;
-            }
+        if (!("render_sky" in world["b4w_sky_settings"])) {
+            report("world", world, "render_sky");
+            world["b4w_sky_settings"]["render_sky"] = false;
         }
 
-        if(!("b4w_motion_blur_settings" in world)) {
-            report("world", world, "b4w_motion_blur_settings");
-            world["b4w_motion_blur_settings"] = {
-                "motion_blur_factor": 0.01,
-                "motion_blur_decay_threshold": 0.01
-            }
-        } else {
-
-            if(!("motion_blur_factor" in world["b4w_motion_blur_settings"])) {
-                report("world", world, "b4w_motion_blur_settings.motion_blur_factor");
-                world["b4w_motion_blur_settings"]["motion_blur_factor"] = 0.01;
-            }
-
-            if(!("motion_blur_decay_threshold" in world["b4w_motion_blur_settings"])) {
-                report("world", world, "b4w_motion_blur_settings.motion_blur_decay_threshold");
-                world["b4w_motion_blur_settings"]["motion_blur_decay_threshold"] = 0.01;
-            }
+        if(!("b4w_fog_density" in world)) {
+            report("world", world, "b4w_fog_density");
+            world["b4w_fog_density"] = 0.0;
         }
 
-        if(!("b4w_color_correction_settings" in world)) {
-            report("world", world, "b4w_color_correction_settings");
-            world["b4w_color_correction_settings"] = {
-                "brightness" : 0.0,
-                "contrast" : 0.0,
-                "exposure": 1.0,
-                "saturation": 1.0
-            };
-        }
-
-        if(!("steps_per_pass" in world["b4w_god_rays_settings"])) {
-            report("world", world, "b4w_god_rays_settings.steps_per_pass");
-            world["b4w_god_rays_settings"]["steps_per_pass"] = 10.0;
+        var texture_slots = world["texture_slots"];
+        for (var j = 0; j < texture_slots.length; j++) {
+            var slot = texture_slots[j];
+            if (!("blend_type" in slot)) {
+                slot["blend_type"] = "MIX";
+                report("world_texture_slot", slot, "blend_type");
+            }
+            if (!("use_map_blend" in slot)) {
+                slot["use_map_blend"] = false;
+                report("world_texture_slot", slot, "use_map_blend");
+            }
+            if (!("use_map_horizon" in slot)) {
+                slot["use_map_horizon"] = true;
+                report("world_texture_slot", slot, "use_map_horizon");
+            }
+            if (!("use_map_zenith_up" in slot)) {
+                slot["use_map_zenith_up"] = false;
+                report("world_texture_slot", slot, "use_map_zenith_up");
+            }
+            if (!("use_rgb_to_intensity" in slot)) {
+                slot["use_rgb_to_intensity"] = false;
+                report("world_texture_slot", slot, "use_rgb_to_intensity");
+            }
+            if (!("invert" in slot)) {
+                slot["invert"] = false;
+                report("world_texture_slot", slot, "invert");
+            }
+            if (!("color" in slot)) {
+                slot["color"] = [1.0, 0.0, 1.0];
+                report("world_texture_slot", slot, "color");
+            }
+            if (!("blend_factor" in slot)) {
+                slot["blend_factor"] = 0.0;
+                report("world_texture_slot", slot, "blend_factor");
+            }
+            if (!("horizon_factor" in slot)) {
+                slot["horizon_factor"] = 1.0;
+                report("world_texture_slot", slot, "horizon_factor");
+            }
+            if (!("zenith_up_factor" in slot)) {
+                slot["zenith_up_factor"] = 0.0;
+                report("world_texture_slot", slot, "zenith_up_factor");
+            }
+            if (!("zenith_down_factor" in slot)) {
+                slot["zenith_down_factor"] = 0.0;
+                report("world_texture_slot", slot, "zenith_down_factor");
+            }
+            if (!("default_value" in slot)) {
+                slot["default_value"] = 1.0;
+                report("world_texture_slot", slot, "default_value");
+            }
         }
     }
 
@@ -208,10 +312,26 @@ exports.check_bpy_data = function(bpy_data) {
     var scenes = bpy_data["scenes"];
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
+        var sc_world = scene["world"]
+
+        if (!("timeline_markers" in scene)) {
+            scene["timeline_markers"] = null;
+            report("scene", scene, "timeline_markers");
+        }
+
+        if (!("b4w_reflection_quality" in scene)) {
+            scene["b4w_reflection_quality"] = "MEDIUM";
+            report("scene", scene, "b4w_reflection_quality");
+        }
 
         if (!("b4w_use_nla" in scene)) {
             scene["b4w_use_nla"] = false;
             report("scene", scene, "b4w_use_nla");
+        }
+
+        if (!("fps" in scene)) {
+            scene["fps"] = 24;
+            report("scene", scene, "fps");
         }
 
         if (!("b4w_nla_cyclic" in scene)) {
@@ -272,6 +392,263 @@ exports.check_bpy_data = function(bpy_data) {
             scene["b4w_enable_antialiasing"] = true;
             report("scene", scene, "b4w_enable_antialiasing");
         }
+
+        if (!("b4w_tags" in scene)) {
+            scene["b4w_tags"] = {
+                "title": "",
+                "description": ""
+            };
+            report("scene", scene, "b4w_tags");
+        }
+        if (!("b4w_enable_object_selection" in scene)) {
+            scene["b4w_enable_object_selection"] = "AUTO";
+            report("scene", scene, "b4w_enable_object_selection");
+        }
+        if (!("b4w_enable_outlining" in scene)) {
+            scene["b4w_enable_outlining"] = "AUTO";
+            report("scene", scene, "b4w_enable_outlining");
+        }
+        if (!("b4w_enable_glow_materials" in scene)) {
+            scene["b4w_enable_glow_materials"] = "AUTO";
+            report("scene", scene, "b4w_enable_glow_materials");
+        }
+        if (!("b4w_enable_anchors_visibility" in scene)) {
+            scene["b4w_enable_anchors_visibility"] = "AUTO";
+            report("scene", scene, "b4w_enable_anchors_visibility");
+        }
+
+        if (!("b4w_outline_color" in scene)) {
+            scene["b4w_outline_color"] = [1.0,1.0,1.0];
+            report("scene", scene, "b4w_outline_color");
+        }
+
+        if (!("b4w_outline_factor" in scene)) {
+            if ("b4w_glow_factor" in scene)
+                scene["b4w_outline_factor"] = scene["b4w_glow_factor"];
+            else
+                scene["b4w_outline_factor"] = 1.0;
+            report("scene", scene, "b4w_outline_factor");
+        }
+
+        if (!("b4w_shadow_settings" in scene)) {
+            report("scene", scene, "b4w_shadow_settings");
+            var w_shadows = sc_world["b4w_shadow_settings"];
+            if (w_shadows)
+                scene["b4w_shadow_settings"] = w_shadows;
+            else
+                scene["b4w_shadow_settings"] = {
+                        "csm_resolution": 2048,
+                        "self_shadow_polygon_offset": 1,
+                        "b4w_enable_csm": false,
+                        "csm_num": 1,
+                        "csm_first_cascade_border": 10,
+                        "first_cascade_blur_radius": 3,
+                        "csm_last_cascade_border": 100,
+                        "last_cascade_blur_radius": 1.5,
+                        "fade_last_cascade": true,
+                        "blend_between_cascades": true
+                    };
+        }
+        var shadows = scene["b4w_shadow_settings"];
+        if(!("csm_resolution" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_resolution");
+            shadows["csm_resolution"] = 2048;
+        }
+        if(!("self_shadow_polygon_offset" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.self_shadow_polygon_offset");
+            shadows["self_shadow_polygon_offset"] = 1;
+        }
+        if(!("self_shadow_normal_offset" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.self_shadow_normal_offset");
+            shadows["self_shadow_normal_offset"] = 0.01;
+        }
+        if(!("b4w_enable_csm" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.b4w_enable_csm");
+            shadows["b4w_enable_csm"] = false;
+        }
+        if(!("csm_num" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_num");
+            shadows["csm_num"] = 1;
+        }
+        if(!("csm_first_cascade_border" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_first_cascade_border");
+            shadows["csm_first_cascade_border"] = 10;
+        }
+        if(!("first_cascade_blur_radius" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.first_cascade_blur_radius");
+            shadows["first_cascade_blur_radius"] = 3;
+        }
+        if(!("csm_last_cascade_border" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_last_cascade_border");
+            shadows["csm_last_cascade_border"] = 100;
+        }
+        if(!("last_cascade_blur_radius" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.last_cascade_blur_radius");
+            shadows["last_cascade_blur_radius"] = 1.5;
+        }
+        if(!("fade_last_cascade" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.fade_last_cascade");
+            shadows["fade_last_cascade"] = true;
+        }
+        if(!("blend_between_cascades" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.blend_between_cascades");
+            shadows["blend_between_cascades"] = true;
+        }
+
+        if (!("b4w_ssao_settings" in scene)) {
+            report("scene", scene, "b4w_ssao_settings");
+            var w_ssao = sc_world["b4w_ssao_settings"];
+            if (w_ssao)
+                scene["b4w_ssao_settings"] = w_ssao;
+            else
+                scene["b4w_ssao_settings"] = {
+                    "dist_factor": 0.0,
+                    "samples": 16,
+                    "hemisphere": false,
+                    "blur_depth": false,
+                    "blur_discard_value": 1.0
+                };
+        }
+        var ssao = scene["b4w_ssao_settings"];
+        if(!("dist_factor" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.dist_factor");
+            ssao["dist_factor"] = 0.0;
+        }
+        if(!("samples" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.samples");
+            ssao["samples"] = 16;
+        }
+        if(!("hemisphere" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.hemisphere");
+            ssao["hemisphere"] = false;
+        }
+        if(!("blur_depth" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.blur_depth");
+            ssao["blur_depth"] = false;
+        }
+        if(!("blur_discard_value" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.blur_discard_value");
+            ssao["blur_discard_value"] = 1.0;
+        }
+
+        if (!("b4w_bloom_settings" in scene)) {
+            report("scene", scene, "b4w_bloom_settings");
+            var w_bloom = sc_world["b4w_bloom_settings"];
+            if (w_bloom)
+                scene["b4w_bloom_settings"] = w_bloom;
+            else
+                scene["b4w_bloom_settings"] = {
+                    "key": 0.2,
+                    "blur": 4.0,
+                    "edge_lum": 1.0
+                };
+        }
+        if(!("key" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.key");
+            scene["b4w_bloom_settings"]["key"] = 0.2;
+        }
+        if(!("blur" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.blur");
+            scene["b4w_bloom_settings"]["blur"] = 4.0;
+        }
+        if(!("edge_lum" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.edge_lum");
+            scene["b4w_bloom_settings"]["edge_lum"] = 1.0;
+        }
+
+        if (!("b4w_motion_blur_settings" in scene)) {
+            report("scene", scene, "b4w_motion_blur_settings");
+            var w_motion_blur = sc_world["b4w_motion_blur_settings"];
+            if (w_motion_blur)
+                scene["b4w_motion_blur_settings"] = w_motion_blur;
+            else
+                scene["b4w_motion_blur_settings"] = {
+                    "motion_blur_factor": 0.01,
+                    "motion_blur_decay_threshold": 0.01
+                }
+        }
+        if(!("motion_blur_factor" in scene["b4w_motion_blur_settings"])) {
+            report("scene", scene, "b4w_motion_blur_settings.motion_blur_factor");
+            scene["b4w_motion_blur_settings"]["motion_blur_factor"] = 0.01;
+        }
+        if(!("motion_blur_decay_threshold" in scene["b4w_motion_blur_settings"])) {
+            report("scene", scene, "b4w_motion_blur_settings.motion_blur_decay_threshold");
+            scene["b4w_motion_blur_settings"]["motion_blur_decay_threshold"] = 0.01;
+        }
+
+        if (!("b4w_color_correction_settings" in scene)) {
+            report("scene", scene, "b4w_color_correction_settings");
+            var w_color_correction = sc_world["b4w_color_correction_settings"];
+            if (w_color_correction)
+                scene["b4w_color_correction_settings"] = w_color_correction;
+            else
+                scene["b4w_color_correction_settings"] = {
+                    "brightness" : 0.0,
+                    "contrast" : 0.0,
+                    "exposure": 1.0,
+                    "saturation": 1.0
+                }
+        }
+
+        if (!("b4w_god_rays_settings" in scene)) {
+            report("scene", scene, "b4w_god_rays_settings");
+            var w_god_rays = sc_world["b4w_god_rays_settings"];
+            if (w_god_rays)
+                scene["b4w_god_rays_settings"] = w_god_rays;
+            else
+                scene["b4w_god_rays_settings"] = {
+                    "intensity" : 0.7,
+                    "max_ray_length" : 1.0,
+                    "steps_per_pass": 10
+                }
+        }
+        if(!("steps_per_pass" in scene["b4w_god_rays_settings"])) {
+            report("scene", scene, "b4w_god_rays_settings.steps_per_pass");
+            scene["b4w_god_rays_settings"]["steps_per_pass"] = 10.0;
+        }
+
+        if (!("b4w_glow_settings" in scene)) {
+            report("scene", scene, "b4w_glow_settings");
+            scene["b4w_glow_settings"] = {
+                "render_glow_over_blend": false,
+                "small_glow_mask_coeff": 2.0,
+                "large_glow_mask_coeff": 2.0,
+                "small_glow_mask_width": 2.0,
+                "large_glow_mask_width": 6.0
+            }
+            var glow_set = scene["b4w_glow_settings"];
+            if ("b4w_render_glow_over_blend" in sc_world)
+                glow_set["render_glow_over_blend"] = sc_world["b4w_render_glow_over_blend"];
+            if ("b4w_small_glow_mask_coeff" in sc_world)
+                glow_set["small_glow_mask_coeff"] = sc_world["b4w_small_glow_mask_coeff"];
+            if ("b4w_large_glow_mask_coeff" in sc_world)
+                glow_set["large_glow_mask_coeff"] = sc_world["b4w_large_glow_mask_coeff"];
+            if ("b4w_small_glow_mask_width" in sc_world)
+                glow_set["small_glow_mask_width"] = sc_world["b4w_small_glow_mask_width"];
+            if ("b4w_large_glow_mask_width" in sc_world)
+                glow_set["large_glow_mask_width"] = sc_world["b4w_large_glow_mask_width"];
+        }
+
+        var r_shadows = scene["b4w_render_shadows"];
+        if (r_shadows != "AUTO" && r_shadows != "OFF" && r_shadows != "ON")
+            if (r_shadows)
+                scene["b4w_render_shadows"] = "ON";
+            else
+                scene["b4w_render_shadows"] = "OFF";
+
+        var r_refl = scene["b4w_render_reflections"];
+        if (r_refl != "OFF" && r_refl != "ON")
+            if (r_refl)
+                scene["b4w_render_reflections"] = "ON";
+            else
+                scene["b4w_render_reflections"] = "OFF";
+
+        var r_refr = scene["b4w_render_refractions"];
+        if (r_refr != "AUTO" && r_refr != "OFF" && r_refr != "ON")
+            if (r_refr)
+                scene["b4w_render_refractions"] = "ON";
+            else
+                scene["b4w_render_refractions"] = "OFF";
     }
 
     /* object data - meshes */
@@ -280,38 +657,58 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
-        if(!mesh["b4w_bounding_box"]) {
+        if (!mesh["b4w_bounding_box"]) {
             report("mesh", mesh, "b4w_bounding_box");
             mesh["b4w_bounding_box"] = {"max_x" : 0, "max_y" : 0, "max_z" : 0,
                 "min_x" : 0, "min_y" : 0, "min_z" : 0};
         }
 
-        if(!mesh["uv_textures"]) {
+        if (!mesh["b4w_bounding_box_source"]) {
+            report("mesh", mesh, "b4w_bounding_box_source");
+            mesh["b4w_bounding_box_source"] = mesh["b4w_bounding_box"];
+        }
+
+        if (!mesh["uv_textures"]) {
             report("mesh", mesh, "uv_textures");
             mesh["uv_textures"] = [];
         }
 
-        if(!mesh["b4w_bounding_sphere_center"]) {
+        if (!mesh["b4w_bounding_sphere_center"]) {
             //report("mesh", mesh, "b4w_bounding_sphere_center");
             mesh["b4w_bounding_sphere_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_cylinder_center"]) {
+        if (!mesh["b4w_bounding_cylinder_center"]) {
             //report("mesh", mesh, "b4w_bounding_cylinder_center");
             mesh["b4w_bounding_cylinder_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_ellipsoid_center"]) {
+        if (!mesh["b4w_bounding_ellipsoid_center"]) {
             //report("mesh", mesh, "b4w_bounding_cylinder_center");
             mesh["b4w_bounding_ellipsoid_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_ellipsoid_axes"]) {
+        if (!mesh["b4w_bounding_ellipsoid_axes"]) {
             //report("mesh", mesh, "b4w_bounding_ellipsoid_axes");
             var bb = mesh["b4w_bounding_box"];
             mesh["b4w_bounding_ellipsoid_axes"] = [(bb["max_x"] - bb["min_x"])/2,
-                                                  (bb["max_y"] - bb["min_y"])/2,
-                                                  (bb["max_z"] - bb["min_z"])/2];
+                                                   (bb["max_y"] - bb["min_y"])/2,
+                                                   (bb["max_z"] - bb["min_z"])/2];
+        }
+
+        if (!("b4w_shape_keys" in mesh)) {
+            mesh["b4w_shape_keys"] = [];
+            report("mesh", mesh, "b4w_shape_keys");
+        }
+
+        check_export_props(mesh);
+
+        for (var j = 0; j < mesh["b4w_vertex_anim"].length; j++) {
+            var va = mesh["b4w_vertex_anim"][j];
+            if (!("allow_nla" in va)) {
+                report("mesh[\"b4w_vertex_anim\"]", mesh, "allow_nla");
+                va["allow_nla"] = true;
+            }
         }
     }
 
@@ -330,6 +727,26 @@ exports.check_bpy_data = function(bpy_data) {
             report_deprecated("camera", camera, "b4w_eye_target_dist");
         }
 
+        if (!("b4w_hover_zero_level" in camera)) {
+            camera["b4w_hover_zero_level"] = 0;
+            report("camera", camera, "b4w_hover_zero_level");
+        }
+
+        if (!("b4w_trans_velocity" in camera)) {
+            camera["b4w_trans_velocity"] = 1;
+            report("camera", camera, "b4w_trans_velocity");
+        }
+        
+        if (!("b4w_rot_velocity" in camera)) {
+            camera["b4w_rot_velocity"] = 1;
+            report("camera", camera, "b4w_rot_velocity");
+        }
+
+        if (!("b4w_zoom_velocity" in camera)) {
+            camera["b4w_zoom_velocity"] = 0.1;
+            report("camera", camera, "b4w_zoom_velocity");
+        }
+
         if (!("b4w_use_distance_limits" in camera)) {
             camera["b4w_use_distance_limits"] = false;
             report("camera", camera, "b4w_use_distance_limits");
@@ -342,6 +759,25 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_distance_max" in camera)) {
             camera["b4w_distance_max"] = 100;
             report("camera", camera, "b4w_distance_max");
+        }
+
+        if (!("b4w_horizontal_translation_min" in camera)) {
+            camera["b4w_horizontal_translation_min"] = -100;
+            report("camera", camera, "b4w_horizontal_translation_min");
+        }
+        if (!("b4w_horizontal_translation_max" in camera)) {
+            camera["b4w_horizontal_translation_max"] = 100;
+            report("camera", camera, "b4w_horizontal_translation_max");
+        }
+
+        if (!("b4w_vertical_translation_min" in camera)) {
+            camera["b4w_vertical_translation_min"] = -100;
+            report("camera", camera, "b4w_vertical_translation_min");
+        }
+
+        if (!("b4w_vertical_translation_max" in camera)) {
+            camera["b4w_vertical_translation_max"] = 100;
+            report("camera", camera, "b4w_vertical_translation_max");
         }
 
         if (!("b4w_use_horizontal_clamping" in camera)) {
@@ -380,6 +816,25 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_vertical_clamping_type" in camera)) {
             camera["b4w_vertical_clamping_type"] = "LOCAL";
             report("camera", camera, "b4w_vertical_clamping_type");
+        }
+
+        if (!("b4w_hover_angle_min" in camera)) {
+            camera["b4w_hover_angle_min"] = Math.PI / 6;
+            report("camera", camera, "b4w_hover_angle_min");
+        }
+        if (!("b4w_hover_angle_max" in camera)) {
+            camera["b4w_hover_angle_max"] = Math.PI / 6;
+            report("camera", camera, "b4w_hover_angle_max");
+        }
+
+        if (!("b4w_enable_hover_hor_rotation" in camera)) {
+            camera["b4w_enable_hover_hor_rotation"] = true;
+            report("camera", camera, "b4w_enable_hover_hor_rotation");
+        }
+
+        if (!("b4w_use_panning" in camera)) {
+            camera["b4w_use_panning"] = true;
+            report("camera", camera, "b4w_use_panning");
         }
     }
 
@@ -471,6 +926,8 @@ exports.check_bpy_data = function(bpy_data) {
             speaker["b4w_playlist_id"] = "";
             //report("speaker", speaker, "b4w_playlist_id");
         }
+        if (speaker["animation_data"])
+            check_strip_props(speaker["animation_data"]);
     }
 
     /* textures */
@@ -478,7 +935,6 @@ exports.check_bpy_data = function(bpy_data) {
 
     for (var i = 0; i < textures.length; i++) {
         var texture = textures[i];
-
         if (!("b4w_anisotropic_filtering" in texture)) {
             texture["b4w_anisotropic_filtering"] = "OFF";
             report("texture", texture, "b4w_anisotropic_filtering");
@@ -528,6 +984,26 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_disable_compression" in texture)) {
             texture["b4w_disable_compression"] = false;
             report("texture", texture, "b4w_disable_compression");
+        }
+
+        if (!("b4w_source_type" in texture)) {
+            texture["b4w_source_type"] = "";
+            report("texture", texture, "b4w_source_type");
+        }
+
+        if (!("b4w_source_id" in texture)) {
+            texture["b4w_source_id"] = "";
+            report("texture", texture, "b4w_source_id");
+        }
+
+        if (!("b4w_source_size" in texture)) {
+            texture["b4w_source_size"] = 1024;
+            report("texture", texture, "b4w_source_size");
+        }
+
+        if (!("b4w_enable_canvas_mipmapping" in texture)) {
+            texture["b4w_enable_canvas_mipmapping"] = true;
+            report("texture", texture, "b4w_enable_canvas_mipmapping");
         }
     }
 
@@ -660,12 +1136,28 @@ exports.check_bpy_data = function(bpy_data) {
                 mat["b4w_water_detailed_dist"] = 1000;
                 report("material", mat, "b4w_water_detailed_dist");
             }
+
+            if (!("b4w_water_enable_caust" in mat)) {
+                mat["b4w_water_enable_caust"] = false;
+                report("material", mat, "b4w_water_enable_caust");
+            }
+
+            if (!("b4w_water_caust_scale" in mat)) {
+                mat["b4w_water_caust_scale"] = 0.25;
+                report("material", mat, "b4w_water_caust_scale");
+            }
+
+            if (!("b4w_water_caust_brightness" in mat)) {
+                mat["b4w_water_caust_brightness"] = 0.5;
+                report("material", mat, "b4w_water_caust_brightness");
+            }
         }
 
         if (!("b4w_dynamic_grass_size" in mat)) {
             mat["b4w_dynamic_grass_size"] = "";
             //report("material", mat, "b4w_dynamic_grass_size");
         }
+
         if (!("b4w_dynamic_grass_color" in mat)) {
             mat["b4w_dynamic_grass_color"] = "";
             //report("material", mat, "b4w_dynamic_grass_color");
@@ -681,6 +1173,11 @@ exports.check_bpy_data = function(bpy_data) {
             //report("material", mat, "b4w_use_ghost");
         }
 
+        if (!("b4w_collision_margin" in mat)) {
+            mat["b4w_collision_margin"] = 0.040;
+            report("material", mat, "b4w_collision_margin");
+        }
+
         if (!("b4w_collision_group" in mat)) {
             mat["b4w_collision_group"] = 128;
             report("material", mat, "b4w_collision_group");
@@ -689,6 +1186,11 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_collision_mask" in mat)) {
             mat["b4w_collision_mask"] = 127;
             report("material", mat, "b4w_collision_mask");
+        }
+
+        if (!("b4w_do_not_render" in mat)) {
+            mat["b4w_do_not_render"] = false;
+            report("material", mat, "b4w_do_not_render");
         }
 
         if (mat.type == "HALO" && !("b4w_halo_sky_stars" in mat)) {
@@ -760,6 +1262,7 @@ exports.check_bpy_data = function(bpy_data) {
             mat["b4w_refractive"] = false;
             report("material", mat, "b4w_refractive");
         }
+
         if (!("b4w_refr_bump" in mat)) {
             mat["b4w_refr_bump"] = 0;
             report("material", mat, "b4w_refr_bump");
@@ -769,29 +1272,55 @@ exports.check_bpy_data = function(bpy_data) {
             mat["b4w_shallow_water_col"] = [0.0, 0.8, 0.3];
             report("material", mat, "b4w_shallow_water_col");
         }
+
         if (!("b4w_shore_water_col" in mat)) {
             mat["b4w_shore_water_col"] = [0.0, 0.9, 0.2];
             report("material", mat, "b4w_shore_water_col");
         }
+
         if (!("b4w_shallow_water_col_fac" in mat)) {
             mat["b4w_shallow_water_col_fac"] = 1.0;
             report("material", mat, "b4w_shallow_water_col_fac");
         }
+
         if (!("b4w_shore_water_col_fac" in mat)) {
             mat["b4w_shore_water_col_fac"] = 0.5;
             report("material", mat, "b4w_shore_water_col_fac");
         }
+
         if (!("b4w_water_sss_strength" in mat)) {
             mat["b4w_water_sss_strength"] = 5.9;
             report("material", mat, "b4w_water_sss_strength");
         }
+
         if (!("b4w_water_sss_width" in mat)) {
             mat["b4w_water_sss_width"] = 0.45;
             report("material", mat, "b4w_water_sss_width");
         }
+
         if (!("b4w_render_above_all" in mat)) {
             mat["b4w_render_above_all"] = false;
             report("material", mat, "b4w_render_above_all");
+        }
+        if (!("b4w_water_norm_uv_velocity" in mat)) {
+            mat["b4w_water_norm_uv_velocity"] = 0.05;
+            report("material", mat, "b4w_water_norm_uv_velocity");
+        }
+        if (!("specular_ior" in mat)) {
+            mat["specular_ior"] = 1.0;
+            report("material", mat, "specular_ior");
+        }
+        if (!("darkness" in mat)) {
+            mat["darkness"] = 0.0;
+            report("material", mat, "darkness");
+        }
+        if (!("diffuse_toon_size" in mat)) {
+            mat["diffuse_toon_size"] = 0.0;
+            report("material", mat, "diffuse_toon_size");
+        }
+        if (!("diffuse_toon_smooth" in mat)) {
+            mat["diffuse_toon_smooth"] = 0.0;
+            report("material", mat, "diffuse_toon_smooth");
         }
 
         var texture_slots = mat["texture_slots"];
@@ -802,8 +1331,24 @@ exports.check_bpy_data = function(bpy_data) {
                 report("texture_slot", slot, "blend_type");
             }
         }
+
+        if (mat["node_tree"]) {
+            var nodes = mat["node_tree"]["nodes"];
+            for (var j = 0; j < nodes.length; j++)
+                reform_node(nodes[j]);
+            if (mat["node_tree"]["animation_data"])
+                check_strip_props(mat["node_tree"]["animation_data"]);
+        }
     }
 
+    /*node_groups*/
+    var node_groups = bpy_data["node_groups"];
+    for (var i = 0; i < node_groups.length; i++) {
+        var nodes = node_groups[i]["node_tree"]["nodes"];
+
+        for (var j = 0; j < nodes.length; j++)
+            reform_node(nodes[j]);
+    }
     var objects = bpy_data["objects"];
 
     for (var i = 0; i < objects.length; i++) {
@@ -829,6 +1374,10 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_reflective" in obj)) {
                 obj["b4w_reflective"] = false;
                 //report("object", obj, "b4w_reflective");
+            }
+            if (!("b4w_reflection_type" in obj)) {
+                obj["b4w_reflection_type"] = "PLANE";
+                report("object", obj, "b4w_reflection_type");
             }
 
             if (!("b4w_wind_bending" in obj)) {
@@ -1049,12 +1598,36 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_selectable"] = false;
                 report("object", obj, "b4w_selectable");
             }
-            if (!("b4w_glow_settings" in obj)) {
-                obj["b4w_glow_settings"] = {};
-                obj["b4w_glow_settings"]["glow_duration"] = 1.0;
-                obj["b4w_glow_settings"]["glow_period"] = 1.0;
-                obj["b4w_glow_settings"]["glow_relapses"] = 0;
-                report("object", obj, "b4w_glow_settings");
+            if (!("b4w_outlining" in obj)) {
+                obj["b4w_outlining"] = false;
+                report("object", obj, "b4w_outlining");
+            }
+            if (!("b4w_outline_on_select" in obj)) {
+                obj["b4w_outline_on_select"] = false;
+                report("object", obj, "b4w_outline_on_select");
+            }
+            if (!("b4w_billboard" in obj)) {
+                obj["b4w_billboard"] = false;
+                report("object", obj, "b4w_billboard");
+            }
+            if (!("b4w_billboard_geometry" in obj)) {
+                obj["b4w_billboard_geometry"] = "SPHERICAL";
+                report("object", obj, "b4w_billboard_geometry");
+            }
+            if (!("b4w_pres_glob_orientation" in obj)) {
+                obj["b4w_pres_glob_orientation"] = false;
+                report("object", obj, "b4w_pres_glob_orientation");
+            }
+            if (!("b4w_outline_settings" in obj)) {
+                if ("b4w_glow_settings" in obj)
+                    obj["b4w_outline_settings"] = obj["b4w_glow_settings"];
+                else {
+                    obj["b4w_outline_settings"] = {};
+                    obj["b4w_outline_settings"]["outline_duration"] = 1.0;
+                    obj["b4w_outline_settings"]["outline_period"] = 1.0;
+                    obj["b4w_outline_settings"]["outline_relapses"] = 0;
+                }
+                report("object", obj, "b4w_outline_settings");
             }
             if (!("b4w_lod_transition" in obj)) {
                 obj["b4w_lod_transition"] = 0.01;
@@ -1074,9 +1647,28 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_group_relative"] = false;
                 report("object", obj, "b4w_group_relative");
             }
+            if (!("b4w_anchor" in obj)) {
+                obj["b4w_anchor"] = null;
+                report("object", obj, "b4w_anchor");
+            }
+            if (obj["b4w_anchor"] && !("max_width" in obj["b4w_anchor"])) {
+                obj["b4w_anchor"]["max_width"] = 250;
+            }
+
             break;
         default:
             break;
+        }
+
+        if (!("collision_margin" in obj["game"])) {
+            obj["game"]["collision_margin"] = 0.040;
+            report("object", obj, "collision_margin");
+        }
+
+        if (!("b4w_anim_behavior" in obj)) {
+            obj["b4w_anim_behavior"] = obj["b4w_cyclic_animation"] ?
+                    "CYCLIC" : "FINISH_STOP";
+            report("object", obj, "b4w_anim_behavior");
         }
 
         if (!("rotation_quaternion" in obj)) {
@@ -1108,6 +1700,11 @@ exports.check_bpy_data = function(bpy_data) {
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
             var pset = psys["settings"];
+
+            if (!("use_rotation_dupli" in pset)) {
+                pset["use_rotation_dupli"] = false;
+                report("object", pset, "use_rotation_dupli");
+            }
 
             if (!("use_whole_group" in pset)) {
                 pset["use_whole_group"] = false;
@@ -1203,6 +1800,21 @@ exports.check_bpy_data = function(bpy_data) {
                 pset["b4w_coordinate_system"] = "LOCAL";
                 report("particle_settings", pset, "b4w_coordinate_system");
             }
+
+            if (!("b4w_allow_nla" in pset)) {
+                pset["b4w_allow_nla"] = true;
+                report("particle_settings", pset, "b4w_allow_nla");
+            }
+
+            if (!("b4w_enable_soft_particles" in pset)) {
+                pset["b4w_enable_soft_particles"] = false;
+                report("particle_settings", pset, "b4w_enable_soft_particles");
+            }
+
+            if (!("b4w_particles_softness" in pset)) {
+                pset["b4w_particles_softness"] = 1.0;
+                report("particle_settings", pset, "b4w_particles_softness");
+            }
         }
 
         if (!("constraints" in obj)) {
@@ -1230,36 +1842,15 @@ exports.check_bpy_data = function(bpy_data) {
         if (obj["animation_data"]) {
             if (!("action" in obj["animation_data"])) {
                 obj["animation_data"]["action"] = null;
-                report_raw("B4W Warning: no action in animation data " + obj["name"]);
+                report_raw("no action in animation data " + obj["name"]);
             }
 
             if (!("nla_tracks" in obj["animation_data"])) {
                 obj["animation_data"]["nla_tracks"] = [];
-                report_raw("B4W Warning: no NLA in animation data " + obj["name"]);
+                report_raw("no NLA in animation data " + obj["name"]);
             }
 
-            var nla_tracks = obj["animation_data"]["nla_tracks"];
-            for (var j = 0; j < nla_tracks.length; j++) {
-                var track = nla_tracks[j];
-
-                for (var k = 0; k < track["strips"].length; k++) {
-                    var strip = track["strips"][k];
-                    if (!("action" in strip)) {
-                        strip["action"] = null;
-                        report_raw("B4W Warning: no action in NLA strip " + obj["name"]);
-                    }
-                    if (!("action_frame_start" in strip)) {
-                        strip["action_frame_start"] = 0;
-                        report_raw("B4W Warning: no action_frame_start in NLA strip " +
-                                obj["name"]);
-                    }
-                    if (!("action_frame_end" in strip)) {
-                        strip["action_frame_end"] = strip["frame_end"] - strip["frame_start"];
-                        report_raw("B4W Warning: no action_frame_start in NLA strip " +
-                                obj["name"]);
-                    }
-                }
-            }
+            check_strip_props(obj["animation_data"]);
         }
 
         if (!("b4w_collision_id" in obj)) {
@@ -1268,11 +1859,81 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!check_uniform_scale(obj))
-            report_raw("B4W Warning: non-uniform scale for object " + obj["name"]);
+            report_raw("non-uniform scale for object " + obj["name"]);
+
+        if (check_negative_scale(obj)) {
+            report_raw("negative scale for object " + obj["name"] + ", using positive scale instead");
+            obj["scale"][0] = Math.abs(obj["scale"][0]);
+            obj["scale"][1] = Math.abs(obj["scale"][1]);
+            obj["scale"][2] = Math.abs(obj["scale"][2]);
+        }
     }
 
     if (_unreported_compat_issues)
         m_print.error("Compatibility issues detected");
+
+    for (var param in _params_reported) {
+        var param_data = _params_reported[param];
+        var param_name = param.match(/.*?(?=>>|$)/i)[0]
+        m_print.warn("WARNING " + String(param_name) +
+            " is " + param_data.report_type + " for " + param_data.type +
+             ", reexport " + bpy_data["b4w_filepath_blend"]);
+    }
+}
+
+function check_strip_props(animation_data) {
+
+    var nla_tracks = animation_data["nla_tracks"];
+    if (nla_tracks)
+        for (var j = 0; j < nla_tracks.length; j++) {
+            var track = nla_tracks[j];
+            for (var k = 0; k < track["strips"].length; k++) {
+                var strip = track["strips"][k];
+                if (!("action" in strip)) {
+                    strip["action"] = null;
+                    report("strip", strip, "action");
+                }
+                if (!("action_frame_start" in strip)) {
+                    strip["action_frame_start"] = 0;
+                    report("strip", strip, "action_frame_start");
+                }
+                if (!("action_frame_end" in strip)) {
+                    strip["action_frame_end"] = strip["frame_end"] - strip["frame_start"];
+                    report("strip", strip, "action_frame_end");
+                }
+
+                if (!("repeat" in strip)) {
+                    strip["repeat"] = 1;
+                    report("strip", strip, "repeat");
+                }
+                if (!("use_reverse" in strip)) {
+                    strip["use_reverse"] = false;
+                    report("strip", strip, "use_reverse");
+                }
+                if (!("scale" in strip)) {
+                    strip["scale"] = 1;
+                    report("strip", strip, "scale");
+                }
+            }
+        }
+}
+
+function check_export_props(obj) {
+    var export_props = ["b4w_apply_scale", "b4w_apply_modifiers", 
+            "b4w_export_edited_normals", "b4w_loc_export_vertex_anim", 
+            "b4w_shape_keys"];
+    var prop_found = null;
+    for (var i = 0; i < export_props.length; i++) {
+        if (obj[export_props[i]])
+            if(!prop_found)
+                prop_found = export_props[i];
+            else {
+                obj[export_props[i]] = false;
+                m_print.warn("WARNING property \"" + export_props[i] + "\" of object \"" 
+                    + obj["name"] + "\" has been set to \"false\". Foreground property \""
+                    + prop_found + "\" already exists.");
+            }
+    }
 }
 
 function quat_b4w_bpy(quat, dest) {
@@ -1299,20 +1960,29 @@ function report(type, obj, missing_param) {
         return;
     }
 
-    m_print.warn("WARNING " + String(missing_param) + " for " + String(type) + " " +
-            "\"" + obj["name"] + "\"" + " undefined, reexport " +
-            (obj["library"] ? "library " + libname(obj) : "main scene"));
+    var param_id = missing_param+">>"+type;
+
+    if (!(param_id in _params_reported)) {
+        _params_reported[param_id] = {
+            storage: [],
+            report_type: "undefined",
+            type: type
+        }
+    }
+
+    _params_reported[param_id].storage.push(obj.name);
 }
 /**
  * Report about missing datablock.
  */
-function report_missing_datablock(type) {
+function report_missing_datablock(type, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
 
-    m_print.warn("WARNING " + "Datablock " + type + " is missing, reexport scene");
+    m_print.warn("WARNING " + "Datablock " + type + " is missing, reexport \"" +
+                file_path_blend + "\" scene");
 }
 /**
  * Report about deprecated datablock
@@ -1323,19 +1993,26 @@ function report_deprecated(type, obj, deprecated_param) {
         return;
     }
 
-    m_print.warn("B4W Warning: \"" + String(deprecated_param) + "\" for " + String(type) + " " +
-            "\"" + obj["name"] + "\"" + " is deprecated, reexport " +
-            (obj["library"] ? "library \"" + libname(obj) + "\"" : "main scene."));
+    if (!(param_id in _params_reported)) {
+        _params_reported[param_id] = {
+            storage: [],
+            report_type: "deprecated",
+            type: type
+        }
+    }
+
+    _params_reported[param_id].storage.push(obj.name);
 }
-function report_modifier(type, obj) {
+function report_modifier(type, obj, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
 
     m_print.error("WARNING " + "Incomplete modifier " + String(type) + " for " +
-            "\"" + obj["name"] + "\"" + ", reexport " +
-            (obj["library"] ? "library" + libname(obj) : "main scene"));
+            "\"" + obj["name"] + "\"" + ", reexport \"" +
+            file_path_blend + "\" scene");
+
 }
 /**
  * Report raw message
@@ -1359,17 +2036,32 @@ function libname(obj) {
 
 function check_uniform_scale(obj) {
     var scale = obj["scale"];
+    var eps = 0.005
+
+    if (scale[0] == 0 && scale[1] == 0 && scale[2] == 0)
+        return true;
 
     var delta1 = Math.abs((scale[0] - scale[1]) / scale[0]);
     var delta2 = Math.abs((scale[1] - scale[2]) / scale[1]);
 
-    return (delta1 < 0.001 && delta2 < 0.001);
+    return (delta1 < eps && delta2 < eps);
 }
 
+function check_negative_scale(obj) {
+    return obj["scale"][0] < 0 || obj["scale"][1] < 0 || obj["scale"][2] < 0;
+}
+
+exports.check_anim_fcurve_completeness = function(fcurve, action) {
+    if (!("num_channels" in fcurve)) {
+        fcurve["num_channels"] = 1;
+        report_raw("B4W Warning: no channels number in animation fcurve for \"" +
+                   action["name"] + "\" action, reexport scene");
+    }
+}
 
 /**
  * Apply modifiers for mesh object and return new mesh.
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns Mesh object or null
  */
 exports.apply_mesh_modifiers = function(obj) {
@@ -1690,6 +2382,9 @@ exports.create_material = function(name) {
         "b4w_collision": false,
         "b4w_collision_id": "",
         "b4w_double_sided_lighting": false,
+        "b4w_water_enable_caust": false,
+        "b4w_water_caust_scale": 0.25,
+        "b4w_water_caust_brightness": 0.5,
         "physics": {
             "friction": 0.5,
             "elasticity": 0
@@ -1774,6 +2469,8 @@ function mesh_join(mesh, mesh2) {
                 submesh[prop] = m_util.uint32_concat(submesh[prop], submesh2[prop]);
                 for (var j = index_length; j < submesh["indices"].length; j++)
                     submesh["indices"][j] += base_length;
+            } else if (prop == "vertex_colors") {
+                // leave vertex colors from the first mesh
             } else
                 submesh[prop] = m_util.float32_concat(submesh[prop], submesh2[prop]);
         }
@@ -1798,6 +2495,46 @@ function mesh_transform_locations(mesh, matrix) {
                 submesh["normal"], 0);
         m_util.tangents_multiply_matrix(submesh["tangent"], matrix,
                 submesh["tangent"], 0);
+    }
+}
+
+/**
+ * Rewrite object params according to NLA script.
+ * Not the best place to do such things, but other methods are much harder to
+ * implement (see update_object())
+ */
+exports.assign_nla_object_params = function(objects, scenes) {
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+
+        if (!scene["b4w_use_nla"])
+            continue;
+
+        var nla_script = scene["b4w_nla_script"];
+
+        for (var j = 0; j < nla_script.length; j++) {
+            var sslot = nla_script[j];
+
+            switch (sslot["type"]) {
+            case "SELECT":
+            case "SELECT_PLAY":
+                for (var k = 0; k < objects.length; k++) {
+                    var obj = objects[k];
+                    if (obj["name"] == sslot["object"])
+                        obj["b4w_selectable"] = true;
+                }
+
+                break;
+            case "SHOW":
+            case "HIDE":
+                for (var k = 0; k < objects.length; k++) {
+                    var obj = objects[k];
+                    if (obj["name"] == sslot["object"])
+                        obj["b4w_do_not_batch"] = true;
+                }
+                break;
+            }
+        }
     }
 }
 

@@ -1,27 +1,35 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import math
-import os,sys,subprocess, multiprocessing, re
+import os,sys,subprocess, multiprocessing, re, getopt
+import shutil
+import struct
+import hashlib
+import glob
 
-ASSETS_DIR = "../external/deploy/assets"
-APPS_DIR = "../external/deploy/apps"
-TUTS_DIR = "../external/deploy/tutorials/examples"
+ASSETS_DIR = "../deploy/assets"
+APPS_DIR = "../deploy/apps"
+TUTS_DIR = "../deploy/tutorials"
+
+NO_CONV_NAME = ".b4w_no_conv"
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
 RED    = "\033[91m"
 ENDCOL = "\033[0m"
 
+SEQ_VIDEO_FPS = 12
+
 def help():
-    print("usage: converter.py <conversion_option>")
+    print("usage: converter.py [-d dir_path] <conversion_option>")
     print("")
     print("""conversion options:
     resize_textures
     convert_dds
-    convert_sounds
+    convert_media
     cleanup_textures
     cleanup_dds
-    cleanup_sounds""")
+    cleanup_media""")
 
 
 def resize_texture(args):
@@ -176,15 +184,30 @@ def is_older(path, path2):
     else:
         return False
 
-def convert_sound(args):
+def convert_media(args):
     root = args[0]
     filename = args[1]
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
 
-    if (head.find(".lossconv") == -1 and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
+    if (head.find(".altconv") == -1 and
+            (ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+        path_from = os.path.join(root, filename)
+
+        new_ext = ".seq"
+
+        path_to = os.path.join(root, head + ".altconv" + new_ext)
+
+        if not is_older(path_from, path_to):
+            if sequential_video_file_conv(path_from, path_to):
+                print("Conversion error")
+                sys.exit(1)
+
+    if (head.find(".altconv") == -1 and
+            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or 
+             ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+
         path_from = os.path.join(root, filename)
 
         if ext == ".ogg":
@@ -194,17 +217,37 @@ def convert_sound(args):
         elif ext == ".mp4":
             new_ext = ".ogg"
 
-        path_to = os.path.join(root, head + ".lossconv" + new_ext)
+        elif ext == ".ogv":
+            new_ext = ".m4v"
+        elif ext == ".webm":
+            new_ext = ".m4v"
+        elif ext == ".m4v":
+            new_ext = ".webm"
+
+        path_to = os.path.join(root, head + ".altconv" + new_ext)
 
         # optimization: only convert modified src files (like make)
         if is_older(path_from, path_to):
             return
 
-        print("converting file", path_from)
+        print("converting media file", path_from)
 
         if avconv_conv(path_from, path_to):
             print("Conversion error")
             sys.exit(1)
+
+        # optional
+        qt_path = shutil.which("qt-faststart")
+        if qt_path and os.access(qt_path, os.X_OK):
+            result = qt_faststart_conv(path_to)
+            if result is not None:
+                if result:
+                    print("Conversion error (qt_faststart)")
+                    sys.exit(1)
+                else:
+                    os.rename(path_to + ".tmp", path_to)
+
+
 
 def avconv_conv(path_from, path_to):
 
@@ -215,22 +258,91 @@ def avconv_conv(path_from, path_to):
         args += ["-acodec", "libvorbis"]
     elif ext_to == ".mp3":
         args += ["-acodec", "mp3"]
-    elif ext_to == ".mp4":
+    elif ext_to == ".mp4" or ext_to == ".m4v":
         # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
-        args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"] 
+        args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"]
 
     args += [path_to]
+
     print(args)
 
     return os.spawnvp(os.P_WAIT, "avconv", args)
 
-def remove_sound(args):
+def qt_faststart_conv(path):
+    ext_to = os.path.splitext(path)[1]
+
+    if ext_to == ".mp4" or ext_to == ".m4v":
+        args = ["qt-faststart", path]
+        args += [path + ".tmp"] 
+        print(args)
+        return os.spawnvp(os.P_WAIT, "qt-faststart", args)
+    return None
+
+def sequential_video_file_conv(path_from, path_to):
+    
+    tmp_folder = os.path.join(os.path.dirname(path_from), 
+            hashlib.md5(path_from.encode()).hexdigest())
+    ext = os.path.splitext(path_from)[1]
+    os.mkdir(tmp_folder)
+
+    fps = str(SEQ_VIDEO_FPS)
+
+    if ext == ".m4v":
+        rez = os.system("avconv -i " + path_from + " -r " + fps + " -strict experimental " + tmp_folder + "/_seq_tmp" + ext)
+    else:
+        rez = os.system("avconv -i " + path_from + " -r " + fps + " " + tmp_folder + "/_seq_tmp" + ext)
+    if rez != 0:
+        shutil.rmtree(tmp_folder)
+        print("Could not convert video ", path_from)
+        return rez
+
+    args = ["avconv", "-i", tmp_folder + "/_seq_tmp" + ext, tmp_folder + "/out%08d.jpg"]
+    rez =  os.spawnvp(os.P_WAIT, "avconv", args)
+    if rez != 0:
+        shutil.rmtree(tmp_folder)
+        print("Could not split frames ", path_from)
+        return rez
+
+    try:
+        sequential_video = open(path_to, "wb")
+    except OSError as exp:
+        raise FileError("Permission denied")
+    else:
+        number_of_files = len(glob.glob(tmp_folder + "/*.jpg"))
+
+        sequential_video.write(bytes("B4WSWWWWHHHH", "UTF-8"))
+
+        sequential_video.write(struct.pack("i", number_of_files))
+        sequential_video.write(struct.pack("i", SEQ_VIDEO_FPS))
+
+        for i in range(1, number_of_files + 1):
+            number = str(i)
+            try:
+                frame = open(tmp_folder + "/out" + number.zfill(8) + ".jpg", "rb")
+            except OSError as exp:
+                raise FileError("Permission denied")
+            else:
+                file_stat = os.stat(tmp_folder + "/out" + number.zfill(8) + ".jpg")
+                size = file_stat.st_size
+                sequential_video.write(struct.pack("i", size))
+                sequential_video.write(frame.read())
+                for j in range(4 - size % 4):
+                    sequential_video.write(struct.pack("B", 0))
+                frame.close()
+
+        sequential_video.close()
+        shutil.rmtree(tmp_folder)
+        return None
+
+
+def remove_media(args):
     root = args[0]
     file = args[1]
     ext = os.path.splitext(file)[1]
-    if (".lossconv" in file and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
+    if (".seq" in file or ".altconv" in file and
+            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or
+            ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
         print("removing", os.path.join(root, file))
         os.remove(os.path.join(root, file))
 
@@ -249,24 +361,41 @@ def remove_dds(args):
         print("removing", os.path.join(root, file))
         os.remove(os.path.join(root, file))
 
-
 if __name__ == "__main__":
-
-    if len(sys.argv) != 2:
-        help()
-        exit(0)
-
-    task = sys.argv[1]
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],
+                            "d:h:", ["dir=", "help"])
+    except getopt.GetoptError as err:
+        print(err)
+        sys.exit(1)
 
     paths = [ASSETS_DIR, TUTS_DIR]
 
-    if task == "convert_sounds":
-        paths.append(APPS_DIR)
-        handler = convert_sound
+    for o, a in opts:
+        if o == "--dir" or o == "-d":
+            if os.path.isdir(a):
+                paths = [a]
+            else:
+                print("Directory does not exist")
+                sys.exit(1)
 
-    elif task == "cleanup_sounds":
-        paths.append(APPS_DIR)
-        handler = remove_sound
+    if not len(args):
+        help()
+        sys.exit(1)
+
+    if len(args) > 1:
+        print("You may specify only one assignment")
+        print()
+        help()
+        sys.exit(1)
+
+    task = args[0]
+
+    if task == "convert_media":
+        handler = convert_media
+
+    elif task == "cleanup_media":
+        handler = remove_media
 
     elif task == "resize_textures":
         handler = resize_texture
@@ -287,9 +416,11 @@ if __name__ == "__main__":
     args = [];
 
     for path in paths:
-        for root, dirs, files in os.walk(path):
+        abs_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), path)
+        for root, dirs, files in os.walk(abs_path):
             for f in files:
-                args.append([root, f])
+                if not os.path.isfile(os.path.join(root, NO_CONV_NAME)):
+                    args.append([root, f])
 
     cpu_count = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes = cpu_count)

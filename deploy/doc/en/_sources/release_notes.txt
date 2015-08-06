@@ -1,0 +1,2096 @@
+
+Release Notes
+*************
+
+
+v15.07
+======
+
+
+New Features
+------------
+
+* Support for "Alpha Clip" transparency for node materials.
+
+     It is now possible to specify a transparency mask for "Alpha
+     Clip" materials using node logic.
+
+* Support for soft particles.
+
+     The new property "Soft Particles" has been added to the "Render"
+     panel of the "Emitter" particle system. When activated, this
+     property renders smooth edges near opaque objects located on the
+     scene. This effect is available only for materials with "Alpha
+     Sort", "Alpha Blend" or "Add" type of transparency.
+
+* New preprocessor for shader instructions.
+
+     This new preprocessor has more straightforward architecture and
+     works faster, which, in turn, greatly reduces overall scene
+     loading time, especially in  cases with many different shaders.
+
+* Improved *Viewer* app performance.
+
+     Performance problems caused by event handling in jQuery Mobile
+     library have been fixed.
+
+* Zero level property for *HOVER* cameras.
+
+     This property represents a Z coordinate of the reference plane in
+     which the camera's pivot point is located.
+
+* New sensor manifold type: "CT_CHANGE".
+
+     Along with "CT_CONTINOUS", "CT_TRIGGER", "CT_SHOT" and "CT_LEVEL"
+     manifold types the new "CT_CHANGE" type can now be used. This
+     type allows to execute a manifold's callback right after any of
+     the sensors' values in the manifold has been changed.
+
+* New APIs in *camera_anim* module.
+
+     New API methods such as move_camera_to_point(), rotate_camera(),
+     is_moving() and is_rotating() have been added to module
+     camera_anim.
+
+* A new option to assign materials to objects.
+
+     Until now it has not been possible to assign meterials on objects
+     using "Object" property. Now, this feature is supported.
+
+* Support for external requests to the local development server.
+
+     This feature is enabled by the *Enable external requests*
+     property in addon prefrences.
+
+* New method clear_animation() in the time module.
+
+* New camera APIs.
+
+     APIs of camera module has been extended by get_vertical_limits()
+     and has_vertical_limits() methods which are used to get or check
+     the camera's vertical rotation and translation limits.
+
+* Documentation improvements.
+
+     New user manual design optimized for devices of all kind.
+
+     The differences between coordinate systems used in Blender and
+     Blend4Web are now specified in documentation.
+
+* Support for addon i18n.
+
+     This feature allows translation of addon interface to different
+     languages. The translation into Russian is almost complete.
+
+
+Changes
+-------
+
+* Various usability improvements in the addon interface.
+
+* New "force_container_ratio" option in the init() method.
+
+* Simplified usage of water caustics.
+
+     Water caustics effect is now activated by the "Caustics" option
+     located on the material's "Water" panel.
+
+* New way of evaluating mouse movement sensors.
+
+     Now all elements inside the Canvas Container element (e.g
+     Anchors) do not lock mouse events, thus allowing us to prevent
+     glitches during camera movement.
+
+* Option to change quality of reflections.
+
+     Now it is possible to choose one of three predefined reflection
+     quality modes: "LOW", "MEDIUM" or "HIGH".
+
+* New properties "--project" and "--app" in the *project.py*
+  utility.
+
+* New animation APIs.
+
+     New methods to simplify frame setting:
+     set_first_frame()/set_last_frame().
+
+* New behavior of plane reflections.
+
+     It is now possible to omit specifying the reflection normal by
+     leaving the "Reflection Plane" option empty. In this case, local
+     Z axis will be used instead.
+
+* New SSAO behavior.
+
+     Now there is no need to have shadow casters in the scene to use
+     the SSAO effect.
+
+* New texture anisotropic filtering settings.
+
+     There is a new "Default" value for anisotropic filtering option
+     assigned to textures. By selecting this value you can use the
+     anisotropic filtering specified on the scene. If you need to
+     disable anisotropic filtering on all textures, again, use the
+     setting from the scene.
+
+* New specular alpha shading behavior to match Blender's.
+
+* The physics mask/group, assigned for collision materials, has been
+  extended from 8 to 16 bits.
+
+* New asynchronous shader loader for developer version of Blend4Web.
+
+* Elimination of *shaders* module.
+
+     The methods of this module is now available from the debug
+     module.
+
+* New script for batch processing exported json/html files.
+
+     The scripts *reexporter.py* and *resaver.py* have been combined
+     into *process_blend.py*, which has options for processing
+     exported json/html files.
+
+* Minor refactoring and improvements in API documentation.
+
+
+Fixes
+-----
+
+* Fixed a bug with incorrect Canvas element size appeared on the
+  engine's startup.
+
+* Fixed a lighting bug on objects with the negative "Scale" option.
+
+     This condition is properly handled and reported to the user (in
+     the browser console).
+
+* Fixed a bug with object's vertex animation.
+
+* Fixed a bug with animation played in reverse.
+
+* Fixed an error with incorrect state of *Collision* and *Ray*
+  sensors which appeared after deleting physics objects.
+
+* *Environment* textures with dimensions exceeding the supported
+  ones are now processed correctly.
+
+     Now, such textures are not being turned off but rendered in
+     reduced scale instead. Dimensions are reduced synthetically for
+     NVIDIA GeForce 8000 GPUs on Windows Chrome.
+
+* Fixed an issue with incorrectly reported error which appeared
+  while loading scenes with missing camera/world.
+
+* Fixed a Blender startup error with the world missing from the
+  scene.
+
+* Fixed a bug in the "Webplayer" app when the sound button was
+  missing in some scenes.
+
+* Fixed a bug in the scenes when *motion blur* is the only effect to
+  appear.
+
+* Fixed the get_material_extended_params() method in the material
+  module.
+
+* Fixed Firefox Mobile crashes when using shadows. Improved overall
+  stability for this browser.
+
+* Improved reexporter stability.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     The addons which have version 15.05 or earlier should be deleted
+     before a newer version of addon can be installed. This is
+     especially important on Windows. After deleting the old version,
+     Blender must be restarted.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* There is a bug with video textures on Chrome 43 for Android.
+
+     Please update your Chrome browser to Beta or wait until the next
+     Chrome update.
+
+* Fixed issues with the "Background Music" speakers in the scenes
+  exported to html.
+
+     Currently, there is a bug in Google Chrome (Issue 511251),
+     related to an error with audio file origin. Currently, this issue
+     is partially resolved by our workaround with forced *crossOrigin*
+     attribute on audio sources.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+
+v15.06
+======
+
+
+New Features
+------------
+
+* New add-on user interface.
+
+     Add-on interface has been redesigned. It is now activated by the
+     new rendering profile, *Blend4Web*, which only contains panels
+     and options explicitly supported by the engine. To simplify
+     navigation, the old multi-line Blend4Web panels have been re-
+     grouped into the smaller ones, based on functionality.
+
+     Also, there is a new feature to automatically assign graphic
+     effects required for a scene. In particular, shadows, refraction,
+     *Glow* and *Outline* effects acquired the new *AUTO* property
+     which automatically activates them if some objects or materials
+     located on the scene require such effects.
+
+* New normal editor.
+
+     The normal editor has been substantially upgraded. Now it is
+     fully compatible with the native Blender datablock used to store
+     normals. This new editor has more efficient UI and also allows to
+     edit split normals.
+
+* Support for new material nodes.
+
+     "Orco" and "Local" outputs of *Geometry* node are now supported.
+     There are also some preliminary steps to support *RGB Curves*,
+     *Vector Curves*, *ColorRamp* and Cycles nodes.
+
+* New shading models.
+
+     *Minnaert*/*Toon* diffuse shaders and *Blinn* specular shader
+     have been implemented. Thus, starting from this release the
+     engine supports all shading models of Blender.
+
+* Support for Blender 2.75
+
+* Multiple physics improvements.
+
+     Code for collision detection has been rewritten. Now it is
+     possible to determine colliding objects, and also the coordinates
+     and the normal at the collision point.
+
+     Improved ray casting API. In particular, one can specify an
+     option to perform an automatic cleanup of the ray test object and
+     also another option to cast a ray through multiple objects. As in
+     the case of collision detection, this new API allows to determine
+     the target object and the position/normal of the hit point. There
+     is also a new possibility to cast rays from point to point in
+     global space, without requirement to specify a source object.
+
+     Extended possibilites of *Collision* and *Ray* sensors.
+
+     Support for deleting physics objects and automatic recalculation
+     of collision/ray tests after physics objects have been
+     added/removed.
+
+* A new tool for reexporting multiple scenes.
+
+     A new *Mass Reexporter* tool has been added to addon. This tool
+     allows to automatically reexport all scenes from the specified
+     list of directories.
+
+* Possibility to check for updates.
+
+     You can now enable a "Check for Updates on Startup" option in
+     addon settings to perform automatic checks for the new versions
+     of Blend4Web.
+
+* API to control *Motion Blur* postprocessing effect.
+
+     New methods to control Motion Blur effect "get_mb_params()" and
+     "set_mb_params()" has been added to "scenes.js" module.
+
+* Support for Timeline markers.
+
+     To extract frame numbers from timeline markers a new method
+     "marker_frame()" has been implemented in "scenes.js" module.
+
+* New NLA APIs.
+
+     A new set of methods: "set_range()", "reset_range()",
+     "set_cyclic()" and "clear_callback()" has been added to "nla.js"
+     module. Also, it's now possible to specify callback in "play()"
+     method.
+
+* New API to change Canvas resolution.
+
+     To change Canvas resolution it's sufficient to execute method
+     "set()" from "config.js" module with the following parameters:
+     "canvas_resolution_factor" and "value", where "value" is the new
+     resolution of Canvas. This feature is particulary useful for
+     creating high-definition screenshots.
+
+* Support for "Vertex Groups -> Length" option in *Hair* particle
+  system.
+
+* New API documentation.
+
+     To document types used by Blend4Web applications we developed a
+     new formal type system. For example, in our old API docs 3D
+     vectors had "Float32Array" type. Now they have formal "Vec3"
+     type. This solution allows us to formulate more clear and
+     intelligible descriptions for API and, more importantly, helps
+     our users to develop more readable and reliable applications.
+
+* New colors API.
+
+     To work with colors in efficient way two new modules: rgb and
+     rgba have been created. They include APIs to create new color
+     vectors and convert  them between different profiles.
+
+* Automatic determination of path to SDK.
+
+     Addon option "Blend4Web SDK Directory" is filled up
+     automatically, if the addon is located in default
+     "blender_scripts" directory inside SDK.
+
+* API for correct calculation of Canvas 2D coordinates.
+
+     For proper manipulations with mouse cursor and touchscreen
+     devices the engine requires correct 2D Canvas coordinates.
+
+     Details about calculation and use cases of such coordinates are
+     described in the separate topic.
+
+     To support this feature the following methods have been added to
+     engine's APIs: "client_to_canvas_coords()",
+     "set_canvas_offsets()", "update_canvas_offsets()" and
+     "force_offsets_updating()". Also, there is a new configuration
+     option: "track_container_position".
+
+* API to change smooth factors of the camera's movement.
+
+     To change smooth factors of the camera's movement the following
+     APIs have been implemented: "set_plock_smooth_factor()" and
+     "get_plock_smooth_factor()" in "mouse.js" module (for Pointer
+     Lock mode)  and also "set_camera_smooth_factor()" and
+     "get_camera_smooth_factor()" in "app.js" addon (for general use
+     cases).
+
+* New favicon picture has been added to Webplayer.
+
+
+Changes
+-------
+
+* New API spec for collision detection and ray casting.
+
+     Methods "append_collision_test()" and "append_ray_test()", as
+     well as "create_collision_sensor()" and "create_ray_sensor()" are
+     now have new spec, which is incompatible with the previous
+     versions of Blend4Web engine. All developers should consider
+     upgrading their applications to match this new behavior.
+
+* Rendering to texture changes.
+
+     It's now possible to render scene into texture cyclically, e.g.
+     when two scenes render one into another. The main constraint here
+     is the requirement to have at least one scene, into which is
+     nothing is being rendered.
+
+* The option "Apply Default Animation" is now disabled if an object
+  already have an NLA animation attached.
+
+     In cases when the object already have an NLA animation attached,
+     the option "Apply Default Animation" is disabled to eliminate
+     possible animation conflicts.
+
+* Changed *Hemi* lamp behavior.
+
+     If the object is being illuminated by the *Hemi* lamp, the
+     *Lambert* shading model will allways be applied to it's
+     materials. This is done to match the Blender's behavior.
+
+* Support for exported-to-HTML video textures in Firefox browser.
+
+     Since Firefox 38 an error with video textures exported to base64
+     was fixed, so it's now possible to use them in such browsers.
+
+* Changed assignment of UV layers to match Blender's behavior.
+
+     Missing from node materials UV layers are determined
+     automatically as it's done in Blender.
+
+* Improved stability of exported to HTML video textures.
+
+* Optimizations of CSM shadows.
+
+* Depth shader optimizations.
+
+* Billboard objects optimizations.
+
+* Configuration option "resolution_factor" was renamed to
+  "render_resolution_factor".
+
+* Improved support for particle emitters which have several
+  materials.
+
+     Distribution of the particles to emitters as well as vertex
+     colors inheritance is being done taking into account each
+     material i.e mesh part.
+
+* Changed "Wind Bending" inheritance on particle systems.
+
+     If *Wind Bending Inheritance* property is set to "Instance" then
+     "Wind beinding" property for emitter object is not switched of
+     anymore.
+
+* Updated messages about addon/engine version incompatibilities.
+
+     For more info see version errors.
+
+* Remove sensor locks API.
+
+     Unused sensor locks API was removed from "controls.js" module.
+
+* Fixed behavior of node materials with missing *Output* node.
+
+
+Fixes
+-----
+
+* Fixes in "screenshooter.js" addon.
+
+     Fixed an error with impossibilty to take a screenshot.
+
+* Fixed a bug in "set_frame()" method from "nla.js" module.
+
+     Fixed "set_frame()" inaccurancy.
+
+* Improved exported stability.
+
+* Fixed a bug with addon removal/update on Windows.
+
+     Refined binary loader in addon.
+
+* Fixed a bug with shading from *SPOT*/*POINT* lamps.
+
+* Fixed incorrect behavior of coordinate calculations in methods
+  "get_coords_x()" and "get_coords_y()" from "mouse.js" addon.
+
+* Fixed calculations of alpha channel in *Outline* effect.
+
+* Fixed *Wind Bending* effect error.
+
+* Fixed an error when particle's *Scale* was not taken into account
+  on particle systems.
+
+* Fixed synchronization error on animated *EMITTER* particle
+  systems.
+
+* Fixed a bug with shadows on billboard objects.
+
+* Fixed incorrect exporting of *Override Mesh Boundings* settings.
+
+* Fixed a bug with billboard rendering on iPad.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     The addons which have version 15.05 or earlier should be deleted
+     before a newer version of addon can be installed. This is
+     especially important on Windows. After deleting the old version,
+     Blender must be restarted.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* There is a bug with video textures on Chrome 43 for Android.
+
+     Please update your Chrome browser to Beta or wait until the next
+     Chrome update.
+
+
+v15.05
+======
+
+
+New Features
+------------
+
+* *Glow effect*.
+
+     Supported an effect which occurs when the light scatters in the
+     atmosphere and inside of the human eye and looks like a halo
+     around glowing objects.
+
+* *The local development server runs automatically.*
+
+     A new option has been added to the addon settings. This option
+     turns on automatic start of local development server upon opening
+     Blender. With the help of this functional web applications in
+     development can be run without any preparations.
+
+* *Cube reflections.*
+
+     Apart from plane reflections, there are now cube reflections
+     available. There is a new "Reflection Type" option available when
+     "Reflective" flag is set on the object. Setting it to "Cube"
+     turns this feature on.
+
+* *More NLA options supported.*
+
+     Added support of Blender's NLA tools: "Scale", "Muted",
+     "Reversed" and "Repeat". The support of these tools broadens
+     capabilities of interactive scene developers.
+
+     Furthermore, to control NLA through API a new "nla.js" module was
+     added. This module contains methods like "play()", "stop()",
+     "get_frame()", "set_frame()" that can play/stop NLA and get/set
+     the current frame. New methods have been involved in implementing
+     control panel interface in the Viewer app.
+
+* *Increased rendering possibilities for sky textures.*
+
+     "Influence" parameters for sky texture rendering are now
+     supported. Those parameters are: "Blend", "Horizon", "Zenith Up",
+     "Zenith Down",``Blend``, "Negative", "RGB to Intensity", "DVar".
+
+* *In node materials, the engine now correctly processes connections
+  between inputs and outputs of different types.*
+
+     It is now possible to connect outputs of one type with inputs of
+     another type (Non-critical error). Now Blender's native behaviour
+     is supported by the engine.
+
+* *For Hair particles the options on the Rotation panel are now
+  supported.*
+
+     Now the engine fully supports the state of particles set in
+     Blender. In particular not only location and scale are supported
+     now, but rotation as well.
+
+* *Some demos for postprocessing effects demostration were added.*
+
+     Examples were prepared for the following effects: Bloom, Depth of
+     Field, God Rays, Motion Blur and SSAO.
+
+* *Added a new module container.js.*
+
+     DOM tree elements can be added with a specific depth relative to
+     the  depth of the "canvas" element with the help of
+     "container.js"'s "insert_to_container()" method. This method
+     replaces CSS property "z-index" because location depth of
+     elements is now determined by their position in the container
+     element.
+
+* *Improvements in the physical engine.*
+
+     "Margin" property of physical elements and materials is now
+     supported. This option allows for improved stability of object
+     collision simulation. Bullet engine was updated to version 2.83.
+
+* *API for changing camera controls mode.*
+
+     Added methods of changing movement style of the camera. The
+     example can be found in Code Snippets app in the "Camera Move
+     Styles" section. Also has been added "set_hover_pivot()" method.
+     This method allows to shift the control point of "HOVER" camera.
+
+
+Changes
+-------
+
+* *Reorganized SDK's scene list.*
+
+     All the scenes in the Viewer app has been sorted by groups: *App*
+     contains finished apps, *Demos* contains demo-scenes and
+     examples, *Tutorial Exports* contains tutorials source files.
+
+* *Added syntax highlight in Code Snippets app.*
+
+     Code Snippets app now has a new design. Also it was optimized for
+     low-resolution screens.
+
+* *API controls of video and canvas textures have been changed.*
+
+     A new parameter "data_id" has been added to these textures'
+     control methods. This parameter contains an ID of dynamically
+     loaded scene.
+
+* *Handling of animated bone excess has been changed.*
+
+     The skeletal animation now just turns off when exceeding the
+     maximum number of bones. It resulted in shader compilation error
+     and unstable application behaviour before.
+
+* *Some particle system properties has been renamed and now they are
+  turned off by default.*
+
+     In particular, Hair particle system's properties "Randomize
+     Location And Size" and "Randomize Initial Rotation" are turned
+     off by default now.
+
+* *Doppler effect for speakers is now turned off in some browsers.*
+
+     Doppler effect support in Web Audio has been pronounced as
+     deprecated and will be removed in Chrome starting from version
+     45. Other browsers still support this functionality.
+
+* *Changed objects' behavior when both skeletal and vertex animation
+  are applied.*
+
+     If an object has both armature modifier and vertex animation
+     applied on it, the armature modifier won't be exported.
+
+* *Rendering of particle system procedural animation (Wind Bending
+  effect) has been optimized.*
+
+* *The main .json and .bin scene files loading error handling has
+  been improved.*
+
+* *Windows 32 version of Blend4Web addon is now compiled natively.*
+
+     This feature improves addons compatibility on such systems.
+
+
+Fixes
+-----
+
+* *The error that led to the wrong height of the description element
+  in module "anchors.js" has been fixed.*
+
+* *Support for Epiphany and other WebKit-based browsers.*
+
+     Achieved by fixing the code which works differently in the
+     different JavaScript engines.
+
+* *Gestures on Internet Explorer 11 were disabled for Microsoft
+  Windows touch devices.*
+
+     Previously, gestures usage (Windows Touch Gestures) was leading
+     to unnecessary HTML-elements scaling and movement on such
+     configurations. It is expected that correct gestures behaviour
+     will be supported in further browser releases.
+
+* *Vertex animation with animated armature bake error was fixed.*
+
+* *The error with rendering billboard objects on the iPad has been
+  fixed.*
+
+* *Node material's NLA animation applied to several objects was
+  fixed.*
+
+* *Fixed a bug related to the Motion Blur effect.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly recommend not installing a new version of an addon
+     without deleting the old one, especially on Windows. After
+     deleting the old version, Blender must be restarted.
+
+
+v15.04
+======
+
+
+New Features
+------------
+
+* *Deformations by using Shape Keys (Morphing).*
+
+     Added support for object's Morph targets (known as Shape Keys in
+     Blender). To apply such keys, use the "set_shape_key_value"
+     method of the "geometry.js" module. Simple example of how to use
+     such functionality is given in the Code Snippets app.
+
+* *Support for Horizon Color and Zenith Color background settings.*
+
+     It's now possible to tweak scene background by using the "Horizon
+     Color" and "Zenith Color" properties as well as the "Paper Sky",
+     "Blend Sky" and "Real Sky" options directly from Blender.
+
+* *Support for the Gamma node.*
+
+     We have implemented the Gamma node back in Blender v2.74. Now
+     this node is finally supported by Blend4Web.
+
+* *Various improvements in the Anchors tool.*
+
+     It's now possible to limit the pixel size of an annotation. Added
+     support for dynamic loading/unloading of Anchors. Implemented the
+     possibility to hide and show Anchors by using the
+     *show()*/*hide()* API functions and/or by the NLA Script tool.
+
+* *Shader optimizations.*
+
+     Shader compiler improvements. Added the following features: local
+     variables optimizations, brackets removal. Improved the
+     performance of node materials.
+
+* *Physics engine optimizations.*
+
+     To save the load time, the physics modules are now loaded only
+     when explicitly required. Overall size of the modules has been
+     decreased by 20%.
+
+* *Extended tools for physics debugging.*
+
+     The new *physics_stat()* method has been added to the debug
+     module. This method returns physics statistics such as the number
+     of physics objects (separated by type), amount of geometry and
+     other info. It is now also possible to display the number of
+     physics iterations per second aka Physics FPS (activated in the
+     *config* module).
+
+* *The new API method to attach objects to the camera independently
+  from the camera's aspect ratio or the field of view.*
+
+     Implemented in the *append_stiff_viewport()* method of the
+     constraints module.
+
+* *The new module to perform transformations: "tsr.js".*
+
+     This new module makes it possible to apply a variety of
+     tranformations to objects by using versatile TSR vectors. Each
+     TSR vector combines translation, scale and rotation (hence the
+     name). These vectors may be used instead of matrices as a more
+     convenient and effective way to apply transformations.
+
+* *The possibility to exclude any directories from being converted
+  by the resource converter.*
+
+     To exclude some directory from being converted by the resource
+     converter, it is enough to place a file named ".b4w_no_conv" to
+     this directory.
+
+
+Changes
+-------
+
+* *The API documentation has changed its appearance. Links for quick
+  access to methods and properties were added.*
+
+* *Skeletal animation now takes into account the relative
+  translation of an armature and a skinned object.*
+
+     Native Blender's behavior is now supported. There is now no need
+     to position an armature and an animated object in the same place
+     and with the same rotation and scale.
+
+* *Independent translation, rotation and scale animations are now
+  supported.*
+
+     The animation system no more forces keyframes to be present in
+     every channel, which makes it possible to save original values in
+     unused channels or change them with API.
+
+* *World background support.*
+
+     Background and sky can be enabled with the "Sky Settings > Render
+     Sky" option under the "World" tab. It is turned off by default.
+
+* *The Uranium physics engine now consists of two modules.*
+
+     There are now two physics modules instead of one: *uranium.js* -
+     the engine's code and *uranium.js.mem* - the file for memory
+     initialization. Both modules must be placed in the same
+     directory.
+
+* *The glow effect together with its related components was renamed
+  to Outline.*
+
+     The new name better describes the principle of this effect:
+     highlighting objects' edges.
+
+* *Limiting the camera translation using the "append_semi_stiff_cam"
+  method of the "constraints.js" module is now possible only for the
+  "EYE" type.*
+
+* *Local development server for Blender was replaced by a new one.*
+
+     Now, instead of the standard Python SimpleHTTPServer, the Tornado
+     web server is used as the local development server. The new
+     server has greater performance and it also offers more options to
+     disable browser cache.
+
+* *Keyboard controls for sliders in the Viewer application were
+  added.*
+
+     You can now control sliders with "<" and ">"  keys.
+
+* *Changes in the "update_object_animation" method of the
+  "animation.js" module.*
+
+     The optional "force_update" parameter was added. It forces
+     animated objects to be updated even when their animation is not
+     being played back.
+
+* *API changes in the mouse.js module.*
+
+     The *enable_mouse_hover_outline* and
+     *disable_mouse_hover_outline* methods were added.
+
+     The following methods were declared deprecated and will be
+     removed in the next releases: *enable_mouse_hover_glow* and
+     *disable_mouse_hover_glow*.
+
+* API changes in the *scenes.js module.*
+
+     The *outlining_is_enabled*, *set_outline_intensity*,
+     *get_outline_intensity*, *apply_outline_anim*,
+     *apply_outline_anim_def*, *clear_outline_anim*,
+     *set_outline_color* and *get_outline_color* methods were added.
+
+     The following methods were declared deprecated and will be
+     removed in the next releases: *set_glow_intensity*,
+     *get_glow_intensity*, *apply_glow_anim*, *apply_glow_anim_def*,
+     *clear_glow_anim*, *set_glow_color* and *get_glow_color*.
+
+* *Some settings were changed in the Object > Blend4Web panel.*
+
+     The *Enable Outline* option was added to enable using the outline
+     effect on the given object. Also, the *Outline on Select* option
+     was added to activate glow animation when the object is selected
+     (previously this behavior was defined by the *Selectable* flag).
+
+* *New settings were added to the Scene > Blend4Web panel.*
+
+     The *Enable Object Outlining* option was added to control the
+     overall possibility of outlining. Similarly, the new *Enable
+     Object Selectable* option controls the overall possibility of
+     objects' selection.
+
+* *Now the following object properties: Apply Scale, Apply
+  Modifiers, Export Vertex Animation, Export Edited Normals and Export
+  Shape Keys are mutually exclusive.*
+
+* *API changes in modules.*
+
+     The new *is_armature* method was added to the API of the util.js
+     module. It checks if the given object is of the "ARMATURE" type.
+
+     The new *get_parent* method was added to the API of the
+     constraints.js  module. It returns the parent object of the given
+     object.
+
+
+Fixes
+-----
+
+* *Fixed a bug in the "anchors.js" module which caused objects'
+  descriptions to disappear.*
+
+* *Fixed a bug in the Animation Baker script that occured when there
+  were armature objects in hidden layers.*
+
+* *Fixed the camera's behavior while using "append_semi_stiff_cam"
+  method of the "constraints.js" module.*
+
+     Fixed correction of the camera's vertical axis relative to the
+     parent object. Also the original camera orientation is now being
+     taken into account. This can require some adjusments of the
+     camera's rotation limits that are passed to this function.
+
+* *Fixed a bug with reloading of the playlist when it was empty.*
+
+* *Fixed the buggy behavior of physical objects that occured after
+  deleting at least one of them from the scene.*
+
+* *Fixed a bug that occured when there were zero-scaled objects
+  instanced through DupliGroups.*
+
+* *Fixed a compilation error of the water shader occured on Windows
+  and some mobile devices.*
+
+* *Fixed a bug that occured when there were duplicates of animation
+  keyframes.*
+
+* *Actions from different files sharing one name can be now used for
+  NLA animation.*
+
+* *Fixed duplication of event listeners that occured when the
+  "pointerlock" function was repeatedly called.*
+
+* *Fixed behavior of the "Alpha sort" transparency type for dynamic
+  objects.*
+
+* *Fixed an add-on compilation error that occured on Windows without
+  C++ 2010 runtime installed.*
+
+* *Fixed a bug with rendering of billboard objects on iPad.*
+
+
+v15.03
+======
+
+
+New Features
+------------
+
+* *New tool for adding annotations to 3D objects.*
+
+     Now it is possible to assign anchors to empty objects. These
+     anchors can be of three different types: "Annotations" -
+     information from object's meta-tags is used, "Custom Element" - a
+     custom HTML-element from the current web-page can be used as
+     annotation, "Generic" - an invisible anchor with coordinates
+     calculated using "anchors.js" module API.
+
+* *Animation and API methods for Value and RGB nodes in node
+  materials.*
+
+     Now it is possible to animate not only "Value" nodes but also
+     "RGB" nodes. Also, the corresponding API methods for changing
+     such nodes were added in the "objects.js" module.
+
+* *New "Code Snippets" application.*
+
+     This application was created to simplify access to the examples
+     of engine's functionality. It is also possible to look at the
+     examples' scripts. This application can be launched from the
+     index.html file located in the Blend4Web SDK's root directory.
+
+* *New control functions for the Glow effect.*
+
+     New APIs were added in the *scenes* module:
+     *get_glow_intensity()* and *get_glow_color()*.
+
+* *Improvements in the Scene Viewer.*
+
+     Design of the "Home" button was changed. A new button "All
+     objects selectable" was added. It allows to turn off automatic
+     "Selectable" option assignment for all scene objects. Also, it is
+     now possible to see the total number of shaders on the loaded
+     scene.
+
+* *Dynamic copying of scene objects (instancing).*
+
+     Now it is possible to dynamically copy and remove scene objects
+     (to create and remove instances).
+
+* *Handling errors related to the B4W_PARALLAX Blend4Web-specific
+  node.*
+
+     In case of incorrect usage of the B4W_PARALLAX node, an export
+     error warning is generated.
+
+* *New options in the applications builder.*
+
+     There are now new options in the application builder: "-j" and
+     "-c". They add scripts and styles correspondingly to the
+     exceptions in order to be not compiled.
+
+* *Experimental Blend4Web render engine.*
+
+     It can be turned on in the addon settings using the "Register
+     Blend4Web render engine (Experimental)" flag. This mode is
+     designed to simplify customization of scene properties. Also, it
+     simplifies the interface by removing unsupported panels. At the
+     moment, it is not possible to edit shader node tree in the
+     Blend4Web render mode.
+
+
+Changes
+-------
+
+* *Origin for counting off the camera limits has been changed.*
+
+     Setting camera movement limits via API now perfectly corresponds
+     to values measured in the engine's coordinate system. Setting
+     horizontal limits for the "TARGET" camera in the Blender's world
+     space has been changed. Thus, it may require changeovers for old
+     scenes.
+
+* *Documentation update for the camera settings.*
+
+* *Horizontal and vertical limits of the camera rotation are
+  completely independent from each other.*
+
+* *Some APIs in the camera.js module were changed.*
+
+     APIs of the "camera.js" module have undergone a number of
+     changes.
+
+     New methods were added: *is_target_camera*, *is_eye_camera*,
+     *is_hover_camera*, *rotate_camera*, *rotate_target_camera*,
+     *rotate_eye_camera*, *rotate_hover_camera*, *get_camera_angles*,
+     *hover_cam_set_translation*.
+
+     The following methods were declared as deprecated and will be
+     removed in the next releases: *rotate_pivot*, *rotate_hover_cam*,
+     *rotate*, *set_eye_params*, *get_angles*,
+     *translate_hover_cam_v*, *set_hover_cam_angle*.
+
+     The *set_ortho_scale* and *get_ortho_scale* methods now print
+     error message when they are applied to the "Orthographic" camera.
+     The behavior of the *get_hover_angle_limits* method was also
+     changed. This method now returns angle limits for the "HOVER"
+     camera in the [down, up] format instead of [up, down] as it was
+     before.
+
+* *The lighting system was significantly optimized.*
+
+     Many of the lamp props are calculated at the compile time now.
+     Now, there is no 4 lamp restriction is imposed for some mobile
+     devices.
+
+* *The HTML layout method was changed for apps using the app
+  module.*
+
+     Now, upon initializing an application using the "app.js" module,
+     the dimensions of the created "<canvas>" element are completely
+     determined by the size of the container element. Thus, if a
+     "<div>" element is used as a container, the size of "<canvas>"
+     will be zero by default since div's default size is zero. You can
+     set correct params for the container with CSS and inline-style.
+     Also, you have to use *resize_to_container()* method from the
+     *app* module when the container is changed. The same effect may
+     be achieved if the *autoresize* option is set upon initializing
+     the application (in the *app.init()* function). The low level
+     method for changing the element's dimensions with *main.resize()*
+     function is still supported.
+
+* *Now, the enable_controls() function from the app module should be
+  called without any params.*
+
+* *Deprecated API methods were removed.*
+
+     textures.js module : *stop_video*.
+
+     scenes.js module: *add_object*, *get_screen_scenes*,
+     *set_light_pos*, *set_light_direction*, *set_dir_light_color*,
+     *get_lights_names*, *remove_all*, *check_collision*,
+     *check_ray_hit*, *get_appended_objs*, *get_object_by_empty_name*.
+
+     physics.js module: *set_character_dist_to_water*.
+
+     material.js module: *set_batch_param*, *set_max_bones*,
+     *max_bones*.
+
+     main.js module: *set_shaders_dir*, *set_texture_quality*.
+
+     data.js module: *get_bpy_world*.
+
+     controls.js module: *sensor_make_positive*,
+     *sensor_make_negative*.
+
+     camera.js module: *change_eye_target_dist* (deprecated
+     *MS_CONTROLS* was also removed).
+
+* *There are now new conditions to allow changing object's position
+  via API.*
+
+     The functions from the "transform.js" module related to changing
+     object position can be now applied to dynamic objects only.
+
+* *You can now use TEXTURE nodes without textures.*
+
+     In this case the rendering of the node material completely
+     corresponds to Blender.
+
+* *Updated the procedure of compatibility checks for versions of
+  exported files and the engine itself.*
+
+     The engine will report about the scene's incompatibility by
+     printing messages in the browser console.
+
+* *The  "Do Not Batch" property was renamed to "Force Dynamic
+  Object"*
+
+     This option instructs the engine that the object must be dynamic
+     regardless of other settings. Now its name is more clear.
+
+
+Fixes
+-----
+
+* *Fixed camera autorotate feature of the web player.*
+
+* *Fixed an error related to the fullscreen mode in the Web Player.*
+
+* *Fixed an error related to the determination of the camera's
+  angular coordinates in some positions.*
+
+* *Fixed an error with camera autorotation if the horizontal limits
+  are enabled.*
+
+* *Fixed an error when Blend4Web-specific nodes were being added
+  multiple times to a .blend file.*
+
+* *Fixed a bug with replacing materials by using the
+  "inherit_material" function from the "material.js" module.*
+
+* *Fixed an error occured while rendering reflections on an object
+  which has been changed through the "material.js" module APIs.*
+
+* *Fixed generation of the debugging wireframe spheres.*
+
+* *Fixed optimization of the TEXTURE nodes in node materials.*
+
+* *Fixed "Clamp" option behavior in the MixRGB (Linear Light) node.*
+
+* *Fixed an export error occured when an object shares its mesh with
+  another object and one of the following flags is set to true: "Apply
+  Scale", "Apply Modifiers", "Export Vertex Animation" or "Export
+  Edited Normals".*
+
+* *Fixed an error with "Blend4Web > Preserve Global Orientation and
+  Scale" option on some mobile devices.*
+
+* *Fixed fog rendering error in some versions of Chrome/Firefox
+  under Windows.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
+
+v15.02
+======
+
+
+New Features
+------------
+
+* *The local development server can be run from Blender.*
+
+     It's possible now to run local development server when using
+     Blend4Web SDK. This server allows fast access to the Blend4Web
+     SDK content and also make it possible to automatically open
+     exported scenes in the Viewer application.
+
+* *Support for Spot lights shadows.*
+
+     Shadows for Spot lamps were processed in the same way as for Sun
+     lamps. Now the calculations are performed in the same way as it's
+     done in blender i.e the light scattering is taken into account.
+
+* *Added/improved support for "Metaball", "Surface" and "Curve"
+  objects.*
+
+     Support for "Metaball", "Surface" and "Curve" objects was added.
+     Objects of these types are automatically converted into meshes
+     during export. Support for "Curve" objects in modifiers was
+     preserved.
+
+* *Social networks buttons are added to the Web Player.*
+
+     These buttons allow placing a link and a description to the 3D
+     scene in one of the four popular social networks.
+
+* *Added support for editing the list of Viewer scenes directly in
+  Blender.*
+
+     It is now possible to edit assets.json file with a list of Viewer
+     scenes inside Blender. This works only when using Blend4Web SDK.
+
+* *Screenshots can now be taken in the Viewer application.*
+
+* *New fallback_video option is added to the Web Player.*
+
+     Now the user can choose a video file to play instead of 3D
+     content on systems without WebGL support. It is possible with the
+     help of the new "fallback_video=/path/to/video/" option.
+
+* *Improved rendering to texture functionality.*
+
+     Added support for rendering scenes into several textures at a
+     time. Scenes now can have any nesting level.
+
+* *Billboards now can save orientation and scale in world
+  coordinates.*
+
+     To use the feature you need to set Blend4Web > Preserve global
+     orientation and scale flag in the object's settings panel.
+
+* *Improvements on the main SDK web page.*
+
+     It is now possible to find out the version of the SDK and check
+     the system for WebGL compatibility on the main web page.
+
+* *Added support for the Clamp flag in MATH and MIX_RGB nodes*
+
+     At first this functionality was released in Blender 2.73, and now
+     it's also supported in the engine.
+
+* *Considerable imporovements in rendering quality on systems
+  without depth-texture support.*
+
+     Supported rendering features on systems without depth-texture
+     support were extended. There are such effects available now:
+     reflections, bloom, glow, motion blur, antialiasing.
+
+* *New documentation is added.*
+
+     Added documentation for the "vec3", "vec4", "quat", "mat3",
+     "mat4" modules and for the global namespace "b4w". Documentation
+     web pages design was improved.
+
+* *Support for several engine instances on the same web page.*
+
+     Several engine instances can now work simultaniously, by
+     specifying the namespace on engine's initialization stage.
+
+* *Possibility to use SDK on Apple OS X.*
+
+     On OS X all SDK functionality including engine and applications
+     building, resource conversation and documentation generation is
+     now available.
+
+* *The new set_trans_pivot() method is added to the camera module.*
+
+     This function allows setting an arbitrary position of the pivot
+     point and the position of the camera of the "Target" type.
+
+* *A new ``version`` property is added to the ``project.py``
+  utility.*
+
+     This property allows adding a version to the scripts and styles
+     of the compiled application.
+
+
+Changes
+-------
+
+* *Now it is possible to add options with the same names via browser
+  address bar.*
+
+     A new optional parameter "allow_param_array" is added to
+     "get_url_params()" function of "app" module. It is set to "false"
+     by default. Setting this parameter to "true" leads to a merge of
+     identical functions into a massive, other way the last one will
+     be used.
+
+* *Improved ``Background Music`` speaker.*
+
+     Now the user can specify parameters of delay and playback time.
+
+* *Blend-file now includes special Blend4Web nodes by default.*
+
+     Now there's no need to add Blend4Web special nodes into a file.
+     It is available in both SDK and addon versions of Blend4Web.
+
+* *Changed export of empty "Mesh" objects.*
+
+     Now "Mesh" objects without polygons are exported as "Empty".
+
+* *Changed "light.js" module.*
+
+     Added function "get_light_type"; functions "get_light_params" and
+     "set_light_params" now get object "LAMP" instead of objects name.
+     Also the user now can change "spot_blend", "spot_size" and
+     "distance" properties of the "SPOT" light source through those
+     functions.
+
+* *Improved refractions on LOW quality settings.*
+
+     New simplified (without distortion) refraction model is now used
+     when "LOW" quality is chosen.
+
+* *Shader nodes optimization.*
+
+* *Now automatic camera rotation can be turned off by touching touch
+  screen.*
+
+
+Fixes
+-----
+
+* *Corrected behavior of the preloader for the Web Player.*
+
+     Some artifacts could be visible on "B4W" logo while opening Web
+     Player.
+
+* *Fixed an error in rendering of one-cascaded shadows. The error
+  was related to appearing of a hard non-lighted line on the cascade
+  border.*
+
+* *Fixed an error related to names collision while linking objects
+  in Blender.*
+
+* *Fixed an error with optimization of SDK apps.*
+
+* *Fixed export error of flat shaded meshes on Linux x32.*
+
+* *Fixed incorrect behavior of Target camera in particular cases.*
+
+* *Fixed an error when using a shadow map with size exceeding device
+  limits.*
+
+* *Fixed an error that leads to FPS drop in Firefox 35/36 on Windows
+  when shadows are turned ON.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
+
+v15.01
+======
+
+
+New Features
+------------
+
+* *Support for panning on touchscreen devices.*
+
+     Panning is performed by swiping two fingers on the surface of the
+     screen.
+
+* *Support for "Text" objects.*
+
+     These objects are now automatically converted to meshes during
+     export.
+
+* *Extended support for the NLA Script tool.*
+
+     Added new logic slots: "Show Object" and "Hide Object" used for
+     hiding and showing the obects, "Page Redirect" - for redirecting
+     to other webpages , "Page Param" - for storing any webpage
+     parameter in given numerical register. Simplified usage of
+     "Select & Jump" and "Select & Play" slots. Now it's not required
+     to specify "Selectable" property on selectable objects.
+
+* *Support for high definition displays (HIDPI, Retina).*
+
+     The HIDPI mode allows to achieve considerable improvement of
+     picture quality on devices with high resolution. This mode is
+     activated automatically upon application startup if ULTRA quality
+     profile has been selected. If necessary, high resolution can be
+     turned on for other quality profiles.
+
+* *Support orthographic camera scaling.*
+
+     An API to change the "Orthographic" camera scale has been added
+     ("Orthographic scale" in Blender).
+
+* *"autorotate" option has been added to the webplayer.*
+
+     The option autorotate is used to turn on the automatic camera
+     rotation as soon as the scene loads.
+
+* *Simplied keyboard control mode has been added to function
+  "enable_camera_controls.*
+
+     The mode is enabled by passing the optional parameter
+     "disable_letter_controls" Thus, the keyboard controls with letter
+     keys (WASD and so on) will be turned off.This feature can be used
+     in cases when you need to use the letter keys for purposes other
+     than moving the camera.
+
+* *Support for gyroscope on mobile devices.*
+
+     To work with gyroscope on mobile devices the two sensors was
+     implemented. The first sensor allows to operate with current
+     device position compared with the previous one (position delta).
+     It's created by using the function "create_gyro_delta_sensor"
+     from "controls.js" module. The second sensor returns current
+     device angle and created by "create_gyro_angles_sensor" from
+     "controls.js" module. It's worth to mention that all angles are
+     given in radians. Also the special addon "gyroscope.js" was
+     created. This addon implements simple camera movements due to
+     device rotation. You can find an example of using such feature in
+     our Viewer application by selecting the "Gyroscope" menu option.
+
+* *New ``Do not Render`` property has been added to material
+  settings.*
+
+     Enabling the property allows to hide parts of the scene objects
+     which use such material.
+
+* *Support for video-textures on IE 11 and iPhone.*
+
+     The support is achieved by creating a new video-sequence format,
+     "*.seq". For more info check the following topic in
+     documentation.
+
+* *Support for "title" tag in Web Player.*
+
+     The Web Player's title (shown as web browser header) is now
+     extracted from JSON file of the loaded scene. For more info about
+     this feature check the following topic in documentation.
+
+* *Support for meta tags in Blender.*
+
+     It's now possible to append meta tag information to scenes and
+     objects in Blender. Possible tags for scenes are "title" and
+     "description". Possible tags for objects are "title",
+     "description" and "category".
+
+* *Added support for execution of user-defined functions every
+  frame.*
+
+     To help users to create sophisticated application the new
+     function "append_loop_cb" has been added to "main.js" module.
+     This function allows to execute given callback every frame. This
+     callback has two parameters: time since the application start and
+     time delta between current and previous frame. Both parameters
+     are in seconds. To cancel the callback execution every frame you
+     should remove it by using the "remove_loop_cb" function from the
+     module "main.js".
+
+* *Added support for simple preloader screen animation.*
+
+     To create an application with animated preloader pass an option
+     "preloader_fadeout" with the value "true" to the function
+     "create_simple_preloader" from "preloader.js" module.
+
+* *Added support to export converted media files to HTML file.*
+
+     Now then you export HTML files it's possible to store converted
+     files in them. To do so you need to enable "Export Converted
+     Media" option in the export options.
+
+* *Added support for using min50 and dds textures in Web Player.*
+
+     To enable this feature pass "compressed_textures" parameter to
+     Web Player.
+
+
+Changes
+-------
+
+* *SDK file hierarchy was simplified.*
+
+     The "external" directory was removed, all its content was moved
+     to the upper level - in the root directory of the SDK. The file
+     with the list of the scenes used by the Viewer application is now
+     located in "apps_dev/viewer" directory.
+
+* *Changed camera autorotation behavior (experimental).*
+
+     If the camera limits are present, the camera smoothly slows down
+     when approaching the limits, then moves in the opposite
+     direction.
+
+* *The usage of ``Special: Collision`` property was changed.*
+
+     Earlier, enabling the option automatically resulted in objects'
+     hiding. Now, to do the same thing, you have to specify "Do not
+     Render" property in the material settings.
+
+* *Changed suffix for converted media files.*
+
+     Old "*.lossconv.*" suffix was replaced by "*.altconv.*".
+
+* *Behavior of "Do not render" object property was changed.*
+
+     Now, when the option is activated, an object's physics is not
+     disabled. The object simply becomes invisible.
+
+* *Improved the SDK structure.*
+
+     Free and Pro SDK now come with the new and more polished
+     examples; old and arid examples were dropped.
+
+
+Fixes
+-----
+
+* *When using "Panoramic" camera type in Blender the camera
+  automatically obtains "Perspective" type when exported.*
+
+* *Fixed bug with "Target" camera dragging in rare cases.*
+
+* *Minor fixes in the "B4W Anim Baker" addon.*
+
+* *Fixed issue with sound for scenes with multiple cameras.*
+
+* *Improved stability of "Timer" sensors in "controls" module.*
+
+* *Fixed issue when browsing exported HTMLs in IE browser.*
+
+* *Video texture optimizations. Now the video texture is not updated
+  for suspended video playback.*
+
+* *Fixed rendering issue in node materials with ``REFRACTION``
+  node.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
+* *Slow and unstable rendering of depth textures in Firefox 35.*
+
+     In various scenes the FPS is degraded when shadows are turned on.
+     There is also an incorrect rendering of transparent materials.
+     The issue is reported here and is to be fixed in the future
+     browser updates.
+
+
+v14.12
+======
+
+
+New Features
+------------
+
+* *Camera velocity settings are now available.*
+
+     Now camera movement velocity can be set up, including
+     translation, rotation and zooming. Velocity for all camera types
+     ("Target", "Hover", "Eye") can be tweaked both using Blender UI
+     and through Blend4Web API.
+
+* *Mipmapping is now supported for Canvas textures.*
+
+     We have added mipmapping support for Canvas textures.
+
+* *Full support for the "MAPPING" node.*
+
+     Now all "Vector type" options available for the "MAPPING" node
+     are supported, including "Texture", "Point", "Vector" and
+     "Normal".
+
+* *Glow on mouse over.*
+
+     API in the "mouse.js" module were created for the effect of
+     outlining the objects under the mouse pointer. Also, for purposes
+     of controlling this effect, "enable_mouse_hover_glow()" and
+     "disable_mouse_hover_glow()" methods were added. The objects
+     should have "Object > Blend4Web > Selectable" checkbox enabled.
+
+* *A brand new app building system.*
+
+     Now, the users can develop their apps right in the SDK thanks to
+     the new "project.py" utility. This script makes it possible to
+     build the apps together with the engine, to minify JavaScript and
+     CSS files and to export the final apps to be deployed on a
+     server.
+
+
+Changes
+-------
+
+* *Removed support for deprecated "UV translation velocity" texture
+  settings.*
+
+     We recommend to use node materials instead.
+
+* *Removed deprecated "Levels of Detail" user interface.*
+
+     This functionality can be used through Blender's standard "Levels
+     of Detail" tool.
+
+* *The pointerlock.js add-on was renamed into mouse.js.*
+
+* *A mouseup event is now fired when the mouse pointer is leaving
+  the app viewport.*
+
+     So the problem with broken camera controls is no longer observed.
+
+* *Error message about "Clear parent inverse" is no more shown.*
+
+     Before, when using parenting, it was required to reset
+     translation, rotation and scale of child objects ("Object >
+     Parent > Clear Parent Inverse"). Now such transformation is
+     natively supported by the engine.
+
+* *"Apply scale" option no longer applies modifiers.*
+
+     As before, Apply modifiers should be used in order to apply
+     modifiers.
+
+* *Use of normal maps in node materials no longer requires a
+  Material or Extended Material node.*
+
+     In some cases (e.g. refraction) normal maps can be used in
+     shadeless materials.
+
+
+Fixes
+-----
+
+* *Fixed audio playback error occured when using NLA.*
+
+     This happened due to insufficient float number precision.
+
+* *Fixed incorrect rendering of light sources on mobile devices.*
+
+* *Layering shadows is fixed when multiple active light sources are
+  present.*
+
+     Now the shadows are calculated like in Blender, that is areas
+     illuminated by other light sources are not darkened.
+
+* *Node material rendering error has been fixed.*
+
+     The error occured when a "MATERIAL" node (or "MATERIAL_EXT") with
+     a linked (from another .blend file) material was used.
+
+* *Animation baker ("B4W Animation Bake" operator) no longer resets
+  an armature pose.*
+
+     Now, when using the animation baking tool, the armature pose is
+     being left intact.
+
+* *Fixed jerky camera movement upon application startup.*
+
+* *Fixed error with incorrect determination of the camera's
+  horizontal movement limits.*
+
+* *Fixed error occured when unused textures were exported.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Video textures do not work in Firefox for scenes exported as HTML
+  files.*
+
+
+v14.11
+======
+
+
+New Features
+------------
+
+* *Video textures support.*
+
+     Video textures are now supported for "Image or Movie" textures.
+
+* *Frame rate.*
+
+     Frame rate for animation and video textures can now be changed
+     through the "Scene > Dimensions > Frame rate" option.
+
+* *Canvas textures support.*
+
+     A canvas HTML element can be now used as a texture. The workflow
+     is described in the manual.
+
+* *Сamera panning.*
+
+     In the mode when the camera is rotating around a single point
+     ("Target") the users now have the ability to move the pivot point
+     within the view plane (so called camera panning) while the right
+     or middle mouse buttons are pressed. This function is turned on
+     by default and can be turned off in Blender settings at need.
+
+* *New camera control mode - Hover.*
+
+     The "Hover" mode is now available when the camera is gliding over
+     the horizontal plane (including zooming in and out). This camera
+     mode makes it possible to realize scenarios for a convenient
+     viewing of scenes which are spread in two dimensions (rooms, game
+     levels).
+
+* *The SDK now contains a root index.html webpage for simplifying
+  navigation within the distribution.*
+
+* *The resource converter now has the ability to convert videos.*
+
+* *We have added a build system which was absent in previous public
+  SDK distributions.*
+
+* *The export Strict mode is implemented in the add-on.*
+
+     Activating "Strict mode" gives the possibility to display all
+     possible errors and warnings connected with incorrect scene
+     settings. The option is useful for final scene debugging for
+     getting the most correct and optimized resource files.
+
+* *Audio playback support for iOS devices.*
+
+
+Changes
+-------
+
+* *The webplayer's "bg" parameter is renamed to "fallback_image".*
+
+     This option also has changed its behavior. If the
+     "fallback_image" is defined the error message that WebGL is
+     unavailable is not shown any more, instead the user sees just the
+     image.
+
+* *If there are no sound sources in the scene the sound mute button
+  is no longer shown in the webplayer.*
+
+* *Generic materials workflow is now more predictable.*
+
+* *The "mouse_down" sensor provides the code of the mouse button
+  pressed. This code can be obtained from the payload sensor's
+  parameter.*
+
+* *Hair particle systems can be now exported significantly faster.*
+
+
+Fixes
+-----
+
+* *Normal maps now work with Generated and Normal texture
+  coordinates.*
+
+     Using UV layers is no more required for normal maps.
+
+* *Fixed the problem with the wrong path to the physics engine in
+  the webplayer.*
+
+     This error arose when uranium.js was moved out of the directory
+     containing the main HTML file of the webplayer.
+
+* *In the add-on we have fixed the problem with packed textures.
+  Export crashed when the "Automatically Pack Into .blend" option was
+  enabled.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+
+v14.10
+======
+
+
+New Features
+------------
+
+* *A new Web Player.*
+
+     The new minimalistic Web Player design blends perfectly with any
+     3D scenes. It has a simplified user interface and build-in help.
+     The Web Player works on all devices including mobile ones.
+
+* *Improved shadows.*
+
+     It's now possible to choose a non-cascaded shadow model, based on
+     a single optimized shadow map. Such model is easier to configure
+     and suits well for relatively small scenes. For more info see the
+     docs.
+
+* *Many NLA system improvements.*
+
+     It's now possible to create a complex logic using the
+     "Conditional Jump", "Register Store", "Math Operation" NLA Script
+     logic blocks and register-stored variables.
+
+     It's now possible to use all types of supported animations in the
+     NLA, including sound playback, vertex animation and particle
+     emission. It's now possible to play different animation types
+     simultaneously.
+
+* *Supported objects billboarding.*
+
+     The objects received the new set of options, allowing to
+     configure billboarding.
+
+* *The "XYZ Euler" mode is supported for animating rotations.*
+
+     Object and skeletal animations now support the "XYZ Euler" mode
+     for rotations.
+
+* *Support for the GENERATED texture coordinates.*
+
+* *Support for Cross-origin resource sharing (CORS).*
+
+* *Scene export process simplified.*
+
+     The range of material export errors are now not blocking the
+     export. Instead this material will be highlighted pink at scene
+     loading. Detailed error descriptions can be found in the manual.
+
+* *Added support for the "Do not export" option for particle
+  systems.*
+
+* *Improved stability on iOS devices.*
+
+
+Changes
+-------
+
+* *Changed SDK path setting for HTML export.*
+
+     It's now needed to set the SDK path setting for HTML export to
+     SDK root directory. Earlier it was required to provide the full
+     path to embed application. Pay attention, the old behavior is not
+     supported anymore.
+
+* *Deprecated the "UV translation velocity" option.*
+
+     The option will be removed since version 14.12.
+
+* *Removed option "Do not export" from the "Object data" panel.*
+
+* *Removed "Blend4Web > Animation > Cyclic" option from the object
+  properties panel*.
+
+     Instead one should use "Blend4Web > Animation > Behavior" option
+     located in the same place. Scenes with default animations may
+     work incorrectly, so they need behavior property to be set to
+     "Cyclic".
+
+* *Modified SSAO algorythm realisation.*
+
+     The new implementation is much faster and shows better quality.
+     The settings of the algorithm are changed too. For more info see
+     the manual section.
+
+
+Fixes
+-----
+
+* *Fixed rendering error for HALO materials.*
+
+* *Fixed a rendering error when an object with the enabled "Force
+  Dynamic Object" property has a parent object.*
+
+* *Fixed error with keyboard shortcuts in Blender.*
+
+     Fixed error with inability to assign keyboard shortcuts in
+     Blender for export menu items:"File->Export->Blend4Web(.json)"
+     and "File->Export->Blend4Web(.html)".
+
+* *Fixed crash when loading textures with size exceeding device
+  limits.*
+
+* *Fixed node material errors resulting in unstable engine
+  behavior*.
+
+* *Fixed error in node materials that contained complex Node
+  Groups.*
+
+* *Fixed errors of shaders compilation on devices with mobile
+  graphics Qualcomm Adreno 305.*
+
+* *Fixed rendering error when using REFRACTION nodes in transparent
+  meterials.*
+
+* *Fixed an issue in "B4W Vertex Anim Baker" tool when current frame
+  reset was occured after using bake.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Normal maps don't work for Generated texture type.*
+
+     It is necessary to use UV mapping for normal maps.
+
+
+v14.09
+======
+
+
+New Features
+------------
+
+* *ABSOLUTE type support for the MATH node.*
+
+* *Support for LEVELS_OF_QUALITY special node.*
+
+     Allows to control the material's complexity depending on the
+     quality profile which is specified by the user upon engine start.
+
+* *Support for SMOOTHSTEP special node.*
+
+     Simplifies the creation of some effects in node materials.
+
+* *Node groups support.*
+
+     Node groups allow the sharing of node blocks between materials.
+
+* *The ability to output intermediate rendering results for
+  debugging.*
+
+     The rendering result for a certain stage can be now output above
+     the main picture. This can be set up in the "config.js" module
+     through the "debug_subs" options.
+
+* *The logic for controling Blender's NLA animation using a visual
+  editor has been implemented.*
+
+     The NLA Script tool has been added to Blender's interface to
+     allow the implementing of simple scenarios using visual blocks,
+     for example playing an animation in response to the user actions.
+
+* *Multiple sensor system improvements.*
+
+     It is now permitted to register *sensor manifolds* globally using
+     a "controls" module method with no connection to any object. To
+     do this "null" should be passed into the corresponding API. The
+     sensor logic is processed in a more predictable and robust way
+     according to the sequence in which their *manifolds* are created.
+     Callbacks of the user action events are now assigned using the
+     "register_<inputtype>_events()" functions. To these functions it
+     is now possible to pass the "prevent_default" flag which allows
+     to unblock the standard browser behavior for the corresponding
+     events.
+
+* *The Web Player now supports physics.*
+
+     Works only in the Web Player version where JSON files are loaded
+     separately. Physics still not supported in the single HTML files.
+
+* *Skeletal animation mixing is now supported.*
+
+     The "animation.js" module now contains API for smooth transitions
+     betweeen skeletal animations: get_skel_mix_factor() - for getting
+     the current mixing factor value and set_skel_mix_factor() - for
+     setting it.
+
+* *The Value node can now be animated in node materials.*
+
+     The functionality is similar to other animation types. Working in
+     NLA is also supported.
+
+* *Diffuse and Specular lamp's properties are now supported.*
+
+* *The possibility to render a transparent object above other
+  objects on the scene.*
+
+     Activated with the "Render above all" checkbox for transparent
+     materials (i.e. not "Opaque").
+
+* *Scale is applied automatically to the object mesh.*
+
+     Activated by enabling the "Apply scale" checkbox in the object
+     settings.
+
+* *High quality profile (including shadows, dynamic reflections and
+  anti-aliasing) has been implemented for iOS.*
+
+
+Changes
+-------
+
+* *Shadow rendering improved.*
+
+     Shadow rendering system is significantly changed: it is now based
+     on the "Stable Cascaded Shadow Maps" technique. This technique
+     allows to greatly diminish the flickering of shadow edges when
+     the camera moves. Smoothing is implemented between cascades. Also
+     shadows of the last cascade fade out at distancing. Softened
+     shadows are rendered using the "Percentage Closer Shadows"
+     technique. The shadows' user settings are reworked and
+     simplified. Now its possible to tweak the size of shadow maps,
+     blur ratio and the setting for removing self-shadowing artefacts.
+     The new settings are documented in detail.
+
+* *In the Web Player graphics quality settings are now saved
+  independently for each scene.*
+
+* *The behavior of the app configuration parameters has been
+  changed: physics_uranium_path, smaa_search_texture_path and
+  smaa_area_texture_path.*
+
+     These parameters are now calculated automatically depending on
+     the running HTML files location, if they haven't been overriden
+     during the app's initialization.
+
+* *Transition is completed to the system of modules which are linked
+  via b4w.require() call.*
+
+     This also means that starting form the current version its
+     impossible to call modules in the engine's release version using
+     the old "b4w.<module>" namespaces. For compatibility purposes the
+     "ns_compat.js" add-on has been implemeted, the linking of which
+     allows to restore the old behavior.
+
+* *The Web Player's control panel can now be hidden.*
+
+* *Skeletal animation is now applied to armature objects only.*
+
+     There is no need to apply skeletal animation to "MESH" objects.
+     If they are linked to some animated armature, their skinning will
+     be automatic.
+
+* *Demos and tutorials are updated according to the newly
+  implemented features.*
+
+
+Fixes
+-----
+
+* *The preloader didn't diappear in case of a loading error (texture
+  or sound file).*
+
+* *Lagging during scaling and turning on mobile devices is fixed.*
+
+* *TARGET-type camera shimmering has been removed for small
+  turnings.*
+
+* *EYE-type camera controls was fixed for mobile devices.*
+
+* *The Farm demo controls are improved for Safari browser.*
+
+* *Errors concerning using the unsupported shading models in node
+  materials are now fixed.*
+
+* *"Selectable" option now works for the objects without materials.*
+
+* *There is no longer need to enable "Force Dynamic Object"* for the
+  objects that are animated using NLA.
+
+* *The particle system error when the object being instanced is
+  parented to another object, has been fixed.*
+
+
+Known Issues
+------------
+
+* *Blender add-on upgrading problems.*
+
+     We strongly don't recommend to install the new Blender add-on
+     version without uninstalling the previous version first
+     (especially for Windows).
+
+* *Armature animation mixing doesn't work with some browsers.*
+
+     If skeletal animation mixing API brings unexpected errors, it is
+     neccessary to override standard Math.sign function as follows:
+
+        var m_util  = require("util");
+        Math.sign = m_util.sign;

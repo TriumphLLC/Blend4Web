@@ -30,7 +30,6 @@ private:
         btScalar maxShoreDist;
         btScalar wavesHeight;
         btScalar wavesLength;
-        btScalar waterLevel;
         int shoreMapTexSize;
         duWaterDynInfo* dynamicsInfo;
 
@@ -38,16 +37,16 @@ private:
 
     WaterWrapper *m_firstWrapper;
     btScalar m_time;
+    btScalar m_waterLevel;
 public:
-    duWater();
+    duWater(btScalar waterLevel);
     ~duWater();
 
     void appendWrapper(duWaterDynInfo* di, btScalar *array,
                  btScalar shoreMapSizeX, btScalar shoreMapSizeZ,
                  btScalar shoreMapCenterX, btScalar shoreMapCenterZ,
                  btScalar maxShoreDist, btScalar wavesHeight,
-                 btScalar wavesLength, btScalar waterLevel,
-                 int   shoreMapTexSize);
+                 btScalar wavesLength, int   shoreMapTexSize);
 
     btScalar getWaterLevel(btScalar x, btScalar y, int wrapperNum);
 

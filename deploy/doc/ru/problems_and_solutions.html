@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Замечания к релизам" href="release_notes.html" />
+    <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. Руководство пользователя</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Содержание <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Разделы <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Проблемы и решения</a><ul>
+<li><a class="reference internal" href="#renderer-not-working">Проблемы при запуске движка</a></li>
+<li><a class="reference internal" href="#webgl">Ошибка инициализации WebGL</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="git_short_manual.html" title="Previous Chapter: Работа в команде с использованием Git"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Работа в команде...</span>
+    </a>
+  </li>
+  <li>
+    <a href="release_notes.html" title="Next Chapter: Замечания к релизам"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Замечания к рели... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="problems-and-solutions">
+<span id="id1"></span><h1>Проблемы и решения<a class="headerlink" href="#problems-and-solutions" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="renderer-not-working">
+<span id="id2"></span><h2>Проблемы при запуске движка<a class="headerlink" href="#renderer-not-working" title="Ссылка на этот заголовок">¶</a></h2>
+<p><em>1. Появляется сообщение &#8220;Browser could not initialize WebGL.&#8221;</em></p>
+<a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
+<p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><span>Ошибка инициализации WebGL</span></a>.</p>
+<p><em>2. Видны элементы интерфейса или пустой экран, но сцена не отображается. При этом тестовый сайт</em> <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> <em>и другие WebGL приложения работают корректно.</em></p>
+<blockquote>
+<div><p>Вероятные причины:</p>
+<ul>
+<li><p class="first">Не используется локальный веб-сервер или браузер не настроен для работы с локальными ресурсами. См. раздел <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Настройка браузера для загрузки локальных ресурсов</span></a>.</p>
+</li>
+<li><p class="first">Файлы ресурсов, которые пытается загрузить движок, были перемещены или удалены.</p>
+</li>
+<li><p class="first">Используются старые версии драйверов.</p>
+</li>
+<li><p class="first">Используются открытые драйвера, не обеспечивающие поддержку WebGL.</p>
+<blockquote>
+<div><p>Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах
+с открытым кодом в настоящий момент рекомендуется
+использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Используется устаревшая операционная система, такая как Windows XP.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="webgl">
+<span id="webgl-not-working"></span><h2>Ошибка инициализации WebGL<a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сайт <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?</p>
+<ol class="arabic simple">
+<li>Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047/ru">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</li>
+<li>Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> (или <strong>chrome://gpu</strong>) в адресную строку браузера Chrome...</li>
+</ol>
+<a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>или Firefox...</p>
+<a class="reference internal image-reference" href="_images/firefox_gpu.png"><img alt="_images/firefox_gpu.png" class="align-center" src="_images/firefox_gpu.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Для операционных систем семейства Windows можно воспользоваться средством диагностики DirectX <strong>dxdiag</strong>.</p>
+<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Необходимо загрузить драйверы с соответствующего центра поддержки (например, <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx?lang=rus">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx?lang=ru">Nvidia</a>, <a class="reference external" href="http://support.amd.com/ru-ru/download">AMD/ATI</a>). После установки драйверов перезагрузить систему.</p>
+<ol class="arabic simple" start="3">
+<li>Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера.</li>
+</ol>
+<p><em>В Chrome</em>:</p>
+<p>Ввести <strong>about:flags</strong> (или <strong>chrome://flags</strong>) в адресную строку браузера, нажать <code class="file docutils literal"><span class="pre">Включить</span></code> (<code class="file docutils literal"><span class="pre">Enable</span></code>) под опцией <code class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></code> (<code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code>) и перезапустить браузер.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/about_flags_force_webgl.png"><img alt="_images/about_flags_force_webgl.png" class="align-center" src="_images/about_flags_force_webgl.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>В Firefox</em>:</p>
+<p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> и переключить его двойным щелчком мыши из <code class="docutils literal"><span class="pre">false</span></code> в <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.<br/>
+      Обновлено: 2015-07-29.<br/>
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

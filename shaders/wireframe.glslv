@@ -35,7 +35,7 @@ AU_QUALIFIER float au_wind_bending_freq;
 # endif
 # endif
 
-# if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD 
+# if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
 AU_QUALIFIER vec3 au_center_pos;
 # endif
 
@@ -65,13 +65,13 @@ uniform mat4 u_view_matrix;
 # if WIND_BEND
 uniform vec3 u_wind;
 uniform PRECISION float u_time;
-#  if HAIR_BILLBOARD && HAIR_BILLBOARD_JITTERED
+#  if BILLBOARD && BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #  endif
 # endif
 
-# if DYNAMIC_GRASS || HAIR_BILLBOARD
+# if DYNAMIC_GRASS || BILLBOARD
 uniform vec3 u_camera_eye;
 # endif
 
@@ -82,6 +82,8 @@ uniform float u_va_frame_factor;
 # if SKINNED
 uniform vec4 u_quatsb[MAX_BONES];
 uniform vec4 u_transb[MAX_BONES];
+uniform vec4 u_arm_rel_trans;
+uniform vec4 u_arm_rel_quat;
 #  if FRAMES_BLENDING
 uniform vec4 u_quatsa[MAX_BONES];
 uniform vec4 u_transa[MAX_BONES];
@@ -91,7 +93,7 @@ uniform float u_frame_factor;
 # endif
 
 # if DYNAMIC_GRASS
-uniform sampler2D u_grass_map_depth;
+uniform PRECISION sampler2D u_grass_map_depth;
 uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
@@ -132,7 +134,7 @@ void main() {
     vec3 normal = a_normal;
 
 #if DEBUG_SPHERE
-    vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0), 
+    vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
             u_model_matrix);
 #else
 # if VERTEX_ANIM
@@ -145,7 +147,7 @@ void main() {
     skin(position, tangent, binormal, normal);
 #endif
 
-# if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
+# if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
     vec3 center = au_center_pos;
 # else
     vec3 center = vec3(0.0);
@@ -157,19 +159,26 @@ void main() {
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
             u_view_matrix);
 # else
-#  if HAIR_BILLBOARD
+#  if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+
+#   if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
+            u_view_matrix, u_model_matrix);
+#   else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-#   if WIND_BEND && HAIR_BILLBOARD_JITTERED
+#   endif
+
+#   if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time, 
+    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
 #   endif
-    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), 
+    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0),
             vec3(0.0), model_matrix);
     world.center = wcen;
 #  else
-    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0), 
+    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
             u_model_matrix);
 #  endif
 # endif
@@ -178,7 +187,7 @@ void main() {
     bend_vertex(world.position, world.center, normal);
 # endif
 #endif // DEBUG_SPHERE
-    
+
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
     gl_Position = u_proj_matrix * pos_view;
 }

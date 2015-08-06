@@ -1,16 +1,15 @@
 #include <math.h>
 #include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
 #include "duWater.h"
-duWater::duWater():
-m_firstWrapper(NULL), m_time(0)
+duWater::duWater(btScalar waterLevel):
+m_firstWrapper(NULL), m_time(0), m_waterLevel(waterLevel)
 {}
 
 void duWater::appendWrapper(duWaterDynInfo* di, btScalar *array,
                  btScalar shoreMapSizeX, btScalar shoreMapSizeZ,
                  btScalar shoreMapCenterX, btScalar shoreMapCenterZ,
                  btScalar maxShoreDist, btScalar wavesHeight,
-                 btScalar wavesLength, btScalar waterLevel,
-                 int   shoreMapTexSize)
+                 btScalar wavesLength, int   shoreMapTexSize)
 {
     duWater::WaterWrapper *wWrapper = new duWater::WaterWrapper;
     wWrapper->wDistArray            = array;
@@ -23,7 +22,6 @@ void duWater::appendWrapper(duWaterDynInfo* di, btScalar *array,
     wWrapper->maxShoreDist          = maxShoreDist;
     wWrapper->wavesHeight           = wavesHeight;
     wWrapper->wavesLength           = wavesLength;
-    wWrapper->waterLevel            = waterLevel;
     wWrapper->shoreMapTexSize       = shoreMapTexSize;
 
     if (!m_firstWrapper) {
@@ -56,11 +54,9 @@ btScalar duWater::getWaterLevel(btScalar pos_x,
 
     // get water wrapper by index
     duWater::WaterWrapper *wWrapper = wrapperByInd(wrapperNum);
-    if (!wWrapper)
-        return btScalar(0.0);
 
-    if (!wWrapper->wavesHeight)
-        return wWrapper->waterLevel;
+    if (!wWrapper || !wWrapper->wavesHeight)
+        return m_waterLevel;
 
     float time = m_time;
 
@@ -147,7 +143,7 @@ btScalar duWater::getWaterLevel(btScalar pos_x,
     } else
         wave_height = dist_waves;
 
-    btScalar cur_water_level = wWrapper->waterLevel + wave_height;
+    btScalar cur_water_level = m_waterLevel + wave_height;
     return cur_water_level;
 }
 

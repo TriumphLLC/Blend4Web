@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Animation &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
+    <link rel="prev" title="Particle System. Instancing" href="particles_instancing.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Animation</a><ul>
+<li><a class="reference internal" href="#id2">Animation Control</a></li>
+<li><a class="reference internal" href="#whole-object-anim">Object Animation</a></li>
+<li><a class="reference internal" href="#id4">Skinning and Skeletal Animation</a></li>
+<li><a class="reference internal" href="#id5">Vertex Animation</a></li>
+<li><a class="reference internal" href="#id6">Audio Source Parametrization</a></li>
+<li><a class="reference internal" href="#value-rgb">Animation of Value and RGB Nodes</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="particles_instancing.html" title="Previous Chapter: Particle System. Instancing"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Particle System....</span>
+    </a>
+  </li>
+  <li>
+    <a href="outdoor_rendering.html" title="Next Chapter: Outdoor Rendering"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Outdoor Renderin... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <span class="target" id="animation"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Animation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
+<ul class="simple">
+<li><p class="first">Object animation means the transformation of an object as a whole.</p>
+</li>
+<li><p class="first">Skeletal animation, i.e. object deformation using bones. Animation of a standalone armature object is also supported (for parenting to bones).</p>
+</li>
+<li><p class="first">Vertex animation. An object&#8217;s deformations can be recorded as frames and then reproduced in the engine.</p>
+</li>
+<li><p class="first">Audio sources parametrization. Speaker&#8217;s <code class="docutils literal"><span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Pitch</span></code> can be animated.</p>
+</li>
+<li><p class="first">Animation of the <code class="docutils literal"><span class="pre">Value</span></code> node output in node materials.</p>
+</li>
+<li><p class="first">Wind bending - a procedural animation. Described <a class="reference internal" href="outdoor_rendering.html#wind"><span>separately</span></a>.</p>
+</li>
+<li><p class="first">Particle emission. Described in the <a class="reference internal" href="particles.html#particles"><span>corresponding section</span></a>.</p>
+</li>
+</ul>
+<div class="section" id="id2">
+<h2>Animation Control<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to control animation in the engine:</p>
+<ol class="arabic simple">
+<li><p class="first">Automatically, activating the <code class="docutils literal"><span class="pre">Animation</span></code> panel and choosing the <code class="docutils literal"><span class="pre">Behaviour</span></code> parameter in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code> window is played by default.</p>
+</li>
+<li><p class="first">In an application via API using the <code class="docutils literal"><span class="pre">animation</span></code> module methods.</p>
+</li>
+</ol>
+<p>It&#8217;s useful to use the <code class="docutils literal"><span class="pre">Animation</span></code> interface for tweaking animation. This is covered in the <a class="reference internal" href="viewer.html#viewer"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="whole-object-anim">
+<span id="id3"></span><h2>Object Animation<a class="headerlink" href="#whole-object-anim" title="Permalink to this headline">¶</a></h2>
+<p>The parameters that can be animated are the center coordinates (<code class="docutils literal"><span class="pre">Location</span></code>), <code class="docutils literal"><span class="pre">Rotation</span></code> and <code class="docutils literal"><span class="pre">Scale</span></code>.</p>
+<a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Animation keyframes can be added for an object motion in Blender and then reproduced in the engine.</p>
+<p>The following keyframe types are supported:</p>
+<ul class="simple">
+<li><em>Location</em></li>
+<li><p class="first"><em>Rotation</em> &#8211; the <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> or <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> mode is required.</p>
+</li>
+<li><p class="first"><em>Scale</em> &#8211; for correct results the scale factor should be the same along all 3 axes.</p>
+</li>
+<li><p class="first"><em>LocRot</em> &#8211; a combination of <em>Location</em> and <em>Rotation</em>.</p>
+</li>
+<li><p class="first"><em>LocScale</em> &#8211; a combination of <em>Location</em> and <em>Scale</em>.</p>
+</li>
+<li><p class="first"><em>LocRotScale</em> &#8211; a combination of <em>Location</em>, <em>Rotation</em> and <em>Scale</em>.</p>
+</li>
+<li><p class="first"><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</p>
+</li>
+</ul>
+<p>If a mesh object is animated it is required to activate the <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option on the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Propetries</span></code> panel under the object properties tab.</p>
+</div>
+<div class="section" id="id4">
+<h2>Skinning and Skeletal Animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/rig.jpg"><img alt="_images/rig.jpg" class="align-center" src="_images/rig.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For skeletal animation both a mesh object and an armature object are needed. The four steps should be carried out:</p>
+<ol class="arabic simple">
+<li><p class="first">Create the object&#8217;s &#8220;skeleton&#8221; in the armature object.</p>
+</li>
+<li><p class="first">Assign vertex groups in the mesh object and link them to the bones. This can be performed by weight painting for example.</p>
+</li>
+<li><p class="first">Animate the bones in the pose mode of the armature object. The same keyframe types can be used as for the object animation.</p>
+</li>
+<li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used, an additional step is required to bake the animations (<code class="docutils literal"><span class="pre">Action</span></code> datablocks in Blender). Baking can be performed using the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code> interface located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel.</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p id="animation-bake">Baking is performed with the armature object selected. Elements of the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code> interface:</p>
+<ul class="simple">
+<li><p class="first">A window with the list of actions being baked &#8211; bake only the actions which are listed, else - bake all the actions possible.</p>
+</li>
+<li><p class="first"><em>Name</em> &#8211; the current action name from the list of actions being baked.</p>
+</li>
+<li><p class="first"><em>Optimize keyframes</em> &#8211; optimize the animation keyframes after baking. In case of incorrect results it&#8217;s recommended to turn this option off.</p>
+</li>
+<li><p class="first"><em>Bake</em> &#8211; perform baking. If the process is completed successfully, actions with names of <em>NAME_B4W_BAKED</em> type appear in the scene. These actions can be assigned to the armature object and played back in the engine. It&#8217;s worth noting that appropriate functioning of such actions in Blender is not garanteed.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The engine supports up to 4 vertex groups per vertex. If the number of vertex groups exceeds 4 the vertex groups with the most influence are selected. When the scene is loaded the vertex weights are normalized i.e. their sum is reduced to 1.</p>
+<p>To remove vertex groups which are not used by armature, use button <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code>.</p>
+<a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Vertex Animation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/flag.jpg"><img alt="_images/flag.jpg" class="align-center" src="_images/flag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
+<p id="ver-anim">A special tool is used for baking vertex animation - <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> - located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tools panel.</p>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="_images/vertex_anim_baker.jpg" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id6">
+<h2>Audio Source Parametrization<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>In addition the following animation key types are supported for the speaker objects:</p>
+<ul class="simple">
+<li><p class="first"><em>Volume</em></p>
+</li>
+<li><p class="first"><em>Pitch</em></p>
+</li>
+</ul>
+<p>Audio sources parametering in essence follows object animation.</p>
+</div>
+<div class="section" id="value-rgb">
+<span id="node-anim"></span><h2>Animation of Value and RGB Nodes<a class="headerlink" href="#value-rgb" title="Permalink to this headline">¶</a></h2>
+<p>Playback of keyframes inserted on <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes is supported in node materials.</p>
+<img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="_images/node_RGB_anim.png" class="align-center" src="_images/node_RGB_anim.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Animation of numerical and color values on other nodes is not supported.</p>
+</div>
+<p>Can be also used to create tracks in the <a class="reference internal" href="nla.html#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>B4W_TIME</span></a></p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

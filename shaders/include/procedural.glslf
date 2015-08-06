@@ -1,19 +1,22 @@
 #export cellular2x2_caust snoise cellular2x2 generate_dithering_tex
 
+float ZERO_VALUE_PROCEDURAL = 0.0;
+float UNITY_VALUE_PROCEDURAL = 1.0;
+
 vec4 mod289(vec4 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - floor(x * (UNITY_VALUE_PROCEDURAL / 289.0)) * 289.0;
 }
 
 vec3 mod289(vec3 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - floor(x * (UNITY_VALUE_PROCEDURAL / 289.0)) * 289.0;
 }
 
 vec2 mod289(vec2 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - floor(x * (UNITY_VALUE_PROCEDURAL / 289.0)) * 289.0;
 }
 
 vec4 mod7(vec4 x) {
-    return x - floor(x * (1.0 / 7.0)) * 7.0;
+    return x - floor(x * (UNITY_VALUE_PROCEDURAL / 7.0)) * 7.0;
 }
 
 // Permutation polynomial: (34x^2 + 5x) mod 289
@@ -42,8 +45,10 @@ vec2 cellular2x2(vec2 P) {
     vec2 Pf = fract(P);
     vec4 Pfx = Pf.x + vec4(-0.5, -1.5, -0.5, -1.5);
     vec4 Pfy = Pf.y + vec4(-0.5, -0.5, -1.5, -1.5);
-    vec4 p = permute(Pi.x + vec4(0.0, 1.0, 0.0, 1.0));
-    p = permute(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0));
+    vec4 p = permute(Pi.x + vec4(ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL, 
+            ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL));
+    p = permute(p + Pi.y + vec4(ZERO_VALUE_PROCEDURAL, ZERO_VALUE_PROCEDURAL, 
+            UNITY_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL));
     vec4 ox = mod7(p)*K+K2;
     vec4 oy = mod7(floor(p*K))*K+K2;
     vec4 dx = Pfx + JITTER*ox;
@@ -67,13 +72,15 @@ vec2 cellular2x2(vec2 P) {
 }
 
 //Special Voronoi noise for caustics with aberration
-mat3 cellular2x2_caust(vec2 P, float aber) {
+vec3 cellular2x2_caust(vec2 P, float aber) {
     vec2 Pi = mod289(floor(P));
     vec2 Pf = fract(P);
     vec4 Pfx = Pf.x + vec4(-0.5, -1.5, -0.5, -1.5);
     vec4 Pfy = Pf.y + vec4(-0.5, -0.5, -1.5, -1.5);
-    vec4 p = permute(Pi.x + vec4(0.0, 1.0, 0.0, 1.0));
-    p = permute(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0));
+    vec4 p = permute(Pi.x + vec4(ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL, 
+            ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL));
+    p = permute(p + Pi.y + vec4(ZERO_VALUE_PROCEDURAL, ZERO_VALUE_PROCEDURAL, 
+            UNITY_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL));
     vec4 ox = mod7(p) * K + K2;
     vec4 oy = mod7(floor(p * K)) * K + K2;
     vec4 dx = Pfx + JITTER * ox;
@@ -95,8 +102,7 @@ mat3 cellular2x2_caust(vec2 P, float aber) {
     d2.x = min(d2.x, d2.y);
     d3.xy = min(d3.xy, d3.zw);
     d3.x = min(d3.x, d3.y);
-    return mat3(d1.xx, 0.0, d2.xx, 0.0, d3.xx, 0.0); // F1 duplicated, F2 not computed
-
+    return vec3(d1.x, d2.x, d3.x); // F1 duplicated, F2 not computed
 }
 
 //
@@ -110,7 +116,7 @@ mat3 cellular2x2_caust(vec2 P, float aber) {
 //
 
 vec3 permute3(vec3 x) {
-    return mod289(((x*34.0)+1.0)*x);
+    return mod289(((x*34.0)+UNITY_VALUE_PROCEDURAL)*x);
 }
 
 float snoise(vec2 v)
@@ -127,7 +133,8 @@ float snoise(vec2 v)
     vec2 i1;
     //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
     //i1.y = 1.0 - i1.x;
-    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    i1 = (x0.x > x0.y) ? vec2(UNITY_VALUE_PROCEDURAL, ZERO_VALUE_PROCEDURAL) 
+                       : vec2(ZERO_VALUE_PROCEDURAL, UNITY_VALUE_PROCEDURAL);
     // x0 = x0 - 0.0 + 0.0 * C.xx ;
     // x1 = x0 - i1 + 1.0 * C.xx ;
     // x2 = x0 - 1.0 + 2.0 * C.xx ;
@@ -136,17 +143,19 @@ float snoise(vec2 v)
 
 // Permutations
     i = mod289(i); // Avoid truncation effects in permutation
-    vec3 p = permute3( permute3( i.y + vec3(0.0, i1.y, 1.0 ))
-      	+ i.x + vec3(0.0, i1.x, 1.0 ));
+    vec3 p = permute3( permute3( i.y + vec3(ZERO_VALUE_PROCEDURAL, i1.y, 
+            UNITY_VALUE_PROCEDURAL ))
+            + i.x + vec3(ZERO_VALUE_PROCEDURAL, i1.x, UNITY_VALUE_PROCEDURAL ));
 
-    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 
+                 ZERO_VALUE_PROCEDURAL);
     m = m*m ;
     m = m*m ;
 
 // Gradients: 41 points uniformly over a line, mapped onto a diamond.
 // The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
 
-    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 x = 2.0 * fract(p * C.www) - UNITY_VALUE_PROCEDURAL;
     vec3 h = abs(x) - 0.5;
     vec3 ox = floor(x + 0.5);
     vec3 a0 = x - ox;
@@ -168,8 +177,8 @@ vec2 generate_dithering_tex(vec2 coord) {
     float d1 = dot(coord, vec2(12.9898, 78.233));
     float d2 = dot(coord, vec2(12.9898, 78.233) * 2.0);
 
-    float noiseX = fract(sin(d1) * 43758.5453) * 2.0 - 1.0;
-    float noiseY = fract(sin(d2) * 43758.5453) * 2.0 - 1.0;
+    float noiseX = fract(sin(d1) * 43758.5453) * 2.0 - UNITY_VALUE_PROCEDURAL;
+    float noiseY = fract(sin(d2) * 43758.5453) * 2.0 - UNITY_VALUE_PROCEDURAL;
 
     return vec2(noiseX, noiseY);
 }

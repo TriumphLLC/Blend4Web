@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!--
+Copyright 2011-2014 Analytical Graphics Inc. and Contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at:  https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+-->
+
+	<title>WebGL Report</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=725, user-scalable=yes">
+	<link rel="stylesheet" type="text/css" href="black.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="webglreport.js"></script>
+</head>
+<body>
+    <script type="text/template" id="reportTemplate">
+        <div class="report"><table>
+            <tr>
+                <th class="main-left-column">Platform:</th>
+                <td><%= report.platform %></td>
+            </tr>
+            <tr>
+                <th>Browser User Agent:</th>
+                <td><%= report.userAgent %></td>
+            </tr>
+            <% if (typeof report.contextName !== 'undefined') { %>
+            <tr>
+                <th>Context Name:</th>
+                <td><%= report.contextName %></td>
+            </tr>
+            <tr>
+                <th>GL Version:</th>
+                <td><%= report.glVersion %></td>
+            </tr>
+            <tr>
+                <th>Shading Language Version:</th>
+                <td><%= report.shadingLanguageVersion %></td>
+            </tr>
+            <tr>
+                <th>Vendor:</th>
+                <td><%= report.vendor %></td>
+            </tr>
+            <tr>
+                <th>Renderer:</th>
+                <td><%= report.renderer %></td>
+            </tr>
+            <% if (report.unMaskedVendor !== '') { %>
+            <tr>
+                <th>Unmasked Vendor:</th>
+                <td><%= report.unMaskedVendor %></td>
+            </tr>
+            <% } %>
+            <% if (report.unMaskedRenderer !== '') { %>
+            <tr>
+                <th>Unmasked Renderer:</th>
+                <td><%= report.unMaskedRenderer %></td>
+            </tr>
+            <% } %>
+            <tr>
+                <th>Antialiasing:</th>
+                <td><%= report.antialias %></td>
+            </tr>
+            <tr>
+                <th>ANGLE:</th>
+                <td><%= report.angle %></td>
+            </tr>
+            <tr>
+                <th>Major Performance Caveat:</th>
+                <td><%= report.majorPerformanceCaveat %></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="pipeline">
+                        <canvas class="background"></canvas>
+                        <div class="vertexShader">
+                            <h1>Vertex Shader</h1>
+                            <table>
+                                <tr title="Minimum: 8">
+                                    <th>Max Vertex Attributes:</th>
+                                    <td><%= report.maxVertexAttributes %></td>
+                                </tr>
+                                <tr title="Minimum: 128">
+                                    <th>Max Vertex Uniform Vectors:</th>
+                                    <td><%= report.maxVertexUniformVectors %></td>
+                                </tr>
+                                <tr title="Minimum: 0">
+                                    <th>Max Vertex Texture Image Units:</th>
+                                    <td><%= report.maxVertexTextureImageUnits %></td>
+                                </tr>
+                                <tr title="Minimum: 8">
+                                    <th>Max Varying Vectors:</th>
+                                    <td><%= report.maxVaryingVectors %></td>
+                                </tr>
+                                <tr>
+                                    <th>Best float precision:</th>
+                                    <td><%= report.vertexShaderBestPrecision %></td>
+                                </tr>
+                                <% if (report.webglVersion > 1) { %>
+                                <tr>
+                                    <th>Max Vertex Uniform Components:</th>
+                                    <td><%= report.maxVertexUniformComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Vertex Uniform Blocks:</th>
+                                    <td><%= report.maxVertexUniformBlocks %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Vertex Output Components:</th>
+                                    <td><%= report.maxVertexOutputComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Varying Components:</th>
+                                    <td><%= report.maxVaryingComponents %></td>
+                                </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                        <div class="transformFeedback">
+                            <h1>Transform Feedback</h1>
+                            <% if (report.webglVersion < 2) { %>
+                            <div class="comingSoon">
+                                Coming in <a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/">WebGL 2</a>
+                            </div>
+                            <% } else { %>
+                            <table>
+                                <tr>
+                                    <th>Max Interleaved Components:</th>
+                                    <td><%= report.maxTransformFeedbackInterleavedComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Separate Attribs:</th>
+                                    <td><%= report.maxTransformFeedbackSeparateAttribs %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Separate Components:</th>
+                                    <td><%= report.maxTransformFeedbackSeparateComponents %></td>
+                                </tr>
+                            </table>
+                            <% } %>
+                        </div>
+                        <div class="rasterizer">
+                            <h1>Rasterizer</h1>
+                            <table>
+                                <tr title="Minimum: [1, 1]">
+                                    <th>Aliased Line Width Range:</th>
+                                    <td><%= report.aliasedLineWidthRange %></td>
+                                </tr>
+                                <tr title="Minimum: [1, 1]">
+                                    <th>Aliased Point Size Range:</th>
+                                    <td><%= report.aliasedPointSizeRange %></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="fragmentShader">
+                            <h1>Fragment Shader</h1>
+                            <table>
+                                <tr title="Minimum: 16">
+                                    <th>Max Fragment Uniform Vectors:</th>
+                                    <td><%= report.maxFragmentUniformVectors %></td>
+                                </tr>
+                                <tr title="Minimum: 8">
+                                    <th>Max Texture Image Units:</th>
+                                    <td><%= report.maxTextureImageUnits %></td>
+                                </tr>
+                                <tr>
+                                    <th>float/int precision:</th>
+                                    <td><%= report.fragmentShaderFloatIntPrecision %></td>
+                                </tr>
+                                <tr>
+                                    <th>Best float precision:</th>
+                                    <td><%= report.fragmentShaderBestPrecision %></td>
+                                </tr>
+                                <% if (report.webglVersion > 1) { %>
+                                <tr>
+                                    <th>Max Fragment Uniform Components:</th>
+                                    <td><%= report.maxFragmentUniformComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Fragment Uniform Blocks:</th>
+                                    <td><%= report.maxFragmentUniformBlocks %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Fragment Input Components:</th>
+                                    <td><%= report.maxFragmentInputComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Min Program Texel Offset:</th>
+                                    <td><%= report.minProgramTexelOffset %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Program Texel Offset:</th>
+                                    <td><%= report.maxProgramTexelOffset %></td>
+                                </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                        <div class="framebuffer">
+                            <h1>Framebuffer</h1>
+                            <table>
+                                <% if (report.webglVersion > 1) { %>
+                                <tr>
+                                    <th>Max Draw Buffers:</th>
+                                    <td><%= report.maxDrawBuffers %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Color Attachments:</th>
+                                    <td><%= report.maxColorAttachments %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Samples:</th>
+                                    <td><%= report.maxSamples %></td>
+                                </tr>
+                                <% } else { %>
+                                <tr>
+                                    <th>Max Color Buffers:</th>
+                                    <td><%= report.maxColorBuffers %></td>
+                                </tr>
+                                <% } %>
+                                <tr>
+                                    <th>RGBA Bits:</th>
+                                    <td>[<%= report.redBits %>, <%= report.greenBits %>, <%= report.blueBits %>, <%= report.alphaBits %>]</td>
+                                </tr>
+                                <tr>
+                                    <th>Depth / Stencil Bits:</th>
+                                    <td>[<%= report.depthBits %>, <%= report.stencilBits %>]</td>
+                                </tr>
+                                <tr>
+                                    <th>Max Render Buffer Size:</th>
+                                    <td><%= report.maxRenderBufferSize %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Viewport Dimensions:</th>
+                                    <td><%= report.maxViewportDimensions %></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="textures">
+                            <h1>Textures</h1>
+                            <table>
+                                <tr title="Minimum: 64">
+                                    <th>Max Texture Size:</th>
+                                    <td><%= report.maxTextureSize %></td>
+                                </tr>
+                                <tr title="Minimum: 16">
+                                    <th>Max Cube Map Texture Size:</th>
+                                    <td><%= report.maxCubeMapTextureSize %></td>
+                                </tr>
+                                <tr title="Minimum: 8">
+                                    <th>Max Combined Texture Image Units:</th>
+                                    <td><%= report.maxCombinedTextureImageUnits %></td>
+                                </tr>
+                                <tr title="Minimum: 2">
+                                    <th>Max Anisotropy:</th>
+                                    <td><%= report.maxAnisotropy %></td>
+                                </tr>
+                                <% if (report.webglVersion > 1) { %>
+                                <tr>
+                                    <th>Max 3D Texture Size:</th>
+                                    <td><%= report.max3dTextureSize %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Array Texture Layers:</th>
+                                    <td><%= report.maxArrayTextureLayers %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Texture LOD Bias:</th>
+                                    <td><%= report.maxTextureLodBias %></td>
+                                </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                        <div class="uniformBuffers">
+                            <h1>Uniform Buffers</h1>
+                            <% if (report.webglVersion < 2) { %>
+                            <div class="comingSoon">
+                                Coming in <a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/">WebGL 2</a>
+                            </div>
+                            <% } else { %>
+                            <table>
+                                <tr>
+                                    <th>Max Uniform Buffer Bindings:</th>
+                                    <td><%= report.maxUniformBufferBindings %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Uniform Block Size:</th>
+                                    <td><%= report.maxUniformBlockSize %></td>
+                                </tr>
+                                <tr>
+                                    <th>Uniform Buffer Offset Alignment:</th>
+                                    <td><%= report.uniformBufferOffsetAlignment %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Combined Uniform Blocks:</th>
+                                    <td><%= report.maxCombinedUniformBlocks %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Combined Vertex Uniform Components:</th>
+                                    <td><%= report.maxCombinedVertexUniformComponents %></td>
+                                </tr>
+                                <tr>
+                                    <th>Max Combined Fragment Uniform Components:</th>
+                                    <td><%= report.maxCombinedFragmentUniformComponents %></td>
+                                </tr>
+                            </table>
+                            <% } %>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">Supported Extensions:</th>
+            </tr>
+            <% _.each(report.extensions, function(e) { %>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a class="extension" href="<%= getExtensionUrl(e) %>"><%= e %></a>
+                    </td>
+                </tr>
+            <% }) %>
+            <tr>
+                <td colspan="2">
+                    <br />
+                    <%= report.draftExtensionsInstructions %>
+                </td>
+            </tr>
+            <% if (report.webglVersion === 2) { %>
+            <tr>
+                <th colspan="2"><br /><a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/">WebGL 2</a> Functions Implementation Status:</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <p><%= report.webgl2Status %></p>
+                </td>
+            </tr>
+            <% _.each(report.webgl2Functions, function(e) { %>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a class="<%= e.className %>" href="<%= getWebGL2ExtensionUrl(e.name) %>"><%= e.name %></a>
+                    </td>
+                </tr>
+            <% }); %>
+            <% } %>
+            <% } %>
+        </table></div>
+    </script>
+
+    <script type="text/template" id="webglSupportedTemplate">
+        <div class="header">
+            <p>&#x2713; This browser supports WebGL <%= report.webglVersion %></p>
+        </div>
+    </script>
+
+    <script type="text/template" id="webglSupportedChromeFrameTemplate">
+        <div class="header">
+            <p>&#x2713; This browser supports WebGL <%= report.webglVersion %> with Chrome Frame.</p>
+        </div>
+    </script>
+
+    <script type="text/template" id="webglNotSupportedTemplate">
+        <div class="header">
+            <p>&times; This browser does not support WebGL <%= report.webglVersion %></p>
+            <% if (report.webglVersion === 2 && report.userAgent.indexOf('Firefox') !== -1) { %>
+            <p>
+                To enable WebGL 2 in Firefox, see <a href="https://wiki.mozilla.org/Platform/GFX/WebGL2">https://wiki.mozilla.org/Platform/GFX/WebGL2</a>.
+            </p>
+            <% } else { %>
+            <p>
+                Check out <a href="http://get.webgl.org/">Get WebGL</a>,
+                or try installing the latest version of
+                <a href="https://www.google.com/chrome">Chrome</a>, or
+                <a href="https://www.mozilla.org/en-US/firefox/">Firefox</a>.
+            </p>
+            <% } %>
+        </div>
+    </script>
+
+    <script type="text/template" id="webglNotEnabledTemplate">
+        <div class="header">
+            <p>&times; This browser supports WebGL <%= report.webglVersion %>, but it is disabled or unavailable.</p>
+            <p>Sometimes this is the result of older video drivers being rejected by the browser.  Try updating your video drivers if possible.</p>
+            <p>
+                Also check out <a href="http://get.webgl.org/">Get WebGL</a>,
+                or try installing the latest version of
+                <a href="https://www.google.com/chrome">Chrome</a>, or
+                <a href="https://www.mozilla.org/en-US/firefox/">Firefox</a>.
+            </p>
+        </div>
+    </script>
+
+    <script type="text/template" id="webglVersionTabs">
+        <div class="webglVersionTabs">
+            <a href="?v=1" class="<%= report.webglVersion === 1 ? 'active' : '' %>">WebGL 1</a>
+            <a href="?v=2" class="<%= report.webglVersion === 2 ? 'active' : '' %>">WebGL 2</a>
+        </div>
+    </script>
+
+    <a href="https://github.com/AnalyticalGraphicsInc/webglreport" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/ForkMe_Ribbons/ForkMe_Blk.png" alt="Fork me on GitHub"></a>
+
+    <h1>WebGL Report</h1>
+
+    <p id="javascript_disabled" class="align-center">You need to enable JavaScript to see WebGL.</p>
+
+    <div class="main-output" id="output">
+    </div>
+
+    <script type="text/javascript">
+        var _noJS = document.getElementById('javascript_disabled');
+        _noJS.parentNode.removeChild(_noJS);
+    </script>
+
+</body>
+</html>

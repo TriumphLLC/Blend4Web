@@ -67,28 +67,26 @@ msgid "Общие рекомендации:"
 msgstr "General recommendations:"
 
 #: ../workflow.rst:29
-msgid ""
-"Blend-файлы должны находиться в директории ``external/blender/имя_проекта``."
+msgid "Blend-файлы должны находиться в директории ``blender/имя_проекта``."
 msgstr ""
-"Blend-files should be located in the ``external/blender/project_name`` "
-"directory."
+"Blend files should be located in the ``blender/project_name`` directory."
 
 #: ../workflow.rst:30
 msgid ""
 "Файлы текстур и звуков должны быть внешними и находиться в директории "
-"``external/deploy/assets/имя_проекта``."
+"``deploy/assets/имя_проекта``."
 msgstr ""
 "Texture and sound files should be external and located in the "
-"``external/deploy/assets/project_name`` directory."
+"``deploy/assets/project_name`` directory."
 
 #: ../workflow.rst:31
 msgid ""
 "Вспомогательные файлы, не предназначенные для загрузки в движок (например, "
-"референсы), должны находиться в директории ``external/blender/имя_проекта``."
+"референсы), должны находиться в директории ``blender/имя_проекта``."
 msgstr ""
 "Auxiliary files which are not intended for loading into the engine (for "
-"example, references), should be located in the "
-"``external/blender/project_name`` directory."
+"example, references), should be located in the ``blender/project_name`` "
+"directory."
 
 #: ../workflow.rst:32
 msgid ""
@@ -113,6 +111,10 @@ msgid ""
 "Допускается добавление по ссылке (linking) компонентов из других файлов "
 "(библиотек)."
 msgstr "Its possible to link components from other (library) files."
+
+#: ../workflow.rst:36
+msgid "экспорт"
+msgstr "export"
 
 #: ../workflow.rst:39
 msgid "Экспорт сцен"
@@ -160,11 +162,11 @@ msgstr ""
 #: ../workflow.rst:47
 msgid ""
 "Экспортные файлы рекомендуется размещать в директории, предназначенной для "
-"развертывания приложения, например ``external/deploy/assets/имя_проекта``."
+"развертывания приложения, например ``deploy/assets/имя_проекта``."
 msgstr ""
 "It is recommended to place files intended for export into the directory "
 "intended for application deployment, for example "
-"``external/deploy/assets/project_name``."
+"``deploy/assets/project_name``."
 
 #: ../workflow.rst:49
 msgid ""
@@ -193,52 +195,60 @@ msgstr ""
 "export errors is specified in the :ref:`corresponding section "
 "<export_errors>`."
 
-#: ../workflow.rst:54
-msgid "Опции экспорта"
-msgstr "Export Options"
-
-#: ../workflow.rst:57
-msgid "*Autosave main file*"
-msgstr "*Autosave main file*"
-
-#: ../workflow.rst:57
+#: ../workflow.rst:53
 msgid ""
-"Автосохранение файла, из которого осуществляется экспорт. **Включено по "
-"умолчанию**. Осуществляется непосредственно после экспорта с целью поддержки"
-" соответствия между текущим содержимым blend-файла и экспортного файла. "
-"Кроме того, для удобства в blend-файле сохраняется относительный путь к "
-"экспортному файлу."
+"Опции экспорта подробно описаны в :ref:`соответствующем разделе "
+"<export_opts>`."
 msgstr ""
-"Autosaving the file from which export occurs. **Enabled by default**. "
-"Autosaving happens right after the export to guarantee conformity between "
-"the current blend-file and the exported file content. In addition, the "
-"relative path to the exported file is saved for convenience."
+"Export options are described in detail in the :ref:`corresponding section "
+"<export_opts>`."
+
+#: ../workflow.rst:56
+msgid "просмотрщик"
+msgstr "viewer"
+
+#: ../workflow.rst:56
+msgid "добавление сцен"
+msgstr "adding scenes"
 
 #: ../workflow.rst:61
-msgid "*Filepath*"
-msgstr "*Filepath*"
-
-#: ../workflow.rst:60
-msgid ""
-"Путь для экспортного файла. Используется в режиме экспорта из командой "
-"строки. В оконном режиме не используется."
-msgstr ""
-"Path to the exported file. It is used in the command-line export mode and "
-"not used in windowed mode."
-
-#: ../workflow.rst:66
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
-#: ../workflow.rst:68
+#: ../workflow.rst:63
 msgid ""
-"Для того, чтобы сцена появилась в списке сцен просмотрщика, нужно вручную "
-"добавить запись в текстовой файл ``external/deploy/assets/assets.json``."
+"При использовании :ref:`локального сервера разработки "
+"<local_development_server>` и опции экспорта :ref:`Run in Viewer "
+"<run_in_viewer>` сцены показываются в просмотрщике сцен сразу после "
+"экспорта."
 msgstr ""
-"For the scene to appear in the viewer list it's required to manually add an "
-"entry to the text file ``external/deploy/assets/assets.json``."
+"When using the :ref:`local development server <local_development_server>` "
+"and the :ref:`Run in Viewer <run_in_viewer>` export option, scenes are "
+"displayed in the Scene Viewer immediately after the export."
 
-#: ../workflow.rst:70
+#: ../workflow.rst:65
+msgid ""
+"При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, "
+"нужно вручную добавить запись в текстовой файл "
+"``apps_dev/viewer/assets.json``, который доступен при открытии Blender'a при"
+" использовании Blend4Web SDK."
+msgstr ""
+"For the long-term storage of the scene in the scene list of the viewer, it's"
+" required to manually add the entry to the ``apps_dev/viewer/assets.json`` "
+"text file. This file is opened automatically in Blender if you are using "
+"Blend4Web SDK."
+
+#: ../workflow.rst:67
+msgid "Для редактирования файла откройте \"Text Editor\":"
+msgstr "Use the \"Text Editor\" to modify it:"
+
+#: ../workflow.rst:74
+msgid ""
+"В появившемся окне вы сможете выбрать файл ``assets.json`` и отредактировать"
+" его:"
+msgstr "Then select the ``assets.json`` file in the window to edit it:"
+
+#: ../workflow.rst:81
 msgid ""
 "Для добавления новой сцены нужно знать категорию, в которой она должна "
 "отображаться. Категория обычно соответствует названию проекта и имени "
@@ -248,11 +258,11 @@ msgstr ""
 "displayed. The category normally corresponds to the project name and to the "
 "name of the directory where the corresponding files are stored."
 
-#: ../workflow.rst:74
+#: ../workflow.rst:85
 msgid "Пример"
 msgstr "Example"
 
-#: ../workflow.rst:76
+#: ../workflow.rst:87
 msgid ""
 "Ниже приведена примерная часть файла ``assets.json``, в которой находятся "
 "два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом "
@@ -261,7 +271,7 @@ msgstr ""
 "For example below you can see a part of ``assets.json``. In this file there "
 "are two projects - \"Capri\" and \"Fridge\" each with corresponding scenes::"
 
-#: ../workflow.rst:105
+#: ../workflow.rst:116
 msgid ""
 "Добавление можно осуществить копированием и вставкой описания похожей сцены "
 "в нужной категории и последующим редактированием ее названия и пути к "
@@ -270,7 +280,7 @@ msgstr ""
 "To add a new scene you can copy and paste a similar scene's description to "
 "the required category and then edit its name and path to the exported file."
 
-#: ../workflow.rst:107
+#: ../workflow.rst:118
 msgid ""
 "В случае успешного добавления сцена должна появиться в списке сцен "
 "просмотрщика в нужной категории."
@@ -278,11 +288,11 @@ msgstr ""
 "A successfully added scene should appear in the scenes' list of the viewer  "
 "in the required category."
 
-#: ../workflow.rst:114
+#: ../workflow.rst:125
 msgid "Разработка приложения"
 msgstr "Application Development"
 
-#: ../workflow.rst:116
+#: ../workflow.rst:127
 msgid ""
 "На этой стадии создаётся приложение, в котором на языке JavaScript пишется "
 "логика по загрузке сцены и взаимодействию с ней пользователя. Документация "
@@ -292,15 +302,3 @@ msgstr ""
 "At this stage an application is created. Logic for scene loading and user "
 "interaction is written using JavaScript. The application developer notes are"
 " given in the :ref:`corresponding section <developers>`."
-
-#: ../workflow.rst:36
-msgid "экспорт"
-msgstr "export"
-
-#: ../workflow.rst:63
-msgid "просмотрщик"
-msgstr "viewer"
-
-#: ../workflow.rst:63
-msgid "добавление сцен"
-msgstr "scene adding"

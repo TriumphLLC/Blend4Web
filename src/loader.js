@@ -10,6 +10,7 @@ var THREAD_IDLE = 0;
 var THREAD_LOADING = 1;
 var THREAD_FINISHED_NO_RESOURCES = 2;
 var THREAD_FINISHED = 3;
+var THREAD_ABORTED = 4;
 
 var THREAD_STAGE_BEFORE = 0;
 var THREAD_STAGE_LOOP = 1;
@@ -45,7 +46,7 @@ exports.create_scheduler = function() {
         current_thread_index: 0,
         active_threads: 0,
 
-        primary_loaded: false,
+        start_secondary_threads: false,
         make_idle_iteration: false
     }
 
@@ -56,14 +57,14 @@ exports.create_scheduler = function() {
 
 /**
  * Create scheduler thread.
- * @param {Object} stages Loading stages
+ * @param {Object3D} stages Loading stages
  * @param {String} path Path to main .json file
  * @param {Function} loaded_callback Callback on all/non-background stages loading
  * @param {Function} stageload_cb Callback on stage loading
- * @param {Function} complete_load_cb Callback on all stages loading
+ * @param {Function} complete_load_cb Callback on all stages loading (currently it's a low-level service callback)
  * @param {Boolean} wait_complete_loading Perform callback on all or all non-background stages loading
  * @param {Boolean} do_not_load_resources To load or not to load application resources
- * @param {Boolean} load_hidden Hide/disable loaded objects
+ * @param {Boolean} load_hidden Hide loaded and disable physics objects
  * @returns {Number} Id of loaded data.
  */
 exports.create_thread = function(stages, path, loaded_callback, 
@@ -79,6 +80,8 @@ exports.create_thread = function(stages, path, loaded_callback,
         filepath: path,
         binary_name: "",
 
+        loaded_cb: loaded_callback || (function() {}),
+
         load_hidden: load_hidden || false,
         wait_complete_loading: wait_complete_loading,
 
@@ -91,12 +94,14 @@ exports.create_thread = function(stages, path, loaded_callback,
         complete_load_cb: complete_load_cb || (function() {}),
         
         stage_graph: null,
-        stages_queue: null
+        stages_queue: null,
+        has_video_textures: false,
+        has_background_music: false,
+        init_wa_context: false
     }
 
-    var loaded_cb = loaded_callback || (function() {});
     var graph = create_loading_graph(thread.id === 0, stages, 
-            wait_complete_loading, do_not_load_resources, loaded_cb);
+            wait_complete_loading, do_not_load_resources);
     thread.stage_graph = graph;
 
     var stages_queue = [];
@@ -118,7 +123,7 @@ exports.create_thread = function(stages, path, loaded_callback,
 }
 
 function create_loading_graph(is_primary, stages, wait_complete_loading, 
-        do_not_load_resources, loaded_cb) {
+        do_not_load_resources) {
     var scheduler = get_scheduler();
 
     var graph = m_graph.create();
@@ -147,12 +152,12 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
         
         // primary thread loaded, allow to load secondary threads
         if (thread.id === 0)
-            scheduler.primary_loaded = true;
+            scheduler.start_secondary_threads = true;
 
-        if (thread.status != THREAD_FINISHED)
+        if (!thread_is_finished(thread))
             thread.status = THREAD_FINISHED_NO_RESOURCES;
 
-        loaded_cb(thread.id);
+        thread.loaded_cb(thread.id, true);
         cb_finish(thread, stage);
         m_print.log("%cTHREAD " + thread.id + ": LOADED CALLBACK", DEBUG_COLOR);
     }
@@ -160,7 +165,8 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
     var finish_node = init_stage({
         name: "out",
         priority: exports.FINISH_PRIORITY,
-        cb_before: loaded_cb_wrapper
+        cb_before: loaded_cb_wrapper,
+        relative_size: 5
     });
 
     var prefinish_nodes = [];
@@ -218,7 +224,7 @@ exports.update_scheduler = function(bpy_data_array) {
         var thread = scheduler.threads[scheduler.current_thread_index];
         var bpy_data = bpy_data_array[thread.id];
 
-        if (thread.status != THREAD_FINISHED) {
+        if (!thread_is_finished(thread)) {
 
             // start new thread
             if (thread.status == THREAD_IDLE) {
@@ -232,24 +238,12 @@ exports.update_scheduler = function(bpy_data_array) {
 
             if (update_stages_queue(thread))
                 process_stages_queue(thread, bpy_data);
-            else {
-                // finish thread totally (including all resources)
-                thread.complete_load_cb(bpy_data, thread);
-                thread.status = THREAD_FINISHED;
-                scheduler.active_threads--;
-                if (DEBUG_MODE) {
-                    var ms = Math.round(performance.now() 
-                            - thread.time_load_start);
-                    m_print.log("%cTHREAD " + thread.id + ": 100% LOADING END " 
-                            + ms + "ms", 
-                            DEBUG_COLOR);
-                }
-                release_thread(thread);
-            }
+            else
+                finish_thread(scheduler, thread, bpy_data);
         }
 
         // process secondary threads after main is loaded
-        if (scheduler.primary_loaded)
+        if (scheduler.start_secondary_threads)
             scheduler.current_thread_index = (scheduler.current_thread_index + 1) 
                     % scheduler.threads.length;
 
@@ -260,6 +254,33 @@ exports.update_scheduler = function(bpy_data_array) {
         }
 
     } while(performance.now() - time_start < MAX_LOAD_TIME_MS);
+}
+
+exports.abort_thread = function(thread) {
+    var scheduler = get_scheduler();
+    finish_thread(scheduler, thread, null);
+    thread.status = THREAD_ABORTED;
+
+    // primary thread finished, allow to load secondary threads
+    if (thread.id === 0)
+        scheduler.start_secondary_threads = true;
+
+    thread.loaded_cb(thread.id, false);
+}
+
+function finish_thread(scheduler, thread, bpy_data) {
+    // finish thread totally (including all resources)
+    thread.complete_load_cb(bpy_data, thread);
+    thread.status = THREAD_FINISHED;
+    scheduler.active_threads--;
+    if (DEBUG_MODE) {
+        var ms = Math.round(performance.now() 
+                - thread.time_load_start);
+        m_print.log("%cTHREAD " + thread.id + ": 100% LOADING END " 
+                + ms + "ms", 
+                DEBUG_COLOR);
+    }
+    release_thread(thread);
 }
 
 function process_stages_queue(thread, bpy_data) {
@@ -440,8 +461,8 @@ function stage_finish_cb(thread, stage) {
 
 /**
  * Perform callback for partially loading
- * @param {Object} thread Scheduler
- * @param {Object} stage Stage object
+ * @param {Object3D} thread Scheduler
+ * @param {Object3D} stage Stage object
  * @param {Number} rate Stage load rate
  */
 exports.stage_part_finish_cb = stage_part_finish_cb;
@@ -472,7 +493,7 @@ function stage_loading_action(thread, stage, rate) {
 
 /**
  * Skip certain stage
- * @param {Object} thread Scheduler thread
+ * @param {Object3D} thread Scheduler thread
  * @param {String} name Stage name
  */
 exports.skip_stage_by_name = function(thread, name) {
@@ -509,6 +530,7 @@ function release_thread(thread) {
     thread.complete_load_cb = null;
     thread.stage_graph = null;
     thread.stages_queue = null;
+    // NOTE: thread.loaded_cb needed for aborted threads
 }
 
 function is_finished() {
@@ -516,13 +538,15 @@ function is_finished() {
     return scheduler.active_threads == 0;
 }
 
-exports.thread_is_finished = function(thread) {
-    return thread && thread.status == THREAD_FINISHED;
+exports.thread_is_finished = thread_is_finished;
+function thread_is_finished(thread) {
+    return thread && (thread.status == THREAD_FINISHED 
+            || thread.status == THREAD_ABORTED);
 }
 
 /**
  * Get primary thread/scene loaded status
- * @param {Object} scheduler Scheduler
+ * @param {Object3D} scheduler Scheduler
  * @param {Number} thread_id Thread/scene id
  */
 exports.is_primary_loaded = function(data_id) {

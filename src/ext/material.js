@@ -9,6 +9,7 @@ b4w.module["material"] = function(exports, require) {
 var m_batch   = require("__batch");
 var m_cfg     = require("__config");
 var m_print   = require("__print");
+var m_obj     = require("__objects");
 var m_shaders = require("__shaders");
 var m_util    = require("__util");
 
@@ -20,42 +21,17 @@ var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0",
         "u_specmap", "u_normalmap0", "u_mirrormap"];
 
 /**
- * @method module:material.max_bones
- * @deprecated External call is not allowed anymore
- */
-exports.max_bones = function() {
-    m_print.error("max_bones() deprecated, return default value");
-    return cfg_def.max_bones;
-}
-/**
- * @method module:material.set_max_bones
- * @deprecated External call is not alowed anymore
- */
-exports.set_max_bones = function(num) {
-    m_print.error("set_max_bones() deprecated");
-}
-
-/**
- * A dangerous method to set the batch params
- * @method module:material.set_batch_param
- * @deprecated Use dedicated method to change param
- */
-exports.set_batch_param = function() {
-    m_print.error("set_batch_param() deprecated");
-}
-
-/**
  * Inherit the batch material from another object.
  * @method module:material.inherit_material
- * @param {Object} obj_to Destination Object ID 
- * @param {String} mat_to_name Destination material name
- * @param {Object} obj_from Source Object ID 
+ * @param {Object3D} obj_from Source Object 3D
  * @param {String} mat_from_name Source material name
+ * @param {Object3D} obj_to Destination Object 3D
+ * @param {String} mat_to_name Destination material name
  */
 exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
         mat_to_name) {
 
-    if (!m_util.is_dynamic_mesh(obj_to) || !m_util.is_dynamic_mesh(obj_from)) {
+    if (!m_obj.is_dynamic_mesh(obj_to) || !m_obj.is_dynamic_mesh(obj_from)) {
         m_print.error("Wrong or batched object(s)");
         return;
     }
@@ -72,19 +48,12 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
 
         if (batch_from && batch_to) {
             batches_found = true;
+            var child_batch = m_batch.find_batch_material_forked(obj_to, mat_to_name,
+                    type);
             if (type == "MAIN") {
-                batch_to.diffuse_color.set(batch_from.diffuse_color);
-
-                batch_to.diffuse_intensity = batch_from.diffuse_intensity;
-                batch_to.specular_color.set(batch_from.specular_color);
-                batch_to.specular_params.set(batch_from.specular_params);
-
-                batch_to.emit = batch_from.emit;
-                batch_to.ambient = batch_from.ambient;
-                batch_to.ambient = batch_from.ambient;
-
-                batch_to.diffuse_color_factor = batch_from.diffuse_color_factor;
-                batch_to.alpha_factor = batch_from.alpha_factor;
+                m_batch.set_material_props(batch_to, batch_from);
+                if (child_batch)
+                    m_batch.set_material_props(child_batch, batch_from);
             }
 
             // inherit textures
@@ -95,16 +64,14 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
                     if (from_index !== -1) {
                         batch_to.textures[j] = batch_from.textures[from_index];
 
-                        // inherit textures for child batches
-                        if (batch_to.childs)
-                            for (var j = 0; j < batch_to.childs.length; j++) {
-                                var child_batch = batch_to.childs[j];
-                                var child_index 
+                        //inherit textures for child batches
+                        if (child_batch) {
+                            var child_index 
                                         = child_batch.texture_names.indexOf(to_name);
-                                if (child_index !== -1)
-                                    child_batch.textures[child_index] 
-                                            = batch_from.textures[from_index];
-                            }
+                            if (child_index !== -1)
+                                child_batch.textures[child_index] 
+                                        = batch_from.textures[from_index];
+                        }
                     }
                 }
             }
@@ -131,18 +98,18 @@ function check_batch_material(obj, mat_name) {
 /**
  * Get materials' names for the given object
  * @method module:material.get_materials_names
- * @param {Object} obj Object ID
- * @returns {Array} Array of materials' names
+ * @param {Object3D} obj Object 3D
+ * @returns {String[]} Array of materials' names
  */
 exports.get_materials_names = function(obj) {
 
     var mat_names = new Array();
 
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-
-    for (var i = 0; i < materials.length; i++)
-        mat_names.push(materials[i]["name"]);
+    var batches = obj._batches;
+    for (var j = 0; j < batches.length; j++)
+        for (var i = 0; i < batches[j].material_names.length; i++)
+            if (mat_names.indexOf(batches[j].material_names[i]) == -1)
+                mat_names.push(batches[j].material_names[i]);
 
     return mat_names;
 }
@@ -150,34 +117,33 @@ exports.get_materials_names = function(obj) {
 /**
  * Set the diffuse color and alpha for the object material.
  * @method module:material.set_diffuse_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @param {Float32Array} color Color+alpha vector
+ * @param {RGBA} color Color+alpha vector
  */
 exports.set_diffuse_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.diffuse_color.set(color);
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.diffuse_color.set(color);
+    } else
         m_print.error("Couldn't set property \"diffuse_color\"!");
 }
 
 /**
  * Get the diffuse color and alpha for the object material.
  * @method module:material.get_diffuse_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @returns {Float32Array} Material diffuse color+alpha
+ * @returns {RGBA} Material diffuse color+alpha
  */
 exports.get_diffuse_color = function(obj, mat_name) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     if (batch) {
-        var color = new Array(4);
-        color[0] = batch.diffuse_color[0];
-        color[1] = batch.diffuse_color[1];
-        color[2] = batch.diffuse_color[2];
-        color[3] = batch.diffuse_color[3];
-
+        var color = new Float32Array(4);
+        color.set(batch.diffuse_color);
         return color;
     } else
         m_print.error("Couldn't get property \"diffuse_color\"!");
@@ -186,22 +152,25 @@ exports.get_diffuse_color = function(obj, mat_name) {
 /**
  * Set the diffuse color intensity for the object material.
  * @method module:material.set_diffuse_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} intensity Diffuse intencity value
  */
 exports.set_diffuse_intensity = function(obj, mat_name, intensity) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.diffuse_intensity = intensity;
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.diffuse_intensity = intensity;
+    } else
         m_print.error("Couldn't set property \"diffuse_color\"!");
 }
 
 /**
  * Get the diffuse color intensity for the object material.
  * @method module:material.get_diffuse_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse intencity value
  */
@@ -216,24 +185,27 @@ exports.get_diffuse_intensity = function(obj, mat_name) {
 /**
  * Set the specular color for the object material.
  * @method module:material.set_specular_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @param {Float32Array} color Color vector
+ * @param {RGB} color Color vector
  */
 exports.set_specular_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.specular_color.set(color);
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.specular_color.set(color);
+    } else
         m_print.error("Couldn't set property \"specular_color\"!");
 }
 
 /**
  * Get the specular color for the object material.
  * @method module:material.get_specular_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @returns {Float32Array} Specular color
+ * @returns {RGB} Specular color
  */
 exports.get_specular_color = function(obj, mat_name) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -250,7 +222,7 @@ exports.get_specular_color = function(obj, mat_name) {
 /**
  * Set the specular color intensity for the object material.
  * @method module:material.set_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} intensity Specular intensity value
  */
@@ -260,12 +232,15 @@ exports.set_specular_intensity = function(obj, mat_name, intensity) {
 
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.specular_params[0] = intensity;
+    var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+    if (reflect_batch)
+        reflect_batch.specular_params[0] = intensity;
 }
 
 /**
  * Get the specular color intensity for the object material.
  * @method module:material.get_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Specular color intensity
  */
@@ -281,7 +256,7 @@ exports.check_specular_intensity = check_specular_intensity;
 /**
  * Check the specular intensity for the object material.
  * @method module:material.check_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Boolean} Specular intensity presence
  */
@@ -293,7 +268,7 @@ function check_specular_intensity(obj, mat_name) {
 /**
  * Set the specular color hardness for the object material.
  * @method module:material.set_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} hardness Specular hardness value
  */
@@ -303,12 +278,15 @@ exports.set_specular_hardness = function(obj, mat_name, hardness) {
 
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.specular_params[1] = hardness;
+    var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+    if (reflect_batch)
+        reflect_batch.specular_params[1] = hardness;
 }
 
 /**
  * Get the specular color hardness for the object material.
  * @method module:material.get_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Specular color hardness
  */
@@ -324,7 +302,7 @@ exports.check_specular_hardness = check_specular_hardness;
 /**
  * Check the specular hardness for the object material.
  * @method module:material.check_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Boolean} Specular hardness presence
  */
@@ -336,22 +314,25 @@ function check_specular_hardness(obj, mat_name) {
 /**
  * Set the emit factor for the object material.
  * @method module:material.set_emit_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} emit_factor Emit factor value
  */
 exports.set_emit_factor = function(obj, mat_name, emit_factor) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.emit = emit_factor;
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.emit = emit_factor;
+    } else
         m_print.error("Couldn't set property \"emit_factor\"!");
 }
 
 /**
  * Get the emit factor for the object material.
  * @method module:material.get_emit_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Emit factor value
  */
@@ -367,22 +348,25 @@ exports.get_emit_factor = function(obj, mat_name) {
 /**
  * Set the ambient factor for the object material.
  * @method module:material.set_ambient_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} ambient_factor Ambient factor value
  */
 exports.set_ambient_factor = function(obj, mat_name, ambient_factor) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.ambient = ambient_factor;
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.ambient = ambient_factor;
+    } else
         m_print.error("Couldn't set property \"ambient_factor\"!");
 }
 
 /**
  * Get the ambient factor for the object material.
  * @method module:material.get_ambient_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Ambient factor value
  */
@@ -398,23 +382,26 @@ exports.get_ambient_factor = function(obj, mat_name) {
 /**
  * Set the diffuse color factor for the object material.
  * @method module:material.set_diffuse_color_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} diffuse_color_factor Diffuse color factor value
  */
 exports.set_diffuse_color_factor = function(obj, mat_name, 
         diffuse_color_factor) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.diffuse_color_factor = diffuse_color_factor;
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.diffuse_color_factor = diffuse_color_factor;
+    } else
         m_print.error("Couldn't set property \"diffuse_color_factor\"!");
 }
 
 /**
  * Get the diffuse color factor for the object material.
  * @method module:material.get_diffuse_color_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse color factor value
  */
@@ -427,25 +414,28 @@ exports.get_diffuse_color_factor = function(obj, mat_name) {
 }
 
 /**
- * Set the diffuse alpha factor for the object material.
- * @method module:material.set_diffuse_color_factor
- * @param {Object} obj Object ID
+ * Set the alpha factor for the object material.
+ * @method module:material.set_alpha_factor
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
- * @param {Number} alpha_factor Diffuse alpha factor value
+ * @param {Number} alpha_factor Alpha factor value
  */
 exports.set_alpha_factor = function(obj, mat_name,
-        diffuse_color_factor) {
+        alpha_factor) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
-    if (batch)
+    if (batch) {
         batch.alpha_factor = alpha_factor;
-    else
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.alpha_factor = alpha_factor;
+    } else
         m_print.error("Couldn't set property \"alpha_factor\"!");
 }
 
 /**
  * Get the diffuse alpha factor for the object material.
- * @method module:material.get_diffuse_color_factor
- * @param {Object} obj Object ID
+ * @method module:material.get_alpha_factor
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse alpha factor value
  */
@@ -460,14 +450,15 @@ exports.get_alpha_factor = function(obj, mat_name) {
 /**
  * Get the material extended params
  * @method module:material.get_material_extended_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} mat_name Material name
- * @returns {(Object|null)} Material extended params or null
+ * @returns {(MaterialExtParams|null)} Material extended params or null
+ * @cc_externs reflect_factor fresnel fresnel_factor parallax_scale parallax_steps
  */
 exports.get_material_extended_params = function(obj, mat_name) {
 
     if (!obj || !mat_name) {
-        m_print.error("B4W Error: missing arguments in get_material_params");
+        m_print.error("missing arguments in get_material_params");
         return null;
     }
 
@@ -496,14 +487,14 @@ exports.get_material_extended_params = function(obj, mat_name) {
 /**
  * Get params for the water material 
  * @method module:material.get_water_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} water_mat_name Water material name
- * @returns {(Object|null)} Water material params or null
+ * @returns {(WaterMaterialParams|null)} Water material params or null
  */
 exports.get_water_material_params = function(obj, water_mat_name) {
 
     if (!obj || !water_mat_name) {
-        m_print.error("B4W Error: missing arguments in get_water_material_params");
+        m_print.error("missing arguments in get_water_material_params");
         return null;
     }
 
@@ -516,7 +507,7 @@ exports.get_water_material_params = function(obj, water_mat_name) {
         return null;
 
     if (!batch) {
-        m_print.warn("B4W Warning: material not found");
+        m_print.error("material not found");
         return null;
     }
     var water_mat_params = {};
@@ -542,6 +533,7 @@ exports.get_water_material_params = function(obj, water_mat_name) {
         }
 
         water_mat_params.foam_factor = batch.foam_factor;
+        water_mat_params.norm_uv_velocity = batch.water_norm_uv_velocity;
         water_mat_params.absorb_factor = m_batch.get_batch_directive(batch,
                 "ABSORB")[1];
         water_mat_params.sss_strength = m_batch.get_batch_directive(batch,
@@ -578,34 +570,39 @@ exports.get_water_material_params = function(obj, water_mat_name) {
 /**
  * Set the material params
  * @method module:material.set_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} mat_name Material name
- * @param {Object} mat_params Material params
+ * @param {MaterialExtParams} mat_params Material params
  * @cc_externs material_reflectivity material_fresnel
  * @cc_externs material_fresnel_factor material_parallax_scale
  * @cc_externs material_parallax_steps
  */
 exports.set_material_extended_params = function(obj, mat_name, mat_params) {
     if (!obj || !mat_name || !mat_params) {
-        m_print.error("B4W Error: missing arguments in set_material_params");
+        m_print.error("missing arguments in set_material_params");
         return;
     }
 
     // check that setting material params is possible
     if (!check_batch_material(obj, mat_name)) {
-        m_print.warn("B4W Warning: setting material params is not possible");
+        m_print.error("setting material params is not possible");
         return null;
     }
     
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
 
     if (!batch) {
-        m_print.warn("B4W Warning: material not found");
+        m_print.error("material not found");
         return;
     }
+    var batches = [batch];
+    var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+    if (reflect_batch)
+        batches.push(reflect_batch);
 
-    if (batch.type == "MAIN") {
-        if (typeof mat_params.material_reflectivity == "number" && obj._render.reflective) {
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        if (typeof mat_params.material_reflectivity == "number") {
             var refl = mat_params.material_reflectivity;
             batch.reflect_factor = refl;
         }
@@ -636,35 +633,39 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
 /**
  * Set params for the water material
  * @method module:material.set_water_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} water_mat_name  Water material name
- * @param {Object} water_mat_params Water material params
+ * @param {WaterMaterialParams} water_mat_params Water material params
  * @cc_externs shallow_water_col shore_water_col shallow_water_col_fac
  * @cc_externs shore_water_col_fac foam_factor absorb_factor sss_strength
- * @cc_externs sss_width shore_smoothing
+ * @cc_externs sss_width shore_smoothing norm_uv_velocity
  */
 exports.set_water_material_params = function(obj, water_mat_name, water_mat_params) {
 
     if (!obj || !water_mat_name || !water_mat_params) {
-        m_print.error("B4W Error: missing arguments in set_water_material_params");
+        m_print.error("missing arguments in set_water_material_params");
         return null;
     }
 
     // check that setting material params is possible
     if (!check_batch_material(obj, water_mat_name)) {
-        m_print.warn("B4W Warning: setting water material params is not possible");
+        m_print.error("setting water material params is not possible");
         return null;
     }
 
     var batch = m_batch.find_batch_material(obj, water_mat_name, "MAIN");
 
     if (!batch) {
-        m_print.warn("B4W Warning: material not found");
+        m_print.error("material not found");
         return null;
     }
+    var batches = [batch];
+    var reflect_batch = m_batch.find_batch_material_forked(obj, water_mat_name, "MAIN");
+    if (reflect_batch)
+        batches.push(reflect_batch);
 
-    if (batch.type == "MAIN") {
-
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
         if (cfg_def.shore_distance) {
             if (typeof  water_mat_params.shallow_water_col == "object")
                 batch.shallow_water_col.set(
@@ -695,7 +696,9 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
         if (typeof water_mat_params.foam_factor == "number" && cfg_def.foam) {
             batch.foam_factor = water_mat_params.foam_factor;
         }
-
+        if (typeof water_mat_params.norm_uv_velocity == "number") {
+            batch.water_norm_uv_velocity = water_mat_params.norm_uv_velocity;
+        }
 
         if (cfg_def.water_dynamic && batch.water_dynamic) {
             if (typeof water_mat_params.water_dynamic == "boolean") {

@@ -1,0 +1,245 @@
+
+Features
+********
+
+
+General
+=======
+
+* effective rendering of 3D scenes of any complexity and size
+
+* data format designed to fit WebGL specifics and optimized for
+  loading
+
+* convenient environment for authoring 3D content, provided by the
+  Blender add-on
+
+
+Texturing
+=========
+
+* texture mapping i.e. applying of a flat image to a 3D object
+  surface
+
+* multitexturing i.e. using multiple textures for an object
+
+* render-to-texture, RTT for displaying one scene in another and for
+  postprocessing effects
+
+* anisotropic filtering, AF for enhancing the quality of surfaces at
+  oblique viewing angles (standard WebGL extension is used)
+
+* texture compression support (S3TC/DXT format)
+
+* video textures - video can be loaded and played back, being
+  layered as a texture
+
+* canvas textures - 2D Canvas API can be used to draw on textures
+
+
+Materials
+=========
+
+* materials transparency, sorting by depth if required (z-sorting)
+
+* enhanced detailing of relief surfaces with textures (parallax
+  offset mapping method is used)
+
+* Fresnel effect - dependency of reflectivity on viewing angles
+
+* dynamic reflection
+
+* node materials support
+
+* halo material for rendering light sources and stars
+
+
+Lighting
+========
+
+* multiple light sources
+
+* light source types - directional, hemisphere, point, spot
+
+* diffuse lighting
+
+* ambient lighting aka environment lighting
+
+* specular lighting - light reflection from surface
+
+* environment mapping - surface reflects the environment
+
+* normal mapping - additional surface detailing by textures
+
+
+Shadows
+=======
+
+* static shadow mapping (light mapping)
+
+* dynamic shadow mapping
+
+* self-shadowing - objects cast shadows on themselves
+
+* cascaded shadow mapping, CSM for large scenes
+
+* soft shadows
+
+
+Particle System
+===============
+
+* particle system for implementing effects such as fire, smoke,
+  splashes etc
+
+* particle system for instancing similar objects: grass, stones,
+  tree leaves etc
+
+
+External Scenes Rendering
+=========================
+
+* fog
+
+* skydome for skies or environment
+
+* lens flares effect
+
+* water rendering
+
+
+Postprocessing Effects
+======================
+
+* motion blur
+
+* anti-aliasing - image edges enhancement (fast approximate anti-
+  aliasing, FXAA method is used)
+
+* stereo (anaglyph method, 3D glasses required)
+
+* ambient occlusion (SSAO method is used)
+
+* depth of field, DOF
+
+* crepuscular rays (god rays)
+
+* bloom - bright light effect
+
+* object outlining
+
+
+Animation
+=========
+
+* skinning - object deformation with a system of bones
+
+* animating location, rotation and scale of objects, cameras and
+  light sources
+
+* skeletal animation (e.g. for a character's body)
+
+* vertex animation (e.g. for cloth simulation)
+
+* procedural animation (e.g. foliage wind bending)
+
+* texture coordinates animation (e.g. for visualizing water waves)
+
+
+Optimization
+============
+
+* frustum culling - invisible objects are not rendered
+
+* batching, texture atlases - WebGL calls number are reduced
+
+* level of detail, LOD - far objects are less detailed
+
+
+Audio
+=====
+
+* audio engine based on the Web Audio API
+
+* various file formats support depending on browsers
+
+* flexible playback control, sound pause/resume
+
+* positioning sources in a three-dimensional space
+
+* Doppler effect for moving objects with a possibility to turn it
+  off and with space jump compensation
+
+* flexible control of playback volume, speed and latency
+
+* fade-in, fade-out, duck
+
+* high quality sound looping
+
+* randomizing sound parameters to improve loop percepetion
+
+* cross-fader sound animation support
+
+* dynamic compressor
+
+* efficient long soundtrack storage and playback
+
+* tools for real-time mixing
+
+
+Physics
+=======
+
+* rigid body physics - collision detection, realistic movement,
+  gravity, height detection, torsion
+
+* various constraints types - rigid, hinges, springs, pivots,
+  sliding etc
+
+* ray tracing
+
+* floating and underwater movement physics
+
+* wheeled vehicles simulation
+
+* watercraft simulation
+
+
+Event-Driven Model
+==================
+
+* asynchronous framework for application logic authoring
+
+* animation control and artificial intelligence of characters and
+  animals
+
+
+Visual Programming
+==================
+
+* the NLA Script tool allows to create interactive apps by
+  constructing the logic chains from basic blocks
+
+
+Other
+=====
+
+* math curves support for modeling long objects (roads, wires,
+  rivers)
+
+* picking objects on the 3D scene with the mouse
+
+* code minification and obfuscation for commercial use of the engine
+
+* module structure of source code
+
+* powerful shader preprocessor with modules and functional blocks
+  (nodes) support
+
+* convenient system to deploy new 3D applications quickly
+
+* support options for a broad range of equipment
+
+* user manual and API documentation
+
+* user interaction - camera, character, actions control

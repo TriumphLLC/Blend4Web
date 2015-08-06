@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ext/constraints.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ext/constraints.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/**
+ * Object constraints API.
+ * @module constraints
+ */
+b4w.module["constraints"] = function(exports, require) {
+
+var m_cam   = require("__camera");
+var m_cons  = require("__constraints");
+var m_phy   = require("__physics");
+var m_print = require("__print");
+var m_trans = require("__transform");
+
+/**
+ * Attach the object to the other object or to the armature bone using a
+ * stiff constraint. The child object will move, rotate and scale
+ * together with its parent. Examples: a sword is parented to the
+ * character's hand; the character is sitting in a vehicle.
+ *
+ * @method module:constraints.append_stiff
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Array)} target Object 3D or [Armature object, Bone Name]
+ * @param {Vec3} offset Offset, in the parent's local space.
+ * @param {Quat} [rotation_offset=null] Rotation offset, in the
+ * parent's local space.
+ * @param {Number} [scale_offset=1] Scale offset, in the parent's local space.
+ */
+exports.append_stiff = function(obj, target, offset, rotation_offset,
+        scale_offset) {
+
+    scale_offset = scale_offset || 1;
+
+    if (target instanceof Array &amp;&amp; target.length == 2)
+        m_cons.append_stiff_bone(obj, target[0], target[1], offset,
+                rotation_offset, scale_offset);
+    else
+        m_cons.append_stiff_obj(obj, target, offset, rotation_offset,
+                scale_offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the object to the other object using a
+ * semi-stiff constraint. The child object will move and rotate together with
+ * its parent, but it will be still possible to rotate it independently
+ * in the parent's local space. Example: a tank turret.
+ *
+ * @method module:constraints.append_semi_stiff
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Initial rotation offset, in the
+ * parent's local space
+ */
+exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
+    m_cons.append_semi_stiff_obj(obj, target, offset, rotation_offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the EYE camera to the object using a
+ * semi-stiff constraint. Also apply rotation limits to the camera.
+ * The camera will move and rotate together with
+ * its parent, but it will be still possible to rotate it independently
+ * in the parent's local space. The camera's UP vector will be preserved.
+ * Example: first-person vehicle view.
+ *
+ * @see https://www.blend4web.com/doc/en/camera.html#api
+ * @method module:constraints.append_semi_stiff_cam
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Initial rotation offset, in the
+ * parent's local space
+ * @param {Number} clamp_left Left camera rotation limit, in radians
+ * @param {Number} clamp_right Right camera rotation limit, in radians
+ * @param {Number} clamp_up Upward camera rotation limit, in radians
+ * @param {Number} clamp_down Downward camera rotation limit, in radians
+ */
+exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
+                                            clamp_left, clamp_right,
+                                            clamp_up, clamp_down) {
+    if (!m_cam.is_eye_camera(obj)) {
+        m_print.error("append_semi_stiff_cam(): wrong object type, only EYE" +
+            " camera objects can be parented.");
+        return null;
+    }
+
+    m_cons.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset,
+                                          clamp_left, clamp_right,
+                                          clamp_up, clamp_down);
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the EYE camera to the object using a
+ * semi-soft constraint. The camera will smoothly follow the object's rear.
+ * Example: third-person character or vehicle views.
+ *
+ * @method module:constraints.append_semi_soft_cam
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Number} [softness=0.25] Camera smoothness ratio
+ */
+exports.append_semi_soft_cam = function(obj, target, offset, softness) {
+
+    if (!m_cam.is_eye_camera(obj)) {
+        m_print.error("append_semi_soft_cam(): wrong object type, only EYE" +
+            " camera objects can be parented.");
+        return null;
+    }
+
+    if (!softness || softness &lt; 0)
+        softness = 0.25;
+
+    m_cons.append_semi_soft_cam_obj(obj, target, offset, softness);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the object to the other object using a
+ * stiff translation constraint. The child object will move together with
+ * its parent, but will not rotate. It will be still possible to rotate it
+ * independently from the parent.
+ *
+ * Example: attaching the camera to the physics character in order to
+ * implement the first-person character view. Another example: the character
+ * jumps in water and splashes' particle emitter is attached to the
+ * first-person camera using this constraint - the bubbles will follow the
+ * character but will not be rotated with the camera.
+ *
+ * @method module:constraints.append_stiff_trans
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ */
+exports.append_stiff_trans = function(obj, target, offset) {
+    m_cons.append_stiff_trans_obj(obj, target, offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the object to the other object using a copy translation constraint.
+ * The child object will move together with its parent, but will not rotate.
+ * Note that the offset is specified in the world space.
+ * Example: a light source attached to the character.
+ *
+ * @method module:constraints.append_copy_trans
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's world space
+ */
+exports.append_copy_trans = function(obj, target, offset) {
+    m_cons.append_copy_trans_obj(obj, target, offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the object to the other object using a
+ * stiff translation/rotation constraint. The child object will move and rotate
+ * together with its parent, but will not scale. It will be still possible to
+ * scale it independently from the parent.
+ *
+ * Example: smoke emitter attached to the tractor pipe; exhaustion effects
+ * are achieved by scaling the emitter.
+ *
+ * @method module:constraints.append_stiff_trans_rot
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Rotation offset, in
+ * the parent's local space
+ */
+exports.append_stiff_trans_rot = function(obj, target, offset, rotation_offset) {
+    m_cons.append_stiff_trans_rot_obj(obj, target, offset, rotation_offset, 1.0);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Make the object "looking" at the target object or the position. The object's
+ * facing direction is considered to be the -Y axis (-Z in Blender coordinates),
+ * that is vertically downwards.
+ *
+ * Example: a spot light which is tracking the character; both objects can be
+ * moved via API or animated.
+ *
+ * @method module:constraints.append_track
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Vec3)} target Target object or position vector
+ */
+exports.append_track = function(obj, target) {
+    if (target.length == 3)
+        m_cons.append_track_point(obj, target);
+    else
+        m_cons.append_track_obj(obj, target);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Attach the object to the other object using a follow constraint. The child
+ * object will track and follow its parent position.
+ *
+ * Example: a follow-style camera view for the character.
+ *
+ * @method module:constraints.append_follow
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Vec3)} target Target object or position vector
+ * @param {Number} dist_min Minimum distance
+ * @param {Number} dist_max Maximum distance
+ */
+exports.append_follow = function(obj, target, dist_min, dist_max) {
+
+    if (target.length == 3)
+        m_cons.append_follow_point(obj, target, dist_min, dist_max);
+    else
+        m_cons.append_follow_obj(obj, target, dist_min, dist_max);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Append a stiff viewport constraint.
+ * @method module:constraints.append_stiff_viewport
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} camobj Camera object.
+ * @param {Number} x_rel X offset as fraction to camera height.
+ * @param {Number} y_rel Y offset as fraction to camera height.
+ * @param {Number} dist Distance from the camera
+ */
+exports.append_stiff_viewport = function(obj, camobj, positioning) {
+    m_cons.append_stiff_viewport(obj, camobj, positioning);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
+/**
+ * Remove the object's constraint (if any).
+ * @method module:constraints.remove
+ * @param {Object3D} obj Object 3D
+ */
+exports.remove = function(obj) {
+    if (obj._constraint)
+        m_cons.remove(obj);
+}
+
+/**
+ * Get object's parent object.
+ * @method module:constraints.get_parent
+ * @param {Object3D} obj Object 3D
+ */
+exports.get_parent = m_cons.get_parent;
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jul 29 2015 10:22:43 GMT+0300 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

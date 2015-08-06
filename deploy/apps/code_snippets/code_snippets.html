@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1' />
+    <title>Code Snippets</title>
+    <link type='text/css' rel='stylesheet' href='code_snippets.min.css?v=15.07'/>
+    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.07'></script>
+    <script src='scripts/canvas_texture.js' type='text/javascript' data-name='Canvas Texture' data-scene='canvas_texture'></script>
+    <script src='scripts/camera_animation.js' type='text/javascript' data-name='Camera Animation' data-scene='camera_animation'></script>
+    <script src='scripts/camera_move_styles.js' type='text/javascript' data-styles='true' data-name='Camera Move Styles' data-scene='camera_move_styles'></script>
+    <script src='scripts/custom_anchors.js' type='text/javascript' data-name='Custom Anchors' data-scene='custom_anchors_main'></script>
+    <script src='scripts/dynamic_geometry.js' type='text/javascript' data-name='Dynamic Geometry' data-scene='dynamic_geometry'></script>
+    <script src='scripts/gyro.js' type='text/javascript' data-name='Gyro' data-scene='gyro'></script>
+    <script src='scripts/instancing.js' type='text/javascript' data-name='Instancing' data-scene='instancing'></script>
+    <script src='scripts/material_api.js' type='text/javascript' data-name='Material API' data-scene='material_api'></script>
+    <script src='scripts/morphing.js' type='text/javascript' data-styles='true' data-name='Morphing' data-scene='morphing'></script>
+    <script src='scripts/raytest.js' type='text/javascript' data-name='Ray Test' data-scene='raytest'></script>
+    <script type='text/javascript' src='code_snippets.min.js?v=15.07'></script>
+</head>
+<body>
+    <div id="canvas_cont" oncontextmenu="return false"></div>
+    <div id="schedule"></div>
+    <div id="interface">
+        <div class="container">
+            <a class="text" id="open_script" target="_blank" style="cursor: pointer;">View Code</a>
+        </div>
+        <div class="container">
+            <a class="text" id="auto_view" target="_self" style="cursor: pointer;">Auto view</a>
+        </div>
+    </div>
+
+    <div id="code_panel">
+        <table>
+            <tr>
+                <th>
+                    <h3>HTML</h3>
+                </th>
+                <th>
+                    <h3>JavaScript</h3>
+                    <div id="code_close"></div>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <pre><code id="code_text_html" data-language="html"></code></pre>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <pre><code id="code_text_js" data-language="javascript"></code></pre>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

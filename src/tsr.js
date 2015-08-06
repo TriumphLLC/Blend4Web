@@ -8,19 +8,15 @@
  */
 b4w.module["__tsr"] = function(exports, require) {
 
+var m_mat4 = require("__mat4");
+var m_quat = require("__quat");
 var m_util = require("__util");
-
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
-var m_mat4 = require("mat4");
+var m_vec3 = require("__vec3");
 
 var _vec3_tmp = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 
-/**
- * Create new identity tsr vector.
- */
 exports.create = function() {
     var tsr = new Float32Array(8);
     tsr[3] = 1;
@@ -28,8 +24,31 @@ exports.create = function() {
     return tsr;
 }
 
-exports.copy = function(tsr, tsr2) {
-    tsr2.set(tsr);
+exports.from_values = function(x, y, z, s, qx, qy, qz, qw) {
+    var tsr = new Float32Array(8);
+    tsr[0] = x;
+    tsr[1] = y;
+    tsr[2] = z;
+    tsr[3] = s;
+    tsr[4] = qx;
+    tsr[5] = qy;
+    tsr[6] = qz;
+    tsr[7] = qw;
+    return tsr;
+}
+
+exports.copy = function(tsr, dest) {
+    // faster than .set()
+
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+    dest[3] = tsr[3];
+    dest[4] = tsr[4];
+    dest[5] = tsr[5];
+    dest[6] = tsr[6];
+    dest[7] = tsr[7];
+    return dest;
 }
 
 exports.identity = function(tsr) {
@@ -146,10 +165,7 @@ exports.invert = function(tsr, dest) {
     return dest;
 }
 
-function to_mat4(tsr, dest) {
-    if (!dest)
-        var dest = new Float32Array(16);
-
+exports.to_mat4 = function(tsr, dest) {
     var trans = tsr.subarray(0, 3);
     var scale = tsr[3];
     var quat = tsr.subarray(4);
@@ -250,6 +266,51 @@ function transform_vec3(vec, tsr, dest) {
     dest[0] += tx;
     dest[1] += ty;
     dest[2] += tz;
+
+    return dest;
+}
+
+/**
+ * Transform vec3 by inverse TSR
+ */
+exports.transform_vec3_inv = function(vec, tsr, dest) {
+    var tx = tsr[0];
+    var ty = tsr[1];
+    var tz = tsr[2];
+    var scale = tsr[3];
+
+    // inverse translate
+    var x = vec[0] - tx;
+    var y = vec[1] - ty;
+    var z = vec[2] - tz;
+
+    var qx = tsr[4];
+    var qy = tsr[5];
+    var qz = tsr[6];
+    var qw = tsr[7];
+
+    var dot = qx*qx + qy*qy + qz*qz + qw*qw;
+    var inv_dot = dot ? 1.0/dot : 0;
+
+    qx =-qx * inv_dot;
+    qy =-qy * inv_dot;
+    qz =-qz * inv_dot;
+    qw = qw * inv_dot;
+
+    // quat * vec
+    var ix = qw * x + qy * z - qz * y;
+    var iy = qw * y + qz * x - qx * z;
+    var iz = qw * z + qx * y - qy * x;
+    var iw =-qx * x - qy * y - qz * z;
+
+    // result * inverse quat
+    dest[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+    dest[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+    dest[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+
+    dest[0] /= scale;
+    dest[1] /= scale;
+    dest[2] /= scale;
 
     return dest;
 }
@@ -509,45 +570,56 @@ exports.extrapolate = function(tsr, tsr2, factor, dest) {
 }
 
 exports.integrate = function(tsr, time, linvel, angvel, dest) {
-    var trans = tsr.subarray(0, 3);
-    var trans_dst = dest.subarray(0, 3);
-
-    trans_dst[0] = trans[0] + time * linvel[0];
-    trans_dst[1] = trans[1] + time * linvel[1];
-    trans_dst[2] = trans[2] + time * linvel[2];
+    dest[0] = tsr[0] + time * linvel[0];
+    dest[1] = tsr[1] + time * linvel[1];
+    dest[2] = tsr[2] + time * linvel[2];
 
     dest[3] = tsr[3];
 
-    var quat = tsr.subarray(4);
-    var quat_dst = dest.subarray(4);
+    tsr_quat_deriv_angvel(tsr, angvel, dest);
 
-    quat_deriv_angvel(quat, angvel, quat_dst);
-
-    quat_dst[0] = quat[0] + quat_dst[0] * time;
-    quat_dst[1] = quat[1] + quat_dst[1] * time;
-    quat_dst[2] = quat[2] + quat_dst[2] * time;
-    quat_dst[3] = quat[3] + quat_dst[3] * time;
-    m_quat.normalize(quat_dst, quat_dst);
+    dest[4] = tsr[4] + dest[4] * time;
+    dest[5] = tsr[5] + dest[5] * time;
+    dest[6] = tsr[6] + dest[6] * time;
+    dest[7] = tsr[7] + dest[7] * time;
+    tsr_quat_normalize(dest, dest);
 }
 
 /**
  * Calculate quaternion derivation dQ/dt = 0.5*W*Q
  */
-function quat_deriv_angvel(quat, angvel, dest) {
+function tsr_quat_deriv_angvel(tsr, angvel, dest) {
     var wx = angvel[0];
     var wy = angvel[1];
     var wz = angvel[2];
 
-    var qx = quat[0];
-    var qy = quat[1];
-    var qz = quat[2];
-    var qw = quat[3];
+    var qx = tsr[4];
+    var qy = tsr[5];
+    var qz = tsr[6];
+    var qw = tsr[7];
 
     // basic multiplication, than scale
-    dest[0] = 0.5*( wx*qw + wy*qz - wz*qy);
-    dest[1] = 0.5*( wy*qw + wz*qx - wx*qz);
-    dest[2] = 0.5*( wz*qw + wx*qy - wy*qx);
-    dest[3] = 0.5*(-wx*qx - wy*qy - wz*qz);
+    dest[4] = 0.5*( wx*qw + wy*qz - wz*qy);
+    dest[5] = 0.5*( wy*qw + wz*qx - wx*qz);
+    dest[6] = 0.5*( wz*qw + wx*qy - wy*qx);
+    dest[7] = 0.5*(-wx*qx - wy*qy - wz*qz);
+}
+
+function tsr_quat_normalize(tsr, dest) {
+    var x = tsr[4];
+    var y = tsr[5];
+    var z = tsr[6];
+    var w = tsr[7];
+
+    var len = x*x + y*y + z*z + w*w;
+    if (len > 0) {
+        len = 1 / Math.sqrt(len);
+        dest[4] = tsr[4] * len;
+        dest[5] = tsr[5] * len;
+        dest[6] = tsr[6] * len;
+        dest[7] = tsr[7] * len;
+    }
 }
 
 }
+

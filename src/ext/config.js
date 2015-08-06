@@ -2,128 +2,176 @@
 
 /**
  * API for the engine's global configuration.
- * <p>Use the set()/get() function to change/get the value of a property.
- * Use the reset() function to reset all properties to their default state.
- * Any configuration change must occur before engine initialization, also some
- * of the properties are affected by quality profile and client's hardware/browser.
- * <h3>Allowed configuration properties</h3>
+ *
+ * <p>Use the set()/get() method to change/get the value of a property.
+ * Use the reset() method to reset all properties to their default state.
+ * Any change in configuration must occur before engine initialization. Keep in
+ * mind that some of the properties are affected by the quality profile and
+ * the user's hardware/browser. In the former case use the CUSTOM profile
+ * in order to change such properties.</p>
+ *
+ * <p>Normally, the users should not alter these parameters.</p>
+ *
+ * <h3>Configuration Parameters Available</h3>
  * <dl>
- * <dt>all_objs_selectable
- * <dd>Boolean, make all objects selectable and "glowable".
+ * <dt>allow_cors
+ * <dd>Boolean, allow cross-origin resource sharing.
+ * <dt>allow_hidpi
+ * <dd>Boolean, allow HIDPI mode on supported devices (use the CUSTOM profile
+ * in order to change this parameter).
  * <dt>alpha
  * <dd>Boolean, enable WebGL canvas transparency.
  * <dt>alpha_sort
- * <dd>Boolean, enable transparency sorting for "blend" materials.
+ * <dd>Boolean, enable z-sorting for transparent materials.
  * <dt>alpha_sort_threshold
- * <dd>Number, camera distance threshold for transparency sorting.
+ * <dd>Number, camera distance threshold for transparency z-sorting.
  * <dt>anaglyph_use
  * <dd>Boolean, enable anaglyph stereo rendering.
  * <dt>animation_framerate
- * <dd>Number, animation framerate
+ * <dd>Number, animation framerate.
  * <dt>antialiasing
- * <dd>Boolean, enable postprocessing-based antialiasing.
+ * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
+ * in order to change this parameter).
  * <dt>assets_dds_available
- * <dd>Boolean, allow engine to use compressed DDS textures, you must provide
- * them along non-compressed ones.
+ * <dd>Boolean, allow the engine to use compressed DDS textures. The compressed
+ * textures should be present near the source textures in order to be picked up.
  * <dt>assets_min50_available
- * <dd>Boolean, allow engine to use low quality textures, you must provide
- * them along high quality ones.
+ * <dd>Boolean, allow the engine to use halved textures. The halved
+ * textures should be present near the source textures in order to be picked up.
+ * <dt>audio
+ * <dd>Boolean, enable Web Audio.
  * <dt>background_color
- * <dd>Float32Array, WebGL canvas background color.
+ * <dd>Float32Array, RGBA values to use as a background color for the WebGL
+ * canvas.
  * <dt>built_in_module_name
- * <dd>String, Name of build-in module (for HTML export only).
+ * <dd>String, name of the module which stores exported data (HTML export only).
+ * <dt>canvas_resolution_factor
+ * <dd>Boolean, set the resolution factor for the canvas.
  * <dt>console_verbose
- * <dd>Boolean, print more debug info.
- * <dt>context_antialias
- * <dd>Boolean, enable hardware antialiasing (for forward rendering only).
- * <dt>deferred_rendering
- * <dd>Boolean, use deferred rendering pipeline.
+ * <dd>Boolean, print more debug info in the browser console.
  * <dt>do_not_load_resources
- * <dd>Boolean, disable resource loading (textures and sounds).
- * <dt>force_selectable
- * <dd>Boolean, initialize color picking and glow even there is no selectable
- * objects on the main (zero) scene (used for dynamic scene loading).
- * <dt>glow
- * <dd>Boolean, enable glow effect.
+ * <dd>Boolean, disable loading of assets (textures and sounds).
+ * <dt>enable_selectable
+ * <dd>Boolean, enable selecting of objects.
+ * <dt>enable_outlining
+ * <dd>Boolean, enable outlining of object.
+ * <dt>gyro_use
+ * <dd>Boolean, enable gyroscope.
+ * <dt>outlining_overview_mode
+ * <dd>Boolean, make all objects selectable, enable outlining and
+ * outlining on select.
  * <dt>physics_enabled
- * <dd>Boolean, enable uranium.js physics engine.
+ * <dd>Boolean, use the uranium.js physics engine.
  * <dt>physics_uranium_path
- * <dd>String, path to uranium.js module, if not specified search in the
- * directory with the engine's source.
+ * <dd>String, path to the uranium.js file. If not specified, search in the
+ * directory with the engine's sources.
+ * <dt>physics_calc_fps
+ * <dd>Boolean, return physics FPS in {@link module:main~FPSCallback|FPS
+ * callback}.
  * <dt>precision
- * <dd>String, preferred GLSL floating point precision.
+ * <dd>String, preferred GLSL floating point precision (use the CUSTOM profile
+ * in order to change this parameter).
  * <dt>quality
- * <dd>Number, preferred rendering quality profile (one of P_* constants).
- * <dt>resolution_factor
- * <dd>Number, canvas resolution factor.
+ * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
+ * P_ULTRA, P_CUSTOM enums).
+ * <dt>render_resolution_factor
+ * <dd>Number, internal rendering resolution factor (use the CUSTOM profile
+ * in order to change this parameter).
+ * <dt>sfx_mix_mode
+ * <dd>Boolean, enable the mixer mode in the SFX subsystem.
  * <dt>shaders_dir
- * <dd>String, path to shaders directory.
+ * <dd>String, path to the shaders directory (developer version only).
  * <dt>show_hud_debug_info
  * <dd>Boolean, show HUD with debug information.
  * <dt>smaa
- * <dd>Boolean, enable SMAA antialiasing.
+ * <dd>Boolean, enable SMAA anti-aliasing (use the CUSTOM profile
+ * in order to change this parameter).
  * <dt>smaa_search_texture_path
- * <dd>String, path to SMAA search texture, if not specified search in the
- * directory with the engine's source.
+ * <dd>String, path to the SMAA "search" texture. If not specified, search in
+ * the directory with the engine's sources.
  * <dt>smaa_area_texture_path
- * <dd>String, path to SMAA area texture, if not specified search in the
- * directory with the engine's source.
+ * <dd>String, path to the SMAA "area" texture. If not specified, search in the
+ * directory with the engine's sources.
  * <dt>wireframe_debug
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
  * @module config
- * @cc_externs all_objs_selectable alpha alpha_sort alpha_sort_threshold
- * @cc_externs anaglyph_use animation_framerate antialiasing
- * @cc_externs assets_dds_available assets_min50_available background_color
- * @cc_externs built_in_module_name console_verbose context_antialias
- * @cc_externs deferred_rendering do_not_load_resources force_selectable
- * @cc_externs glow physics_enabled physics_uranium_path precision
- * @cc_externs quality resolution_factor shaders_dir show_hud_debug_info
- * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
+ * @local QualityProfile
+ * @cc_externs allow_cors allow_hidpi alpha alpha_sort
+ * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
+ * @cc_externs antialiasing assets_dds_available assets_min50_available audio
+ * @cc_externs background_color built_in_module_name canvas_resolution_factor
+ * @cc_externs console_verbose
+ * @cc_externs do_not_load_resources enable_selectable
+ * @cc_externs enable_outlining gyro_use outlining_overview_mode
+ * @cc_externs physics_enabled physics_uranium_path physics_calc_fps precision quality
+ * @cc_externs render_resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
+ * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
+ * @cc_externs wireframe_debug
  */
 b4w.module["config"] = function(exports, require) {
 
 var m_cfg = require("__config");
 
+
+/**
+ * Quality profile enum. One of P_*.
+ * @typedef QualityProfile
+ * @type {Number}
+ */
+
 /**
  * Low quality profile: maximize engine performance.
- * @const {Number} module:config.P_LOW
+ * @const {QualityProfile} module:config.P_LOW
  */
 exports.P_LOW = m_cfg.P_LOW;
+
 /**
  * High quality profile: use all requested features.
- * @const {Number} module:config.P_HIGH
+ * @const {QualityProfile} module:config.P_HIGH
  */
 exports.P_HIGH = m_cfg.P_HIGH;
+
 /**
  * Ultra quality profile: use all requested features and maximize quality.
- * @const {Number} module:config.P_ULTRA
+ * @const {QualityProfile} module:config.P_ULTRA
  */
 exports.P_ULTRA = m_cfg.P_ULTRA;
+
 /**
- * Custom quality profile: use engine defaults value, allow customizaiton.
- * @const {Number} module:config.P_CUSTOM
+ * Custom quality profile: use engine defaults, allow customization.
+ * @const {QualityProfile} module:config.P_CUSTOM
  */
 exports.P_CUSTOM = m_cfg.P_CUSTOM;
 
 /**
- * Set the engine's global property.
+ * Set the value of the config property of the engine.
  * @method module:config.set
  * @param {String} prop Property name
  * @param {*} value New property value
  */
 exports.set = m_cfg.set;
+
 /**
- * Get the engine's global property.
+ * Get the value of the config property of the engine.
  * @method module:config.get
  * @param {String} prop Property name
  * @returns {*} Value of property
  */
 exports.get = m_cfg.get;
+
 /**
- * Reset all the engine's global properties.
+ * Reset all the engine's config properties to defaults.
  * @method module:config.reset
  */
 exports.reset = m_cfg.reset;
+
+/**
+ * Get the path to the assets directory. Can be used when an application
+ * is developed inside the SDK.
+ * @method module:config.get_std_assets_path
+ * @returns {String} Path to assets
+ */
+exports.get_std_assets_path = m_cfg.get_std_assets_path;
 
 }

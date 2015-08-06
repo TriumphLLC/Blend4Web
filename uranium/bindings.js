@@ -2,70 +2,41 @@
 
 /**
  * Uranium JS bindings layer
- * du_* - some C/C++ stuff (mostly pointers to objects/structs/arrays)
  */
 
 var m_ipc = b4w.require("__ipc");
 
+var MAX_SIM_STEPS = 3;
+var WARM_UP_FRAMES = 100;
 var NULL = 0;
 
 var _update_interval = 1/60;
+
 var _do_simulation = true;
+var _steps = 0;
+var _step = 0;
 var _last_abs_time = 0;
 
-// need cleanup
-var _worlds = {};
-var _active_world_id = null;
+// 0 - do not calculate FPS
+var _fps_measurement_interval = 0;
+
+var _world = null;
+var _phy_fps_avg = 0;
 
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
-var _du_vec3_tmp = _du_vec3(0, 0, 0);
 
-function append_world(id) {
-    if (!check_world(id)) {
-        var du_id = _du_create_world(); 
-
-        var world = {
-            du_id: du_id,
-            bodies: {},
-            constraints: {},
-            cars: {},
-            boats: {},
-            collision_tests: [],
-            collision_results: {array: null,
-                                size:  0},
-            ray_tests: {},
-            characters: {},
-            floaters: {},
-            water: null
-        };
-
-        _worlds[id] = world;
-        set_active_world(id);
-    }
-}
-
-
-function check_world(id) {
-    if (id in _worlds)
-        return true;
-    else
-        return false;
-}
-
-function set_active_world(id) {
-    if (check_world(id)) {
-        _du_set_active_world(_worlds[id].du_id);
-        _active_world_id = id;
-    }
-}
+// should be initialized before first use
+var _du_fpnt_tmp = null;
+var _du_vec3_tmp = null;
+var _du_vec3_tmp2 = null;
 
 /**
  * For internal purposes
  */
 function active_world() {
-    if (_active_world_id)
-        return _worlds[_active_world_id];
+    if (_world)
+        return _world;
     else
         throw "No active world";
 }
@@ -75,20 +46,37 @@ function get_plus_one(num) {
 }
 
 function append_static_mesh_body(id, positions, indices, trans, friction,
-        restitution, collision_group, collision_mask) {
+        restitution, collision_id, collision_margin, collision_group,
+        collision_mask) {
 
     var arrays = create_mesh_arrays(positions, indices);
 
-    var trans_arr = _du_vec3(trans[0], trans[1], trans[2]);
-    var du_body = _du_create_static_mesh_body(arrays.indices_len,
-            arrays.indices, arrays.positions_len, arrays.positions, trans_arr,
+    var trans_arr = _du_create_vec3(trans[0], trans[1], trans[2]);
+
+    var du_shape = _du_create_mesh_shape(arrays.indices_len,
+            arrays.indices, arrays.positions_len, arrays.positions);
+
+    _du_set_margin(du_shape, collision_margin);
+
+    var du_body = _du_create_static_mesh_body(du_shape, trans_arr,
             friction, restitution);
 
-    append_body(id, du_body, false, collision_group, collision_mask);
+    _du_set_collision_id(du_body, collision_id);
+
+    var body = append_body(id, du_body, false, collision_group, collision_mask);
+    body.num_triangles = calc_num_triangles(positions, indices);
+}
+
+function calc_num_triangles(positions, indices) {
+    if (indices)
+        return indices.length / 3;
+    else
+        return positions.length / 9;
 }
 
 function append_body(id, du_body_id, dynamic, collision_group, collision_mask) {
     var body = {
+        id: id,
         du_id: du_body_id,
 
         simulated: true,
@@ -102,19 +90,28 @@ function append_body(id, du_body_id, dynamic, collision_group, collision_mask) {
         angvel: new Float32Array([0,0,0]),
 
         // input cache
-        du_trans: _du_vec3(0, 0, 0),
-        du_quat: _du_quat4(0, 0, 0, 1),
-        du_linvel: _du_vec3(0, 0, 0),
-        du_angvel: _du_vec3(0, 0, 0),
+        du_trans: _du_create_vec3(0, 0, 0),
+        du_quat: _du_create_quat(0, 0, 0, 1),
+        du_linvel: _du_create_vec3(0, 0, 0),
+        du_angvel: _du_create_vec3(0, 0, 0),
 
         applied_central_force: null,
 
         col_imp_test: false,
-        col_imp_test_last_result: -1
+        col_imp_test_last_result: -1,
+
+        // for debug purposes
+        num_triangles: 0
     }
 
-    active_world().bodies[id] = body;
-    _du_add_body(du_body_id, collision_group, collision_mask);
+    var world = active_world();
+
+    world.bodies[id] = body;
+    world.bodies_arr.push(body);
+
+    _du_append_body(du_body_id, collision_group, collision_mask);
+
+    return body;
 }
 
 function create_mesh_arrays(positions, indices) {
@@ -148,21 +145,31 @@ function create_mesh_arrays(positions, indices) {
     }
 }
 
-function append_ghost_mesh_body(id, positions, indices, trans,
-                                collision_group, collision_mask) {
+function append_ghost_mesh_body(id, positions, indices, trans, collision_id,
+        collision_margin, collision_group, collision_mask) {
+
     var arrays = create_mesh_arrays(positions, indices);
 
-    var trans_arr = _du_vec3(trans[0], trans[1], trans[2]);
-    var du_body = _du_create_ghost_mesh_body(arrays.indices_len,
-            arrays.indices, arrays.positions_len, arrays.positions, trans_arr);
+    var trans_arr = _du_create_vec3(trans[0], trans[1], trans[2]);
 
-    append_body(id, du_body, false, collision_group, collision_mask);
+    var du_shape = _du_create_mesh_shape(arrays.indices_len,
+            arrays.indices, arrays.positions_len, arrays.positions);
+
+    _du_set_margin(du_shape, collision_margin);
+
+    var du_body = _du_create_ghost_mesh_body(du_shape, trans_arr);
+
+    var body = append_body(id, du_body, false, collision_group, collision_mask);
+
+    _du_set_collision_id(du_body, collision_id);
+
+    body.num_triangles = calc_num_triangles(positions, indices);
 }
 
 function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         disable_sleeping, mass, velocity_min, velocity_max, damping,
-        rotation_damping, collision_group, collision_mask,
-        bounding_type, bounding_object, size,
+        rotation_damping, collision_id, collision_margin, collision_group,
+        collision_mask, bounding_type, bounding_object, size,
         friction, restitution, comp_children_params, correct_bound_offset) {
 
     if (comp_children_params.length) {
@@ -176,22 +183,28 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
             var child_bt    = child["bounding_type"];
             var child_wb    = child["worker_bounding"];
 
-            var du_child_trans = _du_vec3(child_trans[0],
+            var du_child_trans = _du_create_vec3(child_trans[0],
                                           child_trans[1], child_trans[2]);
 
             if (child_quat)
-                var du_child_quat = _du_quat4(child_quat[0], child_quat[1],
+                var du_child_quat = _du_create_quat(child_quat[0], child_quat[1],
                                               child_quat[2], child_quat[3]);
             else
                 var du_child_quat = NULL;
 
-            var du_child_shape = create_shape(child_bt, child_wb, false);
+            var du_child_shape = create_bounding_shape(child_bt, child_wb, false);
 
-            _du_compound_add_child(du_shape, du_child_trans, du_child_quat,
+            // NOTE: strange behavior
+            _du_set_margin(du_child_shape, collision_margin);
+
+            _du_compound_append_child(du_shape, du_child_trans, du_child_quat,
                                    du_child_shape);
         }
-    } else
-        var du_shape = create_shape(bounding_type, bounding_object, correct_bound_offset);
+    } else {
+        var du_shape = create_bounding_shape(bounding_type, bounding_object,
+                correct_bound_offset);
+        _du_set_margin(du_shape, collision_margin);
+    }
 
     switch (physics_type) {
     case "STATIC":
@@ -219,10 +232,10 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         return null;
     }
 
-    var du_trans = _du_vec3(trans[0], trans[1], trans[2]);
+    var du_trans = _du_create_vec3(trans[0], trans[1], trans[2]);
 
     if (quat)
-        var du_quat = _du_quat4(quat[0], quat[1], quat[2], quat[3]);
+        var du_quat = _du_create_quat(quat[0], quat[1], quat[2], quat[3]);
     else
         var du_quat = NULL;
 
@@ -234,6 +247,8 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
                 ang_fact_x, ang_fact_y, ang_fact_z, friction, restitution);
     }
 
+    _du_set_collision_id(du_body, collision_id);
+
     if (disable_sleeping)
         _du_disable_deactivation(du_body);
 
@@ -243,7 +258,7 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         append_body(id, du_body, false, collision_group, collision_mask);
 }
 
-function create_shape(bounding_type, bounding_object, consider_compound) {
+function create_bounding_shape(bounding_type, bounding_object, consider_compound) {
 
     if (bounding_type == "BOX") {
         var bb = bounding_object;
@@ -352,6 +367,26 @@ function need_center_mass_reset(consider_compound, ext_x, ext_y, ext_z, cm_x, cm
     return false;
 }
 
+function remove_body(body_id) {
+    var body = _world.bodies[body_id];
+    if (!body)
+        throw "Wrong body id";
+
+    disable_simulation(body_id);
+
+    // TODO: fix possible memory leaks in cars, boats, floaters and characters
+
+    var du_action_id = find_du_action_id(_world, body_id);
+    if (du_action_id)
+        _du_free(du_action_id);
+
+    var du_body_id = body.du_id;
+    _du_delete_body(du_body_id);
+
+    delete _world.bodies[body_id];
+    _world.bodies_arr.splice(_world.bodies_arr.indexOf(body), 1);
+}
+
 /**
  * Process rigid body joints constraints
  */
@@ -359,14 +394,14 @@ function append_constraint(cons_id, pivot_type, limits, body_id_a, trans_in_a, q
         body_id_b, trans_in_b, quat_in_b, stiffness, damping) {
 
     var du_body_id_a = get_du_body_id(body_id_a);
-    var du_trans_in_a = _du_vec3(trans_in_a[0], trans_in_a[1], trans_in_a[2]);
-    var du_quat_in_a = _du_quat4(quat_in_a[0], quat_in_a[1], quat_in_a[2], quat_in_a[3]);
+    var du_trans_in_a = _du_create_vec3(trans_in_a[0], trans_in_a[1], trans_in_a[2]);
+    var du_quat_in_a = _du_create_quat(quat_in_a[0], quat_in_a[1], quat_in_a[2], quat_in_a[3]);
 
     var du_body_id_b = get_du_body_id(body_id_b);
-    var du_trans_in_b = _du_vec3(trans_in_b[0], trans_in_b[1], trans_in_b[2]);
-    var du_quat_in_b = _du_quat4(quat_in_b[0], quat_in_b[1], quat_in_b[2], quat_in_b[3]);
+    var du_trans_in_b = _du_create_vec3(trans_in_b[0], trans_in_b[1], trans_in_b[2]);
+    var du_quat_in_b = _du_create_quat(quat_in_b[0], quat_in_b[1], quat_in_b[2], quat_in_b[3]);
 
-    switch(pivot_type) {
+    switch (pivot_type) {
     case "GENERIC_6_DOF":
         var du_cons = _du_create_generic_6dof_constraint(du_body_id_a, 
                 du_trans_in_a, du_quat_in_a, du_body_id_b, du_trans_in_b, 
@@ -374,18 +409,18 @@ function append_constraint(cons_id, pivot_type, limits, body_id_a, trans_in_a, q
         break;
     case "GENERIC_6_DOF_SPRING":
         if (stiffness)
-            var du_stiffness_arr = _du_array6(stiffness[0], stiffness[1],
+            var du_stiffness_arr = _du_create_array6(stiffness[0], stiffness[1],
                     stiffness[2], stiffness[3], stiffness[4], stiffness[5]);
         else
             // bullet defaults
-            var du_stiffness_arr = _du_array6(0,0,0,0,0,0);
+            var du_stiffness_arr = _du_create_array6(0,0,0,0,0,0);
 
         if (damping)
-            var du_damping_arr = _du_array6(damping[0], damping[1], damping[2],
+            var du_damping_arr = _du_create_array6(damping[0], damping[1], damping[2],
                     damping[3], damping[4], damping[5]);
         else
             // bullet defaults
-            var du_damping_arr = _du_array6(1,1,1,1,1,1);
+            var du_damping_arr = _du_create_array6(1,1,1,1,1,1);
 
         var du_cons = _du_create_generic_6dof_spring_constraint(du_body_id_a, 
                 du_trans_in_a, du_quat_in_a, du_body_id_b, du_trans_in_b, 
@@ -440,7 +475,7 @@ function append_constraint(cons_id, pivot_type, limits, body_id_a, trans_in_a, q
     if (du_cons) {
         set_constraint_limits(du_cons, pivot_type, limits);
         set_constraint_params(du_cons, pivot_type);
-        _du_add_constraint(du_cons, disable_linked_collisions);
+        _du_append_constraint(du_cons, disable_linked_collisions);
 
         active_world().constraints[cons_id] = du_cons;
     }
@@ -480,26 +515,14 @@ function get_du_body_id(body_id) {
 function get_body_id(du_body_id) {
     var world = active_world();
 
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
-        if (body.du_id === du_body_id)
-            return body_id;
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
+        if (body.du_id == du_body_id)
+            return body.id;
     }
 
     return null;
 }
-
-function get_world_id(du_world_id) {
-    for (var world_id in _worlds) {
-        var world = _worlds[world_id];
-
-        if (world.du_id === du_world_id)
-            return world_id;
-    }
-
-    return null;
-}
-
 
 function set_constraint_limits(du_cons, pivot_type, limits) {
 
@@ -507,7 +530,7 @@ function set_constraint_limits(du_cons, pivot_type, limits) {
     // no translation limit assigned - corresponding DOF will be fixed
     // no rotation limit assigned - corresponding DOF will remain loose
 
-    switch(pivot_type) {
+    switch (pivot_type) {
     case "GENERIC_6_DOF":
     case "GENERIC_6_DOF_SPRING":
         // 0,1,2,3,4,5 -> X,Y,Z,RX,RY,RZ
@@ -562,7 +585,7 @@ function set_constraint_limits(du_cons, pivot_type, limits) {
 
 function set_constraint_params(du_cons, pivot_type) {
 
-    switch(pivot_type) {
+    switch (pivot_type) {
     case "GENERIC_6_DOF":
     case "GENERIC_6_DOF_SPRING":
         var axes = [0,1,2,3,4,5];
@@ -608,7 +631,7 @@ function append_car(chassis_body_id, susp_compress, susp_stiffness,
     }
 
     active_world().cars[chassis_body_id] = car;
-    _du_add_action(du_vehicle);
+    _du_append_action(du_vehicle);
 }
 
 function append_boat(hull_body_id, floating_factor, water_lin_damp, water_rot_damp) {
@@ -622,7 +645,7 @@ function append_boat(hull_body_id, floating_factor, water_lin_damp, water_rot_da
     }
 
     active_world().boats[hull_body_id] = boat;
-    _du_add_action(du_boat);
+    _du_append_action(du_boat);
 
     // set water if any
     var water = active_world().water;
@@ -647,7 +670,7 @@ function append_floater(floater_body_id, float_factor,
     }
 
     active_world().floaters[floater_body_id] = floater;
-    _du_add_action(du_floater);
+    _du_append_action(du_floater);
 
     // set water if any
     var water = active_world().water;
@@ -695,7 +718,7 @@ function add_car_wheel(chassis_body_id, conn_point, susp_rest_len,
 
     var car = get_car(chassis_body_id);
 
-    var du_conn_point = _du_vec3(conn_point[0], conn_point[1], conn_point[2]);
+    var du_conn_point = _du_create_vec3(conn_point[0], conn_point[1], conn_point[2]);
 
     _du_vehicle_add_wheel(car.du_id, car.du_tuning_id, du_conn_point, 
             susp_rest_len, roll_influence, radius, is_front);
@@ -706,8 +729,8 @@ function add_car_wheel(chassis_body_id, conn_point, susp_rest_len,
         quat: new Float32Array(4),
 
         // input cache
-        du_trans: _du_vec3(0, 0, 0),
-        du_quat: _du_quat4(0, 0, 0, 1)
+        du_trans: _du_create_vec3(0, 0, 0),
+        du_quat: _du_create_quat(0, 0, 0, 1)
     }
     // array index will be wheel num
     car.wheels_cache.push(wheel_cache);
@@ -717,7 +740,7 @@ function add_boat_bob(hull_body_id, conn_point, update_tranform) {
 
     var boat = get_boat(hull_body_id);
 
-    var du_conn_point = _du_vec3(conn_point[0], conn_point[1], conn_point[2]);
+    var du_conn_point = _du_create_vec3(conn_point[0], conn_point[1], conn_point[2]);
 
     _du_boat_add_bob(boat.du_id, du_conn_point);
 
@@ -728,8 +751,8 @@ function add_boat_bob(hull_body_id, conn_point, update_tranform) {
             quat: new Float32Array(4),
 
             // input cache
-            du_trans: _du_vec3(0, 0, 0),
-            du_quat: _du_quat4(0, 0, 0, 1)
+            du_trans: _du_create_vec3(0, 0, 0),
+            du_quat: _du_create_quat(0, 0, 0, 1)
         }
         // array index will be bob num
         boat.bobs_cache.push(bob_cache);
@@ -740,7 +763,7 @@ function add_floater_bob(floater_body_id, conn_point, update_tranform) {
 
     var floater = get_floater(floater_body_id);
 
-    var du_conn_point = _du_vec3(conn_point[0], conn_point[1], conn_point[2]);
+    var du_conn_point = _du_create_vec3(conn_point[0], conn_point[1], conn_point[2]);
 
     _du_floating_body_add_bob(floater.du_id, du_conn_point);
 
@@ -751,8 +774,8 @@ function add_floater_bob(floater_body_id, conn_point, update_tranform) {
             quat: new Float32Array(4),
 
             // input cache
-            du_trans: _du_vec3(0, 0, 0),
-            du_quat: _du_quat4(0, 0, 0, 1)
+            du_trans: _du_create_vec3(0, 0, 0),
+            du_quat: _du_create_quat(0, 0, 0, 1)
         }
         // array index will be bob num
         floater.bobs_cache.push(bob_cache);
@@ -777,7 +800,7 @@ function append_character(character_body_id, angle, height,
     }
 
     active_world().characters[character_body_id] = character;
-    _du_add_action(du_character);
+    _du_append_action(du_character);
 
     // set water if any
     var water = active_world().water;
@@ -793,9 +816,8 @@ function append_character(character_body_id, angle, height,
 function set_character_move_dir(body_id, forward, side) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
-
-    var body = world.bodies[body_id];
-
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_set_character_move_direction(character, side, 0, forward);
 }
 
@@ -826,34 +848,44 @@ function set_character_fly_velocity(body_id, velocity) {
 function character_jump(body_id) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_character_jump(character);
 }
 
 function set_character_rotation(body_id, angle_h, angle_v) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_set_character_rotation(character, angle_h, angle_v);
 }
 
 function set_character_hor_rotation(body_id, angle) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_set_character_vert_rotation(character, angle);
 }
 
 function set_character_vert_rotation(body_id, angle) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_set_character_hor_rotation(character, angle);
 }
 
 function character_rotation_increment(body_id, h_angle, v_angle) {
     var world = active_world();
     var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_character_rotation_inc(character, h_angle, v_angle);
 }
 
-function append_collision_test(pairs, need_payload) {
+function append_collision_test(pairs, calc_pos_norm) {
     var world = active_world();
     var tests = world.collision_tests;
 
@@ -874,9 +906,10 @@ function append_collision_test(pairs, need_payload) {
             body_id_b: pair[1],
             du_body_a: get_du_body_id(pair[0]),
             du_body_b: get_du_body_id(pair[1]),
-            last_result: null,
-            //last_cpoint: new Float32Array(3),
-            need_payload: need_payload
+            last_result: false,
+            last_cpoint: new Float32Array(3),
+            last_cnormal: new Float32Array(3),
+            calc_pos_norm: calc_pos_norm
         }
 
         add_collision_result(test.du_body_a, test.du_body_b);
@@ -940,65 +973,96 @@ function clear_collision_impulse_test(body_id) {
         throw "Wrong body ID";
 }
 
-function ray_test(body_id, from, to, local_coords, body_ids) {
-    var world = active_world();
+function append_ray_test(id, body_id, from, to, collision_id, autoremove,
+        calc_all_hits, calc_pos_norm, ign_src_rot) {
 
-    if (body_ids && body_ids.length) {
-        var id = ray_test_id(body_id, from, to, local_coords);
+    if (_world.ray_tests[id])
+        cleanup_ray_test(id, _world);
+    
+    var test = {
+        id: id,
 
-        // TODO: free memory before previous test will be overwrited
-        var test = {
-            body_id: body_id,
+        body_id_src: body_id,
 
-            from: from,
-            to: to,
-            local: local_coords,
+        from: from,
+        to: to,
 
-            last_result: 1.0,
+        last_result: 1.0,
 
-            // cache
-            du_from: _du_vec3(from[0], from[1], from[2]),
-            du_to: _du_vec3(to[0], to[1], to[2]),
-            du_body_a: get_du_body_id(body_id),
-            du_body_b_arr: _du_alloc_body_array(body_ids.length),
-            du_body_b_num: body_ids.length,
-            du_body_b_hit_ptr: _du_alloc_body_id_pointer()
-        }
+        collision_id: collision_id,
 
-        for (var i = 0; i < body_ids.length; i++) {
-            var body_id_b = body_ids[i];
-            _du_store_body(test.du_body_b_arr, get_du_body_id(body_id_b), i);
-        }
+        autoremove: autoremove,
+        calc_all_hits: calc_all_hits,
+        calc_pos_norm: calc_pos_norm,
+        ign_src_rot: ign_src_rot,
 
-        world.ray_tests[id] = test;
-    } else if (from && to) {
-        var id = ray_test_id(body_id, from, to, local_coords);
-        delete world.ray_tests[id];
-    } else if (body_id) {
-        // no from/to, delete all tests matching body_id
-        for (var id in world.ray_tests) {
-            var test = world.ray_tests[id];
-            if (test.body_id == body_id)
-                delete world.ray_tests[id];
-        }
-    } else
-        throw "Wrong ray_test params";
+        // cache
+        du_body_src: body_id ? get_du_body_id(body_id) : NULL,
+        du_from: _du_create_vec3(from[0], from[1], from[2]),
+        du_to: _du_create_vec3(to[0], to[1], to[2]),
+
+        du_hit_pos: _du_create_vec3(0, 0, 0),
+        du_hit_norm: _du_create_vec3(0, 0, 0),
+
+        du_results: _du_create_ray_test_results(calc_pos_norm)
+
+        //du_body_b_arr: _du_alloc_body_array(body_ids.length),
+        //du_body_b_num: body_ids.length,
+        //du_body_b_hit_ptr: _du_alloc_body_id_pointer()
+    }
+
+    //for (var i = 0; i < body_ids.length; i++) {
+    //    var body_id_b = body_ids[i];
+    //    _du_store_body(test.du_body_b_arr, get_du_body_id(body_id_b), i);
+    //}
+
+    _world.ray_tests[id] = test;
+    _world.ray_tests_arr.push(test);
 }
 
-function ray_test_id(body_id, from, to, local_coords) {
+function cleanup_ray_test(id, world) {
+    
+    var test = world.ray_tests[id];
+
+    //_du_free(test.du_body_b_arr);
+    //_du_free(test.du_body_b_hit_ptr);
+
+    delete world.ray_tests[id];
+    world.ray_tests_arr.splice(world.ray_tests_arr.indexOf(test), 1);
+}
+
+function remove_ray_test(id) {
+
+    if (_world.ray_tests[id])
+        cleanup_ray_test(id, _world);
+}
+
+function ray_test_id(body_id, from, to, local_coords, collision_id) {
     var id = String(body_id) + array_stringify(from) + array_stringify(to) + 
-            String(local_coords);
+            String(local_coords) + String(collision_id);
     return id;
 }
 
-function append_water() {
+function change_ray_test_from_to(id, from, to) {
+
+    if (_world.ray_tests[id]) {
+        var test = _world.ray_tests[id];
+
+        test.from.set(from);
+        test.to.set(to);
+        vec_to_du_vec(from, test.du_from);
+        vec_to_du_vec(to, test.du_to);
+    }
+}
+
+function append_water(water_level) {
 
     world = active_world();
 
     if (world.water)
         return;
 
-    var du_water_id = _du_create_water()
+    var du_water_id = _du_create_water(water_level)
 
     var water = {
         du_id: du_water_id,
@@ -1023,7 +1087,7 @@ function append_water() {
 }
 
 function add_water_wrapper(dynamics_info, size_x, size_y, center_x, center_y,
-                      max_shore_dist, waves_height, waves_length, water_level,
+                      max_shore_dist, waves_height, waves_length,
                       array_width, shore_dist_array) {
 
     world = active_world();
@@ -1064,7 +1128,7 @@ function add_water_wrapper(dynamics_info, size_x, size_y, center_x, center_y,
                           dir_freq, dir_noise_scale, dir_noise_freq,
                           dir_min_noise_fac, dst_min_fac, waves_hor_fac,
                           size_x, size_y, center_x, center_y, max_shore_dist,
-                          waves_height, waves_length, water_level, array_width,
+                          waves_height, waves_length, array_width,
                           dist_arr);
 
     if (dist_arr) {
@@ -1117,11 +1181,11 @@ function enable_simulation(body_id) {
     // restore coords from the cache
     set_transform(body_id, body.trans, body.quat);
 
-    _du_add_body(body.du_id, body.collision_group, body.collision_mask);
+    _du_append_body(body.du_id, body.collision_group, body.collision_mask);
 
     var du_action_id = find_du_action_id(world, body_id);
     if (du_action_id)
-        _du_add_action(du_action_id);
+        _du_append_action(du_action_id);
 }
 
 function find_du_action_id(world, body_id) {
@@ -1159,39 +1223,38 @@ function activate(body_id) {
 }
 
 /**
- * @param [quat=null] Rotation quaternion
+ * optimization: no checks
  */
 function set_transform(body_id, trans, quat) {
-    var world = active_world();
-
-    var body = world.bodies[body_id];
-    if (!body)
-        throw "Wrong body ID";
+    var body = _world.bodies[body_id];
+    var du_id = body.du_id;
 
     var tx = trans[0];
     var ty = trans[1];
     var tz = trans[2];
-
-    body.trans[0] = tx;
-    body.trans[1] = ty;
-    body.trans[2] = tz;
-
-    _du_set_trans(body.du_id, tx, ty, tz);
 
     var qx = quat[0];
     var qy = quat[1];
     var qz = quat[2];
     var qw = quat[3];
 
+    body.trans[0] = tx;
+    body.trans[1] = ty;
+    body.trans[2] = tz;
+
     body.quat[0] = qx;
     body.quat[1] = qy;
     body.quat[2] = qz;
     body.quat[3] = qw;
 
-    if (world.characters[body_id])
+    if (_world.characters[body_id]) {
+        _du_set_trans(du_id, tx, ty, tz);
+        // activated in set_character_rotation() 
         set_character_rotation_quat(body_id, quat);
-    else 
-        _du_set_quat(body.du_id, qx, qy, qz, qw);
+    } else  {
+        _du_activate(du_id);
+        _du_set_trans_quat(du_id, tx, ty, tz, qx, qy, qz, qw);
+    }
 }
 
 function set_character_rotation_quat(body_id, quat) {
@@ -1211,7 +1274,7 @@ function set_character_rotation_quat(body_id, quat) {
 
     // vertical plane
     var cos_v = proj[0]*z_dir[0] + proj[2]*z_dir[2];
-    var sign_v = z_dir[1] < 0? 1: -1;
+    var sign_v = z_dir[1] < 0 ? 1: -1;
 
     // Z axis is positive direction
     var defdir = _vec3_tmp;
@@ -1264,6 +1327,7 @@ function quat4_multiply_vec3 (quat, vec) {
 
 function set_linear_velocity(body_id, vx, vy, vz) {
     var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
     _du_set_linear_velocity(du_body_id, vx, vy, vz);
 }
 
@@ -1278,8 +1342,8 @@ function apply_central_force(body_id, fx, fy, fz) {
     body.applied_central_force[1] = fy;
     body.applied_central_force[2] = fz;
 
-    //var du_body_id = get_du_body_id(body_id);
-    //_du_apply_central_force(du_body_id, fx, fy, fz);
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
 }
 
 function apply_torque(body_id, tx, ty, tz) {
@@ -1292,20 +1356,25 @@ function apply_torque(body_id, tx, ty, tz) {
     body.applied_torque[0] = tx;
     body.applied_torque[1] = ty;
     body.applied_torque[2] = tz;
+
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
 }
 
 function update_car_controls(chassis_body_id, engine_force, brake_force, 
         steering_value) {
-
     var car = get_car(chassis_body_id);
+    var du_body_id = get_du_body_id(chassis_body_id);
+    _du_activate(du_body_id);
     _du_update_vehicle_controls(car.du_id, engine_force, brake_force, 
             steering_value);
 }
 
 function update_boat_controls(hull_body_id, engine_force, brake_force, 
         steering_value) {
-
     var boat = get_boat(hull_body_id);
+    var du_body_id = get_du_body_id(hull_body_id);
+    _du_activate(du_body_id);
     _du_update_boat_controls(boat.du_id, engine_force, brake_force, 
             steering_value);
 }
@@ -1322,6 +1391,8 @@ function set_damping(body_id, damping, rotation_damping) {
 
 function init_worker_environment() {
     if (typeof importScripts === "function") {
+
+        var console_old = self.console;
 
         self.console = {};
         console.log = function() {
@@ -1340,6 +1411,12 @@ function init_worker_environment() {
             // pass message cache
             self.postMessage(msg);
         }
+        console.profile = function() {
+            console_old.profile.apply(console_old, arguments);
+        };
+        console.profileEnd = function() {
+            console_old.profileEnd.apply(console_old, arguments);
+        };
         fbmsg = function() {
             var msg = [m_ipc.IN_FBMSG];
             for (var i = 0; i < arguments.length; i++)
@@ -1352,72 +1429,182 @@ function init_worker_environment() {
     } else
         throw "Worker environment not found";
 
+    _du_fpnt_tmp = _du_create_float_pointer(0);
+    _du_vec3_tmp = _du_create_vec3(0, 0, 0);
+    _du_vec3_tmp2 = _du_create_vec3(0, 0, 0);
+
+    // NOTE: for non-asmjs browsers only
+    warm_up();
+
     m_ipc.init(self, process_message);
+    m_ipc.post_msg(m_ipc.IN_LOADED);
 }
 
-function init_engine(init_time, max_fps) {
-    if (!self["performance"])
-        self["performance"] = {};
+function warm_up() {
+    init_world(60, 0);
 
-    if (!self["performance"]["now"]) {
-        self["performance"]["now"] = function() {
-            return Date.now() - init_time;
-        }
+    var mass = 3;
+    var damp = 0.04;
+    var coll_id = 0; // any
+    var rdamp = 0.1;
+    var size = 2;
+    var frict = 0.5;
+    var rest = 1.0;
+    var quat = new Float32Array([0,0,0,1]);
+
+    // cube
+    var bb = {
+        "min_x": -1,
+        "min_y": -1,
+        "min_z": -1,
+        "max_x": 1,
+        "max_y": 1,
+        "max_z": 1
     }
 
-    _update_interval = 1/max_fps;
+    append_bounding_body(0, new Float32Array([1,1,0]), quat, "RIGID_BODY",
+            false, true, mass, 0, 0, damp, rdamp, coll_id, 0.0, 1, 255, "BOX", bb, size,
+            frict, rest, [], false);
 
-    frame();
+    // sphere
+    var bs = {
+        "center": new Float32Array([0,0,0]),
+        "radius": 2
+    }
+    append_bounding_body(1, new Float32Array([-1,1,0]), quat, "RIGID_BODY",
+            false, true, mass, 0, 0, damp, rdamp, coll_id, 0.0, 1, 255, "SPHERE", bs, size,
+            frict, rest, [], false);
+
+    // large triangle
+    var positions = new Float32Array([-5,0,-5, 5,0,-5, 0,0,5]);
+    var indices = null;
+
+    append_static_mesh_body(10, positions, indices, new Float32Array([0,0,0]), 0,
+            0, coll_id, 0.0, 1, 255);
+
+
+    var time = 0;
+    for (var i = 0; i < WARM_UP_FRAMES; i++) {
+        update_world(_world, time, _update_interval);
+        time+=_update_interval;
+    }
+
+    cleanup_world();
 }
+
+/**
+ * Now only for warm up
+ */
+function update_world(world, time, delta) {
+    var steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
+    if (steps) {
+        for (var i = 0; i < steps; i++) {
+            var sim_time = _du_calc_sim_time(time, i, steps);
+
+            pre_tick_callback(world, sim_time);
+
+            _du_single_step_simulation(_update_interval);
+
+            if (i == steps-1)
+                tick_callback(world, sim_time);
+        }
+    }
+}
+
+function init_world(max_fps, fps_measurement_interval) {
+    _update_interval = 1/max_fps;
+    _fps_measurement_interval = fps_measurement_interval;
+
+    _du_create_world(); 
+
+    var world = {
+        bodies: {},
+        bodies_arr: [],
+        constraints: {},
+        cars: {},
+        boats: {},
+        collision_tests: [],
+        collision_results: {array: null,
+                            size:  0},
+        ray_tests: {},
+        ray_tests_arr: [],
+
+        characters: {},
+        floaters: {},
+        water: null
+    };
+
+    _world = world;
+
+}
+
+
+function cleanup_world() {
+    _du_cleanup_world();
+    _world = null;
+    _phy_fps_avg = 0;
+}
+
+
 
 function frame() {
-    self.setTimeout(frame, 300 * _update_interval);
+    self.setTimeout(frame, 1);
 
-    // float sec
-    var abstime = performance.now() / 1000;
+    // preparatory stage
+    if (_steps == 0) {
+        // float sec
+        var abstime = performance.now() / 1000;
 
-    if (!_last_abs_time)
-        _last_abs_time = abstime;
+        if (!_last_abs_time)
+            _last_abs_time = abstime;
 
-    var delta = abstime - _last_abs_time;
-    
-    if (_do_simulation)
-        update_worlds(_worlds, abstime, delta);
-
-    _last_abs_time = abstime;
-}
-
-
-function update_worlds(worlds, time, delta) {
-    for (var world_id in worlds) {
-
-        var world = worlds[world_id];
-
-        var steps = _du_pre_simulation(world.du_id, delta, 3, _update_interval);
-
-        if (steps) {
-            for (var i = 0; i < steps; i++) {
-                var sim_time = _du_calc_sim_time(world.du_id, time, i, steps);
-
-                pre_tick_callback(world, sim_time);
-
-                _du_single_step_simulation(world.du_id, 0);
-
-                tick_callback(world, sim_time);
+        var delta = abstime - _last_abs_time;
+        
+        if (_do_simulation && _world) {
+            if (delta && _fps_measurement_interval) {
+                _phy_fps_avg = smooth(1/delta, _phy_fps_avg, delta,
+                        _fps_measurement_interval);
+                m_ipc.post_msg(m_ipc.IN_FPS, Math.round(_phy_fps_avg));
             }
+
+            _steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
+            _step = 0;
         }
 
-        _du_post_simulation(world.du_id);
+        _last_abs_time = abstime;
+
+    // simulation stage
+    } else {
+        var sim_time = _du_calc_sim_time(_last_abs_time, _step, _steps);
+
+        pre_tick_callback(_world, sim_time);
+
+        _du_single_step_simulation(_update_interval);
+
+        tick_callback(_world, sim_time);
+
+        if (_step == _steps-1) {
+            _du_post_simulation();
+            _steps = 0;
+        } else {
+            _step++;
+        }
     }
 }
 
 /**
- * Executed from bindings.cpp
+ * NOTE: copied from util module
  */
+function smooth(curr, last, delta, period) {
+    var e = Math.exp(-delta/period);
+
+    return (1 - e) * curr + e * last;
+}
+
 function pre_tick_callback(world, time) {
     // apply central force before simulation if needed
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
 
         if (body.applied_central_force) {
             var fx = body.applied_central_force[0];
@@ -1437,13 +1624,21 @@ function pre_tick_callback(world, time) {
     }
 }
 
-/**
- * Executed from bindings.cpp
- */
 function tick_callback(world, time) {
+    send_body_movements(world, time);
+    send_chassis_movements(world);
+    send_hull_movements(world);
+    send_floater_movements(world);
+    send_collision_results(world);
+    send_ray_test_results(world, time);
+    m_ipc.post_msg_arr();
+}
 
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
+function send_body_movements(world, time) {
+
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
+        var body_id = body.id;
 
         if (body.dynamic && body.simulated) {
             if (world.characters[body_id]) {
@@ -1462,15 +1657,14 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_TRANSFORM);
 
-                msg_cache["msg_id"]  = m_ipc.IN_TRANSFORM;
-                msg_cache["body_id"] = body_id;
-                msg_cache["time"]    = time;
-                msg_cache["trans"]   = body.trans;
-                msg_cache["quat"]    = body.quat;
-                msg_cache["linvel"]  = body.linvel;
-                msg_cache["angvel"]  = body.angvel;
+                msg_cache.body_id = body_id;
+                msg_cache.time    = time;
+                msg_cache.trans   = body.trans;
+                msg_cache.quat    = body.quat;
+                msg_cache.linvel  = body.linvel;
+                msg_cache.angvel  = body.angvel;
 
-                m_ipc.post_msg(m_ipc.IN_TRANSFORM, msg_cache);
+                m_ipc.post_msg(m_ipc.IN_TRANSFORM);
             }
 
             if (body.col_imp_test) {
@@ -1483,9 +1677,14 @@ function tick_callback(world, time) {
             }
         }
     }
+}
+
+function send_chassis_movements(world) {
+
     for (var chassis_body_id in world.cars) {
         var car = world.cars[chassis_body_id];
         var wheels_cache = car.wheels_cache;
+
         for (var i = 0; i < wheels_cache.length; i++) {
             var cache = wheels_cache[i];
             _du_get_vehicle_wheel_trans_quat(car.du_id, i, cache.du_trans, cache.du_quat);
@@ -1494,13 +1693,12 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_PROP_OFFSET);
 
-                msg_cache["msg_id"]               = m_ipc.IN_PROP_OFFSET;
-                msg_cache["chassis_hull_body_id"] = chassis_body_id;
-                msg_cache["prop_ind"]             = i;
-                msg_cache["trans"]                = cache.trans;
-                msg_cache["quat"]                 = cache.quat;
+                msg_cache.chassis_hull_body_id = chassis_body_id;
+                msg_cache.prop_ind             = i;
+                msg_cache.trans                = cache.trans;
+                msg_cache.quat                 = cache.quat;
 
-                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET, msg_cache);
+                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET);
             }
         }
 
@@ -1508,11 +1706,14 @@ function tick_callback(world, time) {
         var speed = _du_get_vehicle_speed(car.du_id);
         m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, chassis_body_id, speed);
     }
+}
+
+function send_hull_movements(world) {
+
     for (var hull_body_id in world.boats) {
-
         var boat = world.boats[hull_body_id];
-
         var bobs_cache = boat.bobs_cache;
+
         for (var i = 0; i < bobs_cache.length; i++) {
             var cache = bobs_cache[i];
             _du_get_boat_bob_trans_quat(boat.du_id, i, cache.du_trans, cache.du_quat);
@@ -1520,22 +1721,25 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_PROP_OFFSET);
 
-                msg_cache["msg_id"]               = m_ipc.IN_PROP_OFFSET;
-                msg_cache["chassis_hull_body_id"] = hull_body_id;
-                msg_cache["prop_ind"]             = i;
-                msg_cache["trans"]                = cache.trans;
-                msg_cache["quat"]                 = cache.quat;
+                msg_cache.chassis_hull_body_id = hull_body_id;
+                msg_cache.prop_ind             = i;
+                msg_cache.trans                = cache.trans;
+                msg_cache.quat                 = cache.quat;
 
-                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET, msg_cache);
+                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET);
             }
         }
         var speed = _du_get_boat_speed(boat.du_id);
         m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, hull_body_id, speed);
     }
-    for (var floater_body_id in world.floaters) {
+}
 
+function send_floater_movements(world) {
+
+    for (var floater_body_id in world.floaters) {
         var floater = world.floaters[floater_body_id];
         var bobs_cache = floater.bobs_cache;
+
         for (var i = 0; i < bobs_cache.length; i++) {
             var cache = bobs_cache[i];
             _du_get_floater_bob_trans_quat(floater.du_id, i, cache.du_trans,
@@ -1545,6 +1749,9 @@ function tick_callback(world, time) {
                         cache.trans, cache.quat);
         }
     }
+}
+
+function send_collision_results(world) {
 
     var results = world.collision_results.array;
     var arr_size = world.collision_results.size;
@@ -1558,90 +1765,171 @@ function tick_callback(world, time) {
         var du_body_a = test.du_body_a;
         var du_body_b = test.du_body_b;
 
-        var result = _du_get_collision_result(results, arr_size, du_body_a, du_body_b, _du_vec3_tmp);
+        var result = _du_get_collision_result(results, arr_size, du_body_a,
+                du_body_b, _du_vec3_tmp, _du_vec3_tmp2, _du_fpnt_tmp);
 
         var body_id_a = test.body_id_a;
         var body_id_b = test.body_id_b;
+
         var cpoint = _vec3_tmp;
+        var cnormal = _vec3_tmp2;
 
-        if (test.need_payload && result) {
-            cpoint[0] = HEAPF32[(_du_vec3_tmp >> 2)];
-            cpoint[1] = HEAPF32[(_du_vec3_tmp >> 2) + 1];
-            cpoint[2] = HEAPF32[(_du_vec3_tmp >> 2) + 2];
+        if (test.calc_pos_norm) {
+            var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_COLLISION_POS_NORM);
+
+            du_vec_to_vec(_du_vec3_tmp, cpoint);
+            du_vec_to_vec(_du_vec3_tmp2, cnormal);
+
+            if (need_collision_result_update(test, result, cpoint, cnormal)) {
+
+                var cdist = du_fpoint_to_num(_du_fpnt_tmp);
+
+                // make sure that position/normal is for B
+                if (du_body_a < du_body_b && body_id_a > body_id_b)
+                    correct_coll_pos_norm(cpoint, cnormal, cdist);
+                else if (du_body_a > du_body_b && body_id_a < body_id_b)
+                    correct_coll_pos_norm(cpoint, cnormal, cdist);
+                // else double correction or none
+
+                msg_cache.body_id_a  = body_id_a;
+                msg_cache.body_id_b  = body_id_b;
+                msg_cache.result     = result;
+                msg_cache.coll_point = cpoint;
+                msg_cache.coll_norm  = cnormal;
+                msg_cache.coll_dist  = cdist;
+
+                m_ipc.post_msg(m_ipc.IN_COLLISION_POS_NORM);
+            }
+
+            test.last_cpoint[0] = cpoint[0];
+            test.last_cpoint[1] = cpoint[1];
+            test.last_cpoint[2] = cpoint[2];
+
         } else {
-            cpoint[0] = 0;
-            cpoint[1] = 0;
-            cpoint[2] = 0;
-        }
-
-        if (need_collision_result_update(test, result, cpoint)) {
             var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_COLLISION);
 
-            msg_cache["msg_id"]     = m_ipc.IN_COLLISION;
-            msg_cache["body_id_a"]  = body_id_a;
-            msg_cache["body_id_b"]  = body_id_b;
-            msg_cache["result"]     = result;
-            msg_cache["coll_point"] = cpoint;
+            if (need_collision_result_update(test, result, cpoint, cnormal)) {
 
-            m_ipc.post_msg(m_ipc.IN_COLLISION, msg_cache);
+                msg_cache.body_id_a  = body_id_a;
+                msg_cache.body_id_b  = body_id_b;
+                msg_cache.result     = result;
+
+                m_ipc.post_msg(m_ipc.IN_COLLISION);
+            }
         }
 
         test.last_result = result;
-        // NOTE: Bad garbage collection behaviour.
-        // Temporary disabled every frame collision point update
-        //test.last_cpoint[0] = cpoint[0];
-        //test.last_cpoint[1] = cpoint[1];
-        //test.last_cpoint[2] = cpoint[2];
     }
+}
 
-    for (var id in world.ray_tests) {
+function correct_coll_pos_norm(pos, norm, dist) {
+    pos[0] = pos[0] + norm[0] * dist;
+    pos[1] = pos[1] + norm[1] * dist;
+    pos[2] = pos[2] + norm[2] * dist;
 
-        var test = world.ray_tests[id];
+    norm[0] *= -1;
+    norm[1] *= -1;
+    norm[2] *= -1;
+}
 
-        var body_id_a = test.body_id;
-        var du_body_a = world.bodies[body_id_a].du_id;
+function need_collision_result_update(test, result, cpos, cnorm) {
+    if (test.calc_pos_norm)
+        return result   != test.last_result     ||
+               cpos[0]  != test.last_cpoint[0]  ||
+               cpos[1]  != test.last_cpoint[1]  ||
+               cpos[2]  != test.last_cpoint[2]  ||
+               cnorm[0] != test.last_cnormal[2] ||
+               cnorm[1] != test.last_cnormal[2] ||
+               cnorm[2] != test.last_cnormal[2];
+    else
+        return result != test.last_result;
+}
+
+function send_ray_test_results(world, time) {
+
+    for (var i = 0; i < world.ray_tests_arr.length; i++) {
+        var test = world.ray_tests_arr[i];
+
+        var du_results = test.du_results;
+
+        var du_body_src = test.du_body_src;
         var du_from = test.du_from;
         var du_to = test.du_to;
-        var local = test.local;
 
-        var du_body_b_arr = test.du_body_b_arr;
-        var du_body_b_num = test.du_body_b_num;
+        var calc_pos_norm = test.calc_pos_norm;
 
-        var du_body_b_hit_ptr = test.du_body_b_hit_ptr;
+        var num_hits = _du_check_ray_hit(du_body_src, du_from, du_to,
+                test.collision_id, test.calc_all_hits, calc_pos_norm,
+                test.ign_src_rot, du_results);
 
-        var cur_result = _du_check_ray_hit(du_body_a, du_from, du_to,
-                local, du_body_b_arr, du_body_b_num, du_body_b_hit_ptr);
+        for (var j = 0; j < num_hits; j++) {
 
-        // report if something has changed
-        if (test.last_result !== cur_result) {
+            var du_body_hit = _du_get_ray_hit_body(du_results, j);
+            var body_id_hit = get_body_id(du_body_hit);
 
-            if (cur_result != 1.0) {
-                var du_body_b_hit = _du_get_body_id_by_pointer(du_body_b_hit_ptr);
-                var body_id_b_hit = get_body_id(du_body_b_hit);
-            } else
-                var body_id_b_hit = -1;
+            var hit_fract = _du_get_ray_hit_fraction(du_results, j);
 
-            var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_RAY_HIT);
+            if (calc_pos_norm) {
+                var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_RAY_HIT_POS_NORM);
+                msg_cache.id          = test.id;
+                msg_cache.body_id_hit = body_id_hit;
+                msg_cache.hit_fract   = hit_fract;
+                msg_cache.hit_time    = time;
 
-            msg_cache["msg_id"]        = m_ipc.IN_RAY_HIT;
-            msg_cache["body_id"]       = test.body_id;
-            msg_cache["from"]          = test.from;
-            msg_cache["to"]            = test.to;
-            msg_cache["local"]         = test.local;
-            msg_cache["body_id_b_hit"] = body_id_b_hit;
-            msg_cache["cur_result"]    = cur_result;
+                var du_hit_pos = test.du_hit_pos; 
+                _du_get_ray_hit_position(du_results, j, du_hit_pos);
+                du_vec_to_vec(du_hit_pos, msg_cache.hit_pos);
 
-            m_ipc.post_msg(m_ipc.IN_RAY_HIT, msg_cache);
+                var du_hit_norm = test.du_hit_norm;
+                _du_get_ray_hit_normal(du_results, j, du_hit_norm);
+                du_vec_to_vec(du_hit_norm, msg_cache.hit_norm);
 
-            test.last_result = cur_result;
+                m_ipc.post_msg(m_ipc.IN_RAY_HIT_POS_NORM);
+            } else {
+                var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_RAY_HIT);
+                msg_cache.id          = test.id;
+                msg_cache.body_id_hit = body_id_hit;
+                msg_cache.hit_fract   = hit_fract;
+                msg_cache.hit_time    = time;
+
+                m_ipc.post_msg(m_ipc.IN_RAY_HIT);
+            }
+        }
+
+        if (test.autoremove) {
+            cleanup_ray_test(test.id, world);
+            i--;
         }
     }
 }
 
-function need_collision_result_update(test, result, cpoint) {
-    return result != test.last_result; //|| cpoint[0] != test.last_cpoint[0] ||
-                                      //   cpoint[1] != test.last_cpoint[1] ||
-                                      //   cpoint[2] != test.last_cpoint[2];
+/**
+ * Extract number from float*
+ */
+function du_fpoint_to_num(du_point) {
+    return HEAPF32[du_point >> 2];
+}
+
+/**
+ * Length according to destination vector.
+ */
+function du_vec_to_vec(du_vec, dest) {
+
+    for (var i = 0; i < dest.length; i++)
+        dest[i] = HEAPF32[(du_vec >> 2) + i];
+
+    return dest;
+}
+
+/**
+ * Length according to source vector.
+ */
+function vec_to_du_vec(vec, dest) {
+
+    for (var i = 0; i < vec.length; i++)
+        HEAPF32[(dest >> 2) + i] = vec[i];
+
+    return dest;
 }
 
 function body_check_prepare_output(body) {
@@ -1709,58 +1997,53 @@ function body_check_prepare_interp_data(body) {
     return true;
 }
 
-function cleanup() {
-    for (var world_id in _worlds) {
-        var world = _worlds[world_id];
-
-        _du_cleanup_world(world.du_id);
-    }
-
-    _worlds = {};
-    _active_world_id = null;
-}
-
 /**
  * Print world and physics stat
  */
 function debug() {
-    console.log("active_world", _active_world_id);
+    var world = active_world();
 
-    var worlds_num = 0;
-    var bodies_num = 0;
-    var cons_num = 0;
-    var cars_num = 0;
-    var boats_num = 0;
-    var characters_num = 0;
-    var collision_tests_num = 0;
-    var ray_tests_num = 0;
-    var floaters_num = 0;
+    var cons_num = obj_len(world.constraints);
+    var cars_num = obj_len(world.cars);
+    var boats_num = obj_len(world.boats);
+    var characters_num = obj_len(world.characters);
+    var collision_tests_num = world.collision_tests.length;
+    var ray_tests_num = world.ray_tests_arr.length;
+    var floaters_num = obj_len(world.floaters);
 
-    for (var w in _worlds) {
-        var world = _worlds[w];
+    var bodies_num = world.bodies_arr.length;
+    var tri_num = 0;
+    var bodies_stat = {};
 
-        worlds_num++;
-        bodies_num += obj_len(world.bodies);
-        cons_num += obj_len(world.constraints);
-        cars_num += obj_len(world.cars);
-        boats_num += obj_len(world.boats);
-        characters_num += obj_len(world.characters);
-        collision_tests_num += world.collision_tests.length;
-        ray_tests_num += obj_len(world.ray_tests);
-        floaters_num += obj_len(world.floaters);
+    for (var i = 0; i < bodies_num; i++) {
+        var body = world.bodies_arr[i];
 
-        console.log("world " + w, world);
+        var shape = Pointer_stringify(_du_get_shape_name(body.du_id));
+        bodies_stat[shape] = bodies_stat[shape] || 0; 
+        bodies_stat[shape]++;
+
+        tri_num += body.num_triangles;
     }
 
-    console.log("worlds: " + String(worlds_num));
-    console.log("bodies: " + String(bodies_num));
-    console.log("constraints: " + String(cons_num));
-    console.log("cars: " + String(cars_num));
-    console.log("boats: " + String(boats_num));
-    console.log("characters: " + String(characters_num));
-    console.log("collision tests: " + String(collision_tests_num));
-    console.log("ray tests: " + String(ray_tests_num));
-    console.log("floaters: " + String(floaters_num));
+    var stats = "";
+
+    var collect = function(str) {
+        stats = stats + str + "\n";
+    }
+
+    collect("Bodies: " + bodies_num + " " + JSON.stringify(bodies_stat).replace("{", "(").replace("}",")").replace(/\"/g,"").toLowerCase());
+
+    collect("Triangles: " + tri_num);
+
+    collect("Characters: " + characters_num);
+    collect("Cars: " + cars_num);
+    collect("Boats: " + boats_num);
+    collect("Floaters: " + floaters_num);
+    collect("Constraints: " + cons_num);
+    collect("Collision Tests: " + collision_tests_num);
+    collect("Ray Tests: " + ray_tests_num);
+
+    m_ipc.post_msg(m_ipc.IN_DEBUG_STATS, stats);
 }
 
 function obj_len(obj) {
@@ -1773,13 +2056,23 @@ function obj_len(obj) {
 function process_message(msg_id, msg) {
     switch (msg_id) {
     case m_ipc.OUT_INIT:
-        init_engine(msg[1], msg[2]);
+
+        if (!self["performance"])
+            self["performance"] = {};
+
+        if (!self["performance"]["now"]) {
+            var fallback_init_time = msg[1];
+            self["performance"]["now"] = function() {
+                return Date.now() - fallback_init_time;
+            }
+        }
+
+        init_world(msg[2], msg[3]);
+
+        frame();
         break;
     case m_ipc.OUT_PING:
-        m_ipc.post_msg(m_ipc.IN_PING, msg[1]);
-        break;
-    case m_ipc.OUT_APPEND_WORLD:
-        append_world(msg[1]);
+        m_ipc.post_msg(m_ipc.IN_PING, msg[1], performance.now());
         break;
     case m_ipc.OUT_SET_ACTIVE_WORLD:
         set_active_world(msg[1]);
@@ -1798,6 +2091,9 @@ function process_message(msg_id, msg) {
         break;
     case m_ipc.OUT_APPEND_BOUNDING_BODY:
         append_bounding_body.apply(this, msg.slice(1));
+        break;
+    case m_ipc.OUT_REMOVE_BODY:
+        remove_body(msg[1]);
         break;
     case m_ipc.OUT_APPEND_CONSTRAINT:
         append_constraint.apply(this, msg.slice(1));
@@ -1838,8 +2134,15 @@ function process_message(msg_id, msg) {
     case m_ipc.OUT_CLEAR_COLLISION_IMPULSE_TEST:
         clear_collision_impulse_test(msg[1]);
         break;
-    case m_ipc.OUT_RAY_TEST:
-        ray_test(msg[1], msg[2], msg[3], msg[4], msg[5]);
+    case m_ipc.OUT_APPEND_RAY_TEST:
+        append_ray_test(msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7],
+                msg[8], msg[9]);
+        break;
+    case m_ipc.OUT_CHANGE_RAY_TEST_FROM_TO:
+        change_ray_test_from_to(msg[1], msg[2], msg[3]);
+        break;
+    case m_ipc.OUT_REMOVE_RAY_TEST:
+        remove_ray_test(msg[1]);
         break;
     case m_ipc.OUT_ENABLE_SIMULATION:
         enable_simulation(msg[1]);
@@ -1851,7 +2154,7 @@ function process_message(msg_id, msg) {
         activate(msg[1]);
         break;
     case m_ipc.OUT_SET_TRANSFORM:
-        set_transform(msg["body_id"], msg["trans"], msg["quat"]);
+        set_transform(msg.body_id, msg.trans, msg.quat);
         break;
     case m_ipc.OUT_SET_LINEAR_VELOCITY:
         set_linear_velocity(msg[1], msg[2], msg[3], msg[4]);
@@ -1913,9 +2216,6 @@ function process_message(msg_id, msg) {
     case m_ipc.OUT_SET_WATER_TIME:
         set_water_time(msg[1]);
         break;
-    case m_ipc.OUT_CLEANUP:
-        cleanup();
-        break;
     case m_ipc.OUT_DEBUG:
         debug();
         break;
@@ -1925,4 +2225,6 @@ function process_message(msg_id, msg) {
     }
 }
 
-init_worker_environment();
+Module['onRuntimeInitialized'] = function() {
+    init_worker_environment();
+}

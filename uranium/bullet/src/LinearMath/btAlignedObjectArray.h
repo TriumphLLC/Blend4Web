@@ -26,8 +26,8 @@ subject to the following restrictions:
 ///see discussion here: http://continuousphysics.com/Bullet/phpBB2/viewtopic.php?t=1231 and
 ///http://www.continuousphysics.com/Bullet/phpBB2/viewtopic.php?t=1240
 
-#define BT_USE_PLACEMENT_NEW 1
-//#define BT_USE_MEMCPY 1 //disable, because it is cumbersome to find out for each platform where memcpy is defined. It can be in <memory.h> or <string.h> or otherwise...
+#define BT_USE_PLACEMENT_NEW 0
+#define BT_USE_MEMCPY 1
 #define BT_ALLOW_ARRAY_COPY_OPERATOR // enabling this can accidently perform deep copies of data if you are not careful
 
 #ifdef BT_USE_MEMCPY

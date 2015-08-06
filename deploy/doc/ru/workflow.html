@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Рабочий процесс &mdash; Руководство пользователя: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Просмотрщик сцен" href="viewer.html" />
+    <link rel="prev" title="Развёртывание среды разработки" href="setup.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. Руководство пользователя</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Содержание <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Разделы <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Рабочий процесс</a><ul>
+<li><a class="reference internal" href="#id2">Подготовка сцен</a></li>
+<li><a class="reference internal" href="#index-0">Экспорт сцен</a></li>
+<li><a class="reference internal" href="#assets-json">Отображение сцен в просмотрщике</a><ul>
+<li><a class="reference internal" href="#id5">Пример</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">Разработка приложения</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="setup.html" title="Previous Chapter: Развёртывание среды разработки"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Развёртывание ср...</span>
+    </a>
+  </li>
+  <li>
+    <a href="viewer.html" title="Next Chapter: Просмотрщик сцен"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Просмотрщик сцен &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="working-process-stages">
+<span id="id1"></span><h1>Рабочий процесс<a class="headerlink" href="#working-process-stages" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Создание любого продукта является творческим процессом, в котором могут
+участвовать множество людей, с различными навыками и опытом. Однако вне
+зависимости от его сложности и конечного результата, всегда можно выделить
+стадию производства, на которой создаётся основной объём ресурсов (ассетов) и
+исходного кода.</p>
+<p>При использовании Blend4Web, производственный процесс можно представить
+следующим образом:</p>
+<ol class="arabic simple">
+<li>Подготовка трёхмерной сцены в программе Blender.</li>
+<li>Экспорт ресурсов в формате, пригодном для использования движком.</li>
+<li>Запуск, настройка и отладка сцены в программе-просмотрщике.</li>
+<li>Создание целевого приложения.</li>
+</ol>
+<div class="section" id="id2">
+<h2>Подготовка сцен<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Помимо обычных операций по моделированию, текстурированию, анимации и т.д.
+должна быть осуществлена подготовка сцены для работы в движке.</p>
+<p>Общие рекомендации:</p>
+<ol class="arabic simple">
+<li>Blend-файлы должны находиться в директории <code class="docutils literal"><span class="pre">blender/имя_проекта</span></code>.</li>
+<li>Файлы текстур и звуков должны быть внешними и находиться в директории <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</li>
+<li>Вспомогательные файлы, не предназначенные для загрузки в движок (например, референсы), должны находиться в директории <code class="docutils literal"><span class="pre">blender/имя_проекта</span></code>.</li>
+<li>Файл, из которого будет осуществляться экспорт, должен содержать только необходимые в разрабатываемом приложении модели.</li>
+<li>Объект, меш, материал, текстура, арматура должны иметь отличающие названия (на англ. языке). Они не должны называться &#8220;Cube.001&#8221;, &#8220;Material&#8221;, &#8220;Armature&#8221;.</li>
+<li>Допускается добавление по ссылке (linking) компонентов из других файлов (библиотек).</li>
+</ol>
+</div>
+<div class="section" id="index-0">
+<span id="id3"></span><h2>Экспорт сцен<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для загрузки сцен, созданных с помощью пакета Blender, в движок, необходимо перевести их в формат, пригодный для чтения браузером. На данный момент используются текстовые файлы с расширением <code class="file docutils literal"><span class="pre">.json</span></code>, в которые сохраняются экспортируемые структуры данных в формате JSON (JavaScript Object Notation). Данный файл, в свою очередь, ссылается на один бинарный файл с расширением <code class="file docutils literal"><span class="pre">.bin</span></code>, содержащий массивы данных моделей, и на внешние ресурсы - текстуры и звуковые сэмплы.</p>
+<p>Файлы <code class="file docutils literal"><span class="pre">.json</span></code> и <code class="file docutils literal"><span class="pre">.bin</span></code> создаются при экспорте, файлы текстур и звуков, как правило, должны быть размещены вручную (имеется исключение: внедренные в <code class="file docutils literal"><span class="pre">.blend</span></code>-файл ресурсы размещаются автоматически).</p>
+<p>Экспорт производится выбором в меню <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> опции <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code>. Быстрый доступ - поиск по <code class="docutils literal"><span class="pre">b4w</span> <span class="pre">export</span></code> (горячая клавиша <code class="docutils literal"><span class="pre">ПРОБЕЛ</span></code>).</p>
+<p>Экспортные файлы рекомендуется размещать в директории, предназначенной для развертывания приложения, например <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</p>
+<p>Необходимо использовать относительные пути для изображений (как правило, это происходит по умолчанию). В случаях, когда это не так, необходимо выполнить команду <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></code> (т.е. сделать все пути относительными). Использование абсолютных путей вместо относительных может приводить к ошибкам при попытках загрузки <code class="docutils literal"><span class="pre">.blend</span></code> и <code class="docutils literal"><span class="pre">.json</span></code> файлов на других компьютерах.</p>
+<p>В момент экспорта происходит проверка сцены на предмет использования не поддерживаемых движком возможностей Blender&#8217;a. В таких случаях генерируется сообщение об ошибке. Перечень возможных ошибок экспорта перечислен в <a class="reference internal" href="addon.html#export-errors"><span>соответствующем разделе</span></a>.</p>
+<p>Опции экспорта подробно описаны в <a class="reference internal" href="addon.html#export-opts"><span>соответствующем разделе</span></a>.</p>
+</div>
+<div class="section" id="assets-json">
+<span id="index-1"></span><span id="id4"></span><h2>Отображение сцен в просмотрщике<a class="headerlink" href="#assets-json" title="Ссылка на этот заголовок">¶</a></h2>
+<p>При использовании <a class="reference internal" href="setup.html#local-development-server"><span>локального сервера разработки</span></a> и опции экспорта <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> сцены показываются в просмотрщике сцен сразу после экспорта.</p>
+<p>При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, нужно вручную добавить запись в текстовой файл <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code>, который доступен при открытии Blender&#8217;a при использовании Blend4Web SDK.</p>
+<p>Для редактирования файла откройте &#8220;Text Editor&#8221;:</p>
+<img alt="_images/text_editor.png" class="align-center" src="_images/text_editor.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>В появившемся окне вы сможете выбрать файл <code class="docutils literal"><span class="pre">assets.json</span></code> и отредактировать его:</p>
+<img alt="_images/assets_json.png" class="align-center" src="_images/assets_json.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Для добавления новой сцены нужно знать категорию, в которой она должна отображаться. Категория обычно соответствует названию проекта и имени директории, где хранятся соответствующие файлы.</p>
+<div class="section" id="id5">
+<h3>Пример<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Ниже приведена примерная часть файла <code class="docutils literal"><span class="pre">assets.json</span></code>, в которой находятся два проекта &#8220;Capri&#8221; и &#8220;Fridge&#8221; с соответствующими сценами в каждом проекте:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Capri&quot;</span><span class="p">,</span>
+    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Baken&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;capri/props/baken/baken.json&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Terrain&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;capri/landscape/terrain/terrain.json&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">},</span>
+<span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Fridge&quot;</span><span class="p">,</span>
+    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Apple&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;fridge/fruits/apple/apple.json&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Mango&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;fridge/fruits/mango/mango.json&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Добавление можно осуществить копированием и вставкой описания похожей сцены в нужной категории и последующим редактированием ее названия и пути к экспортному файлу.</p>
+<p>В случае успешного добавления сцена должна появиться в списке сцен просмотрщика в нужной категории.</p>
+<a class="reference internal image-reference" href="_images/viewer_apple_scene.jpg"><img alt="_images/viewer_apple_scene.jpg" class="align-center" src="_images/viewer_apple_scene.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>Разработка приложения<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<p>На этой стадии создаётся приложение, в котором на языке JavaScript пишется логика по загрузке сцены и взаимодействию с ней пользователя. Документация для разработчиков приложений приведена в <a class="reference internal" href="developers.html#developers"><span>соответствующем разделе</span></a>.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.<br/>
+      Обновлено: 2015-07-29.<br/>
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

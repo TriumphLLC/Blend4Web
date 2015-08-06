@@ -154,7 +154,6 @@ typedef struct uiGradientColors {
 	char high_gradient[4];
 	int show_grad;
 	int pad2;
-
 } uiGradientColors;
 
 typedef struct ThemeUI {
@@ -163,17 +162,19 @@ typedef struct ThemeUI {
 	uiWidgetColors wcol_radio, wcol_option, wcol_toggle;
 	uiWidgetColors wcol_num, wcol_numslider;
 	uiWidgetColors wcol_menu, wcol_pulldown, wcol_menu_back, wcol_menu_item, wcol_tooltip;
-	uiWidgetColors wcol_box, wcol_scroll, wcol_progress, wcol_list_item;
+	uiWidgetColors wcol_box, wcol_scroll, wcol_progress, wcol_list_item, wcol_pie_menu;
 	
 	uiWidgetStateColors wcol_state;
 
 	uiPanelColors panel; /* depricated, but we keep it for do_versions (2.66.1) */
 
+	char widget_emboss[4];
+
 	/* fac: 0 - 1 for blend factor, width in pixels */
 	float menu_shadow_fac;
 	short menu_shadow_width;
 	
-	short pad;
+	short pad[3];
 	
 	char iconfile[256];	// FILE_MAXFILE length
 	float icon_alpha;
@@ -246,9 +247,11 @@ typedef struct ThemeSpace {
 	char extra_edge_len[4], extra_edge_angle[4], extra_face_angle[4], extra_face_area[4];
 	char normal[4];
 	char vertex_normal[4];
+	char loop_normal[4];
 	char bone_solid[4], bone_pose[4], bone_pose_active[4];
 	char strip[4], strip_select[4];
 	char cframe[4];
+	char time_keyframe[4], time_gp_keyframe[4];
 	char freestyle_edge_mark[4], freestyle_face_mark[4];
 	
 	char nurb_uline[4], nurb_vline[4];
@@ -263,7 +266,7 @@ typedef struct ThemeSpace {
 	char keyborder[4], keyborder_select[4];
 	
 	char console_output[4], console_input[4], console_info[4], console_error[4];
-	char console_cursor[4], console_select[4], pad1[4];
+	char console_cursor[4], console_select[4];
 	
 	char vertex_size, outline_width, facedot_size;
 	char noodle_curving;
@@ -285,15 +288,19 @@ typedef struct ThemeSpace {
 
 	char handle_vertex[4];
 	char handle_vertex_select[4];
-	char pad2[4];
 	
 	char handle_vertex_size;
+
+	char clipping_border_3d[4];
 	
 	char marker_outline[4], marker[4], act_marker[4], sel_marker[4], dis_marker[4], lock_marker[4];
 	char bundle_solid[4];
 	char path_before[4], path_after[4];
 	char camera_path[4];
-	char hpad[3];
+	char hpad[2];
+	
+	char gp_vertex_size;
+	char gp_vertex[4], gp_vertex_select[4];
 	
 	char preview_back[4];
 	char preview_stitch_face[4];
@@ -328,6 +335,12 @@ typedef struct ThemeSpace {
 	char info_warning[4], info_warning_text[4];
 	char info_info[4], info_info_text[4];
 	char info_debug[4], info_debug_text[4];
+
+	char paint_curve_pivot[4];
+	char paint_curve_handle[4];
+
+	char metadatabg[4];
+	char metadatatext[4];
 } ThemeSpace;
 
 
@@ -422,6 +435,8 @@ typedef struct UserDef {
 	char tempdir[768];	/* FILE_MAXDIR length */
 	char fontdir[768];
 	char renderdir[1024]; /* FILE_MAX length */
+	/* EXR cache path */
+	char render_cachedir[768];  /* 768 = FILE_MAXDIR */
 	char textudir[768];
 	char pythondir[768];
 	char sounddir[768];
@@ -450,7 +465,7 @@ typedef struct UserDef {
 
 	int scrollback; /* console scrollback limit */
 	int dpi;		/* range 48-128? */
-	short encoding;
+	char pad2[2];
 	short transopts;
 	short menuthreshold1, menuthreshold2;
 	
@@ -475,8 +490,10 @@ typedef struct UserDef {
 	short dragthreshold;
 	int memcachelimit;
 	int prefetchframes;
+	float pad_rot_angle; /* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
+	float pad3;
 	short frameserverport;
-	short pad_rot_angle;	/* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
+	short pad4;
 	short obcenter_dia;
 	short rvisize;			/* rotating view icon size */
 	short rvibright;		/* rotating view icon brightness */
@@ -487,7 +504,11 @@ typedef struct UserDef {
 	short color_picker_type;
 	char  ipo_new;			/* interpolation mode for newly added F-Curves */
 	char  keyhandles_new;	/* handle types for newly added keyframes */
-	char  pad1[2];
+	char  gpu_select_method;
+	char  view_frame_type;
+
+	int view_frame_keyframes; /* number of keyframes to zoom around current frame */
+	float view_frame_seconds; /* seconds to zoom around current frame */
 
 	short scrcastfps;		/* frame rate for screencast to be played back */
 	short scrcastwait;		/* milliseconds between screencast snapshots */
@@ -528,6 +549,16 @@ typedef struct UserDef {
 	
 	float fcu_inactive_alpha;	/* opacity of inactive F-Curves in F-Curve Editor */
 	float pixelsize;			/* private, set by GHOST, to multiply DPI with */
+	int virtual_pixel;			/* virtual pixelsize mode */
+
+	short pie_interaction_type;     /* if keeping a pie menu spawn button pressed after this time, it turns into
+	                             * a drag/release pie menu */
+	short pie_initial_timeout;  /* direction in the pie menu will always be calculated from the initial position
+	                             * within this time limit */
+	short pie_animation_timeout;
+	short pie_menu_confirm;
+	short pie_menu_radius;        /* pie menu radius */
+	short pie_menu_threshold;     /* pie menu distance from center before a direction is set */
 
 	struct WalkNavigation walk_navigation;
 } UserDef;
@@ -644,9 +675,10 @@ typedef enum eUserpref_UI_Flag {
 
 /* uiflag2 */
 typedef enum eUserpref_UI_Flag2 {
-	USER_KEEP_SESSION		= (1 << 0),
-	USER_REGION_OVERLAP		= (1 << 1),
-	USER_TRACKPAD_NATURAL	= (1 << 2)
+	USER_KEEP_SESSION			= (1 << 0),
+	USER_REGION_OVERLAP			= (1 << 1),
+	USER_TRACKPAD_NATURAL		= (1 << 2),
+	USER_OPENGL_NO_WARN_SUPPORT	= (1 << 3)
 } eUserpref_UI_Flag2;
 	
 /* Auto-Keying mode */
@@ -658,6 +690,13 @@ typedef enum eAutokey_Mode {
 	AUTOKEY_MODE_NORMAL    = 3,
 	AUTOKEY_MODE_EDITKEYS  = 5
 } eAutokey_Mode;
+
+/* Zoom to frame mode */
+typedef enum eZoomFrame_Mode {
+	ZOOM_FRAME_MODE_KEEP_RANGE = 0,
+	ZOOM_FRAME_MODE_SECONDS = 1,
+	ZOOM_FRAME_MODE_KEYFRAMES = 2
+} eZoomFrame_Mode;
 
 /* Auto-Keying flag
  * U.autokey_flag (not strictly used when autokeying only - is also used when keyframing these days)
@@ -713,6 +752,13 @@ typedef enum eOpenGL_RenderingOptions {
 	USER_DISABLE_VBO		= (1 << 3),
 	/* USER_DISABLE_AA			= (1 << 4), */ /* DEPRECATED */
 } eOpenGL_RenderingOptions;
+
+/* selection method for opengl gpu_select_method */
+typedef enum eOpenGL_SelectOptions {
+	USER_SELECT_AUTO = 0,
+	USER_SELECT_USE_OCCLUSION_QUERY = 1,
+	USER_SELECT_USE_SELECT_RENDERMODE = 2
+} eOpenGL_SelectOptions;
 
 /* wm draw method */
 typedef enum eWM_DrawMethod {
@@ -831,6 +877,11 @@ typedef enum eImageDrawMethod {
 	IMAGE_DRAW_METHOD_2DTEXTURE = 2,
 	IMAGE_DRAW_METHOD_DRAWPIXELS = 3,
 } eImageDrawMethod;
+
+typedef enum eUserpref_VirtualPixel {
+	VIRTUAL_PIXEL_NATIVE = 0,
+	VIRTUAL_PIXEL_DOUBLE = 1,
+} eUserpref_VirtualPixel;
 
 #ifdef __cplusplus
 }

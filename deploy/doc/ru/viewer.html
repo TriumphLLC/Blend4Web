@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Веб-плеер" href="web_player.html" />
+    <link rel="prev" title="Рабочий процесс" href="workflow.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. Руководство пользователя</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Содержание <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Разделы <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Просмотрщик сцен</a><ul>
+<li><a class="reference internal" href="#id2">Навигация</a></li>
+<li><a class="reference internal" href="#id3">Боковая панель</a><ul>
+<li><a class="reference internal" href="#id4">Список элементов управления сверху вниз</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Индикаторы</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="workflow.html" title="Previous Chapter: Рабочий процесс"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Рабочий процесс</span>
+    </a>
+  </li>
+  <li>
+    <a href="web_player.html" title="Next Chapter: Веб-плеер"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Веб-плеер &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="viewer">
+<span id="index-0"></span><span id="id1"></span><h1>Просмотрщик сцен<a class="headerlink" href="#viewer" title="Ссылка на этот заголовок">¶</a></h1>
+<p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>Запуск просмотрщика сцен</span></a>.</p>
+<div class="section" id="id2">
+<h2>Навигация<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Управление камерой осуществляется мышью с нажатой кнопкой, а также клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <code class="docutils literal"><span class="pre">numpad</span></code>. В режиме камеры <code class="docutils literal"><span class="pre">Target</span></code> возможно фокусирование на выделенный объект посредством нажатия клавишей <code class="docutils literal"><span class="pre">Z</span></code> или <code class="docutils literal"><span class="pre">.(точка)</span></code>.</p>
+</div>
+<div class="section" id="id3">
+<h2>Боковая панель<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Боковая панель содержит в себе три области: информационное табло, базовые кнопки
+управления и список выпадающих панелей, содержащий дополнительные элементы управления, разделённые по функциональному признаку.</p>
+<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="_images/default_page.jpg" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id4">
+<h3>Список элементов управления сверху вниз<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Build</strong></dt>
+<dd>Дата и время сборки движка. В версии для разработки показывает время загрузки страницы.</dd>
+<dt><strong>Scene</strong></dt>
+<dd>Название загруженной сцены, взятое из файла <code class="docutils literal"><span class="pre">assets.json</span></code>. При наведении курсора мыши всплывает путь к файлу.</dd>
+<dt><strong>Loaded</strong></dt>
+<dd>Процент и время загрузки.</dd>
+<dt><strong>Reset</strong></dt>
+<dd>Кнопка удаляет сохраненное название последней просмотренной сцены и перезагружает страницу, возвращая к сцене по умолчанию.</dd>
+<dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
+<dd><p class="first">Выпадающее меню выбора профиля работы движка.</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Профили качества изображения</span></a></p>
+</div>
+</dd>
+<dt><strong>Pause</strong></dt>
+<dd>Приостановка рендеринга.</dd>
+<dt><strong>Resume</strong></dt>
+<dd>Возобновление рендеринга.</dd>
+<dt><strong>Auto View</strong></dt>
+<dd>Активация режима автоматического переключения сцен по списку, пауза между просмотрами 1 секунда.</dd>
+<dt><strong>Scenes</strong></dt>
+<dd>Двухуровневый список категорий и сцен из файла <code class="docutils literal"><span class="pre">assets.json</span></code>.</dd>
+<dt><strong>Animation</strong></dt>
+<dd>Управление анимацией. При просмотре анимированных моделей можно выбирать объект и переключать для него анимацию с помощью выпадающего меню, включать режим циклической анимации, останавливать и возобновлять анимацию, выставлять нужный кадр (при этом анимация должна быть остановлена).</dd>
+<dt><strong>Materials</strong></dt>
+<dd>Настройка свойств материалов. Материал выбирается с помощью выпадающего меню. В настоящий момент поддерживается изменение ограниченного ряда свойств.</dd>
+<dt><strong>Lighting</strong></dt>
+<dd>Настройка параметров прямого освещения. Источник света выбирается с помощью выпадающего меню. Поддерживается изменение цвета и интенсивности. Также на этой панели осуществляется настройка параметров времени суток и солнечного освещения.</dd>
+<dt><strong>Ambient</strong></dt>
+<dd>Настройка параметров освещения от окружающей среды. Поддерживается изменение цветов в полусферической модели освещения и интенсивности.</dd>
+<dt><strong>Shadows</strong></dt>
+<dd>Настройка параметров падающих теней, включая параметры каскадов теней и параметры смягчения краев теней.</dd>
+<dt><strong>Sky</strong></dt>
+<dd>Настройка параметров динамического неба, таких как цвет, параметры рассеивания солнечного света и т.д.</dd>
+<dt><strong>Sea</strong></dt>
+<dd>Настройка параметров рендеринга воды, включая переходы цвета по глубине и удаленности от берега, параметры пены, подповерхностного рассеивания, динамики волн и т.д.</dd>
+<dt><strong>Fog</strong></dt>
+<dd>Настройка параметров тумана, включая плотность и цвет.</dd>
+<dt><strong>Wind</strong></dt>
+<dd>Настройка параметров ветра, включая направление и силу.</dd>
+<dt><strong>Screen Space Amb Occlus</strong></dt>
+<dd>Настройка параметров взаимного затенения.</dd>
+<dt><strong>God Rays</strong></dt>
+<dd>Настройка параметров эффекта сумеречных лучей.</dd>
+<dt><strong>Bloom</strong></dt>
+<dd>Настройка параметров эффекта засветки ярким светом.</dd>
+<dt><strong>Depth of Field</strong></dt>
+<dd>Настройка параметров эффекта глубины резкости камеры.</dd>
+<dt><strong>Color correction</strong></dt>
+<dd>Настройка параметров цветовой коррекции, включая яркость, контрастность, экспозицию и насыщенность.</dd>
+<dt><strong>Anti-aliasing</strong></dt>
+<dd>Выбор метода сглаживания изображения (антиалиасинга).</dd>
+<dt><strong>Audio</strong></dt>
+<dd>На панели находится переключатель режима микширования. После включения на сценах со звуковыми источниками появляется интерфейс микшера.</dd>
+<dt><strong>Stereo View</strong></dt>
+<dd>На панели находится переключатель режима стерео-изображения.</dd>
+<dt><strong>Debug</strong></dt>
+<dd>На панели находится ряд инструментов отладки сцен, в частности переключатель режима просмотра сетки, переключатель режима просмотра постпроцессинговых стадий.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Индикаторы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Счетчик количества кадров в секунду</strong></dt>
+<dd>Находится в правом верхнем углу. Выводит усредненное и округленное значение за последние 1,5 секунды.</dd>
+<dt><strong>Размер области рендеринга</strong></dt>
+<dd>Находится в левом верхнем углу. Выводит размер области рендеринга в пикселах.</dd>
+<dt><strong>Выбранный объект и контролируемый объект</strong></dt>
+<dd>Находится в левом нижнем углу. Выводит название выбранного объекта и контролируемого объекта. Выбор объекта осуществляется мышью. Для получения прямого контроля над объектом (обычно в целях проверки физики) нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и выбрать объект. Движение объекта осуществляется клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>. Для выхода из режима контроля нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и &#8220;кликнуть&#8221; на пустом пространстве. Индикатор также показывает расстояние до выбранного объекта в единицах Blender&#8217;a (эквивалент метра).</dd>
+<dt><strong>Индикатор сложности сцены</strong></dt>
+<dd>Находится в правом верхнем углу области рендеринга. Выводит количество вершин, треугольников и WebGL вызовов на основной рендер-сцене (т.е. не учитываются, например, вызовы по отрисовке динамических теней).</dd>
+<dt><strong>Индикатор видео-памяти</strong></dt>
+<dd>Находится в правом нижнем углу области рендеринга. Выводит количество видео-памяти, занимаемой геометрией, текстурами, буферами с результатами рендеринга (render targets), а также суммарное количество занимаемой памяти.</dd>
+<dt><strong>Индикатор ошибок при загрузке сцены</strong></dt>
+<dd>Находится под счетчиком количества кадров. Выводит ошибки и предупреждения при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, зеленый - загрузка сцены прошла успешно.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/indicators.jpg"><img alt="_images/indicators.jpg" class="align-center" src="_images/indicators.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.<br/>
+      Обновлено: 2015-07-29.<br/>
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

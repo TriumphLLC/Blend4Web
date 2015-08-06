@@ -7,34 +7,39 @@
 b4w.module["debug"] = function(exports, require) {
 
 var m_batch    = require("__batch");
+var m_cfg      = require("__config");
+var m_ctl      = require("__controls");
+var m_debug    = require("__debug");
+var m_ext      = require("__extensions");
+var m_phy      = require("__physics");
 var m_print    = require("__print");
-var controls   = require("__controls");
-var debug      = require("__debug");
-var physics    = require("__physics");
-var scenegraph = require("__scenegraph");
 var m_scenes   = require("__scenes");
-var sfx        = require("__sfx");
+var m_scgraph  = require("__scenegraph");
+var m_shaders  = require("__shaders");
+var m_sfx      = require("__sfx");
 var m_textures = require("__textures");
 var m_util     = require("__util");
+var m_vec3     = require("vec3");
 
-var m_vec3 = require("vec3");
+var cfg_def = m_cfg.defaults;
 
 /**
- * Print info about the physics worker
- * @method module:debug.physics_worker
+ * Print info about the physics worker.
+ * @method module:debug.physics_stats
  */
-exports.physics_worker = function() {
-    physics.debug_worker();
+exports.physics_stats = function() {
+    m_phy.debug_worker();
 }
+
 /**
  * Print object info by physics ID.
  * @method module:debug.physics_id
  * @param id Physics ID
  */
 exports.physics_id = function(id) {
-    m_print.log("O", physics.find_obj_by_body_id(id))
+    m_print.log("O", m_phy.find_obj_by_body_id(id))
 
-    var bundles = physics.get_active_scene()._physics.bundles;
+    var bundles = m_phy.get_active_scene()._physics.bundles;
 
     for (var i = 0; i < bundles.length; i++) {
         var bundle = bundles[i];
@@ -46,7 +51,7 @@ exports.physics_id = function(id) {
 }
 
 /**
- * Print names and info for dynamic objects inside the view frustum.
+ * Print names and info for objects inside the view frustum.
  * @method module:debug.visible_objects
  */
 exports.visible_objects = function() {
@@ -54,23 +59,55 @@ exports.visible_objects = function() {
 
     var objs = m_scenes.get_scene_objs(scene, "MESH", m_scenes.DATA_ID_ALL);
 
-    var subs_main = m_scenes.get_subs(scene, "MAIN_OPAQUE");
-    var bundles = subs_main.bundles;
+    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
+                          m_scenes.get_subs(scene, "MAIN_BLEND")];
 
-    for (var i = 0; i < objs.length; i++) {
-        var obj = objs[i];
-        var render = obj._render;
+    for (var i = 0; i < main_subscenes.length; i++) {
+        var subs_main = main_subscenes[i];
+        var bundles = subs_main.bundles;
 
-        if (render.type != "DYNAMIC")
+        if (!bundles.length)
             continue;
 
-        for (var j = 0; j < bundles.length; j++) {
-            var bundle = bundles[j];
-            if (bundle.do_render && bundle.obj_render == render) {
-                m_print.log(obj["name"], obj);
-                break;
+        m_print.group(subs_main.type, "DYNAMIC");
+
+        for (var j = 0; j < objs.length; j++) {
+            var obj = objs[j];
+            var render = obj._render;
+
+            if (render.type != "DYNAMIC")
+                continue;
+
+            for (var k = 0; k < bundles.length; k++) {
+                var bundle = bundles[k];
+                if (bundle.do_render && bundle.obj_render == render) {
+                    m_print.log_raw(obj["name"], obj);
+                    break;
+                }
             }
         }
+
+        m_print.groupEnd();
+
+        m_print.groupCollapsed(subs_main.type, "STATIC");
+
+        for (var j = 0; j < objs.length; j++) {
+            var obj = objs[j];
+            var render = obj._render;
+
+            if (render.type == "DYNAMIC")
+                continue;
+
+            for (var k = 0; k < bundles.length; k++) {
+                var bundle = bundles[k];
+                if (bundle.do_render && bundle.obj_render == render) {
+                    m_print.log_raw(obj["name"], obj);
+                    break;
+                }
+            }
+        }
+
+        m_print.groupEnd();
     }
 }
 
@@ -112,7 +149,7 @@ exports.object_info = function(name) {
 
 /**
  * Print debug info for the object with the given name
- * @method module:debug.object_info
+ * @method module:debug.objects_stat
  * @param name Object name
  */
 exports.objects_stat = function() {
@@ -220,6 +257,15 @@ exports.num_draw_calls = function() {
 }
 
 /**
+ * Return the number of compiled shaders.
+ * @method module:debug.num_shaders
+ */
+exports.num_shaders = function() {
+    var compiled_shaders = m_shaders.get_compiled_shaders();
+    return m_util.get_dict_length(compiled_shaders);
+}
+
+/**
  * Return geometry info in the main scenes.
  * @method module:debug.geometry_stats
  */
@@ -242,8 +288,8 @@ exports.geometry_stats = function() {
             var render = bundles[j].obj_render;
             // NOTE: some objects (particles) do not have any submesh
             if (batch)
-                if (subs.type != "COLOR_PICKING" && subs.type != "GLOW_MASK"
-                        || render.origin_selectable)
+                if (subs.type != "COLOR_PICKING" && subs.type != "OUTLINE_MASK"
+                        || render.origin_selectable || render.origin_outlining)
                     unique_batches[batch.id] = batch;
         }
     }
@@ -312,7 +358,6 @@ exports.num_textures = function() {
 
                         if (tex_list.indexOf(tex) === -1) {
                             tex_list.push(tex);
-
                             var mem = batch_tex.width * batch_tex.height *
                                 4 / (1024 * 1024) / batch_tex.compress_ratio;
 
@@ -424,17 +469,24 @@ exports.make_light_frustum_shot = function() {
  * @method module:debug.scenegraph_to_dot
  */
 exports.scenegraph_to_dot = function() {
-    var scene = m_scenes.get_active();
-    var graph = m_scenes.get_graph(scene);
+    var scenes = m_scenes.get_all_scenes();
 
-    m_print.log(scenegraph.debug_convert_to_dot(graph));
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+        var graph = m_scenes.get_graph(scene);
+        m_print.log("\n" + m_scgraph.debug_convert_to_dot(graph));
+    }
+}
+
+exports.scenes_to_dot = function() {
+
 }
 
 /**
  * Print info about the controls module.
  * @method module:debug.controls_info
  */
-exports.controls_info = controls.debug;
+exports.controls_info = m_ctl.debug;
 
 /**
  * Get the distance between two objects.
@@ -449,25 +501,25 @@ exports.object_distance = function(obj, obj2) {
  * Store a simple telemetry message.
  * @method module:debug.msg
  */
-exports.msg = debug.msg;
+exports.msg = m_debug.msg;
 
 /**
  * Store a flashback telemetry message.
  * @method module:debug.fbmsg
  */
-exports.fbmsg = debug.fbmsg;
+exports.fbmsg = m_debug.fbmsg;
 
 /**
  * Print the list of flashback messages.
  * @method module:debug.print_telemetry
  */
-exports.print_telemetry = debug.print_telemetry;
+exports.print_telemetry = m_debug.print_telemetry;
 
 /**
  * Plot the list of flashback messages as a gnuplot datafile.
  * @method module:debug.plot_telemetry
  */
-exports.plot_telemetry = debug.plot_telemetry;
+exports.plot_telemetry = m_debug.plot_telemetry;
 
 /**
  * Store the callback function result as a flashback message.
@@ -478,7 +530,7 @@ exports.fbres = function(fun, timeout) {
         timeout = 16;
 
     var cb = function() {
-        debug.fbmsg("FBRES", fun());
+        m_debug.fbmsg("FBRES", fun());
         setTimeout(cb, timeout);
     }
 
@@ -524,13 +576,13 @@ exports.assert_constants = function() {
  * @method module:debug.mute_music
  */
 exports.mute_music = function() {
-    var spks = sfx.get_speaker_objects();
+    var spks = m_sfx.get_speaker_objects();
 
     for (var i = 0; i < spks.length; i++) {
         var spk = spks[i];
 
-        if (sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
-            sfx.mute(spk, true);
+        if (m_sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
+            m_sfx.mute(spk, true);
     }
 }
 
@@ -539,7 +591,7 @@ exports.mute_music = function() {
  * @method module:debug.check_finite
  */
 exports.check_finite = function(o) {
-    debug.check_finite(o);
+    m_debug.check_finite(o);
 }
 
 /**
@@ -571,5 +623,233 @@ exports.get_warning_quantity = function() {
 exports.clear_errors_warnings = function() {
     return m_print.clear_errors_warnings();
 }
+
+/**
+ * Print shaders' statistics.
+ * @method module:debug.analyze_shaders
+ * @param {String} [opt_shader_id_part=""] Shader ID (filename) part.
+ */
+exports.analyze_shaders = function(opt_shader_id_part) {
+
+    var compiled_shaders = m_shaders.get_compiled_shaders();
+
+    var count = 0;
+    for (var shader_id in compiled_shaders) {
+        if (opt_shader_id_part && shader_id.indexOf(opt_shader_id_part) === -1)
+            continue;
+        count++;
+    }
+    var msg = "of " + count + " analyzing...";
+
+    var rslts = {};
+
+    for (var shader_id in compiled_shaders) {
+
+        if (opt_shader_id_part && shader_id.indexOf(opt_shader_id_part) === -1)
+            continue;
+
+        var cshader = compiled_shaders[shader_id];
+        var stat = get_shaders_stat(cshader.vshader, cshader.fshader);
+
+        var shaders_info = cshader.shaders_info;
+        var title = shaders_info.vert + " + " + shaders_info.frag;
+
+        // NOTE: cshader.shaders_info
+        stat.cshader = cshader;
+        stat.shaders_info = shaders_info;
+
+        var stats = rslts[title] = rslts[title] || [];
+
+        stats.push(stat);
+        m_print.log(msg);
+    }
+
+    for (var title in rslts) {
+
+        m_print.group("%c" + title, "color: #800");
+        var stats = rslts[title];
+        print_shader_stats_nvidia(stats);
+        m_print.groupEnd();
+    }
+}
+
+function get_shaders_stat(vshader, fshader) {
+
+    var ext_ds = m_ext.get_debug_shaders();
+    if (!ext_ds) {
+        m_print.error("WEBGL_debug_shaders not found" +
+            " (run Chrome with --enable-privileged-webgl-extensions)");
+        return;
+    }
+
+    var vsrc = ext_ds.getTranslatedShaderSource(vshader);
+    var fsrc = ext_ds.getTranslatedShaderSource(fshader);
+
+    var vout = post_sync("/nvidia_vert", vsrc);
+    var vstats = parse_shader_assembly(vout);
+
+    var fout = post_sync("/nvidia_frag", fsrc);
+    var fstats = parse_shader_assembly(fout);
+
+    return {
+        vsrc: vsrc,
+        vout: vout,
+        vstats: vstats,
+        fsrc: fsrc,
+        fout: fout,
+        fstats: fstats
+    };
+}
+
+function parse_shader_assembly(data) {
+    var stats = {};
+
+    if (!data)
+        return stats;
+
+    var lines = data.split("\n");
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+
+        if (line.search(new RegExp(/^[A-Z.]+ /)) == -1)
+            continue;
+
+        var op = line.split(" ")[0];
+
+        if (!(op in stats))
+            stats[op] = 0;
+
+        stats[op]++;
+    }
+
+    var alu_ops = 0;
+    var tex_ops = 0;
+
+    for (var op in stats) {
+        switch (op) {
+        case "KIL":
+        case "TEX":
+        case "TXB":
+        case "TXP":
+        case "KIL.F":
+        case "TEX.F":
+        case "TXB.F":
+        case "TXD.F":
+        case "TXL.F":
+        case "TXQ.F":
+        case "TXP.F":
+            tex_ops += stats[op];
+            break;
+        default:
+            alu_ops += stats[op];
+            break;
+        }
+    }
+
+    stats["ALU_OPS"] = alu_ops;
+    stats["TEX_OPS"] = tex_ops;
+
+    return stats;
+}
+
+function post_sync(path, data) {
+    var req = new XMLHttpRequest();
+    req.open("POST", path, false);
+    req.send(data);
+
+    if (req.status == 200)
+        return req.responseText;
+    else
+        throw("Error POST XHR: " + req.status);
+}
+
+function print_shader_stats_nvidia(stats) {
+    // sort in descending order by fragment shader ALU operations
+    stats.sort(function(a, b) {
+        return b.fstats["ALU_OPS"] - a.fstats["ALU_OPS"];
+    })
+
+    for (var j = 0; j < stats.length; j++) {
+        var stat = stats[j];
+
+        var fstats = stat.fstats;
+        var vstats = stat.vstats;
+
+        var mat_names = find_material_names_by_comp_shader(stat.cshader);
+        mat_names = mat_names ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
+
+        // NOTE some not changing params are commented out
+        m_print.groupCollapsed(
+            "FRAG -->",
+            "ALU", fstats["ALU_OPS"],
+            "TEX", fstats["TEX_OPS"],
+
+            "\t\tVERT -->",
+            "ALU", vstats["ALU_OPS"],
+            "TEX", vstats["TEX_OPS"],
+            mat_names
+        );
+
+        m_print.groupCollapsed("directives");
+        var dirs = stat.shaders_info.directives;
+        for (var i = 0; i < dirs.length; i++) {
+            var dir = dirs[i];
+            m_print.log(dir[0], dir[1]);
+        }
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("vert src");
+        m_print.log(stat.vsrc);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("vert stats");
+        for (var op in vstats)
+            if (op != "ALU_OPS" && op != "TEX_OPS")
+                m_print.log(op, vstats[op]);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("frag src");
+        m_print.log(stat.fsrc);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("frag stats");
+        for (var op in fstats)
+            if (op != "ALU_OPS" && op != "TEX_OPS")
+                m_print.log(op, fstats[op]);
+        m_print.groupEnd();
+
+        m_print.groupEnd();
+    }
+}
+
+function find_material_names_by_comp_shader(cshader) {
+
+    var scenes = m_scenes.get_all_scenes();
+
+    for (var i = 0; i < scenes.length; i++) {
+        var objects = m_scenes.get_scene_objs(scenes[i], "MESH",
+                m_scenes.DATA_ID_ALL);
+
+        for (var j = 0; j < objects.length; j++) {
+            var obj = objects[j];
+
+            if (!obj._batches)
+                continue;
+
+            for (var k = 0; k < obj._batches.length; k++) {
+                var batch = obj._batches[k];
+
+                if (batch.shader == cshader &&
+                        batch.material_names.length) {
+                    return batch.material_names;
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
 
 }

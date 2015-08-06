@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Objects &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Camera" href="camera.html" />
+    <link rel="prev" title="The Add-on" href="addon.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Objects</a><ul>
+<li><a class="reference internal" href="#id2">Types</a></li>
+<li><a class="reference internal" href="#static-dynamic-objects">Static and Dynamic Objects</a></li>
+<li><a class="reference internal" href="#id4">Settings</a><ul>
+<li><a class="reference internal" href="#object">Object Tab</a></li>
+<li><a class="reference internal" href="#physics">Physics Tab</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-0">Object Transform API</a></li>
+<li><a class="reference internal" href="#index-1">Quaternions</a><ul>
+<li><a class="reference internal" href="#id7">Quaternion Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tsr">Moving via TSR Vectors</a></li>
+<li><a class="reference internal" href="#id8">Copying Objects (Instancing)</a><ul>
+<li><a class="reference internal" href="#id9">Making a Simple Copy</a></li>
+<li><a class="reference internal" href="#id10">Making a Deep Copy</a></li>
+<li><a class="reference internal" href="#id11">Removing Objects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#selection">Object Selection</a></li>
+<li><a class="reference internal" href="#morphing">Morphing</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="addon.html" title="Previous Chapter: The Add-on"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; The Add-on</span>
+    </a>
+  </li>
+  <li>
+    <a href="camera.html" title="Next Chapter: Camera"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Camera &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="objects">
+<span id="id1"></span><h1>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h1>
+<p>Objects are intended to position components of different types (meshes, cameras, lamps etc) in a 3D scene space.</p>
+<div class="section" id="id2">
+<h2>Types<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>The engine supports objects of the following types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">mesh</p>
+</li>
+<li><p class="first">camera</p>
+</li>
+<li><p class="first">lamp</p>
+</li>
+<li><p class="first">empty</p>
+</li>
+<li><p class="first">armature</p>
+</li>
+<li><p class="first">speaker</p>
+</li>
+<li><p class="first">curve</p>
+</li>
+<li><p class="first">text</p>
+</li>
+<li><p class="first">metaball</p>
+</li>
+<li><p class="first">surface</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="static-dynamic-objects">
+<span id="id3"></span><h2>Static and Dynamic Objects<a class="headerlink" href="#static-dynamic-objects" title="Permalink to this headline">¶</a></h2>
+<p>All <code class="docutils literal"><span class="pre">MESH</span></code> objects can be divided into static and dynamic objects.</p>
+<p><strong>Static objects</strong> are objects, the meshes of which can be merged together if they have the same material.</p>
+<p><strong>Dynamic objects</strong> are objects, the meshes of which cannot be combined with each other.</p>
+<p>Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
+<p>Among objects of the other type the dynamic ones are <code class="docutils literal"><span class="pre">CAMERA</span></code> and <code class="docutils literal"><span class="pre">ARMATURE</span></code>. All other objects are static.</p>
+<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
+<p>Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
+</div>
+<div class="section" id="id4">
+<h2>Settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web&#8217;s special properties.</p>
+<div class="section" id="object">
+<h3>Object Tab<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Transform &gt; Location</em></dt>
+<dd><p class="first last">Position coordinates.</p>
+</dd>
+<dt><em>Transform &gt; Rotation</em></dt>
+<dd><p class="first last">Rotation angles. For the object rotation all available modes can be used (<code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>). However only <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> and <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><span>object animation</span></a>.</p>
+</dd>
+<dt><em>Transform &gt; Scale</em></dt>
+<dd><p class="first last">Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.</p>
+</dd>
+<dt><em>Relations &gt; Parent</em></dt>
+<dd><p class="first last">Reference to the parent object.</p>
+</dd>
+<dt><em>Groups</em></dt>
+<dd><p class="first last">Objects&#8217; groups to which this object belongs.</p>
+</dd>
+</dl>
+<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
+<dd><p class="first last">Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object&#8217;s bounding sphere radius.</p>
+</dd>
+<dt><em>Special Effects &gt; Disable Fogging</em></dt>
+<dd><p class="first last">Disable fog for the object.</p>
+</dd>
+<dt><em>Special Effects &gt; Caustics</em></dt>
+<dd><p class="first last">The object will render caustics effects from the adjacent water.</p>
+</dd>
+<dt><em>Export Options &gt; Do Not Export</em></dt>
+<dd><p class="first last">Do not export this object.</p>
+</dd>
+</dl>
+<dl class="docutils" id="apply-modifiers">
+<dt><em>Export Options &gt; Apply Modifiers</em></dt>
+<dd><p class="first last">Apply the object&#8217;s modifiers upon export. If the <code class="docutils literal"><span class="pre">SKIN</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
+</dd>
+<dt><em>Export Options &gt; Apply Scale and Modifiers</em></dt>
+<dd><p class="first last">Upon export, apply scale and modifiers for the object.</p>
+</dd>
+<dt><em>Export Options &gt; Export Vertex Animation</em></dt>
+<dd><p class="first last">Export previously created and saved vertex animation. Applicable for <code class="docutils literal"><span class="pre">MESH</span></code> objects only.</p>
+</dd>
+<dt><em>Export Options &gt; Export Shape Keys</em></dt>
+<dd><p class="first last">Export shape keys. Applicable to <code class="docutils literal"><span class="pre">MESH</span></code> objects only.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following properties are mutually exclusive: <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em> and <em>Export Shape Keys</em>.</p>
+</div>
+<dl class="docutils">
+<dt><em>Animation &gt; Apply default animation</em></dt>
+<dd><p class="first last">Upon loading into the engine start playback of the animation assigned to the object.</p>
+</dd>
+<dt><em>Animation &gt; Animation blending</em></dt>
+<dd><p class="first last">Only for armature objects. Allows blending between skeletal animations.</p>
+</dd>
+<dt><em>Animation &gt; Behavior</em></dt>
+<dd><p class="first last">Animation behavior when the last frame is reached: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - stop, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - stop and go to the zero frame, <code class="docutils literal"><span class="pre">Loop</span></code> - repeat forever.</p>
+</dd>
+<dt><em>Rendering Properties &gt; Do Not Render</em></dt>
+<dd><p class="first last">Disable object rendering (for example useful for a physics object).</p>
+</dd>
+<dt><em>Rendering Properties &gt; Disable Frustum Culling</em></dt>
+<dd><p class="first last">Disable frustum culling optimization.</p>
+</dd>
+<dt><em>Rendering Properties &gt; Force Dynamic Object</em></dt>
+<dd><p class="first last">Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</p>
+</dd>
+</dl>
+<dl class="docutils" id="dynamic-geom">
+<dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
+<dd><p class="first last">Allow overriding of the object&#8217;s geometry through Blend4Web API.</p>
+</dd>
+<dt><em>Shadows &gt; Cast</em></dt>
+<dd><p class="first last">The object will cast shadows.</p>
+</dd>
+<dt><em>Shadows&gt; Cast Only</em></dt>
+<dd><p class="first last">The object will cast shadows but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</p>
+</dd>
+<dt><em>Shadows &gt; Receive</em></dt>
+<dd><p class="first last">The object will receive shadows from other adjacent objects.</p>
+</dd>
+<dt><em>Reflections &gt; Reflexible</em></dt>
+<dd><p class="first last">When enabled the object is reflected in the dynamic mirror surfaces.</p>
+</dd>
+<dt><em>Reflections &gt; Reflexible only</em></dt>
+<dd><p class="first last">The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
+</dd>
+<dt><em>Reflections &gt; Reflective</em></dt>
+<dd><p class="first last">When enabled the object surface reflects other objects.</p>
+</dd>
+<dt><em>Reflections &gt; Reflection Plane</em></dt>
+<dd><p class="first last">Text field for name of an empty object which defines the reflection plane. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</p>
+</dd>
+<dt><em>Selection and Outlining &gt; Selectable</em></dt>
+<dd><p class="first last">Enable <a class="reference internal" href="#selection"><span>object selection</span></a> with the mouse or another input device.</p>
+</dd>
+<dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
+<dd><p class="first last">Enable <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow</span></a> for the object.</p>
+</dd>
+<dt><em>Meta Tags</em></dt>
+<dd><p class="first">Interface for adding meta tags to the object:</p>
+<dl class="last docutils">
+<dt><em>Meta Tags &gt; Title</em></dt>
+<dd><p class="first last">Object&#8217;s title.</p>
+</dd>
+<dt><em>Meta Tags &gt; Category</em></dt>
+<dd><p class="first last">Object&#8217;s category.</p>
+</dd>
+<dt><em>Meta Tags &gt; Description</em></dt>
+<dd><p class="first last">Description for the object. Depending on <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code>, this field accepts either description text itself, or the name of a file where this description is contained.</p>
+</dd>
+<dt><em>Meta Tags &gt; Description Source</em></dt>
+<dd><p class="first last">Source type for the description: text or text file.</p>
+</dd>
+</dl>
+</dd>
+<dt><em>Anchors &gt; Enable Anchor</em></dt>
+<dd><p class="first">Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Interface for adding anchors (2D tags) to objects:</p>
+<dl class="last docutils">
+<dt><em>Anchors &gt; Type</em></dt>
+<dd><p class="first last">Anchor type. <code class="docutils literal"><span class="pre">Annotation</span></code> - the content is obtained from the meta tags assigned to the object and displayed in a collapsible window of standard design. <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - arbitrary HTML element from the current web page is used as anchor. <code class="docutils literal"><span class="pre">Generic</span></code> - anchor&#8217;s position can be detected using <em>anchors</em> module API.</p>
+</dd>
+<dt><em>Anchors &gt; Detect Visibility</em></dt>
+<dd><p class="first last">Detect whether the anchor object is overlapped by other objects. Turning this option on decreases performance and should be used only when necessary.</p>
+</dd>
+<dt><em>Anchors &gt; Max Width</em></dt>
+<dd><p class="first last">Applicable to annotation anchors. This limits the expanding info window by a predefined value (measured in CSS pixels).</p>
+</dd>
+</dl>
+</dd>
+<dt><em>Wind Bending</em></dt>
+<dd><p class="first last">Enable procedural animation under the influence of wind.</p>
+</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Billboard</em></dt>
+<dd><p class="first last">Use the object as a billboard (i.e. automatically orient relative to the camera).</p>
+</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
+<dd><p class="first last">Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</p>
+</dd>
+<dt><em>Billboard &gt; Billboard Type</em></dt>
+<dd><p class="first last">Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side toward the camera, regardless of view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but rotation is limited to Blender&#8217;s world Z axis. Becomes available after enabling <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="physics">
+<h3>Physics Tab<a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Detect Collisions</em></dt>
+<dd><p class="first last">Activate the object&#8217;s physics.</p>
+</dd>
+<dt><em>Floating</em></dt>
+<dd><p class="first last">Make the object floating. The settings for floating objects are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
+</dd>
+<dt><em>Vehicle</em></dt>
+<dd><p class="first last">Use the object as part of a vehicle. The vehicle settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
+</dd>
+<dt><em>Character</em></dt>
+<dd><p class="first last">Use the object for character physics. The character settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="index-0">
+<span id="id5"></span><h2>Object Transform API<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure that the object you are trying to transform is a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</p>
+</div>
+<p>Use the following methods of the <cite>transform</cite> module to move objects in the engine:</p>
+<dl class="docutils">
+<dt><em>get_translation</em></dt>
+<dd><p class="first last">Get the coordinates of the object&#8217;s center. The option with a single argument returns a new vector (non-optimized option) while the option with two arguments requires an additional vector to write the result down.</p>
+</dd>
+<dt><em>get_rotation</em></dt>
+<dd><p class="first last">Get the object&#8217;s rotation quaternion. There are two ways of calling this function similar to <cite>get_translation</cite>.</p>
+</dd>
+<dt><em>get_scale</em></dt>
+<dd><p class="first last">Get the object&#8217;s scale.</p>
+</dd>
+<dt><em>set_translation, set_translation_v</em></dt>
+<dd><p class="first last">Move the object&#8217;s center into the specified location. The first function takes separate coordinates as arguments while the second one takes a three-component vector (Array or Float32Array).</p>
+</dd>
+<dt><em>set_rotation, set_rotation_v</em></dt>
+<dd><p class="first last">Set the object&#8217;s rotation quaternion. The first function takes separate coordinates as arguments while the second one takes a four-component vector (Array or Float32Array).</p>
+</dd>
+<dt><em>set_scale</em></dt>
+<dd><p class="first last">Set the object&#8217;s scale. One corresponds to the object&#8217;s original state. Values less than one mean scaling down, more than one - scaling up. Note that not all objects can be scaled. Particularly scaling is not allowed for physics objects.</p>
+</dd>
+<dt><em>set_rotation_euler, set_rotation_euler_v</em></dt>
+<dd><p class="first last">Set the object&#8217;s rotation using Euler angles. An <strong>intrinsic</strong> YZX rotation system is used (that means the angles follow in the YZX order and the origin of coordinates rotates and takes up a new position for every angle).</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="index-1">
+<span id="id6"></span><h2>Quaternions<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>Quaternion is a four-component vector used to perform rotating. Quaternions have a number of advantages over other rotation methods such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">A quaternion isn&#8217;t ambiguant and doesn&#8217;t depend on the rotation order as the Euler angles.</p>
+</li>
+<li><p class="first">Quaternion&#8217;s memory usage is more effective (2-4 times less depending on the matrix used).</p>
+</li>
+<li><p class="first">Better computing efficiency than for matrices in case of a series of rotations.</p>
+</li>
+<li><p class="first">Numeric stability - compensation for multiplication errors arising from float number inaccuracy.</p>
+</li>
+<li><p class="first">Convenient interpolation method.</p>
+</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Quaternions have some drawbacks:</dt>
+<dd><ul class="first last simple">
+<li><p class="first">Rotating a vector with a quaternion is more computationally expensive than rotating with a matrix.</p>
+</li>
+<li><p class="first">It is difficult to use quaternions for non-rotation transformations (such as perspective or orthogonal projection).</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>The engine has a number of functions to make it more convenient to work with quaternions:</p>
+<dl class="docutils">
+<dt><em>quat.multiply</em></dt>
+<dd><p class="first last">Quaternion multiplication. Note that left-multiplying A quaternion by B quaternion A*B is a rotation by A. I.e. the object already has some rotation B which we supplement with a new rotation by A.</p>
+</dd>
+<dt><em>quat.setAxisAngle</em></dt>
+<dd><p class="first last">A quaternion is an alternative presentation of rotation by an arbitrary angle relative to the arbitrary axis (vector). Positive direction of rotation is defined as anticlockwise when viewing from the vector&#8217;s end. For example the <code class="code docutils literal"><span class="pre">quat.setAxisAngle([1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">Math.PI/2,</span> <span class="pre">quat)</span></code> call forms a quaternion which can be used for rotating the object by 90 degrees (anticlockwise if viewing from the X axis&#8217; end) relative to the X axis.</p>
+</dd>
+<dt><em>quat.slerp</em></dt>
+<dd><p class="first last">Spherical interpolation of quaternions. Used for smoothing the object&#8217;s rotation and animation.</p>
+</dd>
+<dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
+<dd><p class="first last">Сonversion from Euler angles and back.</p>
+</dd>
+</dl>
+<div class="section" id="id7">
+<h3>Quaternion Example<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named &#8220;Cessna&#8221; in Blender.</p>
+<a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Lets save a reference to the object in the <strong>aircraft</strong> variable:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Lets rotate it:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">The orientation of coordinate axes is different in Blender and in the engine. Upon export there will be a transformation [X Y Z] (Blender) -&gt; [X -Z Y] (the engine). Therefore we need to rotate the object relative to the Y axis and not the Z axis.</p>
+</li>
+<li><p class="first">A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).</p>
+</li>
+<li><p class="first">60 degrees = <span class="math">\(\pi/3\)</span> radians.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>As a result we get:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
+<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+
+<span class="c1">// get old rotation</span>
+<span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
+
+<span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+
+<span class="c1">// set new rotation</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The optimized version which does not create new objects:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
+<span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="c1">// rotate</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tsr">
+<span id="copy-obj"></span><h2>Moving via TSR Vectors<a class="headerlink" href="#tsr" title="Permalink to this headline">¶</a></h2>
+<p>It is sometimes convenient to move objects using vectors of the following format:</p>
+<blockquote>
+<div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
+<p>Here <span class="math">\(T_x, T_y, T_z\)</span> - the components of the translation vector, <span class="math">\(S\)</span> - scale factor, <span class="math">\(R_x, R_y, R_z, R_w\)</span> - the components of the quaternion vector. Hence the name of this vector: TSR or TSR-8.</p>
+<p>This vector can be operated via <cite>tsr</cite> module, as well as via <cite>set_tsr()</cite>/<cite>get_tsr()</cite> methods of the <cite>transform</cite> module.</p>
+</div>
+<div class="section" id="id8">
+<h2>Copying Objects (Instancing)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>It is often required to copy (to make instances of) objects during application work.</p>
+<dl class="docutils">
+<dt>Copying objects has its limitations:</dt>
+<dd><ul class="first last simple">
+<li><p class="first">only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</p>
+</li>
+<li><p class="first">the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</p>
+</li>
+<li><p class="first">the source object should belong to the active scene</p>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="id9">
+<h3>Making a Simple Copy<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>In case of simple copying the new object will share the mesh with the original object. Thus, if the the original object&#8217;s mesh is changed, the copied object&#8217;s mesh will be changed too. To make simple copying possible, it&#8217;s enough to turn on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> setting in the source object&#8217;s properties.</p>
+</div>
+<div class="section" id="id10">
+<h3>Making a Deep Copy<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object&#8217;s mesh is changed, the copied object&#8217;s mesh will not be changed. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Force Dynamic Geometry</span></a> checkbox for the source object.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Сopying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default simple copying will be performed.</p>
+<p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>Removing Objects<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>To remove instanced objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Only copied objects can be removed this way.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="selection">
+<span id="id12"></span><h2>Object Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h2>
+<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</div>
+<p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">pick_object</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>or using the <a class="reference internal" href="nla.html#nla-select-play"><span>NLA Script</span></a>.</p>
+<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
+</div>
+<div class="section" id="morphing">
+<span id="id13"></span><h2>Morphing<a class="headerlink" href="#morphing" title="Permalink to this headline">¶</a></h2>
+<p>Morph targets can be added using Blender&#8217;s standard <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></code> interface.</p>
+<img alt="_images/morphing.png" class="align-center" src="_images/morphing.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The engine supports all shape key options under the &#8220;Relative&#8221; type.</p>
+<p>To set a shape key value, use the <code class="docutils literal"><span class="pre">apply_shape_key</span></code> method of the <code class="docutils literal"><span class="pre">geometry.js</span></code> module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The object must have <em>Export Shape Keys</em> enabled.</p>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

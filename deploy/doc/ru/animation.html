@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
+    <link rel="prev" title="Система частиц. Инстансинг" href="particles_instancing.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. Руководство пользователя</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Содержание <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Разделы <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Анимация</a><ul>
+<li><a class="reference internal" href="#id2">Управление анимацией</a></li>
+<li><a class="reference internal" href="#whole-object-anim">Объектная анимация</a></li>
+<li><a class="reference internal" href="#id4">Скиннинг и скелетная анимация</a></li>
+<li><a class="reference internal" href="#id5">Вертексная анимация</a></li>
+<li><a class="reference internal" href="#id6">Параметризация источников звука</a></li>
+<li><a class="reference internal" href="#value-rgb">Анимация нод Value и RGB</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="particles_instancing.html" title="Previous Chapter: Система частиц. Инстансинг"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Система частиц. ...</span>
+    </a>
+  </li>
+  <li>
+    <a href="outdoor_rendering.html" title="Next Chapter: Рендеринг наружных сцен"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Рендеринг наружн... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <span class="target" id="animation"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Анимация<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<p>В общем случае, к анимации относятся изменения параметров объектов во времени.
+Движком поддерживаются следующие типы анимации:</p>
+<ul class="simple">
+<li>Объектная анимация. Заключается в трансформации объекта в пространстве как
+единого целого.</li>
+<li>Скелетная анимация, то есть деформация геометрии объекта с помощью системы
+костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с
+целью прикрепления объектов к костям.</li>
+<li>Вертексная анимация. Заключается в покадровой записи деформаций объекта с их
+последующим воспроизведением.</li>
+<li>Параметризация источников звука. Изменяемые параметры: громкость
+(<code class="docutils literal"><span class="pre">Volume</span></code>) и высота звука (<code class="docutils literal"><span class="pre">Pitch</span></code>).</li>
+<li>Анимация выходного значения ноды <code class="docutils literal"><span class="pre">Value</span></code> в нодовом материале.</li>
+<li>Процедурная анимация в виде колебаний объекта под действием ветра. Описано
+<a class="reference internal" href="outdoor_rendering.html#wind"><span>отдельно</span></a>.</li>
+<li>Эмиссия частиц из источника. Описано в <a class="reference internal" href="particles.html#particles"><span>соответствующем разделе</span></a>.</li>
+</ul>
+<div class="section" id="id2">
+<h2>Управление анимацией<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Управление анимацией в движке осуществляется одним из двух способов:</p>
+<ol class="arabic simple">
+<li>Автоматически, с помощью активации панели <code class="docutils literal"><span class="pre">Animation</span></code> и указания поведения анимации
+<code class="docutils literal"><span class="pre">Behavior</span></code> в свойствах объекта. В данном случае будет осуществлён
+поиск доступного метода и в случае положительного результата, объект
+анимируется с момента загрузки сцены. В случае скелетной анимации, по
+умолчанию воспроизводится актор, назначенный на объекте в окне <code class="docutils literal"><span class="pre">Action</span>
+<span class="pre">Editor</span></code>.</li>
+<li>Программно, используя функции модуля движка <code class="docutils literal"><span class="pre">animation</span></code>.</li>
+</ol>
+<p>Для отладки анимации имеет смысл использовать интерфейс <code class="docutils literal"><span class="pre">Animation</span></code>
+программы-просмотрщика, рассмотренный в <a class="reference internal" href="viewer.html#viewer"><span>соответствующем разделе</span></a>.</p>
+</div>
+<div class="section" id="whole-object-anim">
+<span id="id3"></span><h2>Объектная анимация<a class="headerlink" href="#whole-object-anim" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Изменяемые параметры: координаты центра (<code class="docutils literal"><span class="pre">Location</span></code>), поворот (<code class="docutils literal"><span class="pre">Rotation</span></code>) и масштабирование (<code class="docutils literal"><span class="pre">Scale</span></code>).</p>
+<a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Осуществляется с помощью добавления ключей анимации для движения объекта в программе Blender и
+их последующего воспроизведения в движке.</p>
+<p>Поддерживаются следующие типы ключей:</p>
+<ul class="simple">
+<li><em>Location</em></li>
+<li><em>Rotation</em> &#8211; необходимо осуществлять в режиме <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> либо <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</li>
+<li><em>Scale</em> &#8211; для получения корректных результатов, фактор масштабирования должен
+быть одинаковым вдоль любых из осей.</li>
+<li><em>LocRot</em> &#8211; комбинация <em>Location</em> и <em>Rotation</em>.</li>
+<li><em>LocScale</em> &#8211; комбинация <em>Location</em> и <em>Scale</em>.</li>
+<li><em>LocRotScale</em> &#8211; комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</li>
+<li><em>RotScale</em> &#8211; комбинация <em>Rotation</em> и <em>Scale</em>.</li>
+</ul>
+<p>В случае анимации объекта-меша, необходимо включение опции <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> панели <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span></code> на
+вкладке свойств объекта.</p>
+</div>
+<div class="section" id="id4">
+<h2>Скиннинг и скелетная анимация<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/rig.jpg"><img alt="_images/rig.jpg" class="align-center" src="_images/rig.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Для осуществления скелетной анимации, кроме деформируемого объекта-меша требуется
+объект-арматура. Осуществляется в четыре этапа:</p>
+<ol class="arabic simple">
+<li>Создание скелета объекта в арматурном объекте.</li>
+<li>Назначение вертексных групп в объекте-меше и их привязка к костям. Может быть осуществлено, например, методом &#8220;раскраски&#8221; весов (weight painting).</li>
+<li>Анимация костей в арматурном объекте. Используются те же ключи, что и в случае
+объектной анимации.</li>
+<li>В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику,
+требуется стадия запекания анимационных акторов (блок <code class="docutils literal"><span class="pre">Action</span></code> в Blender).
+Запекание производится с помощью интерфейса <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code>, расположенного на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code>:</li>
+</ol>
+<a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p id="animation-bake">Запекание производится при выделенном арматурном объекте. Элементы интерфейса <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code>:</p>
+<ul class="simple">
+<li>Окно со списком запекаемых акторов &#8211; запекать только те акторы, которые
+указаны в списке, иначе запекать все возможные акторы.</li>
+<li><em>Name</em> &#8211; имя текущего актора из списка запекаемых акторов.</li>
+<li><em>Optimize Keyframes</em> &#8211; произвести оптимизацию ключей анимации после запекания. В
+случае получения некорректных результатов, рекомендуется отключить опцию.</li>
+<li><em>Bake</em> &#8211; произвести запекание. После успешного окончания процесса на
+сцене появляются акторы с именами вида <em>ИМЯ_B4W_BAKED</em>. Данные акторы будут
+автоматически назначены на арматурном объекте и воспроизведены в движке.
+Стоит отметить, что работа подобных акторов в Blender не гарантируется.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p>Движок поддерживает не более 4-х вертексных групп на каждом из вертексов,
+эти группы отбираются по величине влияния или &#8220;веса&#8221; вертекса. В процессе
+загрузки исходного файла со сценой &#8220;веса&#8221; вертексов проходят через процедуру
+нормализации, т.е. их сумма приводится в единице.</p>
+<p>Для удаления вертексных групп, которые не используются арматурой, можно воспользоваться
+кнопкой <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code> в одноименной панели.</p>
+<a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Вертексная анимация<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/flag.jpg"><img alt="_images/flag.jpg" class="align-center" src="_images/flag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Позволяет записать любые изменения геометрии объекта-меша. Необходимо учитывать,
+что каждый кадр вертексной анимации эквивалентен мешу. Не рекомендуется создание
+длинной анимации для высокополигонального меша, поскольку это может привести к
+существенному возрастанию размера исходного и экспортируемого файлов, а также
+замедлить работу движка.</p>
+<p id="ver-anim">Для запекания вертексной анимации предусмотрен инструмент <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code>,
+расположенный на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code>.</p>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="_images/vertex_anim_baker.jpg" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id6">
+<h2>Параметризация источников звука<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<p>На объектах-спикерах дополнительно поддерживаются следующие типы анимационных
+ключей:</p>
+<ul class="simple">
+<li><em>Volume</em> &#8211; громкость звука источника.</li>
+<li><em>Pitch</em> &#8211; высота звука источника.</li>
+</ul>
+<p>Параметризация источников звука по своей сути повторяет объектную анимацию.</p>
+</div>
+<div class="section" id="value-rgb">
+<span id="node-anim"></span><h2>Анимация нод Value и RGB<a class="headerlink" href="#value-rgb" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В нодовых материалах поддерживается воспроизведение анимационных ключей, проставленных на нодах <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code>.</p>
+<img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="_images/node_RGB_anim.png" class="align-center" src="_images/node_RGB_anim.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Анимация числовых и цветовых значений в других нодах не поддерживается.</p>
+</div>
+<p>Может быть также использована для создания треков в <a class="reference internal" href="nla.html#nla-editor"><span>редакторе нелинейной анимации</span></a>. Поддерживается несколько анимированных нод <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code> в одном материале. Значения нод могут быть также установлены программно с помощью методов <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> и <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> модуля <code class="docutils literal"><span class="pre">objects</span></code>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>B4W_TIME</span></a></p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.<br/>
+      Обновлено: 2015-07-29.<br/>
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

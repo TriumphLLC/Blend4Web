@@ -1,4 +1,4 @@
-attribute vec2 a_bb_vertex;
+attribute vec2 a_position;
 
 uniform vec4 u_camera_quat;
 uniform vec3 u_sun_direction;
@@ -26,7 +26,7 @@ void multiply_vec3 (in vec4 quat, in vec3 vec, out vec3 dest) {
 
 void main(void) {
 
-    v_texcoord = a_bb_vertex + 0.5;
+    v_texcoord = 2.0 * a_position;
 
     // bloom is visible only when cam is facing towards the sun
     vec3 cam_y_dir;
@@ -35,6 +35,6 @@ void main(void) {
     // if sun is below the horizont turn off bloom
     v_bloom_factor *= max(sign(u_sun_direction.y), 0.0);
     
-    gl_Position = vec4(2.0 * a_bb_vertex.xy, 0.0, 1.0);
+    gl_Position = vec4(4.0 * (a_position.xy-0.25), 0.0, 1.0);
 }
 

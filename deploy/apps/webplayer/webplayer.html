@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1.0, user-scalable=no, width=device-width' />
+    <meta property='og:title' content='Blend4Web Player' />
+    <meta property='og:description' content='Check out these awesome 3D graphics made with Blend4Web!' />
+    <meta name='description' content='Check out these awesome 3D graphics made with Blend4Web!' />
+    <title>Blend4Web Player</title>
+    <link rel='shortcut icon' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAAACOAMyAOgNuAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wYZCzUe2Yb52wAAAihJREFUOMt9009onFUUBfDf/WYaRaoFsVFsFAqKi0oWZlJHEMSN4KboJoi66UpF6OhMN3VVhWIRMphQF124qGBEELVWNy6EQK2FTqSCUcRqqhYsCgpG+8+Z73aRj2SaVs/m8e475/DOu/eFa2Hv4ohN556W8QxKGQctXz9n77ZL66lxxW72+E0GtWeJlnT7Ou6vmHVx5KA9439eadDtPY6XsRUb/T/+lrlfZ3LfikG39yB+kerCGB7Aq/+tjx3aE0dML9wn8lKBe/G9cIrcIx3RboR2I0SMihzHByDdJctPdXvzImfwQ5ju3abIO2SM4n3U0Mcf5AZiyV8TTZsWQhrFj/hQ0X9BFr/XRT4q401pTrrH7sbpa968u3AL+bOMnWqD75T1L3B3QXyFEJ6yu3Fa98RDur3NVzuUH8s8qijPKIuj2KreLwv8hnNVNzoybsRJ3WM3r2rfWNxI3K8z+bCMAxjBsl3NLHAWixX1FUV+Rp5kwyerBhfPH8KM1xduxbaq+g0U2o2+iC+r4g0ynlerP0Y0TZ/YUb3+29IBZb41NILfrhis5Pt8KOxrynILMSrisJnjY+q1eeElPLLKyjy8ZrBlaQ6zQ4fzcnAB/2o1zygH72Hn8NAbW/pozWBqaqDdaMl4Audxp872ZZRVhO2V8B+RT2o3WqamyqEIFToT7+K5lSEC11XrBfyklk0vTr4zLCmuane7caj6WGtIx9T741qTX6+nXwbCtMDUVtksMQAAAABJRU5ErkJggg==' />
+    <link type='text/css' rel='stylesheet' href='webplayer.min.css?v=15.07'/>
+    <script type='text/javascript' src='webplayer.min.js?v=15.07'></script>
+</head>
+<body>
+    <div id="main_canvas_container"></div>
+    <div id="preloader_container">
+        <div id="logo_container">
+            <div id="preloader_caption">0%</div>
+        </div>
+        <div id="load_container">
+            <div id="first_stage"></div>
+            <div id="second_stage"></div>
+            <div id="third_stage"></div>
+        </div>
+        <div id="circle_wrapper">
+            <div id="circle_container"></div>
+        </div>
+    </div>
+    <div id="buttons_container">
+        <div id="opened_button" class="control_panel_button"></div>
+        <div id="hor_button_section">
+            <div id="help_button" class="control_panel_button"></div>
+            <div id="pause_button" class="control_panel_button"></div>
+            <div id="auto_rotate_on_button" class="control_panel_button"></div>
+            <div id="sound_on_button" class="control_panel_button"></div>
+            <div id="quality_buttons_container" class="control_panel_button">
+                <div id="ultra_mode_button" class="qual_button"></div>
+                <div id="high_mode_button" class="qual_button"></div>
+                <div id="low_mode_button" class="qual_button"></div>
+            </div>
+            <div id="fullscreen_on_button" class="control_panel_button"></div>
+        </div>
+        <div id="vert_section_button">
+            <div id="tw_button" class="control_panel_button"><a target="_blank" href="//twitter.com/intent/tweet?via=blend4web&text=Check out these awesome 3D graphics made with Blend4Web!&url="></a></div>
+            <div id="fb_button" class="control_panel_button"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u="></a></div>
+            <div id="g_button" class="control_panel_button"><a target="_blank" href="https://plus.google.com/share?url="></a></div>
+            <div id="vk_button" class="control_panel_button"><a target="_blank" href="https://vk.com/share.php?url="></a></div>
+        </div>
+    </div>
+    <div id="help_info_container">
+        <div id="close_help"></div>
+        <div id="rel_version">dev</div>
+        <a id="site_link" target="_blank" href="https://www.blend4web.com">blend4web.com</a>
+    </div>
+    <div id="error_container">
+        <div id="error_name"></div>
+        <div id="error_info"></div>
+    </div>
+    <div id="fps_wrapper">
+        <div id="prev_fps_circle"></div>
+        <div id="fps_container"></div>
+    </div>
+</body>
+</html>

@@ -80,7 +80,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     psystem._internal = psystem._internal || {};
 
     var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh,
-            ["a_position", "a_normal"], false);
+            ["a_position", "a_normal"], null);
 
     var pcount = psystem["settings"]["count"]; 
     var time_start = psystem["settings"]["frame_start"] / cfg_ani.framerate;
@@ -95,6 +95,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     var ang_vel_factor = psystem["settings"]["angular_velocity_factor"];
 
     var is_rand_delay = psystem["settings"]["b4w_randomize_emission"];
+    var cyclic = psystem["settings"]["b4w_cyclic"];
 
     init_particle_rand(psystem["seed"]);
 
@@ -124,7 +125,8 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     psystem._internal.time = 0;
     psystem._internal.prev_time = -1;
 
-    var delay_attrs = gen_delay_attrs(pcount, time_start, time_end, is_rand_delay, is_billboard);
+    var delay_attrs = gen_delay_attrs(pcount, time_start, time_end,
+                                      is_rand_delay, is_billboard, cyclic);
     psystem._internal.delay_attrs = new Float32Array(delay_attrs);
 
     // needed to restore original delays when using particles number factor
@@ -137,8 +139,6 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     if (world_space)
         pose_emitter_world(psystem, is_billboard, positions, normals, tsr, positions, normals);
-    else
-        pose_emitter_local(positions, normals, tsr, positions, normals);
 
     var lifetimes = gen_lifetimes(pcount, lifetime, lifetime_random, is_billboard);
 
@@ -151,10 +151,11 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     va_frame["a_normal"] = normals;
     submesh.va_frames[0] = va_frame;
 
-    if (is_billboard)
+    if (is_billboard) {
+        batch.draw_mode = m_geom.DM_DYNAMIC_TRIANGLES;
         submesh.indices = bb_indices;
-    else {
-        batch.draw_mode = m_geom.DM_POINTS;
+    } else {
+        batch.draw_mode = m_geom.DM_DYNAMIC_POINTS;
         submesh.indices = new Uint16Array(0);
     }
 
@@ -167,17 +168,6 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
         submesh.va_common["a_p_bb_vertex"] = bb_vertices;
 
     return submesh;
-}
-
-/**
- * Recalculate particles position/normals according to emitters world location.
- * dest positions/normals may be the same
- */
-function pose_emitter_local(positions, normals, tsr, positions_new,
-        normals_new) {
-
-    m_tsr.transform_vectors(positions, tsr, positions_new, 0);
-    m_tsr.transform_dir_vectors(normals, tsr, normals_new, 0);
 }
 
 /**
@@ -196,7 +186,11 @@ function pose_emitter_world(psys, is_billboard, positions, normals, tsr,
     for (var j = 0; j < delay_attrs.length; j+=step) {
         var delay = delay_attrs[j];
 
-        if (delay > prev_time && delay <= time)
+        // looped timing 
+        var need_emitter_pos = (time > prev_time && time >= delay && delay > prev_time)
+                || (time < prev_time && (delay > prev_time || time >= delay));
+
+        if (need_emitter_pos)
             for (var k = 0; k < 8; k++)
                 em_snapshots[8 * j + k]  = tsr[k];
 
@@ -254,19 +248,18 @@ exports.update_emitter_transform = function(obj) {
 
         var world_space = psys._internal.use_world_space;
 
+        if (!world_space)
+            return;
+
         var pcache = psys._internal.positions_cache;
         var ncache = psys._internal.normals_cache;
 
         var positions = psys._internal.positions;
         var normals = psys._internal.normals;
 
-        if (world_space) {
-            var is_billboard = !batch.halo_particles;
-            pose_emitter_world(psys, is_billboard, positions, normals, obj._render.tsr,
-                         pcache, ncache);
-        } else
-            pose_emitter_local(positions, normals, obj._render.tsr,
-                         pcache, ncache);
+        var is_billboard = !batch.halo_particles;
+        pose_emitter_world(psys, is_billboard, positions, normals, obj._render.tsr,
+                     pcache, ncache);
 
         m_geom.make_dynamic(pbuf);
         m_geom.update_bufs_data_array(pbuf, "a_position", 3, pcache);
@@ -543,8 +536,8 @@ function gen_normals(indices, encoords) {
 }
 
 
-function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard) {
-
+function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard,
+                         cyclic) {
     var darr = [];
 
     var delayint = (maxdelay - mindelay)/pcount;
@@ -556,7 +549,9 @@ function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard) {
             delay = delayint*i + DELAYRANDFACTOR * delayint * (0.5-_rand());
         } else
             delay = delayint*i;
-        delay += mindelay;
+
+        if (!cyclic)
+            delay += mindelay;
 
         darr.push(delay);
         if (is_billboard) {

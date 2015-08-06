@@ -41,14 +41,21 @@ uniform mat4 u_proj_matrix;
 uniform mat4 u_view_matrix;
 uniform vec3 u_camera_eye;
 uniform float u_p_size;
+#if !WORLD_SPACE
+uniform mat4 u_model_matrix;
+#endif
 
 varying float v_alpha;
 varying vec3 v_color;
 varying vec2 v_texcoord;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
-#if !DISABLE_FOG
+#if !DISABLE_FOG || SOFT_PARTICLES
 varying vec4 v_pos_view;
+#endif
+
+#if SOFT_PARTICLES
+varying vec3 v_tex_pos_clip;
 #endif
 
 #include <particles.glslv>
@@ -80,18 +87,29 @@ void main(void) {
         bb_matrix[3] = vec4(pp.position, 1.0);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_ZX) {
         // NOTE: scattering only in horizontal space 
-        rotation_angle = vec_vec_angle(vec2(0.0, -1.0), vec2(a_normal.x,
+        rotation_angle = vec_vec_angle(vec2(EPSILON, 1.0), vec2(a_normal.x,
                 a_normal.z)) + pp.angle;
         bb_matrix = rotation_x(radians(-90.0));
         bb_matrix[3] = vec4(pp.position, 1.0);
     }
-    
+
     vec4 pos_local = vec4(a_p_bb_vertex * 2.0 * pp.size * u_p_size, 0.0, 1.0);
     vec4 pos_world = bb_matrix * rotation_z(rotation_angle) * pos_local;
 
     vec4 pos_view = u_view_matrix * pos_world;
 
     vec4 pos_clip = u_proj_matrix * pos_view;
+
+#if SOFT_PARTICLES
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+
+    v_tex_pos_clip.x = (xc + wc) / 2.0;
+    v_tex_pos_clip.y = (yc + wc) / 2.0;
+    v_tex_pos_clip.z = wc;
+#endif
+
     gl_Position = pos_clip;
 
     v_alpha = pp.alpha;
@@ -99,7 +117,7 @@ void main(void) {
     v_texcoord = a_p_bb_vertex + 0.5;
     v_pos_world = pos_world.xyz;
     v_eye_dir = u_camera_eye - pos_world.xyz;
-#if !DISABLE_FOG
+#if !DISABLE_FOG || SOFT_PARTICLES
     v_pos_view = pos_view;
 #endif
 }

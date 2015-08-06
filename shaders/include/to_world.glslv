@@ -2,15 +2,14 @@
 #import vertex
 
 #export to_world
-#export billboard_matrix bend_jitter_matrix billboard_spherical
+#export billboard_matrix billboard_matrix_global bend_jitter_matrix billboard_spherical
 
-#define SKIN_SLERP 0
 #define M_PI 3.14159265359
 #define MAX_BILLBOARD_ANGLE (M_PI / 4.0)
 
 const vec3 UP = vec3(0.0, 1.0, 0.0);
 
-#if HAIR_BILLBOARD_SPHERICAL || !HAIR_BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
+#if BILLBOARD_SPHERICAL || !BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
 mat4 billboard_spherical(vec3 center_pos, mat4 view_matrix) {
 
     vec3 x = vec3(view_matrix[0][0],view_matrix[1][0],view_matrix[2][0]);
@@ -19,7 +18,13 @@ mat4 billboard_spherical(vec3 center_pos, mat4 view_matrix) {
 
     y = cross(z, x);
 
-    return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(z, 0.0), 
+    // NOTE: we use only rotation component in billboarding, so the 
+    // normalization doesn't break anything; also, fix iPad depth jittering bug
+    x = normalize(x);
+    y = normalize(y);
+    z = normalize(z);
+
+    return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(z, 0.0),
             vec4(center_pos, 1.0));
 }
 #else
@@ -27,19 +32,24 @@ mat4 billboard_cylindrical(vec3 camera_eye, vec3 center_pos) {
 
     vec3 center_to_cam = camera_eye - center_pos;
     center_to_cam.y = 0.0;
+
+    vec3 x = cross(UP, center_to_cam);
+    vec3 y = cross(center_to_cam, x);
+
+    // NOTE: we use only rotation component in billboarding, so the 
+    // normalization doesn't break anything; also, fix iPad depth jittering bug
+    x = normalize(x);
+    y = normalize(y);
     center_to_cam = normalize(center_to_cam);
 
-    vec3 x = normalize(cross(UP, center_to_cam));
-    vec3 y = normalize(cross(center_to_cam, x));
-
-    return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(center_to_cam, 0.0), 
+    return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(center_to_cam, 0.0),
             vec4(center_pos, 1.0));
 }
-#endif // HAIR_BILLBOARD_SPHERICAL
+#endif // BILLBOARD_SPHERICAL
 
 
-#if HAIR_BILLBOARD_JITTERED
-mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp, 
+#if BILLBOARD_JITTERED
+mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
         float jitter_freq, vec3 vec_seed) {
 
     float seed = fract(length(vec_seed) / 0.17); // [0, 1]
@@ -50,7 +60,7 @@ mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
 
     wind_world *= 1.0 + 0.5 * sin(wind_param); // make wind gusty
 
-    float angle = length(wind_world) * jitter_amp * sin(2.0*3.14 * wind_param 
+    float angle = length(wind_world) * jitter_amp * sin(2.0*3.14 * wind_param
             * rand_freq + rand_phase);
 
     return rotation_z(angle);
@@ -58,9 +68,9 @@ mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
 #endif
 
 mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
-#if HAIR_BILLBOARD_SPHERICAL || !HAIR_BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
+#if BILLBOARD_SPHERICAL || !BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
     mat4 bill_matrix = billboard_spherical(wcen, view_matrix);
-#elif HAIR_BILLBOARD_RANDOM
+#elif BILLBOARD_RANDOM
     // get initial random rotation angle
     float seed = fract((wcen.x * 1.43 + wcen.y * 0.123 + wcen.z * 6.1));
     float alpha_rand = 2.0 * M_PI * seed;
@@ -79,12 +89,12 @@ mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
     if (alpha_diff <= MAX_BILLBOARD_ANGLE)
         res_angle += alpha_diff;
     else if (alpha_diff <= M_PI - MAX_BILLBOARD_ANGLE)
-        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) 
                 / (2.0 * MAX_BILLBOARD_ANGLE - M_PI);
     else if (alpha_diff <= M_PI + MAX_BILLBOARD_ANGLE)
         res_angle += alpha_diff - M_PI;
     else if (alpha_diff <= 2.0 * M_PI - MAX_BILLBOARD_ANGLE)
-        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) 
                 / (2.0 * MAX_BILLBOARD_ANGLE - M_PI) + M_PI;
     else
         res_angle += alpha_diff - 2.0 * M_PI;
@@ -97,6 +107,19 @@ mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
 
     return bill_matrix;
 }
+
+#if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+mat4 billboard_matrix_global(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix, 
+        mat4 model_matrix) {
+
+    mat4 bill_matrix = billboard_matrix(camera_eye, wcen, view_matrix);
+    // NOTE: translation is already in bill_matrix
+    model_matrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
+    bill_matrix = bill_matrix * model_matrix;
+
+    return bill_matrix;
+}
+#endif
 
 vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 bnr, in vec3 nrm,
         in mat4 model_matrix) {

@@ -12,12 +12,17 @@ var m_batch      = require("__batch");
 var m_bounds     = require("__boundings");
 var m_cam        = require("__camera");
 var m_cfg        = require("__config");
+var m_cont       = require("__container");
+var m_cstr       = require("__constraints");
+var m_data       = require("__data");
 var m_debug      = require("__debug");
 var m_geom       = require("__geometry");
 var m_graph      = require("__graph");
 var m_hud        = require("__hud");
+var m_nodemat    = require("__nodemat");
 var m_obj        = require("__objects");
 var m_particles  = require("__particles");
+var m_phy        = require("__physics");
 var m_prerender  = require("__prerender");
 var m_primitives = require("__primitives");
 var m_print      = require("__print");
@@ -32,7 +37,12 @@ var m_vec3 = require("vec3");
 var m_mat4 = require("mat4");
 
 var cfg_def = m_cfg.defaults;
+var cfg_out = m_cfg.outlining;
 var cfg_scs = m_cfg.scenes;
+var cfg_ani = m_cfg.animation;
+
+var FRAME_EPS = 5;
+var COLOR_ID_THRESHOLD = 3.0;
 
 /* subscene types for different aspects of processing */
 
@@ -41,38 +51,52 @@ var VALID_OBJ_TYPES_SECONDARY = ["ARMATURE", "EMPTY", "MESH", "SPEAKER"];
 
 // add objects
 var OBJECT_SUBSCENE_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_OPAQUE",
-    "MAIN_BLEND", "MAIN_XRAY", "MAIN_REFLECT", "COLOR_PICKING",
-    "COLOR_PICKING_XRAY", "DEPTH", "GLOW_MASK", "WIREFRAME"];
-
+    "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+    "COLOR_PICKING", "COLOR_PICKING_XRAY", "DEPTH", "OUTLINE_MASK", "WIREFRAME"];
+exports.OBJECT_SUBSCENE_TYPES = OBJECT_SUBSCENE_TYPES;
 // need light update
-var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY",
-    "MAIN_REFLECT", "GOD_RAYS", "GOD_RAYS_COMBINE", "SKY", "LUMINANCE_TRUNCED"];
+var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW",
+    "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "GOD_RAYS", "GOD_RAYS_COMBINE", "SKY",
+    "LUMINANCE_TRUNCED"];
 
 var FOG_SUBSCENE_TYPES = ["MAIN_OPAQUE", "SSAO", "MAIN_BLEND", "MAIN_XRAY",
-    "MAIN_REFLECT"];
+    "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT"];
 
 // need time update
 var TIME_SUBSCENE_TYPES = ["SHADOW_CAST", "MAIN_OPAQUE", "MAIN_BLEND",
-    "MAIN_XRAY", "MAIN_REFLECT", "COLOR_PICKING", "COLOR_PICKING_XRAY",
-    "DEPTH", "GOD_RAYS", "GLOW_MASK", "WIREFRAME"];
+    "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+    "COLOR_PICKING", "COLOR_PICKING_XRAY", "DEPTH", "GOD_RAYS", "OUTLINE_MASK",
+    "WIREFRAME"];
 
 // need camera water distance update
-var MAIN_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_REFLECT"];
+var MAIN_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY",
+                           "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT"];
 
 var SHORE_DIST_COMPAT = 100;
 
 var MAX_BATCH_TEXTURES = 8;
 
+var _seq_video_time = 0;
+
+var _main_scene = null;
 var _active_scene = null;
 var _scenes = [];
-var _glow_anim_objs = [];
-
-var _canvas_width;
-var _canvas_height;
+// not to be confused with scenegraph
+var _scenes_graph = null;
+var _outline_anim_objs = [];
 
 var MAX_SHADER_VARYING_COUNT = 10;
 
 var GRASS_MAP_MARGIN = 1E-4;
+
+var MAX_SHADOW_CAST_BB_PROPORTION = 2;
+var MAX_OPTIMAL_BB_ANGLE = Math.PI / 2;
+var OPTIMAL_BB_COUNT = 10;
+
+// prevent shadows stretching near edges
+var SHADOW_MAP_EPSILON_XY = 0.005;
+// fix depth rendering near clipping planes
+var SHADOW_MAP_EPSILON_Z = 0.005;
 
 exports.GET_OBJECT_BY_NAME = 0;
 exports.GET_OBJECT_BY_DUPLI_NAME = 1;
@@ -87,12 +111,15 @@ var _vec4_tmp2 = new Float32Array(4);
 var _quat4_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 var _corners_cache = new Float32Array(24);
+var _corners_cache2 = new Float32Array(24);
 
 var _bb_tmp = m_bounds.zero_bounding_box();
+var _bb_tmp2 = m_bounds.zero_bounding_box();
 
 var _wind = new Float32Array(3);
 
-var _shadow_cast_min_z = null;
+var _shadow_cast_min_z = 0;
+var _shadow_cast_max_z = -Infinity;
 
 /**
  * Set given scene as active
@@ -106,23 +133,63 @@ exports.set_active = function(scene) {
  * Prepare given scene for rendering.
  * Executed after all objects added to scene.
  */
-exports.prepare_rendering = function(scene) {
+exports.prepare_rendering = function(scene, scene_main) {
 
-    if (!scene._render_to_texture) {
-        var render = scene._render;
+    var render = scene._render;
+    var queue = m_scgraph.create_rendering_queue(render.graph);
 
-        var queue = m_scgraph.create_rendering_queue(render.graph);
+    if (scene == scene_main) {
+        setup_scene_dim(scene, m_cont.get_viewport_width(), m_cont.get_viewport_height());
+
         // attach to existing (may already containt RTT queue)
         for (var i = 0; i < queue.length; i++)
-            render.queue.push(queue[i]);
+            scene._render.queue.push(queue[i]);
 
-        setup_scene_dim(scene, _canvas_width,
-                               _canvas_height, false);
+    } else {
+        var tex0 = scene._render_to_textures[0];
+
+        var width = tex0._render.source_size;
+        var height = tex0._render.source_size;
+
+        setup_scene_dim(scene, width, height);
+
+        for (var i = 0; i < queue.length; i++)
+            scene_main._render.queue.push(queue[i]);
     }
 
     var subs_arr = subs_array(scene, TIME_SUBSCENE_TYPES);
     for (var j = 0; j < subs_arr.length; j++)
         subs_arr[j].wind.set(_wind);
+
+    // NOTE: draw all SHADOW_CAST subscenes to fill them with correct DEPTH data
+    // before rendering
+    for (var i = 0; i < render.queue.length; i++)
+        if (render.queue[i].type == "SHADOW_CAST")
+            m_render.draw(render.queue[i]);
+}
+
+exports.get_main = get_main;
+function get_main() {
+    if (!_main_scene)
+        _main_scene = find_main_scene(_scenes);
+
+    return _main_scene;
+}
+
+/**
+ * Main scene - first non-RTT scene
+ * should be executed after RTT assignment in create_texture_bpy()
+ */
+exports.find_main_scene = find_main_scene;
+function find_main_scene(scenes) {
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+
+        if (!scene._render_to_textures || !scene._render_to_textures.length)
+            return scene;
+    }
+
+    return null;
 }
 
 exports.get_active = get_active;
@@ -131,9 +198,11 @@ exports.get_active = get_active;
  */
 function get_active() {
     if (!_active_scene)
-        throw("no active scene");
+        throw "No active scene available";
     return _active_scene;
 }
+
+
 
 exports.check_active = check_active;
 function check_active() {
@@ -143,9 +212,70 @@ function check_active() {
         return false;
 }
 
+exports.get_camera = function(scene) {
+    return scene["camera"];
+}
+
 exports.get_all_scenes = get_all_scenes;
 function get_all_scenes() {
     return _scenes;
+}
+
+exports.get_rendered_scenes = function() {
+    if (_scenes.length == 1)
+        return _scenes;
+
+    for (var i = 0; i < _scenes.length; i++) {
+        var graph = _scenes[i]._render.graph;
+        m_graph.traverse(graph, function(node, attr) {
+            var subs = attr;
+            for (var j = 0; j < subs.bundles.length; j++) {
+                var textures = subs.bundles[j].batch.textures;
+                var batch = null;
+                for (var k = 0; k < textures.length; k++)
+                    if (textures[k].source == "SCENE" && textures[k].source_id == _scenes[i]["name"]
+                            && subs.type != "COPY") {
+                        m_print.error("Texture-scene loop detected. A scene is " +
+                            "rendered to texture \"" + textures[k].name +
+                            "\" yet this texture belongs " +
+                            "to the same scene.");
+                        var scene_node = m_graph.node_by_attr(_scenes_graph, _scenes[i]);
+                        batch = subs.bundles[j].batch;
+                        break;
+                    }
+
+                if (batch) {
+                    batch.textures = [];
+                    batch.texture_names = [];
+                    m_batch.update_batch_material_debug(batch, null);
+                    m_batch.update_shader(batch);
+                }
+            }
+        });
+    }
+
+    var scenes = [];
+
+    for (var i = 0; i < _scenes.length; i++) {
+        var scene = _scenes[i];
+
+        // begin from the first non-RTT scene
+        if (scene._render_to_textures.length)
+            continue;
+
+        var node = m_graph.node_by_attr(_scenes_graph, scene);
+        m_graph.enforce_acyclic(_scenes_graph, node);
+        var graph = m_graph.subgraph_node_conn(_scenes_graph, node, m_graph.BACKWARD_DIR);
+        graph = m_graph.topsort(graph);
+
+        m_graph.traverse(graph, function(node, attr) {
+            scenes.push(attr);
+        });
+
+        break;
+    }
+
+    return scenes;
 }
 
 exports.get_object = function() {
@@ -180,14 +310,10 @@ exports.get_object = function() {
             break;
     }
 
-    if (!obj_found)
-        m_print.warn("get object " + obj_name + ": not found");
-
     return obj_found;
 }
 
 function get_object_by_name(name, objects, origin_name, data_id) {
-    data_id = data_id | 0;
     var obj_found = null;
 
     for (var i = 0; i < objects.length; i++) {
@@ -233,10 +359,22 @@ function get_object_by_dupli_name_list(name_list, objects, data_id) {
  * Append objects from dinamically loaded scene to existed scene
  * @methodOf scenes
  */
-exports.append_to_existed_scene = function(bpy_scene, bpy_scene_existed) {
+exports.append_to_existed_scene = function(bpy_scene, bpy_scene_existed, textures) {
     for (var i in VALID_OBJ_TYPES_SECONDARY) {
         var type = VALID_OBJ_TYPES_SECONDARY[i];
         var objs = combine_scene_objects(bpy_scene, type);
+        var video_texs = bpy_scene_existed._render.video_textures;
+        var tex_not_exist = false;
+        for(var i = 0; i < textures.length; i++) {
+            tex_not_exist = true;
+            if (textures[i]._render && textures[i]._render.is_movie) {
+                for (var j = 0; j < video_texs.length; j++)
+                    if (video_texs[j] == textures[i])
+                        tex_not_exist = false;
+                if (tex_not_exist)
+                    video_texs.push(textures[i]);
+            }
+        }
 
         if (!(type in bpy_scene_existed._objects))
             bpy_scene_existed._objects[type] = [];
@@ -255,7 +393,7 @@ exports.append_scene = append_scene;
  * prepare camera before execution
  * @methodOf scenes
  */
-function append_scene(bpy_scene) {
+function append_scene(bpy_scene, textures) {
 
     bpy_scene._objects = {"ALL" : []};
 
@@ -270,78 +408,151 @@ function append_scene(bpy_scene) {
                 bpy_scene._objects[type].push(objs[j]);
             }
     }
-
+    bpy_scene._render_to_textures = bpy_scene._render_to_textures || [];
     bpy_scene._render = bpy_scene._render || {};
+    bpy_scene._nla = null;
+
     var render = bpy_scene._render;
     var cam_render = bpy_scene["camera"]._render;
 
-    var shs  = bpy_scene["world"]["b4w_shadow_settings"];
+    var shs  = bpy_scene["b4w_shadow_settings"];
     var rshs = render.shadow_params = {};
 
-    rshs.csm_num                    = shs["csm_num"];
-    rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
-    rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
-    rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
-    rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
-    rshs.csm_resolution             = shs["csm_resolution"];
+    if (shs["csm_resolution"] > cfg_def.max_texture_size) {
+        rshs.csm_resolution = cfg_def.max_texture_size;
+        m_print.error("Shadow map texture has unsupported size. Changed to "
+                + cfg_def.max_texture_size + ".");
+    } else
+        rshs.csm_resolution         = shs["csm_resolution"];
+
     rshs.self_shadow_polygon_offset = shs["self_shadow_polygon_offset"];
     rshs.self_shadow_normal_offset  = shs["self_shadow_normal_offset"];
-    rshs.fade_last_cascade          = shs["fade_last_cascade"];
-    rshs.blend_between_cascades     = shs["blend_between_cascades"];
+    rshs.enable_csm                 = shs["b4w_enable_csm"];
+
+    var lamps = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL);
+    var shadow_lamp = find_first_lamp_with_shadows(lamps) || lamps[0];
+    if (shadow_lamp) {
+        rshs.lamp_type = shadow_lamp._light.type;
+        rshs.spot_size = shadow_lamp._light.spot_size;
+        rshs.distance  = shadow_lamp._light.distance;
+        if ((rshs.lamp_type == "SPOT" || rshs.lamp_type == "POINT") &&
+                rshs.enable_csm) {
+            m_print.warn("Generating shadows for SPOT " +
+                        "or POINT light. Disabling Cascaded Shadow Maps");
+            rshs.enable_csm = false;
+        }
+    }
+
+    if (rshs.enable_csm) {
+        rshs.csm_num                    = shs["csm_num"];
+        rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
+        rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
+        rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
+        rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
+
+        rshs.fade_last_cascade          = shs["fade_last_cascade"];
+        rshs.blend_between_cascades     = shs["blend_between_cascades"];
+    } else {
+        rshs.csm_num                    = 1;
+        rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
+        rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
+        rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
+        rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
+
+        rshs.fade_last_cascade          = false;
+        rshs.blend_between_cascades     = false;
+    }
+
+    render.video_textures  =   [];
+
+    for (var i = 0; i < textures.length; i++)
+        if (textures[i]._render && textures[i]._render.is_movie)
+            render.video_textures.push(textures[i]);
 
     var fog_color = bpy_scene["world"]["b4w_fog_color"];
     var fog_dens  = bpy_scene["world"]["b4w_fog_density"];
+    var materials_params = get_material_params(bpy_scene)
 
     render.fog_color_density = new Float32Array([fog_color[0],
                                                  fog_color[1],
                                                  fog_color[2],
                                                  fog_dens]);
 
-    render.sky_params        = extract_sky_params(bpy_scene);
-    render.world_light_set   = get_world_light_set(bpy_scene);
+    render.sun_exist         = check_scenes_sun(bpy_scene);
+    render.sky_params        = extract_sky_params(bpy_scene, render.sun_exist);
+    render.world_light_set   = get_world_light_set(bpy_scene, render.sky_params);
     render.lamps_number      = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL).length;
-    render.procedural_sky    = check_procedural_sky(bpy_scene);
     render.water_params      = get_water_params(bpy_scene);
-    render.color_picking     = check_selectable_objects(bpy_scene) || cfg_def.force_selectable;
+    render.materials_params  = materials_params;
     render.xray              = check_xray_materials(bpy_scene);
+    render.anchor_visibility = check_anchor_visibility_objects(bpy_scene);
     render.num_lamps_added   = 0;
+    render.anaglyph_use      = check_anaglyph_use(cam_render);
+    render.render_shadows    = (cfg_def.depth_tex_available && check_render_shadows(bpy_scene));
+    render.fog_color         = bpy_scene["world"]["b4w_fog_color"];
+    render.shore_smoothing   = check_shore_smoothing(bpy_scene);
+    render.soft_particles    = check_soft_particles(bpy_scene);
+    render.reflection_params = extract_reflections_params(bpy_scene);
+    render.bloom_params      = extract_bloom_params(bpy_scene);
+    render.mb_params         = extract_mb_params(bpy_scene);
+    render.cc_params         = extract_cc_params(bpy_scene);
+    render.god_rays_params   = extract_god_rays_params(bpy_scene);
+    render.outline_params    = extract_outline_params(bpy_scene);
+    render.glow_params       = extract_glow_params(bpy_scene);
+    render.dof               = cfg_def.dof && (cam_render.dof_distance > 0
+                                        || cam_render.dof_object);
+    render.dynamic_grass     = check_dynamic_grass(bpy_scene);
+    render.motion_blur       = (cfg_def.motion_blur && bpy_scene["b4w_enable_motion_blur"]);
+    render.compositing       = (cfg_def.compositing && bpy_scene["b4w_enable_color_correction"]);
+    render.antialiasing      = (cfg_def.antialiasing && bpy_scene["b4w_enable_antialiasing"]);
+    render.bloom             = (cfg_def.bloom && bpy_scene["b4w_enable_bloom"] && render.sun_exist);
+    render.ssao              = (cfg_def.ssao && bpy_scene["b4w_enable_ssao"]);
+    render.ssao_params       = extract_ssao_params(bpy_scene);
+    render.god_rays          = (cfg_def.god_rays && bpy_scene["b4w_enable_god_rays"] && render.sun_exist);
+    render.refractions       = check_refraction(bpy_scene, materials_params);
+    render.depth_tex         = cfg_def.depth_tex_available;
+    render.color_picking     = check_selectable_objects(bpy_scene);
+    render.outline           = check_outlining_objects(bpy_scene);
+    render.glow_materials    = check_glow_materials(bpy_scene);
+    render.glow_over_blend   = bpy_scene["world"]["b4w_render_glow_over_blend"];
 
-    if (!cfg_def.deferred_rendering) {
-        render.graph = m_scgraph.create_rendering_graph_compat(cam_render, render);
-    } else {
-        var rtt = bpy_scene._render_to_texture;
-
-        render.render_shadows  = check_render_shadows(bpy_scene);
-        render.fog_color       = bpy_scene["world"]["b4w_fog_color"];
-        render.shore_smoothing = check_shore_smoothing(bpy_scene);
-        render.refl_planes     = check_render_reflections(bpy_scene);
-        render.bloom_params    = extract_bloom_params(bpy_scene);
-        render.mb_params       = extract_mb_params(bpy_scene);
-        render.cc_params       = extract_cc_params(bpy_scene);
-        render.god_rays_params = extract_god_rays_params(bpy_scene);
-        render.glow_params     = extract_glow_params(bpy_scene);
-        render.dof             = cfg_def.dof && (cam_render.dof_distance > 0
-                                              || cam_render.dof_object);
-        render.dynamic_grass   = check_dynamic_grass(bpy_scene);
-        render.motion_blur     = (cfg_def.motion_blur && bpy_scene["b4w_enable_motion_blur"]);
-        render.compositing     = (cfg_def.compositing && bpy_scene["b4w_enable_color_correction"]);
-        render.antialiasing    = (cfg_def.antialiasing && bpy_scene["b4w_enable_antialiasing"]);
-        render.bloom           = (cfg_def.bloom && bpy_scene["b4w_enable_bloom"]);
-        render.ssao            = (cfg_def.ssao && bpy_scene["b4w_enable_ssao"]);
-        render.ssao_params     = extract_ssao_params(bpy_scene);
-        render.god_rays        = (cfg_def.god_rays && bpy_scene["b4w_enable_god_rays"]);
-        render.refractions     = check_refraction(bpy_scene);
-        // based on object selectability
-        render.glow            = cfg_def.glow ? render.color_picking : false;
-
-        render.graph = m_scgraph.create_rendering_graph(rtt, render, cam_render);
+    switch (bpy_scene["b4w_reflection_quality"]) {
+    case "LOW":
+        render.cubemap_refl_size = cfg_scs.cube_reflect_low;
+        render.plane_refl_size = cfg_scs.plane_reflect_low;
+        break;
+    case "MEDIUM":
+        render.cubemap_refl_size = cfg_scs.cube_reflect_medium;
+        render.plane_refl_size = cfg_scs.plane_reflect_medium;
+        break;
+    case "HIGH":
+        render.cubemap_refl_size = cfg_scs.cube_reflect_high;
+        render.plane_refl_size = cfg_scs.plane_reflect_high;
+        break;
+    default:
+        render.cubemap_refl_size = cfg_scs.cube_reflect_low;
+        render.plane_refl_size = cfg_scs.plane_reflect_low;
+        break;
     }
+
+    var rtt_sort_fun = function(bpy_tex1, bpy_tex2) {
+        return bpy_tex2._render.source_size - bpy_tex1._render.source_size;
+    }
+
+    var rtt_sorted = bpy_scene._render_to_textures.sort(rtt_sort_fun);
+    render.graph = m_scgraph.create_rendering_graph(render, cam_render, rtt_sorted);
+
     render.queue = [];
 
     render.need_shadow_update = false;
     render.need_grass_map_update = false;
 
     _scenes.push(bpy_scene);
+
+    if (!_scenes_graph)
+        _scenes_graph = m_graph.create();
+
+    m_graph.append_node_attr(_scenes_graph, bpy_scene);
 }
 
 exports.combine_scene_objects = combine_scene_objects;
@@ -374,11 +585,24 @@ function combine_scene_objects_iter(objects, type, dest) {
 }
 
 function check_render_shadows(bpy_scene) {
-    if (cfg_def.shadows == "NONE" || !bpy_scene["b4w_render_shadows"])
-        return false;
+
+    if (cfg_def.shadows) {
+        switch (bpy_scene["b4w_render_shadows"]) {
+        case "OFF":
+            return false;
+        case "ON":
+            return true;
+        case "AUTO":
+        }
+    } else
+        return false
 
     var has_casters = false;
     var has_receivers = false;
+    var lamp_objects = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL);
+    var use_ssao = cfg_def.ssao && bpy_scene["b4w_enable_ssao"];
+    if (lamp_objects.length == 0 && !use_ssao)
+        return false;
 
     var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
     for (var i = 0; i < objects.length; i++) {
@@ -390,14 +614,22 @@ function check_render_shadows(bpy_scene) {
         if (obj["b4w_shadow_receive"])
             has_receivers = true;
 
-        if (has_casters && has_receivers)
+        if ((use_ssao || has_casters) && has_receivers)
             return true;
     }
-
     // no casters, no receivers
     return false;
 }
 
+function check_scenes_sun(bpy_scene) {
+    if (!bpy_scene._objects)
+        return false;
+    var lamps = bpy_scene._objects["LAMP"];
+    for (var i = 0; i < lamps.length; i++)
+        if (lamps[i]._light.type == "SUN")
+            return true;
+    return false;
+}
 /**
  * Check if shore smoothing required for given scene.
  * Shore smoothing required if we have shore smoothing flag
@@ -420,6 +652,21 @@ function check_shore_smoothing(bpy_scene) {
     return false;
 }
 
+function check_soft_particles(bpy_scene) {
+    var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        var psystems = obj["particle_systems"];
+        for (var j = 0; j < psystems.length; j++) {
+            var pset = psystems[j]["settings"];
+            if (pset["b4w_enable_soft_particles"] &&
+                    pset["b4w_particles_softness"] > 0.0)
+                return true;
+        }
+    }
+
+    return false;
+}
 /**
  * Check water parameters on a given scene
  */
@@ -445,19 +692,6 @@ function get_water_params(bpy_scene) {
                     if (mesh_mat == mat)
                         wp.water_level = obj["location"][1];
                 }
-            }
-
-            if (!cfg_def.deferred_rendering) {
-                // set "heavy" params to 0 for compatibility mode
-                wp.waves_height        = 0.0;
-                wp.waves_length        = 0.0;
-                wp.caustic_scale       = null;
-                wp.caustic_brightness  = null;
-                wp.caustic_speed       = null;
-                wp.fog_color_density   = null;
-                wp.dynamic             = false;
-                water_params.push(wp);
-                continue;
             }
 
             // fog stuff
@@ -486,9 +720,11 @@ function get_water_params(bpy_scene) {
                 wp.waves_length = 0.0;
             }
 
-            wp.caustic_scale       = null;
-            wp.caustic_brightness  = null;
-            wp.caustic_speed       = new Float32Array(2);
+            // caustics stuff
+            wp.caustics           = mat["b4w_water_enable_caust"];
+            wp.caustic_scale      = mat["b4w_water_caust_scale"];
+            wp.caustic_brightness = mat["b4w_water_caust_brightness"];
+            wp.caustic_speed      = new Float32Array([0.3, 0.7]);
 
             wp.shoremap_image  = null;
 
@@ -496,12 +732,6 @@ function get_water_params(bpy_scene) {
 
             for (var j = 0; j < texture_slots.length; j++) {
                 var texture = texture_slots[j]["texture"];
-                if (texture["type"] == "VORONOI") {
-                    // caustics stuff
-                    wp.caustic_scale      = texture["noise_scale"];
-                    wp.caustic_speed.set(texture["b4w_uv_velocity_trans"]);
-                    wp.caustic_brightness = texture["noise_intensity"];
-                }
                 if (texture["b4w_shore_dist_map"] === true) {
                     // shoremap
                     wp.shoremap_image    = texture["image"];
@@ -510,7 +740,6 @@ function get_water_params(bpy_scene) {
                     wp.max_shore_dist    = texture["b4w_max_shore_dist"];
                 }
             }
-
             water_params.push(wp);
         }
     }
@@ -528,70 +757,130 @@ function get_water_params(bpy_scene) {
         return null;
 }
 
-/**
- * Check if reflections are required for given scene.
- * Returns an array of reflection planes on a scene.
- */
-function check_render_reflections(bpy_scene) {
+function get_material_params(bpy_scene) {
 
-    if (!cfg_def.reflections || !bpy_scene["b4w_render_reflections"])
+    var materials_properties_existance = {
+        refractions: false
+    };
+
+    var materials = get_scene_materials(bpy_scene);
+
+    var get_nodes_properties = function(node_tree) {
+        if (!node_tree)
+            return;
+        var nodes = node_tree["nodes"];
+        for (var j = 0; j < nodes.length; j++) {
+            var node = nodes[j];
+
+            if (node["type"] == "GROUP" && node["node_group"])
+                get_nodes_properties(node["node_group"]["node_tree"]);
+
+            if (node["type"] == "GROUP" && node["node_tree_name"] == "B4W_REFRACTION")
+                materials_properties_existance.refractions = true;
+            // check other properties here
+
+        }
+    }
+
+    for (var i = 0; i < materials.length; i++) {
+        var material = materials[i];
+
+        if (material["b4w_refractive"])
+            materials_properties_existance.refractions = true;
+        // check other properties here
+
+        if (!material["node_tree"])
+            continue;
+
+        get_nodes_properties(material["node_tree"]);
+    }
+
+    return materials_properties_existance;
+}
+
+function check_anaglyph_use(cam_render) {
+    // NOTE: disable anaglyph stereo for the non-PERSP camera
+    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.anaglyph_use) {
+        m_print.warn("Anaglyph stereo is disabled for the non-perspective camera");
+        return false;
+    } else
+        return cfg_def.anaglyph_use;
+}
+
+/**
+ * Check if reflections are required for the given scene.
+ * Returns an array of reflection planes and cube reflectibe objs on the scene.
+ */
+function extract_reflections_params(bpy_scene) {
+
+    if (cfg_def.reflections) {
+        switch (bpy_scene["b4w_render_reflections"]) {
+        case "OFF":
+            return false;
+        case "ON":
+        }
+    } else
         return false;
 
-    var reflective_planes = [];
+    var refl_plane_objs = [];
+    var num_cube_refl = 0;
 
     var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
 
-        if (obj["b4w_reflective"]) {
-            var refl_plane_obj = get_reflection_plane(obj);
-            if (!refl_plane_obj)
-                continue;
+        if (obj._render.reflective) {
+            if (obj._render.reflection_type == "CUBE")
+                num_cube_refl++;
+            else {
+                var refl_plane_obj = obj._reflection_plane_obj;
+                obj._reflection_plane_obj = null;
 
-            // reflection plane is located after LODs constraints
-            var trans = refl_plane_obj["location"];
-            var quat  = refl_plane_obj._render.quat;
+                if (!refl_plane_obj)
+                    continue;
 
-            var refl_plane = new Float32Array(4);
-            m_util.trans_quat_to_plane(trans, quat, m_util.AXIS_Y, refl_plane);
+                // NOTE: some of reflection planes have been created in objects.update_object
+                if (bpy_scene._objects["EMPTY"].indexOf(refl_plane_obj) == -1) {
+                    bpy_scene._objects["ALL"].push(refl_plane_obj);
+                    bpy_scene._objects["EMPTY"].push(refl_plane_obj);
+                }
 
-            reflective_planes.push(refl_plane);
+                if (!refl_plane_obj._render)
+                    // reflection plane is not present on the scene
+                    m_obj.update_object(refl_plane_obj, false)
+
+                var refl_plane_id = null;
+                for (var j = 0; j < refl_plane_objs.length; j++) {
+                    var rp = refl_plane_objs[j];
+                    if (rp == refl_plane_obj) {
+                         refl_plane_id = j;
+                         break;
+                    }
+                }
+
+                // we need only unique reflection planes
+                if (refl_plane_id == null)
+                    refl_plane_objs.push(refl_plane_obj);
+            }
         }
     }
-    return reflective_planes;
-}
 
-function get_reflection_plane(bpy_obj) {
-    var constraints = bpy_obj["constraints"];
-
-    for (var i = 0; i < constraints.length; i++) {
-        var cons = constraints[i];
-        if (cons["type"] == "LOCKED_TRACK" && cons.name == "REFLECTION PLANE")
-                return cons["target"];
-    }
-
-    return null;
-}
-
-/**
- * Check if there is dynamic skydome on the scene
- */
-function check_procedural_sky(bpy_scene) {
-    var sky_settings = bpy_scene["world"]["b4w_sky_settings"];
-    if (sky_settings["procedural_skydome"])
-        return true;
-
-    return false;
+    return {refl_plane_objs: refl_plane_objs,
+            num_cube_refl:   num_cube_refl,
+            cube_refl_subs:  [],
+            plane_refl_subs: []
+           };
 }
 
 /**
  * Check dynamic sky parameters
  */
-function extract_sky_params(bpy_scene) {
+function extract_sky_params(bpy_scene, sun_exist) {
     var sky_params = {};
     var sky_settings = bpy_scene["world"]["b4w_sky_settings"];
 
-    sky_params.procedural_skydome          = sky_settings["procedural_skydome"];
+    sky_params.render_sky                  = sky_settings["render_sky"];
+    sky_params.procedural_skydome          = sky_settings["procedural_skydome"] && sun_exist;
     sky_params.use_as_environment_lighting = sky_settings["use_as_environment_lighting"];
     sky_params.sky_color                   = sky_settings["color"];
     sky_params.rayleigh_brightness         = sky_settings["rayleigh_brightness"];
@@ -603,21 +892,12 @@ function extract_sky_params(bpy_scene) {
     sky_params.rayleigh_collection_power   = sky_settings["rayleigh_collection_power"];
     sky_params.mie_collection_power        = sky_settings["mie_collection_power"];
     sky_params.mie_distribution            = sky_settings["mie_distribution"];
+    sky_params.reflexible                  = sky_settings["reflexible"];
+    sky_params.reflexible_only             = sky_settings["reflexible_only"];
 
-    if (sky_params.procedural_skydome) {
-        var lamps = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL);
-        var sun = null;
-        for (var i = 0; i < lamps.length; i++) {
-            var lamp = lamps[i];
-            if (lamp["data"]["type"] == "SUN") {
-                sun = lamp;
-                break;
-            }
-        }
-        if (!sun)
-            m_print.warn("B4W Warning: There is no sun on the scene. " +
+    if (!sun_exist && sky_settings["procedural_skydome"])
+        m_print.warn("There is no sun on the scene. " +
                           "Procedural sky won't be rendered");
-    }
 
     return sky_params;
 }
@@ -627,13 +907,12 @@ function extract_sky_params(bpy_scene) {
  */
 function extract_ssao_params(bpy_scene) {
     var ssao_params   = {};
-    var ssao_settings = bpy_scene["world"]["b4w_ssao_settings"];
+    var ssao_settings = bpy_scene["b4w_ssao_settings"];
 
     ssao_params.radius_increase         = ssao_settings["radius_increase"];
-    ssao_params.dithering_amount        = ssao_settings["dithering_amount"];
-    ssao_params.gauss_center            = ssao_settings["gauss_center"];
-    ssao_params.gauss_width_square      = ssao_settings["gauss_width"] * ssao_settings["gauss_width"];
-    ssao_params.gauss_width_left_square = ssao_settings["gauss_width_left"] * ssao_settings["gauss_width_left"];
+    ssao_params.hemisphere              = ssao_settings["hemisphere"];
+    ssao_params.blur_depth              = ssao_settings["blur_depth"];
+    ssao_params.blur_discard_value      = ssao_settings["blur_discard_value"];
     ssao_params.influence               = ssao_settings["influence"];
     ssao_params.dist_factor             = ssao_settings["dist_factor"];
     ssao_params.samples                 = ssao_settings["samples"];
@@ -647,7 +926,7 @@ function extract_ssao_params(bpy_scene) {
 function extract_bloom_params(bpy_scene) {
 
     var bloom_params   = {};
-    var bloom_settings = bpy_scene["world"]["b4w_bloom_settings"];
+    var bloom_settings = bpy_scene["b4w_bloom_settings"];
 
     bloom_params.blur     = bloom_settings["blur"];
     bloom_params.edge_lum = bloom_settings["edge_lum"];
@@ -662,7 +941,7 @@ function extract_bloom_params(bpy_scene) {
 function extract_mb_params(bpy_scene) {
 
     var mb_params   = {};
-    var mb_settings = bpy_scene["world"]["b4w_motion_blur_settings"];
+    var mb_settings = bpy_scene["b4w_motion_blur_settings"];
 
     mb_params.mb_decay_threshold = mb_settings["motion_blur_decay_threshold"];
     mb_params.mb_factor          = mb_settings["motion_blur_factor"];
@@ -676,7 +955,7 @@ function extract_mb_params(bpy_scene) {
 function extract_cc_params(bpy_scene) {
 
     var cc_params   = {};
-    var cc_settings = bpy_scene["world"]["b4w_color_correction_settings"];
+    var cc_settings = bpy_scene["b4w_color_correction_settings"];
 
     cc_params.brightness = cc_settings["brightness"];
     cc_params.contrast   = cc_settings["contrast"];
@@ -692,7 +971,7 @@ function extract_cc_params(bpy_scene) {
 function extract_god_rays_params(bpy_scene) {
 
     var god_rays_params   = {};
-    var god_rays_settings = bpy_scene["world"]["b4w_god_rays_settings"];
+    var god_rays_settings = bpy_scene["b4w_god_rays_settings"];
 
     god_rays_params.intensity      = god_rays_settings["intensity"];
     god_rays_params.max_ray_length = god_rays_settings["max_ray_length"];
@@ -702,54 +981,95 @@ function extract_god_rays_params(bpy_scene) {
 }
 
 /**
+ * Extract outline parameters
+ */
+function extract_outline_params(bpy_scene) {
+
+    var outline_params   = {};
+
+    outline_params.outline_color  = bpy_scene["b4w_outline_color"];
+    outline_params.outline_factor = bpy_scene["b4w_outline_factor"];
+
+    return outline_params;
+}
+
+/**
  * Extract glow parameters
  */
 function extract_glow_params(bpy_scene) {
 
     var glow_params   = {};
-    var glow_settings = bpy_scene["world"];
+    var glow_settings = bpy_scene["b4w_glow_settings"];
 
-    glow_params.glow_color  = glow_settings["b4w_glow_color"];
-    glow_params.glow_factor = glow_settings["b4w_glow_factor"];
+    glow_params.small_glow_mask_coeff = glow_settings["small_glow_mask_coeff"];
+    glow_params.large_glow_mask_coeff = glow_settings["large_glow_mask_coeff"];
+    glow_params.small_glow_mask_width = glow_settings["small_glow_mask_width"];
+    glow_params.large_glow_mask_width = glow_settings["large_glow_mask_width"];
 
     return glow_params;
 }
+
 /**
  * Get world lights setting
  */
-function get_world_light_set(bpy_scene) {
+function get_world_light_set(bpy_scene, sky_params) {
 
     // get some world settings
     var world = bpy_scene["world"];
-    // default black values
-    var hor = [0,0,0];
-    var zen = [0,0,0];
 
     var wls = world["light_settings"];
-    var texture_slots = world["texture_slots"];
-
-    if (wls["use_environment_light"]) {
-
-        if (wls["environment_color"] == "SKY_COLOR" ||
-            wls["environment_color"] == "SKY_TEXTURE") {
-            // make copy of bpy arrays to prevent their overriding by scale
-            hor = world["horizon_color"].slice(0);
-            zen = world["zenith_color"].slice(0);
-        } else if (wls["environment_color"] == "PLAIN") {
-            // white
-            hor = [1, 1, 1];
-            zen = [1, 1, 1];
-        } else
-            throw "Unsupported world environment color" +
-                    wls["environment_color"];
-    }
 
     var wls_params = {};
+    wls_params.environment_energy       = wls["environment_energy"];
+    wls_params.use_environment_light    = wls["use_environment_light"];
+    wls_params.environment_color        = wls["environment_color"];
+    wls_params.horizon_color            = world["horizon_color"].slice(0);
+    wls_params.zenith_color             = world["zenith_color"].slice(0);
+    wls_params.use_sky_paper            = world["use_sky_paper"];
+    wls_params.use_sky_blend            = world["use_sky_blend"];
+    wls_params.use_sky_real             = world["use_sky_real"];
+    wls_params.sky_texture_slot         = null;
+    wls_params.sky_texture_param        = null;
+    wls_params.environment_texture_slot = null;
 
-    wls_params.environment_energy = wls["environment_energy"];
-    wls_params.horizon_color      = hor;
-    wls_params.zenith_color       = zen;
-    wls_params.sky_texture_slots  = texture_slots;
+    if (wls_params.use_environment_light && wls_params.environment_color == "SKY_TEXTURE" &&
+        !(sky_params.procedural_skydome && sky_params.use_as_environment_lighting)) {
+        var tex_slot = null;
+        for (var i = 0; i < world["texture_slots"].length; i++)
+            if (world["texture_slots"][i]["texture"]["b4w_use_as_environment_lighting"]) {
+                tex_slot = world["texture_slots"][i];
+                break;
+            }
+        if (!tex_slot) {
+            m_print.warn("environment lighting is set to 'Sky Texture'" +
+                    ", but there is no world texture with 'Sky Texture Usage' property set to 'ENVIRONMENT_LIGHTING'");
+            wls_params.use_environment_light = false;
+        } else
+            wls_params.environment_texture_slot = tex_slot;
+    }
+
+    for (var i = 0; i < world["texture_slots"].length; i++)
+        if (world["texture_slots"][i]["texture"]["b4w_use_as_skydome"]) {
+            var sts = world["texture_slots"][i]
+            wls_params.sky_texture_slot = sts;
+            wls_params.sky_texture_param = {
+                blend_factor: sts["blend_factor"],
+                horizon_factor: sts["horizon_factor"],
+                zenith_up_factor: sts["zenith_up_factor"],
+                zenith_down_factor: sts["zenith_down_factor"],
+                color: sts["color"],
+                default_value: sts["default_value"],
+                invert: sts["invert"],
+                use_rgb_to_intensity: sts["use_rgb_to_intensity"],
+                blend_type: sts["blend_type"],
+                // stencil: sts["stencil"],
+                use_map_blend: sts["use_map_blend"],
+                use_map_horizon: sts["use_map_horizon"],
+                use_map_zenith_up: sts["use_map_zenith_up"],
+                use_map_zenith_down: sts["use_map_zenith_down"],
+            }
+            break;
+        }
 
     return wls_params;
 }
@@ -792,17 +1112,88 @@ function check_dynamic_grass(bpy_scene) {
 }
 
 function check_selectable_objects(bpy_scene) {
-    var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        if (obj._render.selectable)
+    if (cfg_out.outlining_overview_mode)
+        return true;
+
+    if (cfg_def.enable_selectable) {
+        switch (bpy_scene["b4w_enable_object_selection"]) {
+        case "OFF":
+            return false;
+        case "ON":
             return true;
-    }
-    return false;
+        case "AUTO":
+            var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
+            for (var i = 0; i < objects.length; i++) {
+                var obj = objects[i];
+                if (obj._render.selectable)
+                    return true;
+            }
+            return false;
+        }
+    } else
+        return false;
 }
 
-function check_refraction(bpy_scene) {
-    return cfg_def.refractions && bpy_scene["b4w_render_refractions"];
+function check_outlining_objects(bpy_scene) {
+    if (cfg_out.outlining_overview_mode)
+        return true;
+
+    if (cfg_def.enable_outlining)
+        switch (bpy_scene["b4w_enable_outlining"]) {
+        case "OFF":
+            return false;
+        case "ON":
+            return true;
+        case "AUTO":
+            var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
+            for (var i = 0; i < objects.length; i++) {
+                var obj = objects[i];
+                if (obj._render.outlining)
+                    return true;
+            }
+            return false;
+        }
+    else
+        return false;
+}
+
+function check_glow_materials(bpy_scene) {
+    if (cfg_def.glow_materials) {
+        switch (bpy_scene["b4w_enable_glow_materials"]) {
+        case "OFF":
+            return false;
+        case "ON":
+            return true;
+        case "AUTO":
+            var objects = get_scene_objs(bpy_scene, "MESH", exports.DATA_ID_ALL);
+            for (var i = 0; i < objects.length; i++) {
+                var obj = objects[i];
+                var mesh = obj["data"];
+                var materials = mesh["materials"];
+
+                for (var j = 0; j < materials.length; j++) {
+                    if (m_nodemat.check_material_glow_output(materials[j]))
+                        return true;
+                }
+            }
+            return false;
+        }
+    } else
+        return false;
+}
+
+function check_refraction(bpy_scene, mat_params) {
+    if (cfg_def.refractions) {
+        switch (bpy_scene["b4w_render_refractions"]) {
+        case "OFF":
+            return false;
+        case "ON":
+            return true;
+        case "AUTO":
+            return mat_params.refractions
+        }
+    } else
+        return false;
 }
 
 function check_xray_materials(bpy_scene) {
@@ -820,6 +1211,28 @@ function check_xray_materials(bpy_scene) {
                 return true;
         }
     }
+    return false;
+}
+
+function check_anchor_visibility_objects(bpy_scene) {
+
+    switch (bpy_scene["b4w_enable_anchors_visibility"]) {
+    case "OFF":
+        return false;
+    case "ON":
+        return true;
+    case "AUTO":
+        // perform objects check
+    }
+
+    var objects = get_scene_objs(bpy_scene, "EMPTY", exports.DATA_ID_ALL);
+
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        if (obj["b4w_anchor"] && obj["b4w_anchor"]["detect_visibility"])
+            return true;
+    }
+
     return false;
 }
 
@@ -842,15 +1255,17 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_postprocessing_batch(subs.pp_effect);
             break;
         case "SSAO":
-            batch = m_batch.create_ssao_batch(subs.ssao_samples);
-
+            batch = m_batch.create_ssao_batch(subs);
+            break;
+        case "SSAO_BLUR":
+            batch = m_batch.create_ssao_blur_batch(subs);
             break;
         case "DEPTH_PACK":
             batch = m_batch.create_depth_pack_batch();
             break;
 
         case "REFRACT":
-        case "SCREEN":
+        case "COPY":
             batch = m_batch.create_postprocessing_batch("NONE");
             break;
 
@@ -862,11 +1277,12 @@ exports.generate_auxiliary_batches = function(graph) {
             var tex_input = subs_input.camera.color_attachment;
 
             // needed for special underwater god rays
-            var water = (subs.reflection_plane && subs.water) | 0;
+            var water = subs.water;
 
             var steps = subs.steps_per_pass;
-            batch = m_batch.create_god_rays_batch(tex_input, subs.pack | 0,
-                    water, steps);
+
+            batch = m_batch.create_god_rays_batch(tex_input, subs.pack,
+                                                  water, steps);
 
             break;
 
@@ -890,65 +1306,47 @@ exports.generate_auxiliary_batches = function(graph) {
 
         case "DOF":
             batch = m_batch.create_dof_batch();
-            m_batch.set_texel_size_mult(batch, subs.camera.dof_power);
 
             var subs_pp1 = m_scgraph.find_input(graph, subs, "POSTPROCESSING");
             var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
-            var subs_in = [subs_pp1, subs_pp2];
-            for (var i = 0; i < subs_in.length; i++) {
-                var bundles = subs_in[i].bundles;
-                var batch_i = bundles[0].batch;
-                if (batch_i)
-                    m_batch.set_texel_size_mult(batch_i, subs.camera.dof_power);
-            }
+            m_scgraph.set_texel_size_mult(subs_pp1, subs.camera.dof_power);
+            m_scgraph.set_texel_size_mult(subs_pp2, subs.camera.dof_power);
 
             break;
 
-        case "GLOW":
-            var subs_glow_blur_y = m_scgraph.find_input(graph, subs,
+        case "OUTLINE":
+            batch = m_batch.create_outline_batch();
+            var subs_outline_blur_y = m_scgraph.find_input(graph, subs,
                     "POSTPROCESSING");
-            var subs_glow_blur_x = m_scgraph.find_input(graph, subs_glow_blur_y,
+            var subs_outline_blur_x = m_scgraph.find_input(graph, subs_outline_blur_y,
                     "POSTPROCESSING");
-            var subs_glow_extend_y = m_scgraph.find_input(graph, subs_glow_blur_x,
+            var subs_outline_extend_y = m_scgraph.find_input(graph, subs_outline_blur_x,
                     "POSTPROCESSING");
-            var subs_glow_extend_x = m_scgraph.find_input(graph, subs_glow_extend_y,
+            var subs_outline_extend_x = m_scgraph.find_input(graph, subs_outline_extend_y,
                     "POSTPROCESSING");
-
-            batch = m_batch.create_glow_batch();
 
             // set blur strength for 2 subscenes
-            var subs_in = [subs_glow_blur_x, subs_glow_blur_y];
-            for (var i = 0; i < subs_in.length; i++) {
-                var bundles = subs_in[i].bundles;
-                var batch_in = bundles[0].batch;
-                if (batch_in)
-                    m_batch.set_texel_size_mult(batch_in,
-                            subs.blur_texel_size_mult);
-            }
+            m_scgraph.set_texel_size_mult(subs_outline_blur_x, subs.blur_texel_size_mult);
+            m_scgraph.set_texel_size_mult(subs_outline_blur_y, subs.blur_texel_size_mult);
 
             // set extend strength for 2 subscenes
-            var subs_in = [subs_glow_extend_x, subs_glow_extend_y];
-            for (var i = 0; i < subs_in.length; i++) {
-                var bundles = subs_in[i].bundles;
-                var batch_in = bundles[0].batch;
-                if (batch_in)
-                    m_batch.set_texel_size_mult(batch_in,
-                            subs.ext_texel_size_mult * subs.glow_factor);
-            }
+            m_scgraph.set_texel_size_mult(subs_outline_extend_x,
+                    subs.ext_texel_size_mult * subs.outline_factor);
+            m_scgraph.set_texel_size_mult(subs_outline_extend_y,
+                    subs.ext_texel_size_mult * subs.outline_factor);
 
+            break;
+
+        case "GLOW_COMBINE":
+            batch = m_batch.create_glow_combine_batch();
             break;
 
         case "COMPOSITING":
             batch = m_batch.create_compositing_batch();
-
             break;
 
         case "ANTIALIASING":
             batch = m_batch.create_antialiasing_batch();
-            break;
-
-        case "LANCZOS":
-            batch = m_batch.create_lanczos_batch(subs.lanczos_type);
             break;
 
         case "SMAA_RESOLVE":
@@ -962,18 +1360,8 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_anaglyph_batch();
             break;
 
-        case "HUD":
-
-            batch = m_batch.create_hud_batch();
-
-            var texture = m_tex.create_texture_canvas("HUD", 1, 1);
-            m_batch.append_texture(batch, texture);
-
-            break;
-
         case "SKY":
-            batch = m_batch.create_sky_batch();
-            m_batch.set_texel_size(batch, 1/subs.camera.width, 1/subs.camera.height);
+            batch = m_batch.create_procedural_sky_batch();
 
             break;
         case "LUMINANCE":
@@ -990,8 +1378,7 @@ exports.generate_auxiliary_batches = function(graph) {
 
             break;
         case "BLOOM_BLUR":
-            batch = m_batch.create_bloom_blur_batch(subs.pp_effect);
-            m_batch.set_texel_size(batch, 1/subs.camera.width, 1/subs.camera.height);
+            batch = m_batch.create_bloom_blur_batch();
 
             break;
         case "BLOOM":
@@ -1000,13 +1387,8 @@ exports.generate_auxiliary_batches = function(graph) {
             var subs_blur_x = m_scgraph.find_input(graph, subs_blur_y, "BLOOM_BLUR");
 
             // set blur strength for 2 subscenes
-            var subs_in = [subs_blur_x, subs_blur_y];
-            for (var i = 0; i < subs_in.length; i++) {
-                var bundles = subs_in[i].bundles;
-                var batch_in = bundles[0].batch;
-                if (batch_in)
-                    m_batch.set_texel_size_mult(batch_in, subs.bloom_blur);
-            }
+            m_scgraph.set_texel_size_mult(subs_blur_y, subs.bloom_blur);
+            m_scgraph.set_texel_size_mult(subs_blur_x, subs.bloom_blur);
 
             batch = m_batch.create_bloom_combine_batch();
 
@@ -1015,15 +1397,13 @@ exports.generate_auxiliary_batches = function(graph) {
         case "VELOCITY":
             batch = m_batch.create_velocity_batch();
             break;
+        case "ANCHOR_VISIBILITY":
+            batch = m_batch.create_anchor_visibility_batch();
+            break;
         }
 
         if (batch) {
-            var rb = {
-                do_render: true,
-                obj_render: m_obj.create_render("NONE"),
-                batch: batch
-            };
-
+            var rb = init_bundle(m_obj.create_render("NONE"), batch);
             validate_batch(batch);
             subs.bundles.push(rb);
             connect_textures(graph, subs, batch);
@@ -1034,12 +1414,12 @@ exports.generate_auxiliary_batches = function(graph) {
 }
 
 function connect_textures(graph, subs, batch) {
-
     var id = m_graph.node_by_attr(graph, subs);
 
     // release unused textures from previous subscenes
     m_graph.traverse_inputs(graph, id, function(id_in, attr_in,
             attr_edge) {
+
         var slink = attr_edge;
         var subs_in = attr_in;
 
@@ -1057,6 +1437,8 @@ function connect_textures(graph, subs, batch) {
         case "SCREEN":
             var tex = null;
             break;
+        case "MAIN_CUBE_REFLECT":
+            return;
         default:
             throw "Wrong slink";
         }
@@ -1067,6 +1449,9 @@ function connect_textures(graph, subs, batch) {
         case "DEPTH":
         case "NONE":
         case "SCREEN":
+        case "OFFSCREEN":
+        case "u_cube_reflection": // NOTE: set in update_batch_subs()
+        case "u_plane_reflection": // NOTE: set in update_batch_subs()
             // nothing
             break;
         default:
@@ -1074,13 +1459,11 @@ function connect_textures(graph, subs, batch) {
             if (!tex)
                 throw "Connection of SCREEN is forbidden";
 
-            var bundles = subs.bundles;
-            for (var k = 0; k < bundles.length; k++) {
-                var batch = bundles[k].batch;
+            if (tex.w_renderbuffer)
+                throw "Batch texture can't use renderbuffer";
 
-                if (m_shaders.check_uniform(batch.shader, slink.to))
-                    m_batch.append_texture(batch, tex, slink.to);
-            }
+            if (m_shaders.check_uniform(batch.shader, slink.to))
+                m_batch.append_texture(batch, tex, slink.to);
 
             break;
         }
@@ -1096,16 +1479,17 @@ function connect_textures(graph, subs, batch) {
         case "DEPTH":
         case "NONE":
         case "SCREEN":
+        case "OFFSCREEN":
             // nothing
             break;
         default:
-            var bundles = subs.bundles;
-            for (var j = 0; j < bundles.length; j++) {
-                var batch = bundles[j].batch;
 
-                if (m_shaders.check_uniform(batch.shader, slink.to))
-                    m_batch.append_texture(batch, tex, slink.to);
-            }
+            if (tex.w_renderbuffer)
+                throw "Batch texture can't use renderbuffer";
+
+            if (m_shaders.check_uniform(batch.shader, slink.to))
+                m_batch.append_texture(batch, tex, slink.to);
+
             break;
         }
     }
@@ -1116,7 +1500,7 @@ function connect_textures(graph, subs, batch) {
  * Extract batches from the object and add to subscenes
  * @methodOf scenes
  */
-exports.append_object = function(scene, obj) {
+exports.append_object = function(scene, obj, copy) {
     var type = obj["type"];
 
     switch (type) {
@@ -1128,11 +1512,25 @@ exports.append_object = function(scene, obj) {
             obj_render.shadow_receive = false;
 
         var subs_arr = subs_array(scene, OBJECT_SUBSCENE_TYPES);
-        for (var i = 0; i < subs_arr.length; i++) {
-            var subs = subs_arr[i];
-            add_object_sub(subs, obj, graph, scene);
+
+        if (copy) {
+
+            if(m_phy.has_physics(obj))
+                m_phy.append_object(obj, scene);
+
+            scene._objects["ALL"].push(obj);
+            scene._objects[obj.type].push(obj);
+
+            if (obj._dg_parent && obj._dg_parent["dupli_group"]["objects"]) {
+                obj["origin_name"] = obj["name"];
+                obj._dg_parent["dupli_group"]["objects"].push(obj);
+            }
         }
 
+        for (var i = 0; i < subs_arr.length; i++) {
+            var subs = subs_arr[i];
+            add_object_sub(subs, obj, graph, scene, copy);
+        }
         break;
     case "LAMP":
         increase_scene_num_lights(obj, scene);
@@ -1141,6 +1539,32 @@ exports.append_object = function(scene, obj) {
     default:
         break;
     }
+}
+
+exports.remove_object = function(obj) {
+    if (!obj._render.is_copied)
+        return false;
+    var scene = get_active();
+    m_data.prepare_object_unloading(scene, obj, false);
+
+    var ind = scene._objects["ALL"].indexOf(obj);
+    if (ind != -1)
+        scene._objects["ALL"].splice(ind, 1);
+
+    ind = scene._objects[obj.type].indexOf(obj);
+    if (ind != -1)
+        scene._objects[obj.type].splice(ind, 1);
+
+    if (obj._dg_parent && obj._dg_parent["dupli_group"]["objects"]) {
+        ind = obj._dg_parent["dupli_group"]["objects"].indexOf(obj);
+        if (ind != -1)
+            obj._dg_parent["dupli_group"]["objects"].splice(ind, 1);
+    }
+
+    if (m_cstr.check_constraint(obj))
+        m_cstr.remove(obj);
+
+    return true;
 }
 
 /**
@@ -1157,43 +1581,57 @@ function increase_scene_num_lights(obj, scene) {
     }
 }
 
+function init_bundle(render, batch) {
+    return {
+        do_render: true,
+        do_render_cube: [true, true, true, true, true, true],
+        obj_render: render,
+        batch: batch
+    };
+}
+
+exports.add_object_sub = add_object_sub;
 /**
  * Filter batch to pass given subscene
  */
-function add_object_sub(subs, obj, graph, bpy_scene) {
+function add_object_sub(subs, obj, graph, bpy_scene, copy) {
     switch(subs.type) {
     case "MAIN_OPAQUE":
-        add_object_subs_main(subs, obj, graph, "OPAQUE", bpy_scene);
+        add_object_subs_main(subs, obj, graph, "OPAQUE", bpy_scene, copy);
         break;
     case "MAIN_BLEND":
-        add_object_subs_main(subs, obj, graph, "BLEND", bpy_scene);
+        add_object_subs_main(subs, obj, graph, "BLEND", bpy_scene, copy);
         break;
     case "MAIN_XRAY":
-        add_object_subs_main(subs, obj, graph, "XRAY", bpy_scene);
+        add_object_subs_main(subs, obj, graph, "XRAY", bpy_scene, copy);
         break;
-    case "MAIN_REFLECT":
-        add_object_subs_reflect(subs, obj, graph);
+    case "MAIN_GLOW":
+        add_object_subs_main(subs, obj, graph, "GLOW", bpy_scene, copy);
+        break;
+    case "MAIN_PLANE_REFLECT":
+    case "MAIN_CUBE_REFLECT":
+        add_object_subs_reflect(subs, obj, graph, bpy_scene, copy);
         break;
     case "DEPTH":
-        add_object_subs_depth(subs, obj, graph, bpy_scene);
+        add_object_subs_depth(subs, obj, graph, bpy_scene, copy);
         break;
     case "SHADOW_CAST":
-        add_object_subs_shadow(subs, obj, graph, bpy_scene);
+        add_object_subs_shadow(subs, obj, graph, bpy_scene, copy);
         break;
     case "COLOR_PICKING":
-        add_object_subs_color_picking(subs, obj);
+        add_object_subs_color_picking(subs, obj, graph, bpy_scene, copy);
         break;
     case "COLOR_PICKING_XRAY":
-        add_object_subs_color_picking(subs, obj);
+        add_object_subs_color_picking(subs, obj, graph, bpy_scene, copy);
+        break;
+    case "OUTLINE_MASK":
+        add_object_subs_outline_mask(subs, obj, graph, bpy_scene, copy);
         break;
     case "GRASS_MAP":
-        add_object_subs_grass_map(subs, obj);
-        break;
-    case "GLOW_MASK":
-        add_object_subs_glow_mask(subs, obj);
+        add_object_subs_grass_map(subs, obj, copy);
         break;
     case "WIREFRAME":
-        add_object_subs_wireframe(subs, obj, graph);
+        add_object_subs_wireframe(subs, obj, graph, copy);
         break;
     default:
         break;
@@ -1203,12 +1641,12 @@ function add_object_sub(subs, obj, graph, bpy_scene) {
 /**
  * Add object to main scene
  */
-function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
+function add_object_subs_main(subs, obj, graph, main_type, bpy_scene, copy) {
+
     var obj_render = obj._render;
 
     // divide obj by batches
     var batches = obj._batches;
-
     for (var i = 0; i < batches.length; i++) {
 
         var batch = batches[i];
@@ -1216,248 +1654,25 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
         if (batch.shadow_cast_only || batch.reflexible_only)
             continue;
 
-        if ((batch.type != "MAIN" && batch.type != "NODES"
+        if (batch.type != "MAIN" && batch.type != "NODES_GLOW"
                 && batch.type != "PARTICLES")
-            || has_batch(subs, batch))
             continue;
 
-        if (main_type === "OPAQUE") {
-            if (batch.blend)
-                continue;
+        if (!(batch.subtype == "OPAQUE" && main_type == "OPAQUE" ||
+                batch.subtype == "BLEND" && main_type == "BLEND" ||
+                batch.subtype == "XRAY" && main_type == "XRAY" ||
+                batch.type == "NODES_GLOW" && main_type == "GLOW"))
+            continue;
 
-            // disable unnecessary depth write
-            //if (m_scgraph.find_subs(graph, "DEPTH"))
-            //    batch.depth_mask = false;
-
-            if (m_scgraph.find_subs(graph, "SHADOW_CAST") &&
-                    batch.shadow_receive)
-                var shadow_source = "SHADOW_SRC_MASK";
-            else
-                var shadow_source = "SHADOW_SRC_NONE";
-
-        } else if (main_type === "BLEND" || main_type === "XRAY") {
-            if (!batch.blend)
-                continue;
-
-            if ((main_type == "XRAY") != batch.xray)
-                continue;
-
-            if (m_scgraph.find_subs(graph, "SHADOW_CAST") &&
-                    batch.shadow_receive) {
-                switch(cfg_def.shadows) {
-                case "DEPTH":
-                    var shadow_source = "SHADOW_SRC_DEPTH";
-                    break;
-                default:
-                    throw "Wrong shadows type";
-                    break;
-                }
-            } else
-                var shadow_source = "SHADOW_SRC_NONE";
-        } else
-            throw "Wrong main subscene type";
-
-        if (batch.type == "NODES" && batch.anim_mat_values) {
-            obj._render.all_mats_anim_values.push(batch.anim_mat_values)
-            obj._render.all_mats_anim_inds.push(batch.anim_node_val_indices)
+        if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene);
+            update_batch_lights(bpy_scene, batch);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
         }
-
-        var shaders_info = batch.shaders_info;
-        var shadow_params = bpy_scene._render.shadow_params;
-        m_shaders.set_directive(shaders_info, "SHADOW_SRC", shadow_source);
-        m_batch.assign_shadow_receive_dirs(batch, shadow_params);
-
-        m_shaders.set_directive(shaders_info, "NUM_LIGHTS", subs.num_lights);
-
-        if (m_shaders.get_fname(shaders_info) == "special_skydome.glslf")
-            m_shaders.set_directive(shaders_info, "REFLECTION_PASS", 0);
-        m_shaders.set_directive(shaders_info, "SSAO_ONLY", 0);
-
-        if (subs.water_params && subs.water_fog_color_density) {
-            m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 1);
-        } else {
-            m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 0);
-        }
-
-        if (subs.water_params && subs.caustics && obj_render.caustics) {
-            m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
-            m_shaders.set_directive(shaders_info, "CAUST_SCALE", subs.caust_scale);
-            m_shaders.set_directive(shaders_info, "CAUST_SPEED", m_shaders.glsl_value(subs.caust_speed, 2));
-            m_shaders.set_directive(shaders_info, "CAUST_BRIGHT", subs.caust_brightness);
-        } else
-            m_shaders.set_directive(shaders_info, "CAUSTICS", 0);
-
-        if (subs.water_params) {
-            m_shaders.set_directive(shaders_info, "WAVES_HEIGHT", m_shaders.glsl_value(subs.water_waves_height));
-            m_shaders.set_directive(shaders_info, "WAVES_LENGTH", m_shaders.glsl_value(subs.water_waves_length));
-            m_shaders.set_directive(shaders_info, "WATER_LEVEL", m_shaders.glsl_value(subs.water_level));
-        }
-
-        if (batch.reflective && m_scgraph.find_subs(graph, "MAIN_REFLECT") &&
-                batch.texture_names.indexOf("u_mirrormap") === -1) {
-            m_shaders.set_directive(shaders_info, "REFLECTIVE", 1);
-        } else {
-            m_shaders.set_directive(shaders_info, "REFLECTIVE", 0);
-        }
-        var subs_sky = m_scgraph.find_subs(graph, "SKY");
-
-        if (subs_sky) {
-            if (batch.procedural_sky) {
-                var tex = subs_sky.camera.color_attachment;
-                m_batch.append_texture(batch, tex, "u_sky");
-            } else if (cfg_def.procedural_fog &&
-                  (subs.type === "MAIN_OPAQUE" || subs.type === "MAIN_BLEND")) {
-                // by link
-                batch.cube_fog = subs_sky.cube_fog;
-                m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 1);
-            } else {
-                m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
-            }
-        } else {
-            m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
-        }
-
-        if (bpy_scene["world"]["light_settings"]["environment_color"] == "SKY_TEXTURE") {
-            var tex = null;
-            if (bpy_scene["world"]["b4w_sky_settings"]["procedural_skydome"] &&
-                bpy_scene["world"]["b4w_sky_settings"]["use_as_environment_lighting"])
-                tex = subs_sky.camera.color_attachment;
-            else {
-                for (var i = 0; i < subs.sky_texture_slots.length; i++)
-                    if (subs.sky_texture_slots[i]["texture"]["b4w_use_as_environment_lighting"]) {
-                        tex = m_batch.get_batch_texture(subs.sky_texture_slots[i], false);
-                        break;
-                    }
-            }
-            if (tex) {
-                m_shaders.set_directive(shaders_info, "SKY_TEXTURE", 1);
-                m_batch.append_texture(batch, tex, "u_sky_texture");
-            } else
-                m_print.warn("B4W Warning: environment lighting is set to 'Sky Texture'" +
-                        ", but there is no world texture with environment map");
-        }
-        if (batch.dynamic_grass) {
-            var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
-            if (subs_grass_map)
-                prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
-        }
-
-        if (m_scgraph.find_subs(graph, "REFRACT") && batch.refractive)
-            m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
-        else
-            m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
-
-        if (batch.water) {
-            if (batch.water_shore_smoothing && m_scgraph.find_subs(graph, "DEPTH"))
-                m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 1);
-            else
-                m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 0);
-
-            if (batch.water_dynamic && subs.water_params && subs.water_waves_height)
-                m_shaders.set_directive(shaders_info, "DYNAMIC", 1);
-            else
-                m_shaders.set_directive(shaders_info, "DYNAMIC", 0);
-        }
-
-        if (batch.type == "PARTICLES") {
-            m_shaders.set_directive(shaders_info, "SIZE_RAMP_LENGTH", batch.p_size_ramp_length);
-            m_shaders.set_directive(shaders_info, "COLOR_RAMP_LENGTH", batch.p_color_ramp_length);
-        }
-
-        // NOTE: temoporary disabled T2X mode due to artifacts with blend objects
-        //if (cfg_def.smaa && !m_cfg.context.alpha)
-        //    m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
-
-        // check for textures used in offscreen rendering
-        // NOTE: create and attach subgraph, it's possible to do so here
-        // because we have only one texture for each subscene
-        if (main_type === "OPAQUE" || main_type === "BLEND") {
-            var textures = batch.textures;
-
-            for (var j = 0; j < textures.length; j++) {
-                var tex = textures[j];
-
-                var src = tex.offscreen_scene;
-
-                if (src) {
-                    var src_graph = src._render.graph;
-
-                    var subs_tex = null;
-                    var slink_tex = null;
-
-                    m_graph.traverse_edges(src_graph, function(id1, id2, attr) {
-                        var slink = attr;
-
-                        if (slink.from == "SCREEN") {
-                            subs_tex = m_graph.get_node_attr(src_graph, id1);
-                            slink_tex = slink;
-                            return true;
-                        }
-                    });
-
-                    if (!subs_tex || !slink_tex)
-                        throw "Failed to assign RTT";
-
-                    m_tex.set_filters(tex, m_tex.TF_LINEAR, m_tex.TF_LINEAR);
-
-                    slink_tex.texture = tex;
-
-                    var cam_tex = subs_tex.camera;
-                    cam_tex.color_attachment = tex;
-                    cam_tex.framebuffer = m_render.render_target_create(tex, null);
-
-                    var o_width = cfg_scs.offscreen_tex_size;
-                    var o_height = cfg_scs.offscreen_tex_size;
-
-                    setup_scene_dim(src, o_width, o_height, true);
-
-                    var queue_tex = m_scgraph.create_rendering_queue(src_graph);
-                    for (var k = queue_tex.length-1; k >= 0; k--) {
-                        var subs_k = queue_tex[k];
-                        var cam_k = subs_k.camera;
-
-                        m_cam.set_projection(cam_k, 1);
-
-                        // update size of shadow cascades
-                        if (subs.type == "MAIN_OPAQUE"
-                                && cam_k.type == m_cam.TYPE_PERSP)
-                            m_cam.update_camera_csm(cam_k,
-                                    src._render.shadow_params);
-
-                        bpy_scene._render.queue.unshift(subs_k);
-                    }
-                }
-            }
-
-            if (batch.lamp_uuid_indexes) {
-                var lamp_size = 0;
-                for (var key in batch.lamp_uuid_indexes)
-                    lamp_size++;
-                m_shaders.set_directive(shaders_info, "NUM_LAMP_LIGHTS", lamp_size);
-                batch.lamp_light_positions = new Float32Array(lamp_size * 3);
-                batch.lamp_light_directions = new Float32Array(lamp_size * 3);
-                batch.lamp_light_color_intensities = new Float32Array(lamp_size * 3);
-                batch.lamp_light_factors = new Float32Array(lamp_size * 4);
-                for (var j = 0; j < bpy_scene._objects["LAMP"].length; j++) {
-                    var lamp = bpy_scene._objects["LAMP"][j];
-                    set_lamp_data(batch, lamp);
-                }
-            }
-        }
-
-        prepare_shadow_receive_batch(graph, subs, shadow_source);
-
-        m_batch.update_shader(batch);
-
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj_render, batch);
         subs.bundles.push(rb);
+
         connect_textures(graph, subs, batch);
         check_batch_textures_number(batch);
     }
@@ -1480,6 +1695,214 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
     //debug_report_order(subs.bundles);
 }
 
+function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
+    var obj_render = obj._render;
+
+    var shadow_usage = "NO_SHADOWS";
+    var subs_cast = m_scgraph.find_subs(graph, "SHADOW_CAST");
+    if (subs_cast && batch.shadow_receive) {
+        switch (main_type) {
+        case "OPAQUE":
+            shadow_usage = "SHADOW_MAPPING_OPAQUE";
+            break;
+        case "BLEND":
+        case "XRAY":
+            shadow_usage = "SHADOW_MAPPING_BLEND";
+            break;
+        case "COLOR_ID":
+        case "REFLECT":
+        case "GLOW":
+            shadow_usage = "NO_SHADOWS";
+            break;
+        case "DEPTH":
+            shadow_usage = "SHADOW_MASK_GENERATION";
+            break;
+        default:
+            throw "Wrong subscene type";
+        }
+        m_batch.assign_shadow_receive_dirs(batch, bpy_scene._render.shadow_params, subs_cast);
+    }
+
+    var shaders_info = batch.shaders_info;
+    m_shaders.set_directive(shaders_info, "SHADOW_USAGE", shadow_usage);
+
+    if (batch.dynamic_grass) {
+        var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
+        if (subs_grass_map)
+            prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
+    }
+
+    if ((batch.type == "DEPTH" || main_type == "COLOR_ID") && !batch.has_nodes)
+        return;
+
+    var num_lights = subs.num_lights;
+    m_shaders.set_directive(shaders_info, "NUM_LIGHTS", num_lights);
+    var num_lfac = num_lights % 2 == 0 ? num_lights / 2:
+                                         Math.floor(num_lights / 2) + 1;
+    m_shaders.set_directive(shaders_info, "NUM_LFACTORS", num_lfac);
+
+    if (m_shaders.get_fname(shaders_info) == "special_skydome.glslf")
+        m_shaders.set_directive(shaders_info, "REFLECTION_PASS", 0);
+    m_shaders.set_directive(shaders_info, "SSAO_ONLY", 0);
+
+    if (subs.water_params && subs.water_fog_color_density) {
+        m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 1);
+    } else {
+        m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 0);
+    }
+
+    if (subs.water_params && subs.caustics && obj_render.caustics) {
+        m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
+        m_shaders.set_directive(shaders_info, "CAUST_SCALE", m_shaders.glsl_value(subs.caust_scale));
+        m_shaders.set_directive(shaders_info, "CAUST_SPEED", m_shaders.glsl_value(subs.caust_speed, 2));
+        m_shaders.set_directive(shaders_info, "CAUST_BRIGHT", m_shaders.glsl_value(subs.caust_brightness));
+    } else
+        m_shaders.set_directive(shaders_info, "CAUSTICS", 0);
+
+    if (subs.water_params) {
+        m_shaders.set_directive(shaders_info, "WAVES_HEIGHT", m_shaders.glsl_value(subs.water_waves_height));
+        m_shaders.set_directive(shaders_info, "WAVES_LENGTH", m_shaders.glsl_value(subs.water_waves_length));
+        m_shaders.set_directive(shaders_info, "WATER_LEVEL", m_shaders.glsl_value(subs.water_level));
+    }
+
+    if (batch.texture_names.indexOf("u_mirrormap") !== -1) {
+        m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_MIRRORMAP");
+    } else if (batch.reflective) {
+        // set corresponding reflection texture for object
+        if (obj_render.cube_reflection_id != null &&
+                m_scgraph.find_subs(graph, "MAIN_CUBE_REFLECT")) {
+            var subs_refl = get_cube_refl_subs_by_obj(bpy_scene, obj);
+            if (subs_refl) {
+                var tex = subs_refl.camera.color_attachment;
+                m_batch.append_texture(batch, tex, "u_cube_reflection");
+                m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_CUBE");
+            } else
+                m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_NONE");
+        } else if (obj_render.plane_reflection_id != null &&
+                       m_scgraph.find_subs(graph, "MAIN_PLANE_REFLECT")) {
+            var subs_refl = get_plane_refl_subs_by_obj(bpy_scene, obj);
+            if (subs_refl) {
+                var tex = subs_refl.camera.color_attachment;
+                m_batch.append_texture(batch, tex, "u_plane_reflection");
+                m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_PLANE");
+            } else
+                m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_NONE");
+        } else
+            m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_NONE");
+    } else {
+        m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_NONE");
+    }
+
+    var subs_sky = m_scgraph.find_subs(graph, "SKY");
+
+    if (subs_sky) {
+        if (batch.procedural_sky) {
+            var tex = subs_sky.camera.color_attachment;
+            m_batch.append_texture(batch, tex, "u_sky");
+        } else if (cfg_def.procedural_fog) {
+            // by link
+            batch.cube_fog = subs_sky.cube_fog;
+            m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 1);
+        } else {
+            m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
+        }
+    } else {
+        m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
+    }
+
+    var wls = bpy_scene._render.world_light_set;
+    if (wls.use_environment_light) {
+        m_shaders.set_directive(shaders_info, "USE_ENVIRONMENT_LIGHT", 1);
+        if (wls.environment_color == "SKY_TEXTURE") {
+            // it's safe, honestly - it's being checked in the get_world_light_set()
+            var tex = null;
+            if (wls.environment_texture_slot)
+                tex = m_batch.get_batch_texture(wls.environment_texture_slot, false);
+            else
+                tex = subs_sky.camera.color_attachment;
+            m_shaders.set_directive(shaders_info, "SKY_TEXTURE", 1);
+            m_batch.append_texture(batch, tex, "u_sky_texture");
+        } else if (wls.environment_color == "SKY_COLOR")
+            m_shaders.set_directive(shaders_info, "SKY_COLOR", 1);
+    }
+
+    if (batch.refractive) {
+        if (cfg_def.depth_tex_available)
+            m_shaders.set_directive(shaders_info, "USE_REFRACTION_CORRECTION", 1);
+        if (batch.type == "MAIN" && batch.has_nodes
+                || batch.type == "NODES_GLOW") {
+            m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
+            if (bpy_scene._render.refractions)
+                m_shaders.set_directive(shaders_info, "USE_REFRACTION", 1);
+            else
+                m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
+        } else {
+            if (bpy_scene._render.refractions)
+                m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
+            else
+                m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
+        }
+    } else {
+        m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
+        m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
+        m_shaders.set_directive(shaders_info, "USE_REFRACTION_CORRECTION", 0);
+    }
+
+    if (batch.water) {
+        if (cfg_def.shore_smoothing && batch.water_shore_smoothing
+                && m_scgraph.find_subs(graph, "DEPTH")) {
+            m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 1);
+        } else
+            m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 0);
+
+        if (batch.water_dynamic && subs.water_params && subs.water_waves_height)
+            m_shaders.set_directive(shaders_info, "DYNAMIC", 1);
+        else
+            m_shaders.set_directive(shaders_info, "DYNAMIC", 0);
+    }
+
+    if (batch.type == "PARTICLES") {
+        m_shaders.set_directive(shaders_info, "SIZE_RAMP_LENGTH", batch.p_size_ramp_length);
+        m_shaders.set_directive(shaders_info, "COLOR_RAMP_LENGTH", batch.p_color_ramp_length);
+    }
+
+    // NOTE: temoporary disabled T2X mode due to artifacts with blend objects
+    //if (cfg_def.smaa && !m_cfg.context.alpha)
+    //    m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
+
+    // update scenes graph according to RTT arrangement
+    if (!batch.forked_batch) {
+        var textures = batch.textures;
+        for (var j = 0; j < textures.length; j++) {
+            var tex = textures[j];
+
+            if (tex.source == "SCENE")
+                for (var k = 0; k < _scenes.length; k++) {
+                    var scene_k = _scenes[k];
+                    var rtt = _scenes[k]._render_to_textures;
+                    for (var l = 0; l < rtt.length; l++)
+                        if (rtt[l]._render == tex)
+                            m_graph.append_edge_attr(_scenes_graph, scene_k, bpy_scene, null);
+                }
+        }
+    }
+
+    if (batch.lamp_uuid_indexes) {
+        var lamp_size = 0;
+        for (var key in batch.lamp_uuid_indexes)
+            lamp_size++;
+        batch.lamp_light_positions = new Float32Array(lamp_size * 3);
+        batch.lamp_light_directions = new Float32Array(lamp_size * 3);
+        batch.lamp_light_color_intensities = new Float32Array(lamp_size * 3);
+        batch.lamp_light_factors = new Float32Array(lamp_size * 4);
+        m_shaders.set_directive(shaders_info, "NUM_LAMP_LIGHTS", lamp_size);
+        for (var j = 0; j < bpy_scene._objects["LAMP"].length; j++) {
+            var lamp = bpy_scene._objects["LAMP"][j];
+            set_lamp_data(batch, lamp);
+        }
+    }
+}
+
 function set_lamp_data(batch, lamp) {
     var lamp_uuid = lamp["uuid"];
     if (lamp_uuid in batch.lamp_uuid_indexes) {
@@ -1487,10 +1910,63 @@ function set_lamp_data(batch, lamp) {
         batch.lamp_light_positions.set(lamp._render.trans, data_lamp_index * 3);
         batch.lamp_light_directions.set(lamp._light.direction, data_lamp_index * 3);
         batch.lamp_light_color_intensities.set(lamp._light.color_intensity, data_lamp_index * 3);
-        var light_factor1 = _vec4_tmp;
-        var light_factor2 = _vec4_tmp2;
-        prepare_light_factors(lamp._light, light_factor1, light_factor2);
-        batch.lamp_light_factors.set(light_factor2, data_lamp_index * 4);
+        var light_factor = _vec4_tmp2;
+        prepare_lamp_light_factor(lamp._light, light_factor);
+        batch.lamp_light_factors.set(light_factor, data_lamp_index * 4);
+    }
+}
+
+function prepare_lamp_light_factor(light, light_factor) {
+    light_factor[0] =-1.0;
+    light_factor[1] =-1.0;
+    light_factor[2] =-1.0;
+    light_factor[3] = light.use_specular ? 1.0 : 0.0;
+
+    switch (light.type) {
+        case "POINT":
+            light_factor[2] = light.distance;
+            break;
+        case "SPOT":
+            light_factor[2] = light.distance;
+            var sp_size = light_factor[0] = Math.cos(light.spot_size / 2.0);
+            light_factor[1] = light.spot_blend * (1.0 - sp_size);
+            break;
+    }
+}
+
+function update_batch_lights(scene, batch) {
+    var lamps = get_scene_objs(scene, "LAMP", exports.DATA_ID_ALL);
+    batch.shaders_info.lights_info = [];
+    var shadow_lamp = find_first_lamp_with_shadows(lamps) || lamps[0];
+    for (var i = 0; i < lamps.length; i++) {
+        var light = lamps[i]._light;
+
+        if (light.type == "AREA")
+            continue;
+
+        if (light.type == "SPOT" || light.type == "POINT")
+            var sp_size = Math.cos(light.spot_size / 2.0);
+
+        if (light.type == "SPOT")
+            var blend = light.spot_blend * (1.0 - sp_size);
+
+        var index = light.index;
+        var lfac_index = Math.floor(index / 2);
+        var lfac_channels = index % 2 == 0 ? "rg": "ba";
+        var is_on = light.use_diffuse || light.use_specular;
+
+        // TODO: support multiple shadow maps for different lamps
+        var gen_shadow = index == shadow_lamp._light.index;
+
+        batch.shaders_info.lights_info.push({type:          light.type,
+                                             index:         index,
+                                             lfac_index:    lfac_index,
+                                             lfac_channels: lfac_channels,
+                                             spot_size:     sp_size,
+                                             spot_blend:    blend,
+                                             distance:      light.distance,
+                                             is_on:         is_on,
+                                             gen_shadow:    gen_shadow});
     }
 }
 
@@ -1500,125 +1976,46 @@ function validate_batch(batch) {
     var pointers = batch.bufs_data.pointers;
 
     for (var attr in attributes) {
-
         var p = pointers[attr];
-
         if (!p)
-            throw "B4W Error: missing data for \"" + attr + "\" attribute";
+            m_util.panic("missing data for \"" + attr + "\" attribute");
     }
 
-    if (batch.type == "MAIN")
-        check_main_varyings_count(batch);
-    if (batch.type == "NODES")
-        check_nodes_varyings_count(batch);
+    validate_batch_varyings(batch);
+}
 
+function validate_batch_varyings(batch) {
+    if (batch.type == "MAIN" || batch.type == "NODES_GLOW") {
+        var vcount = m_shaders.get_varyings_count(batch.shader.vshader);
+        if (vcount > MAX_SHADER_VARYING_COUNT) {
+
+            if (batch.type == "MAIN")
+                m_print.warn("Varying limit exceeded for main shader - "
+                        + vcount + ", materials: \"" + batch.material_names.join(", ")
+                        + "\"");
+
+            if (batch.type == "MAIN" && batch.has_nodes
+                    || batch.type == "NODES_GLOW") {
+                var used_uv = 0;
+                var used_vc = 0;
+                if (batch.uv_maps_usage)
+                    used_uv = m_util.get_dict_length(batch.uv_maps_usage);
+                if (batch.vertex_colors_usage)
+                    used_vc = m_util.get_dict_length(batch.vertex_colors_usage);
+
+                m_print.warn("Varying limit exceeded for node shader - "
+                        + vcount + ", uv: " + used_uv + ", vc: " + used_vc
+                        + ", materials: \"" + batch.material_names.join(", ") + "\"");
+            }
+        }
+    }
 }
 
 function check_batch_textures_number(batch) {
     if (batch.textures.length > MAX_BATCH_TEXTURES)
-        m_print.warn("B4W Warning: too many textures used - " +
+        m_print.warn(batch.type, "too many textures used - " +
             batch.textures.length + " (max " + MAX_BATCH_TEXTURES +
             "), materials \"" + batch.material_names.join(", ") + "\"");
-}
-
-function check_main_varyings_count(batch) {
-    // v_eye_dir, v_pos_world, v_normal, v_pos_view mandatory varyings
-    var total = 4;
-
-    var attr_names_for_varyings = ["a_color", "a_tangent", "a_texcoord"];
-    total += get_shader_units_presence_count(batch.shader.attributes,
-            attr_names_for_varyings);
-
-    var unif_names_for_varyings = ["u_shadow_map0", "u_shadow_map1",
-            "u_shadow_map2", "u_shadow_map3", "u_shadow_mask"];
-    total += get_shader_units_presence_count(batch.shader.uniforms,
-            unif_names_for_varyings);
-
-    if (total > MAX_SHADER_VARYING_COUNT)
-        m_print.warn("B4W Warning: Varying limit exceeded for main shader - "
-                + total + ", materials \"" + batch.material_names.join(", ")
-                + "\"");
-}
-
-function check_nodes_varyings_count(batch) {
-    // v_pos_world, v_pos_view mandatory varyings
-    var total = 2;
-    var used_uv = 0;
-    var used_vc = 0;
-
-    if (batch.uv_maps_usage) {
-        used_uv += m_util.get_dict_length(batch.uv_maps_usage);
-        total += used_uv;
-    }
-    if (batch.vertex_colors_usage) {
-        used_vc += m_util.get_dict_length(batch.vertex_colors_usage);
-        total += used_vc;
-    }
-
-    var attr_names_for_varyings = ["a_color", "a_normal", "a_tangent"];
-    total += get_shader_units_presence_count(batch.shader.attributes,
-            attr_names_for_varyings);
-
-    var unif_names_for_varyings = ["u_shadow_map0", "u_shadow_map1",
-            "u_shadow_map2", "u_shadow_map3", "u_shadow_mask"];
-    total += get_shader_units_presence_count(batch.shader.uniforms,
-            unif_names_for_varyings);
-
-    if (total > MAX_SHADER_VARYING_COUNT)
-        m_print.warn("B4W Warning: Varying limit exceeded for node shader - "
-                + total + ", uv: " + used_uv + ", vc: " + used_vc
-                + ", materials \"" + batch.material_names.join(", ") + "\"");
-}
-
-function get_shader_units_presence_count(storage, names) {
-    var count = 0;
-    for (var i = 0; i < names.length; i++)
-        if (names[i] in storage)
-            count++;
-    return count;
-}
-
-function prepare_shadow_receive_batch(graph, subs, shadow_source) {
-
-    var csm_index = 0;
-    var subs_inputs = m_scgraph.get_inputs(graph, subs);
-
-    for (var i = 0; i < subs_inputs.length; i++) {
-
-        var input = subs_inputs[i];
-
-        // shadow map with optional blurring
-        if ((shadow_source == "SHADOW_SRC_DEPTH") &&
-                (input.type == "SHADOW_CAST" || input.type == "POSTPROCESSING")) {
-
-            // assign textures
-
-            if (shadow_source == "SHADOW_SRC_DEPTH")
-                var tex = input.camera.depth_attachment;
-            else
-                var tex = input.camera.color_attachment;
-
-            // assign uniforms from cast camera
-
-            var cam_cast = m_scgraph.find_upper_subs(graph, input, "SHADOW_CAST").camera;
-
-            // by link
-            subs.v_light_matrix = cam_cast.view_matrix;
-
-            // moving from unit cube [-1,1] to [0,1]
-            subs.b_light_matrix = new Float32Array([
-                0.5, 0.0, 0.0, 0.0,
-                0.0, 0.5, 0.0, 0.0,
-                0.0, 0.0, 0.5, 0.0,
-                0.5, 0.5, 0.5, 1.0]);
-
-            subs.p_light_matrix = subs.p_light_matrix || new Array();
-            // by link
-            subs.p_light_matrix[csm_index] = cam_cast.proj_matrix;
-
-            csm_index++;
-        }
-    }
 }
 
 function prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render) {
@@ -1653,14 +2050,13 @@ function prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render) {
     batch.grass_size = bsize;
 }
 
-exports.has_batch = has_batch;
 /**
  * All batches among bundles must be unique
  * we use id value to determine uniqueness
+ * unused
  */
 function has_batch(subscene, batch) {
     var sbundles = subscene.bundles;
-
     for (var i = 0; i < sbundles.length; i++) {
         var sbundle = sbundles[i];
         var sbatch = sbundle.batch;
@@ -1690,129 +2086,67 @@ function debug_report_order(bundles) {
 /**
  * Add object to main scene
  */
-function add_object_subs_depth(subs, obj, graph, bpy_scene) {
-
-    var obj_render = obj._render;
-
+function add_object_subs_depth(subs, obj, graph, bpy_scene, copy) {
     // divide obj by batches
     var batches = obj._batches;
 
     for (var i = 0; i < batches.length; i++) {
-        var batch_src = batches[i];
+        var batch = batches[i];
 
-        if (batch_src.type != "DEPTH" || has_batch(subs, batch_src)
-                || batch_src.shadow_cast_only)
+        if (batch.type != "DEPTH" || batch.shadow_cast_only)
             continue;
 
-        if (m_scgraph.has_upper_subs(graph, subs, "SHADOW_CAST")) {
-            if (batch_src.shadow_receive) {
+        if (batch.subtype != "DEPTH" && batch.subtype != "NODES")
+            continue;
 
-                switch(cfg_def.shadows) {
-                case "DEPTH":
-                    var shadow_src = "SHADOW_SRC_DEPTH";
-                    var shadow_dst = "SHADOW_DST_MASK";
-                    break;
-                default:
-                    throw "Wrong shadows type";
-                    break;
-                }
-
-                var batch = m_batch.update_batch_shadow_src_dst(batch_src,
-                        shadow_src, shadow_dst);
-                var shadow_params = bpy_scene._render.shadow_params;
-                m_batch.assign_shadow_receive_dirs(batch, shadow_params);
-                var subs_inputs = m_scgraph.get_inputs(graph, subs);
-                prepare_shadow_receive_batch(graph, subs, shadow_src);
-            } else {
-                var batch = m_batch.update_batch_shadow_src_dst(batch_src,
-                        "SHADOW_SRC_NONE", "SHADOW_DST_MASK");
-                // prevent non-shadow-receivers from cluttering color texture
-                //batch.color_mask = false;
-            }
-        } else {
-            var batch = m_batch.update_batch_shadow_src_dst(batch_src,
-                    "SHADOW_SRC_NONE", "SHADOW_DST_NONE");
+        if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, "DEPTH", bpy_scene);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
         }
 
-        if (batch.dynamic_grass) {
-            var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
-            if (subs_grass_map)
-                prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
-        }
-
-        var shaders_info = batch.shaders_info;
-
-        // NOTE: temoporary disabled T2X mode due to artifacts with blend objects
-        //if (cfg_def.smaa && !m_cfg.context.alpha)
-        //    m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
-
-        m_batch.update_shader(batch);
-
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj._render, batch);
         subs.bundles.push(rb);
+
         connect_textures(graph, subs, batch);
         check_batch_textures_number(batch);
     }
 }
 
-function add_object_subs_shadow(subs, obj, graph, bpy_scene) {
+function add_object_subs_shadow(subs, obj, graph, bpy_scene, copy) {
     var update_needed = false;
     var obj_render = obj._render;
     var batches = obj._batches;
 
-    for (var i = 0; i < batches.length; i++) {
-        var batch_src = batches[i];
+    var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
 
-        if (!(batch_src.shadow_cast || batch_src.shadow_receive))
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+
+        if (batch.type != "DEPTH")
             continue;
+
+        if (batch.subtype != "SHADOW_CAST")
+            continue;
+
         update_needed = true;
 
-        if (batch_src.type != "DEPTH" || has_batch(subs, batch_src))
-            continue;
+        if (!copy) {
+            m_shaders.set_directive(batch.shaders_info, "SHADOW_USAGE", "SHADOW_CASTING");
 
-        if (batch_src.shadow_cast) {
-
-            switch(cfg_def.shadows) {
-            case "DEPTH":
-                var shadow_dst = "SHADOW_DST_DEPTH";
-                break;
-            default:
-                throw "Wrong shadows type";
-                break;
-            }
-
-            var batch = m_batch.create_shadow_batch_form_depth(batch_src,
-                    "SHADOW_SRC_NONE", shadow_dst);
-
-            if (batch.dynamic_grass) {
-                var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
-                if (subs_grass_map)
-                    prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
-            }
+            if (batch.dynamic_grass && subs_grass_map)
+                prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
 
             m_batch.set_batch_directive(batch, "SHADOW_TEX_RES",
                     m_shaders.glsl_value(
                     bpy_scene._render.shadow_params.csm_resolution));
 
             m_batch.update_shader(batch);
-
-            var rb = {
-                do_render: true,
-                obj_render: obj_render,
-                batch: batch
-            };
-
             validate_batch(batch);
-
-            subs.bundles.push(rb);
         }
+
+        var rb = init_bundle(obj_render, batch);
+        subs.bundles.push(rb);
     }
 
     if (update_needed)
@@ -1820,25 +2154,32 @@ function add_object_subs_shadow(subs, obj, graph, bpy_scene) {
                 subs.bundles, bpy_scene, true);
 }
 
-function add_object_subs_reflect(subs, obj, graph) {
+function add_object_subs_reflect(subs, obj, graph, bpy_scene, copy) {
     var obj_render = obj._render;
-
     var batches = obj._batches;
 
     for (var i = 0; i < batches.length; i++) {
-        var batch_src = batches[i];
+        var batch = batches[i];
 
-        var batch = batch_copy_wo_bufs(batch_src);
-
-        if ((batch.type != "MAIN" && batch.type != "NODES"
-                && batch.type != "PARTICLES") || has_batch(subs, batch))
+        if (batch.type != "MAIN" && batch.type != "PARTICLES")
             continue;
 
-        if (batch.blend)
+        if (batch.subtype != "REFLECT")
             continue;
 
-        if (batch.reflexible) {
+        // do not render reflected object on itself
+        if (subs.type == "MAIN_PLANE_REFLECT") {
+            var refl_id = get_plane_refl_id_by_subs(bpy_scene, subs);
+            if (refl_id == obj_render.plane_reflection_id)
+                continue;
+        } else {
+            var refl_id = get_cube_refl_id_by_subs(bpy_scene, subs);
+            if (refl_id == obj_render.cube_reflection_id)
+                continue;
+        }
 
+        if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, "REFLECT", bpy_scene);
             var shaders_info = batch.shaders_info;
 
             m_shaders.set_directive(shaders_info, "DISABLE_FOG", 0);
@@ -1848,35 +2189,20 @@ function add_object_subs_reflect(subs, obj, graph) {
             if (m_shaders.get_fname(shaders_info) == "special_skydome.glslf")
                 m_shaders.set_directive(shaders_info, "REFLECTION_PASS", 1);
 
-            m_shaders.set_directive(shaders_info, "SHADOW_SRC", "SHADOW_SRC_NONE");
-
             // disable normalmapping in shader for optimization purposes
             m_shaders.set_directive(shaders_info, "TEXTURE_NORM", 0);
 
+            update_batch_lights(bpy_scene, batch);
             m_batch.update_shader(batch);
-
-            var rb = {
-                do_render: true,
-                obj_render: obj_render,
-                batch: batch
-            };
-
             validate_batch(batch);
-
-            subs.bundles.push(rb);
-
-            // NOTE: temoporary disabled T2X mode due to artifacts with blend objects
-            //if (cfg_def.smaa && !m_cfg.context.alpha)
-            //    m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
-
-            // NOTE: access to forked batches from source batch for material
-            // inheritance
-            if (batch.type == "MAIN") {
-                if (!batch_src.childs)
-                    batch_src.childs = [];
-                batch_src.childs.push(batch);
-            }
         }
+
+        var rb = init_bundle(obj_render, batch);
+        subs.bundles.push(rb);
+
+        // NOTE: temoporary disabled T2X mode due to artifacts with blend objects
+        //if (cfg_def.smaa && !m_cfg.context.alpha)
+        //    m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
     }
 }
 
@@ -1898,25 +2224,25 @@ function update_shadow_subscenes(bpy_scene) {
     var subs_main = get_subs(bpy_scene, "MAIN_OPAQUE");
 
     var graph = bpy_scene._render.graph;
-    var recalc_min_z = true;
+    var recalc_z_bounds = true;
 
     m_graph.traverse(graph, function(node, attr) {
         var subs = attr;
         if (subs.type === "SHADOW_CAST") {
             update_subs_shadow(subs, subs_main, subs.bundles, bpy_scene,
-                    recalc_min_z);
-            recalc_min_z = false;
+                    recalc_z_bounds);
+            recalc_z_bounds = false;
         }
     });
 }
 
 /**
  * Update shadow subscene camera based on main subscene light
- * uses _vec3_tmp, _mat4_tmp
+ * uses _vec3_tmp, _mat4_tmp, _corners_cache
  * @methodOf scenes
  */
 function update_subs_shadow(subs, subs_main, cast_bundles, bpy_scene,
-        recalc_min_z) {
+        recalc_z_bounds) {
     if (cast_bundles.length == 0)
         return;
 
@@ -1924,78 +2250,145 @@ function update_subs_shadow(subs, subs_main, cast_bundles, bpy_scene,
 
     var cam_main = subs_main.camera;
     var lamps = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL);
-
     // light view matrix
     var lamp = find_first_lamp_with_shadows(lamps) || lamps[0];
+
+    if (!lamp)
+        return;
+
     var lamp_render = lamp._render;
     m_cam.set_view_trans_quat(cam, lamp_render.trans, lamp_render.quat);
 
     // NOTE: inherit light camera eye from main camera (used in LOD calculations)
     m_vec3.copy(cam_main.eye, cam.eye);
+    // NOTE: inherit view_matrix from main camera
+    m_mat4.copy(cam_main.view_matrix, cam.shadow_cast_billboard_view_matrix);
 
+    if (lamp._light.type == "SPOT" || lamp._light.type == "POINT")
+        m_cam.set_projection(cam, cam.aspect);
+    else {
+        // determine camera frustum for shadow casting
 
-    // update bounding box for subscene cascade
+        var bb_world = get_shadow_casters_bb(cast_bundles, _bb_tmp);
+        var bb_corners = m_bounds.extract_bb_corners(bb_world, _corners_cache);
+        // transform bb corners to light view space
+        m_util.positions_multiply_matrix(bb_corners, cam.view_matrix, bb_corners);
 
-    // calculate world center and radius
-    var center = m_vec3.copy(cam_main.csm_centers[subs.csm_index], _vec3_tmp);
-    var main_view_inv = m_mat4.invert(cam_main.view_matrix, _mat4_tmp);
-    m_util.positions_multiply_matrix(center, main_view_inv, center);
+        if (bpy_scene._render.shadow_params.enable_csm) {
+            // calculate world center and radius
+            var center = m_vec3.copy(cam_main.csm_centers[subs.csm_index], _vec3_tmp);
+            var main_view_inv = m_mat4.invert(cam_main.view_matrix, _mat4_tmp);
+            m_util.positions_multiply_matrix(center, main_view_inv, center);
 
-    // transform sphere center to light view space
-    m_util.positions_multiply_matrix(center, cam.view_matrix, center);
+            // transform sphere center to light view space
+            m_util.positions_multiply_matrix(center, cam.view_matrix, center);
 
-    var radius = cam_main.csm_radii[subs.csm_index];
+            var radius = cam_main.csm_radii[subs.csm_index];
 
-    // get minimum z value for bounding box from light camera for all casters
-    if (recalc_min_z)
-        _shadow_cast_min_z = get_cascade_min_z(cast_bundles, cam.view_matrix);
+            // get minimum z value for bounding box from light camera for all casters
+            if (recalc_z_bounds) {
+                _shadow_cast_min_z = 0;
+                _shadow_cast_max_z = -Infinity;
+                for (var i = 2; i < bb_corners.length; i+=3) {
+                    _shadow_cast_min_z = Math.min(_shadow_cast_min_z, bb_corners[i]);
+                    _shadow_cast_max_z = Math.max(_shadow_cast_max_z, bb_corners[i]);
+                }
+            }
 
-    var bb_view = _bb_tmp;
-    bb_view.max_x = center[0] + radius;
-    bb_view.max_y = center[1] + radius;
-    bb_view.max_z = 0;
+            var bb_view = _bb_tmp;
+            bb_view.max_x = center[0] + radius;
+            bb_view.max_y = center[1] + radius;
+            bb_view.max_z = _shadow_cast_max_z;
 
-    bb_view.min_x = center[0] - radius;
-    bb_view.min_y = center[1] - radius;
-    bb_view.min_z = _shadow_cast_min_z;
+            bb_view.min_x = center[0] - radius;
+            bb_view.min_y = center[1] - radius;
+            bb_view.min_z = _shadow_cast_min_z;
+        } else {
+            var bb_view = _bb_tmp;
+            var optimal_angle = get_optimal_bb_and_angle(bb_corners, bb_view);
+            if (optimal_angle > 0) {
+                var rot_mat = m_mat4.identity(_mat4_tmp);
+                m_mat4.rotate(rot_mat, optimal_angle, m_util.AXIS_MZ, rot_mat);
+                m_mat4.multiply(rot_mat, cam.view_matrix, cam.view_matrix);
+            }
+            bb_view = correct_bb_proportions(bb_view);
+        }
 
-    m_cam.set_frustum_asymmetric(cam, bb_view.min_x, bb_view.max_x,
-            bb_view.min_y, bb_view.max_y, -bb_view.max_z, -bb_view.min_z);
-
-    m_cam.set_projection(cam);
-
+        m_cam.set_frustum_asymmetric(cam, bb_view.min_x, bb_view.max_x,
+                bb_view.min_y, bb_view.max_y, -bb_view.max_z, -bb_view.min_z);
+        m_cam.set_projection(cam);
+    }
     m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
 }
 
-function get_cascade_min_z(cast_bundles, light_view_matrix) {
-    // calculate bounding box in world space for all casters
-    var bb_cast = get_shadow_casters_bb(cast_bundles, _bb_tmp);
+/**
+ * Get optimal bounding box in light space (smallest cross
+ * sectional area seen from the light source) and angle for light rotation
+ * uses _mat4_tmp, _corners_cache2, _bb_tmp2
+ * @methodOf scenes
+ */
+function get_optimal_bb_and_angle(bb_corners, bb_dest) {
+    var rot_corners = _corners_cache2;
+    rot_corners.set(bb_corners);
 
-    // transform bb points to light view space
-    var corners = m_bounds.extract_bb_corners(bb_cast, _corners_cache);
-    m_util.positions_multiply_matrix(corners, light_view_matrix, corners);
+    var angle_delta = MAX_OPTIMAL_BB_ANGLE / (OPTIMAL_BB_COUNT - 1);
 
-    var min_z = 0;
-    for (var i = 2; i < corners.length; i+=3)
-        min_z = Math.min(min_z, corners[i]);
-    return min_z;
+    var rot_mat = m_mat4.identity(_mat4_tmp);
+    m_mat4.rotate(rot_mat, angle_delta, m_util.AXIS_MZ, rot_mat);
+
+    var min = -1;
+    var min_index = -1;
+    for (var i = 0; i < OPTIMAL_BB_COUNT; i++) {
+        var bb_all = m_bounds.bb_from_coords(rot_corners, _bb_tmp2);
+        var S = (bb_all.max_x - bb_all.min_x) * (bb_all.max_y - bb_all.min_y);
+
+        if (min == -1 || S < min) {
+            min = S;
+            min_index = i;
+            m_bounds.copy_bb(bb_all, bb_dest);
+        }
+        m_util.positions_multiply_matrix(rot_corners, rot_mat, rot_corners);
+    }
+
+    return min_index * angle_delta;
+}
+
+function correct_bb_proportions(bb) {
+    var x = bb.max_x - bb.min_x;
+    var y = bb.max_y - bb.min_y;
+
+    if (x && y) {
+        var diff = Math.abs(x - y) / 2;
+        if (x/y > MAX_SHADOW_CAST_BB_PROPORTION) {
+            bb.max_y += diff;
+            bb.min_y -= diff;
+        } else if (y/x > MAX_SHADOW_CAST_BB_PROPORTION) {
+            bb.max_x += diff;
+            bb.min_x -= diff;
+        }
+    }
+
+    bb.max_x += SHADOW_MAP_EPSILON_XY;
+    bb.max_y += SHADOW_MAP_EPSILON_XY;
+    bb.max_z += SHADOW_MAP_EPSILON_Z;
+    bb.min_x -= SHADOW_MAP_EPSILON_XY;
+    bb.min_y -= SHADOW_MAP_EPSILON_XY;
+    bb.min_z -= SHADOW_MAP_EPSILON_Z;
+
+    return bb;
 }
 
 function get_shadow_casters_bb(cast_bundles, dest) {
     m_bounds.zero_bounding_box(dest);
 
-    var init_bb_flag = false;
-
     for (var i = 0; i < cast_bundles.length; i++) {
         // not all casters will be unique
         var render = cast_bundles[i].obj_render;
 
-        if (init_bb_flag)
-            m_bounds.expand_bounding_box(dest, render.bb_world);
-        else {
+        if (i == 0)
             m_bounds.copy_bb(render.bb_world, dest);
-            init_bb_flag = true;
-        }
+        else
+            m_bounds.expand_bounding_box(dest, render.bb_world);
     }
 
     return dest;
@@ -2024,65 +2417,61 @@ function get_csm_borders(scene, cam) {
     return rslt;
 }
 
-function add_object_subs_color_picking(subs, obj) {
+function add_object_subs_color_picking(subs, obj, graph, bpy_scene, copy) {
 
     var obj_render = obj._render;
-
     var batches = obj._batches;
-    var xray_subs = subs.type == "COLOR_PICKING_XRAY";
 
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.xray != xray_subs)
+        if (batch.type != "COLOR_ID")
             continue;
 
-        if (batch.type != "COLOR_ID" || has_batch(subs, batch))
+        if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, "COLOR_ID", bpy_scene);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
+        }
+
+        if (!(subs.type == "COLOR_PICKING" && batch.subtype == "COLOR_ID" ||
+                subs.type == "COLOR_PICKING_XRAY" && batch.subtype == "COLOR_ID_XRAY"))
             continue;
 
-        m_batch.set_batch_directive(batch, "USE_GLOW", 0);
-        m_batch.update_shader(batch);
+        if (!copy) {
+            m_batch.set_batch_directive(batch, "USE_OUTLINE", 0);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
+        }
 
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj_render, batch);
         subs.bundles.push(rb);
     }
 }
 
-function add_object_subs_wireframe(subs, obj, graph) {
+function add_object_subs_wireframe(subs, obj, graph, copy) {
 
     var obj_render = obj._render;
     var batches = obj._batches;
-
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "WIREFRAME" || has_batch(subs, batch))
+        if (batch.type != "WIREFRAME")
             continue;
+        if (!copy) {
+            if (batch.dynamic_grass) {
+                var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
+                if (subs_grass_map)
+                    prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
+            }
 
-        if (batch.dynamic_grass) {
-            var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
-            if (subs_grass_map)
-                prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
         }
 
-        m_batch.update_shader(batch);
-
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj_render, batch);
         subs.bundles.push(rb);
+
         connect_textures(graph, subs, batch);
         check_batch_textures_number(batch);
     }
@@ -2092,29 +2481,24 @@ function add_object_subs_wireframe(subs, obj, graph) {
 /**
  * Add object to depth map scene
  */
-function add_object_subs_grass_map(subs, obj) {
+function add_object_subs_grass_map(subs, obj, copy) {
 
     var obj_render = obj._render;
-
     // divide obj by batches
     var batches = obj._batches;
 
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "GRASS_MAP" || has_batch(subs, batch))
+        if (batch.type != "GRASS_MAP")
             continue;
 
-        m_batch.update_shader(batch);
+        if (!copy) {
+            m_batch.update_shader(batch);
+            validate_batch(batch);
+        }
 
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj_render, batch);
         subs.bundles.push(rb);
 
         // recalculate scene camera
@@ -2148,61 +2532,32 @@ function add_object_subs_grass_map(subs, obj) {
 }
 
 /**
- * Add object to glow mask scene
+ * Add object to outline mask scene
  */
-function add_object_subs_glow_mask(subs, obj) {
+function add_object_subs_outline_mask(subs, obj, graph, bpy_scene, copy) {
 
     var obj_render = obj._render;
     var batches = obj._batches;
 
     for (var i = 0; i < batches.length; i++) {
-        var batch_src = batches[i];
+        var batch = batches[i];
 
-        if (batch_src.type != "COLOR_ID" || has_batch(subs, batch_src))
+        if (batch.type != "COLOR_ID")
             continue;
 
-        var batch = batch_copy_wo_bufs(batch_src);
-        m_batch.set_batch_directive(batch, "USE_GLOW", 1);
-        m_batch.update_shader(batch);
+        if (batch.subtype != "OUTLINE")
+            continue;
 
-        batches.push(batch);
+        if (!copy) {
+            m_batch.set_batch_directive(batch, "USE_OUTLINE", 1);
+            m_batch.update_shader(batch);
+            validate_batch(batch);
+        }
 
-        var rb = {
-            do_render: true,
-            obj_render: obj_render,
-            batch: batch
-        };
-
-        validate_batch(batch);
-
+        var rb = init_bundle(obj_render, batch);
         subs.bundles.push(rb);
-
-        // NOTE: access to forked batches from source batch for material
-        // inheritance
-        if (!batch_src.childs)
-            batch_src.childs = [];
-        batch_src.childs.push(batch);
     }
-}
 
-/**
- * copy everything
- * NOTE: possible issues with webgl objects
- */
-function batch_copy_w_bufs(batch) {
-    return m_util.clone_object_r(batch);
-}
-
-/**
- * copy, bufs by link
- */
-function batch_copy_wo_bufs(batch) {
-
-    var batch_copy = m_util.clone_object_nr(batch);
-    // special precautions for shaders_info
-    batch.shaders_info = JSON.parse(JSON.stringify(batch.shaders_info));
-
-    return batch_copy;
 }
 
 /**
@@ -2222,10 +2577,18 @@ exports.show_object = function(obj) {
 }
 
 /**
+ * Check if object is hidden
+ * @methodOf scenes
+ */
+exports.is_hidden = function(obj) {
+    return obj._render.hide;
+}
+
+/**
  * Remove object bundles.
  * @methodOf scenes
  */
-exports.remove_object_bundles = function(scene, obj) {
+exports.remove_object_bundles = function(scene, obj, clean_buffs) {
     var render = obj._render;
 
     var subscenes = subs_array(scene, OBJECT_SUBSCENE_TYPES);
@@ -2235,7 +2598,7 @@ exports.remove_object_bundles = function(scene, obj) {
         for (var j = bundles.length - 1; j >= 0; j--) {
             var bundle = bundles[j];
             if (bundle.obj_render == render) {
-                if (bundle.batch)
+                if (bundle.batch && clean_buffs)
                     m_geom.cleanup_bufs_data(bundle.batch.bufs_data);
                 bundles.splice(j, 1);
             }
@@ -2256,13 +2619,7 @@ exports.check_object = function(obj, scene) {
  * NOTE: only main scene supported
  */
 function add_bundle(subscene, render, batch) {
-
-    var rb = {
-        do_render: true,
-        obj_render: render,
-        batch: batch
-    };
-
+    var rb = init_bundle(render, batch);
     subscene.bundles.push(rb);
 }
 
@@ -2282,30 +2639,39 @@ function remove_bundle(subscene, render) {
     }
 }
 
-function prepare_light_factors(light, light_factor1, light_factor2) {
-    light_factor1[0] = 1.0;
-    light_factor1[1] = 0.0;
-    light_factor1[2] = 0.0;
-    light_factor1[3] = light.use_diffuse ? 1.0 : 0.0;
+function sort_func(l1, l2) {
+    if (l2.use_diffuse && l2.use_specular &&
+        !(l1.use_diffuse && l1.use_specular))
+        return true;
+    if (!l1.use_diffuse)
+        if(l2.use_diffuse || (!l1.use_specular && l2.use_specular))
+            return true;
+    return false;
+}
 
-    light_factor2[0] =-1.0;
-    light_factor2[1] =-1.0;
-    light_factor2[2] =-1.0;
-    light_factor2[3] = light.use_specular ? 1.0 : 0.0;
+exports.sort_lamps = function(scene) {
+    var lamps = scene._objects["LAMP"];
+    if (lamps.length != scene._render.num_lamps_added)
+        return;
 
-    switch (light.type) {
-        case "HEMI":
-            light_factor1[0] = 0.5;
-            light_factor1[1] = 0.5;
-            break;
-        case "POINT":
-            light_factor2[2] = light.distance;
-            break;
-        case "SPOT":
-            light_factor2[2] = light.distance;
-            var sp_size = light_factor2[0] = Math.cos(light.spot_size / 2.0);
-            light_factor2[1] = light.spot_blend * (1.0 - sp_size);
-            break;
+    var lamp_indexes = [];
+    for (var i = 0; i < lamps.length; i++)
+        lamp_indexes[lamps[i]._light.index] = i;
+
+    for (var i = 0; i < lamp_indexes.length - 1; i++) {
+        for (var j = i + 1; j < lamp_indexes.length; j++) {
+            if (sort_func(lamps[lamp_indexes[i]]._light,
+                          lamps[lamp_indexes[j]]._light)) {
+                var tmp = lamp_indexes[i];
+                lamp_indexes[i] = lamp_indexes[j];
+                lamp_indexes[j] = tmp;
+            }
+        }
+    }
+
+    for (var i = 0; i < lamp_indexes.length; i++) {
+        lamps[lamp_indexes[i]]._light.index = i;
+        update_lamp_scene(lamps[lamp_indexes[i]], scene, true);
     }
 }
 
@@ -2327,10 +2693,6 @@ function update_lamp_scene(lamp, scene) {
         subs.light_directions.set(light.direction, ind * 3);
         subs.light_color_intensities.set(light.color_intensity, ind * 3);
 
-        var light_factor1 = _vec4_tmp;
-        var light_factor2 = _vec4_tmp2;
-
-        prepare_light_factors(light, light_factor1, light_factor2);
         switch (light.type) {
         case "SUN":
             subs.sun_quaternion.set(lamp_render.quat);
@@ -2361,11 +2723,15 @@ function update_lamp_scene(lamp, scene) {
             break;
         default:
             // TODO: prevent export of such lamps
-            m_print.error("B4W Warning: unknown light type: " + light.type);
+            m_print.error("Unknown light type: " + light.type + "\".");
             break;
         }
-        subs.light_factors1.set(light_factor1, ind * 4);
-        subs.light_factors2.set(light_factor2, ind * 4);
+
+        var light_factor = _vec2_tmp;
+        light_factor[0] = light.use_diffuse ? 1.0 : 0.0;
+        light_factor[1] = light.use_specular ? 1.0 : 0.0;
+
+        subs.light_factors.set(light_factor, ind * 2);
         subs.need_perm_uniforms_update = true;
 
         for (var j = 0; j < subs.bundles.length; j++) {
@@ -2377,12 +2743,12 @@ function update_lamp_scene(lamp, scene) {
 }
 
 function update_sky(scene, subs) {
-
     m_render.draw(subs);
-
     if (subs.need_fog_update) {
         var main_subs = subs_array(scene, ["MAIN_OPAQUE",
-                                           "MAIN_BLEND"]);
+                                           "MAIN_BLEND",
+                                           "MAIN_XRAY",
+                                           "MAIN_GLOW"]);
         for (var i = 0; i < main_subs.length; i++) {
             var m_subs = main_subs[i];
             var bundles = m_subs.bundles;
@@ -2418,9 +2784,11 @@ exports.cleanup = function() {
         scene._render.queue = [];
     }
 
+    _main_scene = null;
     _active_scene = null;
     _scenes.length = 0;
-    _glow_anim_objs.length = 0;
+    _scenes_graph = null;
+    _outline_anim_objs.length = 0;
 
     _wind[0] = 0;
     _wind[1] = 0;
@@ -2479,7 +2847,7 @@ function get_scene_objs(scene, type, data_id) {
     if (!scene._objects)
         throw "Access to uninitialized scene";
 
-    var objs_by_type = scene._objects[type];
+    var objs_by_type = scene._objects[type] || [];
 
     if (data_id == exports.DATA_ID_ALL)
         return objs_by_type;
@@ -2529,20 +2897,17 @@ exports.get_scene_timeline = function(scene) {
 }
 
 
-exports.setup_dim = function(width, height) {
-
-    _canvas_width = width;
-    _canvas_height = height;
+exports.setup_dim = function(width, height, scale) {
+    m_cont.setup_viewport_dim(width, height, scale);
 
     if (_active_scene)
-        setup_scene_dim(_active_scene, width, height, false);
+        setup_scene_dim(_active_scene, width, height);
 }
 
 /**
  * Setup dimension for specific scene subscenes
  */
-function setup_scene_dim(scene, width, height, override_update_dim) {
-
+function setup_scene_dim(scene, width, height) {
     var sc_render = scene._render;
 
     var upd_cameras = scene["camera"]._render.cameras;
@@ -2552,7 +2917,7 @@ function setup_scene_dim(scene, width, height, override_update_dim) {
 
         // NOTE: update size of camera shadow cascades
         if (sc_render.render_shadows)
-            m_cam.update_camera_csm(cam, sc_render.shadow_params);
+            m_cam.update_camera_shadows(cam, sc_render.shadow_params);
     }
 
     if (sc_render.render_shadows) {
@@ -2561,18 +2926,15 @@ function setup_scene_dim(scene, width, height, override_update_dim) {
         get_subs(scene, "MAIN_BLEND").need_perm_uniforms_update = true;
     }
 
-    // NOTE: temporary solution for frustum culling issue
-    m_cam.update_camera_transform(scene["camera"]);
-
     var graph = sc_render.graph;
 
     m_scgraph.traverse_slinks(graph, function(slink, internal, subs1, subs2) {
-        if (!override_update_dim && !slink.update_dim)
+
+        if (!slink.update_dim)
             return;
 
         var tex_width = slink.size_mult * width;
         var tex_height = slink.size_mult * height;
-
         if (internal) {
             for (var i = 0; i < subs1.slinks_internal.length; i++) {
                 var slink_i = subs1.slinks_internal[i];
@@ -2590,29 +2952,41 @@ function setup_scene_dim(scene, width, height, override_update_dim) {
             cam.width = tex_width;
             cam.height = tex_height;
 
-            if (subs1.type == "DOF")
+            switch (subs1.type) {
+            case "DOF":
                 set_dof_params(scene, {"dof_power": subs1.camera.dof_power,
-                                        "dof_on": subs1.camera.dof_on});
+                                       "dof_on": subs1.camera.dof_on});
+                break;
+            case "GLOW_COMBINE":
+                set_glow_material_params(scene,
+                        {"small_glow_mask_width": subs1.small_glow_mask_width,
+                        "large_glow_mask_width": subs1.large_glow_mask_width});
+                break;
+            case "BLOOM":
+                set_bloom_params(scene,
+                        {"bloom_blur": subs1.bloom_blur});
+                break;
+            case "OUTLINE":
+                var subs_outline_blur_y = m_scgraph.find_input(graph, subs1,
+                        "POSTPROCESSING");
+                var subs_outline_blur_x = m_scgraph.find_input(graph, subs_outline_blur_y,
+                        "POSTPROCESSING");
+                var subs_outline_extend_y = m_scgraph.find_input(graph, subs_outline_blur_x,
+                        "POSTPROCESSING");
+                var subs_outline_extend_x = m_scgraph.find_input(graph, subs_outline_extend_y,
+                        "POSTPROCESSING");
 
-            set_texel_size(subs1, 1/width, 1/height);
+                m_scgraph.set_texel_size(subs_outline_blur_y, 1/width, 1/height);
+                m_scgraph.set_texel_size(subs_outline_blur_x, 1/width, 1/height);
+                m_scgraph.set_texel_size(subs_outline_extend_y, 1/width, 1/height);
+                m_scgraph.set_texel_size(subs_outline_extend_x, 1/width, 1/height);
+                break;
+            default:
+                m_scgraph.set_texel_size(subs1, 1/width, 1/height);
+                break;
+            }
         }
     });
-}
-
-exports.set_texel_size = set_texel_size;
-/**
- * Set texel size for batches on given subs
- * NOTE: remember about multiplier
- * @methodOf scenes
- */
-function set_texel_size(subs, size_x, size_y) {
-    var bundles = subs.bundles;
-
-    for (var i = 0; i < bundles.length; i++) {
-        var batch = bundles[i].batch;
-        if (batch)
-            m_batch.set_texel_size(batch, size_x, size_y);
-    }
 }
 
 exports.subs_array = subs_array;
@@ -2730,20 +3104,17 @@ exports.get_sky_params = function(scene) {
  */
 exports.set_sky_params = function(scene, sky_params) {
 
-    var sky_subscenes = subs_array(scene, ["SKY"]);
+    var subs = get_subs(scene, "SKY");
 
-    for (var i = 0; i < sky_subscenes.length; i++) {
-        var subs = sky_subscenes[i];
-
+    if (subs) {
         if (typeof sky_params.procedural_skydome == "number")
             subs.procedural_skydome = sky_params.procedural_skydome;
 
         if (typeof sky_params.use_as_environment_lighting == "number")
             subs.use_as_environment_lighting = sky_params.use_as_environment_lighting;
 
-        if (typeof sky_params.color == "object") {
+        if (typeof sky_params.color == "object")
             subs.sky_color.set(sky_params.color);
-        }
 
         if (typeof sky_params.rayleigh_brightness == "number")
             subs.rayleigh_brightness = sky_params.rayleigh_brightness;
@@ -2774,8 +3145,7 @@ exports.set_sky_params = function(scene, sky_params) {
 
         subs.need_perm_uniforms_update = true;
         subs.need_fog_update = true;
-        update_sky(get_active(), subs);
-        m_render.draw(subs);
+        update_sky(scene, subs);
     }
 }
 
@@ -2818,6 +3188,7 @@ exports.set_fog_color_density = function(scene, val) {
 exports.get_ssao_params = function(scene) {
 
     var subs = get_subs(scene, "SSAO");
+    var subs_blur = get_subs(scene, "SSAO_BLUR");
     if (!subs)
         return null;
 
@@ -2826,11 +3197,10 @@ exports.get_ssao_params = function(scene) {
     var ssao_params = {};
 
     ssao_params.ssao_quality = m_batch.get_batch_directive(batch, "SSAO_QUALITY")[1];
+    ssao_params.ssao_hemisphere = subs.ssao_hemisphere;
+    ssao_params.ssao_blur_depth = subs_blur.ssao_blur_depth;
+    ssao_params.blur_discard_value = subs_blur.ssao_blur_discard_value;
     ssao_params.radius_increase = subs.ssao_radius_increase;
-    ssao_params.dithering_amount = subs.ssao_dithering_amount;
-    ssao_params.gauss_center = subs.ssao_gauss_center;
-    ssao_params.gauss_width_square = subs.ssao_gauss_width_square;
-    ssao_params.gauss_width_left_square = subs.ssao_gauss_width_left_square;
     ssao_params.influence = subs.ssao_influence;
     ssao_params.dist_factor = subs.ssao_dist_factor;
     ssao_params.ssao_only = subs.ssao_only;
@@ -2845,8 +3215,10 @@ exports.get_ssao_params = function(scene) {
 exports.set_ssao_params = function(scene, ssao_params) {
 
     var subs = get_subs(scene, "SSAO");
+    var subs_blur = get_subs(scene, "SSAO_BLUR");
+
     if (!subs) {
-        m_print.error("SSAO is not enabled on scene");
+        m_print.error("SSAO is not enabled on the scene");
         return 0;
     }
 
@@ -2856,21 +3228,23 @@ exports.set_ssao_params = function(scene, ssao_params) {
         m_batch.update_shader(batch, true);
     }
 
-    if (typeof ssao_params.ssao_radius_increase == "number"){
-        subs.ssao_radius_increase = ssao_params.ssao_radius_increase;
+    if (typeof ssao_params.ssao_hemisphere == "number") {
+        var batch = subs.bundles[0].batch;
+        m_batch.set_batch_directive(batch, "SSAO_HEMISPHERE", ssao_params.ssao_hemisphere);
+        m_batch.update_shader(batch, true);
     }
 
-    if (typeof ssao_params.ssao_dithering_amount == "number")
-        subs.ssao_dithering_amount = ssao_params.ssao_dithering_amount;
+    if (typeof ssao_params.ssao_blur_depth == "number") {
+        var batch = subs_blur.bundles[0].batch;
+        m_batch.set_batch_directive(batch, "SSAO_BLUR_DEPTH", ssao_params.ssao_blur_depth);
+        m_batch.update_shader(batch, true);
+    }
 
-    if (typeof ssao_params.ssao_gauss_center == "number")
-        subs.ssao_gauss_center = ssao_params.ssao_gauss_center;
+    if (typeof ssao_params.ssao_blur_discard_value == "number")
+        subs_blur.ssao_blur_discard_value = ssao_params.ssao_blur_discard_value;
 
-    if (typeof ssao_params.ssao_gauss_width_square == "number")
-        subs.ssao_gauss_width_square = ssao_params.ssao_gauss_width_square;
-
-    if (typeof ssao_params.ssao_gauss_width_left_square == "number")
-        subs.ssao_gauss_width_left_square = ssao_params.ssao_gauss_width_left_square;
+    if (typeof ssao_params.ssao_radius_increase == "number")
+        subs.ssao_radius_increase = ssao_params.ssao_radius_increase;
 
     if (typeof ssao_params.ssao_influence == "number")
         subs.ssao_influence = ssao_params.ssao_influence;
@@ -2895,6 +3269,7 @@ exports.set_ssao_params = function(scene, ssao_params) {
     }
 
     subs.need_perm_uniforms_update = true;
+    subs_blur.need_perm_uniforms_update = true;
 }
 
 exports.get_dof_params = function(scene) {
@@ -2909,6 +3284,7 @@ exports.get_dof_params = function(scene) {
     dof_params.dof_front = subs.camera.dof_front;
     dof_params.dof_rear = subs.camera.dof_rear;
     dof_params.dof_power = subs.camera.dof_power;
+    dof_params.dof_object = subs.camera.dof_object;
 
     return dof_params;
 }
@@ -2918,7 +3294,7 @@ function set_dof_params(scene, dof_params) {
 
     var subs = get_subs(scene, "DOF");
     if (!subs) {
-        m_print.error("DOF is not enabled on scene. Check camera settings");
+        m_print.error("DOF is not enabled on the scene. Check camera settings");
         return 0;
     }
 
@@ -2936,16 +3312,13 @@ function set_dof_params(scene, dof_params) {
         subs.camera.dof_power = dof_params.dof_power;
         var subs_pp1 = m_scgraph.find_input(graph, subs, "POSTPROCESSING");
         var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
-        var subs_in = [subs_pp1, subs_pp2];
-        for (var i = 0; i < subs_in.length; i++) {
-            var bundles = subs_in[i].bundles;
-            var batch = bundles[0].batch;
-            if (batch) {
-                m_batch.set_texel_size_mult(batch, subs.camera.dof_power);
-                set_texel_size(subs_in[i], 1/subs.camera.width,
+
+        m_scgraph.set_texel_size_mult(subs_pp1, subs.camera.dof_power);
+        m_scgraph.set_texel_size(subs_pp1, 1/subs.camera.width,
                                            1/subs.camera.height);
-            }
-        }
+        m_scgraph.set_texel_size_mult(subs_pp2, subs.camera.dof_power);
+        m_scgraph.set_texel_size(subs_pp2, 1/subs.camera.width,
+                                           1/subs.camera.height);
     }
     subs.need_perm_uniforms_update = true;
 }
@@ -2975,7 +3348,7 @@ exports.set_god_rays_params = function(scene, god_rays_params) {
     var combo_subs = get_subs(scene, "GOD_RAYS_COMBINE");
 
     if (!gr_subs || !combo_subs) {
-        m_print.error("God Rays are not enabled on scene");
+        m_print.error("God Rays are not enabled on the scene");
         return 0;
     }
 
@@ -3009,7 +3382,7 @@ exports.set_god_rays_params = function(scene, god_rays_params) {
 
 exports.get_bloom_params = function(scene) {
 
-    var lum_subs = get_subs(scene, ["LUMINANCE_TRUNCED"]);
+    var lum_subs = get_subs(scene, "LUMINANCE_TRUNCED");
     var bloom_subs = get_subs(scene, "BLOOM");
 
     if (!lum_subs || !bloom_subs) {
@@ -3025,13 +3398,14 @@ exports.get_bloom_params = function(scene) {
     return bloom_params;
 }
 
-exports.set_bloom_params = function(scene, bloom_params) {
+exports.set_bloom_params = set_bloom_params
+function set_bloom_params(scene, bloom_params) {
 
     var lum_subs = get_subs(scene, "LUMINANCE_TRUNCED");
     var bloom_subs = get_subs(scene, "BLOOM");
 
     if (!lum_subs || !bloom_subs) {
-        m_print.error("Bloom is not enabled on scene");
+        m_print.error("Bloom is not enabled on the scene");
         return 0;
     }
 
@@ -3047,16 +3421,101 @@ exports.set_bloom_params = function(scene, bloom_params) {
         var graph = scene._render.graph;
         var subs_blur1 = m_scgraph.find_input(graph, bloom_subs, "BLOOM_BLUR");
         var subs_blur2 = m_scgraph.find_input(graph, subs_blur1, "BLOOM_BLUR");
-        var subs_in = [subs_blur1, subs_blur2];
-        for (var i = 0; i < subs_in.length; i++) {
-            var bundles = subs_in[i].bundles;
-            var batch = bundles[0].batch;
-            if (batch) {
-                m_batch.set_texel_size_mult(batch, bloom_params.bloom_blur);
-                set_texel_size(subs_in[i], 1/bloom_subs.camera.width,
-                                           1/bloom_subs.camera.height);
-            }
-        }
+        bloom_subs.bloom_blur = bloom_params.bloom_blur;
+        m_scgraph.set_texel_size_mult(subs_blur1, bloom_params.bloom_blur);
+        m_scgraph.set_texel_size(subs_blur1, 1/bloom_subs.camera.width,
+                                             1/bloom_subs.camera.height);
+        m_scgraph.set_texel_size_mult(subs_blur2, bloom_params.bloom_blur);
+        m_scgraph.set_texel_size(subs_blur2, 1/bloom_subs.camera.width,
+                                             1/bloom_subs.camera.height);
+    }
+}
+
+exports.get_glow_material_params = function(scene) {
+    var glow_combine_subs = get_subs(scene, "GLOW_COMBINE");
+
+    if (!glow_combine_subs)
+        return null;
+
+    var glow_material_params = {};
+
+    glow_material_params.small_glow_mask_coeff = glow_combine_subs.small_glow_mask_coeff;
+    glow_material_params.large_glow_mask_coeff = glow_combine_subs.large_glow_mask_coeff;
+    glow_material_params.small_glow_mask_width = glow_combine_subs.small_glow_mask_width;
+    glow_material_params.large_glow_mask_width = glow_combine_subs.large_glow_mask_width;
+
+    return glow_material_params;
+}
+
+exports.set_glow_material_params = set_glow_material_params;
+function set_glow_material_params(scene, glow_material_params) {
+    var glow_combine_subs = get_subs(scene, "GLOW_COMBINE");
+
+    if (!glow_combine_subs) {
+        m_print.error("Glow is not enabled on the scene");
+        return null;
+    }
+
+    var graph = scene._render.graph;
+    var subs = m_scgraph.get_inputs(graph, glow_combine_subs);
+
+    for (var i = 0; i < subs.length; ++i) {
+        var subscene = subs[i];
+
+        if (subscene.type === "POSTPROCESSING" && subscene.subtype === "GLOW_MASK_LARGE")
+            var postproc_y_blur_large_subs = subscene;
+        if (subscene.type === "POSTPROCESSING" && subscene.subtype === "GLOW_MASK_SMALL")
+            var postproc_y_blur_small_subs = subscene;
+    }
+
+    var postproc_x_blur_large_subs = m_scgraph.find_input(graph,
+            postproc_y_blur_large_subs, "POSTPROCESSING");
+    var postproc_x_blur_small_subs = m_scgraph.find_input(graph,
+            postproc_y_blur_small_subs, "POSTPROCESSING");
+
+    if (typeof glow_material_params.small_glow_mask_coeff == "number") {
+        glow_combine_subs.small_glow_mask_coeff = glow_material_params.small_glow_mask_coeff;
+        glow_combine_subs.need_perm_uniforms_update = true;
+    }
+
+    if (typeof glow_material_params.large_glow_mask_coeff == "number") {
+        glow_combine_subs.large_glow_mask_coeff = glow_material_params.large_glow_mask_coeff;
+        glow_combine_subs.need_perm_uniforms_update = true;
+    }
+
+    if (typeof glow_material_params.small_glow_mask_width == "number") {
+        glow_combine_subs.small_glow_mask_width = glow_material_params.small_glow_mask_width;
+        m_scgraph.set_texel_size_mult(postproc_y_blur_small_subs,
+                glow_material_params.small_glow_mask_width);
+        m_scgraph.set_texel_size(postproc_y_blur_small_subs,
+                1/glow_combine_subs.camera.width,
+                1/glow_combine_subs.camera.height);
+        postproc_y_blur_small_subs.need_perm_uniforms_update = true;
+
+        m_scgraph.set_texel_size_mult(postproc_x_blur_small_subs,
+                glow_material_params.small_glow_mask_width);
+        m_scgraph.set_texel_size(postproc_x_blur_small_subs,
+                1/glow_combine_subs.camera.width,
+                1/glow_combine_subs.camera.height);
+        postproc_x_blur_small_subs.need_perm_uniforms_update = true;
+    }
+
+    if (typeof glow_material_params.large_glow_mask_width == "number") {
+        glow_combine_subs.large_glow_mask_width = glow_material_params.large_glow_mask_width;
+        m_scgraph.set_texel_size_mult(postproc_y_blur_large_subs,
+                glow_material_params.large_glow_mask_width);
+        m_scgraph.set_texel_size(postproc_y_blur_large_subs,
+                1/glow_combine_subs.camera.width,
+                1/glow_combine_subs.camera.height);
+        postproc_y_blur_large_subs.need_perm_uniforms_update = true;
+
+        m_scgraph.set_texel_size_mult(postproc_x_blur_large_subs,
+                glow_material_params.large_glow_mask_width);
+        m_scgraph.set_texel_size(postproc_x_blur_large_subs,
+                1/glow_combine_subs.camera.width,
+                1/glow_combine_subs.camera.height);
+        postproc_x_blur_large_subs.need_perm_uniforms_update = true;
+
     }
 }
 
@@ -3131,7 +3590,7 @@ function get_water_surface_level(pos_x, pos_z) {
     var subs = get_subs(_active_scene, "MAIN_OPAQUE");
 
     if (!subs || !subs.water_params) {
-        m_print.error("get_water_surface_level() - no water parameters on this scene");
+        m_print.error("get_water_surface_level() - no water parameters on the scene");
         return 0;
     }
 
@@ -3253,7 +3712,7 @@ exports.set_water_params = function(scene, water_params) {
     var subs = get_subs(scene, "MAIN_OPAQUE");
 
     if (!subs || !subs.water_params) {
-        m_print.error("set_water_params() - no water parameters on this scene");
+        m_print.error("set_water_params() - no water parameters on the scene");
         return null;
     }
 
@@ -3360,24 +3819,55 @@ exports.update = function(timeline, elapsed) {
                                            active_cam_render.trans[2]);
         }
 
+        var textures = scene._render.video_textures;
+
+        for (var j = 0; j < textures.length; j++) {
+            var texture = textures[j]._render;
+            var video = texture.video_file;
+            var end_frame = texture.frame_duration +
+                    texture.frame_offset;
+            if (video) {
+                var curren_frame = Math.round(video.currentTime * texture.fps);
+                var start_time = texture.frame_offset / texture.fps;
+
+                var frame_eps = (cfg_def.is_mobile_device) ? FRAME_EPS : 0;
+
+                if ((curren_frame < texture.frame_offset - frame_eps) ||
+                        textures[j]._render.use_cyclic && curren_frame > end_frame)
+                    video.currentTime = start_time;
+
+                if (!texture.use_cyclic && curren_frame > end_frame)
+                    video.pause();
+
+                if (video.readyState >= 2 && !video.paused)
+                    m_tex.update_video_texture(texture);
+            } else
+                if (texture.seq_video) {
+                    var length = Math.min(texture.seq_video.length, texture.frame_duration + texture.frame_offset);
+                    if ((texture.seq_cur_frame < texture.frame_offset) ||
+                            texture.use_cyclic && texture.seq_cur_frame >= length)
+                        texture.seq_cur_frame = texture.frame_offset;
+                    if (!texture.use_cyclic && texture.seq_cur_frame >= length)
+                        texture.seq_video_played = false;
+                    var time = Math.round(timeline * cfg_ani.framerate / texture.fps) * texture.seq_fps;
+                    if (time != _seq_video_time && texture.seq_video_played) {
+                        m_tex.update_seq_video_texture(texture);
+                        texture.seq_cur_frame++;
+                    }
+
+                    _seq_video_time = time;
+            }
+        }
         m_graph.traverse(graph, function(node, attr) {
             var subs = attr;
             if (TIME_SUBSCENE_TYPES.indexOf(subs.type) > -1) {
                 subs.time = timeline;
             }
-            if (MAIN_SUBSCENE_TYPES.indexOf(subs.type) > -1
-                    && scene._render.water_params){
+            if (scene._render.water_params) {
                 subs.cam_water_depth = cam_water_depth;
             }
         });
-    }
 
-    // update glow animation
-    if (cfg_def.deferred_rendering) {
-        for (var i = 0; i < _glow_anim_objs.length; i++) {
-            var obj = _glow_anim_objs[i];
-            update_obj_glow_intensity(obj, timeline);
-        }
     }
 
     // rendering
@@ -3409,36 +3899,37 @@ exports.update = function(timeline, elapsed) {
         //if (cfg_def.smaa && !m_cfg.context.alpha)
         //    update_smaa_resolve_subscene(render.graph);
 
-        // render glow animation
-        if (cfg_def.deferred_rendering && render.glow) {
-            var subs_glow_mask = get_subs(scene, "GLOW_MASK");
-            var bundles = subs_glow_mask.bundles;
-
+        // render outline animation
+        if (render.outline) {
+            // update outline animation
             var summ_intensity = 0;
-            for (var j = 0; j < bundles.length; j++)
-                summ_intensity += bundles[j].batch.glow_intensity;
-
+            for (var i = 0; i < scene._objects["MESH"].length; i++) {
+                var obj = scene._objects["MESH"][i];
+                summ_intensity += obj._render.outline_intensity;
+                if (_outline_anim_objs.indexOf(obj) != -1)
+                    update_obj_outline_intensity(obj, timeline);
+            }
             m_graph.traverse(scene._render.graph, function(node, attr) {
-                if (attr.type === "GLOW")
-                    attr.draw_glow_flag = summ_intensity;
+                if (attr.type === "OUTLINE")
+                    attr.draw_outline_flag = summ_intensity;
             });
 
         }
 
-        // find glow mask scene index
-        var glow_mask_subs_index = null;
+        // find outline mask scene index
+        var outline_mask_subs_index = null;
         for (var j = 0; j < queue.length; j++)
-            if (queue[j].type == "GLOW_MASK")
-                glow_mask_subs_index = j;
+            if (queue[j].type == "OUTLINE_MASK")
+                outline_mask_subs_index = j;
 
         for (var j = 0; j < queue.length; j++) {
             var qsubs = queue[j];
             m_prerender.prerender_subs(qsubs);
 
-            // optimize glow supporting subscenes
-            if (glow_mask_subs_index !== null)
-                optimize_glow_postprocessing(render.graph, qsubs,
-                        queue[glow_mask_subs_index])
+            // optimize outline supporting subscenes
+            if (outline_mask_subs_index !== null)
+                optimize_outline_postprocessing(render.graph, qsubs,
+                        queue[outline_mask_subs_index])
 
             m_render.draw(qsubs);
         }
@@ -3458,15 +3949,15 @@ exports.update = function(timeline, elapsed) {
         m_hud.show_debug_info(_scenes, elapsed);
 }
 
-function optimize_glow_postprocessing(graph, qsubs, glow_mask_subs) {
-    // optimize glow POSTPROCESSING subscenes rendering
-    if (qsubs.is_for_glow && qsubs.type == "POSTPROCESSING")
-        if (glow_mask_subs.do_render != qsubs.do_render)
-            qsubs.do_render = glow_mask_subs.do_render;
+function optimize_outline_postprocessing(graph, qsubs, outline_mask_subs) {
+    // optimize outline POSTPROCESSING subscenes rendering
+    if (qsubs.is_for_outline && qsubs.type == "POSTPROCESSING")
+        if (outline_mask_subs.do_render != qsubs.do_render)
+            qsubs.do_render = outline_mask_subs.do_render;
 
-    // optimize GLOW rendering if GLOW_MASK is switched off
-    if (!glow_mask_subs.do_render && qsubs.type == "GLOW")
-        qsubs.draw_glow_flag = 0;
+    // optimize OUTLINE rendering if OUTLINE_MASK is switched off
+    if (!outline_mask_subs.do_render && qsubs.type == "OUTLINE")
+        qsubs.draw_outline_flag = 0;
 }
 
 function slink_switch_active(graph, id1, id2, slink, active) {
@@ -3559,6 +4050,8 @@ function update_subs_grass_map(bpy_scene) {
 
 
 function update_motion_blur_subscenes(graph, elapsed) {
+    // TODO: initialize motion blur accumulator texture from rendering input on
+    // the first iteration
 
     m_graph.traverse(graph, function(id, attr) {
         var subs = attr;
@@ -3613,48 +4106,43 @@ function update_smaa_resolve_subscene(graph) {
     });
 }
 
-function update_obj_glow_intensity(obj, timeline) {
-    var glow_intensity = 0;
-    var ga_settings = obj._glow_anim;
+function update_obj_outline_intensity(obj, timeline) {
+    var outline_intensity = 0;
+    var ga_settings = obj._outline_anim;
     if (ga_settings.time_start == 0)
         ga_settings.time_start = timeline;
 
     var dt = timeline - ga_settings.time_start;
     if (ga_settings.relapses && dt / ga_settings.period >= ga_settings.relapses) {
-        exports.clear_glow_anim(obj);
+        exports.clear_outline_anim(obj);
         return;
     }
 
     var periodic_time = dt % ga_settings.period;
-    if (periodic_time < ga_settings.glow_time) {
-        var glow_time = periodic_time / (ga_settings.glow_time / 5);
-        var stage = Math.floor(glow_time);
+    if (periodic_time < ga_settings.outline_time) {
+        var outline_time = periodic_time / (ga_settings.outline_time / 5);
+        var stage = Math.floor(outline_time);
 
         switch (stage) {
         case 0:
-            glow_intensity = (glow_time - stage) / 2;
+            outline_intensity = (outline_time - stage) / 2;
             break;
         case 1:
-            glow_intensity = (glow_time - stage) / 2 + 0.5;
+            outline_intensity = (outline_time - stage) / 2 + 0.5;
             break;
         case 2:
-            glow_intensity = 1;
+            outline_intensity = 1;
             break;
         case 3:
-            glow_intensity = 1 - (glow_time - stage) / 2;
+            outline_intensity = 1 - (outline_time - stage) / 2;
             break;
         case 4:
-            glow_intensity = 0.5 - (glow_time - stage) / 2;
+            outline_intensity = 0.5 - (outline_time - stage) / 2;
             break;
         }
     }
 
-    for (var i = 0; i < obj._batches.length; i++) {
-        var batch = obj._batches[i];
-
-        if (batch.type == "COLOR_ID")
-            batch.glow_intensity = glow_intensity;
-    }
+    obj._render.outline_intensity = outline_intensity;
 }
 
 exports.get_all_subscenes = function(scene) {
@@ -3668,34 +4156,29 @@ exports.get_all_subscenes = function(scene) {
     return subscenes;
 }
 
-exports.apply_glow_anim = function(obj, tau, T, N) {
-    obj._glow_anim = {
+exports.apply_outline_anim = function(obj, tau, T, N) {
+    obj._outline_anim = {
         time_start: 0,
-        glow_time: tau,
+        outline_time: tau,
         period: T,
         relapses: N
     }
 
-    var ind = _glow_anim_objs.indexOf(obj);
+    var ind = _outline_anim_objs.indexOf(obj);
     if (ind == -1)
-        _glow_anim_objs.push(obj);
+        _outline_anim_objs.push(obj);
 }
 
-exports.clear_glow_anim = function(obj) {
-    if (obj._batches)
-        for (var i = 0; i < obj._batches.length; i++) {
-            var batch = obj._batches[i];
-            if (batch.type == "COLOR_ID")
-                batch.glow_intensity = 0;
-        }
+exports.clear_outline_anim = function(obj) {
+    obj._render.outline_intensity = 0;
 
-    var ind = _glow_anim_objs.indexOf(obj);
+    var ind = _outline_anim_objs.indexOf(obj);
     if (ind != -1)
-        _glow_anim_objs.splice(ind, 1);
+        _outline_anim_objs.splice(ind, 1);
 }
 
-exports.cleanup_glow_anim = function() {
-    _glow_anim_objs = [];
+exports.cleanup_outline_anim = function() {
+    _outline_anim_objs = [];
 }
 
 exports.get_cam_water_depth = function() {
@@ -3776,20 +4259,25 @@ function update_force(obj) {
     }
 }
 
-exports.pick_object = function(x, y) {
+exports.pick_object = function(canvas_x, canvas_y) {
 
-    if (!check_active()) {
+    var main_scene = get_main();
+    if (!main_scene) {
         m_print.error("No active scene");
         return null;
     }
-    var active_scene = get_active();
-    var subs_color_pick = get_subs(active_scene, "COLOR_PICKING");
+
+    var subs_color_pick = get_subs(main_scene, "COLOR_PICKING");
     if (subs_color_pick) {
+
+        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
+                _vec2_tmp, subs_color_pick.camera);
+
         // NOTE: may be some delay since exports.update() execution
         m_prerender.prerender_subs(subs_color_pick);
         m_render.draw(subs_color_pick, subs_color_pick.bundles);
 
-        var subs_color_pick_xray = get_subs(active_scene, "COLOR_PICKING_XRAY");
+        var subs_color_pick_xray = get_subs(main_scene, "COLOR_PICKING_XRAY");
         if (subs_color_pick_xray) {
             m_prerender.prerender_subs(subs_color_pick_xray);
             m_render.draw(subs_color_pick_xray, subs_color_pick_xray.bundles);
@@ -3797,25 +4285,55 @@ exports.pick_object = function(x, y) {
         } else
             var cam = subs_color_pick.camera;
 
-        var y = cam.height - y;
-        var color = m_render.read_pixels(cam.framebuffer, x, y);
+        viewport_xy[1] = cam.height - viewport_xy[1];
+        var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
+                viewport_xy[1]);
 
         // find objects having the same color
-        var sobjs = get_scene_objs(active_scene, "MESH", exports.DATA_ID_ALL);
+        var sobjs = get_scene_objs(main_scene, "MESH", exports.DATA_ID_ALL);
         for (var i = 0; i < sobjs.length; i++) {
+            var render = sobjs[i]._render;
+            var color_id = render.color_id;
+            if (color_id) {
+                if (Math.abs(255 * color_id[0] - color[0]) < COLOR_ID_THRESHOLD &&
+                        Math.abs(255 * color_id[1] - color[1]) < COLOR_ID_THRESHOLD &&
+                        Math.abs(255 * color_id[2] - color[2]) < COLOR_ID_THRESHOLD) {
 
-            var color_id = sobjs[i]._color_id;
-            if (color_id)
-                if (Math.abs(255 * color_id[0] - color[0]) < 5.0 &&
-                        Math.abs(255 * color_id[1] - color[1]) < 5.0 &&
-                        Math.abs(255 * color_id[2] - color[2]) < 5.0) {
+                    if (render.outlining && render.outline_on_select) {
+
+                        if (cfg_out.outlining_overview_mode) {
+                            set_outline_color(cfg_out.outline_color);
+                            render.outline_intensity = cfg_out.outline_intensity;
+
+                            exports.apply_outline_anim(sobjs[i], cfg_out.outline_duration,
+                                    cfg_out.outline_period, cfg_out.outline_relapses);
+                        } else {
+                            set_outline_color(main_scene["b4w_outline_color"]);
+                            render.outline_intensity = main_scene["b4w_outline_factor"];
+
+                            var ga = render.outline_anim_settings;
+                            exports.apply_outline_anim(sobjs[i], ga.outline_duration,
+                                    ga.outline_period, ga.outline_relapses);
+                        }
+                    }
                     return sobjs[i];
                 }
+            }
         }
     } else
-        m_print.error("Color picking is not available");
+        m_print.error("Object Selection is not available on the scene");
 
     return null;
+}
+
+exports.set_outline_color = set_outline_color;
+function set_outline_color(color) {
+    var scene = get_active();
+    var subs = get_subs(scene, "OUTLINE");
+    if (subs) {
+        subs.outline_color.set(color);
+        subs.need_perm_uniforms_update = true;
+    }
 }
 
 /**
@@ -3837,5 +4355,126 @@ exports.get_selectable_objects = function(scene) {
     return sel_objects;
 }
 
+exports.get_meta_tags = function(scene) {
+    var tags = {
+        title: "",
+        description: ""
+    };
+
+    if (scene["b4w_tags"]) {
+        tags.title = scene["b4w_tags"]["title"];
+        tags.description = scene["b4w_tags"]["description"];
+    }
+
+    return tags;
+}
+
+exports.update_all_mesh_shaders = function() {
+    var scene = _active_scene;
+    var objs = get_scene_objs(scene, "MESH", exports.DATA_ID_ALL);
+    for (var i = 0; i < objs.length; i++) {
+        var batches = objs[i]._batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            if (batch.type != "MAIN")
+                continue;
+            update_batch_lights(scene, batch);
+            m_batch.update_shader(batch);
+        }
+    }
+}
+
+exports.update_cube_reflect_subs = function(scene, obj) {
+    var trans = obj._render.bs_world.center;
+
+    var subs_refl = get_cube_refl_subs_by_obj(scene, obj);
+
+    if (subs_refl) {
+        var vm_trans = _vec3_tmp;
+        m_vec3.negate(trans, vm_trans);
+        for (var i = 0; i < 6; i++) {
+            var vm = subs_refl.cube_view_matrices[i];
+            var frustum = subs_refl.cube_cam_frustums[i];
+            var cam = subs_refl.camera;
+            m_mat4.translate(m_util.INV_CUBE_VIEW_MATRS[i], vm_trans, vm);
+            m_mat4.multiply(cam.proj_matrix, vm, cam.view_proj_matrix);
+            m_util.extract_frustum_planes(cam.view_proj_matrix, frustum);
+        }
+    }
+}
+
+function get_cube_refl_subs_by_obj(scene, obj) {
+
+    if (!scene._render.reflection_params)
+        return null;
+
+    var reflection_id = obj._render.cube_reflection_id;
+    var refl_subs = scene._render.reflection_params.cube_refl_subs;
+    return refl_subs[reflection_id];
+}
+
+function get_cube_refl_id_by_subs(scene, subs) {
+
+    if (!scene._render.reflection_params)
+        return null;
+
+    var refl_subs = scene._render.reflection_params.cube_refl_subs;
+    for (var i = 0; i < refl_subs.length; i++) {
+        if (refl_subs[i] == subs)
+            return i;
+    }
+    return null;
+}
+
+exports.assign_reflection_plane = function(obj, scene) {
+    if (!scene._render.reflection_params)
+        return false;
+    var refl_id = obj._render.plane_reflection_id;
+    var refl_subs = scene._render.reflection_params.plane_refl_subs[refl_id];
+    obj._render.reflection_plane = refl_subs.camera.reflection_plane;
+}
+
+exports.update_plane_reflection_by_id = function(id, scene) {
+    var refl_plane_obj = scene._render.reflection_params.refl_plane_objs[id];
+    var refl_subs = scene._render.reflection_params.plane_refl_subs[id];
+    var cam = refl_subs.camera;
+
+    var trans = refl_plane_obj._render.trans;
+    var quat  = refl_plane_obj._render.quat;
+
+    m_util.trans_quat_to_plane(trans, quat, m_util.AXIS_Y,
+                               cam.reflection_plane);
+
+    m_cam.set_view(cam, scene["camera"])
+    // NOTE: reflective objects take reflection plane by reference,
+    // so they don't need updates here
+}
+
+function get_plane_refl_subs_by_obj(scene, obj) {
+
+    if (!scene._render.reflection_params)
+        return null;
+
+    var reflection_id = obj._render.plane_reflection_id;
+    var refl_subs = scene._render.reflection_params.plane_refl_subs;
+    return refl_subs[reflection_id];
+}
+
+function get_plane_refl_id_by_subs(scene, subs) {
+
+    if (!scene._render.reflection_params)
+        return null;
+
+    var refl_subs = scene._render.reflection_params.plane_refl_subs;
+    for (var i = 0; i < refl_subs.length; i++) {
+        if (refl_subs[i] == subs)
+            return i;
+    }
+    return null;
+}
+
+exports.marker_frame = function(scene, name) {
+    return scene["timeline_markers"][name];
+}
 
 }

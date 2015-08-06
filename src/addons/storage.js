@@ -16,6 +16,7 @@ var _storage = null;
 
 /**
  * Initialize the application storage.
+ * @method module:storage.init
  * @param {String} prefix Storage prefix
  */
 exports.init = init;

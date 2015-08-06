@@ -1,38 +1,17 @@
-export ROOT_DIR      = ../../
-export APPS_DEV      = $(ROOT_DIR)/apps_dev/
-export APPS_EXT      = $(ROOT_DIR)/external/deploy/apps/
-
-export JAR_CP        = $(ROOT_DIR)/closure-compiler/compiler.jar
-export PARSER        = $(ROOT_DIR)/apps_dev/parse_html.py
-export PY_PARSER     = python3 $(PARSER)
-export EXTERNS       = $(ROOT_DIR)/closure-compiler/
-
-export STORAGE_JS    = $(ROOT_DIR)/src/addons/storage.js
-export APP_JS        = $(ROOT_DIR)/src/addons/app.js
-export PL_JS         = $(ROOT_DIR)/src/addons/pointerlock.js
-export NPC_AI_JS     = $(ROOT_DIR)/src/addons/npc_ai.js
-export MIXER_JS      = $(ROOT_DIR)/src/addons/mixer.js
-export CAMANIM_JS    = $(ROOT_DIR)/src/addons/camera_anim.js
-export PRELOADER_JS  = $(ROOT_DIR)/src/addons/preloader.js
-
-export B4W_PATH      = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
-export URANIUM_PATH  = $(ROOT_DIR)/external/deploy/apps/common/uranium.js
-
-export APP_DIR_CAPRI = $(ROOT_DIR)/apps_dev/capri
-
-export RM            = -rm
+VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*//' ../VERSION`
 
 .PHONY: all
 all:
-	$(MAKE) -C capri
-	$(MAKE) -C embed
-	$(MAKE) -C fashion
-	$(MAKE) -C firstperson
-	$(MAKE) -C flight
-	$(MAKE) -C gallery
-	$(MAKE) -C viewer
-
-.PHONY: clean
-clean:
+	@$(SH) ./project.py -p capri -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p code_snippets -v $(VERSION) --js_ignore=scripts/*.js
+	@$(SH) ./project.py -p dairy_plant -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p fashion -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p firstperson -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p flight -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p gallery -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p new_year -o simple -v $(VERSION)
+	@$(SH) ./project.py -p victory_day_2015 -o advanced -v $(VERSION)
+	@$(SH) ./project.py -p viewer -v $(VERSION) --js_ignore=jquery-*.js
+	@$(SH) ./project.py -p webplayer -b compile -o advanced -v $(VERSION)
 
 # vim: set noet ts=4 sw=4:

@@ -17,8 +17,10 @@ var m_print = require("__print");
 var sfx     = require("__sfx");
 var m_util  = require("__util");
 var version = require("__version");
+var m_compat = require("__compat");
 
 var cfg_ldr = config.assets;
+var cfg_def = config.defaults;
 
 // asset types
 exports.AT_ARRAYBUFFER   = 10;
@@ -27,6 +29,8 @@ exports.AT_TEXT          = 30;
 exports.AT_AUDIOBUFFER   = 40;
 exports.AT_IMAGE_ELEMENT = 50;
 exports.AT_AUDIO_ELEMENT = 60;
+exports.AT_VIDEO_ELEMENT = 70;
+exports.AT_SEQ_VIDEO_ELEMENT = 80;
 
 // asset states: enqueued -> requested -> received
 var ASTATE_ENQUEUED = 10;
@@ -42,7 +46,7 @@ var _loaded_assets = {};
 
 
 function get_built_in_data() {
-    if (is_built_in_data())
+    if (config.is_built_in_data())
         return require(config.paths.built_in_data_module)["data"];
     else
         return null;
@@ -139,9 +143,9 @@ exports.get_text_sync = function(asset_uri) {
             _loaded_assets[asset_uri] = resp_text;
             return resp_text;
         } else
-            throw "Error XHR: responce is empty, GET " + asset_uri;
+            m_util.panic("Error XHR: responce is empty, GET " + asset_uri);
     } else {
-        throw "Error XHR: " + req.status + ", GET " + asset_uri;
+        m_util.panic("Error XHR: " + req.status + ", GET " + asset_uri);
     }
 }
 
@@ -155,12 +159,6 @@ exports.cleanup = function() {
     _loaded_assets = {};
 }
 
-/**
- * Enqueue assets pack.
- * @param assets_pack Assets pack: [[uri, type, filepath], ...]
- * @param [asset_cb] A single asset loaded callback
- * @param [pack_cb] Assets pack loaded callback
- */
 exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
     for (var i = 0; i < assets_pack.length; i++) {
         var pack_elem = assets_pack[i];
@@ -169,7 +167,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
             uri: pack_elem[0],
             type: pack_elem[1],
             filepath: pack_elem[2],
-            name: pack_elem[3],
+            opt_param: pack_elem[3],
 
             state: ASTATE_ENQUEUED,
 
@@ -241,8 +239,14 @@ function request_assets(queue) {
         case exports.AT_AUDIO_ELEMENT:
             request_audio(asset);
             break;
+        case exports.AT_VIDEO_ELEMENT:
+            request_video(asset);
+            break;
+        case exports.AT_SEQ_VIDEO_ELEMENT:
+            request_seq_video(asset);
+            break;
         default:
-            throw "Wrong asset type: " + asset.type;
+            m_util.panic("Wrong asset type: " + asset.type);
             break;
         }
     }
@@ -281,20 +285,20 @@ function request_arraybuffer(asset, response_type) {
                             try {
                                 response = JSON.parse(response);
                             } catch(e) {
-                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                                 m_print.error(e + " (parsing JSON " + asset.filepath + ")");
                                 return;
                             }
                         }
 
-                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath);
+                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                        m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                        m_print.error("empty responce when trying to get " + asset.filepath);
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                    m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    m_print.error(req.status + " when trying to get " + asset.filepath);
                 }
                 asset.state = ASTATE_RECEIVED;
             }
@@ -327,25 +331,25 @@ function request_audiobuffer(asset) {
                     var response = req.response;
                     if (response) {
                         var decode_cb = function(audio_buffer) {
-                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath);
+                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath, asset.opt_param);
                             asset.state = ASTATE_RECEIVED;
                         }
                         var fail_cb = function() {
-                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                            m_print.error("B4W Error: failed to decode " + asset.filepath);
+                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                            m_print.error("failed to decode " + asset.filepath);
                             asset.state = ASTATE_RECEIVED;
                         }
 
                         sfx.decode_audio_data(response, decode_cb, fail_cb);
 
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                        m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                        m_print.error("empty responce when trying to get " + asset.filepath);
                         asset.state = ASTATE_RECEIVED;
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                    m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    m_print.error(req.status + " when trying to get " + asset.filepath);
                     asset.state = ASTATE_RECEIVED;
                 }
             }
@@ -356,16 +360,18 @@ function request_audiobuffer(asset) {
 
 function request_image(asset) {
     var image = document.createElement("img");
+    if (cfg_def.allow_cors)
+        image.crossOrigin = "Anonymous";
     image.onload = function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(image, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(image, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     };
     image.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-            m_print.error("B4W Error: could not load image: " + asset.filepath);
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            m_print.error("could not load image: " + asset.filepath);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
@@ -376,8 +382,12 @@ function request_image(asset) {
             var img_mime_type = get_image_mime_type(asset.filepath);
             image.src = "data:" + img_mime_type + ";base64," + bd[asset.filepath];
         } else {
-            var event = new CustomEvent("error");
-            image.dispatchEvent(event);
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            image.dispatchEvent(e);
         }
     } else
         image.src = asset.filepath;
@@ -385,17 +395,20 @@ function request_image(asset) {
 
 function request_audio(asset) {
     var audio = document.createElement("audio");
-    // HACK: workaround for some chrome garbage collector bug
+    if (cfg_def.allow_cors || cfg_def.cors_chrome_hack)
+        audio.crossOrigin = "Anonymous";
+    
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
+
     audio.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-            m_print.error("B4W Error: could not load sound: " + asset.filepath);
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            m_print.error("could not load sound: " + asset.filepath);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
@@ -405,20 +418,165 @@ function request_audio(asset) {
         if (bd[asset.filepath]) {
             var snd_mime_type = get_sound_mime_type(asset.filepath);
             audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
-        } else {
-            var event = new CustomEvent("error");
-            audio.dispatchEvent(event);
-        }
-    } else
-        audio.src = asset.filepath;
+            if (asset.state != ASTATE_HALTED) {
+                asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                asset.state = ASTATE_RECEIVED;
+            }
 
+        } else {
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            audio.dispatchEvent(e);
+        }
+    } else {
+        audio.src = asset.filepath;
+        if (cfg_def.is_mobile_device)
+            audio.load();
+    }
+
+    if (cfg_def.mobile_firefox_media_hack) {
+        audio.autoplay = true;
+        audio.pause();
+    }
+
+    // HACK: workaround for some garbage collector bug
     setTimeout(function() {audio.some_prop_to_prevent_gc = 1}, 5000);
+}
+
+function request_video(asset) {
+    var video = document.createElement("video");
+    video.muted = true;
+    // HACK: allow crossOrigin for mobile devices (Android Chrome bug)
+    if (cfg_def.allow_cors || cfg_def.is_mobile_device)
+        video.crossOrigin = "Anonymous";
+    video.addEventListener("loadeddata", function() {
+        video.removeEventListener("error", video_error_event, false);
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            asset.state = ASTATE_RECEIVED;
+        }
+    }, false);
+
+    function video_error_event(e) {
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+            m_print.error("could not load video: " + asset.filepath, asset.opt_param);
+            asset.state = ASTATE_RECEIVED;
+        }
+    }
+    video.addEventListener("error", video_error_event, false);
+
+    var bd = get_built_in_data();
+    if (bd && asset.filepath in bd) {
+        if (bd[asset.filepath]) {
+            var vid_mime_type = get_video_mime_type(asset.filepath);
+            video.src = "data:" + vid_mime_type + ";base64," + bd[asset.filepath];
+            if (asset.state != ASTATE_HALTED)
+                video.addEventListener("loadeddata", function() {
+                    asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    asset.state = ASTATE_RECEIVED;
+                }, false);
+        } else {
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            video.dispatchEvent(e);
+        }
+    } else {
+        video.src = asset.filepath;
+        if (cfg_def.is_mobile_device)
+            video.load();
+    }
+    
+    if (cfg_def.mobile_firefox_media_hack) {
+        video.autoplay = true;
+        video.pause();
+    }
+    
+    // HACK: workaround for some garbage collector bug
+    setTimeout(function() {video.some_prop_to_prevent_gc = 1}, 10000);
+}
+
+function request_seq_video(asset) {
+    var bd = get_built_in_data();
+    if (bd && asset.filepath in bd)
+        var req = new FakeHttpRequest();
+    else
+        var req = new XMLHttpRequest();
+    req.open("GET", asset.filepath, true);
+    req.responseType = "arraybuffer";
+
+    function load_cb(images) { 
+        asset.asset_cb(images, asset.uri, asset.type, asset.filepath, asset.opt_param);
+    }
+
+    req.onreadystatechange = function() {
+    if (asset.state != ASTATE_HALTED)
+        if (req.readyState == 4) {
+            if (req.status == 200 || req.status == 0) {
+                var response = req.response;
+                if (response) {
+                    parse_seq_video_file(response, load_cb);                    
+                }
+                else {
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    m_print.error("empty responce when trying to get " + asset.filepath);
+                }
+            } else {
+                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                m_print.error(req.status + " when trying to get " + asset.filepath);
+            }
+            asset.state = ASTATE_RECEIVED;
+        }
+    };
+    req.addEventListener("progress", function(e) {
+        // compute progress information if total size is known
+        if (e.lengthComputable)
+            asset.progress_cb(e.loaded / e.total);
+    }, false);
+
+    req.send(null);
+}
+
+function parse_seq_video_file(response, callback) {
+    var buffer = new Int32Array(response);
+    var seq_image_data = new Int8Array(response);
+    var number = buffer[3];
+    var data = {
+        images: [],
+        blobs: [],
+        fps: buffer[4]
+    };
+    var offset = 20;
+    for (var j = 0; j < number; j++) {
+        var size = buffer[offset/4];
+        var frame = seq_image_data.subarray(offset + 4, offset + 4 + size);
+        var blob = new Blob([frame], {type: "image/jpg"});
+        var image = document.createElement("img");
+        image.src = window.URL.createObjectURL(blob);
+        data.images.push(image);
+        // NOTE: IE HTML7007 message hack
+        data.blobs.push(blob);
+        offset +=size + 8 - size % 4;
+    }
+    // NOTE: wait for loading last image
+    image.onload = function() {
+        for (var i = 0; i < data.images.length; i++)
+            window.URL.revokeObjectURL(data.images[i].src);
+        delete data.blobs;
+        callback(data);
+    }
 }
 
 function get_image_mime_type(file_path) {
     var ext = m_util.get_file_extension(file_path);
     var mime_type = "image";
-    switch(ext) {
+    switch(ext.toLowerCase()) {
     case "jpeg":
     case "jpg":
         mime_type += "/jpeg";
@@ -434,14 +592,37 @@ function get_image_mime_type(file_path) {
 function get_sound_mime_type(file_path) {
     var ext = m_util.get_file_extension(file_path);
     var mime_type = "audio";
-    switch(ext) {
+    switch(ext.toLowerCase()) {
+    case "ogv":
     case "ogg":
         mime_type += "/ogg";
         break;
     case "mp3":
         mime_type += "/mpeg";
         break;
+    case "m4v":    
     case "mp4":
+        mime_type += "/mp4";
+        break;
+    case "webm":
+        mime_type += "/webm";
+        break;
+    }
+
+    return mime_type;
+}
+
+function get_video_mime_type(file_path) {
+    var ext = m_util.get_file_extension(file_path);
+    var mime_type = "video";
+    switch(ext.toLowerCase()) {
+    case "ogv":
+        mime_type += "/ogg";
+        break;
+    case "webm":
+        mime_type += "/webm";
+        break;
+    case "m4v":
         mime_type += "/mp4";
         break;
     }
@@ -495,11 +676,6 @@ function debug_queue(queue, opt_log_prefix) {
         m_print.log(opt_log_prefix, state_str);
     else
         m_print.log(state_str);
-}
-
-exports.is_built_in_data = is_built_in_data;
-function is_built_in_data() {
-    return b4w.module_check(config.paths.built_in_data_module);
 }
 
 }

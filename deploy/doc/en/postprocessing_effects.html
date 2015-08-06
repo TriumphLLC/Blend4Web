@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Postprocessing Effects &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Particle System. Fluids" href="particles.html" />
+    <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Postprocessing Effects</a><ul>
+<li><a class="reference internal" href="#motion-blur">Motion Blur</a><ul>
+<li><a class="reference internal" href="#id3">Activation</a></li>
+<li><a class="reference internal" href="#id4">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dof">Depth of Field</a><ul>
+<li><a class="reference internal" href="#id6">Activation</a></li>
+<li><a class="reference internal" href="#id7">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ssao">Screen-Space Ambient Occlusion</a><ul>
+<li><a class="reference internal" href="#id9">Activation</a></li>
+<li><a class="reference internal" href="#id10">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#god-rays">God Rays</a><ul>
+<li><a class="reference internal" href="#id12">Activation</a></li>
+<li><a class="reference internal" href="#id13">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id14">Bloom</a><ul>
+<li><a class="reference internal" href="#id15">Activation</a></li>
+<li><a class="reference internal" href="#id16">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#outlining">Outlining</a><ul>
+<li><a class="reference internal" href="#id17">Activation</a></li>
+<li><a class="reference internal" href="#id18">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#anaglyph">Stereoscopic Rendering (Anaglyph)</a><ul>
+<li><a class="reference internal" href="#id20">Activation</a></li>
+<li><a class="reference internal" href="#id21">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#color-correction">Color Correction</a><ul>
+<li><a class="reference internal" href="#id23">Activation</a></li>
+<li><a class="reference internal" href="#id24">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#antialiasing">Anti-Aliasing</a><ul>
+<li><a class="reference internal" href="#id26">Activation</a></li>
+<li><a class="reference internal" href="#id27">Additional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#glow">Glow</a><ul>
+<li><a class="reference internal" href="#id29">Activation</a></li>
+<li><a class="reference internal" href="#id30">Additional settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="lighting.html" title="Previous Chapter: Lighting, Shadows and Background"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Lighting, Shadow...</span>
+    </a>
+  </li>
+  <li>
+    <a href="particles.html" title="Next Chapter: Particle System. Fluids"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Particle System.... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="postprocessing-effects">
+<span id="id1"></span><h1>Postprocessing Effects<a class="headerlink" href="#postprocessing-effects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="motion-blur">
+<span id="index-0"></span><span id="id2"></span><h2>Motion Blur<a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h2>
+<p>The motion blur effect can be used to improve the realism of an interactive scene. It is displayed as picture blurring when the camera or objects move.</p>
+<a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
+<div class="section" id="id3">
+<h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">Motion</span> <span class="pre">Blur</span></code> panel on the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
+</div>
+<div class="section" id="id4">
+<h3>Additional settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Factor</em></dt>
+<dd><p class="first last">Effect appearance ratio. The higher this value is the stronger is the motion blur.</p>
+</dd>
+<dt><em>Decay threshold</em></dt>
+<dd><p class="first last">Blur fade-out ratio. The higher this value is the more distinct is the effect. The default value is 0.01.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="dof">
+<span id="index-1"></span><span id="id5"></span><h2>Depth of Field<a class="headerlink" href="#dof" title="Permalink to this headline">¶</a></h2>
+<p>The depth of field effect (DOF) can be used to accentuate a part of a scene. It is displayed as picture blurring nearer and further from the camera focus.</p>
+<a class="reference internal image-reference" href="_images/dof.jpg"><img alt="_images/dof.jpg" class="align-center" src="_images/dof.jpg" style="width: 100%;" /></a>
+<div class="section" id="id6">
+<h3>Activation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Select an active camera and go to its settings panel <code class="docutils literal"><span class="pre">Camera</span></code> (<code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>).</p>
+</li>
+<li><p class="first">Then two options are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">Select an object to use as the camera&#8217;s focus in the <code class="docutils literal"><span class="pre">Focus</span></code> option of the <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> panel. In this case moving away or approaching this object will cause a corresponding correction of the camera focus.</p>
+</li>
+<li><p class="first">Set a non-zero value for the <code class="docutils literal"><span class="pre">Distance</span></code> on the same panel (in Blender units = meters). In this case the camera focus will be located at this distance from the camera and will move together with it.</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id7">
+<h3>Additional settings<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Front</em></dt>
+<dd><p class="first last">The distance from the focus to the nearest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.</p>
+</dd>
+<dt><em>Rear</em></dt>
+<dd><p class="first last">The distance from the focus to the furthest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.</p>
+</dd>
+<dt><em>Power</em></dt>
+<dd><p class="first last">Blurring ratio. The default value is 3.0.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="ssao">
+<span id="index-2"></span><span id="id8"></span><h2>Screen-Space Ambient Occlusion<a class="headerlink" href="#ssao" title="Permalink to this headline">¶</a></h2>
+<p>The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.</p>
+<a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
+<div class="section" id="id9">
+<h3>Activation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">Ambient</span> <span class="pre">Occlusion</span> <span class="pre">SSAO</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab and set the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> parameter to <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>  on the <code class="docutils literal"><span class="pre">Rander</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span></code> panel.</p>
+</div>
+<div class="section" id="id10">
+<h3>Additional settings<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Radius Increase</em></dt>
+<dd><p class="first last">The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 3.0.</p>
+</dd>
+<dt><em>Use Hemisphere</em></dt>
+<dd><p class="first last">Use a hemispherical sampling for shading instead of a spherical. Besides it uses different shading law.</p>
+</dd>
+<dt><em>Use Blur Depth Test</em></dt>
+<dd><p class="first last">Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it uses blur which averages a 4x4 rectangle around each pixel.</p>
+</dd>
+<dt><em>Blur Depth Test Discard Value</em></dt>
+<dd><p class="first last">Influence of depth difference between samples on blur weight. It uses with <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code> activated flag. The default value is 1.0.</p>
+</dd>
+<dt><em>Influence</em></dt>
+<dd><p class="first last">SSAO appearance factor. The default value is 0.7.</p>
+</dd>
+<dt><em>Distance Factor</em></dt>
+<dd><p class="first last">Factor of SSAO decay with distance. The default value is 0.0 (i.e. no decay).</p>
+</dd>
+<dt><em>Samples</em></dt>
+<dd><p class="first last">Number of samples (the more samples there are the better is the quality but the poorer is the performance). The default value is 16.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="god-rays">
+<span id="index-3"></span><span id="id11"></span><h2>God Rays<a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h2>
+<p>The god rays effect (aka crepuscular rays) simulates well-known natural phenomenon - the shining of illuminated air parts.</p>
+<a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
+<div class="section" id="id12">
+<h3>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">God</span> <span class="pre">Rays</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
+</div>
+<div class="section" id="id13">
+<h3>Additional settings<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Intensity</em></dt>
+<dd><p class="first last">The effect appearance factor. The default value is 0.7.</p>
+</dd>
+<dt><em>Maximum Ray Length</em></dt>
+<dd><p class="first last">Rays length factor. Defines the step between samples of radial blurring. The default value is 1.0.</p>
+</dd>
+<dt><em>Steps Per Pass</em></dt>
+<dd><p class="first last">Number of steps per single sample. The default value is 10.0.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>Bloom<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<p>Bloom appears when a picture has elements with a very different brightness. A glowing halo is created around the bright details.</p>
+<a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
+<div class="section" id="id15">
+<h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">Bloom</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
+</div>
+<div class="section" id="id16">
+<h3>Additional settings<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Key</em></dt>
+<dd><p class="first last">Bloom intensity.</p>
+</dd>
+<dt><em>Blur</em></dt>
+<dd><p class="first last">Bloom blurriness factor.</p>
+</dd>
+<dt><em>Edge Luminance</em></dt>
+<dd><p class="first last">The boundary value of an element&#8217;s relative brightness above which the bloom effect appears.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="outlining">
+<span id="outline"></span><span id="index-4"></span><h2>Outlining<a class="headerlink" href="#outlining" title="Permalink to this headline">¶</a></h2>
+<p>As a result of the outline glow effect, a luminous colored halo will be displayed around the object.</p>
+<a class="reference internal image-reference" href="_images/outline.jpg"><img alt="_images/outline.jpg" class="align-center" src="_images/outline.jpg" style="width: 100%;" /></a>
+<div class="section" id="id17">
+<h3>Activation<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel&#8217;s <code class="docutils literal"><span class="pre">Enable</span></code> property is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</div>
+<div class="section" id="id18">
+<h3>Additional settings<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>On the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel:</p>
+<dl class="docutils">
+<dt><em>Enable Outlining</em></dt>
+<dd><p class="first last">Permit using the outline glow effect on this object.</p>
+</dd>
+<dt><em>Duration</em></dt>
+<dd><p class="first last">Duration of glow animation, seconds. The default value is 1.</p>
+</dd>
+<dt><em>Period</em></dt>
+<dd><p class="first last">Repeat period of glow animation, seconds. The default value is 1.</p>
+</dd>
+<dt><em>Relapses</em></dt>
+<dd><p class="first last">The number of iterations of glow animation. If zero, animation is repeated forever. The default value is 0.</p>
+</dd>
+<dt><em>Outline on Select</em></dt>
+<dd><p class="first last">Activate glow animation upon selecting the object. In this case the <code class="docutils literal"><span class="pre">Selectable</span></code> option must be enabled. In case of a user-defined glow animation model, this option must be disabled in order to avoid conflict.</p>
+</dd>
+</dl>
+<p>On the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel:</p>
+<dl class="docutils">
+<dt><em>Factor</em></dt>
+<dd><p class="first last">When this parameter decreases so does the thickness and the brightness of the halo around the object. The default value is 1.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> settings are taken as default when the glow effect is initiated via API.</p>
+</div>
+</div>
+<div class="section" id="anaglyph">
+<span id="index-5"></span><span id="id19"></span><h2>Stereoscopic Rendering (Anaglyph)<a class="headerlink" href="#anaglyph" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/anaglyph.jpg"><img alt="_images/anaglyph.jpg" class="align-center" src="_images/anaglyph.jpg" style="width: 100%;" /></a>
+<div class="section" id="id20">
+<h3>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
+</div>
+<div class="section" id="id21">
+<h3>Additional settings<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>No.</p>
+</div>
+</div>
+<div class="section" id="color-correction">
+<span id="index-6"></span><span id="id22"></span><h2>Color Correction<a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
+<div class="section" id="id23">
+<h3>Activation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
+</div>
+<div class="section" id="id24">
+<h3>Additional settings<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Brightness</em></dt>
+<dd><p class="first last">The default value is 0.0.</p>
+</dd>
+<dt><em>Contrast</em></dt>
+<dd><p class="first last">The default value is 0.0.</p>
+</dd>
+<dt><em>Exposure</em></dt>
+<dd><p class="first last">The default value is 1.0.</p>
+</dd>
+<dt><em>Saturation</em></dt>
+<dd><p class="first last">The default value is 1.0.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="antialiasing">
+<span id="index-7"></span><span id="id25"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
+<p>Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization).</p>
+<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="id26">
+<h3>Activation<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<p>Activate the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Antialiasing</span></code> panel.</p>
+</div>
+<div class="section" id="id27">
+<h3>Additional settings<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<p>The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><em>low quality</em> - anti-aliasing is disabled</p>
+</li>
+<li><p class="first"><em>high quality</em> - the anti-aliasing method is FXAA (Fast Approximate Anti-Aliasing) by Nvidia</p>
+</li>
+<li><p class="first"><em>maximum quality</em> - the anti-aliasing method is SMAA (Enhanced Subpixel Morphological Anti-Aliasing) by Crytek</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="glow">
+<span id="id28"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
+<p>Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.</p>
+<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
+<div class="section" id="id29">
+<h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</div>
+<div class="section" id="id30">
+<h3>Additional settings<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Small Mask: Intensity</em></dt>
+<dd><p class="first last">Intensity of glow obtained through the smaller mask. The default value is 2.0.</p>
+</dd>
+<dt><em>Small Mask: Width</em></dt>
+<dd><p class="first last">Width of glow obtained through the smaller mask. The default value is 2.0.</p>
+</dd>
+<dt><em>Large Mask: Intensity</em></dt>
+<dd><p class="first last">Intensity of glow obtained through the larger mask. The default value is 2.0.</p>
+</dd>
+<dt><em>Large Mask: Width</em></dt>
+<dd><p class="first last">Width of glow obtained through the larger mask. The default value is 6.0.</p>
+</dd>
+<dt><em>Render Glow Over Transparent Object</em></dt>
+<dd><p class="first last">Render the glow effect over transparent objects.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

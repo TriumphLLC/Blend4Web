@@ -8,7 +8,6 @@
  */
 b4w.module["__physics"] = function(exports, require) {
 
-var m_cam     = require("__camera");
 var m_cfg     = require("__config");
 var m_cons    = require("__constraints");
 var m_print   = require("__print");
@@ -28,19 +27,23 @@ var m_mat4 = require("mat4");
 var cfg_phy = m_cfg.physics;
 var cfg_def = m_cfg.defaults;
 
+var ANY_COL_ID_NUM = 0;
 var RAY_CMP_PRECISION = 0.0000001;
 
 var _phy_fps = 0;
+var _worker = null;
+var _active_scene = null;
 
-var _active_scene_phy = null;
-var _bounding_objects = [];
-var _bounding_objects_cache = [];
+var _bounding_objects = {};
+var _bounding_objects_arr = [];
 
+var _collision_ids = [];
+
+// IDs always begin with 1
 var _unique_counter = {
-    world: 0,
     body: 0,
     constraint: 0,
-    shape: 0
+    ray_test: 0
 }
 
 var _vec3_tmp  = new Float32Array(3);
@@ -57,43 +60,49 @@ var VT_HULL        = 20;
 /**
  * Initialize physics engine
  */
-exports.init_engine = function(init_time) {
-    if (cfg_phy.enabled) {
-        var path = cfg_phy.uranium_path + m_version.timestamp();
-        m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
-        var worker = new Worker(path);
-        m_ipc.init(worker, process_message);
-        m_ipc.post_msg(m_ipc.OUT_INIT, init_time, cfg_phy.max_fps);
-        //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
+exports.init_scene_physics = function(scene) {
+
+    if (_active_scene) {
+        m_print.warn("Multiple physics scenes are currently not supported");
+        return;
     }
+
+    scene._physics = {
+        worker_loaded: false,
+        bundles: [],
+        ray_tests: {},
+        ray_tests_arr: []
+    };
+
+    var path = cfg_phy.uranium_path + m_version.timestamp();
+    m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
+    _worker = new Worker(path);
+    m_ipc.init(_worker, process_message);
+
+    _active_scene = scene;
+
+    if (cfg_phy.ping)
+        setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
 }
 
-/**
- * Init physics on given scene
- */
-exports.attach_scene_physics = function(scene) {
-    var world_id = get_unique_world_id();
-    m_ipc.post_msg(m_ipc.OUT_APPEND_WORLD, world_id);
-
-    scene._physics = {};
-    scene._physics.world_id = world_id;
-    scene._physics.bundles = [];
-}
-
-function get_unique_world_id() {
-    _unique_counter.world++;
-    return _unique_counter.world;
+exports.check_worker_loaded = function(scene) {
+    if (scene._physics)
+        return scene._physics.worker_loaded;
+    else
+        return true;
 }
 
 exports.cleanup = function() {
-    if (!cfg_phy.enabled)
+    if (!_active_scene)
         return;
 
-    m_ipc.post_msg(m_ipc.OUT_CLEANUP);
+    _worker.terminate();
 
-    _active_scene_phy = null;
-    _bounding_objects.length = 0;
-    _bounding_objects_cache.length = 0;
+    _worker = null;
+    _active_scene = null;
+    _bounding_objects = {};
+    _bounding_objects_arr.length = 0;
+    _collision_ids.length = 0;
 
     for (var cnt in _unique_counter)
         _unique_counter[cnt] = 0;
@@ -112,10 +121,7 @@ function add_compound_children(parent, container) {
     return null;
 }
 
-exports.append_object = function(obj, bpy_scene) {
-
-    // NOTE: temporary, multiple worlds not working!!!
-    set_active_scene(bpy_scene);
+exports.append_object = function(obj, scene) {
 
     var render = obj._render;
     if (!render)
@@ -129,41 +135,7 @@ exports.append_object = function(obj, bpy_scene) {
     if (render.use_collision_compound)
         add_compound_children(obj, compound_children);
 
-    var batches = obj._batches || [];
-
-    for (var i = 0; i < batches.length; i++) {
-
-        var batch = batches[i];
-
-        if (batch.type != "PHYSICS" || has_batch(bpy_scene, batch))
-            continue;
-
-        if (!batch.submesh.base_length) {
-            m_print.error("Object " + obj["name"] +
-                    " has collision material with no assigned vertices");
-            continue;
-        }
-
-        if (batch.water && bpy_scene._render.water_params) {
-            init_water_physics(batch);
-            continue;
-        }
-
-        if (batch.use_ghost)
-            var phy = init_ghost_mesh_physics(obj, batch);
-        else
-            var phy = init_static_mesh_physics(obj, batch);
-
-        phy.id = batch.collision_id;
-
-        // physics bundle
-        var pb = {
-            batch: batch,
-            physics: phy
-        };
-
-        bpy_scene._physics.bundles.push(pb);
-    }
+    var bundles = scene._physics.bundles;
 
     // NOTE_1: object physics has higher priority
     // NOTE_2: object physics is always bounding physics due to high performance
@@ -181,7 +153,43 @@ exports.append_object = function(obj, bpy_scene) {
             physics: phy
         };
 
-        bpy_scene._physics.bundles.push(pb);
+        bundles.push(pb);
+        recalc_collision_tests(scene, phy.collision_id);
+    } else {
+        var batches = obj._batches || [];
+
+        for (var i = 0; i < batches.length; i++) {
+
+            var batch = batches[i];
+
+            if (batch.type != "PHYSICS" || has_batch(scene, batch))
+                continue;
+
+            if (!batch.submesh.base_length) {
+                m_print.error("Object " + obj["name"] +
+                        " has collision material with no assigned vertices");
+                continue;
+            }
+
+            if (batch.water && scene._render.water_params) {
+                init_water_physics(batch);
+                continue;
+            }
+
+            if (batch.use_ghost)
+                var phy = init_ghost_mesh_physics(obj, batch);
+            else
+                var phy = init_static_mesh_physics(obj, batch);
+
+            // physics bundle
+            var pb = {
+                batch: batch,
+                physics: phy
+            };
+
+            bundles.push(pb);
+            recalc_collision_tests(scene, phy.collision_id);
+        }
     }
 
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj)) {
@@ -191,13 +199,26 @@ exports.append_object = function(obj, bpy_scene) {
         init_character(obj);
     else if (is_floater_main(obj))
         init_floater(obj);
-    else if (obj["b4w_collision"])
-        phy.id = obj["b4w_collision_id"];
 
-    for (var i = 0; i < _bounding_objects.length; i++) {
-        var obj = _bounding_objects[i];
+    for (var i = 0; i < _bounding_objects_arr.length; i++) {
+        var obj = _bounding_objects_arr[i];
         if (obj._physics)
             process_rigid_body_joints(obj);
+    }
+}
+
+function recalc_collision_tests(scene, collision_id) {
+    var bundles = scene._physics.bundles;
+
+    for (var i = 0; i < bundles.length; i++) {
+        var phy = bundles[i].physics;
+
+        for (var j = 0; j < phy.collision_tests.length; j++) {
+            var test = phy.collision_tests[j];
+
+            if (test.collision_id == "ANY" || collision_id == test.collision_id)
+                append_collision_pairs(test);
+        }
     }
 }
 
@@ -221,12 +242,20 @@ function has_batch(scene, batch) {
 function process_message(msg_id, msg) {
 
     // NOTE: silently ignore if something arrives after worker cleanup
-    if (!_active_scene_phy)
+    if (!_active_scene)
         return;
 
     switch (msg_id) {
+    case m_ipc.IN_LOADED:
+        _active_scene._physics.worker_loaded = true;
+
+        // initialize world
+        var fallback_init_time = Date.now() - performance.now();
+        m_ipc.post_msg(m_ipc.OUT_INIT, fallback_init_time, cfg_phy.max_fps,
+                cfg_phy.calc_fps ? cfg_def.fps_measurement_interval : 0);
+        break;
     case m_ipc.IN_LOG:
-        m_print.log(msg);
+        m_print.log_raw("URANIUM:", msg.slice(1));
         break;
     case m_ipc.IN_ERROR:
         m_print.error(msg);
@@ -235,16 +264,16 @@ function process_message(msg_id, msg) {
         m_debug.fbmsg.apply(this, msg.slice(1));
         break;
     case m_ipc.IN_TRANSFORM:
-        var obj = find_obj_by_body_id(msg["body_id"]);
+        var obj = find_obj_by_body_id(msg.body_id);
         if (obj)
-            update_interpolation_data(obj, msg["time"], msg["trans"],
-                                msg["quat"], msg["linvel"], msg["angvel"]);
+            update_interpolation_data(obj, msg.time, msg.trans,
+                                msg.quat, msg.linvel, msg.angvel);
         break;
     case m_ipc.IN_PROP_OFFSET:
-        var obj_chassis_hull = find_obj_by_body_id(msg["chassis_hull_body_id"]);
+        var obj_chassis_hull = find_obj_by_body_id(msg.chassis_hull_body_id);
         if (obj_chassis_hull)
-            update_prop_offset(obj_chassis_hull, msg["prop_ind"], msg["trans"],
-                               msg["quat"]);
+            update_prop_offset(obj_chassis_hull, msg.prop_ind, msg.trans,
+                               msg.quat);
         break;
     case m_ipc.IN_FLOATER_BOB_TRANSFORM:
         var obj_floater = find_obj_by_body_id(msg[1]);
@@ -257,9 +286,15 @@ function process_message(msg_id, msg) {
             obj._vehicle.speed = msg[2];
         break;
     case m_ipc.IN_COLLISION:
-        traverse_collision_tests(_active_scene_phy, msg["body_id_a"],
-                                 msg["body_id_b"], msg["result"],
-                                 msg["coll_point"]);
+        traverse_collision_tests(_active_scene, msg.body_id_a,
+                                 msg.body_id_b, msg.result,
+                                 null, null, 0);
+        break;
+    case m_ipc.IN_COLLISION_POS_NORM:
+        traverse_collision_tests(_active_scene, msg.body_id_a,
+                                 msg.body_id_b, msg.result,
+                                 msg.coll_point, msg.coll_norm, 
+                                 msg.coll_dist);
         break;
     case m_ipc.IN_COLLISION_IMPULSE:
         var obj = find_obj_by_body_id(msg[1]);
@@ -271,40 +306,36 @@ function process_message(msg_id, msg) {
         }
         break;
     case m_ipc.IN_RAY_HIT:
-        var body_id_a = msg["body_id"];
-        var obj       = find_obj_by_body_id(body_id_a);
+    case m_ipc.IN_RAY_HIT_POS_NORM:
+        var sphy = _active_scene._physics;
+        var test = sphy.ray_tests[msg.id]
 
-        if (obj) {
-            var phy = obj._physics;
+        // NOTE: ignoring the case when there is no test (may be removed in cb)
+        if (test) {
+            var body_id_hit = msg.body_id_hit;
+            var obj_hit = find_obj_by_body_id(body_id_hit);
 
-            var from      = msg["from"];
-            var to        = msg["to"];
-            var local     = msg["local"];
-            var body_id_b = msg["body_id_b_hit"];
-            var result    = msg["cur_result"];
-
-            for (var i = 0; i < phy.ray_tests.length; i++) {
-                var test = phy.ray_tests[i];
-
-                if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) &&
-                        m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) &&
-                        test.local == local) {
-
-                    for (var id in test.results)
-                        test.results[id] = 1.0;
-
-                    if (body_id_b != -1)
-                        test.results[body_id_b] = result;
-
-                    // traverse only if something changed
-                    traverse_ray_test(test, _active_scene_phy);
-                }
-            }
-
+            if (msg_id == m_ipc.IN_RAY_HIT)
+                exec_ray_test_cb(test, msg.hit_fract, obj_hit, msg.hit_time, null, null);
+            else
+                exec_ray_test_cb(test, msg.hit_fract, obj_hit, msg.hit_time, msg.hit_pos,
+                        msg.hit_norm);
         }
         break;
+    case m_ipc.IN_REMOVE_RAY_TEST:
+        remove_ray_test(id);
+        break;
     case m_ipc.IN_PING:
-        console.log("Physics message ping: ", performance.now() - msg[1]);
+        var out_time = (msg[2] - msg[1]).toFixed(3);
+        var in_time = (performance.now() - msg[2]).toFixed(3);
+        var all_time = (performance.now() - msg[1]).toFixed(3);
+        console.log("Physics Ping: OUT " + out_time + " ms, IN " + in_time + " ms, ALL " + all_time + " ms");
+        break;
+    case m_ipc.IN_FPS:
+        _phy_fps = msg[1];
+        break;
+    case m_ipc.IN_DEBUG_STATS:
+        console.log(msg[1]);
         break;
     default:
         m_print.error("Wrong message: " + msg_id);
@@ -317,7 +348,7 @@ exports.find_obj_by_body_id = find_obj_by_body_id;
  * Find dynamic objects by given body ID
  */
 function find_obj_by_body_id(body_id) {
-    return _bounding_objects_cache[body_id] || null;
+    return _bounding_objects[body_id] || null;
 }
 
 function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
@@ -346,9 +377,7 @@ function update_floater_bob_coords(obj_floater, bob_num, trans, quat) {
 }
 
 function traverse_collision_tests(scene, body_id_a, body_id_b, pair_result,
-        collision_point) {
-
-    var body_id_a = parseInt(body_id_a);
+        coll_pos, coll_norm, coll_dist) {
 
     var bundles = scene._physics.bundles;
 
@@ -373,46 +402,67 @@ function traverse_collision_tests(scene, body_id_a, body_id_b, pair_result,
 
             if (results_changed) {
                 var pair_results = test.pair_results;
-                var result = 0;
+                var result = calc_coll_result(test);
 
-                // OR
-                for (var k = 0; k < pair_results.length; k++)
-                    result = result || pair_results[k];
+                if (coll_pos && test.body_id_src != body_id_a)
+                    correct_coll_pos_norm(coll_pos, coll_norm, coll_dist);
 
-                test.callback(result, collision_point);
+                if (!result)
+                    var coll_obj = null;
+                else if (test.body_id_src == body_id_a)
+                    var coll_obj = find_obj_by_body_id(body_id_b);
+                else
+                    var coll_obj = find_obj_by_body_id(body_id_a);
+
+                test.callback(result, coll_obj, coll_pos, coll_norm, coll_dist);
             }
         }
     }
 }
 
-function traverse_ray_test(ray_test, bpy_scene) {
+function calc_coll_result(test) {
+    
+    var pair_results = test.pair_results;
 
-    var collision_id = ray_test.collision_id;
-    var callback = ray_test.callback;
-    var results = ray_test.results;
+    var result = false;
 
-    var is_collision = false;
-    var hit_frac = 1.0;
+    // OR
+    for (var i = 0; i < pair_results.length; i++)
+        result = result || pair_results[i];
 
-    for (var i = 0; i < bpy_scene._physics.bundles.length; i++) {
-        var bundle = bpy_scene._physics.bundles[i];
-        var bphy = bundle.physics;
-        if ((collision_id == "ANY" || bphy.id == collision_id) &&
-                bphy.body_id in results && results[bphy.body_id] !== 1.0) {
-            is_collision = true;
-            hit_frac = results[bphy.body_id];
-            break;
-        }
-    }
+    return result;
+}
 
-    callback(is_collision, hit_frac);
+
+/**
+ * NOTE: same is in bindings.js
+ */
+function correct_coll_pos_norm(pos, norm, dist) {
+    pos[0] = pos[0] + norm[0] * dist;
+    pos[1] = pos[1] + norm[1] * dist;
+    pos[2] = pos[2] + norm[2] * dist;
+
+    norm[0] *= -1;
+    norm[1] *= -1;
+    norm[2] *= -1;
+}
+
+function exec_ray_test_cb(test, hit_fract, obj_hit, hit_time, hit_pos, hit_norm) {
+
+    var collision_id = test.collision_id;
+    var callback = test.callback;
+
+    if (hit_pos)
+        callback(test.id, hit_fract, obj_hit, hit_time, hit_pos, hit_norm);
+    else
+        callback(test.id, hit_fract, obj_hit, hit_time);
 }
 
 exports.update = function(timeline, delta) {
 
     // interpolate uranium transforms in point of previous frame
-    for (var i = 0; i < _bounding_objects.length; i++) {
-        var obj = _bounding_objects[i];
+    for (var i = 0; i < _bounding_objects_arr.length; i++) {
+        var obj = _bounding_objects_arr[i];
         var phy = obj._physics;
 
         // current time = 0 - do nothing
@@ -420,7 +470,11 @@ exports.update = function(timeline, delta) {
             var d = performance.now() / 1000 - phy.curr_time;
 
             // clamp to maximum 10 frames to prevent jitter of sleeping objects
-            d = Math.min(d, 10 * 1/60);
+            d = Math.min(d, 10 * 1/cfg_phy.max_fps);
+
+            // interpolate to previous frame to fix collision issues
+            // NOTE: needs more testing
+            d -= 1/cfg_phy.max_fps;
 
             if (cfg_def.no_phy_interp_hack)
                 d = 0;
@@ -429,9 +483,7 @@ exports.update = function(timeline, delta) {
             m_tsr.integrate(phy.curr_tsr, d, phy.linvel, phy.angvel,
                     _tsr8_tmp);
 
-            m_trans.set_translation(obj, m_tsr.get_trans_view(tsr));
-            m_trans.set_rotation(obj, m_tsr.get_quat_view(tsr));
-
+            m_trans.set_tsr_raw(obj, tsr);
             m_trans.update_transform(obj);
             sync_transform(obj);
 
@@ -450,7 +502,7 @@ exports.update = function(timeline, delta) {
     }
 
     // update physics water time
-    var scene = get_active_scene();
+    var scene = _active_scene;
     if (scene) {
         var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
         if (subs.water_params && subs.water_params.waves_height > 0.0) {
@@ -459,25 +511,8 @@ exports.update = function(timeline, delta) {
             m_ipc.post_msg(m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
     }
-}
 
-/**
- * NOTE: unused
- */
-function correct_camera_up(obj, tsr) {
-    var quat_corr = m_cons.calc_cam_rot_correction(
-            m_tsr.get_quat_view(tsr), m_util.AXIS_Y, _quat4_tmp);
-
-    var angle_axis = m_util.quat_to_angle_axis(quat_corr, _vec4_tmp);
-
-    var x = angle_axis[0];
-    var y = angle_axis[1];
-    var z = angle_axis[2];
-    var torque = angle_axis[3] * 1000;
-        
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-    m_ipc.post_msg(m_ipc.OUT_APPLY_TORQUE, body_id, x * torque, y * torque, z * torque);
+    m_ipc.post_msg_arr();
 }
 
 function update_prop_transforms(obj_chassis_hull) {
@@ -498,30 +533,17 @@ function update_prop_transforms(obj_chassis_hull) {
     }
 }
 
-
-/**
- * NOTE: temporary
- */
-function set_active_scene(scene) {
-    _active_scene_phy = scene;
-    m_ipc.post_msg(m_ipc.OUT_SET_ACTIVE_WORLD, scene._physics.world_id);
-}
-
-exports.get_active_scene = get_active_scene;
-/**
- * NOTE: temporary
- */
-function get_active_scene() {
-    return _active_scene_phy;
+exports.get_active_scene = function() {
+    return _active_scene;
 }
 
 exports.pause = function() {
-    if (cfg_phy.enabled)
+    if (_active_scene)
         m_ipc.post_msg(m_ipc.OUT_PAUSE);
 }
 
 exports.resume = function() {
-    if (cfg_phy.enabled)
+    if (_active_scene)
         m_ipc.post_msg(m_ipc.OUT_RESUME);
 }
 
@@ -530,13 +552,16 @@ function get_unique_body_id() {
     return _unique_counter.body;
 }
 
+
 function init_water_physics(batch) {
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_WATER);
+    var scene = _active_scene;
 
     // NOTE: taking some params from subscene to match water rendering
-    var scene = get_active_scene();
     var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
+
+    var water_level = subs.water_level;
+    m_ipc.post_msg(m_ipc.OUT_APPEND_WATER, water_level);
 
     // TODO: get subscene water_params for proper water (not common one)
     if (subs.water_params && batch.water_dynamics) {
@@ -556,7 +581,6 @@ function init_water_physics(batch) {
 
         var waves_height   = subs.water_waves_height;
         var waves_length   = subs.water_waves_length;
-        var water_level    = subs.water_level;
         if (subs.use_shoremap) {
             var size_x         = subs.shoremap_size[0];
             var size_y         = subs.shoremap_size[1];
@@ -566,11 +590,11 @@ function init_water_physics(batch) {
             var array_width    = subs.shoremap_tex_size;
             m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, size_x,
                            size_y, center_x, center_y, max_shore_dist,
-                           waves_height, waves_length, water_level, array_width,
+                           waves_height, waves_length, array_width,
                            scene._render.shore_distances);
         } else {
             m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, 0, 0, 0, 0,
-                           0, waves_height, waves_length, water_level, 0, null);
+                           0, waves_height, waves_length, 0, null);
         }
     }
 }
@@ -588,14 +612,39 @@ function init_static_mesh_physics(obj, batch) {
 
     var friction = batch.friction;
     var restitution = batch.elasticity;
+    var collision_id = batch.collision_id;
+    var collision_id_num = col_id_num(collision_id);
+    var collision_margin = batch.collision_margin;
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_STATIC_MESH_BODY, body_id, positions, indices,
-            trans, friction, restitution, collision_group, collision_mask);
+    m_ipc.post_msg(m_ipc.OUT_APPEND_STATIC_MESH_BODY, body_id, positions,
+            indices, trans, friction, restitution, collision_id_num,
+            collision_margin, collision_group, collision_mask);
 
     var phy = init_physics(body_id);
+    phy.collision_id = collision_id;
+    phy.collision_id_num = collision_id_num;
     return phy;
+}
+
+function col_id_num(id) {
+    if (id == "ANY")
+        return ANY_COL_ID_NUM;
+
+    var num = _collision_ids.indexOf(id);
+    if (num == -1) {
+        _collision_ids.push(id);
+        return (_collision_ids.length - 1);
+    } else
+        return num;
+}
+
+function col_id_by_num(num) {
+    if (num == ANY_COL_ID_NUM)
+        return "ANY";
+    else
+        return _collision_ids[num];
 }
 
 function init_physics(body_id) {
@@ -608,11 +657,11 @@ function init_physics(body_id) {
         is_character: false,
         is_floater: false,
         cons_id: null,
-        id: "",
+        collision_id: "",
+        collision_id_num: 0,
         collision_callbacks: {},
         collision_tests: [],
         col_imp_test_cb: null,
-        ray_tests: [],
 
         curr_time: 0,
         curr_tsr: new Float32Array([0,0,0,1,0,0,0,1]),
@@ -637,17 +686,24 @@ function init_ghost_mesh_physics(obj, batch) {
     var submesh = batch.submesh;
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
+    var collision_id = batch.collision_id;
+    var collision_id_num = col_id_num(collision_id);
+    var collision_margin = batch.collision_margin;
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
     var render = obj._render;
     var trans = obj._render.trans;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions, indices, trans,
-             collision_group, collision_mask);
+    m_ipc.post_msg(m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
+            indices, trans, collision_id_num, collision_margin, collision_group,
+            collision_mask);
 
     var phy = init_physics(body_id);
     phy.is_ghost = true;
+    phy.collision_id = collision_id;
+    phy.collision_id_num = collision_id_num;
+
     return phy;
 }
 
@@ -696,6 +752,9 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     var velocity_max = game["velocity_max"];
     var damping = game["damping"];
     var rotation_damping = game["rotation_damping"];
+    var collision_id = obj["b4w_collision_id"];
+    var collision_id_num = col_id_num(collision_id);
+    var collision_margin = game["collision_margin"];
     var collision_group = game["collision_group"];
     var collision_mask = game["collision_mask"];
     var size = render.bs_local.radius;
@@ -708,17 +767,19 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     m_ipc.post_msg(m_ipc.OUT_APPEND_BOUNDING_BODY, body_id, trans, quat,
             physics_type, is_ghost, disable_sleeping, mass,
             velocity_min, velocity_max, damping, rotation_damping,
-            collision_group, collision_mask,
+            collision_id_num, collision_margin, collision_group, collision_mask,
             bounding_type, worker_bounding, size, friction,
             restitution, comp_children_params, correct_bound_offset);
 
-    _bounding_objects.push(obj);
-    _bounding_objects_cache[body_id] = obj;
+    _bounding_objects[body_id] = obj;
+    _bounding_objects_arr.push(obj);
 
     var phy = init_physics(body_id);
     phy.type = physics_type;
     phy.mass = mass;
     phy.is_ghost = is_ghost;
+    phy.collision_id = collision_id;
+    phy.collision_id_num = collision_id_num;
     return phy;
 }
 
@@ -855,8 +916,6 @@ function init_vehicle(obj) {
             break;
         }
     }
-
-    obj._physics.id = obj["b4w_vehicle_settings"]["name"];
 }
 
 function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id, is_front) {
@@ -975,11 +1034,11 @@ exports.disable_simulation = function(obj) {
 
 exports.has_physics = has_physics;
 /**
- * Check if object has physics
+ * Check if object or scene has physics
  * @methodOf physics
  */
-function has_physics(obj) {
-    if (obj._physics)
+function has_physics(obj_or_scene) {
+    if (obj_or_scene._physics)
         return true;
     else
         return false
@@ -1006,15 +1065,12 @@ exports.has_simulated_physics = function(obj) {
     else
         return false;
 }
-exports.set_gravity = set_gravity;
-/**
- * Set object gravity
- * @methodOf physics
- */
-function set_gravity(obj, gravity) {
+
+exports.set_gravity = function(obj, gravity) {
     var body_id = obj._physics.body_id;
     m_ipc.post_msg(m_ipc.OUT_SET_GRAVITY, body_id, gravity);
 }
+
 /**
  * Process rigid body joints constraints
  */
@@ -1158,13 +1214,11 @@ exports.set_transform = function(obj, trans, quat) {
     m_tsr.set_sep(obj._render.trans, 1, obj._render.quat, phy.curr_tsr);
 
     var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-    msg_cache["msg_id"] = m_ipc.OUT_SET_TRANSFORM;
-    msg_cache["body_id"] = obj._physics.body_id;
-    msg_cache["trans"] = trans;
-    msg_cache["quat"] = quat;
+    msg_cache.body_id = obj._physics.body_id;
+    msg_cache.trans = trans;
+    msg_cache.quat = quat;
 
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, obj._physics.body_id);
-    m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
+    m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
 }
 
 exports.sync_transform = sync_transform;
@@ -1174,21 +1228,22 @@ exports.sync_transform = sync_transform;
  */
 function sync_transform(obj) {
     if (allows_transform(obj) && transform_changed(obj)) {
-        obj._physics.cached_trans.set(obj._render.trans);
-        obj._physics.cached_quat.set(obj._render.quat);
         var phy = obj._physics;
+        var render = obj._render;
+
+        m_vec3.copy(render.trans, phy.cached_trans);
+        m_quat.copy(render.quat, phy.cached_quat);
 
         var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-        msg_cache["msg_id"] = m_ipc.OUT_SET_TRANSFORM;
-        msg_cache["body_id"] = obj._physics.body_id;
-        msg_cache["trans"] = obj._render.trans;
-        if (phy.type === "DYNAMIC") {
-            msg_cache["quat"] = _vec4_tmp;
-            m_quat.identity(_vec4_tmp);
-        } else
-            msg_cache["quat"] = obj._render.quat;
+        msg_cache.body_id = phy.body_id;
+        msg_cache.trans = render.trans;
 
-        m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
+        if (phy.type == "DYNAMIC")
+            m_quat.identity(msg_cache.quat);
+        else
+            msg_cache.quat = render.quat;
+
+        m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
     }
 
     var descends = obj._descends;
@@ -1235,8 +1290,6 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     vector_to_world(obj, vx_local, vy_local, vz_local, v_world);
 
     var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-
     /*
     var bt_velocity = bt_body.getLinearVelocity();
 
@@ -1274,7 +1327,6 @@ exports.apply_velocity_world = function(obj, vx, vy, vz) {
 
     var body_id = obj._physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
     m_ipc.post_msg(m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, vx, vy, vz);
 }
 
@@ -1303,7 +1355,6 @@ function apply_force(obj, fx_local, fy_local, fz_local) {
 
     var body_id = obj._physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
     m_ipc.post_msg(m_ipc.OUT_APPLY_CENTRAL_FORCE, body_id, f_world[0], f_world[1], f_world[2]);
 }
 
@@ -1320,18 +1371,16 @@ function apply_torque(obj, tx_local, ty_local, tz_local) {
     vector_to_world(obj, tx_local, ty_local, tz_local, t_world);
 
     var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
     m_ipc.post_msg(m_ipc.OUT_APPLY_TORQUE, body_id, t_world[0], t_world[1], t_world[2]);
 }
 
 /**
  * Set character moving direction (may be zero vector).
  * @param forw Apply forward move (may be negative)
- * @param back Apply side move (may be negative)
+ * @param side Apply side move (may be negative)
  */
 exports.set_character_move_dir = function(obj, forw, side) {
     var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
     m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_MOVE_DIR, body_id, forw, side);
 }
 
@@ -1411,105 +1460,71 @@ exports.set_character_rotation_v = function(obj, angle) {
     m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_VERT_ROTATION, body_id, angle);
 }
 
-/**
- * @deprecated Should be implemented in app
- */
-exports.check_underwater = function() {
-    //var UP_OFFSET = 100;
-    return false;
-}
-/**
- * @deprecated Should be implemented in app
- */
-exports.check_on_surface = function() {
-    //TO (+) var UP_OFFSET = 100;
-    //FROM (+) var SURFACE_DELTA = 1.0;
-    return false;
-}
-/**
- * @deprecated Implemented in worker
- */
-exports.check_collision = function() {
-    m_print.error("check_collision() deprecated");
-    return false;
-}
-/**
- * @deprecated Implemented in worker
- */
-exports.check_collision_any = function() {
-    m_print.error("check_collision_any() deprecated");
-    return false;
-}
-/**
- * @deprecated Implemented in worker
- */
-exports.check_ray_hit = function() {
-    m_print.error("check_ray_hit() deprecated");
-    return false;
-}
-/**
- * @deprecated Need to be async
- */
-exports.update_object_coords = function() {
-    m_print.error("update_object_coords() deprecated");
-    return;
-}
-
-
-/**
- * Check collision of object with something that have given collision_id.
- */
-exports.append_collision_test = function(obj, collision_id, callback,
-                                         need_collision_pt) {
-    var phy = obj._physics;
-    var body_id = phy.body_id;
+exports.append_collision_test = function(obj_src, collision_id, callback,
+                                         calc_pos_norm) {
+    var phy = obj_src._physics;
+    var body_id_src = phy.body_id;
 
     var collision_id = collision_id || "ANY";
 
-    // not needed to add enother collision test
+    // no need to add another collision test
     for (var i = 0; i < phy.collision_tests.length; i++) {
         var test = phy.collision_tests[i];
         if (test.collision_id == collision_id && test.callback == callback)
             return;
     }
 
-    var pairs = extract_collision_pairs(obj, collision_id);
-
     var test = {
+        body_id_src: body_id_src,
+        calc_pos_norm: calc_pos_norm || false,
         collision_id: collision_id,
         callback: callback,
-        pairs: pairs,
-        pair_results: new Uint8Array(pairs.length),
-        need_collision_pt: need_collision_pt || false
+        pairs: [],
+        pair_results: []
     }
     phy.collision_tests.push(test);
 
-    // NOTE: unknown issues with freezed objects
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-    m_ipc.post_msg(m_ipc.OUT_APPEND_COLLISION_TEST, pairs, need_collision_pt);
+    append_collision_pairs(test);
 }
 
-function extract_collision_pairs(obj, collision_id) {
-    var pairs = [];
+/**
+ * NOTE: function doesn't count the pairs already appended by other tests
+ */
+function append_collision_pairs(test) {
+    var pairs = test.pairs;
+    var pair_results = test.pair_results;
 
-    var body_id_a = obj._physics.body_id;
+    var body_id_a = test.body_id_src
     var body_id_b_arr = [];
 
-    collision_id_to_body_ids(collision_id, get_active_scene(),
+    collision_id_to_body_ids(test.collision_id, _active_scene,
             body_id_b_arr, null);
 
     for (var i = 0; i < body_id_b_arr.length; i++) {
         var body_id_b = body_id_b_arr[i];
 
         // sorted pairs, but comparison does not have any special meaning
-        if (body_id_a < body_id_b)
+        if (body_id_a < body_id_b && !has_pair(pairs, body_id_a, body_id_b)) {
             pairs.push([body_id_a, body_id_b]);
-        else if (body_id_a > body_id_b)
+            pair_results.push(false);
+        } else if (body_id_a > body_id_b && !has_pair(pairs, body_id_b, body_id_a)) {
             pairs.push([body_id_b, body_id_a]);
+            pair_results.push(false);
+        }
         // == ignored
     }
 
-    return pairs;
+    // NOTE: unknown issues with freezed objects
+    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id_a);
+    m_ipc.post_msg(m_ipc.OUT_APPEND_COLLISION_TEST, pairs, test.calc_pos_norm);
+}
+
+function has_pair(pairs, body_id_a, body_id_b) {
+    for (var i = 0; i < pairs.length; i++)
+        if (pairs[i][0] == body_id_a && pairs[i][1] == body_id_b)
+            return true;
+
+    return false;
 }
 
 /**
@@ -1531,7 +1546,7 @@ function gen_collision_body_ids(callbacks, bpy_scene, dest_arr, dest_obj) {
     for (var collision_id in callbacks) {
         for (var i = 0; i < bpy_scene._physics.bundles.length; i++) {
             var bundle = bpy_scene._physics.bundles[i];
-            if (bundle.physics.id == collision_id) {
+            if (bundle.physics.collision_id == collision_id) {
                 var body_id = bundle.physics.body_id;
                 // unique
                 if (dest_arr.indexOf(body_id) == -1)
@@ -1546,19 +1561,26 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
     var phy = obj._physics;
     var body_id = phy.body_id;
 
-    var collision_id = collision_id || "ANY";
-
     for (var i = 0; i < phy.collision_tests.length; i++) {
         var test = phy.collision_tests[i];
         if (test.collision_id == collision_id && test.callback == callback) {
 
+            // report negative collision result as there is no collision anymore
+            if (calc_coll_result(test)) {
+                var zero = m_vec3.set(0, 0, 0, _vec3_tmp);
+                test.callback(false, null, zero, zero, 0);
+            }
+
             phy.collision_tests.splice(i, 1);
+
             i--;
 
-            remove_unused_collision_pairs(get_active_scene(), test.pairs);
+            remove_unused_collision_pairs(_active_scene, test.pairs);
         }
     }
 }
+
+
 
 /**
  * Find from pairs unused and remove
@@ -1581,7 +1603,8 @@ function remove_unused_collision_pairs(scene, pairs) {
                 for (var l = 0; l < unused_pairs.length; l++) {
                     var unused_pair = unused_pairs[l];
 
-                    if (pair[0] === unused_pair[0] && pair[1] === unused_pair[1]) {
+                    if (pair[0] == unused_pair[0] && pair[1] == unused_pair[1]) {
+                        // have found used one
                         unused_pairs.splice(l, 1);
                         l--;
                     }
@@ -1594,66 +1617,108 @@ function remove_unused_collision_pairs(scene, pairs) {
         m_ipc.post_msg(m_ipc.OUT_REMOVE_COLLISION_TEST, unused_pairs);
 }
 
-exports.apply_collision_impulse_test = function(obj, callback) {
-    var phy = obj._physics;
-    if (!phy) {
-        m_print.error("Object " + obj["name"] + " has no physics");
-        return;
+function remove_collision_pairs_by_id(scene, body_id) {
+    var bundles = scene._physics.bundles;
+
+    var removed_pairs = [];
+
+    for (var i = 0; i < bundles.length; i++) {
+        var phy = bundles[i].physics;
+
+        for (var j = 0; j < phy.collision_tests.length; j++) {
+            var test = phy.collision_tests[j];
+
+            for (var k = 0; k < test.pairs.length; k++) {
+                var pair = test.pairs[k];
+                var pair_result = test.pair_results[k];
+
+                if (pair[0] == body_id || pair[1] == body_id) {
+
+                    test.pairs.splice(k, 1);
+                    test.pair_results.splice(k, 1);
+                    k--;
+
+                    // last positive pair removed
+                    if (pair_result && !calc_coll_result(test)) {
+                        var zero = m_vec3.set(0, 0, 0, _vec3_tmp);
+                        test.callback(false, null, zero, zero, 0);
+                    }
+
+                    // do not check for uniqueness, uranium allows that
+                    removed_pairs.push(pair);
+                }
+            }
+        }
     }
 
+    if (removed_pairs.length)
+        m_ipc.post_msg(m_ipc.OUT_REMOVE_COLLISION_TEST, removed_pairs);
+}
+
+exports.apply_collision_impulse_test = function(obj, callback) {
+    if (has_collision_impulse_test(obj))
+        clear_collision_impulse_test(obj);
+
+    var phy = obj._physics;
     m_ipc.post_msg(m_ipc.OUT_APPLY_COLLISION_IMPULSE_TEST, phy.body_id);
     phy.col_imp_test_cb = callback;
 }
 
-exports.clear_collision_impulse_test = function(obj) {
-    var phy = obj._physics;
-    if (!phy) {
-        m_print.error("Object " + obj["name"] + " has no physics");
+exports.clear_collision_impulse_test = clear_collision_impulse_test;
+function clear_collision_impulse_test(obj) {
+    if (!has_collision_impulse_test(obj))
         return;
-    }
 
+    var phy = obj._physics;
     m_ipc.post_msg(m_ipc.OUT_CLEAR_COLLISION_IMPULSE_TEST, phy.body_id);
     phy.col_imp_test_cb = null;
 }
 
-/**
- * Append new ray test with given params and callback
- * @param {Object} obj Object ID
- */
-exports.append_ray_test = function(obj, collision_id, from, to, local_coords,
-        callback) {
-    // TODO: appending same tests with different callbacks
+function has_collision_impulse_test(obj) {
+    if (obj._physics && obj._physics.col_imp_test_cb)
+        return true;
+    else
+        return false;
+}
 
-    var phy = obj._physics;
-    if (!phy) {
-        m_print.error("Object " + obj["name"] + " has no physics");
-        return;
-    }
+exports.append_ray_test = function(obj, from, to, collision_id, callback,
+        autoremove, calc_all_hits, calc_pos_norm, ign_src_rot) {
 
-    var body_id = phy.body_id;
+    var id = get_unique_ray_test_id();
 
     var collision_id = collision_id || "ANY";
 
     var test = {
+        id: id,
+        body_id: obj ? obj._physics.body_id : 0,
         from: new Float32Array(from),
         to: new Float32Array(to),
-        local: local_coords,
-        callback: callback,
         collision_id: collision_id,
-        // result for each target body_id
-        results: {}
+        collision_id_num: col_id_num(collision_id),
+        autoremove: autoremove,
+        calc_all_hits: calc_all_hits,
+        calc_pos_norm: calc_pos_norm,
+        ign_src_rot: ign_src_rot,
+        callback: callback
     }
-    collision_id_to_body_ids(collision_id, _active_scene_phy, null, test.results);
-    // not needed to ray test body_id itself
-    delete test.results[body_id];
 
-    // initialize results with 1.0 - no collision
-    for (var res in test.results)
-        test.results[res] = 1.0;
+    var sphy = _active_scene._physics;
 
-    phy.ray_tests.push(test);
+    var id = test.id;
 
-    order_ray_tests(body_id, phy.ray_tests);
+    sphy.ray_tests[id] = test;
+    sphy.ray_tests_arr.push(test);
+
+    m_ipc.post_msg(m_ipc.OUT_APPEND_RAY_TEST, test.id, test.body_id, test.from,
+            test.to, test.collision_id_num, test.autoremove,
+            test.calc_all_hits, test.calc_pos_norm, test.ign_src_rot);
+
+    return id;
+}
+
+function get_unique_ray_test_id() {
+    _unique_counter.ray_test++;
+    return _unique_counter.ray_test;
 }
 
 /**
@@ -1668,7 +1733,7 @@ function collision_id_to_body_ids(collision_id, bpy_scene, dest_arr, dest_obj) {
 
     for (var i = 0; i < bpy_scene._physics.bundles.length; i++) {
         var bundle = bpy_scene._physics.bundles[i];
-        if (collision_id == "ANY" || bundle.physics.id == collision_id) {
+        if (collision_id == "ANY" || bundle.physics.collision_id == collision_id) {
             var body_id = bundle.physics.body_id;
 
             // unique
@@ -1681,72 +1746,38 @@ function collision_id_to_body_ids(collision_id, bpy_scene, dest_arr, dest_obj) {
     }
 }
 
-/**
- * Compress tests and request ray testing from worker
- */
-function order_ray_tests(body_id_a, ray_tests) {
+exports.remove_ray_test = remove_ray_test;
+function remove_ray_test(id) {
 
-    // NOTE: unknown issues with freezed objects
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id_a);
+    var sphy = _active_scene._physics;
 
-    if (!ray_tests.length) {
-        m_ipc.post_msg(m_ipc.OUT_RAY_TEST, body_id_a, null, null, false, null);
-        return;
-    }
+    if (sphy.ray_tests[id]) {
 
-    // NOTE: body id compressing is really a bad idea now
-
-    var body_id_baskets = {};
-    for (var i = 0; i < ray_tests.length; i++) {
-        var test = ray_tests[i];
-
-        // from, to, local flag must be unique
-        var id = m_util.array_stringify(test.from) +
-                m_util.array_stringify(test.to) + String(test.local);
-
-        body_id_baskets[id] = body_id_baskets[id] ||
-                {from: test.from, to: test.to, local: test.local, body_ids: []};
-
-        var body_ids = body_id_baskets[id].body_ids;
-
-        for (var body_id in test.results)
-            if (body_ids.indexOf(body_id) == -1)
-                body_ids.push(body_id);
-    }
-
-    for (var id in body_id_baskets) {
-        var from = body_id_baskets[id].from;
-        var to = body_id_baskets[id].to;
-        var local = body_id_baskets[id].local;
-        var body_ids = body_id_baskets[id].body_ids;
-
-        m_ipc.post_msg(m_ipc.OUT_RAY_TEST, body_id_a, from, to, local, body_ids);
+        delete sphy.ray_tests[id];
+        sphy.ray_tests_arr.splice(sphy.ray_tests_arr.indexOf, 1);
+        m_ipc.post_msg(m_ipc.OUT_REMOVE_RAY_TEST, id);
     }
 }
 
-exports.remove_ray_test = function(obj, collision_id, from, to, local_coords) {
-    var phy = obj._physics;
-    if (!phy) {
-        m_print.error("Object " + obj["name"] + " has no physics");
-        return;
+exports.change_ray_test_from_to = function(id, from, to) {
+    var sphy = _active_scene._physics;
+
+    var test = sphy.ray_tests[id];
+
+    if (test && !test.autoremove) {
+        test.from.set(from);
+        test.to.set(to);
+        m_ipc.post_msg(m_ipc.OUT_CHANGE_RAY_TEST_FROM_TO, id, from, to);
     }
+}
 
-    var body_id = phy.body_id;
+exports.is_ray_test = function(id) {
+    var sphy = _active_scene._physics;
 
-    var collision_id = collision_id || "ANY";
-
-    for (var i = 0; i < phy.ray_tests.length; i++) {
-        var test = phy.ray_tests[i];
-
-        if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) &&
-                m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) &&
-                test.local == local_coords) {
-            phy.ray_tests.splice(i, 1);
-            i--;
-        }
-    }
-
-    order_ray_tests(body_id, phy.ray_tests);
+    if (sphy.ray_tests[id])
+        return true;
+    else
+        return false;
 }
 
 exports.vehicle_throttle = function(obj, engine_force) {
@@ -1772,15 +1803,10 @@ function update_vehicle_controls(obj, vehicle) {
     switch (vehicle.type) {
     case VT_CHASSIS:
         // convert to radians using steering ratio and inverse
-
-        m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-
         m_ipc.post_msg(m_ipc.OUT_UPDATE_CAR_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
     case VT_HULL:
-        m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-
         m_ipc.post_msg(m_ipc.OUT_UPDATE_BOAT_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
@@ -2019,14 +2045,34 @@ exports.debug_worker = function() {
 }
 
 exports.remove_bounding_object = function(obj) {
-    var ind = _bounding_objects.indexOf(obj);
-    if (ind != -1) {
-        _bounding_objects.splice(ind, 1);
-        var cache_ind = _bounding_objects_cache.indexOf(obj);
-        if (cache_ind != -1)
-            _bounding_objects_cache.splice(cache_ind, 1);
-    } else
-        m_print.error("Object ", obj.name, " doesn't have bounding physics");
+    var ind = _bounding_objects_arr.indexOf(obj);
+    if (ind == -1)
+        m_print.error("Object " + obj["name"] + " doesn't have bounding physics");
+
+    var scene = _active_scene;
+
+    var body_id = obj._physics.body_id
+
+    remove_collision_pairs_by_id(scene, body_id);
+
+    if (has_collision_impulse_test(obj))
+        clear_collision_impulse_test(obj);
+
+    delete _bounding_objects[body_id];
+    _bounding_objects_arr.splice(ind, 1);
+
+    var bundles = scene._physics.bundles;
+
+    for (var i = 0; i < bundles.length; i++) {
+        var phy = bundles[i].physics;
+
+        if (phy.body_id == body_id) {
+            bundles.splice(i, 1);
+            i--;
+        }
+    }
+
+    m_ipc.post_msg(m_ipc.OUT_REMOVE_BODY, body_id);
 }
 
 }

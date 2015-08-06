@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Team Work. Using Git &mdash; User Manual: Blend4Web vv15.07</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v15.07',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
+    <link rel="next" title="Problems and Solutions" href="problems_and_solutions.html" />
+    <link rel="prev" title="For Engine Developers" href="developers_advanced.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Blend4Web. User Manual</a>
+        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Team Work. Using Git</a><ul>
+<li><a class="reference internal" href="#what-is-git">Overview</a></li>
+<li><a class="reference internal" href="#git-pipeline">Typical Workflow</a></li>
+<li><a class="reference internal" href="#git-config">Individual Settings</a></li>
+<li><a class="reference internal" href="#git-example-begin">Checking the Status</a></li>
+<li><a class="reference internal" href="#git-example-prepare-to-commit">Before the Commit</a><ul>
+<li><a class="reference internal" href="#id6">Checking changes (of the text files)</a></li>
+<li><a class="reference internal" href="#id7">Rolling back files</a></li>
+<li><a class="reference internal" href="#id8">Unwanted files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git-example-add-rm-commit">Preparing for Commit</a><ul>
+<li><a class="reference internal" href="#id10">Adding files</a></li>
+<li><a class="reference internal" href="#id11">Removing files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git-commit">Commit</a></li>
+<li><a class="reference internal" href="#git-example-repo-sync">Syncing Between Repositories</a><ul>
+<li><a class="reference internal" href="#id14">From the remote - to the local</a></li>
+<li><a class="reference internal" href="#id15">From the local - to the remote</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-7">Resolving Conflicts</a><ul>
+<li><a class="reference internal" href="#id17">Overview</a></li>
+<li><a class="reference internal" href="#id18">The steps to be taken</a></li>
+<li><a class="reference internal" href="#id19">Binary files</a></li>
+<li><a class="reference internal" href="#id20">Text files</a></li>
+<li><a class="reference internal" href="#id21">Correcting commit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git-tags">Tags</a></li>
+<li><a class="reference internal" href="#id23">Other Useful Commands</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="developers_advanced.html" title="Previous Chapter: For Engine Developers"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; For Engine Devel...</span>
+    </a>
+  </li>
+  <li>
+    <a href="problems_and_solutions.html" title="Next Chapter: Problems and Solutions"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Problems and Sol... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control"/>
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content_container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="git">
+<span id="git-short-manual"></span><span id="index-0"></span><h1>Team Work. Using Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-git">
+<span id="id1"></span><h2>Overview<a class="headerlink" href="#what-is-git" title="Permalink to this headline">¶</a></h2>
+<p>In order to organize team work a Git version control system can be used. Using Git has a number of benifits as compared with other ways to collaborate:</p>
+<ul class="simple">
+<li><p class="first">saving the history of changes with the possibility to roll back to prevoius versions</p>
+</li>
+<li><p class="first">syncronizing changes between users and automatic merging of changes</p>
+</li>
+<li><p class="first">working with large binary files is possible</p>
+</li>
+</ul>
+<p>Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central (&#8220;shared&#8221;) storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.</p>
+<p>Although there are many GUIs for Git beginners, here the work with the <code class="docutils literal"><span class="pre">git</span></code> standard console utility is explained.</p>
+</div>
+<div class="section" id="git-pipeline">
+<span id="id2"></span><h2>Typical Workflow<a class="headerlink" href="#git-pipeline" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p class="first">Files can be created, added or deleted during the work process in the local repositories.</p>
+</li>
+<li><p class="first">After a certain logical period of work is finished it is necessary to fix (commit) the changes and/or syncronize with your team mates.</p>
+</li>
+<li><p class="first">Files are prepared for commit i.e. the accounting of changed, new and deleted files and also the resetting of changes.</p>
+</li>
+<li><p class="first">Commit is performed.</p>
+</li>
+<li><p class="first">Local changes are uploaded into the shared storage and become available for the collegues.</p>
+</li>
+</ol>
+<p>A limited set of Git commands recommended for authoring applications and their graphical resources is described below.</p>
+<p>It&#8217;s necessary to switch to the repository before executing the commands, e.g.:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/blend4web
+</pre></div>
+</div>
+</div>
+<div class="section" id="git-config">
+<span id="index-1"></span><span id="id3"></span><h2>Individual Settings<a class="headerlink" href="#git-config" title="Permalink to this headline">¶</a></h2>
+<p>A new user can set up his name and email using the commands:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git config --global user.name &quot;Ivan Petrov&quot;
+&gt; git config --global user.email ipetrov@blend4web.com
+</pre></div>
+</div>
+<p>The set up data will be used in the changelog.</p>
+</div>
+<div class="section" id="git-example-begin">
+<span id="index-2"></span><span id="id4"></span><h2>Checking the Status<a class="headerlink" href="#git-example-begin" title="Permalink to this headline">¶</a></h2>
+<p>It&#8217;s recommended to check the state of the repository before, in progress and after performing all the operations.</p>
+<p>Use this command to check the status:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+</pre></div>
+</div>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command if all the commits were performed and there are no new files:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 2 commits.
+#
+nothing to commit (working directory clean)
+</pre></div>
+</div>
+<p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> if there are changes. For example the <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> and <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> files are changed and a new file <code class="file docutils literal"><span class="pre">123.txt</span></code> is created:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#   modified:   apps_dev/firstperson/firstperson.js
+#   modified:   doc_src/git_short_manual.rst
+#
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#   123.txt
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="git-example-prepare-to-commit">
+<span id="index-3"></span><span id="id5"></span><h2>Before the Commit<a class="headerlink" href="#git-example-prepare-to-commit" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Checking changes (of the text files)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>In case of text files it is recommended to view the introduced changes before performing the commit.</p>
+<p>Check what was changed in the whole directory:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git diff
+</pre></div>
+</div>
+<p>or in a specific file only:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git diff apps_dev/firstperson/firstperson.js
+</pre></div>
+</div>
+<p>A possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></code> command for a text file:</p>
+<div class="highlight-none"><div class="highlight"><pre>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
+index 4381c99..44b3b15 100644
+--- a/apps_dev/firstperson/firstperson.js
++++ b/apps_dev/firstperson/firstperson.js
+@@ -557,8 +557,9 @@ function enable_camera_control_mode() {
+             var cam_view_down = CAMERA_MOVE_UPDOWN * (Math.sin(_passed_time) - 1);
+
+             b4w.camera.translate_view(obj, 0, cam_view_down, cam_view_angle);
+-        } else
++        } else {
+             b4w.camera.translate_view(obj, 0, 0, 0);
++        }
+     }
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>Rolling back files<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>If the file was changed or deleted but it is necessary to recover it (to the latest commited state) use the command:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout doc_src/git_short_manual.rst
+&gt; git checkout 123.txt
+</pre></div>
+</div>
+<p>The introduced changes will be cancelled - this is why this command should be performed with caution.</p>
+</div>
+<div class="section" id="id8">
+<h3>Unwanted files<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>If a file is listed in the <code class="docutils literal"><span class="pre">Untracked</span> <span class="pre">files</span></code> (<code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>), but version control is not needed for it, it should be deleted or moved beyond the working directory.</p>
+</div>
+</div>
+<div class="section" id="git-example-add-rm-commit">
+<span id="index-4"></span><span id="id9"></span><h2>Preparing for Commit<a class="headerlink" href="#git-example-add-rm-commit" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>Adding files<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>If you are happy with the changes, add the needed changed and/or new files for commit.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git add apps_dev/firstperson/firstperson.js
+&gt; git add 123.txt
+</pre></div>
+</div>
+<p>Check the status again:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+</pre></div>
+</div>
+<p>Possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding some files with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> command:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#   new file:   123.txt
+#   modified:   apps_dev/firstperson/firstperson.js
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#   modified:   doc_src/git_short_manual.rst
+#
+</pre></div>
+</div>
+<p>You can see that the <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> and <code class="file docutils literal"><span class="pre">123.txt</span></code> files were added for commit and the <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> file was not added. To make things easier it is recommended to either add such files for commit or cancel their changes with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
+</div>
+<div class="section" id="id11">
+<h3>Removing files<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Some files can be marked as deleted from Git after performing the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command, for example:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 2 commits.
+#
+# Changes not staged for commit:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#   deleted:    123.txt
+#
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</pre></div>
+</div>
+<p>In this case if deleting the file should be recorded (i.e. enter the commit), perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></code> command, for example:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
+</pre></div>
+</div>
+<p>If the file was deleted by accident and its necessary to recover it, use the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
+</div>
+</div>
+<div class="section" id="git-commit">
+<span id="index-5"></span><span id="id12"></span><h2>Commit<a class="headerlink" href="#git-commit" title="Permalink to this headline">¶</a></h2>
+<p>Perform commit with the command:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+</pre></div>
+</div>
+<p>A text editor window will show up (for example, <strong>nano</strong> or <strong>vim</strong>), in which it&#8217;s nesessary to enter the commit comment in English.</p>
+<div class="highlight-none"><div class="highlight"><pre>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
+
+My commit message
+# Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       new file:   123.txt
+#       modified:   apps_dev/firstperson/firstperson.js
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   doc_src/git_short_manual.rst
+#
+
+^G Get Help               ^O WriteOut               ^R Read File              ^Y Prev Page
+^X Exit                   ^J Justify                ^W Where Is               ^V Next Page
+</pre></div>
+</div>
+<p>Save the changes and quit the editor (in <strong>nano</strong> Ctrl+O, then Ctrl+X; in <strong>vim</strong> ZZ, or ESC :wq).</p>
+<p>After commit it&#8217;s recommended to recheck the status. Commit is performed correctly if the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command returns <code class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></code>.</p>
+</div>
+<div class="section" id="git-example-repo-sync">
+<span id="index-6"></span><span id="id13"></span><h2>Syncing Between Repositories<a class="headerlink" href="#git-example-repo-sync" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h3>From the remote - to the local<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>After all the commits are performed it&#8217;s nesessary to load the changes from the remote (&#8220;shared&#8221;) repository to the local one:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git pull
+</pre></div>
+</div>
+<p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if there are no changes in the remote repository:</p>
+<div class="highlight-none"><div class="highlight"><pre>Already up-to-date.
+</pre></div>
+</div>
+<p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if the remote repository contains changes and syncing was successful:</p>
+<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 151, done.
+remote: Compressing objects: 100% (101/101), done.
+remote: Total 102 (delta 74), reused 0 (delta 0)
+Receiving objects: 100% (102/102), 69.77 MiB | 4.87 MiB/s, done.
+Resolving deltas: 100% (74/74), completed with 32 local objects.
+From lixer:blend4web
+   dbf3877..9f9700c  master     -&gt; origin/master
+Updating dbf3877..9f9700c
+Fast-forward
+ apps_dev/firstperson/firstperson.js                |  338 +--
+ .../location_agriculture.blend                     |  Bin 25601626 -&gt; 25598644 bytes
+ ...
+ src/controls.js                                    |   38 +-
+ src/data.js                                        |    5 +
+ src/physics.js                                     |  185 +-
+ 19 files changed, 1452 insertions(+), 2767 deletions(-)
+ create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png
+</pre></div>
+</div>
+<p>If you wish it&#8217;s possible to look up the changes made by your collegues using the following command:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
+</pre></div>
+</div>
+<p>The parameter of this command - in this case dbf3877..9f9700c - shows between which commits exactly the changes were made. This parameter can be conveniently selected in the console in the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> results and pasted with a mouse click (middle button) where you need.</p>
+<p>You can also view the changelog:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git log
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command does not always lead to a successful synchronization. The result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> when there are conflicts:</p>
+<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (6/6), done.
+From lixer:blend4web
+   ff715c2..dbf316a  master     -&gt; origin/master
+warning: Cannot merge binary files: blender/landscape_objects/Fallen_tree.blend (...)
+
+Auto-merging blender/landscape_objects/Fallen_tree.blend
+CONFLICT (content): Merge conflict in blender/landscape_objects/Fallen_tree.blend
+Automatic merge failed; fix conflicts and then commit the result.
+</pre></div>
+</div>
+<p>The steps to be taken at conflicts are described below.</p>
+</div>
+<div class="section" id="id15">
+<h3>From the local - to the remote<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>After that the changes should be uploaded from the local repository to the remote (&#8220;shared&#8221;) one to make the changes available for team mates.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git push
+</pre></div>
+</div>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if the remote repository already contains all the local changes:</p>
+<div class="highlight-none"><div class="highlight"><pre>Everything up-to-date
+</pre></div>
+</div>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was successful:</p>
+<div class="highlight-none"><div class="highlight"><pre>Counting objects: 25, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (14/14), 1.23 KiB, done.
+Total 14 (delta 11), reused 0 (delta 0)
+To gfxteam@lixer:blend4web.git
+   9f9700c..fa1d6ac  master -&gt; master
+</pre></div>
+</div>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was not successful because the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command was not executed first:</p>
+<div class="highlight-none"><div class="highlight"><pre>To gfxteam@lixer:blend4web.git
+ ! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to &#39;gfxteam@lixer:blend4web.git&#39;
+To prevent you from losing history, non-fast-forward updates were rejected
+Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See the
+&#39;Note about fast-forwards&#39; section of &#39;git push --help&#39; for details.
+</pre></div>
+</div>
+<p>You should execute the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
+<p>The changes uploaded into the central repository can be received by other developers with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
+</div>
+</div>
+<div class="section" id="index-7">
+<span id="id16"></span><h2>Resolving Conflicts<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id17">
+<h3>Overview<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>Synchronization conflicts occur if both conditions are met</p>
+<ol class="arabic simple">
+<li><p class="first">the same file was changed both in the local and remote repositories, and</p>
+</li>
+<li><p class="first">automatic merging of the changes didn&#8217;t occur because the changes are in the same place of the file.</p>
+</li>
+</ol>
+<p>Typical cases:</p>
+<ol class="arabic simple">
+<li><p class="first">a binary file (texture, blend file) was independently changed by two developers</p>
+</li>
+<li><p class="first">different changes were introduced to the same line of the same text file</p>
+</li>
+<li><p class="first">one developer has changed the file while the other has moved it and so on.</p>
+</li>
+</ol>
+<p>Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is nesessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene&#8217;s resources from the separate blend files into the master file.</p>
+</div>
+<div class="section" id="id18">
+<h3>The steps to be taken<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s not recommended to perform any files operations (modifying, deleting) while the repository is in a conflict state.</p>
+<p>The first thing to do is to perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command.</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch and &#39;origin/master&#39; have diverged,
+# and have 7 and 1 different commit each, respectively.
+#
+# Unmerged paths:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
+#
+#   both modified:      blender/landscape_objects/Fallen_tree.blend
+#
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</pre></div>
+</div>
+<p>A list of conflicting files can be found in the <code class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></code> section.</p>
+<p>The order of the following steps is different for binary and text files.</p>
+</div>
+<div class="section" id="id19">
+<h3>Binary files<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>At this stage the conflicting binary files are in the same state as they were in the local repository before the synchronization attempt. The files are fully functional (for example they can be opened by graphics editors).</p>
+<p>In case of conflicting binary files it&#8217;s necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
+<p>Select the local version of the file (<strong>- -ours</strong>). To make sure that it&#8217;s local you can open it.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>Select the remote version of the file (<strong>- -theirs</strong>). To make sure that it&#8217;s remote you can open it.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>Select the local version of the file again (<strong>- -ours</strong>).</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>Eventually you have to stick to the right version of the file. In case there is a threat of loosing the work you may save the discarded file outside the repository.</p>
+</div>
+<div class="section" id="id20">
+<h3>Text files<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>At this stage Git introduces both local and remote changes to the conflicting text files, in a special format. Such text files are not workable as a rule.</p>
+<p>Example. One developer changed the scene name from &#8220;Blue Lizard&#8221; to &#8220;Green Lizard&#8221; in the application file and uploaded the changes into the central repository. Another developer changed &#8220;Blue Lizard&#8221; to &#8220;Red Lizard&#8221; in the same line, performed commit and executed the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+                &quot;name&quot;: &quot;Red Lizard&quot;,
+=======
+                &quot;name&quot;: &quot;Green Lizard&quot;,
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 81bf4e2d5610d500ad4d2a2605ee7e61f759f201
+</pre></div>
+</div>
+<p>In case of conflicting text files the following steps can be taken. Files with source code should be edited with or without respect to the changes introduced by both parties. On the other hand, it is easier to reexport the exported scene text files (ending with <strong>.json</strong>).</p>
+</div>
+<div class="section" id="id21">
+<h3>Correcting commit<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>After selecting the required files or editing the changes, add them for commit:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git add blender/landscape_objects/Fallen_tree.blend
+&gt; git status
+</pre></div>
+</div>
+<p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding the conflicting files for commit:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch and &#39;origin/master&#39; have diverged,
+# and have 7 and 1 different commit each, respectively.
+#
+nothing to commit (working directory clean)
+</pre></div>
+</div>
+<p>Perform commit. It is recommended to leave the default comment:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+&gt; git status
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 8 commits.
+#
+nothing to commit (working directory clean)
+</pre></div>
+</div>
+<p>Conflicts are resolved, the changes from the remote repository are successfully applied in the local repository. Now the changes in the local repository - including the just resolved conflict - can be uploaded to the remote repository with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command.</p>
+</div>
+</div>
+<div class="section" id="git-tags">
+<span id="index-8"></span><span id="id22"></span><h2>Tags<a class="headerlink" href="#git-tags" title="Permalink to this headline">¶</a></h2>
+<p>Tags are intended for pointing at a certain commit, for example, to specify a stable product version.</p>
+<p>View the list of tags:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git tag
+</pre></div>
+</div>
+<p>Create a tag for the release from June 3, 2013, pointing to the commit with a stable product version:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
+</pre></div>
+</div>
+<p>Check the commit tag information:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git show --shortstat R130603
+</pre></div>
+</div>
+<p>Roll back to the tag...</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout R130603
+</pre></div>
+</div>
+<p>...and return:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout master
+</pre></div>
+</div>
+<p>Synchronize the tags with the remote repository:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git push --tags
+</pre></div>
+</div>
+<p>Delete the tag (if created by mistake):</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git tag -d R130603
+</pre></div>
+</div>
+</div>
+<div class="section" id="id23">
+<h2>Other Useful Commands<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<p>Check the log for January, 2012, show file names without merging commits:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Triumph LLC.<br/>
+      Last updated on 2015-07-29.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

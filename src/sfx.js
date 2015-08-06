@@ -10,9 +10,9 @@ b4w.module["__sfx"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_print = require("__print");
+var m_time  = require("__time");
 var m_util  = require("__util");
-
-var m_vec3 = require("vec3");
+var m_vec3  = require("__vec3");
 
 var cfg_ani = m_cfg.animation;
 var cfg_sfx = m_cfg.sfx;
@@ -37,7 +37,8 @@ var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 
 // permanent vars
-var _supported_media = [];
+var _supported_audio = [];
+var _supported_video = [];
 var _wa = null;
 
 // per-loaded-scene vars
@@ -55,18 +56,33 @@ var _playlist = null;
 exports.init = function() {
     // NOTE: DOM Exception 5 if not found
     var audio = document.createElement("audio");
-
+    var video = document.createElement("video");
     // do not detect codecs here, simply follow the rules:
     // ogg - vorbis
     // mp3 - mp3
     // mp4 - aac
     if (audio.canPlayType) {
-        if (audio.canPlayType("audio/ogg") != "")
-            _supported_media.push("ogg");
+        if (audio.canPlayType("audio/ogg") != "") {
+            _supported_audio.push("ogg");
+            _supported_audio.push("ogv");
+        }
         if (audio.canPlayType("audio/mpeg") != "")
-            _supported_media.push("mp3");
-        if (audio.canPlayType("audio/mp4") != "")
-            _supported_media.push("mp4");
+            _supported_audio.push("mp3");
+        if (audio.canPlayType("audio/mp4") != "") {
+            _supported_audio.push("mp4");
+            _supported_audio.push("m4v");
+        }
+        if (audio.canPlayType("audio/webm") != "")
+            _supported_audio.push("webm");
+    }
+
+    if (video.canPlayType) {
+        if (video.canPlayType("video/ogg") != "")
+            _supported_video.push("ogv");
+        if (video.canPlayType("video/mp4") != "")
+            _supported_video.push("m4v");
+        if (video.canPlayType("video/webm") != "")
+            _supported_video.push("webm");
     }
 
     // NOTE: register context once and reuse for all loaded scenes to prevent
@@ -117,12 +133,16 @@ exports.attach_scene_sfx = function(scene) {
         }
 
         var listener = _wa.listener;
-        listener.dopplerFactor = scene["audio_doppler_factor"];
-        listener.speedOfSound = scene["audio_doppler_speed"];
+        scene_sfx.disable_doppler = m_cfg.defaults.chrome_disable_doppler_effect_hack;
+        if (!scene_sfx.disable_doppler) {
+            listener.dopplerFactor = scene["audio_doppler_factor"];
+            listener.speedOfSound = scene["audio_doppler_speed"];
+        }
 
         scene_sfx.muted = false;
         scene_sfx.volume = 1;
         scene_sfx.duck_time = 0;
+
     }
 }
 
@@ -135,11 +155,11 @@ function create_wa_context() {
         if (ctx.createGain) {
             return ctx;
         } else {
-            m_print.warn("B4W warning: deprecated WebAudio implementation");
+            m_print.warn("deprecated WebAudio implementation");
             return null;
         }
     } else {
-        m_print.warn("B4W warning: WebAudio is not supported");
+        m_print.warn("WebAudio is not supported");
         return null;
     }
 }
@@ -149,38 +169,56 @@ exports.set_active_scene = function(scene) {
     _active_scene = scene;
 }
 
-/**
- * Detect supported audio containter.
- * Containers have same meaning as file extension here, for each one possible
- * fallback exists:
- * <ul>
- * <li>ogg -> mp4
- * <li>mp3 -> ogg
- * <li>mp4 -> ogg
- * </ul>
- * @param {String} [hint="ogg"] Required container
- * @returns {String} Supported containter or ""
- */
-exports.detect_media_container = function(hint) {
+exports.detect_audio_container = function(hint) {
     if (!hint)
         var hint = "ogg";
-
-    var audio = new Audio();
 
     // only one fallback required in most cases
 
     // requested hint is supported
-    if (_supported_media.indexOf(hint) > -1)
+    if (_supported_audio.indexOf(hint) > -1)
         return hint;
     // ogg -> mp4
-    else if (hint == "ogg" && _supported_media.indexOf("mp4") > -1)
+    else if (hint == "ogg" && _supported_audio.indexOf("mp4") > -1)
         return "mp4";
     // mp3 -> ogg
-    else if (hint == "mp3" && _supported_media.indexOf("ogg") > -1)
+    else if (hint == "mp3" && _supported_audio.indexOf("ogg") > -1)
         return "ogg";
     // mp4 -> ogg
-    else if (hint == "mp4" && _supported_media.indexOf("ogg") > -1)
+    else if (hint == "mp4" && _supported_audio.indexOf("ogg") > -1)
         return "ogg";
+    // ogv -> m4v
+    else if (hint == "ogv" && _supported_audio.indexOf("m4v") > -1)
+        return "m4v";
+    // webm -> m4v
+    else if (hint == "webm" && _supported_audio.indexOf("m4v") > -1)
+        return "m4v";
+    // m4v -> webm
+    else if (hint == "m4v" && _supported_audio.indexOf("webm") > -1)
+        return "webm";
+    // unsupported and no fallback
+    else
+        return "";
+}
+
+exports.detect_video_container = function(hint) {
+    if (!hint)
+        var hint = "webm";
+
+    // only one fallback required in most cases
+
+    // requested hint is supported
+    if (_supported_video.indexOf(hint) > -1)
+        return hint;
+    // ogv -> m4v
+    else if (hint == "ogv" && _supported_video.indexOf("m4v") > -1)
+        return "m4v";
+    // webm -> m4v
+    else if (hint == "webm" && _supported_video.indexOf("m4v") > -1)
+        return "m4v";
+    // m4v -> webm
+    else if (hint == "m4v" && _supported_video.indexOf("webm") > -1)
+        return "webm";
     // unsupported and no fallback
     else
         return "";
@@ -188,7 +226,7 @@ exports.detect_media_container = function(hint) {
 
 /**
  * Init and add speaker object to sfx
- * @param {Object} obj Object ID, must be of type "SPEAKER"
+ * @param {Object3D} obj Object 3D, must be of type "SPEAKER"
  */
 exports.append_object = function(obj, scene) {
 
@@ -217,7 +255,8 @@ exports.append_object = function(obj, scene) {
     if (!speaker["sound"])
         obj._sfx.behavior = "NONE";
 
-    obj._sfx.disable_doppler = speaker["b4w_disable_doppler"];
+    obj._sfx.disable_doppler = speaker["b4w_disable_doppler"] 
+            && m_cfg.defaults.chrome_disable_doppler_effect_hack;
 
     obj._sfx.muted = speaker["muted"];
     obj._sfx.volume = speaker["volume"];
@@ -258,7 +297,8 @@ exports.append_object = function(obj, scene) {
     obj._sfx.speed_avg = new Float32Array(3);
 
     // for BACKGROUND_MUSIC
-    obj._sfx.bgm_stop_timeout = null;
+    obj._sfx.bgm_start_timeout = -1;
+    obj._sfx.bgm_stop_timeout = -1;
 
     obj._sfx.duck_time = 0;
 
@@ -269,14 +309,14 @@ function check_media_element_node() {
     if (window.MediaElementAudioSourceNode) {
         return true;
     } else {
-        m_print.warn("B4W warning: MediaElementAudioSourceNode not found");
+        m_print.warn("MediaElementAudioSourceNode not found");
         return false;
     }
 }
 
 /**
  * Returns audio source type for given object (AST_*)
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.source_type = function(obj) {
     if (obj["type"] != "SPEAKER")
@@ -298,16 +338,14 @@ exports.source_type = function(obj) {
 
 /**
  * Updates speaker object with loaded sound data
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {ArrayBuffer|<audio>} sound_data Sound Data
  */
 exports.update_spkobj = function(obj, sound_data) {
-    if (obj["type"] != "SPEAKER")
-        throw "Wrong object type";
 
     var sfx = obj._sfx;
 
-    switch(sfx.behavior) {
+    switch (sfx.behavior) {
     case "POSITIONAL":
     case "BACKGROUND_SOUND":
     case "BACKGROUND_MUSIC":
@@ -319,6 +357,16 @@ exports.update_spkobj = function(obj, sound_data) {
     default:
         throw "Wrong speaker behavior";
     }
+}
+
+/**
+ * HACK: Initialize WebAudio context for iOS mobile devices
+ */
+exports.play_empty_sound = function() {
+    var source = _wa.createBufferSource();
+    source.buffer = _wa.createBuffer(1, 22050, 22050);
+    source.connect(_wa.destination);
+    source.start(0);
 }
 
 exports.decode_audio_data = function(arr_buf, decode_cb, fail_cb) {
@@ -368,7 +416,6 @@ exports.cleanup = function() {
 
     _active_scene = null;
     _speaker_objects.splice(0);
-
     _playlist = null;
 }
 
@@ -390,9 +437,8 @@ exports.update = function(timeline, elapsed) {
         var curr_time = _wa.currentTime;
 
         // handle restarts
-        if (!sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
-                sfx.duration && _wa &&
-                (sfx.start_time + sfx.duration < curr_time))
+        if (_wa && !sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
+                sfx.duration && (sfx.start_time + sfx.duration < curr_time))
             play_def(obj);
 
         // handle volume pitch randomization
@@ -402,8 +448,9 @@ exports.update = function(timeline, elapsed) {
     }
 
     // handle playlist
-    if (_playlist && (_playlist.active == -1 || timeline >
-            _playlist.active_start_time + _playlist.durations[_playlist.active]))
+    if (_playlist && _playlist.speakers.length && (_playlist.active == -1 
+            || timeline > _playlist.active_start_time 
+            + _playlist.durations[_playlist.active]))
         playlist_switch_next(_playlist, timeline);
 }
 
@@ -426,9 +473,6 @@ function playlist_switch_next(playlist, timeline) {
 }
 
 exports.play = play;
-/**
- * @methodOf sfx
- */
 function play(obj, when, duration) {
 
     var sfx = obj._sfx;
@@ -441,7 +485,6 @@ function play(obj, when, duration) {
 
     var sound = obj["data"]["sound"];
 
-
     var loop = sfx.loop;
     var playrate = sfx.pitch;
 
@@ -453,6 +496,7 @@ function play(obj, when, duration) {
     sfx.base_seed = Math.floor(50000 * Math.random());
 
     var start_time = _wa.currentTime + when;
+
     sfx.start_time = start_time;
 
     sfx.state = SPKSTATE_PLAY;
@@ -505,12 +549,24 @@ function play(obj, when, duration) {
 
     } else if (sfx.behavior == "BACKGROUND_MUSIC") {
 
-        window.clearTimeout(sfx.bgm_stop_timeout);
+        m_time.clear_timeout(sfx.bgm_start_timeout);
+        m_time.clear_timeout(sfx.bgm_stop_timeout);
 
-        fire_audio_element(obj);
+        var start_cb = function() {
+            fire_audio_element(obj);
+        }
 
-        // NOTE: <audio> duration currently not supported
-        sfx.duration = 1000000;
+        if (when == 0)
+            start_cb();
+        else
+            sfx.bgm_start_timeout = m_time.set_timeout(start_cb, when * 1000);
+
+        if (loop) {
+            sfx.duration = 0;
+        } else {
+            var el_dur = get_duration(obj);
+            sfx.duration = el_dur;
+        }
     }
 
     schedule_fades(sfx, start_time);
@@ -542,23 +598,27 @@ function update_proc_chain(obj) {
     // panner->filter->gain->fade->rand
     case "POSITIONAL":
         var ap = _wa.createPanner();
-        // NOTE: HRTF panning gives too much volume gain
-        // NOTE: string enums specified in the new spec
-        ap.panningModel = ap.EQUALPOWER;
-        //ap.panningModel = "equalpower";
+        
+        // default HRTF panning gives too much volume gain
+        
+        if (typeof ap.panningModel != "string") {
+            // old spec
+            ap.panningModel = ap.EQUALPOWER;
+            ap.distanceModel = ap.INVERSE_DISTANCE;
+        } else {
+            // new spec
+            ap.panningModel = "equalpower";
+            ap.distanceModel = "inverse";
+        }
 
-        ap.distanceModel = ap.INVERSE_DISTANCE;
-        //ap.distanceModel = "linear";
-        //ap.distanceModel = "exponential";
-        //ap.distanceModel = "inverse";
 
         ap.setPosition(pos[0], pos[1], pos[2]);
-        sfx.last_position.set(pos);
+        m_vec3.copy(pos, sfx.last_position);
 
         var orient = _vec3_tmp;
         m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
         ap.setOrientation(orient[0], orient[1], orient[2]);
-        sfx.direction.set(orient);
+        m_vec3.copy(orient, sfx.direction);
 
         ap.refDistance = sfx.dist_ref;
         ap.maxDistance = sfx.dist_max;
@@ -763,7 +823,7 @@ function fire_audio_element(obj) {
     if (audio) {
         // volume will be controlled by gain node
         audio.volume = 1.0;
-        audio.loop = sfx.cyclic;
+        audio.loop = sfx.loop;
 
         // NOTE: audio element will be invalidated after construction execution,
         // so use previous MediaElementSourceNode
@@ -772,15 +832,29 @@ function fire_audio_element(obj) {
 
         sfx.source_node.connect(sfx.proc_chain_in);
 
-        if (sfx.state == SPKSTATE_PLAY)
+        if (sfx.state == SPKSTATE_PLAY) {
+            if (audio.currentTime)
+                audio.currentTime = 0;
             audio.play();
+        }
+    }
+}
+
+function stop_audio_element(obj) {
+    var sfx = obj._sfx;
+    var audio = sfx.src;
+    if (audio) {
+        // exact sequence
+        if (audio.currentTime)
+            audio.currentTime = 0;
+        audio.pause();
     }
 }
 
 exports.stop = stop;
 /**
  * Stop to play from given speaker
- * @param sobj Object ID
+ * @param sobj Object 3D
  * @methodOf sfx
  */
 function stop(sobj) {
@@ -804,13 +878,13 @@ function stop(sobj) {
         var audio_el = sfx.src;
         if (audio_el) {
             var stop_cb = function() {
-                // exact sequence
-                // can't change this value for empty tag
-                if (audio_el.currentTime)
-                    audio_el.currentTime = 0;
-                audio_el.pause();
+                stop_audio_element(sobj);
             }
-            sfx.bgm_stop_timeout = window.setTimeout(stop_cb,
+
+            m_time.clear_timeout(sfx.bgm_start_timeout);
+            m_time.clear_timeout(sfx.bgm_stop_timeout);
+
+            sfx.bgm_stop_timeout = m_time.set_timeout(stop_cb,
                     sfx.fade_out * 1000);
         }
     } else {
@@ -842,6 +916,7 @@ function is_play(obj) {
     return (obj._sfx.state == SPKSTATE_PLAY);
 }
 
+exports.speaker_pause = speaker_pause;
 /**
  * Pause speaker.
  * @param obj Speaker object ID
@@ -853,6 +928,9 @@ function speaker_pause(obj) {
     if (sfx.state != SPKSTATE_PLAY)
         return;
 
+    var current_time = _wa.currentTime;
+    sfx.pause_time = current_time;
+
     if (sfx.behavior == "BACKGROUND_MUSIC") {
         var audio_el = sfx.src;
         if (audio_el)
@@ -860,9 +938,6 @@ function speaker_pause(obj) {
     } else {
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
-
-        var current_time = _wa.currentTime;
-        sfx.pause_time = current_time;
 
         var buf_dur = source.buffer.duration;
 
@@ -895,6 +970,7 @@ function calc_buf_offset(sfx, current_time) {
     return (buf_dur / playrate - (time - current_time)) * playrate;
 }
 
+exports.speaker_resume = speaker_resume;
 /**
  * Resume speaker.
  * @param obj Speaker object ID
@@ -906,27 +982,26 @@ function speaker_resume(obj) {
     if (sfx.state != SPKSTATE_PAUSE)
         return;
 
+    var current_time = _wa.currentTime;
+    sfx.start_time += (current_time - sfx.pause_time);
+
     if (sfx.behavior == "BACKGROUND_MUSIC") {
         var audio_el = sfx.src;
         audio_el.play();
     } else {
         update_source_node(obj);
-        var current_time = _wa.currentTime;
-
-        sfx.start_time += (current_time - sfx.pause_time);
         sfx.vp_rand_end_time = current_time;
 
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
-
         var buf_dur = source.buffer.duration;
 
         source.start(sfx.start_time, sfx.buf_offset);
 
         schedule_volume_pitch_random(sfx);
-        schedule_fades(sfx, sfx.start_time);
     }
-
+    
+    schedule_fades(sfx, sfx.start_time);
     sfx.state = SPKSTATE_PLAY;
 }
 
@@ -960,7 +1035,7 @@ exports.playrate = function(obj, playrate) {
         schedule_volume_pitch_random(sfx);
     }
 
-    // NOTE: Consider BACKGROUND_MUSIC implementation
+    // TODO: Consider BACKGROUND_MUSIC implementation
 }
 
 exports.get_playrate = function(obj) {
@@ -1004,9 +1079,9 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     var listener = _wa.listener;
     listener.setPosition(trans[0], trans[1], trans[2]);
     listener.setOrientation(front[0], front[1], front[2], up[0], up[1], up[2]);
-    scene._sfx.listener_direction.set(front);
+    m_vec3.copy(front, scene._sfx.listener_direction);
 
-    if (elapsed) {
+    if (!scene._sfx.disable_doppler && elapsed) {
         var speed = _vec3_tmp3;
 
         speed[0] = (trans[0] - scene._sfx.listener_last_eye[0])/elapsed;
@@ -1017,10 +1092,10 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
                 SPEED_SMOOTH_PERIOD, speed);
 
         listener.setVelocity(speed[0], speed[1], speed[2]);
-        scene._sfx.listener_speed_avg.set(speed);
+        m_vec3.copy(speed, scene._sfx.listener_speed_avg);
     }
 
-    scene._sfx.listener_last_eye.set(trans);
+    m_vec3.copy(trans, scene._sfx.listener_last_eye);
 }
 
 exports.listener_reset_speed = function(speed, dir) {
@@ -1028,21 +1103,21 @@ exports.listener_reset_speed = function(speed, dir) {
     if (!_wa)
         return;
 
-    if (!_active_scene._sfx)
+    if (!_active_scene._sfx || _active_scene._sfx.disable_doppler)
         return;
 
     var velocity = _vec3_tmp;
 
     if (dir)
-        velocity.set(dir);
+        m_vec3.copy(dir, velocity);
     else
-        velocity.set(_active_scene._sfx.listener_direction);
+        m_vec3.copy(_active_scene._sfx.listener_direction, velocity);
 
     m_vec3.scale(velocity, speed, velocity);
 
     var listener = _wa.listener;
     listener.setVelocity(velocity[0], velocity[1], velocity[2]);
-    _active_scene._sfx.listener_speed_avg.set(velocity);
+    m_vec3.copy(velocity, _active_scene._sfx.listener_speed_avg);
 }
 
 /**
@@ -1076,33 +1151,33 @@ exports.speaker_update_transform = function(obj, elapsed) {
 
         panner.setVelocity(speed[0], speed[1], speed[2]);
 
-        sfx.speed_avg.set(speed);
+        m_vec3.copy(speed, sfx.speed_avg);
     }
 
-    lpos.set(pos);
+    m_vec3.copy(pos, lpos);
 }
 
 exports.speaker_reset_speed = function(obj, speed, dir) {
     var sfx = obj._sfx;
 
-    if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
+    if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL") || sfx.disable_doppler)
         return;
 
     var velocity = _vec3_tmp;
 
     if (dir)
-        velocity.set(dir);
+        m_vec3.copy(dir, velocity);
     else
-        velocity.set(sfx.direction);
+        m_vec3.copy(sfx.direction, velocity);
 
     m_vec3.scale(velocity, speed, velocity);
 
     var panner = sfx.panner_node;
     panner.setVelocity(velocity[0], velocity[1], velocity[2]);
-    sfx.speed_avg.set(velocity);
+    m_vec3.copy(velocity, sfx.speed_avg);
 
     var pos = obj._render.trans;
-    sfx.last_position.set(obj._render.trans);
+    m_vec3.copy(obj._render.trans, sfx.last_position);
 }
 
 exports.is_speaker = is_speaker;
@@ -1118,6 +1193,14 @@ function is_speaker(obj) {
 
 exports.get_spk_behavior = function(obj) {
     return obj._sfx.behavior;
+}
+
+exports.check_active_speakers = function() {
+    for (var i = 0; i < _speaker_objects.length; i++)
+        if (spk_is_active(_speaker_objects[i]))
+            return true;
+
+    return false;
 }
 
 function spk_is_active(obj) {
@@ -1344,18 +1427,26 @@ exports.apply_playlist = function(objs, delay, random) {
 
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        var sfx = obj._sfx;
+
+        var duration = get_duration(obj);
+
+        if (duration == 0) {
+            m_print.warn("Ignoring speaker with zero duration: " + obj["name"]);
+            continue;
+        }
 
         stop(obj);
 
-        _playlist.speakers.push(obj);
+        var sfx = obj._sfx;
+        sfx.cyclic = false;
 
-        var duration = spk_duration(obj);
+        _playlist.speakers.push(obj);
         _playlist.durations.push(duration + delay);
     }
 }
 
-function spk_duration(obj) {
+exports.get_duration = get_duration;
+function get_duration(obj) {
 
     var sfx = obj._sfx;
 

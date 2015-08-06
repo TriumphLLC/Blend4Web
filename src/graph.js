@@ -1,13 +1,15 @@
 "use strict";
 
 /**
- * Generic graph routines. 
+ * Generic graph routines.
  *
  * @name graph
  * @namespace
  * @exports exports as graph
  */
 b4w.module["__graph"] = function(exports, require) {
+
+var m_util    = require("__util");
 
 var NULL_NODE    = -1;
 var NULL         = 0;
@@ -26,7 +28,7 @@ exports.TWO_WAY      = TWO_WAY;
 /**
  * Create graph using constructor pattern.
  * @param node_or_edge1 Node [ID, ATTR] or Edge [ID1, ID2, ATTR]
- * @param node_or_edge2 ... 
+ * @param node_or_edge2 ...
  */
 exports.create = function() {
 
@@ -52,6 +54,34 @@ exports.create = function() {
             break;
         }
     }
+
+    var graph = {
+        nodes: nodes,
+        edges: edges
+    };
+
+    return graph;
+}
+
+exports.clone = function(graph, nodes_cb, edges_cb) {
+    if (nodes_cb) {
+        var nodes = new Array(graph.nodes.length);
+        for (var i = 0; i < graph.nodes.length; i+=2) {
+            nodes[i] = graph.nodes[i];
+            nodes[i+1] = nodes_cb(graph.nodes[i+1]);
+        }
+    } else
+        var nodes = m_util.clone_object_r(graph.nodes);
+
+    if (edges_cb) {
+        var edges = new Array(graph.edges.length);
+        for (var i = 0; i < graph.edges.length; i+=3) {
+            edges[i] = graph.edges[i];
+            edges[i+1] = graph.edges[i+1];
+            edges[i+2] = edges_cb(graph.edges[i+2]);
+        }
+    } else
+        var edges = m_util.clone_object_r(graph.edges);
 
     var graph = {
         nodes: nodes,
@@ -132,8 +162,8 @@ function remove_node(graph, id) {
         }
     }
 }
-
-exports.remove_edge = function(graph, id1, id2, edge_num) {
+exports.remove_edge = remove_edge;
+function remove_edge(graph, id1, id2, edge_num) {
     if (!has_edge(graph, id1, id2))
         throw "Edge not found";
 
@@ -156,19 +186,39 @@ exports.remove_edge = function(graph, id1, id2, edge_num) {
         }
     }
 }
+exports.remove_edge_by_attr = remove_edge_by_attr;
+function remove_edge_by_attr(graph, id1, id2, attr) {
+    if (!has_edge(graph, id1, id2))
+        throw "Edge not found";
+    var edges = graph.edges;
+
+    for (var i = 0; i < edges.length; i+=3) {
+        if (edges[i] == id1 && edges[i+1] == id2
+                && edges[i+2][0] == attr[0] && edges[i+2][1] == attr[1]) {
+            edges.splice(i, 3);
+            break;
+        }
+    }
+}
 
 /**
  * Append node by attribute.
  * Perform attribute uniqueness test and append newly allocated node to graph
  * with that unique attribute.
+ * @returns New node ID
  */
 exports.append_node_attr = function(graph, attr) {
-    if (node_by_attr(graph, attr) == NULL_NODE)
-        append_node(graph, gen_node_id(graph), attr);
-    else
+    if (node_by_attr(graph, attr) == NULL_NODE) {
+        var node_id = gen_node_id(graph)
+        append_node(graph, node_id, attr);
+        return node_id;
+    } else
         throw "Non-unique attribute";
 }
 
+/**
+ * For edges connecting two node IDs with given attribute replace it by the new one.
+ */
 exports.replace_edge_attr = function(graph, id1, id2, attr_old, attr_new) {
     var edges = graph.edges;
     for (var i = 0; i < edges.length; i+=3)
@@ -204,7 +254,8 @@ function node_by_attr(graph, attr) {
 }
 
 /**
- * Append new edge by two (unique) node attributes.
+ * Append new edge by two node attributes.
+ * All node attributes must be unique, because the edge is appended only ones.
  */
 exports.append_edge_attr = function(graph, attr_node1, attr_node2, attr_edge) {
     var id1 = node_by_attr(graph, attr_node1);
@@ -429,7 +480,8 @@ exports.get_source_nodes = function(graph) {
 /**
  * Find array of nodes with 0 out-degree.
  */
-exports.get_sink_nodes = function(graph) {
+exports.get_sink_nodes = get_sink_nodes;
+function get_sink_nodes(graph) {
     var result = [];
 
     var nodes = graph.nodes;
@@ -483,7 +535,7 @@ exports.match = function(graph1, graph2, node_comp, edge_comp) {
     state.t2both_len = state.t2in_len = state.t2out_len = 0;
 
 	state.added_node1 = NULL_NODE;
- 
+
     state.core_1 = Array(n1);
     state.core_2 = Array(n2);
 
@@ -668,7 +720,7 @@ function state_next_pair(state, next_pair, prev_n1, prev_n2) {
 	if (t1both_len > core_len && t2both_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE ||
                 out_2[prev_n2] == 0 || in_2[prev_n2] == 0)) {
-            prev_n2++;    
+            prev_n2++;
         }
 	} else if (t1out_len > core_len && t2out_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || out_2[prev_n2] == 0)) {
@@ -676,11 +728,11 @@ function state_next_pair(state, next_pair, prev_n1, prev_n2) {
         }
 	} else if (t1in_len > core_len && t2in_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || in_2[prev_n2] == 0)) {
-            prev_n2++;    
+            prev_n2++;
         }
 	} else {
         while (prev_n2 < n2 && core_2[prev_n2] != NULL_NODE) {
-            prev_n2++;    
+            prev_n2++;
         }
 	}
 
@@ -900,7 +952,7 @@ function compatible_edge(edge_comp, graph1, node11, node12, graph2, node21, node
     var graph2_edge_count = get_edge_count(graph2, node21, node22);
 
     // NOTE: for each edge in graph1 find compatible in graph2
-    
+
     for (var i = 0; i < graph1_edge_count; i++) {
         var edge_match = false;
 
@@ -1019,7 +1071,7 @@ function state_add_pair(state, node1, node2) {
 		        state.t1both_len++;
         }
     }
-    
+
     for (var i = 0; i < in_edge_count(g2, node2); i++) {
         var other = get_in_edge(g2, node2, i);
         if (!in_2[other]) {
@@ -1097,7 +1149,7 @@ function state_back_track(state) {
 
 	    core_1[added_node1] = NULL_NODE;
 		core_2[node2] = NULL_NODE;
-	    
+
 	    state.core_len = state.orig_core_len;
 		state.added_node1 = NULL_NODE;
 	}
@@ -1173,6 +1225,72 @@ exports.replace = function(graph, rnode_ids, new_node_attr) {
     }
 
     append_node(graph, new_node_id, new_node_attr);
+}
+
+/**
+ * Reconnect all edges connecting two given node IDs.
+ */
+exports.reconnect_edges = function(graph, id1, id2, new_id1, new_id2) {
+    if (!has_edge(graph, id1, id2))
+        throw "Edge not found";
+
+    var edges = graph.edges;
+
+    for (var i = 0; i < edges.length; i+=3)
+        if (edges[i] == id1 && edges[i+1] == id2) {
+            edges[i] = new_id1;
+            edges[i+1] = new_id2;
+        }
+}
+/**
+ * Remove redundant edges and create acyclic graph
+ */
+exports.enforce_acyclic = function(graph, main_node) {
+
+    if (!main_node)
+        var main_node = get_sink_nodes(graph)[0];
+    var edges = graph.edges;
+    if (!edges.length)
+        return graph;
+    var graph_data = {};
+    var count = 0;
+    for (var i = 0; i < edges.length; i=i+3) {
+        if (edges[i + 1] in graph_data)
+            graph_data[edges[i + 1]].push(edges[i]);
+        else
+            graph_data[edges[i + 1]] = [edges[i]];
+        count++;
+    }
+
+    var tracking = [];
+    var wrong_edges = [];
+    function find_redundant_edges(node, top_edges) {
+        var index = tracking.indexOf(node);
+        if (index != -1) {
+            var cycle = tracking.slice(tracking.indexOf(node));
+            if (graph_data[cycle[cycle.length - 1]].indexOf(cycle[0]) != -1) {
+                wrong_edges.push([node, cycle[cycle.length - 1]]);
+                return;
+            }
+        }
+        tracking.push(node);
+        for (var i = 0; i < top_edges.length; i++) {
+            if (top_edges[i] in graph_data)
+                find_redundant_edges(top_edges[i], graph_data[top_edges[i]]);
+        }
+    }
+
+    find_redundant_edges(main_node, graph_data[main_node]);
+
+    for (var i = 0; i < wrong_edges.length; i++) {
+            var count = 0;
+            for (var k = 0; k < edges.length; k=k+3) {
+                if (wrong_edges[i][1] == edges[k + 1] && wrong_edges[i][0] == edges[k])
+                    remove_edge(graph, edges[k], edges[k+1], count);
+                count++;
+            }
+    }
+    return graph;
 }
 
 exports.debug_dot = function(graph, label_cb) {

@@ -1,0 +1,363 @@
+
+Materials
+*********
+
+Materials describe the object surface's response to light and also
+contain information about its transparency, reflectivity, physical
+parameters and so on.
+
+Meshes can have one or more materials. In case of multiple materials
+they can be assigned to different polygons in the "Edit Mode". To do
+this select the needed polygons, select the needed material from the
+list and click the "Assign" button.
+
+The following material types are supported: "Surface", "Halo".
+
+
+Lighting Parameters
+===================
+
+[image]
+
+*Diffuse > Color*
+   Diffuse light color. The default value is (0.8, 0.8, 0.8). It may
+   interact with the diffuse map color.
+
+*Diffuse > Intensity*
+   Diffuse light intensity. The default value is 0.8.
+
+*Diffuse > Shader*
+   Diffuse shading algorithm. The default value is "Lambert".
+
+*Specular > Color*
+   Specular light color. The default value is (1.0, 1.0, 1.0). It may
+   interact with the specular map color.
+
+*Specular > Intensity*
+   Specular light intensity. The default value is 0.5.
+
+*Specular > Hardness*
+   Exponent in the specular shading calculation formula. The default
+   value is 50. Note that the formula used in the engine differs
+   slightly from the Blender's one.
+
+*Specular > Shader*
+   Specular shading algorithm. The default value is "CookTorr".
+
+*Shading > Emit*
+   Emission intensity. The default value is 0.0.
+
+*Shading > Ambient*
+   Ambient influence factor on material. The default value is 1.0.
+
+*Shading > Shadeless*
+   When enabled, a material doesn't react to light. Disabled by
+   default.
+
+*Shading > Double-sided Lighting*
+   Enables the double-sided lighting mode. This option is useful for
+   non-transparent objects with a single-layered mesh.
+
+
+Transparency
+============
+
+[image]
+
+
+Types
+-----
+
+Transparency implementation type can be selected in the "Transparency"
+menu on the "Properties > Material" panel.
+
+The engine supports the following transparency implementation types
+(sorted in the ascending order by performance):
+
+*Alpha Sort*
+   Transparent with a gradient. The engine sorts the triangles by
+   camera distance in order to render overlapping transparent surfaces
+   correctly. This operation is computationally expensive. It is
+   recommended to use this feature for closed transparent geometry
+   (bottle, car glass etc).
+
+*Alpha Blend*
+   Transparent with a gradient. The sorting of triangles is not
+   performed. It is recommended to use this feature for unclosed
+   transparent geometry (water surface, decals).
+
+*Add*
+   Transparent with a gradient. The sorting of triangles is not
+   performed. The engine disables writing to the depth buffer which
+   causes transparent surfaces to be rendered in arbitrary order. It
+   is recommended to use this feature for effects (particle systems,
+   glowing beams).
+
+*Alpha Clip*
+   Transparent without a gradient. The engine discards pixels if their
+   alpha is less than 0.5. The sorting of triangles is not performed.
+   It is recommended to use this feature with a mask texture to
+   visualize smaller details (tree leaves, grass).
+
+*Opaque*
+   Non-transparent. Alpha is ignored. This is the default value.
+
+[image]
+
+
+Additional settings
+-------------------
+
+*Transparency > Show Transparency*
+   Enabling the transparency checkbox is required for viewing
+   transparent objects in Blender. The engine ignores this option -
+   the "Alpha Blend" option is used instead.
+
+*Transparency > Alpha*
+   Material transparency level. The engine ignores this parameter (in
+   contrast to Blender) if there is a diffuse texture - the alpha
+   channel values of a texture are used instead.
+
+*Transparency > Z Offset*, depth offset
+   This option explicitly specifies relative positioning order of
+   objects with **different** materials with the purpose of depth
+   sorting. The option can take both negative and positive values. The
+   more distant the object is the lesser parameter value should be to
+   provide correct rendering. The default value is 0.0.
+
+
+Reflection
+==========
+
+[image]
+
+
+Static reflection
+-----------------
+
+A surface reflects the same image no matter how the environment
+changes. For activation simply use the mirror map.
+
+See also: Fresnel effect for reflection
+
+
+Dynamic reflection
+------------------
+
+A surface reflects the selected objects in their current position. The
+engine supports planar and spherical reflections
+
+
+Activation
+~~~~~~~~~~
+
+1. Check "Reflections" setting on the "Render > Reflections and
+   Refractions" panel.
+
+2. For *reflective* objects enable the "Reflective" option on the
+   "Object > Reflections" panel.
+
+   * For planar reflections, set the "Object > Reflections > Type"
+     property to "Plane". After that, add an empty object to be used
+     as a reflection plane by executing for example "Add > Empty >
+     Single Arrow". Rename it for convenience and specify its name in
+     the "Reflection plane" field of the reflective object.
+
+   * For cube-mapped reflections, set the "Object > Reflections >
+     Type" property to "Cube".
+
+3. For the needed materials of the *reflective* objects, set the
+   "Material > Mirror > Reflectivity" value.
+
+   * "Mirror > Reflectivity > Show Reflectivity" is required for
+     displaying reflections on objects in Blender. The engine ignores
+     this option.
+
+4. For the *reflexible* objects, enable the "Reflexible" checkbox
+   on the "Object > Reflections" panel.
+
+Note: It is also recommended to enable the "World > Environment
+  Lighting" checkbox.
+
+
+Limitations
+~~~~~~~~~~~
+
+Normal maps and shadows are ignored in the reflected image for
+optimization purposes.
+
+See also: Fresnel effect for reflection
+
+
+Fresnel effect for reflection
+-----------------------------
+
+The Fresnel effect manifests itself as the dependency of the intencity
+of passing and reflected light on the incidence angle. If the angle of
+incidence is close to zero (i.e. light falls almost at right angle to
+the surface) the passing light portion is large and the reflected
+light portion is small. On the contrary if the angle of incidence is
+close to 90 degrees (i.e. light falls almost parallel to the surface)
+almost all light is reflected.
+
+The engine uses the approximate Schlick's formula:
+
+   R = R_0 + (1 − R_0)(1 - cos θ)^N, where
+
+   R - reflection coefficient,
+
+   R_0 - reflection coefficient in case of viewing at a right angle to
+   the surface (i.e. when θ = 0),
+
+   θ - angle of incidence (which is equal to the angle of reflection
+   under which light enters the camera), it is calculated by the
+   engine in real-time,
+
+   N - exponent.
+
+
+Settings
+~~~~~~~~
+
+Fresnel effect can be set up both for static and dynamic reflection.
+
+*Material > Mirror > Fresnel*
+   Fresnel power for reflection. This is the N exponent in the
+   Schlick's formula. In Blender it is limited to values from 0 to 5.
+   If this parameter is equal to zero the Fresnel effect is not
+   observed and the *full* reflection at all angles occurs. If this
+   parameter is greater than zero, the material is less reflective
+   when viewing surfaces at angles which are close to the right angle.
+   The bigger this parameter is the bigger is the angle deviation from
+   the right angle for which the Fresnel effect is observed.
+
+*Material > Mirror > Blend*
+   Fresnel factor for reflection. It is reduced to R_0 in the
+   Schlick's formula by the following expression: R_0 = 1 - "Blend" /
+   5. In Blender it is limited to values from 0 to 5. This parameter
+   defines the Fresnel effect intensity: the bigger the "Blend" factor
+   is, the more is the Fresnel effect influence. If it is equal to
+   zero the Fresnel effect is not observed.
+
+[image]
+
+
+
+
+Rendering Properties
+====================
+
+[image]
+
+*Material > Rendering Options > Do not Render*
+   Disable rendering of this object.
+
+*Material > Rendering Options > Backface Culling*
+   When enabled, poligons' back faces are not rendered by the engine.
+   Enabled by default.
+
+*Material > Rendering Options > Wettable*
+   Water wetting effect is activated for the material.
+
+   See also: Water
+
+*Material > Rendering Options > Render above all*
+   Material is rendered on top of all scene objects. Transparency type
+   with a gradient is requred ("Add", "Alpha Blend" or "Alpha Sort").
+
+*Material > Rendering Options > Vertex Color Paint*
+   Mesh vertex color is used instead of the material diffuse color
+   when the checkbox is enabled.
+
+*Material > Rendering Options > Refractive*
+   Make object refractive. Perturbation factor can be set with the
+   option "Refraction Bump" on the "Refraction Settings" panel. The
+   default value is 0.001.
+
+   Note: In order to use this effect, select "ON" or "AUTO" on the
+     "Render > Reflections and Refractions > Refractions" panel. The
+     object must have "Alpha Blend" transparency type.
+
+   See also: Transparency
+
+
+
+
+Engine Specific Parameters
+==========================
+
+[image]
+
+
+
+*Material > Water*
+   Special material for water rendering.
+
+*Material > Terrain dynamic grass*
+   Material is used for grass rendering.
+
+*Material > Collision*
+   A special material for collision geometry.
+
+   See also: Physics
+
+*Material > Export Options > Do Not Export*
+   Material is not to be exported.
+
+
+Halo Materials
+==============
+
+Halo materials are used in particle systems and in static meshes.
+Using the halo in static meshes is described below.
+
+
+Activation
+----------
+
+Select the "Halo" type under the "Materials" tab. It's also
+recommended to select the transparency type with a gradient ("Add",
+"Alpha Blend" or "Alpha Sort").
+
+[image]
+
+
+Additional settings
+-------------------
+
+*Halo > Alpha*
+   Material transparency factor. The default value is 1.0 (non-
+   transparent).
+
+*Halo > Color*
+   Material color. The default value is (0.8, 0.8, 0.8) (almost
+   white).
+
+*Halo > Size*
+   Particle size. The default value is 0.5.
+
+*Halo > Hardness*
+   Exponent for computing the gradient. Affects visible dimensions of
+   particles. The default value is 50.
+
+*Halo > Rings*
+   Use rings. Relative quantity and color can be set up.
+
+*Halo > Lines*
+   Use lines. Relative quantity and color can be set up.
+
+*Halo > Star Tips*
+   Use stars. The quantity of edges can be set up.
+
+*Halo > Special: Stars*
+   Enables the starry sky rendering mode. The mesh is fixed relative
+   to the camera. For the "Sun" lamp it is also required to enable the
+   "Lamp > Dynamic Intensity" checkbox. Applications should set up the
+   hours of darkness via API.
+
+*Halo > Blending Height*
+   Height range for the fading of stars.
+
+*Halo > Minimum Height*
+   Minimum height in the object's local space at which stars are
+   visible.

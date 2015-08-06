@@ -37,21 +37,21 @@ msgstr ""
 
 #: ../audio.rst:20
 msgid ""
-"Движком поддерживаются все стандартные параметры. Специфичные для движка "
-"настройки располагаются на панели ``Blend4Web``."
+"Движком поддерживаются все стандартные для Blender параметры звука и "
+"некоторые специфические для движка опции."
 msgstr ""
-"The engine supports all the standard parameters. The engine-specific "
-"settings are located on the ``Blend4Web`` panel."
+"The engine supports all the standard Blender sound parameters and "
+"some engine-specific settings."
 
-#: ../audio.rst:35
-msgid "*Speaker behavior*"
+#: ../audio.rst:22
+msgid "*Speaker behavior*:"
 msgstr ""
 
-#: ../audio.rst:23
+#: ../audio.rst:24
 msgid "Поведение звукового источника."
 msgstr "The behavior of the audio source."
 
-#: ../audio.rst:25
+#: ../audio.rst:26
 msgid ""
 "``Positional`` --- высококачественный звук, допускающий позиционирование и "
 "имеющий направленность (конусность). Для рендеринга используется Web Audio "
@@ -64,76 +64,59 @@ msgstr ""
 "Playback performance of such sounds is the least and so use them only for "
 "short samples."
 
-#: ../audio.rst:30
+#: ../audio.rst:31
 msgid ""
-"``Background sound`` --- высококачественный всенаправленный звук без "
+"``Background Sound`` --- высококачественный всенаправленный звук без "
 "возможности позиционирования в пространстве. Для рендеринга используется Web"
 " Audio API. Более производителен, однако нецелесообразен для музыки."
 msgstr ""
-"``Background sound`` --- high-quality omnidirectional sound without spatial "
+"``Background Sound`` --- high-quality omnidirectional sound without spatial "
 "positioning. The Web Audio API is used for sound rendering. It is more "
 "performant but is not effective for music."
 
-#: ../audio.rst:34
+#: ../audio.rst:35
 msgid ""
-"``Background music`` --- используется для воспроизведения музыки. "
+"``Background Music`` --- используется для воспроизведения музыки. "
 "Максимальная производительность вследствие использования тега Audio, "
 "минимальная гибкость."
 msgstr ""
-"``Background music`` --- used for music playback. It has maximum "
-"performance due to the use of the Audio HTML tag, but has minimum flexibility."
+"``Background Music`` --- used for music playback. It has maximum performance"
+" due to the use of the Audio HTML tag, but has minimum flexibility."
 
 #: ../audio.rst:38
-msgid "*Disable doppler*"
+msgid "На панели ``Sound`` доступны следующие настройки:"
+msgstr "The following options are available on the ``Sound`` panel:"
+
+#: ../audio.rst:40
+msgid "*Volume*"
 msgstr ""
 
-#: ../audio.rst:38
-msgid "Игнорировать смещение частоты источника при его перемещении."
-msgstr "Ignore source's frequency shift upon its moving."
-
-#: ../audio.rst:41
-msgid "*Cyclic play*"
-msgstr ""
-
-#: ../audio.rst:41
-msgid "Зацикливать воспроизведение звука."
-msgstr "Loop the sound playback."
+#: ../audio.rst:42
+msgid "Громкость источника."
+msgstr "Speaker volume"
 
 #: ../audio.rst:44
-msgid "*Delay*"
+msgid "*Random Volume*"
 msgstr ""
 
-#: ../audio.rst:44
-msgid "Задержка в секундах перед началом проигрывания звука."
-msgstr "Delay before sound playback starts."
-
-#: ../audio.rst:48
-msgid "*Random delay*"
-msgstr ""
-
-#: ../audio.rst:47
-msgid ""
-"Дополнительная рандомизация задержки, результирующее значение определяется "
-"по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
-msgstr ""
-"Additional delay randomization. The resulting value is calculated "
-"according to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
-"Random_{[0-1]}`."
-
-#: ../audio.rst:52
-msgid "*Random volume*"
-msgstr ""
-
-#: ../audio.rst:51
+#: ../audio.rst:46
 msgid ""
 "Дополнительная рандомизация громкости. Результирующее значение определяется "
 "аналогично задержке."
 msgstr ""
-"Additional volume randomization. The resulting value is calculated "
-"as for the delay."
+"Additional volume randomization. The resulting value is calculated as for "
+"the delay."
 
-#: ../audio.rst:56
-msgid "*Random pitch*"
+#: ../audio.rst:49
+msgid "*Pitch*"
+msgstr ""
+
+#: ../audio.rst:51
+msgid "Скорость проигрывания (высота) звука."
+msgstr "Sound playback velocity."
+
+#: ../audio.rst:53
+msgid "*Random Pitch*"
 msgstr ""
 
 #: ../audio.rst:55
@@ -141,123 +124,115 @@ msgid ""
 "Дополнительная рандомизация скорости проигрывания звука. Результирующее "
 "значение определяется аналогично задержке."
 msgstr ""
-"Additional randomization of the sound playback speed. The resulting value "
-"is calculated as for the delay."
+"Additional randomization of the sound playback speed. The resulting value is"
+" calculated as for the delay."
 
 #: ../audio.rst:59
-msgid "*Fade-in*"
+msgid "*Fade-In*"
 msgstr ""
 
-#: ../audio.rst:59
+#: ../audio.rst:61
 msgid "Интервал плавного включения звука."
 msgstr "Fade-in time interval."
 
-#: ../audio.rst:62
-msgid "*Fade-out*"
-msgstr ""
-
-#: ../audio.rst:62
-msgid "Интервал плавного выключения звука."
-msgstr "Fade-out time interval."
-
-#: ../audio.rst:68
-msgid "*Loop*"
+#: ../audio.rst:63
+msgid "*Fade-Out*"
 msgstr ""
 
 #: ../audio.rst:65
-msgid ""
-"Зацикливать воспроизведение звука. Отличается от ``Cyclic play``, тем, что "
-"способен обеспечить нулевую задержку при повторении. Опция доступна только "
-"для звуковых источников с поведением ``Positional`` или ``Background "
-"sound``."
+msgid "Интервал плавного выключения звука."
+msgstr "Fade-out time interval."
+
+#: ../audio.rst:67
+msgid "*Disable doppler*"
 msgstr ""
-"Loop the sound playback. Contrary to the ``Cyclic play`` option it "
-"guarantees a zero delay upon repeat. The option is available only for "
-"sound sources with ``Positional`` or ``Background sound`` behavior."
+
+#: ../audio.rst:69
+msgid "Игнорировать смещение частоты источника при его перемещении."
+msgstr "Ignore source's frequency shift upon its moving."
 
 #: ../audio.rst:71
-msgid "*Loop count*"
+msgid "*Cyclic play*"
 msgstr ""
 
-#: ../audio.rst:71 ../audio.rst:74 ../audio.rst:77
-msgid "Не реализовано"
-msgstr "Not implemented."
+#: ../audio.rst:73
+msgid "Зацикливать воспроизведение звука."
+msgstr "Loop the sound playback."
 
-#: ../audio.rst:74
-msgid "*Random loop count*"
+#: ../audio.rst:75
+msgid "*Delay*"
 msgstr ""
 
-#: ../audio.rst:78
-msgid "*Playlist ID*"
+#: ../audio.rst:77
+msgid "Задержка в секундах перед началом проигрывания звука."
+msgstr "Delay before sound playback starts."
+
+#: ../audio.rst:79
+msgid "*Random Delay*"
 msgstr ""
 
-#: ../audio.rst:89
+#: ../audio.rst:81
+msgid ""
+"Дополнительная рандомизация задержки, результирующее значение определяется "
+"по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
+msgstr ""
+"Additional delay randomization. The resulting value is calculated according "
+"to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
+"Random_{[0-1]}`."
+
+#: ../audio.rst:84
+msgid "*Loop*"
+msgstr ""
+
+#: ../audio.rst:86
+msgid ""
+"Зацикливать воспроизведение звука. Отличается от ``Cyclic Play``, тем, что "
+"способен обеспечить нулевую задержку при повторении. Опция доступна только "
+"для звуковых источников с поведением ``Positional`` или ``Background "
+"Sound``."
+msgstr ""
+"Loop the sound playback. Contrary to the ``Cyclic play`` option it "
+"guarantees a zero delay upon repeat. The option is available only for sound "
+"sources with ``Positional`` or ``Background Sound`` behavior."
+
+#: ../audio.rst:109
 msgid "Обработка и кодирование"
 msgstr "Processing and Decoding"
 
-#: ../audio.rst:92
+#: ../audio.rst:112
 msgid "Поддерживаемые форматы (контейнеры):"
 msgstr "Supported formats (containers):"
 
-#: ../audio.rst:94
+#: ../audio.rst:114
 msgid "ogg, кодек Vorbis (Chrome, Firefox)"
 msgstr "ogg, Vorbis codec (Chrome, Firefox)"
 
-#: ../audio.rst:95
+#: ../audio.rst:115
 msgid "mp3 (Chrome, Safari)"
 msgstr ""
 
-#: ../audio.rst:96
+#: ../audio.rst:116
 msgid "mp4, кодек AAC (Chrome, Safari)"
 msgstr "mp4, AAC codec (Chrome, Safari)"
 
-#: ../audio.rst:98
+#: ../audio.rst:118
 msgid ""
-"Рекомендуется использовать **ogg**, который является открытым стандартом, "
+"Рекомендуется использовать *Ogg*, который является открытым стандартом, "
 "поддерживается многими браузерами, обеспечивает хорошее качество звука. "
 "Оптимальным с точки зрения качества и совместимости является формат "
 "48кГц/16бит. Одноканальный звук (моно) используется для хранения коротких "
 "сэмплов, двухканальный звук (стерео) - для музыкального сопровождения."
 msgstr ""
-"It is recommended to use **ogg** as it is an open standard, is widespread in"
+"It is recommended to use **Ogg** as it is an open standard, is widespread in"
 " browsers and provides good sound quality. The optimal format in respect to "
-"the quality and compatibility is 48kHz/16bit. Single-channel sound "
-"(mono) is used to store shot samples while two-channel sound (stereo) is"
-" used for music playback."
+"the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is"
+" used to store shot samples while two-channel sound (stereo) is used for "
+"music playback."
 
-#: ../audio.rst:103
+#: ../audio.rst:123
 msgid ""
-"В состав дистрибутива включен Python скрипт (scripts/converter.py) для "
-"конвертации исходных файлов в другие форматы с целью расширения спектра "
-"поддерживаемых платформ. Для конвертации необходимо выполнить команду:"
+"Конвертация ресурсов в различные форматы описывается в :ref:`соответствующем"
+" разделе <converter>`."
 msgstr ""
-"To support a wider range of platforms, a Python script (scripts/converter.py) for converting the "
-"source files into other formats is included into the distribution. Run "
-"it with the command:"
-
-#: ../audio.rst:111
-msgid "Преобразование происходит по схеме:"
-msgstr "Converting is performed according to the scheme:"
-
-#: ../audio.rst:113
-msgid "ogg -> mp4"
-msgstr ""
-
-#: ../audio.rst:114
-msgid "mp3 -> ogg"
-msgstr ""
-
-#: ../audio.rst:115
-msgid "mp4 -> ogg"
-msgstr ""
-
-#: ../audio.rst:117
-msgid ""
-"Конвертация ресурсов происходит с потерей качества, поэтому "
-"сконвертированные файлы получают суффикс .lossconv."
-msgstr ""
-"Resource converting is performed with quality loss and so the resulting "
-"files receive a .lossconv suffix."
-
-
-
+"Converting resources between different formats is described in the "
+":ref:`corresponding section <converter>`."
