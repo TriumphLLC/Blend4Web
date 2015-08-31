@@ -9,10 +9,12 @@
 b4w.module["__hud"] = function(exports, require) {
 
 var m_graph = require("__graph");
+var m_print = require("__print");
 
 var START_POINT_X = 30;
 var START_POINT_Y = 80;
 var LINE_WIDTH = 20;
+var OFFSETS = [5, 19, 3, 10, 4, 3, 5];
 
 var _canvas_context = null;
 
@@ -74,7 +76,7 @@ exports.show_debug_info = function(scenes, elapsed) {
         new_line();
     }
 
-    print(" ---------------------------------------------");
+    print(" -----------------------------------------------");
     print("    ", "TOTAL ACTIVE", "", "", sum_rcalls, "of", sum_bundles);
 }
 
@@ -109,6 +111,9 @@ function show_debug_info_scene(scene) {
         var size = Math.round(subs.camera.width) + "x" + Math.round(subs.camera.height);
         var bundles = subs.bundles.length;
         var rcalls = subs.debug_render_calls;
+
+        if (subs.type == "MAIN_CUBE_REFLECT")
+            bundles *= 6;
 
         // active/passive
         var is_active = subs.enqueue && subs.do_render;
@@ -156,8 +161,6 @@ function print() {
 
     var x = START_POINT_X;
     var y = START_POINT_Y + _carriage[0] * LINE_WIDTH;
-
-    var OFFSETS = [5, 18, 3, 10, 4, 3, 5];
 
     var text = arguments[0];
     for (var i = 1; i < arguments.length; i++) {
@@ -532,6 +535,5 @@ function draw_param_bar(ctx, vertical, box, param, is_active) {
     }
 
 }
-
 
 }

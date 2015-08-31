@@ -82,18 +82,19 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 ---------------------------
 
 * `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11
+* `Microsoft Edge <https://www.microsoft.com/en-us/windows/microsoft-edge>`_
 
 
 Мобильные платформы
 -------------------
 
-* Android (на современных устройствах)
+* Android
 * BlackBerry
 * Firefox OS
 * iOS 8
+* Sailfish OS
 * Tizen
 * Ubuntu Touch
-* WebOS
 
 .. index:: WebGL; преимущества
 

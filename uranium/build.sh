@@ -14,19 +14,23 @@ DU_MODULES=(duCharacter duBoat duFloatingBody duWater duWorld bindings)
 
 CMAKE_TOOLCHAIN=../emcmake/Emscripten.cmake 
 
+# before any cd
+EXT_MODS=$(realpath ../tools/closure-compiler/extern_modules.js)
+EXT_GLOBS=$(realpath ../tools/closure-compiler/extern_globals.js)
+
 #COPTS="-O1 -DDEBUG"
 #COPTS="-Oz -DNDEBUG"
 COPTS="-O2 --llvm-lto 1 -DNDEBUG"
 #COPTS="-O3 -s INLINING_LIMIT=100 -DNDEBUG"
 #COPTS="-O3 --llvm-lto 1 -DNDEBUG"
 
-#LOPTS="-O1"
+#OPTS="-O1"
 #LOPTS="-Oz -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
 LOPTS="-O2 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
 #LOPTS="-O3 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s INLINING_LIMIT=100"
 #LOPTS="-O3 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1"
 
-LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --memory-init-file 1 -s ASM_JS=1 --pre-js ../../src/b4w.js --pre-js ../../src/ipc.js --post-js ../bindings.js"
+LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --memory-init-file 1 -s ASM_JS=1 --pre-js ../../src/b4w.js  --pre-js ../../src/ipc.js --pre-js ../bindings.js --post-js ../bindings_post.js "
 
 EXPFUN="\
 _du_create_world \
@@ -193,5 +197,14 @@ LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
 echo "Generating uranium.js ($LOPTS)"
 
-EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
+EMCC_CLOSURE_ARGS="--externs $EXT_MODS --externs $EXT_GLOBS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
 
+#echo "Wrap in closure"
+#
+#(       #echo "\"use strict\"" && \
+#        echo "var physics_worker = (function() {" && \
+#        echo "var Module = this;" && \
+#        cat $PROJECT.js && \
+#        echo "return this;" && \
+#        echo "}).call({});" ) > $PROJECT.js
+#

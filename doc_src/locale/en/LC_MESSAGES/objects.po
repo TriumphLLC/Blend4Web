@@ -673,90 +673,177 @@ msgstr ""
 #: ../objects.rst:248
 msgid ""
 "Для управления перемещением объектов в движке предусмотрены следующие "
-"базовые функции модуля `transform`:"
+"базовые функции модуля :b4wmod:`transform`:"
 msgstr ""
-"Use the following methods of the `transform` module to move objects in the "
-"engine: "
+"Use the following methods of the :b4wmod:`transform` module to move objects "
+"in the engine: "
+
+#: ../objects.rst:251
+msgid ":b4wref:`transform.get_translation()`"
+msgstr ""
 
 #: ../objects.rst:251
 msgid ""
-"Получить координаты центра объекта. Вариант с одним параметром возвращает "
-"новый вектор (неоптимизированный вариант), вариант с двумя требует "
-"отдельного вектора для записи результата."
+"Получить координаты центра объекта в мировой системе коориднат. Вариант с "
+"одним параметром возвращает новый вектор (неоптимизированный вариант), "
+"вариант с двумя требует отдельного вектора для записи результата."
 msgstr ""
-"Get the coordinates of the object's center. The option with a single "
-"argument returns a new vector (non-optimized option) while the option with "
-"two arguments requires an additional vector to write the result down."
+"Get the coordinates of the object's center in world space. The method with a"
+" single argument returns a new vector (i.e. this is a non-optimized option) "
+"while the method with two arguments requires an additional vector to write "
+"the result down."
 
-#: ../objects.rst:253
-msgid "*get_translation*"
-msgstr ""
-
-#: ../objects.rst:256
-msgid "*get_rotation*"
+#: ../objects.rst:254
+msgid ":b4wref:`transform.get_translation_rel()`"
 msgstr ""
 
-#: ../objects.rst:256
+#: ../objects.rst:254
 msgid ""
-"Получить кватернион поворота объекта. По аналогии с `get_translation` "
-"имеется два варианта вызова функции."
+"Аналогично методу ``get_translation()``, однако если у данного объекта "
+"имеется родительский объект, координаты берутся в относительной системе "
+"координат, связанной с этим родительским объектом."
 msgstr ""
-"Get the object's rotation quaternion. There are two ways of calling this "
-"function similar to `get_translation`. "
+"Similar to the ``get_translation()`` method, but if this object has a parent, "
+"the obtained coordinates are measured in the parent's space."
 
-#: ../objects.rst:259
-msgid "*get_scale*"
-msgstr ""
-
-#: ../objects.rst:259
-msgid "Получить значение коэффициента увеличения объекта."
-msgstr "Get the object's scale."
-
-#: ../objects.rst:262
-msgid "*set_translation, set_translation_v*"
+#: ../objects.rst:257
+msgid ""
+":b4wref:`transform.set_translation()`, "
+":b4wref:`transform.set_translation_v()`"
 msgstr ""
 
-#: ../objects.rst:262
+#: ../objects.rst:257
 msgid ""
 "Переместить центр объекта в указанное место. Первая функция принимает в "
-"качестве параметров отдельные координаты, вторая - трёхмерный вектор (Array "
-"или Float32Array)."
+"качестве параметров отдельные координаты, вторая - трёхмерный вектор "
+"(``Array`` или ``Float32Array``)."
 msgstr ""
-"Move the object's center into the specified location. The first function "
+"Move the object's center into the specified location. The first method "
 "takes separate coordinates as arguments while the second one takes a three-"
-"component vector (Array or Float32Array)."
+"component vector (``Array`` or ``Float32Array``)."
 
-#: ../objects.rst:265
-msgid "*set_rotation, set_rotation_v*"
-msgstr ""
-
-#: ../objects.rst:265
+#: ../objects.rst:260
 msgid ""
-"Установить кватернион поворота объекта. Первая функция принимает в качестве "
-"параметров отдельные координаты, вторая - четырёхмерный вектор (Array или "
-"Float32Array)."
+":b4wref:`transform.set_translation_rel()`, "
+":b4wref:`transform.set_translation_rel_v()`"
 msgstr ""
-"Set the object's rotation quaternion. The first function takes separate "
+
+#: ../objects.rst:260
+msgid ""
+"Аналогично методам ``set_translation()`` и ``set_translation_v()``, однако "
+"если у данного объекта имеется родительский объект, координаты задаются в "
+"относительной системе координат, связанной с этим родительским объектом."
+msgstr ""
+"Similar to ``set_translation()`` and ``set_translation_v()``, but if this object "
+"has a parent, the set coordinates are measured in the parent's space."
+
+#: ../objects.rst:263
+msgid ":b4wref:`transform.get_rotation()`"
+msgstr ""
+
+#: ../objects.rst:263
+msgid ""
+"Получить кватернион поворота объекта в мировой системе координат. По "
+"аналогии с ``get_translation()`` имеется два варианта вызова функции."
+msgstr ""
+"Get the object's rotation quaternion in world space. Similar to ``get_translation()``,"
+" there are two options for calling this function."
+
+#: ../objects.rst:266
+msgid ":b4wref:`transform.get_rotation_rel()`"
+msgstr ""
+
+#: ../objects.rst:266
+msgid ""
+"Получить кватернион поворота объекта в системе координат, связанной с "
+"родительским объектом. По аналогии с ``get_translation_rel()`` имеется два "
+"варианта вызова функции."
+msgstr ""
+"Get the object's rotation quaternion measured in its parent's space. Similar to ``get_translation_rel()``,"
+" there are two options for calling this function."
+
+#: ../objects.rst:269
+msgid ""
+":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
+msgstr ""
+
+#: ../objects.rst:269
+msgid ""
+"Установить кватернион поворота объекта в мировой системе координат. Первая "
+"функция принимает в качестве параметров отдельные координаты, вторая - "
+"четырёхмерный вектор (``Array`` или ``Float32Array``)."
+msgstr ""
+"Set the object's rotation quaternion in world space. The first function takes separate "
 "coordinates as arguments while the second one takes a four-component vector "
-"(Array or Float32Array)."
+"(``Array`` or ``Float32Array``)."
 
-#: ../objects.rst:268
-msgid "*set_scale*"
-msgstr ""
-
-#: ../objects.rst:268
+#: ../objects.rst:272
 msgid ""
-"Установить коэффициент увеличения объекта. Единица соответствует исходному "
-"состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - "
-"увеличение. Не все объекты могут быть увеличены. В частности, увеличение "
-"невозможно для физических объектов."
+":b4wref:`transform.set_rotation_rel()`, "
+":b4wref:`transform.set_rotation_rel_v()`"
 msgstr ""
-"Set the object's scale. One corresponds to the object's original state. "
-"Values less than one mean scaling down, more than one - scaling up. Note "
-"that not all objects can be scaled. Particularly scaling is not allowed for "
+
+#: ../objects.rst:272
+msgid ""
+"Установить кватернион поворота объекта в системе координат, связанной с "
+"родительским объектом. Первая функция принимает в качестве параметров "
+"отдельные координаты, вторая - четырёхмерный вектор (``Array`` или "
+"``Float32Array``)."
+msgstr ""
+"Set the object's rotation quaternion measured in its parent's space. The first function takes separate "
+"coordinates as arguments while the second one takes a four-component vector "
+"(``Array`` or ``Float32Array``)."
+
+#: ../objects.rst:275
+msgid ":b4wref:`transform.get_scale()`"
+msgstr ""
+
+#: ../objects.rst:275
+msgid ""
+"Получить значение коэффициента увеличения объекта в мировой системе "
+"координат."
+msgstr ""
+"Get the object's scale in world space."
+
+#: ../objects.rst:278
+msgid ":b4wref:`transform.get_scale_rel()`"
+msgstr ""
+
+#: ../objects.rst:278
+msgid ""
+"Получить значение коэффициента увеличения объекта в системе координат, "
+"связанной с родительским объектом."
+msgstr ""
+"Get the object's scale in its parent's space."
+
+#: ../objects.rst:281
+msgid ":b4wref:`transform.set_scale()`"
+msgstr ""
+
+#: ../objects.rst:281
+msgid ""
+"Установить коэффициент увеличения объекта в мировой системе координат. "
+"Единица соответствует исходному состоянию. Значение меньше единицы - "
+"уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть "
+"увеличены. В частности, увеличение невозможно для физических объектов."
+msgstr ""
+"Set the object's scale in world space. Unity corresponds to the original scale of the object. "
+"Values less than unity mean scaling down, bigger than unity - scaling up. Note "
+"that not all objects can be scaled. Particularly, scaling is not allowed for "
 "physics objects."
 
-#: ../objects.rst:271
+#: ../objects.rst:284
+msgid ":b4wref:`transform.set_scale_rel()`"
+msgstr ""
+
+#: ../objects.rst:284
+msgid ""
+"Установить коэффициент увеличения объекта в системе координат, связанной с "
+"родительским объектом."
+msgstr ""
+"Set the object's scale in its parent's space."
+
+#: ../objects.rst:287
 msgid ""
 "Установить поворот объекта с помощью углов Эйлера. Используется "
 "**внутренняя** (intrinsic) система поворота YZX (то есть углы следуют в "
@@ -767,19 +854,58 @@ msgstr ""
 "system is used (that means the angles follow in the YZX order and the origin"
 " of coordinates rotates and takes up a new position for every angle)."
 
-#: ../objects.rst:276
-msgid "*set_rotation_euler, set_rotation_euler_v*"
+#: ../objects.rst:290
+msgid ""
+":b4wref:`transform.set_rotation_euler()`, "
+":b4wref:`transform.set_rotation_euler_v()`"
 msgstr ""
 
-#: ../objects.rst:278
+#: ../objects.rst:293
+msgid ""
+":b4wref:`transform.set_rotation_euler_rel()`, "
+":b4wref:`transform.set_rotation_euler_rel_v()`"
+msgstr ""
+
+#: ../objects.rst:293
+msgid ""
+"Установить поворот объекта с помощью углов Эйлера в системе координат, "
+"связанной с родительским объектом."
+msgstr ""
+"Set the object's rotation using Euler angles measured in its parent's space."
+
+#: ../objects.rst:296
+msgid ":b4wref:`transform.move_local()`"
+msgstr ""
+
+#: ../objects.rst:296
+msgid ""
+"Переместить объект относительно своего первоначального положения (в "
+"локальной системе координат)."
+msgstr ""
+"Move the object relative to its original position (in local space)."
+
+#: ../objects.rst:299
+msgid ""
+":b4wref:`transform.rotate_x_local()`, :b4wref:`transform.rotate_y_local()`, "
+":b4wref:`transform.rotate_z_local()`"
+msgstr ""
+
+#: ../objects.rst:299
+msgid ""
+"Повернуть объект относительно своего первоначального положения (в локальной "
+"системе координат)."
+msgstr ""
+"Rotate the object relative to its original position (in local space)."
+
+#: ../objects.rst:301
 msgid "кватернион"
 msgstr "quaternion"
 
-#: ../objects.rst:281
+#: ../objects.rst:304
 msgid "Кватернионы"
 msgstr "Quaternions"
 
-#: ../objects.rst:283
+#: ../objects.rst:306
 msgid ""
 "Кватернионы представляют собой четырёхмерные векторы, используемые для "
 "осуществления поворотов. Использование кватернионов обладает рядом "
@@ -788,7 +914,7 @@ msgstr ""
 "Quaternion is a four-component vector used to perform rotating. Quaternions "
 "have a number of advantages over other rotation methods such as:"
 
-#: ../objects.rst:285
+#: ../objects.rst:308
 msgid ""
 "Не имеет неоднозначности и зависимости от порядка применения поворотов, "
 "которые имеют место в случае использования углов Эйлера."
@@ -796,7 +922,7 @@ msgstr ""
 "A quaternion isn't ambiguant and doesn't depend on the rotation order as the"
 " Euler angles."
 
-#: ../objects.rst:286
+#: ../objects.rst:309
 msgid ""
 "Более эффективное использование памяти (от 2-х до 4-х раз меньше в "
 "зависимости от типа используемой матрицы)."
@@ -804,7 +930,7 @@ msgstr ""
 "Quaternion's memory usage is more effective (2-4 times less depending on the"
 " matrix used)."
 
-#: ../objects.rst:287
+#: ../objects.rst:310
 msgid ""
 "Высокая эффективность вычисления серии поворотов, чем при использовании "
 "матриц."
@@ -812,7 +938,7 @@ msgstr ""
 "Better computing efficiency than for matrices in case of a series of "
 "rotations."
 
-#: ../objects.rst:288
+#: ../objects.rst:311
 msgid ""
 "Нейтрализация ошибок умножения, возникающих вследствие неточности чисел с "
 "плавающей запятой."
@@ -820,11 +946,11 @@ msgstr ""
 "Numeric stability - compensation for multiplication errors arising from "
 "float number inaccuracy."
 
-#: ../objects.rst:289
+#: ../objects.rst:312
 msgid "Удобный метод интерполяции."
 msgstr "Convenient interpolation method."
 
-#: ../objects.rst:292
+#: ../objects.rst:315
 msgid ""
 "Поворот вектора с помощью кватерниона более сложная в вычислительном плане "
 "операция чем поворот с использованием матрицы."
@@ -832,11 +958,11 @@ msgstr ""
 "Rotating a vector with a quaternion is more computationally expensive than "
 "rotating with a matrix."
 
-#: ../objects.rst:293
+#: ../objects.rst:316
 msgid "Кватернионы имеют ряд недостатков:"
 msgstr "Quaternions have some drawbacks:"
 
-#: ../objects.rst:293
+#: ../objects.rst:316
 msgid ""
 "Использование кватернионов для представления отличных от поворота "
 "преобразований (перспективная или ортогональная проекция) затруднено."
@@ -844,17 +970,17 @@ msgstr ""
 "It is difficult to use quaternions for non-rotation transformations (such as"
 " perspective or orthogonal projection)."
 
-#: ../objects.rst:295
+#: ../objects.rst:318
 msgid "Для удобства работы с кватернионами в движке имеется ряд функций:"
 msgstr ""
 "The engine has a number of functions to make it more convenient to work with"
 " quaternions:"
 
-#: ../objects.rst:298
+#: ../objects.rst:321
 msgid "*quat.multiply*"
 msgstr ""
 
-#: ../objects.rst:298
+#: ../objects.rst:321
 msgid ""
 "Умножение кватернионов. Умножение кватерниона А на кватернион Б слева A*Б "
 "является поворотом на A. То есть у объекта уже имеется некий поворот Б, "
@@ -864,11 +990,11 @@ msgstr ""
 "quaternion A*B is a rotation by A. I.e. the object already has some rotation"
 " B which we supplement with a new rotation by A."
 
-#: ../objects.rst:301
+#: ../objects.rst:324
 msgid "*quat.setAxisAngle*"
 msgstr ""
 
-#: ../objects.rst:301
+#: ../objects.rst:324
 msgid ""
 "Кватернион представляет собой иную форму записи поворота относительно "
 "произвольной оси (вектора) на произвольный угол. Положительное направление "
@@ -885,11 +1011,11 @@ msgstr ""
 "forms a quaternion which can be used for rotating the object by 90 degrees "
 "(anticlockwise if viewing from the X axis' end) relative to the X axis. "
 
-#: ../objects.rst:304
+#: ../objects.rst:327
 msgid "*quat.slerp*"
 msgstr ""
 
-#: ../objects.rst:304
+#: ../objects.rst:327
 msgid ""
 "Сферическая интерполяция кватернионов. Используется для осуществления "
 "плавного разворота объектов и анимации."
@@ -897,19 +1023,19 @@ msgstr ""
 "Spherical interpolation of quaternions. Used for smoothing the object's "
 "rotation and animation."
 
-#: ../objects.rst:307
+#: ../objects.rst:330
 msgid "Преобразование из углов Эйлера и наоборот."
 msgstr "Сonversion from Euler angles and back."
 
-#: ../objects.rst:308
+#: ../objects.rst:331
 msgid "*util.euler_to_quat, util.quat_to_euler*."
 msgstr ""
 
-#: ../objects.rst:311
+#: ../objects.rst:334
 msgid "Пример работы с кватернионами"
 msgstr "Quaternion Example"
 
-#: ../objects.rst:313
+#: ../objects.rst:336
 msgid ""
 "Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо."
 " В программе Blender имеется соответствующая модель с названием \"Cessna\"."
@@ -917,15 +1043,15 @@ msgstr ""
 "We need to rotate the object by 60 degrees in a horizontal plane to the "
 "right. We have a model named \"Cessna\" in Blender."
 
-#: ../objects.rst:321
+#: ../objects.rst:344
 msgid "Сохраним ссылку на объект в движке в переменной **aircraft**:"
 msgstr "Lets save a reference to the object in the **aircraft** variable:"
 
-#: ../objects.rst:328
+#: ../objects.rst:351
 msgid "Осуществим поворот:"
 msgstr "Lets rotate it:"
 
-#: ../objects.rst:330
+#: ../objects.rst:353
 msgid ""
 "Расположение координатных осей в Blender'е и в движке различается, и при "
 "экспорте произойдет преобразование: [X Y Z] (Blender) -> [X -Z Y] (движок). "
@@ -936,7 +1062,7 @@ msgstr ""
 "-Z Y] (the engine). Therefore we need to rotate the object relative to the Y"
 " axis and not the Z axis."
 
-#: ../objects.rst:331
+#: ../objects.rst:354
 msgid ""
 "Повороту вправо соответствует поворот по часовой стрелке, т.е. в "
 "отрицательном направлении."
@@ -944,23 +1070,48 @@ msgstr ""
 "A clockwise rotation corresponds to the rotation to the right (i.e. in the "
 "negative direction)."
 
-#: ../objects.rst:332
+#: ../objects.rst:355
 msgid "60 градусов = :math:`\\pi/3` радиан."
 msgstr "60 degrees = :math:`\\pi/3` radians."
 
-#: ../objects.rst:334
+#: ../objects.rst:357
 msgid "В итоге получаем:"
 msgstr "As a result we get:"
 
-#: ../objects.rst:351
+#: ../objects.rst:374
 msgid "Оптимизированный вариант, не приводящий к созданию новых объектов:"
 msgstr "The optimized version which does not create new objects:"
 
-#: ../objects.rst:370
+#: ../objects.rst:393
+msgid "Отличия систем координат Blender'а и Blend4Web"
+msgstr "Differences Between Coordinate Systems of Blender and Blend4Web"
+
+#: ../objects.rst:395
+msgid ""
+"В системе координат Blender'а вектор ``UP``, указывающий направление вверх, "
+"сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в OpenGL, это "
+"направление совпадает с направлением оси Y. Таким образом система координат "
+"движка оказывается повернутой относительно системы координат Blender'а на 90"
+" градусов вокруг оси X."
+msgstr ""
+"In Blender's coordinate system the ``UP`` vector, which points upwards, is "
+"co-directional with the Z axis. Blend4Web uses Y axis for this purpose, as "
+"it is customary in OpenGL. Thus the engine's coordinates are rotated by 90° "
+"around the X axis relative to Blender."
+
+#: ../objects.rst:402
+msgid ""
+"Методы API используют именно систему координат движка, поэтому работа с API "
+"может отличаться от работы с настройками непосредственно в Blender'е."
+msgstr ""
+"API methods use the engine's coordinates, so they can work differently in "
+"comparison with setting Blender's parameters."
+
+#: ../objects.rst:406
 msgid "Перемещение с помощью векторов TSR"
 msgstr "Moving via TSR Vectors"
 
-#: ../objects.rst:372
+#: ../objects.rst:408
 msgid ""
 "Удобным способом управления перемещением объектов является использование "
 "специальных векторов, имеющих следующий формат:"
@@ -968,11 +1119,11 @@ msgstr ""
 "It is sometimes convenient to move objects using vectors of the following "
 "format:"
 
-#: ../objects.rst:374
+#: ../objects.rst:410
 msgid ":math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`"
 msgstr ""
 
-#: ../objects.rst:376
+#: ../objects.rst:412
 msgid ""
 "Здесь :math:`T_x, T_y, T_z` - компоненты вектора перемещения, :math:`S` - "
 "масштаб, :math:`R_x, R_y, R_z, R_w` - компоненты кватерниона поворота. "
@@ -982,7 +1133,7 @@ msgstr ""
 ":math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of the"
 " quaternion vector. Hence the name of this vector: TSR or TSR-8."
 
-#: ../objects.rst:378
+#: ../objects.rst:414
 msgid ""
 "Для работы с данными векторами существует специальный модуль `tsr`, а также "
 "методы `set_tsr()`/`get_tsr()` модуля `transform`."
@@ -990,11 +1141,11 @@ msgstr ""
 "This vector can be operated via `tsr` module, as well as via "
 "`set_tsr()`/`get_tsr()` methods of the `transform` module."
 
-#: ../objects.rst:382
+#: ../objects.rst:420
 msgid "Копирование объектов (инстансинг)"
 msgstr "Copying Objects (Instancing)"
 
-#: ../objects.rst:384
+#: ../objects.rst:422
 msgid ""
 "Часто возникает необходимость копирования объектов (инстансинг) во время "
 "работы приложения."
@@ -1002,11 +1153,11 @@ msgstr ""
 "It is often required to copy (to make instances of) objects during "
 "application work."
 
-#: ../objects.rst:387
+#: ../objects.rst:425
 msgid "тип объекта должен быть ``MESH``"
 msgstr "only ``MESH`` objects can be copied"
 
-#: ../objects.rst:388
+#: ../objects.rst:426
 msgid ""
 "объект должен быть :ref:`динамическим <static_dynamic_objects>` (включить "
 "настройку ``Rendering Properties > Force Dynamic Object``)"
@@ -1014,19 +1165,19 @@ msgstr ""
 "the object should be :ref:`dynamic <static_dynamic_objects>` (enable "
 "``Rendering Properties > Force Dynamic Object``)"
 
-#: ../objects.rst:389
+#: ../objects.rst:427
 msgid "Существует ряд ограничений на копируемые объекты:"
 msgstr "Copying objects has its limitations:"
 
-#: ../objects.rst:389
+#: ../objects.rst:427
 msgid "объект должен принадлежать активной сцене"
 msgstr "the source object should belong to the active scene"
 
-#: ../objects.rst:392
+#: ../objects.rst:430
 msgid "Простое копирование"
 msgstr "Making a Simple Copy"
 
-#: ../objects.rst:394
+#: ../objects.rst:432
 msgid ""
 "В случае простого копирования для объекта-копии будет использоваться "
 "геометрия объекта, с которого осуществлялось копирование. При изменении "
@@ -1038,11 +1189,11 @@ msgstr ""
 "it's enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in "
 "the source object's properties."
 
-#: ../objects.rst:397
+#: ../objects.rst:435
 msgid "Глубокое копирование"
 msgstr "Making a Deep Copy"
 
-#: ../objects.rst:399
+#: ../objects.rst:437
 msgid ""
 "При глубоком копировании новый объект будет обладать уникальными для него "
 "свойствами, а именно, он будет иметь свою собственную геометрию. То есть при"
@@ -1057,7 +1208,7 @@ msgstr ""
 " it is required to enable the :ref:`Rendering Properties > Force Dynamic "
 "Geometry <dynamic_geom>` checkbox for the source object."
 
-#: ../objects.rst:403
+#: ../objects.rst:441
 msgid ""
 "Для копирования объектов в модуле ``objects.js`` предусмотрена функция "
 "``copy``, в которую надо передать идентификатор копируемого объекта, "
@@ -1071,7 +1222,7 @@ msgstr ""
 "specify the copy mode (i.e. simple or deep). By default simple copying will "
 "be performed."
 
-#: ../objects.rst:405
+#: ../objects.rst:443
 msgid ""
 "Созданный при копировании объект необходимо добавить на сцену. Для этого в "
 "модуле ``scenes.js`` существует функция ``append_object``, куда нужно "
@@ -1081,11 +1232,11 @@ msgstr ""
 " with the ``append_object`` method of the ``scenes.js`` module. The new "
 "object should be passed to it as an argument."
 
-#: ../objects.rst:417
+#: ../objects.rst:455
 msgid "Удаление объектов"
 msgstr "Removing Objects"
 
-#: ../objects.rst:418
+#: ../objects.rst:456
 msgid ""
 "Для удаления объектов, созданных копированием, в модуле ``scenes.js`` "
 "предусмотрена функция ``remove_object``, куда надо передать объект. Возможно"
@@ -1095,11 +1246,11 @@ msgstr ""
 "``scenes.js`` module. Pass the object to it as an argument. Only copied "
 "objects can be removed this way."
 
-#: ../objects.rst:430
+#: ../objects.rst:468
 msgid "Выделение объектов"
 msgstr "Object Selection"
 
-#: ../objects.rst:432
+#: ../objects.rst:470
 msgid ""
 "Чтобы разрешить выделение конкретного объекта, необходимо установить флаг "
 "``Selectable`` в панели ``Selection and Outlining``."
@@ -1107,14 +1258,15 @@ msgstr ""
 "In order to enable selection of a certain object, it is required to enable "
 "the ``Selectable`` checkbox on the ``Selection and Outlining`` panel."
 
-#: ../objects.rst:435
+#: ../objects.rst:473
 msgid ""
 "Следует убедится в том, что в панели ``Scene > Object Outlining`` "
 "установлено состояние ``ON`` или ``AUTO``."
 msgstr ""
-"Make sure that the status on the ``Scene > Object Outlining`` panel is set to ``ON`` or ``AUTO``."
+"Make sure that the status on the ``Scene > Object Outlining`` panel is set "
+"to ``ON`` or ``AUTO``."
 
-#: ../objects.rst:437
+#: ../objects.rst:475
 msgid ""
 "Выделение объекта возможно программно через API, например, в модуле "
 "``scenes.js`` имеется функция ``pick_object``, которая по координатам в "
@@ -1124,11 +1276,11 @@ msgstr ""
 "``scenes.js`` module there is the ``pick_object`` function which selects an "
 "object based on canvas 2D coordinates,"
 
-#: ../objects.rst:448
+#: ../objects.rst:486
 msgid "или с использованием :ref:`NLA-скрипта <nla_select_play>`."
 msgstr "or using the :ref:`NLA Script <nla_select_play>`."
 
-#: ../objects.rst:450
+#: ../objects.rst:488
 msgid ""
 "Если для выделяемого объекта в панели ``Object > Selection and Outlining`` "
 "установлены флаги ``Enable Outlining`` и ``Outline on Select``, то вызов "
@@ -1136,15 +1288,15 @@ msgid ""
 "<outline>`."
 msgstr ""
 "If the selectable object has enabled ``Enable Outlining`` and ``Outline on "
-"Select`` checkboxes on the ``Object > Selection and Outlining`` panel, then the "
-"``pick_object`` function call will activate :ref:`outline glow animation "
-"<outline>`."
+"Select`` checkboxes on the ``Object > Selection and Outlining`` panel, then "
+"the ``pick_object`` function call will activate :ref:`outline glow animation"
+" <outline>`."
 
-#: ../objects.rst:456
+#: ../objects.rst:494
 msgid "Морфинг"
 msgstr "Morphing"
 
-#: ../objects.rst:458
+#: ../objects.rst:496
 msgid ""
 "Для создания ключей деформации (опорных фигур) перейдите во вкладку ``Mesh >"
 " Shape keys``."
@@ -1152,11 +1304,11 @@ msgstr ""
 "Morph targets can be added using Blender's standard ``Mesh > Shape keys`` "
 "interface."
 
-#: ../objects.rst:465
+#: ../objects.rst:503
 msgid "Движком поддерживаются все опции типа \"Relative\" для ключей деформации."
 msgstr "The engine supports all shape key options under the \"Relative\" type."
 
-#: ../objects.rst:467
+#: ../objects.rst:505
 msgid ""
 "Для изменения значения ключа деформации, существует функция "
 "``apply_shape_key`` в модуле ``geometry.js``."
@@ -1164,6 +1316,6 @@ msgstr ""
 "To set a shape key value, use the ``apply_shape_key`` method of the "
 "``geometry.js`` module."
 
-#: ../objects.rst:471
+#: ../objects.rst:509
 msgid "На объекте должно стоять свойство *Export Shape Keys*."
 msgstr "The object must have *Export Shape Keys* enabled."

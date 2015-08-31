@@ -153,7 +153,7 @@ importance.
 +---------------------------------+---------------------------------+------------------------------+
 | Emscripten                      | from EMSDK source code          | building Uranium             |
 +---------------------------------+---------------------------------+------------------------------+
-| ImageMagick, GraphicsMagick     | imagemagick, graphicsmagick     | converting the resources     |
+| ImageMagick                     | imagemagick                     | converting the resources     |
 +---------------------------------+---------------------------------+------------------------------+
 | NVIDIA Texture Tools            | libnvtt-bin                     | converting the resources     |
 +---------------------------------+---------------------------------+------------------------------+
@@ -570,26 +570,39 @@ Table of possible errors:
 +---------------------------------------+---------------------------------------------+
 
 
-Addon's translation
+Add-on Translations
 ===================
 
-To translate the new text strings some prepaparing must be done.
+In order to translate new text some preparations have to be done.
 
-At first be sure you have *Subversion* installed. Then clone
-therepository with Blender's translations. You can use this command:
+At first make sure that you have *Subversion* installed. Then clone
+the repository with Blender translations. You can use the following
+command:
 
    svn checkout https://svn.blender.org/svnroot/bf-translations
 
-The second step is to install and to set up the *Manage UI
-translations* addon.The only option we'll need is "Translation root"
-where the path to the directory from the step one must be specified.
+The second step is to install and set up the *Manage UI translations*
+add-on. The most important option here is "Translation Root" where the
+path to the cloned repository has to be specified. Then specify the
+absolute path where settings will be saved, "Persistent Data Path",
+and save the settings to the json file.
 
 [image]
 
-Then the translator.py script from the /scripts directory must be run
-to update *ru_RU.po* file:
+Then the "translator.py" script from the "scripts/" directory has to
+be run in order to update the .po file:
 
-   python3 scripts/translator.py
+   python3 scripts/translator.py ru_RU /home/user/bf-translations/branches/ru/ru.po
 
-The only thing left is to open this file and write the translation of
-the new strings.
+The first parameter is the language to which the add-on will be
+translated. The list of available languages can be seen as follows:
+
+   python3 scripts/translator.py help
+
+The second parameter is optional and serves for merging the resulting
+.po file with Blender's .po file which is available in the above-
+mentioned repository in the */bf-translations/branches/* directory.
+Phrases from your .po file which match phrases from Blender's .po file
+will be translated automatically.
+
+Finally open this file and translate new lines.

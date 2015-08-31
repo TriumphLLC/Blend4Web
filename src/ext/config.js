@@ -68,6 +68,8 @@
  * <dt>physics_calc_fps
  * <dd>Boolean, return physics FPS in {@link module:main~FPSCallback|FPS
  * callback}.
+ * <dt>physics_use_workers
+ * <dd>Boolean, simulate physics in workers (default) or not.
  * <dt>precision
  * <dd>String, preferred GLSL floating point precision (use the CUSTOM profile
  * in order to change this parameter).
@@ -101,10 +103,10 @@
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
  * @cc_externs antialiasing assets_dds_available assets_min50_available audio
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
- * @cc_externs console_verbose
- * @cc_externs do_not_load_resources enable_selectable
+ * @cc_externs console_verbose do_not_load_resources enable_selectable
  * @cc_externs enable_outlining gyro_use outlining_overview_mode
- * @cc_externs physics_enabled physics_uranium_path physics_calc_fps precision quality
+ * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
+ * @cc_externs precision quality
  * @cc_externs render_resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
  * @cc_externs wireframe_debug

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os,sys,subprocess,json
+import os,sys,subprocess,json,platform,shutil
 from converter import check_alpha_usage
 
 ASSETS_DIR = "../deploy/assets/"
@@ -19,6 +19,32 @@ ENDCOL = "\033[0m"
 
 _resource_dict = {}
 
+DEPENDENCIES = ["identify", "convert"]
+PATH_TO_UTILS_WIN = os.path.join("..", "tools", "converter_utils", "win")
+
+
+def check_dependencies(dependencies):
+
+    if platform.system() == "Windows":
+        return True
+
+    missing_progs = get_missing_progs(dependencies)
+    needed_progs = {}
+    for dep in missing_progs:
+        if dep == "identify" or dep == "convert":
+            needed_progs["ImageMagick"] = True
+    for prog in needed_progs:
+        print("Couldn't find", prog)
+    if len(missing_progs) > 0:
+        return False
+    return True
+
+def get_missing_progs(dependencies):
+    missing_progs = []
+    for dep in dependencies:
+        if not shutil.which(dep):
+            missing_progs.append(dep)
+    return missing_progs
 
 def run():
     try:
@@ -100,6 +126,9 @@ def check_unused(root, filename):
     """
     Displays all images paths, which not use in all scenes
     """
+    if not check_dependencies(DEPENDENCIES):
+        sys.exit(1)
+
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
@@ -112,7 +141,14 @@ def check_unused(root, filename):
         if not path in _resource_dict:
             print(RED + " [FILE UNUSED]" + ENDCOL, path, WHITE)
 
-    check_alpha_usage(path, ext)
+    if platform.system() != "Windows":
+        convert = "convert"
+        identify = "identify"
+    else:
+        convert = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "imagemagick", "convert.exe"))
+        identify = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "imagemagick", "identify.exe"))
+
+    check_alpha_usage(path, ext, convert, identify)
 
 
 def check_used(root, filename):

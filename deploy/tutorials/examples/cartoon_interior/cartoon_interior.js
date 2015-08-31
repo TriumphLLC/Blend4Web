@@ -4,10 +4,10 @@ b4w.register("cartoon_interior", function(exports, require) {
 
 var m_app    = require("app");
 var m_cam    = require("camera");
-var m_cons   = require("constraints");
 var m_ctl    = require("controls");
 var m_data   = require("data");
 var m_mouse  = require("mouse");
+var m_obj    = require("objects");
 var m_phy    = require("physics");
 var m_scenes = require("scenes");
 var m_trans  = require("transform");
@@ -168,7 +168,7 @@ function loaded_cb(data_id) {
 
 
             // spawn appended object at a certain position
-            var obj_parent = m_cons.get_parent(obj);
+            var obj_parent = m_obj.get_parent(obj);
             if (obj_parent && m_util.is_armature(obj_parent))
                 // translate the parent (armature) of the animated object
                 m_trans.set_translation_v(obj_parent, spawner_pos);
@@ -199,7 +199,7 @@ function trigger_outline(obj, id, pulse) {
 }
 
 function rotate_object(obj, angle) {
-    var obj_parent = m_cons.get_parent(obj);
+    var obj_parent = m_obj.get_parent(obj);
     
     if (obj_parent && m_util.is_armature(obj_parent)) {
         // rotate the parent (armature) of the animated object
@@ -239,7 +239,7 @@ function main_canvas_down(e) {
     if (_selected_obj) {
         var cam = m_scenes.get_active_camera();
 
-        var obj_parent = m_cons.get_parent(_selected_obj);
+        var obj_parent = m_obj.get_parent(_selected_obj);
         if (obj_parent && m_util.is_armature(obj_parent))
             // get translation from the parent (armature) of the animated object
             m_trans.get_translation(obj_parent, _vec3_tmp);
@@ -290,7 +290,7 @@ function main_canvas_move(e) {
 
                 // do not process the parallel case and intersections behind the camera
                 if (point && camera_ray[1] < 0) {
-                    var obj_parent = m_cons.get_parent(_selected_obj);
+                    var obj_parent = m_obj.get_parent(_selected_obj);
                     if (obj_parent && m_util.is_armature(obj_parent))
                         // translate the parent (armature) of the animated object
                         m_trans.set_translation_v(obj_parent, point);
@@ -305,7 +305,7 @@ function main_canvas_move(e) {
 function limit_object_position(obj) {
     var bb = m_trans.get_object_bounding_box(obj);
 
-    var obj_parent = m_cons.get_parent(obj);
+    var obj_parent = m_obj.get_parent(obj);
     if (obj_parent && m_util.is_armature(obj_parent))
         // get translation from the parent (armature) of the animated object
         var obj_pos = m_trans.get_translation(obj_parent, _vec3_tmp);

@@ -245,9 +245,9 @@ function set_object_info() {
         return;
 
     var controlled_str = _controlled_object ?
-            String(_controlled_object["name"]) : "NONE";
+            m_scenes.get_object_name(_controlled_object) : "NONE";
     var selected_str = _selected_object ?
-            String(_selected_object["name"]) : "NONE";
+            m_scenes.get_object_name(_selected_object) : "NONE";
 
     var info = "CONTROLLED: " + controlled_str + " | SELECTED: " + selected_str;
 
@@ -710,12 +710,17 @@ function auto_view_load_next() {
         if (new_item) { // grab next item
             item_id = {category: category.name, item: new_item.name};
         } else { // grab next category
-            var category_index = _manifest.indexOf(category);
-            var new_category = _manifest[category_index + 1];
 
-            if (new_category) {
-                item_id = {category: new_category.name, item: new_category.items[0].name};
-            } else {
+            var category_index = _manifest.indexOf(category);
+            var next_category = null;
+
+            do {
+                next_category = _manifest[++category_index];
+            } while (next_category && next_category.items.length == 0)
+
+            if (next_category)
+                item_id = {category: next_category.name, item: next_category.items[0].name};
+            else {
                 // finished
                 _auto_view = false;
                 return;
@@ -996,7 +1001,7 @@ function render_callback(elapsed, current_time) {
             else
                 elem_status.innerHTML = "STOPPED";
         }
-        var frame = parseInt(m_nla.get_frame());
+        var frame = parseInt(m_nla.get_frame().toFixed(0));
         if (parseInt($("#nla_frame_current").val()) !== frame)
             set_slider("nla_frame_current", frame);
     }

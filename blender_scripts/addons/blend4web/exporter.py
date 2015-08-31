@@ -18,11 +18,12 @@ import imp
 
 import blend4web
 
-from . import binary_module_hook
-
-from . import anim_baker
-from . import nla_script
-from . import server
+b4w_modules = ["binary_module_hook",
+                "anim_baker",
+                "logic_node_tree",
+                "server"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
 
 BINARY_INT_SIZE = 4
 BINARY_SHORT_SIZE = 2
@@ -95,8 +96,8 @@ _export_error = None
 _file_error = None
 
 _scene_active_layers = {}
+
 _dupli_group_ids = {}
-_node_groups_props_cache = {}
 
 _b4w_export_warnings = []
 
@@ -113,10 +114,13 @@ _canvases_identifiers = []
 _additional_scene_objects = []
 
 # currently processed data
-_curr_scene = None
-_curr_mesh = None
-_curr_material_stack = []
-_curr_mat_data_stack = []
+_curr_stack = {
+    "scenes"   : [],
+    "object"   : [],
+    "data"     : [],
+    "material" : [],
+    "texture"  : [],
+}
 
 _fallback_camera = None
 _fallback_world = None
@@ -433,10 +437,12 @@ def detach_export_properties(tags):
                 del component["export_done"]
 
 def gen_uuid(comp):
-    # type + name + lib path
+    # type + name + lib path/blend path
     s = comp.rna_type.name + comp.name
     if comp.library:
         s += comp.library.filepath
+    else:
+        s += bpy.data.filepath
 
     uuid = hashlib.md5(s.encode()).hexdigest()
     return uuid
@@ -557,6 +563,34 @@ def mesh_get_active_vc(mesh):
 
     return None
 
+def scenes_store_select_all_layers():
+    global _scene_active_layers
+    _scene_active_layers = {}
+
+    for scene in bpy.data.scenes:
+
+        if scene.name not in _scene_active_layers:
+            _scene_active_layers[scene.name] = {}
+
+        scene_lib_path = get_scene_lib_path(scene)
+        layers = _scene_active_layers[scene.name][scene_lib_path] = []
+
+        for i in range(len(scene.layers)):
+            layers.append(scene.layers[i])
+            scene.layers[i] = True
+
+def scenes_restore_selected_layers():
+    global _scene_active_layers
+
+    for scene in bpy.data.scenes:
+        if scene.name in _scene_active_layers:
+            scene_lib_path = get_scene_lib_path(scene)
+            if scene_lib_path in _scene_active_layers[scene.name]:
+                layers_data = _scene_active_layers[scene.name][scene_lib_path]
+
+                for i in range(len(layers_data)):
+                    scene.layers[i] = layers_data[i]
+
 def get_scene_lib_path(scene):
     if scene.library:
         return scene.library.filepath
@@ -586,11 +620,18 @@ def get_main_json_data():
     return _main_json_str
 
 def get_binaries_data():
-    return _bpy_bindata_int + _bpy_bindata_float + _bpy_bindata_short \
-            + _bpy_bindata_ushort
+    bin_version = get_b4w_bin_info()
+    return bin_version + _bpy_bindata_int + _bpy_bindata_float \
+            + _bpy_bindata_short + _bpy_bindata_ushort
 
 def get_packed_data():
     return _packed_files_data
+
+def get_b4w_bin_info():
+    format_version = blend4web.bl_info["b4w_format_version"]
+    [major_version, minor_version] = format_version.split(".")
+    return bytearray("B4WB", "UTF-8") + struct.pack("i", int(major_version)) \
+            + struct.pack("i", int(minor_version))
 
 def process_components(tags):
     for tag in tags:
@@ -899,8 +940,8 @@ def process_scene(scene):
         return
     scene["export_done"] = True
 
-    global _curr_scene
-    _curr_scene = scene
+    global _curr_stack
+    _curr_stack["scenes"].append(scene)
 
     scene_data = OrderedDict()
 
@@ -999,6 +1040,7 @@ def process_scene(scene):
     _export_uuid_cache[scene_data["uuid"]] = scene_data
     _bpy_uuid_cache[scene_data["uuid"]] = scene
     check_scene_data(scene_data, scene)
+    _curr_stack["scenes"].pop()
 
 
 def get_tags_description(tags):
@@ -1013,152 +1055,236 @@ def get_tags_description(tags):
                 return description
         return ""
 
+def label_to_slot_num(scene, nla_script, label):
+    """Returns -1 if no label was found"""
+    for num in range(len(nla_script)):
+        slot = nla_script[num]
+        if slot['label'] == label:
+            return num
+
+    return -1
+
+def markers_to_frame_range(scene, marker_start, marker_end):
+    markers = scene.timeline_markers
+    if marker_start == "" or marker_start not in markers:
+        return None
+    if marker_end not in markers:
+        marker_end = ''
+    first = markers[marker_start].frame
+    if first < scene.frame_start:
+        first = scene.frame_start
+
+    if marker_end == "":
+        last = scene.frame_end
+
+        for marker in markers:
+            if marker.frame > first and marker.frame < last:
+                last = marker.frame
+    else:
+        last = markers[marker_end].frame
+        if last > scene.frame_end:
+            last = scene.frame_end
+
+    return [first, last]
+
+def get_node_idx_by_name(nodes, name):
+    for i in range(len(nodes)):
+        if nodes[i]["label"] == name:
+            return i
+    return -1
+
+def get_logic_nodetree_name(scene):
+    tree_name = scene.b4w_active_logic_node_tree
+
+    # check tree name, allow empty name
+    if (not tree_name in bpy.data.node_groups) or tree_name == "":
+        warn("Wrong name of active logic node tree:'%s'" % str(tree_name))
+        # Try to force set tree
+        # firstly try to get active tree
+        tree_name = ""
+        try:
+            for area in bpy.context.screen.areas:
+                if area.type == "NODE_EDITOR":
+                    for s in area.spaces:
+                        if s.type == "NODE_EDITOR":
+                            if s.tree_type == "B4WLogicNodeTreeType":
+                                tree_name = s.node_tree.name
+        except:
+            # logic editor is not active
+            pass
+
+        if tree_name == "":
+            # set first nodetree
+            for t in bpy.data.node_groups:
+                if t.bl_idname == "B4WLogicNodeTreeType":
+                    tree_name = t.name
+
+        if tree_name == "":
+            err("Fail to force set of active logic node tree")
+        else:
+            warn("Force to use '%s' as active logic node tree" % str(tree_name))
+
+    return tree_name
+
 def process_scene_nla(scene, scene_data):
     scene_data["b4w_use_nla"] = scene.b4w_use_nla
     scene_data["b4w_nla_cyclic"] = scene.b4w_nla_cyclic
+    scene_data["b4w_logic_nodes"] = []
+    scene_data["b4w_use_logic_editor"] = scene.b4w_use_logic_editor
 
-    scene_data["b4w_nla_script"] = []
+    if not scene.b4w_use_logic_editor:
+        return
 
-    for slot in scene.b4w_nla_script:
-        slot_data = OrderedDict()
-        slot_data["label"] = slot.label
-        slot_data["type"] = slot.type
+    scripts = []
+    tree_name = get_logic_nodetree_name(scene)
 
-        # maintain the strong typing
-        slot_data["frame_range"] = [0,0]
-        slot_data["object"] = None
-        slot_data["target_slot"] = 0
-        slot_data["operation"] = ""
-        slot_data["condition"] = ""
-        # -1 - do not use the register
-        slot_data["register1"] = -1
-        slot_data["register2"] = -1
-        slot_data["registerd"] = -1
-        slot_data["number1"] = 0
-        slot_data["number2"] = 0
-        slot_data["url"] = ""
-        slot_data["param_name"] = ""
+    if not tree_name == "":
+        tree = bpy.data.node_groups[tree_name]
+        scripts, errors = tree.get_tree()
 
-        if slot.type == "PLAY":
-            frame_range = nla_script.markers_to_frame_range(scene,
-                    slot.param_marker_start, slot.param_marker_end)
-            if frame_range:
-                slot_data["frame_range"] = frame_range
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
+        if len(errors) != 0:
+            for name, mes in errors:
+                err("NLA Wrong syntax in '%s': %s" % (name, mes))
 
-        elif slot.type == "SELECT":
-            obj = nla_script.object_by_name(scene.objects, slot.param_object)
-            slot_num = nla_script.label_to_slot_num(scene, slot.param_slot)
+    for script in scripts:
+        scene_data["b4w_logic_nodes"].append([])
+        nla_subtree = scene_data["b4w_logic_nodes"][-1]
+        for slot in script:
+            slot_data = OrderedDict()
+            slot_data["label"] = slot['label']
+            slot_data["name"] = slot["name"]
+            slot_data["type"] = slot['type']
+            slot_data["slot_idx_order"] = get_node_idx_by_name(script, slot['link_order'])
+            slot_data["slot_idx_jump"] = -1
+            # maintain the strong typing
+            slot_data["frame_range"] = [0,0]
+            slot_data["object"] = None
+            slot_data["operation"] = ""
+            slot_data["condition"] = ""
+            # -1 - do not use the register
+            slot_data["register1"] = -1
+            slot_data["register2"] = -1
+            slot_data["registerd"] = -1
+            slot_data["number1"] = 0
+            slot_data["number2"] = 0
+            slot_data["url"] = ""
+            slot_data["param_name"] = ""
+            slot_data["mute"] = slot["mute"]
 
-            # TODO: check the need of do_export() in this and some other cases
-            # empty labels are not valid ones
-            if (obj and do_export(obj) and object_is_valid(obj) and
-                    slot.param_slot and slot_num > -1):
-                slot_data["object"] = slot.param_object
-                slot_data["target_slot"] = slot_num
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
-
-        elif slot.type == "SELECT_PLAY":
-            obj = nla_script.object_by_name(scene.objects, slot.param_object)
-            frame_range = nla_script.markers_to_frame_range(scene,
-                    slot.param_marker_start, slot.param_marker_end)
-
-            # TODO: check the need of do_export() in this and some other cases
-            # empty labels are not valid ones
-            if (obj and do_export(obj) and object_is_valid(obj) and frame_range):
-                slot_data["object"] = slot.param_object
-                slot_data["frame_range"] = frame_range
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
-
-        elif slot.type == "JUMP" or slot.type == "CONDJUMP":
-
-            slot_num = nla_script.label_to_slot_num(scene, slot.param_slot)
-            if slot.param_slot and slot_num > -1:
-                slot_data["target_slot"] = slot_num
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
-
-            if slot.type == "CONDJUMP":
-                slot_data["condition"] = slot.param_condition
-
-                if slot.param_register_flag1:
-                    slot_data["register1"] = slot.param_register1
+            if slot['type'] == "PLAY":
+                frame_range = markers_to_frame_range(scene,
+                        slot['param_marker_start'], slot['param_marker_end'])
+                if frame_range:
+                    slot_data["frame_range"] = frame_range
                 else:
-                    slot_data["number1"] = round_num(slot.param_number1, 6)
+                    err("Incorrect NLA script node " + "\"" + slot_data["name"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
 
-                if slot.param_register_flag2:
-                    slot_data["register2"] = slot.param_register2
+            elif slot['type'] == "SELECT":
+                obj = logic_node_tree.object_by_path(scene.objects, slot['object_path'])
+
+                # TODO: check the need of do_export() in this and some other cases
+                # empty labels are not valid ones
+                if (obj and do_export(obj) and object_is_valid(obj) and
+                        slot['link_jump']):
+                    slot_data["object"] = slot['object_path']
+                    slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
                 else:
-                    slot_data["number2"] = round_num(slot.param_number2, 6)
+                    err("Incorrect NLA script node " + "\"" + slot_data["label"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
 
-        elif slot.type == "REGSTORE":
-            slot_data["registerd"] = slot.param_register_dest
-            slot_data["number1"] = round_num(slot.param_number1, 6)
+            elif slot['type'] == "SELECT_PLAY":
+                obj = logic_node_tree.object_by_path(scene.objects, slot['object_path'])
+                frame_range = markers_to_frame_range(scene,
+                        slot['param_marker_start'], slot['param_marker_end'])
 
-        elif slot.type == "MATH":
-            slot_data["operation"] = slot.param_operation
+                # TODO: check the need of do_export() in this and some other cases
+                # empty labels are not valid ones
+                if (obj and do_export(obj) and object_is_valid(obj) and frame_range):
+                    slot_data["object"] = slot['object_path']
+                    slot_data["frame_range"] = frame_range
+                else:
+                    err("Incorrect NLA script node " + "\"" + slot_data["name"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
 
-            if slot.param_register_flag1:
-                slot_data["register1"] = slot.param_register1
-            else:
-                slot_data["number1"] = round_num(slot.param_number1, 6)
+            elif slot['type'] == "JUMP" or slot['type'] == "CONDJUMP":
+                slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
 
-            if slot.param_register_flag2:
-                slot_data["register2"] = slot.param_register2
-            else:
-                slot_data["number2"] = round_num(slot.param_number2, 6)
+                if slot['type'] == "CONDJUMP":
+                    slot_data["condition"] = slot['param_condition']
 
-            slot_data["registerd"] = slot.param_register_dest
+                    if slot['param_register_flag1']:
+                        slot_data["register1"] = slot['param_register1']
+                    else:
+                        slot_data["number1"] = round_num(slot['param_number1'], 6)
 
-        elif slot.type == "REDIRECT":
-            if slot.param_url:
-                slot_data["url"] = slot.param_url
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
+                    if slot['param_register_flag2']:
+                        slot_data["register2"] = slot['param_register2']
+                    else:
+                        slot_data["number2"] = round_num(slot['param_number2'], 6)
 
-        elif slot.type == "SHOW" or slot.type == "HIDE":
-            obj = nla_script.object_by_name(scene.objects, slot.param_object)
-            if obj and do_export(obj) and object_is_valid(obj):
-                slot_data["object"] = slot.param_object
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
+            elif slot['type'] == "REGSTORE":
+                slot_data["registerd"] = slot['param_register_dest']
+                slot_data["number1"] = round_num(slot['param_number1'], 6)
 
-        elif slot.type == "PAGEPARAM":
-            if slot.param_name:
-                slot_data["param_name"] = slot.param_name
-            else:
-                err("Incorrect NLA script node " + "\"" + slot_data["label"] \
-                     + "\"" + ", falling back to simple sequential NLA.")
-                scene_data["b4w_nla_script"] = []
-                return
+            elif slot['type'] == "MATH":
+                slot_data["operation"] = slot['param_operation']
 
-            slot_data["registerd"] = slot.param_register_dest
+                if slot['param_register_flag1']:
+                    slot_data["register1"] = slot['param_register1']
+                else:
+                    slot_data["number1"] = round_num(slot['param_number1'], 6)
 
-        elif slot.type == "NOOP":
-            pass
+                if slot['param_register_flag2']:
+                    slot_data["register2"] = slot['param_register2']
+                else:
+                    slot_data["number2"] = round_num(slot['param_number2'], 6)
 
-        scene_data["b4w_nla_script"].append(slot_data)
+                slot_data["registerd"] = slot['param_register_dest']
+
+            elif slot['type'] == "REDIRECT":
+                if slot['param_url']:
+                    slot_data["url"] = slot['param_url']
+                else:
+                    err("Incorrect NLA script node " + "\"" + slot_data["name"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
+
+            elif slot['type'] == "SHOW" or slot['type'] == "HIDE":
+                obj = logic_node_tree.object_by_path(scene.objects, slot['object_path'])
+                if obj and do_export(obj) and object_is_valid(obj):
+                    slot_data["object"] = slot['object_path']
+                else:
+                    err("Incorrect NLA script node " + "\"" + slot_data["name"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
+
+            elif slot['type'] == "PAGEPARAM":
+                if slot['param_name']:
+                    slot_data["param_name"] = slot['param_name']
+                else:
+                    err("Incorrect NLA script node " + "\"" + slot_data["name"] \
+                         + "\"" + ", falling back to simple sequential NLA.")
+                    scene_data["b4w_logic_nodes"] = []
+                    return
+
+                slot_data["registerd"] = slot['param_register_dest']
+
+            elif slot['type'] == "NOOP":
+                pass
+
+            nla_subtree.append(slot_data)
+
+    # import pprint
+    # pprint.pprint(scene_data["b4w_logic_nodes"])
 
 def process_scene_dyn_compr_settings(scene_data, scene):
     dcompr = scene.b4w_dynamic_compressor_settings
@@ -1255,6 +1381,8 @@ def process_object(obj, is_curve=False):
         return
     obj[prop] = True
 
+    _curr_stack["object"].append(obj)
+
     obj_data = OrderedDict()
 
     obj_data["name"] = obj.name
@@ -1264,7 +1392,7 @@ def process_object(obj, is_curve=False):
     if is_curve:
         data = obj.data
     else:
-        data = get_obj_data(obj, _curr_scene)
+        data = get_obj_data(obj, _curr_stack["scenes"][-1])
 
     obj_data["body_text"] = None
     if obj.type == "SURFACE":
@@ -1341,7 +1469,7 @@ def process_object(obj, is_curve=False):
 
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
-    if not (obj.b4w_apply_modifiers or obj.b4w_apply_scale):
+    if obj_data["type"] == "MESH" and not (obj.b4w_apply_modifiers or obj.b4w_apply_scale):
         process_object_modifiers(obj_data["modifiers"], obj.modifiers, obj)
 
     obj_data["constraints"] = process_object_constraints(obj.constraints)
@@ -1387,8 +1515,6 @@ def process_object(obj, is_curve=False):
     obj_data["lod_levels"] = process_object_lod_levels(obj)
 
     obj_data["b4w_proxy_inherit_anim"] = obj.b4w_proxy_inherit_anim
-
-    obj_data["b4w_group_relative"] = obj.b4w_group_relative
 
     obj_data["b4w_selectable"] = obj.b4w_selectable
     obj_data["b4w_outlining"] = obj.b4w_outlining
@@ -1475,7 +1601,8 @@ def process_object(obj, is_curve=False):
 
     rot = get_rotation_quat(obj)
     loc = obj.location
-    if not (obj_data["type"] == "MESH" and obj.b4w_apply_scale):
+    if (not (obj_data["type"] == "MESH" and obj.b4w_apply_scale)
+        and not(obj_data["type"] == "EMPTY" and obj.type == "META")):
         sca = obj.scale
     else:
         sca = [1.0, 1.0, 1.0]
@@ -1523,6 +1650,7 @@ def process_object(obj, is_curve=False):
     _export_uuid_cache[obj_data["uuid"]] = obj_data
     _bpy_uuid_cache[obj_data["uuid"]] = obj
     check_object_data(obj_data, obj)
+    _curr_stack["object"].pop()
 
 def get_rotation_quat(obj):
     if obj.rotation_mode == "AXIS_ANGLE":
@@ -1923,10 +2051,10 @@ def process_lamp(lamp):
     _bpy_uuid_cache[lamp_data["uuid"]] = lamp
 
 def process_material(material, uuid = None):
-    global _curr_mesh
-    _curr_material_stack.append(material)
+    global _curr_stack
+    _curr_stack["material"].append(material)
+
     mat_data = OrderedDict()
-    _curr_mat_data_stack.append(mat_data)
 
     mat_data["use_orco_tex_coord"] = False
     mat_data["name"] = material.name
@@ -1973,8 +2101,8 @@ def process_material(material, uuid = None):
     mat_data["ambient"] = round_num(material.ambient, 3)
     mat_data["use_vertex_color_paint"] = material.use_vertex_color_paint
 
-    if mat_data["use_vertex_color_paint"] and not _curr_mesh.vertex_colors:
-        raise MaterialError("Incomplete mesh \"" + _curr_mesh.name +
+    if mat_data["use_vertex_color_paint"] and not _curr_stack["data"][-1].vertex_colors:
+        raise MaterialError("Incomplete mesh \"" + _curr_stack["data"][-1].name +
             "\" Material settings require vertex colors.")
 
     # export custom properties
@@ -2040,9 +2168,9 @@ def process_material(material, uuid = None):
 
     # check dynamic grass vertex colors
     if material.b4w_terrain:
-        if not check_vertex_color_empty(_curr_mesh, mat_data["b4w_dynamic_grass_size"]) \
-                or not check_vertex_color_empty(_curr_mesh, mat_data["b4w_dynamic_grass_color"]):
-            raise MaterialError("Incomplete mesh \"" +_curr_mesh.name + 
+        if not check_vertex_color_empty(_curr_stack["data"][-1], mat_data["b4w_dynamic_grass_size"]) \
+                or not check_vertex_color_empty(_curr_stack["data"][-1], mat_data["b4w_dynamic_grass_color"]):
+            raise MaterialError("Incomplete mesh \"" +_curr_stack["data"][-1].name + 
                 "\" Dynamic grass vertex colors required by material settings.")
 
     mat_data["b4w_do_not_render"] = material.b4w_do_not_render
@@ -2109,8 +2237,7 @@ def process_material(material, uuid = None):
         _export_data["materials"].append(mat_data)
         _export_uuid_cache[mat_data["uuid"]] = mat_data
         _bpy_uuid_cache[mat_data["uuid"]] = material
-    _curr_material_stack.pop()
-    _curr_mat_data_stack.pop()
+    _curr_stack["material"].pop()
 
 def process_material_physics(mat_data, material):
     phy = material.physics
@@ -2123,6 +2250,9 @@ def process_texture(texture, uuid = None):
     if "export_done" in texture and texture["export_done"] and uuid is None:
         return
     texture["export_done"] = True
+
+    global _curr_stack
+    _curr_stack["texture"].append(texture)
 
     tex_data = OrderedDict()
 
@@ -2235,6 +2365,7 @@ def process_texture(texture, uuid = None):
 
     _export_uuid_cache[tex_data["uuid"]] = tex_data
     _bpy_uuid_cache[tex_data["uuid"]] = texture
+    _curr_stack["texture"].pop()
 
 def process_color_ramp(tex_data, ramp):
     tex_data["color_ramp"] = OrderedDict()
@@ -2308,8 +2439,8 @@ def process_mesh(mesh, obj_user):
     if "export_done" in mesh and mesh["export_done"]:
         return
 
-    global _curr_mesh
-    _curr_mesh = mesh
+    global _curr_stack
+    _curr_stack["data"].append(mesh)
 
     mesh["export_done"] = True
 
@@ -2352,7 +2483,9 @@ def process_mesh(mesh, obj_user):
                 process_material(fallback_material)
 
                 mesh_data["materials"].append(gen_uuid_obj(fallback_material))
-                err(str(ex) + " Material: " + "\"" + _curr_material_stack[-1].name + "\".")
+                err(str(ex) + " Material: " + "\"" + _curr_stack["material"][-1].name + "\".")
+                _curr_stack["material"].pop()
+                _curr_stack["texture"] = []
 
     for index in replaced_materials:
         mesh.materials[index] = replaced_materials[index]
@@ -2454,6 +2587,7 @@ def process_mesh(mesh, obj_user):
     _export_data["meshes"].append(mesh_data)
     _export_uuid_cache[mesh_data["uuid"]] = mesh_data
     _bpy_uuid_cache[mesh_data["uuid"]] = mesh
+    _curr_stack["data"].pop()
 
 def process_mesh_boundings(mesh_data, mesh, bounding_data):
     if (mesh.b4w_override_boundings):
@@ -2585,8 +2719,8 @@ def vc_node_usage_iter(node_tree, vc_nodes_usage):
                 and link.from_socket.identifier == "Vertex Color":
             vcol_name = link.from_node.color_layer
 
-            if not vcol_name and len(_curr_mesh.vertex_colors):
-                vcol_name = _curr_mesh.vertex_colors[0].name
+            if not vcol_name and len(_curr_stack["data"][-1].vertex_colors):
+                vcol_name = _curr_stack["data"][-1].vertex_colors[0].name
             if vcol_name:
                 to_name = link.to_node.name
                 if vcol_name not in geometry_vcols:
@@ -3113,6 +3247,7 @@ def process_particle(particle):
                     process_texture(slot.texture)
                     part_data["texture_slots"].append(slot_data)
                 except MaterialError as ex:
+                    _curr_stack["texture"] = []
                     err(str(ex))
 
     if particle.render_type == "OBJECT":
@@ -3186,9 +3321,7 @@ def process_world(world):
 
     process_world_light_settings(world_data, world)
     process_world_sky_settings(world_data, world)
-
-    world_data["b4w_fog_color"] = round_iterable(world.b4w_fog_color, 4)
-    world_data["b4w_fog_density"] = round_num(world.b4w_fog_density, 4)
+    process_world_mist_settings(world_data, world)
 
     _export_data["worlds"].append(world_data)
     _export_uuid_cache[world_data["uuid"]] = world_data
@@ -3221,6 +3354,19 @@ def process_world_sky_settings(world_data, world):
     dct["rayleigh_collection_power"] = round_num(sky.rayleigh_collection_power, 2)
     dct["mie_collection_power"] = round_num(sky.mie_collection_power, 2)
     dct["mie_distribution"] = round_num(sky.mie_distribution, 2)
+
+def process_world_mist_settings(world_data, world):
+    mist = world.mist_settings
+
+    dct = world_data["fog_settings"] = OrderedDict()
+    dct["use_fog"] = mist.use_mist
+    dct["intensity"] = round_num(mist.intensity, 3)
+    dct["depth"] = round_num(mist.depth, 2)
+    dct["start"] = round_num(mist.start, 2)
+    dct["height"] = round_num(mist.height, 3)
+    dct["falloff"] = mist.falloff
+    dct["use_custom_color"] = world.b4w_use_custom_color
+    dct["color"] = round_iterable(world.b4w_fog_color, 4)
 
 def matrix4x4_to_list(m):
     m = m.transposed()
@@ -3381,8 +3527,13 @@ def process_object_constraints(constraints):
     return constraints_data
 
 def process_object_constraint(cons_data, cons):
-    if (cons.type == "COPY_LOCATION" or cons.type == "COPY_ROTATION" or
-            cons.type == "COPY_SCALE" or cons.type == "COPY_TRANSFORMS"):
+    if cons.type == "COPY_TRANSFORMS":
+
+        cons_data["target"] = obj_cons_target(cons)
+        cons_data["subtarget"] = cons.subtarget
+
+    elif (cons.type == "COPY_LOCATION" or cons.type == "COPY_ROTATION" or
+            cons.type == "COPY_SCALE"):
 
         cons_data["target"] = obj_cons_target(cons)
         cons_data["subtarget"] = cons.subtarget
@@ -3609,7 +3760,7 @@ def process_object_particle_systems(obj):
 
     return psystems_data
 
-def process_node_tree(data, tree_source, node_group_name=""):
+def process_node_tree(data, tree_source):
     node_tree = tree_source.node_tree
 
     if node_tree == None:
@@ -3638,19 +3789,17 @@ def process_node_tree(data, tree_source, node_group_name=""):
 
         if node.type == "GEOMETRY":
             if node.outputs["UV"].is_linked:
-                node_data["uv_layer"] = get_uv_layer(_curr_mesh, node.uv_layer)
+                node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1], node.uv_layer)
                 if not node_data["uv_layer"]:
                     raise MaterialError("Exported UV-layer is missing in node \"GEOMETRY\".")
             else:
                 node_data["uv_layer"] = node.uv_layer
 
             if node.outputs["Orco"].is_linked:
-                _curr_mat_data_stack[-1]["use_orco_tex_coord"] = True
-                if node_group_name:
-                    write_node_group_props(node_group_name, "use_orco_tex_coord", True)
+                data["use_orco_tex_coord"] = True
 
             if node.outputs["Vertex Color"].is_linked:
-                node_data["color_layer"] = get_vertex_color(_curr_mesh, node.color_layer)
+                node_data["color_layer"] = get_vertex_color(_curr_stack["data"][-1], node.color_layer)
                 if not node_data["color_layer"]:
                     raise MaterialError("Wrong vertex color layer is used in node \"GEOMETRY\".")
             else:
@@ -3658,7 +3807,7 @@ def process_node_tree(data, tree_source, node_group_name=""):
                 
         if node.type == "UVMAP":
             if node.outputs["UV"].is_linked:
-                node_data["uv_layer"] = get_uv_layer(_curr_mesh,  node.uv_map)
+                node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
                 if not node_data["uv_layer"]:
                     raise MaterialError("Exported UV-layer is missing in node \"UV_MAP\".")
             else:
@@ -3666,22 +3815,23 @@ def process_node_tree(data, tree_source, node_group_name=""):
 
         if node.type == "TEX_COORD":
             if node.outputs["UV"].is_linked:
-                node_data["uv_layer"] = get_uv_layer(_curr_mesh, "")
-                if not node_data["uv_layer"]:
+                # It's not correct method to export UV layer
+                uv_textures = _curr_stack["data"][-1].uv_textures
+                if len(uv_textures) > 0:
+                    node_data["uv_layer"] = uv_textures[0].name
+                else:
                     raise MaterialError("Exported UV-layer is missing in mesh \"" 
-                            + _curr_mesh.name + "\".")
+                            + _curr_stack["data"][-1].name + "\".")
             else:
                 node_data["uv_layer"] = ""
             if node.outputs["Generated"].is_linked:
-                _curr_mat_data_stack[-1]["use_orco_tex_coord"] = True
-                if node_group_name:
-                    write_node_group_props(node_group_name, "use_orco_tex_coord", True)
+                data["use_orco_tex_coord"] = True
 
         if node.type == "GROUP":
             if node.node_tree.name == "B4W_REFRACTION" or node.node_tree.name == "REFRACTION":
                 # NOTE: don't rely on "b4w_render_refractions" scene property here
                 # because it may lead to rendering errors
-                curr_alpha_blend = _curr_material_stack[-1].game_settings.alpha_blend
+                curr_alpha_blend = _curr_stack["material"][-1].game_settings.alpha_blend
                 if curr_alpha_blend == "OPAQUE" or curr_alpha_blend == "CLIP":
                     raise MaterialError("Using B4W_REFRACTION node \"" + node.name 
                             + "\" with incorrect type of Alpha Blend.")
@@ -3699,7 +3849,7 @@ def process_node_tree(data, tree_source, node_group_name=""):
 
             node_data["node_tree_name"] = node.node_tree.name
             node_data["node_group"] = gen_uuid_obj(node.node_tree)
-            process_node_group(node)
+            process_node_group(data, node)
 
         elif node.type == "MAPPING":
             node_data["translation"] = round_iterable(node.translation, 3)
@@ -3809,12 +3959,6 @@ def process_node_tree(data, tree_source, node_group_name=""):
     # node animation data
     process_animation_data(dct, node_tree, bpy.data.actions)
 
-def write_node_group_props(node_group_name, prop, value):
-    if node_group_name in _node_groups_props_cache:
-        _node_groups_props_cache[node_group_name][prop] = value
-    else:
-        _node_groups_props_cache[node_group_name] = OrderedDict({ prop : value })
-
 def validate_node(node):
     if node.bl_idname == "ShaderNodeGroup":
 
@@ -3854,18 +3998,19 @@ def process_node_sockets(node_data, type_str, sockets):
 
             node_data[type_str].append(sock_data)
 
-def process_node_group(node_group):
+def process_node_group(data, node_group):
     if "export_done" in node_group.node_tree and node_group.node_tree["export_done"]:
-        if node_group.name in _node_groups_props_cache:
-            for prop in _node_groups_props_cache[node_group.name]:
-                _curr_mat_data_stack[-1][prop] = _node_groups_props_cache[node_group.name][prop]
+        ng_data = _export_uuid_cache[gen_uuid(node_group.node_tree)]
+        data["use_orco_tex_coord"] = data["use_orco_tex_coord"] or ng_data["use_orco_tex_coord"]
         return
     node_group.node_tree["export_done"] = True
     ng_data = OrderedDict()
     ng_data["name"] = node_group.node_tree.name
+    ng_data["use_orco_tex_coord"] = False
     ng_data["uuid"] = gen_uuid(node_group.node_tree)
-    process_node_tree(ng_data, node_group, node_group.name)
+    process_node_tree(ng_data, node_group)
 
+    data["use_orco_tex_coord"] = data["use_orco_tex_coord"] or ng_data["use_orco_tex_coord"]
     _export_data["node_groups"].append(ng_data)
     _export_uuid_cache[ng_data["uuid"]] = ng_data
     _bpy_uuid_cache[ng_data["uuid"]] = node_group
@@ -3907,10 +4052,11 @@ def process_world_texture_slots(world_data, world):
                         process_texture(slot.texture)
                         world_data["texture_slots"].append(slot_data)
             except MaterialError as ex:
+                _curr_stack["texture"] = []
                 err(str(ex))
 
 def process_material_texture_slots(mat_data, material):
-    global _curr_mesh
+    global _curr_stack
     slots = material.texture_slots
     use_slots = material.use_textures
     mat_data["texture_slots"] = []
@@ -3937,10 +4083,10 @@ def process_material_texture_slots(mat_data, material):
                 slot_data["texture_coords"] = tc
 
                 if tc == "UV":
-                    if len(_curr_mesh.uv_textures) == 0:
-                        raise MaterialError("Incomplete mesh \"" + _curr_mesh.name +
+                    if len(_curr_stack["data"][-1].uv_textures) == 0:
+                        raise MaterialError("Incomplete mesh \"" + _curr_stack["data"][-1].name +
                                 "\" No UV in mesh with UV-textured material.")
-                    slot_data["uv_layer"] = get_uv_layer(_curr_mesh, slot.uv_layer)
+                    slot_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1], slot.uv_layer, True)
                     if not slot_data["uv_layer"]:
                         raise MaterialError("Exported UV-layer is missing in texture \"" + slot.texture.name + "\".")
                 else:
@@ -4036,19 +4182,19 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
     do_autosave = bpy.props.BoolProperty(
         name = "Autosave blend File",
-        description = "Proper linking between exported files requires saving file after exporting",
+        description = "Automatically save the blend file after export",
         default = True
     )
 
     strict_mode = bpy.props.BoolProperty(
         name = "Strict Mode",
-        description = "This option blocks export with errors and warnings",
+        description = "Block export if there are any errors or warnings",
         default = False
     )
 
     run_in_viewer = bpy.props.BoolProperty(
         name = "Run in Viewer",
-        description = "This option runs exported scene in Viewer",
+        description = "Open the exported scene in the Viewer using the default browser",
         default = False
     )
 
@@ -4101,7 +4247,14 @@ class B4W_ExportProcessor(bpy.types.Operator):
         wm = context.window_manager
         wm.fileselect_add(self)
 
+        # NOTE: select all layers on all scenes to avoid non-updating issues
+        # NOTE: do it before execution!!!
+        scenes_store_select_all_layers()
         return {"RUNNING_MODAL"}
+
+    def cancel(self, context):
+        # NOTE: restore selected layers
+        scenes_restore_selected_layers()
 
     def draw(self, context):
         layout = self.layout
@@ -4115,7 +4268,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
             rel_filepath = os.path.relpath(file_path, path_to_sdk)
 
             if (rel_filepath.find(os.pardir) == -1 and
-                    server.B4WStartServer.server_status == server.SUB_THREAD_START_SERV_OK):
+                    server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK):
                 layout.prop(self, "run_in_viewer")
             else:
                 self.run_in_viewer = False
@@ -4144,14 +4297,14 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _main_json_str
         _main_json_str = ""
 
-        global _curr_scene
-        _curr_scene = None
-
-        global _curr_material_stack
-        _curr_material_stack = []
-
-        global _curr_mat_data_stack
-        _curr_mat_data_stack = []
+        global _curr_stack
+        _curr_stack = {
+            "scenes"   : [],
+            "object"   : [],
+            "data"     : [],
+            "material" : [],
+            "texture"  : [],
+        }
 
         global _fallback_camera
         _fallback_camera = None
@@ -4167,9 +4320,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _rendered_scenes
         _rendered_scenes = []
-
-        global _curr_mesh
-        _curr_mesh = None
 
         global _export_uuid_cache
         _export_uuid_cache = {}
@@ -4201,9 +4351,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _dupli_group_ids
         _dupli_group_ids = {}
 
-        global _node_groups_props_cache
-        _node_groups_props_cache = {}
-
         global _dg_counter
         _dg_counter = 0
 
@@ -4211,6 +4358,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         _additional_scene_objects = []
 
         global _file_write_error
+
+        global _performed_cleanup
+        _performed_cleanup = False
 
         # escape from edit mode
         if bpy.context.mode == "EDIT_MESH":
@@ -4317,6 +4467,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
                     if binary_export_path is not None:
                         # NOTE: write data in this order (4-bit, 4-bit, 2-bit, 2-bit
                         # arrays) to simplify data loading
+                        fb.write(get_b4w_bin_info())
                         fb.write(_bpy_bindata_int)
                         fb.write(_bpy_bindata_float)
                         fb.write(_bpy_bindata_short)
@@ -4336,6 +4487,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
         else:
             bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')
 
+        clean_exported_data()
+
         if self.do_autosave:
             filepath = bpy.data.filepath
             if filepath:
@@ -4350,8 +4503,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
                     print("Could not autosave: permission denied")
             else:
                 print("Could not autosave: no file")
-
-        clean_exported_data()
 
         return "exported"
 
@@ -4569,13 +4720,13 @@ def check_vertex_color_empty(mesh, vc_name):
     # no found
     return False
 
-def get_uv_layer(mesh, uv_layer_name):
+def get_uv_layer(mesh, uv_layer_name, is_texture=False):
     # Allow special case for empty UV-layer name
     if uv_layer_name != "":
         index = mesh.uv_textures.find(uv_layer_name)
         if index == 0 or index == 1:
             return mesh.uv_textures[index].name
-    if len(mesh.uv_textures) != 0:
+    if is_texture and len(mesh.uv_textures) != 0:
         return mesh.uv_textures[0].name
     return ""
 
@@ -4603,10 +4754,12 @@ def clean_exported_data():
     global _fallback_material
     global _fallback_texture
     global _performed_cleanup
+    global _curr_stack
 
     if _performed_cleanup:
         return
 
+    scenes_restore_selected_layers()
     if _fallback_camera:
         cam_data = _fallback_camera.data
         bpy.data.objects.remove(_fallback_camera)
@@ -4621,6 +4774,14 @@ def clean_exported_data():
     if _fallback_texture:
         bpy.data.textures.remove(_fallback_texture)
         _fallback_texture = None
+
+    _curr_stack = {
+        "scenes"   : [],
+        "object"   : [],
+        "data"     : [],
+        "material" : [],
+        "texture"  : [],
+    }
 
     remove_overrided_meshes()
     _performed_cleanup = True

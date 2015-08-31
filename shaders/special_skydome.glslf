@@ -94,7 +94,7 @@ uniform vec3 u_horizon_color;
 uniform vec3 u_zenith_color;
 #endif
 
-#if WATER_EFFECTS && !DISABLE_FOG
+#if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS
 uniform vec3 u_camera_eye_frag;
 uniform vec3 u_sun_intensity;
 uniform float u_environment_energy;

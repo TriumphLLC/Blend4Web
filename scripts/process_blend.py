@@ -27,7 +27,7 @@ CYAN = "\033[96m"
 WHITE = "\033[97m"
 ENDCOL = "\033[0m"
 
-SAVE_FAIL_STRINGS = ["EDITED NORMALS CONVERTION FAILED"]
+SAVE_FAIL_STRINGS = ["EDITED NORMALS CONVERTION FAILED", "CONVERSION OF NLA SLOTS FAILED"]
 
 _blender_exec = ""
 _blender_report_op = None
@@ -244,8 +244,13 @@ def resave(blend):
     ret = subprocess.check_output(["blender", "-b", blend, "-P",
             RESAVER], stderr=subprocess.STDOUT)
     r = ret.decode("utf-8")
-    if r.find("RESAVE OK") == -1 and \
-            r.find("EDITED NORMALS CONVERTION FAILED") != -1:
+
+    failed = False
+    for s in SAVE_FAIL_STRINGS:
+        if r.find(s) != -1:
+            failed = True
+
+    if r.find("RESAVE OK") == -1 and failed:
         report("ERROR", "[SAVE FAILURE]", blend)
         print(ret)
     else:

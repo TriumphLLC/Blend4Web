@@ -322,11 +322,12 @@ Supported settings:
 Fog
 ---
 
-Can be set up under the "World" tab.
+The engine supports standard parameters located on the "World > Mist"
+panel. Besides this, overriding fog color is possible.
 
-*Mist > Density*
-   Exponential factor which affects density and the visibility
-   distance. The default value is 0.0.
+*Mist > Use custom color*
+   Apply the user-defined fog color instead of "World > Horizon"
+   color. Enabled by default.
 
 *Mist > Color*
    Fog color. The default value is (0.5, 0.5, 0.5) (gray).

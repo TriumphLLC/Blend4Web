@@ -11,12 +11,14 @@ var m_cfg      = require("__config");
 var m_ctl      = require("__controls");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_scgraph  = require("__scenegraph");
-var m_shaders  = require("__shaders");
 var m_sfx      = require("__sfx");
+var m_shaders  = require("__shaders");
 var m_textures = require("__textures");
 var m_util     = require("__util");
 var m_vec3     = require("vec3");
@@ -28,7 +30,7 @@ var cfg_def = m_cfg.defaults;
  * @method module:debug.physics_stats
  */
 exports.physics_stats = function() {
-    m_phy.debug_worker();
+    m_phy.debug_workers();
 }
 
 /**
@@ -57,7 +59,7 @@ exports.physics_id = function(id) {
 exports.visible_objects = function() {
     var scene = m_scenes.get_active();
 
-    var objs = m_scenes.get_scene_objs(scene, "MESH", m_scenes.DATA_ID_ALL);
+    var objs = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
                           m_scenes.get_subs(scene, "MAIN_BLEND")];
@@ -73,7 +75,7 @@ exports.visible_objects = function() {
 
         for (var j = 0; j < objs.length; j++) {
             var obj = objs[j];
-            var render = obj._render;
+            var render = obj.render;
 
             if (render.type != "DYNAMIC")
                 continue;
@@ -81,7 +83,7 @@ exports.visible_objects = function() {
             for (var k = 0; k < bundles.length; k++) {
                 var bundle = bundles[k];
                 if (bundle.do_render && bundle.obj_render == render) {
-                    m_print.log_raw(obj["name"], obj);
+                    m_print.log_raw(obj.name, obj);
                     break;
                 }
             }
@@ -93,7 +95,7 @@ exports.visible_objects = function() {
 
         for (var j = 0; j < objs.length; j++) {
             var obj = objs[j];
-            var render = obj._render;
+            var render = obj.render;
 
             if (render.type == "DYNAMIC")
                 continue;
@@ -101,7 +103,7 @@ exports.visible_objects = function() {
             for (var k = 0; k < bundles.length; k++) {
                 var bundle = bundles[k];
                 if (bundle.do_render && bundle.obj_render == render) {
-                    m_print.log_raw(obj["name"], obj);
+                    m_print.log_raw(obj.name, obj);
                     break;
                 }
             }
@@ -119,12 +121,12 @@ exports.visible_objects = function() {
 exports.object_info = function(name) {
     var scene = m_scenes.get_active();
 
-    var objs = m_scenes.get_scene_objs(scene, "MESH", m_scenes.DATA_ID_ALL);
+    var objs = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
 
-        if (obj["name"] != name)
+        if (obj.name != name)
             continue;
 
         m_print.log("Object", obj);
@@ -138,7 +140,7 @@ exports.object_info = function(name) {
             var print_bundles = [];
 
             for (var k = 0; k < bundles.length; k++) {
-                if (bundles[k].obj_render == obj._render)
+                if (bundles[k].obj_render == obj.render)
                     print_bundles.push(bundles[k]);
             }
 
@@ -155,20 +157,20 @@ exports.object_info = function(name) {
 exports.objects_stat = function() {
     var scene = m_scenes.get_active();
 
-    console.log("Armatures: " + m_scenes.get_scene_objs(scene, "ARMATURE",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Cameras: " + m_scenes.get_scene_objs(scene, "CAMERA",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Curves: " + m_scenes.get_scene_objs(scene, "CURVE",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Empties: " + m_scenes.get_scene_objs(scene, "EMPTY",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Lamps: " + m_scenes.get_scene_objs(scene, "LAMP",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Meshes: " + m_scenes.get_scene_objs(scene, "MESH",
-            m_scenes.DATA_ID_ALL).length);
-    console.log("Speakers: " + m_scenes.get_scene_objs(scene, "SPEAKER",
-            m_scenes.DATA_ID_ALL).length);
+    console.log("Armatures: " + m_obj.get_scene_objs(scene, "ARMATURE",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Cameras: " + m_obj.get_scene_objs(scene, "CAMERA",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Curves: " + m_obj.get_scene_objs(scene, "CURVE",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Empties: " + m_obj.get_scene_objs(scene, "EMPTY",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Lamps: " + m_obj.get_scene_objs(scene, "LAMP",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Meshes: " + m_obj.get_scene_objs(scene, "MESH",
+            m_obj.DATA_ID_ALL).length);
+    console.log("Speakers: " + m_obj.get_scene_objs(scene, "SPEAKER",
+            m_obj.DATA_ID_ALL).length);
 }
 
 /**
@@ -248,10 +250,20 @@ exports.num_draw_calls = function() {
     var scene = m_scenes.get_active();
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")];
+                          m_scenes.get_subs(scene, "MAIN_BLEND")]
 
     var number = main_subscenes[0].bundles.length +
                  main_subscenes[1].bundles.length;
+
+    var reflect_subs = m_scenes.subs_array(scene, ["MAIN_PLANE_REFLECT",
+                                                   "MAIN_CUBE_REFLECT"]);
+    for (var i = 0; i < reflect_subs.length; i++) {
+        var subs = reflect_subs[i];
+        if (subs.type == "MAIN_PLANE_REFLECT")
+            number += subs.bundles.length;
+        else
+            number += 6 * subs.bundles.length;
+    }
 
     return number;
 }
@@ -493,7 +505,7 @@ exports.controls_info = m_ctl.debug;
  * @method module:debug.object_distance
  */
 exports.object_distance = function(obj, obj2) {
-    var dist = m_vec3.dist(obj._render.trans, obj2._render.trans);
+    var dist = m_vec3.dist(obj.render.trans, obj2.render.trans);
     return dist;
 }
 
@@ -828,17 +840,20 @@ function find_material_names_by_comp_shader(cshader) {
     var scenes = m_scenes.get_all_scenes();
 
     for (var i = 0; i < scenes.length; i++) {
-        var objects = m_scenes.get_scene_objs(scenes[i], "MESH",
-                m_scenes.DATA_ID_ALL);
+        var scene = scenes[i];
+        var objects = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
         for (var j = 0; j < objects.length; j++) {
             var obj = objects[j];
+            var scene_data = m_obj_util.get_scene_data(obj, scene);
 
-            if (!obj._batches)
+            if (!scene_data || !scene_data.batches.length)
                 continue;
 
-            for (var k = 0; k < obj._batches.length; k++) {
-                var batch = obj._batches[k];
+            var batches = scene_data.batches;
+
+            for (var k = 0; k < batches.length; k++) {
+                var batch = batches[k];
 
                 if (batch.shader == cshader &&
                         batch.material_names.length) {

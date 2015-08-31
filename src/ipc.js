@@ -81,11 +81,10 @@ var OUT_UPDATE_BOAT_CONTROLS         = exports.OUT_UPDATE_BOAT_CONTROLS         
 var OUT_UPDATE_CAR_CONTROLS          = exports.OUT_UPDATE_CAR_CONTROLS          = 145;
 var OUT_PING                         = exports.OUT_PING                         = 146;
 var OUT_DEBUG                        = exports.OUT_DEBUG                        = 147;
+var OUT_UPDATE_WORLD                 = exports.OUT_UPDATE_WORLD                 = 148;
 
-var _worker = null;
-
-var _buf_arr = [];
-
+var _worker_listeners = b4w.worker_listeners;
+var _worker_namespaces = b4w.worker_namespaces;
 
 var _msg_cache_IN_TRANSFORM = {
     msg_id:   IN_TRANSFORM,
@@ -179,7 +178,115 @@ var _msg_cache_list = [
 ];
 
 
-exports.init = function(worker, process_message_cb) {
+exports.create_worker = function(path, fallback) {
+
+    var worker = {
+        is_main: path ? true : false,
+        web_worker: null,
+        buf_arr: [],
+        fb_worker_ns: ""
+    }
+
+    if (fallback) {
+        var web_worker_fallback = {
+            addEventListener: function(type, listener, useCapture) {
+                if (type != "message")
+                    panic("Wrong web worker event");
+
+                set_fallback_listener(worker.fb_worker_ns, worker.is_main,
+                        listener);
+            },
+
+            removeEventListener: function(type, listener, useCapture) {
+                if (type != "message")
+                    panic("Wrong web worker event");
+
+                set_fallback_listener(worker.fb_worker_ns, worker.is_main, null);
+            },
+
+            postMessage: function(msg, msg2) {
+                var listener = find_fallback_listener(worker.fb_worker_ns,
+                        !worker.is_main);
+                listener({"data": msg});
+            },
+
+            terminate: function() {
+                for (var i = 0; i < _worker_namespaces.length; i+=2)
+                    if (_worker_namespaces[i+1] == worker.fb_worker_ns) {
+                        _worker_listeners.splice(i, 2);
+                        _worker_namespaces.splice(i, 2);
+                        return;
+                    }
+            }
+        }
+
+        worker.web_worker = web_worker_fallback;
+
+        if (worker.is_main) {
+            // require here because it's not availabe in workers
+            // (e.g. due to obfuscation)
+            var m_util = require("__util");
+            var m_cont = require("__container");
+
+            var main_ns = b4w.get_namespace(require);
+            var worker_ns = m_util.unique_name(main_ns + "_worker");
+
+            _worker_namespaces.push(main_ns);
+            _worker_namespaces.push(worker_ns);
+
+            _worker_listeners.push(null);
+            _worker_listeners.push(null);
+
+            worker.fb_worker_ns = worker_ns;
+
+            if (m_cont.find_script(path)) {
+                // just register in the new namespace
+                
+                var uranium_js = m_cont.find_script(path);
+                uranium_js.addEventListener("load", function() {
+                    b4w.require("__bindings", worker.fb_worker_ns);
+                }, false);
+            } else {
+                // load and register
+                var uranium_js = document.createElement("script");
+
+                uranium_js.src = path;
+                uranium_js.defer = "defer";
+                uranium_js.async = "async";
+                uranium_js.addEventListener("load", function() {
+                    b4w.require("__bindings", worker.fb_worker_ns);
+                }, false);
+
+                document.head.appendChild(uranium_js);
+            }
+        } else {
+            worker.fb_worker_ns = b4w.get_namespace(require);
+        }
+    } else {
+        if (path)
+            worker.web_worker = new Worker(path);
+        else
+            worker.web_worker = self;
+    }
+
+    return worker;
+}
+
+function set_fallback_listener(worker_ns, is_main, listener) {
+    for (var i = 0; i < _worker_namespaces.length; i+=2)
+        if (_worker_namespaces[i+1] == worker_ns)
+            _worker_listeners[i + Number(!is_main)] = listener;
+}
+
+function find_fallback_listener(worker_ns, is_main) {
+    for (var i = 0; i < _worker_namespaces.length; i+=2)
+        if (_worker_namespaces[i+1] == worker_ns)
+            return _worker_listeners[i + Number(!is_main)];
+
+    return null;
+}
+
+exports.attach_handler = function(worker, process_message_cb) {
 
     assign_msg_cache_length(_msg_cache_list);
 
@@ -290,14 +397,12 @@ exports.init = function(worker, process_message_cb) {
             break;
         }
 
-        process_message_cb(msg_id, data);
+        process_message_cb(worker, msg_id, data);
     }
 
-    worker.addEventListener("message", function(event) {
+    worker.web_worker.addEventListener("message", function(event) {
         preprocess_message_cb(event.data);
     }, false);
-
-    _worker = worker;
 }
 
 function assign_msg_cache_length(msg_cache_list) {
@@ -329,8 +434,6 @@ function assign_msg_cache_length(msg_cache_list) {
 }
 
 exports.cleanup = function() {
-    _worker = null;
-    _buf_arr.length = 0;
 }
 
 /**
@@ -338,10 +441,10 @@ exports.cleanup = function() {
  * messages with same id must have same length
  * @methodOf physics
  */
-exports.post_msg = function(msg_id) {
+exports.post_msg = function(worker, msg_id) {
 
     // not initialized for worker warm-up
-    if (!_worker)
+    if (!worker)
         return;
 
     switch (msg_id) {
@@ -366,7 +469,7 @@ exports.post_msg = function(msg_id) {
         msg[14] = data.angvel[1];
         msg[15] = data.angvel[2];
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case IN_PROP_OFFSET:
         var data = _msg_cache_IN_PROP_OFFSET;
@@ -383,7 +486,7 @@ exports.post_msg = function(msg_id) {
         msg[8] = data.quat[2];
         msg[9] = data.quat[3];
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case IN_RAY_HIT:
         var data = _msg_cache_IN_RAY_HIT;
@@ -395,7 +498,7 @@ exports.post_msg = function(msg_id) {
         msg[3] = data.hit_fract;
         msg[4] = data.hit_time;
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case IN_RAY_HIT_POS_NORM:
         var data = _msg_cache_IN_RAY_HIT_POS_NORM;
@@ -413,7 +516,7 @@ exports.post_msg = function(msg_id) {
         msg[ 9] = data.hit_norm[1];
         msg[10] = data.hit_norm[2];
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case IN_COLLISION:
         var data = _msg_cache_IN_COLLISION;
@@ -424,7 +527,7 @@ exports.post_msg = function(msg_id) {
         msg[2] = data.body_id_b;
         msg[3] = data.result;
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case IN_COLLISION_POS_NORM:
         var data = _msg_cache_IN_COLLISION_POS_NORM;
@@ -442,7 +545,7 @@ exports.post_msg = function(msg_id) {
         msg[ 9] = data.coll_norm[2];
         msg[10] = data.coll_dist;
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     case OUT_SET_TRANSFORM:
         var data = _msg_cache_OUT_SET_TRANSFORM;
@@ -458,24 +561,24 @@ exports.post_msg = function(msg_id) {
         msg[7] = data.quat[2];
         msg[8] = data.quat[3];
 
-        _buf_arr.push(msg.buffer);
+        worker.buf_arr.push(msg.buffer);
         break;
     default:
         var msg = [];
-        for (var i = 0; i < arguments.length; i++)
+        for (var i = 1; i < arguments.length; i++)
             msg.push(arguments[i]);
-        _worker.postMessage(msg);
+        worker.web_worker.postMessage(msg);
         break;
     }
 }
 
-exports.post_msg_arr = function() {
-    if (!_buf_arr.length)
+exports.post_msg_arr = function(worker) {
+    if (!worker || !worker.buf_arr.length)
         return;
 
-    _worker.postMessage(_buf_arr);
+    worker.web_worker.postMessage(worker.buf_arr);
 
-    _buf_arr.length = 0;
+    worker.buf_arr.length = 0;
 }
 
 exports.get_msg_cache = function(msg_id) {
@@ -499,4 +602,18 @@ exports.get_msg_cache = function(msg_id) {
     }
 }
 
+exports.terminate = function(worker) {
+    worker.web_worker.terminate();
+    worker.web_worker = null;
 }
+
+exports.is_active = function(worker) {
+    return !!worker.web_worker;
+}
+
+exports.is_fallback = function(worker) {
+    return !!worker.fb_worker_ns;
+}
+
+}
+

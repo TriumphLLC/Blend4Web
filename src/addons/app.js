@@ -1477,6 +1477,9 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
         return;
 
     function css_anim_cb(val) {
+        if (!elem)
+            return;
+
         elem_style[prop] = opt_prefix + val + opt_suffix;
 
         if (from > to && val <= to || from < to && val >= to) {
@@ -1485,7 +1488,7 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
         }
     }
 
-    animate(from, to, timeout, css_anim_cb);
+    animate(elem, from, to, timeout, css_anim_cb);
 }
 
 /**
@@ -1505,6 +1508,9 @@ exports.attr_animate = function(elem, attr_name, from, to, timeout, opt_callback
     opt_callback = opt_callback || function() {};
 
     function attr_anim_cb(val) {
+        if (!elem)
+            return;
+
         if (val >= 0)
             elem.setAttribute(attr_name, val);
 
@@ -1514,11 +1520,11 @@ exports.attr_animate = function(elem, attr_name, from, to, timeout, opt_callback
         }
     }
 
-    animate(from, to, timeout, attr_anim_cb);
+    animate(elem, from, to, timeout, attr_anim_cb);
 }
 
 // Animate value from "from" to "to" for "timeout" mseconds.
-function animate(from, to, timeout, anim_cb) {
+function animate(elem, from, to, timeout, anim_cb) {
     var start = performance.now();
 
     function cb() {
@@ -1527,7 +1533,7 @@ function animate(from, to, timeout, anim_cb) {
 
         anim_cb(value);
 
-        if (elapsed_total >= timeout)
+        if (elapsed_total >= timeout || !elem.parentNode)
             m_main.remove_loop_cb(cb);
     }
 

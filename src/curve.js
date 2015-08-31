@@ -9,18 +9,18 @@
  */
 b4w.module["__curve"] = function(exports, require) {
 
-var util       = require("__util");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 var SPLINE_POINTS = 1000;
 
 /**
- * Create spline object to attach to object as ._spline
- * @param obj Curve object ID
+ * Create spline object to apply curve modifier
  */
-exports.create_spline = function(obj) {
+exports.create_spline = function(bpy_obj) {
     var spline = {};
 
-    var bpy_curve = obj["data"];
+    var bpy_curve = bpy_obj["data"];
 
     // NOTE: only single endpoint (path) NURBS supported
     var bpy_spline = bpy_curve["splines"][0];
@@ -482,7 +482,7 @@ exports.spline_len_to_t = function(spline, len) {
         return max_t; 
 
     var clen = spline.cumulative_length;
-    var index = util.binary_search_max(clen, len, 0, clen.length-1);
+    var index = m_util.binary_search_max(clen, len, 0, clen.length-1);
 
     // simple linear interpolation
     var index_float = index + (len - clen[index]) / (clen[index+1] - clen[index]);

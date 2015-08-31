@@ -25,29 +25,30 @@ b4w.module["main"] = function(exports, require) {
  */
 
 var m_anchors  = require("__anchors");
-var animation  = require("__animation");
-var m_compat   = require("__compat");
+var m_anim     = require("__animation");
+var m_assets   = require("__assets");
 var m_cfg      = require("__config");
-var m_print    = require("__print");
+var m_compat   = require("__compat");
 var m_cont     = require("__container");
-var controls   = require("__controls");
+var m_ctl      = require("__controls");
 var m_data     = require("__data");
 var m_debug    = require("__debug");
-var extensions = require("__extensions");
-var geometry   = require("__geometry");
-var hud        = require("__hud");
-var nla        = require("__nla");
-var assets     = require("__assets");
+var m_ext      = require("__extensions");
+var m_geom     = require("__geometry");
+var m_hud      = require("__hud");
+var m_nla      = require("__nla");
+var m_obj      = require("__objects");
 var m_phy      = require("__physics");
-var renderer   = require("__renderer");
-var scenes     = require("__scenes");
-var sfx        = require("__sfx");
-var shaders    = require("__shaders");
-var textures   = require("__textures");
+var m_print    = require("__print");
+var m_render   = require("__renderer");
+var m_scenes   = require("__scenes");
+var m_sfx      = require("__sfx");
+var m_shaders  = require("__shaders");
+var m_textures = require("__textures");
 var m_time     = require("__time");
 var m_trans    = require("__transform");
-var util       = require("__util");
-var version    = require("__version");
+var m_util     = require("__util");
+var m_version  = require("__version");
 
 var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
@@ -108,8 +109,8 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     m_print.set_verbose(cfg_def.console_verbose);
 
-    var ver_str = version.version_str() + " " + version.type() +
-            " (" + version.date_str() + ")";
+    var ver_str = m_version.version_str() + " " + m_version.type() +
+            " (" + m_version.date_str() + ")";
     m_print.log("%cINIT ENGINE", "color: #00a", ver_str);
 
     // check gl context and performance.now()
@@ -131,15 +132,15 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
 
-    shaders.load_shaders();
+    m_shaders.load_shaders();
 
-    if (cfg_def.ie11_touchscreen_hack)
+    if (cfg_def.ie11_edge_touchscreen_hack)
         elem_canvas_webgl.style["touch-action"] = "none";
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
 
     if (elem_canvas_hud) {
-        hud.init(elem_canvas_hud);
+        m_hud.init(elem_canvas_hud);
         _elem_canvas_hud = elem_canvas_hud;
     } else {
         // disable features which depend on HUD
@@ -207,25 +208,25 @@ function init_context(canvas, gl) {
 
             }, false);
 
-    extensions.setup_context(gl);
+    m_ext.setup_context(gl);
 
-    var rinfo = extensions.get_renderer_info();
+    var rinfo = m_ext.get_renderer_info();
     if (rinfo)
         m_print.log("%cRENDERER INFO:", "color: #00a",
             gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL) + ", " +
             gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL));
 
-    renderer.setup_context(gl);
-    geometry.setup_context(gl);
-    textures.setup_context(gl);
-    shaders.setup_context(gl);
+    m_render.setup_context(gl);
+    m_geom.setup_context(gl);
+    m_textures.setup_context(gl);
+    m_shaders.setup_context(gl);
     m_debug.setup_context(gl);
     m_data.setup_canvas(canvas);
     m_cont.init(canvas);
 
-    scenes.setup_dim(canvas.width, canvas.height, 1);
+    m_scenes.setup_dim(canvas.width, canvas.height, 1);
 
-    sfx.init();
+    m_sfx.init();
 
     _fps_counter = init_fps_counter();
 
@@ -265,7 +266,7 @@ exports.resize = function(width, height, update_canvas_css) {
         // no HIDPI/resolution factor for HUD canvas
         _elem_canvas_hud.width  = width;
         _elem_canvas_hud.height = height;
-        hud.update_dim();
+        m_hud.update_dim();
     }
 
 
@@ -298,11 +299,11 @@ exports.resize = function(width, height, update_canvas_css) {
         _elem_canvas_webgl.height = ch;
     }
 
-    scenes.setup_dim(cw, ch, cw/width);
+    m_scenes.setup_dim(cw, ch, cw/width);
 
     // needed for frustum culling/constraints
-    if (scenes.check_active())
-        m_trans.update_transform(scenes.get_active()["camera"]);
+    if (m_scenes.check_active())
+        m_trans.update_transform(m_scenes.get_active()._camera);
 
     frame(m_time.get_timeline(), 0);
 
@@ -383,9 +384,9 @@ function pause() {
         return;
 
     _pause_time = performance.now() / 1000;
-    sfx.pause();
+    m_sfx.pause();
     m_phy.pause();
-    textures.pause();
+    m_textures.pause();
     m_anchors.pause();
 }
 
@@ -398,9 +399,9 @@ exports.resume = function() {
         return;
 
     _resume_time = performance.now() / 1000;
-    sfx.resume();
+    m_sfx.resume();
     m_phy.resume();
-    textures.play(true);
+    m_textures.play(true);
     m_anchors.resume();
 }
 
@@ -444,7 +445,7 @@ function loop() {
 
         m_debug.update();
 
-        assets.update();
+        m_assets.update();
         m_data.update();
         frame(timeline, delta);
 
@@ -459,18 +460,18 @@ function frame(timeline, delta) {
     if (!m_data.is_primary_loaded())
         return;
 
-    hud.reset();
+    m_hud.reset();
 
     m_trans.update(delta);
 
-    nla.update(timeline, delta);
+    m_nla.update(timeline, delta);
 
     // sound
-    sfx.update(timeline, delta);
+    m_sfx.update(timeline, delta);
 
     // animation
     if (delta)
-        animation.update(delta);
+        m_anim.update(delta);
 
     // possible unload in animation callbacks
     if (!m_data.is_primary_loaded())
@@ -490,7 +491,7 @@ function frame(timeline, delta) {
         return;
 
     // controls
-    controls.update(timeline, delta);
+    m_ctl.update(timeline, delta);
 
     // possible unload in controls callbacks
     if (!m_data.is_primary_loaded())
@@ -499,8 +500,11 @@ function frame(timeline, delta) {
     // anchors
     m_anchors.update();
 
+    // objects
+    m_obj.update(timeline, delta);
+
     // rendering
-    scenes.update(timeline, delta);
+    m_scenes.update(timeline, delta);
 
     // anchors
     m_anchors.update_visibility();
@@ -523,7 +527,7 @@ function init_fps_counter() {
         if (delta < 1/cfg_def.max_fps)
             return;
 
-        fps_avg = util.smooth(1/delta, fps_avg, delta, interval);
+        fps_avg = m_util.smooth(1/delta, fps_avg, delta, interval);
 
         // stays zero for disabled physics/FPS calculation
         var phy_fps_avg = m_phy.get_fps();

@@ -276,43 +276,83 @@ Object Transform API
 Note: Make sure that the object you are trying to transform is a
   dynamic object.
 
-Use the following methods of the *transform* module to move objects in
+Use the following methods of the transform module to move objects in
 the engine:
 
-*get_translation*
-   Get the coordinates of the object's center. The option with a
-   single argument returns a new vector (non-optimized option) while
-   the option with two arguments requires an additional vector to
-   write the result down.
+get_translation()
+   Get the coordinates of the object's center in world space. The
+   method with a single argument returns a new vector (i.e. this is a
+   non-optimized option) while the method with two arguments requires
+   an additional vector to write the result down.
 
-*get_rotation*
-   Get the object's rotation quaternion. There are two ways of calling
-   this function similar to *get_translation*.
+get_translation_rel()
+   Similar to the "get_translation()" method, but if this object has a
+   parent, the obtained coordinates are measured in the parent's
+   space.
 
-*get_scale*
-   Get the object's scale.
-
-*set_translation, set_translation_v*
+set_translation(), set_translation_v()
    Move the object's center into the specified location. The first
+   method takes separate coordinates as arguments while the second one
+   takes a three-component vector ("Array" or "Float32Array").
+
+set_translation_rel(), set_translation_rel_v()
+   Similar to "set_translation()" and "set_translation_v()", but if
+   this object has a parent, the set coordinates are measured in the
+   parent's space.
+
+get_rotation()
+   Get the object's rotation quaternion in world space. Similar to
+   "get_translation()", there are two options for calling this
+   function.
+
+get_rotation_rel()
+   Get the object's rotation quaternion measured in its parent's
+   space. Similar to "get_translation_rel()", there are two options
+   for calling this function.
+
+set_rotation(), set_rotation_v()
+   Set the object's rotation quaternion in world space. The first
    function takes separate coordinates as arguments while the second
-   one takes a three-component vector (Array or Float32Array).
+   one takes a four-component vector ("Array" or "Float32Array").
 
-*set_rotation, set_rotation_v*
-   Set the object's rotation quaternion. The first function takes
-   separate coordinates as arguments while the second one takes a
-   four-component vector (Array or Float32Array).
+set_rotation_rel(), set_rotation_rel_v()
+   Set the object's rotation quaternion measured in its parent's
+   space. The first function takes separate coordinates as arguments
+   while the second one takes a four-component vector ("Array" or
+   "Float32Array").
 
-*set_scale*
-   Set the object's scale. One corresponds to the object's original
-   state. Values less than one mean scaling down, more than one -
-   scaling up. Note that not all objects can be scaled. Particularly
-   scaling is not allowed for physics objects.
+get_scale()
+   Get the object's scale in world space.
 
-*set_rotation_euler, set_rotation_euler_v*
+get_scale_rel()
+   Get the object's scale in its parent's space.
+
+set_scale()
+   Set the object's scale in world space. Unity corresponds to the
+   original scale of the object. Values less than unity mean scaling
+   down, bigger than unity - scaling up. Note that not all objects can
+   be scaled. Particularly, scaling is not allowed for physics
+   objects.
+
+set_scale_rel()
+   Set the object's scale in its parent's space.
+
+set_rotation_euler(), set_rotation_euler_v()
    Set the object's rotation using Euler angles. An **intrinsic** YZX
    rotation system is used (that means the angles follow in the YZX
    order and the origin of coordinates rotates and takes up a new
    position for every angle).
+
+set_rotation_euler_rel(), set_rotation_euler_rel_v()
+   Set the object's rotation using Euler angles measured in its
+   parent's space.
+
+move_local()
+   Move the object relative to its original position (in local space).
+
+rotate_x_local(), rotate_y_local(), rotate_z_local()
+   Rotate the object relative to its original position (in local
+   space).
 
 
 Quaternions
@@ -420,6 +460,22 @@ The optimized version which does not create new objects:
    m_transform.get_rotation(aircraft, quat_tmp2);
    m_quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
    m_transform.set_rotation_v(aircraft, quat_tmp);
+
+
+Differences Between Coordinate Systems of Blender and Blend4Web
+===============================================================
+
+In Blender's coordinate system the "UP" vector, which points upwards,
+is co-directional with the Z axis. Blend4Web uses Y axis for this
+purpose, as it is customary in OpenGL. Thus the engine's coordinates
+are rotated by 90° around the X axis relative to Blender.
+
+[image]
+
+
+
+API methods use the engine's coordinates, so they can work differently
+in comparison with setting Blender's parameters.
 
 
 Moving via TSR Vectors

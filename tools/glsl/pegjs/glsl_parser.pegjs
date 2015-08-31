@@ -57,11 +57,6 @@
       nodes_structure: {},
     }
 
-    var lamps_collector = {
-      current_lamp: null,
-      lamps_structure: {}
-    }
-
     for (var i = 0; i < units.length; i++) {
       var unit = units[i][0];
 
@@ -79,15 +74,11 @@
 
       // simple textlines
       else if (unit.node == "text")
-        listing += build_textline(unit, nodes_collector, lamps_collector);
+        listing += build_textline(unit, nodes_collector);
 
       // node directives
       else if (unit.node == "node_directive")
         listing += build_node_directive(unit, nodes_collector);
-
-      // lamp directives
-      else if (unit.node == "lamp_directive")
-        listing += build_lamp_directive(unit, lamps_collector);
     }
     
     return listing;
@@ -99,16 +90,13 @@
     return "/*%" + type + "%" + tokens.join() + "%*/";
   }
 
-  function build_textline(unit, nodes_collector, lamps_collector) {
+  function build_textline(unit, nodes_collector) {
     var listing = "";
 
-    // collect textlines if they are inside a #node or #lamp and append them 
-    // later in #nodes_main or #lamps_main
+    // collect textlines if they are inside a #node and append them 
+    // later in #nodes_main
     if (nodes_collector.current_node != null)
       nodes_collector.nodes_structure[nodes_collector.current_node].push(unit);
-    else if (lamps_collector.current_lamp != null)
-      lamps_collector.lamps_structure[lamps_collector.current_lamp].push(unit);
-
     // append to lisitng immediately if textlines are outside a node
     else
       for (var i = 0; i < unit.result.length; i++)
@@ -244,52 +232,6 @@
     return listing;
   }
 
-  function build_lamp_directive(unit, lamps_collector) {
-    var listing = "";
-
-    switch (unit.type) {
-      case "lamp":
-        listing += "/*%" + unit.type + "%" + unit.name + "%*/\n";
-        lamps_collector.current_lamp = unit.name;
-        lamps_collector.lamps_structure[lamps_collector.current_lamp] = [];
-        break;
-      case "endlamp":
-        listing += "/*%" + unit.type + "%*/\n";
-        lamps_collector.current_lamp = null;
-        break;
-
-      case "lamps_main":
-        listing += "/*%lamps_main%*/\n";
-        listing += build_lamps_main(lamps_collector.lamps_structure);
-        listing += "/*%lamps_main_end%*/\n";
-        break;
-    }
-
-    return listing;
-  }
-
-  function build_lamps_main(lamps_structure) {
-    var listing = "";
-    for (var lamp_name in lamps_structure) {
-      var lamp_node = lamps_structure[lamp_name];
-      listing += "{";
-      for (var j = 0; j < lamp_node.length; j++)
-        listing += build_lamp_textline(lamp_name, lamp_node[j]);
-      listing += "}";
-    }
-    return listing;
-  }
-
-  function build_lamp_textline(lamp_name, ldir) {
-    var listing = "/*%lamp_textline%" + lamp_name + "%*/";
-
-    for (var i = 0; i < ldir.result.length; i++)
-      listing += ldir.result[i];
-
-    listing += "/*%lamp_textline_end%" + ldir.offset + "%*/\n";
-    return listing;
-  }
-
   var _is_node_param = false;
 
   // GLSL parsing: read directives
@@ -312,8 +254,7 @@
     if (str.charAt(0) == "%") {
       check_directive(str) || check_replace(str) || check_node_insertion(str)
       || check_node_borders(str) || check_node_parameters(str) || check_node_condition(str)
-      || check_include(str) || check_import_export(str) || check_lamp_insertion(str) 
-      || check_lamp_borders(str) || check_lamp_textlines(str);
+      || check_include(str) || check_import_export(str);
     }
   }
 
@@ -389,36 +330,6 @@
     var expr = /^%node_condition.*?%$/i;
     var res = expr.exec(str);
 
-    if (res) {
-      _pp_insertions[offset()] = "\n/*" + str + "*/\n";
-      return true;
-    }
-    return false; 
-  }
-
-  function check_lamp_insertion(str) {
-    var expr = /^%lamps_main(_end)?%$/i;
-    var res = expr.exec(str);
-    if (res) {
-      _pp_insertions[offset()] = "\n/*" + str + "*/\n";
-      return true;
-    }
-    return false;
-  }
-
-  function check_lamp_borders(str) {
-    var expr = /^%((lamp%.*?)|endlamp)%$/i;
-    var res = expr.exec(str);
-    if (res) {
-      _pp_insertions[offset()] = "\n/*" + str + "*/\n";
-      return true;
-    }
-    return false; 
-  }
-
-  function check_lamp_textlines(str) {
-    var expr = /^%(lamp_textline|lamp_textline_end).*?%$/i;
-    var res = expr.exec(str);
     if (res) {
       _pp_insertions[offset()] = "\n/*" + str + "*/\n";
       return true;
@@ -2069,7 +1980,6 @@ pp_unit
   / pp_extension
   / pp_directives
   / pp_node_dir
-  / pp_lamps_dir
   / include_dir_comment
   / pp_import_export
   / tokens:(!("#" / "//" / "/*") (IDENTIFIER / RESERVED / . ))+
@@ -2218,39 +2128,6 @@ nodes_parameters
       decl_type: decl_type,
       identifier: id,
       is_optional: Boolean(opt)
-    });
-  }
-
-pp_lamps_dir
-  = lamps_insertion
-  / lamp
-  / endlamp
-
-lamps_insertion
-  = _ "#" _ "lamps_main" till_string_end
-  {
-    return common_node({
-      node: "lamp_directive",
-      type: "lamps_main"
-    });
-  }
-
-lamp
-  = _ "#" _ "lamp" MSS id:IDENTIFIER till_string_end
-  {
-    return common_node({
-      node: "lamp_directive",
-      type: "lamp",
-      name: id.name
-    });
-  }
-
-endlamp
-  = _ "#" _ "endlamp" till_string_end
-  {
-    return common_node({
-      node: "lamp_directive",
-      type: "endlamp",
     });
   }
 

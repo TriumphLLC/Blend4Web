@@ -1,0 +1,131 @@
+
+Visual Programming
+******************
+
+
+Visual Programming (Logic Editor)
+=================================
+
+Performed by creating logic node tree in the node editor area in
+Blender. These nodes can extend the scene functionality significantly
+without any coding.
+
+[image]
+
+To activate logic on the given scene set the "Logic Editor" property
+in the "Scene" tab and append/select active node tree.
+
+[image]
+
+To edit logic tree go to the "Node Editor" area and select the
+"Blend4Web Logic" tree type:
+
+[image]
+
+Then select the required node tree:
+
+[image]
+
+
+
+Nodes are created by using standard Blender keyboard shortcut
+"Shift+A".
+
+The nodes themselves are logic blocks that are executed from the
+"Entry Point" node which has no inputs and only one output. All other
+nodes have both inputs and outputs, and can be inserted in any place
+of a logic tree. The exception is "Page Redirect" node, which can be
+inserted only to the end of the node tree. The nodes which have two
+outputs allow braching, thus the next leave is selected based on
+condition specified for such nodes.
+
+For implementing complicated logic there are numeric variables called
+registers. Each of 8 registers can store a single numeric value. The
+registers can be used for storing some scene state (e.g. this can be a
+counter of animation playbacks, character's health points etc).
+
+Logic Editor usage example:
+
+[image]
+
+
+
+All possible nodes are described below.
+
+
+Play
+----
+
+Play back the NLA segment starting from the frame to which the marker
+points. Animation is played back until the next marker is met, or to
+the end of the timeline. Finally the next node receives the control.
+
+[image]
+
+
+Select & Play
+-------------
+
+Wait until the user selects an object (on desktops - with a mouse
+click, on mobile devices - with a touch). If an object that is
+specified in this slot is selected - start animation similar to "Play"
+node. If any other object is selected - immediately transfer the
+control to the next node.
+
+
+Select & Jump
+-------------
+
+It is similar to the "Select & Play" node, except the transition
+happens instead of animation. This function allows to implement a
+complicated logic because in this case there is a possibility to
+identify the user selection results.
+
+
+Conditional Jump
+----------------
+
+Go to the specified node if the certain condition is met. The
+parameters (operands) can also be registers that are activated using
+the corresponding switches.
+
+
+Register Store
+--------------
+
+Save a numeric value in the register.
+
+
+Math Operation
+--------------
+
+Perform a math operation and save the result in the register. Any of
+parameters (operands) can be either a numeric value or a register.
+
+
+Show Object and Hide Object
+---------------------------
+
+This is used to hide and show 3D objects.
+
+
+Page Redirect
+-------------
+
+This serves as a page redirect to other web pages.
+
+
+Page Param
+----------
+
+Allows to store any web page parameter in a given numerical register.
+
+
+Debugging
+---------
+
+For debugging purposes some nodes inside logic tree can be muted.To do
+that select the required node and press the "M" key. Muted nodes are
+not evaluated and simply pass control to the next ones. If the muted
+node has two outputs the execution continues from the output with
+negative result ("Miss", "False").

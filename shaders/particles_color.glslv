@@ -23,12 +23,13 @@ uniform float u_p_fade_out;
 uniform float u_p_nfactor;
 uniform float u_p_gravity;
 uniform float u_p_mass;
-uniform vec3 u_p_wind;
+uniform float u_p_wind_fac;
 
 uniform float u_p_max_lifetime;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
+uniform vec3 u_wind;
 uniform float u_height;
 uniform float u_p_size;
 #if !WORLD_SPACE
@@ -38,15 +39,11 @@ uniform mat4 u_model_matrix;
 varying float v_alpha;
 varying vec3 v_color;
 
-#if !DISABLE_FOG || SOFT_PARTICLES
-varying vec4 v_pos_view;
-#endif
-
 #if SOFT_PARTICLES
+varying vec4 v_pos_view;
 varying vec3 v_tex_pos_clip;
-#endif
-
 varying float v_size;
+#endif
 
 #include <particles.glslv>
 
@@ -61,7 +58,7 @@ void main(void) {
     v_alpha = pp.alpha;
     v_color = pp.color;
 
-#if !DISABLE_FOG || SOFT_PARTICLES
+#if SOFT_PARTICLES
     v_pos_view = pos_view;
 #endif
 

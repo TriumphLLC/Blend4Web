@@ -18,8 +18,8 @@ var m_print     = require("__print");
  * @param {Number} size Particles size.
  */
 exports.set_size = function(obj, psys_name, size) {
-    if (!m_particles.has_particles(obj)) {
-        m_print.error("\"",obj["name"], "\" has no particle systems");
+    if (!m_particles.obj_has_particles(obj)) {
+        m_print.error("\"",obj.name, "\" has no particle systems");
         return;
     }
     m_particles.set_size(obj, psys_name, size);
@@ -34,8 +34,8 @@ exports.set_size = function(obj, psys_name, size) {
  * @param {Number} nfactor Particles normal factor.
  */
 exports.set_normal_factor = function(obj, psys_name, nfactor) {
-    if (!m_particles.has_particles(obj)) {
-        m_print.error("\"",obj["name"], "\" has no particle systems");
+    if (!m_particles.obj_has_particles(obj)) {
+        m_print.error("\"",obj.name, "\" has no particle systems");
         return;
     }
     m_particles.set_normal_factor(obj, psys_name, nfactor);
@@ -49,8 +49,8 @@ exports.set_normal_factor = function(obj, psys_name, nfactor) {
  * @param {Number} factor Particles num factor.
  */
 exports.set_factor = function(obj, psys_name, factor) {
-    if (!m_particles.has_particles(obj)) {
-        m_print.error("\"",obj["name"], "\" has no particle systems");
+    if (!m_particles.obj_has_particles(obj)) {
+        m_print.error("\"",obj.name, "\" has no particle systems");
         return;
     }
     factor = Math.min(factor, 1);

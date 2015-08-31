@@ -111,6 +111,21 @@ msgstr ""
 msgid "Локальный сервер разработки"
 msgstr "Local Development Server"
 
+#: ../setup.rst:59
+msgid ""
+"Настройки локального сервера разработки находятся в меню :file:`File > User "
+"Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Здесь можно изменить "
+"номер порта, используемый при создании локального сервера разработки (6687 "
+"по умолчанию), или включить автоматический запуск сервера при запуске "
+"Blender'a: для этого достаточно включить опцию ``Run on Startup`` в "
+"настройках аддона."
+msgstr ""
+"Settings for the local development server can be found in :file:`File > User"
+" Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port"
+" number to be used to run the development server (6687 by default), and also"
+" enable its launching upon Blender startup. To do this, enable ``Run "
+"on Startup`` option in the add-on settings."
+
 #: ../setup.rst:68
 msgid ""
 "После изменения настроек локального сервера разработчика требуется "
@@ -118,6 +133,23 @@ msgid ""
 msgstr ""
 "After changing local development server settings in it required to restart "
 "Blender."
+
+#: ../setup.rst:70
+msgid ""
+"Имеется возможность сделать локальный сервер доступным из внешней сети. Для "
+"этого достаточно включить свойство ``Enable External Requests``."
+msgstr ""
+"It is possible for the local server to process external requests. To do that "
+"enable the option ``Enable External Requests``."
+
+#: ../setup.rst:72
+msgid ""
+"Если не был настроен автоматический запуск сервера, то его можно стартовать "
+"вручную по кнопке ``Start`` во вкладке ``Render->Developement Server``:"
+msgstr ""
+"If you chose not to start the server automatically, you can always do it "
+"manually: go to the ``Render`` tab and press the ``Start`` button on the "
+"``Development Server`` panel:"
 
 #: ../setup.rst:82
 msgid ""
@@ -197,36 +229,3 @@ msgid ""
 msgstr ""
 "If the SDK apps are not displayed correctly, or error messages are shown, "
 "follow the instructions in the :ref:`renderer_not_working` section."
-
-#: ../setup.rst:59
-msgid ""
-"Настройки локального сервера разработки находятся в меню :file:`File > User "
-"Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Здесь можно изменить "
-"номер порта, используемый при создании локального сервера разработки (6687 "
-"по умолчанию), или включить автоматический запуск сервера при запуске "
-"Blender'a: для этого достаточно включить опцию ``Run on Startup`` в "
-"настройках аддона."
-msgstr ""
-"Settings for the local development server can be found in :file:`File > User"
-" Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port"
-" number to be used to run the development server (6687 by default), and also"
-" enable its launching upon Blender startup. To do this, enable ``Run "
-"on Startup`` option in the add-on settings."
-
-#: ../setup.rst:70
-msgid ""
-"Имеется возможность сделать локальный сервер доступным из внешней сети. Для "
-"этого достаточно включить свойство ``Enable External Requests``."
-msgstr ""
-"It is possible for the local server to process external requests. To do that "
-"enable the option ``Enable External Requests``."
-
-#: ../setup.rst:72
-msgid ""
-"Если не был настроен автоматический запуск сервера, то его можно стартовать "
-"вручную по кнопке ``Start`` во вкладке ``Render->Developement Server``:"
-msgstr ""
-"If you chose not to start the server automatically, you can always do it "
-"manually: go to the ``Render`` tab and press the ``Start`` button on the "
-"``Development Server`` panel:"
-

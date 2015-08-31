@@ -33,13 +33,14 @@ uniform float u_p_fade_out;
 uniform float u_p_nfactor;
 uniform float u_p_gravity;
 uniform float u_p_mass;
-uniform vec3 u_p_wind;
+uniform float u_p_wind_fac;
 
 uniform float u_p_max_lifetime;
 
 uniform mat4 u_proj_matrix;
 uniform mat4 u_view_matrix;
 uniform vec3 u_camera_eye;
+uniform vec3 u_wind;
 uniform float u_p_size;
 #if !WORLD_SPACE
 uniform mat4 u_model_matrix;

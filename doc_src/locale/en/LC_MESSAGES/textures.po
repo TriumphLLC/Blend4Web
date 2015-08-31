@@ -285,15 +285,15 @@ msgstr "The foam texture. Used by the water rendering material."
 msgid "*Water Foam*"
 msgstr ""
 
+#: ../textures.rst:76
+msgid "Для карт нормалей текстурная компрессия не применяется."
+msgstr "Texture compression is disabled for textures used as normal maps."
+
 #: ../textures.rst:77 ../textures.rst:99 ../textures.rst:123
 #: ../textures.rst:142 ../textures.rst:173 ../textures.rst:202
 #: ../textures.rst:288 ../textures.rst:312 ../textures.rst:338
 msgid "Активация"
 msgstr "Activation"
-
-#: ../textures.rst:76
-msgid "Для карт нормалей текстурная компрессия не применяется."
-msgstr "Texture compression is disabled for textures used as normal maps."
 
 #: ../textures.rst:81
 msgid "диффузная"
@@ -1166,10 +1166,9 @@ msgstr "Canvas"
 #: ../textures.rst:466
 msgid ""
 "В качестве текстуры используется HTML-элемент <canvas>. Его редактирование "
-"осуществляется при помощи :ref:`API <canvas_texture>`."
+"осуществляется при помощи API."
 msgstr ""
-"A <canvas> HTML element can be used as a texture. It can be modified via "
-":ref:`API <canvas_texture>`."
+"A <canvas> HTML element can be used as a texture. It can be modified via API."
 
 #: ../textures.rst:468
 msgid ""
@@ -1183,3 +1182,25 @@ msgstr ""
 "Type`` menu. Specify the id of the canvas HTML element in the ``Export "
 "Options > Source ID`` field. Set the texture size in the ``Export Options > "
 "Source Size`` field (in pixels)."
+
+#: ../textures.rst:470
+msgid ""
+"Для работы с этими текстурами используется модуль ``textures``. Пример "
+"работы с ним описан ниже."
+msgstr ""
+"Use the ``textures`` module to handle such textures. See the example below."
+
+#: ../textures.rst:483
+msgid ""
+"Для получения контекста используется функция "
+"``get_canvas_texture_context()``, куда передается идентификатор "
+"\"canvas_id\", задаваемый пользователем в Blender. После `преобразований с "
+"контекстом <http://www.w3.org/TR/2014/CR-2dcontext-20140821/>`_ вызывается "
+"функция ``update_canvas_texture_context()``, которая осуществляет "
+"визуализацию изменений элемента с идентификатором \"canvas_id\"."
+msgstr ""
+"Use ``get_canvas_texture_context()`` to obtain a context - this method requires "
+"the \"canvas_id\" identifier which should be defined in Blender. After `operations with "
+"the context <http://www.w3.org/TR/2014/CR-2dcontext-20140821/>`_, the"
+"``update_canvas_texture_context()`` function has to be called which will "
+"render modifications of the \"canvas_id\" element."

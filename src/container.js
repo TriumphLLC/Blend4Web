@@ -7,8 +7,8 @@
  */
 b4w.module["__container"] = function(exports, require) {
 
-var m_print      = require("__print");
-var m_util       = require("__util");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 var _canvas      = null;
 var _canvas_cont = null;
@@ -171,6 +171,18 @@ exports.is_child = function(elem) {
         return true;
     else
         return exports.is_child(elem.parentNode);
+}
+
+exports.find_script = function(src) {
+    var scripts = document.getElementsByTagName("script");
+    var norm_src = m_util.normpath_preserve_protocol(src);
+
+    for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src == norm_src)
+            return scripts[i];
+    }
+
+    return null;
 }
 
 }

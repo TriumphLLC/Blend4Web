@@ -8,13 +8,12 @@
  */
 b4w.module["__util"] = function(exports, require) {
 
+var m_mat3  = require("__mat3");
+var m_mat4  = require("__mat4");
 var m_print = require("__print");
-
-var m_vec3 = require("vec3");
-var m_vec4 = require("vec4");
-var m_quat = require("quat");
-var m_mat3 = require("mat3");
-var m_mat4 = require("mat4");
+var m_quat  = require("__quat");
+var m_vec3  = require("__vec3");
+var m_vec4  = require("__vec4");
 
 var _unique_counter = 0;
 var _unique_name_counters = {};
@@ -34,6 +33,7 @@ var _hash_buffer_out = new Uint32Array(_hash_buffer_in.buffer);
 var VEC3_IDENT = new Float32Array([0,0,0]);
 var QUAT4_IDENT = new Float32Array([0,0,0,1]);
 var TSR8_IDENT = new Float32Array([0,0,0,1,0,0,0,1]);
+var VEC3_UNIT = new Float32Array([1,1,1]);
 
 var AXIS_X = new Float32Array([1, 0, 0]);
 var AXIS_Y = new Float32Array([0, 1, 0]);
@@ -64,6 +64,7 @@ var GAMMA = 2.2;
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
 exports.TSR8_IDENT = TSR8_IDENT;
+exports.VEC3_UNIT = VEC3_UNIT;
 
 exports.AXIS_X = AXIS_X;
 exports.AXIS_Y = AXIS_Y;
@@ -228,70 +229,6 @@ exports.check_uniqueness = function(array) {
     }
 
     return true;
-}
-
-/**
- * Get objects of type type
- * non-recursive
- */
-exports.objs_by_type = function(objs_array, type) {
-
-    var objs_type = [];
-
-    for (var i = 0; i < objs_array.length; i++) {
-
-        var obj = objs_array[i];
-        if (obj["type"] == type)
-            objs_type.push(obj);
-    }
-
-    return objs_type;
-}
-
-/**
- * Get all objects with given name
- * non-recursive
- */
-exports.objs_by_name = function(objs_array, name) {
-
-    var objs_name = keyfind("name", name, objs_array);
-    var len = objs_name.length;
-    if (len > 1)
-        m_print.error("obj_by_name(): name resolution ambiguity");
-
-    return objs_name;
-}
-
-/**
- * Get all objects with given name recursively
- * if object is of type "EMPTY", return all objects from dupli_group
- */
-exports.objs_by_name_r = function(objs_array, name) {
-
-    var objs_name = keyfind("name", name, objs_array);
-    var len = objs_name.length;
-    if (len > 1)
-        m_print.error("obj_by_name(): name resolution ambiguity");
-
-    if (len <= 0)
-        return [];
-
-
-    var objs_name_dg = [];
-
-    for (var i = 0; i < len; i++) {
-        var obj = objs_name[i];
-        if (obj["type"] == "EMPTY" && obj["dupli_group"]) {
-
-            var dg_objects = obj["dupli_group"]["objects"];
-
-            for (var j = 0; j < dg_objects.length; j++)
-                objs_name_dg.push(dg_objects[j]);
-        }
-    }
-    objs_name = objs_name.concat(objs_name_dg);
-
-    return objs_name;
 }
 
 /**
@@ -510,13 +447,13 @@ exports.trans_quat_to_plane = function(trans, quat, ident, dest) {
  */
 exports.dir_ground_proj_angle = function(obj) {
 
-    var render = obj._render;
+    var render = obj.render;
     var quat = render.quat;
 
     var proj   = _vec3_tmp;
     var defdir = _vec3_tmp2;
 
-    switch (obj["type"]) {
+    switch (obj.type) {
     case "CAMERA":
         proj[0] =  0;
         proj[1] = -1;
@@ -708,24 +645,15 @@ exports.clone_object_nr = function(obj) {
 }
 
 exports.is_mesh = function(obj) {
-    if (obj["type"] === "MESH")
-        return true;
-    else
-        return false;
+    return obj.type === "MESH";
 }
 
 exports.is_empty = function(obj) {
-    if (obj["type"] === "EMPTY")
-        return true;
-    else
-        return false;
+    return obj.type === "EMPTY";
 }
 
 exports.is_armature = function(obj) {
-    if (obj["type"] === "ARMATURE")
-        return true;
-    else
-        return false;
+    return obj.type === "ARMATURE";
 }
 
 exports.matrix_to_quat = matrix_to_quat;
@@ -2123,18 +2051,6 @@ exports.gen_color_id = function(counter) {
     return color_id;
 }
 
-/**
- * Calculate intersection point of a line and a plane.
- * @methodOf util
- * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
- * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
- * @param {Vec3} pn Plane normal.
- * @param {Number} p_dist Plane signed distance from the origin.
- * @param {Vec3} lp Point belonging to the line.
- * @param {Vec3} l_dir Line direction.
- * @param {Vec3} dest Destination vector.
- * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
- */
 exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     // four-dimensional representation of a plane
     var plane = _vec4_tmp;

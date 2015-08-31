@@ -6,8 +6,8 @@
  */
 b4w.module["textures"] = function(exports, require) {
 
-var m_textures   = require("__textures");
-var m_print   = require("__print");
+var m_print    = require("__print");
+var m_textures = require("__textures");
 
 /**
  * Returns canvas texture context.

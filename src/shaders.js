@@ -8,11 +8,11 @@
  */
 b4w.module["__shaders"] = function(exports, require) {
 
-var m_cfg     = require("__config");
-var m_print    = require("__print");
-var m_debug    = require("__debug");
-var m_assets   = require("__assets");
-var m_util       = require("__util");
+var m_assets = require("__assets");
+var m_cfg    = require("__config");
+var m_debug  = require("__debug");
+var m_print  = require("__print");
+var m_util   = require("__util");
 
 var cfg_pth = m_cfg.paths;
 
@@ -32,6 +32,8 @@ var SHADERS = ["anchors.glslf",
     "halo.glslv",
     "main.glslf",
     "main.glslv",
+    "main_stack.glslf",
+    "main_stack.glslv",
     "particles_color.glslf",
     "particles_color.glslv",
     "particles_texture.glslf",
@@ -79,7 +81,7 @@ var SHADERS = ["anchors.glslf",
     "include/environment.glslf",
     "include/fog.glslf",
     "include/gamma.glslf",
-    "include/lighting.glslf",
+    "include/lighting_nodes.glslf",
     "include/math.glslv",
     "include/mirror.glslf",
     "include/nodes.glslf",
@@ -264,6 +266,7 @@ exports.set_default_directives = function(sinfo) {
         "PRECISION",
         "EPSILON",
         "USE_ENVIRONMENT_LIGHT",
+        "USE_FOG",
         "WO_SKYBLEND",
         "WO_SKYPAPER",
         "WO_SKYREAL",
@@ -346,6 +349,7 @@ exports.set_default_directives = function(sinfo) {
         case "BILLBOARD_RANDOM":
         case "HAIR_BILLBOARD":
         case "USE_ENVIRONMENT_LIGHT":
+        case "USE_FOG":
         case "WO_SKYBLEND":
         case "WO_SKYPAPER":
         case "WO_SKYREAL":
@@ -564,7 +568,6 @@ exports.check_shaders_loaded = function() {
 function preprocess_shader(type, ast, shaders_info) {
 
     var node_elements = shaders_info.node_elements;
-    var lights_info = shaders_info.lights_info;
     // prepend by define directives
     var dirs_arr = shaders_info.directives || [];
 
@@ -581,7 +584,6 @@ function preprocess_shader(type, ast, shaders_info) {
     var fdirs = {};
 
     var shader_nodes = {};
-    var shader_lamp_nodes = {};
 
     var usage_inputs = [];
     for (var i in node_elements)
@@ -649,13 +651,6 @@ function preprocess_shader(type, ast, shaders_info) {
                 break;
             case "nodes_main":
                 process_nodes_main(node_elements);
-                break;
-
-            case "lamp":
-                process_lamp(pelem);
-                break;
-            case "lamps_main":
-                process_lamps_main(lights_info, pelem);
                 break;
 
             case "textline":
@@ -923,7 +918,6 @@ function preprocess_shader(type, ast, shaders_info) {
                 continue;
 
             var param_index = 0;
-
             for (var j = 0; j < node_parts.declarations.length; j++) {
                 var part = node_parts.declarations[j];
                 if (part.type == "node_param") {
@@ -985,12 +979,20 @@ function preprocess_shader(type, ast, shaders_info) {
                 if (nelem.input_values[input_index] !== null) {
                     // NOTE: don't create variable for some shader nodes in
                     //       case of using is_optional flag
-                    // input_index === 3 --- normal_in
-                    if ((nelem.id == "MATERIAL" && input_index === 3
-                            || nelem.id == "MATERIAL_EXT" && input_index === 3
+                    // MATERIAL_BEGIN: input_index === 3 --- normal_in
+                    // MATERIAL_BEGIN: input_index === 4 --- emit_intensity
+                    // MATERIAL_END: input_index === 3 --- reflect_factor
+                    // MATERIAL_END: input_index === 4 --- specular_alpha
+                    // MATERIAL_END: input_index === 5 --- alpha_in
+
+                    if ((nelem.id == "MATERIAL_BEGIN" && input_index === 3
+                            || !node_dirs["MATERIAL_EXT"] &&
+                                (nelem.id == "MATERIAL_BEGIN" && input_index === 4
+                                || nelem.id == "MATERIAL_END" && input_index === 3
+                                || nelem.id == "MATERIAL_END" && input_index === 4
+                                || nelem.id == "MATERIAL_END" && input_index === 5)
                             || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL")
                             && decl.is_optional) {
-
                         replaces[decl.name] = nelem.input_values[input_index];
                         input_index++;
                         continue;
@@ -1097,59 +1099,6 @@ function preprocess_shader(type, ast, shaders_info) {
         var tokens = elem.tokens;
         var token_list = expand_macro(tokens, dirs, fdirs, false);
         lines.push(token_list.join(" "));
-    }
-
-    function process_lamp(elem) {
-        shader_lamp_nodes[elem.name] = elem;
-    }
-
-    function process_lamps_main(lights_info, elem) {
-        for (var i = 0; i < lights_info.length; i++) {
-            var linfo = lights_info[i];
-
-            if (!linfo.is_on)
-                continue;
-
-            lines.push("{");
-            var lamp_node = shader_lamp_nodes[linfo.type];
-            var statements = lamp_node.statements;
-
-            for (var j = 0; j < statements.length; j++) {
-                var part = statements[j];
-
-                var tokens = [];
-                for (var k = 0; k < part.tokens.length; k++) {
-                    var tok = part.tokens[k];
-                    switch (tok) {
-                    case "LAMP_IND":
-                        tok = linfo.index;
-                        break;
-                    case "LAMP_LIGHT_FACT_IND":
-                        tok = linfo.lfac_index;
-                        break;
-                    case "LAMP_FAC_CHANNELS":
-                        tok = linfo.lfac_channels;
-                        break;
-                    case "LAMP_SPOT_SIZE":
-                        tok = glsl_value(linfo.spot_size);
-                        break;
-                    case "LAMP_SPOT_BLEND":
-                        tok = glsl_value(linfo.spot_blend || 0.01);
-                        break;
-                    case "LAMP_LIGHT_DIST":
-                        tok = glsl_value(linfo.distance);
-                        break;
-                    case "LAMP_SHADOW_MAP_IND":
-                        tok = linfo.gen_shadow ? 1: 0;
-                        break;
-                    }
-                    tokens.push(tok);
-                }
-                var line = tokens.join(" ");
-                lines.push(line);
-            }
-            lines.push("}");
-        }
     }
 }
 

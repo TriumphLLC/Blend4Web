@@ -14,6 +14,16 @@
 #var RGB_IND 0
 #var VALUE_IND 0
 #var LAMP_INDEX 0
+// lamp dirs
+#var NUM_LIGHTS 0
+#var LAMP_IND 0
+#var LAMP_SPOT_SIZE 0
+#var LAMP_SPOT_BLEND 0
+#var LAMP_LIGHT_DIST 0
+#var LAMP_LIGHT_FACT_IND 0
+#var LAMP_FAC_CHANNELS rgb
+#var LAMP_SHADOW_MAP_IND 0
+#var NUM_LFACTORS 0
 
 /*============================================================================
                                   INCLUDES
@@ -27,9 +37,7 @@
 
 #if NODES && ALPHA
 #include <pack.glslf>
-#include <fog.glslf>
 
-#include <lighting.glslf>
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
@@ -151,7 +159,7 @@ uniform PRECISION sampler2D u_scene_depth;
 //varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 varying vec3 v_normal;
 # endif
 # if CALC_TBN_SPACE

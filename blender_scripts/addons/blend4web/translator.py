@@ -1,19 +1,40 @@
 from polib import polib
+from collections import OrderedDict
 import os
 
 ADDON_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__))))
-PATH_TO_PO = os.path.join(ADDON_DIR, "ru_RU.po")
+PATH_TO_PO = os.path.join(ADDON_DIR, "locales")
 
 def get_translation_dict():
-    translations_dict = {}
-    lang = "ru_RU"
-    if os.path.isfile(PATH_TO_PO):
-        po = polib.pofile(PATH_TO_PO)
+    files = os.listdir(PATH_TO_PO)
+    po_files = []
+    for addon_file in files:
+        if addon_file.find(".po") != -1:
+            po_files.append(addon_file)
+
+    multilang_dict = {}
+    for po_file in po_files:
+        po = polib.pofile(os.path.join(PATH_TO_PO, po_file))
+        lang = os.path.splitext(po_file)[0]
         for entry in po:
-            if entry.msgctxt:
-                ctxt = entry.msgctxt
+            if entry.msgid in multilang_dict:
+                multilang_dict[entry.msgid]["msgctxt"].append((lang, entry.msgstr))
             else:
-                ctxt = "*"
-            key = (ctxt, entry.msgid)
-            translations_dict.setdefault(lang, {})[key] = entry.msgstr
+                if entry.msgctxt:
+                    context = entry.msgctxt
+                else:
+                    context = "*"
+                multilang_dict[entry.msgid] = {
+                    "ctxt" : context,
+                    "msgctxt" : [(lang, entry.msgstr)]
+                }
+
+    translations_dict = {}
+
+    for ident in multilang_dict:
+        key = (multilang_dict[ident]["ctxt"], ident)
+        for trans in multilang_dict[ident]["msgctxt"]:
+            if trans[1]:
+                translations_dict.setdefault(trans[0], {})[key] = trans[1]
+
     return translations_dict

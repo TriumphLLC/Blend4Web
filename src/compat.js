@@ -89,8 +89,8 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.firefox_shadows_slink_hack = true;
     }
 
-    if (check_user_agent("iPhone") || is_ie11()) {
-        m_print.warn("iPhone or IE11 detected. Enable sequential video fallback for video textures.");
+    if (check_user_agent("iPhone") || is_ie11() || check_user_agent("Edge")) {
+        m_print.warn("iPhone, IE11 or Edge detected. Enable sequential video fallback for video textures.");
         cfg_def.seq_video_fallback = true;
     }
 
@@ -107,7 +107,7 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("OS X / Intel HD 3000 detected, applying depth hack");
             depth_tex_available = false;
         }
-        if (check_user_agent("Windows") && check_user_agent("Chrome")
+        if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge")
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel") > -1) {
             m_print.warn("Chrome / Windows / Intel GPU detected, applying cubemap mipmap/rgb hack");
             cfg_def.intel_cubemap_hack = true;
@@ -149,7 +149,7 @@ exports.set_hardware_defaults = function(gl) {
                                               + "B4W_LEVELS_OF_QUALITY nodes.");
             cfg_def.force_low_quality_nodes = true;
         }
-        if (check_user_agent("Windows") && check_user_agent("Chrome") && 
+        if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge") &&
                 gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).match(/NVIDIA GeForce 8..0/)) {
             m_print.warn("Chrome / Windows / NVIDIA GeForce 8000 series detected, " +
                          "setting max cubemap size to 256.");
@@ -195,9 +195,9 @@ exports.set_hardware_defaults = function(gl) {
         cfg_scs.cubemap_tex_size = 512;
     }
 
-    if (is_ie11() && check_user_agent("Touch")) {
-        m_print.warn("IE11 and touchscreen detected. Behaviour of the mouse move sensor will be changed.");
-        cfg_def.ie11_touchscreen_hack = true;
+    if (is_ie11() && check_user_agent("Touch") || check_user_agent("Edge")) {
+        m_print.warn("IE11 and touchscreen or Edge detected. Behaviour of the mouse move sensor will be changed.");
+        cfg_def.ie11_edge_touchscreen_hack = true;
     }
 
     if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
@@ -206,20 +206,29 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.force_low_quality_nodes = true;
     }
 
-    if (check_user_agent("Chrome")) {
+    if (check_user_agent("Chrome") && !check_user_agent("Edge")) {
         m_print.log("Chrome detected. Some of deprecated functions related to the Doppler effect won't be called.");
-        cfg_def.chrome_disable_doppler_effect_hack = true;
         cfg_def.cors_chrome_hack = true;
+    }
+
+    if ((check_user_agent("Chrome") && !check_user_agent("Edge")) ||
+            check_user_agent("Firefox")) {
+        cfg_def.disable_doppler_hack = true;
     }
 
     if (is_ie11() || check_user_agent("iPad")) {
         m_print.warn("iPad or Internet Explorer detected. Applying alpha clip hack.");
-        cfg_def.aplha_clip_filtering_hack = true;
+        cfg_def.alpha_clip_filtering_hack = true;
     }
 
     if (detect_mobile() && check_user_agent("Firefox")) {
         m_print.log("Mobile firefox detected. Applying autoplay media hack.");
         cfg_def.mobile_firefox_media_hack = true;
+    }
+
+    if (check_user_agent("Edge")) {
+        m_print.warn("Microsoft Edge detected, set up new minimal texture size.");
+        cfg_def.edge_min_tex_size_hack = true;
     }
 }
 

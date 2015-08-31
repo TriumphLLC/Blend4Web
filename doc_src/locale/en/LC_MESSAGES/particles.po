@@ -274,6 +274,10 @@ msgstr ""
 "The option enables a random emission time for particles. Disabled by "
 "default."
 
+#: ../particles.rst:98
+msgid "*Emission > Random Delay*"
+msgstr ""
+
 #: ../particles.rst:101
 msgid "*Emission > Emit From > Distribution*"
 msgstr ""
@@ -475,6 +479,20 @@ msgstr ""
 msgid "*Render > Coordinate system*"
 msgstr ""
 
+#: ../particles.rst:168
+msgid ""
+"Включает так называемые \"Мягкие частицы\" билборды которых плавно "
+"растворяются при соприкосновении с поверхностями. С помощью слайдера "
+"Particle Softness настраивается степень проявленности этого эффекта."
+msgstr ""
+"Support for soft particles, billboards of which smoothly dissolve when "
+"contacting with surfaces. Use the ``Particle Softness`` slider to tweak this"
+" effect."
+
+#: ../particles.rst:168
+msgid "*Render > Soft Particles*"
+msgstr ""
+
 #: ../particles.rst:173
 msgid "Настройки влияния силовых полей"
 msgstr "Supported settings for force fields influence"
@@ -598,21 +616,3 @@ msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/139
 msgstr ""
 "`The original model was taken from here "
 "<http://www.blendswap.com/blends/view/13977>`_"
-
-#: ../particles.rst:98
-msgid "*Emission > Random Delay*"
-msgstr ""
-
-#: ../particles.rst:168
-msgid ""
-"Включает так называемые \"Мягкие частицы\" билборды которых плавно "
-"растворяются при соприкосновении с поверхностями. С помощью слайдера "
-"Particle Softness настраивается степень проявленности этого эффекта."
-msgstr ""
-"Support for soft particles, billboards of which smoothly dissolve when "
-"contacting with surfaces. Use the ``Particle Softness`` slider to tweak this"
-" effect."
-
-#: ../particles.rst:168
-msgid "*Render > Soft Particles*"
-msgstr ""

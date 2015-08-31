@@ -10,14 +10,13 @@ b4w.module["__controls"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_cont  = require("__container");
+var m_obj   = require("__objects");
 var m_print = require("__print");
 var m_phy   = require("__physics");
-var m_scs   = require("__scenes");
+var m_quat  = require("__quat");
 var m_time  = require("__time");
 var m_util  = require("__util");
-
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
+var m_vec3  = require("__vec3");
 
 var cfg_ctl = m_cfg.controls;
 var cfg_dft = m_cfg.defaults;
@@ -245,7 +244,7 @@ exports.create_keyboard_sensor = function(key) {
 
 exports.create_collision_sensor = function(obj, collision_id,
                                            calc_pos_norm) {
-    if (!(obj && m_phy.has_physics(obj))) {
+    if (!(obj && m_phy.obj_has_physics(obj))) {
         m_print.error("Wrong collision object");
         return null;
     }
@@ -281,7 +280,7 @@ exports.create_collision_sensor = function(obj, collision_id,
 }
 
 exports.create_collision_impulse_sensor = function(obj) {
-    if (!(obj && obj._physics)) {
+    if (!(obj && obj.physics)) {
         m_print.error("Wrong collision impulse object");
         return null;
     }
@@ -378,8 +377,8 @@ exports.create_motion_sensor = function(obj, threshold, rotation_threshold) {
 
     sensor.source_object = obj;
 
-    var trans = obj._render.trans;
-    var quat = obj._render.quat;
+    var trans = obj.render.trans;
+    var quat = obj.render.quat;
 
     sensor.quat_temp = new Float32Array(4);
     sensor.trans_last = new Float32Array(trans);
@@ -409,8 +408,8 @@ exports.create_vertical_velocity_sensor = function(obj, threshold) {
 
     sensor.source_object = obj;
 
-    var trans = obj._render.trans;
-    var quat = obj._render.quat;
+    var trans = obj.render.trans;
+    var quat = obj.render.quat;
 
     sensor.trans_last = new Float32Array(trans);
     sensor.quat_last = new Float32Array(quat);
@@ -549,8 +548,8 @@ function update_sensor(sensor, timeline, elapsed) {
 
         var obj = sensor.source_object;
 
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
 
         var dist = m_vec3.dist(sensor.trans_last, trans);
 
@@ -586,7 +585,7 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_V_VELOCITY:
 
         var obj = sensor.source_object;
-        var trans = obj._render.trans;
+        var trans = obj.render.trans;
 
         var vel = Math.abs(trans[1] - sensor.trans_last[1]) / elapsed;
         sensor.avg_vertical_vel = m_util.smooth(vel, sensor.avg_vertical_vel,
@@ -1141,7 +1140,7 @@ function mouse_down_cb(e) {
             if (!pick) {
                 var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, 
                         _vec2_tmp);
-                selected_obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
+                selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
                 pick = true;
             }
 
@@ -1188,7 +1187,7 @@ function mouse_move_cb(e) {
     _mouse_curr_x = x;
     _mouse_curr_y = y;
 
-    if (!cfg_dft.ie11_touchscreen_hack || _is_mouse_downed) {
+    if (!cfg_dft.ie11_edge_touchscreen_hack || _is_mouse_downed) {
         var delta_x = (x - _mouse_last_x);
         var delta_y = (y - _mouse_last_y);
 
@@ -1274,7 +1273,7 @@ function touch_start_cb(e) {
             if (sensor.type == ST_SELECTION) {
                 if (!pick) {
                     var canvas_xy = m_cont.client_to_canvas_coords(x, y, _vec2_tmp);
-                    selected_obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
+                    selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
                     pick = true;
                 }
                 sensor.value = (selected_obj == sensor.source_object);

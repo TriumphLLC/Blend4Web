@@ -81,7 +81,7 @@ class B4W_ObjectAnimation(ObjectButtonsPanel, Panel):
         obj = context.object
 
         layout = self.layout
-        layout.prop(context.object, "b4w_use_default_animation", text="Apply default animation")
+        layout.prop(context.object, "b4w_use_default_animation", text="Apply Default Animation")
 
         row = layout.row()
         row.active = obj.b4w_use_default_animation
@@ -371,9 +371,6 @@ class B4W_OBJECT_PT_duplication(ObjectButtonsPanel, Panel):
 
         if obj.dupli_type == 'GROUP':
             layout.prop(obj, "dupli_group", text="Group")
-            if obj.type == "EMPTY" and obj.dupli_group:
-                row = layout.row()
-                row.prop(obj, "b4w_group_relative", text="Relative Group Coords")
 
         elif obj.dupli_type != 'NONE':
             row = layout.row()

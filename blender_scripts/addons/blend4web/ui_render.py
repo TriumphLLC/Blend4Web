@@ -2,12 +2,10 @@ import bpy
 import imp
 import mathutils
 import math
-import os
 import cProfile
 import bgl
 
-from .server import B4WStartServer
-from .server import SUB_THREAD_START_SERV_OK
+from . import server
 
 # common properties for all B4W render panels
 class RenderButtonsPanel:
@@ -279,21 +277,29 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        b4w_src_path = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-        path_to_index = os.path.join(b4w_src_path, "index.html")
-        os.path.normpath(path_to_index)
-        if b4w_src_path != "" and os.path.exists(path_to_index):
-            if B4WStartServer.server_status == SUB_THREAD_START_SERV_OK:
+        if server.has_valid_sdk_dir():
+            is_started = server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK
+            is_waiting_for_shutdown = server.B4WLocalServer.is_waiting_for_shutdown()
+            allow_actions = server.B4WLocalServer.allow_actions()
+
+            if is_started:
                 layout.label(text = ("Development server is running."))
-                if not bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start:
-                    layout.operator("b4w.start_server", text="Stop", icon="PAUSE")
-                layout.operator("b4w.open_sdk", text="Open SDK", icon="URL")
+            elif is_waiting_for_shutdown:
+                layout.label(text = ("Stopping server..."))
             else:
-                if B4WStartServer.waiting_for_serv:
-                    layout.label(text = ("Stopping server..."))
-                else:
-                    layout.label(text = ("Development server is down."))
+                layout.label(text = ("Development server is down."))
+
+            if allow_actions:
+                if is_started:
+                    layout.operator("b4w.stop_server", text="Stop", icon="PAUSE")
+                elif not is_waiting_for_shutdown:
                     layout.operator("b4w.start_server", text="Start", icon="PLAY")
+            else:
+                layout.label(text = ("Server actions are available in the other Blender instance."))
+
+            if is_started:
+                layout.operator("b4w.open_sdk", text="Open SDK", icon="URL")
+
         else:
             layout.label(text = ("Blend4Web SDK was not found."))
 

@@ -179,7 +179,7 @@ def run():
             elif a == "compile":
                 engine_type = "COMPILE"
             elif a == "external":
-                engine_type = "EXTENAL"
+                engine_type = "EXTERNAL"
             else:
                 help("Arg '" + a +
                      "' for 'b4w' option not recognize")
@@ -218,20 +218,23 @@ def run():
             sys.exit(0)
 
     dev_proj_path   = join(BASE_DIR, project_name)
-    build_proj_path = join(build_proj_path, project_name)
+    if os.path.isabs(project_name):
+        build_proj_path = join(build_proj_path, os.path.basename(project_name))
+    else:
+        build_proj_path = join(build_proj_path, project_name)
 
     if not dev_proj_path:
         help("You must specify '-p' or '--project'")
         sys.exit(0)
 
-    if engine_type == "EXTENAL" and only_copy:
-        help("You must choose 'copy'," +
+    if engine_type == "EXTERNAL" and only_copy:
+        help("You must set 'copy'," +
              "'combine' or 'compile' args for -b option, " +
-             "if you're going build standalone app")
+             "if you're going build standalone project")
         sys.exit(0)
 
     if not os.path.exists(dev_proj_path):
-        help("Project directory does not exist")
+        help("Project source directory does not exist")
         sys.exit(0)
 
     if not is_ext_path and len(dev_assets_paths):
@@ -839,6 +842,25 @@ def print_wrapper(output_path):
     print(GREEN, "   Compiling", ENDCOL, ":", BLUE, output_path, ENDCOL)
     print("    " + "-"*(len(output_path) + len("  Compiling : ")))
 
+def check_dependencies(dependencies):
+
+    missing_progs = get_missing_progs(dependencies)
+    needed_progs = {}
+    for dep in missing_progs:
+        if dep == "java":
+            needed_progs["Java"] = True
+    for prog in needed_progs:
+        print("Couldn't find", prog)
+    if len(missing_progs) > 0:
+        return False
+    return True
+
+def get_missing_progs(dependencies):
+    missing_progs = []
+    for dep in dependencies:
+        if not shutil.which(dep):
+            missing_progs.append(dep)
+    return missing_progs
 
 def help(err=""):
     """
@@ -855,29 +877,33 @@ def help(err=""):
         print("     " +
               "-"*(len("   Try './project.py --help' for more information.")))
     else:
-        print("Arguments:")
-        print("    -a, --app=APP              \
-            application directory name")
-        print("    -b, --b4w=TYPE             \
-            b4w engine type: 'external', 'copy', 'combine', 'compile' ")
-        print("    -c, --css_ignore           \
-            no compile css file")
-        print("    -d, --dir                  \
-            choose application directory")
-        print("    -e, --assets_path          \
-            choose assets path for compiled app")
-        print("    -h, --help                 \
-            give this help list")
-        print("    -j, --js_ignore            \
-            no compile js file")
-        print("    -o, --optimization=TYPE    \
-            javaScript optimization type: 'whitespace', 'simple' or 'advanced'")
-        print("    -p, --project          \
-            choose project path")
-        print("    -s, --assets               \
-            choose assets directory")
-        print("    -v, --version              \
-            add version to js and css files")
+        print("Arguments:\n"
+              "    -a, --app=APP          "
+              "             specify source application html file\n"
+              "    -b, --b4w=TYPE         "
+              "             specify b4w engine type: 'external',\n"
+              "                                        'copy', 'combine', 'compile'\n"
+              "    -c, --css_ignore       "
+              "             skip css file\n"
+              "    -d, --dir              "
+              "             specify destination project directory\n"
+              "    -e, --assets_path      "
+              "             specify assets url\n"
+              "    -h, --help             "
+              "             show this help\n"
+              "    -j, --js_ignore        "
+              "             skip js file\n"
+              "    -o, --optimization=TYPE"
+              "             set javaScript optimization type:\n "
+              "                                       'whitespace', 'simple' or 'advanced'\n"
+              "    -p, --project          "
+              "             specify source project path\n"
+              "    -s, --assets           "
+              "             specify source assets directory\n"
+              "    -v, --version          "
+              "             add version to js and css urls\n")
 
 if __name__ == "__main__":
+    if not check_dependencies(["java"]):
+        sys.exit(1)
     run()

@@ -133,6 +133,18 @@
                 "load_file": "interactivity/camera_views.json"
             },
             {
+                "name": "Math, Conditional Jump",
+                "load_file": "interactivity/logic_editor_math_conditions.json"
+            },
+            {
+                "name": "Page Redirect",
+                "load_file": "interactivity/logic_editor_page_redirect.json"
+            },
+            {
+                "name": "Select & Play",
+                "load_file": "interactivity/logic_editor_select&play.json"
+            },
+            {
                 "name": "Solar System (En)",
                 "load_file": "interactivity/solar_system/solar_system_en.json"
             },

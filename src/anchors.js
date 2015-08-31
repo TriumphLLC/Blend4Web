@@ -34,11 +34,11 @@ exports.append = function(obj) {
         return;
 
     // NOTE: depends on subscene here because not supported for dynamically loaded data
-    var det_vis = obj["b4w_anchor"]["detect_visibility"] &&
+    var det_vis = obj.anchor.detect_visibility &&
             Boolean(m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY"));
 
     var anchor = {
-        type: obj["b4w_anchor"]["type"],
+        type: obj.anchor.type,
         obj: obj,
         x: 0,
         y: 0,
@@ -47,9 +47,10 @@ exports.append = function(obj) {
         detect_visibility: det_vis,
         element: null,
         move_cb: null,
-        annotation_max_width: obj["b4w_anchor"]["max_width"],
+        annotation_max_width: obj.anchor.max_width,
         // DOM-access optimization (height won't change)
-        annotation_height: 0
+        annotation_height: 0,
+        element_id: obj.anchor.element_id
     }
 
     switch (anchor.type) {
@@ -58,7 +59,7 @@ exports.append = function(obj) {
         anchor.annotation_height = anchor.element.offsetHeight;
         break;
     case "ELEMENT":
-        anchor.element = document.getElementById(obj["b4w_anchor"]["element_id"])
+        anchor.element = document.getElementById(obj.anchor.element_id)
 
         if (!anchor.element) {
             m_print.warn("Anchor HTML element was not found, making it generic");
@@ -101,7 +102,7 @@ function create_annotation(obj, max_width) {
 
     var meta_tags = m_obj.get_meta_tags(obj);
 
-    var title = meta_tags.title || obj["name"];
+    var title = meta_tags.title || obj.name;
 
     var title_span = document.createElement("span");
     var title_span_style = title_span.style;
@@ -327,7 +328,7 @@ exports.update = function() {
 
         // update always because the anchor may change it's depth
         if (anchor.detect_visibility) {
-            _anchor_batch_pos.set(anchor.obj._render.trans, 3 * det_vis_cnt);
+            _anchor_batch_pos.set(anchor.obj.render.trans, 3 * det_vis_cnt);
             det_vis_cnt++;
         }
 
@@ -378,7 +379,7 @@ exports.update = function() {
 
 function anchor_project(anchor, dest) {
     var camobj = m_scenes.get_camera(m_scenes.get_main());
-    var dest = m_cam.project_point(camobj, anchor.obj._render.trans, dest);
+    var dest = m_cam.project_point(camobj, anchor.obj.render.trans, dest);
     return dest;
 }
 
@@ -519,17 +520,19 @@ exports.cleanup = function() {
 }
 
 exports.is_anchor = function(obj) {
-    if (obj["b4w_anchor"])
-        return true;
-    else
-        return false;
+    for (var i = 0; i < _anchors.length; i++)
+        if (_anchors[i].obj == obj)
+            return true;
+
+    return false;
 }
 
 exports.get_element_id = function(obj) {
-    if (obj["b4w_anchor"] && obj["b4w_anchor"]["element_id"])
-        return obj["b4w_anchor"]["element_id"];
-    else
-        return false;
+    for (var i = 0; i < _anchors.length; i++)
+        if (_anchors[i].obj == obj)
+            return _anchors[i].element_id;
+
+    return false;
 }
 
 exports.pause = function() {

@@ -91,9 +91,11 @@ the error description is showed.
 Compatibility Errors
 ====================
 
-During the scene viewing, some compatibility errors may occur if the
-addon version used to export the scene differs from the Blend4Web
-engine's version.
+Compatibility errors may arize when trying to view a scene in a
+browser, in the following cases: if version of the add-on used to
+export the scene differs from version of the Blend4Web engine which
+tries to load the scene, or if .bin file does not correspond to the
+.json file.
 
 +---------------------------------------+---------------------------------------------+
 | Error message                         | Cause                                       |
@@ -127,6 +129,18 @@ engine's version.
 | version to fix it.                    | usual, however some errors may occur. We    |
 |                                       | recommend you to use the latest versions of |
 |                                       | the engine and the add-on.                  |
++---------------------------------------+---------------------------------------------+
+| BIN version does not match to JSON    | Version of the .bin file is too old         |
+| version: VER_BIN, required: VER_JSON. | relative to .json file: VER_BIN, .json file |
+| Couldn't load the scene. Reexport     | version is VER_JSON. The scene will not be  |
+| scene to fix it.                      | loaded. We recommend you to reexport yor    |
+|                                       | scene.                                      |
++---------------------------------------+---------------------------------------------+
+| BIN version does not match to JSON    | Version of the .bin file is a bit old       |
+| version: VER_BIN, required: VER_JSON. | relative to .json file: VER_BIN, .json file |
+| Some compatibility issues can occur.  | version is VER_JSON. Some incompatibility   |
+| Reexport scene to fix it.             | errors can arise. We recommend you to       |
+|                                       | reexport yor scene.                         |
 +---------------------------------------+---------------------------------------------+
 
 
@@ -184,8 +198,26 @@ describing of the problem appears:
 | requires at least one wheel           | as it should contain at least one "Wheel"   |
 |                                       | element.                                    |
 +---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Wrong group indices   | The mesh has vertices assigned to the non-  |
-|                                       | existing vertex group.                      |
+| Incorrect mesh; Corrupted file: Wrong | The mesh has vertices assigned to the non-  |
+| group indices                         | existing vertex group.                      |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex coordinate |
+| vertice positions                     | value.                                      |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect normal value.     |
+| normals                               |                                             |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect tangent value.    |
+| tangents                              |                                             |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect texture           |
+| texture coordinates                   | coordinate value.                           |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex group      |
+| vertex group weights                  | weight value.                               |
++---------------------------------------+---------------------------------------------+
+| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex color      |
+| vertex color values                   | value.                                      |
 +---------------------------------------+---------------------------------------------+
 | Incorrect vertex animation; Object    | The object's vertex animation export option |
 | has no vertex animation               | is on, but there is no vertex animation.    |

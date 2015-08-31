@@ -13,16 +13,14 @@
  */
 b4w.module["__scenegraph"] = function(exports, require) {
 
-var m_cam    = require("__camera");
-var m_cfg    = require("__config");
-var m_debug  = require("__debug");
-var m_graph  = require("__graph");
-var m_render = require("__renderer");
-var m_tex    = require("__textures");
-var m_util   = require("__util");
-var m_obj    = require("__objects");
-
-var m_vec4 = require("vec4");
+var m_cam      = require("__camera");
+var m_cfg      = require("__config");
+var m_debug    = require("__debug");
+var m_graph    = require("__graph");
+var m_obj_util = require("__obj_util");
+var m_render   = require("__renderer");
+var m_tex      = require("__textures");
+var m_util     = require("__util");
 
 var cfg_dbg = m_cfg.debug_subs;
 var cfg_def = m_cfg.defaults;
@@ -31,7 +29,7 @@ var cfg_scs = m_cfg.scenes;
 var DEBUG_DISABLE_TEX_REUSE = false;
 
 function cam_copy(cam) {
-    var cam_new = m_obj.copy_object_props_by_value(cam);
+    var cam_new = m_obj_util.copy_object_props_by_value(cam);
 
     // reset attachments, see process_subscene_links() and assign_render_targets()
     cam_new.framebuffer = null;
@@ -546,20 +544,18 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     var water_params    = sc_render.water_params;
     var shore_smoothing = sc_render.shore_smoothing;
     var soft_particles  = sc_render.soft_particles;
-    var render_shadows  = sc_render.render_shadows;
     var ssao            = sc_render.ssao;
     var god_rays        = sc_render.god_rays;
     var mat_params      = sc_render.materials_params;
     var refl_params     = sc_render.reflection_params;
-    var bloom           = sc_render.bloom;
+    var bloom_params    = sc_render.bloom_params;
     var motion_blur     = sc_render.motion_blur;
     var compositing     = sc_render.compositing;
     var antialiasing    = sc_render.antialiasing;
     var wls_params      = sc_render.world_light_set;
-    var fog             = sc_render.fog_color_density;
+    var wfs_params      = sc_render.world_fog_set;
     var shadow_params   = sc_render.shadow_params;
     var mb_params       = sc_render.mb_params;
-    var bloom_params    = sc_render.bloom_params;
     var cc_params       = sc_render.cc_params;
     var gr_params       = sc_render.god_rays_params;
     var outline_params  = sc_render.outline_params;
@@ -579,10 +575,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
         var cam_right = cam_copy(cam_left);
 
         m_cam.make_stereo(cam_left, m_cam.TYPE_STEREO_LEFT);
-        //m_cam.set_view(cam_left, bpy_scene["camera"]);
-
         m_cam.make_stereo(cam_right, m_cam.TYPE_STEREO_RIGHT);
-        //m_cam.set_view(cam_right, bpy_scene["camera"]);
 
         main_cams.push(cam_left, cam_right);
         cam_render.cameras.push(cam_right);
@@ -592,7 +585,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     }
 
     // shadow stuff
-    if (render_shadows) {
+    if (shadow_params) {
         m_cam.update_camera_shadows(main_cams[0], shadow_params);
 
         var csm_num = shadow_params.csm_num;
@@ -632,7 +625,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             m_cam.set_projection(cam, cam.aspect);
 
             var subs_main = create_subs_main("CUBE_REFLECT", cam, false,
-                    water_params, num_lights, fog, wls_params, null, sc_render.sun_exist);
+                    water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
             subs_main.cube_view_matrices = m_util.generate_inv_cubemap_matrices();
 
             for (var j = 0; j < 6; j++)
@@ -660,11 +653,14 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
         for (var i = 0; i < main_cams.length; i++) {
             for (var j = 0; j < refl_params.refl_plane_objs.length; j++) {
                 var cam = cam_copy(main_cams[i]);
+                var refl_plane_obj = refl_params.refl_plane_objs[j];
+                var trans = refl_plane_obj.render.trans;
+                var quat  = refl_plane_obj.render.quat;
                 cam.reflection_plane = new Float32Array(4);
                 cam_render.cameras.push(cam);
 
                 var subs_main = create_subs_main("PLANE_REFLECT", cam, false,
-                        water_params, num_lights, fog, wls_params, null, sc_render.sun_exist);
+                        water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
 
                 m_graph.append_node_attr(graph, subs_main);
 
@@ -745,8 +741,8 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             m_graph.append_node_attr(graph, subs_depth);
 
 
-            if (render_shadows) {
-
+            if (shadow_params) {
+                subs_depth.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
                 for (var j = 0; j < shadow_subscenes.length; j++) {
                     var subs_shadow = shadow_subscenes[j];
                     var slink_shadow = shadow_links[j];
@@ -763,7 +759,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                     cam_render.cameras.push(cam_ssao);
 
                     var ssao_params = sc_render.ssao_params;
-                    var subs_ssao = create_subs_ssao(cam_ssao, fog, ssao_params);
+                    var subs_ssao = create_subs_ssao(cam_ssao, wfs_params, ssao_params);
                     m_graph.append_node_attr(graph, subs_ssao);
 
                     var slink_ssao = create_slink("COLOR", "u_ssao_mask", 1, 1, true);
@@ -797,7 +793,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
         // main
         var subs_main = create_subs_main("OPAQUE", cam, !depth_tex,
-                water_params, num_lights, fog, wls_params, null, sc_render.sun_exist);
+                water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
 
         m_graph.append_node_attr(graph, subs_main);
         curr_level.push(subs_main);
@@ -807,7 +803,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
             if (slink_ssao)
                 m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main, slink_ssao_blur);
-            else if (render_shadows)
+            else if (shadow_params)
                 // NOTE: same as slink_depth_c
                 m_graph.append_edge_attr(graph, subs_depth, subs_main,
                     create_slink("COLOR", "u_shadow_mask", 1, 1, true));
@@ -889,7 +885,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
         cam_render.cameras.push(cam);
 
         var subs_main = create_subs_main(type, cam, false, water_params,
-                num_lights, fog, wls_params, shadow_params, sc_render.sun_exist);
+                num_lights, wfs_params, wls_params, shadow_params, sc_render.sun_exist);
 
         curr_level.push(subs_main);
         m_graph.append_node_attr(graph, subs_main);
@@ -928,7 +924,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 var subs_depth_pack = create_subs_depth_pack(cam_depth_pack);
 
                 m_graph.append_node_attr(graph, subs_depth_pack);
-                
+
                 var slink_depth_pack_in = create_slink("DEPTH", "u_depth", 1, 1, true);
                 var slink_depth_pack_out = create_slink("COLOR", "u_scene_depth", 1, 1, true);
                 // disable filtering for packed depth
@@ -978,7 +974,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             cam_render.cameras.push(cam_glow);
 
             var subs_main_glow = create_subs_main("GLOW", cam_glow, false, water_params,
-                    num_lights, fog, wls_params);
+                    num_lights, wfs_params, wls_params);
             m_graph.append_node_attr(graph, subs_main_glow);
 
             m_graph.append_edge_attr(graph, opaque_subscenes[i], subs_main_glow,
@@ -1174,7 +1170,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     }
 
     // bloom
-    if (bloom && !rtt) {
+    if (bloom_params && !rtt) {
         for (var i = 0; i < main_cams.length; i++) {
             var subs_prev = prev_level[i];
 
@@ -1187,8 +1183,8 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             m_graph.append_node_attr(graph, subs_av_luminance);
 
             // NOTE: deprecated
-            subs_av_luminance.camera.width = 1;
-            subs_av_luminance.camera.height = 1;
+            subs_av_luminance.camera.width = cfg_def.edge_min_tex_size_hack? 2: 1;
+            subs_av_luminance.camera.height = cfg_def.edge_min_tex_size_hack? 2: 1;
 
             var slink_luminance_av = create_slink("COLOR", "u_input", 1, 0.25, true);
             slink_luminance_av.min_filter = m_tex.TF_LINEAR;
@@ -1657,7 +1653,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     process_subscene_links(graph);
     assign_render_targets(graph);
 
-    if (render_shadows) {
+    if (shadow_params) {
         for (var i = 0; i < depth_subscenes.length; i++)
             prepare_shadow_receive_subs(graph, depth_subscenes[i]);
         for (var i = 0; i < blend_subscenes.length; i++)
@@ -1774,6 +1770,7 @@ function init_subs(type) {
         zsort_eye_last: new Float32Array(3),
         grass_map_dim: new Float32Array(3),
         fog_color_density: new Float32Array(4),
+        fog_params: new Float32Array(4),
         cube_fog: new Float32Array(16),
 
         // environment and world properties
@@ -2086,7 +2083,7 @@ function create_subs_glow_combine(cam, sc_render) {
  * attachments)
  */
 function create_subs_main(main_type, cam, opaque_do_clear_depth,
-        water_params, num_lights, fog, wls_params, shadow_params, sun_exist) {
+        water_params, num_lights, wfs_params, wls_params, shadow_params, sun_exist) {
     var subs = init_subs("MAIN_" + main_type);
 
     if (main_type === "OPAQUE") {
@@ -2128,11 +2125,13 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
     subs.environment_energy = wls_params.environment_energy;
 
     // by link
-    subs.fog_color_density = fog;
+    subs.fog_color_density = wfs_params.fog_color_density;
+    subs.fog_params = wfs_params.fog_params;
 
     if (water_params)
         assign_water_params(subs, water_params, sun_exist)
 
+    subs.num_lights = num_lights;
     subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
     subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
     subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
@@ -2236,10 +2235,9 @@ function create_subs_anchor_visibility(cam) {
 /**
  * Used for depth and (optionally) shadow receive rendering
  */
-function create_subs_depth_shadow(graph, cam, shadow_params) {
+function create_subs_depth_shadow(graph, cam) {
     var subs = init_subs("DEPTH");
     subs.camera = cam;
-    subs.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
     return subs;
 }
 
@@ -2257,7 +2255,7 @@ function create_subs_depth_pack(cam) {
     return subs;
 }
 
-function create_subs_ssao(cam, fog, ssao_params) {
+function create_subs_ssao(cam, wfs_params, ssao_params) {
 
     var subs = init_subs("SSAO");
     subs.clear_color = false;
@@ -2267,8 +2265,8 @@ function create_subs_ssao(cam, fog, ssao_params) {
     subs.camera = cam;
 
     // by link
-    subs.fog_color_density = fog;
-    subs.water_fog_color_density = new Float32Array(fog);
+    subs.fog_color_density = wfs_params.fog_color_density;
+    subs.water_fog_color_density = new Float32Array(wfs_params.fog_color_density);
 
     subs.ssao_radius_increase = ssao_params.radius_increase;
     subs.ssao_hemisphere = ssao_params.hemisphere;
@@ -2574,6 +2572,7 @@ function create_subs_luminance_trunced(bloom_key, edge_lum, num_lights, cam) {
     //var cam = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.camera = cam;
 
+    subs.num_lights = num_lights;
     subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
     subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
     subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's

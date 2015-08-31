@@ -40,7 +40,6 @@ function load() {
 
 function load_cb(data_id) {
     m_app.enable_camera_controls();
-
     make_some_copies();
     remove_some_copies();
     geometry_change();
@@ -74,11 +73,17 @@ function remove_some_copies() {
 }
 
 function geometry_change(indices, positions) {
-    var obj = m_scs.get_object_by_name("Plane");
+    var plane_blue = m_scs.get_object_by_name("Plane");
+    var plane_red = m_scs.get_object_by_name("Plane.002");
     var indices = new Uint16Array([0,1,2,3,4,5]);
-    var positions = new Float32Array([-0,1,-0, -1,0,1, 1,0,-1, 1,0,-1, -1,0,1, 1,0,1]);
+    var positions_blue = new Float32Array([0,1,0, -1,0,1, 1,0,-1, 1,0,-1, -1,0,1, 1,0,1]);
+    var positions_red = new Float32Array([-9,1,-9, -10,0,-8, -8,0,-10, -8,0,-10, -10,0,-8, -8,0,-8]);
 
-    m_geom.override_geometry(obj, "Material", indices, positions, false);
+    m_geom.override_geometry(plane_blue, "Material", indices, positions_blue, false);
+    m_geom.override_geometry(plane_red, "Material.002", indices, positions_red, false);
+    // update object's boundings after mesh geometry changing 
+    m_obj.update_boundings(plane_blue);
+    m_obj.update_boundings(plane_red);
 }
 
 

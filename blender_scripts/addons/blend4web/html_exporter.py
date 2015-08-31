@@ -21,19 +21,19 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     do_autosave = bpy.props.BoolProperty(
         name = "Autosave blend File",
-        description = "Proper linking between exported files requires saving file after exporting",
+        description = "Automatically save the blend file after export",
         default = True
     )
 
     strict_mode = bpy.props.BoolProperty(
         name = "Strict Mode",
-        description = "This option blocks export with errors and warnings",
+        description = "Block export if there are any errors or warnings",
         default = False
     )
 
     override_filepath = bpy.props.StringProperty(
         name = "Filepath",
-        description = "Required for running in command line",
+        description = "Required for running in command line mode",
         default = ""
     )
 
@@ -45,7 +45,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     export_converted_media = bpy.props.BoolProperty(
         name = "Export Converted Media",
-        description = "Save converted media in html file",
+        description = "Save alternative media formats in the HTML file",
         default = False
     )
 

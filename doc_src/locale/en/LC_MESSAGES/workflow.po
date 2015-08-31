@@ -35,26 +35,26 @@ msgid ""
 msgstr "When using Blend4Web the workflow is the following:"
 
 #: ../workflow.rst:16
-msgid "Подготовка трёхмерной сцены в программе Blender."
-msgstr "Preparing a 3D scene in Blender."
+msgid "Подготовка трёхмерных сцен в программе Blender."
+msgstr "Authoring 3D scenes in Blender."
 
 #: ../workflow.rst:17
-msgid "Экспорт ресурсов в формате, пригодном для использования движком."
-msgstr "Exporting the resources in a format suitable for the engine."
+msgid "Экспорт сцен."
+msgstr "Exporting scenes."
 
 #: ../workflow.rst:18
 msgid "Запуск, настройка и отладка сцены в программе-просмотрщике."
-msgstr "Running, tweaking and debugging the scene in the viewer."
+msgstr "Running, tweaking and debugging scenes in the Viewer."
 
 #: ../workflow.rst:19
 msgid "Создание целевого приложения."
 msgstr "Creating the target application."
 
-#: ../workflow.rst:22
+#: ../workflow.rst:25
 msgid "Подготовка сцен"
-msgstr "Preparing the Scenes"
+msgstr "Authoring Scenes"
 
-#: ../workflow.rst:24
+#: ../workflow.rst:27
 msgid ""
 "Помимо обычных операций по моделированию, текстурированию, анимации и т.д. "
 "должна быть осуществлена подготовка сцены для работы в движке."
@@ -62,65 +62,63 @@ msgstr ""
 "Besides the usual stages such as modeling, texturing, animation etc a scene "
 "should be prepared for working in the engine."
 
-#: ../workflow.rst:27
+#: ../workflow.rst:30
 msgid "Общие рекомендации:"
 msgstr "General recommendations:"
 
-#: ../workflow.rst:29
-msgid "Blend-файлы должны находиться в директории ``blender/имя_проекта``."
-msgstr ""
-"Blend files should be located in the ``blender/project_name`` directory."
-
-#: ../workflow.rst:30
-msgid ""
-"Файлы текстур и звуков должны быть внешними и находиться в директории "
-"``deploy/assets/имя_проекта``."
-msgstr ""
-"Texture and sound files should be external and located in the "
-"``deploy/assets/project_name`` directory."
-
-#: ../workflow.rst:31
-msgid ""
-"Вспомогательные файлы, не предназначенные для загрузки в движок (например, "
-"референсы), должны находиться в директории ``blender/имя_проекта``."
-msgstr ""
-"Auxiliary files which are not intended for loading into the engine (for "
-"example, references), should be located in the ``blender/project_name`` "
-"directory."
-
 #: ../workflow.rst:32
 msgid ""
-"Файл, из которого будет осуществляться экспорт, должен содержать только "
-"необходимые в разрабатываемом приложении модели."
+"Настоятельно рекомендуется сохранять blend-файлы в директории "
+"``blender/имя_проекта``. Там же должны находиться вспомогательные файлы, не "
+"предназначенные для загрузки в приложение (например, референсы)."
 msgstr ""
-"The file from which export will occur should only contain models required "
-"for the application being developed."
+"We strongly recommend to save your blend files in the "
+"``blender/project_name`` directory. Auxiliary files which are not intended "
+"for loading in your app (for example, references), should be located there "
+"as well."
 
 #: ../workflow.rst:33
 msgid ""
-"Объект, меш, материал, текстура, арматура должны иметь отличающие названия "
-"(на англ. языке). Они не должны называться \"Cube.001\", \"Material\", "
-"\"Armature\"."
+"Изображения и медиа-файлы должны быть внешними и находиться в директории "
+"``deploy/assets/имя_проекта``."
 msgstr ""
-"Object, mesh, material, texture, armature etc should have distinct names (in"
-" English). They should not be named \"Cube.001\", \"Material\", "
-"\"Armature\"."
+"Images and media files should be external and located in the "
+"``deploy/assets/project_name`` directory."
 
 #: ../workflow.rst:34
 msgid ""
-"Допускается добавление по ссылке (linking) компонентов из других файлов "
-"(библиотек)."
-msgstr "Its possible to link components from other (library) files."
+"Файл, из которого будет осуществляться экспорт, должен содержать только "
+"необходимые в разрабатываемом приложении ресурсы (объекты, материалы, "
+"текстуры, анимацию и т.д.)"
+msgstr ""
+"Files from which you export should contain resources which are actually "
+"required in your application (objects, materials, textures, animation etc)."
+
+#: ../workflow.rst:35
+msgid ""
+"Составные части сцен должны иметь отличающие названия. Они не должны "
+"называться \"Cube.001\", \"Material\", \"Armature\"."
+msgstr ""
+"Scene components should have distinct names. They should not be named "
+"\"Cube.001\", \"Material\" or \"Armature\"."
 
 #: ../workflow.rst:36
+msgid ""
+"Рекомендуется практиковать добавление по ссылке (linking) компонентов из "
+"других файлов (библиотек)."
+msgstr ""
+"We recommend you to practice linking components from other files "
+"(libraries)."
+
+#: ../workflow.rst:39
 msgid "экспорт"
 msgstr "export"
 
-#: ../workflow.rst:39
+#: ../workflow.rst:44
 msgid "Экспорт сцен"
 msgstr "Exporting Scenes"
 
-#: ../workflow.rst:41
+#: ../workflow.rst:46
 msgid ""
 "Для загрузки сцен, созданных с помощью пакета Blender, в движок, необходимо "
 "перевести их в формат, пригодный для чтения браузером. На данный момент "
@@ -134,68 +132,68 @@ msgstr ""
 "transform them into the format suitable for reading by a browser. At the "
 "moment text files with :file:`.json` extension are used in which exported "
 "data structures are saved in the JSON (JavaScript Object Notation) format. "
-"This file, in turn, refers to one binary file with a :file:`.bin` extension "
-"containing data arrays of models and to external resources - textures and "
-"sound samples."
+"In turn, this file refers to a single binary file with a :file:`.bin` "
+"extension (which contains geometry and animation data) and to external "
+"resources (textures, audio and video files)."
 
-#: ../workflow.rst:43
+#: ../workflow.rst:48
 msgid ""
-"Файлы :file:`.json` и :file:`.bin` создаются при экспорте, файлы текстур и "
-"звуков, как правило, должны быть размещены вручную (имеется исключение: "
-"внедренные в :file:`.blend`-файл ресурсы размещаются автоматически)."
+"Файлы ``.json`` и ``.bin`` создаются при экспорте, файлы текстур и медиа-"
+"файлы, как правило, должны быть размещены вручную. Внедренные в "
+"``.blend``-файл ресурсы автоматически размещаются рядом с экспортированными "
+"файлами."
 msgstr ""
-"While the :file:`.json` and :file:`.bin` files are created upon export, "
-"texture and sound files are normally placed by hand (there is an exception "
-"though: resources embeded into a :file:`.blend`-file are placed "
-"automatically)."
+"While the ``.json`` and ``.bin`` files are created upon export, "
+"textures and media files are normally placed by hand. Resources embedded in "
+"``.blend`` files are automatically placed near the exported scene."
 
-#: ../workflow.rst:45
+#: ../workflow.rst:50
 msgid ""
 "Экспорт производится выбором в меню ``File > Export`` опции ``Blend4Web "
 "(.json)``. Быстрый доступ - поиск по ``b4w export`` (горячая клавиша "
 "``ПРОБЕЛ``)."
 msgstr ""
 "Export can be performed by choosing the ``Blend4Web (.json)`` option from "
-"the ``File > Export`` menu. For quick access search for ``b4w export`` (hot "
-"key ``SPACE``)."
+"the ``File > Export`` menu. For quick access, search for ``b4w export`` (hot"
+" key ``SPACE``)."
 
-#: ../workflow.rst:47
+#: ../workflow.rst:52
 msgid ""
 "Экспортные файлы рекомендуется размещать в директории, предназначенной для "
 "развертывания приложения, например ``deploy/assets/имя_проекта``."
 msgstr ""
-"It is recommended to place files intended for export into the directory "
-"intended for application deployment, for example "
+"It is recommended to export your scenes in the directory "
+"intended for deploying applications, for example "
 "``deploy/assets/project_name``."
 
-#: ../workflow.rst:49
+#: ../workflow.rst:54
 msgid ""
-"Необходимо использовать относительные пути для изображений (как правило, это"
-" происходит по умолчанию). В случаях, когда это не так, необходимо выполнить"
-" команду ``File > External Data > Make All Paths Relative`` (т.е. сделать "
-"все пути относительными). Использование абсолютных путей вместо "
-"относительных может приводить к ошибкам при попытках загрузки ``.blend`` и "
-"``.json`` файлов на других компьютерах."
+"Необходимо использовать относительные пути для внешних ресурсов (как "
+"правило, это происходит по умолчанию). В случаях, когда это не так, "
+"необходимо выполнить команду ``File > External Data > Make All Paths "
+"Relative`` (т.е. сделать все пути относительными). Использование абсолютных "
+"путей вместо относительных может приводить к ошибкам при попытках загрузки "
+"``.blend`` и ``.json`` файлов на других компьютерах."
 msgstr ""
-"It's necessary to use relative filepaths for images (normally this is by "
-"default). If this is not the case, execute the ``File > External Data > Make"
-" All Paths Relative`` operator. Using absolute filepaths instead of relative"
-" ones may lead to errors when loading ``.blend`` and ``.json`` files on "
-"other computers."
+"It is required to use relative filepaths for external assets (normally this "
+"is by default). If this is not the case, run the ``File > External Data > "
+"Make All Paths Relative`` operator. Using absolute filepaths instead of "
+"relative ones may result in errors upon loading ``.blend`` and ``.json`` "
+"files on other computers."
 
-#: ../workflow.rst:51
+#: ../workflow.rst:56
 msgid ""
 "В момент экспорта происходит проверка сцены на предмет использования не "
 "поддерживаемых движком возможностей Blender'a. В таких случаях генерируется "
 "сообщение об ошибке. Перечень возможных ошибок экспорта перечислен в "
 ":ref:`соответствующем разделе <export_errors>`."
 msgstr ""
-"Upon export the scene is checked for Blender features not supported by the "
-"engine. In such cases an error message is generated.The list of possible "
+"Upon export, the scene is checked for Blender features not supported by the "
+"engine. In such cases an error message is generated. The list of possible "
 "export errors is specified in the :ref:`corresponding section "
 "<export_errors>`."
 
-#: ../workflow.rst:53
+#: ../workflow.rst:58
 msgid ""
 "Опции экспорта подробно описаны в :ref:`соответствующем разделе "
 "<export_opts>`."
@@ -203,19 +201,19 @@ msgstr ""
 "Export options are described in detail in the :ref:`corresponding section "
 "<export_opts>`."
 
-#: ../workflow.rst:56
+#: ../workflow.rst:61
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../workflow.rst:56
+#: ../workflow.rst:61
 msgid "добавление сцен"
 msgstr "adding scenes"
 
-#: ../workflow.rst:61
+#: ../workflow.rst:66
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
-#: ../workflow.rst:63
+#: ../workflow.rst:68
 msgid ""
 "При использовании :ref:`локального сервера разработки "
 "<local_development_server>` и опции экспорта :ref:`Run in Viewer "
@@ -226,7 +224,7 @@ msgstr ""
 "and the :ref:`Run in Viewer <run_in_viewer>` export option, scenes are "
 "displayed in the Scene Viewer immediately after the export."
 
-#: ../workflow.rst:65
+#: ../workflow.rst:70
 msgid ""
 "При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, "
 "нужно вручную добавить запись в текстовой файл "
@@ -238,17 +236,17 @@ msgstr ""
 "text file. This file is opened automatically in Blender if you are using "
 "Blend4Web SDK."
 
-#: ../workflow.rst:67
+#: ../workflow.rst:72
 msgid "Для редактирования файла откройте \"Text Editor\":"
 msgstr "Use the \"Text Editor\" to modify it:"
 
-#: ../workflow.rst:74
+#: ../workflow.rst:79
 msgid ""
 "В появившемся окне вы сможете выбрать файл ``assets.json`` и отредактировать"
 " его:"
 msgstr "Then select the ``assets.json`` file in the window to edit it:"
 
-#: ../workflow.rst:81
+#: ../workflow.rst:86
 msgid ""
 "Для добавления новой сцены нужно знать категорию, в которой она должна "
 "отображаться. Категория обычно соответствует названию проекта и имени "
@@ -258,11 +256,11 @@ msgstr ""
 "displayed. The category normally corresponds to the project name and to the "
 "name of the directory where the corresponding files are stored."
 
-#: ../workflow.rst:85
+#: ../workflow.rst:90
 msgid "Пример"
 msgstr "Example"
 
-#: ../workflow.rst:87
+#: ../workflow.rst:92
 msgid ""
 "Ниже приведена примерная часть файла ``assets.json``, в которой находятся "
 "два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом "
@@ -271,7 +269,7 @@ msgstr ""
 "For example below you can see a part of ``assets.json``. In this file there "
 "are two projects - \"Capri\" and \"Fridge\" each with corresponding scenes::"
 
-#: ../workflow.rst:116
+#: ../workflow.rst:121
 msgid ""
 "Добавление можно осуществить копированием и вставкой описания похожей сцены "
 "в нужной категории и последующим редактированием ее названия и пути к "
@@ -280,7 +278,7 @@ msgstr ""
 "To add a new scene you can copy and paste a similar scene's description to "
 "the required category and then edit its name and path to the exported file."
 
-#: ../workflow.rst:118
+#: ../workflow.rst:123
 msgid ""
 "В случае успешного добавления сцена должна появиться в списке сцен "
 "просмотрщика в нужной категории."
@@ -288,11 +286,11 @@ msgstr ""
 "A successfully added scene should appear in the scenes' list of the viewer  "
 "in the required category."
 
-#: ../workflow.rst:125
+#: ../workflow.rst:130
 msgid "Разработка приложения"
 msgstr "Application Development"
 
-#: ../workflow.rst:127
+#: ../workflow.rst:132
 msgid ""
 "На этой стадии создаётся приложение, в котором на языке JavaScript пишется "
 "логика по загрузке сцены и взаимодействию с ней пользователя. Документация "

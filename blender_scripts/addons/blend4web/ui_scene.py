@@ -5,10 +5,13 @@ import math
 import os
 import cProfile
 import bgl
+import blend4web
 
 from bpy.types import Panel
 
-from . import nla_script
+b4w_modules = ["logic_node_tree"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
 
 # common properties for all B4W scene panels
 class SceneButtonsPanel:
@@ -111,6 +114,79 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
         col.prop(dcompr, "attack", text="Attack")
         col.prop(dcompr, "release", text="Release")
 
+class B4W_LogicEditorRefreshAvailableTrees(bpy.types.Operator):
+    bl_idname      = 'scene.b4w_logic_editor_refresh_available_trees'
+    bl_label       = "Refresh"
+    bl_description = "Refresh list of available Trees"
+
+    def invoke(self, context, event):
+        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+
+        return {'FINISHED'}
+
+class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
+    bl_idname      = 'scene.b4w_logic_editor_add_tree'
+    bl_label       = "Add"
+    bl_description = "Add new logic node tree"
+
+    def invoke(self, context, event):
+        ntree = bpy.data.node_groups.new("B4WLogicNodeTree", "B4WLogicNodeTreeType")
+        ntree.use_fake_user = True
+        node = ntree.nodes.new("B4W_logic_node")
+        node.type = "ENTRYPOINT"
+        node.location = (-500, 0)
+        context.scene.b4w_active_logic_node_tree = ntree.name
+        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+
+        return {'FINISHED'}
+
+class B4W_LogicEditorRemoveNodeTree(bpy.types.Operator):
+    bl_idname      = 'scene.b4w_logic_editor_remove_tree'
+    bl_label       = "Remove"
+    bl_description = "Remove logic node tree"
+
+    def invoke(self, context, event):
+        if context.scene.b4w_active_logic_node_tree in bpy.data.node_groups:
+            for area in bpy.context.screen.areas:
+                if area.type == "NODE_EDITOR":
+                    for s in area.spaces:
+                        if s.type == "NODE_EDITOR":
+                            if s.tree_type == "B4WLogicNodeTreeType":
+                                if s.node_tree:
+                                    if s.node_tree.name == context.scene.b4w_active_logic_node_tree:
+                                        s.node_tree = None
+            bpy.data.node_groups[context.scene.b4w_active_logic_node_tree].use_fake_user = False
+            if bpy.data.node_groups[context.scene.b4w_active_logic_node_tree].users == 0:
+                bpy.data.node_groups.remove(bpy.data.node_groups[context.scene.b4w_active_logic_node_tree])
+        context.scene.b4w_active_logic_node_tree = ""
+        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+
+        return {'FINISHED'}
+
+class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
+    bl_label = "Logic Editor"
+    bl_idname = "SCENE_PT_b4w_logic_editor"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw_header(self, context):
+        self.layout.prop(context.scene, "b4w_use_logic_editor", text="")
+
+    def draw(self, context):
+        scene = context.scene
+
+        layout = self.layout
+        layout.active = getattr(scene, "b4w_use_logic_editor")
+        row = layout.row()
+        row.label("Active Node Tree:")
+        row = layout.row(align=True)
+        row.operator('scene.b4w_logic_editor_refresh_available_trees', icon='FILE_REFRESH', text='')
+        row.operator('scene.b4w_logic_editor_add_tree', icon='ZOOMIN', text='')
+        row.operator('scene.b4w_logic_editor_remove_tree', icon='ZOOMOUT', text='')
+        icon='NODETREE'
+        if scene.b4w_use_logic_editor and not scene.b4w_active_logic_node_tree in scene.b4w_available_logic_trees:
+            icon = 'ERROR'
+        row.prop_search(scene, 'b4w_active_logic_node_tree', bpy.context.scene, 'b4w_available_logic_trees', icon=icon, text='')
+
 class B4W_SceneNLA(SceneButtonsPanel, Panel):
     bl_label = "NLA"
     bl_idname = "SCENE_PT_b4w_nla"
@@ -126,8 +202,6 @@ class B4W_SceneNLA(SceneButtonsPanel, Panel):
         row = layout.row()
         row.active = getattr(scene, "b4w_use_nla")
         row.prop(scene, "b4w_nla_cyclic", text="Cyclic NLA")
-
-        nla_script.draw(layout, context)
 
 class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
     bl_label = "Meta Tags"
@@ -224,7 +298,11 @@ def register():
     bpy.utils.register_class(B4W_SCENE_PT_unit)
 
     bpy.utils.register_class(B4W_SceneAudio)
+    bpy.utils.register_class(B4W_LogicEditorAddNodeTree)
+    bpy.utils.register_class(B4W_LogicEditorRefreshAvailableTrees)
+    bpy.utils.register_class(B4W_LogicEditorRemoveNodeTree)
     bpy.utils.register_class(B4W_SceneNLA)
+    bpy.utils.register_class(B4W_SceneLogicEditor)
     bpy.utils.register_class(B4W_SceneMetaTags)
     bpy.utils.register_class(B4W_ScenePhysics)
     bpy.utils.register_class(B4W_SceneBatching)
@@ -240,6 +318,10 @@ def unregister():
 
     bpy.utils.unregister_class(B4W_SceneAudio)
     bpy.utils.unregister_class(B4W_SceneNLA)
+    bpy.utils.unregister_class(B4W_SceneLogicEditor)
+    bpy.utils.unregister_class(B4W_LogicEditorRefreshAvailableTrees)
+    bpy.utils.unregister_class(B4W_LogicEditorAddNodeTree)
+    bpy.utils.unregister_class(B4W_LogicEditorRemoveNodeTree)
     bpy.utils.unregister_class(B4W_SceneMetaTags)
     bpy.utils.unregister_class(B4W_ScenePhysics)
     bpy.utils.unregister_class(B4W_SceneBatching)

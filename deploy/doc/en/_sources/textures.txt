@@ -563,3 +563,20 @@ scene, and select the "Canvas" type in the "Export Options > Source
 Type" menu. Specify the id of the canvas HTML element in the "Export
 Options > Source ID" field. Set the texture size in the "Export
 Options > Source Size" field (in pixels).
+
+Use the "textures" module to handle such textures. See the example
+below.
+
+   var m_tex = require("textures");
+   ...
+   var ctx = m_tex.get_canvas_texture_context("canvas_id");
+   ...
+   // operations with canvas context
+   ...
+   m_tex.update_canvas_texture_context("canvas_id");
+
+Use "get_canvas_texture_context()" to obtain a context - this method
+requires the "canvas_id" identifier which should be defined in
+Blender. After operations with the context,
+the``update_canvas_texture_context()`` function has to be called which
+will render modifications of the "canvas_id" element.

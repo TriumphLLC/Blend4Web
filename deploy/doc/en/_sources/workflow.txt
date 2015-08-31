@@ -10,41 +10,40 @@ authored.
 
 When using Blend4Web the workflow is the following:
 
-1. Preparing a 3D scene in Blender.
+1. Authoring 3D scenes in Blender.
 
-2. Exporting the resources in a format suitable for the engine.
+2. Exporting scenes.
 
-3. Running, tweaking and debugging the scene in the viewer.
+3. Running, tweaking and debugging scenes in the Viewer.
 
 4. Creating the target application.
 
 
-Preparing the Scenes
-====================
+Authoring Scenes
+================
 
 Besides the usual stages such as modeling, texturing, animation etc a
 scene should be prepared for working in the engine.
 
 General recommendations:
 
-1. Blend files should be located in the "blender/project_name"
-   directory.
+1. We strongly recommend to save your blend files in the
+   "blender/project_name" directory. Auxiliary files which are not
+   intended for loading in your app (for example, references), should
+   be located there as well.
 
-2. Texture and sound files should be external and located in the
+2. Images and media files should be external and located in the
    "deploy/assets/project_name" directory.
 
-3. Auxiliary files which are not intended for loading into the
-   engine (for example, references), should be located in the
-   "blender/project_name" directory.
+3. Files from which you export should contain resources which are
+   actually required in your application (objects, materials,
+   textures, animation etc).
 
-4. The file from which export will occur should only contain models
-   required for the application being developed.
+4. Scene components should have distinct names. They should not be
+   named "Cube.001", "Material" or "Armature".
 
-5. Object, mesh, material, texture, armature etc should have
-   distinct names (in English). They should not be named "Cube.001",
-   "Material", "Armature".
-
-6. Its possible to link components from other (library) files.
+5. We recommend you to practice linking components from other files
+   (libraries).
 
 
 Exporting Scenes
@@ -54,32 +53,30 @@ In order to load scenes authored in Blender into the engine you have
 to transform them into the format suitable for reading by a browser.
 At the moment text files with ".json" extension are used in which
 exported data structures are saved in the JSON (JavaScript Object
-Notation) format. This file, in turn, refers to one binary file with a
-".bin" extension containing data arrays of models and to external
-resources - textures and sound samples.
+Notation) format. In turn, this file refers to a single binary file
+with a ".bin" extension (which contains geometry and animation data)
+and to external resources (textures, audio and video files).
 
-While the ".json" and ".bin" files are created upon export, texture
-and sound files are normally placed by hand (there is an exception
-though: resources embeded into a ".blend"-file are placed
-automatically).
+While the ".json" and ".bin" files are created upon export, textures
+and media files are normally placed by hand. Resources embedded in
+".blend" files are automatically placed near the exported scene.
 
 Export can be performed by choosing the "Blend4Web (.json)" option
-from the "File > Export" menu. For quick access search for "b4w
+from the "File > Export" menu. For quick access, search for "b4w
 export" (hot key "SPACE").
 
-It is recommended to place files intended for export into the
-directory intended for application deployment, for example
-"deploy/assets/project_name".
+It is recommended to export your scenes in the directory intended for
+deploying applications, for example "deploy/assets/project_name".
 
-It's necessary to use relative filepaths for images (normally this is
-by default). If this is not the case, execute the "File > External
+It is required to use relative filepaths for external assets (normally
+this is by default). If this is not the case, run the "File > External
 Data > Make All Paths Relative" operator. Using absolute filepaths
-instead of relative ones may lead to errors when loading ".blend" and
-".json" files on other computers.
+instead of relative ones may result in errors upon loading ".blend"
+and ".json" files on other computers.
 
-Upon export the scene is checked for Blender features not supported by
-the engine. In such cases an error message is generated.The list of
-possible export errors is specified in the corresponding section.
+Upon export, the scene is checked for Blender features not supported
+by the engine. In such cases an error message is generated. The list
+of possible export errors is specified in the corresponding section.
 
 Export options are described in detail in the corresponding section.
 

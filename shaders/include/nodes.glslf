@@ -8,6 +8,18 @@
 #var RGB_IND 0
 #var VALUE_IND 0
 #var LAMP_INDEX 0
+// lamp dirs
+#var NUM_LIGHTS 0
+#var LAMP_IND 0
+#var LAMP_SPOT_SIZE 0
+#var LAMP_SPOT_BLEND 0
+#var LAMP_LIGHT_DIST 0
+#var LAMP_LIGHT_FACT_IND 0
+#var LAMP_FAC_CHANNELS rgb
+#var LAMP_SHADOW_MAP_IND 0
+#var NUM_LFACTORS 0
+
+#define M_PI 3.14159265359
 
 /*============================================================================
                                    IMPORTS
@@ -42,13 +54,9 @@
 #import apply_mirror
 #import calc_shadow_factor
 #import get_environment_color
-#import lighting
-#import lighting_ambient
 #import material_refraction
 #import srgb_to_lin
 
-// structs
-#import lighting_result
 
 #if USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
 varying vec3 v_orco_tex_coord;
@@ -60,6 +68,7 @@ varying vec3 v_orco_tex_coord;
 
 float ZERO_VALUE_NODES = 0.0;
 float UNITY_VALUE_NODES = 1.0;
+float HALF_VALUE_NODES = 0.5;
 vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 vec3 UNITY_VECTOR = vec3(UNITY_VALUE_NODES);
 
@@ -1519,81 +1528,89 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float alpha_in
 
     nout_color = color_in;
-    nout_alpha = alpha_in;  
+    nout_alpha = alpha_in;
 #endnode
 
-#node MATERIAL
+#node MATERIAL_BEGIN
     #node_in vec3 color_in
     #node_in vec3 specular_color
     #node_in float diff_intensity
     #node_in optional vec3 normal_in
-    #node_out optional vec3 color_out
-    #node_out optional float alpha_out
-    #node_out optional vec3 normal_out
-    #node_param float alpha_param
-    #node_param float specular_alpha
-    #node_param const vec2 diffuse_params // vec2(diffuse_param, diffuse_param2)
-    #node_param const vec3 specular_params// vec3(intensity, spec_param_0, spec_param_1)
+    #node_in optional float emit_intensity
+    #node_out vec3 E
+    #node_out vec3 A
+    #node_out vec3 D
+    #node_out vec3 S
+    #node_out vec3 normal
+    #node_out vec2 dif_params
+    #node_out vec2 sp_params
+    #node_out float shadow_factor
+    #node_param const vec2 diffuse_params  // vec2(diffuse_param, diffuse_param2)
+    #node_param const vec3 specular_params // vec3(intensity, spec_param_0, spec_param_1)
 
     // diffuse
-    vec3 D = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    D = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     // specular
-    vec3 S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+
+    // emission
+# node_if MATERIAL_EXT
+    E = emit_intensity * D;
+# node_else
+    E = nin_emit * D;
+# node_endif
+
+# node_if USE_MATERIAL_DIFFUSE
+    D *= diff_intensity;
+# node_endif
 
 # node_if USE_MATERIAL_NORMAL
-    vec3 normal = normalize(normal_in);
+    normal = normalize(normal_in);
 # node_else
-    vec3 normal = nin_normal;
+    normal = nin_normal;
 # node_endif
 
 # node_if !SHADELESS_MAT && !NODES_GLOW
-    // emission
-    vec3 E = nin_emit * D;
-
-#  node_if USE_MATERIAL_DIFFUSE
-    D *= diff_intensity;
-#  node_endif
-
     // ambient
-    vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
-    float shadow_factor = calc_shadow_factor(D);
+    A = nin_ambient * u_environment_energy * get_environment_color(normal);
+    shadow_factor = calc_shadow_factor(D);
 #  node_if NUM_LIGHTS > 0
     // diffuse
-    vec2 dif_params = vec2(diffuse_params[0], diffuse_params[1]);
+    dif_params = vec2(diffuse_params[0], diffuse_params[1]);
     // specular
-    vec2 sp_params = vec2(specular_params[1], specular_params[2]);
-    nloc_lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params,
-        dif_params, shadow_factor, u_light_positions, u_light_directions, 
-        u_light_color_intensities, u_light_factors, ZERO_VALUE_NODES,
-        vec4(ZERO_VALUE_NODES));
-#  node_else
-    nloc_lresult = lighting_ambient(E, A, D);
+    sp_params = vec2(specular_params[1], specular_params[2]);
 #  node_endif
     nout_shadow_factor = shadow_factor;
-# node_else
-    nloc_lresult.color = vec4(D, ZERO_VALUE_NODES);
-    nloc_lresult.specular = ZERO_VECTOR;
 # node_endif
+#endnode
+
+#node MATERIAL_END
+    #node_in vec4 color_in
+    #node_in vec3 specular_in
+    #node_in vec3 normal
+    #node_in optional float reflect_factor
+    #node_in optional float specular_alpha
+    #node_in optional float alpha_in
+    #node_out optional vec3 color_out
+    #node_out optional float alpha_out
+    #node_out optional vec3 normal_out
+    #node_out optional vec3 diffuse_out
+    #node_out optional vec3 spec_out
+    #node_param float alpha_param
+    #node_param float specular_alpha_param
 
 // color_out
 # node_if USE_OUT_color_out
 #  node_if USE_MATERIAL_DIFFUSE
-    color_out = nloc_lresult.color.rgb;
+    color_out = color_in.rgb;
 #  node_else
     color_out = ZERO_VECTOR;
 #  node_endif
-#  node_if USE_MATERIAL_SPECULAR
-    color_out += nloc_lresult.specular;
+#  node_if MATERIAL_EXT && REFLECTION_TYPE != REFL_NONE
+    apply_mirror(color_out, nin_eye_dir, normal, reflect_factor);
 #  node_endif
-# node_endif
-
-// alpha_out
-# node_if USE_OUT_alpha_out
-    alpha_out = clamp(alpha_param, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #  node_if USE_MATERIAL_SPECULAR
-    float t = max(max(nloc_lresult.specular.r, nloc_lresult.specular.g), nloc_lresult.specular.b) 
-            * specular_alpha;
-    alpha_out = alpha_param * (UNITY_VALUE_NODES - t) + t;
+    color_out += specular_in;
 #  node_endif
 # node_endif
 
@@ -1602,118 +1619,394 @@ vec2 vec_to_uv(vec3 vec)
     normal_out = normal;
 # node_endif
 
+# node_if MATERIAL_EXT
+// diffuse_out
+#  node_if USE_OUT_diffuse_out
+    diffuse_out = color_in.rgb;
+#  node_endif
+
+// spec_out
+#  node_if USE_OUT_spec_out
+    spec_out = specular_in;
+#  node_endif
+// alpha_out
+#  node_if USE_OUT_alpha_out
+    alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#   node_if USE_MATERIAL_SPECULAR
+    float t = max(max(specular_in.r, specular_in.g), specular_in.b)
+            * specular_alpha;
+    alpha_out = clamp(alpha_in * (UNITY_VALUE_NODES - t) + t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#   node_endif
+#  node_endif
+# node_else // MATERIAL_EXT
+// alpha_out
+#  node_if USE_OUT_alpha_out
+    alpha_out = clamp(alpha_param, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#   node_if USE_MATERIAL_SPECULAR
+    float t = max(max(specular_in.r, specular_in.g), specular_in.b)
+            * specular_alpha_param;
+    alpha_out = alpha_param * (UNITY_VALUE_NODES - t) + t;
+#   node_endif
+#  node_endif
+# node_endif // MATERIAL_EXT
+
 # node_if USE_MATERIAL_SPECULAR
-    nout_specular_color = nloc_lresult.specular;
+    nout_specular_color = specular_in;
 # node_else
     nout_specular_color = ZERO_VECTOR;
 # node_endif
     nout_normal = normal;
 #endnode
 
-#node MATERIAL_EXT
-    #node_in vec3 color_in
-    #node_in vec3 specular_color
-    #node_in float diff_intensity
-    #node_in optional vec3 normal_in
-    #node_in float emit_intensity
-    #node_in float translucency_color
-    #node_in vec4 translucency_params
-    #node_in float reflect_factor
-    #node_in float specular_alpha
-    #node_in float alpha_in
-    #node_out optional vec3 color_out
-    #node_out optional float alpha_out
-    #node_out optional vec3 normal_out
-    #node_out optional vec3 diffuse_out
-    #node_out optional vec3 spec_out
-    #node_param const vec2 diffuse_params // vec2(diffuse_param, diffuse_param2)
-    #node_param const vec3 specular_params// vec3(intensity, spec_param_0, spec_param_1)
-
-    // diffuse
-    vec3 D = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    // specular
-    vec3 S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-
-# node_if USE_MATERIAL_NORMAL
-    vec3 normal = normalize(normal_in);
-# node_else
-    vec3 normal = nin_normal;
-# node_endif
-
+// lighting_ambient function
+#node LIGHTING_AMBIENT
+    #node_in vec3 E
+    #node_in vec3 A
+    #node_in vec3 D
+    #node_out vec4 color_out
+    #node_out vec3 specular_out
 # node_if !SHADELESS_MAT && !NODES_GLOW
-    // emission
-    vec3 E = emit_intensity * D;
-
-#  node_if USE_MATERIAL_DIFFUSE
-    D *= diff_intensity;
-#  node_endif
-
-    float shadow_factor = calc_shadow_factor(D);
-
-    // ambient
-    vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
-#  node_if NUM_LIGHTS > 0
-    vec2 dif_params = vec2(diffuse_params[0], diffuse_params[1]);
-    vec2 sp_params = vec2(specular_params[1], specular_params[2]);
-    nloc_lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params, 
-        dif_params, shadow_factor, u_light_positions, u_light_directions, 
-        u_light_color_intensities, u_light_factors,
-        translucency_color, translucency_params);
-#  node_else
-    nloc_lresult = lighting_ambient(E, A, D);
-#  node_endif
-    nout_shadow_factor = shadow_factor;
+    color_out = vec4(E + D * A, ZERO_VALUE_NODES);
+    specular_out = vec3(ZERO_VALUE_NODES);
 # node_else
-    nloc_lresult.color = vec4(D, ZERO_VALUE_NODES);
-    nloc_lresult.specular = ZERO_VECTOR;
+    color_out = vec4(D, ZERO_VALUE_NODES);
+    specular_out = ZERO_VECTOR;
 # node_endif
+#endnode
 
-// color_out
-# node_if USE_OUT_color_out
-#  node_if USE_MATERIAL_DIFFUSE
-    color_out = nloc_lresult.color.rgb;
+#node LIGHTING_LAMP
+    #node_in float shadow_factor
+
+    #node_out vec3 ldir
+    #node_out vec2 lfac
+    #node_out vec3 lcolorint
+    #node_out float norm_fac
+
+# node_if !NODES_GLOW && NUM_LIGHTS > 0
+    lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
+#  node_if LAMP_TYPE == HEMI
+    norm_fac = HALF_VALUE_NODES;
 #  node_else
-    color_out = ZERO_VECTOR;
+    norm_fac = ZERO_VALUE_NODES;
 #  node_endif
-#  node_if REFLECTION_TYPE != REFL_NONE
-    apply_mirror(color_out, nin_eye_dir, normal, reflect_factor);
-#  node_endif
-#  node_if USE_MATERIAL_SPECULAR
-    color_out += nloc_lresult.specular;
-#  node_endif   
-# node_endif
 
-// alpha_out
-# node_if USE_OUT_alpha_out
-    alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-#  node_if USE_MATERIAL_SPECULAR
-    float t = max(max(nloc_lresult.specular.r, nloc_lresult.specular.g), nloc_lresult.specular.b) 
-            * specular_alpha;
-    alpha_out = clamp(alpha_in * (UNITY_VALUE_NODES - t) + t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-#  node_endif
-# node_endif
+    // 0.0 - full shadow, 1.0 - no shadow
+    lcolorint = u_light_color_intensities[LAMP_IND];
+    if (LAMP_SHADOW_MAP_IND != -1)
+         lcolorint *= shadow_factor;
 
-// normal_out
-# node_if USE_OUT_normal_out    
-    normal_out = normal;
-# node_endif
+#  node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
+    vec3 lpos = u_light_positions[LAMP_IND];
+    ldir = lpos - nin_pos_world;
 
-// diffuse_out
-# node_if USE_OUT_diffuse_out
-    diffuse_out = nloc_lresult.color.rgb;
-# node_endif
+    // calc attenuation, falloff_type = "INVERSE_SQUARE"
+    float dist = length(ldir);
+    lcolorint *= LAMP_LIGHT_DIST / (LAMP_LIGHT_DIST + dist * dist);
 
-// spec_out
-# node_if USE_OUT_spec_out
-    spec_out = nloc_lresult.specular;
-# node_endif
+    ldir = normalize(ldir);
 
-# node_if USE_MATERIAL_SPECULAR
-    nout_specular_color = nloc_lresult.specular;
-# node_else
-    nout_specular_color = ZERO_VECTOR;
+#   node_if LAMP_TYPE == SPOT
+    // spot shape like in Blender,
+    // source/blender/gpu/shaders/gpu_shader_material.glsl
+    vec3 ldirect = u_light_directions[LAMP_IND];
+    float spot_factor = dot(ldir, ldirect);
+    spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
+                              (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
+    lcolorint *= spot_factor;
+#   node_endif
+#  node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
+    ldir = u_light_directions[LAMP_IND];
+#  node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
 # node_endif
-    nout_normal = normal;
+#endnode
+
+#node DIFFUSE_FRESNEL
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 dif_params
+    #node_out float lfactor
+
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+
+        if (dif_params[0] == ZERO_VALUE_NODES) {
+            lfactor = UNITY_VALUE_NODES;
+        } else {
+            float t = UNITY_VALUE_NODES + abs(dot_nl);
+            t = dif_params[1] + (UNITY_VALUE_NODES - dif_params[1]) * pow(t, dif_params[0]);
+            lfactor = clamp(t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+        }
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
+    }
+#endnode
+
+#node DIFFUSE_LAMBERT
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_out float lfactor
+
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+
+        lfactor = max(dot_nl, ZERO_VALUE_NODES);
+    }
+#endnode
+
+#node DIFFUSE_OREN_NAYAR
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 dif_params
+    #node_out float lfactor
+
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+
+        if (dif_params[0] > ZERO_VALUE_NODES) {
+            float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+            float sigma_sq = dif_params[0] * dif_params[0];
+            float A = UNITY_VALUE_NODES - HALF_VALUE_NODES * (sigma_sq / (sigma_sq + 0.33));
+
+            vec3 l_diff = ldir - dot_nl*normal;
+            vec3 e_diff = nin_eye_dir - nv*normal;
+            // handle normalize() and acos() values which may result to
+            // "undefined behavior"
+            // (noticeable for "mediump" precision, nin_eye_dir.g some mobile devies)
+            if (length(l_diff) == ZERO_VALUE_NODES || length(e_diff) == ZERO_VALUE_NODES ||
+                    abs(dot_nl) > UNITY_VALUE_NODES || abs(nv) > UNITY_VALUE_NODES)
+                // HACK: undefined result of normalize() for this vectors
+                // remove t-multiplier for zero-length vectors
+                lfactor = dot_nl * A;
+            else {
+                float Lit_A = acos(dot_nl);
+                float View_A = acos(nv);
+                vec3 Lit_B = normalize(l_diff);
+                vec3 View_B = normalize(e_diff);
+
+                float a, b;
+                a = max(Lit_A, View_A);
+                b = min(Lit_A, View_A);
+                b *= 0.95;
+
+                float t = max(dot(Lit_B, View_B), ZERO_VALUE_NODES);
+                float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
+                lfactor = dot_nl * (A + (B * t * sin(a) * tan(b)));
+            }
+        } else
+            lfactor = dot_nl;
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
+    }
+#endnode
+
+#node DIFFUSE_MINNAERT
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 dif_params
+    #node_out float lfactor
+
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+
+        if (dif_params[0] <= UNITY_VALUE_NODES)
+            lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - UNITY_VALUE_NODES);
+        else
+            lfactor = dot_nl * pow(1.0001 - nv, dif_params[0] - UNITY_VALUE_NODES);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
+    }
+#endnode
+
+#node DIFFUSE_TOON
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 dif_params
+    #node_out float lfactor
+
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float ang = acos(dot_nl);
+
+        if (ang < dif_params[0])
+            lfactor = UNITY_VALUE_NODES;
+        else if (ang > (dif_params[0] + dif_params[1]) || dif_params[1] == ZERO_VALUE_NODES)
+                lfactor = ZERO_VALUE_NODES;
+            else
+                lfactor = UNITY_VALUE_NODES - ((ang - dif_params[0])/dif_params[1]);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
+    }
+#endnode
+
+#node SPECULAR_PHONG
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 sp_params
+    #node_out float sfactor
+
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g == UNITY_VALUE_NODES) {
+        vec3 halfway = normalize(ldir + nin_eye_dir);
+        sfactor = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
+                         ZERO_VALUE_NODES) + norm_fac;
+        sfactor = pow(sfactor, sp_params[0]);
+    }
+#endnode
+
+#node SPECULAR_WARDISO
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in vec2 sp_params
+    #node_out float sfactor
+
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g == UNITY_VALUE_NODES) {
+        vec3 halfway = normalize(ldir + nin_eye_dir);
+        float nh = max(dot(normal, halfway), 0.001);
+        // NOTE: 0.01 for mobile devices
+        float nv = max(dot(normal, nin_eye_dir), 0.01);
+        float nl = max(dot(normal, ldir), 0.01);
+        float angle = tan(acos(nh));
+        float alpha = max(sp_params[0], 0.001);
+
+        sfactor = nl * (UNITY_VALUE_NODES/(4.0*M_PI*alpha*alpha))
+                  * (exp(-(angle * angle) / (alpha * alpha)) /(sqrt(nv * nl)));
+    }
+#endnode
+
+#node SPECULAR_TOON
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in vec2 sp_params
+    #node_out float sfactor
+
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g == UNITY_VALUE_NODES) {
+        vec3 h = normalize(ldir + nin_eye_dir);
+        float angle = acos(dot(h, normal));
+
+        if (angle < sp_params[0])
+            sfactor = UNITY_VALUE_NODES;
+        else if (angle >= sp_params[0] + sp_params[1] || sp_params[1] == ZERO_VALUE_NODES)
+            sfactor = ZERO_VALUE_NODES;
+        else
+            sfactor = UNITY_VALUE_NODES - (angle - sp_params[0]) / sp_params[1];
+    }
+#endnode
+
+#node SPECULAR_BLINN
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 sp_params
+    #node_out float sfactor
+
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g == UNITY_VALUE_NODES) {
+        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_NODES)
+            sfactor = ZERO_VALUE_NODES;
+        else {
+            if (sp_params[1] < 100.0)
+                sp_params[1]= sqrt(1.0 / sp_params[1]);
+            else
+                sp_params[1]= 10.0 / sp_params[1];
+
+            vec3 halfway = normalize(nin_eye_dir + ldir);
+            float nh = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
+                         ZERO_VALUE_NODES) + norm_fac;
+            if (nh < ZERO_VALUE_NODES)
+                sfactor = ZERO_VALUE_NODES;
+            else {
+                float nv = max(dot(normal, nin_eye_dir), 0.01);
+                float nl = dot(normal, ldir);
+                if (nl <= 0.01)
+                    sfactor = ZERO_VALUE_NODES;
+                else {
+                    float vh = max(dot(nin_eye_dir, halfway), 0.01);
+
+                    float a = UNITY_VALUE_NODES;
+                    float b = (2.0 * nh * nv) / vh;
+                    float c = (2.0 * nh * nl) / vh;
+
+                    float g = min(min(a, b), c);
+
+                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - UNITY_VALUE_NODES);
+                    float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (UNITY_VALUE_NODES 
+                            + pow(vh * (p + vh) - UNITY_VALUE_NODES, 2.0)/pow(vh * (p - vh) 
+                            + UNITY_VALUE_NODES, 2.0));
+                    float ang = acos(nh);
+                    sfactor = max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(sp_params[1], 2.0))), 
+                            ZERO_VALUE_NODES);
+                }
+            }
+        }
+    }
+#endnode
+
+#node LIGHTING_APPLY
+    #node_in vec4 color_in
+    #node_in vec3 specular_in
+    #node_in float lfactor
+    #node_in float sfactor
+    #node_in vec3 ldir
+    #node_in vec3 normal
+    #node_in vec4 translucency_params
+    #node_in vec3 D
+    #node_in vec3 S
+    #node_in vec3 lcolorint
+    #node_in float translucency_color
+    
+    #node_out vec4 color_out
+    #node_out vec3 specular_out
+#node_if USE_NODE_B4W_TRANSLUCENCY
+    // backside lighting
+    if (dot(ldir, normal) * dot(nin_eye_dir, normal) < ZERO_VALUE_NODES) {
+        float backside_factor = translucency_params.x;
+        float spot_hardness = translucency_params.y;
+        float spot_intensity = translucency_params.z;
+        float spot_diff_factor = translucency_params.w;
+
+        // NOTE: abs(): used for permanent translucency
+        // when staring at the light source, independently from face normal
+        float ln = clamp(abs(dot(ldir, normal)), ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+        float el = clamp(dot(nin_eye_dir, -ldir), ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+        float transmit_coeff = pow(el, spot_hardness);
+
+        // translucency light diffusion
+        color_out = color_in + translucency_color * vec4(lcolorint * ln
+                * pow(D, vec3(backside_factor)), UNITY_VALUE_NODES);
+
+        // translucency light transmission
+        color_out += spot_intensity * mix(vec4(D, UNITY_VALUE_NODES), vec4(UNITY_VALUE_NODES),
+                spot_diff_factor) * translucency_color
+                * vec4(lcolorint * ln * vec3(transmit_coeff), UNITY_VALUE_NODES);
+        specular_out = specular_in;
+    } else {
+        // frontside lighting
+        specular_out = specular_in + lcolorint * S * sfactor;
+        color_out = color_in + vec4(lcolorint * D * lfactor, sfactor);
+    }
+#node_else
+    specular_out = specular_in + lcolorint * S * sfactor;
+    color_out = color_in + vec4(lcolorint * D * lfactor, sfactor);
+#node_endif
 #endnode
 
 #node RGB
@@ -2164,9 +2457,9 @@ vec2 vec_to_uv(vec3 vec)
 #nodes_global
 
 void nodes_main(in vec3 nin_eye_dir,
-        out vec3 nout_color, 
-        out vec3 nout_specular_color, 
-        out vec3 nout_normal, 
+        out vec3 nout_color,
+        out vec3 nout_specular_color,
+        out vec3 nout_normal,
         out float nout_shadow_factor,
         out float nout_alpha) {
 
@@ -2177,7 +2470,7 @@ void nodes_main(in vec3 nin_eye_dir,
     nout_shadow_factor = ZERO_VALUE_NODES;
     nout_alpha = ZERO_VALUE_NODES;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+#if USE_NODE_MATERIAL_BEGIN  || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
     vec3 sided_normal = v_normal;
 # if DOUBLE_SIDED_LIGHTING
@@ -2199,13 +2492,11 @@ void nodes_main(in vec3 nin_eye_dir,
     // NOTE: array uniforms used in nodes can't be renamed:
     // u_light_positions, u_light_directions, u_light_color_intensities,
     // u_light_factors;
-    
+
     vec3 nin_pos_world = v_pos_world;
     vec4 nin_pos_view = v_pos_view;
     float nin_emit = u_emit;
     float nin_ambient = u_ambient;
-
-    lighting_result nloc_lresult;
 
     #nodes_main
 }

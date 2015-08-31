@@ -8,10 +8,10 @@
  */
 b4w.module["__boundings"] = function(exports, require) {
 
-var m_util = require("__util");
 var m_tsr  = require("__tsr");
+var m_util = require("__util");
+var m_vec3 = require("__vec3");
 
-var m_vec3 = require("vec3");
 
 var _bb_corners_cache = new Float32Array(3 * 8);
 var _vec3_tmp = new Float32Array(3);

@@ -273,18 +273,18 @@ msgstr "`from EMSDK source code`_"
 msgid "Emscripten"
 msgstr ""
 
-#: ../developers_advanced.rst:169
-msgid "ImageMagick, GraphicsMagick"
-msgstr ""
-
-#: ../developers_advanced.rst:169
-msgid "imagemagick, graphicsmagick"
-msgstr ""
-
 #: ../developers_advanced.rst:169 ../developers_advanced.rst:171
 #: ../developers_advanced.rst:175
 msgid "конвертация ресурсов"
 msgstr "converting the resources"
+
+#: ../developers_advanced.rst:169
+msgid "ImageMagick"
+msgstr ""
+
+#: ../developers_advanced.rst:169
+msgid "imagemagick"
+msgstr ""
 
 #: ../developers_advanced.rst:171
 msgid "NVIDIA Texture Tools"
@@ -1180,40 +1180,67 @@ msgstr "An unused variable NAME is declared in the FILE_NAME file."
 
 #: ../developers_advanced.rst:564
 msgid "Перевод аддона"
-msgstr "Addon's translation"
+msgstr "Add-on Translations"
 
 #: ../developers_advanced.rst:566
 msgid ""
 "Для перевода новых текстовых строк необходимо выполнить ряд подготовительных"
 " действий."
-msgstr "To translate the new text strings some prepaparing must be done."
+msgstr "In order to translate new text some preparations have to be done."
 
 #: ../developers_advanced.rst:568
 msgid ""
 "Первым делом убедитесь, что у вас установлена программа *Subversion*. Затем "
 "склонируйте репозиторий с переводами Blender'a. Сделать это можно следующей "
 "командой:"
-msgstr "At first be sure you have *Subversion* installed. Then clone the"
-"repository with Blender's translations. You can use this command:"
+msgstr ""
+"At first make sure that you have *Subversion* installed. Then clone the "
+"repository with Blender translations. You can use the following command:"
 
 #: ../developers_advanced.rst:574
 msgid ""
 "Вторым шагом будет подключение и настройка аддона *Manage UI translations*. "
-"Единственно важной настройкой является ``Translation root``, где необходимо "
-"указать путь к репозиторию из первого шага."
-msgstr "The second step is to install and to set up the "
-"*Manage UI translations* addon.The only option we'll need is "
-"``Translation root`` where the path to the directory from the step one must "
-"be specified."
+"Самой важной настройкой тут является \"Translation Root\", где необходимо "
+"указать путь к склонированному репозиторию. Затем выберите абсолютный путь "
+"для сохранения настроек в поле \"Persistent Data Path\" и сохраните "
+"настройки в .json-файл."
+msgstr ""
+"The second step is to install and set up the *Manage UI translations* add-"
+"on. The most important option here is \"Translation Root\" where the path to"
+" the cloned repository has to be specified. Then specify the absolute path "
+"where settings will be saved, \"Persistent Data Path\", and save the "
+"settings to the json file."
 
 #: ../developers_advanced.rst:580
 msgid ""
-"Затем необходимо вызвать скрипт translator.py из директории /scripts для "
-"обновления файла *ru_RU.po*:"
-msgstr "Then the translator.py script from the /scripts directory must be "
-"run to update *ru_RU.po* file:"
+"Затем необходимо вызвать скрипт ``translator.py`` из директории ``scripts/``"
+" для обновления .po-файла:"
+msgstr ""
+"Then the ``translator.py`` script from the ``scripts/`` directory has to be "
+"run in order to update the .po file:"
 
 #: ../developers_advanced.rst:586
-msgid "Теперь осталось открыть этот файл и написать перевод новых строк."
-msgstr "The only thing left is to open this file and write the translation "
-"of the new strings."
+msgid ""
+"Первым параметром необходимо указать язык, на который будет переводиться "
+"аддон. Список доступных языков можно посмотреть следующим образом:"
+msgstr ""
+"The first parameter is the language to which the add-on will be translated. "
+"The list of available languages can be seen as follows:"
+
+#: ../developers_advanced.rst:592
+msgid ""
+"Второй параметр является опциональным и служит для слияния полученного .po-"
+"файла с .po-файлом Blender'a, который доступен из описаного выше репозитория"
+" в директории */bf-translations/branches/*. Совпадающие фразы из вашего .po-"
+"файла с .po-файлом Blender'a переведутся автоматически."
+msgstr ""
+"The second parameter is optional and serves for merging the resulting .po "
+"file with Blender's .po file which is available in the above-mentioned "
+"repository in the */bf-translations/branches/* directory. Phrases from your "
+".po file which match phrases from Blender's .po file will be translated "
+"automatically."
+
+#: ../developers_advanced.rst:594
+msgid ""
+"Теперь осталось открыть полученный файл и написать перевод новых строк."
+msgstr "Finally open this file and translate new lines."

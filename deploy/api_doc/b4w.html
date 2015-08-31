@@ -39,7 +39,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Blend4Web namespace.</div>
+            <div class="description">Blend4Web global object.</div>
         
 
         
@@ -74,7 +74,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line115">line 115</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -106,6 +106,10 @@
         <ul>
         
             
+<li> <a href="#.get_namespace">get_namespace<span class="signature">(mod_ns_require)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+
+        
+            
 <li> <a href="#.module_check">module_check<span class="signature">(module_id)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
         
@@ -125,7 +129,11 @@
         <ul>
         
                 
-<li> <a href="#.ModuleFunction">ModuleFunction<span class="signature">(exports, require)</span><span class="type-signature"></span></a></li>
+<li> <a href="#~ModuleFunction">ModuleFunction<span class="signature">(exports, require)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~RequireFunction">RequireFunction<span class="signature">(module_id)</span><span class="type-signature"></span></a></li>
 
             
         </ul>
@@ -135,6 +143,163 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_namespace">get_namespace<span class="signature">(mod_ns_require)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get a namespace of the current module by it's require function.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>mod_ns_require</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="b4w.html#~RequireFunction">RequireFunction</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Local require function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Namespace.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
 <div class="item_container">
@@ -277,7 +442,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line180">line 180</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -372,7 +537,7 @@
             <td class="type">
             
                 
-<span class="param-type">ModuleFunction</span>
+<span class="param-type"><a href="b4w.html#~ModuleFunction">ModuleFunction</a></span>
 
 
             
@@ -435,7 +600,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line130">line 130</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -567,7 +732,7 @@
             
                 <td class="default">
                 
-                    "__B4W_DEF_NS"
+                    "__b4w_default"
                 
                 </td>
             
@@ -647,7 +812,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line143">line 143</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -675,12 +840,16 @@
 
     
 
-    <h4 class="name" id=".ModuleFunction">ModuleFunction<span class="signature">(exports, require)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~ModuleFunction">ModuleFunction<span class="signature">(exports, require)</span><span class="type-signature"></span></h4>
 
     
 
 </div>
 <div class="item_description">
+
+<div class="description">
+    Module implementation function.
+</div>
 
 
 
@@ -744,7 +913,7 @@
             <td class="type">
             
                 
-<span class="param-type">RequireFunction</span>
+<span class="param-type"><a href="b4w.html#~RequireFunction">RequireFunction</a></span>
 
 
             
@@ -754,7 +923,7 @@
 
             
 
-            <td class="description last">Local require function</td>
+            <td class="description last">Local (module internal) require function</td>
         </tr>
 
     
@@ -807,7 +976,145 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line123">line 123</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~RequireFunction">RequireFunction<span class="signature">(module_id)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Local (module internal) require function.
+This function is passed to the module implementation function and can be used
+to import additional modules from the same namespace. If you need to import
+a module from the different namespace use <a href="b4w.html#.require">b4w.require</a>.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>module_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Module ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -842,7 +1149,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jul 29 2015 10:22:43 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:57 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -23,7 +23,7 @@ var m_render = require("__renderer");
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 
     if (!m_geom.has_dyn_geom(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return null;
     }
 
@@ -53,7 +53,7 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 exports.extract_index_array = function(obj, mat_name) {
 
     if (!m_geom.has_dyn_geom(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return null;
     }
 
@@ -85,7 +85,7 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
     var types = ["MAIN", "DEPTH", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return;
     }
 
@@ -119,7 +119,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
     var types = ["MAIN", "DEPTH", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return;
     }
 
@@ -229,7 +229,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
  */
 exports.set_shape_key_value = function(obj, key_name, value) {
     if (!m_geom.check_shape_keys(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return null;
     }
 
@@ -260,7 +260,7 @@ exports.check_shape_keys = function(obj) {
 exports.get_shape_keys_names = function(obj) {
 
     if (!m_geom.check_shape_keys(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return null;
     }
 
@@ -276,7 +276,7 @@ exports.get_shape_keys_names = function(obj) {
 exports.get_shape_key_value = function(obj, key_name) {
 
     if (!m_geom.check_shape_keys(obj)) {
-        m_print.error("Wrong object:", obj["name"]);
+        m_print.error("Wrong object:", obj.name);
         return null;
     }
 

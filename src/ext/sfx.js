@@ -8,8 +8,8 @@
  */
 b4w.module["sfx"] = function(exports, require) {
 
-var m_scs = require("__scenes");
-var m_sfx = require("__sfx");
+var m_scs   = require("__scenes");
+var m_sfx   = require("__sfx");
 var m_print = require("__print");
 
 /**
@@ -394,7 +394,7 @@ exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
  */
 exports.get_duration = function(obj) {
     if (!obj || !m_sfx.is_speaker(obj)) {
-        m_print.error("Object \"" + (obj ? obj["name"]:undefined) +
+        m_print.error("Object \"" + (obj ? obj.name : undefined) +
                       "\" is not a valid speaker");
         return;
     }

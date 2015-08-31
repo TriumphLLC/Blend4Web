@@ -409,6 +409,10 @@ function assert_structure(obj1, obj2) {
     if (typeof obj1 != typeof obj2)
         m_util.panic("Structure assertion failed: incompatible types");
 
+    // ignore simple types or null's
+    if (!(obj1 !== null && obj2 !== null && typeof obj1 == "object"))
+        return;
+
     for (var i in obj1) {
         if (!(i in obj2))
             m_util.panic("Structure assertion failed: missing key in the first object: " + i);

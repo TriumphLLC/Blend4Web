@@ -31,6 +31,7 @@
 #define SPECULAR_COOKTORR   2
 #define SPECULAR_WARDISO    3
 #define SPECULAR_BLINN      4
+#define SPECULAR_TOON       5
 
 #define DIFFUSE_LAMBERT     1
 #define DIFFUSE_OREN_NAYAR  2
@@ -66,3 +67,14 @@
 #define REFL_MIRRORMAP 1
 #define REFL_PLANE     2
 #define REFL_CUBE      3
+
+// fog types
+#define INVERSE_QUADRATIC 0
+#define LINEAR 1
+#define QUADRATIC 2
+
+// lamps
+#define HEMI  1
+#define SPOT  2
+#define POINT 3
+#define SUN   4

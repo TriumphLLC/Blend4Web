@@ -10,14 +10,16 @@
  */
 b4w.module["scenes"] = function(exports, require) {
 
-var m_batch     = require("__batch");
-var m_cam       = require("__camera");
-var m_graph     = require("__graph");
-var m_obj       = require("__objects");
-var m_print     = require("__print");
-var physics     = require("__physics");
-var m_scenes    = require("__scenes");
-var m_util      = require("__util");
+var m_batch    = require("__batch");
+var m_cam      = require("__camera");
+var m_data     = require("__data");
+var m_graph    = require("__graph");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
+var m_phy      = require("__physics");
+var m_print    = require("__print");
+var m_scenes   = require("__scenes");
+var m_util     = require("__util");
 
 /**
  * Color correction params.
@@ -40,12 +42,12 @@ var m_util      = require("__util");
  * All possible data IDs.
  * @const module:scenes.DATA_ID_ALL
  */
-exports.DATA_ID_ALL   = m_scenes.DATA_ID_ALL;
+exports.DATA_ID_ALL   = m_obj.DATA_ID_ALL;
 
 /**
  * Set the active scene
  * @method module:scenes.set_active
- * @param {String} scene_name Name of scene
+ * @param {String} scene_name Name of the scene
  */
 exports.set_active = function(scene_name) {
     // NOTE: keysearch is dangerous
@@ -98,8 +100,7 @@ exports.get_active_camera = function() {
  * @returns {Object3D} Object 3D
  */
 exports.get_object_by_name = function(name, data_id) { 
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
-            data_id | 0);
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name, data_id | 0);
     if (obj)
         return obj;
     else
@@ -116,8 +117,9 @@ exports.get_object_by_name = function(name, data_id) {
  */
 exports.get_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name,
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME, empty_name,
             dupli_name, data_id | 0);
+
     if (obj)
         return obj;
     else
@@ -132,7 +134,7 @@ exports.get_object_by_dupli_name = function(empty_name, dupli_name,
  * @returns {Object3D} Object 3D.
  */
 exports.get_object_by_dupli_name_list = function(name_list, data_id) {
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST,
             name_list, data_id | 0);
     if (obj)
         return obj;
@@ -156,7 +158,7 @@ exports.get_object_data_id = function(obj) {
  * @param {Number} x X Canvas coordinate.
  * @param {Number} y Y Canvas coordinate.
  */
-exports.pick_object = m_scenes.pick_object;
+exports.pick_object = m_obj.pick_object;
 
 /**
  * Outlining is enabled
@@ -165,7 +167,7 @@ exports.pick_object = m_scenes.pick_object;
  * @param {Boolean} value Is enabled?
  */
 exports.outlining_is_enabled = function(obj) {
-    return obj && obj._render && obj._render.outlining;
+    return obj && obj.render && obj.render.outlining;
 }
 
 /**
@@ -175,8 +177,8 @@ exports.outlining_is_enabled = function(obj) {
  * @param {Number} value Intensity value
  */
 exports.set_outline_intensity = function(obj, value) {
-    if (obj && obj._render && obj._render.outlining)
-        obj._render.outline_intensity = value;
+    if (obj && obj.render && obj.render.outlining)
+        obj.render.outline_intensity = value;
     else
         m_print.error("set_outline_intensity(): wrong object");
 }
@@ -188,8 +190,8 @@ exports.set_outline_intensity = function(obj, value) {
  * @returns {Number} Intensity value
  */
 exports.get_outline_intensity = function(obj) {
-    if (obj && obj._render && obj._render.outlining)
-        return obj._render.outline_intensity;
+    if (obj && obj.render && obj.render.outlining)
+        return obj.render.outline_intensity;
     else
         m_print.error("get_outline_intensity(): wrong object");
 }
@@ -203,8 +205,8 @@ exports.get_outline_intensity = function(obj) {
  * @param {Number} N Number of relapses (0 - infinity)
  */
 exports.apply_outline_anim = function(obj, tau, T, N) {
-    if (obj && obj._render && obj._render.outlining)
-        m_scenes.apply_outline_anim(obj, tau, T, N);
+    if (obj && obj.render && obj.render.outlining)
+        m_obj.apply_outline_anim(obj, tau, T, N);
     else
         m_print.error("apply_outline_anim(): wrong object");
 }
@@ -215,9 +217,9 @@ exports.apply_outline_anim = function(obj, tau, T, N) {
  * @param {Object3D} obj Object 3D
  */
 exports.apply_outline_anim_def = function(obj) {
-    if (obj && obj._render && obj._render.outlining) {
-        var ga = obj._render.outline_anim_settings;
-        m_scenes.apply_outline_anim(obj, ga.outline_duration, ga.outline_period,
+    if (obj && obj.render && obj.render.outlining) {
+        var ga = obj.render.outline_anim_settings;
+        m_obj.apply_outline_anim(obj, ga.outline_duration, ga.outline_period,
                 ga.outline_relapses);
     } else
         m_print.error("apply_outline_anim_def(): wrong object");
@@ -229,8 +231,8 @@ exports.apply_outline_anim_def = function(obj) {
  * @param {Object3D} obj Object 3D
  */
 exports.clear_outline_anim = function(obj) {
-    if (obj && obj._render && obj._render.outlining)
-        m_scenes.clear_outline_anim(obj);
+    if (obj && obj.render && obj.render.outlining)
+        m_obj.clear_outline_anim(obj);
     else
         m_print.error("clear_outline_anim(): wrong object");
 }
@@ -465,7 +467,7 @@ exports.set_shadow_params = function(shadow_params) {
         subs_depth.need_perm_uniforms_update = true;
     }
 
-    var upd_cameras = active_scene["camera"]._render.cameras;
+    var upd_cameras = active_scene._camera.render.cameras;
     for (var i = 0; i < upd_cameras.length; i++)
         m_cam.update_camera_shadows(upd_cameras[i], shs);
 
@@ -796,7 +798,12 @@ exports.set_glow_material_params = function(glow_material_params) {
  * @returns {WindParams} Wind params
  */
 exports.get_wind_params = function() {
-    return m_scenes.get_wind_params();
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+    var active_scene = m_scenes.get_active();
+    return m_scenes.get_wind_params(active_scene);
 }
 
 /**
@@ -811,7 +818,7 @@ exports.set_wind_params = function(wind_params) {
         return false;
     }
     var active_scene = m_scenes.get_active();
-    m_scenes.set_wind_params(active_scene, wind_params);
+    m_obj.set_wind_params(active_scene, wind_params);
 }
 
 /**
@@ -874,7 +881,7 @@ exports.update_scene_materials_params = function() {
  * @param {Object3D} obj Object 3D
  */
 exports.hide_object = function(obj) {
-    if (m_obj.is_dynamic_mesh(obj) || m_util.is_empty(obj))
+    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj))
         m_scenes.hide_object(obj);
     else
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -887,7 +894,7 @@ exports.hide_object = function(obj) {
  * @param {Object3D} obj Object 3D
  */
 exports.show_object = function(obj) {
-    if (m_obj.is_dynamic_mesh(obj) || m_util.is_empty(obj))
+    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj))
         m_scenes.show_object(obj);
     else
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -901,7 +908,7 @@ exports.show_object = function(obj) {
  * @returns {Boolean} Check result
  */
 exports.is_hidden = function(obj) {
-    if (m_obj.is_dynamic_mesh(obj) || m_util.is_empty(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj)) {
         return m_scenes.is_hidden(obj);
     } else {
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -916,7 +923,7 @@ exports.is_hidden = function(obj) {
  * @returns {Boolean} Check result
  */
 exports.is_visible = function(obj) {
-    return obj._render.is_visible;
+    return obj.render.is_visible;
 }
 
 /**
@@ -932,7 +939,7 @@ exports.check_object = function(obj) {
         return false;
     }
 
-    return m_scenes.check_object(obj, m_scenes.get_active());
+    return m_obj.check_object(obj, m_scenes.get_active());
 }
 
 /**
@@ -943,7 +950,7 @@ exports.check_object = function(obj) {
  * @returns {Boolean} Check result
  */
 exports.check_object_by_name = function(name, data_id) {
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name,
                                   data_id | 0);
     if (obj)
         return true;
@@ -961,7 +968,7 @@ exports.check_object_by_name = function(name, data_id) {
  */
 exports.check_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name,
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME, empty_name,
                                   dupli_name, data_id | 0);
     if (obj)
         return true;
@@ -977,7 +984,7 @@ exports.check_object_by_dupli_name = function(empty_name, dupli_name,
  * @returns {Boolean} Check result
  */
 exports.check_object_by_dupli_name_list = function(name_list, data_id) {
-    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST,
                                   name_list, data_id | 0);
     if (obj)
         return true;
@@ -999,9 +1006,9 @@ exports.get_all_objects = function(type, data_id) {
         type = "ALL";
 
     if (!data_id && data_id !== 0)
-        data_id = m_scenes.DATA_ID_ALL;
+        data_id = m_obj.DATA_ID_ALL;
 
-    return m_scenes.get_scene_objs(scene, type, data_id);
+    return m_obj.get_scene_objs(scene, type, data_id);
 }
 
 /**
@@ -1016,7 +1023,7 @@ exports.get_object_name = function(obj) {
         return "";
     }
 
-    return obj["name"];
+    return obj.name;
 }
 
 /**
@@ -1026,22 +1033,24 @@ exports.get_object_name = function(obj) {
  * @return {String} Object type
  */
 exports.get_object_type = function(obj) {
-    if (!(obj && obj["type"])) {
+    if (!(obj && obj.type)) {
         m_print.error("Wrong object");
         return "UNDEFINED";
     }
 
-    return obj["type"];
+    return obj.type;
 }
 
 /**
  * Return the object's parent.
  * @method module:scenes.get_object_dg_parent
  * @param {Object3D} obj Object 3D
- * @returns {Object3D} Object 3D of parent object
+ * @returns {?Object3D} Parent object
+ * @deprecated use objects.get_dg_parent() instead
  */
 exports.get_object_dg_parent = function(obj) {
-    return obj._dg_parent;
+    m_print.error("scenes.get_object_dg_parent() deprecated, use objects.get_dg_parent() instead");
+    return m_obj.get_dg_parent(obj);
 }
 
 /**
@@ -1051,7 +1060,7 @@ exports.get_object_dg_parent = function(obj) {
  * @returns {Object3D[]} Array of children objects.
  */
 exports.get_object_children = function(obj) {
-    return obj._descends.slice(0);
+    return obj.cons_descends.slice(0);
 }
 
 /**
@@ -1060,11 +1069,11 @@ exports.get_object_children = function(obj) {
  * @returns {Object3D} Character object.
  */
 exports.get_first_character = function() {
-    var sobjs = m_scenes.get_scene_objs(m_scenes.get_active(), "MESH",
-            m_scenes.DATA_ID_ALL);
+    var sobjs = m_obj.get_scene_objs(m_scenes.get_active(), "MESH",
+                                     m_obj.DATA_ID_ALL);
     for (var i = 0; i < sobjs.length; i++) {
         var obj = sobjs[i];
-        if (physics.is_character(obj)) {
+        if (m_phy.is_character(obj)) {
             return obj;
         }
     }
@@ -1101,8 +1110,8 @@ exports.get_cam_water_depth = function() {
  * @returns {String} Render type: "DYNAMIC" or "STATIC".
  */
 exports.get_type_mesh_object = function(obj) {
-    if (obj["type"] == "MESH")
-        return obj._render.type;
+    if (m_util.is_mesh(obj))
+        return obj.render.type;
     return null;
 }
 
@@ -1123,36 +1132,25 @@ exports.get_meta_tags = function() {
     return m_scenes.get_meta_tags(active_scene);
 }
 /**
- * Append copied object to the active scene.
+ * Append copied object to the scene.
  * @method module:scenes.append_object
  * @param {Object3D} obj Object 3D
+ * @param {String} [scene_name] Name of the scene
  */
-exports.append_object = function(obj) {
+exports.append_object = function(obj, scene_name) {
 
-    if (!obj._render.is_copied) {
+    if (!obj.render.is_copied) {
         m_print.error("object \"" + obj.name + "\" has been created not by coping.");
         return false;
     }
 
-    var new_name = obj["name"];
-    if (m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, obj["name"], 0)) {
-        var i = 1; 
-        while (true) {
-            if (String(i).length < 3)
-                var num = "." + ("000" + String(i)).slice(-3);
-            else
-                var num = "." + String(i);
-            new_name = obj["name"] + num;
-            if(!m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, new_name, 0)) {
-                obj["name"] = new_name;
-                m_print.error("object \"" + obj["name"] + "\" already exists. " 
-                        + "Name was replaced by \"" + new_name + "\".");
-                break;
-            }
-            i++;
-        }
-    }
-    m_scenes.append_object(m_scenes.get_active(), obj, true);
+    if (scene_name) {
+        var scenes = m_scenes.get_all_scenes();
+        var scene = m_util.keysearch("name", scene_name, scenes);
+    } else
+        var scene = m_scenes.get_active();
+
+    m_scenes.append_object(scene, obj, true);
 }
 /**
  * Remove copied object from the active scene.
@@ -1160,8 +1158,13 @@ exports.append_object = function(obj) {
  * @param {Object3D} obj Object 3D
  */
 exports.remove_object = function(obj) {
-    if (!m_scenes.remove_object(obj))
-        m_print.error("object \"" + obj.name + "\" was not copied.");
+    if (!obj.render.is_copied) {
+        m_print.error("Can't remove object \"" + obj.name + "\". It was not copied.");
+        return false;
+    }
+    var scene = m_scenes.get_active();
+    m_data.prepare_object_unloading(scene, obj, false);
+    m_obj.remove_object(obj);
 }
 /**
  * Get timeline marker frame by name.

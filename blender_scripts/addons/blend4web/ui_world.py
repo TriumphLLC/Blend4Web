@@ -77,13 +77,31 @@ class B4W_WORLD_PT_mist(WorldButtonsPanel, Panel):
     bl_idname = "WORLD_PT_b4w_mist"
     bl_options = {'DEFAULT_CLOSED'}
 
-    def draw(self, context):
-        world = context.world
+    def draw_header(self, context):
+        mist_settings = context.world.mist_settings
+        self.layout.prop(mist_settings, "use_mist", text="")
 
+    def draw(self, context):
         layout = self.layout
-        split = layout.split()
-        split.prop(world, "b4w_fog_density", text="Density")
-        split.prop(world, "b4w_fog_color", text="")
+
+        world = context.world
+        mist_settings = world.mist_settings
+
+        layout.active = mist_settings.use_mist
+        row = layout.row()
+        row.prop(mist_settings, "intensity", text="Minimum")
+        row.prop(mist_settings, "depth", text="Depth")
+        row = layout.row()
+        row.prop(mist_settings, "start", text="Start")
+        row.prop(mist_settings, "height", text="Height")
+        row = layout.row()
+        row.prop(mist_settings, "falloff", text="Fall off")
+        row = layout.row()
+        row.prop(world, "b4w_use_custom_color", text="Use custom color")
+        row.active = not world.b4w_sky_settings.procedural_skydome
+        row = layout.row()
+        row.active = world.b4w_use_custom_color and (not world.b4w_sky_settings.procedural_skydome)
+        row.prop(world, "b4w_fog_color", text="Fog color")
 
 class B4W_WorldSky(WorldButtonsPanel, Panel):
     bl_label = "Procedural Sky"

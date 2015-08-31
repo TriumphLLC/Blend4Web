@@ -39,8 +39,10 @@ var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
 
 exports.init = function() {
+    
+    var is_mobile = detect_mobile();
 
-    if(detect_mobile())
+    if (is_mobile)
         var quality = m_cfg.P_LOW;
     else
         var quality = m_cfg.P_HIGH;
@@ -52,6 +54,9 @@ exports.init = function() {
         quality: quality,
         console_verbose: true,
         show_fps: true,
+        // NOTE: disable workers on mobile devices to prevent simulation
+        // glitches due to huge message passing delays
+        physics_use_workers: !is_mobile,
         alpha: false
     });
 }

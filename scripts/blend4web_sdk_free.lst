@@ -74,7 +74,6 @@ deploy/globals_detect
 deploy/pub/b4w_manual_*.pdf
 deploy/tutorials
 deploy/webglreport
-Makefile
 
 index.html
 index_assets
@@ -93,11 +92,13 @@ scripts/gen_glmatrix.sh
 scripts/graph.sh
 scripts/make_dist.py
 scripts/memory.sh
+scripts/mod_list.py
 scripts/plot.sh
 scripts/process_blend.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
 scripts/shader_analyzer.py
+scripts/translator.py
 
 shaders
 src

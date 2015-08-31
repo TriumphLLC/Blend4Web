@@ -5,17 +5,23 @@ import os
 import cProfile
 import bgl
 
-from . import render_engine
-from . import ui_render
-from . import ui_layers
-from . import ui_scene
-from . import ui_world
-from . import ui_object
-from . import ui_data
-from . import ui_material
-from . import ui_texture
-from . import ui_particle
-from . import ui_physics
+import blend4web
+b4w_modules = [
+    "render_engine",
+    "ui_render",
+    "ui_layers",
+    "ui_scene",
+    "ui_world",
+    "ui_object",
+    "ui_data",
+    "ui_material",
+    "ui_texture",
+    "ui_particle",
+    "ui_physics"
+]
+
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
 
 # serialize data to json
 

@@ -9,15 +9,15 @@
  */
 b4w.module["__textures"] = function(exports, require) {
 
-var config     = require("__config");
-var m_print    = require("__print");
-var m_dds      = require("__dds");
-var extensions = require("__extensions");
-var util       = require("__util");
+var m_cfg   = require("__config");
+var m_dds   = require("__dds");
+var m_ext   = require("__extensions");
+var m_print = require("__print");
+var m_util  = require("__util");
 
-var cfg_def = config.defaults;
-var cfg_ani = config.animation;
-var cfg_sfx = config.sfx;
+var cfg_def = m_cfg.defaults;
+var cfg_ani = m_cfg.animation;
+var cfg_sfx = m_cfg.sfx;
 
 
 // texture filters, proper values assigned by setup_context()
@@ -266,8 +266,8 @@ exports.get_filters = function(texture) {
 }
 
 exports.resize = function(texture, width, height) {
-    var width = Math.max(width, 1);
-    var height = Math.max(height, 1);
+    var width = Math.max(width, cfg_def.edge_min_tex_size_hack? 2: 1);
+    var height = Math.max(height, cfg_def.edge_min_tex_size_hack? 2: 1);
 
     if (texture.width == width && texture.height == height)
         return;
@@ -349,7 +349,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
                 return null;
 
             var name = bpy_texture["b4w_source_id"];
-            var scene = util.keysearch("name", name, bpy_scenes);
+            var scene = m_util.keysearch("name", name, bpy_scenes);
 
             if (scene) {
                 texture.source_size = bpy_texture["b4w_source_size"];
@@ -455,7 +455,7 @@ function setup_anisotropic_filtering(bpy_texture, global_af, w_target) {
         af = global_af;
 
     if (af !== "OFF" && cfg_def.anisotropic_filtering) {
-        var ext_aniso = extensions.get_aniso();
+        var ext_aniso = m_ext.get_aniso();
         if (ext_aniso) {
             af = parseFloat(af.split("x")[0]);
             _gl.texParameterf(w_target, ext_aniso.TEXTURE_MAX_ANISOTROPY_EXT, af);
@@ -566,7 +566,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                         + cfg_def.max_texture_size + ".");
                 return;
             }
-            m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data,
+            m_dds.upload_dds_levels(_gl, m_ext.get_s3tc(), image_data,
                     true);
 
             if (is_non_power_of_two(dds_wh.width, dds_wh.height)) {
@@ -882,19 +882,19 @@ function check_cube_map_size(width, height) {
 
 exports.generate_texture = function(type, subs) {
     var texture = null;
-    switch(type) {
-        case "SSAO_TEXTURE":
-            texture = {
-                "name": "special_ssao_texture",
-                "type": "DATA_TEX2D",
-                "extension": "REPEAT",
-                "b4w_anisotropic_filtering": "OFF"
-            };
-            create_texture_bpy(texture, null, subs, 0);
-            texture["image"] = { "filepath": null };
-            break;
-        default:
-            break;
+    switch (type) {
+    case "SSAO_TEXTURE":
+        texture = {
+            "name": "special_ssao_texture",
+            "type": "DATA_TEX2D",
+            "extension": "REPEAT",
+            "b4w_anisotropic_filtering": "OFF"
+        };
+        create_texture_bpy(texture, null, subs, 0);
+        texture["image"] = { "filepath": null };
+        break;
+    default:
+        break;
     }
     return texture;
 }

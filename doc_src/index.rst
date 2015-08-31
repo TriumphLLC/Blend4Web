@@ -32,6 +32,7 @@
     audio.rst
     physics.rst
     nla.rst
+    logic_editor.rst
     developers.rst
     developers_advanced.rst
     git_short_manual.rst

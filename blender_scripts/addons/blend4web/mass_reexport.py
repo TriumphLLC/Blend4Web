@@ -2,14 +2,11 @@ import bpy
 import imp
 import os
 
-class B4WReexportPath(bpy.types.PropertyGroup):
+import blend4web
 
-    def path_update(self, context):
-        save_reexport_paths()
-
-    path = bpy.props.StringProperty(name="Reexport Path",
-            description = "Directory with Exported Files (*.json or *.html)",
-            default = "", update = path_update)
+b4w_modules =["addon_prefs"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
 
 
 @bpy.app.handlers.persistent
@@ -21,7 +18,7 @@ def load_reexport_paths(arg):
     try:
         pmod = imp.find_module("reexport_paths", [pfile])
     except ImportError:
-        save_reexport_paths()
+        addon_prefs.save_reexport_paths()
         pmod = imp.find_module("reexport_paths", [pfile])
 
     loaded_paths = imp.load_module("reexport_paths", pmod[0], pmod[1], pmod[2])
@@ -33,21 +30,6 @@ def load_reexport_paths(arg):
     for path in loaded_paths.paths:
         prefs.b4w_reexport_paths.add()
         prefs.b4w_reexport_paths[-1].path = path
-
-def save_reexport_paths():
-    prefs = bpy.context.user_preferences.addons[__package__].preferences
-
-    index = prefs.b4w_reexport_path_index
-
-    paths = []
-
-    for path in prefs.b4w_reexport_paths:
-        paths.append(path.path)
-
-    with open(os.path.join(bpy.utils.user_resource("CONFIG", "b4w", True),
-            "reexport_paths.py"), "w") as pfile:
-        pfile.write("index=" + str(index) + "\n")
-        pfile.write("paths=" + str(paths))
 
 class UI_UL_reexport_paths(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
@@ -118,7 +100,7 @@ class B4WReexportPathAppend(bpy.types.Operator):
         prefs.b4w_reexport_paths.add()
         prefs.b4w_reexport_path_index = len(prefs.b4w_reexport_paths) - 1
 
-        save_reexport_paths()
+        addon_prefs.save_reexport_paths()
 
         return {"FINISHED"}
 
@@ -138,7 +120,7 @@ class B4WReexportPathRemove(bpy.types.Operator):
                     len(prefs.b4w_reexport_paths) == 0):
                 prefs.b4w_reexport_path_index -= 1
 
-        save_reexport_paths()
+        addon_prefs.save_reexport_paths()
 
         return {"FINISHED"}
 
@@ -173,10 +155,9 @@ class B4WReexport(bpy.types.Operator):
         context.window_manager.progress_end()
 
         return {'FINISHED'}
-
+import sys
 def register(): 
     bpy.utils.register_class(UI_UL_reexport_paths)
-    bpy.utils.register_class(B4WReexportPath)
     bpy.utils.register_class(B4WReexportPathAppend)
     bpy.utils.register_class(B4WReexportPathRemove)
     bpy.utils.register_class(B4WReexportPanel)
@@ -184,7 +165,6 @@ def register():
 
 def unregister(): 
     bpy.utils.unregister_class(UI_UL_reexport_paths)
-    bpy.utils.unregister_class(B4WReexportPath)
     bpy.utils.unregister_class(B4WReexportPathAppend)
     bpy.utils.unregister_class(B4WReexportPathRemove)
     bpy.utils.unregister_class(B4WReexportPanel)

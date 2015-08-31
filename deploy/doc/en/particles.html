@@ -1,74 +1,88 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Particle System. Fluids &mdash; User Manual: Blend4Web vv15.08</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>Particle System. Fluids &mdash; User Manual: Blend4Web vv15.07</title>
-    
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     'v15.07',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
-    <link rel="next" title="Particle System. Instancing" href="particles_instancing.html" />
-    <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body role="document">
+  
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">
-          Blend4Web. User Manual</a>
-        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+        <link rel="next" title="Particle System. Instancing" href="particles_instancing.html"/>
+        <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.08
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
       </div>
 
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
@@ -84,7 +98,30 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Particle System. Fluids</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Particle System. Fluids</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Necessary steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Recommended additional settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Basic settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Emission settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Direction settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Rotation settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Physics settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Rendering settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#particles-force-fields">Supported settings for force fields influence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Engine specific settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#particles-textures">Textures in Particle Systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Textures of the particle&#8217;s material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Textures of particle systems</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
@@ -92,91 +129,48 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Particle System. Fluids</a><ul>
-<li><a class="reference internal" href="#id2">Usage</a><ul>
-<li><a class="reference internal" href="#id3">Necessary steps</a></li>
-<li><a class="reference internal" href="#id4">Recommended additional settings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id5">Setup</a><ul>
-<li><a class="reference internal" href="#id6">Basic settings</a></li>
-<li><a class="reference internal" href="#id7">Emission settings</a></li>
-<li><a class="reference internal" href="#id8">Direction settings</a></li>
-<li><a class="reference internal" href="#id9">Rotation settings</a></li>
-<li><a class="reference internal" href="#id10">Physics settings</a></li>
-<li><a class="reference internal" href="#id11">Rendering settings</a></li>
-<li><a class="reference internal" href="#particles-force-fields">Supported settings for force fields influence</a></li>
-<li><a class="reference internal" href="#id13">Engine specific settings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#particles-textures">Textures in Particle Systems</a><ul>
-<li><a class="reference internal" href="#id15">Textures of the particle&#8217;s material</a></li>
-<li><a class="reference internal" href="#id16">Textures of particle systems</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="postprocessing_effects.html" title="Previous Chapter: Postprocessing Effects"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Postprocessing E...</span>
-    </a>
-  </li>
-  <li>
-    <a href="particles_instancing.html" title="Next Chapter: Particle System. Instancing"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Particle System.... &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm"></li>
-            
-          </ul>
 
           
-            
-<form class="navbar-form navbar-right" action="search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control"/>
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-          
-        </div>
-    </div>
-  </div>
+        
+      </div>
+      &nbsp;
+    </nav>
 
-<div class="container content_container">
-  <div class="row">
-    <div class="col-md-12">
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
       
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Particle System. Fluids</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
   <span class="target" id="particles"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Particle System. Fluids<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>The particle system is intended to visualize phenomena which are caused by the movement of numerous small objects such as smoke, fire, water splashes and other.</p>
@@ -388,22 +382,73 @@
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="particles_instancing.html" class="btn btn-neutral float-right" title="Particle System. Instancing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="postprocessing_effects.html" class="btn btn-neutral" title="Postprocessing Effects" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.<br/>
-      Last updated on 2015-07-29.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-08-31.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.08',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

@@ -1,5 +1,4 @@
 #include <precision_statement.glslf>
-#include <fog.glslf>
 #include <gamma.glslf>
 #if SOFT_PARTICLES
 #include <pack.glslf>
@@ -13,8 +12,6 @@ uniform float u_p_alpha_start;
 uniform float u_p_alpha_end;
 uniform vec2 u_texel_size;
 
-uniform vec4 u_fog_color_density;
-
 #if SOFT_PARTICLES
 uniform PRECISION sampler2D u_scene_depth;
 uniform float u_view_max_depth;
@@ -23,14 +20,11 @@ uniform float u_view_max_depth;
 varying float v_alpha;
 varying vec3 v_color;
 
-#if !DISABLE_FOG || SOFT_PARTICLES
-varying vec4 v_pos_view;
-#endif
 #if SOFT_PARTICLES
+varying vec4 v_pos_view;
 varying vec3 v_tex_pos_clip;
-#endif
-
 varying float v_size;
+#endif
 
 void main(void) {
 
@@ -40,10 +34,6 @@ void main(void) {
     float transp = smoothstep(u_p_alpha_start, u_p_alpha_end, diam);
     float alpha = u_diffuse_color.a * v_alpha * (1.0 - transp);
     vec3 color = v_color * u_diffuse_color.rgb;
-
-#if !DISABLE_FOG
-    fog(color, length(v_pos_view), u_fog_color_density);
-#endif
 
 #if SOFT_PARTICLES
     vec2 center_screen_coord = v_tex_pos_clip.xy/v_tex_pos_clip.z;

@@ -12,16 +12,16 @@
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
-var m_cam      = require("camera");
-var m_ctl      = require("controls");
-var m_print    = require("print");
-var m_scs      = require("scenes");
-var m_time     = require("time");
-var m_trans    = require("transform");
-var m_tsr      = require("tsr");
-var m_util     = require("util");
-var m_vec3     = require("vec3");
-var m_quat     = require("quat");
+var m_cam   = require("camera");
+var m_ctl   = require("controls");
+var m_print = require("print");
+var m_scs   = require("scenes");
+var m_time  = require("time");
+var m_trans = require("transform");
+var m_tsr   = require("tsr");
+var m_util  = require("util");
+var m_vec3  = require("vec3");
+var m_quat  = require("quat");
 
 var PI = Math.PI;
 var ROTATION_OFFSET = 0.2;
@@ -45,6 +45,9 @@ var _tsr_tmp3           = new Float32Array(8);
 
 var _is_camera_moving = false;
 var _is_camera_rotating = false;
+
+var _is_camera_stop_moving = false;
+var _is_camera_stop_rotating = false;
 
 /**
  * Callback to be executed when the camera finishes its track animation.
@@ -301,12 +304,12 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  */
 
 /**
- * Switch auto-rotating of the TARGET or HOVER camera around its pivot, or
+ * Switch auto-rotation of the TARGET or HOVER camera around its pivot, or
  * auto-rotating of the EYE camera around itself.
- * When it is called for the first time, auto-rotating is enabled
- * while the next call will disable auto-rotating.
- * @param {Number} auto_rotate_ratio Multiplier for the rotation speed
- * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotating is disabled
+ * When it is called for the first time, auto-rotation is enabled
+ * while the next call will disable auto-rotation.
+ * @param {Number} auto_rotate_ratio Rotation speed multiplier
+ * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotation is disabled
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback) {
 
@@ -446,11 +449,11 @@ exports.check_auto_rotate = function() {
  */
 
 /**
- * Smoothly move the camera to target point.
- * @param {Object3D} cam_obj Camera object 3D
- * @param {Object3D} point_obj Target point object 3D
- * @param {Number} cam_lin_speed Camera linear speed meters per second
- * @param {Number} cam_angle_speed Camera angular speed radians per second
+ * Smoothly move the camera to the target point.
+ * @param {(Object3D|tsr)} cam_obj Camera object 3D
+ * @param {(Object3D|tsr)} point_obj Target point object 3D
+ * @param {Number} cam_lin_speed Camera linear speed, meters per second
+ * @param {Number} cam_angle_speed Camera angular speed, radians per second
  * @param {MoveCameraToPointCallback} [cb] Finishing callback
  */
 exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_angle_speed, cb) {
@@ -464,13 +467,13 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
         return;
 
     if (!cam_obj) {
-        m_print.error("move_camera_to_point(): you mast specify camera object");
+        m_print.error("move_camera_to_point(): you must specify the camera object");
 
         return;
     }
 
     if (!point_obj) {
-        m_print.error("move_camera_to_point(): you mast specify point object");
+        m_print.error("move_camera_to_point(): you must specify the point object");
 
         return;
     }
@@ -478,8 +481,15 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
     cam_lin_speed   = cam_lin_speed || DEFAULT_CAM_LIN_SPEED;
     cam_angle_speed = cam_angle_speed || DEFAULT_CAM_ANGLE_SPEED;
 
-    var cam_tsr   = m_trans.get_tsr(cam_obj, _tsr_tmp);
-    var point_tsr = m_trans.get_tsr(point_obj, _tsr_tmp2);
+    if (m_util.is_vector(cam_obj))
+        var cam_tsr = cam_obj;
+    else
+        var cam_tsr = m_trans.get_tsr(cam_obj, _tsr_tmp);
+
+    if (m_util.is_vector(point_obj))
+        var point_tsr = point_obj;
+    else
+        var point_tsr = m_trans.get_tsr(point_obj, _tsr_tmp2);
 
     var distance  = m_vec3.distance(m_tsr.get_trans_view(cam_tsr),
                                     m_tsr.get_trans_view(point_tsr));
@@ -499,9 +509,17 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
 
     _is_camera_moving = true;
 
-    m_time.animate(0, 1, time, function(e) {
+    var cur_animator = m_time.animate(0, 1, time, function(e) {
         var new_tsr = m_tsr.interpolate(cam_tsr, point_tsr,
                                         m_util.smooth_step(e), _tsr_tmp3);
+
+        if (_is_camera_stop_moving) {
+            m_time.clear_animation(cur_animator);
+            _is_camera_stop_moving = false;
+            _is_camera_moving = false;
+
+            return;
+        }
 
         m_trans.set_tsr(cam_obj, new_tsr);
 
@@ -533,13 +551,13 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
         return;
 
     if (!cam_obj) {
-        m_print.error("rotate_camera(): you mast specify camera object");
+        m_print.error("rotate_camera(): you must specify the camera object");
 
         return;
     }
 
     if (!angle_phi && !angle_theta) {
-        m_print.error("rotate_camera(): you mast specify rotation angle");
+        m_print.error("rotate_camera(): you must specify the rotation angle");
 
         return;
     }
@@ -553,7 +571,15 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
 
     var angle = angle_phi != 0 ? angle_phi: angle_theta;
 
-    m_time.animate(0, angle, time, function(e) {
+    var cur_animator = m_time.animate(0, angle, time, function(e) {
+        if (_is_camera_stop_rotating) {
+            m_time.clear_animation(cur_animator);
+            _is_camera_stop_rotating = false;
+            _is_camera_rotating = false;
+
+            return;
+        }
+
         delta_phi   -= e;
         delta_theta -= e;
 
@@ -574,6 +600,22 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
                 cb();
         }
     })
+}
+
+/**
+ * Stop camera moving.
+ * @method module:camera_anim.stop_cam_moving
+ */
+exports.stop_cam_moving = function() {
+    _is_camera_stop_moving = true;
+}
+
+/**
+ * Stop camera rotating.
+ * @method module:camera_anim.stop_cam_rotating
+ */
+exports.stop_cam_rotating = function() {
+    _is_camera_stop_rotating = true;
 }
 
 /**

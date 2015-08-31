@@ -8,31 +8,33 @@
  */
 b4w.module["__lights"] = function(exports, require) {
 
-var m_util = require("__util");
+var m_print = require("__print");
+var m_util  = require("__util");
+var m_vec3  = require("__vec3");
 
-var m_vec3 = require("vec3");
+var _vec3_tmp = new Float32Array(3);
 
 /**
  * Create light
  * @param type Light type: POINT, SUN,...
  */
-exports.init_light = init_light;
 function init_light(type) {
 
     // initialize properties (do not consider values as default!)
     var light = {
         name: "",
-        index: 0,
         type: type,
 
         use_diffuse: false,
         use_specular: false,
 
+        prev_direction: new Float32Array(3),
         direction: new Float32Array(3),
         color: new Float32Array(3),
         color_intensity: new Float32Array(3),
 
         energy: 0,
+        default_energy: 0,
         distance: 0,
 
         spot_size: 0,
@@ -43,6 +45,7 @@ function init_light(type) {
         generate_shadows: false,
 
         // have influence only for sun
+        need_sun_fog_update: false,
         dynamic_intensity: false
     }
 
@@ -60,33 +63,26 @@ function init_light(type) {
  * Convert blender lamp object to light
  * @param lamp_obj lamp object
  */
-exports.lamp_to_light = function(lamp_obj) {
+exports.lamp_to_light = function(bpy_obj, obj) {
 
-    var data = lamp_obj["data"];
+    var data = bpy_obj["data"];
 
-    var light = init_light(data["type"]);
+    var light = obj.light = init_light(data["type"]);
 
-    light.name = lamp_obj["name"];
-
+    light.name = obj.name;
     light.use_diffuse = data["use_diffuse"];
     light.use_specular = data["use_specular"];
 
-    var quat = lamp_obj._render.quat;
-    var dir = m_util.quat_to_dir(quat, m_util.AXIS_Y, []);
-
+    var dir = m_util.quat_to_dir(obj.render.quat, m_util.AXIS_Y, _vec3_tmp);
     // though dir seems to be normalized, do it explicitely
     m_vec3.normalize(dir, dir);
-
-    light.direction[0] = dir[0];
-    light.direction[1] = dir[1];
-    light.direction[2] = dir[2];
+    light.direction.set(dir);
 
     light.color[0] = data["color"][0];
     light.color[1] = data["color"][1];
     light.color[2] = data["color"][2];
 
-    light.energy = data["energy"];
-
+    light.energy = light.default_energy = data["energy"];
     update_color_intensity(light);
 
     light.distance = data["distance"];
@@ -102,8 +98,6 @@ exports.lamp_to_light = function(lamp_obj) {
 
     light.generate_shadows = data["b4w_generate_shadows"];
     light.dynamic_intensity = data["b4w_dynamic_intensity"];
-
-    lamp_obj._light = light;
 }
 
 
@@ -145,23 +139,17 @@ exports.set_light_spot_size = function(light, spot_size) {
  */
 exports.set_light_energy = function(light, energy) {
     light.energy = energy;
-
     update_color_intensity(light);
 }
 
 exports.is_lamp = function(obj) {
-    if (obj["type"] === "LAMP")
-        return true;
-    else
-        return false;
+    return obj.type === "LAMP";
 }
 /**
  * color, energy -> color_intensity
  */
 function update_color_intensity(light) {
-    light.color_intensity[0] = light.color[0] * light.energy;
-    light.color_intensity[1] = light.color[1] * light.energy;
-    light.color_intensity[2] = light.color[2] * light.energy;
+    m_vec3.scale(light.color, light.energy, light.color_intensity);
 }
 
 exports.update_light_transform = update_light_transform;
@@ -170,15 +158,29 @@ exports.update_light_transform = update_light_transform;
  */
 function update_light_transform(obj) {
 
-    if (obj["type"] != "LAMP")
+    if (obj.type != "LAMP")
         throw "Wrong light object";
 
-    var light = obj._light;
+    var light = obj.light;
     if (!light)
         return;
 
-    m_util.quat_to_dir(obj._render.quat, m_util.AXIS_Y, light.direction);
+    m_util.quat_to_dir(obj.render.quat, m_util.AXIS_Y, light.direction);
     m_vec3.normalize(light.direction, light.direction);
+
+    if (light.type == "SUN") {
+        var prev_angle = Math.acos(m_vec3.dot(light.prev_direction, m_util.VEC3_UNIT));
+        var new_angle  = Math.acos(m_vec3.dot(light.direction, m_util.VEC3_UNIT));
+        var floor_prev = Math.floor(prev_angle / 0.025);
+        var floor_new  = Math.floor(new_angle / 0.025);
+
+        if (floor_prev != floor_new)
+            light.need_sun_fog_update = true;
+        else
+            light.need_sun_fog_update = false;
+    }
+
+    m_vec3.copy(light.direction, light.prev_direction);
 }
 
 }

@@ -76,7 +76,7 @@ function check_special_comments(ast_node) {
             var comment_str = ast_node.before_comments[i];
             check_include(comment_str);
             check_extension(comment_str);
-            check_nodes_lamps_main(comment_str);
+            check_nodes_main(comment_str);
         }
     }
 }
@@ -107,17 +107,17 @@ function check_extension(comment_str) {
         push_extension_data(res[2], res[3]);
 }
 
-function check_nodes_lamps_main(comment_str) {
-    var expr_main = /\/\*%(nodes_main|lamps_main)%\*\//gi;
-    var expr_main_end = /\/\*%(nodes_main|lamps_main)_end%\*\//gi;
+function check_nodes_main(comment_str) {
+    var expr_main = /\/\*%nodes_main%\*\//gi;
+    var expr_main_end = /\/\*%nodes_main_end%\*\//gi;
 
     var res = expr_main_end.exec(comment_str);
     if (res)
-        push_nodes_lamps_main_data(res[1], false);
+        push_nodes_main_data(false);
     else {
         res = expr_main.exec(comment_str);
         if (res)
-            push_nodes_lamps_main_data(res[1], true);
+            push_nodes_main_data(true);
     }
 }
 
@@ -306,9 +306,9 @@ function push_scope_data(ast_node, scope_status) {
     _collected_data.main_sequence.push(data);
 }
 
-function push_nodes_lamps_main_data(type, is_beginning) {
+function push_nodes_main_data(is_beginning) {
     var data = {
-        type: type,
+        type: "nodes_main",
         is_beginning: is_beginning
     }
     _collected_data.main_sequence.push(data);

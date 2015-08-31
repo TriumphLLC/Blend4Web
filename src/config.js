@@ -9,7 +9,7 @@
 b4w.module["__config"] = function(exports, require) {
 
 var m_print = require("__print");
-var m_util = require("__util");
+var m_util  = require("__util");
 
 // profiles
 exports.P_LOW    = 1;  // maximize performance
@@ -29,9 +29,9 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    aplha_clip_filtering_hack  : false,
+    alpha_clip_filtering_hack  : false,
 
-    min_format_version         : [5, 4],
+    min_format_version         : [5, 5],
 
     max_fps                    : 10000, // not accurate
 
@@ -133,7 +133,7 @@ exports.defaults = {
 
     is_mobile_device           : false,
 
-    chrome_disable_doppler_effect_hack: false,
+    disable_doppler_hack       : false,
 
     cors_chrome_hack           : false,
 
@@ -163,13 +163,15 @@ exports.defaults = {
 
     max_vertex_uniform_vectors : 128,
 
-    ie11_touchscreen_hack      : false,
+    ie11_edge_touchscreen_hack : false,
 
     ios_depth_hack             : false,
 
     macos_tex_reuse_hack       : false,
 
-    loaded_data_version        : [0, 0]
+    loaded_data_version        : [0, 0],
+
+    edge_min_tex_size_hack     : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -220,7 +222,8 @@ exports.physics = {
     max_fps: 60,
     uranium_path: "",
     calc_fps: false,
-    ping: false
+    ping: false,
+    use_workers: true
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
@@ -261,7 +264,7 @@ exports.debug_subs = {
     enabled     : false,
     subs_type   : "MAIN_OPAQUE",
     subs_number : 0,
-    slink_type  : "COLOR"
+    slink_type  : "DEPTH"
 }
 exports.debug_subs_save = m_util.clone_object_r(exports.debug_subs);
 
@@ -524,6 +527,9 @@ function set(prop, value) {
     case "physics_calc_fps":
         exports.physics.calc_fps = value;
         break;
+    case "physics_use_workers":
+        exports.physics.use_workers = value;
+        break;
     case "precision":
         exports.defaults.precision = value;
         break;
@@ -614,6 +620,8 @@ exports.get = function(prop) {
         return exports.physics.uranium_path;
     case "physics_calc_fps":
         return exports.physics.calc_fps;
+    case "physics_use_workers":
+        return exports.physics.use_workers;
     case "precision":
         return exports.defaults.precision;
     case "quality":

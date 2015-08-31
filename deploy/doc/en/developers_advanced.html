@@ -1,74 +1,88 @@
+
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>For Engine Developers &mdash; User Manual: Blend4Web vv15.08</title>
+  
 
+  
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+
+  
+  
     
-    <title>For Engine Developers &mdash; User Manual: Blend4Web vv15.07</title>
-    
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     'v15.07',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web vv15.07" href="index.html" />
-    <link rel="next" title="Team Work. Using Git" href="git_short_manual.html" />
-    <link rel="prev" title="For Application Developers" href="developers.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body role="document">
+  
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">
-          Blend4Web. User Manual</a>
-        <span class="navbar-text navbar-version pull-left"><b>v15.07</b></span>
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+        <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
+        <link rel="prev" title="For Application Developers" href="developers.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.08
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
       </div>
 
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
@@ -92,90 +106,70 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">For Engine Developers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">For Engine Developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Building the Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Naming Functions and Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-0">Shader Compilation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#index-1">Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#index-2">Obfuscation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#index-3">Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-export">Import/Export Directives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#index-5">Recommendations and Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#webgl">WebGL Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#index-7">Compilation Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#translator">Add-on Translations</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">For Engine Developers</a><ul>
-<li><a class="reference internal" href="#coding-style">Coding Style</a><ul>
-<li><a class="reference internal" href="#id3">Examples</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id4">Building the Engine</a></li>
-<li><a class="reference internal" href="#id5">Building the Addon</a></li>
-<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li><a class="reference internal" href="#id7">Naming Functions and Variables</a></li>
-<li><a class="reference internal" href="#debugging">Debugging</a></li>
-<li><a class="reference internal" href="#index-0">Shader Compilation</a><ul>
-<li><a class="reference internal" href="#index-1">Validation</a></li>
-<li><a class="reference internal" href="#index-2">Obfuscation</a></li>
-<li><a class="reference internal" href="#index-3">Optimization</a></li>
-<li><a class="reference internal" href="#import-export">Import/Export Directives</a></li>
-<li><a class="reference internal" href="#index-5">Recommendations and Limitations</a></li>
-<li><a class="reference internal" href="#webgl">WebGL Extensions</a></li>
-<li><a class="reference internal" href="#index-7">Compilation Errors</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#translator">Addon&#8217;s translation</a></li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-              
-                
-  <li>
-    <a href="developers.html" title="Previous Chapter: For Application Developers"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; For Application ...</span>
-    </a>
-  </li>
-  <li>
-    <a href="git_short_manual.html" title="Next Chapter: Team Work. Using Git"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Team Work. Using... &raquo;</span>
-    </a>
-  </li>
-              
-            
-            
-            
-            
-              <li class="hidden-sm"></li>
-            
-          </ul>
 
           
-            
-<form class="navbar-form navbar-right" action="search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control"/>
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-          
-        </div>
-    </div>
-  </div>
+        
+      </div>
+      &nbsp;
+    </nav>
 
-<div class="container content_container">
-  <div class="row">
-    <div class="col-md-12">
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
       
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>For Engine Developers</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
   <div class="section" id="developers-advanced">
 <span id="id1"></span><h1>For Engine Developers<a class="headerlink" href="#developers-advanced" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="coding-style">
@@ -325,8 +319,8 @@
 <td><p class="first last">building Uranium</p>
 </td>
 </tr>
-<tr class="row-odd"><td>ImageMagick, GraphicsMagick</td>
-<td>imagemagick, graphicsmagick</td>
+<tr class="row-odd"><td>ImageMagick</td>
+<td>imagemagick</td>
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
@@ -742,39 +736,95 @@ FILE_NAME, but never used.</td>
 </div>
 </div>
 <div class="section" id="translator">
-<span id="id16"></span><h2>Addon&#8217;s translation<a class="headerlink" href="#translator" title="Permalink to this headline">¶</a></h2>
-<p>To translate the new text strings some prepaparing must be done.</p>
-<p>At first be sure you have <em>Subversion</em> installed. Then clone therepository with Blender&#8217;s translations. You can use this command:</p>
+<span id="id16"></span><h2>Add-on Translations<a class="headerlink" href="#translator" title="Permalink to this headline">¶</a></h2>
+<p>In order to translate new text some preparations have to be done.</p>
+<p>At first make sure that you have <em>Subversion</em> installed. Then clone the repository with Blender translations. You can use the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>svn checkout https://svn.blender.org/svnroot/bf-translations
 </pre></div>
 </div>
-<p>The second step is to install and to set up the <em>Manage UI translations</em> addon.The only option we&#8217;ll need is <code class="docutils literal"><span class="pre">Translation</span> <span class="pre">root</span></code> where the path to the directory from the step one must be specified.</p>
+<p>The second step is to install and set up the <em>Manage UI translations</em> add-on. The most important option here is &#8220;Translation Root&#8221; where the path to the cloned repository has to be specified. Then specify the absolute path where settings will be saved, &#8220;Persistent Data Path&#8221;, and save the settings to the json file.</p>
 <a class="reference internal image-reference" href="_images/translator.png"><img alt="_images/translator.png" class="align-center" src="_images/translator.png" style="width: 100%;" /></a>
-<p>Then the translator.py script from the /scripts directory must be run to update <em>ru_RU.po</em> file:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py
+<p>Then the <code class="docutils literal"><span class="pre">translator.py</span></code> script from the <code class="docutils literal"><span class="pre">scripts/</span></code> directory has to be run in order to update the .po file:</p>
+<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py ru_RU /home/user/bf-translations/branches/ru/ru.po
 </pre></div>
 </div>
-<p>The only thing left is to open this file and write the translation of the new strings.</p>
+<p>The first parameter is the language to which the add-on will be translated. The list of available languages can be seen as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py <span class="nb">help</span>
+</pre></div>
+</div>
+<p>The second parameter is optional and serves for merging the resulting .po file with Blender&#8217;s .po file which is available in the above-mentioned repository in the <em>/bf-translations/branches/</em> directory. Phrases from your .po file which match phrases from Blender&#8217;s .po file will be translated automatically.</p>
+<p>Finally open this file and translate new lines.</p>
 </div>
 </div>
 
 
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="git_short_manual.html" class="btn btn-neutral float-right" title="Team Work. Using Git" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="developers.html" class="btn btn-neutral" title="For Application Developers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-      
-  </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.<br/>
-      Last updated on 2015-07-29.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-08-31.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.08',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

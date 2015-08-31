@@ -258,14 +258,30 @@ msgstr ""
 msgid "Каустика и хроматическая аберрация"
 msgstr "Caustics and Chromatic Aberration"
 
-#: ../outdoor_rendering.rst:178 ../outdoor_rendering.rst:358
-#: ../outdoor_rendering.rst:382
-msgid "Настройка"
-msgstr "Setting up"
+#: ../outdoor_rendering.rst:125
+msgid ""
+"Для создания каустики на подводных объектах следует включить опцию "
+"``Caustics``. Так же на сцене должен присутстовать источник освещение типа "
+"``Sun``."
+msgstr ""
+"To create the caustics effect turn on the ``Caustics`` option on the water "
+"material. Also, there has to be at least one sun on the scene."
 
 #: ../outdoor_rendering.rst:132
 msgid "Размер ячеек процедурной текстуры. Значение по умолчанию 0.25."
 msgstr "Cell size for the procedural texture. The default value is 0.25."
+
+#: ../outdoor_rendering.rst:132
+msgid "*Scale*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:135
+msgid "*Brightness*"
+msgstr ""
+
+#: ../outdoor_rendering.rst:135
+msgid "Фактор влияния каустики. Значение по умолчанию 0.5."
+msgstr "Caustics influence factor. The default value is 0.5."
 
 #: ../outdoor_rendering.rst:138
 msgid "Подводная среда"
@@ -314,6 +330,11 @@ msgstr "Volumetric Waves"
 #: ../outdoor_rendering.rst:171
 msgid "Для создания объемных волн следует включить опцию ``Waves``."
 msgstr "To enable procedural waves the ``Waves`` option must be turned on."
+
+#: ../outdoor_rendering.rst:178 ../outdoor_rendering.rst:358
+#: ../outdoor_rendering.rst:382
+msgid "Настройка"
+msgstr "Setting up"
 
 #: ../outdoor_rendering.rst:181
 msgid "Высота волн. Значение по умолчанию 0.0."
@@ -634,20 +655,23 @@ msgid "Туман"
 msgstr "Fog"
 
 #: ../outdoor_rendering.rst:307
-msgid "Настраивается во вкладке ``World``."
-msgstr "Can be set up under the ``World`` tab."
+msgid ""
+"Движком поддерживаются стандартные параметры вкладки ``World > Mist``. "
+"Помимо этого возможно переопределение цвета тумана."
+msgstr ""
+"The engine supports standard parameters located on the ``World > Mist`` panel. "
+"Besides this, overriding fog color is possible."
+
+#: ../outdoor_rendering.rst:310
+msgid "*Mist > Use custom color*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:310
 msgid ""
-"Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по "
-"умолчанию 0.0."
+"Использовать для тумана заданный цвет, вместо цвета ``World > Horizon``. По "
+"умолчанию включено."
 msgstr ""
-"Exponential factor which affects density and the visibility distance. The "
-"default value is 0.0."
-
-#: ../outdoor_rendering.rst:310
-msgid "*Mist > Density*"
-msgstr ""
+"Apply the user-defined fog color instead of ``World > Horizon`` color. Enabled by default."
 
 #: ../outdoor_rendering.rst:313
 msgid "Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый)."
@@ -870,24 +894,3 @@ msgid ""
 msgstr ""
 "Vertex color layers should be present in the mesh if their names are "
 "specified. "
-
-#: ../outdoor_rendering.rst:132
-msgid "*Scale*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:135
-msgid "*Brightness*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:135
-msgid "Фактор влияния каустики. Значение по умолчанию 0.5."
-msgstr "Caustics influence factor. The default value is 0.5."
-
-#: ../outdoor_rendering.rst:125
-msgid ""
-"Для создания каустики на подводных объектах следует включить опцию "
-"``Caustics``. Так же на сцене должен присутстовать источник освещение типа "
-"``Sun``."
-msgstr ""
-"To create the caustics effect turn on the ``Caustics`` option on the water "
-"material. Also, there has to be at least one sun on the scene."

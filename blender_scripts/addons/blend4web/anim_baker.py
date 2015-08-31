@@ -462,11 +462,19 @@ class B4W_Constraints_UnMuter(bpy.types.Operator):
             self.report({'INFO'}, "Not an armature object")
             return {'CANCELLED'}
 
-        for bone in armobj.pose.bones: 
-            for c in bone.constraints: 
+        for bone in armobj.pose.bones:
+            for c in bone.constraints:
                 c.mute = False
 
         return {"FINISHED"}
+
+class B4W_UI_UL_actions_list(bpy.types.UIList):
+    def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
+        if self.layout_type in {'DEFAULT', 'COMPACT'}:
+            layout.label(item.name, icon="ACTION")
+        elif self.layout_type in {'GRID'}:
+            layout.alignment = 'CENTER'
+            layout.label(item.name)
 
 class B4W_AnimBakerPanel(bpy.types.Panel):
     bl_label = "Bake Skeletal Animation"
@@ -489,7 +497,7 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         layout = self.layout
 
         row = layout.row()
-        row.template_list("UI_UL_list", "OBJECT_UL_anim_baker",
+        row.template_list("B4W_UI_UL_actions_list", "OBJECT_UL_anim_baker",
                 obj, "b4w_anim", obj, "b4w_anim_index", rows=3)
         col = row.column(align=True)
         col.operator("b4w.anim_add", icon='ZOOMIN', text="")
@@ -498,24 +506,8 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         anim = obj.b4w_anim
         if anim:
             anim_index = obj.b4w_anim_index
-
-            same_actions_count = 0
-            for action in bpy.data.actions:
-                if action.name == anim[anim_index].name:
-                    same_actions_count+=1
-
-            same_anim_count = 0
-            for i in range(0, anim_index + 1):
-                if anim[i].name == anim[anim_index].name:
-                    same_anim_count+=1
-
-            if same_actions_count == 1 and same_anim_count == 1:
-                icon = "ACTION"
-            else:
-                icon = "ERROR"
-
             row = layout.row()
-            row.prop(anim[anim_index], "name", text="Name", icon=icon)
+            row.prop_search(anim[anim_index], "name", bpy.data, "actions", text="Name")
 
         row = layout.row()
         row.prop(obj, "b4w_anim_clean_keys", text="Optimize Keyframes")
@@ -548,7 +540,7 @@ class B4W_AnimAddOperator(bpy.types.Operator):
         anim = obj.b4w_anim
 
         anim.add()
-        anim[-1].name= "Action"
+        anim[-1].name= ""
 
         return {'FINISHED'}
  
@@ -577,6 +569,7 @@ def register():
     bpy.utils.register_class(B4W_AnimBakerPanel)
     bpy.utils.register_class(B4W_AnimAddOperator)
     bpy.utils.register_class(B4W_AnimRemOperator)
+    bpy.utils.register_class(B4W_UI_UL_actions_list)
 
     bpy.utils.register_class(B4W_Anim)
 
@@ -595,6 +588,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_AnimBakerPanel)
     bpy.utils.unregister_class(B4W_AnimAddOperator)
     bpy.utils.unregister_class(B4W_AnimRemOperator)
+    bpy.utils.unregister_class(B4W_UI_UL_actions_list)
 
     bpy.utils.unregister_class(B4W_Anim)
 

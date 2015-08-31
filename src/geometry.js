@@ -9,12 +9,12 @@
  */
 b4w.module["__geometry"] = function(exports, require) {
 
+var m_ext   = require("__extensions");
 var m_print = require("__print");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
-var m_ext   = require("__extensions");
+var m_vec3  = require("__vec3");
 
-var m_vec3 = require("vec3");
 
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
@@ -2038,12 +2038,13 @@ exports.scale_submesh_xyz = function(submesh, scale, center) {
 
 exports.apply_shape_key = function(obj, key_name, new_value) {
 
-    var batches = obj._batches;
-    var data = obj._render.shape_keys_values;
+    //NOTE: only applies shape key for the first scene
+    var batches = obj.scenes_data[0].batches;
+    var sk_data = obj.render.shape_keys_values;
 
-    for (var i = 1; i < data.length; i++)
-        if (data[i]["name"] == key_name)
-            data[i]["value"] = new_value;
+    for (var i = 1; i < sk_data.length; i++)
+        if (sk_data[i]["name"] == key_name)
+            sk_data[i]["value"] = new_value;
 
     for (var i = 0; i < batches.length; i++) {
 
@@ -2055,56 +2056,72 @@ exports.apply_shape_key = function(obj, key_name, new_value) {
         var vbo = batches[i].bufs_data.vbo;
         _gl.bindBuffer(_gl.ARRAY_BUFFER, vbo);
 
-        if (pointers["a_position"]) {
-            var pos_offset = pointers["a_position"].offset;
-            var pos_length = pointers["a_position"].length + pos_offset;
-            var pos = batches[i].bufs_data.shape_keys[0].geometry["a_position"];
+        // NOTE: split function into smaller ones (optimization issue in Chrome)
+        apply_shape_key_pos(pointers["a_position"], batches[i], vbo_array, sk_data);
+        apply_shape_key_nor(pointers["a_normal"], batches[i], vbo_array, sk_data);
+        apply_shape_key_tan(pointers["a_tangent"], batches[i], vbo_array, sk_data);
+    }
+}
+
+function apply_shape_key_pos(pos_pointer, batch, vbo_array, sk_data) {
+    if (pos_pointer) {
+        var pos_offset = pos_pointer.offset;
+        var pos_length = pos_pointer.length + pos_offset;
+        var pos = batch.bufs_data.shape_keys[0].geometry["a_position"];
+        for (var i = pos_offset; i < pos_length; i++)
+            vbo_array[i] = pos[i - pos_offset];
+        for (var i = 1; i < batch.bufs_data.shape_keys.length; i++) {
+            var positions = batch.bufs_data.shape_keys[i].geometry["a_position"];
+            var value = sk_data[i]["value"];
+            if (!value)
+                continue;
             for (var j = pos_offset; j < pos_length; j++)
-                vbo_array[j] = pos[j - pos_offset];
-            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
-                var positions = batches[i].bufs_data.shape_keys[k].geometry["a_position"];
-                var value = data[k]["value"];
-                if (!value)
-                    continue;
-                for (var j = pos_offset; j < pos_length; j++)
-                    vbo_array[j] +=  value * positions[j - pos_offset];
-            }
-            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * pos_offset, vbo_array.subarray(pos_offset));
+                vbo_array[j] +=  value * positions[j - pos_offset];
         }
-        if (pointers["a_normal"]) {
-            var nor_offset = pointers["a_normal"].offset;
-            var nor_length = pointers["a_normal"].length + nor_offset;
-            var nor = batches[i].bufs_data.shape_keys[0].geometry["a_normal"];
+        _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * pos_offset, 
+                vbo_array.subarray(pos_offset));
+    }
+}
+
+function apply_shape_key_nor(nor_pointer, batch, vbo_array, sk_data) {
+    if (nor_pointer) {
+        var nor_offset = nor_pointer.offset;
+        var nor_length = nor_pointer.length + nor_offset;
+        var nor = batch.bufs_data.shape_keys[0].geometry["a_normal"];
+        for (var i = nor_offset; i < nor_length; i++)
+            vbo_array[i] = nor[i - nor_offset];
+        for (var i = 1; i < batch.bufs_data.shape_keys.length; i++) {
+            var normals = batch.bufs_data.shape_keys[i].geometry["a_normal"];
+            var value = sk_data[i]["value"];
+            if (!value)
+                continue;
             for (var j = nor_offset; j < nor_length; j++)
-                vbo_array[j] = nor[j - nor_offset];
-            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
-                var normals = batches[i].bufs_data.shape_keys[k].geometry["a_normal"];
-                var value = data[k]["value"];
-                if (!value)
-                    continue;
-                for (var j = nor_offset; j < nor_length; j++)
-                    vbo_array[j] += value * normals[j - nor_offset];
-            }
-            normalize_buffer(vbo_array, nor_offset, nor_length, 3, 2);
-            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * nor_offset, vbo_array.subarray(nor_offset));
+                vbo_array[j] += value * normals[j - nor_offset];
         }
-        if (pointers["a_tangent"]) {
-            var tan_offset = pointers["a_tangent"].offset;
-            var tan_length = pointers["a_tangent"].length + tan_offset;
-            var tan = batches[i].bufs_data.shape_keys[0].geometry["a_tangent"];
+        normalize_buffer(vbo_array, nor_offset, nor_length, 3, 2);
+        _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * nor_offset, 
+                vbo_array.subarray(nor_offset));
+    }
+}
+
+function apply_shape_key_tan(tan_pointer, batch, vbo_array, sk_data) {
+    if (tan_pointer) {
+        var tan_offset = tan_pointer.offset;
+        var tan_length = tan_pointer.length + tan_offset;
+        var tan = batch.bufs_data.shape_keys[0].geometry["a_tangent"];
+        for (var i = tan_offset; i < tan_length; i++)
+            vbo_array[i] = tan[i - tan_offset];
+        for (var i = 1; i < batch.bufs_data.shape_keys.length; i++) {
+            var tangents = batch.bufs_data.shape_keys[i].geometry["a_tangent"];
+            var value = sk_data[i]["value"];
+            if (!value)
+                continue;
             for (var j = tan_offset; j < tan_length; j++)
-                vbo_array[j] = tan[j - tan_offset];
-            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
-                var tangents = batches[i].bufs_data.shape_keys[k].geometry["a_tangent"];
-                var value = data[k]["value"];
-                if (!value)
-                    continue;
-                for (var j = tan_offset; j < tan_length; j++)
-                    vbo_array[j] += value * tangents[j - tan_offset];
-            }
-            normalize_buffer(vbo_array, tan_offset, tan_length, 4, 3);
-            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * tan_offset, vbo_array.subarray(tan_offset));
+                vbo_array[j] += value * tangents[j - tan_offset];
         }
+        normalize_buffer(vbo_array, tan_offset, tan_length, 4, 3);
+        _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * tan_offset, 
+                vbo_array.subarray(tan_offset));
     }
 }
 
@@ -2119,28 +2136,28 @@ function normalize_buffer(buffer, offset, buf_len, vec_len, rest) {
 }
 
 exports.check_shape_keys = function(obj) {
-    return obj._render.use_shape_keys;
+    return obj.render.use_shape_keys;
 }
 
 exports.get_shape_keys_names = function(obj) {
     var shape_keys_names = [];
-    if (obj._render)
-        for (var i = 1; i < obj._render.shape_keys_values.length; i++) {
-            shape_keys_names.push(obj._render.shape_keys_values[i]["name"]);
+    if (obj.render)
+        for (var i = 1; i < obj.render.shape_keys_values.length; i++) {
+            shape_keys_names.push(obj.render.shape_keys_values[i]["name"]);
         }
     return shape_keys_names;
 }
 
 exports.get_shape_key_value = function(obj, key_name) {
-    if (obj._render)
-        for (var i = 1; i < obj._render.shape_keys_values.length; i++)
-            if (key_name == obj._render.shape_keys_values[i]["name"])
-                return obj._render.shape_keys_values[i]["value"];
+    if (obj.render)
+        for (var i = 1; i < obj.render.shape_keys_values.length; i++)
+            if (key_name == obj.render.shape_keys_values[i]["name"])
+                return obj.render.shape_keys_values[i]["value"];
     return 0;
 }
 
 exports.has_shape_key = function(obj, key_name) {
-    var shape_keys = obj._render.shape_keys_values;
+    var shape_keys = obj.render.shape_keys_values;
     if (shape_keys)
         for (var i = 1; i < shape_keys.length; i++)
             if (shape_keys[i]["name"] == key_name)
@@ -2149,7 +2166,7 @@ exports.has_shape_key = function(obj, key_name) {
 }
 
 exports.has_dyn_geom = function(obj) {
-    if (obj && obj._render && obj._render.dynamic_geometry)
+    if (obj && obj.render && obj.render.dynamic_geometry)
         return true;
     else
         return false;

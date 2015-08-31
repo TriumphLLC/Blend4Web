@@ -27,7 +27,7 @@ exports.set_frame = function(frame) {
     frame = m_util.clamp(frame, m_nla.get_frame_start(), 
             m_nla.get_frame_end());
 
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -47,7 +47,7 @@ exports.get_frame = function() {
  * @method module:nla.stop
  */
 exports.stop = function() {
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -60,7 +60,7 @@ exports.stop = function() {
  * @param {?NlaFinishCallback} [callback=null] Nla finish callback.
  */
 exports.play = function(callback) {
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -105,9 +105,19 @@ exports.check_nla = function() {
  * Check if the current scene has NLA-scripts
  * @method module:nla.check_nla_scripts
  * @returns {Boolean} Check result.
+ * @deprecated use check_logic_nodes() instead
  */
 exports.check_nla_scripts = function() {
-    return m_nla.check_nla_scripts();
+    return m_nla.check_logic_nodes();
+}
+
+/**
+ * Check if the current scene has logic nodes
+ * @method module:nla.check_logic_nodes
+ * @returns {Boolean} Check result.
+ */
+exports.check_logic_nodes = function() {
+    return m_nla.check_logic_nodes();
 }
 
 /**
@@ -118,7 +128,7 @@ exports.check_nla_scripts = function() {
  */
 exports.set_range = function(start_frame, end_frame) {
 
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -139,7 +149,7 @@ exports.set_range = function(start_frame, end_frame) {
  * @method module:nla.reset_range
  */
 exports.reset_range = function() {
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -151,7 +161,7 @@ exports.reset_range = function() {
  * @param {Boolean} is_cyclic Cyclic behavior.
  */
 exports.set_cyclic = function(is_cyclic) {
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }
@@ -162,7 +172,7 @@ exports.set_cyclic = function(is_cyclic) {
  * @method module:nla.clear_callback
  */
 exports.clear_callback = function() {
-    if (m_nla.check_nla_scripts()) {
+    if (m_nla.check_logic_nodes()) {
         m_print.error("The active scene is using NLA script.");
         return;
     }

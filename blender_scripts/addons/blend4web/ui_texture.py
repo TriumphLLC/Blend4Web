@@ -87,18 +87,6 @@ def context_tex_datablock(context):
 class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
     bl_label = "Preview"
 
-    @classmethod
-    def poll(cls, context):
-        idblock = context_tex_datablock(context)
-        if isinstance(idblock, Brush) and not context.sculpt_object:
-            return False
-
-        if not getattr(context, "texture_slot", None):
-            return False
-
-        engine = context.scene.render.engine
-        return (engine in cls.COMPAT_ENGINES)
-
     def draw(self, context):
 
         layout = self.layout

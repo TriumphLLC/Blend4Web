@@ -8,23 +8,20 @@
  */
 b4w.module["__animation"] = function(exports, require) {
 
-var m_config    = require("__config");
+var m_cfg       = require("__config");
 var m_particles = require("__particles");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
-var m_scs       = require("__scenes");
+var m_quat      = require("__quat");
+var m_reformer  = require("__reformer");
 var m_sfx       = require("__sfx");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
 var m_util      = require("__util");
-var m_reformer  = require("__reformer");
+var m_vec3      = require("__vec3");
 
-var m_mat4 = require("mat4");
-var m_quat = require("quat");
-var m_vec4 = require("vec4");
-var m_vec3 = require("vec3");
-
-var cfg_ani = m_config.animation;
+var cfg_ani = m_cfg.animation;
+var cfg_def = m_cfg.defaults;
 
 var LAST_FRAME_EPSILON = 0.000001;
 
@@ -95,7 +92,7 @@ var _anim_objs_cache = [];
 var _actions = [];
 
 exports.get_max_bones = function() {
-    return m_util.trunc((m_config.defaults.max_vertex_uniform_vectors - VECTORS_RESERVED) / 4);
+    return m_util.trunc((cfg_def.max_vertex_uniform_vectors - VECTORS_RESERVED) / 4);
 }
 
 exports.frame_to_sec = function(frame) {
@@ -113,7 +110,7 @@ exports.update = function(elapsed) {
         for (var j = 0; j < 8; j++)
             animate(obj, elapsed, j);
 
-        if (obj._render.anim_mixing) {
+        if (obj.render.anim_mixing) {
             process_mix_factor(obj, elapsed);
             mix_skeletal_animation(obj, elapsed);
         }
@@ -125,7 +122,7 @@ exports.update = function(elapsed) {
         var obj = _anim_objs_cache[i];
         for (var j = 0; j < 8; j++) {
             // NOTE: anim_slots may be cleared in some of finish callbacks
-            if (!obj._anim_slots.length)
+            if (!obj.anim_slots.length)
                 break;
             handle_finish_callback(obj, j);
         }
@@ -133,7 +130,7 @@ exports.update = function(elapsed) {
 }
 
 function handle_finish_callback(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
 
     if (!anim_slot)
         return;
@@ -150,47 +147,55 @@ exports.get_all_actions = function() {
 
 function apply_vertex_anim(obj, va, slot_num) {
 
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
 
     anim_slot.type = OBJ_ANIM_TYPE_VERTEX;
 
-    var start = va["frame_start"];
+    var start = va.frame_start;
     // last frame will be rendered
-    var length = va["frame_end"] - start + 1;
+    var length = va.frame_end - start + 1;
     anim_slot.start = start;
     anim_slot.length = length;
     anim_slot.current_frame_float = start;
 
-    anim_slot.animation_name = va["name"];
+    anim_slot.animation_name = va.name;
 
     // calculate VBO offset for given vertex animation
     var va_frame_offset = 0;
-    for (var i = 0; i < obj["data"]["b4w_vertex_anim"].length; i++) {
-        var va_i = obj["data"]["b4w_vertex_anim"][i];
+    for (var i = 0; i < obj.vertex_anim.length; i++) {
+        var va_i = obj.vertex_anim[i];
 
         if (va_i == va)
             break;
         else
-            va_frame_offset += (va_i["frame_end"] - va_i["frame_start"] + 1);
+            va_frame_offset += (va_i.frame_end - va_i.frame_start + 1);
     }
 
     anim_slot.va_frame_offset = va_frame_offset;
 }
 
-function apply_particles_anim(obj, psys, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+function apply_particles_anim(obj, psys_name, slot_num) {
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var pdata = batches[j].particles_data;
 
-    anim_slot.type = OBJ_ANIM_TYPE_PARTICLES;
-    anim_slot.animation_name = psys["name"];
+            if (!pdata || pdata.name != psys_name)
+                continue;
 
-    var pset = psys["settings"];
-    anim_slot.start  = pset["frame_start"];
-    anim_slot.length = pset["frame_end"] - anim_slot.start;
+            var anim_slot = obj.anim_slots[slot_num];
 
-    if (!psys["settings"]["b4w_cyclic"])
-        anim_slot.length += pset["lifetime"];
+            anim_slot.type = OBJ_ANIM_TYPE_PARTICLES;
+            anim_slot.animation_name = pdata.name;
 
-    anim_slot.particle_system = psys;
+            anim_slot.start  = pdata.frame_start;
+            anim_slot.length = pdata.frame_end - anim_slot.start;
+
+            if (!pdata.cyclic)
+                anim_slot.length += pdata.lifetime_frames;
+        }
+    }
 }
 
 function init_anim(obj, slot_num) {
@@ -235,11 +240,11 @@ function init_anim(obj, slot_num) {
         node_rgb_inds: []
     };
 
-    if (!obj._anim_slots.length)
+    if (!obj.anim_slots.length)
         for (var i = 0; i < 8; i++)
-            obj._anim_slots.push(null);
+            obj.anim_slots.push(null);
 
-    obj._anim_slots[slot_num] = anim_slot;
+    obj.anim_slots[slot_num] = anim_slot;
 
     obj._action_anim_cache = obj._action_anim_cache || [];
 }
@@ -253,8 +258,8 @@ exports.get_anim_names = function(obj) {
     var anim_names = [];
 
     if (has_vertex_anim(obj)) {
-        for (var i = 0; i < obj["data"]["b4w_vertex_anim"].length; i++)
-            anim_names.push(obj["data"]["b4w_vertex_anim"][i]["name"]);
+        for (var i = 0; i < obj.vertex_anim.length; i++)
+            anim_names.push(obj.vertex_anim[i].name);
     }
 
     var actions = get_actions(obj);
@@ -262,10 +267,17 @@ exports.get_anim_names = function(obj) {
         anim_names.push(strip_baked_suffix(actions[i]["name"]));
     }
 
-    if (m_particles.has_particles(obj) && m_particles.has_anim_particles(obj))
-        for (var i = 0; i < obj["particle_systems"].length; i++) {
-            anim_names.push(obj["particle_systems"][i]["name"]);
+    if (m_particles.obj_has_particles(obj) && m_particles.obj_has_anim_particles(obj)) {
+        var scenes_data = obj.scenes_data;
+        for (var i = 0; i < scenes_data.length; i++) {
+            var batches = scenes_data[i].batches;
+            for (var j = 0; j < batches.length; j++) {
+                var pdata = batches[j].particles_data;
+                if (pdata)
+                    anim_names.push(pdata.name);
+            }
         }
+    }
 
     return anim_names;
 }
@@ -276,7 +288,7 @@ function strip_baked_suffix(name) {
 }
 
 exports.get_anim_type = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num]
+    var anim_slot = obj.anim_slots[slot_num]
     if (anim_slot)
         return anim_slot.type;
 
@@ -288,25 +300,26 @@ exports.get_anim_type = function(obj, slot_num) {
  * (object, vertex, armature, etc...)
  */
 exports.apply_def = function(obj) {
+    var bpy_obj = obj.temp_bpy_obj;
+
     var slot_num = SLOT_0;
 
     var actions = get_default_actions(obj);
 
-    // NOTE: psys._internal is undefined if b4w_do_not_render is set
-    if (!obj["b4w_do_not_render"]) {
-        var psystems = obj["particle_systems"];
-        for (var i = 0; i < psystems.length; i++) {
-            var psys = psystems[i];
-            var psettings = psys["settings"];
-            if (psettings["type"] == "EMITTER") {
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var pdata = batches[j].particles_data;
+            if (pdata && pdata.p_type == "EMITTER") {
                 do_before_apply(obj, slot_num);
-                apply_particles_anim(obj, psys, slot_num);
+                apply_particles_anim(obj, pdata.name, slot_num);
                 do_after_apply(obj, slot_num);
-                obj._anim_slots[slot_num].behavior =
-                        anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
-                if (psettings["b4w_cyclic"])
-                    obj._anim_slots[slot_num].behavior = AB_CYCLIC;
-                slot_num++
+                obj.anim_slots[slot_num].behavior =
+                        anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
+                if (pdata.cyclic)
+                    obj.anim_slots[slot_num].behavior = AB_CYCLIC;
+                slot_num++;
             }
         }
     }
@@ -317,19 +330,19 @@ exports.apply_def = function(obj) {
         do_before_apply(obj, slot_num);
         if (apply_action(obj, action, slot_num)) {
             do_after_apply(obj, slot_num);
-            obj._anim_slots[slot_num].behavior =
-                    anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
+            obj.anim_slots[slot_num].behavior =
+                    anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
             slot_num++
         } else
-            obj._anim_slots[slot_num] = null;
+            obj.anim_slots[slot_num] = null;
     }
 
     if (has_vertex_anim(obj)) {
         do_before_apply(obj, slot_num);
-        apply_vertex_anim(obj, obj["data"]["b4w_vertex_anim"][0], slot_num);
+        apply_vertex_anim(obj, obj.vertex_anim[0], slot_num);
         do_after_apply(obj, slot_num);
-        obj._anim_slots[slot_num].behavior =
-                anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
+        obj.anim_slots[slot_num].behavior =
+                anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
         slot_num++
 
     }
@@ -362,7 +375,7 @@ function get_actions(obj) {
         var act_render = action._render;
 
         if (bones_num) {
-            if (obj["type"] == "ARMATURE")
+            if (obj.type == "ARMATURE")
                 act_list.push(action);
         } else if (act_render.params["volume"] || act_render.params["pitch"]) {
             if (m_sfx.is_speaker(obj))
@@ -373,7 +386,7 @@ function get_actions(obj) {
         }
     }
 
-    if (obj["type"] == "MESH")
+    if (obj.type == "MESH")
         act_list = act_list.concat(get_material_actions(obj));
 
     return act_list;
@@ -388,11 +401,11 @@ function get_actions(obj) {
  * @returns Default action or null
  */
 function get_default_actions(obj) {
-
+    var bpy_obj = obj.temp_bpy_obj;
     var act_list = [];
 
     // animation_data
-    var anim_data = obj["animation_data"];
+    var anim_data = bpy_obj["animation_data"];
 
     if (anim_data && anim_data["action"]) {
         var action = anim_data["action"];
@@ -400,26 +413,26 @@ function get_default_actions(obj) {
         if (m_util.get_dict_length(action["fcurves"])) {
             var bones = action._render.bones;
             var bones_num = m_util.get_dict_length(bones);
-            if (obj["type"] == "ARMATURE" || !bones_num)
+            if (obj.type == "ARMATURE" || !bones_num)
                 act_list.push(action);
         }
     }
 
-    if (m_sfx.is_speaker(obj) && obj["data"]["animation_data"] &&
-            obj["data"]["animation_data"]["action"])
-        act_list.push(obj["data"]["animation_data"]["action"]);
+    if (m_sfx.is_speaker(obj) && bpy_obj["data"]["animation_data"] &&
+            bpy_obj["data"]["animation_data"]["action"])
+        act_list.push(bpy_obj["data"]["animation_data"]["action"]);
 
-    if (obj["type"] == "MESH")
+    if (obj.type == "MESH")
         act_list = act_list.concat(get_material_actions(obj));
 
     return act_list;
 }
 
 function get_material_actions(obj) {
-
+    var bpy_obj = obj.temp_bpy_obj;
     var act_list = [];
 
-    var materials = obj["data"]["materials"];
+    var materials = bpy_obj["data"]["materials"];
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
         var node_tree = mat["node_tree"];
@@ -451,7 +464,7 @@ function get_node_tree_actions_r(node_tree, container) {
 }
 
 function has_vertex_anim(obj) {
-    if (m_util.is_mesh(obj) && obj._render.vertex_anim)
+    if (m_util.is_mesh(obj) && obj.render.vertex_anim)
         return true;
     else
         return false;
@@ -473,9 +486,9 @@ exports.play = function(obj, finish_callback, slot_num) {
 
         anim_slot.exec_finish_callback = false;
     }
-    process_anim_slots(obj._anim_slots, slot_num, play_slot);
+    process_anim_slots(obj.anim_slots, slot_num, play_slot);
 
-    if (obj._render.anim_mixing)
+    if (obj.render.anim_mixing)
         sync_skeletal_animations(obj);
 }
 
@@ -488,11 +501,11 @@ exports.stop = function(obj, slot_num) {
         anim_slot.finish_callback = null;
         anim_slot.exec_finish_callback = false;
     }
-    process_anim_slots(obj._anim_slots, slot_num, stop_slot);
+    process_anim_slots(obj.anim_slots, slot_num, stop_slot);
 }
 
 exports.is_play = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
     if (anim_slot)
         return anim_slot.play;
 
@@ -503,7 +516,7 @@ exports.is_play = function(obj, slot_num) {
  * Set frame and update animation.
  */
 exports.set_frame = function(obj, cff, slot_num) {
-    var anim_slots = obj._anim_slots;
+    var anim_slots = obj.anim_slots;
     if (slot_num == SLOT_ALL) {
         for (var i = 0; i < 8; i++) {
             var anim_slot = anim_slots[i]
@@ -522,7 +535,7 @@ exports.set_frame = function(obj, cff, slot_num) {
 }
 
 exports.get_current_frame_float = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num]
+    var anim_slot = obj.anim_slots[slot_num]
     if (anim_slot && anim_slot.current_frame_float)
         return anim_slot.current_frame_float;
     else
@@ -530,7 +543,7 @@ exports.get_current_frame_float = function(obj, slot_num) {
 }
 
 exports.is_cyclic = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num]
+    var anim_slot = obj.anim_slots[slot_num]
     return anim_slot && anim_slot.behavior == AB_CYCLIC;
 }
 
@@ -538,11 +551,11 @@ exports.set_behavior = function(obj, behavior, slot_num) {
     function set_slot_behavior(anim_slot) {
         anim_slot.behavior = behavior;
     }
-    process_anim_slots(obj._anim_slots, slot_num, set_slot_behavior);
+    process_anim_slots(obj.anim_slots, slot_num, set_slot_behavior);
 }
 
 exports.get_behavior = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num]
+    var anim_slot = obj.anim_slots[slot_num]
     return anim_slot && anim_slot.behavior;
 }
 
@@ -551,17 +564,17 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
         anim_slot.trans_smooth_period = trans_period || 0;
         anim_slot.quat_smooth_period = quat_period || 0;
     }
-    process_anim_slots(obj._anim_slots, slot_num, apply_slot_smoothing);
+    process_anim_slots(obj.anim_slots, slot_num, apply_slot_smoothing);
 }
 
 exports.remove_slot_animation = function(obj, slot_num) {
     if (slot_num == SLOT_ALL)
         for (var i = 0; i < 8; i++)
-            obj._anim_slots[i] = null;
+            obj.anim_slots[i] = null;
     else
-        obj._anim_slots[slot_num] = null;
+        obj.anim_slots[slot_num] = null;
 
-    if (obj._render.anim_mixing)
+    if (obj.render.anim_mixing)
         recalculate_armature_anim_slots(obj, slot_num);
 }
 
@@ -588,7 +601,7 @@ function update_object_animation(obj, elapsed, slot_num, force_update) {
     animate(obj, elapsed, slot_num, force_update);
     handle_finish_callback(obj, slot_num);
 
-    if (obj._render.anim_mixing) {
+    if (obj.render.anim_mixing) {
         process_mix_factor(obj, elapsed);
         mix_skeletal_animation(obj, elapsed);
     }
@@ -606,12 +619,41 @@ function update_object_animation(obj, elapsed, slot_num, force_update) {
  * <li>obj has vertex animation
  * </ol>
  */
-exports.is_animatable = function(bpy_obj) {
+exports.obj_is_animatable = function(obj) {
+    var bpy_obj = obj.temp_bpy_obj;
+    if (obj.type == "ARMATURE")
+        return true;
+
+    if (obj.armobj)
+        return true;
+
+    // animation_data
+    var anim_data = bpy_obj["animation_data"];
+    if (anim_data && anim_data["action"])
+        return true;
+
+    if (obj.type == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
+            bpy_obj["data"]["animation_data"]["action"])
+        return true;
+
+    if (m_particles.obj_has_particles(obj) && m_particles.obj_has_anim_particles(obj))
+        return true;
+
+    if (obj.type == "MESH" && obj.vertex_anim.length)
+        return true;
+
+    if (has_animated_nodemats(obj))
+        return true;
+
+    return false;
+}
+
+exports.bpy_obj_is_animatable = function(bpy_obj) {
 
     if (bpy_obj["type"] == "ARMATURE")
         return true;
 
-    var armobj = get_first_armature_object(bpy_obj);
+    var armobj = get_bpy_armobj(bpy_obj);
     if (armobj)
         return true;
 
@@ -624,44 +666,27 @@ exports.is_animatable = function(bpy_obj) {
             bpy_obj["data"]["animation_data"]["action"])
         return true;
 
-    if (m_particles.has_particles(bpy_obj) && m_particles.has_anim_particles(bpy_obj))
+    if (m_particles.bpy_obj_has_particles(bpy_obj) && m_particles.bpy_obj_has_anim_particles(bpy_obj))
         return true;
 
     if (bpy_obj["type"] == "MESH" &&
             bpy_obj["data"]["b4w_vertex_anim"].length)
         return true;
 
-    if (has_animated_nodemats(bpy_obj))
+    if (has_animated_nodemats_bpy(bpy_obj))
         return true;
 
     return false;
 }
 
-exports.get_first_armature_object = get_first_armature_object;
-function get_first_armature_object(bpy_obj) {
-
-    if (!m_util.is_mesh(bpy_obj))
-        return null;
-
-    var modifiers = bpy_obj["modifiers"];
-    for (var i = 0; i < modifiers.length; i++) {
-        var modifier = modifiers[i];
-        if (modifier["type"] == "ARMATURE")
-            return modifier["object"];
-    }
-
-    return null;
-}
-
-
 exports.is_animated = function(obj) {
-    return Boolean(obj._anim_slots.length);
+    return Boolean(obj.anim_slots.length);
 }
 
 /**
  * Calculate object animation data:
  * quats, trans for each bone (group) index and pierced point
- * save them to obj._anim_slots
+ * save them to obj.anim_slots
  */
 function apply_action(obj, action, slot_num) {
 
@@ -669,13 +694,13 @@ function apply_action(obj, action, slot_num) {
 
     if (frame_range[0] > frame_range[1]) {
         m_print.warn("Incompatible action \"" + action["name"] + 
-                "\" has been applied to object \"" + obj["name"] + "\"");
+                "\" has been applied to object \"" + obj.name + "\"");
         return false;
     }
 
     var act_render = action._render;
 
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
 
     anim_slot.animation_name = action["name"];
     anim_slot.action_frame_range = frame_range;
@@ -712,7 +737,7 @@ function apply_action(obj, action, slot_num) {
         anim_slot.pitch = act_render.params["pitch"] || null;
         anim_slot.type = OBJ_ANIM_TYPE_SOUND;
 
-    } else if (obj["type"] == "MESH" && is_material_action(action)) {
+    } else if (obj.type == "MESH" && is_material_action(action)) {
         anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
 
         var nodemat_anim_data = get_cached_anim_data(obj, action);
@@ -743,14 +768,14 @@ function apply_action(obj, action, slot_num) {
             anim_slot.quats = obj_anim_data.quats;
 
             // move particles with world coordinate system to objects position
-            if (m_particles.has_particles(obj)) {
+            if (m_particles.obj_has_particles(obj)) {
                 var trans = anim_slot.trans[0];
                 var quats = anim_slot.quats[0];
                 m_particles.update_start_pos(obj, trans, quats);
             }
         } else {
             m_print.warn("Incompatible action \"" + action["name"] + 
-                    "\" has been applied to object \"" + obj["name"] + "\"");
+                    "\" has been applied to object \"" + obj.name + "\"");
             return false;
         }
     }
@@ -777,10 +802,10 @@ function cache_anim_data(obj, action, data) {
 
 function init_skinned_objs_data(armobj, slot_num, action) {
 
-    var render = armobj._render;
+    var render = armobj.render;
     var skinned_renders = render.skinned_renders;
 
-    var anim_slot = armobj._anim_slots[slot_num];
+    var anim_slot = armobj.anim_slots[slot_num];
     var skinning_data = anim_slot.skinning_data;
 
     var skinning_data_cache = get_cached_skinning_data(render, action);
@@ -827,7 +852,7 @@ function cache_skinning_data(render, action, skinning_data) {
 
 function sync_skeletal_animations(armobj) {
 
-    var skeletal_slots = armobj._render.two_last_skeletal_slots;
+    var skeletal_slots = armobj.render.two_last_skeletal_slots;
 
     // one or none skeletal animation applied
     if (skeletal_slots[0] == -1 || skeletal_slots[1] == -1)
@@ -836,7 +861,7 @@ function sync_skeletal_animations(armobj) {
     // last skeletal animation slot determines frame allignment
     var last_skel_slot = skeletal_slots[1];
 
-    var anim_slots = armobj._anim_slots;
+    var anim_slots = armobj.anim_slots;
     var last_skel_anim = anim_slots[last_skel_slot];
 
     var cff = last_skel_anim.current_frame_float;
@@ -853,7 +878,7 @@ function sync_skeletal_animations(armobj) {
 
 function recalculate_armature_anim_slots(obj, overriden_slot) {
 
-    var skeletal_slots = obj._render.two_last_skeletal_slots;
+    var skeletal_slots = obj.render.two_last_skeletal_slots;
 
     var last_skel_slot = skeletal_slots[1];
 
@@ -863,7 +888,7 @@ function recalculate_armature_anim_slots(obj, overriden_slot) {
     if (overriden_slot == SLOT_ALL)
         return;
 
-    var anim_slots = obj._anim_slots;
+    var anim_slots = obj.anim_slots;
     for (var i = last_skel_slot; i >= SLOT_0; i--) {
 
         var anim_slot = anim_slots[i];
@@ -901,8 +926,9 @@ function find_armature_constraint(constraints, type) {
 
 exports.calc_armature_bone_pointers = calc_armature_bone_pointers;
 function calc_armature_bone_pointers(armobj) {
-    var bones = armobj["data"]["bones"];
-    var pose_bones = armobj["pose"]["bones"];
+    var bpy_armobj = armobj.temp_bpy_obj;
+    var bones = bpy_armobj["data"]["bones"];
+    var pose_bones = bpy_armobj["pose"]["bones"];
 
     var bone_pointers = {};
 
@@ -930,8 +956,8 @@ function calc_nodemat_anim_data(obj, action) {
     var rgbs = [];
 
     var act_render = action._render;
-    var val_ind_pairs = obj._render.mats_anim_inds;
-    var rgb_ind_pairs = obj._render.mats_rgb_anim_inds;
+    var val_ind_pairs = obj.render.mats_anim_inds;
+    var rgb_ind_pairs = obj.render.mats_rgb_anim_inds;
 
     for (var node_name in act_render.params) {
         var act_node_name = action["name"] + "%join%" + node_name;
@@ -977,8 +1003,9 @@ function calc_obj_anim_data(obj, action, tsr) {
  * Find bone by name and calculate bone pointer
  */
 function calc_bone_pointer(bone_name, armobj) {
-    var bones = armobj["data"]["bones"];
-    var pose_bones = armobj["pose"]["bones"];
+    var bpy_armobj = armobj.temp_bpy_obj;
+    var bones = bpy_armobj["data"]["bones"];
+    var pose_bones = bpy_armobj["pose"]["bones"];
 
     var bone = m_util.keysearch("name", bone_name, bones);
     var bone_index = m_util.get_index_for_key_value(bones, "name", bone_name);
@@ -1009,7 +1036,7 @@ function is_material_action(action) {
 }
 
 function animate(obj, elapsed, slot_num, force_update) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
 
     if (!anim_slot || anim_slot.type == null)
         return;
@@ -1018,7 +1045,7 @@ function animate(obj, elapsed, slot_num, force_update) {
     if (!anim_slot.play && !force_update)
         return
 
-    var render = obj._render;
+    var render = obj.render;
 
     var cff = anim_slot.current_frame_float;
     var start = anim_slot.start;
@@ -1107,11 +1134,11 @@ function animate(obj, elapsed, slot_num, force_update) {
         var mask = anim_slot.channels_mask;
 
         if (mask[0])
-            m_trans.set_translation(obj, trans);
+            m_trans.set_translation_rel(obj, trans);
         if (mask[1])
-            m_trans.set_rotation(obj, quat);
+            m_trans.set_rotation_rel(obj, quat);
         if (mask[2])
-            m_trans.set_scale(obj, scale);
+            m_trans.set_scale_rel(obj, scale);
 
         m_trans.update_transform(obj);
         m_phy.sync_transform(obj);
@@ -1144,8 +1171,7 @@ function animate(obj, elapsed, slot_num, force_update) {
 
     case OBJ_ANIM_TYPE_PARTICLES:
         var time = cff / cfg_ani.framerate;
-        var psys = anim_slot.particle_system;
-        m_particles.set_time(psys, time);
+        m_particles.set_time(obj, anim_slot.animation_name, time);
         break;
 
     case OBJ_ANIM_TYPE_MATERIAL:
@@ -1165,7 +1191,7 @@ function animate(obj, elapsed, slot_num, force_update) {
             var ind = val_indices[i];
 
             var nodemat_value = (1-ff) * vals[fc] + ff * vals[fn];
-            obj._render.mats_values[ind] = nodemat_value;
+            obj.render.mats_values[ind] = nodemat_value;
         }
         for (var i = 0; i < rgb_indices.length; i++) {
             var rgb = rgbs[i];
@@ -1174,9 +1200,9 @@ function animate(obj, elapsed, slot_num, force_update) {
             var prev = rgb.subarray(fc*3, fc*3 + 3);
             var next = rgb.subarray(fn*3, fn*3 + 3);
             var curr = m_vec3.lerp(prev, next, ff, _vec3_tmp);
-            obj._render.mats_rgbs[ind] = curr[0];
-            obj._render.mats_rgbs[ind + 1] = curr[1];
-            obj._render.mats_rgbs[ind + 2] = curr[2];
+            obj.render.mats_rgbs[ind] = curr[0];
+            obj.render.mats_rgbs[ind + 1] = curr[1];
+            obj.render.mats_rgbs[ind + 2] = curr[2];
         }
         break;
 
@@ -1283,7 +1309,7 @@ function animate_skinned_objs(render, anim_slot, frame, frame_next, frame_factor
  * Mix two last skeletal animations based on mix_factor
  */
 function mix_skeletal_animation(obj, elapsed) {
-    var render = obj._render;
+    var render = obj.render;
 
     var mix_factor = render.anim_mix_factor;
 
@@ -1298,7 +1324,7 @@ function mix_skeletal_animation(obj, elapsed) {
 
     if (ind_0 != -1) {
         // penult anim
-        var skeletal_slot_0 = obj._anim_slots[ind_0];
+        var skeletal_slot_0 = obj.anim_slots[ind_0];
 
         if (skeletal_slot_0.play || elapsed == 0) {
 
@@ -1319,7 +1345,7 @@ function mix_skeletal_animation(obj, elapsed) {
         mix_factor = 1;
 
     // last anim
-    var skeletal_slot_1 = obj._anim_slots[ind_1];
+    var skeletal_slot_1 = obj.anim_slots[ind_1];
 
     if (skeletal_slot_1.play || elapsed == 0) {
 
@@ -1417,7 +1443,7 @@ function mix_skeletal_animation(obj, elapsed) {
 
 function process_mix_factor(obj, elapsed) {
 
-    var render = obj._render;
+    var render = obj.render;
     var cur_mix_factor = render.anim_mix_factor;
 
     var speed = render.anim_mix_factor_change_speed;
@@ -1443,8 +1469,8 @@ function process_mix_factor(obj, elapsed) {
  * using prepared in action curves
  */
 function calc_pose_data_frames(armobj, action, bone_pointers) {
-
-    var pose_bones = armobj["pose"]["bones"];
+    var bpy_armobj = armobj.temp_bpy_obj;
+    var pose_bones = bpy_armobj["pose"]["bones"];
 
     // convert to form appropriate for renderer
     var trans_frames = [];
@@ -1489,7 +1515,8 @@ function calc_pose_data(armobj, bone_pointers) {
     var trans = [];
     var quats = [];
 
-    var pose_bones = armobj["pose"]["bones"];
+    var bpy_armobj = armobj.temp_bpy_obj;
+    var pose_bones = bpy_armobj["pose"]["bones"];
 
     var t = new Float32Array(4);
     var q = new Float32Array(4);
@@ -1971,16 +1998,6 @@ function bezier_parametric(t, p0, p1, p2, p3) {
 }
 
 /**
- * Return first animated object
- */
-exports.first_animated = function(objs) {
-    for (var i = 0; i < objs.length; i++)
-        if (objs[i]._anim)
-            return objs[i];
-    return false;
-}
-
-/**
  * Get bone translation.
  */
 function get_anim_translation(anim_slot, index, frame_info, dest) {
@@ -2074,8 +2091,7 @@ function apply(obj, name, slot_num) {
     slot_num = slot_num || SLOT_0;
 
     if (m_util.is_mesh(obj)) {
-        var vertex_anim = m_util.keysearch("name", name,
-                obj["data"]["b4w_vertex_anim"]);
+        var vertex_anim = get_vertex_anim_by_name(obj, name);
         if (vertex_anim) {
             do_before_apply(obj, slot_num);
             apply_vertex_anim(obj, vertex_anim, slot_num);
@@ -2083,16 +2099,14 @@ function apply(obj, name, slot_num) {
             return true;
         }
 
-        var psys = m_util.keysearch("name", name, obj["particle_systems"]);
-        if (psys) {
-            var psettings = psys["settings"];
-            if (psettings["type"] == "EMITTER") {
-                do_before_apply(obj, slot_num);
-                apply_particles_anim(obj, psys, slot_num);
-                do_after_apply(obj, slot_num);
-                return true;
-            }
+        var pdata = get_particles_data_by_name(obj, name);
+        if (pdata && pdata.p_type == "EMITTER") {
+            do_before_apply(obj, slot_num);
+            apply_particles_anim(obj, pdata.name, slot_num);
+            do_after_apply(obj, slot_num);
+            return true;
         }
+
     }
     var action = m_util.keysearch("name", name, _actions) ||
             m_util.keysearch("name", name + "_B4W_BAKED", _actions);
@@ -2102,7 +2116,7 @@ function apply(obj, name, slot_num) {
             do_after_apply(obj, slot_num);
             return true;
         } else
-            obj._anim_slots[slot_num] = null;
+            obj.anim_slots[slot_num] = null;
     }
 
     m_print.error("Unsupported object: \"" + obj.name +
@@ -2119,7 +2133,7 @@ exports.apply_by_uuid = function(obj, uuid, slot_num) {
             do_after_apply(obj, slot_num);
             return true;
         } else
-            obj._anim_slots[slot_num] = null;
+            obj.anim_slots[slot_num] = null;
     }
 
     m_print.error("Unsupported object: \"" + obj.name +
@@ -2135,10 +2149,11 @@ exports.validate_action_by_name = function(obj, name) {
         if (!m_util.get_dict_length(action["fcurves"]))
             return false;    
     } else {
-        var psys = m_util.keysearch("name", name, obj["particle_systems"]);
-        if (!psys)
+
+        var pdata = get_particles_data_by_name(obj, name);
+        if (!pdata)
             if (!m_util.is_mesh(obj) || 
-                    !m_util.keysearch("name", name, obj["data"]["b4w_vertex_anim"]))
+                    !get_vertex_anim_by_name(obj, name))
                 return false;
     }
 
@@ -2148,7 +2163,7 @@ exports.validate_action_by_name = function(obj, name) {
 
 exports.get_slot_num_by_anim = get_slot_num_by_anim
 function get_slot_num_by_anim(obj, anim_name) {
-    var anim_slots = obj._anim_slots;
+    var anim_slots = obj.anim_slots;
     for (var i = 0; i < anim_slots.length; i++) {
         var anim_slot = anim_slots[i];
         if (anim_slot && strip_baked_suffix(anim_slot.animation_name) ==
@@ -2159,7 +2174,7 @@ function get_slot_num_by_anim(obj, anim_name) {
 }
 
 exports.get_anim_by_slot_num = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
     if (anim_slot && anim_slot.animation_name)
         return strip_baked_suffix(anim_slot.animation_name);
 
@@ -2167,7 +2182,7 @@ exports.get_anim_by_slot_num = function(obj, slot_num) {
 }
 
 exports.remove = function(obj) {
-    obj._anim_slots.length = 0;
+    obj.anim_slots.length = 0;
     var ind = _anim_objs_cache.indexOf(obj);
     if (ind != -1)
         _anim_objs_cache.splice(ind, 1);
@@ -2180,14 +2195,14 @@ exports.remove_actions = function(data_id) {
 }
 
 exports.apply_to_first_empty_slot = function(obj, name) {
-    if (!obj._anim_slots.length) {
+    if (!obj.anim_slots.length) {
         if (apply(obj, name, SLOT_0))
             return SLOT_0;
         else
             return -1;
     }
-    for (var i = 0; i < obj._anim_slots.length; i++) {
-        if (!obj._anim_slots[i]) {
+    for (var i = 0; i < obj.anim_slots.length; i++) {
+        if (!obj.anim_slots[i]) {
             if (apply(obj, name, i))
                 return i;
             else
@@ -2197,40 +2212,62 @@ exports.apply_to_first_empty_slot = function(obj, name) {
 }
 
 exports.set_skel_mix_factor = function(obj, factor, time) {
-    var cur_mix_factor = obj._render.anim_mix_factor;
+    var cur_mix_factor = obj.render.anim_mix_factor;
     var speed = (factor - cur_mix_factor) / time;
 
-    obj._render.anim_mix_factor_change_speed = speed;
-    obj._render.anim_destination_mix_factor = factor;
+    obj.render.anim_mix_factor_change_speed = speed;
+    obj.render.anim_destination_mix_factor = factor;
 }
 
 exports.set_speed = function(obj, speed, slot_num) {
     function set_speed(anim_slot) {
         anim_slot.speed = speed;
     }
-    process_anim_slots(obj._anim_slots, slot_num, set_speed);
+    process_anim_slots(obj.anim_slots, slot_num, set_speed);
 }
 
 exports.get_speed = function(obj, slot_num) {
-    return obj._anim_slots[slot_num].speed;
+    return obj.anim_slots[slot_num].speed;
 }
 
 exports.get_anim_start_frame = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
     return anim_slot.start;
 }
 
 exports.get_anim_length = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num];
+    var anim_slot = obj.anim_slots[slot_num];
     return anim_slot.length;
 }
 
 exports.has_animated_nodemats = has_animated_nodemats;
 function has_animated_nodemats(obj) {
-    if (obj["type"] != "MESH" || !obj["data"])
+    var bpy_obj = obj.temp_bpy_obj;
+    if (obj.type != "MESH" || !bpy_obj["data"])
         return false;
 
-    var materials = obj["data"]["materials"];
+    var materials = bpy_obj["data"]["materials"];
+    if (!materials)
+        return false;
+
+    for (var j = 0; j < materials.length; j++) {
+        var mat = materials[j];
+        var node_tree = mat["node_tree"];
+        if (mat["use_nodes"] && node_tree) {
+            if (check_node_tree_anim_data_r(node_tree))
+                return true;
+        }
+    }
+
+    return false;
+}
+
+exports.has_animated_nodemats_bpy = has_animated_nodemats_bpy;
+function has_animated_nodemats_bpy(bpy_obj) {
+    if (bpy_obj["type"] != "MESH" || !bpy_obj["data"])
+        return false;
+
+    var materials = bpy_obj["data"]["materials"];
     if (!materials)
         return false;
 
@@ -2247,7 +2284,10 @@ function has_animated_nodemats(obj) {
 }
 
 function check_node_tree_anim_data_r(node_tree) {
-    if (node_tree["animation_data"])
+
+    var adata = node_tree["animation_data"];
+    if (adata && (adata["action"] ||
+            (adata["nla_tracks"] && adata["nla_tracks"].length)))
         return true;
 
     var nodes = node_tree["nodes"];
@@ -2305,6 +2345,42 @@ exports.fcurve_replace_euler_by_quat = function(fcurve) {
         fcurve[2]._pierced_points[i] = quat[1];
         fcurve[3]._pierced_points[i] = quat[2];
     }
+}
+
+function get_vertex_anim_by_name(obj, name) {
+    for (var i = 0; i < obj.vertex_anim.length; i++) {
+        var va = obj.vertex_anim[i];
+        if (va.name === name)
+            return va;
+    }
+
+    return null;
+}
+
+function get_particles_data_by_name(obj, name) {
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var pdata = batches[j].particles_data;
+            if (pdata && pdata.name === name)
+                return pdata;
+        }
+    }
+
+    return null;
+}
+
+exports.get_bpy_armobj = get_bpy_armobj;
+function get_bpy_armobj(bpy_obj) {
+    var modifiers = bpy_obj["modifiers"];
+    for (var i = 0; i < modifiers.length; i++) {
+        var modifier = modifiers[i];
+        if (modifier["type"] == "ARMATURE")
+            return modifier["object"];
+    }
+
+    return null;
 }
 
 }

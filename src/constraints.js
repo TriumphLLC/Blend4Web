@@ -8,15 +8,12 @@
  */
 b4w.module["__constraints"] = function(exports, require) {
 
+var m_cam  = require("__camera");
+var m_mat3 = require("__mat3");
+var m_quat = require("__quat");
 var m_tsr  = require("__tsr");
 var m_util = require("__util");
-var m_cam  = require("__camera");
-
-var m_vec3 = require("vec3");
-var m_vec4 = require("vec4");
-var m_quat = require("quat");
-var m_mat3 = require("mat3");
-var m_mat4 = require("mat4");
+var m_vec3 = require("__vec3");
 
 var CONS_TYPE_STIFF_OBJ           = 1;
 var CONS_TYPE_STIFF_BONE          = 2;
@@ -29,9 +26,10 @@ var CONS_TYPE_COPY_TRANS_OBJ      = 8;
 var CONS_TYPE_SEMI_STIFF_OBJ      = 9;
 var CONS_TYPE_SEMI_STIFF_CAM_OBJ  = 10;
 var CONS_TYPE_CHILD_OF            = 11;
-var CONS_TYPE_SEMI_SOFT_CAM_OBJ   = 12;
-var CONS_TYPE_STIFF_TRANS_ROT_OBJ = 13;
-var CONS_TYPE_STIFF_VIEWPORT      = 14;
+var CONS_TYPE_CHILD_OF_BONE       = 12;
+var CONS_TYPE_SEMI_SOFT_CAM_OBJ   = 13;
+var CONS_TYPE_STIFF_TRANS_ROT_OBJ = 14;
+var CONS_TYPE_STIFF_VIEWPORT      = 15;
 
 exports.CONS_TYPE_STIFF_OBJ = CONS_TYPE_STIFF_OBJ;
 exports.CONS_TYPE_STIFF_BONE = CONS_TYPE_STIFF_BONE;
@@ -44,6 +42,7 @@ exports.CONS_TYPE_COPY_TRANS_OBJ = CONS_TYPE_COPY_TRANS_OBJ;
 exports.CONS_TYPE_SEMI_STIFF_OBJ = CONS_TYPE_SEMI_STIFF_OBJ;
 exports.CONS_TYPE_SEMI_STIFF_CAM_OBJ = CONS_TYPE_SEMI_STIFF_CAM_OBJ;
 exports.CONS_TYPE_CHILD_OF = CONS_TYPE_CHILD_OF;
+exports.CONS_TYPE_CHILD_OF_BONE = CONS_TYPE_CHILD_OF_BONE;
 exports.CONS_TYPE_SEMI_SOFT_CAM_OBJ = CONS_TYPE_SEMI_SOFT_CAM_OBJ;
 exports.CONS_TYPE_STIFF_TRANS_ROT_OBJ = CONS_TYPE_STIFF_TRANS_ROT_OBJ;
 exports.CONS_TYPE_STIFF_VIEWPORT = CONS_TYPE_STIFF_VIEWPORT;
@@ -108,8 +107,8 @@ exports.append_stiff_bone = function(obj, armobj, bone_name, offset,
 exports.append_semi_stiff_obj = function(obj, obj_parent, offset, rotation_offset) {
 
     var cons = init_cons(CONS_TYPE_SEMI_STIFF_OBJ);
-    var quat = obj._render.quat;
-    var p_quat = obj_parent._render.quat;
+    var quat = obj.render.quat;
+    var p_quat = obj_parent.render.quat;
 
     // link to parent object
     cons.obj_parent = obj_parent;
@@ -135,8 +134,8 @@ exports.append_semi_stiff_cam_obj = function(obj, obj_parent, offset,
                                              clamp_right, clamp_up, clamp_down) {
 
     var cons = init_cons(CONS_TYPE_SEMI_STIFF_CAM_OBJ);
-    var quat = obj._render.quat;
-    var p_quat = obj_parent._render.quat;
+    var quat = obj.render.quat;
+    var p_quat = obj_parent.render.quat;
 
     // link to parent object
     cons.obj_parent = obj_parent;
@@ -201,29 +200,28 @@ function init_cons(type) {
 
 function apply_cons(obj, cons) {
 
-    if (obj._constraint && obj._constraint.obj_parent)
-        remove_parent_descendant(obj._constraint.obj_parent, obj);
+    if (obj.constraint && obj.constraint.obj_parent)
+        remove_parent_descendant(obj.constraint.obj_parent, obj);
 
     if (cons.obj_parent)
         assign_parent_descendant(cons.obj_parent, obj);
 
     // may override previous
-    obj._constraint = cons;
+    obj.constraint = cons;
 }
 
-exports.assign_parent_descendant = assign_parent_descendant;
 function assign_parent_descendant(obj_parent, obj) {
-    if (obj_parent._descends.indexOf(obj) == -1)
-        obj_parent._descends.push(obj);
+    if (obj_parent.cons_descends.indexOf(obj) == -1)
+        obj_parent.cons_descends.push(obj);
     else
         throw "Descendant object override is forbidden";
 }
 
 exports.remove_parent_descendant = remove_parent_descendant;
 function remove_parent_descendant(obj_parent, obj) {
-    var ind = obj_parent._descends.indexOf(obj);
+    var ind = obj_parent.cons_descends.indexOf(obj);
     if (ind != -1)
-        obj_parent._descends.splice(ind, 1);
+        obj_parent.cons_descends.splice(ind, 1);
     else
         throw "No descendant object";
 }
@@ -316,6 +314,20 @@ exports.append_child_of = function(obj, obj_parent, tsr_offset) {
     update_cons(obj, cons, 0);
 }
 
+/**
+ * Append child of constraint.
+ */
+exports.append_child_of_bone = function(obj, armobj, bone_name, tsr_offset) {
+    var cons = init_cons(CONS_TYPE_CHILD_OF_BONE);
+
+    cons.obj_parent = armobj;
+    cons.bone_name = bone_name;
+    cons.tsr_offset = new Float32Array(tsr_offset);
+
+    apply_cons(obj, cons);
+    update_cons(obj, cons, 0);
+}
+
 exports.append_stiff_viewport = function(obj, camobj, positioning) {
     var cons = init_cons(CONS_TYPE_STIFF_VIEWPORT);
 
@@ -363,8 +375,8 @@ exports.append_stiff_viewport = function(obj, camobj, positioning) {
  * Executed frequently.
  */
 exports.update_constraint = function(obj, elapsed) {
-    if (obj._constraint)
-        update_cons(obj, obj._constraint, elapsed);
+    if (obj.constraint)
+        update_cons(obj, obj.constraint, elapsed);
 }
 
 /**
@@ -374,10 +386,10 @@ function update_cons(obj, cons, elapsed) {
     switch (cons.type) {
     case CONS_TYPE_STIFF_OBJ:
 
-        var quat = obj._render.quat;
+        var quat = obj.render.quat;
 
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        var p_quat = cons.obj_parent._render.quat;
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        var p_quat = cons.obj_parent.render.quat;
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
@@ -385,17 +397,17 @@ function update_cons(obj, cons, elapsed) {
         } else
             m_quat.copy(p_quat, quat);
 
-        m_vec3.transformMat4(cons.offset, p_world_matrix, obj._render.trans);
-        obj._render.scale = cons.scale_offset * cons.obj_parent._render.scale;
+        m_vec3.transformMat4(cons.offset, p_world_matrix, obj.render.trans);
+        obj.render.scale = cons.scale_offset * cons.obj_parent.render.scale;
 
         break;
     case CONS_TYPE_SEMI_STIFF_OBJ:
 
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
 
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        var p_quat = cons.obj_parent._render.quat;
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        var p_quat = cons.obj_parent.render.quat;
 
         // Qp * Qp_prev_inv * Q
         m_quat.multiply(
@@ -409,11 +421,11 @@ function update_cons(obj, cons, elapsed) {
         break;
     case CONS_TYPE_SEMI_STIFF_CAM_OBJ:
 
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
 
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        var p_quat = cons.obj_parent._render.quat;
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        var p_quat = cons.obj_parent.render.quat;
 
         // Qp * Qp_prev_inv * Q
         m_quat.multiply(
@@ -429,10 +441,10 @@ function update_cons(obj, cons, elapsed) {
         break;
     case CONS_TYPE_SEMI_SOFT_CAM_OBJ:
 
-        var trans          = obj._render.trans;
-        var quat           = obj._render.quat;
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        var p_trans        = cons.obj_parent._render.trans;
+        var trans          = obj.render.trans;
+        var quat           = obj.render.quat;
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        var p_trans        = cons.obj_parent.render.trans;
         var softness       = cons.softness;
         var trans_pivot    = _vec3_tmp;
         var quat_pivot     = _quat4_tmp;
@@ -450,7 +462,7 @@ function update_cons(obj, cons, elapsed) {
 
         break;
     case CONS_TYPE_STIFF_BONE:
-        var quat = obj._render.quat;
+        var quat = obj.render.quat;
 
         var p_transscale = _vec4_tmp;
         var p_quat = _quat4_tmp;
@@ -464,31 +476,31 @@ function update_cons(obj, cons, elapsed) {
         } else
             m_quat.copy(p_quat, quat);
 
-        obj._render.scale = cons.scale_offset * p_transscale[3];
+        obj.render.scale = cons.scale_offset * p_transscale[3];
 
         m_util.transform_vec3(cons.offset, p_transscale[3], p_quat, p_transscale, 
-                obj._render.trans);
+                obj.render.trans);
 
         break;
     case CONS_TYPE_TRACK_OBJ:
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
-        var t_trans = cons.obj_parent._render.trans;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
+        var t_trans = cons.obj_parent.render.trans;
 
         rotate_to(trans, quat, t_trans);
         break;
     case CONS_TYPE_TRACK_POINT:
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
         var t_trans = cons.target;
 
         rotate_to(trans, quat, t_trans);
         break;
 
     case CONS_TYPE_FOLLOW_OBJ:
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
-        var t_trans = cons.obj_parent._render.trans;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
+        var t_trans = cons.obj_parent.render.trans;
 
         rotate_to(trans, quat, t_trans);
 
@@ -513,8 +525,8 @@ function update_cons(obj, cons, elapsed) {
 
         break;
     case CONS_TYPE_FOLLOW_POINT:
-        var trans = obj._render.trans;
-        var quat = obj._render.quat;
+        var trans = obj.render.trans;
+        var quat = obj.render.quat;
         var t_trans = cons.target;
 
         rotate_to(trans, quat, t_trans);
@@ -540,20 +552,20 @@ function update_cons(obj, cons, elapsed) {
 
         break;
     case CONS_TYPE_STIFF_TRANS_OBJ:
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        m_vec3.transformMat4(cons.offset, p_world_matrix, obj._render.trans);
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        m_vec3.transformMat4(cons.offset, p_world_matrix, obj.render.trans);
         break;
     case CONS_TYPE_COPY_TRANS_OBJ:
-        var p_trans = cons.obj_parent._render.trans;
-        var trans = obj._render.trans;
+        var p_trans = cons.obj_parent.render.trans;
+        var trans = obj.render.trans;
         m_vec3.add(p_trans, cons.offset, trans);
         break;
     case CONS_TYPE_STIFF_TRANS_ROT_OBJ:
 
-        var quat = obj._render.quat;
+        var quat = obj.render.quat;
 
-        var p_world_matrix = cons.obj_parent._render.world_matrix;
-        var p_quat = cons.obj_parent._render.quat;
+        var p_world_matrix = cons.obj_parent.render.world_matrix;
+        var p_quat = cons.obj_parent.render.quat;
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
@@ -561,35 +573,65 @@ function update_cons(obj, cons, elapsed) {
         } else
             m_quat.copy(p_quat, quat);
 
-        m_vec3.transformMat4(cons.offset, p_world_matrix, obj._render.trans);
+        m_vec3.transformMat4(cons.offset, p_world_matrix, obj.render.trans);
         break;
     case CONS_TYPE_CHILD_OF:
-        var prender = cons.obj_parent._render;
+        var prender = cons.obj_parent.render;
         var ptsr = m_tsr.create_sep(prender.trans, prender.scale, prender.quat,
                 _tsr8_tmp);
         var tsr_offset = cons.tsr_offset;
 
         m_tsr.multiply(ptsr, tsr_offset, ptsr);
 
-        var trans = obj._render.trans;
+        var trans = obj.render.trans;
         trans[0] = ptsr[0];
         trans[1] = ptsr[1];
         trans[2] = ptsr[2];
 
-        obj._render.scale = ptsr[3];
+        obj.render.scale = ptsr[3];
 
-        var quat = obj._render.quat;
+        var quat = obj.render.quat;
         quat[0] = ptsr[4];
         quat[1] = ptsr[5];
         quat[2] = ptsr[6];
         quat[3] = ptsr[7];
 
         break;
+    case CONS_TYPE_CHILD_OF_BONE:
+        var tsr_offset = cons.tsr_offset;
+
+        var p_transcale = _vec4_tmp;
+        var p_quat = _quat4_tmp;
+
+        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transcale, 
+                p_quat);
+
+        var p_tsr = _tsr8_tmp;
+
+        m_tsr.set_transcale(p_transcale, p_tsr);
+        m_tsr.set_quat(p_quat, p_tsr);
+
+        m_tsr.multiply(p_tsr, tsr_offset, p_tsr);
+
+        var trans = obj.render.trans;
+        trans[0] = p_tsr[0];
+        trans[1] = p_tsr[1];
+        trans[2] = p_tsr[2];
+
+        obj.render.scale = p_tsr[3];
+
+        var quat = obj.render.quat;
+        quat[0] = p_tsr[4];
+        quat[1] = p_tsr[5];
+        quat[2] = p_tsr[6];
+        quat[3] = p_tsr[7];
+
+        break;
     case CONS_TYPE_STIFF_VIEWPORT:
         var camobj = cons.obj_parent;
         var cam = m_cam.get_first_cam(camobj);
 
-        var trans = obj._render.trans;
+        var trans = obj.render.trans;
 
         var top = m_cam.get_edge(cam, "TOP");
         var bottom = m_cam.get_edge(cam, "BOTTOM");
@@ -619,26 +661,26 @@ function update_cons(obj, cons, elapsed) {
             m_vec3.scale(trans, scale, trans);
         }
 
-        m_tsr.transform_dir_vec3(trans, camobj._render.tsr, trans);
-        m_vec3.add(camobj._render.trans, trans, trans);
+        m_tsr.transform_dir_vec3(trans, camobj.render.tsr, trans);
+        m_vec3.add(camobj.render.trans, trans, trans);
 
-        var quat = obj._render.quat;
+        var quat = obj.render.quat;
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
-            m_quat.multiply(camobj._render.quat, quat, quat);
+            m_quat.multiply(camobj.render.quat, quat, quat);
         } else
-            m_quat.copy(camobj._render.quat, quat);
+            m_quat.copy(camobj.render.quat, quat);
 
         break;
     default:
         break;
     }
 
-    if (obj._render.type == "CAMERA") {
+    if (obj.render.type == "CAMERA") {
         var corr_axis = m_util.AXIS_Y;
         if (cons.type == CONS_TYPE_SEMI_STIFF_CAM_OBJ) {
-            var p_quat = cons.obj_parent._render.quat;
+            var p_quat = cons.obj_parent.render.quat;
             corr_axis = m_vec3.transformQuat(corr_axis, p_quat, _parent_y_axis);
         }
 
@@ -651,8 +693,8 @@ function update_cons(obj, cons, elapsed) {
  * uses _vec2_tmp, _vec2_tmp_2, _quat4_tmp
  */
 function clamp_orientation(obj, cons) {
-    var quat = obj._render.quat;
-    var p_quat = cons.obj_parent._render.quat;
+    var quat = obj.render.quat;
+    var p_quat = cons.obj_parent.render.quat;
 
     var quat_base = m_quat.multiply(p_quat, cons.rotation_offset, _quat4_tmp);
     var base_angles = m_cam.get_camera_angles_from_quat(quat_base, _vec2_tmp);
@@ -723,7 +765,7 @@ exports.correct_up = correct_up;
  * Uses _vec3_tmp, _vec3_tmp_2, _vec3_tmp_3
  */
 function correct_up(camobj, y_axis) {
-    var render = camobj._render;
+    var render = camobj.render;
     var quat = render.quat;
 
     var y_world = y_axis;
@@ -769,7 +811,7 @@ function correct_up(camobj, y_axis) {
 }
 
 exports.check_constraint = function(obj) {
-    if (obj._constraint)
+    if (obj.constraint)
         return true;
     else
         return false;
@@ -778,26 +820,54 @@ exports.check_constraint = function(obj) {
  * Remove object constraint
  */
 exports.remove = function(obj) {
-    if (obj._constraint.obj_parent)
-        remove_parent_descendant(obj._constraint.obj_parent, obj);
+    if (obj.constraint.obj_parent)
+        remove_parent_descendant(obj.constraint.obj_parent, obj);
 
-    obj._constraint = null;
+    obj.constraint = null;
 }
 
 /**
  * Get constraint type or null
  */
 exports.get_type = function(obj) {
-    if (obj._constraint)
-        return obj._constraint.type;
+    if (obj.constraint)
+        return obj.constraint.type;
     else
         return null;
 }
 
-exports.get_parent = function(obj) {
-    if (obj._constraint && obj._constraint.obj_parent)
-        return obj._constraint.obj_parent;
+exports.has_child_of = function(obj) {
+    var cons = obj.constraint;
+
+    if (cons && (cons.type == CONS_TYPE_CHILD_OF || 
+            cons.type == CONS_TYPE_CHILD_OF_BONE))
+        return true;
     else
+        return false;
+}
+
+/**
+ * Do not change returned value.
+ */
+exports.get_child_of_parent_tsr = function(obj) {
+    var cons = obj.constraint;
+
+    if (cons && cons.type == CONS_TYPE_CHILD_OF) {
+        return cons.obj_parent.render.tsr;
+    } else if (cons && cons.type == CONS_TYPE_CHILD_OF_BONE) {
+        var p_transcale = _vec4_tmp;
+        var p_quat = _quat4_tmp;
+
+        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transcale, 
+                p_quat);
+
+        var p_tsr = _tsr8_tmp;
+
+        m_tsr.set_transcale(p_transcale, p_tsr);
+        m_tsr.set_quat(p_quat, p_tsr);
+
+        return p_tsr;
+    } else
         return null;
 }
 
@@ -805,8 +875,11 @@ exports.get_parent = function(obj) {
  * Get link to child-of TSR offset vector or null.
  */
 exports.get_child_of_offset = function(obj) {
-    if (obj._constraint && obj._constraint.type == CONS_TYPE_CHILD_OF)
-        return obj._constraint.tsr_offset;
+    var cons = obj.constraint;
+
+    if (cons && (cons.type == CONS_TYPE_CHILD_OF || 
+            cons.type == CONS_TYPE_CHILD_OF_BONE))
+        return cons.tsr_offset;
     else
         return null;
 }
@@ -820,14 +893,14 @@ exports.get_bone_pose = get_bone_pose;
  */
 function get_bone_pose(armobj, bone_name, get_pose_tail, dest_transscale,
         dest_quat) {
-
-    var render = armobj._render;
+    var bpy_armobj = armobj.temp_bpy_obj;
+    var render = armobj.render;
 
     var frame_factor = render.frame_factor;
     var bone_pointer = render.bone_pointers[bone_name];
     var index = bone_pointer.deform_bone_index;
     var pose_bone_index = bone_pointer.pose_bone_index;
-    var bone = armobj["pose"]["bones"][pose_bone_index];
+    var bone = bpy_armobj["pose"]["bones"][pose_bone_index];
     var tsr_local = bone._tsr_local;
 
     var transcale = _vec4_tmp;

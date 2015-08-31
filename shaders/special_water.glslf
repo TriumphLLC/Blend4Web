@@ -4,15 +4,24 @@
 #var SSS_WIDTH 0.0
 #var PRECISION lowp
 
+// lamp dirs
+#var NUM_LIGHTS 0
+#var LAMP_IND 0
+#var LAMP_SPOT_SIZE 0
+#var LAMP_SPOT_BLEND 0
+#var LAMP_LIGHT_DIST 0
+#var LAMP_LIGHT_FACT_IND 0
+#var LAMP_FAC_CHANNELS rgb
+#var LAMP_SHADOW_MAP_IND 0
+#var NUM_LFACTORS 0
+
 /*============================================================================
                                   INCLUDES
 ============================================================================*/
 
 #include <std_enums.glsl>
 #include <precision_statement.glslf>
-#include <fog.glslf>
 #include <procedural.glslf>
-#include <lighting.glslf>
 #include <pack.glslf>
 #include <gamma.glslf>
 #include <math.glslv>
@@ -44,7 +53,7 @@ uniform vec4 u_light_factors[NUM_LFACTORS];
 uniform vec3 u_sun_intensity;
 uniform vec3 u_sun_direction;
 
-#if REFLECTION_TYPE == REFL_PLANE || REFRACTIVE || WATER_EFFECTS
+#if REFLECTION_TYPE == REFL_PLANE || SHORE_SMOOTHING || (WATER_EFFECTS && !DISABLE_FOG)
 uniform float u_cam_water_depth;
 #endif
 
@@ -53,10 +62,12 @@ uniform vec4 u_fog_color_density;
 # if WATER_EFFECTS
 uniform vec4 u_underwater_fog_color_density;
 # endif
-#endif
-
-#if !DISABLE_FOG && PROCEDURAL_FOG
+# if PROCEDURAL_FOG
 uniform mat4 u_cube_fog;
+# endif
+# if USE_FOG
+uniform vec4 u_fog_params; // intensity, depth, start, height
+# endif
 #endif
 
 /*============================================================================
@@ -197,6 +208,10 @@ varying vec3 v_barycentric;
 #include <refraction.glslf>
 #endif
 
+#if !DISABLE_FOG
+#include <fog.glslf>
+#endif
+
 vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
                  in vec3 light_energies, out float mirror_factor) {
 
@@ -217,8 +232,8 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
 # else
         reflect_color = u_diffuse_color.rgb;
 # endif
-        float eye_dot_norm = dot(eye_dir, normal);
-        mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 1.0);
+        //float eye_dot_norm = dot(eye_dir, normal);
+        //mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 0.0);
     } else {
         reflect_color = texture2D(u_plane_reflection, reflect_coord).rgb;
         srgb_to_lin(reflect_color);
@@ -245,7 +260,12 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
     return reflect_color;
 }
 
+/*============================================================================
+                                  INCLUDES
+============================================================================*/
 
+#include <lighting_nodes.glslf>
+                                  
 /*============================================================================
                                     MAIN
 ============================================================================*/
@@ -471,18 +491,12 @@ void main(void) {
                             Apply all needed colors
     ==========================================================================*/
 
-    vec3 color = u_diffuse_intensity * diffuse_color;
+    vec3 D = u_diffuse_intensity * diffuse_color;
 
-#if NUM_LIGHTS > 0
-    lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
-        normal, eye_dir, spec_params, u_diffuse_params, 1.0,
-        u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors, 0.0, vec4(0.0));
-#else
-    lighting_result lresult = lighting_ambient(vec3(0.0), vec3(0.0), color);
-#endif
-
-    color = lresult.color.rgb;
+    vec3 color;
+    vec3 specular;
+    nodes_lighting(vec3(0.0), vec3(0.0), D, S, v_pos_world, normal, eye_dir, 
+            spec_params, u_diffuse_params, 1.0, 0.0, vec4(0.0), color, specular);
 
 #if DYNAMIC
     // fake subsurface scattering (SSS)
@@ -512,30 +526,20 @@ void main(void) {
 #endif
 
     // specular
-    color += lresult.specular;
+    color += specular;
 
 #if !DISABLE_FOG
     // fog stuff
-# if PROCEDURAL_FOG
-    vec3 cube_fog  = procedural_fog_color(u_cube_fog, eye_dir);
-    vec4 fog_color = vec4(cube_fog, u_fog_color_density.a);
-    srgb_to_lin(fog_color.rgb);
-# else
-    vec4 fog_color = u_fog_color_density;
-# endif //PROCEDURAL_FOG
-
 # if WATER_EFFECTS
     if (u_cam_water_depth < 0.0) {
         //Underwater fog
-        water_fog(color, surf_dist, u_cam_water_depth,
-                  u_underwater_fog_color_density,
-                  clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0));
+        water_fog(color, surf_dist, u_cam_water_depth);
     } else {
-        fog(color, surf_dist, fog_color);
+        fog(color, surf_dist, eye_dir, 1.0);
     }
 # else
-    fog(color, surf_dist, fog_color);
-# endif //WATER_EFFECTS
+    fog(color, surf_dist, eye_dir, 1.0);
+# endif
 #endif //!DISABLE_FOG
 
     lin_to_srgb(color);
@@ -543,7 +547,7 @@ void main(void) {
 #if !REFRACTIVE
     // when there is no refractions make alpha stronger
     // in shiny areas and in areas with foam
-    alpha = max(alpha, lresult.specular.r);
+    alpha = max(alpha, specular.r);
  #if FOAM
     alpha += foam_sum;
  #endif //FOAM
@@ -555,7 +559,6 @@ void main(void) {
 
 #if DEBUG_WIREFRAME
 	#extension GL_OES_standard_derivatives: enable
-
 	vec3 derivatives = fwidth(v_barycentric);
 	vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
 	float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);

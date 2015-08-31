@@ -133,7 +133,6 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
-    oldobject = 0
     def __init__(self):
         pass
 
@@ -142,11 +141,6 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         try:
             ob = context.active_object
             if ob.type == 'MESH':
-                # load normals when object switched
-                if not ob == self.oldobject:
-                    load_loops_normals_into_global_cache(ob)
-                self.oldobject = ob;
-                self.oldmode = copy.copy(ob.mode)
                 return True
             else:
                 return False
@@ -358,8 +352,6 @@ class B4W_CopyNormalsFromMesh(bpy.types.Operator):
     bl_options = {"INTERNAL"}
     
     def execute(self, context):
-        bpy.ops.object.mode_set(mode='OBJECT')
-        bpy.ops.object.mode_set(mode='EDIT')
         prepare(context)
         norm_edited = False
         if len(bpy.context.selected_objects) != 2:

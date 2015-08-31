@@ -12,15 +12,15 @@
  */
 b4w.module["__assets"] = function(exports, require) {
 
-var config  = require("__config");
-var m_print = require("__print");
-var sfx     = require("__sfx");
-var m_util  = require("__util");
-var version = require("__version");
-var m_compat = require("__compat");
+var m_cfg     = require("__config");
+var m_compat  = require("__compat");
+var m_print   = require("__print");
+var m_sfg     = require("__sfx");
+var m_util    = require("__util");
+var m_version = require("__version");
 
-var cfg_ldr = config.assets;
-var cfg_def = config.defaults;
+var cfg_def = m_cfg.defaults;
+var cfg_ldr = m_cfg.assets;
 
 // asset types
 exports.AT_ARRAYBUFFER   = 10;
@@ -46,8 +46,8 @@ var _loaded_assets = {};
 
 
 function get_built_in_data() {
-    if (config.is_built_in_data())
-        return require(config.paths.built_in_data_module)["data"];
+    if (m_cfg.is_built_in_data())
+        return require(m_cfg.paths.built_in_data_module)["data"];
     else
         return null;
 }
@@ -127,7 +127,7 @@ exports.get_text_sync = function(asset_uri) {
         return _loaded_assets[asset_uri];
 
     if (cfg_ldr.prevent_caching)
-        var filepath = asset_uri + version.timestamp();
+        var filepath = asset_uri + m_version.timestamp();
     else
         var filepath = asset_uri;
 
@@ -181,7 +181,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
         if (cfg_ldr.prevent_caching) {
             var bd = get_built_in_data();
             if (!(bd && asset.filepath in bd))
-                asset.filepath += version.timestamp();
+                asset.filepath += m_version.timestamp();
         }
 
         _assets_queue.push(asset);
@@ -285,20 +285,20 @@ function request_arraybuffer(asset, response_type) {
                             try {
                                 response = JSON.parse(response);
                             } catch(e) {
-                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                                 m_print.error(e + " (parsing JSON " + asset.filepath + ")");
+                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                                 return;
                             }
                         }
 
                         asset.asset_cb(response, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                         m_print.error("empty responce when trying to get " + asset.filepath);
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     m_print.error(req.status + " when trying to get " + asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                 }
                 asset.state = ASTATE_RECEIVED;
             }
@@ -340,7 +340,7 @@ function request_audiobuffer(asset) {
                             asset.state = ASTATE_RECEIVED;
                         }
 
-                        sfx.decode_audio_data(response, decode_cb, fail_cb);
+                        m_sfg.decode_audio_data(response, decode_cb, fail_cb);
 
                     } else {
                         asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);

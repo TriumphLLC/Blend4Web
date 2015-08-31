@@ -1,0 +1,5572 @@
+# Blender's translation file (po format).
+# Copyright (C) 2015 The Blender Foundation.
+# This file is distributed under the same license as the Blender package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web 15.6.0 (0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-20 18:15:23.249063\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: __POT__\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#. :src: bpy.types.B4WPreferences.b4w_server_auto_start
+msgid "Run development server automatically"
+msgstr "Автоматически запускать сервер разработки"
+
+#. :src: bpy.types.B4WPreferences.b4w_server_auto_start
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/addon_prefs.py:52
+msgid "Run on Startup"
+msgstr "Запускать при старте"
+
+#. :src: bpy.types.B4WPreferences.b4w_check_for_updates
+msgid "Check for updates"
+msgstr "Проверить наличие новой версии аддона"
+
+#. :src: bpy.types.B4WPreferences.b4w_check_for_updates
+msgid "Check for new addon version"
+msgstr "Проверить наличие новой версии аддона"
+
+#. :src: bpy.types.B4WPreferences.b4w_src_path
+msgid "Blend4Web SDK Directory"
+msgstr "Путь до SDK Blend4Web"
+
+#. :src: bpy.types.B4WPreferences.b4w_src_path
+msgid "Path to SDK"
+msgstr "Путь до SDK"
+
+#. :src: bpy.types.B4WPreferences.b4w_port_number
+msgid "Server Port"
+msgstr "Номер порта сервера"
+
+#. :src: bpy.types.B4WPreferences.b4w_port_number
+msgid "Server port number"
+msgstr "Номер порта сервера"
+
+#. :src: bpy.types.B4WPreferences.b4w_enable_ext_requests
+msgid "Enable External Requests"
+msgstr "Разрешить внешние запросы"
+
+#. :src: bpy.types.B4WPreferences.b4w_enable_ext_requests
+msgid "Enable external requests to the server"
+msgstr "Разрешить внешние запросы к серверу"
+
+#. :src: bpy.types.Camera.b4w_move_style
+msgid "B4W: movement style"
+msgstr "B4W: Тип камеры"
+
+#. :src: bpy.types.Camera.b4w_move_style
+msgid "Default camera movement style"
+msgstr "Стиль движения камеры по умолчанию"
+
+#. :src: bpy.types.Camera.b4w_move_style:'STATIC'
+msgid "Static camera"
+msgstr "Статический тип камеры"
+
+#. :src: bpy.types.Camera.b4w_move_style:'TARGET'
+msgid "Move target"
+msgstr "Тип камеры, при котором камера смотрит на целевую точку"
+
+#. :src: bpy.types.Camera.b4w_move_style:'EYE'
+msgid "Eye"
+msgstr "Камера от первого лица"
+
+#. :src: bpy.types.Camera.b4w_move_style:'EYE'
+msgid "Move eye"
+msgstr "Камера от первого лица позволяет осуществлять вращение и перемещение"
+
+#. :src: bpy.types.Camera.b4w_move_style:'HOVER'
+msgid "Hover"
+msgstr "Стратегический тип камеры"
+
+#. :src: bpy.types.Camera.b4w_move_style:'HOVER'
+msgid "Hover mode"
+msgstr "В режиме нависания камера движется параллельно горизонтальной опорной плоскости"
+
+#. :src: bpy.types.Camera.b4w_hover_zero_level
+msgid "B4W: zero level"
+msgstr "B4W: Начальная высота камеры"
+
+#. :src: bpy.types.Camera.b4w_hover_zero_level
+msgid "Zero level for the HOVER camera (Z-coordinate of the initial supporting plane)"
+msgstr "Начальная высота стратегической камеры (Z-координата опорной плоскости)"
+
+#. :src: bpy.types.Camera.b4w_trans_velocity
+msgid "B4W: Translation velocity of the camera"
+msgstr "B4W: Скорость перемещения камеры"
+
+#. :src: bpy.types.Camera.b4w_trans_velocity
+msgid "Translation velocity of the camera"
+msgstr "Скорость перемещения камеры"
+
+#. :src: bpy.types.Camera.b4w_rot_velocity
+msgid "B4W: Rotation velocity of the camera"
+msgstr "B4W: Скорость поворота камеры"
+
+#. :src: bpy.types.Camera.b4w_rot_velocity
+msgid "Rotation velocity of the camera"
+msgstr "Скорость поворота камеры"
+
+#. :src: bpy.types.Camera.b4w_zoom_velocity
+msgid "B4W: Zoom velocity of the camera"
+msgstr "B4W: Скорость приближения камеры"
+
+#. :src: bpy.types.Camera.b4w_zoom_velocity
+msgid "Zoom velocity of the camera"
+msgstr "B4W: Скорость приближения камеры"
+
+#. :src: bpy.types.Camera.b4w_target
+msgid "B4W: target"
+msgstr "B4W: Целевая точка"
+
+#. :src: bpy.types.Camera.b4w_target
+msgid "Camera target location for 'TARGET' camera"
+msgstr "Положение целевой точки для камеры типа 'Цель'"
+
+#. :src: bpy.types.Camera.b4w_use_distance_limits
+msgid "B4W: use distance limits"
+msgstr "B4W: Использовать ограничения по расстоянию"
+
+#. :src: bpy.types.Camera.b4w_use_distance_limits
+msgid "Check if you wish to set distance limits"
+msgstr "Использовать ограничения по расстоянию"
+
+#. :src: bpy.types.Camera.b4w_distance_min
+msgid "B4W: Minimum distance to target"
+msgstr "B4W: Минимальная дистанция до целевой точки"
+
+#. :src: bpy.types.Camera.b4w_distance_min
+msgid "Minimum distance to target"
+msgstr "Минимальная дистанция до целевой точки"
+
+#. :src: bpy.types.Camera.b4w_distance_max
+msgid "B4W: Maximum distance to target"
+msgstr "Максимальная дистанция до целевой точки"
+
+#. :src: bpy.types.Camera.b4w_distance_max
+msgid "Maximum distance to target"
+msgstr "Максимальная дистанция до целевой точки"
+
+#. :src: bpy.types.Camera.b4w_horizontal_translation_min
+msgid "B4W: Minimum value of the horizontal translation"
+msgstr "B4W: Минимальное значение горизонтального положения"
+
+#. :src: bpy.types.Camera.b4w_horizontal_translation_min
+msgid "Minimum value of the horizontal translation"
+msgstr "Минимальное значение горизонтального положения"
+
+#. :src: bpy.types.Camera.b4w_horizontal_translation_max
+msgid "B4W: Maximum value of the horizontal translation"
+msgstr "Максимальное значение горизонтального положения"
+
+#. :src: bpy.types.Camera.b4w_horizontal_translation_max
+msgid "Maximum value of the horizontal translation"
+msgstr "Максимальное значение горизонтального положения"
+
+#. :src: bpy.types.Camera.b4w_vertical_translation_min
+msgid "B4W: Minimum value of the vertical translation"
+msgstr "B4W: Минимальное значение вертикального положения"
+
+#. :src: bpy.types.Camera.b4w_vertical_translation_min
+msgid "Minimum value of the vertical translation"
+msgstr "Минимальное значение вертикального положения"
+
+#. :src: bpy.types.Camera.b4w_vertical_translation_max
+msgid "B4W: Maximum value of the vertical translation"
+msgstr "Максимальное значение вертикального положения"
+
+#. :src: bpy.types.Camera.b4w_vertical_translation_max
+msgid "Maximum value of the vertical translation"
+msgstr "Максимальное значение вертикального положения"
+
+#. :src: bpy.types.Camera.b4w_use_horizontal_clamping
+msgid "B4W: use horizontal clamping"
+msgstr "B4W: Использование горизонтальное ограничение"
+
+#. :src: bpy.types.Camera.b4w_use_horizontal_clamping
+msgid "Check if you wish to set horizontal clamping values"
+msgstr "Использование горизонтальное ограничение"
+
+#. :src: bpy.types.Camera.b4w_rotation_left_limit
+msgid "B4W: Rotation left limit"
+msgstr "B4W: Предел вращения влево"
+
+#. :src: bpy.types.Camera.b4w_rotation_left_limit
+msgid "Rotation left limit angle"
+msgstr "Предельный угол вращения влево"
+
+#. :src: bpy.types.Camera.b4w_rotation_right_limit
+msgid "B4W: Rotation right limit"
+msgstr "B4W: Предел вращения вправо"
+
+#. :src: bpy.types.Camera.b4w_rotation_right_limit
+msgid "Rotation right limit angle"
+msgstr "Предельный угол вращения вправо"
+
+#. :src: bpy.types.Camera.b4w_hover_angle_min
+msgid "B4W: Minimum rotation angle"
+msgstr "B4W: Минимальный угол поворота"
+
+#. :src: bpy.types.Camera.b4w_hover_angle_min
+msgid "Minimum rotation angle"
+msgstr "Минимальный угол поворота"
+
+#. :src: bpy.types.Camera.b4w_hover_angle_max
+msgid "B4W: Maximum rotation angle"
+msgstr "B4W: Максимальный угол поворота"
+
+#. :src: bpy.types.Camera.b4w_hover_angle_max
+msgid "Maximum rotation angle"
+msgstr "Максимальный угол поворота"
+
+#. :src: bpy.types.Camera.b4w_horizontal_clamping_type
+msgid "B4W: horizontal rotation clamping type"
+msgstr "B4W: тип горизонтального ограничения поворота"
+
+#. :src: bpy.types.Camera.b4w_horizontal_clamping_type
+msgid "Horizontal rotation clamping type"
+msgstr "Тип горизонтального ограничения поворота"
+
+#. :src: bpy.types.Camera.b4w_horizontal_clamping_type:'LOCAL'
+#. :src: bpy.types.Camera.b4w_vertical_clamping_type:'LOCAL'
+msgid "Camera Space"
+msgstr "Пространство камеры"
+
+#. :src: bpy.types.Camera.b4w_horizontal_clamping_type:'LOCAL'
+#. :src: bpy.types.Camera.b4w_vertical_clamping_type:'LOCAL'
+msgid "Clamp angles in camera space"
+msgstr "Ограничить углы в пространстве камеры"
+
+#. :src: bpy.types.Camera.b4w_horizontal_clamping_type:'WORLD'
+#. :src: bpy.types.Camera.b4w_vertical_clamping_type:'WORLD'
+msgid "Clamp angles in world space"
+msgstr "Ограничить углы в мировом пространстве"
+
+#. :src: bpy.types.Camera.b4w_use_vertical_clamping
+msgid "B4W: use vertical clamping"
+msgstr "B4W: Использовать вертикальные ограничения"
+
+#. :src: bpy.types.Camera.b4w_use_vertical_clamping
+msgid "Check if you wish to set vertical clamping values"
+msgstr "Установить значения вертикальных ограничений"
+
+#. :src: bpy.types.Camera.b4w_enable_hover_hor_rotation
+msgid "B4W: enable horizontal rotation"
+msgstr "B4W: Включить горизонтальные повороты"
+
+#. :src: bpy.types.Camera.b4w_enable_hover_hor_rotation
+msgid "Enable horizontal rotation"
+msgstr "Включить горизонтальные повороты"
+
+#. :src: bpy.types.Camera.b4w_use_panning
+msgid "B4W: enable panning mode"
+msgstr "B4W: Разрешить панорамное перемещение камеры"
+
+#. :src: bpy.types.Camera.b4w_use_panning
+msgid "Enable panning mode"
+msgstr "Разрешить панорамное перемещение камеры"
+
+#. :src: bpy.types.Camera.b4w_rotation_down_limit
+msgid "B4W: Rotation down limit"
+msgstr "B4W: Ограничения поворота вниз"
+
+#. :src: bpy.types.Camera.b4w_rotation_down_limit
+msgid "Rotation down limit angle"
+msgstr "Предельный угол поворота вниз"
+
+#. :src: bpy.types.Camera.b4w_rotation_up_limit
+msgid "B4W: Rotation up limit"
+msgstr "B4W: Ограничения поворота вверх"
+
+#. :src: bpy.types.Camera.b4w_rotation_up_limit
+msgid "Rotation up limit angle"
+msgstr "Предельный угол поворота вверх"
+
+#. :src: bpy.types.Camera.b4w_vertical_clamping_type
+msgid "B4W: vertical rotation clamping type"
+msgstr "B4W: Тип ограничения вертикального поворота"
+
+#. :src: bpy.types.Camera.b4w_vertical_clamping_type
+msgid "Vertical rotation clamping type"
+msgstr "Тип ограничения вертикального поворота"
+
+#. :src: bpy.types.Camera.b4w_dof_front
+msgid "B4W: DOF front distance"
+msgstr "B4W: Переднее расстояние поля зрения"
+
+#. :src: bpy.types.Camera.b4w_dof_front
+msgid "Distance to the front DOF plane"
+msgstr "Расстояние до передней плоскости поля зрения"
+
+#. :src: bpy.types.Camera.b4w_dof_rear
+msgid "B4W: DOF rear distance"
+msgstr "Заднее расстояние поля зрения"
+
+#. :src: bpy.types.Camera.b4w_dof_rear
+msgid "Distance to the rear DOF plane"
+msgstr "Расстояние до задней плоскости поля зрения"
+
+#. :src: bpy.types.Camera.b4w_dof_power
+msgid "B4W: DOF power"
+msgstr "B4W: Сила поля зрения"
+
+#. :src: bpy.types.Camera.b4w_dof_power
+msgid "Strength of DOF blur"
+msgstr "Сила размытия поля зрения"
+
+#. :src: bpy.types.Material.b4w_water
+msgid "B4W: water"
+msgstr "B4W: Вода"
+
+#. :src: bpy.types.Material.b4w_water
+msgid "Special water material"
+msgstr "Специальный материал для воды"
+
+#. :src: bpy.types.Material.b4w_water_shore_smoothing
+msgid "B4W: shore smoothing"
+msgstr "B4W: Сглаживание берегов"
+
+#. :src: bpy.types.Material.b4w_water_shore_smoothing
+msgid "Perform the smoothing between the water and the shore objects"
+msgstr "Выполнить сглаживание между водой и объектами берега"
+
+#. :src: bpy.types.Material.b4w_water_dynamic
+msgid "B4W: water dynamic"
+msgstr "B4W: Водная динамика"
+
+#. :src: bpy.types.Material.b4w_water_dynamic
+msgid "Dynamic water surface"
+msgstr "Динамическая водная поверхность"
+
+#. :src: bpy.types.Material.b4w_waves_height
+msgid "B4W: waves height"
+msgstr "B4W: Высота волн"
+
+#. :src: bpy.types.Material.b4w_waves_height
+msgid "Waves height"
+msgstr "Высота волн"
+
+#. :src: bpy.types.Material.b4w_waves_length
+msgid "B4W: waves length"
+msgstr "B4W: Длина волн"
+
+#. :src: bpy.types.Material.b4w_waves_length
+msgid "Waves length"
+msgstr "Длина волн"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_scale0
+msgid "B4W: distant noise scale"
+msgstr "B4W: Масштаб шума на расстоянии"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_scale0
+msgid "Distant waves noise scale (first component)"
+msgstr "Масштаб шума отдаленных волн (первая компонента)"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_scale1
+msgid "B4W: distant noise scale factor"
+msgstr "B4W: Фактор шума отдаленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_scale1
+msgid "Distant waves noise scale (second component)"
+msgstr "Масштаб шума отдаленных волн (вторая компонента)"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_freq0
+#. :src: bpy.types.Material.b4w_water_dst_noise_freq1
+msgid "B4W: distant noise frequency"
+msgstr "4W: Частота шума на расстоянии"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_freq0
+msgid "Distant waves noise frequency (first component)"
+msgstr "Частота шума отдаленных волн (первая компонента)"
+
+#. :src: bpy.types.Material.b4w_water_dst_noise_freq1
+msgid "Distant waves noise frequency (second component)"
+msgstr "Частота шума отдаленных волн (вторая компонента)"
+
+#. :src: bpy.types.Material.b4w_water_dir_min_shore_fac
+msgid "B4W: directional min shore factor"
+msgstr "B4W: Направленный минимальный фактор берега"
+
+#. :src: bpy.types.Material.b4w_water_dir_min_shore_fac
+msgid "Minimum shore factor for directional waves"
+msgstr "Минимальный фактор берега для направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dir_freq
+msgid "B4W: directional waves frequency"
+msgstr "B4W: Частота направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dir_freq
+msgid "Directional waves frequency"
+msgstr "Частота направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dir_noise_scale
+msgid "B4W: directional noise scale"
+msgstr "B4W: Масштаб шума"
+
+#. :src: bpy.types.Material.b4w_water_dir_noise_scale
+msgid "Directional waves noise scale"
+msgstr "Масштаб шума для направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dir_noise_freq
+msgid "B4W: directional noise frequency"
+msgstr "B4W: Частота шума"
+
+#. :src: bpy.types.Material.b4w_water_dir_noise_freq
+msgid "Directional waves noise frequency"
+msgstr "Частота шума для направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dir_min_noise_fac
+msgid "B4W: directional minimum noise factor"
+msgstr "B4W: Фактор минимального шума"
+
+#. :src: bpy.types.Material.b4w_water_dir_min_noise_fac
+msgid "Directional waves minimum noise factor"
+msgstr "Фактор минимального шума для направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dst_min_fac
+msgid "B4W: distant waves min factor"
+msgstr "B4W: Минимальный фактор направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_dst_min_fac
+msgid "Distant waves min factor"
+msgstr "Минимальный фактор направленных волн"
+
+#. :src: bpy.types.Material.b4w_water_waves_hor_fac
+msgid "B4W: waves horizontal factor"
+msgstr "B4W: Горизонтальный фактор волн"
+
+#. :src: bpy.types.Material.b4w_water_waves_hor_fac
+msgid "Strength of horizontal waves inclination"
+msgstr "Сила горизонтального отклонения вол"
+
+#. :src: bpy.types.Material.b4w_water_absorb_factor
+msgid "B4W: water absorb factor"
+msgstr "B4W: Фактор поглощения воды"
+
+#. :src: bpy.types.Material.b4w_water_absorb_factor
+msgid "Water absorb factor"
+msgstr "Фактор поглощения воды"
+
+#. :src: bpy.types.Material.b4w_generated_mesh
+msgid "B4W: water generated mesh"
+msgstr "B4W: Сгенерированный меш для воды"
+
+#. :src: bpy.types.Material.b4w_generated_mesh
+msgid "Generate a multigrid mesh for the water"
+msgstr "Сгенерировать мультиразмерный меш для воды"
+
+#. :src: bpy.types.Material.b4w_water_num_cascads
+msgid "B4W: water num cascades"
+msgstr "B4W: Количество каскадов воды"
+
+#. :src: bpy.types.Material.b4w_water_num_cascads
+msgid "Number of cascades in the water mesh"
+msgstr "Количество каскадов для меша воды"
+
+#. :src: bpy.types.Material.b4w_water_subdivs
+msgid "B4W: water subdivs"
+msgstr "B4W: Подразделения меша воды"
+
+#. :src: bpy.types.Material.b4w_water_subdivs
+msgid "Number of subdivisions in the water mesh cascade (must be POT)"
+msgstr "Количество подразбиений в одном каскаде меша воды (должно быть степенью двойки)"
+
+#. :src: bpy.types.Material.b4w_water_detailed_dist
+msgid "B4W: water detailed distance"
+msgstr "B4W: Расстояние детализации воды"
+
+#. :src: bpy.types.Material.b4w_water_detailed_dist
+msgid "Distance of the biggest cascade in the water mesh"
+msgstr "Расстояние большего каскажа в меше воды"
+
+#. :src: bpy.types.Material.b4w_water_fog_color
+msgid "B4W: water fog color"
+msgstr "B4W: Цвет подводного тумана"
+
+#. :src: bpy.types.Material.b4w_water_fog_color
+msgid "Color of fog applied to the underwater objects"
+msgstr "Цвет подводного тумана"
+
+#. :src: bpy.types.Material.b4w_water_fog_density
+msgid "B4W: water fog density"
+msgstr "B4W: Плотность подводного тумана"
+
+#. :src: bpy.types.Material.b4w_water_fog_density
+msgid "Density of fog applied to the underwater objects"
+msgstr "Плотность подводного тумана"
+
+#. :src: bpy.types.Material.b4w_foam_factor
+msgid "B4W: foam factor"
+msgstr "B4W: Фактор пены"
+
+#. :src: bpy.types.Material.b4w_foam_factor
+msgid "Water foam intensity factor"
+msgstr "Фактор интенсивности водяной пены"
+
+#. :src: bpy.types.Material.b4w_shallow_water_col
+msgid "B4W: shallow water color"
+msgstr "B4W: Цвет мелководья"
+
+#. :src: bpy.types.Material.b4w_shallow_water_col
+#. :src: bpy.types.Material.b4w_shore_water_col
+msgid "Color of the shallow water"
+msgstr "B4W: Цвет мелководья"
+
+#. :src: bpy.types.Material.b4w_shore_water_col
+msgid "B4W: shore water color"
+msgstr "B4W: Цвет берега"
+
+#. :src: bpy.types.Material.b4w_shallow_water_col_fac
+msgid "B4W: shallow water col factor"
+msgstr "Фактор цвета мелководья"
+
+#. :src: bpy.types.Material.b4w_shallow_water_col_fac
+msgid "Shallow water color factor"
+msgstr "Фактор цвета мелководья"
+
+#. :src: bpy.types.Material.b4w_shore_water_col_fac
+msgid "B4W: shore water col factor"
+msgstr "B4W: Фактор цвета берега"
+
+#. :src: bpy.types.Material.b4w_shore_water_col_fac
+msgid "Shore water color factor"
+msgstr "Фактор цвета берега"
+
+#. :src: bpy.types.Material.b4w_water_sss_strength
+#. :src: bpy.types.Material.b4w_water_sss_width
+msgid "B4W: water sss strength"
+msgstr "B4W: Сила подповерхностного рассеивания"
+
+#. :src: bpy.types.Material.b4w_water_sss_strength
+msgid "Strength of subsurface scattering"
+msgstr "Сила подповерхностного рассеивания"
+
+#. :src: bpy.types.Material.b4w_water_sss_width
+msgid "Width of subsurface scattering"
+msgstr "Ширина подповерхностного рассеивания"
+
+#. :src: bpy.types.Material.b4w_water_norm_uv_velocity
+msgid "B4W: water norm uv velocity"
+msgstr "B4W: Скорость uv карты нормалей воды"
+
+#. :src: bpy.types.Material.b4w_water_norm_uv_velocity
+msgid "Water normalmap UV velocity"
+msgstr "Скорость UV карты нормалей воды"
+
+#. :src: bpy.types.Material.b4w_water_enable_caust
+msgid "B4W: water caustics"
+msgstr "B4W: Каустика"
+
+#. :src: bpy.types.Material.b4w_water_enable_caust
+msgid "Enable caustics on underwater objects"
+msgstr "Включить каустику для подводных объектов"
+
+#. :src: bpy.types.Material.b4w_water_caust_scale
+msgid "B4W: water caustics scale"
+msgstr "B4W: Масштаб каустики"
+
+#. :src: bpy.types.Material.b4w_water_caust_scale
+msgid "Scale of the caustics effect"
+msgstr "Масштаб эффектов каустики"
+
+#. :src: bpy.types.Material.b4w_water_caust_brightness
+msgid "B4W: water caustics brightness"
+msgstr "B4W: Яркость каустики"
+
+#. :src: bpy.types.Material.b4w_water_caust_brightness
+msgid "Brightness of the caustics effect"
+msgstr "Яркость эффектов каустики"
+
+#. :src: bpy.types.Material.b4w_terrain
+msgid "B4W: Terrain dynamic grass"
+msgstr "B4W: Динамическая трава"
+
+#. :src: bpy.types.Material.b4w_terrain
+msgid "Special material for terrain dynamic grass"
+msgstr "Специальный материал для местности с динамической травой"
+
+#. :src: bpy.types.Material.b4w_dynamic_grass_size
+msgid "B4W: Dynamic grass size"
+msgstr "B4W: Размер динамической травы"
+
+#. :src: bpy.types.Material.b4w_dynamic_grass_size
+msgid "Optional vertex color used for grass sizing (R)"
+msgstr "Вертексный цвет, используемый для размеров травы (R)"
+
+#. :src: bpy.types.Material.b4w_dynamic_grass_color
+msgid "B4W: Dynamic grass color"
+msgstr "B4W: Цвет динамической травы"
+
+#. :src: bpy.types.Material.b4w_dynamic_grass_color
+msgid "Optional vertex color used for grass tinting"
+msgstr "Вертексный цвет, используемый для тонировки травы"
+
+#. :src: bpy.types.Material.b4w_collision
+msgid "B4W: collision"
+msgstr "B4W: Коллизия"
+
+#. :src: bpy.types.Material.b4w_collision
+msgid "Special collision material"
+msgstr "Специальный коллизионный материал"
+
+#. :src: bpy.types.Material.b4w_collision_id
+#. :src: bpy.types.Object.b4w_collision_id
+msgid "B4W: collision ID"
+msgstr "B4W: Идентификатор коллизии"
+
+#. :src: bpy.types.Material.b4w_collision_id
+#. :src: bpy.types.Object.b4w_collision_id
+msgid "Collision ID for internal application purposes"
+msgstr "Идентификатор коллизии для внутренних целей приложения"
+
+#. :src: bpy.types.Material.b4w_double_sided_lighting
+msgid "B4W: double-sided lighting"
+msgstr "B4W: Двустороннее освещение"
+
+#. :src: bpy.types.Material.b4w_double_sided_lighting
+msgid "Enable double-sided lighting for the material by flipping the normals"
+msgstr "Включить двустороннее освещение для материалов путем обращения нормалей"
+
+#. :src: bpy.types.Material.b4w_refractive
+msgid "B4W: refraction"
+msgstr "B4W: Преломление"
+
+#. :src: bpy.types.Material.b4w_refractive
+msgid "Enable refraction for the material by using normal"
+msgstr "Включить преломление для материалов используя нормали"
+
+#. :src: bpy.types.Material.b4w_refr_bump
+msgid "B4W: refraction bump"
+msgstr "Степень влияния кривизны на преломление"
+
+#. :src: bpy.types.Material.b4w_refr_bump
+msgid "Perturbation power of refraction"
+msgstr "Сила искажения рефракции"
+
+#. :src: bpy.types.Material.b4w_halo_sky_stars
+msgid "B4W: halo sky stars"
+msgstr "B4W: Сияние звезд"
+
+#. :src: bpy.types.Material.b4w_halo_sky_stars
+msgid "Make halo material stars object"
+msgstr "Сделать объект с материалом сияющей звезды"
+
+#. :src: bpy.types.Material.b4w_halo_stars_blend_height
+msgid "B4W: halo stars blending height"
+msgstr ""
+
+#. :src: bpy.types.Material.b4w_halo_stars_blend_height
+msgid "Stars blending height"
+msgstr "Высота звезд"
+
+#. :src: bpy.types.Material.b4w_halo_stars_min_height
+msgid "B4W: halo stars minimum height"
+msgstr "B4W: Минимальная высота сиящих звезд"
+
+#. :src: bpy.types.Material.b4w_halo_stars_min_height
+msgid "Stars minimum height starting from the origin"
+msgstr "Минимальная высота звезд, начиная от их источника"
+
+#. :src: bpy.types.Material.b4w_collision_margin
+msgid "B4W: margin"
+msgstr "B4W: Пространство"
+
+#. :src: bpy.types.Material.b4w_collision_margin
+msgid "Extra margin around material for collision detection, extra amount required for stability"
+msgstr "Дополнотельное пространство вокруг материалов, участвующих в столкновениях, необходимо для стабильности"
+
+#. :src: bpy.types.Material.b4w_collision_group
+msgid "B4W: collision group"
+msgstr "B4W: Группа коллизии"
+
+#. :src: bpy.types.Material.b4w_collision_group
+msgid "Material collision group"
+msgstr "Группа коллизии материала"
+
+#. :src: bpy.types.Material.b4w_collision_mask
+msgid "B4W: collision mask"
+msgstr "B4W: Маска коллизии"
+
+#. :src: bpy.types.Material.b4w_collision_mask
+msgid "Material collision mask"
+msgstr "Маска коллизии материала"
+
+#. :src: bpy.types.Material.b4w_wettable
+msgid "B4W: wettable"
+msgstr "B4W: Смачиваемость"
+
+#. :src: bpy.types.Material.b4w_wettable
+msgid "Material will get wet near water"
+msgstr "Материал будет намокать рядом с водой"
+
+#. :src: bpy.types.Material.b4w_render_above_all
+msgid "B4W: render above all"
+msgstr "B4W: Отрисовывать поверх всего"
+
+#. :src: bpy.types.Material.b4w_render_above_all
+msgid "Material will be render above all others"
+msgstr "Материал будет отрисовываться поверх всего"
+
+#. :src: bpy.types.Mesh.b4w_override_boundings
+msgid "B4W: override boundings"
+msgstr "B4W: Перезаписать ограничивающий параллелепипед"
+
+#. :src: bpy.types.Mesh.b4w_override_boundings
+msgid "Override mesh boundings with specified values"
+msgstr "Перезаписать ограничивающий параллелепипед меша с учетом указанных значений"
+
+#. :src: bpy.types.Mesh.b4w_boundings
+msgid "B4W: boundings"
+msgstr "B4W: Ограничивающий параллелепипед"
+
+#. :src: bpy.types.B4WLogicNodeTreeType
+msgid "Blend4Web logic"
+msgstr ""
+
+#. :src: bpy.types.B4WLogicNodeTreeType
+msgid "Blend4Web logic nodes"
+msgstr ""
+
+#. :src: bpy.types.Object.b4w_do_not_batch
+msgid "B4W: do not batch"
+msgstr "B4W: Не объединять с другими объектами при отрисовке"
+
+#. :src: bpy.types.Object.b4w_do_not_batch
+msgid "Enable dynamics for this object"
+msgstr "Сделать объект динамическим"
+
+#. :src: bpy.types.Object.b4w_dynamic_geometry
+msgid "B4W: dynamic geometry"
+msgstr "B4W: Динамическая геометрия"
+
+#. :src: bpy.types.Object.b4w_dynamic_geometry
+msgid "Allow to use geometry update API for given object"
+msgstr "Разрешить использовать динамическую геометрию"
+
+#. :src: bpy.types.Object.b4w_shape_keys
+msgid "B4W: export shape keys"
+msgstr "B4W: Экспортировать ключи деформации"
+
+#. :src: bpy.types.Object.b4w_shape_keys
+msgid "Export shape keys"
+msgstr "Экспортировать ключи деформации"
+
+#. :src: bpy.types.Object.b4w_apply_scale
+msgid "B4W: apply scale"
+msgstr "B4W: Применить изменения масштаба"
+
+#. :src: bpy.types.Object.b4w_apply_scale
+msgid "Apply scale and modifiers before export"
+msgstr "Применить изменения масштаба и модификаторы для объекта"
+
+#. :src: bpy.types.Object.b4w_apply_modifiers
+msgid "B4W: apply modifiers"
+msgstr "B4W: Применить модификаторы"
+
+#. :src: bpy.types.Object.b4w_apply_modifiers
+msgid "Apply object modifiers before export"
+msgstr "Применить модификаторы для объекта"
+
+#. :src: bpy.types.Object.b4w_do_not_cull
+msgid "B4W: do not cull"
+msgstr "B4W: Не вырезать из поля зрения камеры"
+
+#. :src: bpy.types.Object.b4w_do_not_cull
+msgid "Do not use frustum culling for this object"
+msgstr "Не усекать обрезание для этого объекта"
+
+#. :src: bpy.types.Object.b4w_disable_fogging
+msgid "B4W: disable fogging"
+msgstr "B4W: Отключить эффект тумана"
+
+#. :src: bpy.types.Object.b4w_disable_fogging
+msgid "Prevent object to be fogged in"
+msgstr "Предотвратить затуманивание объекта"
+
+#. :src: bpy.types.Object.b4w_do_not_render
+msgid "Object will not be rendered"
+msgstr "Объект не будет отображаться"
+
+#. :src: bpy.types.Object.b4w_shadow_cast
+msgid "B4W: shadow cast"
+msgstr "B4W: Генерировать тень"
+
+#. :src: bpy.types.Object.b4w_shadow_cast
+msgid "The object will be rendered during the shadow pass"
+msgstr "Объект будет отрисовываться вместе с тенью"
+
+#. :src: bpy.types.Object.b4w_shadow_cast_only
+msgid "B4W: shadow cast only"
+msgstr "B4W: Отображать только тень"
+
+#. :src: bpy.types.Object.b4w_shadow_cast_only
+msgid "The object will not be rendered, but will cast a shadow"
+msgstr "Объект не будет отображаться, но его тень будет."
+
+#. :src: bpy.types.Object.b4w_shadow_receive
+msgid "B4W: shadow receive"
+msgstr "B4W: Принимать тень"
+
+#. :src: bpy.types.Object.b4w_shadow_receive
+msgid "The object will receive shadows"
+msgstr "На объект будут падать тени"
+
+#. :src: bpy.types.Object.b4w_reflexible
+#. :src: bpy.types.B4W_SkySettings.reflexible
+msgid "B4W: reflexible"
+msgstr "B4W: Отражаемый"
+
+#. :src: bpy.types.Object.b4w_reflexible
+msgid "The object will be rendered during the reflection pass"
+msgstr "Объект будет отражаться"
+
+#. :src: bpy.types.Object.b4w_reflexible_only
+#. :src: bpy.types.B4W_SkySettings.reflexible_only
+msgid "B4W: reflexible only"
+msgstr "B4W: Только отражаться"
+
+#. :src: bpy.types.Object.b4w_reflexible_only
+msgid "The object will not be rendered, but will have a reflection"
+msgstr "Объект не будет отображать, а его отражение будет"
+
+#. :src: bpy.types.Object.b4w_reflective
+msgid "B4W: reflective"
+msgstr "B4W: Отражающий"
+
+#. :src: bpy.types.Object.b4w_reflective
+msgid "The object will receive reflections"
+msgstr "Объект будет отражать другие объекты"
+
+#. :src: bpy.types.Object.b4w_reflection_type
+msgid "B4W: reflection type"
+msgstr "B4W: Тип отражения"
+
+#. :src: bpy.types.Object.b4w_reflection_type
+msgid "Type of generated reflections"
+msgstr "Тип отражения"
+
+#. :src: bpy.types.Object.b4w_reflection_type:'CUBE'
+msgid "Object will reflect other objects in all directions"
+msgstr "Объект будет отражать другие во всех направлениях"
+
+#. :src: bpy.types.Object.b4w_reflection_type:'PLANE'
+msgid "Object will reflect other objects in the dericteion specified by reflection plane"
+msgstr "Объект будет отражать другие объекты в специальном направлении, заданом плоскостью отражения"
+
+#. :src: bpy.types.Object.b4w_caustics
+msgid "B4W: caustics"
+msgstr "B4W: Каустика"
+
+#. :src: bpy.types.Object.b4w_caustics
+msgid "The object will receive caustics from water"
+msgstr "Объект будет принимать каустику от воды"
+
+#. :src: bpy.types.Object.b4w_use_default_animation
+msgid "B4W: use default animation"
+msgstr "B4W: Использовать анимацию по умолчанию"
+
+#. :src: bpy.types.Object.b4w_use_default_animation
+msgid "The object will be animated if possible"
+msgstr "Анимация будет проигрываться, если это возможно"
+
+#. :src: bpy.types.Object.b4w_anim_behavior
+msgid "B4W: animation behavior"
+msgstr "B4W: Поведение анимации"
+
+#. :src: bpy.types.Object.b4w_anim_behavior
+msgid "The behavior of finished animation: stop, repeat or reset"
+msgstr "Поведение анимации после ее окончания: остановиться, повторить или сбросить в начало"
+
+#. :src: bpy.types.Object.b4w_anim_behavior:'CYCLIC'
+msgid "Behavior: cyclically repeat the finished animation"
+msgstr "Поведение: циклически проигрывать анимацию"
+
+#. :src: bpy.types.Object.b4w_anim_behavior:'FINISH_RESET'
+msgid "Finish Reset"
+msgstr "Сбросить в начало после окончания"
+
+#. :src: bpy.types.Object.b4w_anim_behavior:'FINISH_RESET'
+msgid "Behavior: reset the finished animation"
+msgstr "Поведение: сбросить в начало после окончания"
+
+#. :src: bpy.types.Object.b4w_anim_behavior:'FINISH_STOP'
+msgid "Finish Stop"
+msgstr "Остановиться после окончания"
+
+#. :src: bpy.types.Object.b4w_anim_behavior:'FINISH_STOP'
+msgid "Behavior: stop the finished animation"
+msgstr "Поведение: остановить анимацию после окончания"
+
+#. :src: bpy.types.Object.b4w_animation_mixing
+msgid "B4W: animation mixing"
+msgstr "B4W: Смешать анимацию"
+
+#. :src: bpy.types.Object.b4w_animation_mixing
+msgid "Allow skeletal animations to be mixed with each other"
+msgstr "Разрешить смешивать скелетную анимацию с другими"
+
+#. :src: bpy.types.Object.b4w_proxy_inherit_anim
+msgid "B4W: inherit animation"
+msgstr "B4W: Наследовать анимацию"
+
+#. :src: bpy.types.Object.b4w_proxy_inherit_anim
+msgid "Inherit animation from proxy object to proxy source"
+msgstr "Наследовать анимацию от прокси объекта"
+
+#. :src: bpy.types.Object.b4w_wind_bending
+msgid "B4W: wind bending"
+msgstr "B4W: Колебания под действием ветра"
+
+#. :src: bpy.types.Object.b4w_wind_bending
+msgid "Object will be bent by wind"
+msgstr "Объект будет изгибаться под действием ветра"
+
+#. :src: bpy.types.Object.b4w_wind_bending_angle
+msgid "B4W: wind bending max angle"
+msgstr "B4W: Максимальный угол изгиба"
+
+#. :src: bpy.types.Object.b4w_wind_bending_angle
+msgid "Maximum angle amplitude of wind bending"
+msgstr "Максимальная амплитуда угла изгиба"
+
+#. :src: bpy.types.Object.b4w_wind_bending_freq
+msgid "B4W: wind bending frequency"
+msgstr "B4W: Частота колебаний под действием ветра"
+
+#. :src: bpy.types.Object.b4w_wind_bending_freq
+msgid "Wind bending frequency in Hz"
+msgstr "Частота колебаний в Гц"
+
+#. :src: bpy.types.Object.b4w_detail_bending_amp
+msgid "B4W: detail bending amplitude"
+msgstr "B4W: Детальная амплитуда колебаний"
+
+#. :src: bpy.types.Object.b4w_detail_bending_amp
+msgid "Detail bending amplitude"
+msgstr "Детальная амплитуда колебаний"
+
+#. :src: bpy.types.Object.b4w_branch_bending_amp
+msgid "B4W: branch bending amplitude"
+msgstr "Амплитуда колебаний ветви"
+
+#. :src: bpy.types.Object.b4w_branch_bending_amp
+msgid "Branch bending amplitude"
+msgstr "Амплитуда колебаний ветви"
+
+#. :src: bpy.types.Object.b4w_detail_bending_freq
+msgid "B4W: detail bending frequency"
+msgstr "Детальная частота колебаний"
+
+#. :src: bpy.types.Object.b4w_detail_bending_freq
+msgid "Wind bending detail frequency coefficient"
+msgstr "Коэффициент детальной частоты колебаний"
+
+#. :src: bpy.types.Object.b4w_main_bend_stiffness_col
+msgid "B4W: Main stiffness vertex color"
+msgstr "B4W: Вертексный цвет основной жесткости"
+
+#. :src: bpy.types.Object.b4w_main_bend_stiffness_col
+msgid "Vertex color for main bending stiffness (A channel)"
+msgstr "Вертексный цвет для основной жесткости колебаний (А канал)"
+
+#. :src: bpy.types.Object.b4w_selectable
+msgid "B4W: selectable"
+msgstr "B4W: Выбираемый"
+
+#. :src: bpy.types.Object.b4w_selectable
+msgid "Object can be selected"
+msgstr "Объект может быть выбран"
+
+#. :src: bpy.types.Object.b4w_outlining
+msgid "B4W: outlining"
+msgstr "B4W: Подсветка контура"
+
+#. :src: bpy.types.Object.b4w_outlining
+msgid "Object can be outlined"
+msgstr "Контур объекта может быть подсвечен"
+
+#. :src: bpy.types.Object.b4w_outline_on_select
+msgid "B4W: outline on select"
+msgstr "B4W: Подсветка при выделении"
+
+#. :src: bpy.types.Object.b4w_outline_on_select
+msgid "Automatic outlining on select"
+msgstr "Автоматическая подсветка контура объекта при выделении"
+
+#. :src: bpy.types.Object.b4w_billboard
+#, fuzzy
+msgid "B4W: billboard"
+msgstr "Билборд"
+
+#. :src: bpy.types.Object.b4w_billboard
+msgid "Object billboarding"
+msgstr "Билборд объект"
+
+#. :src: bpy.types.Object.b4w_pres_glob_orientation
+msgid "B4W: preserve global orientation and scale"
+msgstr "B4W: Сохранить глобальную ориентацию и масштаб"
+
+#. :src: bpy.types.Object.b4w_pres_glob_orientation
+msgid "Preserve global orientation and scale for billboard object"
+msgstr "Сохранить глобальную ориентацию и масштаб для объекта-билборда"
+
+#. :src: bpy.types.Object.b4w_billboard_geometry
+msgid "B4W: billboard geometry"
+msgstr "Тип билборда"
+
+#. :src: bpy.types.Object.b4w_billboard_geometry
+msgid "Object billboarding geometry"
+msgstr "Тип билборда"
+
+#. :src: bpy.types.Object.b4w_billboard_geometry:'SPHERICAL'
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_geometry:'SPHERICAL'
+msgid "Spherical billboarding"
+msgstr "Использовать сферическую систему координат"
+
+#. :src: bpy.types.Object.b4w_billboard_geometry:'CYLINDRICAL'
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_geometry:'CYLINDRICAL'
+msgid "Cylindrical"
+msgstr "Использовать цилиндрическую систему координат"
+
+#. :src: bpy.types.Object.b4w_billboard_geometry:'CYLINDRICAL'
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_geometry:'CYLINDRICAL'
+msgid "Cylindrical billboarding"
+msgstr "Цилиндрический билбординг"
+
+#. :src: bpy.types.Object.b4w_outline_settings
+msgid "B4W: outline settings"
+msgstr "B4W: Настройки подсветки контура"
+
+#. :src: bpy.types.Object.b4w_collision
+msgid "B4W: detect collisions"
+msgstr "B4W: Определять столкновения"
+
+#. :src: bpy.types.Object.b4w_collision
+msgid "Object will be tested for collisions"
+msgstr "Объект будет определять столкновения"
+
+#. :src: bpy.types.Object.b4w_vehicle
+msgid "B4W: enable vehicle"
+msgstr "B4W: Транспортное средство"
+
+#. :src: bpy.types.Object.b4w_vehicle
+msgid "Object will be part of the vehicle"
+msgstr "Объект будет составной частью транспортного средства"
+
+#. :src: bpy.types.Object.b4w_vehicle_settings
+msgid "B4W: vehicle settings"
+msgstr "B4W: Настройки транспортного средства"
+
+#. :src: bpy.types.Object.b4w_floating
+msgid "B4W: enable floating"
+msgstr "B4W: Плавающий объект"
+
+#. :src: bpy.types.Object.b4w_floating
+msgid "Object will react to water surface"
+msgstr "Объект будет плавать по водной поверхности"
+
+#. :src: bpy.types.Object.b4w_floating_settings
+msgid "B4W: floating settings"
+msgstr "B4W: Настройки плавающего объекта"
+
+#. :src: bpy.types.Object.b4w_character
+msgid "B4W: enable character"
+msgstr "B4W: Персонаж"
+
+#. :src: bpy.types.Object.b4w_character
+msgid "Object will be controlled by the player"
+msgstr "Объект будет контролироваться пользователем"
+
+#. :src: bpy.types.Object.b4w_character_settings
+msgid "B4W: character settings"
+msgstr "B4W: Настройки персонажа"
+
+#. :src: bpy.types.Object.b4w_anim_clean_keys
+msgid "B4W: animation clean keys"
+msgstr "B4W: Очистить ключи анимации"
+
+#. :src: bpy.types.Object.b4w_anim_clean_keys
+msgid "Perform clean keyframes optimization after animation baking"
+msgstr "Выполнять чистку оптимизации ключевых кадров после запекания анимации"
+
+#. :src: bpy.types.Object.b4w_loc_export_vertex_anim
+msgid "B4W: export vertex animation"
+msgstr "B4W: Экпортировать вертексную анимацию"
+
+#. :src: bpy.types.Object.b4w_loc_export_vertex_anim
+msgid "Export baked vertex animation"
+msgstr "Экспортировать запеченную вертексную анимацию"
+
+#. :src: bpy.types.Object.b4w_lod_transition
+msgid "B4W: LOD transition ratio"
+msgstr "B4W: Дистанция изменения уровня качества детализации"
+
+#. :src: bpy.types.Object.b4w_lod_transition
+msgid "LOD transition ratio"
+msgstr "Дистанция изменения уровня качества детализации"
+
+#. :src: bpy.types.Object.b4w_detail_bend_colors
+msgid "B4W: Detail Bend"
+msgstr "B4W: Детальный изгиб"
+
+#. :src: bpy.types.Object.b4w_correct_bounding_offset
+msgid "B4W: correct the bounding box"
+msgstr "B4W: Исправить ограничивающий параллелепипед"
+
+#. :src: bpy.types.Object.b4w_correct_bounding_offset
+msgid "Correct the bounding box"
+msgstr "Исправить ограничивающий параллелепипед"
+
+#. :src: bpy.types.Object.b4w_correct_bounding_offset:'AUTO'
+msgid "Auto selection bounding offset"
+msgstr "Автоматический выбор смещения ограничивающего параллелепипеда"
+
+#. :src: bpy.types.Object.b4w_correct_bounding_offset:'OFF'
+msgid "Disable bounding offset correction"
+msgstr "Запретить коррекцию смещения ограничивающего параллелепипеда"
+
+#. :src: bpy.types.Object.b4w_correct_bounding_offset:'ON'
+msgid "Enable bounding offset correction"
+msgstr "Включить коррекцию смещения ограничивающего параллелепипеда"
+
+#. :src: bpy.types.Object.b4w_refl_plane_index
+msgid "B4W: Reflection Plane index"
+msgstr "B4W: Индекс отражающей плоскости"
+
+#. :src: bpy.types.Object.b4w_refl_plane_index
+msgid "Reflection plane index used in the interface"
+msgstr "Индекс отражающей плоскости, использующийся в интерфейсе"
+
+#. :src: bpy.types.Object.b4w_enable_object_tags
+msgid "B4W: enable object tags"
+msgstr "B4W: Включить тэги объекта"
+
+#. :src: bpy.types.Object.b4w_enable_object_tags
+msgid "Enable object tags"
+msgstr "Включить тэги объекта"
+
+#. :src: bpy.types.Object.b4w_object_tags
+msgid "B4W: object_tags"
+msgstr "B4W: Тэги объекта"
+
+#. :src: bpy.types.Object.b4w_enable_anchor
+msgid "B4W: enable anchor"
+msgstr "B4W: Включить якорь"
+
+#. :src: bpy.types.Object.b4w_enable_anchor
+msgid "Make an object anchor one"
+msgstr "Создать якорь дял объекта"
+
+#. :src: bpy.types.Object.b4w_anchor
+msgid "B4W: anchor settings"
+msgstr "B4W: Настройки якоря"
+
+#. :src: bpy.types.ParticleSettings.b4w_cyclic
+msgid "B4W: cyclic emission"
+msgstr "B4W: Циклическая генерация"
+
+#. :src: bpy.types.ParticleSettings.b4w_cyclic
+msgid "Loop particles emission"
+msgstr "Циклическая генерация частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_allow_nla
+msgid "B4W: allow NLA"
+msgstr "B4W: Разрешить нелинейную анимацию"
+
+#. :src: bpy.types.ParticleSettings.b4w_allow_nla
+msgid "Allow particles emission to be controlled by the NLA"
+msgstr ""
+
+#. :src: bpy.types.ParticleSettings.b4w_randomize_emission
+msgid "B4W: randomize emission"
+msgstr ""
+
+#. :src: bpy.types.ParticleSettings.b4w_randomize_emission
+msgid "Randomize the delay for particles emission"
+msgstr "Случайная задержка для генерации частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_fade_in
+#. :src: bpy.types.Speaker.b4w_fade_in
+msgid "B4W: fade-in interval"
+msgstr "B4W: Интервал постепенного появления"
+
+#. :src: bpy.types.ParticleSettings.b4w_fade_in
+msgid "Fade-in interval for particles"
+msgstr "Интервал постепенного появления для частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_fade_out
+#. :src: bpy.types.Speaker.b4w_fade_out
+msgid "B4W: fade-out interval"
+msgstr "B4W: Интервал постепенного исчезновения"
+
+#. :src: bpy.types.ParticleSettings.b4w_fade_out
+msgid "Fade-out interval for particles"
+msgstr "Интервал постепенного исчезновения частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align
+msgid "B4W: billboard align"
+msgstr "B4W: Равнение билбордов"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align
+msgid "Billboard alignment in the world space"
+msgstr "Равнение билбордов в мировом пространстве"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'VIEW'
+msgid "Align to view (active camera)"
+msgstr "Выровнять к виду (активной камере)"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'XY'
+msgid "XY plane"
+msgstr "XY плоскость"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'XY'
+msgid "Align in XY plane"
+msgstr "Выровнять к XY плоскости"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'YZ'
+msgid "YZ plane"
+msgstr "YZ плоскость"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'YZ'
+msgid "Align in YZ plane"
+msgstr "Выровнять к YZ плоскости"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'ZX'
+msgid "ZX plane"
+msgstr "ZX плоскость"
+
+#. :src: bpy.types.ParticleSettings.b4w_billboard_align:'ZX'
+msgid "Align in ZX plane"
+msgstr "Выровнять к ZX плоскости"
+
+#. :src: bpy.types.ParticleSettings.b4w_coordinate_system
+msgid "B4W: coordinate system"
+msgstr "B4W: Система координат"
+
+#. :src: bpy.types.ParticleSettings.b4w_coordinate_system
+msgid "Particles coordinate system"
+msgstr "Система координат частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_coordinate_system:'WORLD'
+msgid "World coordinate system"
+msgstr "Мировая система координат"
+
+#. :src: bpy.types.ParticleSettings.b4w_coordinate_system:'LOCAL'
+msgid "Emitter's coordinate system"
+msgstr "Система координат эмиттера"
+
+#. :src: bpy.types.ParticleSettings.b4w_dynamic_grass
+msgid "B4W: dynamic grass"
+msgstr "B4W: Динамическая трава"
+
+#. :src: bpy.types.ParticleSettings.b4w_dynamic_grass
+msgid "Render on the terrain materials as dynamic grass"
+msgstr "Отображать на материалах как динамическую траву"
+
+#. :src: bpy.types.ParticleSettings.b4w_dynamic_grass_scale_threshold
+msgid "B4W: dynamic grass scale threshold"
+msgstr "B4W: Порог масштаба динамической травы"
+
+#. :src: bpy.types.ParticleSettings.b4w_dynamic_grass_scale_threshold
+msgid "Scale threshold for dynamic grass"
+msgstr "Порог масштаба для динамической травы"
+
+#. :src: bpy.types.ParticleSettings.b4w_randomize_location
+msgid "B4W: randomize location and size"
+msgstr "B4W: Случайные позиция и размер"
+
+#. :src: bpy.types.ParticleSettings.b4w_randomize_location
+msgid "Randomize location and size (±25%) of hair particle objects"
+msgstr "Случайные позиция и размер (±25%) для частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_initial_rand_rotation
+msgid "B4W: initial random rotation"
+msgstr "B4W: Случайный начальный поворот"
+
+#. :src: bpy.types.ParticleSettings.b4w_initial_rand_rotation
+msgid "Initial random rotation of hair particle objects"
+msgstr "Случайный начальный поворот для частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_rand_rotation_strength
+msgid "B4W: random rotation strength"
+msgstr "B4W: Случайная сила поворота"
+
+#. :src: bpy.types.ParticleSettings.b4w_rand_rotation_strength
+msgid "Strength of initial random rotation"
+msgstr "Сила начального случайного поворота"
+
+#. :src: bpy.types.ParticleSettings.b4w_rotation_type
+msgid "B4W: rotation type"
+msgstr "B4W: Тип поворота"
+
+#. :src: bpy.types.ParticleSettings.b4w_rotation_type
+msgid "Rotation type of hair particle objects"
+msgstr "Тип поворота для частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_rotation_type:'Z'
+msgid "Rotation around Z axis"
+msgstr "Вращение вокруг оси Z"
+
+#. :src: bpy.types.ParticleSettings.b4w_rotation_type:'XYZ'
+msgid "Random axis"
+msgstr "Случайная ось"
+
+#. :src: bpy.types.ParticleSettings.b4w_rotation_type:'XYZ'
+msgid "Rotation around random axis"
+msgstr "Вращение вокруг случайной оси"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard
+msgid "B4W: hair billboard"
+msgstr "B4W: Билборд частица"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard
+msgid "Make billboards from hair particle objects"
+msgstr "Сделать частицы билбордами"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_type
+msgid "B4W: hair billboard type"
+msgstr "B4W: Тип билборда частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_type
+msgid "Hair billboard type"
+msgstr "Тип билборда"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_type:'BASIC'
+msgid "Basic one-sided billboarding"
+msgstr "Односторонний билбординг"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_type:'RANDOM'
+msgid "Random two-sided billboarding"
+msgstr "Двусторонний билбординг"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_type:'JITTERED'
+msgid "One-sided billboarding with jittering"
+msgstr "Односторонний билбординг с дрожанием"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_jitter_amp
+msgid "B4W: hair billboard jitter amp"
+msgstr "B4W: Амплитуда дрожания билборда"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_jitter_amp
+msgid "Coefficient of the jittering amplitude for the billboard"
+msgstr "Коэффициент амплитуды дрожания для билборда"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_jitter_freq
+msgid "B4W: hair billboard jitter freq"
+msgstr "B4W: Частота дрожания билборда"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_jitter_freq
+msgid "Jittering frequency for the billboard, Hz"
+msgstr "Частота дрожания для билборда, Гц"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_geometry
+msgid "B4W: hair billboard geometry type"
+msgstr "B4W: Тип билборда частицы"
+
+#. :src: bpy.types.ParticleSettings.b4w_hair_billboard_geometry
+msgid "Hair billboard geometry type"
+msgstr "Тип билборда частицы"
+
+#. :src: bpy.types.ParticleSettings.b4w_wind_bend_inheritance
+msgid "B4W: wind bend inheritance"
+msgstr "B4W: Наследование покачивания под действием ветра"
+
+#. :src: bpy.types.ParticleSettings.b4w_wind_bend_inheritance
+msgid "Wind bending inheritance"
+msgstr "Наследование покачивания под действием ветра"
+
+#. :src: bpy.types.ParticleSettings.b4w_wind_bend_inheritance:'PARENT'
+#. :src: bpy.types.ParticleSettings.b4w_shadow_inheritance:'PARENT'
+#. :src: bpy.types.ParticleSettings.b4w_reflection_inheritance:'PARENT'
+msgid "inherit from parent"
+msgstr "Наследовать от родителя"
+
+#. :src: bpy.types.ParticleSettings.b4w_wind_bend_inheritance:'INSTANCE'
+#. :src: bpy.types.ParticleSettings.b4w_shadow_inheritance:'INSTANCE'
+#. :src: bpy.types.ParticleSettings.b4w_reflection_inheritance:'INSTANCE'
+#, fuzzy
+msgid "Instance"
+msgstr "Расстояние"
+
+#. :src: bpy.types.ParticleSettings.b4w_wind_bend_inheritance:'INSTANCE'
+#. :src: bpy.types.ParticleSettings.b4w_shadow_inheritance:'INSTANCE'
+#. :src: bpy.types.ParticleSettings.b4w_reflection_inheritance:'INSTANCE'
+msgid "inherit from instance"
+msgstr "Наследовать от образца"
+
+#. :src: bpy.types.ParticleSettings.b4w_shadow_inheritance
+msgid "B4W: shadow inheritance"
+msgstr "B4W: Наследование тени"
+
+#. :src: bpy.types.ParticleSettings.b4w_shadow_inheritance
+msgid "Shadow inheritance"
+msgstr "Наследование тени"
+
+#. :src: bpy.types.ParticleSettings.b4w_reflection_inheritance
+msgid "B4W: reflection inheritance"
+msgstr "B4W: Наследование отражений"
+
+#. :src: bpy.types.ParticleSettings.b4w_reflection_inheritance
+msgid "Reflection inheritance"
+msgstr "Наследование отражений"
+
+#. :src: bpy.types.ParticleSettings.b4w_vcol_from_name
+msgid "B4W: vcol from name"
+msgstr "B4W: Вертексный цвет из"
+
+#. :src: bpy.types.ParticleSettings.b4w_vcol_from_name
+msgid "Vertex color from emitter"
+msgstr "Вертексный цвет из эмиттера"
+
+#. :src: bpy.types.ParticleSettings.b4w_vcol_to_name
+msgid "B4W: vcol to name"
+msgstr "Вертексный цвет в"
+
+#. :src: bpy.types.ParticleSettings.b4w_vcol_to_name
+msgid "Vertex color on instance"
+msgstr "Вертексный цвет на образце"
+
+#. :src: bpy.types.ParticleSettings.b4w_enable_soft_particles
+msgid "B4W: enable soft particles"
+msgstr "B4W: Включить мягкие частицы"
+
+#. :src: bpy.types.ParticleSettings.b4w_enable_soft_particles
+msgid "Enable softness in areas where particles touch other objects"
+msgstr "Включить мягкость в областях, где частицы контактируют с другими объектами"
+
+#. :src: bpy.types.ParticleSettings.b4w_particles_softness
+msgid "B4W: particle softness"
+msgstr "B4W: Мягкость частиц"
+
+#. :src: bpy.types.ParticleSettings.b4w_particles_softness
+msgid "How soft should the particles be"
+msgstr "Насколько мягкой частице следует быть"
+
+#. :src: bpy.types.Scene.b4w_export_path_json
+msgid "B4W: export path json"
+msgstr "B4W: Путь экпорта в JSON"
+
+#. :src: bpy.types.Scene.b4w_export_path_json
+msgid "Exported json file path relative to the blend file"
+msgstr "Относительный путь экпорта в JSON"
+
+#. :src: bpy.types.Scene.b4w_export_path_html
+msgid "B4W: export path html"
+msgstr "B4W: Путь экспорта в HTML"
+
+#. :src: bpy.types.Scene.b4w_export_path_html
+msgid "Exported html file path relative to the blend file"
+msgstr "Относительный путь экспорта в HTML"
+
+#. :src: bpy.types.Scene.b4w_use_nla
+msgid "B4W: use NLA"
+msgstr "B4W: использовать нелинейную анимацию"
+
+#. :src: bpy.types.Scene.b4w_use_nla
+msgid "Use NLA to control animation and sounds on the scene"
+msgstr "Использовать нелинейную анимацию чтобы контролировать анимацию и звуки на сцене"
+
+#. :src: bpy.types.Scene.b4w_use_logic_editor
+msgid "B4W: use logic editor"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_use_logic_editor
+msgid "Use Logic Editor to control animation and sounds on the scene"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_nla_cyclic
+msgid "B4W: cyclic NLA"
+msgstr "B4W: Циклическая нелинейная анимация"
+
+#. :src: bpy.types.Scene.b4w_nla_cyclic
+msgid "Repeat NLA animation"
+msgstr "Повторять нелинейную анимацию"
+
+#. :src: bpy.types.Scene.b4w_active_logic_node_tree
+msgid "B4W: NLA active NodeTree"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_active_logic_node_tree
+msgid "NLA active NodeTree"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_available_logic_trees
+msgid "B4W: NLA available NodeTrees"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_available_logic_trees
+msgid "NLA available NodeTrees"
+msgstr ""
+
+#. :src: bpy.types.Scene.b4w_enable_audio
+msgid "B4W: enable audio"
+msgstr "Включить звуки"
+
+#. :src: bpy.types.Scene.b4w_enable_audio
+msgid "Enable audio on this scene"
+msgstr "Сделать доступными звуки для этой сцены"
+
+#. :src: bpy.types.Scene.b4w_enable_dynamic_compressor
+msgid "B4W: enable dynamic compressor"
+msgstr "B4W: Включить компрессор аудиосигнала"
+
+#. :src: bpy.types.Scene.b4w_enable_dynamic_compressor
+msgid "Enable dynamic compression effect on this scene"
+msgstr "Включить эффект компрессора аудиосигнала для этой сцены"
+
+#. :src: bpy.types.Scene.b4w_dynamic_compressor_settings
+msgid "B4W: Dynamic compressor settings"
+msgstr "B4W: Настройки компрессора аудиосигнала"
+
+#. :src: bpy.types.Scene.b4w_enable_physics
+msgid "B4W: enable physics"
+msgstr "B4W: Включить физику"
+
+#. :src: bpy.types.Scene.b4w_enable_physics
+msgid "Enable physics simulation on this scene"
+msgstr "Включить физическую симуляцию на этой сцене"
+
+#. :src: bpy.types.Scene.b4w_render_shadows
+msgid "B4W: render shadows"
+msgstr "B4W: Отображать тени"
+
+#. :src: bpy.types.Scene.b4w_render_shadows
+msgid "Render shadows for the scene objects with the 'B4W shadow cast' and 'B4W shadow receive' properties"
+msgstr "Отображать тени для объектов этой сцены с включеными свойствами 'Генерировать тень' и 'Принимать тень'"
+
+#. :src: bpy.types.Scene.b4w_shadow_settings
+msgid "B4W: shadow settings"
+msgstr "B4W: Настройки тени"
+
+#. :src: bpy.types.Scene.b4w_render_reflections
+msgid "B4W: render reflections"
+msgstr "B4W: Отображать отражения"
+
+#. :src: bpy.types.Scene.b4w_render_reflections
+msgid "Render reflections for the scene objects with the 'B4W reflection cast' and 'B4W reflection receive' properties"
+msgstr "Отображать отражения для объектов этой сцены с включеными свойствами 'Отражаемый' и 'Отражающий'"
+
+#. :src: bpy.types.Scene.b4w_reflection_quality
+msgid "B4W: reflection resolution quality"
+msgstr "B4W: Качество отражения"
+
+#. :src: bpy.types.Scene.b4w_reflection_quality
+msgid "Reflection resolution quality"
+msgstr "Качество отражения"
+
+#. :src: bpy.types.Scene.b4w_reflection_quality:'LOW'
+msgid "LOW"
+msgstr "Низкое"
+
+#. :src: bpy.types.Scene.b4w_reflection_quality:'MEDIUM'
+msgid "MEDIUM"
+msgstr "Среднее"
+
+#. :src: bpy.types.Scene.b4w_reflection_quality:'HIGH'
+msgid "HIGH"
+msgstr "Высокое"
+
+#. :src: bpy.types.Scene.b4w_render_refractions
+msgid "B4W: render refractions"
+msgstr "B4W: Отображать преломление"
+
+#. :src: bpy.types.Scene.b4w_render_refractions
+msgid "Render refractions for the scene objects"
+msgstr "Отображать преломление для объектов сцены"
+
+#. :src: bpy.types.Scene.b4w_enable_god_rays
+msgid "B4W: enable god rays"
+msgstr "B4W: Включить лучи света"
+
+#. :src: bpy.types.Scene.b4w_enable_god_rays
+msgid "Enable god rays for the scene lights"
+msgstr "Включить лучи света для источников света сцены"
+
+#. :src: bpy.types.Scene.b4w_god_rays_settings
+msgid "B4W: god rays settings"
+msgstr "B4W: Настройки лучей света"
+
+#. :src: bpy.types.Scene.b4w_enable_glow_materials
+msgid "B4W: enable glow materials"
+msgstr "B4W: Включить светящиеся материалы"
+
+#. :src: bpy.types.Scene.b4w_enable_glow_materials
+msgid "Enable glow materials"
+msgstr "Включить светящиеся материалы"
+
+#. :src: bpy.types.Scene.b4w_glow_settings
+msgid "B4W: glow settings"
+msgstr "B4W: Настройки свечения"
+
+#. :src: bpy.types.Scene.b4w_enable_ssao
+msgid "B4W: enable SSAO"
+msgstr "B4W: Включить SSAO"
+
+#. :src: bpy.types.Scene.b4w_enable_ssao
+msgid "Enable screen space ambient occlusion"
+msgstr "Включить SSAO"
+
+#. :src: bpy.types.Scene.b4w_ssao_settings
+msgid "B4W: SSAO settings"
+msgstr "B4W: Настройки SSAO"
+
+#. :src: bpy.types.Scene.b4w_batch_grid_size
+msgid "B4W: batch grid size"
+msgstr "B4W: Размер сетки батчей"
+
+#. :src: bpy.types.Scene.b4w_batch_grid_size
+msgid "Batch grid size in meters, pass zero value to prevent grid use"
+msgstr "Размеры сетки батчей в метрах"
+
+#. :src: bpy.types.Scene.b4w_anisotropic_filtering
+#. :src: bpy.types.Texture.b4w_anisotropic_filtering
+#, fuzzy
+msgid "B4W: anisotropic filtering"
+msgstr "Анизотропная фильтрация"
+
+#. :src: bpy.types.Scene.b4w_anisotropic_filtering
+msgid "Anisotropic filtering for all textures. May be overriden by individual textures"
+msgstr "Анисотропная фильтрация для всех текстур. Может перезыписываться для отдельных текстур"
+
+#. :src: bpy.types.Scene.b4w_enable_bloom
+msgid "B4W: enable bloom"
+msgstr "B4W: Включить засвет"
+
+#. :src: bpy.types.Scene.b4w_enable_bloom
+msgid "Enable bloom"
+msgstr "Включить засвет"
+
+#. :src: bpy.types.Scene.b4w_bloom_settings
+msgid "B4W: bloom settings"
+msgstr "B4W: Настройки засвета"
+
+#. :src: bpy.types.Scene.b4w_enable_motion_blur
+msgid "B4W: enable motion blur"
+msgstr "B4W: Включить размытие при движении"
+
+#. :src: bpy.types.Scene.b4w_enable_motion_blur
+msgid "Enable motion blur"
+msgstr "Включить размытие при движении"
+
+#. :src: bpy.types.Scene.b4w_motion_blur_settings
+msgid "B4W: motion blur settings"
+msgstr "B4W: Настройки размытия при движении"
+
+#. :src: bpy.types.Scene.b4w_enable_color_correction
+msgid "B4W: enable color correction"
+msgstr "B4W: Включить цветовую коррекцию"
+
+#. :src: bpy.types.Scene.b4w_enable_color_correction
+msgid "Enable color correction"
+msgstr "Включить цветокую коррекцию"
+
+#. :src: bpy.types.Scene.b4w_color_correction_settings
+msgid "B4W: color correction settings"
+msgstr "B4W: Настройки цветовой коррекции"
+
+#. :src: bpy.types.Scene.b4w_enable_antialiasing
+msgid "B4W: enable antialiasing"
+msgstr "B4W: Включить антиалиасинг"
+
+#. :src: bpy.types.Scene.b4w_enable_antialiasing
+msgid "Enable antialiasing"
+msgstr "Включить антиалиасинг"
+
+#. :src: bpy.types.Scene.b4w_enable_tags
+msgid "B4W: enable tags"
+msgstr "B4W: Включить тэги"
+
+#. :src: bpy.types.Scene.b4w_enable_tags
+msgid "Enable tags"
+msgstr "Включить тэги"
+
+#. :src: bpy.types.Scene.b4w_tags
+msgid "B4W: tags"
+msgstr "B4W: Тэги"
+
+#. :src: bpy.types.Scene.b4w_enable_object_selection
+msgid "B4W: enable object selection"
+msgstr "B4W: Включить выбор объектов"
+
+#. :src: bpy.types.Scene.b4w_enable_object_selection
+msgid "Enable object selection"
+msgstr "Включить выбор объектов"
+
+#. :src: bpy.types.Scene.b4w_enable_outlining
+msgid "B4W: enable outlining"
+msgstr "B4W: Включить подсветку контуров объектов"
+
+#. :src: bpy.types.Scene.b4w_enable_outlining
+msgid "Enable outlining"
+msgstr "Включить подсветку контуров объектов"
+
+#. :src: bpy.types.Scene.b4w_outline_color
+msgid "B4W: outline color of the selection"
+msgstr "B4W: Цвет подстветки контуров объектов"
+
+#. :src: bpy.types.Scene.b4w_outline_color
+msgid "Default outline color of the selection"
+msgstr "Цвет подсветки контура объектов, используемый по умолчанию"
+
+#. :src: bpy.types.Scene.b4w_outline_factor
+msgid "B4W: outline factor"
+msgstr "B4W: Фактов подсветки контура объекта"
+
+#. :src: bpy.types.Scene.b4w_outline_factor
+msgid "Outline strength factor"
+msgstr "Фактор силы подстветки контура"
+
+#. :src: bpy.types.Scene.b4w_enable_anchors_visibility
+msgid "B4W: enable anchors visibility"
+msgstr "B4W: Включить видимость якорей"
+
+#. :src: bpy.types.Scene.b4w_enable_anchors_visibility
+msgid "Enable anchors visibility detection"
+msgstr "Включить определение видимости якорей"
+
+#. :src: bpy.types.Speaker.b4w_behavior
+msgid "B4W: speaker behavior"
+msgstr "B4W: Поведение спикеров"
+
+#. :src: bpy.types.Speaker.b4w_behavior
+#. :src: bpy.types.DATA_PT_b4w_speaker_behavior
+msgid "Speaker behavior"
+msgstr "Поведение спикеров"
+
+#. :src: bpy.types.Speaker.b4w_behavior:'POSITIONAL'
+msgid "Positional sound"
+msgstr "Позиционный звук"
+
+#. :src: bpy.types.Speaker.b4w_behavior:'POSITIONAL'
+msgid "Positional speaker"
+msgstr "Позиционный источник звука"
+
+#. :src: bpy.types.Speaker.b4w_behavior:'BACKGROUND_SOUND'
+#, fuzzy
+msgid "Background sound"
+msgstr "Фоновый звук"
+
+#. :src: bpy.types.Speaker.b4w_behavior:'BACKGROUND_MUSIC'
+#, fuzzy
+msgid "Background music"
+msgstr "Фоновая музыка"
+
+#. :src: bpy.types.Speaker.b4w_disable_doppler
+msgid "B4W: disable doppler"
+msgstr "B4W: Выключить эффект Доплера"
+
+#. :src: bpy.types.Speaker.b4w_disable_doppler
+msgid "Disable the Doppler effect"
+msgstr "Выключить эффект Доплера"
+
+#. :src: bpy.types.Speaker.b4w_cyclic_play
+msgid "B4W: cyclic play"
+msgstr "B4W: Циклическое воспроизведение"
+
+#. :src: bpy.types.Speaker.b4w_cyclic_play
+msgid "Repeat speaker's playback"
+msgstr "Повторение воспроизведения"
+
+#. :src: bpy.types.Speaker.b4w_delay
+msgid "B4W: delay"
+msgstr "B4W: Задержка"
+
+#. :src: bpy.types.Speaker.b4w_delay
+msgid "Delay after playback start"
+msgstr "Задержка после старта"
+
+#. :src: bpy.types.Speaker.b4w_delay_random
+msgid "B4W: random delay"
+msgstr "B4W: Случайная задержка"
+
+#. :src: bpy.types.Speaker.b4w_delay_random
+msgid "Randomized delay increment"
+msgstr "Случайное значение задержки"
+
+#. :src: bpy.types.Speaker.b4w_volume_random
+#. :src: bpy.types.Speaker.b4w_pitch_random
+msgid "B4W: random volume"
+msgstr "B4W: Случайная громкость"
+
+#. :src: bpy.types.Speaker.b4w_volume_random
+msgid "Randomized volume decrement"
+msgstr "Случайное значение громкости"
+
+#. :src: bpy.types.Speaker.b4w_pitch_random
+msgid "Randomized pitch increment"
+msgstr "Случайное значение шага"
+
+#. :src: bpy.types.Speaker.b4w_fade_in
+msgid "Fade-in interval"
+msgstr "Время проявления звука"
+
+#. :src: bpy.types.Speaker.b4w_fade_out
+msgid "Fade-out interval"
+msgstr "Время исчезновение звука"
+
+#. :src: bpy.types.Speaker.b4w_loop
+msgid "B4W: loop"
+msgstr "B4W: Петля"
+
+#. :src: bpy.types.Speaker.b4w_loop
+msgid "Make loop (repeated playback inside current play cycle)"
+msgstr "Повторять воспроизведение внутри текущего цикла"
+
+#. :src: bpy.types.Speaker.b4w_loop_count
+msgid "B4W: loop count"
+msgstr "B4W: Счетчик петли"
+
+#. :src: bpy.types.Speaker.b4w_loop_count
+msgid "Max count of loop repeats, 0 for infinite looping"
+msgstr "Максимальное значение повторений петли, 0 для бесконечной петли"
+
+#. :src: bpy.types.Speaker.b4w_loop_count_random
+msgid "B4W: random loop count"
+msgstr "B4W: Случайный счетчик петли"
+
+#. :src: bpy.types.Speaker.b4w_loop_count_random
+msgid "Randomized loop count increment"
+msgstr "Случайное значение счетчика петли"
+
+#. :src: bpy.types.Speaker.b4w_playlist_id
+msgid "B4W: playlist ID"
+msgstr "B4W: Идентификатор списка воспроизведения"
+
+#. :src: bpy.types.Speaker.b4w_playlist_id
+msgid "Playlist ID"
+msgstr "Идентификатор списка воспроизведения"
+
+#. :src: bpy.types.Text.b4w_assets_load
+msgid "B4W: assets load"
+msgstr "B4W: Загрузка данных"
+
+#. :src: bpy.types.Texture.b4w_use_map_parallax
+msgid "B4W: use map parallax"
+msgstr "B4W: Использовать эффект параллакса"
+
+#. :src: bpy.types.Texture.b4w_use_map_parallax
+msgid "The texture's alpha channel will be used as the heightmap for warping"
+msgstr "Альфа канал текстуры будет использован как карта высот для искривления"
+
+#. :src: bpy.types.Texture.b4w_parallax_scale
+msgid "B4W: parallax scale"
+msgstr "B4W: Масштаб параллакса"
+
+#. :src: bpy.types.Texture.b4w_parallax_scale
+msgid "Scale parameter for texture warping. Height (e.g. 3 cm) is devided by the texture covering size (e.g. 1.5 m)"
+msgstr "Параметр масштаба для текстурного искривления. Высота (например 3 см) разделена размером покрытия текстуры (например 1.5 м)"
+
+#. :src: bpy.types.Texture.b4w_parallax_steps
+msgid "B4W: parallax steps"
+msgstr "B4W: Шаг параллакса"
+
+#. :src: bpy.types.Texture.b4w_parallax_steps
+msgid "Number of steps taken to build a parallax surface (the more the better)"
+msgstr "Номер шагов, данный для построения поверхности параллакса (чем больше, тем лучше)"
+
+#. :src: bpy.types.Texture.b4w_parallax_lod_dist
+msgid "B4W: parallax lod distance"
+msgstr "B4W: Расстояние уровня детализации параллакса"
+
+#. :src: bpy.types.Texture.b4w_parallax_lod_dist
+msgid "Level of detail distance for parallax mapping"
+msgstr "Уровень детализации для эффекта параллакса"
+
+#. :src: bpy.types.Texture.b4w_source_type
+msgid "B4W: source type"
+msgstr "B4W: Тип текстуры"
+
+#. :src: bpy.types.Texture.b4w_source_type
+msgid "Source type"
+msgstr "Тип текстуры"
+
+#. :src: bpy.types.Texture.b4w_source_id
+msgid "B4W: scene"
+msgstr "Сцена"
+
+#. :src: bpy.types.Texture.b4w_source_id
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:289
+msgid "Source ID"
+msgstr "ID источника"
+
+#. :src: bpy.types.Texture.b4w_source_size
+msgid "B4W: source size"
+msgstr "B4W: Размер текстуры"
+
+#. :src: bpy.types.Texture.b4w_source_size
+msgid "Source size"
+msgstr "Размер текстуры"
+
+#. :src: bpy.types.Texture.b4w_enable_canvas_mipmapping
+msgid "B4W: Enable mipmapping"
+msgstr "B4W: Включить mipmap-текстурирование"
+
+#. :src: bpy.types.Texture.b4w_enable_canvas_mipmapping
+msgid "Use mipmapping for canvas texture"
+msgstr "Использовать mipmap-текстурирование для canvas-текстуры"
+
+#. :src: bpy.types.Texture.b4w_extension
+msgid "B4W: extension"
+msgstr "B4W: Расширение"
+
+#. :src: bpy.types.Texture.b4w_enable_tex_af
+msgid "B4W: enable texture anisotropic filtering"
+msgstr "B4W: Включить анизотропную фильтрацию для текстур"
+
+#. :src: bpy.types.Texture.b4w_enable_tex_af
+#, fuzzy
+msgid "Enable anisotropic filtering"
+msgstr "Анизотропная фильтрация"
+
+#. :src: bpy.types.Texture.b4w_anisotropic_filtering
+msgid "Anisotropic filtering for the texture"
+msgstr "Анизотропная фильтрация для текстуры"
+
+#. :src: bpy.types.Texture.b4w_use_sky
+msgid "B4W: environment lighting"
+msgstr "B4W: Освещение окружающей среды"
+
+#. :src: bpy.types.Texture.b4w_use_sky
+msgid "Use texture as skydome or environment lighting"
+msgstr "Использовать текстуру как небосвод или освещение окружающей среды"
+
+#. :src: bpy.types.Texture.b4w_water_foam
+msgid "B4W: Water foam"
+msgstr "B4W: Водяная пена"
+
+#. :src: bpy.types.Texture.b4w_water_foam
+msgid "Use texture as foam on the water surface"
+msgstr "Использовать текстуру как пену на поверхности воды"
+
+#. :src: bpy.types.Texture.b4w_foam_uv_freq
+msgid "B4W: Foam UV frequency"
+msgstr "B4W: Частота UV пены"
+
+#. :src: bpy.types.Texture.b4w_foam_uv_freq
+#. :src: bpy.types.Texture.b4w_foam_uv_magnitude
+msgid "Foam UV translation frequency"
+msgstr "Частота перемещения UV пены"
+
+#. :src: bpy.types.Texture.b4w_foam_uv_magnitude
+msgid "B4W: Foam UV magnitude"
+msgstr "Значительность UV пены"
+
+#. :src: bpy.types.Texture.b4w_shore_dist_map
+msgid "B4W: Shore distance map"
+msgstr "B4W: Карта расстояний берега"
+
+#. :src: bpy.types.Texture.b4w_shore_dist_map
+msgid "Use the texture as a shore distance map on the water surface"
+msgstr "Использовать текстуру как карту расстояний берега на водяной поверхности"
+
+#. :src: bpy.types.Texture.b4w_shore_boundings
+msgid "B4W: shore boundings"
+msgstr "B4W: Ограничивающий параллелепипед берега"
+
+#. :src: bpy.types.Texture.b4w_shore_boundings
+msgid "Boundings of the water-to-shore distance map"
+msgstr "Ограничивающие параллелепипеды карты расстояний воды-берега"
+
+#. :src: bpy.types.Texture.b4w_max_shore_dist
+msgid "B4W: maximum shore distance"
+msgstr "B4W: Максимальное расстояние до берега"
+
+#. :src: bpy.types.Texture.b4w_max_shore_dist
+msgid "Maximum distance to shore in meters (taken as 1.0)"
+msgstr "Максимальное расстояние до берега в метрах (дается как 1.0)"
+
+#. :src: bpy.types.Texture.b4w_disable_compression
+msgid "B4W: disable compression"
+msgstr "B4W: Запретить сжатие"
+
+#. :src: bpy.types.Texture.b4w_disable_compression
+msgid "Do not use DDS file for this texture"
+msgstr "Не использовать DDS-формат для этой текстуры"
+
+#. :src: bpy.types.World.b4w_fog_color
+msgid "B4W: fog color"
+msgstr "B4W: Цвет тумана"
+
+#. :src: bpy.types.World.b4w_fog_color
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:103
+msgid "Fog color"
+msgstr "Цвет тумана"
+
+#. :src: bpy.types.World.b4w_sky_settings
+msgid "B4W: sky settings"
+msgstr "B4W: Настройки неба"
+
+#. :src: bpy.types.NODE_MT_category_Logic Nodes
+#. :src: bpy.types.NODE_PT_category_Logic Nodes
+msgid "Logic Nodes"
+msgstr "Логические Узлы"
+
+#. :src: bpy.types.B4W_logic_node
+msgid "B4WLogicNode"
+msgstr ""
+
+#. :src: bpy.types.B4W_logic_node.param_url
+msgid "Target URL"
+msgstr "Адрес"
+
+#. :src: bpy.types.B4W_logic_node.param_marker_start
+msgid "Start Marker"
+msgstr "Маркер старта"
+
+#. :src: bpy.types.B4W_logic_node.param_marker_start
+msgid "First marker of the playback"
+msgstr "Маркер, с которого начинается проигрывание"
+
+#. :src: bpy.types.B4W_logic_node.param_operation
+msgid "Operation to perform on input operands"
+msgstr "Математическая операция, выполняемая над операндами"
+
+#. :src: bpy.types.B4W_logic_node.param_register2
+#. :src: bpy.types.B4W_logic_node.param_register2:'R2'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R2'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R2'
+msgid "Register 2"
+msgstr "Регистр 2"
+
+#. :src: bpy.types.B4W_logic_node.param_register2
+#. :src: bpy.types.B4W_logic_node.param_register_flag2
+msgid "Second register operand"
+msgstr "Второй операнд регистра"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R8'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R8'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R8'
+msgid "Register 8"
+msgstr "Регистр 8"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R7'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R7'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R7'
+msgid "Register 7"
+msgstr "Регистр 7"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R6'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R6'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R6'
+msgid "Register 6"
+msgstr "Регистр 6"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R5'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R5'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R5'
+msgid "Register 5"
+msgstr "Регистр 5"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R4'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R4'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R4'
+msgid "Register 4"
+msgstr "Регистр 4"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R3'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R3'
+#. :src: bpy.types.B4W_logic_node.param_register1:'R3'
+msgid "Register 3"
+msgstr "Регистр 3"
+
+#. :src: bpy.types.B4W_logic_node.param_register2:'R1'
+#. :src: bpy.types.B4W_logic_node.param_register_dest:'R1'
+#. :src: bpy.types.B4W_logic_node.param_register1
+#. :src: bpy.types.B4W_logic_node.param_register1:'R1'
+msgid "Register 1"
+msgstr "Регистр 1"
+
+#. :src: bpy.types.B4W_logic_node.param_number2
+#. :src: bpy.types.B4W_logic_node.param_number1
+msgid "Num"
+msgstr "Чис"
+
+#. :src: bpy.types.B4W_logic_node.param_number2
+msgid "Second numeric operand"
+msgstr "Второй числовой операнд"
+
+#. :src: bpy.types.B4W_logic_node.param_number1
+msgid "First numeric operand"
+msgstr "Первый численный перанд"
+
+#. :src: bpy.types.B4W_logic_node.type:'NOOP'
+msgid "Noop"
+msgstr "Без оп."
+
+#. :src: bpy.types.B4W_logic_node.type:'NOOP'
+msgid "No operation"
+msgstr "Не производить никаких операций"
+
+#. :src: bpy.types.B4W_logic_node.type:'PAGEPARAM'
+msgid "Page Param"
+msgstr "Параметры страницы"
+
+#. :src: bpy.types.B4W_logic_node.type:'PAGEPARAM'
+msgid "Store numeric page parameter to a register"
+msgstr "Записать численный параметр страницы в регистр"
+
+#. :src: bpy.types.B4W_logic_node.type:'HIDE'
+msgid "Hide Object"
+msgstr "Спрятать объект"
+
+#. :src: bpy.types.B4W_logic_node.type:'HIDE'
+msgid "Hide object"
+msgstr "Спрятать объект"
+
+#. :src: bpy.types.B4W_logic_node.type:'SHOW'
+msgid "Show Object"
+msgstr "Показать объект"
+
+#. :src: bpy.types.B4W_logic_node.type:'SHOW'
+msgid "Show bject"
+msgstr "Показать объект"
+
+#. :src: bpy.types.B4W_logic_node.type:'REDIRECT'
+msgid "Page Redirect"
+msgstr "Перенаправление страницы"
+
+#. :src: bpy.types.B4W_logic_node.type:'REDIRECT'
+msgid "Redirect current page to given URL"
+msgstr "Перенаправить с текущей страницы на указанный адрес"
+
+#. :src: bpy.types.B4W_logic_node.type:'MATH'
+msgid "Math Operation"
+msgstr "Математическая операция"
+
+#. :src: bpy.types.B4W_logic_node.type:'MATH'
+msgid "Perform a math operation"
+msgstr "Произвести математическую операцию"
+
+#. :src: bpy.types.B4W_logic_node.type:'REGSTORE'
+msgid "Register Store"
+msgstr "Записать в регистр"
+
+#. :src: bpy.types.B4W_logic_node.type:'REGSTORE'
+msgid "Store a value to a register"
+msgstr "Записать значение в регистр"
+
+#. :src: bpy.types.B4W_logic_node.type:'CONDJUMP'
+msgid "Conditional Jump"
+msgstr "Условный переход"
+
+#. :src: bpy.types.B4W_logic_node.type:'CONDJUMP'
+msgid "Conditional jump"
+msgstr "Условный переход"
+
+#. :src: bpy.types.B4W_logic_node.type:'JUMP'
+msgid "Jump to the slot by label"
+msgstr "Перейти к указанному слоту"
+
+#. :src: bpy.types.B4W_logic_node.type:'SELECT_PLAY'
+msgid "Select & Play"
+msgstr "Выбрать и проиграть"
+
+#. :src: bpy.types.B4W_logic_node.type:'SELECT_PLAY'
+msgid "Select an object then play"
+msgstr "Проиграть анимацию при выделении указанного объекта"
+
+#. :src: bpy.types.B4W_logic_node.type:'SELECT'
+msgid "Select & Jump"
+msgstr "Выбрать и перейти"
+
+#. :src: bpy.types.B4W_logic_node.type:'SELECT'
+msgid "Select an object"
+msgstr "Выбрать объект"
+
+#. :src: bpy.types.B4W_logic_node.type:'PLAY'
+msgid "Play NLA animation"
+msgstr "Проиграть нелинейную анимацию"
+
+#. :src: bpy.types.B4W_logic_node.type:'ENTRYPOINT'
+msgid "Entry Point"
+msgstr "Точка входа"
+
+#. :src: bpy.types.B4W_logic_node.param_register_flag1
+#. :src: bpy.types.B4W_logic_node.param_register1
+msgid "First register operand"
+msgstr "Первый операнд регистра"
+
+#. :src: bpy.types.B4W_logic_node.error_messages
+msgid "Error messages"
+msgstr "Сообщения об ошибках"
+
+#. :src: bpy.types.B4W_logic_node.param_slot
+msgid "Target Slot"
+msgstr "Целевой слот"
+
+#. :src: bpy.types.B4W_logic_node.param_slot
+msgid "Name of the target slot"
+msgstr "Название целевого слота"
+
+#. :src: bpy.types.B4W_logic_node.param_register_dest
+msgid "Destination Register"
+msgstr "Регистр для записи"
+
+#. :src: bpy.types.B4W_logic_node.param_register_dest
+msgid "Destination register operand"
+msgstr "Операнд регистра для записи"
+
+#. :src: bpy.types.B4W_logic_node.param_name
+msgid "Param Name"
+msgstr "Название параметра"
+
+#. :src: bpy.types.B4W_logic_node.param_name
+msgid "Param name"
+msgstr "Название параметра"
+
+#. :src: bpy.types.B4W_logic_node.label2
+msgid "label2"
+msgstr ""
+
+#. :src: bpy.types.B4W_logic_node.param_condition
+msgid "Condition"
+msgstr "Условие"
+
+#. :src: bpy.types.B4W_logic_node.param_condition
+msgid "Conditonal operator"
+msgstr "Условный оператор"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'GEQUAL'
+msgid "Greater Than or Equal (>=)"
+msgstr "Больше или равно (>=)"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'GEQUAL'
+msgid "Greater than or equal"
+msgstr "Больше или равно"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'LEQUAL'
+msgid "Less Than or Equal (<=)"
+msgstr "Меньше или равно (<=)"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'LEQUAL'
+msgid "Less than or equal"
+msgstr "Меньше или равно"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'GREATER'
+msgid "Greater Than (>)"
+msgstr "Больше, чем (>)"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'GREATER'
+msgid "Greater than"
+msgstr "Больше, чем"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'LESS'
+msgid "Less Than (<)"
+msgstr "Меньше, чем (<)"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'LESS'
+msgid "Less than"
+msgstr "Меньше, чем"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'NOTEQUAL'
+msgid "Not Equal (!=)"
+msgstr "Не равно (!=)"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'NOTEQUAL'
+msgid "Not equal"
+msgstr "Не равно"
+
+#. :src: bpy.types.B4W_logic_node.param_condition:'EQUAL'
+msgid "Equal (=)"
+msgstr "Равно (=)"
+
+#. :src: bpy.types.B4W_logic_node.param_marker_end
+msgid "End Marker"
+msgstr "Маркер конца"
+
+#. :src: bpy.types.B4W_logic_node.param_marker_end
+msgid "Final marker of the playback"
+msgstr "Маркер окончания проигрывания"
+
+#. :src: bpy.types.SlotJumpSocketType
+msgid "SlotJumpSocketOutput"
+msgstr ""
+
+#. :src: bpy.types.SlotOrderSocketType
+msgid "LogicOperator Node Socket"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_anim_add
+msgctxt "Operator"
+msgid "Add animation"
+msgstr "Добавить анимацию"
+
+#. :src: bpy.types.B4W_OT_anim_add
+msgid "Add animation"
+msgstr "Добавить анимацию"
+
+#. :src: bpy.types.B4W_OT_anim_remove
+msgctxt "Operator"
+msgid "Remove animation"
+msgstr "Убрать анимацию"
+
+#. :src: bpy.types.B4W_OT_anim_remove
+msgid "Remove animation"
+msgstr "Убрать анимацию"
+
+#. :src: bpy.types.B4W_OT_animation_bake
+msgctxt "Operator"
+msgid "Bake Skeletal Animation"
+msgstr "Запечь скелетную анимацию"
+
+#. :src: bpy.types.B4W_OT_animation_bake
+msgid "Bake animation for the selected armature object"
+msgstr "Запечь анимацию на выделенной арматуре"
+
+#. :src: bpy.types.B4W_OT_approx_normals_from_mesh
+msgctxt "Operator"
+msgid "B4W Copy Normals From Mesh (Nearest)"
+msgstr "B4W скопировать нормали с меша (ближайшие)"
+
+#. :src: bpy.types.B4W_OT_approx_normals_from_mesh
+msgid "Approximate target mesh normals from source mesh"
+msgstr "Аппроксимировать нормали целевого меша по нормалям исходного меша"
+
+#. :src: bpy.types.B4W_OT_bake_error_dialog
+msgctxt "Operator"
+msgid "Bake Error Dialog"
+msgstr "Окно ошибки запекания"
+
+#. :src: bpy.types.B4W_OT_camera_target_copy
+msgctxt "Operator"
+msgid "B4W Camera Target Copy"
+msgstr "B4W копировать цель для камеры"
+
+#. :src: bpy.types.B4W_OT_camera_target_copy
+msgid "Use cursor location as camera target"
+msgstr "Использовать положение курсора как цель для камеры"
+
+#. :src: bpy.types.B4W_OT_constraints_mute
+msgctxt "Operator"
+msgid "B4W Constraints Mute"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_constraints_mute
+msgid "Mute bone constraints for selected armature object"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_constraints_unmute
+msgctxt "Operator"
+msgid "B4W Constraints UnMute"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_constraints_unmute
+msgid "Unmute bone constraints for selected armature object"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_export_error_dialog
+msgctxt "Operator"
+msgid "Export Error Dialog"
+msgstr "Окно ошибки экспорта"
+
+#. :src: bpy.types.B4W_OT_export_messages_dialog
+msgctxt "Operator"
+msgid "Export Messages Dialog"
+msgstr "Окно сообщений экспорта"
+
+#. :src: bpy.types.B4W_OT_file_error_dialog
+msgctxt "Operator"
+msgid "File Error Dialog"
+msgstr "Окно ошибки файлв"
+
+#. :src: bpy.types.B4W_OT_get_export_html_path
+msgctxt "Operator"
+msgid "B4W Get Export HTML Path"
+msgstr "B4W Получить путь экспотируемого HTML"
+
+#. :src: bpy.types.B4W_OT_get_export_html_path
+#. :src: bpy.types.B4W_OT_get_export_path
+msgid "Get Export Path for blend file"
+msgstr "B4W Получить путь экспортируемого blend-файла"
+
+#. :src: bpy.types.B4W_OT_get_export_path
+msgctxt "Operator"
+msgid "B4W Get Export Path"
+msgstr "B4W Получить путь"
+
+#. :src: bpy.types.B4W_OT_open_sdk
+msgctxt "Operator"
+msgid "B4W Open SDK"
+msgstr "B4W Открыть SDK"
+
+#. :src: bpy.types.B4W_OT_reexport
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/mass_reexport.py:107
+msgctxt "Operator"
+msgid "Reexport"
+msgstr "Реэкспорт"
+
+#. :src: bpy.types.B4W_OT_reexport
+msgid "Perform mass reexport. Depending on amount of work this may take some time."
+msgstr "Провести массовый реэкспорт. Это может занять определенное время, в зависимости от количества работы"
+
+#. :src: bpy.types.B4W_OT_reexport_path_append
+msgctxt "Operator"
+msgid "Reexport Append"
+msgstr "Добавить к реэкспорту"
+
+#. :src: bpy.types.B4W_OT_reexport_path_append
+msgid "Append exported directory"
+msgstr "Добавить директорию к реэкспорту"
+
+#. :src: bpy.types.B4W_OT_reexport_path_remove
+msgctxt "Operator"
+msgid "Reexport Remove"
+msgstr "Удалить из реэкспорта"
+
+#. :src: bpy.types.B4W_OT_reexport_path_remove
+msgid "Remove exported directory"
+msgstr "Удалить директорию из реэкспорта"
+
+#. :src: bpy.types.B4W_OT_remove_unused_vgroups
+msgctxt "Operator"
+msgid "B4W Remove Unused VGroups"
+msgstr "B4W Удалить неиспользуемые группы вершин"
+
+#. :src: bpy.types.B4W_OT_remove_unused_vgroups
+msgid "Remove vertex groups which are not being used by any armature"
+msgstr "Удалить группы вершин, незадействованные арматурой"
+
+#. :src: bpy.types.B4W_OT_server_message
+msgctxt "Operator"
+msgid "Warning: Server error."
+msgstr "Предупредение: ошибка сервера"
+
+#. :src: bpy.types.B4W_OT_shore_distance_baker
+msgctxt "Operator"
+msgid "B4W Shore Distance Baker"
+msgstr "B4W Запекатель расстояния до береговой линии"
+
+#. :src: bpy.types.B4W_OT_shore_distance_baker
+msgid "Generate distance field to the nearest shore vertex"
+msgstr "Сгенерировать карту расстояния до ближайшей вершины берега"
+
+#. :src: bpy.types.B4W_OT_start_server
+msgctxt "Operator"
+msgid "B4W Start Server"
+msgstr "B4W Запустить сервер"
+
+#. :src: bpy.types.B4W_OT_stop_server
+msgctxt "Operator"
+msgid "B4W Stop Server"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_update_message
+msgctxt "Operator"
+msgid "Message"
+msgstr "Сообщение"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_add
+msgctxt "Operator"
+msgid "Add vertex animation"
+msgstr "Добавить вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_add
+msgid "Add vertex animation"
+msgstr "Добавить вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_bake
+msgctxt "Operator"
+msgid "Bake vertex animation"
+msgstr "Запечь вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_bake
+msgid "Bake vertex animation"
+msgstr "Запечь вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_remove
+msgctxt "Operator"
+msgid "Remove vertex animation"
+msgstr "Удалить вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_anim_remove
+msgid "Remove vertex animation"
+msgstr "Удалить вертексную анимацию"
+
+#. :src: bpy.types.B4W_OT_vertex_groups_to_materials
+msgctxt "Operator"
+msgid "B4W Vertex Groups To Materials"
+msgstr ""
+
+#. :src: bpy.types.B4W_OT_vertex_groups_to_materials
+msgid "Convert vertex groups to materials"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html
+msgctxt "Operator"
+msgid "B4W Export HTML"
+msgstr "B4W Экспортировать HTML"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html
+msgid "Export for Blend4Web (.html)"
+msgstr "Экспорт для Blend4Web (.html)"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.do_autosave
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.do_autosave
+msgid "Autosave blend File"
+msgstr "Автосохранение .blend-файла"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.do_autosave
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.do_autosave
+msgid "Automatically save the blend file after export"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.strict_mode
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.strict_mode
+msgid "Strict Mode"
+msgstr "Строгий режим экспорта"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.strict_mode
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.strict_mode
+msgid "Block export if there are any errors or warnings"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.override_filepath
+msgid "Required for running in command line mode"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.save_export_path
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.save_export_path
+msgid "Save export path"
+msgstr "Сохранить путь экспорта"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.save_export_path
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.save_export_path
+msgid "Save export path in blend file"
+msgstr "Сохранить путь экспорта в blend-файл"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.export_converted_media
+msgid "Export Converted Media"
+msgstr "Экспортировать альтернативные форматы"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_html.export_converted_media
+msgid "Save alternative media formats in the HTML file"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json
+msgctxt "Operator"
+msgid "B4W Export JSON"
+msgstr "B4W Экспортировать JSON"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json
+msgid "Export for Blend4Web (.json)"
+msgstr "Экспорт для Blend4Web (.json)"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.run_in_viewer
+msgid "Run in Viewer"
+msgstr "Запустить в просмотрщике сцен"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.run_in_viewer
+msgid "Open the exported scene in the Viewer using the default browser"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.override_filepath
+msgid "Required for running in command line"
+msgstr "Предназначен для запуска в командной строке"
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.is_html_export
+msgid "Is HTML export"
+msgstr ""
+
+#. :src: bpy.types.EXPORT_SCENE_OT_b4w_json.is_html_export
+msgid "Is html export"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_b4w_normal_rotate
+msgctxt "Operator"
+msgid "Rotate Normal"
+msgstr "Вращать нормаль"
+
+#. :src: bpy.types.OBJECT_OT_b4w_restore_normals
+msgctxt "Operator"
+msgid "Restore Normals from vertices"
+msgstr "Восстановить нормали вершин"
+
+#. :src: bpy.types.OBJECT_OT_b4w_restore_normals
+msgid "Restore Normals from vertices"
+msgstr "Восстановить нормали вершин"
+
+#. :src: bpy.types.OBJECT_OT_b4w_smooth_normals
+msgctxt "Operator"
+msgid "Average split normals"
+msgstr "Разделение нормалей"
+
+#. :src: bpy.types.OBJECT_OT_b4w_smooth_normals
+msgid "Average split normals"
+msgstr "Задать нормалям усредненное значение"
+
+#. :src: bpy.types.OBJECT_OT_copy_normal
+msgctxt "Operator"
+msgid "Copy Normal"
+msgstr "Скопировать нормаль"
+
+#. :src: bpy.types.OBJECT_OT_copy_normal
+msgid "Copies normal from selected Vertex"
+msgstr "Копирует нромаль выбранной вершины"
+
+#. :src: bpy.types.OBJECT_OT_copy_normals_from_mesh
+msgctxt "Operator"
+msgid "B4W Copy Normals From Mesh (Matched)"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_copy_normals_from_mesh
+msgid "Copy normals from the selected to the active mesh for selected vertices"
+msgstr "Скопировать соответствующие нормали с выделененого меша на активный"
+
+#. :src: bpy.types.OBJECT_OT_face_vertex_normals
+msgctxt "Operator"
+msgid "Vertex Normal Face"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_face_vertex_normals
+msgid "Copy face normal"
+msgstr "Скопировать нормаль полигона"
+
+#. :src: bpy.types.OBJECT_OT_foliage_vertex_normals
+msgctxt "Operator"
+msgid "Vertex Normal Foliage"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_foliage_vertex_normals
+msgid "Selected verts to Z axis"
+msgstr "Направить выделенные вершины строго вверх по оси Z"
+
+#. :src: bpy.types.OBJECT_OT_paste_normal
+msgctxt "Operator"
+msgid "Paste Normal"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_paste_normal
+msgid "Paste normal to selected Vertex"
+msgstr "Вставить нормаль для выделенной вершины"
+
+#. :src: bpy.types.OBJECT_OT_tree_vertex_normals
+msgctxt "Operator"
+msgid "Vertex Normal Tree"
+msgstr ""
+
+#. :src: bpy.types.OBJECT_OT_tree_vertex_normals
+msgid "Align selected verts pointing away from 3d cursor"
+msgstr "Направить выделенные нормали от 3D курсора"
+
+#. :src: bpy.types.SCENE_OT_b4w_logic_editor_add_tree
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:70
+msgctxt "Operator"
+msgid "Add"
+msgstr "Добавить"
+
+#. :src: bpy.types.SCENE_OT_b4w_logic_editor_add_tree
+msgid "Add new logic node tree"
+msgstr ""
+
+#. :src: bpy.types.SCENE_OT_b4w_logic_editor_refresh_available_trees
+msgid "Refresh list of available Trees"
+msgstr ""
+
+#. :src: bpy.types.SCENE_OT_b4w_logic_editor_remove_tree
+msgctxt "Operator"
+msgid "Remove"
+msgstr "Удалить"
+
+#. :src: bpy.types.SCENE_OT_b4w_logic_editor_remove_tree
+msgid "Remove logic node tree"
+msgstr ""
+
+#. :src: bpy.types.B4W_MATERIAL_PT_rendering_options
+msgid "Rendering Options"
+msgstr "Опции рендеринга"
+
+#. :src: bpy.types.B4W_VIEW3D_PT_normal_editor
+#. :src: bpy.types.Bake Shore Distance Map
+#. :src: bpy.types.OBJECT_PT_anim_baker
+#. :src: bpy.types.OBJECT_PT_va_baker
+#. :src: bpy.types.Override Bounding Volumes
+#. :src: bpy.types.Vertex groups
+msgid "Blend4Web"
+msgstr "Blend4Web"
+
+#. :src: bpy.types.B4W_VIEW3D_PT_normal_editor
+msgid "Normal Editor"
+msgstr "Редактор нормалей"
+
+#. :src: bpy.types.Bake Shore Distance Map
+msgid "Bake Shore Distance Map"
+msgstr "Запечь карту расстояния до берега"
+
+#. :src: bpy.types.DATA_PT_b4w_camera_move_style
+msgid "Camera Move Style"
+msgstr "Поведение камеры"
+
+#. :src: bpy.types.MATERIAL_PT_b4w_collision
+msgid "Special: Collision"
+msgstr "Особое: Коллизия"
+
+#. :src: bpy.types.MATERIAL_PT_b4w_export
+#. :src: bpy.types.OBJECT_PT_b4w_export_options
+#. :src: bpy.types.PARTICLE_PT_b4w_export_options
+#. :src: bpy.types.SCENE_PT_b4w_scenes_export_options
+#. :src: bpy.types.TEXTURE_PT_b4w_export
+#. :src: bpy.types.WORLD_PT_b4w_world_export_options
+msgid "Export Options"
+msgstr "Настройки экспорта"
+
+#. :src: bpy.types.MATERIAL_PT_b4w_terrain
+msgid "Terrain Dynamic Grass"
+msgstr "Динамический травяной покров"
+
+#. :src: bpy.types.MATERIAL_PT_b4w_water
+msgid "Water"
+msgstr "Вода"
+
+#. :src: bpy.types.OBJECT_PT_anim_baker
+msgid "Bake Skeletal Animation"
+msgstr "Запечь скелетную анимацию"
+
+#. :src: bpy.types.OBJECT_PT_b4w_anchors
+#. :src: bpy.types.SCENE_PT_b4w_anchors
+msgid "Anchors"
+msgstr "Якоря"
+
+#. :src: bpy.types.OBJECT_PT_b4w_effects
+msgid "Special Effects"
+msgstr "Спецэффекты"
+
+#. :src: bpy.types.OBJECT_PT_b4w_outline_selectable
+msgid "Selection and Outlining"
+msgstr "Выделение и подсветка"
+
+#. :src: bpy.types.OBJECT_PT_b4w_reflections
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:35
+msgid "Reflections"
+msgstr "Отражения"
+
+#. :src: bpy.types.OBJECT_PT_b4w_render_props
+msgid "Rendering Properties"
+msgstr "Опции рендеринга"
+
+#. :src: bpy.types.OBJECT_PT_b4w_tags
+#. :src: bpy.types.SCENE_PT_b4w_meta_tags
+msgid "Meta Tags"
+msgstr "Мета тэги"
+
+#. :src: bpy.types.OBJECT_PT_b4w_wind_bending
+msgid "Wind Bending"
+msgstr "Эффект ветра"
+
+#. :src: bpy.types.OBJECT_PT_va_baker
+msgid "Bake Vertex Animation"
+msgstr "Запечь вертексную анимацию"
+
+#. :src: bpy.types.Override Bounding Volumes
+msgid "Override Bounding Volumes"
+msgstr "Переопределить граничные объемы"
+
+#. :src: bpy.types.PARTICLE_PT_b4w_dynamic_grass
+msgid "Dynamic Grass"
+msgstr "Динамическая трава"
+
+#. :src: bpy.types.PARTICLE_PT_b4w_inheritance
+msgid "Properties Inheritance"
+msgstr "Наследование свойств"
+
+#. :src: bpy.types.PHYSICS_PT_b4w_floater
+msgid "Floater"
+msgstr "Плавучий объект"
+
+#. :src: bpy.types.PHYSICS_PT_b4w_vehicle
+msgid "Vehicle"
+msgstr "Транспорт"
+
+#. :src: bpy.types.RENDER_PT_b4w_Bloom
+msgid "Bloom"
+msgstr "Эффект засвета"
+
+#. :src: bpy.types.RENDER_PT_b4w_GlowMats
+msgid "Glow Materials"
+msgstr "Рассеяное свечение"
+
+#. :src: bpy.types.RENDER_PT_b4w_GodRays
+msgid "God Rays"
+msgstr "Сумеречные лучи"
+
+#. :src: bpy.types.RENDER_PT_b4w_SSAO
+msgid "Ambient Occlusion (SSAO)"
+msgstr "Взаимное затенение (SSAO)"
+
+#. :src: bpy.types.RENDER_PT_b4w_antialiasing
+msgid "Antialiasing"
+msgstr "Антиалиасинг"
+
+#. :src: bpy.types.RENDER_PT_b4w_nla
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:266
+msgid "Anisotropic Filtering"
+msgstr "Анизотропная фильтрация"
+
+#. :src: bpy.types.RENDER_PT_b4w_outlining
+msgid "Object Outlining"
+msgstr "Подсветка объекта"
+
+#. :src: bpy.types.RENDER_PT_b4w_refls_refrs
+msgid "Reflections and Refractions"
+msgstr "Отражения и рефракции"
+
+#. :src: bpy.types.RENDER_PT_b4w_server
+msgid "Development Server"
+msgstr ""
+
+#. :src: bpy.types.SCENE_PT_b4w_batching
+msgid "Batching"
+msgstr "Батчинг"
+
+#. :src: bpy.types.SCENE_PT_b4w_nla
+msgid "NLA"
+msgstr "Нелинейная анимация"
+
+#. :src: bpy.types.SCENE_PT_b4w_objs_selection
+msgid "Objects Selection"
+msgstr "Выделение объектов"
+
+#. :src: bpy.types.TEXTURE_PT_b4w_parallax
+msgid "Parallax"
+msgstr "Параллакс"
+
+#. :src: bpy.types.TEXTURE_PT_b4w_water_foam
+msgid "Water Foam"
+msgstr "Морская пена"
+
+#. :src: bpy.types.Vertex groups
+msgid "Clean Unused Vertex Groups"
+msgstr "Очистить неиспользуемые группы вершин"
+
+#. :src: bpy.types.WORLD_PT_b4w_sky
+msgid "Procedural Sky"
+msgstr "Процедурное небо"
+
+#. :src: bpy.types.b4w.reexport_dialog
+msgid "Mass Reexporter"
+msgstr "Массовый реэкспорт"
+
+#. :src: bpy.types.B4WReexportPath.path
+msgid "Reexport Path"
+msgstr "Переэкспортировать пути"
+
+#. :src: bpy.types.B4WReexportPath.path
+msgid "Directory with Exported Files (*.json or *.html)"
+msgstr "Директория с экспортируемыми файлами(*.json or *.html)"
+
+#. :src: bpy.types.B4W_AnchorSettings.type
+msgid "Anchor Type"
+msgstr "Тип якоря"
+
+#. :src: bpy.types.B4W_AnchorSettings.type
+msgid "Anchor type"
+msgstr "Тип якоря"
+
+#. :src: bpy.types.B4W_AnchorSettings.type:'GENERIC'
+msgid "Do not assign any HTML element, controlled by API"
+msgstr "Не назначайте HTML элементы, контролируемые через API"
+
+#. :src: bpy.types.B4W_AnchorSettings.type:'ELEMENT'
+msgid "Custom Element"
+msgstr "Пользовательский элемент"
+
+#. :src: bpy.types.B4W_AnchorSettings.type:'ELEMENT'
+msgid "Assign existing HTML element by ID"
+msgstr "Назначить существующий HTML-элемент по ID"
+
+#. :src: bpy.types.B4W_AnchorSettings.type:'ANNOTATION'
+msgid "Annotation"
+msgstr "Аннотация"
+
+#. :src: bpy.types.B4W_AnchorSettings.type:'ANNOTATION'
+msgid "Create an HTML element with annotation from meta tags"
+msgstr "Создать HTML элемент с аннотацией из мета-тэгов"
+
+#. :src: bpy.types.B4W_AnchorSettings.detect_visibility
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:317
+msgid "Detect Visibility"
+msgstr "Определять видимость"
+
+#. :src: bpy.types.B4W_AnchorSettings.detect_visibility
+msgid "Detect visibility of anchor object (slow)"
+msgstr "Определять видимость объекта-якоря (медленно)"
+
+#. :src: bpy.types.B4W_AnchorSettings.element_id
+msgid "HTML element ID"
+msgstr "ID HTML-элемента"
+
+#. :src: bpy.types.B4W_AnchorSettings.element_id
+msgid "ID of element for ELEMENT anchor type"
+msgstr "ID элемента для якоря типа ЭЛЕМЕНТ"
+
+#. :src: bpy.types.B4W_AnchorSettings.max_width
+msgid "Max Width"
+msgstr "Максимальная ширина"
+
+#. :src: bpy.types.B4W_AnchorSettings.max_width
+msgid "Maximum width of annotation description element (in pixels)"
+msgstr "Макксимальноя ширина элемента описания аннотации (в пикселях)"
+
+#. :src: bpy.types.B4W_BloomSettings.key
+msgid "Key multiplier"
+msgstr "Интенсивность эффекта свечения"
+
+#. :src: bpy.types.B4W_BloomSettings.blur
+msgid "Bloom blur strength"
+msgstr "Степень размытия засветки"
+
+#. :src: bpy.types.B4W_BloomSettings.edge_lum
+msgid "Bloom edge relative luminance (bloom starts above this value)"
+msgstr "Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки"
+
+#. :src: bpy.types.B4W_BoundingsSettings.min_z
+msgid "Boundings minimum z"
+msgstr "Граница по Z, минимум"
+
+#. :src: bpy.types.B4W_BoundingsSettings.min_x
+msgid "Boundings minimum x"
+msgstr "Граница по Х, минимум"
+
+#. :src: bpy.types.B4W_BoundingsSettings.max_x
+msgid "Boundings maximum x"
+msgstr "Граница по Х, максимум"
+
+#. :src: bpy.types.B4W_BoundingsSettings.max_y
+msgid "Boundings maximum y"
+msgstr "Граница по Y, максимум"
+
+#. :src: bpy.types.B4W_BoundingsSettings.max_z
+msgid "Boundings maximum z"
+msgstr "Граница по Z, маскимум"
+
+#. :src: bpy.types.B4W_BoundingsSettings.min_y
+msgid "Boundings minimum y"
+msgstr "Граница по Y, минимум"
+
+#. :src: bpy.types.B4W_CharacterSettings.waterline
+msgid "B4W: character waterline"
+msgstr ""
+
+#. :src: bpy.types.B4W_CharacterSettings.waterline
+msgid "Waterline for character in vertical direction"
+msgstr "Уровень моря в полодении стоя"
+
+#. :src: bpy.types.B4W_CharacterSettings.run_speed
+msgid "B4W: character run speed"
+msgstr ""
+
+#. :src: bpy.types.B4W_CharacterSettings.run_speed
+msgid "Character run speed"
+msgstr "Скорость бега"
+
+#. :src: bpy.types.B4W_CharacterSettings.jump_strength
+msgid "B4W: character jump strength"
+msgstr ""
+
+#. :src: bpy.types.B4W_CharacterSettings.jump_strength
+msgid "Character jump strength"
+msgstr "Сила прыжка"
+
+#. :src: bpy.types.B4W_CharacterSettings.step_height
+msgid "B4W: character step height"
+msgstr ""
+
+#. :src: bpy.types.B4W_CharacterSettings.step_height
+msgid "Character step height"
+msgstr "Высота шага"
+
+#. :src: bpy.types.B4W_CharacterSettings.walk_speed
+msgid "B4W: character walk speed"
+msgstr ""
+
+#. :src: bpy.types.B4W_CharacterSettings.walk_speed
+msgid "Character walk speed"
+msgstr "Скорость ходьбы"
+
+#. :src: bpy.types.B4W_ColorCorrectionSettings.exposure
+msgid "Final image exposure"
+msgstr "Экспозиция конечного изображения"
+
+#. :src: bpy.types.B4W_ColorCorrectionSettings.contrast
+msgid "Final image contrast"
+msgstr "Контрастность конечного изображения"
+
+#. :src: bpy.types.B4W_ColorCorrectionSettings.brightness
+msgid "Final image brightness"
+msgstr "Яркость конечного изображения"
+
+#. :src: bpy.types.B4W_ColorCorrectionSettings.saturation
+msgid "Final image saturation"
+msgstr "Насыщенность конечного изображения"
+
+#. :src: bpy.types.B4W_DetailBendingColors.leaves_stiffness_col
+msgid "B4W: leaves stiffness color"
+msgstr ""
+
+#. :src: bpy.types.B4W_DetailBendingColors.leaves_stiffness_col
+#. :src: bpy.types.B4W_DetailBendingColors.leaves_phase_col
+msgid "Vertex color used for leaves stiffness"
+msgstr "Вертексный цвет, используемый для указания жесткости листьев"
+
+#. :src: bpy.types.B4W_DetailBendingColors.overall_stiffness_col
+msgid "B4W: overall stiffness color"
+msgstr ""
+
+#. :src: bpy.types.B4W_DetailBendingColors.overall_stiffness_col
+msgid "Vertex color used for overall stiffness"
+msgstr "Вертексный цвет, используемый для указания общей жесткости"
+
+#. :src: bpy.types.B4W_DetailBendingColors.leaves_phase_col
+msgid "B4W: leaves phase color"
+msgstr ""
+
+#. :src: bpy.types.B4W_DynamicCompressorSettings.ratio
+msgid "dB input change for a 1 dB output change"
+msgstr "Фактор затухания компрессора"
+
+#. :src: bpy.types.B4W_DynamicCompressorSettings.knee
+msgid "Range above the threshold where the curve transitions to the ratio portion"
+msgstr "Интервал над порогом, где кривая громкости переходит в режим затухания"
+
+#. :src: bpy.types.B4W_DynamicCompressorSettings.release
+msgid "Amount of time to increase gain by 10 dB"
+msgstr "Количество времени для повышения громкости на 10 дБ"
+
+#. :src: bpy.types.B4W_DynamicCompressorSettings.threshold
+msgid "The value above which the compression will start taking effect"
+msgstr "Значение, выше которого включается компрессор"
+
+#. :src: bpy.types.B4W_DynamicCompressorSettings.attack
+msgid "Amount of time to reduce gain by 10 dB"
+msgstr "Количество времени для затухания громкости на 10 дБ"
+
+#. :src: bpy.types.B4W_FloatingSettings.water_rot_damp
+#. :src: bpy.types.B4W_VehicleSettings.water_rot_damp
+msgid "Water Rotation damping"
+msgstr "Затухание поворота в воде"
+
+#. :src: bpy.types.B4W_FloatingSettings.water_rot_damp
+#. :src: bpy.types.B4W_VehicleSettings.water_rot_damp
+msgid "Rotation damping applied to objects under water"
+msgstr "Стандартная амортизация поворота под водой"
+
+#. :src: bpy.types.B4W_FloatingSettings.synchronize_position
+#. :src: bpy.types.B4W_VehicleSettings.synchronize_position
+msgid "Synchronize position"
+msgstr "Синхронизировать позиции"
+
+#. :src: bpy.types.B4W_FloatingSettings.synchronize_position
+#. :src: bpy.types.B4W_VehicleSettings.synchronize_position
+msgid "Synchronize bob position"
+msgstr "Cинхронизировать позиции поплавков с позицией корпуса"
+
+#. :src: bpy.types.B4W_FloatingSettings.floating_factor
+#. :src: bpy.types.B4W_VehicleSettings.floating_factor
+msgid "Floating factor"
+msgstr "Фактор плавучести"
+
+#. :src: bpy.types.B4W_FloatingSettings.floating_factor
+msgid "Factor of strength applied to the floating object"
+msgstr "Сила плавучести объекта"
+
+#. :src: bpy.types.B4W_FloatingSettings.water_lin_damp
+#. :src: bpy.types.B4W_VehicleSettings.water_lin_damp
+msgid "Water Linear damping"
+msgstr "Затухание движения в воде"
+
+#. :src: bpy.types.B4W_FloatingSettings.water_lin_damp
+#. :src: bpy.types.B4W_VehicleSettings.water_lin_damp
+msgid "Linear damping applied to objects under water"
+msgstr ""
+
+#. :src: bpy.types.B4W_FloatingSettings.part
+msgid "Floater part"
+msgstr ""
+
+#. :src: bpy.types.B4W_FloatingSettings.part
+msgid "Floating object part"
+msgstr "Часть плавучего объекта"
+
+#. :src: bpy.types.B4W_FloatingSettings.part:'MAIN_BODY'
+msgid "Main Body"
+msgstr "Корпус"
+
+#. :src: bpy.types.B4W_FloatingSettings.part:'MAIN_BODY'
+msgid "Floating object main body"
+msgstr "Корпус плавучего объекта"
+
+#. :src: bpy.types.B4W_FloatingSettings.part:'BOB'
+#. :src: bpy.types.B4W_VehicleSettings.part:'BOB'
+msgid "Bob"
+msgstr "Поплавок"
+
+#. :src: bpy.types.B4W_FloatingSettings.part:'BOB'
+msgid "Floating object's bob"
+msgstr "Поплавок плавучего объекта"
+
+#. :src: bpy.types.B4W_GlowSettings.large_glow_mask_width
+msgid "B4W: objects large glow mask width"
+msgstr ""
+
+#. :src: bpy.types.B4W_GlowSettings.large_glow_mask_width
+msgid "Objects large glow mask width"
+msgstr "Ширина большой маски свечения"
+
+#. :src: bpy.types.B4W_GlowSettings.small_glow_mask_width
+msgid "B4W: objects small glow mask width"
+msgstr ""
+
+#. :src: bpy.types.B4W_GlowSettings.small_glow_mask_width
+msgid "Objects small glow mask width"
+msgstr "Ширина малой маски свечения"
+
+#. :src: bpy.types.B4W_GlowSettings.large_glow_mask_coeff
+msgid "B4W: objects large glow mask coefficient"
+msgstr ""
+
+#. :src: bpy.types.B4W_GlowSettings.large_glow_mask_coeff
+msgid "Objects large glow mask coefficient"
+msgstr "Коэффициент большой маски свечения"
+
+#. :src: bpy.types.B4W_GlowSettings.small_glow_mask_coeff
+msgid "B4W: objects small glow mask coefficient"
+msgstr ""
+
+#. :src: bpy.types.B4W_GlowSettings.small_glow_mask_coeff
+msgid "Objects small glow mask coefficient"
+msgstr "Коэффициент малой маски свечения"
+
+#. :src: bpy.types.B4W_GlowSettings.render_glow_over_blend
+msgid "B4W: render glow materials over blend"
+msgstr ""
+
+#. :src: bpy.types.B4W_GlowSettings.render_glow_over_blend
+msgid "Render glow materials over blend"
+msgstr "Рендерить светящиеся материалы поверх прозрачных"
+
+#. :src: bpy.types.B4W_GodRaysSettings.max_ray_length
+msgid "Maximum length of rays in screen size units"
+msgstr "Максимальная длина лучей (1 - длина экрана)"
+
+#. :src: bpy.types.B4W_GodRaysSettings.steps_per_pass
+msgid "Number of steps per blur pass (3 passes in all)"
+msgstr "Количество шагов за проход размытия (всего три прохода)"
+
+#. :src: bpy.types.B4W_GodRaysSettings.intensity
+msgid "Intensity multiplier"
+msgstr "Интенсивность"
+
+#. :src: bpy.types.B4W_LogicEditorErrTextWrap.message
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:243
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:253
+msgid "text"
+msgstr ""
+
+#. :src: bpy.types.B4W_MotionBlurSettings.motion_blur_decay_threshold
+msgid "Motion blur decay threshold"
+msgstr "Порог затухания размытия в движении"
+
+#. :src: bpy.types.B4W_Object_Tags.category
+msgid "Class"
+msgstr "Класс"
+
+#. :src: bpy.types.B4W_Object_Tags.desc_source
+#. :src: bpy.types.B4W_Tags.desc_source
+msgid "Description source"
+msgstr "Источник описания"
+
+#. :src: bpy.types.B4W_Object_Tags.desc_source:'TEXT'
+#. :src: bpy.types.B4W_Tags.desc_source:'TEXT'
+msgid "Get description from text field"
+msgstr "Получить описание из текстового поля"
+
+#. :src: bpy.types.B4W_Object_Tags.desc_source:'FILE'
+#. :src: bpy.types.B4W_Tags.desc_source:'FILE'
+msgid "Get description from file"
+msgstr "Получить описание из файла"
+
+#. :src: bpy.types.B4W_OutlineSettings.outline_duration
+msgid "Outline duration"
+msgstr "Длительность анимации подсветки, сек"
+
+#. :src: bpy.types.B4W_OutlineSettings.outline_relapses
+msgid "Outline relapses"
+msgstr "Количество итераций анимации подсветки. 0 - бесконечно"
+
+#. :src: bpy.types.B4W_OutlineSettings.outline_period
+msgid "Outline peroid"
+msgstr "Период повторения анимации подсветки, сек"
+
+#. :src: bpy.types.B4W_OutlineSettings.outline_period
+msgid "Outline period"
+msgstr "Период повторения анимации подсветки, сек"
+
+#. :src: bpy.types.B4W_SSAOSettings.influence
+msgid "How much AO affects the final rendering"
+msgstr "Степень влияния АО на финальный рендер"
+
+#. :src: bpy.types.B4W_SSAOSettings.dist_factor
+msgid "How much AO decreases with distance"
+msgstr "Сила затухания АО на расстоянии"
+
+#. :src: bpy.types.B4W_SSAOSettings.radius_increase
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:174
+msgid "Radius Increase"
+msgstr "Увеличение радиуса"
+
+#. :src: bpy.types.B4W_SSAOSettings.hemisphere
+msgid "Calculation ssao with hemisphere"
+msgstr "Использовать для расчёта затенения полусферический сэмплинг"
+
+#. :src: bpy.types.B4W_SSAOSettings.samples
+msgid "Number of samples aka quality"
+msgstr "Количество сэмплов (качество SSAO)"
+
+#. :src: bpy.types.B4W_SSAOSettings.blur_depth
+msgid "Apply edge-preserving blur to ssao"
+msgstr "Использовать размытие SSAO на основе буфера глубины"
+
+#. :src: bpy.types.B4W_SSAOSettings.blur_discard_value
+msgid "Blur depth discard value"
+msgstr "Влияние разницы глубины сэмлов на их вес в размытии."
+
+#. :src: bpy.types.B4W_ShadowSettings.self_shadow_normal_offset
+msgid "Normal offset value to prevent shadow acne"
+msgstr "Отступ по нормали для снижения артефактов самозатенения"
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_resolution
+msgid "Shadow map resolution"
+msgstr "Разрешение карты теней"
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_resolution:'2048'
+msgid "2048x2048"
+msgstr ""
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_resolution:'4096'
+msgid "4096x4096"
+msgstr ""
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_resolution:'8192'
+msgid "8192x8192"
+msgstr ""
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_last_cascade_border
+msgid "Shadow map last cascade border"
+msgstr "Граница последнего каскада карты теней"
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_num
+msgid "Number of cascaded shadow maps"
+msgstr "Количество каскадных карт теней"
+
+#. :src: bpy.types.B4W_ShadowSettings.first_cascade_blur_radius
+msgid "PCF blur radius for the first cascade"
+msgstr "Радиус размытия первого каскада"
+
+#. :src: bpy.types.B4W_ShadowSettings.last_cascade_blur_radius
+msgid "PCF blur radius for the last cascade"
+msgstr "Радиус размытия последнего каскада"
+
+#. :src: bpy.types.B4W_ShadowSettings.b4w_enable_csm
+msgid "Enable cascaded shadow maps"
+msgstr "Активировать каскадные карты затенения"
+
+#. :src: bpy.types.B4W_ShadowSettings.csm_first_cascade_border
+msgid "Shadow map first cascade border"
+msgstr "Граница первого каскада карты теней"
+
+#. :src: bpy.types.B4W_ShadowSettings.blend_between_cascades
+msgid "Neighbouring cascades will be blended with each other"
+msgstr "Границы соседних каскадов будут смешиваться друг с другом"
+
+#. :src: bpy.types.B4W_ShadowSettings.self_shadow_polygon_offset
+msgid "Polygon offset value to prevent shadow acne"
+msgstr "Полигональный отступ для снижения артефактов самозатенения"
+
+#. :src: bpy.types.B4W_ShadowSettings.fade_last_cascade
+msgid "The last cascade will be faded out"
+msgstr "Размывать границу последнего каскада"
+
+#. :src: bpy.types.B4W_SkySettings.reflexible_only
+msgid "Sky will not be rendered, but will have a reflection"
+msgstr "Небо не будет рендериться, но будет отражаться"
+
+#. :src: bpy.types.B4W_SkySettings.mie_distribution
+msgid "Mie disturbtion"
+msgstr "Яркость Ми"
+
+#. :src: bpy.types.B4W_SkySettings.rayleigh_brightness
+msgid "Brightness of Rayleigh scattering"
+msgstr "Яркость рэлеевского рассеяния"
+
+#. :src: bpy.types.B4W_SkySettings.spot_brightness
+msgid "Brightness of sun spot"
+msgstr "Яркость пятна солнца"
+
+#. :src: bpy.types.B4W_SkySettings.mie_strength
+msgid "Strength of Mie scattering"
+msgstr "Сила рассеяния Ми"
+
+#. :src: bpy.types.B4W_SkySettings.color
+msgid "Sky atmosphere color"
+msgstr "Цвет неба"
+
+#. :src: bpy.types.B4W_SkySettings.render_sky
+msgid "B4W: render sky"
+msgstr ""
+
+#. :src: bpy.types.B4W_SkySettings.render_sky
+msgid "Sky will be rendered instead of default background"
+msgstr "Активировать рендеринг неба"
+
+#. :src: bpy.types.B4W_SkySettings.rayleigh_collection_power
+msgid "Rayleigh collection power"
+msgstr "Степень рэлеевского рассеяния"
+
+#. :src: bpy.types.B4W_SkySettings.scatter_strength
+msgid "Strength of light scattering"
+msgstr "Сила рассеяния света"
+
+#. :src: bpy.types.B4W_SkySettings.mie_brightness
+msgid "Brightness of Mie scattering"
+msgstr "Яркость Ми"
+
+#. :src: bpy.types.B4W_SkySettings.reflexible
+msgid "Sky will be rendered during the reflection pass"
+msgstr "Небо будет отражаться"
+
+#. :src: bpy.types.B4W_SkySettings.procedural_skydome
+msgid "B4W: procedural skydome"
+msgstr ""
+
+#. :src: bpy.types.B4W_SkySettings.procedural_skydome
+msgid "Sky will be generated procedurally"
+msgstr "Небо будет генерироваться процедурно"
+
+#. :src: bpy.types.B4W_SkySettings.use_as_environment_lighting
+msgid "B4W: use_as_environment_map"
+msgstr ""
+
+#. :src: bpy.types.B4W_SkySettings.use_as_environment_lighting
+msgid "Procedural sky will be used as environment lighting"
+msgstr "Процедурное небо будет использовано как освещение от окружения"
+
+#. :src: bpy.types.B4W_SkySettings.mie_collection_power
+msgid "Mie collection power"
+msgstr "Степень рассеяния Ми"
+
+#. :src: bpy.types.B4W_SkySettings.rayleigh_strength
+msgid "Strength of Rayleigh scattering"
+msgstr "Сила рэлеевского рассеяния"
+
+#. :src: bpy.types.B4W_VehicleSettings.steering_ratio
+msgid "Steering ratio"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.steering_ratio
+msgid "Ratio between the turn of the steering wheel and the turn of the wheels"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.roll_influence
+msgid "Roll influence"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.suspension_stiffness
+msgid "Suspension stiffness"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.brake_max
+msgid "Brake max"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.brake_max
+msgid "Braking value for the vehicle"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.force_max
+msgid "Force max"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.force_max
+msgid "Acceleration value for the vehicle"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.suspension_damping
+msgid "Suspension damping"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.max_suspension_travel_cm
+msgid "Max suspension travel cm"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.suspension_rest_length
+msgid "Rest length"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.suspension_rest_length
+msgid "Suspension rest length, length from relaxed to strained wheel position"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.wheel_friction
+msgid "Wheel friction"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.delta_tach_angle
+msgid "Tachometer delta angle"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.delta_tach_angle
+msgid "Sets delta angle for the tachometer device"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.suspension_compression
+msgid "Suspension compression"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part
+msgid "Vehicle part"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'HULL'
+msgid "Hull"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'HULL'
+msgid "Vehicle hull"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'CHASSIS'
+msgid "Chassis"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'CHASSIS'
+msgid "Vehicle chassis"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'STEERING_WHEEL'
+msgid "Steering Wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'STEERING_WHEEL'
+msgid "Optional vehicle steering wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_FRONT_LEFT'
+msgid "Front Left Wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_FRONT_LEFT'
+msgid "Vehicle front left wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_FRONT_RIGHT'
+msgid "Front Right Wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_FRONT_RIGHT'
+msgid "Vehicle front right wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_BACK_LEFT'
+msgid "Back Left Wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_BACK_LEFT'
+msgid "Vehicle rear left wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_BACK_RIGHT'
+msgid "Back Right Wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'WHEEL_BACK_RIGHT'
+msgid "Vehicle rear right wheel"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'TACHOMETER'
+msgid "Tachometer"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'TACHOMETER'
+msgid "Vehicle tachometer"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'SPEEDOMETER'
+msgid "Speedometer"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'SPEEDOMETER'
+msgid "Vehicle speedometer"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.part:'BOB'
+msgid "Boat's bob"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.floating_factor
+msgid "Factor of strengh applied to the floating object"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.speed_ratio
+msgid "Speedometer ratio"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.speed_ratio
+msgid "Sets speedometer ratio"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.inverse_control
+msgid "Inverse control"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.inverse_control
+msgid "Inverse vehicle control"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.max_speed_angle
+msgid "Speedometer max angle"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.max_speed_angle
+msgid "Sets max angle for the speedometer device"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.steering_max
+msgid "Steering max"
+msgstr ""
+
+#. :src: bpy.types.B4W_VehicleSettings.steering_max
+msgid "Maximum steering wheel angle"
+msgstr ""
+
+#. :src: bpy.types.VertexAnim.allow_nla
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:227
+msgid "Allow NLA"
+msgstr "Задействовать NLA"
+
+#. :src: bpy.types.VertexAnim.allow_nla
+msgid "Allow animation to be controlled by the NLA"
+msgstr "Задействовать NLA для контроля анимациии"
+
+#. :src: bpy.types.VertexAnim.averaging_interval
+msgid "Averaging interval"
+msgstr "Интервал усреднения"
+
+#. :src: bpy.types.VertexAnim.frame_start
+msgid "First frame of vertex animation"
+msgstr "Первый кадр вертексной анимации"
+
+#. :src: bpy.types.VertexAnim.averaging
+msgid "Averaging"
+msgstr "Усреднение"
+
+#. :src: bpy.types.VertexAnim.averaging
+msgid "Perform vertex animation averaging: mix end frames with first ones"
+msgstr "Произвести усреднение вертексной анимации: смешивать конечные кадры с начальными"
+
+#. :src: bpy.types.VertexAnim.frame_end
+msgid "End frame of vertex animation"
+msgstr "Конечный кадр вертексной анимации"
+
+#. :src: bpy.types.VertexAnimVertex.posnor
+msgid "PosNor"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/addon_prefs.py:45
+msgid "Check For Updates on Startup"
+msgstr "Проверять на наличие обновлений при запуске"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/addon_prefs.py:50
+msgid "Development Server:"
+msgstr "Сервер разработки"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/addon_prefs.py:47
+msgctxt "Operator"
+msgid "Update is available: %s"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:513
+msgid "Optimize Keyframes"
+msgstr "Оптимизировать ключевые кадры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:517
+msgid "Use Blender's Native Baker"
+msgstr "Использовать запекатель Blender'a"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:520
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:42
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:98
+msgctxt "Operator"
+msgid "Bake"
+msgstr "Запечь"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:22
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:443
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:462
+msgid "Not an armature object"
+msgstr "Объект не является арматурой"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:27
+msgid "No animation data"
+msgstr "Отсутствуют анимация"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:31
+msgid "Armature object is linked"
+msgstr "Объект арматуры является ссылкой"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/anim_baker.py:510
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:77
+msgid "Name"
+msgstr "Имя"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:40
+msgid "Show Boundings:"
+msgstr "Показывать границы отрисовки"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:43
+msgid "Boxes"
+msgstr "Прямоугольники"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:44
+msgid "Spheres"
+msgstr "Сферы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:45
+msgid "Ellipsoids"
+msgstr "Эллипсоиды"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:49
+msgid "Override Mesh Boundings"
+msgstr "Переопределить границы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:54
+msgid "Min X"
+msgstr "Минимум, Х"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:55
+msgid "Max X"
+msgstr "Максимум, Х"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:58
+msgid "Min Y"
+msgstr "Минимум, Y"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:59
+msgid "Max Y"
+msgstr "Максимум, Y"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:62
+msgid "Min Z"
+msgstr "Минимум, Z"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/boundings_draw.py:63
+msgid "Max Z"
+msgstr "Максимум, Z"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:202
+msgid "=== BLEND4WEB: EXPORT ERROR ==="
+msgstr "===BLEND4WEB: ОШИБКА ЭКСПОРТА ==="
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:204
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:117
+msgid "COMPONENT: "
+msgstr "КОМПОНЕНТ: "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:206
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:119
+msgid "NAME: "
+msgstr "НАЗВАНИЕ: "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:208
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:281
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:122
+msgid "ERROR: "
+msgstr "ОШИБКА: "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:236
+msgid "=== BLEND4WEB: EXPORT MESSAGES ==="
+msgstr "=== BLEND4WEB: СООБЩЕНИЯ ЭКСПОРТА ==="
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:279
+msgid "=== BLEND4WEB: FILE ERROR ==="
+msgstr "=== BLEND4WEB: ОШИБКИ ФАЙЛА ==="
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:4799
+msgid "Blend4Web (.json)"
+msgstr "Blend4Web (.json)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:240
+msgid "ERRORS:"
+msgstr "ОШИБКИ: "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/exporter.py:250
+msgid "WARNINGS:"
+msgstr "ПРЕДУПРЕЖДЕНИЯ: "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/html_exporter.py:319
+msgid "Blend4Web (.html)"
+msgstr "Blend4Web (.html)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/interface.py:44
+msgid "LOCKED_TRACK constraint reserved for "
+msgstr "Ограничение СЛЕЖЕНИЕ С ФИКСАЦИЕЙ зарезервировано для"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:340
+msgid "Target"
+msgstr "Цель"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:635
+msgid "Object:"
+msgstr "Объект:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:350
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:366
+msgid "Next"
+msgstr "След."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:353
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:356
+msgid "False"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:358
+msgid "True"
+msgstr "Истинно"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:361
+msgid "Miss"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:576
+msgid "Object field is empty!"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:363
+msgid "Hit"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:709
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:737
+msgid "Operand1:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:717
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:745
+msgid "Operand2:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:728
+msgid "Register:"
+msgstr "Регистр:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:753
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:774
+msgid "Destination:"
+msgstr "Назначение:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:760
+msgid "Url:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/logic_node_tree.py:769
+msgid "Param Name:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/mass_reexport.py:85
+msgid "Check info window for export results."
+msgstr "См. окно информации с результатами экспорта"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/mass_reexport.py:103
+msgid "Exported Directory"
+msgstr "Экспортная директория"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/mass_reexport.py:81
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:309
+msgid "Blend4Web SDK was not found."
+msgstr "SDK Blend4Web не найден"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/mass_reexport.py:82
+msgid "Please download and configure it before using Mass Reexporter."
+msgstr "Просьба скачать и настроить его перед использованием массового реэкспорта"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/remove_unused_vgroups.py:45
+msgid "Removed  vertex groups"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/remove_unused_vgroups.py:21
+msgctxt "Operator"
+msgid "Clean"
+msgstr "Очистить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:35
+msgid "Texture Size"
+msgstr "Размер текстуры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:39
+msgid "Maximum Distance"
+msgstr "Макс. расстояние"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/shore_distance_baker.py:113
+msgid "=== BLEND4WEB: SHORE BAKE ERROR ==="
+msgstr "=== BLEND4WEB: ОШИБКА ЗАПЕКАТЕЛЯ РАССТОЯНИЯ ДО БЕРЕГОВОЙ ЛИНИИ  ==="
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:58
+msgid "Focus:"
+msgstr "Фокус:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:67
+msgid "Distance"
+msgstr "Расстояние"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:70
+msgid "Front"
+msgstr "Спереди"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:71
+msgid "Rear"
+msgstr "Сзади"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:72
+msgid "Power"
+msgstr "Степень"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:82
+msgid "Sensor:"
+msgstr "Сенсор:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:116
+msgid "Random Volume"
+msgstr "Случайная громкость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:123
+msgid "Random Pitch"
+msgstr "Случайная высота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:126
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:694
+msgid "Fade-In"
+msgstr "Проявление"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:127
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:695
+msgid "Fade-Out"
+msgstr "Угасание"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:132
+msgid "Disable Doppler"
+msgstr "Отключить эффект Доплера"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:135
+msgid "Cyclic Play"
+msgstr "Проигрывать циклично"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:138
+msgid "Delay"
+msgstr "Задержка"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:139
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:230
+msgid "Random Delay"
+msgstr "Случайная задержка"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:142
+msgid "Loop"
+msgstr "Цикл"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:170
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:196
+msgid "Volume:"
+msgstr "Объём:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:174
+msgid "Distance:"
+msgstr "Расстояние:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:175
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:85
+msgid "Maximum"
+msgstr "Максимум"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:176
+msgid "Reference"
+msgstr "Эталон"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:191
+msgid "Angle:"
+msgstr "Угол:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:192
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:197
+msgid "Outer"
+msgstr "Снаружи"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:193
+msgid "Inner"
+msgstr "Изнутри"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:214
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:439
+msgid "Angle"
+msgstr "Угол"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:259
+msgid "Generate Shadows"
+msgstr "Генерировать тени"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:279
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:91
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:134
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:166
+msgid "Size"
+msgstr "Размер"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:280
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:219
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:410
+msgid "Blend"
+msgstr "Смешение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:412
+msgid "Speaker Behavior"
+msgstr "Тип источника звука"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:88
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:96
+msgid "Height"
+msgstr "Высота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:90
+msgid "Unsupported sensor type."
+msgstr "Неподдерживаемый тип сенсора"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:227
+msgid "Area type is not supported"
+msgstr "Тип \"Область\" не поддерживается "
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:249
+msgid "Dynamic Intensity"
+msgstr "Динамическая интенсивность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:304
+msgid "Move Style"
+msgstr "Тип поведения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:313
+msgid "Camera Velocities:"
+msgstr "Скорость движения камеры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:315
+msgid "Translation Velocity"
+msgstr "Скорость перемещения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:318
+msgid "Rotation Velocity"
+msgstr "Скорость вращения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:321
+msgid "Zoom Velocity"
+msgstr "Скорость приближения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:236
+msgid "Falloff:"
+msgstr "Затухание:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:308
+msgid "Target Location"
+msgstr "Положение цели"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:309
+msgctxt "Operator"
+msgid "Copy Cursor Location"
+msgstr "Скопировать положение курсора"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:329
+msgid "Camera Limits:"
+msgstr "Ограничения камеры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:334
+msgid "Use Horizontal Translation Limits"
+msgstr "Ограничить по горизонтали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:338
+#, fuzzy
+msgid "MinX"
+msgstr "Мин."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:339
+#, fuzzy
+msgid "MaxX"
+msgstr "Макс."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:343
+msgid "Use Vertical Translation Limits"
+msgstr "Ограничить по вертикали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:347
+#, fuzzy
+msgid "MinY"
+msgstr "Мин."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:348
+#, fuzzy
+msgid "MaxY"
+msgstr "Макс."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:352
+msgid "Use Distance Limits"
+msgstr "Ограничить по расстоянию"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:356
+msgid "Min"
+msgstr "Мин."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:357
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:836
+msgid "Max"
+msgstr "Макс."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:362
+msgid "Hover Angle Limits:"
+msgstr "Углы подъема Hover-камеры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:365
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:394
+msgid "Down Angle"
+msgstr "Нижний угол"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:366
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:395
+msgid "Up Angle"
+msgstr "Верхний угол"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:370
+msgid "Zero Level"
+msgstr "Нулевой уровень"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:375
+msgid "Use Horizontal Rotation"
+msgstr "Вращать по горизонтали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:380
+msgid "Use Horizontal Rotation Clamping"
+msgstr "Ограничить по горизонтали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:384
+msgid "Left Angle"
+msgstr "Влево"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:385
+msgid "Right Angle"
+msgstr "Вправо"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:390
+msgid "Use Vertical Rotation Clamping"
+msgstr "Ограничить по вертикали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_data.py:400
+msgid "Use Panning Mode"
+msgstr "Режим прокрутки"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_layers.py:24
+msgid "Not available in Blend4Web"
+msgstr "Не поддерживается Blend4Web"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:77
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:118
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:124
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:133
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:200
+msgid "Intensity"
+msgstr "Интенсивность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:180
+msgid "Show Transparency"
+msgstr "Показать прозрачность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:185
+msgid "Specular"
+msgstr "Блик"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:189
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:236
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:310
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:103
+msgid "Type"
+msgstr "Тип"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:209
+msgid "Show Reflectivity"
+msgstr "Показать отражения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:255
+msgid "Options:"
+msgstr "Опции:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:262
+msgid "Special: Stars"
+msgstr "Особое: Звезды"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:288
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:147
+msgid "Do Not Render"
+msgstr "Не рендерить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:292
+msgid "Render Above All"
+msgstr "Рендерить поверх всего"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:301
+msgid "Wettable"
+msgstr "Смачиваемый"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:305
+msgid "Refractive"
+msgstr "Рефрактирующий"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:308
+msgid "Refraction Bump"
+msgstr "Сила рефракции"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:364
+msgid "Grass Size (R)"
+msgstr "Размер травы (Красный)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:367
+msgid "Grass Color (RGB)"
+msgstr "Цвет травы (RGB)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:391
+msgid "Ghost"
+msgstr "Призрак"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:394
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:50
+msgid "Collision ID"
+msgstr "ID коллизии"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:397
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:122
+msgid "Margin"
+msgstr "Отступ"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:407
+msgid "Collision Group"
+msgstr "Группа столкновения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:409
+msgid "Collision Mask"
+msgstr "Маска коллизий"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:436
+msgid "Shore Smoothing"
+msgstr "Сглаживание у береговой линии"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:439
+msgid "Absorb Factor"
+msgstr "Коэффициент поглощения света"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:442
+msgid "Foam:"
+msgstr "Пена:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:443
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:451
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:460
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:96
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:57
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:157
+msgid "Factor"
+msgstr "Множитель"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:449
+msgid "Shallow water:"
+msgstr "На мелководье:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:453
+msgid "Underwater fog:"
+msgstr "Подводный туман"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:455
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:747
+msgid "Density"
+msgstr "Плотность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:458
+msgid "Shore water:"
+msgstr "У побережья:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:466
+msgid "Sub Surface Scattering"
+msgstr "Подповерхностное рассеивание"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:467
+msgid "Strength"
+msgstr "Сила"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:468
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:126
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:135
+msgid "Width"
+msgstr "Ширина"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:471
+msgid "Ripples (NormalMap)"
+msgstr "Рябь (карты нормалей)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:472
+msgid "Velocity"
+msgstr "Скорость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:477
+msgid "Waves"
+msgstr "Волны"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:481
+msgid "Wave Height"
+msgstr "Высота волн"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:482
+msgid "Wave Length"
+msgstr "Длина волн"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:486
+msgid "Noise Dist Scale 0"
+msgstr "Частота удал шума 0"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:487
+msgid "Noise Dist Scale 1"
+msgstr "Частота удал шума 1"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:491
+msgid "Noise Dist Freq 0"
+msgstr "Частота набег шума 0"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:492
+msgid "Noise Dist Freq 1"
+msgstr "Частота набег шума 1"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:496
+msgid "Min Dir Shore Fac"
+msgstr "Мин берег. фак набег волн"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:497
+msgid "Dir Frequency"
+msgstr "Частота набег волн"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:501
+msgid "Noise Dir Scale"
+msgstr "Размер набег шума"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:502
+msgid "Noise Dir Freq"
+msgstr "Частота набег шума"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:506
+msgid "Min Dir Noise Fac"
+msgstr "Мин фактор набег шума"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:507
+msgid "Min Dist Fac"
+msgstr "Мин Удал фак"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:511
+msgid "Horizontal Factor"
+msgstr "Горизонтальный фак"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:518
+msgid "Generate Mesh"
+msgstr "Сгенерировать меш"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:522
+msgid "Cascades Number"
+msgstr "Количество каскадов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:526
+msgid "Subdivisions"
+msgstr "Разбиения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:530
+msgid "Detailed Distance"
+msgstr "Детализованная дальность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:541
+msgid "Number of vertices "
+msgstr "Количество вершин"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:545
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:478
+msgid "Caustics"
+msgstr "Каустика"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:549
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:51
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:456
+msgid "Scale"
+msgstr "Масштаб"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:553
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:96
+msgid "Brightness"
+msgstr "Яркость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:125
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:128
+msgid "Hardness"
+msgstr "Жёсткость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:162
+msgid "Double-Sided Lighting"
+msgstr "Двустороннее освещение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:257
+msgid "Rings"
+msgstr "Кольца"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:258
+msgid "Lines"
+msgstr "Линии"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:259
+msgid "Star Tips"
+msgstr "Углы звезды"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:266
+msgid "Blending Height"
+msgstr "Высота сглаживания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:269
+msgid "Minimum Height"
+msgstr "Минимальная высота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:322
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:111
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:857
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:290
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:246
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:144
+msgid "Do Not Export"
+msgstr "Не экспортировать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:129
+msgid "IOR"
+msgstr "Показатель преломления"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:92
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:135
+msgid "Smooth"
+msgstr "Гладко"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:131
+msgid "Slope"
+msgstr "Уклон"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_material.py:95
+msgid "Fresnel"
+msgstr "Френель"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:74
+msgid "Lod Transition Ratio"
+msgstr "Коэффициент замещения лодов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:84
+msgid "Apply Default Animation"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:88
+msgid "Behavior"
+msgstr "Поведение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:179
+msgid "Cast"
+msgstr "Переход"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:180
+msgid "Receive"
+msgstr "Получать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:208
+msgid "Preserve Global Rotation and Scale"
+msgstr "Сохранить поворот и масштаб в глобальной системе координат"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:210
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:120
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:308
+msgid "Type:"
+msgstr "Тип:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:233
+msgid "Reflective"
+msgstr "Отражающий"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:245
+msgid "Reflexible"
+msgstr "Отражаемый"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:270
+msgid "Selectable"
+msgstr "Доступна для выбора"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:273
+msgid "Enable Outlining"
+msgstr "Включить Подсветку"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:276
+msgid "Outline on Select"
+msgstr "Подсвечивать при выделении"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:281
+msgid "Duration"
+msgstr "Продолжительность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:284
+msgid "Period"
+msgstr "Период"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:287
+msgid "Relapses"
+msgstr "Итерации"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:306
+msgid "Enable Anchor"
+msgstr "Включить якоря"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:341
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:218
+msgid "Title"
+msgstr "Заголовок"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:344
+msgid "Category"
+msgstr "Категория"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:358
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:232
+msgid "Description Source:"
+msgstr "Источник описания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:359
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:233
+msgid "Source"
+msgstr "Источник"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:411
+msgid "Detail Bending:"
+msgstr "Изгиб деталей"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:413
+msgid "Amplitude"
+msgstr "Амплитуда"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:415
+msgid "Branch Amplitude"
+msgstr "Амплитуда ветвей"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:417
+msgid "Bending Frequency"
+msgstr "Частота наклонов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:438
+msgid "Main Bending:"
+msgstr "Основной наклон:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:440
+msgid "Frequency"
+msgstr "Частота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:475
+msgid "Disable Fogging"
+msgstr "Отключить туман"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:92
+msgid "Animation Blending"
+msgstr "Смешивание анимации"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:96
+msgid "Proxy:"
+msgstr "Прокси:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:99
+msgid "Inherit Animation"
+msgstr "Наследовать анимацию"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:119
+msgid "Apply Modifiers"
+msgstr "Применить модификаторы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:120
+msgid "Apply Scale And Modifiers"
+msgstr "Применить масштаб и модификаторы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:124
+msgid "Export Shape Keys"
+msgstr "Экспортировать ключи формы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:125
+msgid "Export Vertex Animation"
+msgstr "Экспортировать вертексную анимацию"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:152
+msgid "Force Dynamic Object"
+msgstr "Форсировать динамический объект"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:157
+msgid "Disable Frustum Culling"
+msgstr "Отключить отсечение по плоскостям камеры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:158
+msgid "Dynamic Geometry"
+msgstr "Динамическая геометрия"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:184
+msgid "Cast Only"
+msgstr "Только бросать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:247
+msgid "Reflexible Only"
+msgstr "Только отражение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:373
+msgid "Group"
+msgstr "Группа"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:424
+msgid "Leaves Stiffness (R)"
+msgstr "Жесткость Листвы (R)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:429
+msgid "Leaves Phase (G)"
+msgstr "Фаза листвы (G)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:434
+msgid "Overall Stiffness (B)"
+msgstr "Общая жесткость (B)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:450
+msgid "Main Stiffness (A)"
+msgstr "Основная жесткость (А)"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:241
+msgid "Reflection Plane:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:314
+msgid "HTML Element ID"
+msgstr "ID HTML Элемента"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_object.py:377
+msgid "Wrong Dupli Type. Only Group type is supported."
+msgstr "Неверный тип дуплицирования. Поддерживается только тип Группа"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:200
+msgid "Emit From:"
+msgstr "Источник частиц:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:259
+msgid "Emitter Geometry:"
+msgstr "Геометрия источника:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:271
+msgid "Other:"
+msgstr "Другое:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:751
+msgid "Length"
+msgstr "Длина"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:832
+msgid "Color:"
+msgstr "Цвет:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:886
+msgid "Scale Threshold"
+msgstr "Порог размера"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:905
+msgid "Inherit Properties From:"
+msgstr "Наследовать свойства с:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:908
+msgid "Wind Bending:"
+msgstr "Эффект ветра:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:909
+msgid "B4W_Wind_Bend_Inheritance"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:912
+msgid "Shadows:"
+msgstr "Тени:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:913
+msgid "B4W_Shadow_Inheritance"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:916
+msgid "Reflection:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:917
+msgid "B4W_Reflection_Inheritance"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:920
+msgid "Vertex Color:"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:952
+msgid "From"
+msgstr "От"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:953
+msgid "To"
+msgstr "Кому"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:92
+msgctxt "Operator"
+msgid "New"
+msgstr "Создать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:224
+msgid "Cyclic Emission"
+msgstr "Циклическая эмиссия"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:268
+msgid "Emitter Object:"
+msgstr "Объект-источник:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:321
+msgid "Initial Orientation:"
+msgstr "Начальная ориентация:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:326
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:330
+msgid "Random"
+msgstr "Случайно"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:333
+msgid "Angular Velocity:"
+msgstr "Угловая скорость:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:656
+msgid "Randomize Location And Size"
+msgstr "Случайные позиция и размер"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:659
+msgid "Randomize Initial Rotation"
+msgstr "Случайный начальный поворот"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:668
+msgid "Billboard"
+msgstr "Билборд"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:688
+msgid "Billboard Align"
+msgstr "Выравнивание биллбордов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:691
+msgid "Dissolve Intervals:"
+msgstr "Интервалы затухания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:698
+msgid "Coordinate System"
+msgstr "Система координат"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:702
+msgid "Soft Particles"
+msgstr "Мягкие частицы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:705
+msgid "Particle Softness"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:100
+msgid "Settings used for fluid"
+msgstr "Параметры, используемые для жидкостей"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:109
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:119
+msgid "Settings:"
+msgstr "Настройки:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:155
+msgid "Enable emission with Object->Animation->Apply default animation."
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:217
+msgid "Particle emission from 'Volume' is not supported."
+msgstr "Испускание частиц по типу 'Volume' не поддерживается."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:343
+msgid "'' angular velocity mode isn't supported."
+msgstr "'' режим угловой скорости не поддерживается."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:386
+msgid "Forces:"
+msgstr "Силы:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:392
+msgid "Integration:"
+msgstr "Интегрирование:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:652
+msgid "The 'Hair' Particle System requires 'Object' or 'Group' render type."
+msgstr "Системы частиц типа 'Hair' поддерживают типы рендера 'Object' и 'Group'."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:663
+msgid "Rotation Type"
+msgstr "Тип вращения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:665
+msgid "Rotation Strength"
+msgstr "Сила поворота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:672
+msgid "Billboard Type"
+msgstr "Тип биллборда"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:680
+msgid "Billboard Geometry:"
+msgstr "Геометрия биллборда:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:684
+msgid "The 'Emitter' Particle System requires 'Halo' or 'Billboard' render type."
+msgstr "Системы частиц типа 'Emitter' поддерживают типы рендера 'Halo' и 'Billboard'."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:129
+msgid "%d fluid particles for this frame"
+msgstr "%d частиц жидкости на этот кадр"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:141
+msgctxt "Operator"
+msgid "Free Edit"
+msgstr "Свободное редактирование"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:213
+msgid "Particles/Face"
+msgstr "Частиц на грань"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:214
+msgid "Jittering Amount"
+msgstr "Величина дрожания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:402
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:107
+msgid "Threshold"
+msgstr "Порог"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:414
+msgid "Fluid properties:"
+msgstr "Свойства жидкости:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:415
+msgid "Stiffness"
+msgstr "Жёсткость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:416
+msgid "Viscosity"
+msgstr "Вязкость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:417
+msgid "Buoyancy"
+msgstr "Выталкивание"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:420
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:461
+msgid "Advanced:"
+msgstr "Дополнительно:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:478
+msgid "Loops"
+msgstr "Циклы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:482
+msgid "Keys:"
+msgstr "Ключи:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:531
+msgid "Relations:"
+msgstr "Отношения:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:676
+msgid "Jitter Amplitude"
+msgstr "Амплитуда джиттера"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:677
+msgid "Jitter Frequency"
+msgstr "Частота джиттера"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:817
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:821
+msgid "Display percentage makes dynamics inaccurate without baking!"
+msgstr "Отображение процентной завершённости без запекания ухудшает качество динамики!"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:446
+msgid "Spacing: %g"
+msgstr "Интервал: %g"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:480
+msgid "Use Timing"
+msgstr "Указать время"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:516
+msgid "Battle:"
+msgstr "Сражение:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:524
+msgid "Misc:"
+msgstr "Прочее:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:533
+msgid "Fluid interaction:"
+msgstr "Взаимодействие жидкости:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:556
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:566
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:574
+msgid "System"
+msgstr "Система"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:452
+msgid "Springs:"
+msgstr "Пружины:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:453
+msgid "Force"
+msgstr "Сила"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_particle.py:469
+msgid "Frames"
+msgstr "Кадры"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:49
+msgid "Object Physics"
+msgstr "Физика объекта"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:115
+msgid "Bounds"
+msgstr "Границы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:125
+msgid "Compound"
+msgstr "Часть целого"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:134
+msgid "Bounding Box Correction"
+msgstr "Корректировать граничный объем"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:151
+msgid "Floater Name"
+msgstr "Има плавучего объекта"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:153
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:188
+msgid "Part"
+msgstr "Часть"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:186
+msgid "Vehicle Name"
+msgstr "Имя транспортного средства"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:278
+msgid "Character settings:"
+msgstr "Настройки персонажа:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:281
+msgid "Walk Speed"
+msgstr "Скорость ходьбы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:283
+msgid "Run Speed"
+msgstr "Скорость бега"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:285
+msgid "Step Height"
+msgstr "Высота шага"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:287
+msgid "Jump Strength"
+msgstr "Сила прыжка"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:289
+msgid "Waterline"
+msgstr "Ватерлиния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:59
+msgid "Unsupported physics type"
+msgstr "Неподдерживаемый тип физики"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:118
+msgid "This collision bounds type is not supported"
+msgstr "Этот тип физических границ не поддерживается"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:158
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:229
+msgid "Floating Factor"
+msgstr "Коэффициент плавучести"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:161
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:232
+msgid "Water Linear Damping"
+msgstr "Амортизация движения под водой"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:164
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:235
+msgid "Water Rotation Damping"
+msgstr "Амортизация вращения под водой"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:196
+msgid "Suspension Rest Length"
+msgstr "Высота подвески"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:202
+msgid "Force Max"
+msgstr "Максимальная тяга"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:204
+msgid "Brake Max"
+msgstr "Максимальная тормозная сила"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:209
+msgid "Suspension Compression"
+msgstr "Сжатие подвески"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:212
+msgid "Suspension Stiffness"
+msgstr "Жесткость подвески"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:215
+msgid "Suspension Damping"
+msgstr "Демпфирование подвески"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:218
+msgid "Wheel Friction"
+msgstr "Трение колеса"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:221
+msgid "Roll Influence"
+msgstr "Влияние вращения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:224
+msgid "Max Suspension Travel Cm"
+msgstr "Максимальный ход подвески в см."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:240
+msgid "Synchronize Bob Position"
+msgstr "Синхронизировать позиции поплавков"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:245
+msgid "Steering Ratio"
+msgstr "Отношение поворота"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:247
+msgid "Steering Max"
+msgstr "Максимальный поворот"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:250
+msgid "Inverse Control"
+msgstr "Инвертировать управление"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:255
+msgid "Delta Tach Angle"
+msgstr "Угловой ход тахометра"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:260
+msgid "Max Speed Angle"
+msgstr "Угол для максимальной скорости"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:262
+msgid "Speed Ratio"
+msgstr "Коэффициент скорости"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:313
+msgid "This field type is not supported"
+msgstr "Этот тип поля не поддерживается"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:76
+msgid "Attributes:"
+msgstr "Атрибуты:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:82
+msgid "Velocity:"
+msgstr "Скорость:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:84
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:92
+msgid "Minimum"
+msgstr "Минимум"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:88
+msgid "Damping:"
+msgstr "Затухание:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:90
+msgid "Translation"
+msgstr "Перемещение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:91
+msgid "Rotation"
+msgstr "Вращение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:338
+msgid "Clumping:"
+msgstr "Скопление:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:377
+msgid "Domain Object:"
+msgstr "Объект домена:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_physics.py:391
+msgid "Linear"
+msgstr "Линейно"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:38
+msgid "Quality"
+msgstr "Качество"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:40
+msgid "Refractions"
+msgstr "Рефракции"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:59
+msgid "Decay Threshold"
+msgstr "Порог затухания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:76
+msgid "Key"
+msgstr "Ключ"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:77
+msgid "Blur"
+msgstr "Размытие"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:78
+msgid "Edge Luminance"
+msgstr "Граничная светимость"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:97
+msgid "Contrast"
+msgstr "Контраст"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:100
+msgid "Exposure"
+msgstr "Экспозиция"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:101
+msgid "Saturation"
+msgstr "Насыщенность"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:114
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:149
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:265
+msgid "Enable"
+msgstr "Включить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:120
+msgid "Small Mask:"
+msgstr "Малая маска"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:130
+msgid "Large Mask:"
+msgstr "Большая маска:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:139
+msgid "Render Glow Over Transparent Objects"
+msgstr "Рендерить свечение поверх прозрачных объектов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:175
+msgid "Use Hemisphere"
+msgstr "Использовать полусферу"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:176
+msgid "Use Blur Depth Test"
+msgstr "Тест размытой глубины"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:177
+msgid "Blur Depth Test Discard Value"
+msgstr "Граничное значение для размытия глубины"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:178
+msgid "Influence"
+msgstr "Влияние"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:179
+msgid "Distance Factor"
+msgstr "Фактор расстояния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:182
+msgid "Samples:"
+msgstr "Сэмплы:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:183
+msgid "Samples"
+msgstr "Сэмплы"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:201
+msgid "Maximum Ray Length"
+msgstr "Максимальная дли луча"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:202
+msgid "Steps per Pass"
+msgstr "Шагов в итерации"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:213
+msgid "Enable Antialiasing"
+msgstr "Включить Антиалиазинг"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:235
+msgid "Render Shadows"
+msgstr "Рендерить тени"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:240
+msgid "Resolution"
+msgstr "Разрешение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:242
+msgid "Self-Shadow Polygon Offset"
+msgstr "Отступ полигона для самозатенения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:244
+msgid "Self-Shadow Normal Offset"
+msgstr "Отступ по нормали для самозатенения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:247
+msgid "Enable CSM"
+msgstr "Каскады теней"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:368
+msgid "Frame Range:"
+msgstr "Диапазон кадров:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:372
+msgid "Frame Rate:"
+msgstr "Частота кадров:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:251
+msgid "CSM Number"
+msgstr "Количество каскадов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:253
+msgid "CSM first cascade:"
+msgstr "Первый каскад"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:256
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:262
+msgid "Border"
+msgstr "Граница"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:257
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:263
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:273
+msgid "Blur Radius"
+msgstr "Радиус размытия"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:259
+msgid "CSM last cascade:"
+msgstr "Последний каскад"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:267
+msgid "Fade-Out Last Cascade"
+msgstr "Сглаживать последний каскад"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:269
+msgid "Blend Between Cascades"
+msgstr "Размыть границы каскадов"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:291
+msgid "Development server is running."
+msgstr "Сервер разработки запущен."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:303
+msgid "Server actions are enabled only for the main Blender instance."
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:306
+msgctxt "Operator"
+msgid "Open SDK"
+msgstr "Открыть SDK"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:293
+msgid "Stopping server..."
+msgstr "Сервер останавливается..."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:295
+msgid "Development server is down."
+msgstr "Сервер разработки не запущен."
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:299
+msgctxt "Operator"
+msgid "Stop"
+msgstr "Стоп"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_render.py:301
+msgctxt "Operator"
+msgid "Start"
+msgstr "Запустить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:35
+msgid "Background"
+msgstr "Фон"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:71
+msgid "Viewport:"
+msgstr "Область просмотра:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:72
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:77
+msgid "Subdivision"
+msgstr "Подразделения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:73
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:78
+msgid "Child Particles"
+msgstr "Частицы-потомки"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:76
+msgid "Render:"
+msgstr "Визуализация:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:79
+msgid "Shadow Samples"
+msgstr "Сэмплы теней"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:80
+msgid "AO and SSS"
+msgstr "АО и SSS"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:100
+msgid "Dynamic Compressor"
+msgstr "Динамический компрессор"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:106
+msgid "Compressor settings:"
+msgstr "Настройки компрессора:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:108
+msgid "Knee"
+msgstr "Колено"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:109
+msgid "Ratio"
+msgstr "Соотношение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:110
+msgid "Attack"
+msgstr "Атака"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:111
+msgid "Release"
+msgstr "Восстановление"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:176
+msgid "Active Node Tree:"
+msgstr "Активное узловое дерево:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:200
+msgid "Cyclic NLA"
+msgstr "Зациклить NLA"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:242
+msgid "Enable Physics"
+msgstr "Включить физику"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:252
+msgid "Batch Grid Size"
+msgstr "Размер ячейки батчинга"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_scene.py:278
+msgid "Detect Anchor Visibility"
+msgstr "Определять видимость якорей"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:206
+msgid "Ramp"
+msgstr "Градиентная карта"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:227
+msgid "Use Alpha"
+msgstr "С альфа-каналом"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:319
+msgid "UV Frequency"
+msgstr "Частота UV"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:320
+msgid "UV Magnitude"
+msgstr "Амплитуда UV"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:457
+msgid "Steps"
+msgstr "Шаги"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:458
+msgid "Lod Distance"
+msgstr "Расстояние Lod"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:96
+msgid "This texture type is not supported."
+msgstr "Этот тип текстур не поддерживается"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:140
+msgid "Coordinates:"
+msgstr "Координаты:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:186
+msgid "This environment map type is not supported"
+msgstr "Этот тип карт окружения не поддерживается"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:416
+msgid "Negative"
+msgstr "Инвертировать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:420
+msgid "DVar"
+msgstr "DVar"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:252
+msgid "Disable Compression"
+msgstr "Выключить компрессию"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:263
+msgid "Enable Anisotropic Filtering"
+msgstr "Включить Анизотропную фильтрацию"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:360
+msgid "Diffuse:"
+msgstr "Цвет:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:366
+msgid "Specular:"
+msgstr "Блик:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:372
+msgid "Shading:"
+msgstr "Затенение:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:378
+msgid "Geometry:"
+msgstr "Форма:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:155
+msgid "Map:"
+msgstr "Карта:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:259
+msgid "Shore Distance Map"
+msgstr "Карта дистанций до берега"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:285
+msgid "Source Type"
+msgstr "Тип источника"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:302
+msgid "Sky Texture Usage"
+msgstr "Использование текстуры неба"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:401
+msgid "General:"
+msgstr "Общие:"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:163
+msgid "This coordinates type is not supported."
+msgstr "Этот тип координат не поддерживается"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:292
+msgid "Source Size"
+msgstr "Размер источника"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:295
+msgid "Extension"
+msgstr "Расширение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_texture.py:297
+msgid "Enable Mipmapping"
+msgstr "Включить мипмаппинг"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:32
+msgid "Render Sky"
+msgstr "Рендерить небо"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:51
+msgid "Reflect World"
+msgstr "Отражать мир"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:54
+msgid "Render Only Reflection"
+msgstr "Рендерить только отражение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:72
+msgid "Energy"
+msgstr "Энергия"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:93
+msgid "Depth"
+msgstr "Глубина"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:95
+msgid "Start"
+msgstr "Начало"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:98
+msgid "Fall off"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:100
+msgid "Use custom color"
+msgstr ""
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:122
+msgid "Use as Environment Lighting"
+msgstr "Использовать для освещения"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:123
+msgid "Sky Color"
+msgstr "Цвет неба"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:124
+msgid "Rayleigh Brightness"
+msgstr "Яркость рэлеевского рассеяния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:125
+msgid "Mie Brightness"
+msgstr "Яркость Ми"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:126
+msgid "Spot Brightness"
+msgstr "Яркость пятна солнца"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:127
+msgid "Scatter Strength"
+msgstr "Фактор рассеяния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:128
+msgid "Rayleigh Strength"
+msgstr "Фактор рэлеевского рассеяния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:129
+msgid "Mie Strength"
+msgstr "Фактор рассеяния Ми"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:130
+msgid "Rayleigh Collection Power"
+msgstr "Степень рэлеевского рассеяния"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:131
+msgid "Mie Collection Power"
+msgstr "Степень рассеяния Ми"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/ui_world.py:132
+msgid "Mie Distribution"
+msgstr "Распределение рассеяния Ми"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/update_checker.py:66
+msgid "New version of Blend4Web is available: %s"
+msgstr "Доступна новая версия Blend4Web: %s"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/update_checker.py:68
+msgctxt "Operator"
+msgid "Download"
+msgstr "Скачать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:92
+msgid "Status:  frames recorded"
+msgstr "Статус:  кадров записано"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:95
+msgid "Status: Empty"
+msgstr "Статус: Пусто"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:201
+msgid "Bake start"
+msgstr "Начало запекания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:204
+msgid "Bake finish"
+msgstr "Конец запекания"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_anim_baker.py:206
+msgid "Bake error"
+msgstr "Ошибка запекателя"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:156
+msgid "Activate"
+msgstr "Активировать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:163
+msgid "Show Normals"
+msgstr "Отображать нормали"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:171
+msgid "Split Mode"
+msgstr "Режим раздельных нормалей"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:177
+msgid "Index"
+msgstr "Индекс"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:183
+msgctxt "Operator"
+msgid "Average Split"
+msgstr "Усредненная нормаль"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:188
+msgctxt "Operator"
+msgid "Rotate"
+msgstr "Вращение"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:204
+msgctxt "Operator"
+msgid "Restore"
+msgstr "Восстановить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:210
+msgctxt "Operator"
+msgid "Copy"
+msgstr "Копировать"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:211
+msgctxt "Operator"
+msgid "Paste"
+msgstr "Вставить"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:219
+msgctxt "Operator"
+msgid "Tree"
+msgstr "Дерево"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:220
+msgctxt "Operator"
+msgid "Foliage"
+msgstr "Листва"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:221
+msgctxt "Operator"
+msgid "Face"
+msgstr "Грань"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:227
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:229
+msgctxt "Operator"
+msgid "Copy From Mesh"
+msgstr "Копировать с меша"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:323
+msgid "Please select at least 3 vertices"
+msgstr "Пожалуйста, выделите по крайней мере 3 вершины"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:405
+msgid "Please select 2 meshes"
+msgstr "Пожалуйста, выделите 2 меша"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:604
+msgid "please select a single vertex"
+msgstr "пожалуйста, выделите одну вершину"
+
+#: ../../../../../home/dal/workspace/blend4web/blender_scripts/addons/blend4web/vertex_normals.py:636
+msgid "please select at least one vertex"
+msgstr "пожалуйста, выделите по крайей мере одну вершину"
+

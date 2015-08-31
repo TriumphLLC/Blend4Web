@@ -86,27 +86,37 @@ function set_sep(trans, scale, quat, dest) {
     dest[5] = quat[1];
     dest[6] = quat[2];
     dest[7] = quat[3];
+
+    return dest;
 }
 
 exports.set_trans = function(trans, dest) {
     dest[0] = trans[0];
     dest[1] = trans[1];
     dest[2] = trans[2];
+
+    return dest;
 }
 exports.set_scale = function(scale, dest) {
     dest[3] = scale;
+
+    return dest;
 }
 exports.set_transcale = function(transcale, dest) {
     dest[0] = transcale[0];
     dest[1] = transcale[1];
     dest[2] = transcale[2];
     dest[3] = transcale[3];
+
+    return dest;
 }
 exports.set_quat = function(quat, dest) {
     dest[4] = quat[0];
     dest[5] = quat[1];
     dest[6] = quat[2];
     dest[7] = quat[3];
+
+    return dest;
 }
 
 exports.get_trans_view = function(tsr) {

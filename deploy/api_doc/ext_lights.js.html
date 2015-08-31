@@ -36,14 +36,13 @@ b4w.module["lights"] = function(exports, require) {
 
 // TODO: consider use of standard translation/rotation functions from transform module
 
-var m_print     = require("__print");
-var m_lights    = require("__lights");
-var m_scenes    = require("__scenes");
-var m_batch     = require("__batch");
-var transform   = require("__transform");
-var util        = require("__util");
-
-var m_vec3 = require("vec3");
+var m_lights = require("__lights");
+var m_obj    = require("__objects");
+var m_print  = require("__print");
+var m_scenes = require("__scenes");
+var m_trans  = require("__transform");
+var m_util   = require("__util");
+var m_vec3   = require("__vec3");
 
 var _sun_pos        = new Float32Array(3);
 var _date           = {};
@@ -60,7 +59,7 @@ var _max_sun_angle  = 60;
 exports.get_lamps = function(lamps_type) {
 
     var scene = m_scenes.get_active();
-    var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
+    var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
 
     if (!lamps_type)
         return lamps;
@@ -68,7 +67,7 @@ exports.get_lamps = function(lamps_type) {
     var rslt = [];
     for (var i = 0; i &lt; lamps.length; i++) {
         var lamp = lamps[i];
-        if (lamp._light.type === lamps_type)
+        if (lamp.light.type === lamps_type)
             rslt.push(lamp);
     }
     return rslt;
@@ -83,12 +82,12 @@ exports.get_sun_params = get_sun_params;
  */
 function get_sun_params() {
     var scene = m_scenes.get_active();
-    var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
+    var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
     var sun = null;
 
     for (var i = 0; i &lt; lamps.length; i++) {
         var lamp = lamps[i];
-        var light = lamp._light;
+        var light = lamp.light;
         if (light.type == "SUN") {
             sun = lamp;
             break
@@ -96,7 +95,7 @@ function get_sun_params() {
     }
 
     if (sun) {
-        var cur_dir = sun._light.direction;
+        var cur_dir = sun.light.direction;
 
         // sun azimuth
         var angle_hor = Math.atan2(cur_dir[2], cur_dir[0]) * 180 / Math.PI + 90;
@@ -126,13 +125,13 @@ exports.set_sun_params = set_sun_params;
 function set_sun_params (sun_params) {
 
     var scene = m_scenes.get_active();
-    var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
+    var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
 
     // Index of lamp(sun) on the scene
 
     for (var i = 0; i &lt; lamps.length; i++) {
         var lamp = lamps[i];
-        var light = lamp._light;
+        var light = lamp.light;
         if (light.type == "SUN") {
             var sun = lamp;
             break;
@@ -150,12 +149,12 @@ function set_sun_params (sun_params) {
         var angle_hor  =  ((180 - sun_params.hor_position)) / 180 * Math.PI;
         var angle_vert =  ((90 - sun_params.vert_position)) / 180 * Math.PI;
 
-        var sun_render = sun._render;
+        var sun_render = sun.render;
 
         // rotate sun
-        transform.set_rotation_euler(sun, [angle_vert, angle_hor, 0]);
+        m_trans.set_rotation_euler(sun, [angle_vert, angle_hor, 0]);
         var dir = new Float32Array(3);
-        util.quat_to_dir(sun_render.quat, util.AXIS_Y, dir);
+        m_util.quat_to_dir(sun_render.quat, m_util.AXIS_Y, dir);
 
         var dist_to_center = m_vec3.length(sun_render.trans);
 
@@ -163,20 +162,19 @@ function set_sun_params (sun_params) {
         m_vec3.scale(_sun_pos, dist_to_center, _sun_pos);
 
         // translate sun
-        transform.set_translation(sun, _sun_pos);
-        transform.update_transform(sun);
+        m_trans.set_translation(sun, _sun_pos);
+        m_trans.update_transform(sun);
 
-        var sun_light = sun._light;
+        var sun_light = sun.light;
 
         if (sun_light.dynamic_intensity) {
 
             // set amplitude lighting params
-            var def_sun_energy = sun["data"]["energy"];
             var def_env_color = scene["world"]["light_settings"]["environment_energy"];
 
             // change sun intensity dependent to its position
             var energy     = Math.cos(Math.abs(angle_vert));
-            var sun_energy = Math.max( Math.min(3.0 * energy, 1.0), 0.0) * def_sun_energy;
+            var sun_energy = Math.max( Math.min(3.0 * energy, 1.0), 0.0) * sun_light.default_energy;
             var env_energy = Math.max(energy, 0.1) * def_env_color;
 
             m_lights.set_light_energy(sun_light, sun_energy);
@@ -194,11 +192,11 @@ exports.set_day_time = set_day_time;
  */
 function set_day_time(time) {
     var scene = m_scenes.get_active();
-    var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
+    var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
 
     for (var i = 0; i &lt; lamps.length; i++) {
         var lamp = lamps[i];
-        var light = lamp._light;
+        var light = lamp.light;
         if (light.type == "SUN") {
             var sun = lamp;
             break;
@@ -251,7 +249,7 @@ exports.set_max_sun_angle = function(angle) {
 exports.get_light_params = function(lamp_obj) {
 
     if (m_lights.is_lamp(lamp_obj))
-        var light = lamp_obj._light;
+        var light = lamp_obj.light;
     else {
         m_print.error("get_light_params(): Wrong object");
         return false;
@@ -302,7 +300,7 @@ exports.get_light_type = get_light_type
  */
 function get_light_type(lamp_obj) {
     if (m_lights.is_lamp(lamp_obj))
-        return lamp_obj._light.type;
+        return lamp_obj.light.type;
     else
         m_print.error("get_light_type(): Wrong object");
     return false;
@@ -317,7 +315,7 @@ function get_light_type(lamp_obj) {
 exports.set_light_params = function(lamp_obj, light_params) {
 
     if (m_lights.is_lamp(lamp_obj))
-        var light = lamp_obj._light;
+        var light = lamp_obj.light;
     else {
         m_print.error("set_light_params(): Wrong object");
         return false;
@@ -349,7 +347,7 @@ exports.set_light_params = function(lamp_obj, light_params) {
         m_lights.set_light_distance(light, light_params.light_distance);
         m_scenes.update_lamp_scene(lamp_obj, scene);
     }
-    m_scenes.update_all_mesh_shaders();
+    m_obj.update_all_mesh_shaders(scene);
 }
 
 function update_sun_position(time) {
@@ -472,7 +470,7 @@ function calendar_to_julian(date) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jul 29 2015 10:22:43 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:57 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

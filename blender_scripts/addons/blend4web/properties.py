@@ -4,7 +4,9 @@ import math
 import os
 import cProfile
 from .interface import *
-from . import nla_script
+
+class B4W_StringWrap(bpy.types.PropertyGroup):
+    name = bpy.props.StringProperty(name = "name",)
 
 class B4W_DetailBendingColors(bpy.types.PropertyGroup):
 
@@ -1087,6 +1089,13 @@ def add_b4w_props():
 
     add_scene_properties()
 
+    b4w_use_custom_color = bpy.props.BoolProperty(
+        name = "B4W: use custom color",
+        description = "Fog will uses custom color instead of horizon color",
+        default = True
+    )
+    bpy.types.World.b4w_use_custom_color = b4w_use_custom_color
+
     b4w_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: fog color",
         description = "Fog color",
@@ -1100,19 +1109,6 @@ def add_b4w_props():
         size = 3
     )
     bpy.types.World.b4w_fog_color = b4w_fog_color
-
-    b4w_fog_density = bpy.props.FloatProperty(
-        name = "B4W: fog density",
-        description = "Fog density",
-        default = 0.0,
-        min = 0.0,
-        soft_min = 0.0,
-        max = 1.0,
-        soft_max = 0.1,
-        step = 0.1,
-        precision = 4
-    )
-    bpy.types.World.b4w_fog_density = b4w_fog_density
 
     bpy.types.World.b4w_sky_settings = bpy.props.PointerProperty(
         name = "B4W: sky settings",
@@ -1185,7 +1181,7 @@ def add_b4w_props():
 
     b4w_target = bpy.props.FloatVectorProperty(
         name = "B4W: target",
-        description = "Camera target location for \"TARGET\" camera",
+        description = "Camera target location for 'TARGET' camera",
         default = (0.0, 0.0, 0.0),
         min = -1000000.0,
         soft_min = -100.0,
@@ -1483,6 +1479,275 @@ def add_b4w_props():
 
     add_particle_settings_properties()
 
+def remove_mesh_props():
+    del bpy.types.Mesh.b4w_boundings
+    del bpy.types.Mesh.b4w_override_boundings
+
+def remove_obj_props():
+    del bpy.types.Object.b4w_do_not_batch
+    del bpy.types.Object.b4w_dynamic_geometry
+    del bpy.types.Object.b4w_shape_keys
+    del bpy.types.Object.b4w_apply_scale
+    del bpy.types.Object.b4w_apply_modifiers
+    del bpy.types.Object.b4w_do_not_cull
+    del bpy.types.Object.b4w_disable_fogging
+    del bpy.types.Object.b4w_do_not_render
+    del bpy.types.Object.b4w_shadow_cast
+    del bpy.types.Object.b4w_shadow_cast_only
+    del bpy.types.Object.b4w_shadow_receive
+    del bpy.types.Object.b4w_reflexible
+    del bpy.types.Object.b4w_reflexible_only
+    del bpy.types.Object.b4w_reflective
+    del bpy.types.Object.b4w_reflection_type
+    del bpy.types.Object.b4w_caustics
+    del bpy.types.Object.b4w_use_default_animation
+    del bpy.types.Object.b4w_anim_behavior
+    del bpy.types.Object.b4w_animation_mixing
+    del bpy.types.Object.b4w_proxy_inherit_anim
+    del bpy.types.Object.b4w_wind_bending
+    del bpy.types.Object.b4w_wind_bending_angle
+    del bpy.types.Object.b4w_wind_bending_freq
+    del bpy.types.Object.b4w_detail_bending_amp
+    del bpy.types.Object.b4w_branch_bending_amp
+    del bpy.types.Object.b4w_detail_bending_freq
+    del bpy.types.Object.b4w_main_bend_stiffness_col
+    del bpy.types.Object.b4w_selectable
+    del bpy.types.Object.b4w_outlining
+    del bpy.types.Object.b4w_outline_on_select
+    del bpy.types.Object.b4w_billboard
+    del bpy.types.Object.b4w_pres_glob_orientation
+    del bpy.types.Object.b4w_billboard_geometry
+    del bpy.types.Object.b4w_outline_settings
+    del bpy.types.Object.b4w_collision
+    del bpy.types.Object.b4w_collision_id
+    del bpy.types.Object.b4w_vehicle
+    del bpy.types.Object.b4w_vehicle_settings
+    del bpy.types.Object.b4w_floating
+    del bpy.types.Object.b4w_floating_settings
+    del bpy.types.Object.b4w_character
+    del bpy.types.Object.b4w_character_settings
+    del bpy.types.Object.b4w_anim_clean_keys
+    del bpy.types.Object.b4w_loc_export_vertex_anim
+    del bpy.types.Object.b4w_lod_transition
+    del bpy.types.Object.b4w_detail_bend_colors
+    del bpy.types.Object.b4w_correct_bounding_offset
+    del bpy.types.Object.b4w_refl_plane_index
+    del bpy.types.Object.b4w_enable_object_tags
+    del bpy.types.Object.b4w_object_tags
+    del bpy.types.Object.b4w_enable_anchor
+    del bpy.types.Object.b4w_anchor
+
+def remove_scenes_props():
+    del bpy.types.Scene.b4w_use_nla
+    del bpy.types.Scene.b4w_use_logic_editor
+    del bpy.types.Scene.b4w_active_logic_node_tree
+    del bpy.types.Scene.b4w_available_logic_trees
+    del bpy.types.Scene.b4w_nla_cyclic
+    del bpy.types.Scene.b4w_enable_audio
+    del bpy.types.Scene.b4w_enable_dynamic_compressor
+    del bpy.types.Scene.b4w_dynamic_compressor_settings
+    del bpy.types.Scene.b4w_enable_physics
+    del bpy.types.Scene.b4w_render_shadows
+    del bpy.types.Scene.b4w_shadow_settings
+    del bpy.types.Scene.b4w_render_reflections
+    del bpy.types.Scene.b4w_reflection_quality
+    del bpy.types.Scene.b4w_render_refractions
+    del bpy.types.Scene.b4w_enable_god_rays
+    del bpy.types.Scene.b4w_god_rays_settings
+    del bpy.types.Scene.b4w_enable_glow_materials
+    del bpy.types.Scene.b4w_glow_settings
+    del bpy.types.Scene.b4w_enable_ssao
+    del bpy.types.Scene.b4w_ssao_settings
+    del bpy.types.Scene.b4w_batch_grid_size
+    del bpy.types.Scene.b4w_anisotropic_filtering
+    del bpy.types.Scene.b4w_enable_bloom
+    del bpy.types.Scene.b4w_bloom_settings
+    del bpy.types.Scene.b4w_enable_motion_blur
+    del bpy.types.Scene.b4w_motion_blur_settings
+    del bpy.types.Scene.b4w_enable_color_correction
+    del bpy.types.Scene.b4w_color_correction_settings
+    del bpy.types.Scene.b4w_enable_antialiasing
+    del bpy.types.Scene.b4w_enable_tags
+    del bpy.types.Scene.b4w_tags
+    del bpy.types.Scene.b4w_enable_object_selection
+    del bpy.types.Scene.b4w_enable_outlining
+    del bpy.types.Scene.b4w_outline_color
+    del bpy.types.Scene.b4w_outline_factor
+    del bpy.types.Scene.b4w_enable_anchors_visibility
+    del bpy.types.Scene.b4w_export_path_json
+    del bpy.types.Scene.b4w_export_path_html
+
+def remove_text_props():
+    del bpy.types.Text.b4w_assets_load
+
+def remove_particle_settings_props():
+    del bpy.types.ParticleSettings.b4w_cyclic
+    del bpy.types.ParticleSettings.b4w_allow_nla
+    del bpy.types.ParticleSettings.b4w_randomize_emission
+    del bpy.types.ParticleSettings.b4w_fade_in
+    del bpy.types.ParticleSettings.b4w_fade_out
+    del bpy.types.ParticleSettings.b4w_billboard_align
+    del bpy.types.ParticleSettings.b4w_coordinate_system
+    del bpy.types.ParticleSettings.b4w_dynamic_grass
+    del bpy.types.ParticleSettings.b4w_dynamic_grass_scale_threshold
+    del bpy.types.ParticleSettings.b4w_randomize_location
+    del bpy.types.ParticleSettings.b4w_initial_rand_rotation
+    del bpy.types.ParticleSettings.b4w_rand_rotation_strength
+    del bpy.types.ParticleSettings.b4w_rotation_type
+    del bpy.types.ParticleSettings.b4w_hair_billboard
+    del bpy.types.ParticleSettings.b4w_hair_billboard_type
+    del bpy.types.ParticleSettings.b4w_hair_billboard_jitter_amp
+    del bpy.types.ParticleSettings.b4w_hair_billboard_jitter_freq
+    del bpy.types.ParticleSettings.b4w_hair_billboard_geometry
+    del bpy.types.ParticleSettings.b4w_wind_bend_inheritance
+    del bpy.types.ParticleSettings.b4w_shadow_inheritance
+    del bpy.types.ParticleSettings.b4w_reflection_inheritance
+    del bpy.types.ParticleSettings.b4w_vcol_from_name
+    del bpy.types.ParticleSettings.b4w_vcol_to_name
+    del bpy.types.ParticleSettings.b4w_enable_soft_particles
+    del bpy.types.ParticleSettings.b4w_particles_softness
+
+def remove_speaker_props():
+    del bpy.types.Speaker.b4w_behavior
+    del bpy.types.Speaker.b4w_disable_doppler
+    del bpy.types.Speaker.b4w_cyclic_play
+    del bpy.types.Speaker.b4w_delay
+    del bpy.types.Speaker.b4w_delay_random
+    del bpy.types.Speaker.b4w_volume_random
+    del bpy.types.Speaker.b4w_pitch_random
+    del bpy.types.Speaker.b4w_fade_in
+    del bpy.types.Speaker.b4w_fade_out
+    del bpy.types.Speaker.b4w_loop
+    del bpy.types.Speaker.b4w_loop_count
+    del bpy.types.Speaker.b4w_loop_count_random
+    del bpy.types.Speaker.b4w_playlist_id
+
+def remove_material_props():
+    del bpy.types.Material.b4w_water
+    del bpy.types.Material.b4w_water_shore_smoothing
+    del bpy.types.Material.b4w_water_dynamic
+    del bpy.types.Material.b4w_waves_height
+    del bpy.types.Material.b4w_waves_length
+    del bpy.types.Material.b4w_water_absorb_factor
+    del bpy.types.Material.b4w_water_dst_noise_scale0
+    del bpy.types.Material.b4w_water_dst_noise_scale1
+    del bpy.types.Material.b4w_water_dst_noise_freq0
+    del bpy.types.Material.b4w_water_dst_noise_freq1
+    del bpy.types.Material.b4w_water_dir_min_shore_fac
+    del bpy.types.Material.b4w_water_dir_freq
+    del bpy.types.Material.b4w_water_dir_noise_scale
+    del bpy.types.Material.b4w_water_dir_noise_freq
+    del bpy.types.Material.b4w_water_dir_min_noise_fac
+    del bpy.types.Material.b4w_water_dst_min_fac
+    del bpy.types.Material.b4w_water_waves_hor_fac
+    del bpy.types.Material.b4w_generated_mesh
+    del bpy.types.Material.b4w_water_num_cascads
+    del bpy.types.Material.b4w_water_subdivs
+    del bpy.types.Material.b4w_water_detailed_dist
+    del bpy.types.Material.b4w_water_fog_color
+    del bpy.types.Material.b4w_water_fog_density
+    del bpy.types.Material.b4w_foam_factor
+    del bpy.types.Material.b4w_shallow_water_col
+    del bpy.types.Material.b4w_shore_water_col
+    del bpy.types.Material.b4w_shallow_water_col_fac
+    del bpy.types.Material.b4w_shore_water_col_fac
+    del bpy.types.Material.b4w_water_sss_strength
+    del bpy.types.Material.b4w_water_sss_width
+    del bpy.types.Material.b4w_water_norm_uv_velocity
+    del bpy.types.Material.b4w_water_enable_caust
+    del bpy.types.Material.b4w_water_caust_scale
+    del bpy.types.Material.b4w_water_caust_brightness
+    del bpy.types.Material.b4w_terrain
+    del bpy.types.Material.b4w_dynamic_grass_size
+    del bpy.types.Material.b4w_dynamic_grass_color
+    del bpy.types.Material.b4w_collision
+    del bpy.types.Material.b4w_collision_id
+    del bpy.types.Material.b4w_double_sided_lighting
+    del bpy.types.Material.b4w_refractive
+    del bpy.types.Material.b4w_refr_bump
+    del bpy.types.Material.b4w_halo_sky_stars
+    del bpy.types.Material.b4w_halo_stars_blend_height
+    del bpy.types.Material.b4w_halo_stars_min_height
+    del bpy.types.Material.b4w_collision_margin
+    del bpy.types.Material.b4w_collision_group
+    del bpy.types.Material.b4w_collision_mask
+    del bpy.types.Material.b4w_wettable
+    del bpy.types.Material.b4w_render_above_all
+
+def remove_texture_props():
+    del bpy.types.Texture.b4w_use_map_parallax
+    del bpy.types.Texture.b4w_parallax_scale
+    del bpy.types.Texture.b4w_parallax_steps
+    del bpy.types.Texture.b4w_parallax_lod_dist
+    del bpy.types.Texture.b4w_source_type
+    del bpy.types.Texture.b4w_source_id
+    del bpy.types.Texture.b4w_source_size
+    del bpy.types.Texture.b4w_enable_canvas_mipmapping
+    del bpy.types.Texture.b4w_extension
+    del bpy.types.Texture.b4w_enable_tex_af
+    del bpy.types.Texture.b4w_anisotropic_filtering
+    del bpy.types.Texture.b4w_use_sky
+    del bpy.types.Texture.b4w_water_foam
+    del bpy.types.Texture.b4w_foam_uv_freq
+    del bpy.types.Texture.b4w_foam_uv_magnitude
+    del bpy.types.Texture.b4w_shore_dist_map
+    del bpy.types.Texture.b4w_shore_boundings
+    del bpy.types.Texture.b4w_max_shore_dist
+    del bpy.types.Texture.b4w_disable_compression
+
+def remove_world_props():
+    del bpy.types.World.b4w_fog_color
+    del bpy.types.World.b4w_use_custom_color
+    del bpy.types.World.b4w_sky_settings
+
+def remove_camera_props():
+    del bpy.types.Camera.b4w_move_style
+    del bpy.types.Camera.b4w_hover_zero_level
+    del bpy.types.Camera.b4w_trans_velocity
+    del bpy.types.Camera.b4w_rot_velocity
+    del bpy.types.Camera.b4w_zoom_velocity
+    del bpy.types.Camera.b4w_target
+    del bpy.types.Camera.b4w_use_distance_limits
+    del bpy.types.Camera.b4w_distance_min
+    del bpy.types.Camera.b4w_distance_max
+    del bpy.types.Camera.b4w_horizontal_translation_min
+    del bpy.types.Camera.b4w_horizontal_translation_max
+    del bpy.types.Camera.b4w_vertical_translation_min
+    del bpy.types.Camera.b4w_vertical_translation_max
+    del bpy.types.Camera.b4w_use_horizontal_clamping
+    del bpy.types.Camera.b4w_rotation_left_limit
+    del bpy.types.Camera.b4w_rotation_right_limit
+    del bpy.types.Camera.b4w_hover_angle_min
+    del bpy.types.Camera.b4w_hover_angle_max
+    del bpy.types.Camera.b4w_horizontal_clamping_type
+    del bpy.types.Camera.b4w_use_vertical_clamping
+    del bpy.types.Camera.b4w_enable_hover_hor_rotation
+    del bpy.types.Camera.b4w_use_panning
+    del bpy.types.Camera.b4w_rotation_down_limit
+    del bpy.types.Camera.b4w_rotation_up_limit
+    del bpy.types.Camera.b4w_vertical_clamping_type
+    del bpy.types.Camera.b4w_dof_front
+    del bpy.types.Camera.b4w_dof_rear
+    del bpy.types.Camera.b4w_dof_power
+
+def remove_lamp_props():
+    del bpy.types.Lamp.b4w_generate_shadows
+    del bpy.types.Lamp.b4w_dynamic_intensity
+    del bpy.types.Lamp.b4w_override_boundings
+    del bpy.types.Lamp.b4w_boundings
+
+def remove_b4w_props():
+    remove_mesh_props()
+    remove_obj_props()
+    remove_scenes_props()
+    remove_text_props()
+    remove_particle_settings_props()
+    remove_speaker_props()
+    remove_material_props()
+    remove_texture_props()
+    remove_world_props()
+    remove_camera_props()
+
 def add_scene_properties():
 
     scene_type = bpy.types.Scene
@@ -1492,10 +1757,24 @@ def add_scene_properties():
         description = "Use NLA to control animation and sounds on the scene",
         default = False
     )
+    scene_type.b4w_use_logic_editor = bpy.props.BoolProperty(
+        name = "B4W: use logic editor",
+        description = "Use Logic Editor to control animation and sounds on the scene",
+        default = False
+    )
     scene_type.b4w_nla_cyclic = bpy.props.BoolProperty(
         name = "B4W: cyclic NLA",
         description = "Repeat NLA animation",
         default = False
+    )
+    scene_type.b4w_active_logic_node_tree = bpy.props.StringProperty(
+        name = "B4W: NLA active NodeTree",
+        description = "NLA active NodeTree",
+    )
+    scene_type.b4w_available_logic_trees = bpy.props.CollectionProperty(
+        name = "B4W: NLA available NodeTrees",
+        description = "NLA available NodeTrees",
+        type = B4W_StringWrap
     )
     scene_type.b4w_enable_audio = bpy.props.BoolProperty(
         name = "B4W: enable audio",
@@ -1522,7 +1801,7 @@ def add_scene_properties():
     b4w_render_shadows = bpy.props.EnumProperty(
         name = "B4W: render shadows",
         description = "Render shadows for the scene objects with the " +
-                "\"B4W shadow cast\" and \"B4W shadow receive\" properties",
+                "'B4W shadow cast' and 'B4W shadow receive' properties",
         items = [
             ("OFF", "OFF", "0", 0),
             ("ON",  "ON",  "1", 1),
@@ -1540,7 +1819,7 @@ def add_scene_properties():
     b4w_render_reflections = bpy.props.EnumProperty(
         name = "B4W: render reflections",
         description = "Render reflections for the scene objects with the " +
-                "\"B4W reflection cast\" and \"B4W reflection receive\" properties",
+                "'B4W reflection cast' and 'B4W reflection receive' properties",
         items = [
             ("OFF", "OFF", "0", 0),
             ("ON",  "ON",  "1", 1),
@@ -1757,10 +2036,6 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_anchors_visibility = b4w_enable_anchors_visibility
 
-    scene_type.b4w_nla_script= bpy.props.CollectionProperty(
-            type=nla_script.B4W_ScriptSlot,
-            name="B4W: NLA Script")
-
 def add_text_properties():
 
     text_type = bpy.types.Text
@@ -1928,13 +2203,6 @@ def add_object_properties():
         description = "Allow skeletal animations to be mixed with each other",
         default = False
     )
-
-    b4w_group_relative = bpy.props.BoolProperty(
-        name = "B4W: group relative",
-        description = "Use relative coords for group objects",
-        default = False
-    )
-    obj_type.b4w_group_relative = b4w_group_relative
 
     obj_type.b4w_proxy_inherit_anim = bpy.props.BoolProperty(
         name = "B4W: inherit animation",
@@ -2323,17 +2591,6 @@ def add_material_properties():
         soft_min = 0.01,
         max = 200.0,
         soft_max = 100.0,
-        step = 0.1,
-        precision = 3
-    )
-    mat_type.b4w_water_absorb_factor = bpy.props.FloatProperty(
-        name = "B4W: water absorbtion factor",
-        description = "Water absorbtion factor",
-        default = 6.0,
-        min = 0.0,
-        soft_min = 0.0,
-        max = 100.0,
-        soft_max = 1.0,
         step = 0.1,
         precision = 3
     )
@@ -3238,6 +3495,7 @@ def register():
     bpy.utils.register_class(B4W_Tags)
     bpy.utils.register_class(B4W_Object_Tags)
     bpy.utils.register_class(B4W_AnchorSettings)
+    bpy.utils.register_class(B4W_StringWrap)
     add_b4w_props()
     bpy.app.handlers.load_post.append(replace_deprecated_props)
 
@@ -3259,5 +3517,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_BoundingsSettings)
     bpy.utils.unregister_class(B4W_Tags)
     bpy.utils.unregister_class(B4W_Object_Tags)
+    remove_b4w_props()
     bpy.utils.unregister_class(B4W_AnchorSettings)
+    bpy.utils.unregister_class(B4W_StringWrap)
 

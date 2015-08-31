@@ -15,10 +15,10 @@ msgstr ""
 msgid "Содержание"
 msgstr "Table of contents"
 
-#: ../index.rst:42
+#: ../index.rst:43
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../index.rst:43
+#: ../index.rst:44
 msgid ":ref:`search`"
 msgstr ""

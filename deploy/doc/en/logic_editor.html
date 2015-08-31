@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Visual Programming &mdash; User Manual: Blend4Web vv15.08</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+        <link rel="next" title="For Application Developers" href="developers.html"/>
+        <link rel="prev" title="Non-Linear Animation" href="nla.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.08
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Visual Programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Visual Programming (Logic Editor)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#play">Play</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play">Select &amp; Play</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-jump">Select &amp; Jump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#register-store">Register Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#show-object-hide-object">Show Object and Hide Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Visual Programming</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="logic-editor">
+<span id="id1"></span><h1>Visual Programming<a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Visual Programming (Logic Editor)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Performed by creating logic node tree in the node editor area in Blender. These nodes can extend the scene functionality significantly without any coding.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_app_example.jpg"><img alt="_images/logic_editor_app_example.jpg" class="align-center" src="_images/logic_editor_app_example.jpg" style="width: 100%;" /></a>
+<p>To activate logic on the given scene set the <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> property in the <code class="docutils literal"><span class="pre">Scene</span></code> tab and append/select active node tree.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_activation.png"><img alt="_images/logic_editor_activation.png" class="align-center" src="_images/logic_editor_activation.png" style="width: 100%;" /></a>
+<p>To edit logic tree go to the <code class="docutils literal"><span class="pre">Node</span> <span class="pre">Editor</span></code> area and select the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Logic</span></code> tree type:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_tree_type.png"><img alt="_images/logic_editor_tree_type.png" class="align-center" src="_images/logic_editor_tree_type.png" style="width: 100%;" /></a>
+<p>Then select the required node tree:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_select_tree.png"><img alt="_images/logic_editor_select_tree.png" class="align-center" src="_images/logic_editor_select_tree.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Nodes are created by using standard Blender keyboard shortcut <code class="docutils literal"><span class="pre">Shift+A</span></code>.</p>
+<p>The nodes themselves are logic blocks that are executed from the <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node which has no inputs and only one output. All other nodes have both inputs and outputs, and can be inserted in any place of a logic tree. The exception is <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code> node, which can be inserted only to the end of the node tree. The nodes which have two outputs allow braching, thus the next leave is selected based on condition specified for such nodes.</p>
+<p>For implementing complicated logic there are numeric variables called registers. Each of 8 registers can store a single numeric value. The registers can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character&#8217;s health points etc).</p>
+<p>Logic Editor usage example:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_example.png"><img alt="_images/logic_editor_example.png" class="align-center" src="_images/logic_editor_example.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>All possible nodes are described below.</p>
+<div class="section" id="play">
+<h3>Play<a class="headerlink" href="#play" title="Permalink to this headline">¶</a></h3>
+<p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker is met, or to the end of the timeline. Finally the next node receives the control.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_anim.png"><img alt="_images/logic_editor_anim.png" class="align-center" src="_images/logic_editor_anim.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="select-play">
+<span id="nla-select-play"></span><h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If an object that is specified in this slot is selected - start animation similar to <code class="docutils literal"><span class="pre">Play</span></code> node. If any other object is selected - immediately transfer the control to the next node.</p>
+</div>
+<div class="section" id="select-jump">
+<h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Permalink to this headline">¶</a></h3>
+<p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
+</div>
+<div class="section" id="conditional-jump">
+<h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
+<p>Go to the specified node if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.</p>
+</div>
+<div class="section" id="register-store">
+<h3>Register Store<a class="headerlink" href="#register-store" title="Permalink to this headline">¶</a></h3>
+<p>Save a numeric value in the register.</p>
+</div>
+<div class="section" id="math-operation">
+<h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
+<p>Perform a math operation and save the result in the register. Any of parameters (operands) can be either a numeric value or a register.</p>
+</div>
+<div class="section" id="show-object-hide-object">
+<h3>Show Object and Hide Object<a class="headerlink" href="#show-object-hide-object" title="Permalink to this headline">¶</a></h3>
+<p>This is used to hide and show 3D objects.</p>
+</div>
+<div class="section" id="page-redirect">
+<h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
+<p>This serves as a page redirect to other web pages.</p>
+</div>
+<div class="section" id="page-param">
+<h3>Page Param<a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
+<p>Allows to store any web page parameter in a given numerical register.</p>
+</div>
+<div class="section" id="id3">
+<h3>Debugging<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>For debugging purposes some nodes inside logic tree can be muted.To do that select the required node and press the <code class="docutils literal"><span class="pre">M</span></code> key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="developers.html" class="btn btn-neutral float-right" title="For Application Developers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nla.html" class="btn btn-neutral" title="Non-Linear Animation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-08-31.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.08',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

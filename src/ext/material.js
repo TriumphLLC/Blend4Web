@@ -6,14 +6,11 @@
  */
 b4w.module["material"] = function(exports, require) {
 
-var m_batch   = require("__batch");
-var m_cfg     = require("__config");
-var m_print   = require("__print");
-var m_obj     = require("__objects");
-var m_shaders = require("__shaders");
-var m_util    = require("__util");
-
-var m_vec4    = require("vec4");
+var m_batch    = require("__batch");
+var m_cfg      = require("__config");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_shaders  = require("__shaders");
 
 var cfg_def = m_cfg.defaults;
 
@@ -31,7 +28,7 @@ var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0",
 exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
         mat_to_name) {
 
-    if (!m_obj.is_dynamic_mesh(obj_to) || !m_obj.is_dynamic_mesh(obj_from)) {
+    if (!m_obj_util.is_dynamic_mesh(obj_to) || !m_obj_util.is_dynamic_mesh(obj_from)) {
         m_print.error("Wrong or batched object(s)");
         return;
     }
@@ -83,15 +80,14 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
 }
 
 function check_batch_material(obj, mat_name) {
-    var batches = obj._batches;
-
+    var scenes_data = obj.scenes_data;
+    var batches = scenes_data[0].batches;
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
         if (batch.material_names.indexOf(mat_name) > -1)
             return (batch.type == "MAIN");
     }
-
     return false;
 }
 
@@ -105,11 +101,14 @@ exports.get_materials_names = function(obj) {
 
     var mat_names = new Array();
 
-    var batches = obj._batches;
-    for (var j = 0; j < batches.length; j++)
-        for (var i = 0; i < batches[j].material_names.length; i++)
-            if (mat_names.indexOf(batches[j].material_names[i]) == -1)
-                mat_names.push(batches[j].material_names[i]);
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++)
+            for (var k = 0; k < batches[j].material_names.length; k++)
+                if (mat_names.indexOf(batches[j].material_names[k]) == -1)
+                    mat_names.push(batches[j].material_names[k]);
+    }
 
     return mat_names;
 }

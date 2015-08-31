@@ -7,7 +7,6 @@ exports.translate = function(ast_data) {
     var text = translation_unit(ast_data.ast);
     text = return_vardef(text);
     text = return_nodes(text);
-    text = return_lamps(text);
     text = return_directive(text);
     return text;
 }
@@ -934,57 +933,6 @@ function return_nodes(text) {
     text = text.replace(expr, "#node $1");
     expr = /\/\*%endnode%\*\//gi;
     text = text.replace(expr, "#endnode");
-    return text;
-}
-
-function return_lamps(text) {
-    var lamp_tokens = {};
-
-    var expr_textlines = /\/\*%lamp_textline%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%lamp_textline_end%(\d+)%\*\//g;
-
-    // get textline tokens
-    while ((res = expr_textlines.exec(text)) != null) {
-        var value = res[2];
-        var lamp_parent = res[1];
-        var offset = parseInt(res[3]);
-
-        if (!(lamp_parent in lamp_tokens))
-            lamp_tokens[lamp_parent] = [];
-        lamp_tokens[lamp_parent].push({
-            text: value.trim() + "\n",
-            offset: offset            
-        });
-    }
-
-    for (var i in lamp_tokens) 
-        lamp_tokens[i].sort( function(a, b) {
-            return a.offset - b.offset;
-        });
-
-    // remove textlines comments
-    text = text.replace(expr_textlines, "");
-
-    // return lamp textlines
-    for (var lamp_name in lamp_tokens) {
-        var expr_str = "(\\/\\*%lamp%" + lamp_name 
-                + "%\\*\\/)((?:.|[\\s\\S])*?)(\\/\\*%endlamp%\\*\\/)";
-        expr = new RegExp(expr_str, "im");
-
-        var lamps_str = "";
-        for (var i = 0; i < lamp_tokens[lamp_name].length; i++)
-            lamps_str += lamp_tokens[lamp_name][i].text;
-        var replacement = "$1$2" + lamps_str + "\n" + "$3";
-        text = text.replace(expr, replacement);
-    }
-
-    // return lamps_main directives after all lamp lines processed
-    expr = /\/\*%(lamps_main)%\*\/(?:.|[\s\S])*?\/\*%lamps_main_end%\*\//gi;
-    text = text.replace(expr, "#$1");
-    // return lamp, endlamp directives
-    expr = /\/\*%lamp%(.*?)%\*\//gi;
-    text = text.replace(expr, "#lamp $1");
-    expr = /\/\*%endlamp%\*\//gi;
-    text = text.replace(expr, "#endlamp");
     return text;
 }
 

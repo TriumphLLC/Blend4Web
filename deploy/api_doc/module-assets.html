@@ -177,6 +177,10 @@
         <ul>
         
                 
+<li> <a href="#~Asset">Asset</a></li>
+
+            
+                
 <li> <a href="#~AssetCallback">AssetCallback<span class="signature">(data, uri, type, filepath, optional_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
             
@@ -242,7 +246,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line14">line 14</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -309,7 +313,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line44">line 44</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -376,7 +380,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line32">line 32</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -443,7 +447,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line38">line 38</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -510,7 +514,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line20">line 20</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -577,7 +581,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line26">line 26</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -659,7 +663,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;<a href="module-assets.html#~Asset">module:assets~Asset</a>></span>
 
 
             
@@ -677,7 +681,7 @@
 
             
 
-            <td class="description last">Array of the assets in the following format: [[uri, type, filepath, optional_param], ...]</td>
+            <td class="description last">Array of the loading assets</td>
         </tr>
 
     
@@ -829,7 +833,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line50">line 50</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -851,6 +855,86 @@
         <h3 class="subsection-title">Type Definitions</h3>
 
         
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~Asset">Asset</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Loading asset.
+Asset has the following structure: [uri, type, filepath, optional_param],
+where uri - asset identifier, type - asset type, filepath - 
+path to resource (URL), optional_param - any param passed to <a href="module-assets.html#~AssetCallback">AssetCallback</a>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
                 
 <div class="item_container">
 <div class="item_name">
@@ -958,7 +1042,7 @@
 
             
 
-            <td class="description last">Data URI</td>
+            <td class="description last">Data asset ID</td>
         </tr>
 
     
@@ -1106,7 +1190,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line58">line 58</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -1192,7 +1276,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line67">line 67</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1327,7 +1411,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line71">line 71</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line39">line 39</a>
     </li></ul></dd>
     
 
@@ -1362,7 +1446,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jul 29 2015 10:22:43 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:58 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

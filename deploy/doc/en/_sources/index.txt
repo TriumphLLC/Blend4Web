@@ -80,7 +80,7 @@ Table of contents
 
 * Workflow
 
-  * Preparing the Scenes
+  * Authoring Scenes
 
   * Exporting Scenes
 
@@ -135,6 +135,8 @@ Table of contents
   * Object Transform API
 
   * Quaternions
+
+  * Differences Between Coordinate Systems of Blender and Blend4Web
 
   * Moving via TSR Vectors
 
@@ -314,41 +316,39 @@ Table of contents
 
   * NLA Editor
 
-  * Visual Programming (NLA Script)
-
   * Controlling via API
+
+* Visual Programming
+
+  * Visual Programming (Logic Editor)
 
 * For Application Developers
 
   * Hello World!
 
-  * Loading a Scene into an App
+  * Loading Scenes in Apps
+
+  * Module System
 
   * Creating Apps Quickly
 
   * Developing Apps Within the SDK
 
+  * Resource Conversion
+
   * Non-FullScreen Web Apps
 
   * Code Examples
 
-  * Resource Conversion
-
-  * Module System
-
   * Event-Driven Model
 
-  * Quality Profiles
-
   * SDK File Structure
-
-  * Canvas Textures
-
-  * Differences between Blrnder's and Blend4Web's coordinates
 
   * Setting up the Browser for Loading Local Resources
 
   * Running a Local Server
+
+  * Quality Profiles
 
 * For Engine Developers
 
@@ -366,7 +366,7 @@ Table of contents
 
   * Shader Compilation
 
-  * Addon's translation
+  * Add-on Translations
 
 * Team Work. Using Git
 
@@ -399,6 +399,8 @@ Table of contents
   * WebGL Failed to Init
 
 * Release Notes
+
+  * v15.08
 
   * v15.07
 

@@ -89,11 +89,13 @@ Experimental Support
 
 * Internet Explorer 11
 
+* Microsoft Edge
+
 
 Mobile Platforms
 ----------------
 
-* Android (on modern devices)
+* Android
 
 * BlackBerry
 
@@ -101,11 +103,11 @@ Mobile Platforms
 
 * iOS 8
 
+* Sailfish OS
+
 * Tizen
 
 * Ubuntu Touch
-
-* WebOS
 
 
 Advantages of WebGL

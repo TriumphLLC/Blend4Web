@@ -643,7 +643,12 @@ function play_confetti_box_anim() {
 
         for (var i = 0; i < _objs_confetti.length; i++) {
             m_anim.stop(_objs_confetti[i]);
-            m_anim.set_first_frame(_objs_confetti[i]);
+            var obj_name = m_scenes.get_object_name(_objs_confetti[i]);
+            if (obj_name == "confetti*Cylinder" || obj_name == "confetti*Cylinder.001"
+                    || obj_name == "confetti*Cylinder.002")
+                m_anim.set_frame(_objs_confetti[i], 0);
+            else
+                m_anim.set_first_frame(_objs_confetti[i]);
         }
         m_anim.stop(confetti_ribbons_below);
         m_anim.set_first_frame(confetti_ribbons_below);

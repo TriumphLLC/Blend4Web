@@ -8,6 +8,7 @@ b4w.module["constraints"] = function(exports, require) {
 
 var m_cam   = require("__camera");
 var m_cons  = require("__constraints");
+var m_obj   = require("__objects");
 var m_phy   = require("__physics");
 var m_print = require("__print");
 var m_trans = require("__transform");
@@ -258,7 +259,7 @@ exports.append_stiff_viewport = function(obj, camobj, positioning) {
  * @param {Object3D} obj Object 3D
  */
 exports.remove = function(obj) {
-    if (obj._constraint)
+    if (obj.constraint)
         m_cons.remove(obj);
 }
 
@@ -266,7 +267,12 @@ exports.remove = function(obj) {
  * Get object's parent object.
  * @method module:constraints.get_parent
  * @param {Object3D} obj Object 3D
+ * @returns {?Object3D} Parent object
+ * @deprecated use objects.get_parent() instead.
  */
-exports.get_parent = m_cons.get_parent;
+exports.get_parent = function(obj) {
+    m_print.error("constraints.get_parent() deprecated, use objects.get_parent() instead");
+    return m_obj.get_parent(obj);
+}
 
 }

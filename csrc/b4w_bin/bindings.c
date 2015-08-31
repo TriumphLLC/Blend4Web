@@ -128,6 +128,18 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 #define GCHANNEL 1
 #define BCHANNEL 2
 
+/**
+ * File error types
+ */
+#define POS_ERR 1
+#define NOR_ERR 2
+#define TAN_ERR 3
+#define TCO_ERR 4
+#define TCO2_ERR 5
+#define GRP_ERR 6
+#define COL_ERR 7
+
+
 struct TBNCalcData {
     float *pos;     /* positions */
     float *nor;     /* normals */
@@ -1364,18 +1376,25 @@ void calc_tang_space(struct TBNCalcData *tbn_data)
  * [v0pf0,v1pf0,v2pf0,......v0pf1,...],...[v0nf0...]... ->
  * [v0pf0,v0pf1,...v0nf0,v0nf1,...v0tf0,v0tf1,......v1pf0,...]
  */
-void va_store(float *in, float *out, int partitions, int offset, int stride, int vnum, int ncomp)
+bool va_store(float *in, float *out, int partitions, int offset, int stride, int vnum, int ncomp)
 {
     int i, j, k;
+    float val;
 
     if (!in)
-        return;
+        return true;
 
     for (i = 0; i < partitions; i++)
         for (j = 0; j < vnum; j++)
-            for (k = 0; k < ncomp; k++)
-                out[stride * j + offset + i * ncomp + k] =
-                        in[(vnum * i + j) * ncomp + k]; 
+            for (k = 0; k < ncomp; k++) 
+            {
+                val = in[(vnum * i + j) * ncomp + k];
+                if (!isnan(val))
+                    out[stride * j + offset + i * ncomp + k] = val;
+                else
+                    return false;
+            }
+    return true;
 }
 /**
  * Extract output array from shared interleaved input vertex array.
@@ -1453,9 +1472,10 @@ void free_submesh(struct SubmeshData *data)
     free(data->indices);
 }
 
-void weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
+int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
 {
     int i, offset;
+    bool status;
 
     /* floats per type - offset */
     int pos_floats = POS_NUM_COMP * src->frames;
@@ -1476,26 +1496,33 @@ void weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
     int *remap_table = malloc(sizeof(int) * src->vnum);
 
     offset = 0;
-    va_store(src->pos, vdata_in, src->frames, offset, fpv, src->vnum, POS_NUM_COMP);
-
+    status = va_store(src->pos, vdata_in, src->frames, offset, fpv, src->vnum, POS_NUM_COMP);
+    if (!status)
+        return POS_ERR;
     offset += pos_floats;
-    va_store(src->nor, vdata_in, src->frames, offset, fpv, src->vnum, NOR_NUM_COMP);
-
+    status = va_store(src->nor, vdata_in, src->frames, offset, fpv, src->vnum, NOR_NUM_COMP);
+    if (!status)
+        return NOR_ERR;
     offset += nor_floats;
-    va_store(src->tan, vdata_in, src->frames, offset, fpv, src->vnum, TAN_NUM_COMP);
-
+    status = va_store(src->tan, vdata_in, src->frames, offset, fpv, src->vnum, TAN_NUM_COMP);
+    if (!status)
+        return TAN_ERR;
     offset += tan_floats;
-    va_store(src->tco, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
-
+    status = va_store(src->tco, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
+    if (!status)
+        return TCO_ERR;
     offset += tco_floats;
-    va_store(src->tco2, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
-
+    status = va_store(src->tco2, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
+    if (!status)
+        return TCO2_ERR;
     offset += tco2_floats;
-    va_store(src->grp, vdata_in, src->grp_num, offset, fpv, src->vnum, GRP_NUM_COMP);
-
+    status = va_store(src->grp, vdata_in, src->grp_num, offset, fpv, src->vnum, GRP_NUM_COMP);
+    if (!status)
+        return GRP_ERR;
     offset += grp_floats;
-    va_store(src->col, vdata_in, src->col_layers, offset, fpv, src->vnum, COL_NUM_COMP);
-
+    status = va_store(src->col, vdata_in, src->col_layers, offset, fpv, src->vnum, COL_NUM_COMP);
+    if (!status)
+        return COL_ERR;
     /* store submesh in input array */
 
     assert(offset + col_floats == fpv);
@@ -1536,6 +1563,8 @@ void weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
     /* store indices */
     for (i = 0; i < src->vnum; i++)
         dst->indices[i] = remap_table[i];
+
+    return 0;
 }
 
 static PyObject *calc_submesh_empty(void)
@@ -1603,7 +1632,7 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     int i;
     int nor_needed;
     int tan_needed;
-    int length;
+    int length, status;
 
     PyObject *result;
     PyObject *bytes_buff;
@@ -1663,7 +1692,35 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     if (shape_keys)
         calculate_shape_keys_delta(&src);
 
-    weld_submesh(&src, &dst);
+    status = weld_submesh(&src, &dst);
+
+    if (status > 0)
+    {
+        switch(status) {
+        case POS_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertice positions");
+            break;
+        case NOR_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong normals");
+            break;
+        case TAN_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong tangents");
+            break;
+        case TCO_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong texture coordinates");
+            break;
+        case TCO2_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong texture coordinates");
+            break;
+        case GRP_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertex group weights");
+            break;
+        case COL_ERR:
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertex color values");
+            break;
+        }
+        return NULL;
+    }
 
     PyDict_SetItemString(result, "base_length", PyLong_FromLong(dst.vnum));
 
@@ -1946,7 +2003,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
                 edited_normals, shape_keys);
         groups_error = combine_groups(&mesh_data, mesh, obj, vertex_groups);
         if (groups_error == ERR_WRONG_GROUP_INDICES) {
-            PyErr_SetString(PyExc_ValueError, "Wrong group indices");
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong group indices");
             return NULL;
         }
         combine_colors(&mesh_data, mesh, vertex_colors, &mask_buffer);
@@ -1955,7 +2012,6 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         
         result = calc_submesh(&mesh_data, 1, 0, shape_keys);
     }
-
     return result;
 }
 

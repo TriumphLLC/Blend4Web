@@ -1,9 +1,18 @@
+// lamp dirs
+#var NUM_LIGHTS 0
+#var LAMP_IND 0
+#var LAMP_SPOT_SIZE 0
+#var LAMP_SPOT_BLEND 0
+#var LAMP_LIGHT_DIST 0
+#var LAMP_LIGHT_FACT_IND 0
+#var LAMP_FAC_CHANNELS rgb
+#var LAMP_SHADOW_MAP_IND 0
+#var NUM_LFACTORS 0
+
 #include <std_enums.glsl>
 
 #include <precision_statement.glslf>
 #include <gamma.glslf>
-#include <lighting.glslf>
-#include <fog.glslf>
 #if SOFT_PARTICLES
 #include <pack.glslf>
 #endif
@@ -30,6 +39,16 @@ uniform vec4 u_light_factors[NUM_LFACTORS];
 
 #if !DISABLE_FOG
 uniform vec4 u_fog_color_density;
+# if WATER_EFFECTS
+uniform vec4 u_underwater_fog_color_density;
+uniform float u_cam_water_depth;
+# endif
+# if PROCEDURAL_FOG
+uniform mat4 u_cube_fog;
+# endif
+#if USE_FOG
+uniform vec4 u_fog_params; // intensity, depth, start, height
+#endif
 #endif
 
 #if TEXTURE_COLOR
@@ -64,8 +83,12 @@ uniform vec3  u_specular_params;
 varying float v_alpha;
 varying vec3 v_color;
 varying vec2 v_texcoord;
-varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
+
+#if !PARTICLES_SHADELESS || !DISABLE_FOG
+varying vec3 v_eye_dir;
+#endif
+
 #if !DISABLE_FOG || SOFT_PARTICLES
 varying vec4 v_pos_view;
 #endif
@@ -79,6 +102,13 @@ varying vec3 v_tex_pos_clip;
 ============================================================================*/
 
 #include <environment.glslf>
+#if !DISABLE_FOG
+#include <fog.glslf>
+#endif
+
+#if !PARTICLES_SHADELESS
+#include <lighting_nodes.glslf>
+#endif
 
 /*============================================================================
                                     MAIN
@@ -103,6 +133,10 @@ void main(void) {
 
     vec3 D = u_diffuse_intensity * diffuse_color.rgb;
 
+#if !PARTICLES_SHADELESS || !DISABLE_FOG
+    vec3 eye_dir = normalize(v_eye_dir);
+#endif
+
 #if !PARTICLES_SHADELESS
     vec3 E = u_emit * diffuse_color.rgb;
 
@@ -120,23 +154,17 @@ void main(void) {
     vec2 spec_params = vec2(u_specular_params[1], u_specular_params[2]);
     vec3 S = specint * u_specular_color;
 
-    vec3 eye_dir = normalize(v_eye_dir);
-# if NUM_LIGHTS>0
-    lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
-        spec_params, u_diffuse_params, 1.0, u_light_positions,
-        u_light_directions, u_light_color_intensities, u_light_factors,
-        0.0, vec4(0.0));
-# else
-    lighting_result lresult = lighting_ambient(E, A, D);
-# endif
-
-    vec3 color = lresult.color.rgb;
+    vec3 color;
+    vec3 specular;
+    nodes_lighting(E, A, D, S, v_pos_world, normal, eye_dir, spec_params, 
+            u_diffuse_params, 1.0, 0.0, vec4(0.0), color, specular);
+    
 #else // !PARTICLES_SHADELESS
     vec3 color = D;
 #endif // !PARTICLES_SHADELESS
 
 #if !DISABLE_FOG
-    fog(color, length(v_pos_view), u_fog_color_density);
+    fog(color, length(v_pos_view), eye_dir, 1.0);
 #endif
 
     float alpha = diffuse_color.a * v_alpha;

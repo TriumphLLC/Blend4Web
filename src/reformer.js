@@ -12,13 +12,12 @@ b4w.module["__reformer"] = function(exports, require) {
 
 var m_bounds = require("__boundings");
 var m_curve  = require("__curve");
+var m_mat4   = require("__mat4");
 var m_print  = require("__print");
+var m_quat   = require("__quat");
 var m_util   = require("__util");
-
-var m_vec3 = require("vec3");
-var m_vec4 = require("vec4");
-var m_quat = require("quat");
-var m_mat4 = require("mat4");
+var m_vec3   = require("__vec3");
+var m_vec4   = require("__vec4");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
@@ -28,7 +27,7 @@ var _unreported_compat_issues = false;
 
 var _params_reported = {};
 
-function reform_node (node) {
+function reform_node(node) {
 
     switch(node["type"]) {
     case "MAPPING":
@@ -166,11 +165,11 @@ exports.check_bpy_data = function(bpy_data) {
 
     _params_reported = {};
 
-    var check_modifier = function(mod, obj) {
+    var check_modifier = function(mod, bpy_obj) {
         switch (mod["type"]) {
         case "ARRAY":
             if (!("fit_type" in mod)) {
-                report_modifier(mod["type"], obj,
+                report_modifier(mod["type"], bpy_obj,
                                 bpy_data["b4w_filepath_blend"]);
                 return false;
             }
@@ -196,11 +195,19 @@ exports.check_bpy_data = function(bpy_data) {
                 "environment_energy": 1,
                 "environment_color": "PLAIN"
             },
+            "fog_settings": {
+                "use_fog": false,
+                "intensity": 0.0,
+                "depth": 25.0,
+                "start": 5.0,
+                "height": 0.0,
+                "falloff": "INVERSE_QUADRATIC",
+                "use_custom_color": true,
+                "color": [0.5, 0.5, 0.5],
+            },
             "use_sky_paper": false,
             "use_sky_blend": false,
             "use_sky_real": false,
-            "b4w_fog_color": [0.5, 0.5, 0.5],
-            "b4w_fog_density": 0.0,
             "texture_slots": []
         }
         worlds.push(world);
@@ -244,14 +251,31 @@ exports.check_bpy_data = function(bpy_data) {
             };
         }
 
+        if(!("fog_settings" in world)) {
+            report("world", world, "fog_settings");
+            world["fog_settings"] = {
+                "use_fog": false,
+                "intensity": 0.0,
+                "depth": 25.0,
+                "start": 0.0,
+                "height": 0.0,
+                "falloff": "QUADRATIC",
+                "use_custom_color": true,
+                "color": [0.5, 0.5, 0.5],
+            };
+            if ("b4w_fog_color" in world) {
+                world["fog_settings"]["use_custom_color"] = true;
+                world["fog_settings"]["color"] = world["b4w_fog_color"];
+            }
+            if ("b4w_fog_density" in world) {
+                if (world["b4w_fog_density"] > 0.0)
+                    world["fog_settings"]["depth"] = 1.0 / world["b4w_fog_density"];
+            }
+        }
+
         if (!("render_sky" in world["b4w_sky_settings"])) {
             report("world", world, "render_sky");
             world["b4w_sky_settings"]["render_sky"] = false;
-        }
-
-        if(!("b4w_fog_density" in world)) {
-            report("world", world, "b4w_fog_density");
-            world["b4w_fog_density"] = 0.0;
         }
 
         var texture_slots = world["texture_slots"];
@@ -339,9 +363,9 @@ exports.check_bpy_data = function(bpy_data) {
             report("scene", scene, "b4w_nla_cyclic");
         }
 
-        if (!("b4w_nla_script" in scene)) {
-            scene["b4w_nla_script"] = [];
-            report("scene", scene, "b4w_nla_script");
+        if (!("b4w_logic_nodes" in scene)) {
+            scene["b4w_logic_nodes"] = [];
+            report("scene", scene, "b4w_logic_nodes");
         }
 
         if ("b4w_detect_collisions" in scene) {
@@ -649,6 +673,10 @@ exports.check_bpy_data = function(bpy_data) {
                 scene["b4w_render_refractions"] = "ON";
             else
                 scene["b4w_render_refractions"] = "OFF";
+
+        if (scene["b4w_nla_script"]) {
+            report_deprecated("scene", scene, "b4w_nla_script");
+        }
     }
 
     /* object data - meshes */
@@ -1352,307 +1380,303 @@ exports.check_bpy_data = function(bpy_data) {
     var objects = bpy_data["objects"];
 
     for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
+        var bpy_obj = objects[i];
 
-        switch(obj["type"]) {
+        switch(bpy_obj["type"]) {
         case "MESH":
-            if (!("b4w_dynamic_geometry" in obj)) {
-                obj["b4w_dynamic_geometry"] = false;
-                //report("object", obj, "b4w_dynamic_geometry");
+            if (!("b4w_dynamic_geometry" in bpy_obj)) {
+                bpy_obj["b4w_dynamic_geometry"] = false;
+                //report("object", bpy_obj, "b4w_dynamic_geometry");
             }
 
-            if (!("b4w_reflexible" in obj)) {
-                obj["b4w_reflexible"] = false;
-                //report("object", obj, "b4w_reflexible");
+            if (!("b4w_reflexible" in bpy_obj)) {
+                bpy_obj["b4w_reflexible"] = false;
+                //report("object", bpy_obj, "b4w_reflexible");
             }
 
-            if (!("b4w_reflexible_only" in obj)) {
-                obj["b4w_reflexible_only"] = false;
-                //report("object", obj, "b4w_reflexible_only");
+            if (!("b4w_reflexible_only" in bpy_obj)) {
+                bpy_obj["b4w_reflexible_only"] = false;
+                //report("object", bpy_obj, "b4w_reflexible_only");
             }
 
-            if (!("b4w_reflective" in obj)) {
-                obj["b4w_reflective"] = false;
-                //report("object", obj, "b4w_reflective");
+            if (!("b4w_reflective" in bpy_obj)) {
+                bpy_obj["b4w_reflective"] = false;
+                //report("object", bpy_obj, "b4w_reflective");
             }
-            if (!("b4w_reflection_type" in obj)) {
-                obj["b4w_reflection_type"] = "PLANE";
-                report("object", obj, "b4w_reflection_type");
-            }
-
-            if (!("b4w_wind_bending" in obj)) {
-                obj["b4w_wind_bending"] = false;
-                report("object", obj, "b4w_wind_bending");
+            if (!("b4w_reflection_type" in bpy_obj)) {
+                bpy_obj["b4w_reflection_type"] = "PLANE";
+                report("object", bpy_obj, "b4w_reflection_type");
             }
 
-            if (!("b4w_wind_bending_angle" in obj)) {
-                obj["b4w_wind_bending_angle"] = 10.0;
-                obj["b4w_wind_bending_freq"] = 0.25;
-                report("object", obj, "wind bending params");
+            if (!("b4w_wind_bending" in bpy_obj)) {
+                bpy_obj["b4w_wind_bending"] = false;
+                report("object", bpy_obj, "b4w_wind_bending");
             }
 
-            if (!("b4w_detail_bending_amp" in obj)) {
-                obj["b4w_detail_bending_amp"] = 0.1;
-                obj["b4w_branch_bending_amp"] = 0.3;
-                report("object", obj, "detail bending params");
+            if (!("b4w_wind_bending_angle" in bpy_obj)) {
+                bpy_obj["b4w_wind_bending_angle"] = 10.0;
+                bpy_obj["b4w_wind_bending_freq"] = 0.25;
+                report("object", bpy_obj, "wind bending params");
             }
 
-            if (!("b4w_detail_bending_freq" in obj)) {
-                obj["b4w_detail_bending_freq"] = 1.0;
-                report("object", obj, "b4w_detail_bending_freq");
+            if (!("b4w_detail_bending_amp" in bpy_obj)) {
+                bpy_obj["b4w_detail_bending_amp"] = 0.1;
+                bpy_obj["b4w_branch_bending_amp"] = 0.3;
+                report("object", bpy_obj, "detail bending params");
             }
 
-            if (!("b4w_main_bend_stiffness_col" in obj)) {
-                obj["b4w_main_bend_stiffness_col"] = "";
-                    report("object", obj, "b4w_main_bend_stiffness_col");
+            if (!("b4w_detail_bending_freq" in bpy_obj)) {
+                bpy_obj["b4w_detail_bending_freq"] = 1.0;
+                report("object", bpy_obj, "b4w_detail_bending_freq");
             }
 
-            if (!("b4w_detail_bend_colors" in obj)) {
-                obj["b4w_detail_bend_colors"] = {
+            if (!("b4w_main_bend_stiffness_col" in bpy_obj)) {
+                bpy_obj["b4w_main_bend_stiffness_col"] = "";
+                report("object", bpy_obj, "b4w_main_bend_stiffness_col");
+            }
+
+            if (!("b4w_detail_bend_colors" in bpy_obj)) {
+                bpy_obj["b4w_detail_bend_colors"] = {
                     "leaves_stiffness_col": "",
                     "leaves_phase_col": "",
                     "overall_stiffness_col": ""
                 };
-                report("object", obj, "b4w_detail_bend_colors");
+                report("object", bpy_obj, "b4w_detail_bend_colors");
             }
 
-            if (!("b4w_caustics" in obj)) {
-                obj["b4w_caustics"] = false;
-                //report("object", obj, "b4w_caustics");
+            if (!("b4w_caustics" in bpy_obj)) {
+                bpy_obj["b4w_caustics"] = false;
+                //report("object", bpy_obj, "b4w_caustics");
             }
 
             // NOTE: all vertex things go to mesh
-            // 1 obj == 1 mesh (enforced by exporter)
-            if ("vertex_groups" in obj && obj["vertex_groups"].length &&
-                    obj["data"] && obj["data"]["vertex_groups"].length == 0) {
-                obj["data"]["vertex_groups"] = obj["vertex_groups"];
-                delete obj["vertex_groups"];
-                report("object", obj, "vertex_groups");
+            // 1 bpy_obj == 1 mesh (enforced by exporter)
+            if ("vertex_groups" in bpy_obj && bpy_obj["vertex_groups"].length &&
+                    bpy_obj["data"] && bpy_obj["data"]["vertex_groups"].length == 0) {
+                bpy_obj["data"]["vertex_groups"] = bpy_obj["vertex_groups"];
+                delete bpy_obj["vertex_groups"];
+                report("object", bpy_obj, "vertex_groups");
             }
-            if ("b4w_vertex_anim" in obj && obj["b4w_vertex_anim"].length &&
-                    obj["data"] && obj["data"]["b4w_vertex_anim"].length == 0) {
-                obj["data"]["b4w_vertex_anim"] = obj["b4w_vertex_anim"];
-                delete obj["b4w_vertex_anim"];
-                report("object", obj, "b4w_vertex_anim");
-            }
-
-            if (!("b4w_do_not_render" in obj)) {
-                obj["b4w_do_not_render"] = false;
-                //report("object", obj, "b4w_do_not_render");
+            if ("b4w_vertex_anim" in bpy_obj && bpy_obj["b4w_vertex_anim"].length &&
+                    bpy_obj["data"] && bpy_obj["data"]["b4w_vertex_anim"].length == 0) {
+                bpy_obj["data"]["b4w_vertex_anim"] = bpy_obj["b4w_vertex_anim"];
+                delete bpy_obj["b4w_vertex_anim"];
+                report("object", bpy_obj, "b4w_vertex_anim");
             }
 
-            if (!("use_ghost" in obj["game"])) {
-                obj["game"]["use_ghost"] = false;
-                //report("object", obj, "use_ghost");
-            }
-            if (!("use_sleep" in obj["game"])) {
-                obj["game"]["use_sleep"] = false;
-                //report("object", obj, "use_sleep");
-            }
-            if (!("velocity_min" in obj["game"])) {
-                obj["game"]["velocity_min"] = 0;
-                //report("object", obj, "velocity_min");
-            }
-            if (!("velocity_max" in obj["game"])) {
-                obj["game"]["velocity_max"] = 0;
-                //report("object", obj, "velocity_max");
-            }
-            if (!("collision_group" in obj["game"])) {
-                obj["game"]["collision_group"] = 1;
-                //report("object", obj, "collision_group");
-            }
-            if (!("collision_mask" in obj["game"])) {
-                obj["game"]["collision_mask"] = 255;
-                //report("object", obj, "collision_mask");
+            if (!("b4w_do_not_render" in bpy_obj)) {
+                bpy_obj["b4w_do_not_render"] = false;
+                //report("object", bpy_obj, "b4w_do_not_render");
             }
 
-            if ("b4w_vehicle_settings" in obj) {
-                if (obj["b4w_vehicle_settings"]) {
-                    if (!("steering_ratio" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["steering_ratio"] = 10;
-                        //report("object", obj, "steering_ratio");
+            if (!("use_ghost" in bpy_obj["game"])) {
+                bpy_obj["game"]["use_ghost"] = false;
+                //report("object", bpy_obj, "use_ghost");
+            }
+            if (!("use_sleep" in bpy_obj["game"])) {
+                bpy_obj["game"]["use_sleep"] = false;
+                //report("object", bpy_obj, "use_sleep");
+            }
+            if (!("velocity_min" in bpy_obj["game"])) {
+                bpy_obj["game"]["velocity_min"] = 0;
+                //report("object", bpy_obj, "velocity_min");
+            }
+            if (!("velocity_max" in bpy_obj["game"])) {
+                bpy_obj["game"]["velocity_max"] = 0;
+                //report("object", bpy_obj, "velocity_max");
+            }
+            if (!("collision_group" in bpy_obj["game"])) {
+                bpy_obj["game"]["collision_group"] = 1;
+                //report("object", bpy_obj, "collision_group");
+            }
+            if (!("collision_mask" in bpy_obj["game"])) {
+                bpy_obj["game"]["collision_mask"] = 255;
+                //report("object", bpy_obj, "collision_mask");
+            }
+
+            if ("b4w_vehicle_settings" in bpy_obj) {
+                if (bpy_obj["b4w_vehicle_settings"]) {
+                    if (!("steering_ratio" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["steering_ratio"] = 10;
+                        //report("object", bpy_obj, "steering_ratio");
                     }
-                    if (!("steering_max" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["steering_max"] = 1;
-                        //report("object", obj, "steering_max");
+                    if (!("steering_max" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["steering_max"] = 1;
+                        //report("object", bpy_obj, "steering_max");
                     }
-                    if (!("inverse_control" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["inverse_control"] = false;
-                        //report("object", obj, "inverse_control");
+                    if (!("inverse_control" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["inverse_control"] = false;
+                        //report("object", bpy_obj, "inverse_control");
                     }
-                    if (!("force_max" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["force_max"] = 1500;
-                        //report("object", obj, "force_max");
+                    if (!("force_max" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["force_max"] = 1500;
+                        //report("object", bpy_obj, "force_max");
                     }
-                    if (!("brake_max" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["brake_max"] = 100;
-                        //report("object", obj, "brake_max");
+                    if (!("brake_max" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["brake_max"] = 100;
+                        //report("object", bpy_obj, "brake_max");
                     }
-                    if (!("speed_ratio" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["speed_ratio"] = 0.027;
-                        //report("object", obj, "speed_ratio");
+                    if (!("speed_ratio" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["speed_ratio"] = 0.027;
+                        //report("object", bpy_obj, "speed_ratio");
                     }
-                    if (!("max_speed_angle" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["max_speed_angle"] = Math.PI;
-                        //report("object", obj, "max_speed_angle");
+                    if (!("max_speed_angle" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["max_speed_angle"] = Math.PI;
+                        //report("object", bpy_obj, "max_speed_angle");
                     }
-                    if (!("delta_tach_angle" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["delta_tach_angle"] = 4.43;
-                        //report("object", obj, "delta_tach_angle");
+                    if (!("delta_tach_angle" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["delta_tach_angle"] = 4.43;
+                        //report("object", bpy_obj, "delta_tach_angle");
                     }
-                    if (!("suspension_compression" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["suspension_compression"] = 4.4;
-                        //report("object", obj, "suspension_compression");
+                    if (!("suspension_compression" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["suspension_compression"] = 4.4;
+                        //report("object", bpy_obj, "suspension_compression");
                     }
-                    if (!("suspension_stiffness" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["suspension_stiffness"] = 20.0;
-                        //report("object", obj, "suspension_stiffness");
+                    if (!("suspension_stiffness" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["suspension_stiffness"] = 20.0;
+                        //report("object", bpy_obj, "suspension_stiffness");
                     }
-                    if (!("suspension_damping" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["suspension_damping"] = 2.3;
-                        //report("object", obj, "suspension_damping");
+                    if (!("suspension_damping" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["suspension_damping"] = 2.3;
+                        //report("object", bpy_obj, "suspension_damping");
                     }
-                    if (!("wheel_friction" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["wheel_friction"] = 1000.0;
-                        //report("object", obj, "wheel_friction");
+                    if (!("wheel_friction" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["wheel_friction"] = 1000.0;
+                        //report("object", bpy_obj, "wheel_friction");
                     }
-                    if (!("roll_influence" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["roll_influence"] = 0.1;
-                        //report("object", obj, "roll_influence");
+                    if (!("roll_influence" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["roll_influence"] = 0.1;
+                        //report("object", bpy_obj, "roll_influence");
                     }
-                    if (!("max_suspension_travel_cm" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["max_suspension_travel_cm"] = 30;
-                        //report("object", obj, "max_suspension_travel_cm");
+                    if (!("max_suspension_travel_cm" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["max_suspension_travel_cm"] = 30;
+                        //report("object", bpy_obj, "max_suspension_travel_cm");
                     }
-                    if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
-                        //report("object", obj, "floating_factor");
+                    if (!("floating_factor" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
+                        //report("object", bpy_obj, "floating_factor");
                     }
-                    if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
-                        //report("object", obj, "floating_factor");
+                    if (!("floating_factor" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
+                        //report("object", bpy_obj, "floating_factor");
                     }
-                    if (!("water_lin_damp" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["water_lin_damp"] = 0.9;
-                        //report("object", obj, "water_lin_damp");
+                    if (!("water_lin_damp" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["water_lin_damp"] = 0.9;
+                        //report("object", bpy_obj, "water_lin_damp");
                     }
-                    if (!("water_rot_damp" in obj["b4w_vehicle_settings"])) {
-                        obj["b4w_vehicle_settings"]["water_rot_damp"] = 0.9;
-                        //report("object", obj, "water_rot_damp");
+                    if (!("water_rot_damp" in bpy_obj["b4w_vehicle_settings"])) {
+                        bpy_obj["b4w_vehicle_settings"]["water_rot_damp"] = 0.9;
+                        //report("object", bpy_obj, "water_rot_damp");
                     }
                 }
             } else {
-                obj["b4w_vehicle_settings"] = null;
-                report("object", obj, "b4w_vehicle_settings");
+                bpy_obj["b4w_vehicle_settings"] = null;
+                report("object", bpy_obj, "b4w_vehicle_settings");
             }
 
-            if ("b4w_floating_settings" in obj) {
-                if (obj["b4w_floating_settings"]) {
-                    if (!("floating_factor" in obj["b4w_floating_settings"])) {
-                        obj["b4w_floating_settings"]["floating_factor"] = 3.0;
-                        //report("object", obj, "floating_factor");
+            if ("b4w_floating_settings" in bpy_obj) {
+                if (bpy_obj["b4w_floating_settings"]) {
+                    if (!("floating_factor" in bpy_obj["b4w_floating_settings"])) {
+                        bpy_obj["b4w_floating_settings"]["floating_factor"] = 3.0;
+                        //report("object", bpy_obj, "floating_factor");
                     }
-                    if (!("water_lin_damp" in obj["b4w_floating_settings"])) {
-                        obj["b4w_floating_settings"]["water_lin_damp"] = 0.8;
-                        //report("object", obj, "water_lin_damp");
+                    if (!("water_lin_damp" in bpy_obj["b4w_floating_settings"])) {
+                        bpy_obj["b4w_floating_settings"]["water_lin_damp"] = 0.8;
+                        //report("object", bpy_obj, "water_lin_damp");
                     }
-                    if (!("water_rot_damp" in obj["b4w_floating_settings"])) {
-                        obj["b4w_floating_settings"]["water_rot_damp"] = 0.8;
-                        //report("object", obj, "water_rot_damp");
+                    if (!("water_rot_damp" in bpy_obj["b4w_floating_settings"])) {
+                        bpy_obj["b4w_floating_settings"]["water_rot_damp"] = 0.8;
+                        //report("object", bpy_obj, "water_rot_damp");
                     }
                 }
             } else {
-                obj["b4w_floating_settings"] = null;
-                report("object", obj, "b4w_floating_settings");
+                bpy_obj["b4w_floating_settings"] = null;
+                report("object", bpy_obj, "b4w_floating_settings");
             }
 
-            if ("b4w_character_settings" in obj) {
-                if (obj["b4w_character_settings"]) {
-                    if (!("walk_speed" in obj["b4w_character_settings"])) {
-                        obj["b4w_character_settings"]["walk_speed"] = 4;
-                        //report("object", obj, "walk_speed");
+            if ("b4w_character_settings" in bpy_obj) {
+                if (bpy_obj["b4w_character_settings"]) {
+                    if (!("walk_speed" in bpy_obj["b4w_character_settings"])) {
+                        bpy_obj["b4w_character_settings"]["walk_speed"] = 4;
+                        //report("object", bpy_obj, "walk_speed");
                     }
-                    if (!("run_speed" in obj["b4w_character_settings"])) {
-                        obj["b4w_character_settings"]["run_speed"] = 8;
-                        //report("object", obj, "run_speed");
+                    if (!("run_speed" in bpy_obj["b4w_character_settings"])) {
+                        bpy_obj["b4w_character_settings"]["run_speed"] = 8;
+                        //report("object", bpy_obj, "run_speed");
                     }
-                    if (!("step_height" in obj["b4w_character_settings"])) {
-                        obj["b4w_character_settings"]["step_height"] = 0.25;
-                        //report("object", obj, "step_height");
+                    if (!("step_height" in bpy_obj["b4w_character_settings"])) {
+                        bpy_obj["b4w_character_settings"]["step_height"] = 0.25;
+                        //report("object", bpy_obj, "step_height");
                     }
-                    if (!("jump_strength" in obj["b4w_character_settings"])) {
-                        obj["b4w_character_settings"]["jump_strength"] = 5;
-                        //report("object", obj, "jump_strength");
+                    if (!("jump_strength" in bpy_obj["b4w_character_settings"])) {
+                        bpy_obj["b4w_character_settings"]["jump_strength"] = 5;
+                        //report("object", bpy_obj, "jump_strength");
                     }
-                    if (!("waterline" in obj["b4w_character_settings"])) {
-                        obj["b4w_character_settings"]["waterline"] = 0.0;
-                        //report("object", obj, "waterline");
+                    if (!("waterline" in bpy_obj["b4w_character_settings"])) {
+                        bpy_obj["b4w_character_settings"]["waterline"] = 0.0;
+                        //report("object", bpy_obj, "waterline");
                     }
                 }
             } else {
-                obj["b4w_character_settings"] = null;
-                report("object", obj, "b4w_character_settings");
+                bpy_obj["b4w_character_settings"] = null;
+                report("object", bpy_obj, "b4w_character_settings");
             }
 
-            if (!("b4w_selectable" in obj)) {
-                obj["b4w_selectable"] = false;
-                report("object", obj, "b4w_selectable");
+            if (!("b4w_selectable" in bpy_obj)) {
+                bpy_obj["b4w_selectable"] = false;
+                report("object", bpy_obj, "b4w_selectable");
             }
-            if (!("b4w_outlining" in obj)) {
-                obj["b4w_outlining"] = false;
-                report("object", obj, "b4w_outlining");
+            if (!("b4w_outlining" in bpy_obj)) {
+                bpy_obj["b4w_outlining"] = false;
+                report("object", bpy_obj, "b4w_outlining");
             }
-            if (!("b4w_outline_on_select" in obj)) {
-                obj["b4w_outline_on_select"] = false;
-                report("object", obj, "b4w_outline_on_select");
+            if (!("b4w_outline_on_select" in bpy_obj)) {
+                bpy_obj["b4w_outline_on_select"] = false;
+                report("object", bpy_obj, "b4w_outline_on_select");
             }
-            if (!("b4w_billboard" in obj)) {
-                obj["b4w_billboard"] = false;
-                report("object", obj, "b4w_billboard");
+            if (!("b4w_billboard" in bpy_obj)) {
+                bpy_obj["b4w_billboard"] = false;
+                report("object", bpy_obj, "b4w_billboard");
             }
-            if (!("b4w_billboard_geometry" in obj)) {
-                obj["b4w_billboard_geometry"] = "SPHERICAL";
-                report("object", obj, "b4w_billboard_geometry");
+            if (!("b4w_billboard_geometry" in bpy_obj)) {
+                bpy_obj["b4w_billboard_geometry"] = "SPHERICAL";
+                report("object", bpy_obj, "b4w_billboard_geometry");
             }
-            if (!("b4w_pres_glob_orientation" in obj)) {
-                obj["b4w_pres_glob_orientation"] = false;
-                report("object", obj, "b4w_pres_glob_orientation");
+            if (!("b4w_pres_glob_orientation" in bpy_obj)) {
+                bpy_obj["b4w_pres_glob_orientation"] = false;
+                report("object", bpy_obj, "b4w_pres_glob_orientation");
             }
-            if (!("b4w_outline_settings" in obj)) {
-                if ("b4w_glow_settings" in obj)
-                    obj["b4w_outline_settings"] = obj["b4w_glow_settings"];
+            if (!("b4w_outline_settings" in bpy_obj)) {
+                if ("b4w_glow_settings" in bpy_obj)
+                    bpy_obj["b4w_outline_settings"] = bpy_obj["b4w_glow_settings"];
                 else {
-                    obj["b4w_outline_settings"] = {};
-                    obj["b4w_outline_settings"]["outline_duration"] = 1.0;
-                    obj["b4w_outline_settings"]["outline_period"] = 1.0;
-                    obj["b4w_outline_settings"]["outline_relapses"] = 0;
+                    bpy_obj["b4w_outline_settings"] = {};
+                    bpy_obj["b4w_outline_settings"]["outline_duration"] = 1.0;
+                    bpy_obj["b4w_outline_settings"]["outline_period"] = 1.0;
+                    bpy_obj["b4w_outline_settings"]["outline_relapses"] = 0;
                 }
-                report("object", obj, "b4w_outline_settings");
+                report("object", bpy_obj, "b4w_outline_settings");
             }
-            if (!("b4w_lod_transition" in obj)) {
-                obj["b4w_lod_transition"] = 0.01;
-                report("object", obj, "b4w_lod_transition");
+            if (!("b4w_lod_transition" in bpy_obj)) {
+                bpy_obj["b4w_lod_transition"] = 0.01;
+                report("object", bpy_obj, "b4w_lod_transition");
             }
-            if (!("lod_levels" in obj)) {
-                obj["lod_levels"] = [];
-                report("object", obj, "lod_levels");
+            if (!("lod_levels" in bpy_obj)) {
+                bpy_obj["lod_levels"] = [];
+                report("object", bpy_obj, "lod_levels");
             }
-            if (!("b4w_animation_mixing" in obj)) {
-                obj["b4w_animation_mixing"] = false;
-                report("object", obj, "b4w_animation_mixing");
+            if (!("b4w_animation_mixing" in bpy_obj)) {
+                bpy_obj["b4w_animation_mixing"] = false;
+                report("object", bpy_obj, "b4w_animation_mixing");
             }
             break;
         case "EMPTY":
-            if (!("b4w_group_relative" in obj)) {
-                obj["b4w_group_relative"] = false;
-                report("object", obj, "b4w_group_relative");
+            if (!("b4w_anchor" in bpy_obj)) {
+                bpy_obj["b4w_anchor"] = null;
+                report("object", bpy_obj, "b4w_anchor");
             }
-            if (!("b4w_anchor" in obj)) {
-                obj["b4w_anchor"] = null;
-                report("object", obj, "b4w_anchor");
-            }
-            if (obj["b4w_anchor"] && !("max_width" in obj["b4w_anchor"])) {
-                obj["b4w_anchor"]["max_width"] = 250;
+            if (bpy_obj["b4w_anchor"] && !("max_width" in bpy_obj["b4w_anchor"])) {
+                bpy_obj["b4w_anchor"]["max_width"] = 250;
             }
 
             break;
@@ -1660,43 +1684,43 @@ exports.check_bpy_data = function(bpy_data) {
             break;
         }
 
-        if (!("collision_margin" in obj["game"])) {
-            obj["game"]["collision_margin"] = 0.040;
-            report("object", obj, "collision_margin");
+        if (!("collision_margin" in bpy_obj["game"])) {
+            bpy_obj["game"]["collision_margin"] = 0.040;
+            report("object", bpy_obj, "collision_margin");
         }
 
-        if (!("b4w_anim_behavior" in obj)) {
-            obj["b4w_anim_behavior"] = obj["b4w_cyclic_animation"] ?
+        if (!("b4w_anim_behavior" in bpy_obj)) {
+            bpy_obj["b4w_anim_behavior"] = bpy_obj["b4w_cyclic_animation"] ?
                     "CYCLIC" : "FINISH_STOP";
-            report("object", obj, "b4w_anim_behavior");
+            report("object", bpy_obj, "b4w_anim_behavior");
         }
 
-        if (!("rotation_quaternion" in obj)) {
+        if (!("rotation_quaternion" in bpy_obj)) {
             var quat = [0,0,0,1];
-            m_util.euler_to_quat(obj["rotation_euler"], quat);
+            m_util.euler_to_quat(bpy_obj["rotation_euler"], quat);
             quat_b4w_bpy(quat, quat);
-            obj["rotation_quaternion"] = quat;
-            report("object", obj, "rotation_quaternion");
+            bpy_obj["rotation_quaternion"] = quat;
+            report("object", bpy_obj, "rotation_quaternion");
         }
 
-        if ("webgl_do_not_batch" in obj) {
-            obj["b4w_do_not_batch"] = obj["webgl_do_not_batch"];
+        if ("webgl_do_not_batch" in bpy_obj) {
+            bpy_obj["b4w_do_not_batch"] = bpy_obj["webgl_do_not_batch"];
 
-            if (obj["webgl_do_not_batch"])
-                report_deprecated("object", obj, "webgl_do_not_batch");
+            if (bpy_obj["webgl_do_not_batch"])
+                report_deprecated("object", bpy_obj, "webgl_do_not_batch");
         }
 
-        if (!("b4w_shadow_cast_only" in obj)) {
-            obj["b4w_shadow_cast_only"] = false;
-            report("object", obj, "b4w_shadow_cast_only");
+        if (!("b4w_shadow_cast_only" in bpy_obj)) {
+            bpy_obj["b4w_shadow_cast_only"] = false;
+            report("object", bpy_obj, "b4w_shadow_cast_only");
         }
 
-        if (!("b4w_correct_bounding_offset" in obj)) {
-            obj["b4w_correct_bounding_offset"] = "AUTO";
-            report("object", obj, "b4w_correct_bounding_offset");
+        if (!("b4w_correct_bounding_offset" in bpy_obj)) {
+            bpy_obj["b4w_correct_bounding_offset"] = "AUTO";
+            report("object", bpy_obj, "b4w_correct_bounding_offset");
         }
 
-        var psystems = obj["particle_systems"];
+        var psystems = bpy_obj["particle_systems"];
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
             var pset = psys["settings"];
@@ -1817,55 +1841,55 @@ exports.check_bpy_data = function(bpy_data) {
             }
         }
 
-        if (!("constraints" in obj)) {
-            obj["constraints"] = [];
-            report("object", obj, "constraints");
+        if (!("constraints" in bpy_obj)) {
+            bpy_obj["constraints"] = [];
+            report("object", bpy_obj, "constraints");
         }
 
-        var mods = obj["modifiers"];
+        var mods = bpy_obj["modifiers"];
         for (var j = 0; j < mods.length; j++) {
-            if (!check_modifier(mods[j], obj)) {
+            if (!check_modifier(mods[j], bpy_obj)) {
                 // remove from array
                 mods.splice(j, 1);
                 j--;
             }
         }
 
-        if (!("animation_data" in obj)) {
-            obj["animation_data"] = {
+        if (!("animation_data" in bpy_obj)) {
+            bpy_obj["animation_data"] = {
                 "action": null,
                 "nla_tracks": []
             }
-            report("object", obj, "animation_data");
+            report("object", bpy_obj, "animation_data");
         }
 
-        if (obj["animation_data"]) {
-            if (!("action" in obj["animation_data"])) {
-                obj["animation_data"]["action"] = null;
-                report_raw("no action in animation data " + obj["name"]);
+        if (bpy_obj["animation_data"]) {
+            if (!("action" in bpy_obj["animation_data"])) {
+                bpy_obj["animation_data"]["action"] = null;
+                report_raw("no action in animation data " + bpy_obj["name"]);
             }
 
-            if (!("nla_tracks" in obj["animation_data"])) {
-                obj["animation_data"]["nla_tracks"] = [];
-                report_raw("no NLA in animation data " + obj["name"]);
+            if (!("nla_tracks" in bpy_obj["animation_data"])) {
+                bpy_obj["animation_data"]["nla_tracks"] = [];
+                report_raw("no NLA in animation data " + bpy_obj["name"]);
             }
 
-            check_strip_props(obj["animation_data"]);
+            check_strip_props(bpy_obj["animation_data"]);
         }
 
-        if (!("b4w_collision_id" in obj)) {
-            obj["b4w_collision_id"] = "";
-            report("material", obj, "b4w_collision_id");
+        if (!("b4w_collision_id" in bpy_obj)) {
+            bpy_obj["b4w_collision_id"] = "";
+            report("material", bpy_obj, "b4w_collision_id");
         }
 
-        if (!check_uniform_scale(obj))
-            report_raw("non-uniform scale for object " + obj["name"]);
+        if (!check_uniform_scale(bpy_obj))
+            report_raw("non-uniform scale for object " + bpy_obj["name"]);
 
-        if (check_negative_scale(obj)) {
-            report_raw("negative scale for object " + obj["name"] + ", using positive scale instead");
-            obj["scale"][0] = Math.abs(obj["scale"][0]);
-            obj["scale"][1] = Math.abs(obj["scale"][1]);
-            obj["scale"][2] = Math.abs(obj["scale"][2]);
+        if (check_negative_scale(bpy_obj)) {
+            report_raw("negative scale for object " + bpy_obj["name"] + ", using positive scale instead");
+            bpy_obj["scale"][0] = Math.abs(bpy_obj["scale"][0]);
+            bpy_obj["scale"][1] = Math.abs(bpy_obj["scale"][1]);
+            bpy_obj["scale"][2] = Math.abs(bpy_obj["scale"][2]);
         }
     }
 
@@ -1875,9 +1899,9 @@ exports.check_bpy_data = function(bpy_data) {
     for (var param in _params_reported) {
         var param_data = _params_reported[param];
         var param_name = param.match(/.*?(?=>>|$)/i)[0]
-        m_print.warn("WARNING " + String(param_name) +
-            " is " + param_data.report_type + " for " + param_data.type +
-             ", reexport " + bpy_data["b4w_filepath_blend"]);
+        m_print.warn("Property \"" + String(param_name) +
+            "\" is " + param_data.report_type + " for \"" + param_data.type +
+             "\". To fix this, reexport " + bpy_data["b4w_filepath_blend"]);
     }
 }
 
@@ -1918,19 +1942,19 @@ function check_strip_props(animation_data) {
         }
 }
 
-function check_export_props(obj) {
+function check_export_props(bpy_obj) {
     var export_props = ["b4w_apply_scale", "b4w_apply_modifiers", 
             "b4w_export_edited_normals", "b4w_loc_export_vertex_anim", 
             "b4w_shape_keys"];
     var prop_found = null;
     for (var i = 0; i < export_props.length; i++) {
-        if (obj[export_props[i]])
+        if (bpy_obj[export_props[i]])
             if(!prop_found)
                 prop_found = export_props[i];
             else {
-                obj[export_props[i]] = false;
+                bpy_obj[export_props[i]] = false;
                 m_print.warn("WARNING property \"" + export_props[i] + "\" of object \"" 
-                    + obj["name"] + "\" has been set to \"false\". Foreground property \""
+                    + bpy_obj["name"] + "\" has been set to \"false\". Foreground property \""
                     + prop_found + "\" already exists.");
             }
     }
@@ -1953,7 +1977,7 @@ function quat_b4w_bpy(quat, dest) {
 /**
  * Report compatibility issue.
  */
-function report(type, obj, missing_param) {
+function report(type, bpy_datablock, missing_param) {
 
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
@@ -1970,7 +1994,7 @@ function report(type, obj, missing_param) {
         }
     }
 
-    _params_reported[param_id].storage.push(obj.name);
+    _params_reported[param_id].storage.push(bpy_datablock["name"]);
 }
 /**
  * Report about missing datablock.
@@ -1987,11 +2011,13 @@ function report_missing_datablock(type, file_path_blend) {
 /**
  * Report about deprecated datablock
  */
-function report_deprecated(type, obj, deprecated_param) {
+function report_deprecated(type, bpy_datablock, deprecated_param) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
+
+    var param_id = deprecated_param+">>"+type;
 
     if (!(param_id in _params_reported)) {
         _params_reported[param_id] = {
@@ -2001,7 +2027,7 @@ function report_deprecated(type, obj, deprecated_param) {
         }
     }
 
-    _params_reported[param_id].storage.push(obj.name);
+    _params_reported[param_id].storage.push(bpy_datablock["name"]);
 }
 function report_modifier(type, obj, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
@@ -2025,17 +2051,8 @@ function report_raw(msg) {
     m_print.warn(msg);
 }
 
-/**
- * Get object library name.
- */
-function libname(obj) {
-    var path = obj["library"];
-    return path.split("/").slice(-1)[0];
-}
-
-
-function check_uniform_scale(obj) {
-    var scale = obj["scale"];
+function check_uniform_scale(bpy_obj) {
+    var scale = bpy_obj["scale"];
     var eps = 0.005
 
     if (scale[0] == 0 && scale[1] == 0 && scale[2] == 0)
@@ -2047,8 +2064,8 @@ function check_uniform_scale(obj) {
     return (delta1 < eps && delta2 < eps);
 }
 
-function check_negative_scale(obj) {
-    return obj["scale"][0] < 0 || obj["scale"][1] < 0 || obj["scale"][2] < 0;
+function check_negative_scale(bpy_obj) {
+    return bpy_obj["scale"][0] < 0 || bpy_obj["scale"][1] < 0 || bpy_obj["scale"][2] < 0;
 }
 
 exports.check_anim_fcurve_completeness = function(fcurve, action) {
@@ -2061,16 +2078,14 @@ exports.check_anim_fcurve_completeness = function(fcurve, action) {
 
 /**
  * Apply modifiers for mesh object and return new mesh.
- * @param {Object3D} obj Object 3D
- * @returns Mesh object or null
  */
-exports.apply_mesh_modifiers = function(obj) {
-    if (!has_modifiers(obj))
+exports.apply_mesh_modifiers = function(bpy_obj) {
+    if (!has_modifiers(bpy_obj))
         return null;
 
-    var mesh = mesh_copy(obj["data"], obj["data"]["name"] + "_MOD");
+    var mesh = mesh_copy(bpy_obj["data"], bpy_obj["data"]["name"] + "_MOD");
 
-    var modifiers = obj["modifiers"];
+    var modifiers = bpy_obj["modifiers"];
     for (var i = 0; i < modifiers.length; i++) {
         var mod = modifiers[i];
 
@@ -2094,8 +2109,8 @@ exports.apply_mesh_modifiers = function(obj) {
 /**
  * Check if given object has interesting modifiers
  */
-function has_modifiers(obj) {
-    var modifiers = obj["modifiers"];
+function has_modifiers(bpy_obj) {
+    var modifiers = bpy_obj["modifiers"];
     for (var i = 0; i < modifiers.length; i++) {
         var mod = modifiers[i];
         var type = mod["type"];
@@ -2143,8 +2158,8 @@ function apply_array_modifier(mesh, mod) {
 }
 
 function apply_curve_modifier(mesh, mod) {
-    var cobj = mod["object"];
-    var spline = cobj._spline;
+    var bpy_obj = mod["object"];
+    var spline = m_curve.create_spline(bpy_obj);
 
     var matrix = new Float32Array(16);
 
@@ -2265,27 +2280,6 @@ function apply_curve_modifier(mesh, mod) {
                 tangent[3*j+2] = tan[2];
             }
         }
-    }
-}
-
-/*
- * Calculate mesh range along deform axis
- */
-function mesh_range_deform_axis(mesh, deform_axis) {
-    var bpy_bb = mesh["b4w_bounding_box"];
-
-    switch (deform_axis) {
-    case "POS_X":
-    case "NEG_X":
-        return [bpy_bb["min_x"], bpy_bb["max_x"]];
-    case "POS_Y":
-    case "NEG_Y":
-        return [bpy_bb["min_y"], bpy_bb["max_y"]];
-    case "POS_Z":
-    case "NEG_Z":
-        return [bpy_bb["min_z"], bpy_bb["max_z"]];
-    default:
-        throw "Wrong deform axis value " + deform_axis;
     }
 }
 
@@ -2503,36 +2497,32 @@ function mesh_transform_locations(mesh, matrix) {
  * Not the best place to do such things, but other methods are much harder to
  * implement (see update_object())
  */
-exports.assign_nla_object_params = function(objects, scenes) {
-    for (var i = 0; i < scenes.length; i++) {
-        var scene = scenes[i];
+exports.assign_nla_object_params = function(bpy_objects, scene) {
 
-        if (!scene["b4w_use_nla"])
-            continue;
-
-        var nla_script = scene["b4w_nla_script"];
-
-        for (var j = 0; j < nla_script.length; j++) {
-            var sslot = nla_script[j];
+    var nla_script = scene["b4w_logic_nodes"];
+    for (var i = 0; i < nla_script.length; i++) {
+        var subtree = nla_script[i];
+        for (var j = 0; j < subtree.length; j++) {
+            var sslot = subtree[j];
 
             switch (sslot["type"]) {
-            case "SELECT":
-            case "SELECT_PLAY":
-                for (var k = 0; k < objects.length; k++) {
-                    var obj = objects[k];
-                    if (obj["name"] == sslot["object"])
-                        obj["b4w_selectable"] = true;
-                }
+                case "SELECT":
+                case "SELECT_PLAY":
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == sslot["object"])
+                            bpy_obj["b4w_selectable"] = true;
+                    }
 
-                break;
-            case "SHOW":
-            case "HIDE":
-                for (var k = 0; k < objects.length; k++) {
-                    var obj = objects[k];
-                    if (obj["name"] == sslot["object"])
-                        obj["b4w_do_not_batch"] = true;
-                }
-                break;
+                    break;
+                case "SHOW":
+                case "HIDE":
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == sslot["object"])
+                            bpy_obj["b4w_do_not_batch"] = true;
+                    }
+                    break;
             }
         }
     }

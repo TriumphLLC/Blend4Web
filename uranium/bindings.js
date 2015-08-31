@@ -1,10 +1,12 @@
 //"use strict";
+//
+b4w.module["__bindings"] = function(exports, require) {
 
 /**
  * Uranium JS bindings layer
  */
 
-var m_ipc = b4w.require("__ipc");
+var m_ipc = require("__ipc");
 
 var MAX_SIM_STEPS = 3;
 var WARM_UP_FRAMES = 100;
@@ -21,6 +23,7 @@ var _last_abs_time = 0;
 var _fps_measurement_interval = 0;
 
 var _world = null;
+var _worker = null;
 var _phy_fps_avg = 0;
 
 var _vec3_tmp  = new Float32Array(3);
@@ -1390,7 +1393,9 @@ function set_damping(body_id, damping, rotation_damping) {
 }
 
 function init_worker_environment() {
-    if (typeof importScripts === "function") {
+    var is_worker = is_worker_env();
+
+    if (is_worker) {
 
         var console_old = self.console;
 
@@ -1425,9 +1430,7 @@ function init_worker_environment() {
             // pass message cache
             self.postMessage(msg);
         }
-
-    } else
-        throw "Worker environment not found";
+    }
 
     _du_fpnt_tmp = _du_create_float_pointer(0);
     _du_vec3_tmp = _du_create_vec3(0, 0, 0);
@@ -1436,8 +1439,9 @@ function init_worker_environment() {
     // NOTE: for non-asmjs browsers only
     warm_up();
 
-    m_ipc.init(self, process_message);
-    m_ipc.post_msg(m_ipc.IN_LOADED);
+    _worker = m_ipc.create_worker("", !is_worker);
+    m_ipc.attach_handler(_worker, process_message);
+    m_ipc.post_msg(_worker, m_ipc.IN_LOADED);
 }
 
 function warm_up() {
@@ -1493,7 +1497,7 @@ function warm_up() {
 }
 
 /**
- * Now only for warm up
+ * Used for warm up and worker fallback.
  */
 function update_world(world, time, delta) {
     var steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
@@ -1509,6 +1513,8 @@ function update_world(world, time, delta) {
                 tick_callback(world, sim_time);
         }
     }
+
+    _du_post_simulation();
 }
 
 function init_world(max_fps, fps_measurement_interval) {
@@ -1547,9 +1553,7 @@ function cleanup_world() {
 
 
 
-function frame() {
-    self.setTimeout(frame, 1);
-
+function worker_frame() {
     // preparatory stage
     if (_steps == 0) {
         // float sec
@@ -1564,7 +1568,7 @@ function frame() {
             if (delta && _fps_measurement_interval) {
                 _phy_fps_avg = smooth(1/delta, _phy_fps_avg, delta,
                         _fps_measurement_interval);
-                m_ipc.post_msg(m_ipc.IN_FPS, Math.round(_phy_fps_avg));
+                m_ipc.post_msg(_worker, m_ipc.IN_FPS, Math.round(_phy_fps_avg));
             }
 
             _steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
@@ -1590,6 +1594,8 @@ function frame() {
             _step++;
         }
     }
+
+    self.setTimeout(worker_frame, 1);
 }
 
 /**
@@ -1631,7 +1637,7 @@ function tick_callback(world, time) {
     send_floater_movements(world);
     send_collision_results(world);
     send_ray_test_results(world, time);
-    m_ipc.post_msg_arr();
+    m_ipc.post_msg_arr(_worker);
 }
 
 function send_body_movements(world, time) {
@@ -1664,14 +1670,14 @@ function send_body_movements(world, time) {
                 msg_cache.linvel  = body.linvel;
                 msg_cache.angvel  = body.angvel;
 
-                m_ipc.post_msg(m_ipc.IN_TRANSFORM);
+                m_ipc.post_msg(_worker, m_ipc.IN_TRANSFORM);
             }
 
             if (body.col_imp_test) {
                 var result = _du_check_collision_impulse(body.du_id);
 
                 if (result != body.col_imp_test_last_result)
-                    m_ipc.post_msg(m_ipc.IN_COLLISION_IMPULSE, body_id, result);
+                    m_ipc.post_msg(_worker, m_ipc.IN_COLLISION_IMPULSE, body_id, result);
 
                 body.col_imp_test_last_result = result;
             }
@@ -1698,13 +1704,13 @@ function send_chassis_movements(world) {
                 msg_cache.trans                = cache.trans;
                 msg_cache.quat                 = cache.quat;
 
-                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET);
+                m_ipc.post_msg(_worker, m_ipc.IN_PROP_OFFSET);
             }
         }
 
         // NOTE: consider using cache
         var speed = _du_get_vehicle_speed(car.du_id);
-        m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, chassis_body_id, speed);
+        m_ipc.post_msg(_worker, m_ipc.IN_VEHICLE_SPEED, chassis_body_id, speed);
     }
 }
 
@@ -1726,11 +1732,11 @@ function send_hull_movements(world) {
                 msg_cache.trans                = cache.trans;
                 msg_cache.quat                 = cache.quat;
 
-                m_ipc.post_msg(m_ipc.IN_PROP_OFFSET);
+                m_ipc.post_msg(_worker, m_ipc.IN_PROP_OFFSET);
             }
         }
         var speed = _du_get_boat_speed(boat.du_id);
-        m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, hull_body_id, speed);
+        m_ipc.post_msg(_worker, m_ipc.IN_VEHICLE_SPEED, hull_body_id, speed);
     }
 }
 
@@ -1745,7 +1751,7 @@ function send_floater_movements(world) {
             _du_get_floater_bob_trans_quat(floater.du_id, i, cache.du_trans,
                                            cache.du_quat);
             if (body_check_prepare_output(cache))
-                m_ipc.post_msg(m_ipc.IN_FLOATER_BOB_TRANSFORM, floater_body_id, i,
+                m_ipc.post_msg(_worker, m_ipc.IN_FLOATER_BOB_TRANSFORM, floater_body_id, i,
                         cache.trans, cache.quat);
         }
     }
@@ -1798,7 +1804,7 @@ function send_collision_results(world) {
                 msg_cache.coll_norm  = cnormal;
                 msg_cache.coll_dist  = cdist;
 
-                m_ipc.post_msg(m_ipc.IN_COLLISION_POS_NORM);
+                m_ipc.post_msg(_worker, m_ipc.IN_COLLISION_POS_NORM);
             }
 
             test.last_cpoint[0] = cpoint[0];
@@ -1814,7 +1820,7 @@ function send_collision_results(world) {
                 msg_cache.body_id_b  = body_id_b;
                 msg_cache.result     = result;
 
-                m_ipc.post_msg(m_ipc.IN_COLLISION);
+                m_ipc.post_msg(_worker, m_ipc.IN_COLLISION);
             }
         }
 
@@ -1884,7 +1890,7 @@ function send_ray_test_results(world, time) {
                 _du_get_ray_hit_normal(du_results, j, du_hit_norm);
                 du_vec_to_vec(du_hit_norm, msg_cache.hit_norm);
 
-                m_ipc.post_msg(m_ipc.IN_RAY_HIT_POS_NORM);
+                m_ipc.post_msg(_worker, m_ipc.IN_RAY_HIT_POS_NORM);
             } else {
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_RAY_HIT);
                 msg_cache.id          = test.id;
@@ -1892,7 +1898,7 @@ function send_ray_test_results(world, time) {
                 msg_cache.hit_fract   = hit_fract;
                 msg_cache.hit_time    = time;
 
-                m_ipc.post_msg(m_ipc.IN_RAY_HIT);
+                m_ipc.post_msg(_worker, m_ipc.IN_RAY_HIT);
             }
         }
 
@@ -2043,7 +2049,7 @@ function debug() {
     collect("Collision Tests: " + collision_tests_num);
     collect("Ray Tests: " + ray_tests_num);
 
-    m_ipc.post_msg(m_ipc.IN_DEBUG_STATS, stats);
+    m_ipc.post_msg(_worker, m_ipc.IN_DEBUG_STATS, stats);
 }
 
 function obj_len(obj) {
@@ -2053,7 +2059,7 @@ function obj_len(obj) {
     return len;
 }
 
-function process_message(msg_id, msg) {
+function process_message(worker, msg_id, msg) {
     switch (msg_id) {
     case m_ipc.OUT_INIT:
 
@@ -2069,10 +2075,14 @@ function process_message(msg_id, msg) {
 
         init_world(msg[2], msg[3]);
 
-        frame();
+        if (is_worker_env())
+            worker_frame();
+        break;
+    case m_ipc.OUT_UPDATE_WORLD:
+        update_world(_world, msg[1], msg[2]);
         break;
     case m_ipc.OUT_PING:
-        m_ipc.post_msg(m_ipc.IN_PING, msg[1], performance.now());
+        m_ipc.post_msg(_worker, m_ipc.IN_PING, msg[1], performance.now());
         break;
     case m_ipc.OUT_SET_ACTIVE_WORLD:
         set_active_world(msg[1]);
@@ -2225,6 +2235,28 @@ function process_message(msg_id, msg) {
     }
 }
 
+function is_worker_env() {
+    return (typeof importScripts === "function");
+}
+
+var Module = {};
+
 Module['onRuntimeInitialized'] = function() {
     init_worker_environment();
 }
+
+Module['locateFile'] = is_worker_env() ? null : function() {
+    var worker_namespace = b4w.get_namespace(require);
+
+    for (var i = 0; i < b4w.worker_namespaces.length; i+=2)
+        if (b4w.worker_namespaces[i+1] == worker_namespace) {
+            var main_namespace = b4w.worker_namespaces[i];
+            var m_cfg_main = b4w.require("config", main_namespace);
+            return m_cfg_main.get("physics_uranium_path") + ".mem";
+        }
+
+    return "NOT_FOUND";
+}
+
+//}
+

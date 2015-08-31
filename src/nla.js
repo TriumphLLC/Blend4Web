@@ -12,23 +12,25 @@ var m_anim      = require("__animation");
 var m_cam       = require("__camera");
 var m_ctl       = require("__controls");
 var m_cfg       = require("__config");
+var m_lights    = require("__lights");
 var m_loader    = require("__loader");
+var m_obj       = require("__objects");
 var m_print     = require("__print");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
-var m_util      = require("__util");
-var m_lights    = require("__lights");
 var m_tex       = require("__textures");
+var m_util      = require("__util");
 
 var cfg_ani = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
+
 var _nla_arr = [];
 var _start_time = -1;
 
 // to fix precision issues with freezing current frame
 var CF_FREEZE_EPSILON = 0.000001;
 
-exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
+exports.update_scene_nla = function(scene, is_cyclic, data_id) {
     var nla = {
         frame_start: scene["frame_start"],
         frame_end: scene["frame_end"],
@@ -37,15 +39,15 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
         range_end: scene["frame_end"],
         range_start: scene["frame_start"],
         user_callback: null,
-        data_id : thread_id,
+        data_id : data_id,
         cyclic: is_cyclic,
         objects: [],
         textures: [],
-        script: [],
+        scripts: [],
         is_stopped: false,
         force_update: false,
         scene_name: scene["name"],
-        curr_script_slot: 0,
+        curr_script_slots: [],
         registers: {
             "R1" : 0,
             "R2" : 0,
@@ -60,14 +62,15 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
     scene._nla = nla;
     prepare_nla_script(scene, nla);
 
-    var sobjs = m_scs.get_scene_objs(scene, "ALL", m_scs.DATA_ID_ALL);
+    var sobjs = m_obj.get_scene_objs_derived(scene, "ALL", data_id);
 
     for (var i = 0; i < sobjs.length; i++) {
         var sobj = sobjs[i];
+        var bpy_sobj = sobj.temp_bpy_obj;
         var slot_num = 0;
         var obj_nla_events = [];
 
-        var adata = sobj["animation_data"];
+        var adata = bpy_sobj["animation_data"];
         if (adata && adata["nla_tracks"].length) {
             var nla_tracks = adata["nla_tracks"];
 
@@ -88,7 +91,7 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
         }
 
         if (has_spk_param_nla(sobj)) {
-            var nla_tracks = sobj["data"]["animation_data"]["nla_tracks"];
+            var nla_tracks = bpy_sobj["data"]["animation_data"]["nla_tracks"];
             var nla_events = get_nla_events(nla_tracks, slot_num);
 
             if (nla_events.length) {
@@ -98,7 +101,7 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
         }
 
         if (m_anim.has_animated_nodemats(sobj)) {
-            var materials = sobj["data"]["materials"];
+            var materials = bpy_sobj["data"]["materials"];
 
             for (var j = 0; j < materials.length; j++) {
                 var mat = materials[j];
@@ -115,8 +118,8 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
             }
         }
 
-        for (var j = 0; j < sobj["particle_systems"].length; j++) {
-            var psys = sobj["particle_systems"][j];
+        for (var j = 0; j < bpy_sobj["particle_systems"].length; j++) {
+            var psys = bpy_sobj["particle_systems"][j];
             var pset = psys["settings"];
 
             if (pset["type"] == "EMITTER" && pset["b4w_allow_nla"]) {
@@ -136,30 +139,27 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
 
         var slot_num_va = slot_num+1;
 
-        // NOTE: the data is missing in the meta objects
-        if (m_util.is_mesh(sobj) && sobj["data"]) {
-            for (var j = 0; j < sobj["data"]["b4w_vertex_anim"].length; j++) {
-                var va = sobj["data"]["b4w_vertex_anim"][j];
+        for (var j = 0; j < sobj.vertex_anim.length; j++) {
+            var va = sobj.vertex_anim[j];
 
-                if (va["allow_nla"]) {
-                    slot_num = slot_num_va;
+            if (va.allow_nla) {
+                slot_num = slot_num_va;
 
-                    var ev = init_event();
+                var ev = init_event();
 
-                    ev.type = "CLIP";
-                    ev.frame_start = nla.frame_start;
-                    ev.frame_end = nla.frame_end+1;
-                    ev.anim_name = va["name"];
-                    ev.anim_slot = slot_num;
-                    ev.action_frame_start = ev.frame_start;
-                    ev.action_frame_end = ev.frame_end;
-                    obj_nla_events.push(ev);
-                }
+                ev.type = "CLIP";
+                ev.frame_start = nla.frame_start;
+                ev.frame_end = nla.frame_end+1;
+                ev.anim_name = va.name;
+                ev.anim_slot = slot_num;
+                ev.action_frame_start = ev.frame_start;
+                ev.action_frame_end = ev.frame_end;
+                obj_nla_events.push(ev);
             }
         }
 
         if (obj_nla_events.length) {
-            sobj._nla_events = obj_nla_events;
+            sobj.nla_events = obj_nla_events;
             nla.objects.push(sobj);
         }
 
@@ -213,6 +213,9 @@ function assign_anim_slots(nla_events, start_slot) {
             var action = m_util.keysearch("name", name, actions) ||
                          m_util.keysearch("name", name + "_B4W_BAKED", actions);
         }
+
+        if (!action)
+            continue;
 
         var fcurves = action["fcurves"];
         var cur_fcurves_names = [];
@@ -278,139 +281,150 @@ function get_nodetree_nla_tracks_r(node_tree, container) {
 }
 
 function prepare_nla_script(scene, nla) {
-    var bpy_nla_script = scene["b4w_nla_script"];
-    var nla_script = nla.script;
+    var bpy_nla_scripts = scene["b4w_logic_nodes"];
+    var nla_scripts = nla.scripts;
 
-    for (var i = 0; i < bpy_nla_script.length; i++) {
-        var sslot = bpy_nla_script[i];
+    for (var k = 0; k < bpy_nla_scripts.length; k++)
+        nla.curr_script_slots.push(0);
 
-        switch (sslot["type"]) {
-        case "PLAY":
-            nla_script.push({
-                type: "PLAY",
-                frame_start: sslot["frame_range"][0],
-                frame_end: sslot["frame_range"][1],
-                in_play: false
-            });
-            break;
-        case "SELECT":
-        case "SELECT_PLAY":
-            var obj = m_scs.get_object(m_scs.GET_OBJECT_BY_NAME, sslot["object"], 0);
+    var gen_cb = function(cur_script) {
+        return function (obj, id, pulse, param) {
+            var cur_slot = nla.curr_script_slots[cur_script]
 
-            var sel_objs = m_scs.get_selectable_objects(scene);
-            var obj_idx = sel_objs.indexOf(obj);
+            if (cur_slot >= nla_script.length || cur_slot < 0)
+                return;
 
-            if (obj_idx == -1) {
-                m_print.error("NLA script error: non-selectable object");
-                return [];
+            var slot = nla.scripts[cur_script][cur_slot];
+
+            if (!(slot.type == "SELECT" || (slot.type == "SELECT_PLAY" && !slot.in_play)))
+                return;
+
+            for (var i = 0; i < param.sel_objs_len; i++) {
+                if (m_ctl.get_sensor_value(obj, id, i) &&
+                    i == param.sel_obj_idx) {
+                    param.sel_state = 1;
+                    return;
+                }
             }
+            param.sel_state = 0;
+        }
+    };
 
+    for (var k = 0; k < bpy_nla_scripts.length; k++) {
+        nla_scripts.push([])
+        var nla_script = nla_scripts[nla_scripts.length - 1]
+        var subtree = bpy_nla_scripts[k]
+        for (var i = 0; i < subtree.length; i++) {
+            var sslot = subtree[i];
             var slot = {
                 type: sslot["type"],
-                slot_idx_hit: sslot["type"] == "SELECT" ? sslot["target_slot"] : i+1,
-                slot_idx_miss: i+1,
+                label: sslot["label"],
+                slot_idx_order: sslot["slot_idx_order"],
+                slot_idx_jump: -1,
+                frame_start: -1,
+                frame_end: -1,
+                in_play: false,
                 sel_state: -1,
-                sel_objs_len: sel_objs.length,
-                sel_obj_idx: obj_idx,
-
-                frame_start: sslot["frame_range"][0],
-                frame_end: sslot["frame_range"][1],
-                in_play: false
+                sel_objs_len: -1,
+                sel_obj_idx: -1,
+                cond: "",
+                reg1: "",
+                reg2: "",
+                reg: "",
+                num1: -1,
+                num2: -1,
+                num: -1,
+                regd: -1,
+                url: "",
+                param_name: "",
+                op: "",
+                mute: sslot["mute"]
             }
+            switch (sslot["type"]) {
+            case "PLAY":
+                slot.frame_start = sslot["frame_range"][0];
+                slot.frame_end = sslot["frame_range"][1];
+                slot.in_play = false;
+                nla_script.push(slot);
+                break;
+            case "SELECT":
+            case "SELECT_PLAY":
+                slot.slot_idx_jump = sslot["slot_idx_jump"];
+                var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, sslot["object"], 0);
 
-            var sel_sensors = [];
-            for (var j = 0; j < sel_objs.length; j++) {
-                sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
-            }
+                var sel_objs = m_obj.get_selectable_objects(scene);
+                var obj_idx = sel_objs.indexOf(obj);
 
-            var select_cb = function(obj, id, pulse, param) {
-                if (nla.curr_script_slot >= nla.script.length)
-                    return;
-
-                var slot = nla.script[nla.curr_script_slot];
-
-                if (!(slot.type == "SELECT" || (slot.type == "SELECT_PLAY" && !slot.in_play)))
-                    return;
-
-                for (var i = 0; i < param.sel_objs_len; i++) {
-                    if (m_ctl.get_sensor_value(obj, id, i) &&
-                            i == param.sel_obj_idx) {
-                        param.sel_state = 1;
-                        return;
-                    }
+                if (obj_idx == -1) {
+                    m_print.error("NLA script error: non-selectable object:",
+                        sslot["object"][sslot["object"].length -1]);
+                    return [];
                 }
-                param.sel_state = 0;
-            }
+                slot.sel_state = -1;
+                slot.sel_objs_len = sel_objs.length;
+                slot.sel_obj_idx = obj_idx;
+                slot.frame_start = sslot["frame_range"][0];
+                slot.frame_end = sslot["frame_range"][1];
+                slot.in_play = false;
 
-            m_ctl.create_sensor_manifold(obj, "NLA_SELECT_" + i, m_ctl.CT_SHOT,
+                var sel_sensors = [];
+                for (var j = 0; j < sel_objs.length; j++) {
+                    sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
+                }
+
+                var select_cb = gen_cb(k);
+                m_ctl.create_sensor_manifold(obj, "NLA_SELECT_" + i, m_ctl.CT_SHOT,
                     sel_sensors, m_ctl.default_OR_logic_fun, select_cb, slot);
 
-            nla_script.push(slot);
+                nla_script.push(slot);
 
-            break;
-        case "JUMP":
-            nla_script.push({
-                type: "JUMP",
-                slot_idx: sslot["target_slot"]
-            });
-            break;
-        case "CONDJUMP":
-            nla_script.push({
-                type: "CONDJUMP",
-                slot_idx: sslot["target_slot"],
-                cond: sslot["condition"],
-                reg1: sslot["register1"],
-                reg2: sslot["register2"],
-                num1: sslot["number1"],
-                num2: sslot["number2"]
-            });
-            break;
-        case "REGSTORE":
-            nla_script.push({
-                type: "REGSTORE",
-                reg: sslot["registerd"],
-                num: sslot["number1"]
-            });
-            break;
-        case "MATH":
-            nla_script.push({
-                type: "MATH",
-                op: sslot["operation"],
-                reg1: sslot["register1"],
-                reg2: sslot["register2"],
-                num1: sslot["number1"],
-                num2: sslot["number2"],
-                regd: sslot["registerd"]
-            });
-            break;
-        case "SHOW":
-        case "HIDE":
-            var obj = m_scs.get_object(m_scs.GET_OBJECT_BY_NAME, sslot["object"], 0);
-            nla_script.push({
-                type: sslot["type"],
-                obj: obj
-            });
-            break;
-        case "REDIRECT":
-            nla_script.push({
-                type: "REDIRECT",
-                url: sslot["url"]
-            });
-            break;
-        case "PAGEPARAM":
-            nla_script.push({
-                type: "PAGEPARAM",
-                param_name: sslot["param_name"],
-                regd: sslot["registerd"]
-            });
-            break;
-        case "NOOP":
-            nla_script.push({
-                type: "NOOP"
-            });
-            break;
-        default:
-            break;
+                break;
+
+            case "CONDJUMP":
+                slot.cond = sslot["condition"]
+                slot.reg1 = sslot["register1"]
+                slot.reg2 = sslot["register2"]
+                slot.num1 = sslot["number1"]
+                slot.num2 = sslot["number2"]
+                slot.slot_idx_jump = sslot["slot_idx_jump"];
+                nla_script.push(slot);
+                break;
+            case "REGSTORE":
+                slot.reg = sslot["registerd"]
+                slot.num = sslot["number1"]
+                nla_script.push(slot);
+                break;
+            case "MATH":
+                slot.op = sslot["operation"]
+                slot.reg1 = sslot["register1"]
+                slot.reg2 = sslot["register2"]
+                slot.num1 = sslot["number1"]
+                slot.num2 = sslot["number2"]
+                slot.regd = sslot["registerd"]
+                nla_script.push(slot);
+                break;
+            case "SHOW":
+            case "HIDE":
+                var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, sslot["object"], 0);
+                slot.obj = obj
+                nla_script.push(slot);
+                break;
+            case "REDIRECT":
+                slot.url = sslot["url"]
+                nla_script.push(slot);
+                break;
+            case "PAGEPARAM":
+                slot.param_name = sslot["param_name"]
+                slot.regd = sslot["registerd"]
+                nla_script.push(slot);
+                break;
+            case "ENTRYPOINT":
+            case "NOOP":
+                nla_script.push(slot);
+                break;
+            default:
+                break;
+            }
         }
     }
 }
@@ -423,13 +437,13 @@ function enforce_nla_consistency(nla) {
     for (var i = 0; i < nla.objects.length; i++) {
         var obj = nla.objects[i];
 
-        var nla_events = obj._nla_events;
+        var nla_events = obj.nla_events;
 
         for (var j = 0; j < nla_events.length; j++) {
             var ev = nla_events[j];
 
             // for possible warnings
-            var strip_str = obj["name"] + " [" + ev.frame_start + ":" +
+            var strip_str = obj.name + " [" + ev.frame_start + ":" +
                     ev.frame_end + "]";
 
             ev.frame_start = Math.max(start, ev.frame_start);
@@ -446,7 +460,7 @@ function enforce_nla_consistency(nla) {
 
             if (!ev.anim_name && ev.type == "CLIP") {
                 m_print.warn("NLA: no action in strip for object \"" 
-                        + obj["name"] + "\".");
+                        + obj.name + "\".");
                 nla_events.splice(j, 1);
                 j--;
             }
@@ -459,7 +473,7 @@ function calc_nla_extents(nla) {
     for (var i = 0; i < nla.objects.length; i++) {
         var obj = nla.objects[i];
 
-        var nla_events = obj._nla_events;
+        var nla_events = obj.nla_events;
 
         for (var j = 0; j < nla_events.length; j++) {
             var ev = nla_events[j];
@@ -510,8 +524,8 @@ exports.update = function(timeline, elapsed) {
         }
 
         nla.force_update = false;
-
-        process_nla_script(nla, timeline, elapsed, _start_time);
+        for (var k = 0; k < nla.scripts.length; k++)
+            process_nla_script(nla, k, timeline, elapsed, _start_time);
 
         var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
 
@@ -534,7 +548,7 @@ exports.update = function(timeline, elapsed) {
 
         for (var j = 0; j < nla.objects.length; j++) {
             var obj = nla.objects[j];
-            var nla_events = obj._nla_events;
+            var nla_events = obj.nla_events;
 
             // NOTE: allow single-strip speakers to play again
             for (var k = 0; k < nla_events.length; k++) {
@@ -607,36 +621,39 @@ exports.update = function(timeline, elapsed) {
     }
 }
 
-function process_nla_script(nla, timeline, elapsed, start_time) {
+function process_nla_script(nla, script_number, timeline, elapsed, start_time) {
 
-    if (!nla.script.length)
+    var script =  nla.scripts[script_number];
+    if (!script.length)
         return;
 
-    if (nla.curr_script_slot >= nla.script.length) {
-        if (nla.cyclic) {
-            nla.curr_script_slot = 0;
-        } else {
-            // freeze
+    if (nla.curr_script_slots[script_number] >= script.length || nla.curr_script_slots[script_number] < 0) {
             nla.frame_offset -= cfg_ani.framerate * elapsed;
             return;
-        }
     }
 
     var cf = calc_curr_frame_scene(nla, timeline, false, start_time);
-
-    var slot = nla.script[nla.curr_script_slot];
-
+    var slot = script[nla.curr_script_slots[script_number]];
+    if (slot.mute) {
+        if(slot.type == "ENTRYPOINT") {
+            nla.frame_offset -= cfg_ani.framerate * elapsed;
+            return;
+        }
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
+        return;
+    }
     switch (slot.type) {
     case "PLAY":
         if (!slot.in_play) {
             nla.frame_offset += (slot.frame_start - cf);
             slot.in_play = true;
-            reset_nla_selection(nla, slot);
+            reset_nla_selection(nla, script_number, slot);
         } else {
             if (cf >= slot.frame_end) {
                 slot.in_play = false;
-                nla.curr_script_slot++;
-                process_nla_script(nla, timeline, elapsed, start_time);
+                nla.curr_script_slots[script_number] = slot.slot_idx_order;
+                process_nla_script(nla, script_number, timeline, elapsed, start_time);
             }
         }
         break;
@@ -645,20 +662,20 @@ function process_nla_script(nla, timeline, elapsed, start_time) {
         if (slot.sel_state > -1) {
 
             if (slot.type == "SELECT" || (slot.type == "SELECT_PLAY" && slot.sel_state == 0)) {
-                nla.curr_script_slot = slot.sel_state ? slot.slot_idx_hit : slot.slot_idx_miss;
+                nla.curr_script_slots[script_number] = slot.sel_state ? slot.slot_idx_jump : slot.slot_idx_order;
                 slot.sel_state = -1;
-                process_nla_script(nla, timeline, elapsed, start_time);
+                process_nla_script(nla, script_number, timeline, elapsed, start_time);
             } else {
                 if (!slot.in_play) {
                     nla.frame_offset += (slot.frame_start - cf);
                     slot.in_play = true;
-                    reset_nla_selection(nla, slot);
+                    reset_nla_selection(nla, script_number, slot);
                 } else {
                     if (cf >= slot.frame_end) {
                         slot.in_play = false;
-                        nla.curr_script_slot = slot.slot_idx_hit;
+                        nla.curr_script_slots[script_number] = slot.type == "SELECT" ? slot.slot_idx_jump: slot.slot_idx_order;
                         slot.sel_state = -1;
-                        process_nla_script(nla, timeline, elapsed, start_time);
+                        process_nla_script(nla, script_number, timeline, elapsed, start_time);
                     }
                 }
             }
@@ -670,8 +687,8 @@ function process_nla_script(nla, timeline, elapsed, start_time) {
 
         break;
     case "JUMP":
-        nla.curr_script_slot = slot.slot_idx;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_jump;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "CONDJUMP":
         var val1 = (slot.reg1 == -1) ? slot.num1 : nla.registers[slot.reg1];
@@ -679,98 +696,97 @@ function process_nla_script(nla, timeline, elapsed, start_time) {
         var cond_result = false;
 
         switch (slot.cond) {
-        case "EQUAL":
-            if (val1 == val2)
-                cond_result = true;
-            break;
-        case "NOTEQUAL":
-            if (val1 != val2)
-                cond_result = true;
-            break;
-        case "LESS":
-            if (val1 < val2)
-                cond_result = true;
-            break;
-        case "GREATER":
-            if (val1 > val2)
-                cond_result = true;
-            break;
-        case "LEQUAL":
-            if (val1 <= val2)
-                cond_result = true;
-            break;
-        case "GEQUAL":
-            if (val1 >= val2)
-                cond_result = true;
-            break;
+            case "EQUAL":
+                if (val1 == val2)
+                    cond_result = true;
+                break;
+            case "NOTEQUAL":
+                if (val1 != val2)
+                    cond_result = true;
+                break;
+            case "LESS":
+                if (val1 < val2)
+                    cond_result = true;
+                break;
+            case "GREATER":
+                if (val1 > val2)
+                    cond_result = true;
+                break;
+            case "LEQUAL":
+                if (val1 <= val2)
+                    cond_result = true;
+                break;
+            case "GEQUAL":
+                if (val1 >= val2)
+                    cond_result = true;
+                break;
         }
 
         if (cond_result)
-            nla.curr_script_slot = slot.slot_idx;
+            nla.curr_script_slots[script_number] = slot.slot_idx_jump;
         else
-            nla.curr_script_slot++;
+            nla.curr_script_slots[script_number] = slot.slot_idx_order;
 
-        process_nla_script(nla, timeline, elapsed, start_time);
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "REGSTORE":
         nla.registers[slot.reg] = slot.num;
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "MATH":
         var val1 = (slot.reg1 == -1) ? slot.num1 : nla.registers[slot.reg1];
         var val2 = (slot.reg2 == -1) ? slot.num2 : nla.registers[slot.reg2];
 
         switch (slot.op) {
-        case "ADD":
-            nla.registers[slot.regd] = val1 + val2;
-            break;
-        case "MUL":
-            nla.registers[slot.regd] = val1 * val2;
-            break;
-        case "SUB":
-            nla.registers[slot.regd] = val1 - val2;
-            break;
-        case "DIV":
-            if (val2 == 0)
-                m_util.panic("Division by zero in NLA script");
+            case "ADD":
+                nla.registers[slot.regd] = val1 + val2;
+                break;
+            case "MUL":
+                nla.registers[slot.regd] = val1 * val2;
+                break;
+            case "SUB":
+                nla.registers[slot.regd] = val1 - val2;
+                break;
+            case "DIV":
+                if (val2 == 0)
+                    m_util.panic("Division by zero in NLA script");
 
-            nla.registers[slot.regd] = val1 / val2;
-            break;
+                nla.registers[slot.regd] = val1 / val2;
+                break;
         }
 
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "SHOW":
         m_scs.show_object(slot.obj);
-
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "HIDE":
         m_scs.hide_object(slot.obj);
-
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "REDIRECT":
         window.location.href = slot.url
-
         // prevents further NLA processing
-        nla.script.length = 0;
+        for (var s = 0; s < nla.scripts.length; s++)
+            nla.scripts[s].length = 0;
         break;
     case "PAGEPARAM":
         nla.registers[slot.regd] = get_url_param(slot.param_name);
-
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     case "NOOP":
-        nla.curr_script_slot++;
-        process_nla_script(nla, timeline, elapsed, start_time);
+    case "ENTRYPOINT":
+        nla.curr_script_slots[script_number] = slot.slot_idx_order;
+        process_nla_script(nla, script_number, timeline, elapsed, start_time);
         break;
     }
+
 }
 
 /**
@@ -794,9 +810,8 @@ function get_url_param(name) {
     return 0;
 }
 
-function reset_nla_selection(nla, curr_slot) {
-    var nla_script = nla.script;
-
+function reset_nla_selection(nla, script_number, curr_slot) {
+    var nla_script = nla.scripts[script_number];
     for (var i = 0; i < nla_script.length; i++) {
         var slot = nla_script[i];
         if (slot != curr_slot)
@@ -807,7 +822,7 @@ function reset_nla_selection(nla, curr_slot) {
 function pause_scheduled_objects(objects) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
-        var nla_events = obj._nla_events;
+        var nla_events = obj.nla_events;
         for (var j = 0; j < nla_events.length; j++) {
             var ev = nla_events[j];
             if (ev.scheduled && !ev.paused) {
@@ -821,7 +836,7 @@ function pause_scheduled_objects(objects) {
 function resume_scheduled_objects(objects) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
-        var nla_events = obj._nla_events;
+        var nla_events = obj.nla_events;
         for (var j = 0; j < nla_events.length; j++) {
             var ev = nla_events[j];
             if (ev.paused) {
@@ -944,8 +959,9 @@ function get_nla_events(nla_tracks, anim_slot_num) {
 }
 
 exports.has_nla = function(obj) {
+    var bpy_obj = obj.temp_bpy_obj;
     // TODO: particles/vertex animation
-    var adata = obj["animation_data"];
+    var adata = bpy_obj["animation_data"];
 
     if ((adata && adata["nla_tracks"].length) || has_spk_param_nla(obj) ||
             has_nodemats_nla(obj))
@@ -955,18 +971,20 @@ exports.has_nla = function(obj) {
 }
 
 function has_spk_param_nla(obj) {
-    if (m_sfx.is_speaker(obj) && obj["data"]["animation_data"] &&
-            obj["data"]["animation_data"]["nla_tracks"].length)
+    var bpy_obj = obj.temp_bpy_obj;
+    if (m_sfx.is_speaker(obj) && bpy_obj["data"]["animation_data"] &&
+            bpy_obj["data"]["animation_data"]["nla_tracks"].length)
         return true;
     else
         return false;
 }
 
 function has_nodemats_nla(obj) {
-    if (obj["type"] != "MESH" || !obj["data"])
+    var bpy_obj = obj.temp_bpy_obj;
+    if (obj.type != "MESH" || !bpy_obj["data"])
         return false;
 
-    var materials = obj["data"]["materials"];
+    var materials = bpy_obj["data"]["materials"];
     if (!materials)
         return false;
 
@@ -1071,10 +1089,10 @@ exports.check_nla = function() {
         return false;
 }
 
-exports.check_nla_scripts = function() {
+exports.check_logic_nodes = function() {
     var active_scene = m_scs.get_active();
     if (active_scene._nla)
-        return active_scene["b4w_nla_script"].length > 0;
+        return active_scene["b4w_logic_nodes"].length > 0;
     else
         return false;
 }

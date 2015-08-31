@@ -1,7 +1,7 @@
 #import u_p_time u_p_cyclic u_p_length
-#import u_p_nfactor u_p_gravity u_p_mass u_p_wind u_p_max_lifetime
+#import u_p_nfactor u_p_gravity u_p_mass u_p_wind_fac u_p_max_lifetime
 #import u_p_size_ramp u_p_fade_in u_p_fade_out u_p_color_ramp
-#import u_model_matrix
+#import u_model_matrix u_wind
 #import a_position a_normal a_p_vels a_p_delay a_p_lifetime
 
 #export fade_alpha calc_part_params part_params
@@ -121,7 +121,7 @@ part_params calc_part_params(void) {
         pos += a_p_vels.xyz * t;
         pos.y -= u_p_gravity * t * t / 2.0;
         float mass = max(u_p_mass, EPSILON);
-        pos += (u_p_wind/mass) * t * t /2.0;
+        pos += (u_p_wind_fac * u_wind / mass) * t * t /2.0;
         sp.position = pos;
 
         sp.angle = a_p_vels.w * t;

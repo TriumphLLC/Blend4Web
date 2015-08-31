@@ -7,10 +7,8 @@
 b4w.module["util"] = function(exports, require) {
 
 var m_print = require("__print");
-var util    = require("__util");
-
-var m_vec3 = require("vec3");
-var m_mat4 = require("mat4");
+var m_util  = require("__util");
+var m_vec3  = require("__vec3");
 
 /**
  * X-axis vector.
@@ -57,7 +55,7 @@ exports.f32 = function(param) {
  * @method module:util.assert
  * @param {Boolean} Boolean expression result
  */
-exports.assert = util.assert;
+exports.assert = m_util.assert;
 
 /**
  * Search for object in array.
@@ -67,7 +65,7 @@ exports.assert = util.assert;
  * @param {Object[]} array Array of objects.
  * @returns {Object[]} Array of found objects.
  */
-exports.keyfind = util.keyfind;
+exports.keyfind = m_util.keyfind;
 
 /**
  * Search for object in array.
@@ -77,7 +75,7 @@ exports.keyfind = util.keyfind;
  * @param {Array} array Array of objects.
  * @returns {?Object} First found object or null.
  */
-exports.keysearch = util.keysearch;
+exports.keysearch = m_util.keysearch;
 
 /**
  * Extract rotation from the 4x4 matrix to quaternion vector.
@@ -86,7 +84,7 @@ exports.keysearch = util.keysearch;
  * @returns {Quat} Quaternion
  */
 exports.matrix_to_quat = function(matrix) {
-    return util.matrix_to_quat(matrix);
+    return m_util.matrix_to_quat(matrix);
 }
 
 /**
@@ -100,7 +98,7 @@ exports.euler_to_quat = function(euler, quat) {
     if (!quat)
         quat = new Float32Array(4);
 
-    return util.euler_to_quat(euler, quat);
+    return m_util.euler_to_quat(euler, quat);
 }
 
 /**
@@ -114,7 +112,7 @@ exports.quat_to_euler = function(quat, euler) {
     if (!euler)
         euler = new Float32Array(3);
 
-    return util.quat_to_euler(quat, euler);
+    return m_util.quat_to_euler(quat, euler);
 }
 
 /**
@@ -123,7 +121,7 @@ exports.quat_to_euler = function(quat, euler) {
  * @param {Number} value Input value
  * @returns {Number} -1,0,1 for negative, zero or positive number accordingly
  */
-exports.sign = util.sign;
+exports.sign = m_util.sign;
 
 /**
  * Clamp the number.
@@ -133,7 +131,7 @@ exports.sign = util.sign;
  * @param {Number} max Upper bound
  * @returns {Number} Clamped value
  */
-exports.clamp = util.clamp;
+exports.clamp = m_util.clamp;
 
 /**
  * Convert quaternion rotation to a directional vector.
@@ -143,7 +141,7 @@ exports.clamp = util.clamp;
  * @param {Vec3} [dest] Destination vector
  * @returns {Vec3} Destination vector.
  */
-exports.quat_to_dir = util.quat_to_dir;
+exports.quat_to_dir = m_util.quat_to_dir;
 
 /**
  * Project camera quaternion rotation on a horizontal plane.
@@ -152,7 +150,7 @@ exports.quat_to_dir = util.quat_to_dir;
  * @returns {Quat} Destination quaternion.
  */
 exports.ground_project_quat = function(quat, dest) {
-    return util.quat_project(quat, util.AXIS_MY, util.AXIS_Y, util.AXIS_MZ, dest);
+    return m_util.quat_project(quat, m_util.AXIS_MY, m_util.AXIS_Y, m_util.AXIS_MZ, dest);
 }
 
 /**
@@ -163,7 +161,7 @@ exports.ground_project_quat = function(quat, dest) {
  * @returns {Quat} Destination quaternion.
  */
 exports.cam_quat_to_mesh_quat = function(cam_quat, dest) {
-    return util.cam_quat_to_mesh_quat(cam_quat, dest);
+    return m_util.cam_quat_to_mesh_quat(cam_quat, dest);
 }
 
 /**
@@ -185,11 +183,11 @@ exports.quat_project = function(quat, quat_ident_dir,
         return null;
     }
 
-    return util.quat_project(quat, quat_ident_dir,
+    return m_util.quat_project(quat, quat_ident_dir,
             plane, plane_ident_dir, dest);
 }
 
-exports.hash_code = util.hash_code;
+exports.hash_code = m_util.hash_code;
 
 /**
  * Perform exponential smoothing.
@@ -200,7 +198,7 @@ exports.hash_code = util.hash_code;
  * @param {Number} pariod Mean lifetime for avaraging.
  * @returns {Number} Smoothed value
  */
-exports.smooth = util.smooth;
+exports.smooth = m_util.smooth;
 
 /**
  * Perform exponential smoothing (vector form).
@@ -212,7 +210,7 @@ exports.smooth = util.smooth;
  * @param {Float32Array} [dest] Smoothed value
  * @returns {Float32Array} Smoothed value
  */
-exports.smooth_v = util.smooth_v;
+exports.smooth_v = m_util.smooth_v;
 
 /**
  * Check if object is a vector.
@@ -221,7 +219,7 @@ exports.smooth_v = util.smooth_v;
  * @param {Number} [dimension=0] Dimension, allow any if not specified
  * @returns {Boolean} Check result
  */
-exports.is_vector = util.is_vector;
+exports.is_vector = m_util.is_vector;
 
 /**
  * Correct the camera quaternion rotation.
@@ -229,15 +227,27 @@ exports.is_vector = util.is_vector;
  * @param {Quat} quat Quaternion to correct
  * @param {Boolean} up_only Disable upside-down camera view
  */
-exports.correct_cam_quat_up = util.correct_cam_quat_up;
+exports.correct_cam_quat_up = m_util.correct_cam_quat_up;
 
-exports.quat_to_angle_axis = util.quat_to_angle_axis;
+exports.quat_to_angle_axis = m_util.quat_to_angle_axis;
 
-exports.random_from_array = util.random_from_array;
+exports.random_from_array = m_util.random_from_array;
 
-exports.xz_direction = util.xz_direction;
+exports.xz_direction = m_util.xz_direction;
 
-exports.line_plane_intersect = util.line_plane_intersect;
+/**
+ * Calculate intersection point of a line and a plane.
+ * @method module:util.line_plane_intersect
+ * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
+ * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
+ * @param {Vec3} pn Plane normal.
+ * @param {Number} p_dist Plane signed distance from the origin.
+ * @param {Vec3} lp Point belonging to the line.
+ * @param {Vec3} l_dir Line direction.
+ * @param {Vec3} dest Destination vector.
+ * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
+ */
+exports.line_plane_intersect = m_util.line_plane_intersect;
 
 /**
  * Check if object is of type MESH
@@ -245,7 +255,7 @@ exports.line_plane_intersect = util.line_plane_intersect;
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  */
-exports.is_mesh = util.is_mesh;
+exports.is_mesh = m_util.is_mesh;
 
 /**
  * Check if object is of type ARMATURE
@@ -253,7 +263,7 @@ exports.is_mesh = util.is_mesh;
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  */
-exports.is_armature = util.is_armature;
+exports.is_armature = m_util.is_armature;
 
 /**
  * Convert radian angle into range [0, 2PI]
@@ -261,7 +271,7 @@ exports.is_armature = util.is_armature;
  * @param {Number} angle Angle in radians
  * @returns {Number} Converted angle
  */
-exports.angle_wrap_0_2pi = util.angle_wrap_0_2pi;
+exports.angle_wrap_0_2pi = m_util.angle_wrap_0_2pi;
 
 /**
  * Convert radian angle into custom range [from, to]
@@ -271,7 +281,7 @@ exports.angle_wrap_0_2pi = util.angle_wrap_0_2pi;
  * @param {Number} to Value to in radians
  * @returns {Number} Converted angle
  */
-exports.angle_wrap_periodic = util.angle_wrap_periodic;
+exports.angle_wrap_periodic = m_util.angle_wrap_periodic;
 
 /**
  * Smooth step function.
@@ -281,7 +291,7 @@ exports.angle_wrap_periodic = util.angle_wrap_periodic;
  * @param {Number} max Max clamping value.
  * @returns {Number} Result value.
  */
-exports.smooth_step = util.smooth_step;
+exports.smooth_step = m_util.smooth_step;
 
 /**
  * Linear interpolation function.
@@ -291,6 +301,6 @@ exports.smooth_step = util.smooth_step;
  * @param {Number} to End interpolation value.
  * @returns {Number} Result value.
  */
-exports.lerp = util.lerp;
+exports.lerp = m_util.lerp;
 
 }

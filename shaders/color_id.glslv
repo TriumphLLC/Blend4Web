@@ -18,7 +18,7 @@
 
 attribute vec3 a_position;
 
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
 attribute vec3 a_normal;
 # endif
@@ -57,7 +57,7 @@ AU_QUALIFIER vec3 au_center_pos;
 #if VERTEX_ANIM
 attribute vec3 a_position_next;
 # if NODES && ALPHA
-#  if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 attribute vec3 a_normal_next;
 #   if CALC_TBN_SPACE
 attribute vec4 a_tangent_next;
@@ -136,7 +136,7 @@ uniform vec3 u_texture_scale;
 varying vec3 v_pos_world;
 varying vec4 v_pos_view;
 
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
 varying vec3 v_normal;
 # endif
@@ -176,7 +176,7 @@ void main(void) {
 
     vec3 position = a_position;
 
-#if NODES && ALPHA && (CALC_TBN_SPACE || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || \
+#if NODES && ALPHA && (CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || \
         USE_NODE_GEOMETRY_NO || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND)
     vec3 normal = a_normal;
 # if CALC_TBN_SPACE
@@ -195,7 +195,7 @@ void main(void) {
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
 # if NODES && ALPHA
-#  if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
     normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 #  endif
 #  if CALC_TBN_SPACE
@@ -262,7 +262,7 @@ void main(void) {
 #if NODES && ALPHA
     v_pos_world = world.position;
 
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
     v_normal = world.normal;
 # endif

@@ -8,7 +8,8 @@
  */
 b4w.module["__time"] = function(exports, require) {
 
-var m_util = require("__util");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 // engine's global timeline (time since initialization)
 var _timeline = 0;

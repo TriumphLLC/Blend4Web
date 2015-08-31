@@ -3,6 +3,152 @@ Release Notes
 *************
 
 
+v15.08
+======
+
+
+New Features
+------------
+
+* Node-based logic editor.
+
+     This new logic editor allows to add interactivity to your apps
+     more easily by using a tree of connected nodes. The NLA Script
+     tool which was previously used for this purpose has been removed,
+     the old scripts are automatically converted to the newer format
+     during blend file loading.
+
+* Support for various shading models inside "MATERIAL" and
+  "MATERIAL_EXT" nodes.
+
+     Now the diffuse and specualar shading models are selected based
+     on materials inside such nodes. This is different from the
+     previous behavior when the shading was the same for all nodes and
+     was assigned by node material itself. This feature allows mixing
+     different basic materials (non-textured) inside node-based ones.
+
+* Improvements in transformation API.
+
+     New transform methods to perform relative objects
+     transformations: set_translation_rel(), set_translation_rel_v(),
+     get_translation_rel(), set_rotation_rel(), set_rotation_rel_v(),
+     get_rotation_rel(), set_scale_rel(), get_scale_rel(),
+     set_tsr_rel(), get_tsr_rel().
+
+     Methods without "_rel" suffix now always perform transformations
+     in world coordinate space, even if they are children of other
+     objects.
+
+     Also new methods to perform local rotations rotate_x_local(),
+     rotate_y_local(), rotate_z_local() have been added to transform
+     module.
+
+* Improved support for OS Windows.
+
+     Support for OS Windows in resource converter. Now Windows users
+     can create cross-browser applications which use media resources
+     in different formats. Also the application builder app can also
+     be run in Windows.
+
+* Support for the Microsoft Edge browser.
+
+* Support for physics simulation in the main (non-worker) browser
+  process.
+
+     This feature is useful for eliminating delays in physics
+     calculations in some mobile browsers. Earlier, all simulations
+     took place in separate Worker threads. The feature is controlled
+     by "physics_use_worker" parameter of the engine's initialization.
+
+* Support for bounding box recalculation.
+
+     A new method update_boundings() has been added to the objects
+     module. This method performs recalculations of the object's
+     boundings such as box, sphere, ellipsoid, cylinder, cone and
+     capsule.
+
+* Documentation improvements.
+
+     A new theme has been selected for the user manual. This theme
+     improves documentation readability on displays with different
+     screen resolutions.
+
+     Greatly improved and extended documenation for application
+     developers.
+
+* New APIs in *camera_anim* module.
+
+     New methods stop_cam_moving() and stop_cam_rotating() in the
+     b4wmod:*camera_anim* module.
+
+* Binary compatibility checks.
+
+     Now the version checks between .bin and .json files and the
+     current engine version are performed while scenes load.
+
+
+Changes
+-------
+
+* Changes in node material editor.
+
+     Custom shader nodes have been moved from the "Group" menu to the
+     "Blend4Web" menu. Also, an error with duplicated menu entries has
+     been fixed.
+
+* Refactoring of object structure.
+
+     Complete refactoring of an object structure has been initiated.
+     Object structures now have strong typing and include less
+     redundant data. This improves overall engine performance.
+
+* Changes in API.
+
+     The following methods are now deprecated and will be removed in
+     future engine releases: get_object_dg_parent() (scenes module),
+     get_parent() (constraints module). Instead, it is recommended to
+     use get_parent() and get_dg_parent() from the objects module.
+
+* Improved interaction between the development server and miltiple
+  Blender instances.
+
+
+Fixes
+-----
+
+* Fixed a compilation error in the *project.py* utility when a
+  project is compiled to some external directory.
+
+* Fixed a web server error which could arise due corrupted Windows
+  registry.
+
+* Fixed an export freeze for some corrupted .blend files.
+
+* Fixed incorrect non-uniform scale warnings upon exporting Metaball
+  objects.
+
+* Fixed an error with "Auto View" mode in the "Viewer" app if were
+  an empty scene category.
+
+* Fixed rendering of dynamically loaded materials if they have the
+  same name.
+
+* Fixed an export error for scenes using "Copy Transforms"
+  constraints.
+
+* Fixed an error with rendering depth textures in the Microsoft Edge
+  browser.
+
+* Fixed a bug with touch events in the Microsoft Edge browser.
+
+
+Known Issues
+------------
+
+* In the logic editor, some of looped links are highlighted in red.
+  This issue has only cosmetic effect and can be safely ignored.
+
+
 v15.07
 ======
 

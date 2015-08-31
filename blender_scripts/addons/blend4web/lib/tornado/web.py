@@ -87,7 +87,6 @@ from tornado.escape import utf8, _unicode
 from tornado.util import import_object, ObjectDict, raise_exc_info, unicode_type, _websocket_mask
 from tornado.httputil import split_host_and_port
 
-
 try:
     import Cookie  # py2
 except ImportError:

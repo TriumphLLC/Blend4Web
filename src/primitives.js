@@ -8,19 +8,21 @@
  */
 b4w.module["__primitives"] = function(exports, require) {
 
-var geometry = require("__geometry");
-var util     = require("__util");
-var config   = require("__config");
-var cfg_def  = config.defaults;
+var m_cfg   = require("__config");
+var m_geom  = require("__geometry");
+var m_print = require("__print");
+var m_util  = require("__util");
+
+var cfg_def  = m_cfg.defaults;
 
 exports.generate_lines = function(num) {
-    var submesh = util.create_empty_submesh("LINE");
+    var submesh = m_util.create_empty_submesh("LINE");
 
     var points = [];
     for (var i = 0; i < num * 2; i++)
         points.push(i);
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_point"] = new Float32Array(points);
 
     submesh.va_frames[0] = va_frame;
@@ -77,12 +79,12 @@ function generate_grid(x_subdiv, z_subdiv, x_size, z_size) {
 
     // construct submesh
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
     va_frame["a_normal"] = new Float32Array(normals);
 
-    var submesh = util.create_empty_submesh("GRID_PLANE");
+    var submesh = m_util.create_empty_submesh("GRID_PLANE");
 
     submesh.va_frames[0] = va_frame;
     submesh.va_common["a_texcoord"] = new Float32Array(texcoords);
@@ -314,11 +316,11 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
     }
 
     // construct submesh
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
 
-    var submesh = util.create_empty_submesh("multigrid_plane");
+    var submesh = m_util.create_empty_submesh("multigrid_plane");
 
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array(indices);
@@ -326,8 +328,8 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
 
     // debug wireframe mode
     if (cfg_def.water_wireframe_debug) {
-        geometry.submesh_drop_indices(submesh, 1, true);
-        va_frame["a_polyindex"]  = geometry.extract_polyindices(submesh);
+        m_geom.submesh_drop_indices(submesh, 1, true);
+        va_frame["a_polyindex"]  = m_geom.extract_polyindices(submesh);
     }
 
     return submesh;
@@ -359,11 +361,11 @@ exports.generate_from_triangles = function(verts) {
 
     // construct submesh
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
 
-    var submesh = util.create_empty_submesh("FROM_TRIANGLES");
+    var submesh = m_util.create_empty_submesh("FROM_TRIANGLES");
 
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array(indices);
@@ -405,11 +407,11 @@ function generate_from_quads(verts) {
 
     // construct submesh
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
 
-    var submesh = util.create_empty_submesh("FROM_QUADS");
+    var submesh = m_util.create_empty_submesh("FROM_QUADS");
 
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array(indices);
@@ -426,7 +428,7 @@ function generate_from_quads(verts) {
  */
 exports.generate_frustum = function(corners) {
 
-    var corners = util.vectorize(corners, []); 
+    var corners = m_util.vectorize(corners, []); 
 
     // TODO: implement simple method to generate frustum geometry
     var quads = [];
@@ -454,9 +456,9 @@ exports.generate_frustum = function(corners) {
 
 exports.generate_fullscreen_tri = function() {
 
-    var submesh = util.create_empty_submesh("FULLSCREEN_TRI");
+    var submesh = m_util.create_empty_submesh("FULLSCREEN_TRI");
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_position"] = new Float32Array([0, 0, 1, 0, 0, 1]);
 
     submesh.va_frames[0] = va_frame;
@@ -468,9 +470,9 @@ exports.generate_fullscreen_tri = function() {
 
 exports.generate_fullscreen_quad = function() {
 
-    var submesh = util.create_empty_submesh("FULLSCREEN_QUAD");
+    var submesh = m_util.create_empty_submesh("FULLSCREEN_QUAD");
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_position"] = new Float32Array([-1,  1, 1,  1, -1, -1, 1, -1]);
 
     submesh.va_frames[0] = va_frame;
@@ -482,9 +484,9 @@ exports.generate_fullscreen_quad = function() {
 
 exports.generate_billboard = function() {
 
-    var submesh = util.create_empty_submesh("BILLBOARD");
+    var submesh = m_util.create_empty_submesh("BILLBOARD");
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_bb_vertex"] = new Float32Array([-0.5,-0.5, -0.5,0.5, 0.5,0.5, 0.5,-0.5]);
 
     submesh.va_frames[0] = va_frame;
@@ -496,9 +498,9 @@ exports.generate_billboard = function() {
 
 exports.generate_cube = function() {
 
-    var submesh = util.create_empty_submesh("CUBEMAP_BOARD");
+    var submesh = m_util.create_empty_submesh("CUBEMAP_BOARD");
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_position"] = new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]); 
 
     submesh.va_frames[0] = va_frame;
@@ -515,7 +517,7 @@ exports.generate_cube = function() {
  */
 exports.generate_uv_sphere = function(segments, rings, size, center, 
         use_smooth, use_wireframe) {
-    var submesh = util.create_empty_submesh("UV_SPHERE");
+    var submesh = m_util.create_empty_submesh("UV_SPHERE");
 
 	var x, y;
     
@@ -613,10 +615,10 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
         va_frame["a_normal"] = [];
     } else {
 
-        var shared_indices = geometry.calc_shared_indices(indices, 
+        var shared_indices = m_geom.calc_shared_indices(indices, 
                 grid_positions, positions);
 
-        va_frame["a_normal"] = geometry.calc_normals(indices, positions, 
+        va_frame["a_normal"] = m_geom.calc_normals(indices, positions, 
                 shared_indices);
     }
 
@@ -650,9 +652,9 @@ function add_vec3_to_array(vec, array) {
 
 exports.generate_index = function(num) {
 
-    var submesh = util.create_empty_submesh("INDEX");
+    var submesh = m_util.create_empty_submesh("INDEX");
 
-    var va_frame = util.create_empty_va_frame();
+    var va_frame = m_util.create_empty_va_frame();
     va_frame["a_index"] = new Float32Array(num);
     for (var i = 0; i < num; i++)
         va_frame["a_index"][i] = i;

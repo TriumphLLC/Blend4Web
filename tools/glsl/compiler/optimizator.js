@@ -25,9 +25,9 @@ exports.optimize_declarations = function(max_uid) {
 
     var is_in_function = false;
     var is_in_iteration = false;
-    var is_in_nodes_lamps_main = false;
+    var is_in_nodes_main = false;
     // {uid: 1}
-    var out_nodes_lamps_main_ident = {};
+    var out_nodes_main_ident = {};
     var names_should_be_freed = {};
 
     set_last_usage();
@@ -38,8 +38,8 @@ exports.optimize_declarations = function(max_uid) {
         switch (ast_node.type) {
         case "declaration":
             if (is_in_function) {
-                if (!is_in_nodes_lamps_main)
-                    out_nodes_lamps_main_ident[ast_node.decl_id.name] = 1;
+                if (!is_in_nodes_main)
+                    out_nodes_main_ident[ast_node.decl_id.name] = 1;
 
                 if (ast_node.decl_type == m_consts.DECL_VAR 
                         && !ast_node.decl_id_type_qualifier
@@ -136,13 +136,13 @@ exports.optimize_declarations = function(max_uid) {
                     var last_definition = get_last_list_elem(id_to_global_id[ast_node.id_usage_id.name]);
 
                     // free unused "global" variable
-                    if (ast_node.is_last_usage && !is_in_iteration && (!is_in_nodes_lamps_main
-                            || !(ast_node.id_usage_id.name in out_nodes_lamps_main_ident))) {
+                    if (ast_node.is_last_usage && !is_in_iteration && (!is_in_nodes_main
+                            || !(ast_node.id_usage_id.name in out_nodes_main_ident))) {
                         if (!free_global_id[last_definition["type"]])
                             free_global_id[last_definition["type"]] = [];
                         free_global_id[last_definition["type"]].unshift(last_definition["global_id"]);
-                    } else if (is_in_nodes_lamps_main 
-                            && ast_node.id_usage_id.name in out_nodes_lamps_main_ident) {
+                    } else if (is_in_nodes_main 
+                            && ast_node.id_usage_id.name in out_nodes_main_ident) {
                         if (!names_should_be_freed[last_definition["type"]])
                             names_should_be_freed[last_definition["type"]] = [];
                         names_should_be_freed[last_definition["type"]].push(last_definition["global_id"]);
@@ -182,6 +182,7 @@ exports.optimize_declarations = function(max_uid) {
                     free_global_id = {};
                     names_should_be_freed = {};
                     next_num_ident = {};
+                    out_nodes_main_ident = {};
                 }
             } else if (ast_node.scope_status == m_consts.SCOPE_END) {
                 for (var name in id_to_global_id) {
@@ -200,10 +201,9 @@ exports.optimize_declarations = function(max_uid) {
                     ast_node.scope_uid, ["iteration_statement"]) ? true: false;
             break;
         case "nodes_main":
-        case "lamps_main":
-            is_in_nodes_lamps_main = ast_node.is_beginning;
+            is_in_nodes_main = ast_node.is_beginning;
             if (!ast_node.is_beginning)
-                out_nodes_lamps_main_ident = {};
+                out_nodes_main_ident = {};
             else
                 for (var type in names_should_be_freed)
                     free_global_id.unshift.apply(free_global_id, names_should_be_freed[type]);

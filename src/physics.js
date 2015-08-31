@@ -8,31 +8,32 @@
  */
 b4w.module["__physics"] = function(exports, require) {
 
-var m_cfg     = require("__config");
-var m_cons    = require("__constraints");
-var m_print   = require("__print");
-var m_debug   = require("__debug");
-var m_ipc     = require("__ipc");
-var m_render  = require("__renderer");
-var m_scs     = require("__scenes");
-var m_trans   = require("__transform");
-var m_tsr     = require("__tsr");
-var m_util    = require("__util");
-var m_version = require("__version");
-
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
-var m_mat4 = require("mat4");
+var m_cfg      = require("__config");
+var m_cons     = require("__constraints");
+var m_debug    = require("__debug");
+var m_ipc      = require("__ipc");
+var m_mat4     = require("__mat4");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_quat     = require("__quat");
+var m_render   = require("__renderer");
+var m_scs      = require("__scenes");
+var m_trans    = require("__transform");
+var m_tsr      = require("__tsr");
+var m_util     = require("__util");
+var m_vec3     = require("__vec3");
+var m_version  = require("__version");
 
 var cfg_phy = m_cfg.physics;
 var cfg_def = m_cfg.defaults;
+var cfg_ldr = m_cfg.assets;
 
 var ANY_COL_ID_NUM = 0;
 var RAY_CMP_PRECISION = 0.0000001;
 
 var _phy_fps = 0;
-var _worker = null;
-var _active_scene = null;
+var _workers = [];
+var _scenes = [];
 
 var _bounding_objects = {};
 var _bounding_objects_arr = [];
@@ -62,11 +63,6 @@ var VT_HULL        = 20;
  */
 exports.init_scene_physics = function(scene) {
 
-    if (_active_scene) {
-        m_print.warn("Multiple physics scenes are currently not supported");
-        return;
-    }
-
     scene._physics = {
         worker_loaded: false,
         bundles: [],
@@ -74,15 +70,24 @@ exports.init_scene_physics = function(scene) {
         ray_tests_arr: []
     };
 
-    var path = cfg_phy.uranium_path + m_version.timestamp();
-    m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
-    _worker = new Worker(path);
-    m_ipc.init(_worker, process_message);
+    var path = cfg_phy.uranium_path;
 
-    _active_scene = scene;
+    if (cfg_ldr.prevent_caching)
+        path += m_version.timestamp();
+
+    m_print.log("%cLOAD PHYSICS", "color: #0a0", cfg_phy.use_workers ?
+            "Using Separate Worker Thread," : "Using Same Thread,",
+            "Max FPS: " + cfg_phy.max_fps);
+    m_print.log("%cPHYSICS PATH", "color: #0a0", path);
+    var worker = m_ipc.create_worker(path, !cfg_phy.use_workers);
+    m_ipc.attach_handler(worker, process_message);
+
+    _workers.push(worker);
+    _scenes.push(scene);
 
     if (cfg_phy.ping)
-        setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
+        setInterval(function() {m_ipc.post_msg(worker, m_ipc.OUT_PING,
+                    performance.now())}, 1000);
 }
 
 exports.check_worker_loaded = function(scene) {
@@ -93,13 +98,12 @@ exports.check_worker_loaded = function(scene) {
 }
 
 exports.cleanup = function() {
-    if (!_active_scene)
-        return;
+    for (var i = 0; i < _workers.length; i++)
+        m_ipc.terminate(_workers[i]);
 
-    _worker.terminate();
+    _workers.length = 0;
+    _scenes.length = 0;
 
-    _worker = null;
-    _active_scene = null;
     _bounding_objects = {};
     _bounding_objects_arr.length = 0;
     _collision_ids.length = 0;
@@ -109,10 +113,10 @@ exports.cleanup = function() {
 }
 
 function add_compound_children(parent, container) {
-    var children = parent._descends;
+    var children = parent.cons_descends;
 
     for (var i = 0; i < children.length; i++) {
-        if (children[i]._render.use_collision_compound)
+        if (children[i].physics_settings.use_collision_compound)
             container.push(children[i]);
 
         add_compound_children(children[i], container);
@@ -123,16 +127,17 @@ function add_compound_children(parent, container) {
 
 exports.append_object = function(obj, scene) {
 
-    var render = obj._render;
+    var render = obj.render;
     if (!render)
-        throw "No object render: " + obj["name"];
+        throw "No object render: " + obj.name;
 
-    if (obj["parent"] && render.use_collision_compound)
-        return null;
+    var phy_set = obj.physics_settings;
+
+    var worker = find_worker_by_scene(scene);
 
     var compound_children = [];
 
-    if (render.use_collision_compound)
+    if (phy_set.use_collision_compound)
         add_compound_children(obj, compound_children);
 
     var bundles = scene._physics.bundles;
@@ -142,11 +147,10 @@ exports.append_object = function(obj, scene) {
     // constraints
 
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj) ||
-            is_character(obj) || is_floater_main(obj) || obj["b4w_collision"]) {
+            is_character(obj) || is_floater_main(obj) || obj.use_obj_physics) {
 
-        var phy = init_bounding_physics(obj, render.physics_type,
-                compound_children);
-        obj._physics = phy;
+        var phy = init_bounding_physics(obj, compound_children, worker);
+        obj.physics = phy;
 
         var pb = {
             batch: null,
@@ -154,9 +158,10 @@ exports.append_object = function(obj, scene) {
         };
 
         bundles.push(pb);
-        recalc_collision_tests(scene, phy.collision_id);
+        recalc_collision_tests(scene, worker, phy.collision_id);
     } else {
-        var batches = obj._batches || [];
+        var sc_data = m_obj_util.get_scene_data(obj, scene);
+        var batches = sc_data.batches;
 
         for (var i = 0; i < batches.length; i++) {
 
@@ -166,20 +171,20 @@ exports.append_object = function(obj, scene) {
                 continue;
 
             if (!batch.submesh.base_length) {
-                m_print.error("Object " + obj["name"] +
+                m_print.error("Object " + obj.name +
                         " has collision material with no assigned vertices");
                 continue;
             }
 
             if (batch.water && scene._render.water_params) {
-                init_water_physics(batch);
+                init_water_physics(batch, scene, worker);
                 continue;
             }
 
             if (batch.use_ghost)
-                var phy = init_ghost_mesh_physics(obj, batch);
+                var phy = init_ghost_mesh_physics(obj, batch, worker);
             else
-                var phy = init_static_mesh_physics(obj, batch);
+                var phy = init_static_mesh_physics(obj, batch, worker);
 
             // physics bundle
             var pb = {
@@ -188,26 +193,26 @@ exports.append_object = function(obj, scene) {
             };
 
             bundles.push(pb);
-            recalc_collision_tests(scene, phy.collision_id);
+            recalc_collision_tests(scene, worker, phy.collision_id);
         }
     }
 
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj)) {
-        init_vehicle(obj);
-        update_vehicle_controls(obj, obj._vehicle);
+        init_vehicle(obj, worker);
+        update_vehicle_controls(obj, obj.vehicle, worker);
     } else if (is_character(obj))
-        init_character(obj);
+        init_character(obj, worker);
     else if (is_floater_main(obj))
-        init_floater(obj);
+        init_floater(obj, worker);
 
     for (var i = 0; i < _bounding_objects_arr.length; i++) {
         var obj = _bounding_objects_arr[i];
-        if (obj._physics)
+        if (obj.physics)
             process_rigid_body_joints(obj);
     }
 }
 
-function recalc_collision_tests(scene, collision_id) {
+function recalc_collision_tests(scene, worker, collision_id) {
     var bundles = scene._physics.bundles;
 
     for (var i = 0; i < bundles.length; i++) {
@@ -217,7 +222,7 @@ function recalc_collision_tests(scene, collision_id) {
             var test = phy.collision_tests[j];
 
             if (test.collision_id == "ANY" || collision_id == test.collision_id)
-                append_collision_pairs(test);
+                append_collision_pairs(test, scene, worker);
         }
     }
 }
@@ -239,19 +244,21 @@ function has_batch(scene, batch) {
 /**
  * Process message incoming from worker
  */
-function process_message(msg_id, msg) {
+function process_message(worker, msg_id, msg) {
 
-    // NOTE: silently ignore if something arrives after worker cleanup
-    if (!_active_scene)
+    // NOTE: silently ignore if something arrives after the worker's termination
+    // NOTE: is it possible?
+    if (!m_ipc.is_active(worker))
         return;
 
     switch (msg_id) {
     case m_ipc.IN_LOADED:
-        _active_scene._physics.worker_loaded = true;
+        var scene = find_scene_by_worker(worker);
+        scene._physics.worker_loaded = true;
 
         // initialize world
         var fallback_init_time = Date.now() - performance.now();
-        m_ipc.post_msg(m_ipc.OUT_INIT, fallback_init_time, cfg_phy.max_fps,
+        m_ipc.post_msg(worker, m_ipc.OUT_INIT, fallback_init_time, cfg_phy.max_fps,
                 cfg_phy.calc_fps ? cfg_def.fps_measurement_interval : 0);
         break;
     case m_ipc.IN_LOG:
@@ -283,15 +290,17 @@ function process_message(msg_id, msg) {
     case m_ipc.IN_VEHICLE_SPEED:
         var obj = find_obj_by_body_id(msg[1]);
         if (obj)
-            obj._vehicle.speed = msg[2];
+            obj.vehicle.speed = msg[2];
         break;
     case m_ipc.IN_COLLISION:
-        traverse_collision_tests(_active_scene, msg.body_id_a,
+        var scene = find_scene_by_worker(worker);
+        traverse_collision_tests(scene, msg.body_id_a,
                                  msg.body_id_b, msg.result,
                                  null, null, 0);
         break;
     case m_ipc.IN_COLLISION_POS_NORM:
-        traverse_collision_tests(_active_scene, msg.body_id_a,
+        var scene = find_scene_by_worker(worker);
+        traverse_collision_tests(scene, msg.body_id_a,
                                  msg.body_id_b, msg.result,
                                  msg.coll_point, msg.coll_norm, 
                                  msg.coll_dist);
@@ -299,7 +308,7 @@ function process_message(msg_id, msg) {
     case m_ipc.IN_COLLISION_IMPULSE:
         var obj = find_obj_by_body_id(msg[1]);
         if (obj) {
-            var phy = obj._physics;
+            var phy = obj.physics;
 
             if (phy.col_imp_test_cb)
                 phy.col_imp_test_cb(msg[2]);
@@ -307,7 +316,8 @@ function process_message(msg_id, msg) {
         break;
     case m_ipc.IN_RAY_HIT:
     case m_ipc.IN_RAY_HIT_POS_NORM:
-        var sphy = _active_scene._physics;
+        var scene = find_scene_by_worker(worker);
+        var sphy = scene._physics;
         var test = sphy.ray_tests[msg.id]
 
         // NOTE: ignoring the case when there is no test (may be removed in cb)
@@ -326,21 +336,38 @@ function process_message(msg_id, msg) {
         remove_ray_test(id);
         break;
     case m_ipc.IN_PING:
+        var idx = _workers.indexOf(worker);
         var out_time = (msg[2] - msg[1]).toFixed(3);
         var in_time = (performance.now() - msg[2]).toFixed(3);
         var all_time = (performance.now() - msg[1]).toFixed(3);
-        console.log("Physics Ping: OUT " + out_time + " ms, IN " + in_time + " ms, ALL " + all_time + " ms");
+        console.log("Physics #" + idx + " Ping: OUT " + out_time +
+                " ms, IN " + in_time + " ms, ALL " + all_time + " ms");
         break;
     case m_ipc.IN_FPS:
         _phy_fps = msg[1];
         break;
     case m_ipc.IN_DEBUG_STATS:
+        var idx = _workers.indexOf(worker);
+        // TODO: add scene name
+        console.log("Worker: #" + String(idx));
         console.log(msg[1]);
         break;
     default:
         m_print.error("Wrong message: " + msg_id);
         break;
     }
+}
+
+function find_scene_by_worker(worker) {
+    for (var i = 0; i < _workers.length; i++)
+        if (_workers[i] == worker)
+            return _scenes[i];
+}
+
+function find_worker_by_scene(scene) {
+    for (var i = 0; i < _scenes.length; i++)
+        if (_scenes[i] == scene)
+            return _workers[i];
 }
 
 exports.find_obj_by_body_id = find_obj_by_body_id;
@@ -352,8 +379,7 @@ function find_obj_by_body_id(body_id) {
 }
 
 function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
-
-    var phy = obj._physics;
+    var phy = obj.physics;
 
     phy.curr_time = time;
     m_tsr.set_sep(trans, 1.0, quat, phy.curr_tsr);
@@ -363,14 +389,14 @@ function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
 }
 
 function update_prop_offset(obj_chassis_hull, prop_num, trans, quat) {
-    var prop_offset = obj_chassis_hull._vehicle.prop_offsets[prop_num];
+    var prop_offset = obj_chassis_hull.vehicle.prop_offsets[prop_num];
 
     m_tsr.set_sep(trans, 1.0, quat, prop_offset);
 }
 
 function update_floater_bob_coords(obj_floater, bob_num, trans, quat) {
 
-    var obj_bob = obj_floater._floater.bobs[bob_num];
+    var obj_bob = obj_floater.floater.bobs[bob_num];
     m_trans.set_translation(obj_bob, trans);
     m_trans.set_rotation(obj_bob, quat);
     m_trans.update_transform(obj_bob);
@@ -460,14 +486,34 @@ function exec_ray_test_cb(test, hit_fract, obj_hit, hit_time, hit_pos, hit_norm)
 
 exports.update = function(timeline, delta) {
 
+    for (var i = 0; i < _workers.length; i++) {
+        update_worker(_workers[i], timeline, delta);
+
+        // update physics water time
+        var scene = _scenes[i];
+        var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
+        if (subs.water_params && subs.water_params.waves_height > 0.0) {
+            var wind = m_vec3.length(subs.wind);
+            m_ipc.post_msg(_workers[i], m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
+        }
+    }
+}
+
+function update_worker(worker, timeline, delta) {
+    if (worker && m_ipc.is_fallback(worker))
+        m_ipc.post_msg(worker, m_ipc.OUT_UPDATE_WORLD, timeline, delta);
+
     // interpolate uranium transforms in point of previous frame
     for (var i = 0; i < _bounding_objects_arr.length; i++) {
         var obj = _bounding_objects_arr[i];
-        var phy = obj._physics;
+        var phy = obj.physics;
 
         // current time = 0 - do nothing
         if (phy.simulated && phy.curr_time) {
-            var d = performance.now() / 1000 - phy.curr_time;
+            if (m_ipc.is_fallback(worker))
+                var d = timeline - phy.curr_time;
+            else
+                var d = performance.now() / 1000 - phy.curr_time;
 
             // clamp to maximum 10 frames to prevent jitter of sleeping objects
             d = Math.min(d, 10 * 1/cfg_phy.max_fps);
@@ -483,48 +529,38 @@ exports.update = function(timeline, delta) {
             m_tsr.integrate(phy.curr_tsr, d, phy.linvel, phy.angvel,
                     _tsr8_tmp);
 
-            m_trans.set_tsr_raw(obj, tsr);
+            m_trans.set_tsr(obj, tsr);
             m_trans.update_transform(obj);
             sync_transform(obj);
 
-            if (obj._vehicle)
+            if (obj.vehicle)
                 update_prop_transforms(obj);
 
-            if (obj._vehicle && obj._vehicle.steering_wheel)
+            if (obj.vehicle && obj.vehicle.steering_wheel)
                 update_steering_wheel_coords(obj);
 
-            if (obj._vehicle && obj._vehicle.speedometer)
+            if (obj.vehicle && obj.vehicle.speedometer)
                 update_speedometer(obj);
 
-            if (obj._vehicle && obj._vehicle.tachometer)
+            if (obj.vehicle && obj.vehicle.tachometer)
                 update_tachometer(obj);
         }
     }
 
-    // update physics water time
-    var scene = _active_scene;
-    if (scene) {
-        var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
-        if (subs.water_params && subs.water_params.waves_height > 0.0) {
+    m_ipc.post_msg_arr(worker);
 
-            var wind = m_vec3.length(subs.wind);
-            m_ipc.post_msg(m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
-        }
-    }
-
-    m_ipc.post_msg_arr();
 }
 
 function update_prop_transforms(obj_chassis_hull) {
 
-    var obj_props = obj_chassis_hull._vehicle.props;
+    var obj_props = obj_chassis_hull.vehicle.props;
 
-    var chass_hull_tsr = obj_chassis_hull._render.tsr;
+    var chass_hull_tsr = obj_chassis_hull.render.tsr;
     var prop_tsr = _tsr8_tmp;
 
     for (var i = 0; i < obj_props.length; i++) {
         var obj_prop = obj_props[i];
-        var prop_offset = obj_chassis_hull._vehicle.prop_offsets[i];
+        var prop_offset = obj_chassis_hull.vehicle.prop_offsets[i];
 
         m_tsr.multiply(chass_hull_tsr, prop_offset, prop_tsr);
 
@@ -533,18 +569,20 @@ function update_prop_transforms(obj_chassis_hull) {
     }
 }
 
+
 exports.get_active_scene = function() {
-    return _active_scene;
+    // TODO: fix it
+    return _scenes[0];
 }
 
 exports.pause = function() {
-    if (_active_scene)
-        m_ipc.post_msg(m_ipc.OUT_PAUSE);
+    for (var i = 0; i < _workers.length; i++)
+        m_ipc.post_msg(_workers[i], m_ipc.OUT_PAUSE);
 }
 
 exports.resume = function() {
-    if (_active_scene)
-        m_ipc.post_msg(m_ipc.OUT_RESUME);
+    for (var i = 0; i < _workers.length; i++)
+        m_ipc.post_msg(_workers[i], m_ipc.OUT_RESUME);
 }
 
 function get_unique_body_id() {
@@ -553,15 +591,13 @@ function get_unique_body_id() {
 }
 
 
-function init_water_physics(batch) {
-
-    var scene = _active_scene;
+function init_water_physics(batch, scene, worker) {
 
     // NOTE: taking some params from subscene to match water rendering
     var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
 
     var water_level = subs.water_level;
-    m_ipc.post_msg(m_ipc.OUT_APPEND_WATER, water_level);
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_WATER, water_level);
 
     // TODO: get subscene water_params for proper water (not common one)
     if (subs.water_params && batch.water_dynamics) {
@@ -588,18 +624,18 @@ function init_water_physics(batch) {
             var center_y       = subs.shoremap_center[1];
             var max_shore_dist = subs.max_shore_dist;
             var array_width    = subs.shoremap_tex_size;
-            m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, size_x,
+            m_ipc.post_msg(worker, m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, size_x,
                            size_y, center_x, center_y, max_shore_dist,
                            waves_height, waves_length, array_width,
                            scene._render.shore_distances);
         } else {
-            m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, 0, 0, 0, 0,
+            m_ipc.post_msg(worker, m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, 0, 0, 0, 0,
                            0, waves_height, waves_length, 0, null);
         }
     }
 }
 
-function init_static_mesh_physics(obj, batch) {
+function init_static_mesh_physics(obj, batch, worker) {
 
     var body_id = get_unique_body_id();
 
@@ -607,8 +643,7 @@ function init_static_mesh_physics(obj, batch) {
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
 
-    var render = obj._render;
-    var trans = obj._render.trans;
+    var trans = obj.render.trans;
 
     var friction = batch.friction;
     var restitution = batch.elasticity;
@@ -618,7 +653,7 @@ function init_static_mesh_physics(obj, batch) {
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_STATIC_MESH_BODY, body_id, positions,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_STATIC_MESH_BODY, body_id, positions,
             indices, trans, friction, restitution, collision_id_num,
             collision_margin, collision_group, collision_mask);
 
@@ -679,7 +714,7 @@ function init_physics(body_id) {
 /**
  * E.g for water ray casting
  */
-function init_ghost_mesh_physics(obj, batch) {
+function init_ghost_mesh_physics(obj, batch, worker) {
 
     var body_id = get_unique_body_id();
 
@@ -692,10 +727,9 @@ function init_ghost_mesh_physics(obj, batch) {
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
-    var render = obj._render;
-    var trans = obj._render.trans;
+    var trans = obj.render.trans;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
             indices, trans, collision_id_num, collision_margin, collision_group,
             collision_mask);
 
@@ -708,18 +742,20 @@ function init_ghost_mesh_physics(obj, batch) {
 }
 
 
-function init_bounding_physics(obj, physics_type, compound_children) {
+function init_bounding_physics(obj, compound_children, worker) {
+    var bpy_obj = obj.temp_bpy_obj;
+    var render = obj.render;
+    var phy_set = obj.physics_settings;
 
-    var render = obj._render;
-    var game = obj["game"];
+    var physics_type = phy_set.physics_type;
 
     var bb = render.bb_local;
 
     var body_id = get_unique_body_id();
 
-    if (obj["type"] == "CAMERA") {
-        var bounding_type = game["use_collision_bounds"] ?
-                game["collision_bounds_type"] : "BOX";
+    if (obj.type == "CAMERA") {
+        var bounding_type = phy_set.use_collision_bounds ?
+                phy_set.collision_bounds_type : "BOX";
         var bounding_object = find_bounding_type(bounding_type, render);
 
         var friction = render.friction;
@@ -727,15 +763,15 @@ function init_bounding_physics(obj, physics_type, compound_children) {
 
         var friction = 0.5;
         var restitution = 0.0;
-    } else if (obj["type"] == "EMPTY") {
+    } else if (obj.type == "EMPTY") {
         var bounding_type = "EMPTY";
         var bounding_object = null;
 
         var friction = 0;
         var restitution = 0;
     } else {
-        var bounding_type = game["use_collision_bounds"] ?
-                game["collision_bounds_type"] : "BOX";
+        var bounding_type = phy_set.use_collision_bounds ?
+                phy_set.collision_bounds_type : "BOX";
         var bounding_object = find_bounding_type(bounding_type, render);
 
         var friction = render.friction;
@@ -744,27 +780,27 @@ function init_bounding_physics(obj, physics_type, compound_children) {
 
     var trans = render.trans;
     var quat = render.quat;
-    var is_ghost = game["use_ghost"];
+    var is_ghost = phy_set.use_ghost;
     // use_sleep=true - no sleeping
-    var disable_sleeping = game["use_sleep"];
-    var mass = game["mass"];
-    var velocity_min = game["velocity_min"];
-    var velocity_max = game["velocity_max"];
-    var damping = game["damping"];
-    var rotation_damping = game["rotation_damping"];
-    var collision_id = obj["b4w_collision_id"];
+    var disable_sleeping = phy_set.use_sleep;
+    var mass = phy_set.mass;
+    var velocity_min = phy_set.velocity_min;
+    var velocity_max = phy_set.velocity_max;
+    var damping = phy_set.damping;
+    var rotation_damping = phy_set.rotation_damping;
+    var collision_id = bpy_obj["b4w_collision_id"];
     var collision_id_num = col_id_num(collision_id);
-    var collision_margin = game["collision_margin"];
-    var collision_group = game["collision_group"];
-    var collision_mask = game["collision_mask"];
+    var collision_margin = phy_set.collision_margin;
+    var collision_group = phy_set.collision_group;
+    var collision_mask = phy_set.collision_mask;
     var size = render.bs_local.radius;
     var worker_bounding = create_worker_bounding(bounding_object);
-    var correct_bound_offset = obj["b4w_correct_bounding_offset"];
+    var correct_bound_offset = bpy_obj["b4w_correct_bounding_offset"];
 
     var comp_children_params = get_children_params(render,
                     compound_children, bounding_type, worker_bounding);
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_BOUNDING_BODY, body_id, trans, quat,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_BOUNDING_BODY, body_id, trans, quat,
             physics_type, is_ghost, disable_sleeping, mass,
             velocity_min, velocity_max, damping, rotation_damping,
             collision_id_num, collision_margin, collision_group, collision_mask,
@@ -808,18 +844,18 @@ function get_children_params(render, children, bt, wb) {
     for (var i = 0; i < children.length; i++) {
         var child_params = {};
         var child        = children[i];
-        var child_bt     = child["game"]["collision_bounds_type"];
+        var child_bt     = child.physics_settings.collision_bounds_type;
         var loc_quat     = new Float32Array(4);
         var loc_trans    = new Float32Array(3);
 
-        m_vec3.transformMat4(child._render.trans, wm_inv, loc_trans);
-        m_quat.multiply(quat_inv, child._render.quat, loc_quat);
+        m_vec3.transformMat4(child.render.trans, wm_inv, loc_trans);
+        m_quat.multiply(quat_inv, child.render.quat, loc_quat);
 
         child_params["trans"] = loc_trans;
         child_params["quat"] = loc_quat;
         child_params["bounding_type"] = child_bt;
         child_params["worker_bounding"] = create_worker_bounding(
-                           find_bounding_type(child_bt, child._render));
+                           find_bounding_type(child_bt, child.render));
 
         comp_children_params.push(child_params);
     }
@@ -872,59 +908,60 @@ function create_worker_bounding(bounding_object) {
     return out_obj;
 }
 
-function init_vehicle(obj) {
+function init_vehicle(obj, worker) {
 
-    var body_id = obj._physics.body_id;
+    var body_id = obj.physics.body_id;
 
     if (is_vehicle_chassis(obj)) {
-        obj._vehicle.type = VT_CHASSIS;
-        var susp_compress = obj._vehicle.suspension_compression;
-        var susp_stiffness = obj._vehicle.suspension_stiffness;
-        var susp_damping = obj._vehicle.suspension_damping;
-        var wheel_friction = obj._vehicle.wheel_friction;
-        var max_suspension_travel_cm = obj._vehicle.max_suspension_travel_cm;
+        obj.vehicle.type = VT_CHASSIS;
+        var susp_compress = obj.vehicle.suspension_compression;
+        var susp_stiffness = obj.vehicle.suspension_stiffness;
+        var susp_damping = obj.vehicle.suspension_damping;
+        var wheel_friction = obj.vehicle.wheel_friction;
+        var max_suspension_travel_cm = obj.vehicle.max_suspension_travel_cm;
 
-        m_ipc.post_msg(m_ipc.OUT_APPEND_CAR, body_id,
+        m_ipc.post_msg(worker, m_ipc.OUT_APPEND_CAR, body_id,
                                susp_compress,
                                susp_stiffness,
                                susp_damping,
                                wheel_friction,
                                max_suspension_travel_cm);
     } else if (is_vehicle_hull(obj)) {
-        obj._vehicle.type = VT_HULL;
-        var floating_factor = obj._vehicle.floating_factor;
-        var water_lin_damp = obj._vehicle.water_lin_damp;
-        var water_rot_damp = obj._vehicle.water_rot_damp;
-        m_ipc.post_msg(m_ipc.OUT_APPEND_BOAT, body_id, floating_factor,
+        obj.vehicle.type = VT_HULL;
+        var floating_factor = obj.vehicle.floating_factor;
+        var water_lin_damp = obj.vehicle.water_lin_damp;
+        var water_rot_damp = obj.vehicle.water_rot_damp;
+        m_ipc.post_msg(worker, m_ipc.OUT_APPEND_BOAT, body_id, floating_factor,
                                 water_lin_damp, water_rot_damp);
     }
 
-    if (obj._vehicle.props) {
-        var props = obj._vehicle.props;
-        switch (obj._vehicle.type) {
+    if (obj.vehicle.props) {
+        var props = obj.vehicle.props;
+        switch (obj.vehicle.type) {
 
         case VT_CHASSIS:
             // NOTE: swap left and right wheels in vehicle
-            add_vehicle_prop(props[1], obj, body_id, true);
-            add_vehicle_prop(props[0], obj, body_id, true);
-            add_vehicle_prop(props[3], obj, body_id, false);
-            add_vehicle_prop(props[2], obj, body_id, false);
+            add_vehicle_prop(props[1], obj, body_id, true, worker);
+            add_vehicle_prop(props[0], obj, body_id, true, worker);
+            add_vehicle_prop(props[3], obj, body_id, false, worker);
+            add_vehicle_prop(props[2], obj, body_id, false, worker);
             break;
         case VT_HULL:
             for (var i = 0; i < props.length; i++)
-                add_vehicle_prop(props[i], obj, body_id, false);
+                add_vehicle_prop(props[i], obj, body_id, false, worker);
             break;
         }
     }
 }
 
-function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id, is_front) {
+function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id,
+        is_front, worker) {
 
     // calculate connection point
     // NOTE: initial wheel (bob) and vehicle coords may change
 
-    var prop_trans = obj_prop._render.trans;
-    var chassis_hull_matrix = obj_chassis_hull._render.world_matrix;
+    var prop_trans = obj_prop.render.trans;
+    var chassis_hull_matrix = obj_chassis_hull.render.world_matrix;
 
     var chassis_hull_matrix_inv = new Float32Array(16);
     m_mat4.invert(chassis_hull_matrix, chassis_hull_matrix_inv);
@@ -932,80 +969,80 @@ function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id, is_front)
     var conn_point = new Float32Array(3);
     m_vec3.transformMat4(prop_trans, chassis_hull_matrix_inv, conn_point);
 
-    switch (obj_chassis_hull._vehicle.type) {
+    switch (obj_chassis_hull.vehicle.type) {
     case VT_CHASSIS:
-        var v_set = obj_chassis_hull["b4w_vehicle_settings"];
-        var suspension_rest_length = v_set["suspension_rest_length"];
-        var roll_influence = v_set["roll_influence"];
+        var v_set = obj_chassis_hull.vehicle_settings;
+        var suspension_rest_length = v_set.suspension_rest_length;
+        var roll_influence = v_set.roll_influence;
 
         // NOTE: using bounding box, not cylinder
-        var bb = obj_prop._render.bb_local;
+        var bb = obj_prop.render.bb_local;
         var radius = (bb.max_y - bb.min_y) / 2;
 
-        m_ipc.post_msg(m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
+        m_ipc.post_msg(worker, m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
                 suspension_rest_length, roll_influence, radius, is_front);
         break;
     case VT_HULL:
-        m_ipc.post_msg(m_ipc.OUT_ADD_BOAT_BOB, chassis_body_id, conn_point, obj_prop.synchronize_pos);
+        m_ipc.post_msg(worker, m_ipc.OUT_ADD_BOAT_BOB, chassis_body_id, conn_point, obj_prop.synchronize_pos);
         break;
     }
 }
 
-function init_character(obj) {
+function init_character(obj, worker) {
 
-    var render = obj._render;
-    var phy    = obj._physics;
+    var render = obj.render;
+    var phy    = obj.physics;
 
     var height       = render.bb_local.max_y - render.bb_local.min_y;
     var character_id = phy.body_id;
 
-    var char_settings = obj["b4w_character_settings"];
-    var walk_speed    = char_settings["walk_speed"];
-    var run_speed     = char_settings["run_speed"];
-    var step_height   = char_settings["step_height"];
-    var jump_strength = char_settings["jump_strength"];
-    var waterline     = char_settings["waterline"];
+    var char_settings = obj.character_settings;
+    var walk_speed    = char_settings.walk_speed;
+    var run_speed     = char_settings.run_speed;
+    var step_height   = char_settings.step_height;
+    var jump_strength = char_settings.jump_strength;
+    var waterline     = char_settings.waterline;
 
     var rot_angle     = m_util.dir_ground_proj_angle(obj);
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_CHARACTER, character_id, rot_angle, height,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_CHARACTER, character_id, rot_angle, height,
               walk_speed, run_speed, step_height, jump_strength, waterline);
 
     phy.is_character = true;
 }
 
-function init_floater(obj) {
-    var floating_factor = obj._floater.floating_factor;
-    var water_lin_damp = obj._floater.water_lin_damp;
-    var water_rot_damp = obj._floater.water_rot_damp;
-    var body_id = obj._physics.body_id;
+function init_floater(obj, worker) {
+    var floating_factor = obj.floater.floating_factor;
+    var water_lin_damp = obj.floater.water_lin_damp;
+    var water_rot_damp = obj.floater.water_rot_damp;
+    var body_id = obj.physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_FLOATER, body_id, floating_factor,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_FLOATER, body_id, floating_factor,
               water_lin_damp, water_rot_damp);
 
-    if (obj._floater.bobs) {
-        var bob_objs = obj._floater.bobs;
+    if (obj.floater.bobs) {
+        var bob_objs = obj.floater.bobs;
         for (var i = 0; i < bob_objs.length; i++) {
 
             // calculate connection point
             var obj_bob = bob_objs[i];
-            var bob_trans = obj_bob._render.trans;
+            var bob_trans = obj_bob.render.trans;
 
-            var wm = obj._render.world_matrix;
+            var wm = obj.render.world_matrix;
             var wm_inv = new Float32Array(16);
             m_mat4.invert(wm, wm_inv);
 
             var conn_point = new Float32Array(3);
             m_vec3.transformMat4(bob_trans, wm_inv, conn_point);
 
-            m_ipc.post_msg(m_ipc.OUT_ADD_FLOATER_BOB, body_id, conn_point, obj_bob.bob_synchronize_pos);
+            m_ipc.post_msg(worker, m_ipc.OUT_ADD_FLOATER_BOB, body_id, conn_point, obj_bob.bob_synchronize_pos);
         }
     }
-    obj._physics.is_floater = true;
+    obj.physics.is_floater = true;
 }
 
 exports.enable_simulation = function(obj) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     if (!phy)
         throw "No object physics";
 
@@ -1014,12 +1051,13 @@ exports.enable_simulation = function(obj) {
         return;
 
     var body_id = phy.body_id;
+    var worker = find_worker_by_body_id(body_id);
     phy.simulated = true;
-    m_ipc.post_msg(m_ipc.OUT_ENABLE_SIMULATION, body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_ENABLE_SIMULATION, body_id);
 }
 
 exports.disable_simulation = function(obj) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     if (!phy)
         throw "No object physics";
 
@@ -1028,26 +1066,34 @@ exports.disable_simulation = function(obj) {
         return;
 
     var body_id = phy.body_id;
+    var worker = find_worker_by_body_id(body_id);
     phy.simulated = false;
-    m_ipc.post_msg(m_ipc.OUT_DISABLE_SIMULATION, body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_DISABLE_SIMULATION, body_id);
 }
 
-exports.has_physics = has_physics;
+exports.scene_has_physics = scene_has_physics;
 /**
- * Check if object or scene has physics
+ * Check if scene has physics
  * @methodOf physics
  */
-function has_physics(obj_or_scene) {
-    if (obj_or_scene._physics)
-        return true;
-    else
-        return false
+function scene_has_physics(scene) {
+    return Boolean(scene._physics);
 }
+
+exports.obj_has_physics = obj_has_physics;
+/**
+ * Check if object has physics
+ * @methodOf physics
+ */
+function obj_has_physics(obj) {
+    return Boolean(obj.physics);
+}
+
 /**
  * Check if object has dynamic and simulated physics
  */
 exports.has_dynamic_physics = function(obj) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     if (phy && phy.simulated &&
             (phy.type == "RIGID_BODY" || phy.type == "DYNAMIC") &&
             phy.mass > 0 && phy.is_ghost == false)
@@ -1059,7 +1105,7 @@ exports.has_dynamic_physics = function(obj) {
  * Check if object has simulated physics of any type
  */
 exports.has_simulated_physics = function(obj) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     if (phy && phy.simulated)
         return true;
     else
@@ -1067,8 +1113,9 @@ exports.has_simulated_physics = function(obj) {
 }
 
 exports.set_gravity = function(obj, gravity) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_GRAVITY, body_id, gravity);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_GRAVITY, body_id, gravity);
 }
 
 /**
@@ -1080,12 +1127,12 @@ function process_rigid_body_joints(obj) {
     if (has_constraint(obj))
         return;
 
-    for (var i = 0; i < obj["constraints"].length; i++) {
-        var cons = obj["constraints"][i];
-        var targ = cons["target"];
-        var pivot_type = cons["pivot_type"];
+    for (var i = 0; i < obj.physics_constraints.length; i++) {
+        var cons = obj.physics_constraints[i];
+        var targ = cons.target;
+        var pivot_type = cons.pivot_type;
 
-        if (!(cons["type"] == "RIGID_BODY_JOINT" && targ._physics))
+        if (!targ.physics)
             continue;
 
         var trans = get_rbj_trans(cons);
@@ -1093,9 +1140,9 @@ function process_rigid_body_joints(obj) {
 
         var local = m_mat4.fromRotationTranslation(quat, trans,
                 new Float32Array(16));
-        var world_a = m_mat4.multiply(obj._render.world_matrix, local, new Float32Array(16));
+        var world_a = m_mat4.multiply(obj.render.world_matrix, local, new Float32Array(16));
 
-        var world_b_inv = m_mat4.invert(targ._render.world_matrix,
+        var world_b_inv = m_mat4.invert(targ.render.world_matrix,
                 new Float32Array(16));
 
         var local_b = m_mat4.multiply(world_b_inv, world_a, world_b_inv);
@@ -1112,19 +1159,16 @@ function process_rigid_body_joints(obj) {
 
 exports.has_constraint = has_constraint;
 function has_constraint(obj) {
-    if (obj._physics && obj._physics.cons_id)
-        return true;
-    else
-        return false;
+    return obj.physics && obj.physics.cons_id;
 }
 
 function get_rbj_trans(cons) {
-    var trans = new Float32Array([cons["pivot_x"], cons["pivot_y"], cons["pivot_z"]]);
+    var trans = new Float32Array([cons.pivot_x, cons.pivot_y, cons.pivot_z]);
     return trans;
 }
 
 function get_rbj_quat(cons) {
-    var euler = new Float32Array([cons["axis_x"], cons["axis_y"], cons["axis_z"]]);
+    var euler = new Float32Array([cons.axis_x, cons.axis_y, cons.axis_z]);
     var quat = m_util.euler_to_quat(euler, new Float32Array(4));
     return quat;
 }
@@ -1132,27 +1176,27 @@ function get_rbj_quat(cons) {
 function prepare_limits(cons) {
     var limits = {};
 
-    limits["use_limit_x"] = cons["use_limit_x"];
-    limits["use_limit_y"] = cons["use_limit_y"];
-    limits["use_limit_z"] = cons["use_limit_z"];
+    limits["use_limit_x"] = cons.use_limit_x;
+    limits["use_limit_y"] = cons.use_limit_y;
+    limits["use_limit_z"] = cons.use_limit_z;
 
-    limits["use_angular_limit_x"] = cons["use_angular_limit_x"];
-    limits["use_angular_limit_y"] = cons["use_angular_limit_y"];
-    limits["use_angular_limit_z"] = cons["use_angular_limit_z"];
+    limits["use_angular_limit_x"] = cons.use_angular_limit_x;
+    limits["use_angular_limit_y"] = cons.use_angular_limit_y;
+    limits["use_angular_limit_z"] = cons.use_angular_limit_z;
 
-    limits["limit_max_x"] = cons["limit_max_x"];
-    limits["limit_min_x"] = cons["limit_min_x"];
-    limits["limit_max_y"] = cons["limit_max_y"];
-    limits["limit_min_y"] = cons["limit_min_y"];
-    limits["limit_max_z"] = cons["limit_max_z"];
-    limits["limit_min_z"] = cons["limit_min_z"];
+    limits["limit_max_x"] = cons.limit_max_x;
+    limits["limit_min_x"] = cons.limit_min_x;
+    limits["limit_max_y"] = cons.limit_max_y;
+    limits["limit_min_y"] = cons.limit_min_y;
+    limits["limit_max_z"] = cons.limit_max_z;
+    limits["limit_min_z"] = cons.limit_min_z;
 
-    limits["limit_angle_max_x"] = cons["limit_angle_max_x"];
-    limits["limit_angle_min_x"] = cons["limit_angle_min_x"];
-    limits["limit_angle_max_y"] = cons["limit_angle_max_y"];
-    limits["limit_angle_min_y"] = cons["limit_angle_min_y"];
-    limits["limit_angle_max_z"] = cons["limit_angle_max_z"];
-    limits["limit_angle_min_z"] = cons["limit_angle_min_z"];
+    limits["limit_angle_max_x"] = cons.limit_angle_max_x;
+    limits["limit_angle_min_x"] = cons.limit_angle_min_x;
+    limits["limit_angle_max_y"] = cons.limit_angle_max_y;
+    limits["limit_angle_min_y"] = cons.limit_angle_min_y;
+    limits["limit_angle_max_z"] = cons.limit_angle_max_z;
+    limits["limit_angle_min_z"] = cons.limit_angle_min_z;
 
     return limits;
 }
@@ -1162,15 +1206,34 @@ function apply_constraint(pivot_type, obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b, limits, stiffness, damping) {
     var cons_id = get_unique_constraint_id();
 
-    var body_a = obj_a._physics.body_id;
-    var body_b = obj_b._physics.body_id;
+    var body_a = obj_a.physics.body_id;
+    var body_b = obj_b.physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_CONSTRAINT, cons_id, pivot_type, limits,
+    var worker = find_worker_by_body_id(body_a);
+
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_CONSTRAINT, cons_id, pivot_type, limits,
             body_a, trans_a, quat_a, body_b, trans_b, quat_b, stiffness, damping);
 
     // applied constraint always attached to object A
-    var phy = obj_a._physics;
+    var phy = obj_a.physics;
     phy.cons_id = cons_id;
+}
+
+function find_worker_by_body_id(body_id) {
+    for (var i = 0; i < _scenes.length; i++) {
+        var scene = _scenes[i];
+
+        var bundles = scene._physics.bundles;
+
+        for (var j = 0; j < bundles.length; j++) {
+            var phy = bundles[j].physics;
+
+            if (phy.body_id == body_id)
+                return _workers[i];
+        }
+    }
+
+    return null;
 }
 
 function get_unique_constraint_id() {
@@ -1179,10 +1242,12 @@ function get_unique_constraint_id() {
 }
 
 exports.clear_constraint = function(obj_a) {
-    var phy = obj_a._physics;
+    var phy = obj_a.physics;
     var cons_id = phy.cons_id;
 
-    m_ipc.post_msg(m_ipc.OUT_REMOVE_CONSTRAINT, cons_id);
+    var worker = find_worker_by_body_id(body_a);
+
+    m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_CONSTRAINT, cons_id);
     phy.cons_id = null;
 }
 
@@ -1205,20 +1270,22 @@ exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
 
     m_trans.set_tsr(obj_a, tsr_a);
     m_trans.update_transform(obj_a);
-    exports.set_transform(obj_a, obj_a._render.trans, obj_a._render.quat);
+    exports.set_transform(obj_a, obj_a.render.trans, obj_a.render.quat);
 }
 
 exports.set_transform = function(obj, trans, quat) {
 
-    var phy = obj._physics;
-    m_tsr.set_sep(obj._render.trans, 1, obj._render.quat, phy.curr_tsr);
+    var phy = obj.physics;
+    m_tsr.set_sep(obj.render.trans, 1, obj.render.quat, phy.curr_tsr);
 
     var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-    msg_cache.body_id = obj._physics.body_id;
+    msg_cache.body_id = phy.body_id;
     msg_cache.trans = trans;
     msg_cache.quat = quat;
 
-    m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
+    // NOTE: slow
+    var worker = find_worker_by_body_id(phy.body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_TRANSFORM);
 }
 
 exports.sync_transform = sync_transform;
@@ -1227,9 +1294,10 @@ exports.sync_transform = sync_transform;
  * @methodOf physics
  */
 function sync_transform(obj) {
+
     if (allows_transform(obj) && transform_changed(obj)) {
-        var phy = obj._physics;
-        var render = obj._render;
+        var phy = obj.physics;
+        var render = obj.render;
 
         m_vec3.copy(render.trans, phy.cached_trans);
         m_quat.copy(render.quat, phy.cached_quat);
@@ -1243,20 +1311,23 @@ function sync_transform(obj) {
         else
             msg_cache.quat = render.quat;
 
-        m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM);
+        // NOTE: slow
+        var worker = find_worker_by_body_id(phy.body_id);
+
+        m_ipc.post_msg(worker, m_ipc.OUT_SET_TRANSFORM);
     }
 
-    var descends = obj._descends;
+    var cons_descends = obj.cons_descends;
 
-    for (var i = 0; i < descends.length; i++)
-        sync_transform(descends[i]);
+    for (var i = 0; i < cons_descends.length; i++)
+        sync_transform(cons_descends[i]);
 }
 
 /**
  * Check if object has physics that allows transform
  */
 function allows_transform(obj) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     if (!phy)
         return false;
     else if (phy.mass === 0)
@@ -1272,12 +1343,12 @@ function allows_transform(obj) {
 }
 
 function transform_changed(obj) {
-    return obj._render.trans[0] != obj._physics.cached_trans[0] ||
-           obj._render.trans[1] != obj._physics.cached_trans[1] ||
-           obj._render.trans[2] != obj._physics.cached_trans[2] ||
-           obj._render.quat[0] != obj._physics.cached_quat[0] ||
-           obj._render.quat[1] != obj._physics.cached_quat[1] ||
-           obj._render.quat[2] != obj._physics.cached_quat[2];
+    return obj.render.trans[0] != obj.physics.cached_trans[0] ||
+           obj.render.trans[1] != obj.physics.cached_trans[1] ||
+           obj.render.trans[2] != obj.physics.cached_trans[2] ||
+           obj.render.quat[0] != obj.physics.cached_quat[0] ||
+           obj.render.quat[1] != obj.physics.cached_quat[1] ||
+           obj.render.quat[2] != obj.physics.cached_quat[2];
 }
 
 
@@ -1289,7 +1360,7 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     var v_world = _vec3_tmp;
     vector_to_world(obj, vx_local, vy_local, vz_local, v_world);
 
-    var body_id = obj._physics.body_id;
+    var body_id = obj.physics.body_id;
     /*
     var bt_velocity = bt_body.getLinearVelocity();
 
@@ -1315,7 +1386,8 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     v_world[1] = vya ? (v_world[1] / vya) * Math.max(vya, vy0a) : vy0;
     v_world[2] = vza ? (v_world[2] / vza) * Math.max(vza, vz0a) : vz0;
 
-    m_ipc.post_msg(m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, v_world[0], v_world[1], v_world[2]);
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, v_world[0], v_world[1], v_world[2]);
 }
 
 /**
@@ -1325,16 +1397,17 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
  */
 exports.apply_velocity_world = function(obj, vx, vy, vz) {
 
-    var body_id = obj._physics.body_id;
+    var body_id = obj.physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, vx, vy, vz);
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, vx, vy, vz);
 }
 
 function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
 
     var v = dest || new Float32Array(3);
 
-    var quat = obj._render.quat;
+    var quat = obj.render.quat;
 
     v[0] = vx_local;
     v[1] = vy_local;
@@ -1353,9 +1426,11 @@ function apply_force(obj, fx_local, fy_local, fz_local) {
     var f_world = _vec3_tmp;
     vector_to_world(obj, fx_local, fy_local, fz_local, f_world);
 
-    var body_id = obj._physics.body_id;
+    var body_id = obj.physics.body_id;
 
-    m_ipc.post_msg(m_ipc.OUT_APPLY_CENTRAL_FORCE, body_id, f_world[0], f_world[1], f_world[2]);
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_APPLY_CENTRAL_FORCE, body_id,
+            f_world[0], f_world[1], f_world[2]);
 }
 
 /**
@@ -1370,8 +1445,9 @@ function apply_torque(obj, tx_local, ty_local, tz_local) {
     var t_world = _vec3_tmp;
     vector_to_world(obj, tx_local, ty_local, tz_local, t_world);
 
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_APPLY_TORQUE, body_id, t_world[0], t_world[1], t_world[2]);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_APPLY_TORQUE, body_id, t_world[0], t_world[1], t_world[2]);
 }
 
 /**
@@ -1380,8 +1456,9 @@ function apply_torque(obj, tx_local, ty_local, tz_local) {
  * @param side Apply side move (may be negative)
  */
 exports.set_character_move_dir = function(obj, forw, side) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_MOVE_DIR, body_id, forw, side);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_MOVE_DIR, body_id, forw, side);
 }
 
 /**
@@ -1389,8 +1466,9 @@ exports.set_character_move_dir = function(obj, forw, side) {
  * @param type Character moving type
  */
 exports.set_character_move_type = function(obj, type) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_MOVE_TYPE, body_id, type);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_MOVE_TYPE, body_id, type);
 }
 
 /**
@@ -1398,8 +1476,9 @@ exports.set_character_move_type = function(obj, type) {
  * @param velocity Walking velocity
  */
 exports.set_character_walk_velocity = function(obj, velocity) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_WALK_VELOCITY, body_id, velocity);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_WALK_VELOCITY, body_id, velocity);
 }
 
 /**
@@ -1407,8 +1486,9 @@ exports.set_character_walk_velocity = function(obj, velocity) {
  * @param velocity Running velocity
  */
 exports.set_character_run_velocity = function(obj, velocity) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_RUN_VELOCITY, body_id, velocity);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_RUN_VELOCITY, body_id, velocity);
 }
 
 /**
@@ -1416,53 +1496,59 @@ exports.set_character_run_velocity = function(obj, velocity) {
  * @param velocity Flying velocity
  */
 exports.set_character_fly_velocity = function(obj, velocity) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_FLY_VELOCITY, body_id, velocity);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_FLY_VELOCITY, body_id, velocity);
 }
 
 /**
  * Perform a character's jump
  */
 exports.character_jump = function(obj) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_CHARACTER_JUMP, body_id);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_CHARACTER_JUMP, body_id);
 }
 
 /**
  * Increment character's rotation
  */
 exports.character_rotation_inc = function(obj, h_angle, v_angle) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_CHARACTER_ROTATION_INCREMENT, body_id, h_angle, v_angle);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_CHARACTER_ROTATION_INCREMENT, body_id, h_angle, v_angle);
 }
 
 /**
  * Set character's rotation in both planes
  */
 exports.set_character_rotation = function(obj, angle_h, angle_v) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_ROTATION, body_id, angle_h, angle_v);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_ROTATION, body_id, angle_h, angle_v);
 }
 
 /**
  * Set character's horizontal rotation
  */
 exports.set_character_rotation_h = function(obj, angle) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_HOR_ROTATION, body_id, angle);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_HOR_ROTATION, body_id, angle);
 }
 
 /**
  * Set character's vertical rotation
  */
 exports.set_character_rotation_v = function(obj, angle) {
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_SET_CHARACTER_VERT_ROTATION, body_id, angle);
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_VERT_ROTATION, body_id, angle);
 }
 
 exports.append_collision_test = function(obj_src, collision_id, callback,
                                          calc_pos_norm) {
-    var phy = obj_src._physics;
+    var phy = obj_src.physics;
     var body_id_src = phy.body_id;
 
     var collision_id = collision_id || "ANY";
@@ -1484,20 +1570,23 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
     }
     phy.collision_tests.push(test);
 
-    append_collision_pairs(test);
+    var worker = find_worker_by_body_id(body_id_src);
+    var scene = find_scene_by_worker(worker);
+
+    append_collision_pairs(test, scene, worker);
 }
 
 /**
  * NOTE: function doesn't count the pairs already appended by other tests
  */
-function append_collision_pairs(test) {
+function append_collision_pairs(test, scene, worker) {
     var pairs = test.pairs;
     var pair_results = test.pair_results;
 
     var body_id_a = test.body_id_src
     var body_id_b_arr = [];
 
-    collision_id_to_body_ids(test.collision_id, _active_scene,
+    collision_id_to_body_ids(test.collision_id, scene,
             body_id_b_arr, null);
 
     for (var i = 0; i < body_id_b_arr.length; i++) {
@@ -1515,8 +1604,8 @@ function append_collision_pairs(test) {
     }
 
     // NOTE: unknown issues with freezed objects
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id_a);
-    m_ipc.post_msg(m_ipc.OUT_APPEND_COLLISION_TEST, pairs, test.calc_pos_norm);
+    m_ipc.post_msg(worker, m_ipc.OUT_ACTIVATE, body_id_a);
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_COLLISION_TEST, pairs, test.calc_pos_norm);
 }
 
 function has_pair(pairs, body_id_a, body_id_b) {
@@ -1558,8 +1647,11 @@ function gen_collision_body_ids(callbacks, bpy_scene, dest_arr, dest_obj) {
 }
 
 exports.remove_collision_test = function(obj, collision_id, callback) {
-    var phy = obj._physics;
+    var phy = obj.physics;
     var body_id = phy.body_id;
+
+    var worker = find_worker_by_body_id(body_id);
+    var scene = find_scene_by_worker(worker);
 
     for (var i = 0; i < phy.collision_tests.length; i++) {
         var test = phy.collision_tests[i];
@@ -1575,7 +1667,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
 
             i--;
 
-            remove_unused_collision_pairs(_active_scene, test.pairs);
+            remove_unused_collision_pairs(scene, worker, test.pairs);
         }
     }
 }
@@ -1585,7 +1677,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
 /**
  * Find from pairs unused and remove
  */
-function remove_unused_collision_pairs(scene, pairs) {
+function remove_unused_collision_pairs(scene, worker, pairs) {
 
     var bundles = scene._physics.bundles;
 
@@ -1614,10 +1706,10 @@ function remove_unused_collision_pairs(scene, pairs) {
     }
 
     if (unused_pairs.length)
-        m_ipc.post_msg(m_ipc.OUT_REMOVE_COLLISION_TEST, unused_pairs);
+        m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_COLLISION_TEST, unused_pairs);
 }
 
-function remove_collision_pairs_by_id(scene, body_id) {
+function remove_collision_pairs_by_id(scene, worker, body_id) {
     var bundles = scene._physics.bundles;
 
     var removed_pairs = [];
@@ -1652,15 +1744,16 @@ function remove_collision_pairs_by_id(scene, body_id) {
     }
 
     if (removed_pairs.length)
-        m_ipc.post_msg(m_ipc.OUT_REMOVE_COLLISION_TEST, removed_pairs);
+        m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_COLLISION_TEST, removed_pairs);
 }
 
 exports.apply_collision_impulse_test = function(obj, callback) {
     if (has_collision_impulse_test(obj))
         clear_collision_impulse_test(obj);
 
-    var phy = obj._physics;
-    m_ipc.post_msg(m_ipc.OUT_APPLY_COLLISION_IMPULSE_TEST, phy.body_id);
+    var phy = obj.physics;
+    var worker = find_worker_by_body_id(phy.body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_APPLY_COLLISION_IMPULSE_TEST, phy.body_id);
     phy.col_imp_test_cb = callback;
 }
 
@@ -1669,13 +1762,14 @@ function clear_collision_impulse_test(obj) {
     if (!has_collision_impulse_test(obj))
         return;
 
-    var phy = obj._physics;
-    m_ipc.post_msg(m_ipc.OUT_CLEAR_COLLISION_IMPULSE_TEST, phy.body_id);
+    var phy = obj.physics;
+    var worker = find_worker_by_body_id(phy.body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_CLEAR_COLLISION_IMPULSE_TEST, phy.body_id);
     phy.col_imp_test_cb = null;
 }
 
 function has_collision_impulse_test(obj) {
-    if (obj._physics && obj._physics.col_imp_test_cb)
+    if (obj.physics && obj.physics.col_imp_test_cb)
         return true;
     else
         return false;
@@ -1690,7 +1784,7 @@ exports.append_ray_test = function(obj, from, to, collision_id, callback,
 
     var test = {
         id: id,
-        body_id: obj ? obj._physics.body_id : 0,
+        body_id: obj ? obj.physics.body_id : 0,
         from: new Float32Array(from),
         to: new Float32Array(to),
         collision_id: collision_id,
@@ -1702,14 +1796,18 @@ exports.append_ray_test = function(obj, from, to, collision_id, callback,
         callback: callback
     }
 
-    var sphy = _active_scene._physics;
+    // NOTE: it's not possible to determine the worker in no obj specified
+    var worker = find_worker_by_body_id(test.body_id) || _workers[0];
+    var scene = find_scene_by_worker(worker);
+
+    var sphy = scene._physics;
 
     var id = test.id;
 
     sphy.ray_tests[id] = test;
     sphy.ray_tests_arr.push(test);
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_RAY_TEST, test.id, test.body_id, test.from,
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_RAY_TEST, test.id, test.body_id, test.from,
             test.to, test.collision_id_num, test.autoremove,
             test.calc_all_hits, test.calc_pos_norm, test.ign_src_rot);
 
@@ -1749,30 +1847,38 @@ function collision_id_to_body_ids(collision_id, bpy_scene, dest_arr, dest_obj) {
 exports.remove_ray_test = remove_ray_test;
 function remove_ray_test(id) {
 
-    var sphy = _active_scene._physics;
+    var scene = find_scene_by_ray_test_id(id);
+    var worker = find_worker_by_ray_test_id(id);
+
+    var sphy = scene._physics;
 
     if (sphy.ray_tests[id]) {
 
         delete sphy.ray_tests[id];
         sphy.ray_tests_arr.splice(sphy.ray_tests_arr.indexOf, 1);
-        m_ipc.post_msg(m_ipc.OUT_REMOVE_RAY_TEST, id);
+        m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_RAY_TEST, id);
     }
 }
 
 exports.change_ray_test_from_to = function(id, from, to) {
-    var sphy = _active_scene._physics;
+    var scene = find_scene_by_ray_test_id(id);
+    var worker = find_worker_by_ray_test_id(id);
+
+    var sphy = scene._physics;
 
     var test = sphy.ray_tests[id];
 
     if (test && !test.autoremove) {
         test.from.set(from);
         test.to.set(to);
-        m_ipc.post_msg(m_ipc.OUT_CHANGE_RAY_TEST_FROM_TO, id, from, to);
+        m_ipc.post_msg(worker, m_ipc.OUT_CHANGE_RAY_TEST_FROM_TO, id, from, to);
     }
 }
 
 exports.is_ray_test = function(id) {
-    var sphy = _active_scene._physics;
+    var scene = find_scene_by_ray_test_id(id);
+
+    var sphy = scene._physics;
 
     if (sphy.ray_tests[id])
         return true;
@@ -1780,19 +1886,44 @@ exports.is_ray_test = function(id) {
         return false;
 }
 
+function find_scene_by_ray_test_id(id) {
+    for (var i = 0; i < _scenes.length; i++) {
+        var scene = _scenes[i];
+        var sphy = scene._physics;
+
+        if (sphy.ray_tests[id])
+            return scene;
+    }
+
+    return null;
+}
+
+function find_worker_by_ray_test_id(id) {
+    for (var i = 0; i < _scenes.length; i++) {
+        var scene = _scenes[i];
+        var sphy = scene._physics;
+
+        if (sphy.ray_tests[id])
+            return _workers[i];
+    }
+
+    return null;
+}
+
 exports.vehicle_throttle = function(obj, engine_force) {
-    var vehicle = obj._vehicle;
+    var vehicle = obj.vehicle;
 
     vehicle.engine_force = engine_force;
 
-    update_vehicle_controls(obj, vehicle);
+    var worker = find_worker_by_body_id(obj.physics.body_id);
+    update_vehicle_controls(obj, vehicle, worker);
 }
 
-function update_vehicle_controls(obj, vehicle) {
+function update_vehicle_controls(obj, vehicle, worker) {
     if (!vehicle.steering_wheel)
         return;
 
-    var body_id = obj._physics.body_id;
+    var body_id = obj.physics.body_id;
     var engine_force = vehicle.engine_force * vehicle.force_max;
     var brake_force = vehicle.brake_force * vehicle.brake_max;
     var steering = -vehicle.steering * vehicle.steering_max * 2 * Math.PI /
@@ -1803,50 +1934,52 @@ function update_vehicle_controls(obj, vehicle) {
     switch (vehicle.type) {
     case VT_CHASSIS:
         // convert to radians using steering ratio and inverse
-        m_ipc.post_msg(m_ipc.OUT_UPDATE_CAR_CONTROLS, body_id, engine_force,
+        m_ipc.post_msg(worker, m_ipc.OUT_UPDATE_CAR_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
     case VT_HULL:
-        m_ipc.post_msg(m_ipc.OUT_UPDATE_BOAT_CONTROLS, body_id, engine_force,
+        m_ipc.post_msg(worker, m_ipc.OUT_UPDATE_BOAT_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
     }
 }
 
 exports.vehicle_steer = function(obj, steering_value) {
-    var vehicle = obj._vehicle;
+    var vehicle = obj.vehicle;
 
     vehicle.steering = steering_value;
 
-    update_vehicle_controls(obj, vehicle);
+    var worker = find_worker_by_body_id(obj.physics.body_id);
+    update_vehicle_controls(obj, vehicle, worker);
 }
 
 exports.vehicle_brake = function(obj, brake_force) {
-    var vehicle = obj._vehicle;
+    var vehicle = obj.vehicle;
 
     vehicle.brake_force = brake_force;
 
-    update_vehicle_controls(obj, vehicle);
+    var worker = find_worker_by_body_id(obj.physics.body_id);
+    update_vehicle_controls(obj, vehicle, worker);
 }
 
 function update_steering_wheel_coords(obj_chassis) {
 
-    var vehicle = obj_chassis._vehicle;
+    var vehicle = obj_chassis.vehicle;
     var stw_obj = vehicle.steering_wheel;
     if (!stw_obj)
         return;
 
-    var stw_matrix = obj_chassis._vehicle.steering_wheel_matrix;
-    var stw_axis = obj_chassis._vehicle.steering_wheel_axis;
+    var stw_matrix = obj_chassis.vehicle.steering_wheel_matrix;
+    var stw_axis = obj_chassis.vehicle.steering_wheel_axis;
 
     var stw_matrix_world = _mat4_tmp;
 
-    var chassis_trans = obj_chassis._render.trans;
-    var chassis_quat = obj_chassis._render.quat;
+    var chassis_trans = obj_chassis.render.trans;
+    var chassis_quat = obj_chassis.render.quat;
     m_util.transform_mat4(stw_matrix, 1, chassis_quat, chassis_trans, stw_matrix_world);
 
-    m_util.matrix_to_trans(stw_matrix_world, stw_obj._render.trans);
-    m_util.matrix_to_quat(stw_matrix_world, stw_obj._render.quat);
+    m_util.matrix_to_trans(stw_matrix_world, stw_obj.render.trans);
+    m_util.matrix_to_quat(stw_matrix_world, stw_obj.render.quat);
 
     var stw_axis_world = _vec4_tmp;
     m_util.transform_vec4(stw_axis, 1, chassis_quat, chassis_trans, stw_axis_world);
@@ -1855,30 +1988,30 @@ function update_steering_wheel_coords(obj_chassis) {
 
     m_quat.setAxisAngle(stw_axis_world, -vehicle.steering *
             vehicle.steering_max * 2 * Math.PI, rotation);
-    m_quat.multiply(rotation, stw_obj._render.quat, stw_obj._render.quat);
+    m_quat.multiply(rotation, stw_obj.render.quat, stw_obj.render.quat);
 
     m_trans.update_transform(stw_obj);
 }
 
 function update_speedometer(obj_chassis) {
 
-    var vehicle = obj_chassis._vehicle;
+    var vehicle = obj_chassis.vehicle;
     var sp_obj = vehicle.speedometer;
 
     if (!sp_obj)
         return;
 
-    var sp_matrix = obj_chassis._vehicle.speedometer_matrix;
-    var sp_axis = obj_chassis._vehicle.speedometer_axis;
+    var sp_matrix = obj_chassis.vehicle.speedometer_matrix;
+    var sp_axis = obj_chassis.vehicle.speedometer_axis;
 
     var sp_matrix_world = _mat4_tmp;
 
-    var chassis_trans = obj_chassis._render.trans;
-    var chassis_quat = obj_chassis._render.quat;
+    var chassis_trans = obj_chassis.render.trans;
+    var chassis_quat = obj_chassis.render.quat;
     m_util.transform_mat4(sp_matrix, 1, chassis_quat, chassis_trans, sp_matrix_world);
 
-    m_util.matrix_to_trans(sp_matrix_world, sp_obj._render.trans);
-    m_util.matrix_to_quat(sp_matrix_world, sp_obj._render.quat);
+    m_util.matrix_to_trans(sp_matrix_world, sp_obj.render.trans);
+    m_util.matrix_to_quat(sp_matrix_world, sp_obj.render.quat);
 
     var sp_axis_world = _vec4_tmp;
     m_util.transform_vec4(sp_axis, 1, chassis_quat, chassis_trans, sp_axis_world);
@@ -1891,30 +2024,30 @@ function update_speedometer(obj_chassis) {
 
     m_quat.setAxisAngle(sp_axis_world, -angle, rotation);
 
-    m_quat.multiply(rotation, sp_obj._render.quat, sp_obj._render.quat);
+    m_quat.multiply(rotation, sp_obj.render.quat, sp_obj.render.quat);
 
     m_trans.update_transform(sp_obj);
 }
 
 function update_tachometer(obj_chassis) {
 
-    var vehicle = obj_chassis._vehicle;
+    var vehicle = obj_chassis.vehicle;
     var tach_obj = vehicle.tachometer;
 
     if (!tach_obj)
         return;
 
-    var tach_matrix = obj_chassis._vehicle.tachometer_matrix;
-    var tach_axis = obj_chassis._vehicle.tachometer_axis;
+    var tach_matrix = obj_chassis.vehicle.tachometer_matrix;
+    var tach_axis = obj_chassis.vehicle.tachometer_axis;
 
     var tach_matrix_world = _mat4_tmp;
 
-    var chassis_trans = obj_chassis._render.trans;
-    var chassis_quat = obj_chassis._render.quat;
+    var chassis_trans = obj_chassis.render.trans;
+    var chassis_quat = obj_chassis.render.quat;
     m_util.transform_mat4(tach_matrix, 1, chassis_quat, chassis_trans, tach_matrix_world);
 
-    m_util.matrix_to_trans(tach_matrix_world, tach_obj._render.trans);
-    m_util.matrix_to_quat(tach_matrix_world, tach_obj._render.quat);
+    m_util.matrix_to_trans(tach_matrix_world, tach_obj.render.trans);
+    m_util.matrix_to_quat(tach_matrix_world, tach_obj.render.quat);
 
     var tach_axis_world = _vec4_tmp;
     m_util.transform_vec4(tach_axis, 1, chassis_quat, chassis_trans, tach_axis_world);
@@ -1923,32 +2056,26 @@ function update_tachometer(obj_chassis) {
 
     m_quat.setAxisAngle(tach_axis_world, -Math.abs(vehicle.engine_force) *
             vehicle.delta_tach_angle, rotation);
-    m_quat.multiply(rotation, tach_obj._render.quat, tach_obj._render.quat);
+    m_quat.multiply(rotation, tach_obj.render.quat, tach_obj.render.quat);
 
     m_trans.update_transform(tach_obj);
 }
 
 exports.is_vehicle_chassis = is_vehicle_chassis;
 function is_vehicle_chassis(obj) {
-    if (obj["b4w_vehicle"] && obj["b4w_vehicle_settings"]["part"] == "CHASSIS")
-        return true;
-    else
-        return false;
+    return obj.is_vehicle && obj.vehicle_settings.part == "CHASSIS";
 }
 
 exports.is_vehicle_hull = is_vehicle_hull;
 function is_vehicle_hull(obj) {
-    if (obj["b4w_vehicle"] && obj["b4w_vehicle_settings"]["part"] == "HULL")
-        return true;
-    else
-        return false;
+    return obj.is_vehicle && obj.vehicle_settings.part == "HULL";
 }
 
 exports.is_car_wheel = function(obj) {
-    if (!obj["b4w_vehicle"])
+    if (!obj.is_vehicle)
         return false;
 
-    var part = obj["b4w_vehicle_settings"]["part"];
+    var part = obj.vehicle_settings.part;
 
     if (part == "WHEEL_FRONT_LEFT" || part == "WHEEL_FRONT_RIGHT" ||
             part == "WHEEL_BACK_LEFT" || part == "WHEEL_BACK_RIGHT")
@@ -1958,10 +2085,10 @@ exports.is_car_wheel = function(obj) {
 }
 
 exports.is_boat_bob = function(obj) {
-    if (!obj["b4w_vehicle"])
+    if (!obj.is_vehicle)
         return false;
 
-    var part = obj["b4w_vehicle_settings"]["part"];
+    var part = obj.vehicle_settings.part;
 
     if (part == "BOB")
         return true;
@@ -1970,10 +2097,10 @@ exports.is_boat_bob = function(obj) {
 }
 
 exports.is_floater_bob = function(obj) {
-    if (!obj["b4w_floating"])
+    if (!obj.is_floating)
         return false;
 
-    var part = obj["b4w_floating_settings"]["part"];
+    var part = obj.floating_settings.part;
 
     if (part == "BOB")
         return true;
@@ -1982,28 +2109,28 @@ exports.is_floater_bob = function(obj) {
 }
 
 exports.is_vehicle_steering_wheel = function(obj) {
-    if (obj["b4w_vehicle"] && obj["b4w_vehicle_settings"]["part"] == "STEERING_WHEEL")
+    if (obj.is_vehicle && obj.vehicle_settings.part == "STEERING_WHEEL")
         return true;
     else
         return false;
 }
 
 exports.is_vehicle_speedometer = function(obj) {
-    if (obj["b4w_vehicle"] && obj["b4w_vehicle_settings"]["part"] == "SPEEDOMETER")
+    if (obj.is_vehicle && obj.vehicle_settings.part == "SPEEDOMETER")
         return true;
     else
         return false;
 }
 
 exports.is_vehicle_tachometer = function(obj) {
-    if (obj["b4w_vehicle"] && obj["b4w_vehicle_settings"]["part"] == "TACHOMETER")
+    if (obj.is_vehicle && obj.vehicle_settings.part == "TACHOMETER")
         return true;
     else
         return false;
 }
 
 exports.get_vehicle_speed = function(obj) {
-    var vehicle = obj._vehicle;
+    var vehicle = obj.vehicle;
     return vehicle.speed;
 }
 
@@ -2022,38 +2149,36 @@ exports.wheel_index = function(vehicle_part) {
 
 exports.is_character = is_character;
 function is_character(obj) {
-    if (obj["b4w_character"])
-        return true;
-    else
-        return false;
+    return obj.is_character;
 }
 
 exports.is_floater_main = is_floater_main;
 function is_floater_main(obj) {
-    if (obj["b4w_floating"] && obj["b4w_floating_settings"]["part"] == "MAIN_BODY")
-        return true;
-    else
-        return false;
+    return obj.is_floating && obj.floating_settings.part == "MAIN_BODY";
 }
 
 exports.get_fps = function() {
     return _phy_fps;
 }
 
-exports.debug_worker = function() {
-    m_ipc.post_msg(m_ipc.OUT_DEBUG);
+exports.debug_workers = function() {
+    for (var i = 0; i < _workers.length; i++) {
+        var worker = _workers[i];
+        m_ipc.post_msg(worker, m_ipc.OUT_DEBUG);
+    }
 }
 
 exports.remove_bounding_object = function(obj) {
     var ind = _bounding_objects_arr.indexOf(obj);
     if (ind == -1)
-        m_print.error("Object " + obj["name"] + " doesn't have bounding physics");
+        m_print.error("Object " + obj.name + " doesn't have bounding physics");
 
-    var scene = _active_scene;
+    var body_id = obj.physics.body_id
 
-    var body_id = obj._physics.body_id
+    var worker = find_worker_by_body_id(body_id);
+    var scene = find_scene_by_worker(worker);
 
-    remove_collision_pairs_by_id(scene, body_id);
+    remove_collision_pairs_by_id(scene, worker, body_id);
 
     if (has_collision_impulse_test(obj))
         clear_collision_impulse_test(obj);
@@ -2072,7 +2197,7 @@ exports.remove_bounding_object = function(obj) {
         }
     }
 
-    m_ipc.post_msg(m_ipc.OUT_REMOVE_BODY, body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_BODY, body_id);
 }
 
 }

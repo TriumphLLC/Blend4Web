@@ -203,7 +203,7 @@ exports.get_current_action = function(obj, slot_num) {
  * @returns {String[]} Array of animation names.
  */
 exports.get_anim_names = function(obj) {
-    if (!m_anim.is_animatable(obj))
+    if (!m_anim.obj_is_animatable(obj))
         return [];
 
     return m_anim.get_anim_names(obj);
@@ -234,7 +234,7 @@ exports.get_current_anim_name = function(obj, slot_num) {
 exports.apply = function(obj, name, slot_num) {
     if (slot_num > m_anim.SLOT_7) {
         m_print.error("Can't apply animation to slot " + slot_num +
-                      " for object \"" + obj["name"] +
+                      " for object \"" + obj.name +
                       "\". Object can have maximum of 8 animation slots");
         return;
     }
@@ -244,7 +244,7 @@ exports.apply = function(obj, name, slot_num) {
         var applied_slot = m_anim.get_slot_num_by_anim(obj, name);
         if (applied_slot != -1 && applied_slot != slot_num) {
             m_print.error("Animation \"" + name +
-                          "\" is already applied to object \"" + obj["name"] +
+                          "\" is already applied to object \"" + obj.name +
                           "\" (slot \"" + applied_slot + "\").");
             return;
         }
@@ -301,7 +301,7 @@ exports.apply_def = function(obj) {
  */
 exports.play = function(obj, finish_callback, slot_num) {
     if (!m_anim.is_animated(obj)) {
-        m_print.error("Object \"" + obj["name"] + "\" has no applied animation");
+        m_print.error("Object \"" + obj.name + "\" has no applied animation");
         return;
     }
 
@@ -454,7 +454,7 @@ exports.get_speed = function(obj, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
 
-    if (!obj._anim_slots[slot_num])
+    if (!obj.anim_slots[slot_num])
         return 0;
 
     return m_anim.get_speed(obj, slot_num);
@@ -472,7 +472,7 @@ exports.get_frame_range = function(obj, slot_num) {
     m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
-        var anim_slot = obj._anim_slots[slot_num];
+        var anim_slot = obj.anim_slots[slot_num];
         if (anim_slot)
             // GARBAGE
             return [anim_slot.start, anim_slot.start + anim_slot.length];
@@ -492,7 +492,7 @@ exports.get_anim_start_frame = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
 
-        if (!obj._anim_slots[slot_num])
+        if (!obj.anim_slots[slot_num])
             return -1;
         else
             return m_anim.get_anim_start_frame(obj, slot_num);
@@ -512,7 +512,7 @@ exports.get_anim_length = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
 
-        if (!obj._anim_slots[slot_num])
+        if (!obj.anim_slots[slot_num])
             return -1;
         else
             return m_anim.get_anim_length(obj, slot_num);
@@ -656,10 +656,8 @@ exports.get_bone_translation = function(armobj, bone_name, dest) {
  * @deprecated Unused
  */
 exports.get_first_armature_object = function(obj) {
-    if (m_util.is_mesh(obj))
-        return m_anim.get_first_armature_object(obj);
-    else
-        return null;
+    m_print.error("get_first_armature_object() deprecated");
+    return null;
 }
 
 /**
@@ -708,7 +706,7 @@ exports.apply_to_first_empty_slot = function(obj, name) {
  * @returns {Number} Mix factor.
  */
 exports.get_skel_mix_factor = function(armobj) {
-    return armobj._render.anim_mix_factor;
+    return armobj.render.anim_mix_factor;
 }
 
 /**
@@ -722,12 +720,12 @@ exports.get_skel_mix_factor = function(armobj) {
  */
 exports.set_skel_mix_factor = function(armobj, factor, time) {
     if (!m_util.is_armature(armobj)) {
-        m_print.error("Can't blend animation. Object \"" + armobj["name"] + "\" is not armature");
+        m_print.error("Can't blend animation. Object \"" + armobj.name + "\" is not armature");
         return;
     }
 
     factor = Math.min(Math.max(factor, 0), 1);
-    if (armobj._render.anim_mix_factor == factor)
+    if (armobj.render.anim_mix_factor == factor)
         return;
 
     time = time || 0;

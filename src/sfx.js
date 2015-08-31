@@ -15,6 +15,7 @@ var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
 var cfg_ani = m_cfg.animation;
+var cfg_def = m_cfg.defaults;
 var cfg_sfx = m_cfg.sfx;
 
 var SPEED_SMOOTH_PERIOD = 0.3;
@@ -48,6 +49,60 @@ var _speaker_objects = [];
 var _seed_tmp = [1];
 
 var _playlist = null;
+
+exports.create_sfx = function() {
+    var sfx = {
+        behavior: "NONE",
+        disable_doppler: false,
+        muted: false,
+
+        volume: 1,
+        pitch: 1,
+        attenuation: 1,
+        dist_ref: 1,
+        dist_max: 10000,
+
+        cone_angle_inner: 360,
+        cone_angle_outer: 360,
+        cone_volume_outer: 1,
+
+        cyclic: false,
+        loop: false,
+
+        delay: 0,
+        delay_random: 0,
+
+        volume_random: 0,
+        pitch_random: 0,
+        fade_in: 0,
+        fade_out: 0,
+
+        start_time: 0,
+        pause_time: 0,
+        buf_offset: 0,
+        duration: 0,
+        vp_rand_end_time: 0,
+
+        base_seed: 1,
+
+        src: null,
+
+        // initial state
+        state: SPKSTATE_UNDEFINED,
+
+        last_position: new Float32Array(3),
+        direction: new Float32Array(3),
+        speed_avg: new Float32Array(3),
+
+        // for BACKGROUND_MUSIC
+        bgm_start_timeout: -1,
+        bgm_stop_timeout: -1,
+
+        duck_time: 0
+    }
+
+    return sfx;
+}
 
 
 /**
@@ -133,7 +188,7 @@ exports.attach_scene_sfx = function(scene) {
         }
 
         var listener = _wa.listener;
-        scene_sfx.disable_doppler = m_cfg.defaults.chrome_disable_doppler_effect_hack;
+        scene_sfx.disable_doppler = cfg_def.disable_doppler_hack;
         if (!scene_sfx.disable_doppler) {
             listener.dopplerFactor = scene["audio_doppler_factor"];
             listener.speedOfSound = scene["audio_doppler_speed"];
@@ -225,25 +280,23 @@ exports.detect_video_container = function(hint) {
 }
 
 /**
- * Init and add speaker object to sfx
- * @param {Object3D} obj Object 3D, must be of type "SPEAKER"
+ * Update speaker object from bpy_object, adding some properties
  */
-exports.append_object = function(obj, scene) {
+exports.update_object = function(bpy_obj, obj) {
 
-    if (obj["type"] != "SPEAKER")
+    if (obj.type != "SPEAKER")
         throw "Wrong speaker object";
 
-    var speaker = obj["data"];
-
-    obj._sfx = {};
+    var speaker = bpy_obj["data"];
+    var sfx = obj.sfx;
 
     switch(speaker["b4w_behavior"]) {
     case "POSITIONAL":
     case "BACKGROUND_SOUND":
-        obj._sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
+        sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
         break;
     case "BACKGROUND_MUSIC":
-        obj._sfx.behavior = _wa ? (check_media_element_node() ?
+        sfx.behavior = _wa ? (check_media_element_node() ?
                 "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
         break;
     default:
@@ -253,54 +306,31 @@ exports.append_object = function(obj, scene) {
 
     // allow speakers without sound
     if (!speaker["sound"])
-        obj._sfx.behavior = "NONE";
+        sfx.behavior = "NONE";
 
-    obj._sfx.disable_doppler = speaker["b4w_disable_doppler"] 
-            && m_cfg.defaults.chrome_disable_doppler_effect_hack;
+    sfx.disable_doppler = speaker["b4w_disable_doppler"] ||
+            cfg_def.disable_doppler_hack;
 
-    obj._sfx.muted = speaker["muted"];
-    obj._sfx.volume = speaker["volume"];
-    obj._sfx.pitch = speaker["pitch"];
+    sfx.muted = speaker["muted"];
+    sfx.volume = speaker["volume"];
+    sfx.pitch = speaker["pitch"];
 
-    obj._sfx.attenuation = speaker["attenuation"];
-    obj._sfx.dist_ref = speaker["distance_reference"];
-    obj._sfx.dist_max = speaker["distance_max"] || 10000; // spec def
-    obj._sfx.cone_angle_inner = speaker["cone_angle_inner"];
-    obj._sfx.cone_angle_outer = speaker["cone_angle_outer"];
-    obj._sfx.cone_volume_outer = speaker["cone_volume_outer"];
-    obj._sfx.cyclic = speaker["b4w_cyclic_play"];
-    obj._sfx.loop = speaker["b4w_loop"];
+    sfx.attenuation = speaker["attenuation"];
+    sfx.dist_ref = speaker["distance_reference"];
+    sfx.dist_max = speaker["distance_max"] || 10000; // spec def
+    sfx.cone_angle_inner = speaker["cone_angle_inner"];
+    sfx.cone_angle_outer = speaker["cone_angle_outer"];
+    sfx.cone_volume_outer = speaker["cone_volume_outer"];
+    sfx.cyclic = speaker["b4w_cyclic_play"];
+    sfx.loop = speaker["b4w_loop"];
 
-    obj._sfx.delay = speaker["b4w_delay"];
-    obj._sfx.delay_random = speaker["b4w_delay_random"];
+    sfx.delay = speaker["b4w_delay"];
+    sfx.delay_random = speaker["b4w_delay_random"];
 
-    obj._sfx.volume_random = speaker["b4w_volume_random"];
-    obj._sfx.pitch_random = speaker["b4w_pitch_random"];
-    obj._sfx.fade_in = speaker["b4w_fade_in"];
-    obj._sfx.fade_out = speaker["b4w_fade_out"];
-
-    obj._sfx.start_time = 0;
-    obj._sfx.pause_time = 0;
-    obj._sfx.buf_offset = 0;
-    obj._sfx.duration = 0;
-    obj._sfx.vp_rand_end_time = 0;
-
-    obj._sfx.base_seed = 1;
-
-    obj._sfx.src = null;
-
-    // initial state
-    obj._sfx.state = SPKSTATE_UNDEFINED;
-
-    obj._sfx.last_position = new Float32Array(3);
-    obj._sfx.direction = new Float32Array(3);
-    obj._sfx.speed_avg = new Float32Array(3);
-
-    // for BACKGROUND_MUSIC
-    obj._sfx.bgm_start_timeout = -1;
-    obj._sfx.bgm_stop_timeout = -1;
-
-    obj._sfx.duck_time = 0;
+    sfx.volume_random = speaker["b4w_volume_random"];
+    sfx.pitch_random = speaker["b4w_pitch_random"];
+    sfx.fade_in = speaker["b4w_fade_in"];
+    sfx.fade_out = speaker["b4w_fade_out"];
 
     _speaker_objects.push(obj);
 }
@@ -319,10 +349,10 @@ function check_media_element_node() {
  * @param {Object3D} obj Object 3D
  */
 exports.source_type = function(obj) {
-    if (obj["type"] != "SPEAKER")
+    if (obj.type != "SPEAKER")
         throw "Wrong object type";
 
-    switch(obj._sfx.behavior) {
+    switch(obj.sfx.behavior) {
     case "POSITIONAL":
         return exports.AST_ARRAY_BUFFER;
     case "BACKGROUND_SOUND":
@@ -343,7 +373,7 @@ exports.source_type = function(obj) {
  */
 exports.update_spkobj = function(obj, sound_data) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     switch (sfx.behavior) {
     case "POSITIONAL":
@@ -377,12 +407,12 @@ exports.decode_audio_data = function(arr_buf, decode_cb, fail_cb) {
 }
 
 /**
- * NOTE: currently not used (may be buggy)
+ * NOTE: may be buggy
  */
 exports.speaker_remove = function(obj) {
     stop(obj);
 
-    delete obj._sfx;
+    obj.sfx = null;
     _speaker_objects.splice(_speaker_objects.indexOf(obj), 1);
 }
 
@@ -393,7 +423,7 @@ exports.cleanup = function() {
 
     for (var i = 0; i < _speaker_objects.length; i++) {
         var obj = _speaker_objects[i];
-        var sfx = obj._sfx;
+        var sfx = obj.sfx;
         if (sfx.behavior == "BACKGROUND_MUSIC") {
             var audio_el = sfx.src;
             if (audio_el)
@@ -432,7 +462,7 @@ exports.update = function(timeline, elapsed) {
 
     for (var i = 0; i < _speaker_objects.length; i++) {
         var obj = _speaker_objects[i];
-        var sfx = obj._sfx;
+        var sfx = obj.sfx;
 
         var curr_time = _wa.currentTime;
 
@@ -475,15 +505,13 @@ function playlist_switch_next(playlist, timeline) {
 exports.play = play;
 function play(obj, when, duration) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (sfx.behavior == "NONE")
         return;
 
     if (!duration)
         var duration = 0.0;
-
-    var sound = obj["data"]["sound"];
 
     var loop = sfx.loop;
     var playrate = sfx.pitch;
@@ -577,13 +605,13 @@ function play(obj, when, duration) {
  */
 function update_proc_chain(obj) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (sfx.proc_chain_in)
         return;
 
-    var pos = obj._render.trans;
-    var quat = obj._render.quat;
+    var pos = obj.render.trans;
+    var quat = obj.render.quat;
 
     if (cfg_sfx.mix_mode) {
         var filter_node = _wa.createBiquadFilter();
@@ -711,7 +739,7 @@ function update_proc_chain(obj) {
 
 exports.play_def = play_def;
 function play_def(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     var duration = sfx.duration;
     var delay = sfx.delay + sfx.delay_random * Math.random();
@@ -818,7 +846,7 @@ function schedule_fades(sfx, from_time) {
 }
 
 function fire_audio_element(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     var audio = sfx.src;
     if (audio) {
         // volume will be controlled by gain node
@@ -841,7 +869,7 @@ function fire_audio_element(obj) {
 }
 
 function stop_audio_element(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     var audio = sfx.src;
     if (audio) {
         // exact sequence
@@ -858,10 +886,10 @@ exports.stop = stop;
  * @methodOf sfx
  */
 function stop(sobj) {
-    if (sobj["type"] != "SPEAKER")
+    if (sobj.type != "SPEAKER")
         throw "Wrong object type";
 
-    var sfx = sobj._sfx;
+    var sfx = sobj.sfx;
 
     if (sfx.state != SPKSTATE_PLAY && sfx.state != SPKSTATE_PAUSE)
         return;
@@ -913,7 +941,7 @@ function stop(sobj) {
 
 exports.is_play = is_play;
 function is_play(obj) {
-    return (obj._sfx.state == SPKSTATE_PLAY);
+    return (obj.sfx.state == SPKSTATE_PLAY);
 }
 
 exports.speaker_pause = speaker_pause;
@@ -923,7 +951,7 @@ exports.speaker_pause = speaker_pause;
  */
 function speaker_pause(obj) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (sfx.state != SPKSTATE_PLAY)
         return;
@@ -977,7 +1005,7 @@ exports.speaker_resume = speaker_resume;
  */
 function speaker_resume(obj) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (sfx.state != SPKSTATE_PAUSE)
         return;
@@ -1006,7 +1034,7 @@ function speaker_resume(obj) {
 }
 
 function update_source_node(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     var source = _wa.createBufferSource();
 
@@ -1024,7 +1052,7 @@ function update_source_node(obj) {
 
 
 exports.playrate = function(obj, playrate) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     sfx.pitch = playrate;
 
@@ -1039,17 +1067,17 @@ exports.playrate = function(obj, playrate) {
 }
 
 exports.get_playrate = function(obj) {
-    return obj._sfx.pitch;
+    return obj.sfx.pitch;
 }
 
 
 exports.cyclic = function(obj, cyclic) {
-    obj._sfx.cyclic = Boolean(cyclic);
+    obj.sfx.cyclic = Boolean(cyclic);
 }
 
 exports.is_cyclic = is_cyclic;
 function is_cyclic(obj) {
-    return obj._sfx.cyclic;
+    return obj.sfx.cyclic;
 }
 
 /**
@@ -1125,17 +1153,17 @@ exports.listener_reset_speed = function(speed, dir) {
  */
 exports.speaker_update_transform = function(obj, elapsed) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
         return;
 
-    var pos = obj._render.trans;
+    var pos = obj.render.trans;
     var panner = sfx.panner_node;
     panner.setPosition(pos[0], pos[1], pos[2]);
 
     var orient = _vec3_tmp;
-    m_util.quat_to_dir(obj._render.quat, m_util.AXIS_MY, orient);
+    m_util.quat_to_dir(obj.render.quat, m_util.AXIS_MY, orient);
     panner.setOrientation(orient[0], orient[1], orient[2]);
 
     var lpos = sfx.last_position;
@@ -1158,7 +1186,7 @@ exports.speaker_update_transform = function(obj, elapsed) {
 }
 
 exports.speaker_reset_speed = function(obj, speed, dir) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL") || sfx.disable_doppler)
         return;
@@ -1176,8 +1204,8 @@ exports.speaker_reset_speed = function(obj, speed, dir) {
     panner.setVelocity(velocity[0], velocity[1], velocity[2]);
     m_vec3.copy(velocity, sfx.speed_avg);
 
-    var pos = obj._render.trans;
-    m_vec3.copy(obj._render.trans, sfx.last_position);
+    var pos = obj.render.trans;
+    m_vec3.copy(obj.render.trans, sfx.last_position);
 }
 
 exports.is_speaker = is_speaker;
@@ -1185,14 +1213,14 @@ exports.is_speaker = is_speaker;
  * Check if object is a valid speaker
  */
 function is_speaker(obj) {
-    if (obj._sfx)
+    if (obj.sfx)
         return true;
     else
         return false;
 }
 
 exports.get_spk_behavior = function(obj) {
-    return obj._sfx.behavior;
+    return obj.sfx.behavior;
 }
 
 exports.check_active_speakers = function() {
@@ -1204,9 +1232,9 @@ exports.check_active_speakers = function() {
 }
 
 function spk_is_active(obj) {
-    if (obj._sfx && (obj._sfx.state == SPKSTATE_PLAY ||
-                obj._sfx.state == SPKSTATE_PAUSE ||
-                obj._sfx.state == SPKSTATE_STOP))
+    if (obj.sfx && (obj.sfx.state == SPKSTATE_PLAY ||
+                obj.sfx.state == SPKSTATE_PAUSE ||
+                obj.sfx.state == SPKSTATE_STOP))
         return true;
     else
         return false;
@@ -1268,7 +1296,7 @@ exports.get_master_volume = function() {
 }
 
 exports.set_volume = function(obj, volume) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     sfx.volume = volume;
 
@@ -1277,18 +1305,18 @@ exports.set_volume = function(obj, volume) {
 }
 
 exports.get_volume = function(obj) {
-    return obj._sfx.volume;
+    return obj.sfx.volume;
 }
 
 exports.mute = function(obj, muted) {
-    obj._sfx.muted = Boolean(muted);
+    obj.sfx.muted = Boolean(muted);
 
     if (spk_is_active(obj))
-        obj._sfx.gain_node.gain.value = calc_gain(obj._sfx);
+        obj.sfx.gain_node.gain.value = calc_gain(obj.sfx);
 }
 
 exports.is_muted = function(obj) {
-    return obj._sfx.muted;
+    return obj.sfx.muted;
 }
 
 exports.mute_master = function(muted) {
@@ -1357,7 +1385,7 @@ exports.duck = function(obj, value, time) {
     if (!spk_is_active(obj))
         return;
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     var fade_gnode = sfx.fade_gain_node;
 
@@ -1373,7 +1401,7 @@ exports.unduck = function(obj) {
     if (!spk_is_active(obj))
         return;
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     var fade_gnode = sfx.fade_gain_node;
 
@@ -1431,13 +1459,13 @@ exports.apply_playlist = function(objs, delay, random) {
         var duration = get_duration(obj);
 
         if (duration == 0) {
-            m_print.warn("Ignoring speaker with zero duration: " + obj["name"]);
+            m_print.warn("Ignoring speaker with zero duration: " + obj.name);
             continue;
         }
 
         stop(obj);
 
-        var sfx = obj._sfx;
+        var sfx = obj.sfx;
         sfx.cyclic = false;
 
         _playlist.speakers.push(obj);
@@ -1448,7 +1476,7 @@ exports.apply_playlist = function(objs, delay, random) {
 exports.get_duration = get_duration;
 function get_duration(obj) {
 
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
 
     if (sfx.behavior == "POSITIONAL" || sfx.behavior == "BACKGROUND_SOUND") {
         var buffer = sfx.src;
@@ -1476,7 +1504,7 @@ exports.clear_playlist = function() {
 }
 
 exports.get_positional_params = function(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     if (!sfx || sfx.behavior != "POSITIONAL")
         return null;
 
@@ -1491,7 +1519,7 @@ exports.get_positional_params = function(obj) {
 }
 
 exports.set_positional_params = function(obj, params) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     if (!sfx || sfx.behavior != "POSITIONAL")
         return;
 
@@ -1508,7 +1536,7 @@ exports.set_positional_params = function(obj, params) {
 }
 
 exports.set_filter_params = function(obj, params) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     if (!sfx || !sfx.filter_node)
         return;
 
@@ -1518,7 +1546,7 @@ exports.set_filter_params = function(obj, params) {
 }
 
 exports.get_filter_params = function(obj) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     if (!sfx || !sfx.filter_node)
         return null;
 
@@ -1532,7 +1560,7 @@ exports.get_filter_params = function(obj) {
 }
 
 exports.get_filter_freq_response = function(obj, freq_arr, mag_arr, phase_arr) {
-    var sfx = obj._sfx;
+    var sfx = obj.sfx;
     if (!sfx || !sfx.filter_node)
         return null;
 

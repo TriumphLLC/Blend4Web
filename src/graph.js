@@ -9,7 +9,8 @@
  */
 b4w.module["__graph"] = function(exports, require) {
 
-var m_util    = require("__util");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 var NULL_NODE    = -1;
 var NULL         = 0;
@@ -1293,7 +1294,7 @@ exports.enforce_acyclic = function(graph, main_node) {
     return graph;
 }
 
-exports.debug_dot = function(graph, label_cb) {
+exports.debug_dot = function(graph, node_label_cb, edge_label_cb) {
     var nodes = graph.nodes;
     var edges = graph.edges;
 
@@ -1306,7 +1307,7 @@ exports.debug_dot = function(graph, label_cb) {
         var node = nodes[i];
         var attr = nodes[i+1];
 
-        var label = label_cb ? label_cb(node, attr) : String(node);
+        var label = node_label_cb ? node_label_cb(node, attr) : String(node);
 
         dot_str += "    ";
         dot_str += String(node) + " [label=\"" + label.replace(/\"/g, "\\\"") + "\"];\n";
@@ -1315,9 +1316,13 @@ exports.debug_dot = function(graph, label_cb) {
     for (var i = 0; i < edges.length; i+=3) {
         var node1 = edges[i];
         var node2 = edges[i+1];
+        var attr = edges[i+2];
 
         dot_str += "    ";
-        dot_str += String(node1) + " -> " + String(node2) + ";\n";
+        dot_str += String(node1) + " -> " + String(node2);
+        if (edge_label_cb)
+            dot_str += " [label=\"" + edge_label_cb(node1, node2, attr) + "\"]";
+        dot_str += ";\n";
     }
 
     dot_str += "}";
