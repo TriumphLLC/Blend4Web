@@ -60,7 +60,7 @@ Step 1 - Adding to Blender Scripts
 * Go to the **File** tab, choose the path to the **blender_scripts** directory in the **Scripts** field;
 * Click **Save User Settings** and *restart Blender*.
 
-.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_scripts_path.jpg
+.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_scripts_path.png
     :alt: Adding to Blender Scripts
     :align: center
 
@@ -72,7 +72,7 @@ Step 2 - Enabling the Add-on
 * Open the user preferences window;
 * Go to the **Addons** tab and choose the **Import-Export** category. Enable the **Import-Export: Blend4Web** checkbox;
 
-.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_enable_addon.jpg
+.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_enable_addon.png
     :alt: Enabling the Add-on
     :align: center
 
