@@ -28,11 +28,11 @@ This repo mirrors the free SDK distribution which can be also `downloaded from t
 Demos
 =====
 
-|planetarium| |capri_begins| |mi-34_hermit|
-|azure_grotto| |the_fountain| |the_watch|
-|sports_car| |naturemorte| |the_farm|
-|fashion_show| |the_island| |victory_day_2015|
-|new_year_2015| |victory_day_2014|
+|planetarium| |mi-34_hermit| |dairy_plant|
+|capri_begins| |azure_grotto| |the_fountain|
+|the_watch| |sports_car| |naturemorte|
+|the_farm| |fashion_show| |the_island|
+|victory_day_2015| |new_year_2015| |victory_day_2014|
 
 =========
 Tutorials
@@ -109,13 +109,17 @@ Step 3 - Starting Development Server
     :alt: Planetarium
     :width: 100 px
 
-.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/capri_begins.min50.png
-    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/capri_intro.json&compressed_textures
-    :alt: Capri Begins
+.. |dairy_plant| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/dairy_plant.min50.png
+    :target: https://www.blend4web.com/en/demo/dairy_plant/
+    :alt: Dairy Plant
 
 .. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/helicopter.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/mi_34s1/mi_34s1_demo_scene.json&autorotate&compressed_textures
     :alt: Mi-34 Hermit
+
+.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/capri_begins.min50.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/capri_intro.json&compressed_textures
+    :alt: Capri Begins
 
 .. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/azure_grotto.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/boat_pf28/boat_pf28.json&autorotate&compressed_textures
