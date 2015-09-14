@@ -129,7 +129,7 @@ class B4WReexport(bpy.types.Operator):
     bl_label       = "Reexport"
     bl_options     = {"INTERNAL"}
     bl_description = ("Perform mass reexport. Depending on amount of work this "
-            "may take some time.")
+            "may take some time")
 
     def execute(self, context):
         obj = context.active_object
