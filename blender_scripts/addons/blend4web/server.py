@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 from bpy.props import StringProperty
 
@@ -8,9 +24,30 @@ import threading
 import time
 import webbrowser
 import requests
+import subprocess
+import string
 
 import tornado.httpserver
 import tornado.web
+import tornado.websocket
+
+import re
+import imp
+import queue
+import pathlib
+import hashlib
+import shutil
+
+from os.path import basename, exists, join, normpath, relpath
+
+from urllib.parse import quote, unquote
+
+import blend4web
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_, get_translate
 
 WAIT_RESPONSE               = -1
 SUB_THREAD_START_SERV_OK    = 0
@@ -25,12 +62,33 @@ DEFAULT_FILENAME = "index.html"
 WAITING_TIME = 10
 STATUS_OK = 200
 
+COLOR_DICT = {
+    '31': [(255, 0, 0), (128, 0, 0)],
+    '32': [(0, 255, 0), (0, 128, 0)],
+    '33': [(255, 255, 0), (128, 128, 0)],
+    '34': [(0, 0, 255), (0, 0, 128)],
+    '35': [(255, 0, 255), (128, 0, 128)],
+    '36': [(0, 255, 255), (0, 128, 128)],
+    '37': [(255, 255, 255), (128, 128, 128)],
+    '91': [(255, 0, 0), (128, 0, 0)],
+    '92': [(0, 255, 0), (0, 128, 0)],
+    '93': [(255, 255, 0), (128, 128, 0)],
+    '94': [(0, 0, 255), (0, 0, 128)],
+    '95': [(255, 0, 255), (128, 0, 128)],
+    '96': [(0, 255, 255), (0, 128, 128)],
+    '97': [(255, 255, 255), (128, 128, 128)],
+}
+
+COLOR_REGEX = re.compile(r'\[(?P<arg_1>\d+)(;(?P<arg_2>\d+)(;(?P<arg_3>\d+))?)?m')
+BOLD_TEMPLATE = '<span style="color: rgb{}; font-weight: bolder">'
+LIGHT_TEMPLATE = '<span style="color: rgb{}">'
+
 class B4WServerMessage(bpy.types.Operator):
     bl_idname = "b4w.server_message"
-    bl_label = "Warning: Server error."
+    bl_label = p_("Warning: Server error.", "Operator")
     bl_options = {"INTERNAL"}
 
-    message = StringProperty(name="Message string")
+    message = StringProperty(name=_("Message string"))
 
     def execute(self, context):
         return {'FINISHED'}
@@ -66,16 +124,16 @@ class B4WLocalServer():
                 cls.server_status = MAIN_THREAD_START_EXC
                 cls.server_process = None
                 bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message="Server starting error: " + str(ex))
+                        message=get_translate(_("Server starting error: ")) + str(ex))
 
             cls.wait_loop()
 
             if cls.server_status == SUB_THREAD_SERVER_EXC:
                 bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message="Server starting error: " +  cls.error_message)
+                        message=get_translate(_("Server starting error: ")) +  cls.error_message)
             if cls.server_status == SUB_THREAD_OTHER_EXC:
                 bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message="Could not start the server: " + cls.error_message)
+                        message=get_translate(_("Could not start the server: ")) + cls.error_message)
 
             cls.panel_redraw()
 
@@ -94,7 +152,7 @@ class B4WLocalServer():
             except BaseException as ex:
                 cls.waiting_for_shutdown = False
                 bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message="Server stopping error: " + str(ex))
+                        message=get_translate(_("Server stopping error: ")) + str(ex))
                 cls.server_status = MAIN_THREAD_STOP_EXC
 
             cls.panel_redraw()
@@ -171,7 +229,8 @@ class B4WLocalServer():
 
 class B4WShutdownServer(bpy.types.Operator):
     bl_idname = "b4w.stop_server"
-    bl_label = "B4W Stop Server"
+    bl_label = p_("B4W Stop Server", "Operator")
+    bl_description = _("Stop server")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -180,7 +239,8 @@ class B4WShutdownServer(bpy.types.Operator):
 
 class B4WStartServer(bpy.types.Operator):
     bl_idname = "b4w.start_server"
-    bl_label = "B4W Start Server"
+    bl_label = p_("B4W Start Server", "Operator")
+    bl_description = _("Start server")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -189,7 +249,8 @@ class B4WStartServer(bpy.types.Operator):
 
 class B4WOpenSDK(bpy.types.Operator):
     bl_idname = "b4w.open_sdk"
-    bl_label = "B4W Open SDK"
+    bl_label = p_("B4W Open SDK", "Operator")
+    bl_description = _("Open Blend4Web SDK")
     bl_options = {"INTERNAL"}
    
     def execute(self, context):
@@ -202,7 +263,7 @@ def open_browser(url):
         webbrowser.open(url)
     except BaseException as ex:
         bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                message="Could not open browser: " + str(ex))
+                message=get_translate(_("Could not open browser: ")) + str(ex))
 
 def create_server():
     port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
@@ -215,8 +276,13 @@ def create_server():
         address = ADDRESS
 
     application = tornado.web.Application([
+        (r"/console/?$", ConsoleHandler),
+        (r"/project/?$", ProjectRootHandler),
+        (r"/project/.+$", ProjectRequestHandler),
+        (r"/create/?$", ProjectCreateHandler),
+        (r"/run_blender/(.*)$", RunBlenderHandler),
         (r"/(.*)$", StaticFileHandlerNoCache, 
-                { "path": root, "default_filename": DEFAULT_FILENAME}),
+            { "path": root, "default_filename": DEFAULT_FILENAME}),
     ])
 
     try:
@@ -224,6 +290,8 @@ def create_server():
         B4WLocalServer.server.listen(port, address=address)
         B4WLocalServer.server_status = SUB_THREAD_START_SERV_OK
         print("serving at port", port)
+        c = tornado.ioloop.PeriodicCallback(ConsoleHandler.console_cb, 100)
+        c.start()
         tornado.ioloop.IOLoop.instance().start()
 
         print("stop serving at port", port)
@@ -248,6 +316,376 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         self.set_header("Last-Modified", exp)
         self.add_header("B4W.LocalServer", "1")
 
+class ProjectRootHandler(tornado.web.RequestHandler):
+    def get(self):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        scripts_path = join(root, "scripts")
+        python_path = bpy.app.binary_path_python
+
+        # temporary fix
+        if sys.platform == "darwin" and python_path == "/usr/bin/python":
+            if not shutil.which("/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"):
+                self.write("Python3 not found")
+                return
+
+            python_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+
+        cmd = [python_path, join(root, "apps_dev", "project.py"),
+                "--no-colorama"]
+
+        tpl_html_file = open(join(root, "index_assets", "projects.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        cmd.append("list")
+
+        out = self.exec_proc_sync(cmd, root)
+
+        if out[0]:
+            self.write("Project list error")
+            return
+
+        proj_strs = out[1].splitlines()
+        proj_strs.sort()
+
+        table_insert = ""
+
+        for s in proj_strs:
+            table_insert += "<tr>"
+
+            name = s.split("->")[0].strip(" ")
+            path = s.split("->")[1].strip(" ")
+
+            pmod = imp.find_module("project_cli",
+                    [join(scripts_path, "lib")])
+            proj = imp.load_module("project_cli", pmod[0], pmod[1], pmod[2])
+
+            path_abs = normpath(join(root, path))
+            proj_cfg = proj.get_proj_cfg(path_abs)
+
+            build_dir = normpath(proj.proj_cfg_value(proj_cfg, "paths",
+                    "build_dir", ""))
+
+            table_insert += '<td>'
+            table_insert += name
+
+            # TODO: specify apps config syntax (including dev-build separation)
+            apps = proj.proj_cfg_value(proj_cfg, "compile", "apps", [])
+
+            if not len(apps):
+                dev_app = join(path, name + "_dev.html")
+                if exists(normpath(join(root, dev_app))):
+                    apps.append(proj.unix_path(dev_app))
+
+                build_app = join(build_dir, name + ".html")
+                if exists(normpath(join(root, build_app))):
+                    apps.append(proj.unix_path(build_app))
+            else:
+                apps = [proj.unix_path(join(build_dir, app))
+                        for app in apps if exists(join(root, build_dir, app))]
+
+            for app in apps:
+                table_insert += self.app_link(app)
+
+            table_insert += '</td>'
+
+            table_insert += '<td>'
+            
+            path_insert = proj.unix_path(path)
+            table_insert += self.shorten(path_insert, 50)
+
+            build_dir_insert = proj.unix_path(normpath(build_dir))
+            if build_dir_insert != path_insert:
+                table_insert +=  '<br>'
+                table_insert += self.shorten(build_dir_insert, 50)
+            
+            table_insert += '</td>'
+
+
+            blend_dirs = proj.proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
+
+            table_insert += '<td>'
+
+            for blend_dir in blend_dirs:
+                blend_dir_obj = pathlib.Path(normpath(join(root, blend_dir)))
+                blend_files = list(blend_dir_obj.rglob('*.blend'))
+                blend_files.sort()
+
+                content = ""
+
+                for file in blend_files:
+                    link = proj.unix_path(relpath(str(file), root))
+                    content += self.blend_link(link) + "<br>"
+
+                table_insert += self.file_group(table_insert, root, blend_dir,
+                        content);
+
+            table_insert += '</td>'
+
+            assets_dirs = proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+
+            table_insert += '<td>'
+            for assets_dir in assets_dirs:
+                assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
+                html_files = list(assets_dir_obj.rglob('*.html'))
+                html_files.sort()
+
+                content = ""
+                for file in html_files:
+                    link = proj.unix_path(relpath(str(file), root))
+                    content += self.html_link(link) + "<br>"
+
+                table_insert += self.file_group(table_insert, root,
+                        assets_dir, content);
+            table_insert += '</td>'
+
+            table_insert += '<td>'
+            for assets_dir in assets_dirs:
+                assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
+                json_files = list(assets_dir_obj.rglob('*.json'))
+                json_files.sort()
+
+                content = ""
+                for file in json_files:
+                    link = proj.unix_path(relpath(str(file), root))
+                    content += self.json_link(link) + "<br>"
+
+                table_insert += self.file_group(table_insert, root,
+                        assets_dir, content);
+            table_insert += '</td>'
+
+            table_insert += '<td>'
+            if proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None):
+                table_insert += ('[<a href=/project/-p/' +
+                        quote(normpath(path), safe="") +
+                        '/compile/>compile</a>]<br>')
+
+            table_insert += ('[<a href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/convert_resources/>convert resources</a>]<br>')
+
+            table_insert += ('[<a href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/reexport/-b/' + 
+                    quote(bpy.app.binary_path, safe="") + 
+                    '/>reexport</a>]')
+            table_insert += '</td>'
+
+            table_insert += "</tr>"
+
+        html_insertions = dict(table_insert=table_insert)
+
+        out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+        self.write(out_html_str)
+
+    def exec_proc_sync(self, cmd, root):
+        cwd = os.getcwd()
+ 
+        # switch to SDK
+        os.chdir(root)
+
+        try:
+            out = (0, subprocess.check_output(cmd, stderr=subprocess.STDOUT,
+                    universal_newlines=True))
+        except subprocess.CalledProcessError as ex:
+            out = (ex.returncode, ex.output)
+
+        # restore
+        os.chdir(cwd)
+
+        return out
+
+    def app_link(self, link):
+        return ('<br><a class="spoiler" href="/' + link + '">' +
+                basename(link) + '</a>')
+
+    def blend_link(self, link):
+        return ('<a class="spoiler" href="/run_blender/' + link + '">' +
+                self.shorten(link) + '</a>')
+
+    def html_link(self, link):
+        return ('<a class="spoiler" href="/' + link + '">' +
+                self.shorten(link) + '</a>')
+
+    def json_link(self, link):
+        return ('<a class="spoiler" ' + 
+                'href="/apps_dev/viewer/viewer_dev.html?load=../../' + link +
+                '">' + self.shorten(link) + '</a>')
+
+    def shorten(self, s, maxlen=60):
+        if len(s) > maxlen:
+            return "..." + s[-(maxlen-3):]
+        else:
+            return s
+
+    def file_group(self, s, root, dir, content):
+        if not len(content):
+            return ""
+
+        tpl_html_file = open(join(root, "index_assets", "spoiler.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        id = hashlib.md5((dir+content).encode()).hexdigest()
+
+        header = self.shorten(dir.strip("/ ") + "/*", 50)
+
+        html_insertions = dict(id=id, header=header, content=content)
+
+        return string.Template(tpl_html_str).substitute(html_insertions)
+
+
+class ProjectRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        if not ConsoleHandler.console_proc:
+            req = self.request.uri.replace("/project/", "").strip("/? ")
+
+            scripts_path = join(root, "scripts")
+
+            python_path = bpy.app.binary_path_python
+
+            # temporary fix
+            if sys.platform == "darwin" and python_path == "/usr/bin/python":
+                if not shutil.which("/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"):
+                    self.write("python3 not found")
+                    return
+
+                python_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+
+            cmd = [python_path, join(root, "apps_dev", "project.py"),
+                    "--no-colorama"]
+
+            for part in req.split("/"):
+                cmd.append(unquote(part))
+
+            ConsoleHandler.console_proc = self.exec_proc_async_pipe(cmd, root)
+
+            html_file = open(join(root, "index_assets", "request.tmpl"), "r")
+        else:
+            html_file = open(join(root, "index_assets", "request_busy.tmpl"), "r")
+
+        html_str = html_file.read()
+        html_file.close()
+
+        self.write(html_str)
+
+    def exec_proc_async_pipe(self, cmd, root):
+        cwd = os.getcwd()
+
+        # switch to SDK
+        os.chdir(root)
+
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, universal_newlines=True)
+
+        # restore
+        os.chdir(cwd)
+
+        console_queue = queue.Queue()
+        ConsoleHandler.console_queue = console_queue
+
+        t = threading.Thread(target=self.enqueue_output, args=(proc.stdout,
+                console_queue))
+        t.daemon = True
+        t.start()
+
+        return proc
+
+    def enqueue_output(self, out, queue):
+        for line in iter(out.readline, ""):
+            queue.put(line)
+        out.close()
+
+class ProjectCreateHandler(tornado.web.RequestHandler):
+    def get(self):
+        
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        tpl_html_file = open(join(root, "index_assets", "create_form.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        html_insertions = dict(blender_exec=quote(bpy.app.binary_path, safe=""))
+
+        html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+        self.write(html_str)
+
+class RunBlenderHandler(tornado.web.RequestHandler):
+    def get(self, tail):
+        
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        cmd = [bpy.app.binary_path]
+        cmd.append(normpath(join(root, tail.strip("/? "))))
+
+        proc = subprocess.Popen(cmd);
+
+        html_file = open(join(root, "index_assets", "run_blender.tmpl"), "r")
+        html_str = html_file.read()
+        html_file.close()
+
+        self.write(html_str)
+
+
+class ConsoleHandler(tornado.websocket.WebSocketHandler):
+    websocket_conn = None
+    console_proc = None
+    console_queue = None
+
+    def open(self, *args):
+        self.__class__.websocket_conn = self
+
+    def on_message(self, message):
+        pass
+
+    def on_close(self):
+        self.__class__.console_proc = None
+        self.__class__.websocket_conn = None
+
+    @classmethod
+    def console_cb(cls):
+        if not (cls.websocket_conn and cls.console_proc):
+            return
+
+        while True:
+            try:
+                line = cls.console_queue.get_nowait()
+            except queue.Empty:
+                break
+            else:
+                cls.websocket_conn.write_message(cls.ansi_to_html(line))
+            
+        if cls.console_proc.poll() != None:
+            cls.console_proc = None
+            cls.websocket_conn.close()
+            cls.websocket_conn = None
+
+    @classmethod
+    def ansi_to_html(cls, text):
+        text = text.replace('[0m', '</span>')
+
+        def single_sub(match):
+            argsdict = match.groupdict()
+            if argsdict['arg_3'] is None:
+                if argsdict['arg_2'] is None:
+                    color, bold = argsdict['arg_1'], 0
+                else:
+                    color, bold = argsdict['arg_1'], int(argsdict['arg_2'])
+            else:
+                color, bold = argsdict['arg_2'], int(argsdict['arg_3'])
+
+            if bold:
+                return BOLD_TEMPLATE.format(COLOR_DICT[color][1])
+            return LIGHT_TEMPLATE.format(COLOR_DICT[color][0])
+
+        return COLOR_REGEX.sub(single_sub, text)
+
+
 @bpy.app.handlers.persistent
 def init_server(arg):
     if init_server in bpy.app.handlers.scene_update_pre:
@@ -261,9 +699,9 @@ def init_server(arg):
 
 def has_valid_sdk_dir():
     b4w_src_path = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-    path_to_index = os.path.join(b4w_src_path, "index.html")
-    os.path.normpath(path_to_index)
-    return b4w_src_path != "" and os.path.exists(path_to_index)
+    path_to_index = join(b4w_src_path, "index.html")
+    normpath(path_to_index)
+    return b4w_src_path != "" and exists(path_to_index)
 
 def register(): 
     bpy.utils.register_class(B4WStartServer)

@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 ### bpy.ops.webgl.reload(); bpy.ops.anim.bake()
 
 # NOTE may require curve_simplify.py addon enabled
@@ -7,28 +23,35 @@ import mathutils
 import math
 import re
 
+import blend4web
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
+
 BAKED_SUFFIX = "_B4W_BAKED"
 
 class B4W_Anim_Baker(bpy.types.Operator):
     '''Bake animation for the selected armature object'''
 
     bl_idname  = "b4w.animation_bake"
-    bl_label   = "Bake Skeletal Animation"
+    bl_label   = p_("Bake Skeletal Animation", "Operator")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
         armobj = context.active_object
         if not (armobj and armobj.type == "ARMATURE"):
-            self.report({'INFO'}, "Not an armature object")
+            self.report({'INFO'}, _("Not an armature object"))
             return {'CANCELLED'}
 
         # NOTE: handle rare cases when armature has no animation data
         if not armobj.animation_data:
-            self.report({'INFO'}, "No animation data")
+            self.report({'INFO'}, _("No animation data"))
             return {'CANCELLED'}
 
         if armobj.library is not None:
-            self.report({'INFO'}, "Armature object is linked")
+            self.report({'INFO'}, _("Armature object is linked"))
             return {'CANCELLED'}
 
         valid_actions = self.get_valid_actions(armobj)
@@ -434,13 +457,13 @@ class B4W_Constraints_Muter(bpy.types.Operator):
     '''Mute bone constraints for selected armature object'''
 
     bl_idname = "b4w.constraints_mute"
-    bl_label = "B4W Constraints Mute"
+    bl_label = p_("B4W Constraints Mute", "Operator")
     bl_options = {"INTERNAL"}
    
     def execute(self, context):
         armobj = context.active_object
         if not (armobj and armobj.type == "ARMATURE"):
-            self.report({'INFO'}, "Not an armature object")
+            self.report({'INFO'}, _("Not an armature object"))
             return {'CANCELLED'}
 
         for bone in armobj.pose.bones: 
@@ -453,13 +476,13 @@ class B4W_Constraints_UnMuter(bpy.types.Operator):
     '''Unmute bone constraints for selected armature object'''
 
     bl_idname = "b4w.constraints_unmute"
-    bl_label = "B4W Constraints UnMute"
+    bl_label = p_("B4W Constraints UnMute", "Operator")
     bl_options = {"INTERNAL"}
    
     def execute(self, context):
         armobj = context.active_object
         if not (armobj and armobj.type == "ARMATURE"):
-            self.report({'INFO'}, "Not an armature object")
+            self.report({'INFO'}, _("Not an armature object"))
             return {'CANCELLED'}
 
         for bone in armobj.pose.bones:
@@ -477,7 +500,7 @@ class B4W_UI_UL_actions_list(bpy.types.UIList):
             layout.label(item.name)
 
 class B4W_AnimBakerPanel(bpy.types.Panel):
-    bl_label = "Bake Skeletal Animation"
+    bl_label = _("Bake Skeletal Animation")
     bl_idname = "OBJECT_PT_anim_baker"
     bl_space_type = "VIEW_3D"
     bl_region_type = "TOOLS"
@@ -507,17 +530,17 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         if anim:
             anim_index = obj.b4w_anim_index
             row = layout.row()
-            row.prop_search(anim[anim_index], "name", bpy.data, "actions", text="Name")
+            row.prop_search(anim[anim_index], "name", bpy.data, "actions", text=_("Name"))
 
         row = layout.row()
-        row.prop(obj, "b4w_anim_clean_keys", text="Optimize Keyframes")
+        row.prop(obj, "b4w_anim_clean_keys", text=_("Optimize Keyframes"))
 
         row = layout.row()
         row.prop(obj, "b4w_use_bpy_anim_baker",
-            text="Use Blender's Native Baker")
+            text=_("Use Blender's Native Baker"))
 
         row = layout.row()
-        row.operator("b4w.animation_bake", text="Bake", icon="REC")
+        row.operator("b4w.animation_bake", text=_("Bake"), icon="REC")
 
         # NOTE: do we need them?
         #row = layout.row(align=True)
@@ -530,8 +553,8 @@ class B4W_Anim(bpy.types.PropertyGroup):
 
 class B4W_AnimAddOperator(bpy.types.Operator):
     bl_idname      = 'b4w.anim_add'
-    bl_label       = "Add animation"
-    bl_description = "Add animation"
+    bl_label       = p_("Add animation", "Operator")
+    bl_description = _("Add animation")
     bl_options = {"INTERNAL"}
 
     def invoke(self, context, event):
@@ -547,8 +570,8 @@ class B4W_AnimAddOperator(bpy.types.Operator):
  
 class B4W_AnimRemOperator(bpy.types.Operator):
     bl_idname      = 'b4w.anim_remove'
-    bl_label       = "Remove animation"
-    bl_description = "Remove animation"
+    bl_label       = p_("Remove animation", "Operator")
+    bl_description = _("Remove animation")
     bl_options = {"INTERNAL"}
 
     def invoke(self, context, event):
@@ -574,11 +597,11 @@ def register():
     bpy.utils.register_class(B4W_Anim)
 
     bpy.types.Object.b4w_anim =\
-            bpy.props.CollectionProperty(type=B4W_Anim, name="B4W: animation")
+            bpy.props.CollectionProperty(type=B4W_Anim, name=_("B4W: animation"))
     bpy.types.Object.b4w_anim_index =\
-            bpy.props.IntProperty(name="B4W: animation index")
+            bpy.props.IntProperty(name=_("B4W: animation index"))
     bpy.types.Object.b4w_use_bpy_anim_baker =\
-            bpy.props.BoolProperty(name="B4W: use bpy anim baker",
+            bpy.props.BoolProperty(name=_("B4W: use bpy anim baker"),
                 default = False)
 
 def unregister():

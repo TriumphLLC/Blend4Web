@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -31,7 +48,8 @@ var cfg_def = m_cfg.defaults;
 exports.compose_nmat_graph = compose_nmat_graph;
 function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
                             shader_type) {
-    var ntree_graph_id = generate_graph_id(source_id, shader_type);
+    var active_scene = m_scenes.get_active();
+    var ntree_graph_id = generate_graph_id(source_id, shader_type, active_scene.uuid);
     if (ntree_graph_id in _composed_node_graphs)
         return _composed_node_graphs[ntree_graph_id];
 
@@ -138,7 +156,10 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
 
 exports.create_lighting_graph = create_lighting_graph;
 function create_lighting_graph(source_id, mat_name, data) {
-    if (source_id in _composed_node_graphs)
+    var active_scene = m_scenes.get_active();
+    var ntree_graph_id = generate_graph_id(source_id, "MAIN", active_scene.uuid);
+
+    if (ntree_graph_id in _composed_node_graphs)
         return _composed_node_graphs[source_id];
 
     var graph = m_graph.create();
@@ -277,8 +298,8 @@ function add_lighting_subgraph(graph, data, begin_node_id,
     link_nlight_edge(graph, begin_node_id, curr_node_id, "A");
     link_nlight_edge(graph, begin_node_id, curr_node_id, "D");
 
-    var main_scene = m_scenes.get_main();
-    var lamps = m_obj.get_scene_objs(main_scene, "LAMP", m_obj.DATA_ID_ALL);
+    var scene = m_scenes.get_active();
+    var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
 
     if (!data.use_shadeless) {
         var lamp_node_id;
@@ -393,18 +414,18 @@ function link_nlight_edge(graph, id1, id2, inout_name) {
         m_graph.append_edge(graph, id1, id2, [out1, in2]);
 }
 
-function generate_graph_id(graph_id, shader_type) {
+function generate_graph_id(graph_id, shader_type, scene_id) {
     switch (shader_type) {
     case "GLOW":
         // use color output, it is glow
-        return graph_id + "11";
+        return graph_id + scene_id + "11";
     case "COLOR_ID":
     case "DEPTH":
         // don't use color output, it isn't glow
-        return graph_id + "00";
+        return graph_id + scene_id + "00";
     default:
         // use color output, it isn't glow
-        return graph_id + "10";
+        return graph_id + scene_id + "10";
     }
 }
 
@@ -1285,19 +1306,25 @@ function append_nmat_node(graph, bpy_node, output_num, anim_data,
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
     case "UVMAP":
-        var uv_name = shader_ident("param_" + type + "_a");
-        var uv_tra_name = shader_ident("param_" + type + "_v");
+        var uv_layer = bpy_node["uv_layer"];
+        if (!uv_layer)
+            type = "EMPTY_UV";
 
-        vparams.push(node_param(uv_name));
-        vparams.push(node_param(uv_tra_name));
+        if (type != "EMPTY_UV") {
+            var uv_name = shader_ident("param_" + type + "_a");
+            var uv_tra_name = shader_ident("param_" + type + "_v");
 
-        outputs = node_outputs_bpy_to_b4w(bpy_node);
-        params.push(node_param(uv_tra_name));
+            vparams.push(node_param(uv_name));
+            vparams.push(node_param(uv_tra_name));
 
-        data = {
-            name: uv_name,
-            value: bpy_node["uv_layer"]
+            params.push(node_param(uv_tra_name));
+
+            data = {
+                name: uv_name,
+                value: uv_layer
+            }
         }
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
     case "UV_MERGED":
         var uv_name = shader_ident("param_UV_MERGED_a");
@@ -1347,49 +1374,47 @@ function append_nmat_node(graph, bpy_node, output_num, anim_data,
 
         switch (type) {
         case "GEOMETRY_UV":
-            // NOTE: check UV layers for compatibility
-            if (!bpy_node["uv_layer"]) {
-                m_print.error("Missing uv layer in node \"", bpy_node["name"],"\"");
-                return null;
+            var curr_uv_layer = bpy_node["uv_layer"];
+            if (!curr_uv_layer)
+                type = "EMPTY_UV";
+
+            if (type != "EMPTY_UV") {
+                var uv_name = shader_ident("param_GEOMETRY_UV_a");
+                var uv_tra_name = shader_ident("param_GEOMETRY_UV_v");
+
+                vparams.push(node_param(uv_name));
+                vparams.push(node_param(uv_tra_name));
+
+                params.push(node_param(uv_tra_name));
+
+                data = {
+                    name: uv_name,
+                    value: curr_uv_layer
+                }
             }
-
-            var uv_name = shader_ident("param_GEOMETRY_UV_a");
-            var uv_tra_name = shader_ident("param_GEOMETRY_UV_v");
-
-            vparams.push(node_param(uv_name));
-            vparams.push(node_param(uv_tra_name));
-
             outputs.push(node_output_by_ident(bpy_node, "UV"));
-
-            params.push(node_param(uv_tra_name));
-
-            data = {
-                name: uv_name,
-                value: bpy_node["uv_layer"]
-            }
             break;
         case "GEOMETRY_VC":
-            // NOTE: check VC for compatibility
-            if (!bpy_node["color_layer"]) {
-                m_print.error("Missing vertex color layer in node ", bpy_node["name"]);
-                return null;
+            var curr_color_layer = bpy_node["color_layer"];
+            if (!curr_color_layer)
+                type = "EMPTY_VC";
+
+            if (type != "EMPTY_VC") {
+                var vc_name = shader_ident("param_GEOMETRY_VC_a");
+                var vc_tra_name = shader_ident("param_GEOMETRY_VC_v");
+
+                vparams.push(node_param(vc_name));
+                vparams.push(node_param(vc_tra_name));
+
+                params.push(node_param(vc_tra_name));
+
+                data = {
+                    name: vc_name,
+                    value: curr_color_layer
+                }
             }
-
-            var vc_name = shader_ident("param_GEOMETRY_VC_a");
-            var vc_tra_name = shader_ident("param_GEOMETRY_VC_v");
-
-            vparams.push(node_param(vc_name));
-            vparams.push(node_param(vc_tra_name));
-
             outputs.push(node_output_by_ident(bpy_node, "Vertex Color"));
-
-            params.push(node_param(vc_tra_name));
-
-            data = {
-                name: vc_name,
-                value: bpy_node["color_layer"]
-            }
-            break
+            break;
         case "GEOMETRY_NO":
             outputs.push(node_output_by_ident(bpy_node, "Normal"));
             break;
@@ -1427,21 +1452,25 @@ function append_nmat_node(graph, bpy_node, output_num, anim_data,
 
         switch (type) {
         case "TEX_COORD_UV":
+            var uv_layer = bpy_node["uv_layer"];
+            if (!uv_layer)
+                type = "EMPTY_UV";
 
-            var uv_name = shader_ident("param_TEX_COORD_UV_a");
-            var uv_tra_name = shader_ident("param_TEX_COORD_UV_v");
+            if (type != "EMPTY_UV") {
+                var uv_name = shader_ident("param_TEX_COORD_UV_a");
+                var uv_tra_name = shader_ident("param_TEX_COORD_UV_v");
 
-            vparams.push(node_param(uv_name));
-            vparams.push(node_param(uv_tra_name));
+                vparams.push(node_param(uv_name));
+                vparams.push(node_param(uv_tra_name));
 
-            outputs.push(node_output_by_ident(bpy_node, "UV"));
+                params.push(node_param(uv_tra_name));
 
-            params.push(node_param(uv_tra_name));
-
-            data = {
-                name: uv_name,
-                value: bpy_node["uv_layer"]
+                data = {
+                    name: uv_name,
+                    value: bpy_node["uv_layer"]
+                }
             }
+            outputs.push(node_output_by_ident(bpy_node, "UV"));
             break;
         case "TEX_COORD_NO":
             outputs.push(node_output_by_ident(bpy_node, "Normal"));
@@ -1974,6 +2003,8 @@ function append_nmat_node(graph, bpy_node, output_num, anim_data,
         material_begin_params.push(node_param(shader_ident("param_MATERIAL_spec"),
                                [bpy_node["specular_intensity"],
                                 spec_param_0, spec_param_1], 3));
+
+        material_begin_dirs.push(["SHADELESS_MAT", bpy_node["use_shadeless"]? 1: 0]);
 
         var path_data = {
             name: bpy_node["name"],

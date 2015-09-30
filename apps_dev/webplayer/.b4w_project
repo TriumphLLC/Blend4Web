@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = webplayer
+title = Web Player
+
+[paths]
+assets_dirs = 
+blend_dirs = 
+blender_exec = blender
+build_dir = deploy/apps/webplayer
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = compile
+js_ignore = 
+optimization = advanced
+use_physics = True
+use_smaa_textures = True
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

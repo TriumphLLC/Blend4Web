@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = flight
+title = The Island
+
+[paths]
+assets_dirs = deploy/assets/flight_over_island;
+blend_dirs = blender/flight_over_island;
+blender_exec = blender
+build_dir = deploy/apps/flight
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = 
+optimization = advanced
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

@@ -1,17 +1,40 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import mathutils
 import math
 import bgl
 from bpy.types import Panel
 from rna_prop_ui import PropertyPanel
+import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 
 _draw_handler = None
 
 ##########################################################
 # draw UI Buttons
 class B4W_BoundingsDrawUI(bpy.types.Panel):
-    bl_idname = 'Override Bounding Volumes'
-    bl_label = 'Override Bounding Volumes'
+    bl_idname = _('Override Bounding Volumes')
+    bl_label = _('Override Bounding Volumes')
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = 'Blend4Web'
@@ -37,30 +60,30 @@ class B4W_BoundingsDrawUI(bpy.types.Panel):
         msh = ob.data
 
         row = layout.row()
-        row.label(text="Show Boundings:")
+        row.label(text=_("Show Boundings:"))
 
         row = layout.row(align=True)
-        row.prop(wm, 'b4w_draw_bound_box', text='Boxes', toggle=True)
-        row.prop(wm, 'b4w_draw_bound_sphere', text='Spheres', toggle=True)
-        row.prop(wm, 'b4w_draw_bound_ellipsoid', text='Ellipsoids', toggle=True)
+        row.prop(wm, 'b4w_draw_bound_box', text=_('Boxes'), toggle=True)
+        row.prop(wm, 'b4w_draw_bound_sphere', text=_('Spheres'), toggle=True)
+        row.prop(wm, 'b4w_draw_bound_ellipsoid', text=_('Ellipsoids'), toggle=True)
 
         sep = layout.separator()
 
-        self.layout.prop(msh, "b4w_override_boundings", text="Override Mesh Boundings", toggle=True)
+        self.layout.prop(msh, "b4w_override_boundings", text=_("Override Mesh Boundings"), toggle=True)
         boundings = msh.b4w_boundings
 
         row = layout.row(align=True)
         row.active = msh.b4w_override_boundings
-        row.prop(boundings, "min_x", text="Min X")
-        row.prop(boundings, "max_x", text="Max X")
+        row.prop(boundings, "min_x", text=_("Min X"))
+        row.prop(boundings, "max_x", text=_("Max X"))
         row = layout.row(align=True)
         row.active = msh.b4w_override_boundings
-        row.prop(boundings, "min_y", text="Min Y")
-        row.prop(boundings, "max_y", text="Max Y")
+        row.prop(boundings, "min_y", text=_("Min Y"))
+        row.prop(boundings, "max_y", text=_("Max Y"))
         row = layout.row(align=True)
         row.active = msh.b4w_override_boundings
-        row.prop(boundings, "min_z", text="Min Z")
-        row.prop(boundings, "max_z", text="Max Z")
+        row.prop(boundings, "min_z", text=_("Min Z"))
+        row.prop(boundings, "max_z", text=_("Max Z"))
 
 def draw_boundings(self, context):
     for obj in bpy.data.objects:
@@ -226,19 +249,19 @@ def switch_boundings_draw(self, context):
 
 def init_properties():
     bpy.types.WindowManager.b4w_draw_bound_box = bpy.props.BoolProperty(
-        name = "B4W: draw bounding box",
+        name = _("B4W: draw bounding box"),
         default = False,
         update = switch_boundings_draw
         )
 
     bpy.types.WindowManager.b4w_draw_bound_sphere = bpy.props.BoolProperty(
-        name = "B4W: draw bounding sphere",
+        name = _("B4W: draw bounding sphere"),
         default = False,
         update = switch_boundings_draw
         )
 
     bpy.types.WindowManager.b4w_draw_bound_ellipsoid = bpy.props.BoolProperty(
-        name = "B4W: draw bounding ellipsoid",
+        name = _("B4W: draw bounding ellipsoid"),
         default = False,
         update = switch_boundings_draw
         )

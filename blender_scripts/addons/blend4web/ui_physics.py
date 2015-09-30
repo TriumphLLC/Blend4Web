@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import imp
 import mathutils
@@ -12,7 +28,13 @@ from bl_ui.properties_physics_common import (
         basic_force_field_settings_ui,
         basic_force_field_falloff_ui,
         )
+import blend4web
 
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 SUPPORTED_FIELD_TYPES = {'WIND'}
 
 # common properties for all B4W object panels
@@ -30,7 +52,7 @@ class PhysicsButtonsPanel:
             and context.scene.render.engine in cls.COMPAT_ENGINES)
 
 class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
-    bl_label = "Physics"
+    bl_label = _("Physics")
     bl_idname = "PHYSICS_PT_b4w_physics"
 
     @classmethod
@@ -46,8 +68,8 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
         game = obj.game
         soft = obj.game.soft_body
 
-        layout.prop(obj, "b4w_collision", text="Object Physics")
-        layout.prop(obj, "b4w_collision_id", text="Collision ID")
+        layout.prop(obj, "b4w_collision", text=_("Object Physics"))
+        layout.prop(obj, "b4w_collision_id", text=_("Collision ID"))
 
         layout.prop(game, "physics_type")
         layout.separator()
@@ -56,7 +78,7 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
 
         if physics_type in {'CHARACTER', 'SOFT_BODY', 'NAVMESH', 'SENSOR',
                             'OCCLUDER'}:
-            layout.label(text="Unsupported physics type", icon='ERROR')
+            layout.label(text=_("Unsupported physics type"), icon='ERROR')
 
         elif physics_type in {'DYNAMIC', 'RIGID_BODY'}:
             split = layout.split()
@@ -73,22 +95,22 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
             split = layout.split()
 
             col = split.column()
-            col.label(text="Attributes:")
+            col.label(text=_("Attributes:"))
             col.prop(game, "mass")
 
             split = layout.split()
 
             col = split.column()
-            col.label(text="Velocity:")
+            col.label(text=_("Velocity:"))
             sub = col.column(align=True)
-            sub.prop(game, "velocity_min", text="Minimum")
-            sub.prop(game, "velocity_max", text="Maximum")
+            sub.prop(game, "velocity_min", text=_("Minimum"))
+            sub.prop(game, "velocity_max", text=_("Maximum"))
 
             col = split.column()
-            col.label(text="Damping:")
+            col.label(text=_("Damping:"))
             sub = col.column(align=True)
-            sub.prop(game, "damping", text="Translation", slider=True)
-            sub.prop(game, "rotation_damping", text="Rotation", slider=True)
+            sub.prop(game, "damping", text=_("Translation"), slider=True)
+            sub.prop(game, "rotation_damping", text=_("Rotation"), slider=True)
 
         elif physics_type == 'STATIC':
             col = layout.column()
@@ -96,7 +118,7 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
             col.prop(game, "use_ghost")
 
 class B4W_PHYSICS_PT_game_collision_bounds(PhysicsButtonsPanel, Panel):
-    bl_label = "Collision Bounds"
+    bl_label = _("Collision Bounds")
 
     @classmethod
     def poll(cls, context):
@@ -112,17 +134,17 @@ class B4W_PHYSICS_PT_game_collision_bounds(PhysicsButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(game, "collision_bounds_type", text="Bounds")
+        col.prop(game, "collision_bounds_type", text=_("Bounds"))
 
         if game.collision_bounds_type in {"CONVEX_HULL", "TRIANGLE_MESH"}:
-            layout.label(text = "This collision bounds type is not supported", icon='ERROR')
+            layout.label(text = _("This collision bounds type is not supported"), icon='ERROR')
             return
 
         row = col.row()
-        row.prop(game, "collision_margin", text="Margin", slider=True)
+        row.prop(game, "collision_margin", text=_("Margin"), slider=True)
 
         sub = row.row()
-        sub.prop(game, "use_collision_compound", text="Compound")
+        sub.prop(game, "use_collision_compound", text=_("Compound"))
 
         layout.separator()
         split = layout.split()
@@ -131,15 +153,15 @@ class B4W_PHYSICS_PT_game_collision_bounds(PhysicsButtonsPanel, Panel):
         col = split.column()
         col.prop(game, "collision_mask")
 
-        layout.prop(context.object, "b4w_correct_bounding_offset", text="Bounding Box Correction")
+        layout.prop(context.object, "b4w_correct_bounding_offset", text=_("Bounding Box Correction"))
 
 class B4W_PhysicsFloaterPanel(PhysicsButtonsPanel, Panel):
-    bl_label = "Floater"
+    bl_label = _("Floater")
     bl_idname = "PHYSICS_PT_b4w_floater"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_floating", text="")
+        self.layout.prop(context.object, "b4w_floating", text=_(""))
 
     def draw(self, context):
         layout = self.layout
@@ -148,20 +170,20 @@ class B4W_PhysicsFloaterPanel(PhysicsButtonsPanel, Panel):
         layout.active = obj.b4w_floating
 
         row = layout.row()
-        row.prop(obj.b4w_floating_settings, "name", text="Floater Name")
+        row.prop(obj.b4w_floating_settings, "name", text=_("Floater Name"))
         row = layout.row()
-        row.prop(obj.b4w_floating_settings, "part", text="Part")
+        row.prop(obj.b4w_floating_settings, "part", text=_("Part"))
 
         if (obj.b4w_floating_settings.part == "MAIN_BODY"):
             row = layout.row()
             row.prop(obj.b4w_floating_settings, "floating_factor",
-                    text="Floating Factor")
+                    text=_("Floating Factor"))
             row = layout.row()
             row.prop(obj.b4w_floating_settings, "water_lin_damp",
-                    text="Water Linear Damping")
+                    text=_("Water Linear Damping"))
             row = layout.row()
             row.prop(obj.b4w_floating_settings, "water_rot_damp",
-                    text="Water Rotation Damping")
+                    text=_("Water Rotation Damping"))
 
         if (obj.b4w_floating_settings.part == "BOB"):
             row = layout.row()
@@ -169,12 +191,12 @@ class B4W_PhysicsFloaterPanel(PhysicsButtonsPanel, Panel):
                     TEXT="SYNCHRONIZE BOB POSITION")
 
 class B4W_PhysicsVehiclePanel(PhysicsButtonsPanel, Panel):
-    bl_label = "Vehicle"
+    bl_label = _("Vehicle")
     bl_idname = "PHYSICS_PT_b4w_vehicle"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_vehicle", text="")
+        self.layout.prop(context.object, "b4w_vehicle", text=_(""))
 
     def draw(self, context):
         layout = self.layout
@@ -183,9 +205,9 @@ class B4W_PhysicsVehiclePanel(PhysicsButtonsPanel, Panel):
         layout.active = obj.b4w_vehicle
 
         row = layout.row()
-        row.prop(obj.b4w_vehicle_settings, "name", text="Vehicle Name")
+        row.prop(obj.b4w_vehicle_settings, "name", text=_("Vehicle Name"))
         row = layout.row()
-        row.prop(obj.b4w_vehicle_settings, "part", text="Part")
+        row.prop(obj.b4w_vehicle_settings, "part", text=_("Part"))
 
         if (obj.b4w_vehicle_settings.part == "WHEEL_FRONT_LEFT" or
                 obj.b4w_vehicle_settings.part == "WHEEL_FRONT_RIGHT" or
@@ -193,81 +215,81 @@ class B4W_PhysicsVehiclePanel(PhysicsButtonsPanel, Panel):
                 obj.b4w_vehicle_settings.part == "WHEEL_BACK_RIGHT"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "suspension_rest_length",
-                    text="Suspension Rest Length")
+                    text=_("Suspension Rest Length"))
 
         if (obj.b4w_vehicle_settings.part == "CHASSIS" or
                 obj.b4w_vehicle_settings.part == "HULL"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "force_max",
-                    text="Force Max")
+                    text=_("Force Max"))
             row.prop(obj.b4w_vehicle_settings, "brake_max",
-                    text="Brake Max")
+                    text=_("Brake Max"))
 
         if (obj.b4w_vehicle_settings.part == "CHASSIS"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "suspension_compression",
-                    text="Suspension Compression")
+                    text=_("Suspension Compression"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "suspension_stiffness",
-                    text="Suspension Stiffness")
+                    text=_("Suspension Stiffness"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "suspension_damping",
-                    text="Suspension Damping")
+                    text=_("Suspension Damping"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "wheel_friction",
-                    text="Wheel Friction")
+                    text=_("Wheel Friction"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "roll_influence",
-                    text="Roll Influence")
+                    text=_("Roll Influence"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "max_suspension_travel_cm",
-                    text="Max Suspension Travel Cm")
+                    text=_("Max Suspension Travel Cm"))
 
         if (obj.b4w_vehicle_settings.part == "HULL"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "floating_factor",
-                    text="Floating Factor")
+                    text=_("Floating Factor"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "water_lin_damp",
-                    text="Water Linear Damping")
+                    text=_("Water Linear Damping"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "water_rot_damp",
-                    text="Water Rotation Damping")
+                    text=_("Water Rotation Damping"))
 
         if (obj.b4w_vehicle_settings.part == "BOB"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "synchronize_position",
-                    text="Synchronize Bob Position")
+                    text=_("Synchronize Bob Position"))
 
         if (obj.b4w_vehicle_settings.part == "STEERING_WHEEL"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "steering_ratio",
-                    text="Steering Ratio")
+                    text=_("Steering Ratio"))
             row.prop(obj.b4w_vehicle_settings, "steering_max",
-                    text="Steering Max")
+                    text=_("Steering Max"))
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "inverse_control",
-                    text="Inverse Control")
+                    text=_("Inverse Control"))
 
         if (obj.b4w_vehicle_settings.part == "TACHOMETER"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "delta_tach_angle",
-                    text="Delta Tach Angle")
+                    text=_("Delta Tach Angle"))
 
         if (obj.b4w_vehicle_settings.part == "SPEEDOMETER"):
             row = layout.row()
             row.prop(obj.b4w_vehicle_settings, "max_speed_angle",
-                    text="Max Speed Angle")
+                    text=_("Max Speed Angle"))
             row.prop(obj.b4w_vehicle_settings, "speed_ratio",
-                    text="Speed Ratio")
+                    text=_("Speed Ratio"))
 
 class B4W_PhysicsCharacterPanel(PhysicsButtonsPanel, Panel):
-    bl_label = "Character"
+    bl_label = _("Character")
     bl_idname = "PHYSICS_PT_b4w_character"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_character", text="")
+        self.layout.prop(context.object, "b4w_character", text=_(""))
 
     def draw(self, context):
         layout = self.layout
@@ -275,21 +297,21 @@ class B4W_PhysicsCharacterPanel(PhysicsButtonsPanel, Panel):
 
         layout.active = obj.b4w_character
 
-        layout.label("Character settings:")
+        layout.label(text=_("Character settings:"))
 
         row = layout.row()
-        row.prop(obj.b4w_character_settings, "walk_speed", text="Walk Speed")
+        row.prop(obj.b4w_character_settings, "walk_speed", text=_("Walk Speed"))
         row = layout.row()
-        row.prop(obj.b4w_character_settings, "run_speed", text="Run Speed")
+        row.prop(obj.b4w_character_settings, "run_speed", text=_("Run Speed"))
         row = layout.row()
-        row.prop(obj.b4w_character_settings, "step_height", text="Step Height")
+        row.prop(obj.b4w_character_settings, "step_height", text=_("Step Height"))
         row = layout.row()
-        row.prop(obj.b4w_character_settings, "jump_strength", text="Jump Strength")
+        row.prop(obj.b4w_character_settings, "jump_strength", text=_("Jump Strength"))
         row = layout.row()
-        row.prop(obj.b4w_character_settings, "waterline", text="Waterline")
+        row.prop(obj.b4w_character_settings, "waterline", text=_("Waterline"))
 
 class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
-    bl_label = "Force Fields"
+    bl_label = _("Force Fields")
 
     @classmethod
     def poll(cls, context):
@@ -305,21 +327,21 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         obj = context.object
         field = obj.field
         split = layout.split(percentage=0.2)
-        split.label(text="Type:")
+        split.label(text=_("Type:"))
 
-        split.prop(field, "type", text="")
+        split.prop(field, "type", text=_(""))
 
         if not (obj.field.type in SUPPORTED_FIELD_TYPES):
-            layout.label(text = "This field type is not supported", icon='ERROR')
+            layout.label(text = _("This field type is not supported"), icon='ERROR')
             return
 
         #if field.type not in {'NONE', 'GUIDE', 'TEXTURE'}:
         #    split = layout.split(percentage=0.2)
-        #    split.label(text="Shape:")
-        #    split.prop(field, "shape", text="")
+        #    split.label(text=_("Shape:"))
+        #    split.prop(field, "shape", text=_(""))
         #elif field.type == 'TEXTURE':
         #    split = layout.split(percentage=0.2)
-        #    split.label(text="Texture:")
+        #    split.label(text=_("Texture:"))
         #    split.row().template_ID(field, "texture", new="texture.new")
 
         split = layout.split()
@@ -335,7 +357,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
             col.prop(field, "use_guide_path_weight")
 
             col = split.column()
-            col.label(text="Clumping:")
+            col.label(text=_("Clumping:"))
             col.prop(field, "guide_clump_amount")
             col.prop(field, "guide_clump_shape")
 
@@ -363,7 +385,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         elif field.type == 'TEXTURE':
             col = split.column()
             col.prop(field, "strength")
-            col.prop(field, "texture_mode", text="")
+            col.prop(field, "texture_mode", text=_(""))
             col.prop(field, "texture_nabla")
 
             col = split.column()
@@ -374,7 +396,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
             col.prop(field, "strength")
             col.prop(field, "flow")
             col = split.column()
-            col.label(text="Domain Object:")
+            col.label(text=_("Domain Object:"))
             col.prop(field, "source_object", "")
             col.prop(field, "use_smoke_density")
         else:
@@ -388,7 +410,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
             col = split.column()
 
             if field.type == 'DRAG':
-                col.prop(field, "linear_drag", text="Linear")
+                col.prop(field, "linear_drag", text=_("Linear"))
             else:
                 col.prop(field, "strength")
 
@@ -396,12 +418,12 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
             #    col.prop(field, "size")
             #    col.prop(field, "flow")
             #elif field.type == 'HARMONIC':
-            #    col.prop(field, "harmonic_damping", text="Damping")
+            #    col.prop(field, "harmonic_damping", text=_("Damping"))
             #    col.prop(field, "rest_length")
             #elif field.type == 'VORTEX' and field.shape != 'POINT':
             #    col.prop(field, "inflow")
             #elif field.type == 'DRAG':
-            #    col.prop(field, "quadratic_drag", text="Quadratic")
+            #    col.prop(field, "quadratic_drag", text=_("Quadratic"))
             #else:
             #    col.prop(field, "flow")
 
@@ -410,24 +432,24 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
             #sub.prop(field, "noise")
             #sub.prop(field, "seed")
             #if field.type == 'TURBULENCE':
-            #    col.prop(field, "use_global_coords", text="Global")
+            #    col.prop(field, "use_global_coords", text=_("Global"))
             #elif field.type == 'HARMONIC':
             #    col.prop(field, "use_multiple_springs")
 
             #split = layout.split()
 
             #col = split.column()
-            #col.label(text="Effect point:")
+            #col.label(text=_("Effect point:"))
             #col.prop(field, "apply_to_location")
             #col.prop(field, "apply_to_rotation")
 
             #col = split.column()
-            #col.label(text="Collision:")
+            #col.label(text=_("Collision:"))
             #col.prop(field, "use_absorption")
 
         #if field.type not in {'NONE', 'GUIDE'}:
 
-        #    layout.label(text="Falloff:")
+        #    layout.label(text=_("Falloff:"))
         #    layout.prop(field, "falloff_type", expand=True)
 
         #    basic_force_field_falloff_ui(self, context, field)
@@ -438,20 +460,20 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         #        split = layout.split(percentage=0.35)
 
         #        col = split.column()
-        #        col.label(text="Angular:")
-        #        col.prop(field, "use_radial_min", text="Use Minimum")
-        #        col.prop(field, "use_radial_max", text="Use Maximum")
+        #        col.label(text=_("Angular:"))
+        #        col.prop(field, "use_radial_min", text=_("Use Minimum"))
+        #        col.prop(field, "use_radial_max", text=_("Use Maximum"))
 
         #        col = split.column()
-        #        col.prop(field, "radial_falloff", text="Power")
+        #        col.prop(field, "radial_falloff", text=_("Power"))
 
         #        sub = col.column()
         #        sub.active = field.use_radial_min
-        #        sub.prop(field, "radial_min", text="Angle")
+        #        sub.prop(field, "radial_min", text=_("Angle"))
 
         #        sub = col.column()
         #        sub.active = field.use_radial_max
-        #        sub.prop(field, "radial_max", text="Angle")
+        #        sub.prop(field, "radial_max", text=_("Angle"))
 
         #    elif field.falloff_type == 'TUBE':
         #        layout.separator()
@@ -459,20 +481,20 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         #        split = layout.split(percentage=0.35)
 
         #        col = split.column()
-        #        col.label(text="Radial:")
-        #        col.prop(field, "use_radial_min", text="Use Minimum")
-        #        col.prop(field, "use_radial_max", text="Use Maximum")
+        #        col.label(text=_("Radial:"))
+        #        col.prop(field, "use_radial_min", text=_("Use Minimum"))
+        #        col.prop(field, "use_radial_max", text=_("Use Maximum"))
 
         #        col = split.column()
-        #        col.prop(field, "radial_falloff", text="Power")
+        #        col.prop(field, "radial_falloff", text=_("Power"))
 
         #        sub = col.column()
         #        sub.active = field.use_radial_min
-        #        sub.prop(field, "radial_min", text="Distance")
+        #        sub.prop(field, "radial_min", text=_("Distance"))
 
         #        sub = col.column()
         #        sub.active = field.use_radial_max
-        #        sub.prop(field, "radial_max", text="Distance")
+        #        sub.prop(field, "radial_max", text=_("Distance"))
 
 def register():
     bpy.utils.register_class(B4W_PHYSICS_PT_game_physics)

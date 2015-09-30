@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -11,11 +28,9 @@
 b4w.module["animation"] = function(exports, require) {
 
 var m_anim  = require("__animation");
-var m_cons  = require("__constraints");
-var m_phy   = require("__physics");
 var m_print = require("__print");
-var m_util  = require("__util");
-
+var m_armat = require("__armature");
+var m_obj_util = require("__obj_util");
 
 /**
  * Animation finish callback.
@@ -157,12 +172,13 @@ exports.AB_FINISH_RESET = m_anim.AB_FINISH_RESET;
  */
 exports.AB_FINISH_STOP = m_anim.AB_FINISH_STOP;
 
-var _vec4_tmp = new Float32Array(4);
+var _tsr8_tmp = new Float32Array(8);
 
 /**
  * Check if the object is animated.
  * @method module:animation.is_animated
  * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
  */
 exports.is_animated = function(obj) {
     return m_anim.is_animated(obj);
@@ -172,7 +188,7 @@ exports.is_animated = function(obj) {
  * Return the names of all available animations.
  * @method module:animation.get_actions
  * @returns {String[]} Animation names.
- * @deprecated Use get_anim_names() instead.
+ * @deprecated Use {@link module:animation.get_anim_names|animation.get_anim_names} instead.
  */
 exports.get_actions = function() {
     m_print.error("get_actions() deprecated, use get_anim_names() instead");
@@ -189,7 +205,7 @@ exports.get_actions = function() {
  * @method module:animation.get_current_action
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_current_anim_name() instead.
+ * @deprecated Use {@link module:animation.get_current_anim_name|animation.get_current_anim_name} instead.
  */
 exports.get_current_action = function(obj, slot_num) {
     m_print.error("get_current_action() deprecated, use get_current_anim_name() instead");
@@ -327,6 +343,7 @@ exports.stop = function(obj, slot_num) {
  * @method module:animation.is_play
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {Boolean} Checking result.
  */
 exports.is_play = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -341,7 +358,7 @@ exports.is_play = function(obj, slot_num) {
  * @param {Object3D} obj Object 3D
  * @param {Number} cff Current frame
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use set_frame() instead.
+ * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.set_current_frame_float = function(obj, cff, slot_num) {
     m_print.error("set_current_frame_float() deprecated, use set_frame() instead");
@@ -352,7 +369,7 @@ exports.set_current_frame_float = function(obj, cff, slot_num) {
  * @method module:animation.get_current_frame_float
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_frame() instead
+ * @deprecated Use {@link module:animation.get_frame|animation.get_frame} instead
  */
 exports.get_current_frame_float = function(obj, slot_num) {
     m_print.error("get_current_frame_float() deprecated, use get_frame() instead");
@@ -378,24 +395,18 @@ exports.set_frame = function(obj, frame, slot_num) {
  * Set the first frame of the object's animation.
  * @method module:animation.set_first_frame
  * @param {Object3D} obj Object 3D
- * @param {Number} frame Current frame (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_first_frame = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-
-    var start = m_anim.get_anim_start_frame(obj, slot_num);
-    m_anim.set_frame(obj, start, slot_num);
+    m_anim.set_first_frame(obj, slot_num);
 }
 
 /**
  * Set the last frame of the object's animation.
  * @method module:animation.set_last_frame
  * @param {Object3D} obj Object 3D
- * @param {Number} frame Current frame (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_last_frame = function(obj, slot_num) {
@@ -447,6 +458,7 @@ exports.set_speed = function(obj, speed, slot_num) {
  * @method module:animation.get_speed
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {Number} Animation speed.
  */
 exports.get_speed = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -465,8 +477,8 @@ exports.get_speed = function(obj, slot_num) {
  * @method module:animation.get_frame_range
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Array} Frame range pair or null for incorrect object
- * @deprecated Use get_anim_start_frame() and get_anim_length() instead
+ * @returns {?Array} Frame range pair or null for incorrect object
+ * @deprecated Use {@link module:animation.get_anim_start_frame|animation.get_anim_start_frame} and {@link module:animation.get_anim_length|animation.get_anim_length} instead
  */
 exports.get_frame_range = function(obj, slot_num) {
     m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
@@ -527,7 +539,7 @@ exports.get_anim_length = function(obj, slot_num) {
  * @param {Object3D} obj Object 3D
  * @param {Boolean} cyclic_flag
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use set_behavior() instead.
+ * @deprecated Use {@link module:animation.set_behavior|animation.set_behavior} instead.
  */
 exports.cyclic = function(obj, cyclic_flag, slot_num) {
     m_print.error("cyclic() deprecated, use set_behavior() instead");
@@ -539,7 +551,7 @@ exports.cyclic = function(obj, cyclic_flag, slot_num) {
  * @method module:animation.is_cyclic
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_behavior() instead.
+ * @deprecated Use {@link module:animation.get_behavior|animation.get_behavior} instead.
  */
 exports.is_cyclic = function(obj, slot_num) {
     m_print.error("is_cyclic() deprecated, use get_behavior() instead");
@@ -602,9 +614,10 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
  * @param {Number} elapsed Animation delay
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @param {Boolean} [force_update = false] Update animation even stopped one.
- * @deprecated Use set_frame() instead.
+ * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
+    m_print.error("update_object_animation() deprecated, use set_frame() instead");
     if (!m_anim.is_animated(obj))
         return;
 
@@ -629,21 +642,28 @@ exports.frame_to_sec = function(frame) {
  * @method module:animation.get_bone_translation
  * @param {Object3D} armobj Armature object
  * @param {String} bone_name Bone name
- * @param {Vec3} dest Destination vector
+ * @param {Vec3} [dest] Destination vector
+ * @deprecated Use {@link module:armature.get_bone_tsr|armature.get_bone_tsr} instead
  */
 exports.get_bone_translation = function(armobj, bone_name, dest) {
-    if (!m_util.is_armature(armobj))
+    m_print.error("get_bone_translation() deprecated, use armature.get_bone_tsr() instead");
+    if (!m_obj_util.is_armature(armobj))
         return null;
+
+    if (!m_armat.check_bone(armobj, bone_name)) {
+        m_print.error("There is no bone: \"", bone_name, "\" in \"", armobj.name, "\".");
+        return null;
+    }
 
     if (!dest)
         var dest = new Float32Array(3);
 
-    var trans_scale = _vec4_tmp;
-    m_cons.get_bone_pose(armobj, bone_name, false, trans_scale, null);
+    var tsr = _tsr8_tmp;
+    m_armat.get_bone_tsr(armobj, bone_name, false, false, tsr);
 
-    dest[0] = trans_scale[0];
-    dest[1] = trans_scale[1];
-    dest[2] = trans_scale[2];
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
 
     return dest;
 }
@@ -679,7 +699,7 @@ exports.get_slot_num_by_anim = function(obj, anim_name) {
  * @method module:animation.get_anim_type
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Slot number
- * @returns {AnimType} Animation type
+ * @returns {?AnimType} Animation type
  */
 exports.get_anim_type = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -719,7 +739,7 @@ exports.get_skel_mix_factor = function(armobj) {
  * the current to the target value.
  */
 exports.set_skel_mix_factor = function(armobj, factor, time) {
-    if (!m_util.is_armature(armobj)) {
+    if (!m_obj_util.is_armature(armobj)) {
         m_print.error("Can't blend animation. Object \"" + armobj.name + "\" is not armature");
         return;
     }

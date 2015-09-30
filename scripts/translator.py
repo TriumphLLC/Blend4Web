@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
-import string
-import subprocess, multiprocessing
-import os, sys, getopt
 
-ROOT_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
-ADDON_DIR = os.path.join(ROOT_DIR, "blender_scripts", "addons", "blend4web")
-GET_EXPORT_PATH = os.path.join(ADDON_DIR, "command_line_trans_im_ex.py")
+import os, subprocess, sys, shutil
+
+PATH_TO_ADDON = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "blender_scripts", "addons", "blend4web"))
+EMPTY_NAME = "empty.po"
+PATH_TO_PO = os.path.join(PATH_TO_ADDON, "locales")
+PATH_TO_EMPTY = os.path.join(PATH_TO_PO, "empty")
+PATH_TO_EMPTY_PO = os.path.join(PATH_TO_PO, EMPTY_NAME)
+VALID_PARAMS = ("ru_RU", "ja_JP", "en_US", "nl_NL", "it_IT", "de_DE", "fi_FI", "sv_SE",
+        "fr_FR", "es", "ca_AD", "cs_CZ", "pt_PT", "zh_CN", "zh_TW", "hr_HR", "sr_RS",
+        "uk_UA", "pl_PL", "ro_RO", "ar_EG", "bg_BG", "el_GR", "ko_KR", "ne_NP",
+        "fa_IR", "id_ID", "sr_RS@latin", "ky_KG", "tr_TR", "hu_HU", "pt_BR",
+        "he_IL", "et_EE", "eo", "es_ES", "am_ET", "uz_UZ", "uz_UZ@cyrillic", 
+        "hi_IN", "vi_VN", "help")
 
 def help():
     print("SYNOPSIS")
-    print("         translator.py LANGUAGE [PATH_TO_PO]\n")
+    print("         translator.py LANGUAGE\n")
     print("LANGUAGE")
     print("         ru_RU : Russian (Русский)")
     print("         ja_JP : Japanese (日本語)")
@@ -52,41 +59,48 @@ def help():
     print("         uz_UZ@cyrillic : Uzbek Cyrillic (Ўзбек)")
     print("         hi_IN : Hindi (मानक हिन्दी)")
     print("         vi_VN : Vietnamese (tiếng Việt)\n")
-    print("PATH_TO_PO")
-    print("         It's the path to blender's PO file "
-            + "from bf-translation repo. Use it to merge Blender's PO file with yours.")
 
+def translate_addon(lang_po=""):
 
-def gen_po(lang, path):
-    res = subprocess.check_output(["blender", "-b","-P", GET_EXPORT_PATH,
-            "b4w_lang=" + lang, "b4w_path=" + path], stderr=subprocess.STDOUT)
-    print(res.decode("utf-8"))
+    if os.path.isfile(PATH_TO_EMPTY_PO):
+        os.remove(PATH_TO_EMPTY_PO)
+    f = open(PATH_TO_EMPTY_PO, "w")
+    f.close()
+    for f in os.listdir(PATH_TO_ADDON):
+        abs_path = os.path.join(PATH_TO_ADDON, f)
+        if os.path.isfile(abs_path) and f[-3:] == ".py":
+            # remove "--no-location" key to append location to .po-file
+            res = subprocess.call(["xgettext", "--no-location", "--no-wrap", "-j", 
+                    "--default-domain=" + PATH_TO_EMPTY, "--from-code=utf-8", "--keyword=p_:1,2c", abs_path])
+    if lang_po:
+        translate_po(lang_po)
+    else:
+        for f in os.listdir(PATH_TO_PO):
+            if f == EMPTY_NAME:
+                continue
+            abs_path = os.path.join(PATH_TO_PO, f)
+            if os.path.isfile(abs_path) and f[-3:] == ".po":
+                translate_po(abs_path)
+
+def translate_po(lang_po):
+    res = subprocess.call(["msgmerge", "-U", "--backup=off", "--no-fuzzy-matching", lang_po, PATH_TO_EMPTY_PO])
 
 if __name__ == "__main__":
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "", ["help"])
-    except getopt.GetoptError as err:
-        print(err)
-        sys.exit(1)
 
-    if not len(args):
+    if len(sys.argv) > 2 or len(sys.argv) > 1 and sys.argv[1] not in VALID_PARAMS:
         help()
         sys.exit(1)
 
-    if len(args) > 2:
-        print("You may specify only two assignments")
-        help()
-        sys.exit(1)
+    if len(sys.argv) > 1:
+        param = sys.argv[1]
+        if param == "help":
+            help()
+            sys.exit(0)
 
-    lang = args[0]
-
-    if lang == "help":
-        help()
-        exit(0)
-
-    if len(args) == 2:
-        path_to_blender_po = args[1]
+        abs_lang_po = os.path.join(PATH_TO_PO, param + ".po")
+        if not os.path.isfile(abs_lang_po):
+            print("Couldn't find " + abs_lang_po)
+            sys.exit(1)
+        translate_addon(abs_lang_po)
     else:
-        path_to_blender_po = ""
-
-    gen_po(lang, path_to_blender_po)
+        translate_addon()

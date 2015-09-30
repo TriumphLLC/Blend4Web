@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -9,16 +26,19 @@
 b4w.module["__animation"] = function(exports, require) {
 
 var m_cfg       = require("__config");
+var m_obj_util  = require("__obj_util");
 var m_particles = require("__particles");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
 var m_quat      = require("__quat");
 var m_reformer  = require("__reformer");
 var m_sfx       = require("__sfx");
+var m_time      = require("__time");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 var m_vec3      = require("__vec3");
+var m_armat     = require("__armature");
 
 var cfg_ani = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
@@ -79,11 +99,19 @@ exports.AB_CYCLIC = AB_CYCLIC;
 exports.AB_FINISH_RESET = AB_FINISH_RESET;
 exports.AB_FINISH_STOP = AB_FINISH_STOP;
 
+// action types
+var AT_NONE = exports.AT_NONE = 0;
+var AT_ARMATURE = exports.AT_ARMATURE = 1;
+var AT_SPEAKER = exports.AT_SPEAKER = 2;
+var AT_OBJECT = exports.AT_OBJECT = 3;
+var AT_MATERIAL = exports.AT_MATERIAL = 4;
+
 var _frame_info_tmp = new Array(3);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
+var _quat4_tmp3 = new Float32Array(4);
 var _tsr8_tmp = new Float32Array(8);
 var _mat4_tmp = new Float32Array(16);
 
@@ -96,7 +124,22 @@ exports.get_max_bones = function() {
 }
 
 exports.frame_to_sec = function(frame) {
-    return frame/cfg_ani.framerate;
+    return frame/m_time.get_framerate();
+}
+
+function create_action_render() {
+    var render = {
+        type: AT_NONE,
+        num_pierced: 0,
+        pierce_step: 0,
+
+        params: null,
+        bones: null,
+        bflags: null,
+        
+        channels_mask: new Int8Array(3)
+    }
+    return render;
 }
 
 /**
@@ -207,7 +250,7 @@ function init_anim(obj, slot_num) {
         action_frame_range: null,
         action_step: 0,
         action_bflags: null,
-        channels_mask: null,
+        channels_mask: new Int8Array(3),
 
         quats: null,
         trans: null,
@@ -245,8 +288,6 @@ function init_anim(obj, slot_num) {
             obj.anim_slots.push(null);
 
     obj.anim_slots[slot_num] = anim_slot;
-
-    obj._action_anim_cache = obj._action_anim_cache || [];
 }
 
 function update_anim_cache(obj) {
@@ -300,11 +341,7 @@ exports.get_anim_type = function(obj, slot_num) {
  * (object, vertex, armature, etc...)
  */
 exports.apply_def = function(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
-
     var slot_num = SLOT_0;
-
-    var actions = get_default_actions(obj);
 
     var scenes_data = obj.scenes_data;
     for (var i = 0; i < scenes_data.length; i++) {
@@ -315,8 +352,7 @@ exports.apply_def = function(obj) {
                 do_before_apply(obj, slot_num);
                 apply_particles_anim(obj, pdata.name, slot_num);
                 do_after_apply(obj, slot_num);
-                obj.anim_slots[slot_num].behavior =
-                        anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
+                obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
                 if (pdata.cyclic)
                     obj.anim_slots[slot_num].behavior = AB_CYCLIC;
                 slot_num++;
@@ -324,14 +360,14 @@ exports.apply_def = function(obj) {
         }
     }
 
+    var actions = get_default_actions(obj);
     for (var i = 0; i < actions.length; i++) {
         var action = actions[i]
 
         do_before_apply(obj, slot_num);
         if (apply_action(obj, action, slot_num)) {
             do_after_apply(obj, slot_num);
-            obj.anim_slots[slot_num].behavior =
-                    anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
+            obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
             slot_num++
         } else
             obj.anim_slots[slot_num] = null;
@@ -341,15 +377,14 @@ exports.apply_def = function(obj) {
         do_before_apply(obj, slot_num);
         apply_vertex_anim(obj, obj.vertex_anim[0], slot_num);
         do_after_apply(obj, slot_num);
-        obj.anim_slots[slot_num].behavior =
-                anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
+        obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
         slot_num++
 
     }
 }
 
-function anim_behavior_bpy_b4w(b4w_behavior) {
-    switch (b4w_behavior) {
+exports.anim_behavior_bpy_b4w = function(behavior) {
+    switch (behavior) {
     case "CYCLIC":
         return AB_CYCLIC;
     case "FINISH_RESET":
@@ -370,30 +405,28 @@ function get_actions(obj) {
 
     for (var i = 0; i < _actions.length; i++) {
         var action = _actions[i];
-        var bones = action._render.bones;
-        var bones_num = m_util.get_dict_length(bones);
         var act_render = action._render;
 
-        if (bones_num) {
-            if (obj.type == "ARMATURE")
-                act_list.push(action);
-        } else if (act_render.params["volume"] || act_render.params["pitch"]) {
-            if (m_sfx.is_speaker(obj))
-                act_list.push(action);
-        } else if (!is_material_action(action) &&
-                   m_util.get_dict_length(action["fcurves"])) {
+        if (act_render.type == AT_OBJECT)
             act_list.push(action);
-        }
+        else if (act_render.type == AT_ARMATURE && obj.type == "ARMATURE")
+            act_list.push(action);
+        else if (act_render.type == AT_SPEAKER && obj.type == "SPEAKER")
+            act_list.push(action);
     }
 
     if (obj.type == "MESH")
-        act_list = act_list.concat(get_material_actions(obj));
+        for (var i = 0; i < obj.actions.length; i++) {
+            var action = obj.actions[i];
+            if (action._render.type == AT_MATERIAL)
+                act_list.push(action);       
+        }
 
     return act_list;
 }
 
 /**
- * Try to get action from the following places:
+ * Default actions were collected at the loading stage from the following places:
  *  obj.animation_data.action
  *  spkobj.data.animation_data
  *  obj.data.materials.node_tree.animation_data
@@ -401,35 +434,10 @@ function get_actions(obj) {
  * @returns Default action or null
  */
 function get_default_actions(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
-    var act_list = [];
-
-    // animation_data
-    var anim_data = bpy_obj["animation_data"];
-
-    if (anim_data && anim_data["action"]) {
-        var action = anim_data["action"];
-        // do not return actions without fcurves
-        if (m_util.get_dict_length(action["fcurves"])) {
-            var bones = action._render.bones;
-            var bones_num = m_util.get_dict_length(bones);
-            if (obj.type == "ARMATURE" || !bones_num)
-                act_list.push(action);
-        }
-    }
-
-    if (m_sfx.is_speaker(obj) && bpy_obj["data"]["animation_data"] &&
-            bpy_obj["data"]["animation_data"]["action"])
-        act_list.push(bpy_obj["data"]["animation_data"]["action"]);
-
-    if (obj.type == "MESH")
-        act_list = act_list.concat(get_material_actions(obj));
-
-    return act_list;
+    return obj.actions.slice();
 }
 
-function get_material_actions(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
+exports.get_bpy_material_actions = function(bpy_obj) {
     var act_list = [];
 
     var materials = bpy_obj["data"]["materials"];
@@ -447,11 +455,10 @@ function get_node_tree_actions_r(node_tree, container) {
     if (node_tree["animation_data"]) {
         var anim_data = node_tree["animation_data"];
         var action = anim_data["action"];
-        // do not return actions without fcurves
-        if (action && m_util.get_dict_length(action["fcurves"])) {
+        if (action && action._render.type == AT_MATERIAL)
             container.push(action);
-        }
     }
+
     var nodes = node_tree["nodes"];
     for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
@@ -464,7 +471,7 @@ function get_node_tree_actions_r(node_tree, container) {
 }
 
 function has_vertex_anim(obj) {
-    if (m_util.is_mesh(obj) && obj.render.vertex_anim)
+    if (m_obj_util.is_mesh(obj) && obj.render.vertex_anim)
         return true;
     else
         return false;
@@ -505,17 +512,26 @@ exports.stop = function(obj, slot_num) {
 }
 
 exports.is_play = function(obj, slot_num) {
-    var anim_slot = obj.anim_slots[slot_num];
-    if (anim_slot)
-        return anim_slot.play;
-
+    var anim_slots = obj.anim_slots;
+    if (slot_num == SLOT_ALL) {
+        for (var i = 0; i < 8; i++) {
+            if(anim_slots[i])
+                if(anim_slots[i].play)
+                    return true;
+        }
+    } else {
+        var anim_slot = anim_slots[slot_num];
+        if (anim_slot)
+            return anim_slot.play;
+    }
     return false;
 }
 
 /**
  * Set frame and update animation.
  */
-exports.set_frame = function(obj, cff, slot_num) {
+exports.set_frame = set_frame;
+function set_frame(obj, cff, slot_num) {
     var anim_slots = obj.anim_slots;
     if (slot_num == SLOT_ALL) {
         for (var i = 0; i < 8; i++) {
@@ -532,6 +548,14 @@ exports.set_frame = function(obj, cff, slot_num) {
             update_object_animation(obj, 0, slot_num, true)
         }
     }
+}
+exports.set_first_frame = set_first_frame;
+function set_first_frame (obj, slot_num) {
+    function set_slot_first_frame(slot) {
+        set_frame(obj, slot.start, slot_num);
+    }
+    slot_num = slot_num || SLOT_0;
+    process_anim_slots(obj.anim_slots, slot_num, set_slot_first_frame);
 }
 
 exports.get_current_frame_float = function(obj, slot_num) {
@@ -613,28 +637,28 @@ function update_object_animation(obj, elapsed, slot_num, force_update) {
  * <ol>
  * <li>obj is an armature
  * <li>obj has a link to an armature
- * <li>obj has an animation_data.action
+ * <li>obj has an object or armature action
  * <li>obj is a speaker with param animation
+ * <li>obj is a mesh with nodemat animation
  * <li>obj has particle system
  * <li>obj has vertex animation
  * </ol>
  */
 exports.obj_is_animatable = function(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
     if (obj.type == "ARMATURE")
         return true;
 
     if (obj.armobj)
         return true;
 
-    // animation_data
-    var anim_data = bpy_obj["animation_data"];
-    if (anim_data && anim_data["action"])
-        return true;
+    for (var i = 0; i < obj.actions.length; i++) {
+        var act_type = obj.actions[i]._render.type;
 
-    if (obj.type == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
-            bpy_obj["data"]["animation_data"]["action"])
-        return true;
+        if (act_type == AT_OBJECT || act_type == AT_ARMATURE 
+                || act_type == AT_SPEAKER && obj.type == "SPEAKER"
+                || act_type == AT_MATERIAL && obj.type == "MESH")
+            return true;
+    }
 
     if (m_particles.obj_has_particles(obj) && m_particles.obj_has_anim_particles(obj))
         return true;
@@ -642,44 +666,38 @@ exports.obj_is_animatable = function(obj) {
     if (obj.type == "MESH" && obj.vertex_anim.length)
         return true;
 
-    if (has_animated_nodemats(obj))
-        return true;
-
     return false;
 }
 
-exports.bpy_obj_is_animatable = function(bpy_obj) {
+exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
 
-    if (bpy_obj["type"] == "ARMATURE")
+    if (obj.type == "ARMATURE")
         return true;
 
     var armobj = get_bpy_armobj(bpy_obj);
     if (armobj)
         return true;
 
-    // animation_data
-    var anim_data = bpy_obj["animation_data"];
-    if (anim_data && anim_data["action"])
-        return true;
+    for (var i = 0; i < obj.actions.length; i++) {
+        var act_type = obj.actions[i]._render.type;
 
-    if (bpy_obj["type"] == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
-            bpy_obj["data"]["animation_data"]["action"])
-        return true;
+        if (act_type == AT_OBJECT || act_type == AT_ARMATURE 
+                || act_type == AT_SPEAKER && obj.type == "SPEAKER"
+                || act_type == AT_MATERIAL && obj.type == "MESH")
+            return true;
+    }
 
     if (m_particles.bpy_obj_has_particles(bpy_obj) && m_particles.bpy_obj_has_anim_particles(bpy_obj))
         return true;
 
-    if (bpy_obj["type"] == "MESH" &&
-            bpy_obj["data"]["b4w_vertex_anim"].length)
-        return true;
-
-    if (has_animated_nodemats_bpy(bpy_obj))
+    if (obj.type == "MESH" && bpy_obj["data"]["b4w_vertex_anim"].length)
         return true;
 
     return false;
 }
 
-exports.is_animated = function(obj) {
+exports.is_animated = is_animated;
+function is_animated (obj) {
     return Boolean(obj.anim_slots.length);
 }
 
@@ -706,53 +724,60 @@ function apply_action(obj, action, slot_num) {
     anim_slot.action_frame_range = frame_range;
     anim_slot.action_step = act_render.pierce_step;
     anim_slot.action_bflags = act_render.bflags;
-    anim_slot.channels_mask = act_render.channels_mask;
+    anim_slot.channels_mask.set(act_render.channels_mask);
 
     anim_slot.start = frame_range[0];
     anim_slot.length = frame_range[1] - frame_range[0];
     anim_slot.current_frame_float = frame_range[0];
 
     var bones = act_render.bones;
-    var num_bones = m_util.get_dict_length(bones);
 
-    if (m_util.is_armature(obj) && num_bones) {
-        anim_slot.type = OBJ_ANIM_TYPE_ARMATURE;
+    switch (act_render.type) {
+    case AT_ARMATURE:
+        if (m_obj_util.is_armature(obj)) {
+            anim_slot.type = OBJ_ANIM_TYPE_ARMATURE;
 
-        var pose_data_frames = get_cached_anim_data(obj, action);
-        if (!pose_data_frames) {
-            var bone_pointers = calc_armature_bone_pointers(obj);
-            var pose_data_frames = calc_pose_data_frames(obj, action, bone_pointers);
-            cache_anim_data(obj, action, pose_data_frames);
+            var pose_data_frames = get_cached_anim_data(obj, action);
+            if (!pose_data_frames) {
+                var pose_data_frames = calc_pose_data_frames(action,
+                                                    obj.render.bone_pointers);
+                cache_anim_data(obj, action, pose_data_frames);
+            }
+
+            anim_slot.trans = pose_data_frames.trans;
+            anim_slot.quats = pose_data_frames.quats;
+
+            init_skinned_objs_data(obj, slot_num, action, pose_data_frames);
         }
+        break;
 
-        anim_slot.trans = pose_data_frames.trans;
-        anim_slot.quats = pose_data_frames.quats;
-
-        init_skinned_objs_data(obj, slot_num, action);
-
-    } else if (m_sfx.is_speaker(obj) && (act_render.params["volume"] ||
-            act_render.params["pitch"])) {
-
-        anim_slot.volume = act_render.params["volume"] || null;
-        anim_slot.pitch = act_render.params["pitch"] || null;
-        anim_slot.type = OBJ_ANIM_TYPE_SOUND;
-
-    } else if (obj.type == "MESH" && is_material_action(action)) {
-        anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
-
-        var nodemat_anim_data = get_cached_anim_data(obj, action);
-
-        if (!nodemat_anim_data) {
-            nodemat_anim_data = calc_nodemat_anim_data(obj, action);
-            cache_anim_data(obj, action, nodemat_anim_data);
+    case AT_SPEAKER:
+        if (m_obj_util.is_speaker(obj)) {
+            anim_slot.volume = act_render.params["volume"] || null;
+            anim_slot.pitch = act_render.params["pitch"] || null;
+            anim_slot.type = OBJ_ANIM_TYPE_SOUND;
         }
+        break;
 
-        anim_slot.node_value_inds = nodemat_anim_data.val_inds;
-        anim_slot.nodemat_values = nodemat_anim_data.values;
-        anim_slot.node_rgb_inds = nodemat_anim_data.rgb_inds;
-        anim_slot.nodemat_rgbs = nodemat_anim_data.rgbs;
+    case AT_MATERIAL:
+        if (obj.type == "MESH") {
+            anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
 
-    } else {
+            var nodemat_anim_data = get_cached_anim_data(obj, action);
+
+            if (!nodemat_anim_data) {
+                nodemat_anim_data = calc_nodemat_anim_data(obj, action);
+                cache_anim_data(obj, action, nodemat_anim_data);
+            }
+
+            anim_slot.node_value_inds = nodemat_anim_data.val_inds;
+            anim_slot.nodemat_values = nodemat_anim_data.values;
+            anim_slot.node_rgb_inds = nodemat_anim_data.rgb_inds;
+            anim_slot.nodemat_rgbs = nodemat_anim_data.rgbs;
+        }
+        break;
+
+    case AT_OBJECT:
         var tsr = act_render.params["tsr"];
         if (tsr) {
 
@@ -778,15 +803,17 @@ function apply_action(obj, action, slot_num) {
                     "\" has been applied to object \"" + obj.name + "\"");
             return false;
         }
+        break;
     }
-    if (m_util.is_armature(obj) && !num_bones)
+
+    if (m_obj_util.is_armature(obj) && act_render.type != AT_ARMATURE)
         recalculate_armature_anim_slots(obj, slot_num);
     return true;
 }
 
 function get_cached_anim_data(obj, action) {
 
-    var cache = obj._action_anim_cache;
+    var cache = obj.action_anim_cache;
 
     for (var i = 0; i < cache.length; i+=2)
         if (action == cache[i])
@@ -796,11 +823,12 @@ function get_cached_anim_data(obj, action) {
 }
 
 function cache_anim_data(obj, action, data) {
-    var cache = obj._action_anim_cache;
+    var cache = obj.action_anim_cache;
     cache.push(action, data);
 }
 
-function init_skinned_objs_data(armobj, slot_num, action) {
+function init_skinned_objs_data(armobj, slot_num, action,
+                                armobj_pose_data_frames) {
 
     var render = armobj.render;
     var skinned_renders = render.skinned_renders;
@@ -813,9 +841,8 @@ function init_skinned_objs_data(armobj, slot_num, action) {
     if (!skinning_data_cache) {
         for (var i = 0; i < skinned_renders.length; i++) {
             var sk_rend = skinned_renders[i];
-            var bone_pointers = sk_rend.bone_pointers;
-            // calc anim data by posing armature object in every pierced point
-            var pose_data_frames = calc_pose_data_frames(armobj, action, bone_pointers);
+            var pose_data_frames = calc_skinned_pose_data_frames(
+                                armobj_pose_data_frames, sk_rend.bone_skinning_info);
             skinning_data.push(pose_data_frames);
         }
         cache_skinning_data(render, action, skinning_data);
@@ -908,6 +935,7 @@ function recalculate_armature_anim_slots(obj, overriden_slot) {
 
 /**
  * Find constraint with type and target pointing to armature obj
+ * NOTE: unused
  */
 function find_armature_constraint(constraints, type) {
     for (var i = 0; i < constraints.length; i++) {
@@ -922,30 +950,6 @@ function find_armature_constraint(constraints, type) {
         }
     }
     return false;
-}
-
-exports.calc_armature_bone_pointers = calc_armature_bone_pointers;
-function calc_armature_bone_pointers(armobj) {
-    var bpy_armobj = armobj.temp_bpy_obj;
-    var bones = bpy_armobj["data"]["bones"];
-    var pose_bones = bpy_armobj["pose"]["bones"];
-
-    var bone_pointers = {};
-
-    for (var i = 0; i < bones.length; i++) {
-        var bone = bones[i];
-        var bone_name = bone["name"];
-
-        bone_pointers[bone_name] = {
-            bone_index: i,
-            deform_bone_index: i,
-            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name",
-                    bone_name),
-            vgroup_index: -1
-        }
-    }
-
-    return bone_pointers;
 }
 
 function calc_nodemat_anim_data(obj, action) {
@@ -999,30 +1003,6 @@ function calc_obj_anim_data(obj, action, tsr) {
     return {trans: anim_trans, quats: anim_quats};
 }
 
-/**
- * Find bone by name and calculate bone pointer
- */
-function calc_bone_pointer(bone_name, armobj) {
-    var bpy_armobj = armobj.temp_bpy_obj;
-    var bones = bpy_armobj["data"]["bones"];
-    var pose_bones = bpy_armobj["pose"]["bones"];
-
-    var bone = m_util.keysearch("name", bone_name, bones);
-    var bone_index = m_util.get_index_for_key_value(bones, "name", bone_name);
-
-    if (bone_index > -1) {
-        var bone_pointer = {
-            bone_index: bone_index,
-            deform_bone_index: 0,
-            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name",
-                    bone_name),
-            vgroup_index: -1
-        }
-        return bone_pointer;
-    } else
-        return null;
-}
-
 function is_material_action(action) {
 
     var act_render = action._render;
@@ -1051,17 +1031,15 @@ function animate(obj, elapsed, slot_num, force_update) {
     var start = anim_slot.start;
     var length = anim_slot.length;
 
-    cff += anim_slot.speed * elapsed * cfg_ani.framerate;
+    cff += anim_slot.speed * elapsed * m_time.get_framerate();
 
     var anim_type = anim_slot.type;
     var speed = anim_slot.speed;
 
     if ((speed >= 0 && cff >= start + length) ||
         (speed < 0 && cff < start)) {
-
         if (!force_update)
             anim_slot.exec_finish_callback = true;
-
         switch (anim_slot.behavior) {
         case AB_CYCLIC:
             if (speed >= 0)
@@ -1105,7 +1083,7 @@ function animate(obj, elapsed, slot_num, force_update) {
 
             render.frame_factor = frame_factor;
 
-            animate_skinned_objs(render, anim_slot, frame, frame_next, frame_factor);
+            animate_skinned_objs(render, anim_slot, frame, frame_next);
             m_trans.update_transform(obj);
         }
         break;
@@ -1170,7 +1148,7 @@ function animate(obj, elapsed, slot_num, force_update) {
         break;
 
     case OBJ_ANIM_TYPE_PARTICLES:
-        var time = cff / cfg_ani.framerate;
+        var time = cff / m_time.get_framerate();
         m_particles.set_time(obj, anim_slot.animation_name, time);
         break;
 
@@ -1290,7 +1268,7 @@ function vertex_anim_finfo(anim_slot, cff, dest) {
     return dest;
 }
 
-function animate_skinned_objs(render, anim_slot, frame, frame_next, frame_factor) {
+function animate_skinned_objs(render, anim_slot, frame, frame_next) {
     // update skinned objects
     var skinned_renders = render.skinned_renders;
     var skinning_data = anim_slot.skinning_data;
@@ -1301,7 +1279,7 @@ function animate_skinned_objs(render, anim_slot, frame, frame_next, frame_factor
         skinned_render.quats_after  = sk_data.quats[frame_next];
         skinned_render.trans_before = sk_data.trans[frame];
         skinned_render.trans_after  = sk_data.trans[frame_next];
-        skinned_render.frame_factor = frame_factor;
+        skinned_render.frame_factor = render.frame_factor;
     }
 }
 
@@ -1333,7 +1311,7 @@ function mix_skeletal_animation(obj, elapsed) {
 
             var frame_0 = finfo_0[0];
             var frame_next_0 = finfo_0[1];
-            var frame_factor = finfo_0[2];
+            render.frame_factor = finfo_0[2];
 
             var quats_prev_0 = skeletal_slot_0.quats[frame_0];
             var quats_next_0 = skeletal_slot_0.quats[frame_next_0];
@@ -1356,7 +1334,7 @@ function mix_skeletal_animation(obj, elapsed) {
         var frame_next_1 = finfo_1[1];
 
         // frame_factor is common for two animations as they are synced when applied
-        frame_factor = finfo_1[2];
+        render.frame_factor = finfo_1[2];
     } else if (ind_0 != -1 && skeletal_slot_0.play) {
         mix_factor = 0;
     } else {
@@ -1411,34 +1389,7 @@ function mix_skeletal_animation(obj, elapsed) {
                             render.trans_after);
     }
     m_trans.update_transform(obj);
-
-    // update skinned objects
-    var skinned_renders = render.skinned_renders;
-    var bone_maps = render.mesh_to_arm_bone_maps;
-
-    for (var i = 0; i < skinned_renders.length; i++) {
-
-        var skinned_render = skinned_renders[i];
-        var bone_map = bone_maps[i];
-
-        for (var k = 0; k < bone_map.length; k+=2) {
-            var sk_ind = bone_map[k];
-            var arm_ind = bone_map[k+1];
-
-            for (var l = 0; l < 4; l++) {
-                skinned_render.quats_before[sk_ind + l] =
-                                            render.quats_before[arm_ind + l];
-                skinned_render.quats_after [sk_ind + l] =
-                                            render.quats_after [arm_ind + l];
-                skinned_render.trans_before[sk_ind + l] =
-                                            render.trans_before[arm_ind + l];
-                skinned_render.trans_after [sk_ind + l] =
-                                            render.trans_after [arm_ind + l];
-            }
-        }
-
-        skinned_render.frame_factor = frame_factor;
-    }
+    m_armat.update_skinned_renders(obj);
 }
 
 function process_mix_factor(obj, elapsed) {
@@ -1468,37 +1419,31 @@ function process_mix_factor(obj, elapsed) {
  * Calculate skeletal animation data (i.e. pose) for every "pierced" frame
  * using prepared in action curves
  */
-function calc_pose_data_frames(armobj, action, bone_pointers) {
-    var bpy_armobj = armobj.temp_bpy_obj;
-    var pose_bones = bpy_armobj["pose"]["bones"];
-
-    // convert to form appropriate for renderer
+function calc_pose_data_frames(action, bone_pointers) {
     var trans_frames = [];
     var quats_frames = [];
 
     // for every pierced frame setup pose and calc pose data
     var num_pierced = action._render.num_pierced;
-
     for (var i = 0; i < num_pierced; i++) {
         // for every pose bone set its matrix_basis
-        for (var j = 0; j < pose_bones.length; j++) {
-            var pose_bone = pose_bones[j];
-
-            // provide identity placeholder for bones not deformed in this action
-            var tsr_basis = m_tsr.create();
+        for (var bone_name in bone_pointers) {
+            var bpointer = bone_pointers[bone_name];
+            var tsr_basis = bpointer.tsr_basis;
 
             // retrieve transform for this pierced point
-            var bone_tsr = action._render.bones[pose_bone["name"]];
+            var bone_tsr = action._render.bones[bone_name];
             if (bone_tsr)
                 m_tsr.copy(bone_tsr.subarray(i*8, i*8 + 8), tsr_basis);
-
-            pose_bone._tsr_basis = tsr_basis;
+            else
+                // provide identity tsr for bones not deformed in this action
+                m_tsr.identity(tsr_basis);
 
             // reset cache state (for calc_pose_bone)
-            pose_bone._tsr_channel_cache_valid = false;
+            bpointer.tsr_channel_cache_valid = false;
         }
 
-        var pose_data = calc_pose_data(armobj, bone_pointers);
+        var pose_data = calc_pose_data(bone_pointers);
 
         trans_frames.push(pose_data.trans);
         quats_frames.push(pose_data.quats);
@@ -1511,32 +1456,77 @@ exports.calc_pose_data = calc_pose_data;
 /**
  * Calculate pose trans/quats for armature object
  */
-function calc_pose_data(armobj, bone_pointers) {
+function calc_pose_data(bone_pointers) {
+
     var trans = [];
     var quats = [];
-
-    var bpy_armobj = armobj.temp_bpy_obj;
-    var pose_bones = bpy_armobj["pose"]["bones"];
 
     var t = new Float32Array(4);
     var q = new Float32Array(4);
 
     for (var bone_name in bone_pointers) {
-        var bone_pointer = bone_pointers[bone_name];
+        var bpointer = bone_pointers[bone_name];
 
-        var pose_bone_index = bone_pointer.pose_bone_index;
-        var deform_bone_index = bone_pointer.deform_bone_index;
+        calc_pose_bone(bpointer, t, q);
 
-        var pose_bone = pose_bones[pose_bone_index];
+        var bone_index = bpointer.bone_index;
+        for (var i = 0; i < 4; i++) {
+            /* quat, tran vec4 */
+            var comp_index = 4 * bone_index + i;
+            trans[comp_index] = t[i];
+            quats[comp_index] = q[i];
+        }
+    }
+    return {trans: trans, quats: quats};
+}
 
-        calc_pose_bone(pose_bone, t, q);
+/**
+ * Copy skeletal animation data (i.e. pose) for every "pierced" frame
+ * from armature to skinned object
+ */
+function calc_skinned_pose_data_frames(armobj_pose_data_frames,
+                                       bone_skinning_info) {
+    // convert to form appropriate for renderer
+    var trans_frames = [];
+    var quats_frames = [];
+
+    var armobj_trans_frames = armobj_pose_data_frames.trans;
+    var armobj_quats_frames = armobj_pose_data_frames.quats;
+
+    for (var i = 0; i < armobj_trans_frames.length; i++) {
+        var armobj_pose_data = armobj_pose_data_frames[i];
+        var pose_data = extract_skinned_pose_data(armobj_trans_frames[i],
+                                                  armobj_quats_frames[i],
+                                                  bone_skinning_info);
+        trans_frames.push(pose_data.trans);
+        quats_frames.push(pose_data.quats);
+    }
+    return {trans: trans_frames, quats: quats_frames};
+}
+
+exports.extract_skinned_pose_data = extract_skinned_pose_data;
+/**
+ * Copy pose trans/quats from armature to skinned object
+ */
+function extract_skinned_pose_data(arm_trans, arm_quats, bone_skinning_info) {
+    var trans = [];
+    var quats = [];
+
+    var t = new Float32Array(4);
+    var q = new Float32Array(4);
+
+    for (var bone_name in bone_skinning_info) {
+        var skininfo = bone_skinning_info[bone_name];
+        var index = skininfo.bone_index;
+        var deform_index = skininfo.deform_bone_index;
 
         // write to appropriate places in uniform arrays
         for (var i = 0; i < 4; i++) {
             /* quat, tran vec4 */
-            var comp_index = 4 * deform_bone_index + i;
-            trans[comp_index] = t[i];
-            quats[comp_index] = q[i];
+            var comp_skin_index = 4 * deform_index + i;
+            var comp_arm_index = 4 * index + i;
+            trans[comp_skin_index] = arm_trans[comp_arm_index];
+            quats[comp_skin_index] = arm_quats[comp_arm_index];
         }
     }
 
@@ -1544,41 +1534,41 @@ function calc_pose_data(armobj, bone_pointers) {
     quats = new Float32Array(quats);
 
     return {trans: trans, quats: quats};
+
 }
 
 /**
  * Calculate pose data for given bone.
- * recursively calculate _tsr_channel_cache beginning from "root"
- * store _tsr_channel_cache_valid state in each pose bone
+ * recursively calculate tsr_channel_cache beginning from "root"
+ * store tsr_channel_cache_valid state in each bone
  */
-function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
-    var chain = pose_bone._chain;
+function calc_pose_bone(bone_pointer, dest_trans_scale, dest_quat) {
+    var chain = bone_pointer.chain;
+    var bone_root_ptr = chain[chain.length-1];
 
-    var pose_bone_root = chain[chain.length-1];
-    var tsr_channel_parent = pose_bone_root._tsr_channel_cache;
-
+    var tsr_channel_parent = bone_root_ptr.tsr_channel_cache;
     // reset "root" bone if not valid
-    if (!pose_bone_root._tsr_channel_cache_valid)
+    if (!bone_root_ptr.tsr_channel_cache_valid)
         m_tsr.identity(tsr_channel_parent);
 
     // start from the last bone ("root" for chain)
     for (var i = chain.length - 1; i >= 0; i--) {
-        var pose_bone = chain[i];
+        var bone_ptr = chain[i];
 
-        var tsr_channel = pose_bone._tsr_channel_cache;
+        var tsr_channel = bone_ptr.tsr_channel_cache;
 
         // this can be already calculated because
         // a bone can participate in other chains
         // else calculate channel TSR
-        if (pose_bone._tsr_channel_cache_valid) {
+        if (bone_ptr.tsr_channel_cache_valid) {
             tsr_channel_parent = tsr_channel;
             continue;
         }
 
         // bone armature-relative TSR
-        var tsr_local = pose_bone._tsr_local;
-        // pose bone-relative TSR
-        var tsr_basis = pose_bone._tsr_basis;
+        var tsr_local = bone_ptr.tsr_local_rest;
+        // bone-relative TSR
+        var tsr_basis = bone_ptr.tsr_basis;
 
         // apply basis translation (delta) in armature space
         // go to bone space, apply pose, return back to armature space
@@ -1592,11 +1582,11 @@ function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
 
         // save
         tsr_channel_parent = tsr_channel;
-        pose_bone._tsr_channel_cache_valid = true;
+        bone_ptr.tsr_channel_cache_valid = true;
     }
 
     // split and store calculated TSR
-    var tsr = pose_bone._tsr_channel_cache;
+    var tsr = bone_ptr.tsr_channel_cache;
 
     dest_trans_scale[0] = tsr[0];
     dest_trans_scale[1] = tsr[1];
@@ -1613,9 +1603,8 @@ function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
  * Parse animation curves.
  */
 exports.append_action = function(action) {
-    action._render = {};
-    var act_render = action._render;
-    act_render.pierce_step = 1 / cfg_ani.frame_steps;
+    var BONE_EXP = new RegExp(/pose.bones\[\".+\"\]/g);
+    var TSR8_DEF = m_tsr.create();
 
     var init_storage = function(pierced_points, default_value) {
         if (typeof default_value == "object" && default_value.length) {
@@ -1636,9 +1625,6 @@ exports.append_action = function(action) {
 
         return storage;
     }
-
-    var BONE_EXP = new RegExp(/pose.bones\[\".+\"\]/g);
-    var TSR8_DEF = m_tsr.create();
 
     var get_storage = function(params, bones, data_path, pierced_points,
                                num_channels) {
@@ -1684,11 +1670,20 @@ exports.append_action = function(action) {
         }
         return base_offset + channel_offset;
     }
-    var fcurves = action["fcurves"];
 
+    var prepare_tsr_arr = function(tsr_arr, num_pierced) {
+        for (var i = 0; i < num_pierced; i++) {
+            var quat = tsr_arr.subarray(i*8 + 4, i*8 + 8);
+            m_quat.normalize(quat, quat);
+        }
+    }
+    
+    var act_render = action._render = create_action_render();
+    act_render.pierce_step = 1 / cfg_ani.frame_steps;
+    
+    var fcurves = action["fcurves"];
     var params = {};
     var bones = {};
-
     var num_pierced = 0;
 
     for (var data_path in fcurves) {
@@ -1715,35 +1710,64 @@ exports.append_action = function(action) {
         }
     }
 
-    var prepare_tsr_arr = function(tsr_arr, num_pierced) {
-        for (var i = 0; i < num_pierced; i++) {
-            var quat = tsr_arr.subarray(i*8 + 4, i*8 + 8);
-            m_quat.normalize(quat, quat);
-        }
+    if (m_util.get_dict_length(params)) {
+        for (var p in params)
+            if (p == "tsr")
+                prepare_tsr_arr(params[p], num_pierced);
+        act_render.params = params;
     }
 
-    for (var p in params)
-        if (p == "tsr")
-            prepare_tsr_arr(params[p], num_pierced);
+    if (m_util.get_dict_length(bones)) {
+        for (var b in bones)
+            prepare_tsr_arr(bones[b], num_pierced);
+        act_render.bones = bones;
+    }
 
-    for (var b in bones)
-        prepare_tsr_arr(bones[b], num_pierced);
-
-    act_render.params = params;
-    act_render.bones = bones;
-    act_render.bflags = action._bflags;
     act_render.num_pierced = num_pierced;
-
+    
+    act_render.bflags = action._bflags;
+    
     if ("tsr" in params)
-        act_render.channels_mask = set_act_channels_mask(fcurves);
-    else
-        act_render.channels_mask = null;
+        set_act_channels_mask(fcurves, act_render.channels_mask);
+
+    update_action_type(action);
 
     _actions.push(action);
 }
 
-function set_act_channels_mask(fcurves) {
-    var mask = [0,0,0];
+/**
+ * Update action type.
+ * Zero fcurves means no params and no bones therefore action will have 
+ * AT_NONE type.
+ */
+function update_action_type(action) {
+    var act_render = action._render;
+
+    if (act_render.bones)
+        act_render.type = AT_ARMATURE;
+    else if (act_render.params) {
+        if ("volume" in act_render.params || "pitch" in act_render.params)
+            act_render.type = AT_SPEAKER;
+        else if (is_material_action(action))
+            act_render.type = AT_MATERIAL;
+        else
+            act_render.type = AT_OBJECT;
+    } else
+        act_render.type = AT_NONE;
+}
+
+function is_material_action(action) {
+    var params = action._render.params;
+
+    if (params)
+        for (var param in params)
+            if (param.indexOf("nodes") != -1)
+                return true;
+    return false;
+}
+
+function set_act_channels_mask(fcurves, mask) {
+    mask[0] = mask[1] = mask[2] = 0;
     for (var data_path in fcurves) {
         var channels = fcurves[data_path];
         if (data_path == "location")
@@ -1753,7 +1777,6 @@ function set_act_channels_mask(fcurves) {
         else if (data_path == "scale")
             mask[2] = 1;
     }
-    return mask;
 }
 
 exports.get_approx_curve_length = function(start, end) {
@@ -1997,13 +2020,7 @@ function bezier_parametric(t, p0, p1, p2, p3) {
            p3 * t  * t  * t;
 }
 
-/**
- * Get bone translation.
- */
 function get_anim_translation(anim_slot, index, frame_info, dest) {
-    if (!dest)
-        var dest = new Float32Array(4);
-
     var frame = frame_info[0];
     var frame_next = frame_info[1];
     var frame_factor = frame_info[2];
@@ -2025,37 +2042,24 @@ function get_anim_translation(anim_slot, index, frame_info, dest) {
     return dest;
 }
 
-/**
- * Get bone rotation quaternion.
- */
 function get_anim_rotation(anim_slot, index, frame_info, dest) {
-    if (!dest)
-        var dest = new Float32Array(4);
-
     var frame = frame_info[0];
     var frame_next = frame_info[1];
     var frame_factor = frame_info[2];
 
     var quats = anim_slot.quats;
+    var quat_frame = _quat4_tmp2;
+    quat_frame[0] = quats[frame][4*index];
+    quat_frame[1] = quats[frame][4*index + 1];
+    quat_frame[2] = quats[frame][4*index + 2];
+    quat_frame[3] = quats[frame][4*index + 3];
+    var quat_frame_next = _quat4_tmp3;
+    quat_frame_next[0] = quats[frame_next][4*index];
+    quat_frame_next[1] = quats[frame_next][4*index + 1];
+    quat_frame_next[2] = quats[frame_next][4*index + 2];
+    quat_frame_next[3] = quats[frame_next][4*index + 3];
 
-    m_quat.slerp(quats[frame].subarray(4*index, 4*index+4),
-            quats[frame_next].subarray(4*index, 4*index+4), frame_factor, dest);
-
-    //var x = quats[frame][4*index];
-    //var y = quats[frame][4*index+1];
-    //var z = quats[frame][4*index+2];
-    //var w = quats[frame][4*index+3];
-
-    //var xn = quats[frame_next][4*index];
-    //var yn = quats[frame_next][4*index+1];
-    //var zn = quats[frame_next][4*index+2];
-    //var wn = quats[frame_next][4*index+3];
-
-    //dest[0] = (1-frame_factor) * x + frame_factor * xn;
-    //dest[1] = (1-frame_factor) * y + frame_factor * yn;
-    //dest[2] = (1-frame_factor) * z + frame_factor * zn;
-    //dest[3] = (1-frame_factor) * w + frame_factor * wn;
-
+    m_quat.slerp(quat_frame, quat_frame_next, frame_factor, dest);
     return dest;
 }
 
@@ -2090,7 +2094,7 @@ function apply(obj, name, slot_num) {
 
     slot_num = slot_num || SLOT_0;
 
-    if (m_util.is_mesh(obj)) {
+    if (m_obj_util.is_mesh(obj)) {
         var vertex_anim = get_vertex_anim_by_name(obj, name);
         if (vertex_anim) {
             do_before_apply(obj, slot_num);
@@ -2146,13 +2150,13 @@ exports.validate_action_by_name = function(obj, name) {
             m_util.keysearch("name", name + "_B4W_BAKED", _actions);
 
     if (action) {
-        if (!m_util.get_dict_length(action["fcurves"]))
+        if (action._render.type == AT_NONE)
             return false;    
     } else {
 
         var pdata = get_particles_data_by_name(obj, name);
         if (!pdata)
-            if (!m_util.is_mesh(obj) || 
+            if (!m_obj_util.is_mesh(obj) || 
                     !get_vertex_anim_by_name(obj, name))
                 return false;
     }
@@ -2230,7 +2234,8 @@ exports.get_speed = function(obj, slot_num) {
     return obj.anim_slots[slot_num].speed;
 }
 
-exports.get_anim_start_frame = function(obj, slot_num) {
+exports.get_anim_start_frame = get_anim_start_frame;
+function get_anim_start_frame(obj, slot_num) {
     var anim_slot = obj.anim_slots[slot_num];
     return anim_slot.start;
 }
@@ -2238,69 +2243,6 @@ exports.get_anim_start_frame = function(obj, slot_num) {
 exports.get_anim_length = function(obj, slot_num) {
     var anim_slot = obj.anim_slots[slot_num];
     return anim_slot.length;
-}
-
-exports.has_animated_nodemats = has_animated_nodemats;
-function has_animated_nodemats(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
-    if (obj.type != "MESH" || !bpy_obj["data"])
-        return false;
-
-    var materials = bpy_obj["data"]["materials"];
-    if (!materials)
-        return false;
-
-    for (var j = 0; j < materials.length; j++) {
-        var mat = materials[j];
-        var node_tree = mat["node_tree"];
-        if (mat["use_nodes"] && node_tree) {
-            if (check_node_tree_anim_data_r(node_tree))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-exports.has_animated_nodemats_bpy = has_animated_nodemats_bpy;
-function has_animated_nodemats_bpy(bpy_obj) {
-    if (bpy_obj["type"] != "MESH" || !bpy_obj["data"])
-        return false;
-
-    var materials = bpy_obj["data"]["materials"];
-    if (!materials)
-        return false;
-
-    for (var j = 0; j < materials.length; j++) {
-        var mat = materials[j];
-        var node_tree = mat["node_tree"];
-        if (mat["use_nodes"] && node_tree) {
-            if (check_node_tree_anim_data_r(node_tree))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-function check_node_tree_anim_data_r(node_tree) {
-
-    var adata = node_tree["animation_data"];
-    if (adata && (adata["action"] ||
-            (adata["nla_tracks"] && adata["nla_tracks"].length)))
-        return true;
-
-    var nodes = node_tree["nodes"];
-    for (var i = 0; i < nodes.length; i++) {
-        var node = nodes[i];
-        if (node["node_group"]) {
-            var g_node_tree = node["node_group"]["node_tree"];
-            if (g_node_tree && check_node_tree_anim_data_r(g_node_tree))
-                return true;
-        }
-    }
-
-    return false;
 }
 
 exports.cleanup = function() {

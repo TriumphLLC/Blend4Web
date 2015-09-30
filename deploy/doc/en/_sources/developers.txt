@@ -25,13 +25,13 @@ The simplest Blend4Web app may look like this:
    </html>
 
 This app prints a message and the engine's version in the browser
-window. Let's look at this example in detail. The engine library
-(without add-ons) is embedded with the "<script src="...">" element.
-Then, the app waits for the page to load and prints the current
-version in the browser window. In this example, "version" is the only
-used module which has a function with the same name - "version()". A
-more detailed info about the usage of engine's modules and functions
-can be found in the API documentation.
+window. Let's look at this example in detail. The engine library is
+embedded with the "<script src="...">" element. Then, the app waits
+for the page to load and prints the current version in the browser
+window. In this example, "version" is the only used module which has a
+function with the same name - "version()". A more detailed info about
+the usage of engine's modules and functions can be found in the API
+documentation.
 
 The compiled engine file "b4w.min.js" can be copied from the SDK's
 "deploy/apps/common" directory and placed in the same directory as the
@@ -70,9 +70,9 @@ To load a 3D scene you need:
 
    </html>
 
-Note that a real app should include error checking, setting up the
-engine before initializing and also a basic system for interacting
-with the user.
+Note: Note that a real app should include error checking, setting up
+  the engine before initializing and also a basic system for
+  interacting with the user.
 
 
 Module System
@@ -132,9 +132,9 @@ called "app":
    m_app.init({
        canvas_container_id: "container_id",
        callback: load_cb
-   });
+   })
 
-   function load_cb()
+   function load_cb() {
        m_data.load("some_scene.json", loaded_cb);
    }
 
@@ -167,15 +167,311 @@ dimensions of the container element. Otherwise the created "<canvas>"
 element will have zero dimensions.
 
 
-Developing Apps Within the SDK
-==============================
+Project Managment
+=================
+
+Since version 15.09, the SDK includes a project managment feature,
+which makes it possible to:
+
+   * browse the full list and file structure of the projects;
+
+   * launch apps, run exported scenes in the Viewer, open source
+     blend files in Blender;
+
+   * create and configure new apps, including those based on ready-
+     made templates;
+
+   * build apps and pack them for convenient deployment on a remote
+     server;
+
+   * convert app resources (textures, audio and video files) into
+     alternative formats to ensure cross-browser and cross-platform
+     performance;
+
+   * automate re-exporting all scenes of an app, including export to
+     JSON and HTML formats.
+
+You can manage your projects in two ways: by using *project.py* which
+is a simple-to-use and well documented CLI utility, or by using a
+dedicated web application with GUI working on the local development
+server. The server does not require any additional setup and starts
+automatically with Blender. The index page of the SDK can be opened by
+clicking on the "Open SDK" button in Blender.
+
+The project managment system works in all operating systems. However,
+some operations can require installing additional dependencies. In
+order to check whether all dependencies are met, use the following
+command:
+
+   ./project.py check_deps
+
+For MS Windows users:
+
+   python project.py check_deps
 
 
-Creating a New App
+Project Manager
+---------------
+
+This graphical app allows you to perform basic project managment
+functions, such as browsing projects, building apps, exporting scenes
+and converting resources. It also includes a master for creating new
+apps. We recommend those developers who need a full control over their
+apps to use the script *project.py* and manually configure
+*.b4w_project* files.
+
+The app *Project Manager* can be run from the *Tools* section of the
+SDK's index page. Upon launching, the app outputs a list of all
+projects which are currently present in the SDK. Commands for managing
+these projects can be found on the right area of this list. A new
+project can be created by clicking on the link "[+new]" on the top of
+the page.
+
+   [image]
+
+
+Project Structure
+-----------------
+
+   blend4web/
+       apps_dev/
+           myproject/
+               project.py
+               .b4w_project
+               myproject.js
+               myproject.css
+               myproject_dev.html
+       blender/
+           myproject/
+               myproject.blend
+       deploy/
+           apps/
+               my_project/
+                   myproject.js
+                   myproject.css
+                   myproject.html
+           assets/
+               myproject/
+                   myproject.json
+                   myproject.bin
+
+
+".b4w_project" Config File
+--------------------------
+
+If you did not use any arguments upon executing the *project.py*
+script, then they will be taken from the config file.
+
+   [info]
+   author =
+   name =
+   title =
+
+   [paths]
+   assets_dirs =
+   blend_dirs =
+   blender_exec =
+   build_dir =
+   deploy_dir =
+   export_dir =
+
+   [compile]
+   apps =
+   css_ignore =
+   engine_type = external
+   js_ignore =
+   optimization = simple
+   use_physics =
+   use_smaa_textures =
+   version =
+
+   [deploy]
+   assets_path_prefix =
+   remove_exist_ext_dir =
+
+
+Creating New Projects
+---------------------
+
+   ./project.py init myproject
+
+This command will create a project with the specified name in the
+current directory. By default the project directory will only contain
+a config file.
+
+Available parameters:
+
+* "-A | --copy-app-templates" (optional) create standard app
+  templates in the project directory  (*<my_project_name>_dev.html*,
+  *<my_project_name>.js*, *<my_project_name>.css*).
+
+* "-B | --bundle" (optional) all project files will be placed in a
+  single directory.
+
+* "-C | --author" (optional) write an author's or a company's name
+  in the config file.
+
+* "-o | --optimization" (optional) write the script optimization
+  level in the config file.
+
+* "-P | --copy-project-script" (optional) create a copy of the
+  *project.py* script in the project directory.
+
+* "-S | --copy-scene-templates" (optional) create standard scene
+  templates in the directories "deploy/assets/<my_project_name>" and
+  "blender/<my_project_name>" (*<my_project_name>.json/.bin* and
+  *<my_project_name>.blend* correspondingly).
+
+* "-T | --title"" (optional) write a title in the config file. Upon
+  building, it will be used inside the "<title>" HTML element.
+
+* "-t | --engine-type" (optional) write an engine type in the config
+  file.
+
+Example:
+
+   ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+
+This command will create a directory named *myproject*, inside which
+the following files will be placed: *myproject.js*, *myproject.css*,
+*myproject_dev.html* and *.b4w_project*.
+
+The .b4w_project file will look like:
+
+   [info]
+   author = Blend4Web
+   name = myproject
+   title = MyProject
+
+   [paths]
+   assets_dirs = deploy/assets/myproject;
+   blend_dirs = blender/myproject;
+   blender_exec = blender
+   build_dir = deploy/apps/myproject
+   deploy_dir =
+   export_dir =
+
+   [compile]
+   apps =
+   css_ignore =
+   engine_type = external
+   js_ignore =
+   optimization = simple
+   use_physics =
+   use_smaa_textures =
+   version =
+
+   [deploy]
+   assets_path_prefix =
+   remove_exist_ext_dir =
+
+
+Creating Applications Within Projects
+-------------------------------------
+
+A project can contain multiple apps. This can be provided by listing
+the corresponding HTML files in the config file separated with
+semicolon:
+
+   ...
+   [compile]
+   apps = myapp1;myapp2;
+   ...
+
+
+Building Projects
+-----------------
+
+   python3 project.py -p myproject compile
+
+Builds a project in the "deploy/apps/myproject" directory.
+
+Available parameters:
+
+* ""-a | --app"" (optional) specify an HTML file, relative to which
+  the project app will be built.
+
+* ""-c | --css-ignore"" (optional) add CSS styles to exceptions in
+  order to not compile them.
+
+* ""-j | --js-ignore"" (optional) add scripts to exceptions in order
+  to not compile them.
+
+* ""-o | --optimization"" (optional) specify the optimization level
+  for JavaScript files: "whitespace", "simple" (by default) or
+  "advanced".
+
+* ""-t | --engine-type"" (optional) define a compilation type for an
+  app. Four variants are available: *external* (by default), *copy*,
+  *compile*, *update*.
+
+* ""-v | --version"" add version to paths of scripts and styles.
+
+
+Automatic Re-export
+-------------------
+
+   python3 project.py -p myproject reexport
+
+This command will re-export blend files in JSON and HTML formats.
+
+Available parameters:
+
+* ""-b | --blender_exec"" path to the blender executable.
+
+* ""-s | --assets"" specify directory with scene assets.
+
+
+Resource Conversion
+-------------------
+
+   python3 project.py -p myproject convert_resources
+
+Converts external resources (textures, audio and video files) into
+alternative formats to ensure cross-browser and cross-platform
+performance.
+
+Available parameters:
+
+* ""-s | --assets"" specify directory with scene assets.
+
+
+Projects List
+-------------
+
+   python3 project.py -p myproject list
+
+Outputs a list of projects found inside the "apps_dev" directory.
+
+
+Deploying Projects
 ------------------
 
-Create a directory for the new project. Better do it in the
-*SDK/apps_dev* directory. Also create the main HTML file.
+   python3 project.py -p myproject deploy
+
+Save a project to an external directory together with all
+dependencies.
+
+Available parameters:
+
+* ""-d | --dir"" directory for deploying the project.
+
+* ""-e | --assets-path"" path to asset files.
+
+* ""-o | --override"" remove directory if it exists.
+
+* ""-s | --assets"" specify directory with scene assets.
+
+
+Preparing Assets
+================
+
+The next step is authoring scenes. It is convenient to store all
+assets for your app in a single directory. Then the scene is assembled
+in Blender and exported to the assets directory.
+
+Converting resources is neccesary to develop cross-browser and cross-
+platform applications.
 
 During development it is more convenient to use the non-obfuscated
 engine because it makes the debugging process much easier. To use the
@@ -214,17 +510,6 @@ the main HTML file:
        <script type="text/javascript" src="../../src/camera.js"></script>
        . . .
    </head>
-
-
-Preparing Assets
-----------------
-
-The next step is authoring scenes. It is convenient to store all
-assets for your app in a single directory. Then the scene is assembled
-in Blender and exported to the assets directory.
-
-Converting resources is neccesary to develop cross-browser
-applications.
 
 
 App Logic Coding
@@ -283,43 +568,6 @@ For MS Windows users:
 
    python project.py -p example -o advanced -b copy -s ..\deploy\assets\example -d ..\my_apps
 
-* Option ""-p"" points at the name of the directory where the
-  project is.
-
-* Parameter ""-a"" (optional) points at the html file relative to
-  which the app will be constructed.
-
-* Parameter ""-o"" (optional) is used to select the method ofjs
-  files optimisation. Avaliable methods: "whitespace", "simple" (by
-  default) and "advanced".
-
-* With the ""-b"" parameter (optional) the engine's directory can be
-  specified. Available options: **link** (default) - the engine file
-  is linked from "deploy/apps/common/", **copy** - the engine file is
-  copied into the directory with the built app, **combine** - the
-  engine file is merged with the minified script located in the app's
-  root, **compile** - required engine modules are compiled together
-  with the app code.
-
-* With the ""-d"" parameter (optional) the directory for the
-  compiled app can be specified.
-
-* With the ""-s"" parameter (optional) the directory can be
-  specified where the scene resources are located.
-
-* Parameter ""-e"" (optional) points at the directory in which the
-  resources will be stored (relative to the app's root).
-
-* The ""-v"" parameter (optional) adds version statement to the urls
-  of scripts and styles. This will force the browser to use updated
-  scripts and styles instead of loading them from the browser cache.
-
-* The ""-j"" parameter (optional) specifies JavaScript files to be
-  excluded from compilation.
-
-* The ""-c"" parameter (optional) specifies CSS styles to be
-  excluded from compilation.
-
 Compiler Requirements
 
 * In the root of the directory the single html file must be stored
@@ -360,6 +608,10 @@ in nested directories.
 The **resize_textures** argument is used for decreasing texture
 resolution for the **LOW** mode.
 
+
+Dependencies
+------------
+
 Please make sure that you have all converter dependencies installed.
 You can do it with the following command:
 
@@ -369,6 +621,8 @@ If some program is not installed, the following message will be
 displayed:
 
 *Couldn't find PROGRAM_NAME.*
+
+**Linux**
 
 The list of dependencies is listed in the following table:
 
@@ -387,8 +641,42 @@ The list of dependencies is listed in the following table:
 Note: Linux users can additionally install the package qt-faststart
   which is used to optimize loading media files.
 
+**Windows**
+
 For MS Windows users it is not necessary to install these packages
 since they are already present in the SDK.
+
+**Mac OS**
+
+Mac OS users can install the brew package manager first and then
+install any missing packages.
+
+Before installing packages, install the libpng and libjpeg libraries
+using these commands:
+
+   > brew install libpng
+   > brew install libjpeg
+
+Now you can proceed with installing required dependencies:
+
+   > brew install imagemagick
+   > brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
+
+In order to install NVIDIA Texture Tools, clone the repository with
+the following command:
+
+   > git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
+
+Now you can build and install the package:
+
+   > cd NvidiaTextureTools
+   > ./configure
+   > make
+   > make install
+
+
+Data format
+-----------
 
 The conversion is performed as follows:
 
@@ -898,117 +1186,17 @@ SDK File Structure
    contains the current version of the engine
 
 
-Setting up the Browser for Loading Local Resources
-==================================================
-
-Since version 15.02 the Blend4Web SDK includes the development server
-to solve the problem of loading local resources. Nevertheless the
-following instructions can still be useful for developers.
+Loading Local Resources
+=======================
 
 The engine's renderer is a web application and it works when you view
 an HTML file in a browser. After initialization the resources (scenes,
 textures) are loaded. This process is subject to the same-origin
 policy rule. In particular this rule forbids loading from a local
-directory. A simple way to bypass this limitation is to set up the
-browser for loading local resources (recommended). Another way is to
-use a local web server.
+directory.
 
-Setting up the browser for loading local resources can be a simple and
-versatile method to bypass security limitation. It is recommended to
-use such browsers only for viewing local content.
-
-*Chrome under Windows*:
-
-Right click on the browser shortcut, select the "Properties" option
-and add the "--allow-file-access-from-files" option to the executable
-filepath (after the space symbol). Click "OK".
-
-
- [image]
-
-
-
-For convenience create a copy of the shortcut and modify it for local
-viewing while leaving the original shortcut untouched for normal
-surfing.
-
-*Chrome under OS X*:
-
-Open Terminal and run the browser with the following parameter:
-
-
-
-*Chrome/Chromium under Linux*:
-
-Run the browser with the parameter:
-
-   > google-chrome --allow-file-access-from-files
-
-or:
-
-   > chromium-browser --allow-file-access-from-files
-
-
-
-*Firefox under Windows/Linux/OS X*:
-
-Enter **about:config** to the browser's address bar, search for the
-"security.fileuri.strict_origin_policy" parameter and double-click on
-it to switch from "true" to "false".
-
-
- [image]
-
-
-
-*Safari/OS X*:
-
-Enable the "Develop" menu in Preferences, and activate the  "Disable
-Local File Restrictions" option.
-
-[image]
-
-
-Running a Local Server
-======================
-
-You may prefer running your own web server instead of the development
-server included in the SDK. An easy way to do this is running the web
-server from the standard Python library.
-
-
-
-*Under Windows*:
-
-1. Download and install the latest Python distribution from the
-   official site. When installing select the option for adding the
-   executable to the path ("Add python.exe to Path").
-
-2. Run Command Prompt.
-
-3. Type the following command in the SDK's root directory:
-
-      > python -m http.server
-
-
-
-*Under Linux/OS X*:
-
-1. If Python is not already present in your distribution, download
-   and install its current version from the official site.
-
-2. Run Terminal.
-
-3. Type the following command in the SDK's root directory:
-
-      > python3 -m http.server
-
-After starting the server, open the index webpage with the SDK links
-by navigating to http://localhost:8000.
-
-If needed, a port number can be specified by the additional parameter:
-
-   > python3 -m http.server 8080
+Since version 15.02, the Blend4Web SDK includes the development server
+to solve the problem of loading local resources.
 
 
 Quality Profiles

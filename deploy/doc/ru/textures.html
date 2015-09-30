@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv15.08</title>
+  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Нодовые материалы" href="node_materials.html"/>
         <link rel="prev" title="Материалы" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -272,10 +272,8 @@
 <dd>Не экспортировать текстуру.</dd>
 <dt><em>Export Options &gt; Disable Compression</em></dt>
 <dd>Отключить использование текстурной компрессии для данной текстуры. Применяется в случае, когда компрессия приводит к ухудшению качества изображения. В частности, рекомендуется отключать для текстур-масок, использующихся для смешивания различных характеристик материалов.</dd>
-</dl>
-<p><em>Export Options &gt; Shore Distance Map</em>
-Используется в <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>рендеринге наружных сцен</span></a></p>
-<dl class="docutils">
+<dt><em>Export Options &gt; Shore Distance Map</em></dt>
+<dd>Используется в <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>рендеринге наружных сцен</span></a>.</dd>
 <dt><em>Export Options &gt; Anisotropic Filtering</em></dt>
 <dd>Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию <code class="docutils literal"><span class="pre">DEFAULT</span></code> (т.е. использовать настройки сцены).</dd>
 <dt><em>Water Foam</em></dt>
@@ -392,7 +390,7 @@
 </div>
 <div class="section" id="video-texture">
 <span id="id20"></span><h2>Видео-текстуры<a class="headerlink" href="#video-texture" title="Ссылка на этот заголовок">¶</a></h2>
-<p>В качестве текстуры может применяться видеозапись. Для этого должен быть выбран тип текстуры <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>. Также, если была активированна панель <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code>, то воспроизведение видеотекстур будет происходить в рамках NLA-сценария.</p>
+<p>В качестве текстуры может применяться видеозапись. Для этого должен быть выбран тип текстуры <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое сопровождение следует накладывать, используя объект типа <code class="docutils literal"><span class="pre">SPEAKER</span></code>.</p>
@@ -417,14 +415,22 @@
 <dl class="docutils">
 <dt><em>Image &gt; Frames</em></dt>
 <dd>Длина воспроизводимого фрагмента видеозаписи в кадрах.</dd>
-<dt><em>Image &gt; Start</em></dt>
-<dd>Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации (опция <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span>&nbsp; <span class="pre">NLA</span></code>).</dd>
 <dt><em>Image &gt; Offset</em></dt>
 <dd>Номер кадра, с которого будет начинаться воспроизведение видеозаписи.</dd>
-<dt><em>Image &gt; Auto Refresh</em></dt>
-<dd>Воспроизводить видеозапись сразу после загрузки. Не актуальна при использовании нелинейной анимации: воспроизведение видео определяется остальными параметрами.</dd>
 <dt><em>Image &gt; Cyclic</em></dt>
 <dd>Начинать воспроизводить видеозапись заново каждый раз после ее завершения.</dd>
+<dt><em>Image &gt; Allow NLA</em></dt>
+<dd>Воспроизводить текстуру в рамках NLA-сценария. Необходимо также включить NLA глобально на сцене, активировав панель <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code>. По умолчанию включено.</dd>
+</dl>
+<p>Для текстур, управляемых через NLA будет актуальна следующая опция:</p>
+<dl class="docutils">
+<dt><em>Image &gt; Start</em></dt>
+<dd>Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации.</dd>
+</dl>
+<p>Для текстур, управляемых не через NLA будет актуальна следующая опция:</p>
+<dl class="docutils">
+<dt><em>Image &gt; Auto Refresh</em></dt>
+<dd>Воспроизводить видеозапись сразу после загрузки сцены.</dd>
 </dl>
 <img alt="_images/video_tex.png" class="align-center" src="_images/video_tex.png" />
 <div class="line-block">
@@ -432,6 +438,10 @@
 </div>
 <p>Существует возможность ускоренного воспроизведения видеозаписей. Для этого необходимо задать значение свойства <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></code> отличным от значения fps (кадров в секунду) для видеозаписи. При этом скорость воспроизведения видеозаписи расчитывается как отношение Frame rate сцены к fps видеозаписи.</p>
 <img alt="_images/fps.png" class="align-center" src="_images/fps.png" />
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">При использовании видео-текстур совместно с NLA кадры видео могут воспроизводиться не в точном соответствии со сделанными в Blender&#8217;е настройками. Возможно отставание видео в пределах 5-6 кадров, связанное с небольшой задержкой при старте/паузе тега &lt;video&gt;.</p>
+</div>
 </div>
 <div class="section" id="id23">
 <h3>Особенности работы на мобильных устройствах<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
@@ -601,7 +611,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-08-31.
+      Обновлено: 2015-09-30.
 
     </p>
   </div>
@@ -623,7 +633,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

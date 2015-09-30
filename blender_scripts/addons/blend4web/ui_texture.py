@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import imp
 import mathutils
@@ -19,7 +35,13 @@ from bpy.types import (
         Texture,
         World,
         )
+import blend4web
 
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 SUPPORTED_TEX_TYPES = {'IMAGE','ENVIRONMENT_MAP','NONE','BLEND'}
 
 # common properties for all B4W texture panels
@@ -85,7 +107,7 @@ def context_tex_datablock(context):
     return idblock
 
 class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
-    bl_label = "Preview"
+    bl_label = _("Preview")
 
     def draw(self, context):
 
@@ -93,7 +115,7 @@ class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
         tex = context.texture
 
         if not tex.type in SUPPORTED_TEX_TYPES:
-            layout.label(text="This texture type is not supported.", icon="ERROR")
+            layout.label(text=_("This texture type is not supported."), icon="ERROR")
             return False
 
         slot = getattr(context, "texture_slot", None)
@@ -110,7 +132,7 @@ class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
 
 
 class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
-    bl_label = "Mapping"
+    bl_label = _("Mapping")
 
     @classmethod
     def poll(cls, context):
@@ -121,7 +143,12 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
         if not getattr(context, "texture_slot", None):
             return False
 
-        if not context.texture.type in SUPPORTED_TEX_TYPES:
+        tex = context.texture
+
+        if not tex:
+            return False
+
+        if not tex.type in SUPPORTED_TEX_TYPES:
             return False
 
         engine = context.scene.render.engine
@@ -137,9 +164,9 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
         if not isinstance(idblock, Brush):
             split = layout.split(percentage=0.3)
             col = split.column()
-            col.label(text="Coordinates:")
+            col.label(text=_("Coordinates:"))
             col = split.column()
-            col.prop(tex, "texture_coords", text="")
+            col.prop(tex, "texture_coords", text=_(""))
             texcoord = tex.texture_coords
 
             if texcoord == 'ORCO':
@@ -147,26 +174,26 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
                 ob = context.object
                 if ob and ob.type == 'MESH':
                     split = layout.split(percentage=0.3)
-                    split.label(text="Mesh:")
-                    split.prop(ob.data, "texco_mesh", text="")
+                    split.label(text=_("Mesh:"))
+                    split.prop(ob.data, "texco_mesh", text=_(""))
                 """
             elif texcoord == 'UV':
                 split = layout.split(percentage=0.3)
-                split.label(text="Map:")
+                split.label(text=_("Map:"))
                 ob = context.object
                 if ob and ob.type == 'MESH':
-                    split.prop_search(tex, "uv_layer", ob.data, "uv_textures", text="")
+                    split.prop_search(tex, "uv_layer", ob.data, "uv_textures", text=_(""))
                 else:
-                    split.prop(tex, "uv_layer", text="")
+                    split.prop(tex, "uv_layer", text=_(""))
 
             elif texcoord not in {'GLOBAL','NORMAL','STRAND','VIEW'}:
-                layout.label(text="This coordinates type is not supported.", icon="ERROR")
+                layout.label(text=_("This coordinates type is not supported."), icon="ERROR")
 
             if texcoord in {'ORCO', 'UV', 'GLOBAL', 'NORMAL', 'STRAND'}:
                 layout.column().prop(tex, "scale")
 
 class B4W_TEXTURE_PT_envmap(TextureTypePanel, Panel):
-    bl_label = "Environment Map"
+    bl_label = _("Environment Map")
     tex_type = 'ENVIRONMENT_MAP'
 
     def draw(self, context):
@@ -177,16 +204,16 @@ class B4W_TEXTURE_PT_envmap(TextureTypePanel, Panel):
 
         row = layout.row()
         row.prop(env, "source", expand=True)
-        row.menu("TEXTURE_MT_envmap_specials", icon='DOWNARROW_HLT', text="")
+        row.menu("TEXTURE_MT_envmap_specials", icon='DOWNARROW_HLT', text=_(""))
 
         if env.source == 'IMAGE_FILE':
             layout.template_ID(tex, "image", open="image.open")
             layout.template_image(tex, "image", tex.image_user, compact=True)
         else:
-            layout.label(text="This environment map type is not supported", icon="ERROR")
+            layout.label(text=_("This environment map type is not supported"), icon="ERROR")
 
 class B4W_TEXTURE_PT_colors(TextureButtonsPanel, Panel):
-    bl_label = "Colors"
+    bl_label = _("Colors")
     bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
@@ -203,12 +230,12 @@ class B4W_TEXTURE_PT_colors(TextureButtonsPanel, Panel):
 
         tex = context.texture
 
-        layout.prop(tex, "use_color_ramp", text="Ramp")
+        layout.prop(tex, "use_color_ramp", text=_("Ramp"))
         if tex.use_color_ramp:
             layout.template_color_ramp(tex, "color_ramp", expand=True)
 
 class B4W_TEXTURE_PT_image_sampling(TextureTypePanel, Panel):
-    bl_label = "Image Sampling"
+    bl_label = _("Image Sampling")
     bl_options = {'DEFAULT_CLOSED'}
     tex_type = 'IMAGE'
 
@@ -224,7 +251,7 @@ class B4W_TEXTURE_PT_image_sampling(TextureTypePanel, Panel):
         col = split.column()
         row = col.row()
         row.active = bool(tex.image and tex.image.use_alpha)
-        row.prop(tex, "use_alpha", text="Use Alpha")
+        row.prop(tex, "use_alpha", text=_("Use Alpha"))
 
         #Only for Material based textures, not for Lamp/World...
         if slot and isinstance(idblock, Material):
@@ -232,7 +259,7 @@ class B4W_TEXTURE_PT_image_sampling(TextureTypePanel, Panel):
             col.prop(tex, "use_normal_map")
 
 class B4W_TextureExport(TextureButtonsPanel, Panel):
-    bl_label = "Export Options"
+    bl_label = _("Export Options")
     bl_idname = "TEXTURE_PT_b4w_export"
 
     def draw(self, context):
@@ -243,29 +270,29 @@ class B4W_TextureExport(TextureButtonsPanel, Panel):
 
         if tex:
             row = layout.row()
-            row.prop(tex, "b4w_do_not_export", text="Do Not Export")
+            row.prop(tex, "b4w_do_not_export", text=_("Do Not Export"))
 
             active = not tex.b4w_do_not_export
 
             if tex.type in ['IMAGE','ENVIRONMENT_MAP']:
                 row = layout.row()
-                row.prop(tex, "b4w_disable_compression", text="Disable Compression")
+                row.prop(tex, "b4w_disable_compression", text=_("Disable Compression"))
                 row.active = active
 
             if isinstance(idblock, Material):
+                row = layout.row()
+                row.active = active
+                row.prop(tex, "b4w_enable_tex_af", text=_("Enable Anisotropic Filtering"))
+                row = layout.row()
+                row.active = tex.b4w_enable_tex_af
+                row.prop(tex, "b4w_anisotropic_filtering", text=_("Anisotropic Filtering"))
+
                 if tex.type == "IMAGE":
                     row = layout.row()
                     row.active = active
-                    row.prop(tex, "b4w_shore_dist_map", text="Shore Distance Map")
+                    row.prop(tex, "b4w_shore_dist_map", text=_("Shore Distance Map"))
 
-                row = layout.row()
-                row.active = active
-                row.prop(tex, "b4w_enable_tex_af", text="Enable Anisotropic Filtering")
-                row = layout.row()
-                row.active = tex.b4w_enable_tex_af
-                row.prop(tex, "b4w_anisotropic_filtering", text="Anisotropic Filtering")
-
-                if tex.type == "NONE":
+                elif tex.type == "NONE":
                     icon_source = "NONE"
                     if tex.b4w_source_type == "SCENE":
                         icon_source = "ERROR"
@@ -282,33 +309,33 @@ class B4W_TextureExport(TextureButtonsPanel, Panel):
                     
                     row = layout.row()
                     row.active = active
-                    row.prop(tex, "b4w_source_type", text="Source Type")
+                    row.prop(tex, "b4w_source_type", text=_("Source Type"))
                     if tex.b4w_source_type != "NONE":
                         row = layout.row()
                         row.active = active
-                        row.prop(tex, "b4w_source_id", text="Source ID", icon=icon_source)
+                        row.prop(tex, "b4w_source_id", text=_("Source ID"), icon=icon_source)
                         row = layout.row()
                         row.active = active
-                        row.prop(tex, "b4w_source_size", text="Source Size")
+                        row.prop(tex, "b4w_source_size", text=_("Source Size"))
                         row = layout.row()
                         row.active = active
-                        row.prop(tex, "b4w_extension", text="Extension")
+                        row.prop(tex, "b4w_extension", text=_("Extension"))
                         if tex.b4w_source_type == "CANVAS":
-                            layout.prop(tex, "b4w_enable_canvas_mipmapping", text="Enable Mipmapping")
+                            layout.prop(tex, "b4w_enable_canvas_mipmapping", text=_("Enable Mipmapping"))
 
             elif isinstance(idblock, World) and tex.type == "ENVIRONMENT_MAP":
                 row = layout.row()
                 row.active = active
-                row.prop(tex, "b4w_use_sky", text="Sky Texture Usage")
+                row.prop(tex, "b4w_use_sky", text=_("Sky Texture Usage"))
 
 class B4W_TextureWaterFoam(TextureTypePanel, Panel):
-    bl_label = "Water Foam"
+    bl_label = _("Water Foam")
     bl_idname = "TEXTURE_PT_b4w_water_foam"
     tex_type = 'IMAGE'
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.texture, "b4w_water_foam", text="")
+        self.layout.prop(context.texture, "b4w_water_foam", text=_(""))
 
     def draw(self, context):
         tex = context.texture
@@ -316,11 +343,11 @@ class B4W_TextureWaterFoam(TextureTypePanel, Panel):
 
         layout.active = tex.b4w_water_foam
 
-        layout.prop(tex, "b4w_foam_uv_freq", text="UV Frequency")
-        layout.prop(tex, "b4w_foam_uv_magnitude", text="UV Magnitude")
+        layout.prop(tex, "b4w_foam_uv_freq", text=_("UV Frequency"))
+        layout.prop(tex, "b4w_foam_uv_magnitude", text=_("UV Magnitude"))
 
 class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
-    bl_label = "Influence"
+    bl_label = _("Influence")
 
     @classmethod
     def poll(cls, context):
@@ -345,7 +372,7 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
 
         def factor_but(layout, toggle, factor, name, active=True):
             row = layout.row(align=True)
-            row.prop(tex, toggle, text="")
+            row.prop(tex, toggle, text=_(""))
             row.active = active
             sub = row.row(align=True)
             sub.active = getattr(tex, toggle) and active
@@ -357,25 +384,25 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
                 split = layout.split()
 
                 col = split.column()
-                col.label(text="Diffuse:")
+                col.label(text=_("Diffuse:"))
                 #factor_but(col, "use_map_diffuse", "diffuse_factor", "Intensity")
                 factor_but(col, "use_map_color_diffuse", "diffuse_color_factor", "Color")
                 factor_but(col, "use_map_alpha", "alpha_factor", "Alpha", active=tex.use_map_color_diffuse)
                 #factor_but(col, "use_map_translucency", "translucency_factor", "Translucency")
 
-                col.label(text="Specular:")
+                col.label(text=_("Specular:"))
                 #factor_but(col, "use_map_specular", "specular_factor", "Intensity")
                 factor_but(col, "use_map_color_spec", "specular_color_factor", "Color")
                 #factor_but(col, "use_map_hardness", "hardness_factor", "Hardness")
 
                 col = split.column()
-                col.label(text="Shading:")
+                col.label(text=_("Shading:"))
                 # factor_but(col, "use_map_ambient", "ambient_factor", "Ambient")
                 # factor_but(col, "use_map_emit", "emit_factor", "Emit")
                 factor_but(col, "use_map_mirror", "mirror_factor", "Mirror")
                 # factor_but(col, "use_map_raymir", "raymir_factor", "Ray Mirror")
 
-                col.label(text="Geometry:")
+                col.label(text=_("Geometry:"))
                 sub_tmp = factor_but(col, "use_map_normal", "normal_factor", "Normal")
                 sub_tmp.active = tex.use_map_normal
 
@@ -398,7 +425,7 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
             split = layout.split()
 
             col = split.column()
-            col.label(text="General:")
+            col.label(text=_("General:"))
             factor_but(col, "use_map_size", "size_factor", "Size")
 
         layout.separator()
@@ -407,20 +434,20 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
             split = layout.split()
 
             col = split.column()
-            col.prop(tex, "blend_type", text="Blend")
+            col.prop(tex, "blend_type", text=_("Blend"))
             col.prop(tex, "use_rgb_to_intensity")
             # color is used on gray-scale textures even when use_rgb_to_intensity is disabled.
-            col.prop(tex, "color", text="")
+            col.prop(tex, "color", text=_(""))
 
             col = split.column()
-            col.prop(tex, "invert", text="Negative")
+            col.prop(tex, "invert", text=_("Negative"))
             col.prop(tex, "use_stencil")
 
         if isinstance(idblock, Material) or isinstance(idblock, World):
-            col.prop(tex, "default_value", text="DVar", slider=True)
+            col.prop(tex, "default_value", text=_("DVar"), slider=True)
 
 class B4W_TEXTURE_PT_image_mapping(TextureTypePanel, Panel):
-    bl_label = "Image Mapping"
+    bl_label = _("Image Mapping")
     bl_options = {'DEFAULT_CLOSED'}
     tex_type = 'IMAGE'
 
@@ -430,7 +457,7 @@ class B4W_TEXTURE_PT_image_mapping(TextureTypePanel, Panel):
         layout.prop(tex, "extension")
 
 class B4W_TEXTURE_PT_image(TextureTypePanel, Panel):
-    bl_label = "Image"
+    bl_label = _("Image")
     tex_type = 'IMAGE'
 
     def draw(self, context):
@@ -439,13 +466,20 @@ class B4W_TEXTURE_PT_image(TextureTypePanel, Panel):
 
         layout.template_image(tex, "image", tex.image_user)
 
+        idblock = context_tex_datablock(context)
+        if isinstance(idblock, Material):
+            if (tex and tex.type == "IMAGE" and tex.image is not None 
+                    and tex.image.source == "MOVIE"):
+                row = layout.row()
+                row.prop(tex, "b4w_nla_video", text="Allow NLA")
+
 class B4W_ParallaxPanel(TextureTypePanel, Panel):
-    bl_label = "Parallax"
+    bl_label = _("Parallax")
     bl_idname = "TEXTURE_PT_b4w_parallax"
     tex_type = 'IMAGE'
 
     def draw_header(self, context):
-        self.layout.prop(context.texture, "b4w_use_map_parallax", text="")
+        self.layout.prop(context.texture, "b4w_use_map_parallax", text=_(""))
 
     def draw(self, context):
         tex = context.texture
@@ -453,9 +487,9 @@ class B4W_ParallaxPanel(TextureTypePanel, Panel):
 
         layout.active = getattr(tex, "b4w_use_map_parallax")
         row = layout.row()
-        row.prop(tex, "b4w_parallax_scale", text="Scale", slider=True)
-        row.prop(tex, "b4w_parallax_steps", text="Steps", slider=True)
-        row.prop(tex, "b4w_parallax_lod_dist", text="Lod Distance", slider=True)
+        row.prop(tex, "b4w_parallax_scale", text=_("Scale"), slider=True)
+        row.prop(tex, "b4w_parallax_steps", text=_("Steps"), slider=True)
+        row.prop(tex, "b4w_parallax_lod_dist", text=_("Lod Distance"), slider=True)
 
 def register():
     bpy.utils.register_class(B4W_TEXTURE_PT_preview)

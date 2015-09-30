@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import mathutils
 import math
@@ -17,12 +33,14 @@ b4w_modules = [
     "ui_material",
     "ui_texture",
     "ui_particle",
-    "ui_physics"
+    "ui_physics",
+    "translator"
 ]
 
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
+from blend4web.translator import _, p_, get_translate
 # serialize data to json
 
 def get_locked_track_constraint(obj, index):
@@ -47,7 +65,7 @@ class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
             layout = self.layout
             box = layout.box()
 
-            box.label("LOCKED_TRACK constraint reserved for " + con.name)
+            box.label(get_translate(_("LOCKED_TRACK constraint reserved for ")) + con.name)
 
         else:
             bpy.types.OBJECT_PT_constraints_new.draw_constraint(self, context, con)

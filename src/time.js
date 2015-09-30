@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -8,6 +25,7 @@
  */
 b4w.module["__time"] = function(exports, require) {
 
+var m_cfg   = require("__config");
 var m_print = require("__print");
 var m_util  = require("__util");
 
@@ -21,6 +39,8 @@ var _timeout_counter = 0;
 var _animator_counter = 0;
 
 var _animators = [];
+
+var _framerate = -1;
 
 exports.set_timeline = function(timeline) {
     _timeline = timeline;                   // s
@@ -138,6 +158,17 @@ exports.reset = function(id) {
     _animators.length = 0;
     _timeout_counter = 0;
     _animator_counter = 0;
+}
+
+exports.get_framerate = function() {
+    if (m_cfg.animation.framerate !== -1)
+        return m_cfg.animation.framerate;
+    else
+        return _framerate;
+}
+
+exports.set_framerate = function(value) {
+    _framerate = value;
 }
 
 }

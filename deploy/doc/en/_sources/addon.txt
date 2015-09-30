@@ -216,6 +216,8 @@ describing of the problem appears:
 | Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex group      |
 | vertex group weights                  | weight value.                               |
 +---------------------------------------+---------------------------------------------+
+
++---------------------------------------+---------------------------------------------+
 | Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex color      |
 | vertex color values                   | value.                                      |
 +---------------------------------------+---------------------------------------------+
@@ -235,8 +237,6 @@ describing of the problem appears:
 | The mesh has a UV map but has no      | The mesh has a UV map layer but has no      |
 | exported material                     | material for export.                        |
 +---------------------------------------+---------------------------------------------+
-
-+---------------------------------------+---------------------------------------------+
 | The mesh has a vertex color layer but | The mesh has a vertex color layer but has   |
 | has no exported material              | no material for export.                     |
 +---------------------------------------+---------------------------------------------+
@@ -252,6 +252,8 @@ describing of the problem appears:
 | Particle system error; Dupli object   | Particle system error: no object is         |
 | isn't specified                       | selected as a particle.                     |
 +---------------------------------------+---------------------------------------------+
+
++---------------------------------------+---------------------------------------------+
 | Particle system error; Dupli object   | The OBJECT_NAME object which is selected as |
 | OBJECT_NAME doesn't export            | a particle can not be exported (the "Do not |
 |                                       | export" checkbox is set).                   |
@@ -262,6 +264,11 @@ describing of the problem appears:
 |                                       | the "Do not export" checkbox enabled or the |
 |                                       | types of the objects are unsuitable.        |
 |                                       | Supported object types: "MESH".             |
++---------------------------------------+---------------------------------------------+
+| Particle system error. Unsupported    | Particle system error. Unsupported render   |
+| render type TYPE for the EMITTER/HAIR | type TYPE for the EMITTER/HAIR particles    |
+| particles PSYS_NAME on object NAME.   | PSYS_NAME on object NAME. The particle      |
+| Particle system removed.              | system has removed.                         |
 +---------------------------------------+---------------------------------------------+
 | Particle system error; Wrong dupli    | An object of unsuitable type is selected    |
 | object type TYPE_NAME                 | for the particle. Supported types: "MESH".  |
@@ -312,12 +319,8 @@ when a scene is loaded. The message looks like this:
 | Empty material slot in node "NAME".   | Empty material slot in "NAME" node.         |
 | Material: "NAME".                     |                                             |
 +---------------------------------------+---------------------------------------------+
-| Exported UV-layer is missing in node  | The UV layer specified in the "GEOMETRY"    |
-| "GEOMETRY". Material: NAME.           | node is not exported (for UV texture        |
-|                                       | coordinates).                               |
-+---------------------------------------+---------------------------------------------+
-| Exported UV-layer is missing in       | Exported UV-layer is missing in the texture |
-| texture NAME. [Material: NAME.]       | (for UV texture coordinates).               |
+| Environment map in the "NAME" world   | Environment map can not be presented with a |
+| texture slot cannot be a movie.       | video file.                                 |
 +---------------------------------------+---------------------------------------------+
 | Ignoring LODs after empty LOD for the | All LOD objects that follow the empty slot  |
 | NAME object.                          | were ignored (in the LOD objects list for   |
@@ -327,10 +330,6 @@ when a scene is loaded. The message looks like this:
 | vertex colors required by material    | grass color" options are used by the        |
 | settings                              | special terrain material but the mesh has   |
 |                                       | no vertex colors with such names.           |
-+---------------------------------------+---------------------------------------------+
-| Incomplete mesh; No UV in mesh with   | In the material of the mesh there are       |
-| UV-textured material                  | textures with texture coordinates type      |
-|                                       | "UV", but the mesh lacks UV map layers.     |
 +---------------------------------------+---------------------------------------------+
 | Incomplete mesh; Material settings    | The "Vertex Color Paint" option is enabled  |
 | require vertex colors                 | for the mesh material, but the mesh has no  |
@@ -368,6 +367,10 @@ when a scene is loaded. The message looks like this:
 | mesh; The mesh has N UVs.             | layers for each mesh. The number of UV      |
 |                                       | layers for this mesh is N.                  |
 +---------------------------------------+---------------------------------------------+
+| Packed media "FILE_NAME" has not been | The packed media file "FILE_NAME" cannot be |
+| exported to "CONVERTED_FILE_PATH"     | converted to "CONVERTED_FILE_PATH". Please  |
+|                                       | unpack this file and convert it.            |
++---------------------------------------+---------------------------------------------+
 | Particle system error for "NAME"; The | The NAME vertex color is specified in the   |
 | "NAME" vertex color specified in the  | "from" field but it not present in the      |
 | "from" field is missing in the last   | OBJECT_NAME emitter.                        |
@@ -385,6 +388,10 @@ when a scene is loaded. The message looks like this:
 | ""to" field is missing in the         | OBJECT_NAME object of the GROUP_NAME group  |
 | "OBJECT_NAME" object ("GROUP_NAME"    | which is selected as a particle.            |
 | dupli group)                          |                                             |
++---------------------------------------+---------------------------------------------+
+| Particle system error for object      | Particle system error for the object NAME.  |
+| "NAME". Invalid dupli object          | Invalid dupli-object OBJECT_NAME.           |
+| "OBJECT_NAME".                        |                                             |
 +---------------------------------------+---------------------------------------------+
 | The main scene NAME can not be        | The main scene NAME can not be rendered by  |
 | rendered by another scene. Material   | another scene. The material NAME has been   |
@@ -412,6 +419,8 @@ when a scene is loaded. The message looks like this:
 | unsupported curve object. Modifier    | object. Modifier removed.                   |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
+
++---------------------------------------+---------------------------------------------+
 | The NAME object has the NAME armature | The NAME object has both vertex animation   |
 | modifier and a vertex animation.      | and an armature modifier which is not       |
 | Modifier removed.                     | supported. As a result, the modifier has    |
@@ -431,8 +440,6 @@ when a scene is loaded. The message looks like this:
 +---------------------------------------+---------------------------------------------+
 | TEXTURE_TYPE isn't supported,         | TEXTURE_TYPE texture type isn't supported   |
 | WORLD_NAME                            | for world WORLD_NAME                        |
-+---------------------------------------+---------------------------------------------+
-
 +---------------------------------------+---------------------------------------------+
 | Using B4W_REFRACTION node NODE_NAME   | A node material with incorrect Alpha Blend  |
 | with incorrect type of Alpha Blend.   | property is used. "Alpha sort", "Alpha      |
@@ -459,9 +466,6 @@ when a scene is loaded. The message looks like this:
 | Wrong texture coordinates type in     | The following coordinate types are          |
 | texture NAME. [Material: NAME.]       | supported for image textures: "UV",         |
 |                                       | "Normal" and "Generated".                   |
-+---------------------------------------+---------------------------------------------+
-| Wrong vertex color layer is used in   | Wrong vertex color layer is used in a       |
-| node "GEOMETRY". [Material: NAME.]    | "GEOMETRY" node.                            |
 +---------------------------------------+---------------------------------------------+
 
 
@@ -492,7 +496,112 @@ when a scene is loaded. The message looks like this:
 | been replaced by the default texture. | rendering a scene into. This texture has    |
 |                                       | been replaced by a default texture.         |
 +---------------------------------------+---------------------------------------------+
+| The action NAME has no fcurves.       | The action NAME has no fcurves.             |
++---------------------------------------+---------------------------------------------+
 | The "NAME" camera has unsupported     | Panoramic cameras are not supported.        |
 | PANORAMIC type. Changed to            | Perspective mode is used instead.           |
 | PERSPECTIVE type."                    |                                             |
 +---------------------------------------+---------------------------------------------+
+
+
+Add-on Translations
+===================
+
+There is the possibility to translate the add-on to a language
+supported by Blender. In order to do this, rename the file "empty.po",
+which located in the directory
+SDK/blender_scripts/addons/blend4web/locales, to one of the names in
+the following table:
+
+
+
++-----------------------+-----------------------+
+| File name             | Language              |
++=======================+=======================+
+| ru_RU.po              | Russian               |
++-----------------------+-----------------------+
+| ja_JP.po              | Japanese              |
++-----------------------+-----------------------+
+| en_US.po              | English               |
++-----------------------+-----------------------+
+| nl_NL.po              | Dutch                 |
++-----------------------+-----------------------+
+| it_IT.po              | Italian               |
++-----------------------+-----------------------+
+| de_DE.po              | German                |
++-----------------------+-----------------------+
+| fi_FI.po              | Finnish               |
++-----------------------+-----------------------+
+| sv_SE.po              | Swedish               |
++-----------------------+-----------------------+
+| fr_FR.po              | French                |
++-----------------------+-----------------------+
+| es.po                 | Spanish               |
++-----------------------+-----------------------+
+| ca_AD.po              | Catalan               |
++-----------------------+-----------------------+
+| cs_CZ.po              | Czech                 |
++-----------------------+-----------------------+
+| pt_PT.po              | Portuguese            |
++-----------------------+-----------------------+
+| zh_CN.po              | Simplified Chinese    |
++-----------------------+-----------------------+
+| zh_TW.po              | Traditional Chinese   |
++-----------------------+-----------------------+
+| hr_HR.po              | Croatian              |
++-----------------------+-----------------------+
+| sr_RS.po              | Serbian               |
++-----------------------+-----------------------+
+| uk_UA.po              | Ukrainian             |
++-----------------------+-----------------------+
+| pl_PL.po              | Polish                |
++-----------------------+-----------------------+
+| ro_RO.po              | Romanian              |
++-----------------------+-----------------------+
+| ar_EG.po              | Arabic                |
++-----------------------+-----------------------+
+| bg_BG.po              | Bulgarian             |
++-----------------------+-----------------------+
+| el_GR.po              | Greek                 |
++-----------------------+-----------------------+
+| ko_KR.po              | Korean                |
++-----------------------+-----------------------+
+| ne_NP.po              | Nepali                |
++-----------------------+-----------------------+
+| fa_IR.po              | Persian               |
++-----------------------+-----------------------+
+| id_ID.po              | Indonesian            |
++-----------------------+-----------------------+
+| sr_RS@latin.po        | Serbian Latin         |
++-----------------------+-----------------------+
+| ky_KG.po              | Kyrgyz                |
++-----------------------+-----------------------+
+| tr_TR.po              | Turkish               |
++-----------------------+-----------------------+
+| hu_HU.po              | Hungarian             |
++-----------------------+-----------------------+
+| pt_BR.po              | Brazilian Portuguese  |
++-----------------------+-----------------------+
+| he_IL.po              | Hebrew                |
++-----------------------+-----------------------+
+| et_EE.po              | Estonian              |
++-----------------------+-----------------------+
+| eo.po                 | Esperanto             |
++-----------------------+-----------------------+
+| es_ES.po              | Spanish from Spain    |
++-----------------------+-----------------------+
+| am_ET.po              | Amharic               |
++-----------------------+-----------------------+
+| uz_UZ.po              | Uzbek                 |
++-----------------------+-----------------------+
+| uz_UZ@cyrillic.po     | Uzbek Cyrillic        |
++-----------------------+-----------------------+
+| hi_IN.po              | Hindi                 |
++-----------------------+-----------------------+
+| vi_VN.po              | Vietnamese            |
++-----------------------+-----------------------+
+
+Then open this file and edit/translate it.
+
+When translations are ready, you may contact us to include them as
+part of the add-on.

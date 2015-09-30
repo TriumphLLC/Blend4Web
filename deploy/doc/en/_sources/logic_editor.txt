@@ -48,13 +48,17 @@ Logic Editor usage example:
 
 [image]
 
-
-
 All possible nodes are described below.
 
 
-Play
-----
+Entry Point
+-----------
+
+This is where the script starts.
+
+
+Play Timeline
+-------------
 
 Play back the NLA segment starting from the frame to which the marker
 points. Animation is played back until the next marker is met, or to
@@ -63,18 +67,35 @@ the end of the timeline. Finally the next node receives the control.
 [image]
 
 
-Select & Play
--------------
+Play Animation
+--------------
+
+Play the object's animation. The animation name can be optionally
+specified.
+
+
+Select & Play Timeline
+----------------------
 
 Wait until the user selects an object (on desktops - with a mouse
-click, on mobile devices - with a touch). If an object that is
-specified in this slot is selected - start animation similar to "Play"
-node. If any other object is selected - immediately transfer the
-control to the next node.
+click, on mobile devices - with a touch). If the object, which is
+specified in this node, is selected - then start the animation similar
+to the "Play Timeline" node. If any other object is selected - then
+immediately transfer control to the next node.
 
 
-Select & Jump
--------------
+Select & Play Animation
+-----------------------
+
+Wait until the user selects an object (on desktops - with a mouse
+click, on mobile devices - with a touch). If the object, which is
+specified in this node, is selected - then start the animation similar
+to the "Play Animation" node. If any other object is selected - then
+immediately transfer control to the next node.
+
+
+Select
+------
 
 It is similar to the "Select & Play" node, except the transition
 happens instead of animation. This function allows to implement a
@@ -90,10 +111,10 @@ parameters (operands) can also be registers that are activated using
 the corresponding switches.
 
 
-Register Store
+Variable Store
 --------------
 
-Save a numeric value in the register.
+Save a numeric value in a variable.
 
 
 Math Operation
@@ -119,6 +140,44 @@ Page Param
 ----------
 
 Allows to store any web page parameter in a given numerical register.
+
+
+Send Request
+------------
+
+Send an HTTP GET request to the specified URL and save the respond's
+fields to variables.
+
+
+Inherit Material
+----------------
+
+Copy attributes from one material to another.
+
+
+Set Shader Node Param
+---------------------
+
+Set vaue for the shader node. Currently only Value and RGB nodes are
+supported.
+
+
+Delay
+-----
+
+Make a delay before going to the next node.
+
+
+Apply Shape Key
+---------------
+
+Set the Shape Key factor.
+
+
+Outline
+-------
+
+Controls object outliing effect.
 
 
 Debugging

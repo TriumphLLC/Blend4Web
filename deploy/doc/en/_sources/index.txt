@@ -64,6 +64,8 @@ Table of contents
 
   * Installing the Addon
 
+  * Blend4Web mode
+
   * Exporting and Viewing Scenes
 
   * Upgrading the Addon
@@ -73,6 +75,8 @@ Table of contents
   * Unpacking the Archive
 
   * Setting up the Add-on
+
+  * Blend4Web mode
 
   * Local Development Server
 
@@ -123,6 +127,8 @@ Table of contents
   * Non-Critical Export Errors
 
   * Other Messages
+
+  * Add-on Translations
 
 * Objects
 
@@ -332,7 +338,9 @@ Table of contents
 
   * Creating Apps Quickly
 
-  * Developing Apps Within the SDK
+  * Project Managment
+
+  * Preparing Assets
 
   * Resource Conversion
 
@@ -344,9 +352,7 @@ Table of contents
 
   * SDK File Structure
 
-  * Setting up the Browser for Loading Local Resources
-
-  * Running a Local Server
+  * Loading Local Resources
 
   * Quality Profiles
 
@@ -366,7 +372,7 @@ Table of contents
 
   * Shader Compilation
 
-  * Add-on Translations
+  * Updating Add-on Translations
 
 * Team Work. Using Git
 
@@ -399,6 +405,8 @@ Table of contents
   * WebGL Failed to Init
 
 * Release Notes
+
+  * v15.09
 
   * v15.08
 

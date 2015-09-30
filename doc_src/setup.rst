@@ -50,6 +50,14 @@
 
 В меню :file:`File > Export` должны появиться опции :file:`Blend4Web (.json)` и :file:`Blend4Web (.html)`.
 
+Активация движка
+================
+
+Для активации движка необходимо выбрать его в выпадающем меню верхней панели:
+
+.. image:: src_images/first_steps/selecting_engine.jpg
+   :align: center
+   :width: 100%
 
 .. _local_development_server:
 

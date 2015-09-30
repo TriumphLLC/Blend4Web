@@ -78,7 +78,9 @@ uniform sampler2D u_sampler;
 # endif
 #endif // NODES && ALPHA
 
+#if !USE_OUTLINE
 uniform vec3 u_color_id;
+#endif
 
 /*============================================================================
                                    UNIFORMS

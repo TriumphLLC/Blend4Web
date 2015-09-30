@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -320,6 +337,10 @@ exports.remove = function(obj) {
     }
 }
 
+function sort_anchors_zindex(a, b) {
+    return b.depth - a.depth;
+}
+
 exports.update = function() {
     var det_vis_cnt = 0;
 
@@ -368,6 +389,15 @@ exports.update = function() {
 
         if (anchor.move_cb)
             anchor.move_cb(x, y, anchor.appearance, anchor.obj, element);
+    }
+
+    _anchors.sort(sort_anchors_zindex);
+
+    for (var i = 0; i < _anchors.length; i++) {
+        var anchor = _anchors[i];
+
+        if (anchor.type != "GENERIC")
+            anchor.element.style.zIndex = i;
     }
 
     if (det_vis_cnt > 0) {
@@ -497,7 +527,7 @@ exports.attach_move_cb = function(obj, callback) {
             _anchors[i].move_cb = callback;
 }
 
-exports.detach_move_cb = function(obj, callback) {
+exports.detach_move_cb = function(obj) {
     for (var i = 0; i < _anchors.length; i++)
         if (_anchors[i].obj == obj)
             _anchors[i].move_cb = null;

@@ -52,6 +52,15 @@ In the "File > Export" menu, the "Blend4Web (.json)" and "Blend4Web
 (.html)" options should appear.
 
 
+Blend4Web mode
+==============
+
+To reveal the engine's settings, select Blend4Web from the upper panel
+menu:
+
+[image]
+
+
 Local Development Server
 ========================
 

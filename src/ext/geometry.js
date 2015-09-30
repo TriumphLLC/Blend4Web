@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -230,12 +247,12 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
 exports.set_shape_key_value = function(obj, key_name, value) {
     if (!m_geom.check_shape_keys(obj)) {
         m_print.error("Wrong object:", obj.name);
-        return null;
+        return;
     }
 
     if (!m_geom.has_shape_key(obj, key_name)) {
         m_print.error("Wrong key name:", key_name);
-        return null;
+        return;
     }
 
     var float_value = parseFloat(value);

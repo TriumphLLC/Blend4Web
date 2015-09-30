@@ -1,8 +1,28 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
  * Engine debugging API.
  * @module debug
+ * @local DebugWireframeMode
+ * @local StageloadCallback
+ * @local LoadedCallback
  */
 b4w.module["debug"] = function(exports, require) {
 
@@ -26,6 +46,53 @@ var m_vec3     = require("vec3");
 var cfg_def = m_cfg.defaults;
 
 /**
+ * Debug wireframe mode.
+ * @typedef DebugWireframeMode
+ * @type {Number}
+ */
+
+ /**
+ * Data loaded callback.
+ * @callback LoadedCallback
+ */
+
+/**
+ * Loading stage callback.
+ * @callback StageloadCallback
+ * @param {Number} percentage Loading progress (0-100).
+ */
+
+/**
+ * Debug wireframe mode: turn off wireframe view.
+ * @const {DebugWireframeMode} module:debug.WM_NONE
+ */
+exports.WM_NONE = m_debug.WM_NONE;
+
+/**
+ * Debug wireframe mode: turn on the black-and-white wireframe view.
+ * @const {DebugWireframeMode} module:debug.WM_OPAQUE_WIREFRAME
+ */
+exports.WM_OPAQUE_WIREFRAME = m_debug.WM_OPAQUE_WIREFRAME;
+
+/**
+ * Debug wireframe mode: turn on the transparent (superimposed on the source color) wireframe view.
+ * @const {DebugWireframeMode} module:debug.WM_TRANSPARENT_WIREFRAME
+ */
+exports.WM_TRANSPARENT_WIREFRAME = m_debug.WM_TRANSPARENT_WIREFRAME;
+
+/**
+ * Debug wireframe mode: turn on the wireframe view with the front/back faces coloration.
+ * @const {DebugWireframeMode} module:debug.WM_FRONT_BACK_VIEW
+ */
+exports.WM_FRONT_BACK_VIEW = m_debug.WM_FRONT_BACK_VIEW;
+
+/**
+ * Debug wireframe mode: turn on the debug spheres view.
+ * @const {DebugWireframeMode} module:debug.WM_DEBUG_SPHERES
+ */
+exports.WM_DEBUG_SPHERES = m_debug.WM_DEBUG_SPHERES;
+
+/**
  * Print info about the physics worker.
  * @method module:debug.physics_stats
  */
@@ -36,7 +103,7 @@ exports.physics_stats = function() {
 /**
  * Print object info by physics ID.
  * @method module:debug.physics_id
- * @param id Physics ID
+ * @param {Number} id Physics ID
  */
 exports.physics_id = function(id) {
     m_print.log("O", m_phy.find_obj_by_body_id(id))
@@ -116,7 +183,7 @@ exports.visible_objects = function() {
 /**
  * Print debug info for the object with the given name
  * @method module:debug.object_info
- * @param name Object name
+ * @param {String} name Object name
  */
 exports.object_info = function(name) {
     var scene = m_scenes.get_active();
@@ -152,7 +219,6 @@ exports.object_info = function(name) {
 /**
  * Print debug info for the object with the given name
  * @method module:debug.objects_stat
- * @param name Object name
  */
 exports.objects_stat = function() {
     var scene = m_scenes.get_active();
@@ -176,6 +242,7 @@ exports.objects_stat = function() {
 /**
  * Return the number of vertices in the active scene.
  * @method module:debug.num_vertices
+ * @returns {Number} The number of vertices.
  */
 exports.num_vertices = function() {
 
@@ -210,6 +277,7 @@ exports.num_vertices = function() {
 /**
  * Return the number of all triangles in the active scene.
  * @method module:debug.num_triangles
+ * @returns {Number} The number of all triangles.
  */
 exports.num_triangles = function() {
 
@@ -244,6 +312,7 @@ exports.num_triangles = function() {
 /**
  * Return the number of batches in the main scenes.
  * @method module:debug.num_draw_calls
+ * @returns {Number} The number of batches.
  */
 exports.num_draw_calls = function() {
 
@@ -271,6 +340,7 @@ exports.num_draw_calls = function() {
 /**
  * Return the number of compiled shaders.
  * @method module:debug.num_shaders
+ * @returns {Number} The number of compiled shaders.
  */
 exports.num_shaders = function() {
     var compiled_shaders = m_shaders.get_compiled_shaders();
@@ -280,6 +350,7 @@ exports.num_shaders = function() {
 /**
  * Return geometry info in the main scenes.
  * @method module:debug.geometry_stats
+ * @returns {Object} Geometry info.
  */
 exports.geometry_stats = function() {
 
@@ -331,6 +402,7 @@ exports.geometry_stats = function() {
 /**
  * Return the number of unique textures in the main scenes.
  * @method module:debug.num_textures
+ * @returns {Object} Textures info.
  */
 exports.num_textures = function() {
 
@@ -390,6 +462,7 @@ exports.num_textures = function() {
 /**
  * Return the number and the total size of unique output framebuffers.
  * @method module:debug.num_render_targets
+ * @returns {Object} Render targets info.
  */
 exports.num_render_targets = function() {
 
@@ -503,6 +576,9 @@ exports.controls_info = m_ctl.debug;
 /**
  * Get the distance between two objects.
  * @method module:debug.object_distance
+ * @param {Object3D} obj The first object.
+ * @param {Object3D} obj2 The second object.
+ * @returns {Number} Distance.
  */
 exports.object_distance = function(obj, obj2) {
     var dist = m_vec3.dist(obj.render.trans, obj2.render.trans);
@@ -536,6 +612,8 @@ exports.plot_telemetry = m_debug.plot_telemetry;
 /**
  * Store the callback function result as a flashback message.
  * @method module:debug.fbres
+ * @param {Function} fun fun
+ * @param {Number} timeout timeout
  */
 exports.fbres = function(fun, timeout) {
     if (!timeout)
@@ -601,6 +679,7 @@ exports.mute_music = function() {
 /**
  * Check the object for a finite value.
  * @method module:debug.check_finite
+ * @param {*} o Value
  */
 exports.check_finite = function(o) {
     m_debug.check_finite(o);
@@ -609,6 +688,7 @@ exports.check_finite = function(o) {
 /**
  * Set debugging parameters.
  * @method module:debug.set_debug_params
+ * @param {DebugParams} params Debug parameters
  * @cc_externs wireframe_mode wireframe_edge_color
  */
 exports.set_debug_params = function(params) {
@@ -616,8 +696,20 @@ exports.set_debug_params = function(params) {
     var subs_wireframe = m_scenes.get_subs(active_scene, "WIREFRAME");
 
     if (subs_wireframe) {
-        if (typeof params.wireframe_mode == "string")
-            m_scenes.set_wireframe_mode(subs_wireframe, params.wireframe_mode);
+        if (typeof params.wireframe_mode == "number") {
+            switch (params.wireframe_mode) {
+            case m_debug.WM_NONE:
+            case m_debug.WM_OPAQUE_WIREFRAME:
+            case m_debug.WM_TRANSPARENT_WIREFRAME:
+            case m_debug.WM_FRONT_BACK_VIEW:
+            case m_debug.WM_DEBUG_SPHERES:
+                m_scenes.set_wireframe_mode(subs_wireframe, params.wireframe_mode);
+                break;
+            default:
+                m_print.error("set_debug_params(): Wrong wireframe mode");
+                break;
+            }
+        }
         if (typeof params.wireframe_edge_color == "object")
             m_scenes.set_wireframe_edge_color(subs_wireframe, params.wireframe_edge_color);
     } else
@@ -684,6 +776,17 @@ exports.analyze_shaders = function(opt_shader_id_part) {
         m_print.groupEnd();
     }
 }
+
+/**
+ * Return stage callback without loading data.
+ * @method module:debug.fake_load
+ * @param {StageloadCallback} stageload_cb Callback to report about the loading progress
+ * @param {Number} [interval=5000] Loading interval
+ * @param {Number} [start=0] Start percentage
+ * @param {Number} [end=5000] End percentage
+ * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
+ */
+exports.fake_load = m_debug.fake_load;
 
 function get_shaders_stat(vshader, fshader) {
 

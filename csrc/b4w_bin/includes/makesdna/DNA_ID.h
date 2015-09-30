@@ -201,7 +201,12 @@ typedef struct PreviewImage {
 #  define MAKE_ID2(c, d)  ((d) << 8 | (c))
 #endif
 
-/* ID from database */
+/**
+ * ID from database.
+ *
+ * Written to #BHead.code (for file IO)
+ * and the first 2 bytes of #ID.name (for runtime checks, see #GS macro).
+ */
 #define ID_SCE		MAKE_ID2('S', 'C') /* Scene */
 #define ID_LI		MAKE_ID2('L', 'I') /* Library */
 #define ID_OB		MAKE_ID2('O', 'B') /* Object */
@@ -287,7 +292,43 @@ enum {
 	LIB_ID_RECALC_DATA  = 1 << 13,
 	LIB_ANIM_NO_RECALC  = 1 << 14,
 
-	LIB_ID_RECALC_ALL   = (LIB_ID_RECALC|LIB_ID_RECALC_DATA),
+	LIB_ID_RECALC_ALL   = (LIB_ID_RECALC | LIB_ID_RECALC_DATA),
+};
+
+/* To filter ID types (filter_id) */
+/* XXX We cannot put all needed IDs inside an enum...
+ *     We'll have to see whether we can fit all needed ones inside 32 values,
+ *     or if we need to fallback to longlong defines :/
+ */
+enum {
+	FILTER_ID_AC        = (1 << 0),
+	FILTER_ID_AR        = (1 << 1),
+	FILTER_ID_BR        = (1 << 2),
+	FILTER_ID_CA        = (1 << 3),
+	FILTER_ID_CU        = (1 << 4),
+	FILTER_ID_GD        = (1 << 5),
+	FILTER_ID_GR        = (1 << 6),
+	FILTER_ID_IM        = (1 << 7),
+	FILTER_ID_LA        = (1 << 8),
+	FILTER_ID_LS        = (1 << 9),
+	FILTER_ID_LT        = (1 << 10),
+	FILTER_ID_MA        = (1 << 11),
+	FILTER_ID_MB        = (1 << 12),
+	FILTER_ID_MC        = (1 << 13),
+	FILTER_ID_ME        = (1 << 14),
+	FILTER_ID_MSK       = (1 << 15),
+	FILTER_ID_NT        = (1 << 16),
+	FILTER_ID_OB        = (1 << 17),
+	FILTER_ID_PAL       = (1 << 18),
+	FILTER_ID_PC        = (1 << 19),
+	FILTER_ID_SCE       = (1 << 20),
+	FILTER_ID_SPK       = (1 << 21),
+	FILTER_ID_SO        = (1 << 22),
+	FILTER_ID_TE        = (1 << 23),
+	FILTER_ID_TXT       = (1 << 24),
+	FILTER_ID_VF        = (1 << 25),
+	FILTER_ID_WO        = (1 << 26),
+	FILTER_ID_PA        = (1 << 27),
 };
 
 #ifdef __cplusplus

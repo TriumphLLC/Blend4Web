@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -8,13 +25,14 @@ b4w.module["lights"] = function(exports, require) {
 
 // TODO: consider use of standard translation/rotation functions from transform module
 
-var m_lights = require("__lights");
-var m_obj    = require("__objects");
-var m_print  = require("__print");
-var m_scenes = require("__scenes");
-var m_trans  = require("__transform");
-var m_util   = require("__util");
-var m_vec3   = require("__vec3");
+var m_lights   = require("__lights");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_scenes   = require("__scenes");
+var m_trans    = require("__transform");
+var m_util     = require("__util");
+var m_vec3     = require("__vec3");
 
 var _sun_pos        = new Float32Array(3);
 var _date           = {};
@@ -94,7 +112,7 @@ exports.set_sun_params = set_sun_params;
  * @method module:lights.set_sun_params
  * @param {SunParams} sun_params sun parameters
  */
-function set_sun_params (sun_params) {
+function set_sun_params(sun_params) {
 
     var scene = m_scenes.get_active();
     var lamps = m_obj.get_scene_objs(scene, "LAMP", m_obj.DATA_ID_ALL);
@@ -112,7 +130,7 @@ function set_sun_params (sun_params) {
 
     if (!sun) {
         m_print.error("There is no sun on the scene");
-        return null;
+        return;
     }
 
     if (typeof sun_params.hor_position == "number" &&
@@ -177,7 +195,7 @@ function set_day_time(time) {
 
     if (!sun) {
         m_print.error("There is no sun on the scene");
-        return null;
+        return;
     }
 
     update_sun_position(time);
@@ -220,7 +238,7 @@ exports.set_max_sun_angle = function(angle) {
  */
 exports.get_light_params = function(lamp_obj) {
 
-    if (m_lights.is_lamp(lamp_obj))
+    if (m_obj_util.is_lamp(lamp_obj))
         var light = lamp_obj.light;
     else {
         m_print.error("get_light_params(): Wrong object");
@@ -271,7 +289,7 @@ exports.get_light_type = get_light_type
  * @returns {String} Light type
  */
 function get_light_type(lamp_obj) {
-    if (m_lights.is_lamp(lamp_obj))
+    if (m_obj_util.is_lamp(lamp_obj))
         return lamp_obj.light.type;
     else
         m_print.error("get_light_type(): Wrong object");
@@ -286,11 +304,11 @@ function get_light_type(lamp_obj) {
  */
 exports.set_light_params = function(lamp_obj, light_params) {
 
-    if (m_lights.is_lamp(lamp_obj))
+    if (m_obj_util.is_lamp(lamp_obj))
         var light = lamp_obj.light;
     else {
         m_print.error("set_light_params(): Wrong object");
-        return false;
+        return;
     }
 
     var scene = m_scenes.get_active();

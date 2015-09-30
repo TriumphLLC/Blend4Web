@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -6,9 +23,10 @@
  */
 b4w.module["util"] = function(exports, require) {
 
-var m_print = require("__print");
-var m_util  = require("__util");
-var m_vec3  = require("__vec3");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_util     = require("__util");
+var m_vec3     = require("__vec3");
 
 /**
  * X-axis vector.
@@ -44,6 +62,7 @@ exports.AXIS_MZ = new Float32Array([ 0, 0,-1]);
 /**
  * Create a new Float32Array.
  * @param {Number | Array | TypedArray} param Constructor param
+ * @returns {Float32Array} New Float32Array.
  */
 exports.f32 = function(param) {
     param = param || 0;
@@ -147,6 +166,7 @@ exports.quat_to_dir = m_util.quat_to_dir;
  * Project camera quaternion rotation on a horizontal plane.
  * @method module:util.ground_project_quat
  * @param {Quat} quat Source quaternion.
+ * @param {Quat} dest Destination quaternion.
  * @returns {Quat} Destination quaternion.
  */
 exports.ground_project_quat = function(quat, dest) {
@@ -156,7 +176,7 @@ exports.ground_project_quat = function(quat, dest) {
 /**
  * Transform a camera quaternion to a mesh quaternion.
  * @method module:util.cam_quat_to_mesh_quat
- * @param {Quat} quat Camera quaternion.
+ * @param {Quat} cam_quat Camera quaternion.
  * @param {Quat} [dest] Destination quaternion.
  * @returns {Quat} Destination quaternion.
  */
@@ -254,16 +274,24 @@ exports.line_plane_intersect = m_util.line_plane_intersect;
  * @method module:util.is_mesh
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
+ * @deprecated use {@link module:objects.is_mesh|objects.is_mesh} instead.
  */
-exports.is_mesh = m_util.is_mesh;
+exports.is_mesh = function(obj) {
+    m_print.error("util.is_mesh() deprecated, use objects.is_mesh() instead");
+    return m_obj_util.is_mesh(obj);
+}
 
 /**
  * Check if object is of type ARMATURE
  * @method module:util.is_armature
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
+ * @deprecated use {@link module:objects.is_armature|objects.is_armature} instead.
  */
-exports.is_armature = m_util.is_armature;
+exports.is_armature = function(obj) {
+    m_print.error("util.is_armature() deprecated, use objects.is_armature() instead");
+    return m_obj_util.is_armature(obj);
+}
 
 /**
  * Convert radian angle into range [0, 2PI]

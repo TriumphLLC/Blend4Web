@@ -132,6 +132,31 @@
     
     <h2>Summary</h2>
     
+        <h3 class="subsection-title">Members</h3>
+        <ul>
+        
+            
+<li> <a href="#.WM_DEBUG_SPHERES">WM_DEBUG_SPHERES</a></li>
+
+        
+            
+<li> <a href="#.WM_FRONT_BACK_VIEW">WM_FRONT_BACK_VIEW</a></li>
+
+        
+            
+<li> <a href="#.WM_NONE">WM_NONE</a></li>
+
+        
+            
+<li> <a href="#.WM_OPAQUE_WIREFRAME">WM_OPAQUE_WIREFRAME</a></li>
+
+        
+            
+<li> <a href="#.WM_TRANSPARENT_WIREFRAME">WM_TRANSPARENT_WIREFRAME</a></li>
+
+        
+        </ul>
+    
     
         <h3 class="subsection-title">Methods</h3>
         <ul>
@@ -145,7 +170,7 @@
 
         
             
-<li> <a href="#.check_finite">check_finite<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.check_finite">check_finite<span class="signature">(o)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -153,15 +178,19 @@
 
         
             
+<li> <a href="#.fake_load">fake_load<span class="signature">(stageload_cb, interval<span class="signature-attributes">opt</span>, start<span class="signature-attributes">opt</span>, end<span class="signature-attributes">opt</span>, loaded_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.fbmsg">fbmsg<span class="signature">()</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.fbres">fbres<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.fbres">fbres<span class="signature">(fun, timeout)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.geometry_stats">geometry_stats<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.geometry_stats">geometry_stats<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
 
         
             
@@ -181,31 +210,31 @@
 
         
             
-<li> <a href="#.num_draw_calls">num_draw_calls<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_draw_calls">num_draw_calls<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.num_render_targets">num_render_targets<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_render_targets">num_render_targets<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
 
         
             
-<li> <a href="#.num_shaders">num_shaders<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_shaders">num_shaders<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.num_textures">num_textures<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_textures">num_textures<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
 
         
             
-<li> <a href="#.num_triangles">num_triangles<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_triangles">num_triangles<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.num_vertices">num_vertices<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.num_vertices">num_vertices<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.object_distance">object_distance<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.object_distance">object_distance<span class="signature">(obj, obj2)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -213,7 +242,7 @@
 
         
             
-<li> <a href="#.objects_stat">objects_stat<span class="signature">(name)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.objects_stat">objects_stat<span class="signature">()</span><span class="type-signature"></span></a></li>
 
         
             
@@ -237,7 +266,7 @@
 
         
             
-<li> <a href="#.set_debug_params">set_debug_params<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_debug_params">set_debug_params<span class="signature">(params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -247,7 +276,413 @@
         </ul>
     
     
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <ul>
+        
+                
+<li> <a href="#~DebugWireframeMode">DebugWireframeMode</a></li>
+
+            
+                
+<li> <a href="#~LoadedCallback">LoadedCallback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~StageloadCallback">StageloadCallback<span class="signature">(percentage)</span><span class="type-signature"></span></a></li>
+
+            
+        </ul>
+    
     <h2>Detailed Description</h2>
+    
+        <h3 class="subsection-title">Members</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".WM_DEBUG_SPHERES">WM_DEBUG_SPHERES</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode: turn on the debug spheres view.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-debug.html#~DebugWireframeMode">DebugWireframeMode</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".WM_FRONT_BACK_VIEW">WM_FRONT_BACK_VIEW</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode: turn on the wireframe view with the front/back faces coloration.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-debug.html#~DebugWireframeMode">DebugWireframeMode</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".WM_NONE">WM_NONE</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode: turn off wireframe view.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-debug.html#~DebugWireframeMode">DebugWireframeMode</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".WM_OPAQUE_WIREFRAME">WM_OPAQUE_WIREFRAME</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode: turn on the black-and-white wireframe view.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-debug.html#~DebugWireframeMode">DebugWireframeMode</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".WM_TRANSPARENT_WIREFRAME">WM_TRANSPARENT_WIREFRAME</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode: turn on the transparent (superimposed on the source color) wireframe view.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-debug.html#~DebugWireframeMode">DebugWireframeMode</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
     
 
     
@@ -392,7 +827,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line639">line 639</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line714">line 714</a>
     </li></ul></dd>
     
 
@@ -478,7 +913,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line552">line 552</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line613">line 613</a>
     </li></ul></dd>
     
 
@@ -500,7 +935,7 @@
 
     
 
-    <h4 class="name" id=".check_finite">check_finite<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".check_finite">check_finite<span class="signature">(o)</span><span class="type-signature"></span></h4>
 
     
 
@@ -517,6 +952,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>o</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -564,7 +1048,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line601">line 601</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line662">line 662</a>
     </li></ul></dd>
     
 
@@ -650,7 +1134,314 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line497">line 497</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line553">line 553</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".fake_load">fake_load<span class="signature">(stageload_cb, interval<span class="signature-attributes">opt</span>, start<span class="signature-attributes">opt</span>, end<span class="signature-attributes">opt</span>, loaded_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Return stage callback without loading data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stageload_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-debug.html#~StageloadCallback">StageloadCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Callback to report about the loading progress</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5000
+                
+                </td>
+            
+
+            <td class="description last">Loading interval</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Start percentage</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>end</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5000
+                
+                </td>
+            
+
+            <td class="description last">End percentage</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>loaded_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-debug.html#~LoadedCallback">LoadedCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Callback to be executed right after load</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line763">line 763</a>
     </li></ul></dd>
     
 
@@ -736,7 +1527,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line518">line 518</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line577">line 577</a>
     </li></ul></dd>
     
 
@@ -758,7 +1549,7 @@
 
     
 
-    <h4 class="name" id=".fbres">fbres<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".fbres">fbres<span class="signature">(fun, timeout)</span><span class="type-signature"></span></h4>
 
     
 
@@ -775,6 +1566,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fun</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">fun</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>timeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">timeout</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -822,7 +1685,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line536">line 536</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line595">line 595</a>
     </li></ul></dd>
     
 
@@ -844,7 +1707,7 @@
 
     
 
-    <h4 class="name" id=".geometry_stats">geometry_stats<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".geometry_stats">geometry_stats<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -875,6 +1738,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Geometry info.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -908,7 +1793,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line280">line 280</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line333">line 333</a>
     </li></ul></dd>
     
 
@@ -994,7 +1879,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line430">line 430</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -1080,7 +1965,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line444">line 444</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line500">line 500</a>
     </li></ul></dd>
     
 
@@ -1166,7 +2051,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line512">line 512</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line571">line 571</a>
     </li></ul></dd>
     
 
@@ -1252,7 +2137,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line586">line 586</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line647">line 647</a>
     </li></ul></dd>
     
 
@@ -1274,7 +2159,7 @@
 
     
 
-    <h4 class="name" id=".num_draw_calls">num_draw_calls<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_draw_calls">num_draw_calls<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1305,6 +2190,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The number of batches.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1338,7 +2245,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line244">line 244</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line295">line 295</a>
     </li></ul></dd>
     
 
@@ -1360,7 +2267,7 @@
 
     
 
-    <h4 class="name" id=".num_render_targets">num_render_targets<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_render_targets">num_render_targets<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -1391,6 +2298,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Render targets info.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1424,7 +2353,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line390">line 390</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line445">line 445</a>
     </li></ul></dd>
     
 
@@ -1446,7 +2375,7 @@
 
     
 
-    <h4 class="name" id=".num_shaders">num_shaders<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_shaders">num_shaders<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1477,6 +2406,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The number of compiled shaders.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1510,7 +2461,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line271">line 271</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -1532,7 +2483,7 @@
 
     
 
-    <h4 class="name" id=".num_textures">num_textures<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_textures">num_textures<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -1563,6 +2514,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Textures info.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1596,7 +2569,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line331">line 331</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line385">line 385</a>
     </li></ul></dd>
     
 
@@ -1618,7 +2591,7 @@
 
     
 
-    <h4 class="name" id=".num_triangles">num_triangles<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_triangles">num_triangles<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1649,6 +2622,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The number of all triangles.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1682,7 +2677,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line210">line 210</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -1704,7 +2699,7 @@
 
     
 
-    <h4 class="name" id=".num_vertices">num_vertices<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".num_vertices">num_vertices<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1735,6 +2730,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The number of vertices.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1768,7 +2785,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line176">line 176</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -1790,7 +2807,7 @@
 
     
 
-    <h4 class="name" id=".object_distance">object_distance<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".object_distance">object_distance<span class="signature">(obj, obj2)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1809,6 +2826,76 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The first object.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>obj2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The second object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1821,6 +2908,30 @@
 
 
 
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Distance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1854,7 +2965,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line503">line 503</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line559">line 559</a>
     </li></ul></dd>
     
 
@@ -1925,6 +3036,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
@@ -1984,7 +3100,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line116">line 116</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -2006,7 +3122,7 @@
 
     
 
-    <h4 class="name" id=".objects_stat">objects_stat<span class="signature">(name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".objects_stat">objects_stat<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -2023,50 +3139,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -2114,7 +3186,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line152">line 152</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line202">line 202</a>
     </li></ul></dd>
     
 
@@ -2185,6 +3257,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -2244,7 +3321,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line36">line 36</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -2330,7 +3407,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line28">line 28</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -2416,7 +3493,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line530">line 530</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line589">line 589</a>
     </li></ul></dd>
     
 
@@ -2502,7 +3579,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line524">line 524</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line583">line 583</a>
     </li></ul></dd>
     
 
@@ -2588,7 +3665,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line479">line 479</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line535">line 535</a>
     </li></ul></dd>
     
 
@@ -2610,7 +3687,7 @@
 
     
 
-    <h4 class="name" id=".set_debug_params">set_debug_params<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_debug_params">set_debug_params<span class="signature">(params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2627,6 +3704,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">DebugParams</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Debug parameters</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -2674,7 +3800,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line609">line 609</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line671">line 671</a>
     </li></ul></dd>
     
 
@@ -2760,7 +3886,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line55">line 55</a>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -2779,6 +3905,308 @@
     
 
     
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~DebugWireframeMode">DebugWireframeMode</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Debug wireframe mode.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~LoadedCallback">LoadedCallback<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Data loaded callback.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~StageloadCallback">StageloadCallback<span class="signature">(percentage)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Loading stage callback.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>percentage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Loading progress (0-100).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_debug.js.html">ext/debug.js</a>, <a href="ext_debug.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
+    
 
     
 </article>
@@ -2791,13 +4219,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:58 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:57 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

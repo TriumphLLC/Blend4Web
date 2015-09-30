@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = code_snippets
+title = Code Snippets
+
+[paths]
+assets_dirs = deploy/assets/code_snippets;
+blend_dirs = blender/code_snippets;
+blender_exec = blender
+build_dir = deploy/apps/code_snippets
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = scripts/*.js;
+optimization = simple
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

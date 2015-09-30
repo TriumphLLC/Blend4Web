@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -105,7 +122,7 @@ exports.check_nla = function() {
  * Check if the current scene has NLA-scripts
  * @method module:nla.check_nla_scripts
  * @returns {Boolean} Check result.
- * @deprecated use check_logic_nodes() instead
+ * @deprecated use {@link module:nla.check_logic_nodes|nla.check_logic_nodes} instead
  */
 exports.check_nla_scripts = function() {
     return m_nla.check_logic_nodes();

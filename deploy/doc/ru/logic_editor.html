@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Визуальное программирование &mdash; Руководство пользователя: Blend4Web vv15.08</title>
+  <title>Визуальное программирование &mdash; Руководство пользователя: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Разработчикам приложений" href="developers.html"/>
         <link rel="prev" title="Нелинейная анимация" href="nla.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -108,15 +108,24 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Визуальное программирование</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Визуальное программирование (Logic Editor)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#play">Play</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play">Select &amp; Play</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-jump">Select &amp; Jump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-timeline">Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline">Select &amp; Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-animation">Select &amp; Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#register-store">Register Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#show-object-hide-object">Show Object и Hide Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Отладка</a></li>
 </ul>
 </li>
@@ -199,27 +208,40 @@ Blender необходимо установить галочку <code class="do
 оставшихся у персонажа и т.д.).</p>
 <p>Пример использования Logic Editor:</p>
 <a class="reference internal image-reference" href="_images/logic_editor_example.png"><img alt="_images/logic_editor_example.png" class="align-center" src="_images/logic_editor_example.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <p>Ниже рассмотрены все возможные варианты нод.</p>
-<div class="section" id="play">
-<h3>Play<a class="headerlink" href="#play" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="entry-point">
+<h3>Entry Point<a class="headerlink" href="#entry-point" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Является точкой начала выполнения скрипта.</p>
+</div>
+<div class="section" id="play-timeline">
+<h3>Play Timeline<a class="headerlink" href="#play-timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Проигрывать участок NLA, начиная с кадра, на который указывает маркер.
 Анимация воспроизводится до следующего маркера, либо до конца шкалы времени
 сцены, после чего управление переходит к следующей ноде.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_anim.png"><img alt="_images/logic_editor_anim.png" class="align-center" src="_images/logic_editor_anim.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="select-play">
-<span id="nla-select-play"></span><h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="play-animation">
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Проигрывает объектную анимацию. Присутствует возможность указать название анимации.</p>
+</div>
+<div class="section" id="select-play-timeline">
+<h3>Select &amp; Play Timeline<a class="headerlink" href="#select-play-timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии
 движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран
 объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде
-<code class="docutils literal"><span class="pre">Play</span></code>, если же был выбран любой другой объект - немедленно передать управление
+<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code>, если же был выбран любой другой объект - немедленно передать управление
 следующей ноде.</p>
 </div>
-<div class="section" id="select-jump">
-<h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="select-play-animation">
+<h3>Select &amp; Play Animation<a class="headerlink" href="#select-play-animation" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии
+движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран
+объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде
+<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code>, если же был выбран любой другой объект - немедленно передать управление
+следующей ноде.</p>
+</div>
+<div class="section" id="select">
+<h3>Select<a class="headerlink" href="#select" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Аналогично ноде <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code>, за исключением того, что вместо анимации
 осуществляется переход. Указанная функция позволяет реализовать более сложную
 логику, поскольку появляется возможность распознавания результата выбора
@@ -231,9 +253,9 @@ Blender необходимо установить галочку <code class="do
 параметров условия (операндов) могут выступать также регистры, которые
 активируются с помощью соответствующих переключателей.</p>
 </div>
-<div class="section" id="register-store">
-<h3>Register Store<a class="headerlink" href="#register-store" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Записать числовое значение в регистр.</p>
+<div class="section" id="variable-store">
+<h3>Variable Store<a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Записать числовое значение в переменную.</p>
 </div>
 <div class="section" id="math-operation">
 <h3>Math Operation<a class="headerlink" href="#math-operation" title="Ссылка на этот заголовок">¶</a></h3>
@@ -251,6 +273,32 @@ Blender необходимо установить галочку <code class="do
 <div class="section" id="page-param">
 <h3>Page Param<a class="headerlink" href="#page-param" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом регистре.</p>
+</div>
+<div class="section" id="send-request">
+<h3>Send Request<a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей
+ответа в переменные.</p>
+</div>
+<div class="section" id="inherit-material">
+<h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет скопировать атрибуты одного материала на другой.</p>
+</div>
+<div class="section" id="set-shader-node-param">
+<h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет установить значение шейдерной ноды. В данный момент поддерживаются
+ноды Value и RGB.</p>
+</div>
+<div class="section" id="delay">
+<h3>Delay<a class="headerlink" href="#delay" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет установить задержку перед выполнением следующей ноды.</p>
+</div>
+<div class="section" id="apply-shape-key">
+<h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет задать значение параметра Shape Key.</p>
+</div>
+<div class="section" id="outline">
+<h3>Outline<a class="headerlink" href="#outline" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет управлять эффектом обводки объекта.</p>
 </div>
 <div class="section" id="id3">
 <h3>Отладка<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
@@ -283,7 +331,7 @@ Blender необходимо установить галочку <code class="do
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-08-31.
+      Обновлено: 2015-09-30.
 
     </p>
   </div>
@@ -305,7 +353,7 @@ Blender необходимо установить галочку <code class="do
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

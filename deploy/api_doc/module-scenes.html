@@ -168,6 +168,10 @@ use get_active() set_active() to do that.</div>
 
         
             
+<li> <a href="#.can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
 <li> <a href="#.check_object">check_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
         
@@ -232,11 +236,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_glow_color">get_glow_color<span class="signature">(dest<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {RGB}</span></a></li>
+<li> <a href="#.get_glow_color">get_glow_color<span class="signature">(dest<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.get_glow_intensity">get_glow_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_glow_intensity">get_glow_intensity<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -284,6 +288,10 @@ use get_active() set_active() to do that.</div>
 
         
             
+<li> <a href="#.get_object_name_hierarchy">get_object_name_hierarchy<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {Array}</span></a></li>
+
+        
+            
 <li> <a href="#.get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></a></li>
 
         
@@ -320,7 +328,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_water_mat_params">get_water_mat_params<span class="signature">(water)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.get_water_mat_params">get_water_mat_params<span class="signature">(water_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -348,7 +356,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.outlining_is_enabled">outlining_is_enabled<span class="signature">(obj, value)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.outlining_is_enabled">outlining_is_enabled<span class="signature">(obj, value)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
         
             
@@ -364,7 +372,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.set_bloom_params">set_bloom_params<span class="signature">(bloom)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_bloom_params">set_bloom_params<span class="signature">(bloom_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -372,7 +380,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.set_dof_params">set_dof_params<span class="signature">(DOF)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_dof_params">set_dof_params<span class="signature">(dof_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -392,11 +400,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.set_glow_material_params">set_glow_material_params<span class="signature">(glow)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_glow_material_params">set_glow_material_params<span class="signature">(glow_material_params)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.set_god_rays_params">set_god_rays_params<span class="signature">(god)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_god_rays_params">set_god_rays_params<span class="signature">(god_rays_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -424,11 +432,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.set_water_params">set_water_params<span class="signature">(water)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_water_params">set_water_params<span class="signature">(water_params)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.set_wind_params">set_wind_params<span class="signature">(wind)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_wind_params">set_wind_params<span class="signature">(wind_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -694,7 +702,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1134">line 1134</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1154">line 1154</a>
     </li></ul></dd>
     
 
@@ -886,7 +894,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use apply_outline_anim() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.apply_outline_anim">scenes.apply_outline_anim</a> instead</li></ul></dd>
     
 
     
@@ -900,7 +908,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line287">line 287</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -1023,7 +1031,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use apply_outline_anim_def() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.apply_outline_anim_def">scenes.apply_outline_anim_def</a> instead</li></ul></dd>
     
 
     
@@ -1037,7 +1045,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line301">line 301</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -1241,7 +1249,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line199">line 199</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -1376,7 +1384,115 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line214">line 214</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line216">line 216</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if objects can be selected
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if objects can be selected.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1238">line 1238</a>
     </li></ul></dd>
     
 
@@ -1521,7 +1637,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use check_object_by_name() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.check_object_by_name">scenes.check_object_by_name</a> instead</li></ul></dd>
     
 
     
@@ -2329,7 +2445,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use clear_outline_anim() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.clear_outline_anim">scenes.clear_outline_anim</a> instead</li></ul></dd>
     
 
     
@@ -2343,7 +2459,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line312">line 312</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -2478,7 +2594,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line228">line 228</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -3126,7 +3242,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1097">line 1097</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1117">line 1117</a>
     </li></ul></dd>
     
 
@@ -3558,7 +3674,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1066">line 1066</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1086">line 1086</a>
     </li></ul></dd>
     
 
@@ -3737,7 +3853,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".get_glow_color">get_glow_color<span class="signature">(dest<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#RGB">RGB</a>}</span></h4>
+    <h4 class="name" id=".get_glow_color">get_glow_color<span class="signature">(dest<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3829,28 +3945,6 @@ use get_active() set_active() to do that.</div>
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination RGB color vector.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#RGB">RGB</a></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -3872,7 +3966,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use get_outline_color() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.get_outline_color">scenes.get_outline_color</a> instead</li></ul></dd>
     
 
     
@@ -3886,7 +3980,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line334">line 334</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -3908,7 +4002,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".get_glow_intensity">get_glow_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_glow_intensity">get_glow_intensity<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3988,28 +4082,6 @@ use get_active() set_active() to do that.</div>
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Intensity value
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -4031,7 +4103,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use get_outline_intensity() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.get_outline_intensity">scenes.get_outline_intensity</a> instead</li></ul></dd>
     
 
     
@@ -4045,7 +4117,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line275">line 275</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -4369,7 +4441,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1185">line 1185</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1205">line 1205</a>
     </li></ul></dd>
     
 
@@ -4477,7 +4549,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1118">line 1118</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1138">line 1138</a>
     </li></ul></dd>
     
 
@@ -4822,7 +4894,8 @@ use get_active() set_active() to do that.</div>
                 </td>
             
 
-            <td class="description last">List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name].</td>
+            <td class="description last">List of the EMPTY and DUPLI object names: 
+[empty_name,empty_name,...,dupli_name]. Can be retrieved with the get_object_name_hierarchy() method.</td>
         </tr>
 
     
@@ -5305,7 +5378,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1056">line 1056</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1076">line 1076</a>
     </li></ul></dd>
     
 
@@ -5335,7 +5408,7 @@ use get_active() set_active() to do that.</div>
 <div class="item_description">
 
 <div class="description">
-    Returns object data_id property
+    Returns object data_id property.
 </div>
 
 
@@ -5462,7 +5535,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line145">line 145</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -5607,7 +5680,7 @@ use get_active() set_active() to do that.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use objects.get_dg_parent() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-objects.html#.get_dg_parent">objects.get_dg_parent</a> instead</li></ul></dd>
     
 
     
@@ -5621,7 +5694,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1044">line 1044</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1064">line 1064</a>
     </li></ul></dd>
     
 
@@ -5800,6 +5873,163 @@ use get_active() set_active() to do that.</div>
 
     
 
+    <h4 class="name" id=".get_object_name_hierarchy">get_object_name_hierarchy<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {Array}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the object names hierarchy (considering dupli group parenting).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object names hierarchy array (from the highest parent to the object itself).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1028">line 1028</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
     <h4 class="name" id=".get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
@@ -5935,7 +6165,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1029">line 1029</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1049">line 1049</a>
     </li></ul></dd>
     
 
@@ -6104,7 +6334,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line247">line 247</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line249">line 249</a>
     </li></ul></dd>
     
 
@@ -6261,7 +6491,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line186">line 186</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -6689,7 +6919,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1083">line 1083</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1103">line 1103</a>
     </li></ul></dd>
     
 
@@ -7062,7 +7292,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1106">line 1106</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1126">line 1126</a>
     </li></ul></dd>
     
 
@@ -7084,7 +7314,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".get_water_mat_params">get_water_mat_params<span class="signature">(water)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_water_mat_params">get_water_mat_params<span class="signature">(water_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7128,7 +7358,7 @@ use get_active() set_active() to do that.</div>
 
         <tr>
             
-                <td class="name"><code>water</code></td>
+                <td class="name"><code>water_params</code></td>
             
 
             <td class="type">
@@ -7144,7 +7374,7 @@ use get_active() set_active() to do that.</div>
 
             
 
-            <td class="description last">params</td>
+            <td class="description last">Water parameters</td>
         </tr>
 
     
@@ -8021,7 +8251,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1169">line 1169</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1189">line 1189</a>
     </li></ul></dd>
     
 
@@ -8043,7 +8273,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".outlining_is_enabled">outlining_is_enabled<span class="signature">(obj, value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".outlining_is_enabled">outlining_is_enabled<span class="signature">(obj, value)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -8051,7 +8281,7 @@ Supported only for dynamic meshes/empties.
 <div class="item_description">
 
 <div class="description">
-    Outlining is enabled
+    Check if the outlining is enabled or not for the object.
 </div>
 
 
@@ -8146,6 +8376,28 @@ Supported only for dynamic meshes/empties.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -8179,7 +8431,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line163">line 163</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -8337,7 +8589,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line155">line 155</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -8472,7 +8724,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1155">line 1155</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1175">line 1175</a>
     </li></ul></dd>
     
 
@@ -8629,7 +8881,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_bloom_params">set_bloom_params<span class="signature">(bloom)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_bloom_params">set_bloom_params<span class="signature">(bloom_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -8673,7 +8925,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>bloom</code></td>
+                <td class="name"><code>bloom_params</code></td>
             
 
             <td class="type">
@@ -8689,7 +8941,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">params</td>
+            <td class="description last">Bloom parameters</td>
         </tr>
 
     
@@ -8899,7 +9151,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_dof_params">set_dof_params<span class="signature">(DOF)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_dof_params">set_dof_params<span class="signature">(dof_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -8943,7 +9195,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>DOF</code></td>
+                <td class="name"><code>dof_params</code></td>
             
 
             <td class="type">
@@ -8959,7 +9211,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">params</td>
+            <td class="description last">DOF parameters</td>
         </tr>
 
     
@@ -9483,7 +9735,7 @@ Supported only for dynamic meshes/empties.
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use set_outline_color() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.set_outline_color">scenes.set_outline_color</a> instead</li></ul></dd>
     
 
     
@@ -9497,7 +9749,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line323">line 323</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -9643,7 +9895,7 @@ Supported only for dynamic meshes/empties.
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use set_outline_intensity() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.set_outline_intensity">scenes.set_outline_intensity</a> instead</li></ul></dd>
     
 
     
@@ -9657,7 +9909,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line263">line 263</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -9679,7 +9931,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_glow_material_params">set_glow_material_params<span class="signature">(glow)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_glow_material_params">set_glow_material_params<span class="signature">(glow_material_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -9723,7 +9975,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>glow</code></td>
+                <td class="name"><code>glow_material_params</code></td>
             
 
             <td class="type">
@@ -9739,7 +9991,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">material params</td>
+            <td class="description last">Glow material parameters</td>
         </tr>
 
     
@@ -9814,7 +10066,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_god_rays_params">set_god_rays_params<span class="signature">(god)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_god_rays_params">set_god_rays_params<span class="signature">(god_rays_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -9858,7 +10110,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>god</code></td>
+                <td class="name"><code>god_rays_params</code></td>
             
 
             <td class="type">
@@ -9874,7 +10126,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">rays params</td>
+            <td class="description last">God rays parameters</td>
         </tr>
 
     
@@ -10062,7 +10314,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1200">line 1200</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1220">line 1220</a>
     </li></ul></dd>
     
 
@@ -10197,7 +10449,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line240">line 240</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -10355,7 +10607,7 @@ Supported only for dynamic meshes/empties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line173">line 173</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -10782,7 +11034,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_water_params">set_water_params<span class="signature">(water)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_water_params">set_water_params<span class="signature">(water_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -10826,7 +11078,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>water</code></td>
+                <td class="name"><code>water_params</code></td>
             
 
             <td class="type">
@@ -10842,7 +11094,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">params</td>
+            <td class="description last">Water parameters</td>
         </tr>
 
     
@@ -10917,7 +11169,7 @@ Supported only for dynamic meshes/empties.
 
     
 
-    <h4 class="name" id=".set_wind_params">set_wind_params<span class="signature">(wind)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_wind_params">set_wind_params<span class="signature">(wind_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -10961,7 +11213,7 @@ Supported only for dynamic meshes/empties.
 
         <tr>
             
-                <td class="name"><code>wind</code></td>
+                <td class="name"><code>wind_params</code></td>
             
 
             <td class="type">
@@ -10977,7 +11229,7 @@ Supported only for dynamic meshes/empties.
 
             
 
-            <td class="description last">params</td>
+            <td class="description last">Wind parameters</td>
         </tr>
 
     
@@ -11637,13 +11889,13 @@ Supported only for dynamic meshes/empties.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:44:00 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:58 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

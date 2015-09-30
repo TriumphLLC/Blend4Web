@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -299,7 +316,7 @@ exports.vehicle_throttle = function(obj, engine_force) {
  * Increment vehicle throttle.
  * @method module:physics.vehicle_throttle_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} engine_force Engine force increment (0..1)
+ * @param {Number} engine_force_inc Engine force increment (0..1)
  * @param {Number} dir Throttling direction -1,0,1
  */
 exports.vehicle_throttle_inc = function(obj, engine_force_inc, dir) {
@@ -352,7 +369,7 @@ exports.vehicle_steer = function(obj, steering_value) {
  * Increment vehicle steering.
  * @method module:physics.vehicle_steer_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} steering_value Steering value increment (0..1)
+ * @param {Number} steering_value_inc Steering value increment (0..1)
  * @param {Number} dir Steering direction -1,0,1
  */
 exports.vehicle_steer_inc = function(obj, steering_value_inc, dir) {
@@ -405,7 +422,7 @@ exports.vehicle_brake = function(obj, brake_force) {
  * Increment the brake force
  * @method module:physics.vehicle_brake_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} brake_force Brake force increment (-1..1)
+ * @param {Number} brake_force_inc Brake force increment (-1..1)
  */
 exports.vehicle_brake_inc = function(obj, brake_force_inc) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -429,6 +446,7 @@ exports.vehicle_brake_inc = function(obj, brake_force_inc) {
  * Check if the given object is a vehicle chassis.
  * @method module:physics.is_vehicle_chassis
  * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
  */
 exports.is_vehicle_chassis = function(obj) {
     return m_phy.is_vehicle_chassis(obj);
@@ -437,6 +455,7 @@ exports.is_vehicle_chassis = function(obj) {
  * Check if the given object is a vehicle hull.
  * @method module:physics.is_vehicle_hull
  * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
  */
 exports.is_vehicle_hull = function(obj) {
     return m_phy.is_vehicle_hull(obj);
@@ -445,6 +464,7 @@ exports.is_vehicle_hull = function(obj) {
  * Get the vehicle name.
  * @method module:physics.get_vehicle_name
  * @param {Object3D} obj Object 3D
+ * @returns {?String} Vehicle name.
  */
 exports.get_vehicle_name = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -462,6 +482,7 @@ exports.get_vehicle_name = function(obj) {
  * Get the vehicle's throttle value.
  * @method module:physics.get_vehicle_throttle
  * @param {Object3D} obj Object 3D
+ * @returns {?Number} Throttle value.
  */
 exports.get_vehicle_throttle = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -470,8 +491,10 @@ exports.get_vehicle_throttle = function(obj) {
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
         return obj.vehicle.engine_force;
-    else
+    else {
         m_print.error("Wrong object");
+        return null;
+    }
 }
 /**
  * Get the vehicle's steering value.
@@ -679,7 +702,7 @@ exports.set_character_rotation_h = function(obj, angle) {
 /**
  * Append a new async collision test to the given object.
  * @method module:physics.append_collision_test
- * @param {Object3D} obj Object 3D
+ * @param {Object3D} obj_src Object 3D
  * @param {String} collision_id Collision ID
  * @param {CollisionCallback} callback Collision callback
  * @param {Boolean} [calc_pos_norm=false] Pass collision point/normal/distance in callback

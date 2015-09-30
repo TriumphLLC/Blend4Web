@@ -186,7 +186,15 @@ msgstr ""
 "the ``compressed_textures`` optional parameter is used to enable loading of "
 "minified and compressed textures (in DDS format)."
 
-#: ../web_player.rst:85
+#: ../web_player.rst:82
+msgid ""
+"необязательный атрибут ``alpha`` используется для установки прозрачности "
+"области отрисовки."
+msgstr ""
+"optional ``alpha`` parameter is used to enable transparency for the "
+"rendering area."
+
+#: ../web_player.rst:86
 msgid ""
 "Если указаны параметры ``fallback_image`` и ``fallback_video``, приоритет "
 "имеет ``fallback_image``."
@@ -194,11 +202,11 @@ msgstr ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are specified, "
 "the ``fallback_image`` parameter is used."
 
-#: ../web_player.rst:90
+#: ../web_player.rst:91
 msgid "Название сцены в заголовке"
 msgstr "Scene Name as Title"
 
-#: ../web_player.rst:92
+#: ../web_player.rst:93
 msgid ""
 "По умолчанию веб-плеер устанавливает тег ``title`` равным ``Blend4Web Web "
 "Player``. С помощью мета-тега ``title`` в настройках сцены можно изменить "
@@ -208,18 +216,18 @@ msgstr ""
 "the meta tag ``title`` on the scene in Blender you can change that value to "
 "something else."
 
-#: ../web_player.rst:100
+#: ../web_player.rst:101
 msgid "Ошибки сцены"
 msgstr "Scene Errors"
 
-#: ../web_player.rst:102
+#: ../web_player.rst:103
 msgid ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 msgstr ""
 "If the player is used incorrectly it displays the corresponding errors."
 
-#: ../web_player.rst:105
+#: ../web_player.rst:106
 msgid ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
@@ -227,10 +235,10 @@ msgstr ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the file "
 "is corrupt;"
 
-#: ../web_player.rst:113
+#: ../web_player.rst:114
 msgid "атрибут ``load`` не найден или его значение пустое;"
 msgstr "the ``load`` attribute is not found or is void;"
 
-#: ../web_player.rst:121
+#: ../web_player.rst:122
 msgid "ошибка инициализации WebGL."
 msgstr "WebGL initialization error."

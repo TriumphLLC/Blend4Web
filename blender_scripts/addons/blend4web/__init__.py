@@ -1,9 +1,25 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 8, 0),
-    "blender": (2, 75, 0),
-    "b4w_format_version": "5.05",
+    "version": (15, 9, 0),
+    "blender": (2, 76, 0),
+    "b4w_format_version": "5.06",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
     "warning": "",
@@ -27,12 +43,12 @@ import os
 import sys
 import copy
 import traceback
-import imp
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)),
     "lib"))
 
 b4w_modules = [
+    "translator",
     "init_validation",
     "properties",
     "interface",
@@ -52,16 +68,13 @@ b4w_modules = [
     "custom_nodeitems_builtins",
     "logic_node_tree",
     "server",
+    "addon_prefs",
 ]
-
 for m in b4w_modules:
     exec(load_module_script.format(m))
-
 import bpy
 from bpy.types import AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
-from . import translator
-from . import addon_prefs
 
 PATH_TO_ASSETS = "apps_dev/viewer"
 ASSETS_NAME = "assets.json"
@@ -157,25 +170,73 @@ def old_edited_normals_convert(arg):
         tb = traceback.format_exc()
         print("CONVERSION OF EDITED NORMALS FAILED: %s" % tb)
 
+def nla_slots_to_nodetree_convert():
+    for scene in bpy.data.scenes:
+        if "b4w_nla_script" in scene:
+            try:
+                if len(scene["b4w_nla_script"]):
+                    print("The scene '%s' use NLA slots, converting into tree..." % scene.name)
+                    tree = bpy.data.node_groups.new("B4WLogicNodeTree", "B4WLogicNodeTreeType")
+                    tree.import_slots(scene)
+                    tree.use_fake_user = True
+                    logic_node_tree.b4w_logic_editor_refresh_available_trees()
+                    scene.b4w_active_logic_node_tree = tree.name
+                    scene.b4w_use_logic_editor = True
+
+                    del scene["b4w_nla_script"]
+            except:
+                tb = traceback.format_exc()
+                print("CONVERSION OF NLA SLOTS FAILED: %s" % tb)
+
 @bpy.app.handlers.persistent
-def nla_slots_to_nodetree_convert(arg):
+def logic_nodetree_reform(arg):
+    nla_slots_to_nodetree_convert()
+    for tree in bpy.data.node_groups:
+        if tree.bl_idname == "B4WLogicNodeTreeType":
+            for node in tree.nodes:
+                if node.bl_idname == "B4W_logic_node":
+                    # registers
+                    for item in [("param_register1", 7, "param_var1"),
+                                      ("param_register2", 6, "param_var2"),
+                                      ("param_register_dest", 7, "param_var_dest")]:
+                        ind = item[1]
+                        if item[0] in node:
+                            node.update_var_def_callback(bpy.context)
+                            ind = node[item[0]]
+                            setattr(node, item[2], "R%s" % (8 - ind))
+                            del node[item[0]]
+                    for item in [("param_register_flag1", "param_var_flag1"),
+                                 ("param_register_flag2", "param_var_flag2")]:
+                        if item[0] in node:
+                            setattr(node, item[1], node[item[0]])
+                            del node[item[0]]
 
-        for scene in bpy.data.scenes:
-            if "b4w_nla_script" in scene:
-                try:
-                    if len(scene["b4w_nla_script"]):
-                        print("The scene '%s' use NLA slots, converting into tree..." % scene.name)
-                        tree = bpy.data.node_groups.new("B4WLogicNodeTree", "B4WLogicNodeTreeType")
-                        tree.import_slots(scene)
-                        tree.use_fake_user = True
-                        logic_node_tree.b4w_logic_editor_refresh_available_trees()
-                        scene.b4w_active_logic_node_tree = tree.name
-                        scene.b4w_use_logic_editor = True
+                    if "ob0" in node:
+                        path = ""
+                        if not "id0" in node.objects_paths:
+                            node.objects_paths.add()
+                            item = node.objects_paths[-1].name = "id0"
+                        item = node.objects_paths["id0"]
+                        item.node_name = node.name
+                        item.tree_name = tree.name
+                        for i in range (10):
+                            if "ob%s"%i in node:
+                                ob = node["ob%s"%i]
+                                if ob == "":
+                                    break;
+                                delim = ">" if len(path) else ""
+                                item.path_arr.add()
+                                path += delim + ob
+                                item.path_arr[-1].name = ob
+                        for i in range (10):
+                            if "ob%s"%i in node:
+                                del node["ob%s"%i]
+                        item.path = path
 
-                        del scene["b4w_nla_script"]
-                except:
-                    tb = traceback.format_exc()
-                    print("CONVERSION OF NLA SLOTS FAILED: %s" % tb)
+                    if node.type == "SELECT":
+                        if not "not_wait" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "not_wait"
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences
@@ -192,8 +253,8 @@ def register():
 
     bpy.app.translations.register("B4WTranslator", translator.get_translation_dict())
     # core
-    logic_node_tree.register()
     properties.register()
+    logic_node_tree.register()
     interface.register()
     exporter.register()
     html_exporter.register()
@@ -227,7 +288,7 @@ def register():
     bpy.app.handlers.load_post.append(fix_obj_export_props)
     bpy.app.handlers.scene_update_pre.append(server.init_server)
     bpy.app.handlers.load_post.append(old_edited_normals_convert)
-    bpy.app.handlers.load_post.append(nla_slots_to_nodetree_convert)
+    bpy.app.handlers.load_post.append(logic_nodetree_reform)
 
     bpy.app.handlers.load_post.append(mass_reexport.load_reexport_paths)
 
@@ -251,8 +312,6 @@ def unregister():
         render_engine.unregister()
         custom_nodeitems_builtins.unregister()
 
-    bpy.app.translations.unregister("B4WTranslator")
-
     mass_reexport.unregister();
     logic_node_tree.unregister()
 
@@ -274,6 +333,8 @@ def unregister():
 
     update_checker.unregister()
     addon_prefs.unregister()
+
+    bpy.app.translations.unregister("B4WTranslator")
 
 if __name__ == "__main__":
     register()

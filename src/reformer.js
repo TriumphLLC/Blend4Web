@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -1033,6 +1050,11 @@ exports.check_bpy_data = function(bpy_data) {
             texture["b4w_enable_canvas_mipmapping"] = true;
             report("texture", texture, "b4w_enable_canvas_mipmapping");
         }
+
+        if (!("b4w_nla_video" in texture)) {
+            texture["b4w_nla_video"] = false;
+            report("texture", texture, "b4w_nla_video");
+        }
     }
 
     /* materials */
@@ -1882,15 +1904,15 @@ exports.check_bpy_data = function(bpy_data) {
             report("material", bpy_obj, "b4w_collision_id");
         }
 
-        if (!check_uniform_scale(bpy_obj))
-            report_raw("non-uniform scale for object " + bpy_obj["name"]);
-
         if (check_negative_scale(bpy_obj)) {
             report_raw("negative scale for object " + bpy_obj["name"] + ", using positive scale instead");
             bpy_obj["scale"][0] = Math.abs(bpy_obj["scale"][0]);
             bpy_obj["scale"][1] = Math.abs(bpy_obj["scale"][1]);
             bpy_obj["scale"][2] = Math.abs(bpy_obj["scale"][2]);
         }
+
+        if (!check_uniform_scale(bpy_obj))
+            report_raw("non-uniform scale for object " + bpy_obj["name"]);
     }
 
     if (_unreported_compat_issues)
@@ -2026,17 +2048,16 @@ function report_deprecated(type, bpy_datablock, deprecated_param) {
             type: type
         }
     }
-
     _params_reported[param_id].storage.push(bpy_datablock["name"]);
 }
-function report_modifier(type, obj, file_path_blend) {
+function report_modifier(type, bpy_obj, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
 
     m_print.error("WARNING " + "Incomplete modifier " + String(type) + " for " +
-            "\"" + obj["name"] + "\"" + ", reexport \"" +
+            "\"" + bpy_obj["name"] + "\"" + ", reexport \"" +
             file_path_blend + "\" scene");
 
 }
@@ -2493,36 +2514,54 @@ function mesh_transform_locations(mesh, matrix) {
 }
 
 /**
- * Rewrite object params according to NLA script.
+ * Rewrite object params according to Logic script.
  * Not the best place to do such things, but other methods are much harder to
  * implement (see update_object())
  */
-exports.assign_nla_object_params = function(bpy_objects, scene) {
+exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
 
-    var nla_script = scene["b4w_logic_nodes"];
-    for (var i = 0; i < nla_script.length; i++) {
-        var subtree = nla_script[i];
+    var script = scene["b4w_logic_nodes"];
+    for (var i = 0; i < script.length; i++) {
+        var subtree = script[i];
         for (var j = 0; j < subtree.length; j++) {
-            var sslot = subtree[j];
+            var snode = subtree[j];
+            var rename = {
+                "register1":"variable1",
+                "register2":"variable2",
+                "registerd":"variabled"
+            }
+            for (var key in rename) {
+                if (key in snode)
+                    snode[rename[key]] = snode[key]
+            }
+            switch (snode["type"]) {
+            case "SELECT":
+                for (var k = 0; k < bpy_objects.length; k++) {
+                    var bpy_obj = bpy_objects[k];
+                    if (bpy_obj["name"] == snode["object"])
+                        bpy_obj["b4w_selectable"] = true;
+                }
+                if (!snode["bools"])
+                    snode["bools"] = {}
+                if (!snode["bools"]["not_wait"])
+                    snode["bools"]["not_wait"] = false
 
-            switch (sslot["type"]) {
-                case "SELECT":
-                case "SELECT_PLAY":
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == sslot["object"])
-                            bpy_obj["b4w_selectable"] = true;
-                    }
-
-                    break;
-                case "SHOW":
-                case "HIDE":
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == sslot["object"])
-                            bpy_obj["b4w_do_not_batch"] = true;
-                    }
-                    break;
+                break;
+            case "SELECT_PLAY":
+                report_raw("Logic nodes type \"SELECT_PLAY\" is deprecated, " +
+                "node will be muted. To fix this, reexport scene \"" + scene.name+"\"");
+                snode["object"].mute = true;
+                break;
+            case "SHOW":
+            case "HIDE":
+            case "PLAY_ANIM":
+            case "SET_SHADER_NODE_PARAM":
+                for (var k = 0; k < bpy_objects.length; k++) {
+                    var bpy_obj = bpy_objects[k];
+                    if (bpy_obj["name"] == snode["object"])
+                        bpy_obj["b4w_do_not_batch"] = true;
+                }
+                break;
             }
         }
     }

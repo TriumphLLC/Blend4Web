@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -5,7 +22,10 @@
  * Provides generic routines for the engine's initialization, UI and I/O.
  * @module app
  * @local AppInitCallback
+ * @local AnimFinishCallback
+ * @local QueueObject
  */
+
 b4w.module["app"] = function(exports, require) {
 
 var m_anim  = require("animation");
@@ -78,6 +98,7 @@ var _fps_logger_elem = null;
 var _camera_controls_is_used = false;
 var _disable_default_pivot   = false;
 var _disable_letter_controls = false;
+var _disable_zoom            = false;
 
 // Cached arrays
 var _vec2_tmp  = new Float32Array(2);
@@ -128,7 +149,8 @@ var _vec3_tmp4 = new Float32Array(3);
  * @cc_externs alpha alpha_sort_threshold assets_dds_available
  * @cc_externs assets_min50_available quality fps_wrapper_id
  * @cc_externs console_verbose physics_enabled autoresize track_container_position
- * @cc_externs force_container_ratio
+ * @cc_externs force_container_ratio from to elem prop cb duration opt_prefix
+ * @cc_externs opt_suffix
  */
 
 exports.init = function(options) {
@@ -536,13 +558,16 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * camera-defined pivot point
  * @param {Boolean} [disable_letter_controls=false] Disable keyboard letter controls
  * (only arrow keys will be used to control the camera)
+ * @param {Boolean} [disable_zoom=false] Disable zoom
  */
 exports.enable_camera_controls = enable_camera_controls;
 
-function enable_camera_controls(disable_default_pivot, disable_letter_controls) {
+function enable_camera_controls(disable_default_pivot,
+                                disable_letter_controls, disable_zoom) {
     _camera_controls_is_used = true;
     _disable_default_pivot = disable_default_pivot;
     _disable_letter_controls = disable_letter_controls;
+    _disable_zoom = disable_zoom;
 
     var obj = m_scs.get_active_camera();
 
@@ -806,97 +831,100 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls) 
                 [elapsed, key_right], key_double_logic, key_cb);
     }
 
-    // mouse wheel: camera zooming and translation speed adjusting
-    var dest_zoom_mouse = 0;
-    var mouse_wheel = m_ctl.create_mouse_wheel_sensor();
+    if (!disable_zoom) {
+        // mouse wheel: camera zooming and translation speed adjusting
+        var dest_zoom_mouse = 0;
+        var mouse_wheel = m_ctl.create_mouse_wheel_sensor();
 
-    // camera zooming with touch
-    var dest_zoom_touch = 0;
-    var touch_zoom = m_ctl.create_touch_zoom_sensor();
+        // camera zooming with touch
+        var dest_zoom_touch = 0;
+        var touch_zoom = m_ctl.create_touch_zoom_sensor();
 
-    var mouse_wheel_cb = function(obj, id, pulse) {
-        if (pulse == 1) {
-            var value = m_ctl.get_sensor_value(obj, id, 0);
-            m_cam.get_velocity_params(obj, velocity);
-            if (use_pivot || use_hover) {
-                dest_zoom_mouse = get_dest_zoom(obj, value, velocity[2],
-                        dest_zoom_mouse, HOVER_MOUSE_ZOOM_FACTOR, use_pivot);
-            } else {
-                // translation speed adjusting
-                var factor = value * velocity[2];
-                velocity[0] *= (1 + factor);
-                m_cam.set_velocity_params(obj, velocity);
-            }
-        }
-    }
-
-    m_ctl.create_sensor_manifold(obj, "MOUSE_WHEEL", m_ctl.CT_LEVEL,
-            [mouse_wheel], null, mouse_wheel_cb);
-
-    var touch_zoom_cb = function(obj, id, pulse, param) {
-        if (pulse == 1) {
-            var value = m_ctl.get_sensor_value(obj, id, 0);
-            m_cam.get_velocity_params(obj, velocity);
-
-            if (m_ctl.get_sensor_payload(obj, id, 0)
-                    === m_ctl.PL_MULTITOUCH_MOVE_ZOOM) {
-                dest_zoom_touch = get_dest_zoom(obj, value, velocity[2]
-                        * TARGET_TOUCH_ZOOM_FACTOR, dest_zoom_touch,
-                        HOVER_TOUCH_ZOOM_FACTOR, use_pivot);
-            }
-        }
-    }
-
-    m_ctl.create_sensor_manifold(obj, "TOUCH_ZOOM", m_ctl.CT_LEVEL,
-            [touch_zoom], null, touch_zoom_cb);
-
-    // camera zoom smoothing
-    var zoom_interp_cb = function(obj, id, pulse) {
-
-        if (pulse == 1 && (use_pivot || use_hover)) {
-            if (Math.abs(dest_zoom_mouse) > EPSILON_DELTA
-                    || Math.abs(dest_zoom_touch) > EPSILON_DELTA) {
+        var mouse_wheel_cb = function(obj, id, pulse) {
+            if (pulse == 1) {
                 var value = m_ctl.get_sensor_value(obj, id, 0);
-                var zoom_mouse = m_util.smooth(dest_zoom_mouse, 0, value,
-                        smooth_coeff_zoom_mouse());
-                dest_zoom_mouse -= zoom_mouse;
-
-                var zoom_touch = m_util.smooth(dest_zoom_touch, 0, value,
-                        smooth_coeff_zoom_touch());
-                dest_zoom_touch -= zoom_touch;
-
-                if (use_hover) {
-                    trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
+                m_cam.get_velocity_params(obj, velocity);
+                if (use_pivot || use_hover) {
+                    dest_zoom_mouse = get_dest_zoom(obj, value, velocity[2],
+                            dest_zoom_mouse, HOVER_MOUSE_ZOOM_FACTOR, use_pivot);
                 } else {
-                    var cam_pivot = m_cam.get_pivot(obj, _vec3_tmp);
-                    var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
-                    var dist = m_vec3.dist(cam_pivot, cam_eye);
-                    // Prevent zoom overshooting.
-                    if (dist + zoom_mouse + zoom_touch > EPSILON_DISTANCE) {
-                        m_trans.move_local(obj, 0, zoom_mouse + zoom_touch, 0);
-
-                    } else {
-                        // In case of overshooting don't use move_local.
-                        // Translation error could appear.
-                        var dir = m_vec3.subtract(cam_eye, cam_pivot,
-                                _vec3_tmp2);
-                        var dir_normalize = m_vec3.normalize(dir, _vec3_tmp3);
-                        m_vec3.scale(dir_normalize, EPSILON_DISTANCE,
-                                dir_normalize)
-                        m_vec3.add(cam_pivot, dir_normalize, dir);
-                        m_trans.set_translation_v(obj, dir);
-                        dest_zoom_mouse = 0;
-                        dest_zoom_touch = 0;
-                    }
+                    // translation speed adjusting
+                    var factor = value * velocity[2];
+                    velocity[0] *= (1 + factor);
+                    m_cam.set_velocity_params(obj, velocity);
                 }
-            } else {
-                dest_zoom_mouse = 0;
-                dest_zoom_touch = 0;
             }
         }
+
+        m_ctl.create_sensor_manifold(obj, "MOUSE_WHEEL", m_ctl.CT_LEVEL,
+                [mouse_wheel], null, mouse_wheel_cb);
+
+        var touch_zoom_cb = function(obj, id, pulse, param) {
+            if (pulse == 1) {
+                var value = m_ctl.get_sensor_value(obj, id, 0);
+                m_cam.get_velocity_params(obj, velocity);
+
+                if (m_ctl.get_sensor_payload(obj, id, 0)
+                        === m_ctl.PL_MULTITOUCH_MOVE_ZOOM) {
+                    dest_zoom_touch = get_dest_zoom(obj, value, velocity[2]
+                            * TARGET_TOUCH_ZOOM_FACTOR, dest_zoom_touch,
+                            HOVER_TOUCH_ZOOM_FACTOR, use_pivot);
+                }
+            }
+        }
+
+        m_ctl.create_sensor_manifold(obj, "TOUCH_ZOOM", m_ctl.CT_LEVEL,
+                [touch_zoom], null, touch_zoom_cb);
+
+        // camera zoom smoothing
+        var zoom_interp_cb = function(obj, id, pulse) {
+
+            if (pulse == 1 && (use_pivot || use_hover)) {
+                if (Math.abs(dest_zoom_mouse) > EPSILON_DELTA
+                        || Math.abs(dest_zoom_touch) > EPSILON_DELTA) {
+                    var value = m_ctl.get_sensor_value(obj, id, 0);
+                    var zoom_mouse = m_util.smooth(dest_zoom_mouse, 0, value,
+                            smooth_coeff_zoom_mouse());
+                    dest_zoom_mouse -= zoom_mouse;
+
+                    var zoom_touch = m_util.smooth(dest_zoom_touch, 0, value,
+                            smooth_coeff_zoom_touch());
+                    dest_zoom_touch -= zoom_touch;
+
+                    if (use_hover) {
+                        trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
+                    } else {
+                        var cam_pivot = m_cam.get_pivot(obj, _vec3_tmp);
+                        var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
+                        var dist = m_vec3.dist(cam_pivot, cam_eye);
+                        // Prevent zoom overshooting.
+                        if (dist + zoom_mouse + zoom_touch > EPSILON_DISTANCE) {
+                            m_trans.move_local(obj, 0, zoom_mouse + zoom_touch, 0);
+
+                        } else {
+                            // In case of overshooting don't use move_local.
+                            // Translation error could appear.
+                            var dir = m_vec3.subtract(cam_eye, cam_pivot,
+                                    _vec3_tmp2);
+                            var dir_normalize = m_vec3.normalize(dir, _vec3_tmp3);
+                            m_vec3.scale(dir_normalize, EPSILON_DISTANCE,
+                                    dir_normalize)
+                            m_vec3.add(cam_pivot, dir_normalize, dir);
+                            m_trans.set_translation_v(obj, dir);
+                            dest_zoom_mouse = 0;
+                            dest_zoom_touch = 0;
+                        }
+                    }
+                } else {
+                    dest_zoom_mouse = 0;
+                    dest_zoom_touch = 0;
+                }
+            }
+        }
+
+        m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_CONTINUOUS,
+                [elapsed], null, zoom_interp_cb);
     }
-    m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_CONTINUOUS,
-            [elapsed], null, zoom_interp_cb);
 
     // camera rotation and translation with mouse
     var dest_x_mouse = 0;
@@ -1110,7 +1138,8 @@ exports.set_camera_move_style = function(move_style) {
     m_cam.set_move_style(cam, move_style);
 
     if (disable_enable)
-        enable_camera_controls(_disable_default_pivot, _disable_letter_controls);
+        enable_camera_controls(_disable_default_pivot,
+                               _disable_letter_controls, _disable_zoom);
 }
 
 /**
@@ -1445,7 +1474,7 @@ exports.get_url_params = function(allow_param_array) {
 /**
  * Animate css-property value.
  * @method module:app.css_animate
- * @param {Object3D} elem HTML-element.
+ * @param {HTMLElement} elem HTML-element.
  * @param {String} prop Animated css-property.
  * @param {Number} from Value from.
  * @param {Number} to Value to.
@@ -1538,6 +1567,58 @@ function animate(elem, from, to, timeout, anim_cb) {
     }
 
     m_main.append_loop_cb(cb);
+}
+
+/**
+ * Animation finish callback.
+ * @callback AnimFinishCallback
+ */
+
+/**
+ * Queue object params.
+ * @typedef {Object} QueueObject
+ * @property {String} type Animation type.
+ * @property {HTMLElement} elem Animated html element.
+ * @property {String} prop Animated property.
+ * @property {Number} from Initial property value.
+ * @property {Number} to Target property value.
+ * @property {Number} duration Animation duration in ms.
+ * @property {String} [opt_prefix=''] Prefix for the css property.
+ * @property {String} [opt_suffix=''] Prefix for the css property.
+ * @property {AnimFinishCallback} [cb=function(){}] Animation finish callback.
+ */
+
+/**
+ * Animate queue of the html elements.
+ * @method module:app.queue_animate
+ * @param {QueueObject[]} queue Array of the queue objects.
+ */
+exports.queue_animate = function(queue) {
+    if (!queue.length)
+        return;
+
+    var queue_obj = queue.shift();
+
+    var elem     = queue_obj.elem;
+    var prop     = queue_obj.prop;
+    var from     = queue_obj.from;
+    var to       = queue_obj.to;
+    var duration = queue_obj.duration;
+
+    var prefix = queue_obj.opt_prefix;
+    var suffix = queue_obj.opt_suffix;
+
+    var cb = function() {
+        if (queue_obj.cb)
+            queue_obj.cb();
+
+        exports.queue_animate(queue);
+    }
+
+    if (queue_obj.type == "css")
+        exports.css_animate(elem, prop, from, to, duration, prefix, suffix, cb);
+    else if (queue_obj.type == "attr")
+        exports.attr_animate(elem, prop, from, to, duration, cb);
 }
 
 function smooth_coeff_zoom_mouse() {

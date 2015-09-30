@@ -17,7 +17,6 @@
 #var LAMP_LIGHT_FACT_IND 0
 #var LAMP_FAC_CHANNELS rgb
 #var LAMP_SHADOW_MAP_IND 0
-#var NUM_LFACTORS 0
 
 #define M_PI 3.14159265359
 
@@ -176,6 +175,18 @@ vec2 vec_to_uv(vec3 vec)
     color = hsv_to_rgb(vec3(h, s, v));
 #endnode
 
+#node EMPTY_UV
+    #node_out vec3 uv
+
+    uv = vec3(-1.0, -1.0, 0.0);
+#endnode
+
+#node EMPTY_VC
+    #node_out vec3 vc
+
+    vc = ZERO_VECTOR;
+#endnode
+
 #node GEOMETRY_UV
     #node_out vec3 uv
     #node_param varying vec2 v_uv
@@ -185,8 +196,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_OR
     #node_out vec3 orco
-    // -1.0 -> 0.0
-    orco = 2.0 * clamp(v_orco_tex_coord, 0.0, 1.0) - UNITY_VECTOR;
+    orco = 2.0 * v_orco_tex_coord - UNITY_VECTOR;
 #endnode
 
 #node GEOMETRY_VC
@@ -226,7 +236,7 @@ vec2 vec_to_uv(vec3 vec)
 #node GEOMETRY_NO
     #node_out vec3 normal_out
 
-    normal_out = nin_normal;
+    normal_out = nin_geom_normal;
 #endnode
 
 #node GEOMETRY_FB
@@ -854,8 +864,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node TEX_COORD_GE
     #node_out vec3 generated
-    // -1.0 -> 1.0
-    generated = abs(v_orco_tex_coord);
+    generated = v_orco_tex_coord;
 #endnode
 
 #node TEX_COORD_OB
@@ -1553,17 +1562,6 @@ vec2 vec_to_uv(vec3 vec)
     // specular
     S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 
-    // emission
-# node_if MATERIAL_EXT
-    E = emit_intensity * D;
-# node_else
-    E = nin_emit * D;
-# node_endif
-
-# node_if USE_MATERIAL_DIFFUSE
-    D *= diff_intensity;
-# node_endif
-
 # node_if USE_MATERIAL_NORMAL
     normal = normalize(normal_in);
 # node_else
@@ -1571,6 +1569,17 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if !SHADELESS_MAT && !NODES_GLOW
+    // emission
+#  node_if MATERIAL_EXT
+    E = emit_intensity * D;
+#  node_else
+    E = nin_emit * D;
+#  node_endif
+
+#  node_if USE_MATERIAL_DIFFUSE
+    D *= diff_intensity;
+#  node_endif
+
     // ambient
     A = nin_ambient * u_environment_energy * get_environment_color(normal);
     shadow_factor = calc_shadow_factor(D);
@@ -1581,7 +1590,10 @@ vec2 vec_to_uv(vec3 vec)
     sp_params = vec2(specular_params[1], specular_params[2]);
 #  node_endif
     nout_shadow_factor = shadow_factor;
-# node_endif
+# node_else // !SHADELESS_MAT && !NODES_GLOW
+    E = ZERO_VECTOR;
+    A = UNITY_VECTOR;
+# node_endif // !SHADELESS_MAT && !NODES_GLOW
 #endnode
 
 #node MATERIAL_END
@@ -1665,13 +1677,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 D
     #node_out vec4 color_out
     #node_out vec3 specular_out
-# node_if !SHADELESS_MAT && !NODES_GLOW
+
     color_out = vec4(E + D * A, ZERO_VALUE_NODES);
     specular_out = vec3(ZERO_VALUE_NODES);
-# node_else
-    color_out = vec4(D, ZERO_VALUE_NODES);
-    specular_out = ZERO_VECTOR;
-# node_endif
 #endnode
 
 #node LIGHTING_LAMP
@@ -1682,6 +1690,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 lcolorint
     #node_out float norm_fac
 
+// TODO: remove "NUM_LIGHTS > 0" and fix reflect batches
 # node_if !NODES_GLOW && NUM_LIGHTS > 0
     lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
 #  node_if LAMP_TYPE == HEMI
@@ -2472,8 +2481,10 @@ void nodes_main(in vec3 nin_eye_dir,
 
 #if USE_NODE_MATERIAL_BEGIN  || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
-    vec3 sided_normal = v_normal;
-# if DOUBLE_SIDED_LIGHTING
+
+    vec3 normal = normalize(v_normal);
+    vec3 sided_normal = normal;
+# if DOUBLE_SIDED_LIGHTING || USE_NODE_GEOMETRY_NO
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
     if (gl_FrontFacing)
@@ -2481,8 +2492,18 @@ void nodes_main(in vec3 nin_eye_dir,
     else
         sided_normal = -sided_normal;
 # endif
-    vec3 nin_normal = normalize(sided_normal);
+
+# if DOUBLE_SIDED_LIGHTING
+    vec3 nin_normal = sided_normal;
+# else
+    vec3 nin_normal = normal;
+# endif
+
+# if USE_NODE_GEOMETRY_NO
+    vec3 nin_geom_normal = sided_normal;
+# endif
 #endif
+
 #if CALC_TBN_SPACE
     vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);

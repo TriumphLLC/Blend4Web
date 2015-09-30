@@ -521,19 +521,19 @@ function main_canvas_down(e) {
     var obj = m_scenes.pick_object(x, y);
     if (obj)
         switch(m_scenes.get_object_name(obj)) {
-        case "gift*box":
+        case "box":
             play_letter_box_anim();
             break;
-        case "gift_5*box_5":
+        case "box_5":
             play_confetti_box_anim();
             break;
-        case "gift_monkey*box_6":
+        case "box_6":
             play_monkey_box_anim();
             break;
-        case "TV*tv":
+        case "tv":
             tv_play();
             break;
-        case "bear*bear":
+        case "bear":
             play_bear_anim();
             break;
         }
@@ -644,8 +644,8 @@ function play_confetti_box_anim() {
         for (var i = 0; i < _objs_confetti.length; i++) {
             m_anim.stop(_objs_confetti[i]);
             var obj_name = m_scenes.get_object_name(_objs_confetti[i]);
-            if (obj_name == "confetti*Cylinder" || obj_name == "confetti*Cylinder.001"
-                    || obj_name == "confetti*Cylinder.002")
+            if (obj_name == "Cylinder" || obj_name == "Cylinder.001"
+                    || obj_name == "Cylinder.002")
                 m_anim.set_frame(_objs_confetti[i], 0);
             else
                 m_anim.set_first_frame(_objs_confetti[i]);

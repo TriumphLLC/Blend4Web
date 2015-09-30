@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Blend4Web SDK</title>
+
+    <link rel="shortcut icon" sizes="128x128" href="/index_assets/favicon_128.png" />
+    <link rel="shortcut icon" sizes="196x196" href="/index_assets/favicon_196.png" />
+    <link rel="shortcut icon" href="/index_assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/favicon_128.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/favicon_128.png" />
+    <link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
+    <script type="text/javascript" >
+    function submit_cb(form) {
+        var req_input = form.querySelector("input[name=project_name]");
+
+        if (!req_input.value) {
+            req_input.style.cssText += "border:1px solid red;";
+
+            return;
+        }
+
+        var inputs = form.querySelectorAll('input');
+
+        form.action = "/project/init/-b/${blender_exec}/";
+
+        var project_name = "";
+
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            var val = input.value;
+            switch (input.name) {
+            case "project_name":
+                project_name = val;
+                break;
+            case "project_title":
+                if (val)
+                    form.action += "-T/" + val + "/";
+                break;
+            case "project_author":
+                if (val)
+                    form.action += "-C/" + val + "/";
+                break;
+            case "project_copy_app_templates":
+                if (input.checked)
+                    form.action += "-A/";
+                break;
+            case "project_copy_scene_templates":
+                if (input.checked)
+                    form.action += "-S/";
+                break;
+            case "project_copy_project_script":
+                if (input.checked)
+                    form.action += "-P/";
+                break;
+            case "project_bundle":
+                if (input.checked)
+                    form.action += "-B/";
+                break;
+            case "project_engine_type":
+                if (input.checked)
+                    form.action += "-t/" + val + "/";
+                break;
+            case "project_opt_level":
+                if (input.checked)
+                    form.action += "-o/" + val + "/";
+                break;
+            }
+        }
+
+        form.innerHTML = "";
+        
+        form.action += project_name + "/";
+
+        form.submit();
+    }
+
+    function bundle_change_cb(checker) {
+        var form = document.getElementById("create_form");
+        var inputs = form.querySelectorAll('input');
+
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            switch (input.name) {
+            case "project_engine_type":
+            case "project_opt_level":
+                input.disabled = checker.checked;
+                break;
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <h3 class="back"><a href="/project/">Back to Projects</a></h3>
+    <h3>Create a New Project</h3> 
+    <div class="row">
+        <form id="create_form" onsubmit="submit_cb(this); return false;">
+            <table class="create">
+                <tbody>
+                    <tr>
+                        <td class="create">
+                            Project Name (required)
+                            <p class="create_hint">for better compatibility, use only letters and underscore symbols</p>
+                        </td>
+                        <td class="create">
+                            <input type="text" name="project_name" class="create" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Project Title (optional)
+                            <p class="create_hint">choose a human-readable name</p>
+                        </td>
+                        <td class="create">
+                            <input type="text" name="project_title" class="create">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Project Author / Company (optional)
+                            <p class="create_hint">choose a human-readable name</p>
+                        </td>
+                        <td class="create">
+                            <input type="text" name="project_author" class="create">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Create Application Starter Files
+                            <p class="create_hint">create starter html/js/css files</p>
+                        </td>
+                        <td class="create">
+                            <input type="checkbox" name="project_copy_app_templates" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Create Scene Starter Files
+                            <p class="create_hint">create starter blend/json/bin files</p>
+                        </td>
+                        <td class="create">
+                            <input type="checkbox" name="project_copy_scene_templates" checked>
+                        </td>
+                    <tr>
+                        <td class="create">
+                            Copy Project Management Script
+                            <p class="create_hint">simplifies project management for users who prefer using command line tools</p>
+                        </td>
+                        <td class="create">
+                            <input type="checkbox" name="project_copy_project_script">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Bundled Project
+                            <p class="create_hint">all project files will be placed into a single directory</p>
+                            <p class="create_hint">good for small projects such as tutorials etc</p>
+                        </td>
+                        <td class="create">
+                            <input type="checkbox" name="project_bundle" onclick="bundle_change_cb(this)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            Engine Binding Type
+                            <p class="create_hint">how the engine will be compiled with the application</p>
+                            <p class="create_hint">if unsure leave the default value</p>
+                        </td>
+                        <td class="create">
+                            <input type="radio" name="project_engine_type" value="copy">Copy</input>
+                            <input type="radio" name="project_engine_type" value="compile">Compile</input>
+                            <input type="radio" name="project_engine_type" value="external" checked>External</input>
+                            <input type="radio" name="project_engine_type" value="update">Update</input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create">
+                            JavaScript Obfuscation Level
+                            <p class="create_hint">if unsure, leave the default value</p>
+                        </td>
+                        <td class="create">
+                            <input type="radio" name="project_opt_level" value="simple" checked>Simple</input>
+                            <input type="radio" name="project_opt_level" value="advanced">Advanced</input>
+                            <input type="radio" name="project_opt_level" value="whitespace">Whitespace Only</input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="create" colspan=2 style="text-align: center">
+                            <input type="submit" value="Create">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

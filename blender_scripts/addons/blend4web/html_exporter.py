@@ -1,13 +1,36 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import base64
 import json
 import os
 import shutil
 from string import Template
+from collections import OrderedDict
 
 import bpy
 
 import blend4web
-import blend4web.exporter as exporter
+b4w_modules =  ["exporter", "translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+from blend4web.translator import _, p_
+
+_b4w_export_warnings = []
+_b4w_export_errors = []
 
 PATH_TO_WEBPLAYER = "deploy/apps/webplayer/"
 
@@ -15,37 +38,37 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     """Export for Blend4Web (.html)"""
     bl_idname = "export_scene.b4w_html"
-    bl_label = "B4W Export HTML"
+    bl_label = p_("B4W Export HTML", "Operator")
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
 
     do_autosave = bpy.props.BoolProperty(
-        name = "Autosave blend File",
-        description = "Automatically save the blend file after export",
+        name = _("Autosave blend File"),
+        description = _("Automatically save the blend file after export"),
         default = True
     )
 
     strict_mode = bpy.props.BoolProperty(
-        name = "Strict Mode",
-        description = "Block export if there are any errors or warnings",
+        name = _("Strict Mode"),
+        description = _("Block export if there are any errors or warnings"),
         default = False
     )
 
     override_filepath = bpy.props.StringProperty(
-        name = "Filepath",
-        description = "Required for running in command line mode",
+        name = _("Filepath"),
+        description = _("Required for running in command line mode"),
         default = ""
     )
 
     save_export_path = bpy.props.BoolProperty(
-        name = "Save export path",
-        description = "Save export path in blend file",
+        name = _("Save export path"),
+        description = _("Save export path in blend file"),
         default = True
     )
 
     export_converted_media = bpy.props.BoolProperty(
-        name = "Export Converted Media",
-        description = "Save alternative media formats in the HTML file",
+        name = _("Export Converted Media"),
+        description = _("Save alternative media formats in the HTML file"),
         default = False
     )
 
@@ -171,7 +194,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 class B4W_ExportHTMLPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""
     bl_idname = "b4w.get_export_html_path"
-    bl_label = "B4W Get Export HTML Path"
+    bl_label = p_("B4W Get Export HTML Path", "Operator")
     bl_options = {'INTERNAL'}
 
     def execute(self, context):
@@ -212,6 +235,7 @@ def extract_data(json_path, json_filename, export_converted_media):
 
     # get binaries
     json_parsed = json.loads(data[json_filename])
+
     if "binaries" in json_parsed:
         relpath = json_parsed["binaries"][0]["binfile"]
         if relpath is not None:
@@ -234,10 +258,8 @@ def extract_data(json_path, json_filename, export_converted_media):
                 elif ext == ".webm":
                     conv_file_path = file_name + ".altconv.m4v"
                 if conv_file_path:
-                    data[conv_file_path] = get_encoded_resource_data(conv_file_path,
-                    json_path)
-                data[file_name + ".altconv.seq"] = get_encoded_resource_data(file_name + ".altconv.seq",
-                    json_path)
+                    add_conv_media(data, json_path, file_path, conv_file_path)
+                    add_conv_media(data, json_path, file_path, file_name + ".altconv.seq")
 
     if "sounds" in json_parsed:
         for i in range(len(json_parsed["sounds"])):
@@ -254,12 +276,35 @@ def extract_data(json_path, json_filename, export_converted_media):
                 elif ext == ".ogg":
                     conv_file_path = file_name + ".altconv.mp4"
                 if conv_file_path:
-                    data[conv_file_path] = get_encoded_resource_data(conv_file_path,
-                    json_path)
+                    add_conv_media(data, json_path, file_path, conv_file_path)
 
-    get_smaa_textures(data, json_path);
+    get_smaa_textures(data, json_path)
+
+    json_parsed["b4w_export_warnings"].extend(_b4w_export_warnings)
+    json_parsed["b4w_export_errors"].extend(_b4w_export_errors)
+    data[json_filename] = json.dumps(json_parsed)
 
     return data
+
+def add_conv_media(data, json_path, file_path, conv_file_path):
+    packed_data = exporter.get_packed_data()
+    if file_path in packed_data:
+        err("Packed media '" + file_path + "' has not been exported to '" \
+                + conv_file_path + "'")
+    else:
+        data[conv_file_path] = get_encoded_resource_data(conv_file_path, json_path)
+
+def warn(text, message_type=exporter.M_ALL):
+    message = OrderedDict()
+    message["text"] = text
+    message["type"] = message_type
+    _b4w_export_warnings.append(message)
+
+def err(text, message_type=exporter.M_ALL):
+    message = OrderedDict()
+    message["text"] = text
+    message["type"] = message_type
+    _b4w_export_errors.append(message)
 
 def get_smaa_textures(data, json_path):
     b4w_webplayer_path = B4W_HTMLExportProcessor.get_b4w_webplayer_path()
@@ -316,7 +361,7 @@ def autosave():
 
 def b4w_html_export_menu_func(self, context):
     self.layout.operator(B4W_HTMLExportProcessor.bl_idname, \
-        text="Blend4Web (.html)").filepath = get_default_path()
+        text=_("Blend4Web (.html)")).filepath = get_default_path()
 
 def register():
     bpy.utils.register_class(B4W_HTMLExportProcessor)

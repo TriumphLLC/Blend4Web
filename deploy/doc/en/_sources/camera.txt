@@ -124,7 +124,7 @@ movement one way or another. They are grouped as "Camera limits".
 
 
 
-**Hover Сamera**
+**Hover Camera**
 
 *Camera Move Style > Camera Limits > Use Horizontal Translation
 Limits*

@@ -19,26 +19,47 @@ compile: compile_shaders compile_b4w compile_apps build_tutorials
 .PHONY: compile_shaders
 compile_shaders:
 	@echo "Compiling b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --opt_decl --obf --rem_braces
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --obf --rem_braces
 
 .PHONY: verify_shaders
 verify_shaders:
 	@echo "Verifying b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --opt_decl --obf --rem_braces
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --obf --rem_braces
 
 .PHONY: compile_b4w
 compile_b4w:
 	@echo "Compiling b4w javascript"
-	@$(SH) ./scripts/compile_b4w.py -g -o advanced
-	@$(SH) ./scripts/compile_b4w.py -a -g -o advanced
+	@$(SH) ./scripts/compile_b4w.py -o whitespace
+	@$(SH) ./scripts/compile_b4w.py -o simple
+	@$(SH) ./scripts/compile_b4w.py -o advanced
 
 .PHONY: compile_apps
 compile_apps:
-	$(MAKE) -B -C $(APPDIR)
+	@echo "Compiling applications"
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/capri compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/code_snippets compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/dairy_plant compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/fashion compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/firstperson compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/flight compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/gallery compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/new_year compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/victory_day_2015 compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/viewer compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/webplayer compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website compile -v $(VERSION)
 
 .PHONY: build_tutorials
 build_tutorials:
-	$(MAKE) -C $(TUTORIALS_DIR)
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/cartoon_interior/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/firstperson/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/interactive_web_application/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p1-3/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p4/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p5-6/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p7-12/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p8/ compile -t update
+	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/web_page_integration/ compile -t update
 
 .PHONY: convert_resources
 convert_resources:
@@ -72,7 +93,7 @@ api_doc_clean:
 	-$(RM) -r $(APIDOCDIR)/*
 
 .PHONY: reexport
-reexport: reexport_json reexport_html
+reexport: reexport_json reexport_conv_html
 
 .PHONY: reexport_json
 reexport_json:
@@ -81,6 +102,11 @@ reexport_json:
 .PHONY: reexport_html
 reexport_html:
 	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -h reexport
+
+.PHONY: reexport_conv_html
+reexport_conv_html:
+	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -h reexport_conv_media
+	
 
 .PHONY: report_broken_exports
 report_broken_exports:
@@ -108,5 +134,8 @@ resave:
 
 asan:
 	@$(SH) ./$(SCRIPTSDIR)/asan.py
+
+deploy_website:
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website deploy
 
 # vim: set noet ts=4 sw=4:

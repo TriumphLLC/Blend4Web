@@ -1025,7 +1025,7 @@ msgstr ""
 
 #: ../objects.rst:330
 msgid "Преобразование из углов Эйлера и наоборот."
-msgstr "Сonversion from Euler angles and back."
+msgstr "Conversion from Euler angles and back."
 
 #: ../objects.rst:331
 msgid "*util.euler_to_quat, util.quat_to_euler*."
@@ -1216,7 +1216,7 @@ msgid ""
 "копирования: ``true``- глубокое, ``false`` - простое. По умолчанию будет "
 "осуществлено простое копирование."
 msgstr ""
-"Сopying objects in runtime can be performed with the ``copy`` method of the "
+"Copying objects in runtime can be performed with the ``copy`` method of the "
 "``objects.js`` module. This method requires three arguments: the id of the "
 "source object, a unique name for the new object and the boolean value to "
 "specify the copy mode (i.e. simple or deep). By default simple copying will "

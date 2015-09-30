@@ -1,0 +1,10 @@
+$header
+
+<span id="${id}">
+<a onclick="document.getElementById('${id}_spoiler').style.display=''; document.getElementById('${id}').style.display='none';" class="spoiler">[show]</a><br>
+</span>
+
+<span id="${id}_spoiler" style="display: none; font-size: 12pt;">
+    <a onclick="document.getElementById('${id}_spoiler').style.display='none'; document.getElementById('${id}').style.display='';" class="spoiler">[hide]</a>
+    <br>$content
+</span>

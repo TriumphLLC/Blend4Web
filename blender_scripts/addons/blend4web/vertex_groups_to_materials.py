@@ -1,9 +1,32 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
+import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 
 class B4W_Vertex_Groups_To_Materials(bpy.types.Operator):
     '''Convert vertex groups to materials'''
     bl_idname = "b4w.vertex_groups_to_materials"
-    bl_label = "B4W Vertex Groups To Materials"
+    bl_label = p_("B4W Vertex Groups To Materials", "Operator")
     bl_options = {"INTERNAL"}
    
     def execute(self, context):

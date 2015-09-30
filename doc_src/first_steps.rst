@@ -46,6 +46,21 @@
 
 
 
+
+.. index:: активация движка
+
+.. _quick_install_engine_select:
+
+Активация движка
+================
+
+Для активации движка необходимо выбрать его в выпадающем меню верхней панели:
+
+.. image:: src_images/first_steps/selecting_engine.jpg
+   :align: center
+   :width: 100%
+
+
 .. index:: экспорт
 
 .. _quick_install_export_viewer:

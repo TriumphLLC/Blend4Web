@@ -3,6 +3,291 @@ Release Notes
 *************
 
 
+v15.09
+======
+
+
+New Features
+------------
+
+* Project Management.
+
+     A new project management system allows one to:
+
+        * show the list and info about existing projects
+
+        * execute apps, load scenes in the Viewer app, load scene
+          files in Blender.
+
+        * create and configure new applications, optionally using
+          prefabricated app/scene starter files to simplify creating
+          new applications
+
+        * build applications, create versions suitable for
+          deployment on a server
+
+        * convert application resources (textures, sounds and video)
+          to alternative formats
+
+        * automatically reexport all application scenes including
+          json and html files
+
+     There are two methods to manage projects: by using *project.py*
+     utility which has a simple self-documented command line
+     interface, or using a GUI web application, which is run on the
+     developer server. This server does not require any additional
+     configuration and as before is executed by the "Open SDK" button
+     in Blender.
+
+     The project management system works on all operating systems,
+     however, some operations may require additional dependencies. To
+     find out more about the configuration of this system check out
+     the following topic in documentation.
+
+* Controlling armature bones.
+
+     Enhanced features to control armature objects.
+
+     Added a new armature module which includes methods to get or
+     assign bone positions both in armature coordinate space
+     (get_bone_tsr(), set_bone_tsr()) and in bone-relative coordinate
+     space (get_bone_tsr_rel(), set_bone_tsr_rel()). By using this
+     methods, it's possible to program armature behavior. For example,
+     animate interactive characters or create sophisticated armature-
+     based objects with multple moving parts.
+
+     Support for "COPY_TRANSFORMS" constraints on bones. This allows
+     bones to follow movements of any objects located on the scene,
+     e.g create physically simulated "Ragdoll" objects.
+
+* New logic editor nodes.
+
+     * Play Animation: play animation of an object.
+
+     * Send Request: send HTTP GET request to a server and parse its
+       response.
+
+     * Inherit Material: copy material properties from one object to
+       another.
+
+     * Set Shader Node Param: change outputs of Value and RGB shader
+       nodes.
+
+     * Delay: delay program execution for a given amount of time.
+
+     * Apply Shape Key: change shape key value for an object.
+
+     * Outline: control object outlining effect.
+
+* New "Allow NLA" settings for video textures, which
+  enables/disables NLA-animation for a given texture.
+
+* New features in the *material* module.
+
+     New APIs added set_specular_color_factor and
+     get_specular_color_factor.
+
+* New features on the SDK index web page.
+
+     Index page of the SDK now contains a *Tools* section, which in
+     turn includes *Project Manager* and *WebGL Report* tools.
+
+* Web player improvements.
+
+     A new optional "alpha" setting has been added, which is used to
+     set rendering canvas transparency. The Outline on Select feature
+     is now supported.
+
+* New app compilation type "update" has been added to *project.py*
+  utility.
+
+     This type of app compilation allows one to update the engine
+     inside a project directory.The app itself is not compiled with
+     this option. The feature is useful for basic applications and
+     tutorials.
+
+* New features in the *app* module.
+
+     A new param "disable_zoom" has been added to the
+     enable_camera_controls() method. This param disables zoom
+     movements of the camera.
+
+     A new method queue_animate() has been added to the app module.
+
+* New features in the *scenes* module.
+
+     A new method has_picking_subs() has been added to the scenes
+     module.
+
+* New features in the *debug* module.
+
+     A new method fake_load() has been added to the debug module.
+
+
+Changes
+-------
+
+* Add-ons (such as app, mouse and others) are now a part of the
+  compiled engine version:
+
+     * b4w.min.js - advanced optimization (b4w.full.min.js
+       previously)
+
+     * b4w.simple.min.js - simple optimization
+
+     * b4w.whitespace.min.js - optimization of whitespaces used in
+       the code
+
+
+
+     The correct version is chosen according to the application
+     compilation settings.
+
+* Node logic editor changes:
+
+     * *Play* -> *Play Timeline*; *Select & Jump* -> *Select*,
+       *Register Store* -> *Variable Store* nodes were renamed.
+
+     * Now it is possible to create user-defined variables apart
+       from register-variables.
+
+* The rarely used "combine" engine building method was removed.
+
+* Documentation for the resource converter was revised.
+
+* Documentation for the addon translator was revised
+
+* The export of UV-layers and vertex colors was changed.
+
+     Now the behavior of UV-layers and vertex colors resembles that in
+     Blender even more.
+
+* Support for NLA-animation and video-textures was extended. They
+  act similar to those in Blender.
+
+* A message about the lack of animation channels was added to the
+  export errors.
+
+* A non-critical export error on the selection of unsupported
+  "Render Type" in particle systems was added.
+
+* The "Specular Color Factor" property is now being inherited during
+  material inheritance (inherit_material API method).
+
+* Changes in API.
+
+     The following methods are marked as deprecated and will be
+     removed in future releases: is_camera, is_mesh, is_armature.
+
+     The following methods of the objects module should be used
+     instead: is_camera, is_mesh, is_armature
+
+     Also, there are the following new methods: is_speaker, is_lamp
+     and is_empty.
+
+     The get_object_by_dupli_name_list method now returns "null", if
+     the "name_list" parameter is given incorrectly. The
+     get_object_name_hierarchy method for receiving the full list of
+     names with respect to object duplication was added. The value
+     returned by this method is a valid input for the
+     "get_object_by_dupli_name_list" function.
+
+     The "wireframe_mode" parameter in the set_debug_params method now
+     has a value of one of the following constants: WM_NONE,
+     WM_OPAQUE_WIREFRAME, WM_TRANSPARENT_WIREFRAME,
+     WM_FRONT_BACK_VIEW, WM_DEBUG_SPHERES.
+
+* Changes in NLA-animation behavior for dynamically loaded scenes.
+
+     If there are objects with NLA-animation in such scenes, they are
+     now influenced by the NLA settings of the main scene. Previously,
+     such animation was not supported.
+
+* The refactoring of the objects' internal structure was continued.
+
+* Export error was added.
+
+     Now when an object with a type other than "Mesh" is used as a
+     "Hair" particle, a non-critical export error will occur.
+
+* Licensing information was added to the distribution sources.
+
+* Now texture slots with Environment Maps containing videotextures
+  are not exported.
+
+     A non-critical export error, stating that a video cannot be used
+     as an Environment Map, was added.
+
+
+Fixes
+-----
+
+* "Render Above All" option now works correctly with node materials.
+
+* Fixed remove_object() function.
+
+* "Hair" particles have become more stable.
+
+     Fixed the bug that appeared while using an object with the"Hair"
+     particle modifier.
+
+* Improved Windows Phone support.
+
+* Fixed the bug that appeared while copying physical objects.
+
+* Fixed the bug with "Orco" vector output when an object has zero
+  scalein one or several axes.
+
+* Fixed the bug in particle emitters: it appeared when an object
+  with physics settings was chosen as a particle.
+
+* Fixed the bug in NLA animation: it could not start from a frame
+  other than 0 before.
+
+* Fixed "Lamp Data" behaviour: previously the information about
+  light sources was not always refreshed during scene loading.
+
+* Fixed the bug in calculations of  "Normal" vector output in node
+  "Geometry" on the back side of a polygon.
+
+* Fixed the bug of "Orco" vector output in node "Geometry" that
+  appearedif object was translated relatively to its origin in
+  Blender.
+
+* Fixed calculation of the last frame of NLA animation for video
+  textures.
+
+* Fixed the engine bug related to different setting combinations of
+  objects' selection and outlining.
+
+* "Wind bending" effect has become more stable.
+
+* Fixed bugs in "Alpha Clip" materials rendering.
+
+* Fixed specular texture reproduction during material inheritance.
+
+* Fixed the bug with light sources in apps with multiple scenes.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     It's strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+
 v15.08
 ======
 
@@ -799,7 +1084,8 @@ Changes
 
 * *Windows 32 version of Blend4Web addon is now compiled natively.*
 
-     This feature improves addons compatibility on such systems.
+     This feature improves compatibility of the add-on with such
+     systems.
 
 
 Fixes
@@ -1846,7 +2132,7 @@ New Features
      A canvas HTML element can be now used as a texture. The workflow
      is described in the manual.
 
-* *Сamera panning.*
+* *Camera panning.*
 
      In the mode when the camera is rotating around a single point
      ("Target") the users now have the ability to move the pivot point

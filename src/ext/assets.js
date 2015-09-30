@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /** 
@@ -86,8 +103,8 @@ exports.AT_AUDIO_ELEMENT = m_assets.AT_AUDIO_ELEMENT;
  * @param {PackCallback} [pack_cb] Callback executed after the whole pack of assets is loaded
  * @param {ProgressCallback} [progress_cb] Callback for the progress of loading
  */
-exports.enqueue = function(asset_pack, asset_cb, pack_cb) {
-    m_assets.enqueue(asset_pack, asset_cb, pack_cb);
+exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
+    m_assets.enqueue(assets_pack, asset_cb, pack_cb, progress_cb);
 }
 
 }

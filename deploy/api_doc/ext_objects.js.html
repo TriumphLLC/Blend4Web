@@ -35,12 +35,12 @@
  */
 b4w.module["objects"] = function(exports, require) {
 
-var m_geom    = require("__geometry");
-var m_obj     = require("__objects");
-var m_objutil = require("__obj_util");
-var m_print   = require("__print");
-var m_scenes  = require("__scenes");
-var m_util    = require("__util");
+var m_geom     = require("__geometry");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_scenes   = require("__scenes");
+var m_util     = require("__util");
 
 /**
  * @typedef ObjectMetaTags
@@ -65,18 +65,18 @@ exports.get_meta_tags = function(obj) {
  * Copy MESH object.
  * @method module:objects.copy
  * @param {Object3D} obj Object 3D
- * @param {String} new_name New unique object name
+ * @param {String} name New unique object name
  * @param {Boolean} [deep_copy=false] Copy WebGL buffers
  * @returns {Object3D} New object.
  */
 exports.copy = function(obj, name, deep_copy) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("object \"" + obj.name + "\" is not of type \"MESH\".");
         return false;
     }
 
-    if (!m_objutil.is_dynamic(obj)) {
+    if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("object \"" + obj.name + "\" is not dynamic.");
         return false;
     }
@@ -106,19 +106,13 @@ exports.copy = function(obj, name, deep_copy) {
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return null;
+        return;
     }
 
-    var node_id = name_list.join("%join%");
-    var ind = m_obj.get_value_node_ind_by_id(obj, node_id);
-    if (ind != null)
-        obj.render.mats_values[ind] = value;
-    else
-        m_print.error("The Value node \"" + node_id +
-            "\" was not found in the object \"" + obj.name + "\".");
+    m_obj.set_nodemat_value(obj, name_list, value)
 }
 
 /**
@@ -133,22 +127,13 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return null;
+        return;
     }
 
-    var node_id = name_list.join("%join%");
-    var ind = m_obj.get_rgb_node_ind_by_id(obj, node_id);
-    if (ind != null) {
-        obj.render.mats_rgbs[3 * ind]     = r;
-        obj.render.mats_rgbs[3 * ind + 1] = g;
-        obj.render.mats_rgbs[3 * ind + 2] = b;
-    } else {
-        m_print.error("The RGB node \"" + node_id +
-            "\" was not found in the object \"" + obj.name + "\".");
-    }
+    m_obj.set_nodemat_rgb(obj, name_list, r, g, b)
 }
 /**
  * Update object's boundings (box, cone, cylinder, ellipsoid, sphere, capsule).
@@ -157,16 +142,16 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  */
 exports.update_boundings = function(obj) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return false;
+        return;
     }
 
     if (!(m_geom.has_dyn_geom(obj) || m_geom.check_shape_keys(obj))) {
         m_print.error("object \"" + obj.name + "\" has not dynamic " 
                 + "geometry.");
-        return false;
+        return;
     }
     m_obj.update_boundings(obj);
 }
@@ -177,7 +162,7 @@ exports.update_boundings = function(obj) {
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
  */
-exports.get_parent = m_obj.get_parent;
+exports.get_parent = m_obj_util.get_parent;
 
 /**
  * Get DupliGroup parent object.
@@ -185,7 +170,55 @@ exports.get_parent = m_obj.get_parent;
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
  */
-exports.get_dg_parent = m_obj.get_dg_parent;
+exports.get_dg_parent = m_obj_util.get_dg_parent;
+
+/**
+ * Check if the object is a MESH.
+ * @method module:objects.is_mesh
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_mesh = m_obj_util.is_mesh;
+
+/**
+ * Check if the object is an ARMATURE.
+ * @method module:objects.is_armature
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_armature = m_obj_util.is_armature;
+
+/**
+ * Check if the object is a SPEAKER.
+ * @method module:objects.is_speaker
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_speaker = m_obj_util.is_speaker;
+
+/**
+ * Check if the object is a CAMERA.
+ * @method module:objects.is_camera
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_camera = m_obj_util.is_camera;
+
+/**
+ * Check if the object is a LAMP.
+ * @method module:objects.is_lamp
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_lamp = m_obj_util.is_lamp;
+
+/**
+ * Check if the object is an EMPTY.
+ * @method module:objects.is_empty
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_empty = m_obj_util.is_empty;
 
 }
 </code></pre>
@@ -198,13 +231,13 @@ exports.get_dg_parent = m_obj.get_dg_parent;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:57 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:55 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

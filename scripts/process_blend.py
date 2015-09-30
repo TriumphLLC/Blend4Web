@@ -6,15 +6,15 @@ from html.parser import HTMLParser
 ROOT_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
 DEPLOY_DIR = os.path.join(ROOT_DIR, "deploy")
 ASSETS_DIR = os.path.join(ROOT_DIR, "deploy", "assets")
-ADDON_DIR = os.path.join(ROOT_DIR, "blender_scripts", "addons", "blend4web")
+BLENDER_CLI_DIR = os.path.join(ROOT_DIR, "scripts", "blender")
 
 MANIFEST = os.path.join(ROOT_DIR, "apps_dev", "viewer", "assets.json")
 
-REEXPORTER = os.path.join(ADDON_DIR, "command_line_exporter.py")
-RESAVER = os.path.join(ADDON_DIR, "command_line_resaver.py")
-HTML_REEXPORTER = os.path.join(ADDON_DIR, "command_line_html_exporter.py")
-GET_EXPORT_PATH = os.path.join(ADDON_DIR, "command_line_get_export_path.py")
-GET_EXPORT_HTML_PATH = os.path.join(ADDON_DIR, "command_line_get_export_html_path.py")
+REEXPORTER = os.path.join(BLENDER_CLI_DIR, "cli_exporter.py")
+RESAVER = os.path.join(BLENDER_CLI_DIR, "cli_resaver.py")
+HTML_REEXPORTER = os.path.join(BLENDER_CLI_DIR, "cli_html_exporter.py")
+GET_EXPORT_PATH = os.path.join(BLENDER_CLI_DIR, "cli_get_export_path.py")
+GET_EXPORT_HTML_PATH = os.path.join(BLENDER_CLI_DIR, "cli_get_export_html_path.py")
 
 # colors
 BLACK = "\033[90m"
@@ -67,7 +67,7 @@ class FindMeta(HTMLParser):
         return False
 
 def help():
-    print("Available options:", "report,", "reexport,", "resave")
+    print("Available options:", "report,", "reexport,", "reexport_conv_media,", "resave")
     print("Flags: -h - process html files,")
     print("       -j - process json files.")
 
@@ -112,6 +112,9 @@ def print_report(type, preamble, *messages):
             _blender_report_op({"INFO"}, preamble + " " + message)
         else:
             print(preamble, message)
+
+    # minify stream delays
+    sys.stdout.flush()
 
 def process_json(path):
     try:
@@ -228,9 +231,9 @@ def process_html(path):
 
     if b4w_meta:
         try:
-            if _operation == "reexport":
+            if _operation == "reexport" or _operation == "reexport_conv_media":
                 ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
-                        HTML_REEXPORTER, "--", saved_path], stderr=subprocess.STDOUT)
+                        HTML_REEXPORTER, "--", saved_path, "-o", _operation], stderr=subprocess.STDOUT)
                 if ret.decode("utf-8").find("EXPORT OK") == -1:
                     report("ERROR", "[EXPORT FAILURE]", saved_path, blend)
                 else:
@@ -325,11 +328,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if not len(args) or len(args) > 1 or \
-                not (args[0] in ("reexport", "resave", "report")):
+                not (args[0] in ("reexport", "reexport_conv_media", "resave", "report")):
         help()
         sys.exit(1)
 
-    if args[0] in ("reexport", "resave", "report"):
+    if args[0] in ("reexport", "reexport_conv_media", "resave", "report"):
         _operation = args[0]
 
     _process_html = False

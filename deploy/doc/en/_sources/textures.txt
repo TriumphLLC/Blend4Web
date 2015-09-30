@@ -97,7 +97,8 @@ Generic Settings
    recommended to disable compression for mask textures used to mix
    different parts of materials.
 
-*Export Options > Shore Distance Map* is used in outdoor rendering
+*Export Options > Shore Distance Map*
+   Used in outdoor rendering.
 
 *Export Options > Anisotropic Filtering*
    Anisotropic filtering factor for the individual texture. It has
@@ -287,9 +288,8 @@ map, a diffuse "matcap" map, an environment map.
 Video Textures
 ==============
 
-A video can be used as a texture if "Image or Movie" texture type is
-selected. Also, if the "Scene > NLA" is enabled the video textures
-playback is possible.
+A video file can be used as a texture if "Image or Movie" texture type
+is selected.
 
 Note: Video textures support playing back just video tracks. Audio
   tracks should be played back by using a "SPEAKER" object.
@@ -324,20 +324,27 @@ The following settings are available for video textures on the
 *Image > Frames*
    Length of the played fragment in frames.
 
-*Image > Start*
-   Video playback delay (in frames), applicable for non-linear
-   animation ("Scene > NLA" option).
-
 *Image > Offset*
    The number of the frame from which the video playback starts.
 
-*Image > Auto Refresh*
-   Play back the video immediately after loading is complete. Ignored
-   for non-linear animation - other parameters are applicable for
-   video playback.
-
 *Image > Cyclic*
    Start video playback afresh each time it finishes.
+
+*Image > Allow NLA*
+   Play back the texture as part of an NLA track. Additionally, enable
+   NLA in the global scene settings through activating "Scene > NLA".
+   Enabled by default.
+
+For NLA-controlled textures the following option is also applicable:
+
+*Image > Start*
+   Video playback delay (in frames) when using non-linear animation.
+
+For non-NLA-controlled textures the following option is also
+applicable:
+
+*Image > Auto Refresh*
+   Play back the video immediately after the scene is loaded.
 
 [image]
 
@@ -349,6 +356,11 @@ value for the videos. Video playback rate is increased proportionally
 to the ratio of the scene's FPS and the video's FPS.
 
 [image]
+
+Note: When video textures are used together with NLA, the video
+  playback can be not corresponding with Blender settings. Namely,
+  there can be observed some lagging withing 5-6 frames due to
+  starting/pausing delay of the <video> HTML element.
 
 
 Specifics of Mobile Devices

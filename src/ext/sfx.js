@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /** 
@@ -8,9 +25,10 @@
  */
 b4w.module["sfx"] = function(exports, require) {
 
-var m_scs   = require("__scenes");
-var m_sfx   = require("__sfx");
-var m_print = require("__print");
+var m_obj_util = require("__obj_util");
+var m_scs      = require("__scenes");
+var m_sfx      = require("__sfx");
+var m_print    = require("__print");
 
 /**
  * Play sound through the speaker.
@@ -36,7 +54,7 @@ exports.play_def = function(obj) {
  * Check if sound is played through the speaker now.
  * @method module:sfx.is_play
  * @param {Object3D} obj Object 3D
- * @returs {Boolean} Playing state
+ * @returns {Boolean} Playing state
  */
 exports.is_play = function(obj) {
     return m_sfx.is_play(obj);
@@ -59,7 +77,7 @@ exports.is_play = function(obj) {
  * @param {Boolean} cyclic
  * @param {Number} [duration=0] Duration in float seconds
  * @param {Number} [playrate=1] Playback rate
- * @deprecated Use play() or play_def() instead
+ * @deprecated Use {@link module:sfx.play|sfx.play} or {@link module:sfx.play_def|sfx.play_def} instead
  */
 exports.speaker_play = function(obj, cyclic, duration, playrate) {
     m_print.error("speaker_play() deprecated, use play() or play_def() instead");
@@ -73,7 +91,7 @@ exports.speaker_play = function(obj, cyclic, duration, playrate) {
  * Stop the speaker.
  * @method module:sfx.speaker_stop
  * @param {Object3D} obj Object 3D
- * @deprecated Use stop() instead
+ * @deprecated Use {@link module:sfx.stop|sfx.stop} instead
  */
 exports.speaker_stop = function(obj) {
     m_print.error("speaker_stop() deprecated, use stop() instead");
@@ -110,7 +128,7 @@ exports.resume = function(obj) {
 /**
  * Change the speaker playback rate value
  * @method module:sfx.speaker_playback_rate
- * @deprecated Use playrate() instead
+ * @deprecated Use {@link module:sfx.playrate|sfx.playrate} instead
  */
 exports.speaker_playback_rate = function(obj, playrate) {
     m_print.error("speaker_playback_rate() deprecated, use playrate() instead");
@@ -241,7 +259,7 @@ exports.get_speaker_objects = function() {
 
 /**
  * @method module:sfx.get_speakers
- * @deprecated Use get_speaker_objects() instead
+ * @deprecated Use {@link module:sfx.get_speaker_objects|sfx.get_speaker_objects} instead
  */
 exports.get_speakers = function() {
     m_print.error("get_speakers() deprecated, use get_speaker_objects() instead");
@@ -393,7 +411,7 @@ exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
  * @returns {Number} Duration
  */
 exports.get_duration = function(obj) {
-    if (!obj || !m_sfx.is_speaker(obj)) {
+    if (!obj || !m_obj_util.is_speaker(obj)) {
         m_print.error("Object \"" + (obj ? obj.name : undefined) +
                       "\" is not a valid speaker");
         return;

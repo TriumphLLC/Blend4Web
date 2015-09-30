@@ -35,16 +35,16 @@ msgid ""
 "установить галочку ``Logic Editor`` и добавить/выбрать активное нодовое "
 "дерево:"
 msgstr ""
-"To activate logic on the given scene set the ``Logic Editor`` "
-"property in the ``Scene`` tab and append/select active node tree."
+"To activate logic on the given scene set the ``Logic Editor`` property in "
+"the ``Scene`` tab and append/select active node tree."
 
 #: ../logic_editor.rst:26
 msgid ""
 "Для редактирования дерева логики необходимо перейти в ``Редактор Нод`` (Node"
 " Editor) выбрать тип нодового дерева ``Blend4Web logic``:"
 msgstr ""
-"To edit logic tree go to the ``Node Editor`` area and select "
-"the ``Blend4Web Logic`` tree type:"
+"To edit logic tree go to the ``Node Editor`` area and select the ``Blend4Web"
+" Logic`` tree type:"
 
 #: ../logic_editor.rst:33
 msgid "Затем выбрать дерево для редактирования:"
@@ -68,11 +68,11 @@ msgid ""
 "указанного условия, например ``Conditional Jump``."
 msgstr ""
 "The nodes themselves are logic blocks that are executed from the ``Entry "
-"Point`` node which has no inputs and only one output. All other "
-"nodes have both inputs and outputs, and can be inserted in any place of a logic tree. "
-"The exception is ``Page Redirect`` node, which can be inserted only to the end "
-"of the node tree. The nodes which have two outputs allow braching, thus the next "
-"leave is selected based on condition specified for such nodes."
+"Point`` node which has no inputs and only one output. All other nodes have "
+"both inputs and outputs, and can be inserted in any place of a logic tree. "
+"The exception is ``Page Redirect`` node, which can be inserted only to the "
+"end of the node tree. The nodes which have two outputs allow braching, thus "
+"the next leave is selected based on condition specified for such nodes."
 
 #: ../logic_editor.rst:53
 msgid ""
@@ -91,15 +91,23 @@ msgstr ""
 msgid "Пример использования Logic Editor:"
 msgstr "Logic Editor usage example:"
 
-#: ../logic_editor.rst:67
+#: ../logic_editor.rst:65
 msgid "Ниже рассмотрены все возможные варианты нод."
 msgstr "All possible nodes are described below."
 
-#: ../logic_editor.rst:70
-msgid "Play"
+#: ../logic_editor.rst:68
+msgid "Entry Point"
 msgstr ""
 
-#: ../logic_editor.rst:72
+#: ../logic_editor.rst:70
+msgid "Является точкой начала выполнения скрипта."
+msgstr "This is where the script starts."
+
+#: ../logic_editor.rst:73
+msgid "Play Timeline"
+msgstr ""
+
+#: ../logic_editor.rst:75
 msgid ""
 "Проигрывать участок NLA, начиная с кадра, на который указывает маркер. "
 "Анимация воспроизводится до следующего маркера, либо до конца шкалы времени "
@@ -109,28 +117,58 @@ msgstr ""
 "points. Animation is played back until the next marker is met, or to the end"
 " of the timeline. Finally the next node receives the control."
 
-#: ../logic_editor.rst:85
-msgid "Select & Play"
+#: ../logic_editor.rst:87
+msgid "Play Animation"
 msgstr ""
 
-#: ../logic_editor.rst:87
+#: ../logic_editor.rst:89
+msgid ""
+"Проигрывает объектную анимацию. Присутствует возможность указать название "
+"анимации."
+msgstr ""
+"Play the object's animation. The animation name can be optionally specified."
+
+#: ../logic_editor.rst:92
+msgid "Select & Play Timeline"
+msgstr ""
+
+#: ../logic_editor.rst:94
 msgid ""
 "Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
 "движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
 " объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде"
-" ``Play``, если же был выбран любой другой объект - немедленно передать "
-"управление следующей ноде."
+" ``Play Timeline``, если же был выбран любой другой объект - немедленно "
+"передать управление следующей ноде."
 msgstr ""
 "Wait until the user selects an object (on desktops - with a mouse click, on "
-"mobile devices - with a touch). If an object that is specified in this slot "
-"is selected - start animation similar to ``Play`` node. If any other object "
-"is selected - immediately transfer the control to the next node."
+"mobile devices - with a touch). If the object, which is specified in this "
+"node, is selected - then start the animation similar to the ``Play "
+"Timeline`` node. If any other object is selected - then immediately transfer"
+" control to the next node."
 
-#: ../logic_editor.rst:94
-msgid "Select & Jump"
+#: ../logic_editor.rst:101
+msgid "Select & Play Animation"
 msgstr ""
 
-#: ../logic_editor.rst:96
+#: ../logic_editor.rst:103
+msgid ""
+"Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
+"движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
+" объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде"
+" ``Play Animation``, если же был выбран любой другой объект - немедленно "
+"передать управление следующей ноде."
+msgstr ""
+"Wait until the user selects an object (on desktops - with a mouse click, on "
+"mobile devices - with a touch). If the object, which is specified in this "
+"node, is selected - then start the animation similar to the ``Play "
+"Animation`` node. If any other object is selected - then immediately "
+"transfer control to the next node."
+
+#: ../logic_editor.rst:110
+msgid "Select"
+msgstr ""
+
+#: ../logic_editor.rst:112
 msgid ""
 "Аналогично ноде ``Select & Play``, за исключением того, что вместо анимации "
 "осуществляется переход. Указанная функция позволяет реализовать более "
@@ -142,11 +180,11 @@ msgstr ""
 "because in this case there is a possibility to identify the user selection "
 "results."
 
-#: ../logic_editor.rst:102
+#: ../logic_editor.rst:118
 msgid "Conditional Jump"
 msgstr ""
 
-#: ../logic_editor.rst:104
+#: ../logic_editor.rst:120
 msgid ""
 "Перейти к указанной ноде в случае выполнения выбранного условия. В качестве "
 "параметров условия (операндов) могут выступать также регистры, которые "
@@ -156,19 +194,19 @@ msgstr ""
 "(operands) can also be registers that are activated using the corresponding "
 "switches."
 
-#: ../logic_editor.rst:109
-msgid "Register Store"
+#: ../logic_editor.rst:125
+msgid "Variable Store"
 msgstr ""
 
-#: ../logic_editor.rst:111
-msgid "Записать числовое значение в регистр."
-msgstr "Save a numeric value in the register."
+#: ../logic_editor.rst:127
+msgid "Записать числовое значение в переменную."
+msgstr "Save a numeric value in a variable."
 
-#: ../logic_editor.rst:114
+#: ../logic_editor.rst:130
 msgid "Math Operation"
 msgstr ""
 
-#: ../logic_editor.rst:116
+#: ../logic_editor.rst:132
 msgid ""
 "Выполнить математическую операцию и сохранить результат в регистр. Любой из "
 "параметров (операндов) может быть либо числовым значением, либо регистром."
@@ -176,37 +214,93 @@ msgstr ""
 "Perform a math operation and save the result in the register. Any of "
 "parameters (operands) can be either a numeric value or a register."
 
-#: ../logic_editor.rst:120
+#: ../logic_editor.rst:136
 msgid "Show Object и Hide Object"
 msgstr "Show Object and Hide Object"
 
-#: ../logic_editor.rst:122
+#: ../logic_editor.rst:138
 msgid "Используются для скрытия и отображения объектов."
 msgstr "This is used to hide and show 3D objects."
 
-#: ../logic_editor.rst:125
+#: ../logic_editor.rst:141
 msgid "Page Redirect"
 msgstr ""
 
-#: ../logic_editor.rst:127
+#: ../logic_editor.rst:143
 msgid "Служит для перенаправления на другие веб-страницы."
 msgstr "This serves as a page redirect to other web pages."
 
-#: ../logic_editor.rst:130
+#: ../logic_editor.rst:146
 msgid "Page Param"
 msgstr ""
 
-#: ../logic_editor.rst:132
+#: ../logic_editor.rst:148
 msgid ""
 "Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом "
 "регистре."
 msgstr "Allows to store any web page parameter in a given numerical register."
 
-#: ../logic_editor.rst:135
+#: ../logic_editor.rst:151
+msgid "Send Request"
+msgstr ""
+
+#: ../logic_editor.rst:153
+msgid ""
+"Позволяет отправить HTTP GET запрос на указанный URL и поместить значения "
+"полей ответа в переменные."
+msgstr ""
+"Send an HTTP GET request to the specified URL and save the respond's fields "
+"to variables."
+
+#: ../logic_editor.rst:157
+msgid "Inherit Material"
+msgstr ""
+
+#: ../logic_editor.rst:159
+msgid "Позволяет скопировать атрибуты одного материала на другой."
+msgstr "Copy attributes from one material to another."
+
+#: ../logic_editor.rst:162
+msgid "Set Shader Node Param"
+msgstr ""
+
+#: ../logic_editor.rst:164
+msgid ""
+"Позволяет установить значение шейдерной ноды. В данный момент поддерживаются"
+" ноды Value и RGB."
+msgstr ""
+"Set vaue for the shader node. Currently only Value and RGB nodes are "
+"supported."
+
+#: ../logic_editor.rst:168
+msgid "Delay"
+msgstr ""
+
+#: ../logic_editor.rst:170
+msgid "Позволяет установить задержку перед выполнением следующей ноды."
+msgstr "Make a delay before going to the next node. "
+
+#: ../logic_editor.rst:173
+msgid "Apply Shape Key"
+msgstr ""
+
+#: ../logic_editor.rst:175
+msgid "Позволяет задать значение параметра Shape Key."
+msgstr "Set the Shape Key factor."
+
+#: ../logic_editor.rst:179
+msgid "Outline"
+msgstr ""
+
+#: ../logic_editor.rst:181
+msgid "Позволяет управлять эффектом обводки объекта."
+msgstr "Controls object outliing effect."
+
+#: ../logic_editor.rst:184
 msgid "Отладка"
 msgstr "Debugging"
 
-#: ../logic_editor.rst:137
+#: ../logic_editor.rst:186
 msgid ""
 "Для отладки имеется возможность отключения (muting) нод. Для этого "
 "необходимо выделить ноду и нажать горячую клавишу ``M``. Отключенная нода не"
@@ -214,8 +308,8 @@ msgid ""
 "отключенной ноды имеется несколько выходов, то будет происходить выполнение "
 "ветки со стороны выхода отрицательного результата (``Miss``, ``False``)."
 msgstr ""
-"For debugging purposes some nodes inside logic tree can be muted."
-"To do that select the required node and press the ``M`` key. Muted nodes "
-"are not evaluated and simply pass control to the next ones. "
-"If the muted node has two outputs the execution continues from the output "
-"with negative result (``Miss``, ``False``)."
+"For debugging purposes some nodes inside logic tree can be muted.To do that "
+"select the required node and press the ``M`` key. Muted nodes are not "
+"evaluated and simply pass control to the next ones. If the muted node has "
+"two outputs the execution continues from the output with negative result "
+"(``Miss``, ``False``)."

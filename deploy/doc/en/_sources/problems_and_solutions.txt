@@ -19,8 +19,7 @@ other WebGL applications are working correctly.*
    Possible causes:
 
    * A local web server is not used or the browser is not set up for
-     loading local resources. See the Setting up the Browser for
-     Loading Local Resources section.
+     loading local resources. See the Loading Local Resources section.
 
    * The engine tries to load resource files which were moved or
      deleted.

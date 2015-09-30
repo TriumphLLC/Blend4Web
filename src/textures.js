@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -13,10 +30,10 @@ var m_cfg   = require("__config");
 var m_dds   = require("__dds");
 var m_ext   = require("__extensions");
 var m_print = require("__print");
+var m_time  = require("__time");
 var m_util  = require("__util");
 
 var cfg_def = m_cfg.defaults;
-var cfg_ani = m_cfg.animation;
 var cfg_sfx = m_cfg.sfx;
 
 
@@ -96,6 +113,7 @@ function init_texture() {
     return {
         name: "",
         type: 0,
+
         source: "",
         source_id: "",
         width: 0,
@@ -107,24 +125,36 @@ function init_texture() {
         enable_canvas_mipmapping: false,
         canvas_context: null,
 
-        video_file: null,
-        seq_video: null,
-        seq_fps: 1,
-        seq_cur_frame: 0,
-        seq_video_played: false,
-        video_was_stopped: false,
+        w_target: 0,
+        w_texture: null,
+        w_renderbuffer: null,
+
+        _nla_tex_event: null,
+
+        // movie properties
         is_movie: false,
+
+        vtex_data_id: -1,
+
+        video_file: null,
+        movie_length: 0,
+        fps: 0,
         frame_start: 0,
         frame_offset: 0,
         frame_duration: 0,
+
+        seq_video: null,
+        seq_movie_length: 0,
+        seq_fps: 0,
+        seq_cur_frame: -1,
+        seq_video_played: false,
+        seq_last_discrete_mark: -1,
+
+        video_was_stopped: false,
+       
         use_auto_refresh: false,
         use_cyclic : false,
-        movie_length: 0,
-        fps: 0,
-
-        w_target: 0,
-        w_texture: null,
-        w_renderbuffer: null
+        use_nla: false
     };
 }
 
@@ -327,6 +357,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
             texture.use_auto_refresh = bpy_texture["use_auto_refresh"];
             texture.use_cyclic = bpy_texture["use_cyclic"];
             texture.movie_length = bpy_texture["movie_length"];
+            texture.use_nla = bpy_texture["b4w_nla_video"]
 
             if (texture.frame_offset != 0)
                 m_print.warn("Frame offset for texture \"" + bpy_texture["name"] +
@@ -370,11 +401,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
             "POSITIVE_Z", "NEGATIVE_Z"
         ];
         for (var i = 0; i < 6; i++)
-            if (cfg_def.intel_cubemap_hack)
-                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGB,
-                    1, 1, 0, _gl.RGB, _gl.UNSIGNED_BYTE, image_data);
-            else
-                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
+            _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
                     1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
         break;
 
@@ -391,12 +418,8 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
             bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D"
             || tex_type == "IMAGE" && bpy_texture["image"]["source"] == "MOVIE")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
-    else {
-        if (cfg_def.intel_cubemap_hack && tex_type == "ENVIRONMENT_MAP")
-            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
-        else
-            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
-    }
+    else
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
 
     _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
 
@@ -507,13 +530,13 @@ exports.update_video_texture = function(texture) {
     else
         _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE,
                 texture.video_file);
+
   _gl.bindTexture(w_target, null);
 
 }
 
 exports.update_seq_video_texture = update_seq_video_texture;
 function update_seq_video_texture(texture) {
-
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
 
@@ -592,21 +615,21 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             }
             if (texture.is_movie) {
                 if (!cfg_def.seq_video_fallback) {
-                    texture.video_file = image_data;
-
-                    texture.video_file.loop = texture.use_cyclic;
                     if (image_data) {
                         if (!(thread_id in _video_textures_cache))
                             _video_textures_cache[thread_id] = {};
                         _video_textures_cache[thread_id][texture.name] = texture;
                     }
-                    texture.fps = cfg_ani.framerate;
 
-                    if (image_data.duration)
-                        texture.fps = texture.movie_length / image_data.duration;
+                    texture.video_file = image_data;
+                    texture.video_file.loop = texture.use_cyclic;
+                    // NOTE: image_data.duration can't be available?
+                    texture.fps = image_data.duration ? 
+                            texture.movie_length / image_data.duration : 
+                            m_time.get_framerate();
 
                     if (!cfg_sfx.disable_playback_rate_hack) {
-                        image_data.playbackRate = cfg_ani.framerate / texture.fps;
+                        image_data.playbackRate = m_time.get_framerate() / texture.fps;
                         if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate > 
                                     PLAYBACK_RATE)
                             image_data.playbackRate = PLAYBACK_RATE;
@@ -618,12 +641,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                         if (!(thread_id in _video_textures_cache))
                             _video_textures_cache[thread_id] = {};
                         _video_textures_cache[thread_id][texture.name] = texture;
+
                         texture.seq_video = image_data;
-                        texture.fps = texture.movie_length / image_data.length;
-                        texture.frame_duration = Math.round(texture.frame_duration / texture.fps);
-                        texture.frame_offset = Math.round(texture.frame_offset / texture.fps);
-                        texture.frame_start = Math.round(texture.frame_start / texture.fps);
-                        texture.seq_cur_frame = texture.frame_offset;
+                        texture.seq_movie_length = image_data.length;
+                        texture.fps = texture.seq_fps * texture.movie_length / image_data.length;
+
                         _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA,
                                 _gl.UNSIGNED_BYTE, texture.seq_video[0]);
                     }
@@ -683,7 +705,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
 
             var img_dim = image_data.width / 3;
 
-            if (check_cube_map_size(img_dim, img_dim)) {
+            if (check_cube_map_size(img_dim)) {
                 m_print.warn("Cubemap texture \"" + filepath
                         + "\" has unsupported size: " + image_data.width + "x"
                         + image_data.height + ". Max available: "
@@ -691,7 +713,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                         + cfg_def.max_cube_map_size * 2 + ". "
                         + "Reduced image size will be used.");
                 var scale_fac = cfg_def.max_cube_map_size / img_dim;
-                var tex_dim = image_data.width / 3 * scale_fac;
+                var tex_dim = img_dim * scale_fac;
             } else
                 var tex_dim = img_dim;
 
@@ -876,8 +898,8 @@ function check_texture_size(width, height) {
     return (width > cfg_def.max_texture_size || height > cfg_def.max_texture_size);
 }
 
-function check_cube_map_size(width, height) {
-    return (width > cfg_def.max_cube_map_size || height > cfg_def.max_cube_map_size);
+function check_cube_map_size(size) {
+    return size > cfg_def.max_cube_map_size;
 }
 
 exports.generate_texture = function(type, subs) {
@@ -912,73 +934,163 @@ exports.cleanup = function() {
     _video_textures_cache = {};
 }
 
-exports.play_video = play_video;
-function play_video(texture_name, data_id) {
-    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
-        if (cfg_def.seq_video_fallback)
-            _video_textures_cache[data_id][texture_name].seq_video_played = true;
-        else
-            _video_textures_cache[data_id][texture_name].video_file.play();
-        return true;
-    } else
-        return null;
-}
-
-exports.reset_video = reset_video;
-function reset_video(texture_name, data_id) {
-    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
-        var tex = _video_textures_cache[data_id][texture_name];
-        if (cfg_def.seq_video_fallback) {
-            tex.seq_cur_frame = tex.frame_offset;
-            update_seq_video_texture(tex);
-            tex.seq_cur_frame++;
-        }
-        else
-            tex.video_file.currentTime = tex.frame_offset / tex.fps;
-        return true;
-    } else
-        return null;
-}
-
-exports.pause_video = pause_video;
-function pause_video(texture_name, data_id) {
-    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
-        if (cfg_def.seq_video_fallback)
-            _video_textures_cache[data_id][texture_name].seq_video_played = false;
-        else
-            _video_textures_cache[data_id][texture_name].video_file.pause();
-        return true;
-    } else
-        return null;
-}
-
 exports.pause = function() {
     for (var data_id in _video_textures_cache)
-        for (var texture_name in _video_textures_cache[data_id]) {
-            if (cfg_def.seq_video_fallback && !_video_textures_cache[data_id][texture_name].seq_video_played ||
-                    !cfg_def.seq_video_fallback && _video_textures_cache[data_id][texture_name].video_file.paused)
+        for (var vtex_name in _video_textures_cache[data_id]) {
+            var vtex = _video_textures_cache[data_id][vtex_name];
+            if (!video_is_played(vtex))
                 continue;
-            pause_video(texture_name, data_id);
-            _video_textures_cache[data_id][texture_name].video_was_stopped = true;
+
+            pause_video(vtex_name, data_id);
+            vtex.video_was_stopped = true;
         }
 }
 
 exports.reset = function() {
     for (var data_id in _video_textures_cache)
-        for (var texture_name in _video_textures_cache[data_id]) {
-            reset_video(texture_name, data_id);
-            _video_textures_cache[data_id][texture_name].video_was_stopped = false;
+        for (var vtex_name in _video_textures_cache[data_id]) {
+            reset_video(vtex_name, data_id);
+            _video_textures_cache[data_id][vtex_name].video_was_stopped = false;
         } 
 }
 
 exports.play = function(resume_stopped_only) {
     for (var data_id in _video_textures_cache)
-        for (var texture_name in _video_textures_cache[data_id]) {
-            if (resume_stopped_only && !_video_textures_cache[data_id][texture_name].video_was_stopped)
+        for (var vtex_name in _video_textures_cache[data_id]) {
+            var vtex = _video_textures_cache[data_id][vtex_name];
+            if (resume_stopped_only && !vtex.video_was_stopped)
                 continue;
-            play_video(texture_name, data_id)
-            _video_textures_cache[data_id][texture_name].video_was_stopped = false;
+            play_video(vtex_name, data_id)
+            vtex.video_was_stopped = false;
         }
+}
+
+exports.play_video = play_video;
+function play_video(vtex_name, data_id) {
+    if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
+        var vtex = _video_textures_cache[data_id][vtex_name];
+        if (vtex.video_file)
+            vtex.video_file.play();
+        else if (vtex.seq_video)
+            vtex.seq_video_played = true;
+        return true;
+    } else
+        return false;
+}
+
+exports.pause_video = pause_video;
+function pause_video(vtex_name, data_id) {
+    if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
+        var vtex = _video_textures_cache[data_id][vtex_name];
+        if (vtex.video_file)
+            vtex.video_file.pause();
+        else if (vtex.seq_video)
+            vtex.seq_video_played = false;
+        return true;
+    } else
+        return false;
+}
+
+/**
+ * Reset video texture considering its frame offset.
+ */
+exports.reset_video = reset_video;
+function reset_video(vtex_name, data_id) {
+    if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
+        var vtex = _video_textures_cache[data_id][vtex_name];
+        if (vtex.video_file)
+            vtex.video_file.currentTime = vtex.frame_offset / vtex.fps;
+        else if (vtex.seq_video)
+            vtex.seq_cur_frame = video_frame_to_seq_frame(vtex, vtex.frame_offset);
+        return true;
+    } else
+        return false;
+}
+
+/**
+ * Need to pass sequential frame for a sequential video
+ */
+exports.set_frame_video = function(vtex_name, frame, data_id) {
+    if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
+        var vtex = _video_textures_cache[data_id][vtex_name];
+        if (vtex.video_file)
+            vtex.video_file.currentTime = frame / vtex.fps;
+        else if (vtex.seq_video)
+            vtex.seq_cur_frame = frame;
+        return true;
+    } else
+        return false;
+}
+
+exports.video_is_played = video_is_played;
+function video_is_played(vtex) {
+    if (vtex.video_file)
+        return !vtex.video_file.paused;
+    else if (vtex.seq_video)
+        return vtex.seq_video_played;
+    else
+        return false;
+}
+
+exports.video_update_is_available = function(vtex) {
+    if (!vtex.video_file && !vtex.seq_video)
+        return 0;
+
+    if (vtex.video_file)
+        return vtex.video_file.readyState >= 2;
+    else
+        return true;
+}
+
+exports.video_get_current_frame = function(vtex) {
+    if (!vtex.video_file && !vtex.seq_video)
+        return 0;
+
+    if (vtex.video_file)
+        return Math.round(vtex.video_file.currentTime * vtex.fps);
+    else
+        return vtex.seq_cur_frame;
+}
+
+exports.video_get_start_frame = function(vtex) {
+    if (!vtex.video_file && !vtex.seq_video)
+        return 0;
+
+    if (vtex.video_file)
+        return vtex.frame_offset;
+    else
+        return video_frame_to_seq_frame(vtex, vtex.frame_offset);
+}
+
+exports.video_get_end_frame = function(vtex) {
+    if (!vtex.video_file && !vtex.seq_video)
+        return 0;
+
+    var duration = Math.min(vtex.frame_duration, vtex.movie_length 
+            - vtex.frame_offset);
+    if (vtex.video_file)
+        return vtex.frame_offset + duration;
+    else
+        return video_frame_to_seq_frame(vtex, vtex.frame_offset + duration);
+}
+
+/**
+ * Convert continuous time to a discrete mark. Suitable for a frame changing detection.
+ */
+exports.seq_video_get_discrete_timemark = function(vtex, time) {
+    return Math.round((time * vtex.seq_fps) * (m_time.get_framerate() / vtex.fps));
+}
+
+/**
+ * Not for sequential video, result is needed to convert.
+ */
+exports.video_get_duration = function(vtex) {
+    return Math.min(vtex.frame_duration, vtex.movie_length - vtex.frame_offset);
+}
+
+exports.video_frame_to_seq_frame = video_frame_to_seq_frame;
+function video_frame_to_seq_frame(vtex, frame) {
+    return Math.round(frame * vtex.seq_movie_length / vtex.movie_length);
 }
 
 }

@@ -131,6 +131,14 @@ void CustomData_update_typemap(struct CustomData *data);
 bool CustomData_merge(const struct CustomData *source, struct CustomData *dest,
                       CustomDataMask mask, int alloctype, int totelem);
 
+/* Reallocate custom data to a new element count.
+ * Only affects on data layers which are owned by the CustomData itself,
+ * referenced data is kept unchanged,
+ *
+ * NOTE: Take care of referenced layers by yourself!
+ */
+void CustomData_realloc(struct CustomData *data, int totelem);
+
 /* bmesh version of CustomData_merge; merges the layouts of source and dest,
  * then goes through the mesh and makes sure all the customdata blocks are
  * consistent with the new layout.*/
@@ -343,6 +351,9 @@ void CustomData_to_bmesh_block(const struct CustomData *source,
 void CustomData_from_bmesh_block(const struct CustomData *source, 
                                  struct CustomData *dest, void *src_block, int dest_index);
 
+void CustomData_file_write_prepare(
+        struct CustomData *data,
+        struct CustomDataLayer **r_write_layers, struct CustomDataLayer *write_layers_buff, size_t write_layers_size);
 
 /* query info over types */
 void CustomData_file_write_info(int type, const char **structname, int *structnum);
@@ -369,6 +380,10 @@ void CustomData_from_bmeshpoly(struct CustomData *fdata, struct CustomData *pdat
 void CustomData_bmesh_update_active_layers(struct CustomData *fdata, struct CustomData *pdata, struct CustomData *ldata);
 void CustomData_bmesh_do_versions_update_active_layers(struct CustomData *fdata, struct CustomData *pdata, struct CustomData *ldata);
 void CustomData_bmesh_init_pool(struct CustomData *data, int totelem, const char htype);
+
+#ifndef NDEBUG
+bool CustomData_from_bmeshpoly_test(CustomData *fdata, CustomData *pdata, CustomData *ldata, bool fallback);
+#endif
 
 /* External file storage */
 

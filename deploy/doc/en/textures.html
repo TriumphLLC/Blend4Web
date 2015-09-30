@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; User Manual: Blend4Web vv15.08</title>
+  <title>Textures &mdash; User Manual: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Node Materials" href="node_materials.html"/>
         <link rel="prev" title="Materials" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -289,9 +289,9 @@
 <dt><em>Export Options &gt; Disable Compression</em></dt>
 <dd><p class="first last">Disable texture compression for this texture. Used in cases when texture compression deteriorates the image quality.For example it&#8217;s recommended to disable compression for mask textures used to mix different parts of materials.</p>
 </dd>
-</dl>
-<p><em>Export Options &gt; Shore Distance Map</em> is used in <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>outdoor rendering</span></a></p>
-<dl class="docutils">
+<dt><em>Export Options &gt; Shore Distance Map</em></dt>
+<dd><p class="first last">Used in <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>outdoor rendering</span></a>.</p>
+</dd>
 <dt><em>Export Options &gt; Anisotropic Filtering</em></dt>
 <dd><p class="first last">Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is <code class="docutils literal"><span class="pre">DEFAULT</span></code> (i.e. use the scene settings).</p>
 </dd>
@@ -420,7 +420,7 @@
 </div>
 <div class="section" id="video-texture">
 <span id="id20"></span><h2>Video Textures<a class="headerlink" href="#video-texture" title="Permalink to this headline">¶</a></h2>
-<p>A video can be used as a texture if <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> texture type is selected. Also, if the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code> is enabled the video textures playback is possible.</p>
+<p>A video file can be used as a texture if <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> texture type is selected.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Video textures support playing back just video tracks. Audio tracks should be played back by using a <code class="docutils literal"><span class="pre">SPEAKER</span></code> object.</p>
@@ -449,17 +449,26 @@
 <dt><em>Image &gt; Frames</em></dt>
 <dd><p class="first last">Length of the played fragment in frames.</p>
 </dd>
-<dt><em>Image &gt; Start</em></dt>
-<dd><p class="first last">Video playback delay (in frames), applicable for non-linear animation (<code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code> option).</p>
-</dd>
 <dt><em>Image &gt; Offset</em></dt>
 <dd><p class="first last">The number of the frame from which the video playback starts.</p>
 </dd>
-<dt><em>Image &gt; Auto Refresh</em></dt>
-<dd><p class="first last">Play back the video immediately after loading is complete. Ignored for non-linear animation - other parameters are applicable for video playback.</p>
-</dd>
 <dt><em>Image &gt; Cyclic</em></dt>
 <dd><p class="first last">Start video playback afresh each time it finishes.</p>
+</dd>
+<dt><em>Image &gt; Allow NLA</em></dt>
+<dd><p class="first last">Play back the texture as part of an NLA track. Additionally, enable NLA in the global scene settings through activating <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code>. Enabled by default.</p>
+</dd>
+</dl>
+<p>For NLA-controlled textures the following option is also applicable:</p>
+<dl class="docutils">
+<dt><em>Image &gt; Start</em></dt>
+<dd><p class="first last">Video playback delay (in frames) when using non-linear animation.</p>
+</dd>
+</dl>
+<p>For non-NLA-controlled textures the following option is also applicable:</p>
+<dl class="docutils">
+<dt><em>Image &gt; Auto Refresh</em></dt>
+<dd><p class="first last">Play back the video immediately after the scene is loaded.</p>
 </dd>
 </dl>
 <img alt="_images/video_tex.png" class="align-center" src="_images/video_tex.png" />
@@ -468,6 +477,10 @@
 </div>
 <p>The video playback rate can be increased. To do this set <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></code> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of the scene&#8217;s FPS and the video&#8217;s FPS.</p>
 <img alt="_images/fps.png" class="align-center" src="_images/fps.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When video textures are used together with NLA, the video playback can be not corresponding with Blender settings. Namely, there can be observed some lagging withing 5-6 frames due to starting/pausing delay of the &lt;video&gt; HTML element.</p>
+</div>
 </div>
 <div class="section" id="id23">
 <h3>Specifics of Mobile Devices<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
@@ -655,7 +668,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-08-31.
+      Last updated on 2015-09-30.
 
     </p>
   </div>
@@ -677,7 +690,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

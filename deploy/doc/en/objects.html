@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; User Manual: Blend4Web vv15.08</title>
+  <title>Objects &mdash; User Manual: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Camera" href="camera.html"/>
         <link rel="prev" title="The Add-on" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -494,7 +494,7 @@
 <dd><p class="first last">Spherical interpolation of quaternions. Used for smoothing the object&#8217;s rotation and animation.</p>
 </dd>
 <dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
-<dd><p class="first last">Сonversion from Euler angles and back.</p>
+<dd><p class="first last">Conversion from Euler angles and back.</p>
 </dd>
 </dl>
 <div class="section" id="id7">
@@ -590,7 +590,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Сopying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default simple copying will be performed.</p>
+<p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default simple copying will be performed.</p>
 <p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
@@ -671,7 +671,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-08-31.
+      Last updated on 2015-09-30.
 
     </p>
   </div>
@@ -693,7 +693,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

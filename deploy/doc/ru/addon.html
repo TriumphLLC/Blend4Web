@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя: Blend4Web vv15.08</title>
+  <title>Аддон &mdash; Руководство пользователя: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -96,7 +96,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#version-errors">Ошибки совместимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Критические ошибки экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">Некритические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Прочие сообщения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-errors-other">Прочие сообщения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#translator">Перевод аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
@@ -434,6 +435,14 @@ Wrong vertex group weights</td>
 <td>Поврежденный файл: некорректное значение
 веса вертекса в вертексной группе.</td>
 </tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
 <tr class="row-odd"><td>Incorrect mesh; Corrupted file:
 Wrong vertex color values</td>
 <td>Поврежденный файл: некорректное значение
@@ -467,14 +476,6 @@ exported material</td>
 имеет материала, который бы
 экспортировался.</td>
 </tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<tbody valign="top">
 <tr class="row-odd"><td>The mesh has a vertex color layer
 but has no exported material</td>
 <td>Меш имеет слой вертексного цвета, но не
@@ -500,14 +501,22 @@ isn&#8217;t specified</td>
 <td>Ошибка системы частиц. Не выбран объект,
 используемый в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; Dupli object
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Particle system error; Dupli object
 OBJECT_NAME doesn&#8217;t export</td>
 <td>Ошибка системы частиц. Объект
 OBJECT_NAME, выбранный в качестве
 частицы, не экспортируется (на нем
 выбрана опция <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code>).</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 GROUP_NAME dupli group contains no
 valid object for export</td>
 <td>Ошибка системы частиц. Ни один подходящий
@@ -517,6 +526,16 @@ valid object for export</td>
 <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code>, либо объекты имеют
 неподходящий тип.
 Поддерживаемые типы: <code class="docutils literal"><span class="pre">MESH</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>Particle system error. Unsupported
+render type TYPE for the
+EMITTER/HAIR particles PSYS_NAME on
+object NAME. Particle system
+removed.</td>
+<td>Ошибка системы частиц. Неподдерживаемый
+тип рендера TYPE для EMITTER/HAIR системы
+частиц с именем PSYS_NAME, находящейся на
+объекте NAME. Система частиц удалена.</td>
 </tr>
 <tr class="row-even"><td>Particle system error; Wrong dupli
 object type TYPE_NAME</td>
@@ -591,24 +610,18 @@ NAME.</td>
 &#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
 <td>Не задан материал в ноде: &#8220;NAME&#8221;</td>
 </tr>
-<tr class="row-odd"><td>Exported UV-layer is missing in node
-&#8220;GEOMETRY&#8221;. Material: NAME.</td>
-<td>В ноде типа <code class="docutils literal"><span class="pre">GEOMETRY</span></code> указан не
-экспортируемый UV-слой для текстурных
-координат типа UV.</td>
+<tr class="row-odd"><td>Environment map in the &#8220;NAME&#8221;
+world texture slot cannot be
+a movie.</td>
+<td>Карта окружения не может быть видео.</td>
 </tr>
-<tr class="row-even"><td>Exported UV-layer is missing in
-texture NAME. [Material: NAME.]</td>
-<td>В текстуре указан не экспортируемый
-UV-слой для текстурных координат типа UV.</td>
-</tr>
-<tr class="row-odd"><td>Ignoring LODs after empty LOD for
+<tr class="row-even"><td>Ignoring LODs after empty LOD for
 the NAME object.</td>
 <td>В списке LOD объектов, настроенных для
 объекта NAME, были проигнорированы все
 LOD объекты, следующие за пустым.</td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh NAME; Dynamic grass
+<tr class="row-odd"><td>Incomplete mesh NAME; Dynamic grass
 vertex colors required
 by material settings</td>
 <td>Неполный меш: специальный материал для
@@ -616,13 +629,6 @@ by material settings</td>
 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">size</span></code> и/или
 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">color</span></code>, но у меша нет
 слоев вертексного цвета с такими именами.</td>
-</tr>
-<tr class="row-odd"><td>Incomplete mesh; No UV in mesh
-with UV-textured material</td>
-<td>Неполный меш: в материале меша
-используются текстуры с типом координат
-<code class="docutils literal"><span class="pre">UV</span></code>, но у меша нет текстурной
-развертки.</td>
 </tr>
 <tr class="row-even"><td>Incomplete mesh; Material settings
 require vertex colors</td>
@@ -690,7 +696,16 @@ a mesh; The mesh has N UVs.</td>
 текстур на каждый меш. Меш содержит UV
 текстуры в количестве N.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Packed media &#8220;FILE_NAME&#8221; has not
+been exported to
+&#8220;CONVERTED_FILE_PATH&#8221;</td>
+<td>Запакованный медиа файл &#8220;FILE_NAME&#8221; не
+может быть конвертирован в
+&#8220;CONVERTED_FILE_PATH&#8221;. Требуется
+распаковать файл и произвести
+конвертацию.</td>
+</tr>
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
 the last of the &#8220;OBJECT_NAME&#8221;
@@ -699,7 +714,7 @@ object&#8217;s vertex colors</td>
 NAME указанный в поле <code class="docutils literal"><span class="pre">from</span></code>,
 отсутствует в эмиттере OBJECT_NAME.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the list of the &#8220;OBJECT_NAME&#8221;
@@ -709,7 +724,7 @@ NAME указанный в поле <code class="docutils literal"><span class="
 в объекте OBJECT_NAME, выбранном в
 качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the &#8220;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the &#8220;OBJECT_NAME&#8221; object
@@ -718,6 +733,12 @@ the &#8220;OBJECT_NAME&#8221; object
 NAME указанный в поле <code class="docutils literal"><span class="pre">to</span></code>, не
 присутствует в объекте OBJECT_NAME группы
 GROUP_NAME, выбранной в качестве частицы.</td>
+</tr>
+<tr class="row-even"><td>Particle system error for object
+&#8220;NAME&#8221;. Invalid dupli object
+&#8220;OBJECT_NAME&#8221;.</td>
+<td>Ошибка системы частиц для объекта NAME.
+Неверный дупли объект OBJECT_NAME.</td>
 </tr>
 <tr class="row-odd"><td>The main scene NAME can not be
 rendered by another scene. Material
@@ -760,39 +781,6 @@ removed.</td>
 <td>В модификаторе NAME типа <code class="docutils literal"><span class="pre">Curve</span></code> указан
 неподходящий объект. Модификатор удален.</td>
 </tr>
-<tr class="row-even"><td>The NAME object has the NAME
-armature modifier and a vertex
-animation. Modifier removed.</td>
-<td>Объект NAME имеет вертексную анимацию и
-арматурный модификатор. Модификатор
-удален.</td>
-</tr>
-<tr class="row-odd"><td>The NAME LAMP node has no lamp
-object. Material: NAME.</td>
-<td>В ноде NAME типа <code class="docutils literal"><span class="pre">LAMP</span></code> не указан
-подходящий объект.</td>
-</tr>
-<tr class="row-even"><td>The NAME node is not supported.
-The NAME material will be rendered
-without nodes. Material: NAME.</td>
-<td>Нода с данным именем не поддерживается
-движком, поэтому нодовый материал будет
-отключён. Чаще всего проблемы подобного
-рода возникают при использовании нод
-Cycles.</td>
-</tr>
-<tr class="row-odd"><td>The NAME object has NAME armature
-modifier which references the wrong
-group. Modifier removed.</td>
-<td>Объект должен находиться в той же группе,
-что и арматура или оба объекта должны явно
-присутствовать на сцене.</td>
-</tr>
-<tr class="row-even"><td>TEXTURE_TYPE isn&#8217;t supported,
-WORLD_NAME</td>
-<td>TEXTURE_TYPE тип текстуры не
-поддерживается для мира, WORLD_NAME</td>
-</tr>
 </tbody>
 </table>
 <table border="1" class="docutils">
@@ -801,7 +789,40 @@ WORLD_NAME</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Using B4W_REFRACTION node NODE_NAME
+<tr class="row-odd"><td>The NAME object has the NAME
+armature modifier and a vertex
+animation. Modifier removed.</td>
+<td>Объект NAME имеет вертексную анимацию и
+арматурный модификатор. Модификатор
+удален.</td>
+</tr>
+<tr class="row-even"><td>The NAME LAMP node has no lamp
+object. Material: NAME.</td>
+<td>В ноде NAME типа <code class="docutils literal"><span class="pre">LAMP</span></code> не указан
+подходящий объект.</td>
+</tr>
+<tr class="row-odd"><td>The NAME node is not supported.
+The NAME material will be rendered
+without nodes. Material: NAME.</td>
+<td>Нода с данным именем не поддерживается
+движком, поэтому нодовый материал будет
+отключён. Чаще всего проблемы подобного
+рода возникают при использовании нод
+Cycles.</td>
+</tr>
+<tr class="row-even"><td>The NAME object has NAME armature
+modifier which references the wrong
+group. Modifier removed.</td>
+<td>Объект должен находиться в той же группе,
+что и арматура или оба объекта должны явно
+присутствовать на сцене.</td>
+</tr>
+<tr class="row-odd"><td>TEXTURE_TYPE isn&#8217;t supported,
+WORLD_NAME</td>
+<td>TEXTURE_TYPE тип текстуры не
+поддерживается для мира, WORLD_NAME</td>
+</tr>
+<tr class="row-even"><td>Using B4W_REFRACTION node NODE_NAME
 with incorrect type of Alpha Blend.
 Material: NAME.</td>
 <td>Используется нодовый материал
@@ -810,7 +831,7 @@ Blend. Допускается значение
 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></code> и <code class="docutils literal"><span class="pre">Add</span></code>
 при использовании ноды &#8220;REFRACTION&#8221;.</td>
 </tr>
-<tr class="row-even"><td>Wind bending: not all
+<tr class="row-odd"><td>Wind bending: not all
 vertex colors exist for &#8220;NAME&#8221;.
 Properties were set to default
 values.</td>
@@ -818,7 +839,7 @@ values.</td>
 должны существовать все указанные
 слои вертексных цветов.</td>
 </tr>
-<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
+<tr class="row-even"><td>Wind bending: vertex colors weren&#8217;t
 properly assigned for &#8220;NAME&#8221;.
 Properties were set to default
 values.</td>
@@ -833,7 +854,7 @@ values.</td>
 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>),
 либо ни одного из них.</td>
 </tr>
-<tr class="row-even"><td>Wrong &#8220;Height Map&#8221; input for the
+<tr class="row-odd"><td>Wrong &#8220;Height Map&#8221; input for the
 &#8220;NAME&#8221; B4W_PARALLAX node. Only link
 from the TEXTURE node with a
 non-empty texture is allowed.</td>
@@ -843,23 +864,17 @@ non-empty texture is allowed.</td>
 из ноды типа <code class="docutils literal"><span class="pre">TEXTURE</span></code> с заполненой
 текстурой.</td>
 </tr>
-<tr class="row-odd"><td>Wrong texture coordinates type
+<tr class="row-even"><td>Wrong texture coordinates type
 in texture NAME. [Material: NAME.]</td>
 <td>Для текстур с изображением (image)
 поддерживаются следующие типы координат:
 <code class="docutils literal"><span class="pre">UV</span></code>, <code class="docutils literal"><span class="pre">Normal</span></code> и <code class="docutils literal"><span class="pre">Generated</span></code>.</td>
 </tr>
-<tr class="row-even"><td>Wrong vertex color layer is used
-in node &#8220;GEOMETRY&#8221;.
-[Material: NAME.]</td>
-<td>В ноде &#8220;GEOMETRY&#8221; используется неправильно
-заданный вертексный слой.</td>
-</tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id7">
-<h2>Прочие сообщения<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="export-errors-other">
+<span id="id7"></span><h2>Прочие сообщения<a class="headerlink" href="#export-errors-other" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сообщения выводятся в консоли браузера (горячая клавиша <code class="docutils literal"><span class="pre">F12</span></code>) при загрузке сцены. Сообщение имеет вид:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Сообщение</span> <span class="pre">экспорта,</span> <span class="pre">требующее</span> <span class="pre">внимания</span> <span class="pre">пользователя</span></code></div></blockquote>
@@ -896,7 +911,10 @@ texture.</td>
 которая отображает сцену. Эта текстура
 была заменена на стандартную.</td>
 </tr>
-<tr class="row-odd"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-odd"><td>The action NAME has no fcurves.</td>
+<td>В анимации NAME нет ни одного канала.</td>
+</tr>
+<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
 PERSPECTIVE type.&#8221;</td>
 <td>Панорамная камера не поддерживается.
@@ -904,6 +922,154 @@ PERSPECTIVE type.&#8221;</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="translator">
+<span id="id8"></span><h2>Перевод аддона<a class="headerlink" href="#translator" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Имеется возможность перевести аддон на язык, доступный в Blender&#8217;e.
+Для этого необходимо переименовать файл &#8220;empty.po&#8221;, находящийся в директории: SDK/blender_scripts/addons/blend4web/locales, на одно из имен,
+соответствующих таблице:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Имя файла</th>
+<th class="head">Язык</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ru_RU.po</td>
+<td>Russian</td>
+</tr>
+<tr class="row-odd"><td>ja_JP.po</td>
+<td>Japanese</td>
+</tr>
+<tr class="row-even"><td>en_US.po</td>
+<td>English</td>
+</tr>
+<tr class="row-odd"><td>nl_NL.po</td>
+<td>Dutch</td>
+</tr>
+<tr class="row-even"><td>it_IT.po</td>
+<td>Italian</td>
+</tr>
+<tr class="row-odd"><td>de_DE.po</td>
+<td>German</td>
+</tr>
+<tr class="row-even"><td>fi_FI.po</td>
+<td>Finnish</td>
+</tr>
+<tr class="row-odd"><td>sv_SE.po</td>
+<td>Swedish</td>
+</tr>
+<tr class="row-even"><td>fr_FR.po</td>
+<td>French</td>
+</tr>
+<tr class="row-odd"><td>es.po</td>
+<td>Spanish</td>
+</tr>
+<tr class="row-even"><td>ca_AD.po</td>
+<td>Catalan</td>
+</tr>
+<tr class="row-odd"><td>cs_CZ.po</td>
+<td>Czech</td>
+</tr>
+<tr class="row-even"><td>pt_PT.po</td>
+<td>Portuguese</td>
+</tr>
+<tr class="row-odd"><td>zh_CN.po</td>
+<td>Simplified Chinese</td>
+</tr>
+<tr class="row-even"><td>zh_TW.po</td>
+<td>Traditional Chinese</td>
+</tr>
+<tr class="row-odd"><td>hr_HR.po</td>
+<td>Croatian</td>
+</tr>
+<tr class="row-even"><td>sr_RS.po</td>
+<td>Serbian</td>
+</tr>
+<tr class="row-odd"><td>uk_UA.po</td>
+<td>Ukrainian</td>
+</tr>
+<tr class="row-even"><td>pl_PL.po</td>
+<td>Polish</td>
+</tr>
+<tr class="row-odd"><td>ro_RO.po</td>
+<td>Romanian</td>
+</tr>
+<tr class="row-even"><td>ar_EG.po</td>
+<td>Arabic</td>
+</tr>
+<tr class="row-odd"><td>bg_BG.po</td>
+<td>Bulgarian</td>
+</tr>
+<tr class="row-even"><td>el_GR.po</td>
+<td>Greek</td>
+</tr>
+<tr class="row-odd"><td>ko_KR.po</td>
+<td>Korean</td>
+</tr>
+<tr class="row-even"><td>ne_NP.po</td>
+<td>Nepali</td>
+</tr>
+<tr class="row-odd"><td>fa_IR.po</td>
+<td>Persian</td>
+</tr>
+<tr class="row-even"><td>id_ID.po</td>
+<td>Indonesian</td>
+</tr>
+<tr class="row-odd"><td>sr_RS&#64;latin.po</td>
+<td>Serbian Latin</td>
+</tr>
+<tr class="row-even"><td>ky_KG.po</td>
+<td>Kyrgyz</td>
+</tr>
+<tr class="row-odd"><td>tr_TR.po</td>
+<td>Turkish</td>
+</tr>
+<tr class="row-even"><td>hu_HU.po</td>
+<td>Hungarian</td>
+</tr>
+<tr class="row-odd"><td>pt_BR.po</td>
+<td>Brazilian Portuguese</td>
+</tr>
+<tr class="row-even"><td>he_IL.po</td>
+<td>Hebrew</td>
+</tr>
+<tr class="row-odd"><td>et_EE.po</td>
+<td>Estonian</td>
+</tr>
+<tr class="row-even"><td>eo.po</td>
+<td>Esperanto</td>
+</tr>
+<tr class="row-odd"><td>es_ES.po</td>
+<td>Spanish from Spain</td>
+</tr>
+<tr class="row-even"><td>am_ET.po</td>
+<td>Amharic</td>
+</tr>
+<tr class="row-odd"><td>uz_UZ.po</td>
+<td>Uzbek</td>
+</tr>
+<tr class="row-even"><td>uz_UZ&#64;cyrillic.po</td>
+<td>Uzbek Cyrillic</td>
+</tr>
+<tr class="row-odd"><td>hi_IN.po</td>
+<td>Hindi</td>
+</tr>
+<tr class="row-even"><td>vi_VN.po</td>
+<td>Vietnamese</td>
+</tr>
+</tbody>
+</table>
+<p>Затем нужно открыть этот файл и написать перевод аддона.</p>
+<p>Если вы пишете перевод аддона, вы можете прислать нам ваш .po файл любым
+доступным способом, чтобы он был включен в состав аддона.</p>
 </div>
 </div>
 
@@ -927,7 +1093,7 @@ PERSPECTIVE type.&#8221;</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-08-31.
+      Обновлено: 2015-09-30.
 
     </p>
   </div>
@@ -949,7 +1115,7 @@ PERSPECTIVE type.&#8221;</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

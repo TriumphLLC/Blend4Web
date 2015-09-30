@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; User Manual: Blend4Web vv15.08</title>
+  <title>For Engine Developers &mdash; User Manual: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
         <link rel="prev" title="For Application Developers" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -128,7 +128,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#index-7">Compilation Errors</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#translator">Add-on Translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">Updating Add-on Translations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -735,25 +735,22 @@ FILE_NAME, but never used.</td>
 </table>
 </div>
 </div>
-<div class="section" id="translator">
-<span id="id16"></span><h2>Add-on Translations<a class="headerlink" href="#translator" title="Permalink to this headline">¶</a></h2>
-<p>In order to translate new text some preparations have to be done.</p>
-<p>At first make sure that you have <em>Subversion</em> installed. Then clone the repository with Blender translations. You can use the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>svn checkout https://svn.blender.org/svnroot/bf-translations
+<div class="section" id="id16">
+<h2>Updating Add-on Translations<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<p>If you need to update all existing .po files, run the script <em>translator.py</em> in the SDK/scripts directory without arguments:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
 </pre></div>
 </div>
-<p>The second step is to install and set up the <em>Manage UI translations</em> add-on. The most important option here is &#8220;Translation Root&#8221; where the path to the cloned repository has to be specified. Then specify the absolute path where settings will be saved, &#8220;Persistent Data Path&#8221;, and save the settings to the json file.</p>
-<a class="reference internal image-reference" href="_images/translator.png"><img alt="_images/translator.png" class="align-center" src="_images/translator.png" style="width: 100%;" /></a>
-<p>Then the <code class="docutils literal"><span class="pre">translator.py</span></code> script from the <code class="docutils literal"><span class="pre">scripts/</span></code> directory has to be run in order to update the .po file:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py ru_RU /home/user/bf-translations/branches/ru/ru.po
+<p>In order to update an existing .po file, run the script with a supported language code as an argument:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
-<p>The first parameter is the language to which the add-on will be translated. The list of available languages can be seen as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py <span class="nb">help</span>
+<p>In order to view the list of supported languages, run the script as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
-<p>The second parameter is optional and serves for merging the resulting .po file with Blender&#8217;s .po file which is available in the above-mentioned repository in the <em>/bf-translations/branches/</em> directory. Phrases from your .po file which match phrases from Blender&#8217;s .po file will be translated automatically.</p>
-<p>Finally open this file and translate new lines.</p>
+<p>In any case, the file <em>empty.po</em> will be updated upon running the script.</p>
+<p>After updates, the .po files can be edited/translated as usual.</p>
 </div>
 </div>
 
@@ -777,7 +774,7 @@ FILE_NAME, but never used.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-08-31.
+      Last updated on 2015-09-30.
 
     </p>
   </div>
@@ -799,7 +796,7 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

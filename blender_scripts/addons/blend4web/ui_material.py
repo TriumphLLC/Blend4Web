@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import imp
 import mathutils
@@ -9,6 +25,13 @@ import bgl
 from bpy.types import Panel
 
 from bpy.app.translations import pgettext_iface as iface_
+import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 
 def check_vertex_color(mesh, vc_name):
     for color_layer in mesh.vertex_colors:
@@ -55,7 +78,7 @@ class MaterialButtonsPanel:
         return (context.material and context.scene.render.engine in cls.COMPAT_ENGINES)
 
 class B4W_MATERIAL_PT_diffuse(MaterialButtonsPanel, Panel):
-    bl_label = "Diffuse"
+    bl_label = _("Diffuse")
 
     @classmethod
     def poll(cls, context):
@@ -71,14 +94,14 @@ class B4W_MATERIAL_PT_diffuse(MaterialButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "diffuse_color", text="")
+        col.prop(mat, "diffuse_color", text=_(""))
         sub = col.column()
         sub.active = (not mat.use_shadeless)
-        sub.prop(mat, "diffuse_intensity", text="Intensity")
+        sub.prop(mat, "diffuse_intensity", text=_("Intensity"))
 
         col = split.column()
         col.active = (not mat.use_shadeless)
-        col.prop(mat, "diffuse_shader", text="")
+        col.prop(mat, "diffuse_shader", text=_(""))
 
         col = layout.column()
         col.active = (not mat.use_shadeless)
@@ -88,15 +111,15 @@ class B4W_MATERIAL_PT_diffuse(MaterialButtonsPanel, Panel):
             col.prop(mat, "darkness")
         elif mat.diffuse_shader == 'TOON':
             row = col.row()
-            row.prop(mat, "diffuse_toon_size", text="Size")
-            row.prop(mat, "diffuse_toon_smooth", text="Smooth")
+            row.prop(mat, "diffuse_toon_size", text=_("Size"))
+            row.prop(mat, "diffuse_toon_smooth", text=_("Smooth"))
         elif mat.diffuse_shader == 'FRESNEL':
             row = col.row()
-            row.prop(mat, "diffuse_fresnel", text="Fresnel")
-            row.prop(mat, "diffuse_fresnel_factor", text="Factor")
+            row.prop(mat, "diffuse_fresnel", text=_("Fresnel"))
+            row.prop(mat, "diffuse_fresnel_factor", text=_("Factor"))
 
 class B4W_MATERIAL_PT_specular(MaterialButtonsPanel, Panel):
-    bl_label = "Specular"
+    bl_label = _("Specular")
 
     @classmethod
     def poll(cls, context):
@@ -114,28 +137,28 @@ class B4W_MATERIAL_PT_specular(MaterialButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "specular_color", text="")
-        col.prop(mat, "specular_intensity", text="Intensity")
+        col.prop(mat, "specular_color", text=_(""))
+        col.prop(mat, "specular_intensity", text=_("Intensity"))
 
         col = split.column()
-        col.prop(mat, "specular_shader", text="")
+        col.prop(mat, "specular_shader", text=_(""))
 
         col = layout.column()
         if mat.specular_shader in {'COOKTORR', 'PHONG'}:
-            col.prop(mat, "specular_hardness", text="Hardness")
+            col.prop(mat, "specular_hardness", text=_("Hardness"))
         elif mat.specular_shader == 'BLINN':
             row = col.row()
-            row.prop(mat, "specular_hardness", text="Hardness")
-            row.prop(mat, "specular_ior", text="IOR")
+            row.prop(mat, "specular_hardness", text=_("Hardness"))
+            row.prop(mat, "specular_ior", text=_("IOR"))
         elif mat.specular_shader == 'WARDISO':
-            col.prop(mat, "specular_slope", text="Slope")
+            col.prop(mat, "specular_slope", text=_("Slope"))
         elif mat.specular_shader == 'TOON':
             row = col.row()
-            row.prop(mat, "specular_toon_size", text="Size")
-            row.prop(mat, "specular_toon_smooth", text="Smooth")
+            row.prop(mat, "specular_toon_size", text=_("Size"))
+            row.prop(mat, "specular_toon_smooth", text=_("Smooth"))
 
 class B4W_MATERIAL_PT_shading(MaterialButtonsPanel, Panel):
-    bl_label = "Shading"
+    bl_label = _("Shading")
 
     @classmethod
     def poll(cls, context):
@@ -159,11 +182,11 @@ class B4W_MATERIAL_PT_shading(MaterialButtonsPanel, Panel):
 
             col = split.column()
             col.prop(mat, "use_shadeless")
-            col.prop(mat, "b4w_double_sided_lighting", text = "Double-Sided Lighting")
+            col.prop(mat, "b4w_double_sided_lighting", text = _("Double-Sided Lighting"))
 
 
 class B4W_MATERIAL_PT_transp(MaterialButtonsPanel, Panel):
-    bl_label = "Transparency"
+    bl_label = _("Transparency")
 
     @classmethod
     def poll(cls, context):
@@ -177,20 +200,20 @@ class B4W_MATERIAL_PT_transp(MaterialButtonsPanel, Panel):
 
         mat = active_node_mat(context.material)
 
-        layout.prop(mat, "use_transparency", text="Show Transparency")
+        layout.prop(mat, "use_transparency", text=_("Show Transparency"))
         split = layout.split()
         col = split.column()
         col.active = not mat.use_nodes
         col.prop(mat, "alpha")
-        col.prop(mat, "specular_alpha", text="Specular")
+        col.prop(mat, "specular_alpha", text=_("Specular"))
 
         col = split.column()
         game = context.material.game_settings
-        col.prop(game, "alpha_blend", text="Type")
+        col.prop(game, "alpha_blend", text=_("Type"))
         col.prop(mat, "offset_z")
 
 class B4W_MATERIAL_PT_mirror(MaterialButtonsPanel, Panel):
-    bl_label = "Mirror"
+    bl_label = _("Mirror")
     bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
@@ -206,7 +229,7 @@ class B4W_MATERIAL_PT_mirror(MaterialButtonsPanel, Panel):
 
         raym = mat.raytrace_mirror
 
-        layout.prop(raym, "use", text="Show Reflectivity")
+        layout.prop(raym, "use", text=_("Show Reflectivity"))
         split = layout.split()
 
         col = split.column()
@@ -216,10 +239,10 @@ class B4W_MATERIAL_PT_mirror(MaterialButtonsPanel, Panel):
         col.prop(raym, "fresnel")
         sub = col.column()
         sub.active = (raym.fresnel > 0.0)
-        sub.prop(raym, "fresnel_factor", text="Blend")
+        sub.prop(raym, "fresnel_factor", text=_("Blend"))
 
 class B4W_MATERIAL_PT_halo(MaterialButtonsPanel, Panel):
-    bl_label = "Halo"
+    bl_label = _("Halo")
 
     @classmethod
     def poll(cls, context):
@@ -235,41 +258,41 @@ class B4W_MATERIAL_PT_halo(MaterialButtonsPanel, Panel):
 
         def number_but(layout, toggle, number, name, color):
             row = layout.row(align=True)
-            row.prop(halo, toggle, text="")
+            row.prop(halo, toggle, text=_(""))
             sub = row.column(align=True)
             sub.active = getattr(halo, toggle)
             sub.prop(halo, number, text=name, translate=False)
             if not color == "":
-                sub.prop(mat, color, text="")
+                sub.prop(mat, color, text=_(""))
 
         split = layout.split()
 
         col = split.column()
         col.prop(mat, "alpha")
-        col.prop(mat, "diffuse_color", text="")
+        col.prop(mat, "diffuse_color", text=_(""))
 
         col = split.column()
         col.prop(halo, "size")
         col.prop(halo, "hardness")
 
-        layout.label(text="Options:")
+        layout.label(text=_("Options:"))
 
-        number_but(layout, "use_ring", "ring_count", iface_("Rings"), "mirror_color")
-        number_but(layout, "use_lines", "line_count", iface_("Lines"), "specular_color")
-        number_but(layout, "use_star", "star_tip_count", iface_("Star Tips"), "")
+        number_but(layout, "use_ring", "ring_count", iface_(_("Rings")), "mirror_color")
+        number_but(layout, "use_lines", "line_count", iface_(_("Lines")), "specular_color")
+        number_but(layout, "use_star", "star_tip_count", iface_(_("Star Tips")), "")
 
         row = layout.row()
-        row.prop(mat, "b4w_halo_sky_stars", text = "Special: Stars");
+        row.prop(mat, "b4w_halo_sky_stars", text = _("Special: Stars"));
 
         if mat.b4w_halo_sky_stars:
             row = layout.row()
-            row.prop(mat, "b4w_halo_stars_blend_height", text = "Blending Height");
+            row.prop(mat, "b4w_halo_stars_blend_height", text = _("Blending Height"));
 
             row = layout.row()
-            row.prop(mat, "b4w_halo_stars_min_height", text = "Minimum Height");
+            row.prop(mat, "b4w_halo_stars_min_height", text = _("Minimum Height"));
 
 class B4W_MATERIAL_PT_rendering_options(MaterialButtonsPanel, Panel):
-    bl_label = "Rendering Options"
+    bl_label = _("Rendering Options")
 
     @classmethod
     def poll(cls, context):
@@ -285,11 +308,11 @@ class B4W_MATERIAL_PT_rendering_options(MaterialButtonsPanel, Panel):
 
         split = layout.split()
         col = split.column()
-        col.prop(mat, "b4w_do_not_render", text="Do Not Render")
+        col.prop(mat, "b4w_do_not_render", text=_("Do Not Render"))
 
         col = split.column()
-        col.active = mat.game_settings.alpha_blend not in ["OPAQUE", "CLIP"]
-        col.prop(mat, "b4w_render_above_all", text="Render Above All")
+        col.active = base_mat.game_settings.alpha_blend not in ["OPAQUE", "CLIP"]
+        col.prop(mat, "b4w_render_above_all", text=_("Render Above All"))
 
         row = layout.row()
         game = context.material.game_settings
@@ -298,17 +321,17 @@ class B4W_MATERIAL_PT_rendering_options(MaterialButtonsPanel, Panel):
 
         split = layout.split()
         col = split.column()
-        col.prop(mat, "b4w_wettable", text="Wettable")
+        col.prop(mat, "b4w_wettable", text=_("Wettable"))
 
         col = split.column()
         col.active = not mat.use_nodes
-        col.prop(mat, "b4w_refractive", text = "Refractive")
+        col.prop(mat, "b4w_refractive", text = _("Refractive"))
         row = col.row()
         row.active = mat.b4w_refractive
-        row.prop(mat, "b4w_refr_bump", text="Refraction Bump")
+        row.prop(mat, "b4w_refr_bump", text=_("Refraction Bump"))
 
 class B4W_MaterialExport(MaterialButtonsPanel, bpy.types.Panel):
-    bl_label = "Export Options"
+    bl_label = _("Export Options")
     bl_idname = "MATERIAL_PT_b4w_export"
 
     def draw(self, context):
@@ -319,10 +342,10 @@ class B4W_MaterialExport(MaterialButtonsPanel, bpy.types.Panel):
         # prevent errors when panel is empty
         if mat:
             row = layout.row()
-            row.prop(mat, "b4w_do_not_export", text="Do Not Export")
+            row.prop(mat, "b4w_do_not_export", text=_("Do Not Export"))
 
 class B4W_TerrainDynGrass(MaterialButtonsPanel, bpy.types.Panel):
-    bl_label = "Terrain Dynamic Grass"
+    bl_label = _("Terrain Dynamic Grass")
     bl_idname = "MATERIAL_PT_b4w_terrain"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -334,7 +357,7 @@ class B4W_TerrainDynGrass(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_terrain", text="")
+        self.layout.prop(mat, "b4w_terrain", text=_(""))
 
     def draw(self, context):
         mat = context.material
@@ -361,13 +384,13 @@ class B4W_TerrainDynGrass(MaterialButtonsPanel, bpy.types.Panel):
                 icon_color = "GROUP_VCOL"
 
         row = layout.row()
-        row.prop(mat, "b4w_dynamic_grass_size", text="Grass Size (R)", icon=icon_size)
+        row.prop(mat, "b4w_dynamic_grass_size", text=_("Grass Size (R)"), icon=icon_size)
 
         row = layout.row()
-        row.prop(mat, "b4w_dynamic_grass_color", text="Grass Color (RGB)", icon=icon_color)
+        row.prop(mat, "b4w_dynamic_grass_color", text=_("Grass Color (RGB)"), icon=icon_color)
 
 class B4W_CollisionMaterial(MaterialButtonsPanel, bpy.types.Panel):
-    bl_label = "Special: Collision"
+    bl_label = _("Special: Collision")
     bl_idname = "MATERIAL_PT_b4w_collision"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -379,7 +402,7 @@ class B4W_CollisionMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_collision", text="")
+        self.layout.prop(mat, "b4w_collision", text=_(""))
 
     def draw(self, context):
         mat = context.material
@@ -388,13 +411,13 @@ class B4W_CollisionMaterial(MaterialButtonsPanel, bpy.types.Panel):
         layout.active = mat.b4w_collision
 
         row = layout.row()
-        row.prop(mat, "b4w_use_ghost", text="Ghost")
+        row.prop(mat, "b4w_use_ghost", text=_("Ghost"))
 
         row = layout.row()
-        row.prop(mat, "b4w_collision_id", text="Collision ID")
+        row.prop(mat, "b4w_collision_id", text=_("Collision ID"))
 
         col = layout.column()
-        col.prop(mat, "b4w_collision_margin", text="Margin")
+        col.prop(mat, "b4w_collision_margin", text=_("Margin"))
 
         phys = context.material.physics  # don't use node material
 
@@ -404,13 +427,13 @@ class B4W_CollisionMaterial(MaterialButtonsPanel, bpy.types.Panel):
         row.prop(phys, "elasticity", slider=True)
 
         col = layout.column()
-        col.prop(mat, "b4w_collision_group", text="Collision Group")
+        col.prop(mat, "b4w_collision_group", text=_("Collision Group"))
         col = layout.column()
-        col.prop(mat, "b4w_collision_mask", text="Collision Mask")
+        col.prop(mat, "b4w_collision_mask", text=_("Collision Mask"))
 
 
 class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
-    bl_label = "Water"
+    bl_label = _("Water")
     bl_idname = "MATERIAL_PT_b4w_water"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -422,7 +445,7 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_water", text="")
+        self.layout.prop(mat, "b4w_water", text=_(""))
 
     def draw(self, context):
         mat = context.material
@@ -433,101 +456,101 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "b4w_water_shore_smoothing", text="Shore Smoothing")
+        col.prop(mat, "b4w_water_shore_smoothing", text=_("Shore Smoothing"))
         row = col.row()
         row.active = getattr(mat, "b4w_water_shore_smoothing")
-        row.prop(mat, "b4w_water_absorb_factor", text="Absorb Factor")
+        row.prop(mat, "b4w_water_absorb_factor", text=_("Absorb Factor"))
 
         col = split.column()
-        col.label(text="Foam:")
-        col.prop(mat, "b4w_foam_factor", text="Factor")
+        col.label(text=_("Foam:"))
+        col.prop(mat, "b4w_foam_factor", text=_("Factor"))
 
         layout.separator()
 
         split = layout.split()
         col = split.column()
-        col.label(text = ("Shallow water:"))
-        col.prop(mat, "b4w_shallow_water_col", text="")
-        col.prop(mat, "b4w_shallow_water_col_fac", text="Factor")
+        col.label(text = _("Shallow water:"))
+        col.prop(mat, "b4w_shallow_water_col", text=_(""))
+        col.prop(mat, "b4w_shallow_water_col_fac", text=_("Factor"))
 
-        col.label(text = ("Underwater fog:"))
-        col.prop(mat, "b4w_water_fog_color", text="")
-        col.prop(mat, "b4w_water_fog_density", text="Density")
+        col.label(text = _("Underwater fog:"))
+        col.prop(mat, "b4w_water_fog_color", text=_(""))
+        col.prop(mat, "b4w_water_fog_density", text=_("Density"))
 
         col = split.column()
-        col.label(text = ("Shore water:"))
-        col.prop(mat, "b4w_shore_water_col", text="")
-        col.prop(mat, "b4w_shore_water_col_fac", text="Factor")
+        col.label(text = _("Shore water:"))
+        col.prop(mat, "b4w_shore_water_col", text=_(""))
+        col.prop(mat, "b4w_shore_water_col_fac", text=_("Factor"))
 
         layout.separator()
 
         split = layout.split()
         col = split.column()
-        col.label(text="Sub Surface Scattering")
-        col.prop(mat, "b4w_water_sss_strength", text="Strength")
-        col.prop(mat, "b4w_water_sss_width", text="Width")
+        col.label(text=_("Sub Surface Scattering"))
+        col.prop(mat, "b4w_water_sss_strength", text=_("Strength"))
+        col.prop(mat, "b4w_water_sss_width", text=_("Width"))
 
         col = split.column()
-        col.label(text="Ripples (NormalMap)")
-        col.prop(mat, "b4w_water_norm_uv_velocity", text="Velocity")
+        col.label(text=_("Ripples (NormalMap)"))
+        col.prop(mat, "b4w_water_norm_uv_velocity", text=_("Velocity"))
 
         layout.separator()
 
         row = layout.row()
-        row.prop(mat, "b4w_water_dynamic", text="Waves")
+        row.prop(mat, "b4w_water_dynamic", text=_("Waves"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_waves_height", text="Wave Height")
-        row.prop(mat, "b4w_waves_length", text="Wave Length")
+        row.prop(mat, "b4w_waves_height", text=_("Wave Height"))
+        row.prop(mat, "b4w_waves_length", text=_("Wave Length"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_dst_noise_scale0", text="Noise Dist Scale 0")
-        row.prop(mat, "b4w_water_dst_noise_scale1", text="Noise Dist Scale 1")
+        row.prop(mat, "b4w_water_dst_noise_scale0", text=_("Noise Dist Scale 0"))
+        row.prop(mat, "b4w_water_dst_noise_scale1", text=_("Noise Dist Scale 1"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_dst_noise_freq0", text="Noise Dist Freq 0")
-        row.prop(mat, "b4w_water_dst_noise_freq1", text="Noise Dist Freq 1")
+        row.prop(mat, "b4w_water_dst_noise_freq0", text=_("Noise Dist Freq 0"))
+        row.prop(mat, "b4w_water_dst_noise_freq1", text=_("Noise Dist Freq 1"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_dir_min_shore_fac", text="Min Dir Shore Fac")
-        row.prop(mat, "b4w_water_dir_freq", text="Dir Frequency")
+        row.prop(mat, "b4w_water_dir_min_shore_fac", text=_("Min Dir Shore Fac"))
+        row.prop(mat, "b4w_water_dir_freq", text=_("Dir Frequency"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_dir_noise_scale", text="Noise Dir Scale")
-        row.prop(mat, "b4w_water_dir_noise_freq", text="Noise Dir Freq")
+        row.prop(mat, "b4w_water_dir_noise_scale", text=_("Noise Dir Scale"))
+        row.prop(mat, "b4w_water_dir_noise_freq", text=_("Noise Dir Freq"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_dir_min_noise_fac", text="Min Dir Noise Fac")
-        row.prop(mat, "b4w_water_dst_min_fac", text="Min Dist Fac")
+        row.prop(mat, "b4w_water_dir_min_noise_fac", text=_("Min Dir Noise Fac"))
+        row.prop(mat, "b4w_water_dst_min_fac", text=_("Min Dist Fac"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_water_waves_hor_fac", text="Horizontal Factor")
+        row.prop(mat, "b4w_water_waves_hor_fac", text=_("Horizontal Factor"))
 
         layout.separator()
 
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "b4w_generated_mesh", text="Generate Mesh")
+        col.prop(mat, "b4w_generated_mesh", text=_("Generate Mesh"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_num_cascads", text="Cascades Number")
+        row.prop(mat, "b4w_water_num_cascads", text=_("Cascades Number"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_subdivs", text="Subdivisions")
+        row.prop(mat, "b4w_water_subdivs", text=_("Subdivisions"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_generated_mesh")
-        row.prop(mat, "b4w_water_detailed_dist", text="Detailed Distance")
+        row.prop(mat, "b4w_water_detailed_dist", text=_("Detailed Distance"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_generated_mesh")
@@ -538,19 +561,19 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
         count = (n*(s + 1)*(s + 1) - 4*(n - 1)*s
                - 2*s - (n - 1)*(s/2 - 1)*(s/2 - 1)
                + 8)
-        row.label(text = ("Number of vertices " + repr(count)))
+        row.label(text = (_("Number of vertices ") + repr(count)))
 
         col = split.column()
         row = col.row()
-        row.prop(mat, "b4w_water_enable_caust", text="Caustics")
+        row.prop(mat, "b4w_water_enable_caust", text=_("Caustics"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_water_enable_caust")
-        row.prop(mat, "b4w_water_caust_scale", text="Scale")
+        row.prop(mat, "b4w_water_caust_scale", text=_("Scale"))
 
         row = col.row()
         row.active = getattr(mat, "b4w_water_enable_caust")
-        row.prop(mat, "b4w_water_caust_brightness", text="Brightness")
+        row.prop(mat, "b4w_water_caust_brightness", text=_("Brightness"))
 
 
 def register():

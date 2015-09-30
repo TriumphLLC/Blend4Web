@@ -280,7 +280,7 @@ msgstr ""
 
 #: ../camera.rst:160
 msgid "**Камера типа Hover**"
-msgstr "**Hover Сamera**"
+msgstr "**Hover Camera**"
 
 #: ../camera.rst:163
 msgid ""

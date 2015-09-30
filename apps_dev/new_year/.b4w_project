@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = new_year
+title = New Year
+
+[paths]
+assets_dirs = deploy/assets/new_year;
+blend_dirs = blender/new_year;
+blender_exec = blender
+build_dir = deploy/apps/new_year
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = 
+optimization = simple
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

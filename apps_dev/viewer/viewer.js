@@ -164,7 +164,7 @@ function get_selected_object() {
 }
 
 function main_canvas_clicked(event) {
-    if (!_object_info_elem)
+    if (!_object_info_elem || !m_scenes.can_select_objects())
         return;
 
     hide_element("material_warning");
@@ -177,7 +177,7 @@ function main_canvas_clicked(event) {
 
     var prev_obj = get_selected_object();
 
-    if (prev_obj)
+    if (prev_obj && m_scenes.outlining_is_enabled(prev_obj))
         m_scenes.clear_outline_anim(prev_obj);
 
     var obj = m_scenes.pick_object(x, y);
@@ -245,9 +245,9 @@ function set_object_info() {
         return;
 
     var controlled_str = _controlled_object ?
-            m_scenes.get_object_name(_controlled_object) : "NONE";
+            object_to_interface_name(_controlled_object) : "NONE";
     var selected_str = _selected_object ?
-            m_scenes.get_object_name(_selected_object) : "NONE";
+            object_to_interface_name(_selected_object) : "NONE";
 
     var info = "CONTROLLED: " + controlled_str + " | SELECTED: " + selected_str;
 
@@ -845,7 +845,8 @@ function prepare_scenes(global_settings) {
     var lights = m_scenes.get_all_objects("LAMP");
     var lnames = [];
     for (var i = 0; i < lights.length; i ++)
-        lnames.push(lights[i].name)
+        lnames.push(object_to_interface_name(lights[i]));
+
     fill_select_options("light_name", lnames);
     if (lights.length > 0)
         get_lighting_params(lights[0]);
@@ -907,7 +908,7 @@ function change_apply_scene_settings(scene_name, settings) {
         if (m_anim.is_animated(sobj)) {
             if (!_anim_obj)
                 _anim_obj = sobj;
-            anim_obj_names.push(m_scenes.get_object_name(sobj));
+            anim_obj_names.push(object_to_interface_name(sobj));
         }
     }
 
@@ -924,8 +925,7 @@ function change_apply_scene_settings(scene_name, settings) {
     if (_anim_obj) {
         forbid_params(anim_param_names, "enable");
         fill_select_options("anim_active_object", anim_obj_names);
-        set_animation_params({anim_active_object :
-                m_scenes.get_object_name(_anim_obj)});
+        set_animation_params({anim_active_object : object_to_interface_name(_anim_obj)});
     } else
         forbid_params(anim_param_names, "disable");
 
@@ -958,7 +958,7 @@ function change_apply_scene_settings(scene_name, settings) {
         if (m_geom.check_shape_keys(sobj)) {
             if (!_shape_key_obj)
                 _shape_key_obj = sobj;
-            shape_keys_objs_names.push(m_scenes.get_object_name(sobj));
+            shape_keys_objs_names.push(object_to_interface_name(sobj));
         }
     }
 
@@ -968,8 +968,7 @@ function change_apply_scene_settings(scene_name, settings) {
     if (_shape_key_obj) {
         forbid_params(shape_keys_params, "enable");
         fill_select_options("shape_key_obj", shape_keys_objs_names);
-        set_shape_keys_params({shape_key_obj :
-                m_scenes.get_object_name(_shape_key_obj)});
+        set_shape_keys_params({shape_key_obj : object_to_interface_name(_shape_key_obj)});
     } else
         forbid_params(shape_keys_params, "disable");
 }
@@ -978,18 +977,15 @@ function render_callback(elapsed, current_time) {
     var camera = m_scenes.get_active_camera();
 
     if (_anim_obj) {
-        // update current frame
-        var slot_num = parseInt(document.getElementById("anim_slot").value);
-        var frame = Math.round(m_anim.get_frame(_anim_obj, slot_num));
-
-        if (parseInt($("#anim_frame_current").val()) !== frame) // optimization
-            set_slider("anim_frame_current", frame);
-
-        // update anim status
         var elem_status = document.getElementById("anim_status");
-        if (m_anim.is_play(_anim_obj, slot_num))
+        var slot_num = parseInt(document.getElementById("anim_slot").value);
+
+        if (m_anim.is_play(_anim_obj, slot_num)) {
+            var frame = Math.round(m_anim.get_frame(_anim_obj, slot_num));
+            if (parseInt($("#anim_frame_current").val()) !== frame)
+                set_slider("anim_frame_current", frame);
             elem_status.innerHTML = "PLAYING";
-        else
+        } else
             elem_status.innerHTML = "STOPPED";
     }
     if (m_nla.check_nla()) {
@@ -1002,7 +998,7 @@ function render_callback(elapsed, current_time) {
                 elem_status.innerHTML = "STOPPED";
         }
         var frame = parseInt(m_nla.get_frame().toFixed(0));
-        if (parseInt($("#nla_frame_current").val()) !== frame)
+        if (m_nla.is_play() && parseInt($("#nla_frame_current").val()) !== frame)
             set_slider("nla_frame_current", frame);
     }
 }
@@ -1229,7 +1225,7 @@ function nla_stop_clicked() {
 
 function set_shape_keys_params(value) {
     if ("shape_key_obj" in value) {
-        _shape_key_obj = m_scenes.get_object_by_name(value["shape_key_obj"]);
+        _shape_key_obj = interface_name_to_object(value["shape_key_obj"]);
 
         var shape_keys_names = m_geom.get_shape_keys_names(_shape_key_obj);
 
@@ -1265,8 +1261,7 @@ function set_nla_params(value) {
 function set_animation_params(value) {
 
     if ("anim_active_object" in value) {
-
-        _anim_obj = m_scenes.get_object_by_name(value.anim_active_object);
+        _anim_obj = interface_name_to_object(value["anim_active_object"]);
 
         var anim_names = m_anim.get_anim_names(_anim_obj);
 
@@ -1757,8 +1752,26 @@ function set_ambient_params(value) {
 function set_debug_params(value) {
     var debug_params = {};
 
-    if (typeof value.wireframe_mode == "string")
-        debug_params["wireframe_mode"] = get_sel_val(document.getElementById("wireframe_mode"));
+    if (typeof value.wireframe_mode == "string") {
+        var mode_str = get_sel_val(document.getElementById("wireframe_mode"));
+        switch (mode_str) {
+        case "WM_NONE":
+            debug_params["wireframe_mode"] = m_debug.WM_NONE;
+            break;
+        case "WM_OPAQUE_WIREFRAME":
+            debug_params["wireframe_mode"] = m_debug.WM_OPAQUE_WIREFRAME;
+            break;
+        case "WM_TRANSPARENT_WIREFRAME":
+            debug_params["wireframe_mode"] = m_debug.WM_TRANSPARENT_WIREFRAME;        
+            break;
+        case "WM_FRONT_BACK_VIEW":
+            debug_params["wireframe_mode"] = m_debug.WM_FRONT_BACK_VIEW;
+            break;
+        case "WM_DEBUG_SPHERES":
+            debug_params["wireframe_mode"] = m_debug.WM_DEBUG_SPHERES;
+            break;
+        }
+    }
     if (typeof value.wireframe_edge_color == "object")
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
 
@@ -2121,7 +2134,7 @@ function get_lighting_params(light_obj) {
 function set_lighting_params(value) {
 
     if ("light_name" in value)
-        get_lighting_params(m_scenes.get_object_by_name(value["light_name"]));
+        get_lighting_params(interface_name_to_object(value["light_name"]));
 
     var light_params = {};
 
@@ -2145,7 +2158,7 @@ function set_lighting_params(value) {
     if ("light_distance" in value)
         light_params["light_distance"] = parseFloat(value["light_distance"]);
 
-    var lamp = m_scenes.get_object_by_name($("#light_name").val());
+    var lamp = interface_name_to_object($("#light_name").val());
     m_lights.set_light_params(lamp, light_params);
     set_label("light_energy", (m_lights.get_light_params(lamp)["light_energy"]).toFixed(2));
 }
@@ -2312,7 +2325,7 @@ function get_dof_params() {
         
         $("#" + "dof_distance").parent().parent().parent().removeClass('ui-disabled');
         if (dof_params["dof_object"]) {
-            set_label("dof_object", dof_params["dof_object"].name);
+            set_label("dof_object", object_to_interface_name(dof_params["dof_object"]));
             dof_param_names.splice(0, 1);
             $("#" + "dof_distance").parent().addClass('ui-disabled');
             $("#" + "dof_object").parent().removeClass('ui-disabled');
@@ -2620,6 +2633,14 @@ function forbid_params(params, state) {
         else if (state == "disable")
             elem.addClass('ui-disabled');
     }
+}
+
+function object_to_interface_name(obj) {
+    return m_scenes.get_object_name_hierarchy(obj).join("->");
+}
+
+function interface_name_to_object(name) {
+    return m_scenes.get_object_by_dupli_name_list(name.split("->"));
 }
 
 });

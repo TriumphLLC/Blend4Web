@@ -1,5 +1,4 @@
 // lamp dirs
-#var NUM_LIGHTS 0
 #var LAMP_IND 0
 #var LAMP_SPOT_SIZE 0
 #var LAMP_SPOT_BLEND 0
@@ -7,7 +6,6 @@
 #var LAMP_LIGHT_FACT_IND 0
 #var LAMP_FAC_CHANNELS rgb
 #var LAMP_SHADOW_MAP_IND 0
-#var NUM_LFACTORS 0
 
 #import u_light_factors
 #import u_light_color_intensities
@@ -68,13 +66,9 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec3 D
     #node_out vec4 color_out
     #node_out vec3 specular_out
-# node_if !SHADELESS_MAT && !NODES_GLOW
+
     color_out = vec4(E + D * A, ZERO_VALUE_LIGHT);
-    specular_out = vec3(ZERO_VALUE_LIGHT);
-# node_else
-    color_out = vec4(D, ZERO_VALUE_LIGHT);
     specular_out = ZERO_VECTOR;
-# node_endif
 #endnode
 
 #node LIGHTING_LAMP
@@ -85,6 +79,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_out vec3 lcolorint
     #node_out float norm_fac
 
+// TODO: remove "NUM_LIGHTS > 0" and fix reflect batches
 # node_if !NODES_GLOW && NUM_LIGHTS > 0
     lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
 #  node_if LAMP_TYPE == HEMI

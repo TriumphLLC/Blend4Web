@@ -1,17 +1,38 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 from bpy.props import StringProperty
 import addon_utils
 
 import blend4web
-from .b4w_bin_suffix import get_platform_data
+
+b4w_modules = ["b4w_bin_suffix", "translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
 import os
+from blend4web.translator import _, p_
 
 class B4WInitErrorMessage(bpy.types.Operator):
     bl_idname = "b4w.init_error_message"
-    bl_label = "Blend4Web initialization error!"
+    bl_label = p_("Blend4Web initialization error!", "Operator")
     bl_options = {"INTERNAL"}
 
-    message = StringProperty(name="Message string")
+    message = StringProperty(name=_("Message string"))
 
     def execute(self, context):
         # NOTE: disable addon if binaries are incompatible
@@ -34,10 +55,10 @@ class B4WInitErrorMessage(bpy.types.Operator):
 
 class B4WVersionMismatchMessage(bpy.types.Operator):
     bl_idname = "b4w.version_mismatch_message"
-    bl_label = "Warning: Blender version mismatch."
+    bl_label = p_("Warning: Blender version mismatch.", "Operator")
     bl_options = {"INTERNAL"}
 
-    message = StringProperty(name="Message string")
+    message = StringProperty(name=_("Message string"))
 
     def execute(self, context):
         return {'FINISHED'}
@@ -70,7 +91,7 @@ def bin_invalid_message(arg):
     if bin_invalid_message in bpy.app.handlers.scene_update_pre:
         bpy.app.handlers.scene_update_pre.remove(bin_invalid_message)
 
-    platform_data = get_platform_data()
+    platform_data = b4w_bin_suffix.get_platform_data()
     message = "Addon is not compatible with \"" \
             + platform_data["system_name"] + " x" + platform_data["arch_bits"] \
             + "\" platform."

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -12,11 +29,10 @@ b4w.module["__particles"] = function(exports, require) {
 var m_cfg    = require("__config");
 var m_geom   = require("__geometry");
 var m_scenes = require("__scenes");
+var m_time   = require("__time");
 var m_tsr    = require("__tsr");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
-
-var cfg_ani = m_cfg.animation;
 
 var STDGRAVITY = 9.81;
 var DELAYRANDFACTOR = 10;
@@ -133,16 +149,16 @@ exports.init_particles_data = function(batch, psystem, pmaterial) {
             psystem["settings"]["type"]);
     pdata.frame_start = psystem["settings"]["frame_start"];
     pdata.frame_end = psystem["settings"]["frame_end"];
-    pdata.time_length = (pdata.frame_end - pdata.frame_start) / cfg_ani.framerate;
+    pdata.time_length = (pdata.frame_end - pdata.frame_start) / m_time.get_framerate();
     pdata.lifetime_frames = psystem["settings"]["lifetime"];
-    pdata.lifetime = pdata.lifetime_frames / cfg_ani.framerate;
+    pdata.lifetime = pdata.lifetime_frames / m_time.get_framerate();
     pdata.cyclic = psystem["settings"]["b4w_cyclic"] ? 1 : 0;
 
     pdata.mass = psystem["settings"]["mass"];
     pdata.nfactor = psystem["settings"]["normal_factor"];
     pdata.gravity = psystem["settings"]["effector_weights"]["gravity"] * STDGRAVITY;
-    pdata.fade_in = psystem["settings"]["b4w_fade_in"] /cfg_ani.framerate;
-    pdata.fade_out = psystem["settings"]["b4w_fade_out"] /cfg_ani.framerate;
+    pdata.fade_in = psystem["settings"]["b4w_fade_in"] /m_time.get_framerate();
+    pdata.fade_out = psystem["settings"]["b4w_fade_out"] /m_time.get_framerate();
     pdata.wind_factor = psystem["settings"]["effector_weights"]["wind"];
 
     pdata.use_world_space = 
@@ -239,9 +255,9 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     var pdata = batch.particles_data;
 
     var pcount = psystem["settings"]["count"]; 
-    var time_start = psystem["settings"]["frame_start"] / cfg_ani.framerate;
-    var time_end = psystem["settings"]["frame_end"] / cfg_ani.framerate;
-    var lifetime = psystem["settings"]["lifetime"] / cfg_ani.framerate;
+    var time_start = psystem["settings"]["frame_start"] / m_time.get_framerate();
+    var time_end = psystem["settings"]["frame_end"] / m_time.get_framerate();
+    var lifetime = psystem["settings"]["lifetime"] / m_time.get_framerate();
     var lifetime_random = psystem["settings"]["lifetime_random"];
     var emit_from = psystem["settings"]["emit_from"];
     var vel_factor_rand = psystem["settings"]["factor_random"];

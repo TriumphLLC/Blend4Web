@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -208,7 +225,7 @@ exports.set_rotation_rel = function(obj, x, y, z, w) {
 
 /**
  * @method module:transform.set_rotation_quat
- * @deprecated Use set_rotation() instead
+ * @deprecated Use {@link module:transform.set_rotation|transform.set_rotation} instead
  */
 exports.set_rotation_quat = function() {
     m_print.error("set_rotation_quat() deprecated, use set_rotation() instead");
@@ -247,7 +264,7 @@ exports.set_rotation_rel_v = function(obj, quat) {
 
 /**
  * @method module:transform.set_rotation_quat_v
- * @deprecated Use set_rotation_v() instead
+ * @deprecated Use {@link module:transform.set_rotation_v|transform.set_rotation_v} instead
  */
 exports.set_rotation_quat_v = function() {
     m_print.error("set_rotation_quat_v() deprecated, use set_rotation_v() instead");
@@ -287,7 +304,7 @@ exports.get_rotation_rel = function(obj, opt_dest) {
 
 /**
  * @method module:transform.get_rotation_quat
- * @deprecated Use get_rotation() instead
+ * @deprecated Use {@link module:transform.get_rotation|transform.get_rotation} instead
  */
 exports.get_rotation_quat = function() {
     m_print.error("get_rotation_quat() deprecated, use get_rotation() instead");
@@ -430,7 +447,7 @@ exports.get_scale_rel = function(obj) {
 exports.empty_reset_transform = function(obj) {
     if (obj.type != "EMPTY") {
         m_print.error("Wrong object: " + obj.name);
-        return false;
+        return;
     }
 
     for (var i = 0; i < obj.cons_descends.length; i++)
@@ -455,7 +472,7 @@ exports.empty_reset_transform = function(obj) {
  */
 exports.get_object_size = function(obj) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("Wrong object: " + obj.name);
         return 0;
     }
@@ -468,13 +485,13 @@ exports.get_object_size = function(obj) {
  * @method module:transform.get_object_center
  * @param {Object3D} obj Object 3D
  * @param {Boolean} calc_bs_center Use the object's bounding sphere to
- * calculate center, otherwise the use bounding box.
+ * calculate center, otherwise use the bounding box.
  * @param {Vec3} [dest] Destination vector
  * @returns {Vec3} Destination vector
  */
 exports.get_object_center = function(obj, calc_bs_center, dest) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("Wrong object: " + obj.name);
         return null;
     }
@@ -486,9 +503,9 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
  * Perform incremental object translation in the local space.
  * @method module:transform.move_local
  * @param {Object3D} obj Object 3D
- * @param {Number} x Translation offset along X axis
- * @param {Number} y Translation offset along Y axis
- * @param {Number} z Translation offset along Z axis
+ * @param {Number} dx Translation offset along X axis
+ * @param {Number} dy Translation offset along Y axis
+ * @param {Number} dz Translation offset along Z axis
  */
 exports.move_local = function(obj, dx, dy, dz) {
     if (m_obj_util.is_dynamic(obj)) {

@@ -178,7 +178,7 @@
 
         
             
-<li> <a href="#.cam_quat_to_mesh_quat">cam_quat_to_mesh_quat<span class="signature">(quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+<li> <a href="#.cam_quat_to_mesh_quat">cam_quat_to_mesh_quat<span class="signature">(cam_quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
@@ -194,11 +194,11 @@
 
         
             
-<li> <a href="#.f32">f32<span class="signature">(param)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.f32">f32<span class="signature">(param)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
 
         
             
-<li> <a href="#.ground_project_quat">ground_project_quat<span class="signature">(quat)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+<li> <a href="#.ground_project_quat">ground_project_quat<span class="signature">(quat, dest)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
@@ -326,7 +326,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line28">line 28</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -403,7 +403,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line33">line 33</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -480,7 +480,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line38">line 38</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line39">line 39</a>
     </li></ul></dd>
     
 
@@ -557,7 +557,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line13">line 13</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -634,7 +634,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line18">line 18</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -711,7 +711,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line23">line 23</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -876,7 +876,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line268">line 268</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
@@ -1079,7 +1079,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line276">line 276</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -1214,7 +1214,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line53">line 53</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -1236,7 +1236,7 @@
 
     
 
-    <h4 class="name" id=".cam_quat_to_mesh_quat">cam_quat_to_mesh_quat<span class="signature">(quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+    <h4 class="name" id=".cam_quat_to_mesh_quat">cam_quat_to_mesh_quat<span class="signature">(cam_quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -1282,7 +1282,7 @@
 
         <tr>
             
-                <td class="name"><code>quat</code></td>
+                <td class="name"><code>cam_quat</code></td>
             
 
             <td class="type">
@@ -1414,7 +1414,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line156">line 156</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line159">line 159</a>
     </li></ul></dd>
     
 
@@ -1617,7 +1617,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line126">line 126</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line128">line 128</a>
     </li></ul></dd>
     
 
@@ -1775,7 +1775,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line224">line 224</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line227">line 227</a>
     </li></ul></dd>
     
 
@@ -1955,7 +1955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line90">line 90</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -1977,7 +1977,7 @@
 
     
 
-    <h4 class="name" id=".f32">f32<span class="signature">(param)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".f32">f32<span class="signature">(param)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
@@ -2063,6 +2063,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    New Float32Array.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -2096,7 +2118,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line48">line 48</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -2118,7 +2140,7 @@
 
     
 
-    <h4 class="name" id=".ground_project_quat">ground_project_quat<span class="signature">(quat)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+    <h4 class="name" id=".ground_project_quat">ground_project_quat<span class="signature">(quat, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -2179,6 +2201,29 @@
             
 
             <td class="description last">Source quaternion.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination quaternion.</td>
         </tr>
 
     
@@ -2253,7 +2298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line146">line 146</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -2398,6 +2443,8 @@
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-objects.html#.is_armature">objects.is_armature</a> instead.</li></ul></dd>
+    
 
     
 
@@ -2410,7 +2457,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line260">line 260</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -2555,6 +2602,8 @@
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-objects.html#.is_mesh">objects.is_mesh</a> instead.</li></ul></dd>
+    
 
     
 
@@ -2567,7 +2616,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line252">line 252</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -2779,7 +2828,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line215">line 215</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line218">line 218</a>
     </li></ul></dd>
     
 
@@ -2982,7 +3031,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line60">line 60</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -3185,7 +3234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line70">line 70</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -3388,7 +3437,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line296">line 296</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -3637,7 +3686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line238">line 238</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -3802,7 +3851,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line80">line 80</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -4120,7 +4169,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line167">line 167</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -4351,7 +4400,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line136">line 136</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -4531,7 +4580,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line104">line 104</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -4688,7 +4737,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line118">line 118</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -4914,7 +4963,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line192">line 192</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -5117,7 +5166,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line286">line 286</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line297">line 297</a>
     </li></ul></dd>
     
 
@@ -5410,7 +5459,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line203">line 203</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -5441,13 +5490,13 @@ identity quaternion in a plane.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:44:01 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:59 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

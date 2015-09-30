@@ -281,10 +281,10 @@ function get_clicked_object(e) {
 
     if (obj)
         switch(m_scs.get_object_name(obj)) {
-        case "rockets_box*rockets_box":
+        case "rockets_box":
             create_new_rocket(x, y);
             break;
-        case "control_box*control_box_button":
+        case "control_box_button":
             _camera_state = 2;
             action_rails();
             break;
@@ -846,7 +846,7 @@ function run_firework() {
 
     _interval = 0;
 
-    for (var i = 1; i <= _rocket_num; i++)
+    for (var i = 2; i <= _rocket_num + 1; i++)
         action_firework_item(i);
 }
 

@@ -3,6 +3,7 @@
 b4w.register("flight_main", function(exports, require) {
 
 var m_anim      = require("animation");
+var m_arm       = require("armature");
 var m_app       = require("app");
 var m_cam       = require("camera");
 var m_cfg       = require("config");
@@ -11,6 +12,7 @@ var m_main      = require("main");
 var m_preloader = require("preloader");
 var m_scs       = require("scenes");
 var m_sfx       = require("sfx");
+var m_tsr       = require("tsr");
 var m_version   = require("version");
 
 var m_vec3 = require("vec3");
@@ -45,7 +47,7 @@ var TS_TRACK    = 30;   // track the plane from fixed point
 var TS_CAM_ANIM = 40;   // camera animation
 
 var _vec3_tmp  = new Float32Array(3);
-var _vec3_tmp2 = new Float32Array(3);
+var _tsr = m_tsr.create();
 
 var _cessna_arm = null;
 var _cessna_spk = null;
@@ -350,14 +352,13 @@ function move_camera() {
     if (_trigger_state == TS_CAM_ANIM)
         return;
 
-    var target = _vec3_tmp;
-
-    m_anim.get_bone_translation(_cessna_arm, "Root", target);
+    m_arm.get_bone_tsr(_cessna_arm, "Root", _tsr);
+    var target = m_tsr.get_trans_view(_tsr);
 
     if (_trigger_state == TS_TRACK)
         var eye = CAM_STAT_POS;
     else if (_trigger_state == TS_FOLLOW) {
-        var eye = _vec3_tmp2;
+        var eye = _vec3_tmp;
 
         m_vec3.add(target, CAM_TRACKING_OFFSET, eye);
     }

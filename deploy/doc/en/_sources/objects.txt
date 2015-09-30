@@ -405,7 +405,7 @@ work with quaternions:
    object's rotation and animation.
 
 *util.euler_to_quat, util.quat_to_euler*.
-   Сonversion from Euler angles and back.
+   Conversion from Euler angles and back.
 
 
 Quaternion Example
@@ -530,7 +530,7 @@ Force Dynamic Geometry checkbox for the source object.
 
 
 
-Сopying objects in runtime can be performed with the "copy" method of
+Copying objects in runtime can be performed with the "copy" method of
 the "objects.js" module. This method requires three arguments: the id
 of the source object, a unique name for the new object and the boolean
 value to specify the copy mode (i.e. simple or deep). By default

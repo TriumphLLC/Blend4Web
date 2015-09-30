@@ -2,7 +2,6 @@
 apps_dev/code_snippets
 apps_dev/flight
 apps_dev/gallery
-apps_dev/Makefile
 apps_dev/new_year
 apps_dev/project.py
 apps_dev/victory_day_2015
@@ -84,12 +83,14 @@ README.rst
 
 scripts/blend4web.lst
 scripts/blend4web_sdk_free.lst
+scripts/blender/
 scripts/check_resources.py
 scripts/compile_b4w.py
 scripts/converter.py
 scripts/custom_json_encoder.py
 scripts/gen_glmatrix.sh
 scripts/graph.sh
+scripts/lib/
 scripts/make_dist.py
 scripts/memory.sh
 scripts/mod_list.py
@@ -98,6 +99,7 @@ scripts/process_blend.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
 scripts/shader_analyzer.py
+scripts/templates/
 scripts/translator.py
 
 shaders
@@ -146,6 +148,6 @@ VERSION
 # not ready
 !blender/website/slider/
 !deploy/assets/website/slider/
+!blender/website/contest/
+!deploy/assets/website/contest/
 
-# internal script
-!apps_dev/website/compile.sh

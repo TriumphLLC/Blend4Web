@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 # Original idea from the Recalc Vertex Normals add-on by adsn
     
 import bpy
@@ -9,6 +25,12 @@ import copy
 from collections import namedtuple
 
 from math import sqrt
+
+import blend4web
+b4w_modules =  ["translator",]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+from blend4web.translator import _, p_
 
 global b4w_vertex_to_loops_map
 b4w_vertex_to_loops_map = {}
@@ -83,7 +105,7 @@ def prepare(context):
     load_loops_normals_into_global_cache(context.active_object)
 
 class B4W_ShapeKeysNormal(bpy.types.PropertyGroup):
-    normal = bpy.props.FloatVectorProperty(name="Normal", subtype="NONE",
+    normal = bpy.props.FloatVectorProperty(name=_("Normal"), subtype="NONE",
             unit="NONE", size=3)
 
 def b4w_select(self, context):
@@ -129,7 +151,7 @@ def b4w_select(self, context):
 class B4W_VertexNormalsUI(bpy.types.Panel):
     # draw UI buttons
     bl_idname = "B4W_VIEW3D_PT_normal_editor"
-    bl_label = 'Normal Editor'
+    bl_label = _('Normal Editor')
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
@@ -153,39 +175,39 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         layout = self.layout
         row = layout.row(align=True)
         row.prop(context.active_object.data, 'use_auto_smooth',
-            text='Activate', toggle=True, icon='MOD_NORMALEDIT')
+            text=_('Activate'), toggle=True, icon='MOD_NORMALEDIT')
 
         sep = layout.separator()
 
         # draw normals
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.prop(context.active_object.data, 'show_normal_loop', text='Show Normals',
+        row.prop(context.active_object.data, 'show_normal_loop', text=_('Show Normals'),
             toggle=True, icon='LOOPSEL')
         row.enabled = is_edit_mode
-        row.prop(bpy.context.scene.tool_settings, 'normal_size', text='Size')
+        row.prop(bpy.context.scene.tool_settings, 'normal_size', text=_('Size'))
         row.enabled = is_edit_mode
 
         # Split normals
         row = layout.row()
-        row.prop(context.window_manager, 'b4w_split', text = 'Split Mode',
+        row.prop(context.window_manager, 'b4w_split', text = _('Split Mode'),
                  toggle=True)
         row.enabled = is_edit_mode
         row.active = context.active_object.data.use_auto_smooth
         # selection tools
         # selected single vertex index
-        row.prop(context.active_object, 'b4w_select', text='Index')
+        row.prop(context.active_object, 'b4w_select', text=_('Index'))
 
         sep = layout.separator()
 
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.b4w_smooth_normals', text = 'Average Split')
+        row.operator('object.b4w_smooth_normals', text = p_('Average Split', "Operator"))
         row.enabled = is_edit_mode and context.window_manager.b4w_split
 
         row = layout.row()
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.b4w_normal_rotate', text = 'Rotate')
+        row.operator('object.b4w_normal_rotate', text = p_('Rotate', "Operator"))
         row.enabled = is_edit_mode
 
         # manipulate normals
@@ -201,32 +223,32 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         # restore/smooth
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.b4w_restore_normals', text = 'Restore')
+        row.operator('object.b4w_restore_normals', text = p_('Restore', "Operator"))
         row.enabled = is_edit_mode
 
         # copy and paste
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.copy_normal', text = 'Copy', icon='COPYDOWN')
-        row.operator('object.paste_normal', text = 'Paste', icon='PASTEDOWN')
-        row.enabled = not context.window_manager.b4w_split and is_edit_mode
+        row.operator('object.copy_normal', text = p_('Copy', "Operator"), icon='COPYDOWN')
+        row.operator('object.paste_normal', text = p_('Paste', "Operator"), icon='PASTEDOWN')
+        row.enabled = is_edit_mode
 
         sep = layout.separator()
 
         # another edit operations
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.tree_vertex_normals', text = 'Tree')
-        row.operator('object.foliage_vertex_normals', text = 'Foliage')
-        row.operator('object.face_vertex_normals', text = 'Face')
+        row.operator('object.tree_vertex_normals', text = p_('Tree', "Operator"))
+        row.operator('object.foliage_vertex_normals', text = p_('Foliage', "Operator"))
+        row.operator('object.face_vertex_normals', text = p_('Face', "Operator"))
         row.enabled = not context.window_manager.b4w_split and is_edit_mode
 
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
         if context.window_manager.b4w_copy_normal_method == "MATCHED":
-            row.operator('object.copy_normals_from_mesh', text = 'Copy From Mesh')
+            row.operator('object.copy_normals_from_mesh', text = p_('Copy From Mesh', "Operator"))
         else:
-            row.operator('b4w.approx_normals_from_mesh', text = 'Copy From Mesh')
+            row.operator('b4w.approx_normals_from_mesh', text = p_('Copy From Mesh', "Operator"))
         row.prop(context.window_manager, 'b4w_copy_normal_method', text='')
         row.enabled = not is_edit_mode
 
@@ -236,8 +258,8 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
     # skip unselected to preserve normals on non transparent geometry
 
     bl_idname = 'object.tree_vertex_normals'
-    bl_label = 'Vertex Normal Tree'
-    bl_description = 'Align selected verts pointing away from 3d cursor'
+    bl_label = p_('Vertex Normal Tree', "Operator")
+    bl_description = _('Align selected verts pointing away from 3d cursor')
     bl_options = {"INTERNAL"}
         
     def execute(self, context):
@@ -270,8 +292,8 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
     # foliage vertex normals
     # align selected verts to global z axis
     bl_idname = 'object.foliage_vertex_normals'
-    bl_label = 'Vertex Normal Foliage'
-    bl_description = 'Selected verts to Z axis'
+    bl_label = p_('Vertex Normal Foliage', "Operator")
+    bl_description = _('Selected verts to Z axis')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -300,8 +322,8 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
 class B4W_FaceVertexNormals(bpy.types.Operator):
     # face orientation
     bl_idname = 'object.face_vertex_normals'
-    bl_label = 'Vertex Normal Face'
-    bl_description = 'Copy face normal'
+    bl_label = p_('Vertex Normal Face', "Operator")
+    bl_description = _('Copy face normal')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -320,7 +342,7 @@ class B4W_FaceVertexNormals(bpy.types.Operator):
                 sel_indices.append(i)
 
         if len(sel_indices) < 3:
-            self.report({'INFO'}, 'Please select at least 3 vertices')
+            self.report({'INFO'}, _('Please select at least 3 vertices'))
             return {"FINISHED"}
 
         for p in mesh.polygons:
@@ -346,9 +368,9 @@ class B4W_CopyNormalsFromMesh(bpy.types.Operator):
     # copy normals from another mesh if |v1 - v2| -> 0
 
     bl_idname = 'object.copy_normals_from_mesh'
-    bl_label = "B4W Copy Normals From Mesh (Matched)"
-    bl_description = ('Copy normals from the selected to the active mesh' +
-        ' for selected vertices')
+    bl_label = p_("B4W Copy Normals From Mesh (Matched)", "Operator")
+    bl_description = _('Copy normals from the selected to the active mesh' +
+                        ' for selected vertices')
     bl_options = {"INTERNAL"}
     
     def execute(self, context):
@@ -394,15 +416,15 @@ class B4W_CopyNormalsFromMesh(bpy.types.Operator):
 class B4W_ApproxNormalsFromMesh(bpy.types.Operator):
     # copy normals from the nearest vertices of another mesh
     bl_idname = "b4w.approx_normals_from_mesh"
-    bl_label = "B4W Copy Normals From Mesh (Nearest)"
-    bl_description = "Approximate target mesh normals from source mesh"
+    bl_label = p_("B4W Copy Normals From Mesh (Nearest)", "Operator")
+    bl_description = _("Approximate target mesh normals from source mesh")
     bl_options = {"INTERNAL"}
    
     def execute(self, context):
         prepare(context)
         if len(bpy.context.selected_objects) != 2:
             print('Wrong selection')
-            self.report({'INFO'}, 'Please select 2 meshes')
+            self.report({'INFO'}, _('Please select 2 meshes'))
         else:
             self.approx_normals(context)
             context.area.tag_redraw()
@@ -575,8 +597,8 @@ def find_single_selected_vertex(object):
 class B4W_CopyNormal(bpy.types.Operator):
     # copy normal
     bl_idname = 'object.copy_normal'
-    bl_label = 'Copy Normal'
-    bl_description = 'Copies normal from selected Vertex'
+    bl_label = p_('Copy Normal', "Operator")
+    bl_description = _('Copies normal from selected Vertex')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -585,30 +607,39 @@ class B4W_CopyNormal(bpy.types.Operator):
         prepare(context)
         obj = context.active_object
         vert_index = len(context.active_object.data.vertices)
-        
-        check = 0
-        # inverse selection
-        for h in range(vert_index):
-            if context.active_object.data.vertices[h].select == True:
-                check += 1
-        if check == 1:
-            for i in range(vert_index):
-                if context.active_object.data.vertices[i].select == True:
-                    result = mathutils.Vector()
-                    for l in b4w_vertex_to_loops_map[i]:
-                        result = result + mathutils.Vector(b4w_loops_normals[l])
-                    result = result / len(b4w_vertex_to_loops_map[i])
-                    context.window_manager.b4w_vn_copynormal = result
-        
+        if not context.window_manager.b4w_split:
+            check = 0
+            # inverse selection
+            for h in range(vert_index):
+                if context.active_object.data.vertices[h].select == True:
+                    check += 1
+            if check == 1:
+                for i in range(vert_index):
+                    if context.active_object.data.vertices[i].select == True:
+                        result = mathutils.Vector()
+                        for l in b4w_vertex_to_loops_map[i]:
+                            result = result + mathutils.Vector(b4w_loops_normals[l])
+                        result = result / len(b4w_vertex_to_loops_map[i])
+                        context.window_manager.b4w_vn_copynormal = result
+
+            else:
+                self.report({'INFO'}, _('Please select a single vertex'))
+            return {'FINISHED'}
         else:
-            self.report({'INFO'}, 'please select a single vertex')
-        return {'FINISHED'}
+            for i in range(vert_index):
+                if obj.data.vertices[i].select == True:
+                    obj["b4w_select_vertex"] = i
+                    break
+            array = b4w_vertex_to_loops_map[obj["b4w_select_vertex"]]
+            ind = array[obj["b4w_select"]%len(array)]
+            context.window_manager.b4w_vn_copynormal = mathutils.Vector(b4w_loops_normals[ind])
+            return {'FINISHED'}
 
 class B4W_PasteNormal(bpy.types.Operator):
     # paste normal
     bl_idname = 'object.paste_normal'
-    bl_label = 'Paste Normal'
-    bl_description = 'Paste normal to selected Vertex'
+    bl_label = p_('Paste Normal', "Operator")
+    bl_description = _('Paste normal to selected Vertex')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -622,7 +653,7 @@ class B4W_PasteNormal(bpy.types.Operator):
         check = 0
         normals_edited = False
     
-        if 'b4w_select_vertex' in context.active_object:
+        if not context.window_manager.b4w_split:
             for h in range(vert_index):
                 if context.active_object.data.vertices[h].select == True:
                     check += 1
@@ -633,7 +664,13 @@ class B4W_PasteNormal(bpy.types.Operator):
                         set_vertex_normal(i, (n[0], n[1], n[2]))
                         normals_edited = True
             else:
-                self.report({'INFO'}, 'please select at least one vertex')
+                self.report({'INFO'}, _('Please select at least one vertex'))
+        else:
+            array = b4w_vertex_to_loops_map[obj["b4w_select_vertex"]]
+            ind = array[obj["b4w_select"]%len(array)]
+            n = context.window_manager.b4w_vn_copynormal
+            b4w_loops_normals[ind] = (n[0], n[1], n[2])
+            normals_edited = True
 
         if normals_edited:
             bpy.ops.object.mode_set(mode="OBJECT")
@@ -644,8 +681,8 @@ class B4W_PasteNormal(bpy.types.Operator):
 class B4W_RestoreNormals(bpy.types.Operator):
     # clean up normal list
     bl_idname = "object.b4w_restore_normals"
-    bl_label = "Restore Normals from vertices"
-    bl_description = 'Restore Normals from vertices'
+    bl_label = p_("Restore Normals from vertices", "Operator")
+    bl_description = _('Restore normals from vertices')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -683,8 +720,8 @@ class B4W_RestoreNormals(bpy.types.Operator):
 class B4W_SmoothNormals(bpy.types.Operator):
     # clean up normal list
     bl_idname = "object.b4w_smooth_normals"
-    bl_label = "Average split normals"
-    bl_description = 'Average split normals'
+    bl_label = p_("Average Split Normals", "Operator")
+    bl_description = _('Average split normals')
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -711,7 +748,7 @@ class B4W_SmoothNormals(bpy.types.Operator):
 
 class OperatorRotateNormal(bpy.types.Operator):
     bl_idname = "object.b4w_normal_rotate"
-    bl_label = "Rotate Normal"
+    bl_label = p_("Rotate Normal", "Operator")
     bl_options = {"INTERNAL"}
 
     def calc_mouse_view(self, context):
@@ -848,8 +885,12 @@ class OperatorRotateNormal(bpy.types.Operator):
             i = 0
             for v in context.active_object.data.vertices:
                 vert = mathutils.Vector()
-                for j in b4w_vertex_to_loops_map[i]:
-                    vert = vert + mathutils.Vector(b4w_loops_normals[j])
+                # check for floating vertices
+                if i in b4w_vertex_to_loops_map:
+                    for j in b4w_vertex_to_loops_map[i]:
+                        vert = vert + mathutils.Vector(b4w_loops_normals[j])
+                else:
+                    vert = mathutils.Vector()
                 vert = vert / (j+1)
                 i = i + 1
                 self.init_normals.append(vert)
@@ -987,6 +1028,8 @@ def draw_helpers():
         bgl.glGetFloatv(bgl.GL_LINE_WIDTH, line_width)
         if context.window_manager.b4w_split and "b4w_select_vertex" in obj:
             vertex = obj.data.vertices
+            if not obj["b4w_select_vertex"] in b4w_vertex_to_loops_map:
+                return
             array = b4w_vertex_to_loops_map[obj["b4w_select_vertex"]]
             ind = array[obj["b4w_select"]%len(array)]
             n = b4w_loops_normals[ind]
@@ -1029,53 +1072,53 @@ def draw_helper_callback_disable():
 def init_properties():
 
     bpy.types.Object.b4w_shape_keys_normals = bpy.props.CollectionProperty(
-        name="B4W: shape keys normal list",
+        name=_("B4W: shape keys normal list"),
         type=B4W_ShapeKeysNormal,
-        description="Shape keys normal list")
+        description=_("Shape keys normal list"))
 
     bpy.types.WindowManager.b4w_split = bpy.props.BoolProperty(
-         name="B4W: edit split normals",
+         name=_("B4W: edit split normals"),
          default=False,
-         description="Edit split normals")
+         description=_("Edit split normals"))
 
     bpy.types.Object.b4w_select = bpy.props.IntProperty(
-        name="B4W: selected normal",
+        name=_("B4W: selected normal"),
         default=0,
         update=b4w_select,
-        description="Index of selected normal")
+        description=_("Index of selected normal"))
 
     bpy.types.Object.b4w_select_vertex = bpy.props.IntProperty(
-        name="B4W: selected vertex",
+        name=_("B4W: selected vertex"),
         default=0,
-        description="Index of selected vertex")
+        description=_("Index of selected vertex"))
 
     bpy.types.WindowManager.b4w_vn_copynormal = bpy.props.FloatVectorProperty(
-        name="B4W: vertex normal copy",
+        name=_("B4W: vertex normal copy"),
         default=(0.0, 0.0, 0.0),
-        description="Vertex normal copy")
+        description=_("Vertex normal copy"))
 
     bpy.types.WindowManager.b4w_vn_customnormal1 = bpy.props.FloatVectorProperty(
-        name="B4W: custom vertex normal 1",
+        name=_("B4W: custom vertex normal 1"),
         default=(0.0, 0.0, 1.0),
         subtype = 'DIRECTION',
         update=update_custom_normal1,
-        description="Custom vertex normal")
+        description=_("Custom vertex normal"))
 
     bpy.types.WindowManager.b4w_vn_customnormal2 = bpy.props.FloatVectorProperty(
-        name="B4W: custom vertex normal 2",
+        name=_("B4W: custom vertex normal 2"),
         default=(0.0, 0.0, 1.0),
         subtype = 'TRANSLATION',
         update=update_custom_normal2,
-        description="Custom vertex normal")
+        description=_("Custom vertex normal"))
 
     bpy.types.WindowManager.b4w_copy_normal_method = bpy.props.EnumProperty(
         name = "B4W: method of copying normals",
-        description = "Copy from vertices",
+        description = _("Copy from vertices"),
         items = [
-            ("MATCHED", "Matched Vertices",
-                "Copy normals only from matched vertices of the source mesh", 0),
-            ("NEAREST", "Nearest Vertices",
-                "Copy normals from nearest vertices of the source mesh", 1),
+            ("MATCHED", _("Matched Vertices"),
+                _("Copy normals only from matched vertices of the source mesh"), 0),
+            ("NEAREST", _("Nearest Vertices"),
+                _("Copy normals from nearest vertices of the source mesh"), 1),
             # ("INTERPOLATED", "Interpolated Vertices",  "", 2), # -> proposed
         ],
         default = "NEAREST"

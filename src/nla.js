@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -15,13 +32,14 @@ var m_cfg       = require("__config");
 var m_lights    = require("__lights");
 var m_loader    = require("__loader");
 var m_obj       = require("__objects");
+var m_obj_util  = require("__obj_util");
 var m_print     = require("__print");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_tex       = require("__textures");
+var m_time      = require("__time");
 var m_util      = require("__util");
 
-var cfg_ani = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
 
 var _nla_arr = [];
@@ -30,117 +48,83 @@ var _start_time = -1;
 // to fix precision issues with freezing current frame
 var CF_FREEZE_EPSILON = 0.000001;
 
-exports.update_scene_nla = function(scene, is_cyclic, data_id) {
-    var nla = {
-        frame_start: scene["frame_start"],
-        frame_end: scene["frame_end"],
-        frame_offset: 0,
-        last_frame: -1,
-        range_end: scene["frame_end"],
-        range_start: scene["frame_start"],
-        user_callback: null,
-        data_id : data_id,
-        cyclic: is_cyclic,
-        objects: [],
-        textures: [],
-        scripts: [],
-        is_stopped: false,
-        force_update: false,
-        scene_name: scene["name"],
-        curr_script_slots: [],
-        registers: {
-            "R1" : 0,
-            "R2" : 0,
-            "R3" : 0,
-            "R4" : 0,
-            "R5" : 0,
-            "R6" : 0,
-            "R7" : 0,
-            "R8" : 0
-        }
-    }
-    scene._nla = nla;
-    prepare_nla_script(scene, nla);
+exports.update_object = function(bpy_obj, obj) {
 
-    var sobjs = m_obj.get_scene_objs_derived(scene, "ALL", data_id);
+    var sd = find_scene_data_for_nla(obj);
+    if (sd) {
+        sd.obj_has_nla_on_scene = true;
 
-    for (var i = 0; i < sobjs.length; i++) {
-        var sobj = sobjs[i];
-        var bpy_sobj = sobj.temp_bpy_obj;
         var slot_num = 0;
-        var obj_nla_events = [];
 
-        var adata = bpy_sobj["animation_data"];
+        var adata = bpy_obj["animation_data"];
         if (adata && adata["nla_tracks"].length) {
             var nla_tracks = adata["nla_tracks"];
 
-            if (m_util.is_armature(sobj) ||
-                    m_cam.is_camera(sobj) ||
-                    m_util.is_mesh(sobj) ||
-                    m_util.is_empty(sobj) ||
-                    m_lights.is_lamp(sobj) ||
+            if (m_obj_util.is_armature(obj) ||
+                    m_obj_util.is_camera(obj) ||
+                    m_obj_util.is_mesh(obj) ||
+                    m_obj_util.is_empty(obj) ||
+                    m_obj_util.is_lamp(obj) ||
                     // no need for separate slot in case of sound
-                    m_sfx.is_speaker(sobj)) {
+                    m_obj_util.is_speaker(obj)) {
 
                 var nla_events = get_nla_events(nla_tracks, slot_num);
                 if (nla_events.length) {
-                    obj_nla_events = obj_nla_events.concat(nla_events);
+                    obj.nla_events = obj.nla_events.concat(nla_events);
                     slot_num++;
                 }
             }
         }
 
-        if (has_spk_param_nla(sobj)) {
-            var nla_tracks = bpy_sobj["data"]["animation_data"]["nla_tracks"];
+        if (bpy_obj_has_spk_param_nla(bpy_obj)) {
+            var nla_tracks = bpy_obj["data"]["animation_data"]["nla_tracks"];
             var nla_events = get_nla_events(nla_tracks, slot_num);
 
             if (nla_events.length) {
-                obj_nla_events = obj_nla_events.concat(nla_events);
+                obj.nla_events = obj.nla_events.concat(nla_events);
                 slot_num++;
             }
         }
 
-        if (m_anim.has_animated_nodemats(sobj)) {
-            var materials = bpy_sobj["data"]["materials"];
-
+        if (m_obj_util.is_mesh(obj)) {
+            var materials = bpy_obj["data"]["materials"];
             for (var j = 0; j < materials.length; j++) {
                 var mat = materials[j];
-                var node_tree = mat["node_tree"];
-                if (node_tree) {
+                if (mat["use_nodes"] && mat["node_tree"]) {
                     var nla_tracks = [];
-                    get_nodetree_nla_tracks_r(node_tree, nla_tracks);
+                    get_nodetree_nla_tracks_r(mat["node_tree"], nla_tracks);
                     var nla_events = get_nla_events(nla_tracks, slot_num);
                     if (nla_events.length) {
                         slot_num += assign_anim_slots(nla_events, slot_num);
-                        obj_nla_events = obj_nla_events.concat(nla_events);
+                        obj.nla_events = obj.nla_events.concat(nla_events);
                     }
                 }
             }
         }
 
-        for (var j = 0; j < bpy_sobj["particle_systems"].length; j++) {
-            var psys = bpy_sobj["particle_systems"][j];
+        for (var j = 0; j < bpy_obj["particle_systems"].length; j++) {
+            var psys = bpy_obj["particle_systems"][j];
             var pset = psys["settings"];
 
             if (pset["type"] == "EMITTER" && pset["b4w_allow_nla"]) {
                 var ev = init_event();
 
                 ev.type = "CLIP";
-                ev.frame_start = nla.frame_start;
-                ev.frame_end = nla.frame_end+1;
+                ev.frame_start = sd.scene["frame_start"];
+                ev.frame_end = sd.scene["frame_end"] + 1;
                 ev.anim_name = psys["name"];
                 ev.anim_slot = slot_num;
                 ev.action_frame_start = ev.frame_start;
                 ev.action_frame_end = ev.frame_end;
-                obj_nla_events.push(ev);
+                obj.nla_events.push(ev);
                 slot_num++;
             }
         }
 
         var slot_num_va = slot_num+1;
 
-        for (var j = 0; j < sobj.vertex_anim.length; j++) {
-            var va = sobj.vertex_anim[j];
+        for (var j = 0; j < obj.vertex_anim.length; j++) {
+            var va = obj.vertex_anim[j];
 
             if (va.allow_nla) {
                 slot_num = slot_num_va;
@@ -148,53 +132,171 @@ exports.update_scene_nla = function(scene, is_cyclic, data_id) {
                 var ev = init_event();
 
                 ev.type = "CLIP";
-                ev.frame_start = nla.frame_start;
-                ev.frame_end = nla.frame_end+1;
+                ev.frame_start = sd.scene["frame_start"];
+                ev.frame_end = sd.scene["frame_end"] + 1;
                 ev.anim_name = va.name;
                 ev.anim_slot = slot_num;
                 ev.action_frame_start = ev.frame_start;
                 ev.action_frame_end = ev.frame_end;
-                obj_nla_events.push(ev);
+                obj.nla_events.push(ev);
             }
         }
+    }
+}
 
-        if (obj_nla_events.length) {
-            sobj.nla_events = obj_nla_events;
-            nla.objects.push(sobj);
+function find_scene_data_for_nla(obj) {
+    var scene_data = null;
+    for (var i = obj.scenes_data.length - 1; i >= 0; i--) {
+        var sd = obj.scenes_data[i];
+        if (scene_use_nla(sd.scene)) {
+            scene_data = sd;
+            // prefer main scene
+            if (sd.scene._is_main)
+                break;
         }
+    }
 
+    return scene_data;
+}
+
+exports.update_scene = function(scene, is_cyclic, data_id) {
+
+    if (!scene._nla)
+        scene._nla = {
+            frame_start: scene["frame_start"],
+            frame_end: scene["frame_end"],
+            frame_offset: 0,
+            last_frame: -1,
+            range_end: scene["frame_end"],
+            range_start: scene["frame_start"],
+
+            user_callback: null,
+            cyclic: is_cyclic,
+            objects: [],
+            textures: [],
+            scene_name: scene["name"],
+
+            is_stopped: false,
+            force_update: false,
+            rewinded_to_start: true
+        }
+    
+    var nla = scene._nla;
+
+    var objs = m_obj.get_scene_objs_derived(scene, "ALL", data_id);
+    for (var i = 0; i < objs.length; i++) {
+        var obj = objs[i];
+        if (obj.nla_events.length) {
+            for (var j = 0; j < obj.scenes_data.length; j++) {
+                var sd = obj.scenes_data[j];
+                if (sd.scene == scene && sd.obj_has_nla_on_scene)
+                    nla.objects.push(obj);
+            }
+            
+            enforce_nla_consistency(obj.nla_events, nla, obj.name);
+            calc_nla_extents(obj.nla_events, nla);
+        }
     }
 
     var textures = scene._render.video_textures;
-    for (var j = 0; j < textures.length; j++) {
-        var texture = textures[j]._render;
-        if (texture.video_file || texture.seq_video) {
+    for (var i = 0; i < textures.length; i++) {
+        var texture = textures[i]._render;
+        if (texture.use_nla && (texture.video_file || texture.seq_video) 
+                && texture.vtex_data_id == data_id) {
+
             var ev = init_event();
-
             ev.type = "VIDEO";
-            var fps_mult = 1;
-            if (cfg_def.seq_video_fallback)
-                fps_mult = texture.fps;
 
-            ev.frame_start = Math.min(texture.frame_start * fps_mult, nla.frame_end);
-
-            if (texture.use_cyclic)
+            if (texture.use_cyclic) {
+                // tolerant range for VIDEO event
+                ev.frame_start = 0;
                 ev.frame_end = nla.frame_end;
-            else 
-                ev.frame_end =  Math.min((texture.frame_duration + texture.frame_start 
-                        + texture.frame_offset) * fps_mult, nla.frame_end);
+            } else {
+                ev.frame_start = m_util.clamp(texture.frame_start, 0, 
+                        nla.frame_end);
+                ev.frame_end = m_util.clamp(texture.frame_start 
+                        + texture.frame_duration, 0, nla.frame_end);
+            }
 
-            ev.anim_name = textures[j].name;
+            ev.anim_name = textures[i].name;
 
             texture._nla_tex_event = ev;
             nla.textures.push(texture);
+
+            if (texture.video_file)
+                texture.video_file.oncanplay = function() {
+                    // NOTE: setting new frame for an HTML5 video texture forces it 
+                    // to seek at this point which requires some time, so it can be 
+                    // updated only on the next frame after this operation.
+                    m_tex.update_video_texture(texture);
+                };
         }
     }
 
-    enforce_nla_consistency(nla);
-    calc_nla_extents(nla);
-
     _nla_arr.push(nla);
+}
+
+function enforce_nla_consistency(nla_events, nla, name) {
+    for (var i = 0; i < nla_events.length; i++) {
+        var ev = nla_events[i];
+
+        // for possible warnings
+        var strip_str = name + " [" + ev.frame_start + ":" +
+                ev.frame_end + "]";
+
+        // NOTE: adjusting frame start 
+        var event_frame_start = Math.max(nla.frame_start, ev.frame_start);
+        ev.action_frame_start += event_frame_start - ev.frame_start;
+        ev.frame_start = event_frame_start
+
+        // see typical cyclic NLA usecases to undestand why +1
+        ev.frame_end = Math.min(nla.frame_end + 1, ev.frame_end);
+
+        // out of scene range
+        if (ev.frame_start > ev.frame_end) {
+            m_print.warn("NLA: out of scene range: " + strip_str);
+            nla_events.splice(i, 1);
+            i--;
+            continue;
+        }
+
+        if (!ev.anim_name && ev.type == "CLIP") {
+            // CLIP event is for objects only, not for video textures
+            m_print.warn("NLA: no action in strip for object \"" 
+                    + name + "\".");
+            nla_events.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+/**
+ * For CLIP events only.
+ */
+function calc_nla_extents(nla_events, nla) {
+    for (var i = 0; i < nla_events.length; i++) {
+        var ev = nla_events[i];
+
+        var ext_frame_start = nla.frame_start;
+        var ext_frame_end = nla.frame_end + 1;
+
+        for (var k = 0; k < nla_events.length; k++) {
+            var ev_k = nla_events[k];
+
+            // slots are like NLA tracks in Blender
+            if (ev.anim_slot != ev_k.anim_slot)
+                continue;
+
+            if (ev_k.frame_end <= ev.frame_start)
+                ext_frame_start = ev.frame_start;
+
+            if (ev_k.frame_start >= ev.frame_end)
+                ext_frame_end = Math.min(ext_frame_end, ev_k.frame_start);
+        }
+
+        ev.ext_frame_start = ext_frame_start;
+        ev.ext_frame_end = ext_frame_end;
+    }
 }
 
 function assign_anim_slots(nla_events, start_slot) {
@@ -253,7 +355,6 @@ function init_event() {
         action_frame_end: 0,
         ext_frame_start: 0,
         ext_frame_end: 0,
-        stop_video: false,
         use_reverse: false,
         scale: 1,
         repeat: 1
@@ -280,229 +381,26 @@ function get_nodetree_nla_tracks_r(node_tree, container) {
     }
 }
 
-function prepare_nla_script(scene, nla) {
-    var bpy_nla_scripts = scene["b4w_logic_nodes"];
-    var nla_scripts = nla.scripts;
-
-    for (var k = 0; k < bpy_nla_scripts.length; k++)
-        nla.curr_script_slots.push(0);
-
-    var gen_cb = function(cur_script) {
-        return function (obj, id, pulse, param) {
-            var cur_slot = nla.curr_script_slots[cur_script]
-
-            if (cur_slot >= nla_script.length || cur_slot < 0)
-                return;
-
-            var slot = nla.scripts[cur_script][cur_slot];
-
-            if (!(slot.type == "SELECT" || (slot.type == "SELECT_PLAY" && !slot.in_play)))
-                return;
-
-            for (var i = 0; i < param.sel_objs_len; i++) {
-                if (m_ctl.get_sensor_value(obj, id, i) &&
-                    i == param.sel_obj_idx) {
-                    param.sel_state = 1;
-                    return;
-                }
-            }
-            param.sel_state = 0;
-        }
-    };
-
-    for (var k = 0; k < bpy_nla_scripts.length; k++) {
-        nla_scripts.push([])
-        var nla_script = nla_scripts[nla_scripts.length - 1]
-        var subtree = bpy_nla_scripts[k]
-        for (var i = 0; i < subtree.length; i++) {
-            var sslot = subtree[i];
-            var slot = {
-                type: sslot["type"],
-                label: sslot["label"],
-                slot_idx_order: sslot["slot_idx_order"],
-                slot_idx_jump: -1,
-                frame_start: -1,
-                frame_end: -1,
-                in_play: false,
-                sel_state: -1,
-                sel_objs_len: -1,
-                sel_obj_idx: -1,
-                cond: "",
-                reg1: "",
-                reg2: "",
-                reg: "",
-                num1: -1,
-                num2: -1,
-                num: -1,
-                regd: -1,
-                url: "",
-                param_name: "",
-                op: "",
-                mute: sslot["mute"]
-            }
-            switch (sslot["type"]) {
-            case "PLAY":
-                slot.frame_start = sslot["frame_range"][0];
-                slot.frame_end = sslot["frame_range"][1];
-                slot.in_play = false;
-                nla_script.push(slot);
-                break;
-            case "SELECT":
-            case "SELECT_PLAY":
-                slot.slot_idx_jump = sslot["slot_idx_jump"];
-                var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, sslot["object"], 0);
-
-                var sel_objs = m_obj.get_selectable_objects(scene);
-                var obj_idx = sel_objs.indexOf(obj);
-
-                if (obj_idx == -1) {
-                    m_print.error("NLA script error: non-selectable object:",
-                        sslot["object"][sslot["object"].length -1]);
-                    return [];
-                }
-                slot.sel_state = -1;
-                slot.sel_objs_len = sel_objs.length;
-                slot.sel_obj_idx = obj_idx;
-                slot.frame_start = sslot["frame_range"][0];
-                slot.frame_end = sslot["frame_range"][1];
-                slot.in_play = false;
-
-                var sel_sensors = [];
-                for (var j = 0; j < sel_objs.length; j++) {
-                    sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
-                }
-
-                var select_cb = gen_cb(k);
-                m_ctl.create_sensor_manifold(obj, "NLA_SELECT_" + i, m_ctl.CT_SHOT,
-                    sel_sensors, m_ctl.default_OR_logic_fun, select_cb, slot);
-
-                nla_script.push(slot);
-
-                break;
-
-            case "CONDJUMP":
-                slot.cond = sslot["condition"]
-                slot.reg1 = sslot["register1"]
-                slot.reg2 = sslot["register2"]
-                slot.num1 = sslot["number1"]
-                slot.num2 = sslot["number2"]
-                slot.slot_idx_jump = sslot["slot_idx_jump"];
-                nla_script.push(slot);
-                break;
-            case "REGSTORE":
-                slot.reg = sslot["registerd"]
-                slot.num = sslot["number1"]
-                nla_script.push(slot);
-                break;
-            case "MATH":
-                slot.op = sslot["operation"]
-                slot.reg1 = sslot["register1"]
-                slot.reg2 = sslot["register2"]
-                slot.num1 = sslot["number1"]
-                slot.num2 = sslot["number2"]
-                slot.regd = sslot["registerd"]
-                nla_script.push(slot);
-                break;
-            case "SHOW":
-            case "HIDE":
-                var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, sslot["object"], 0);
-                slot.obj = obj
-                nla_script.push(slot);
-                break;
-            case "REDIRECT":
-                slot.url = sslot["url"]
-                nla_script.push(slot);
-                break;
-            case "PAGEPARAM":
-                slot.param_name = sslot["param_name"]
-                slot.regd = sslot["registerd"]
-                nla_script.push(slot);
-                break;
-            case "ENTRYPOINT":
-            case "NOOP":
-                nla_script.push(slot);
-                break;
-            default:
-                break;
-            }
-        }
-    }
-}
-
-function enforce_nla_consistency(nla) {
-
-    var start = nla.frame_start;
-    var end = nla.frame_end;
-
-    for (var i = 0; i < nla.objects.length; i++) {
-        var obj = nla.objects[i];
-
-        var nla_events = obj.nla_events;
-
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
-
-            // for possible warnings
-            var strip_str = obj.name + " [" + ev.frame_start + ":" +
-                    ev.frame_end + "]";
-
-            ev.frame_start = Math.max(start, ev.frame_start);
-            // see typical cyclic NLA usecases to undestand why +1
-            ev.frame_end = Math.min(end+1, ev.frame_end);
-
-            // out of scene range
-            if (ev.frame_start > ev.frame_end) {
-                m_print.warn("NLA: out of scene range: " + strip_str);
-                nla_events.splice(j, 1);
-                j--;
-                continue;
-            }
-
-            if (!ev.anim_name && ev.type == "CLIP") {
-                m_print.warn("NLA: no action in strip for object \"" 
-                        + obj.name + "\".");
-                nla_events.splice(j, 1);
-                j--;
-            }
-        }
-    }
-}
-
-function calc_nla_extents(nla) {
-
-    for (var i = 0; i < nla.objects.length; i++) {
-        var obj = nla.objects[i];
-
-        var nla_events = obj.nla_events;
-
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
-
-            var ext_frame_start = nla.frame_start;
-            var ext_frame_end = nla.frame_end+1;
-
-            for (var k = 0; k < nla_events.length; k++) {
-                var ev_k = nla_events[k];
-
-                // slots are like NLA tracks in Blender
-                if (ev.anim_slot != ev_k.anim_slot)
-                    continue;
-
-                if (ev_k.frame_end <= ev.frame_start)
-                    ext_frame_start = ev.frame_start;
-
-                if (ev_k.frame_start >= ev.frame_end)
-                    ext_frame_end = Math.min(ext_frame_end, ev_k.frame_start);
-            }
-
-            ev.ext_frame_start = ext_frame_start;
-            ev.ext_frame_end = ext_frame_end;
-        }
-    }
-}
-
 exports.start = function() {
     _start_time = 0;
+}
+
+exports.get_start_time = function() {
+    return _start_time
+}
+
+exports.get_frame_offset = function(scene) {
+    if (scene._nla)
+        return scene._nla.frame_offset;
+    return null;
+}
+
+exports.set_frame_offset = function(scene, frame_offset) {
+    if (scene._nla) {
+        scene._nla.frame_offset = frame_offset;
+        return true
+    }
+    return false;
 }
 
 /**
@@ -517,308 +415,222 @@ exports.update = function(timeline, elapsed) {
 
     for (var i = 0; i < _nla_arr.length; i++) {
         var nla = _nla_arr[i];
-        if (nla.is_stopped) {
-            nla.frame_offset -= cfg_ani.framerate * elapsed;
-            if (!nla.force_update)
-                continue;
+
+        // recalculate frame offset for this frame
+        if (nla.is_stopped)
+            nla.frame_offset -= m_time.get_framerate() * elapsed;
+        var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
+
+        // range end handling
+        if ((!nla.is_stopped || nla.force_update) && cf >= nla.range_end)
+            if (nla.cyclic)
+                cf = nla_range_end_rewind(nla, timeline);
+            else
+                nla_range_end_stop(nla, cf);
+
+        // NOTE: can be stopped previously from nla_range_end_stop
+        if (!nla.is_stopped || nla.force_update) {
+            process_nla_objects(nla, cf, elapsed);
+            process_nla_video_textures(timeline, nla, cf);
+            nla.last_frame = cf;
         }
 
         nla.force_update = false;
-        for (var k = 0; k < nla.scripts.length; k++)
-            process_nla_script(nla, k, timeline, elapsed, _start_time);
-
-        var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
-
-        // NOTE: cf must be more than nla.range_end + 1 to copy Blender's behaviour
-        if (cf >= nla.range_end) {
-            if (nla.cyclic) {
-                if (nla.user_callback)
-                    nla.user_callback();
-
-                set_frame(nla.range_start, timeline);
-                cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
-            } else {
-                nla.is_stopped = true;
-                nla.frame_offset -= cf - nla.range_end;
-                if (nla.user_callback)
-                    nla.user_callback();
-                continue;
-            }
-        }
-
-        for (var j = 0; j < nla.objects.length; j++) {
-            var obj = nla.objects[j];
-            var nla_events = obj.nla_events;
-
-            // NOTE: allow single-strip speakers to play again
-            for (var k = 0; k < nla_events.length; k++) {
-                var ev = nla_events[k];
-
-                if (ev.type == "SOUND" && cf < (nla.last_frame - CF_FREEZE_EPSILON)) {
-                    ev.scheduled = false;
-                }
-            }
-
-            for (var k = 0; k < nla_events.length; k++) {
-                var ev = nla_events[k];
-
-
-                switch (ev.type) {
-                case "CLIP":
-                    if (ev.ext_frame_start <= cf && cf < ev.ext_frame_end)
-                        if (!ev.scheduled) {
-                            process_clip_event_start(obj, ev, cf, elapsed);
-
-                            for (var l = 0; l < nla_events.length; l++)
-                                if (nla_events[l] != ev &&
-                                        nla_events[l].anim_slot == ev.anim_slot)
-                                    nla_events[l].scheduled = false;
-
-                            ev.scheduled = true;
-                        }
-
-                    if (ev.scheduled)
-                        process_clip_event(obj, ev, cf, elapsed);
-
-                    break;
-                case "SOUND":
-                    if ((cf < (nla.last_frame - CF_FREEZE_EPSILON) || nla.last_frame < ev.frame_start) &&
-                            ev.frame_start <= cf && cf < ev.frame_end) {
-                        if (!ev.scheduled) {
-                            process_sound_event(obj, ev, cf);
-                            ev.scheduled = true;
-                        }
-                    }
-
-                    if (nla.last_frame < ev.frame_end && ev.frame_end <= cf) {
-                        if (ev.scheduled) {
-                            ev.scheduled = false;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-                }
-            }
-
-        }
-
-        for (var j = 0; j < nla.textures.length; j++) {
-            ev = nla.textures[j]._nla_tex_event;
-            if (ev.frame_start <= Math.round(cf) && Math.round(cf) < ev.frame_end) 
-                if (!ev.stop_video) {
-                    process_video_event(nla.textures[j], ev.stop_video, nla.data_id);
-                    ev.stop_video = true;
-                }
-            if (ev.frame_end <= Math.round(cf))
-                if (ev.stop_video) {
-                    process_video_event(nla.textures[j], ev.stop_video, nla.data_id);
-                    ev.stop_video = false;
-                }
-        }
-        
-        nla.last_frame = cf;
+        nla.rewinded_to_start = false;
     }
 }
 
-function process_nla_script(nla, script_number, timeline, elapsed, start_time) {
-
-    var script =  nla.scripts[script_number];
-    if (!script.length)
-        return;
-
-    if (nla.curr_script_slots[script_number] >= script.length || nla.curr_script_slots[script_number] < 0) {
-            nla.frame_offset -= cfg_ani.framerate * elapsed;
-            return;
-    }
-
-    var cf = calc_curr_frame_scene(nla, timeline, false, start_time);
-    var slot = script[nla.curr_script_slots[script_number]];
-    if (slot.mute) {
-        if(slot.type == "ENTRYPOINT") {
-            nla.frame_offset -= cfg_ani.framerate * elapsed;
-            return;
-        }
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        return;
-    }
-    switch (slot.type) {
-    case "PLAY":
-        if (!slot.in_play) {
-            nla.frame_offset += (slot.frame_start - cf);
-            slot.in_play = true;
-            reset_nla_selection(nla, script_number, slot);
-        } else {
-            if (cf >= slot.frame_end) {
-                slot.in_play = false;
-                nla.curr_script_slots[script_number] = slot.slot_idx_order;
-                process_nla_script(nla, script_number, timeline, elapsed, start_time);
-            }
-        }
-        break;
-    case "SELECT":
-    case "SELECT_PLAY":
-        if (slot.sel_state > -1) {
-
-            if (slot.type == "SELECT" || (slot.type == "SELECT_PLAY" && slot.sel_state == 0)) {
-                nla.curr_script_slots[script_number] = slot.sel_state ? slot.slot_idx_jump : slot.slot_idx_order;
-                slot.sel_state = -1;
-                process_nla_script(nla, script_number, timeline, elapsed, start_time);
-            } else {
-                if (!slot.in_play) {
-                    nla.frame_offset += (slot.frame_start - cf);
-                    slot.in_play = true;
-                    reset_nla_selection(nla, script_number, slot);
-                } else {
-                    if (cf >= slot.frame_end) {
-                        slot.in_play = false;
-                        nla.curr_script_slots[script_number] = slot.type == "SELECT" ? slot.slot_idx_jump: slot.slot_idx_order;
-                        slot.sel_state = -1;
-                        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-                    }
-                }
-            }
-
-        } else {
-            // freeze
-            nla.frame_offset -= cfg_ani.framerate * elapsed;
-        }
-
-        break;
-    case "JUMP":
-        nla.curr_script_slots[script_number] = slot.slot_idx_jump;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "CONDJUMP":
-        var val1 = (slot.reg1 == -1) ? slot.num1 : nla.registers[slot.reg1];
-        var val2 = (slot.reg2 == -1) ? slot.num2 : nla.registers[slot.reg2];
-        var cond_result = false;
-
-        switch (slot.cond) {
-            case "EQUAL":
-                if (val1 == val2)
-                    cond_result = true;
-                break;
-            case "NOTEQUAL":
-                if (val1 != val2)
-                    cond_result = true;
-                break;
-            case "LESS":
-                if (val1 < val2)
-                    cond_result = true;
-                break;
-            case "GREATER":
-                if (val1 > val2)
-                    cond_result = true;
-                break;
-            case "LEQUAL":
-                if (val1 <= val2)
-                    cond_result = true;
-                break;
-            case "GEQUAL":
-                if (val1 >= val2)
-                    cond_result = true;
-                break;
-        }
-
-        if (cond_result)
-            nla.curr_script_slots[script_number] = slot.slot_idx_jump;
-        else
-            nla.curr_script_slots[script_number] = slot.slot_idx_order;
-
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "REGSTORE":
-        nla.registers[slot.reg] = slot.num;
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "MATH":
-        var val1 = (slot.reg1 == -1) ? slot.num1 : nla.registers[slot.reg1];
-        var val2 = (slot.reg2 == -1) ? slot.num2 : nla.registers[slot.reg2];
-
-        switch (slot.op) {
-            case "ADD":
-                nla.registers[slot.regd] = val1 + val2;
-                break;
-            case "MUL":
-                nla.registers[slot.regd] = val1 * val2;
-                break;
-            case "SUB":
-                nla.registers[slot.regd] = val1 - val2;
-                break;
-            case "DIV":
-                if (val2 == 0)
-                    m_util.panic("Division by zero in NLA script");
-
-                nla.registers[slot.regd] = val1 / val2;
-                break;
-        }
-
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "SHOW":
-        m_scs.show_object(slot.obj);
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "HIDE":
-        m_scs.hide_object(slot.obj);
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "REDIRECT":
-        window.location.href = slot.url
-        // prevents further NLA processing
-        for (var s = 0; s < nla.scripts.length; s++)
-            nla.scripts[s].length = 0;
-        break;
-    case "PAGEPARAM":
-        nla.registers[slot.regd] = get_url_param(slot.param_name);
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    case "NOOP":
-    case "ENTRYPOINT":
-        nla.curr_script_slots[script_number] = slot.slot_idx_order;
-        process_nla_script(nla, script_number, timeline, elapsed, start_time);
-        break;
-    }
-
+function nla_range_end_stop(nla, curr_frame) {
+    nla.is_stopped = true;
+    nla.frame_offset -= curr_frame - nla.range_end;
+    if (nla.user_callback)
+        nla.user_callback();
 }
 
 /**
- * Return numerical URL param
+ * Rewind to 0 frame.
  */
-function get_url_param(name) {
+function nla_range_end_rewind(nla, timeline) {
+    // NOTE: callback before rewinding
+    if (nla.user_callback)
+        nla.user_callback();
 
-    var url = location.href.toString();
-    if (url.indexOf("?") == -1)
-        return 0;
-
-    var params = url.split("?")[1].split("&");
-
-    for (var i = 0; i < params.length; i++) {
-        var param = params[i].split("=");
-
-        if (param.length > 1 && param[0] == name)
-            return Number(param[1]);
-    }
-
-    return 0;
+    set_frame(nla.range_start, timeline);
+    nla.rewinded_to_start = true;
+    return calc_curr_frame_scene(nla, timeline, true, _start_time);
 }
 
-function reset_nla_selection(nla, script_number, curr_slot) {
-    var nla_script = nla.scripts[script_number];
-    for (var i = 0; i < nla_script.length; i++) {
-        var slot = nla_script[i];
-        if (slot != curr_slot)
-            slot.sel_state = -1;
+function process_nla_objects(nla, curr_frame, elapsed) {
+    for (var i = 0; i < nla.objects.length; i++) {
+        var obj = nla.objects[i];
+        var nla_events = obj.nla_events;
+
+        // NOTE: allow single-strip speakers to play again
+        for (var j = 0; j < nla_events.length; j++) {
+            var ev = nla_events[j];
+            if (ev.type == "SOUND" 
+                    && curr_frame < (nla.last_frame - CF_FREEZE_EPSILON))
+                ev.scheduled = false;
+        }
+
+        for (var j = 0; j < nla_events.length; j++) {
+            var ev = nla_events[j];
+
+            switch (ev.type) {
+            case "CLIP":
+                if (ev.ext_frame_start <= curr_frame && curr_frame < ev.ext_frame_end)
+                    if (!ev.scheduled) {
+                        process_clip_event_start(obj, ev, curr_frame, elapsed);
+
+                        for (var k = 0; k < nla_events.length; k++)
+                            if (nla_events[k] != ev &&
+                                    nla_events[k].anim_slot == ev.anim_slot)
+                                nla_events[k].scheduled = false;
+
+                        ev.scheduled = true;
+                    }
+
+                if (ev.scheduled)
+                    process_clip_event(obj, ev, curr_frame, elapsed);
+
+                break;
+            case "SOUND":
+                if ((curr_frame < (nla.last_frame - CF_FREEZE_EPSILON) || 
+                        nla.last_frame < ev.frame_start) &&
+                        ev.frame_start <= curr_frame && curr_frame < ev.frame_end)
+                    if (!ev.scheduled) {
+                        process_sound_event(obj, ev, curr_frame);
+                        ev.scheduled = true;
+                    }
+
+                if (nla.last_frame < ev.frame_end && ev.frame_end <= curr_frame)
+                    if (ev.scheduled)
+                        ev.scheduled = false;
+                break;
+            default:
+                break;
+            }
+        }
     }
 }
 
+/**
+ * Perform non-continuous actions.
+ */
+function process_nla_video_textures(timeline, nla, nla_frame) {
+    for (var i = 0; i < nla.textures.length; i++) {
+        var tex = nla.textures[i];
+        var ev = tex._nla_tex_event;
+
+        if (!tex.video_file && !tex.seq_video)
+            continue;
+
+        var need_update = false;
+        var video_frame = get_video_frame_clamped(nla_frame, tex);
+        
+        var seq_video_frame = m_tex.video_frame_to_seq_frame(tex, video_frame);
+        // NOTE: insufficient video_frame clamping
+        if (seq_video_frame == tex.seq_movie_length)
+            seq_video_frame--;
+
+        // force update via set_frame() or rewinding the whole nla 
+        if (nla.force_update || nla.rewinded_to_start) {
+            if (tex.video_file)
+                m_tex.set_frame_video(tex.name, video_frame, tex.vtex_data_id);
+            else
+                m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
+            need_update = true;
+        }
+
+        if (!nla.is_stopped) {
+            // rewind cyclic video texture
+            if (tex.use_cyclic) {
+                if (tex.video_file) {
+                    if (video_frame == tex.frame_offset) {
+                        m_tex.set_frame_video(tex.name, tex.frame_offset, tex.vtex_data_id);
+                        need_update = true;
+                    }
+                } else {
+                    var seq_frame_offset = m_tex.video_frame_to_seq_frame(tex, tex.frame_offset);
+                    if (seq_video_frame == seq_frame_offset) {
+                        m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
+                        need_update = true;
+                    }
+                }
+            }
+
+            // start/stop acyclic video texture periodically; start cyclic 
+            // video texture upon the nla start
+            var need_play = frame_need_play_video(nla_frame, tex);
+            var is_played = m_tex.video_is_played(tex);
+
+            if (need_play && !is_played) {
+                m_tex.play_video(tex.name, tex.vtex_data_id);
+                if (tex.seq_video)
+                    need_update = true;
+            } else if (is_played && !need_play) {
+                if (tex.video_file) {
+                    // NOTE: allow to play non-sequential video until it'll reach calced video 
+                    // frame (may be caused by lags)
+                    var native_frame = Math.round(tex.video_file.currentTime * tex.fps);
+                    if (native_frame < video_frame)
+                        need_update = true;
+                    else
+                        m_tex.pause_video(tex.name, tex.vtex_data_id);
+                } else
+                    m_tex.pause_video(tex.name, tex.vtex_data_id);
+            } else if (is_played && need_play)
+                need_update = true;
+        }
+
+        if (m_tex.video_update_is_available(tex) && need_update)
+            if (tex.video_file)
+                m_tex.update_video_texture(tex);        
+            else {
+                var mark = m_tex.seq_video_get_discrete_timemark(tex, timeline);
+                if (mark != tex.seq_last_discrete_mark) {
+                    tex.seq_cur_frame = seq_video_frame;
+                    m_tex.update_seq_video_texture(tex);
+                }
+                tex.seq_last_discrete_mark = mark;
+            }
+    }
+}
+
+/**
+ * Get a valid video frame which is needed to play on a certain nla frame.
+ */
+function get_video_frame_clamped(nla_frame, vtex) {
+    var ev = vtex._nla_tex_event;
+    var video_frame = nla_frame_to_video_frame(nla_frame, vtex);
+    return m_util.clamp(video_frame, vtex.frame_offset, 
+            vtex.frame_offset + m_tex.video_get_duration(vtex) - 1);
+}
+
+/**
+ * Convert nla frame to a raw video frame. Video frame can be out of a playable range.
+ */
+function nla_frame_to_video_frame(nla_frame, vtex) {
+    var frame_delta = Math.round(nla_frame) - vtex.frame_start;
+    if (vtex.use_cyclic) {
+        frame_delta = frame_delta % vtex.frame_duration;
+        if (frame_delta < 0)
+            frame_delta += vtex.frame_duration;
+    }
+    return vtex.frame_offset + frame_delta;
+}
+
+function frame_need_play_video(cf, vtex) {
+    var ev = vtex._nla_tex_event;
+
+    var frame = nla_frame_to_video_frame(cf, vtex);
+    return vtex.frame_offset <= frame && frame <= vtex.frame_offset 
+            + m_tex.video_get_duration(vtex);
+}
+
+/**
+ * NOTE: unused
+ */
 function pause_scheduled_objects(objects) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
@@ -849,16 +661,21 @@ function resume_scheduled_objects(objects) {
 
 function calc_curr_frame_scene(nla, timeline, allow_repeat, start_time) {
 
-    var cf = (timeline - start_time) * cfg_ani.framerate + nla.frame_offset -
-            nla.frame_start;
-    if (nla.cyclic && allow_repeat) {
-        var stride = nla.frame_end - nla.frame_start + 1;
-        cf %= stride;
+    var cf = (timeline - start_time) * m_time.get_framerate() + nla.frame_offset;
+
+    if (cf > nla.frame_start) {
+        cf -= nla.frame_start;
+        if (nla.cyclic && allow_repeat) {
+            var stride = nla.frame_end - nla.frame_start + 1;
+            cf %= stride;
+        }
+        cf += nla.frame_start;
     }
-    cf += nla.frame_start;
 
     return cf;
 }
+
+exports.calc_curr_frame_scene = calc_curr_frame_scene
 
 function process_clip_event_start(obj, ev, frame, elapsed) {
     if (ev.anim_uuid != "")
@@ -897,18 +714,9 @@ function get_curr_frame_strip(frame, ev) {
 }
 
 function process_sound_event(obj, ev, frame) {
-    var when = (ev.frame_start - frame) / cfg_ani.framerate;
-    var duration = (ev.frame_end - ev.frame_start) / cfg_ani.framerate;
+    var when = (ev.frame_start - frame) / m_time.get_framerate();
+    var duration = (ev.frame_end - ev.frame_start) / m_time.get_framerate();
     m_sfx.play(obj, when, duration);
-}
-
-function process_video_event(texture, stop, data_id) {
-    if (stop)
-        m_tex.pause_video(texture.name, data_id);
-    else {
-        m_tex.reset_video(texture.name, data_id);
-        m_tex.play_video(texture.name, data_id);
-    }
 }
 
 exports.cleanup = function() {
@@ -958,30 +766,27 @@ function get_nla_events(nla_tracks, anim_slot_num) {
     return nla_events;
 }
 
-exports.has_nla = function(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
+exports.bpy_obj_has_nla = function(bpy_obj) {
     // TODO: particles/vertex animation
     var adata = bpy_obj["animation_data"];
 
-    if ((adata && adata["nla_tracks"].length) || has_spk_param_nla(obj) ||
-            has_nodemats_nla(obj))
+    if ((adata && adata["nla_tracks"].length) || bpy_obj_has_spk_param_nla(bpy_obj) ||
+            bpy_obj_has_nodemats_nla(bpy_obj))
         return true;
     else
         return false;
 }
 
-function has_spk_param_nla(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
-    if (m_sfx.is_speaker(obj) && bpy_obj["data"]["animation_data"] &&
+function bpy_obj_has_spk_param_nla(bpy_obj) {
+    if (bpy_obj["type"] == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
             bpy_obj["data"]["animation_data"]["nla_tracks"].length)
         return true;
     else
         return false;
 }
 
-function has_nodemats_nla(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
-    if (obj.type != "MESH" || !bpy_obj["data"])
+function bpy_obj_has_nodemats_nla(bpy_obj) {
+    if (bpy_obj["type"] != "MESH" || !bpy_obj["data"])
         return false;
 
     var materials = bpy_obj["data"]["materials"];
@@ -1018,6 +823,11 @@ function check_nodetree_nla_tracks_r(node_tree, container) {
     return false;
 }
 
+exports.scene_use_nla = scene_use_nla;
+function scene_use_nla(bpy_scene) {
+    return bpy_scene["b4w_use_nla"] || bpy_scene["b4w_use_logic_editor"];
+}
+
 exports.set_frame = set_frame;
 function set_frame(frame, timeline) {
     var active_scene = m_scs.get_active();
@@ -1042,6 +852,12 @@ function stop_nla() {
     var active_scene = m_scs.get_active();
     if (active_scene._nla)
         active_scene._nla.is_stopped = true;
+
+    var vtexs = active_scene._nla.textures;
+    for (var i = 0; i < vtexs.length; i++) {
+        var vtex = vtexs[i];
+        m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+    }
 }
 
 exports.play_nla = play_nla;
@@ -1055,6 +871,7 @@ function play_nla(callback) {
             active_scene._nla.user_callback = null;
     }
 
+    // NOTE: video textures will be unpaused on the next update
 }
 
 exports.get_frame_start = function() {

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -8,12 +25,13 @@
  */
 b4w.module["__constraints"] = function(exports, require) {
 
-var m_cam  = require("__camera");
-var m_mat3 = require("__mat3");
-var m_quat = require("__quat");
-var m_tsr  = require("__tsr");
-var m_util = require("__util");
-var m_vec3 = require("__vec3");
+var m_cam   = require("__camera");
+var m_mat3  = require("__mat3");
+var m_quat  = require("__quat");
+var m_tsr   = require("__tsr");
+var m_util  = require("__util");
+var m_vec3  = require("__vec3");
+var m_armat = require("__armature");
 
 var CONS_TYPE_STIFF_OBJ           = 1;
 var CONS_TYPE_STIFF_BONE          = 2;
@@ -31,6 +49,8 @@ var CONS_TYPE_SEMI_SOFT_CAM_OBJ   = 13;
 var CONS_TYPE_STIFF_TRANS_ROT_OBJ = 14;
 var CONS_TYPE_STIFF_VIEWPORT      = 15;
 
+var BONE_CONS_TYPE_STIFF_OBJ = 1;
+
 exports.CONS_TYPE_STIFF_OBJ = CONS_TYPE_STIFF_OBJ;
 exports.CONS_TYPE_STIFF_BONE = CONS_TYPE_STIFF_BONE;
 exports.CONS_TYPE_TRACK_OBJ = CONS_TYPE_TRACK_OBJ;
@@ -47,6 +67,8 @@ exports.CONS_TYPE_SEMI_SOFT_CAM_OBJ = CONS_TYPE_SEMI_SOFT_CAM_OBJ;
 exports.CONS_TYPE_STIFF_TRANS_ROT_OBJ = CONS_TYPE_STIFF_TRANS_ROT_OBJ;
 exports.CONS_TYPE_STIFF_VIEWPORT = CONS_TYPE_STIFF_VIEWPORT;
 
+exports.BONE_CONS_TYPE_STIFF_OBJ = BONE_CONS_TYPE_STIFF_OBJ;
+
 var _vec2_tmp   = new Float32Array(2);
 var _vec2_tmp_2 = new Float32Array(2);
 var _vec3_tmp   = new Float32Array(3);
@@ -54,9 +76,6 @@ var _vec3_tmp_2 = new Float32Array(3);
 var _vec3_tmp_3 = new Float32Array(3);
 var _vec4_tmp   = new Float32Array(4);
 var _quat4_tmp  = new Float32Array(4);
-var _quat4_tmp2 = new Float32Array(4);
-var _tsr8_tmp   = new Float32Array(16);
-var _tsr8_tmp2  = new Float32Array(16);
 var _mat3_tmp   = new Float32Array(9);
 var _mat3_tmp2  = new Float32Array(9);
 var _tsr8_tmp   = new Float32Array(8);
@@ -463,23 +482,25 @@ function update_cons(obj, cons, elapsed) {
         break;
     case CONS_TYPE_STIFF_BONE:
         var quat = obj.render.quat;
+        var p_tsr = _tsr8_tmp;
 
-        var p_transscale = _vec4_tmp;
-        var p_quat = _quat4_tmp;
+        m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
+                             p_tsr);
+        // from armature to world space
+        m_tsr.multiply(cons.obj_parent.render.tsr, p_tsr, p_tsr);
 
-        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transscale, 
-                p_quat);
+        quat[0] = p_tsr[4];
+        quat[1] = p_tsr[5];
+        quat[2] = p_tsr[6];
+        quat[3] = p_tsr[7];
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
-            m_quat.multiply(p_quat, quat, quat);
-        } else
-            m_quat.copy(p_quat, quat);
+            m_quat.multiply(quat, cons.rotation_offset, quat);
+        }
 
-        obj.render.scale = cons.scale_offset * p_transscale[3];
-
-        m_util.transform_vec3(cons.offset, p_transscale[3], p_quat, p_transscale, 
-                obj.render.trans);
+        obj.render.scale = cons.scale_offset * p_tsr[3];
+        m_tsr.transform_vec3(cons.offset, p_tsr, obj.render.trans);
 
         break;
     case CONS_TYPE_TRACK_OBJ:
@@ -598,18 +619,14 @@ function update_cons(obj, cons, elapsed) {
 
         break;
     case CONS_TYPE_CHILD_OF_BONE:
+
         var tsr_offset = cons.tsr_offset;
-
-        var p_transcale = _vec4_tmp;
-        var p_quat = _quat4_tmp;
-
-        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transcale, 
-                p_quat);
-
         var p_tsr = _tsr8_tmp;
 
-        m_tsr.set_transcale(p_transcale, p_tsr);
-        m_tsr.set_quat(p_quat, p_tsr);
+        m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
+                             p_tsr);
+        // from armature to world space
+        m_tsr.multiply(cons.obj_parent.render.tsr, p_tsr, p_tsr);
 
         m_tsr.multiply(p_tsr, tsr_offset, p_tsr);
 
@@ -687,6 +704,72 @@ function update_cons(obj, cons, elapsed) {
         m_cam.update_camera_upside_down(obj);
         correct_up(obj, corr_axis);
     }
+}
+
+/**
+ * Apply stiff-bone-to-object constraint.
+ */
+exports.append_stiff_bone_to_obj = function(armobj, obj, bone_name, offset,
+        rotation_offset, scale_offset) {
+
+    var cons = init_cons(BONE_CONS_TYPE_STIFF_OBJ);
+    var bone_pointer = armobj.render.bone_pointers[bone_name];
+
+    cons.bone_name = bone_name;
+    cons.target = obj;
+    cons.offset = new Float32Array(offset);
+    cons.rotation_offset =
+            rotation_offset ? new Float32Array(rotation_offset) : null;
+    cons.scale_offset = scale_offset;
+
+    apply_bone_cons(armobj, cons);
+    update_bone_cons(armobj, cons);
+}
+
+function apply_bone_cons(armobj, cons) {
+    var target = cons.target;
+    var bone_name = cons.bone_name;
+    var bone_pointer = armobj.render.bone_pointers[bone_name];
+
+    remove_arm_bone_descendant(target, armobj, bone_name);
+    target.cons_armat_bone_descends.push([armobj, bone_name]);
+    bone_pointer.constraint = cons;
+}
+
+function remove_arm_bone_descendant(obj, armobj, bone_name) {
+    var cons_armat_bone_descends = obj.cons_armat_bone_descends
+    for (var i = 0; i < cons_armat_bone_descends; i++) {
+        var cons_desc = cons_armat_bone_descends[i];
+        if (cons_desc[0] == armobj && cons_desc[1] == bone_name) {
+            cons_armat_bone_descends.splice(i, 1)
+            return;
+        }
+    }
+}
+
+exports.update_bone_constraint = function(armobj, bone_name) {
+    var bone_pointer = armobj.render.bone_pointers[bone_name];
+    if (bone_pointer.constraint)
+        update_bone_cons(armobj, bone_pointer.constraint);
+}
+
+function update_bone_cons(armobj, cons) {
+    switch (cons.type) {
+    case BONE_CONS_TYPE_STIFF_OBJ:
+        var target_obj = cons.target;
+        var target_tsr = target_obj.render.tsr;
+        var armobj_tsr = armobj.render.tsr;
+
+        var b_tsr = _tsr8_tmp;
+        m_tsr.invert(armobj_tsr, b_tsr);
+        m_tsr.multiply(b_tsr, target_tsr, b_tsr);
+
+        m_armat.set_bone_tsr(armobj, cons.bone_name, b_tsr, false);
+        break;
+    default:
+        break;
+    }
+    armobj.need_update_transform = true;
 }
 
 /**
@@ -855,17 +938,11 @@ exports.get_child_of_parent_tsr = function(obj) {
     if (cons && cons.type == CONS_TYPE_CHILD_OF) {
         return cons.obj_parent.render.tsr;
     } else if (cons && cons.type == CONS_TYPE_CHILD_OF_BONE) {
-        var p_transcale = _vec4_tmp;
-        var p_quat = _quat4_tmp;
-
-        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transcale, 
-                p_quat);
-
         var p_tsr = _tsr8_tmp;
-
-        m_tsr.set_transcale(p_transcale, p_tsr);
-        m_tsr.set_quat(p_quat, p_tsr);
-
+        m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
+                             p_tsr);
+        // from armature to world space
+        m_tsr.multiply(cons.obj_parent.render.tsr, p_tsr, p_tsr);
         return p_tsr;
     } else
         return null;
@@ -882,89 +959,6 @@ exports.get_child_of_offset = function(obj) {
         return cons.tsr_offset;
     else
         return null;
-}
-
-
-exports.get_bone_pose = get_bone_pose;
-/**
- * Get armature bone pose data (animated or static)
- * NOTE: need to be somewhere else
- * uses _vec4_tmp, _quat4_tmp, _quat4_tmp2, _tsr8_tmp, _tsr8_tmp2
- */
-function get_bone_pose(armobj, bone_name, get_pose_tail, dest_transscale,
-        dest_quat) {
-    var bpy_armobj = armobj.temp_bpy_obj;
-    var render = armobj.render;
-
-    var frame_factor = render.frame_factor;
-    var bone_pointer = render.bone_pointers[bone_name];
-    var index = bone_pointer.deform_bone_index;
-    var pose_bone_index = bone_pointer.pose_bone_index;
-    var bone = bpy_armobj["pose"]["bones"][pose_bone_index];
-    var tsr_local = bone._tsr_local;
-
-    var transcale = _vec4_tmp;
-
-    var trans_before = render.trans_before;
-    var trans_after = render.trans_after;
-    var quats_before = render.quats_before;
-    var quats_after = render.quats_after;
-
-    var x = trans_before[4*index];
-    var y = trans_before[4*index+1];
-    var z = trans_before[4*index+2];
-    var s = trans_before[4*index+3];
-
-    var xn = trans_after[4*index];
-    var yn = trans_after[4*index+1];
-    var zn = trans_after[4*index+2];
-    var sn = trans_after[4*index+3];
-
-    transcale[0] = (1-frame_factor) * x + frame_factor * xn;
-    transcale[1] = (1-frame_factor) * y + frame_factor * yn;
-    transcale[2] = (1-frame_factor) * z + frame_factor * zn;
-    transcale[3] = (1-frame_factor) * s + frame_factor * sn;
-
-    var quat = _quat4_tmp;
-    var quatn = _quat4_tmp2;
-
-    quat[0] = quats_before[4*index];
-    quat[1] = quats_before[4*index+1];
-    quat[2] = quats_before[4*index+2];
-    quat[3] = quats_before[4*index+3];
-
-    quatn[0] = quats_after[4*index];
-    quatn[1] = quats_after[4*index+1];
-    quatn[2] = quats_after[4*index+2];
-    quatn[3] = quats_after[4*index+3];
-
-    m_quat.slerp(quat, quatn, frame_factor, quat);
-
-    var tsr_bone = _tsr8_tmp;
-    m_tsr.set_transcale(transcale, tsr_bone);
-    m_tsr.set_quat(quat, tsr_bone);
-
-    if (get_pose_tail) {
-        var tsr_local_tail = _tsr8_tmp2;
-        m_tsr.translate(tsr_local, bone._tail, tsr_local_tail);
-        m_tsr.multiply(tsr_bone, tsr_local_tail, tsr_bone);
-    } else
-        m_tsr.multiply(tsr_bone, tsr_local, tsr_bone);
-
-    // from armature to world space
-    m_tsr.multiply(render.tsr, tsr_bone, tsr_bone);
-
-    dest_transscale[0] = tsr_bone[0];
-    dest_transscale[1] = tsr_bone[1];
-    dest_transscale[2] = tsr_bone[2];
-    dest_transscale[3] = tsr_bone[3];
-
-    if (dest_quat) {
-        dest_quat[0] = tsr_bone[4];
-        dest_quat[1] = tsr_bone[5];
-        dest_quat[2] = tsr_bone[6];
-        dest_quat[3] = tsr_bone[7];
-    }
 }
 
 }

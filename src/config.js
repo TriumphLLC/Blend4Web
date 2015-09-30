@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -31,7 +48,7 @@ exports.defaults = {
 
     alpha_clip_filtering_hack  : false,
 
-    min_format_version         : [5, 5],
+    min_format_version         : [5, 6],
 
     max_fps                    : 10000, // not accurate
 
@@ -153,8 +170,6 @@ exports.defaults = {
 
     mobile_firefox_media_hack  : false,
 
-    intel_cubemap_hack         : false,
-
     enable_selectable          : true,
 
     enable_outlining           : true,
@@ -171,7 +186,9 @@ exports.defaults = {
 
     loaded_data_version        : [0, 0],
 
-    edge_min_tex_size_hack     : false
+    edge_min_tex_size_hack     : false,
+
+    quality_aa                 : true
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -205,6 +222,8 @@ exports.paths = {
     js_src_search_paths: [
         "b4w.min.js",
         "b4w.full.min.js",
+        "b4w.simple.min.js",
+        "b4w.whitespace.min.js",
         "src/b4w.js",
         "USER_DEFINED_MODULE"   // replaced when something compiled with the engine
     ],
@@ -253,7 +272,6 @@ exports.sfx_save = m_util.clone_object_r(exports.sfx);
 exports.outlining = {
     outlining_overview_mode : false,
     outline_color           : [1, 0.4, 0.05],
-    outline_intensity       : 1.0,
     outline_duration        : 0.2,
     outline_period          : 3.8,
     outline_relapses        : 1.0

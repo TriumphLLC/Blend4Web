@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя: Blend4Web vv15.08</title>
+  <title>Содержание &mdash; Руководство пользователя: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.08" href="#"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -186,6 +186,7 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="first_steps.html#blender">Установка программы Blender</a></li>
 <li class="toctree-l2"><a class="reference internal" href="first_steps.html#index-1">Установка аддона движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_steps.html#quick-install-engine-select">Активация движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="first_steps.html#quick-install-export-viewer">Экспорт и просмотр сцены</a></li>
 <li class="toctree-l2"><a class="reference internal" href="first_steps.html#quick-install-addon-upgrade">Установка новой версии аддона</a></li>
 </ul>
@@ -193,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#id3">Распаковка архива</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#id4">Подключение аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#id5">Активация движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#local-development-server">Локальный сервер разработки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-launching-viewer">Запуск просмотрщика сцен и демо-приложений</a></li>
 </ul>
@@ -225,7 +227,8 @@
 <li class="toctree-l2"><a class="reference internal" href="addon.html#version-errors">Ошибки совместимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Критические ошибки экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-4">Некритические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#id7">Прочие сообщения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors-other">Прочие сообщения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#translator">Перевод аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a><ul>
@@ -364,14 +367,14 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id2">Загрузка сцены в приложение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id3">Система модулей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id4">Быстрое создание приложений</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Разработка приложений в составе SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#app-building">Система управления проектами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id13">Подготовка ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Конвертация ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#canvas-nonfullscreen-coords">Специфика неполноэкранных приложений</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#code-snippets">Примеры кода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">Файловая структура SDK</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#browser-for-local-loading">Настройка браузера для загрузки локальных ресурсов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#local-web-server">Запуск локального сервера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#browser-for-local-loading">Загрузка локальных ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Профили качества изображения</a></li>
 </ul>
 </li>
@@ -383,7 +386,7 @@
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id7">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Отладка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#index-0">Компиляция шейдеров</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#translator">Перевод аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id16">Обновление переводов аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a><ul>
@@ -406,6 +409,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-09">v15.09</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-08">v15.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-07">v15.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-06">v15.06</a></li>
@@ -446,7 +450,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-08-31.
+      Обновлено: 2015-09-30.
 
     </p>
   </div>
@@ -468,7 +472,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

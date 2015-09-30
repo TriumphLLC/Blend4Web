@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 # ##### BEGIN GPL LICENSE BLOCK #####
 #
 #  This program is free software; you can redistribute it and/or
@@ -20,12 +36,19 @@
 import bpy
 import nodeitems_utils
 from nodeitems_utils import NodeCategory, NodeItem, NodeItemCustom
+import blend4web
 
-b4w_node_names = {"B4W_CLAMP": "Clamp", "B4W_LINEAR_TO_SRGB": "Linear to SRGB",
-                  "B4W_SRGB_TO_LINEAR": "SRGB to Linear", "B4W_VECTOR_VIEW": "Vector View", "B4W_NORMAL_VIEW": "Normal View",
-                  "B4W_REFLECT": "Reflect", "B4W_REFRACTION": "Refraction", "B4W_PARALLAX": "Parallax",
-                  "B4W_TRANSLUCENCY": "Translucency", "B4W_TIME": "Time", "B4W_SMOOTHSTEP": "Smoothstep",
-                  "B4W_GLOW_OUTPUT": "Glow Output", "B4W_REPLACE": "Replace", "B4W_LEVELS_OF_QUALITY": "Levels of Quality"}
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
+
+b4w_node_names = {"B4W_CLAMP": _("Clamp"), "B4W_LINEAR_TO_SRGB": _("Linear to SRGB"),
+                  "B4W_SRGB_TO_LINEAR": _("SRGB to Linear"), "B4W_VECTOR_VIEW": _("Vector View"), "B4W_NORMAL_VIEW": _("Normal View"),
+                  "B4W_REFLECT": _("Reflect"), "B4W_REFRACTION": _("Refraction"), "B4W_PARALLAX": _("Parallax"),
+                  "B4W_TRANSLUCENCY": _("Translucency"), "B4W_TIME": _("Time"), "B4W_SMOOTHSTEP": _("Smoothstep"),
+                  "B4W_GLOW_OUTPUT": _("Glow Output"), "B4W_REPLACE": _("Replace"), "B4W_LEVELS_OF_QUALITY": _("Levels of Quality")}
 
 def convert_to_camel(str):
     new_word = True

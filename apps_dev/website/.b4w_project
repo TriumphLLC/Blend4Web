@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = website
+title = Website
+
+[paths]
+assets_dirs = deploy/assets/website;
+blend_dirs = blender/website;
+blender_exec = blender
+build_dir = deploy/apps/website
+deploy_dir = ../website_b4w/website/blend4web/static/blend4web/3d/
+
+[compile]
+apps = logo_3d_dev.html;
+css_ignore = 
+engine_type = compile
+js_ignore = 
+optimization = advanced
+use_physics = False
+use_smaa_textures = False
+version = 
+
+[deploy]
+assets_path_prefix = /static/blend4web/3d/website/
+override = True

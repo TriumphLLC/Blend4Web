@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -16,7 +33,6 @@ var m_cfg        = require("__config");
 var m_cons       = require("__constraints");
 var m_geom       = require("__geometry");
 var m_lights     = require("__lights");
-var m_mat4       = require("__mat4");
 var m_nla        = require("__nla");
 var m_obj_util   = require("__obj_util");
 var m_particles  = require("__particles");
@@ -30,6 +46,7 @@ var m_trans      = require("__transform");
 var m_tsr        = require("__tsr");
 var m_util       = require("__util");
 var m_vec3       = require("__vec3");
+var m_armat      = require("__armature");
 
 var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
@@ -57,6 +74,7 @@ exports.DATA_ID_ALL = DATA_ID_ALL;
 
 exports.update = function(timeline, elapsed) {
     var objects = _all_objects["ALL"];
+    var armatures = _all_objects["ARMATURE"];
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
@@ -77,15 +95,26 @@ exports.update = function(timeline, elapsed) {
             }
         }
     }
+
+    if (!armatures)
+        return;
+
+    // update bone constraints
+    for (var i = 0; i < armatures.length; i++) {
+        var armobj = armatures[i];
+        if (armobj.need_update_transform) {
+            m_trans.update_transform(armobj);
+            armobj.need_update_transform = false;
+        }
+    }
 }
 
 exports.apply_outline_anim = function(obj, tau, T, N) {
-    obj._outline_anim = {
-        time_start: 0,
-        outline_time: tau,
-        period: T,
-        relapses: N
-    }
+    var oa = obj.outline_animation;
+    oa.time_start = 0;
+    oa.outline_time = tau;
+    oa.period = T;
+    oa.relapses = N;
 
     var ind = _outline_anim_objs.indexOf(obj);
     if (ind == -1)
@@ -106,11 +135,7 @@ function clear_outline_anim(obj) {
  */
 exports.update_object = function(bpy_obj, obj) {
 
-    if(!_all_objects[obj.type])
-        _all_objects[obj.type] = [];
-
-    _all_objects["ALL"].push(obj);
-    _all_objects[obj.type].push(obj);
+    prepare_default_actions(bpy_obj, obj);
 
     bpy_obj._is_dynamic = obj.is_dynamic = calc_is_dynamic(bpy_obj, obj);
     bpy_obj._is_updated = true;
@@ -125,7 +150,6 @@ exports.update_object = function(bpy_obj, obj) {
     var render = obj.render = m_obj_util.create_render(render_type);
     prepare_parenting_props(bpy_obj, obj);
 
-
     var pos = bpy_obj["location"];
     var scale = bpy_obj["scale"][0];
     var rot = _quat4_tmp;
@@ -136,6 +160,7 @@ exports.update_object = function(bpy_obj, obj) {
     m_trans.set_scale(obj, scale);
 
     obj.use_default_animation = bpy_obj["b4w_use_default_animation"];
+    obj.anim_behavior_def = m_anim.anim_behavior_bpy_b4w(bpy_obj["b4w_anim_behavior"]);
 
     if (bpy_obj["b4w_object_tags"])
         obj.metatags = {
@@ -146,36 +171,9 @@ exports.update_object = function(bpy_obj, obj) {
 
     switch (bpy_obj["type"]) {
     case "ARMATURE":
-        var pose_bones = bpy_obj["pose"]["bones"];
-        for (var i = 0; i < pose_bones.length; i++) {
-            var pose_bone = pose_bones[i];
-            var arm_bone = pose_bone["bone"];
-
-            var mat_loc = new Float32Array(arm_bone["matrix_local"]);
-            var mat_loc_inv = new Float32Array(16);
-            m_mat4.invert(mat_loc, mat_loc_inv);
-
-            var mat_bas = new Float32Array(pose_bone["matrix_basis"]);
-
-            var tail = new Float32Array(3);
-            m_vec3.subtract(arm_bone["tail_local"], arm_bone["head_local"], tail);
-            // translate tail offset from armature to bone space
-            m_util.vecdir_multiply_matrix(tail, mat_loc_inv, tail);
-
-            pose_bone._tail = tail;
-
-            // include current bone to chain with its parents
-            pose_bone._chain = [pose_bone].concat(pose_bone["parent_recursive"]);
-
-            pose_bone._tsr_local = m_tsr.from_mat4(mat_loc, m_tsr.create());
-            pose_bone._tsr_basis = m_tsr.from_mat4(mat_bas, m_tsr.create());
-            pose_bone._tsr_channel_cache = m_tsr.create();
-            pose_bone._tsr_channel_cache_valid = false;
-        }
-
-        var bone_pointers = m_anim.calc_armature_bone_pointers(obj);
-        render.bone_pointers = bone_pointers;
-        var pose_data = m_anim.calc_pose_data(obj, bone_pointers);
+        m_armat.update_object(bpy_obj, obj);
+        var bone_pointers = render.bone_pointers;
+        var pose_data = m_anim.calc_pose_data(bone_pointers);
 
         if (bpy_obj["b4w_animation_mixing"]) {
             var length = pose_data.quats.length;
@@ -190,12 +188,23 @@ exports.update_object = function(bpy_obj, obj) {
             render.trans_after  = pose_data.trans;
         }
 
+        // we need to recalculate bpointers' tsrs after pose is applied
+        // NOTE: need to find better realization
+        for (var bone_name in bone_pointers) {
+            var bpointer = bone_pointers[bone_name];
+            // do this only for root bones. They will update others
+            if (bpointer.chain.length == 1)
+                m_armat.update_bone_tsr_r(bpointer, true, pose_data.trans,
+                                                          pose_data.quats);
+        }
+
         render.pose_data = pose_data;
         render.frame_factor = 0;
         render.anim_mixing = bpy_obj["b4w_animation_mixing"];
         break;
 
     case "MESH":
+        render.do_not_render = bpy_obj["b4w_do_not_render"];
         render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_bounding_box"]);
         render.selectable = cfg_out.outlining_overview_mode || bpy_obj["b4w_selectable"];
         render.origin_selectable = bpy_obj["b4w_selectable"];
@@ -211,11 +220,10 @@ exports.update_object = function(bpy_obj, obj) {
         render.billboard_type = "BASIC";
         render.billboard_spherical = bpy_obj["b4w_billboard_geometry"] == "SPHERICAL";
 
-        render.outline_anim_settings = {
-            outline_duration: bpy_obj["b4w_outline_settings"]["outline_duration"],
-            outline_period: bpy_obj["b4w_outline_settings"]["outline_period"],
-            outline_relapses: bpy_obj["b4w_outline_settings"]["outline_relapses"]
-        };
+        var oa_set = render.outline_anim_settings_default;
+        oa_set.outline_duration = bpy_obj["b4w_outline_settings"]["outline_duration"],
+        oa_set.outline_period = bpy_obj["b4w_outline_settings"]["outline_period"],
+        oa_set.outline_relapses = bpy_obj["b4w_outline_settings"]["outline_relapses"]
 
         if (render.selectable) {
             // assign color id
@@ -229,10 +237,15 @@ exports.update_object = function(bpy_obj, obj) {
         // apply pose if any
         var bpy_armobj = m_anim.get_bpy_armobj(bpy_obj);
         if (bpy_armobj) {
+
             var armobj = bpy_armobj._object;
+            var amr_pose_data = armobj.render.pose_data;
+
             prepare_skinning_info(bpy_obj, obj, armobj);
-            var bone_pointers = render.bone_pointers;
-            var pose_data = m_anim.calc_pose_data(armobj, bone_pointers);
+            var pose_data = m_anim.extract_skinned_pose_data(
+                                        amr_pose_data.trans,
+                                        amr_pose_data.quats,
+                                        render.bone_skinning_info);
 
             if (bpy_armobj["b4w_animation_mixing"]) {
                 render.quats_before = new Float32Array(pose_data.quats);
@@ -352,8 +365,7 @@ exports.update_object = function(bpy_obj, obj) {
         break;
     }
 
-    if (bpy_obj["field"])
-        render.force_strength = bpy_obj["field"]["strength"];
+    objects_storage_add(obj);
 }
 
 exports.update_object_relations = function(obj) {
@@ -389,6 +401,25 @@ exports.update_object_relations = function(obj) {
             var offset = m_tsr.create_sep(trans, scale, quat);
             m_cons.append_child_of_bone(obj, obj.parent, obj.parent_bone,
                     offset);
+        }
+    }
+    if (obj.type == "ARMATURE") {
+        var bpy_obj = obj.temp_bpy_obj;
+        var pose_bones = bpy_obj["pose"]["bones"];
+        for (var i = 0; i < pose_bones.length; i++) {
+            var pose_bone = pose_bones[i];
+            var constraints = pose_bone["constraints"];
+            if (constraints)
+                for (var j = 0; j < constraints.length; j++) {
+                    var cons = constraints[j];
+                    if (cons["type"] != "COPY_TRANSFORMS" || cons["subtarget"] || cons["mute"])
+                        continue;
+
+                    var target_obj = cons["target"]._object;
+                    m_cons.append_stiff_bone_to_obj(obj, target_obj, pose_bone["name"],
+                                                    m_util.VEC3_IDENT,
+                                                    m_util.QUAT4_IDENT, 1);
+                }
         }
     }
 
@@ -458,11 +489,7 @@ function create_default_refl_plane(obj) {
     copy_scene_data(obj, reflection_plane);
     m_cons.append_stiff_obj(reflection_plane, obj, [0, 0, 0], null, 1);
 
-    if (!_all_objects["EMPTY"])
-        _all_objects["EMPTY"] = [];
-    _all_objects["EMPTY"].push(reflection_plane);
-    _all_objects["ALL"].push(reflection_plane);
-
+    objects_storage_add(reflection_plane);
     return reflection_plane;
 }
 
@@ -551,22 +578,22 @@ function calc_is_dynamic(bpy_obj, obj) {
 }
 
 function calc_empty_is_dynamic(bpy_obj, obj) {
-    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj);
-    var has_nla = m_nla.has_nla(obj);
+    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj, obj);
+    var has_nla = m_nla.bpy_obj_has_nla(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
 
     return is_animated || has_nla || has_do_not_batch;
 }
 
 function calc_mesh_is_dynamic(bpy_obj, obj) {
-    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj);
+    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj, obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
     var is_character = bpy_obj["b4w_character"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
-    var has_nla = m_nla.has_nla(obj);
+    var has_nla = m_nla.bpy_obj_has_nla(bpy_obj);
     var has_shape_keys = bpy_obj["data"]["b4w_shape_keys"].length > 0;
     var has_dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
@@ -599,8 +626,6 @@ function has_lens_flares_mat(bpy_obj) {
  */
 function prepare_skinning_info(bpy_obj, obj, armobj) {
 
-    var bpy_armobj = armobj.temp_bpy_obj;
-
     var render = obj.render;
     var mesh = bpy_obj["data"];
 
@@ -610,40 +635,27 @@ function prepare_skinning_info(bpy_obj, obj, armobj) {
     if (!vertex_groups.length)
         return;
 
-    // collect deformation bones
-
-    var bones = bpy_armobj["data"]["bones"];
-    var pose_bones = bpy_armobj["pose"]["bones"];
-
+    var arm_bone_pointers = armobj.render.bone_pointers;
     var deform_bone_index = 0;
-    var bone_pointers = {};
+    var bone_skinning_info = {};
 
-    for (var i = 0; i < bones.length; i++) {
-        var bone = bones[i];
-        var bone_name = bone["name"];
-
+    // collect deformation bones
+    for (var bone_name in arm_bone_pointers) {
         // bone is deform if it has corresponding vertex group
         var vgroup = m_util.keysearch("name", bone_name, vertex_groups);
         if (!vgroup)
             continue;
+        var arm_bpointer = arm_bone_pointers[bone_name];
 
-        var pose_bone_index = m_util.get_index_for_key_value(pose_bones, "name",
-                bone_name);
-
-        bone_pointers[bone_name] = {
-            bone_index: i,
-            deform_bone_index: deform_bone_index++,
-            // pose bone index may differ from bone_index
-            pose_bone_index: pose_bone_index,
-            vgroup_index: vgroup["index"]
-        };
+        bone_skinning_info[bone_name] = {vgroup_index: vgroup["index"],
+                                         bone_index: arm_bpointer.bone_index,
+                                         deform_bone_index: deform_bone_index++};
     }
+    render.bone_skinning_info = bone_skinning_info;
 
     var num_bones = deform_bone_index;
 
-    render.bone_pointers = bone_pointers;
     // will be extended beyond this limit later
-
     var max_bones = m_anim.get_max_bones();
     render.max_bones = num_bones;
 
@@ -755,7 +767,7 @@ function process_ntree_anim_data(anim_data, names_str,
                                  rgb_inds, rgb_anim_inds) {
 
     var action = anim_data["action"];
-    if (action)
+    if (action && action._render.type == m_anim.AT_MATERIAL)
         extract_nodemat_action_params(action, names_str,
                                       val_anim_inds, value_inds,
                                       rgb_anim_inds, rgb_inds);
@@ -767,7 +779,7 @@ function process_ntree_anim_data(anim_data, names_str,
         for (var k = 0; k < nla_tracks[j]["strips"].length; k++) {
             var strip = nla_strips[k];
             var action = strip["action"];
-            if (action)
+            if (action && action._render.type == m_anim.AT_MATERIAL)
                 extract_nodemat_action_params(action, names_str,
                                               val_anim_inds, value_inds,
                                               rgb_anim_inds, rgb_inds);
@@ -780,7 +792,6 @@ function extract_nodemat_action_params(action, names_str,
                                        rgb_anim_inds, rgb_inds) {
 
     var params = action._render.params;
-
     for (var param in params) {
         var full_node_path = join_name(names_str, node_name_from_param_name(param));
         var ind = node_ind_by_full_path(value_inds, full_node_path);
@@ -829,7 +840,6 @@ exports.cleanup = function() {
 
 exports.copy = function(obj, name, deep_copy) {
     var new_obj = copy_object(obj, name, deep_copy);
-    new_obj["uuid"] = m_util.gen_uuid();
     new_obj.render.is_copied = true;
     new_obj.render.color_id = m_util.gen_color_id(_color_id_counter);
     _color_id_counter++;
@@ -838,34 +848,70 @@ exports.copy = function(obj, name, deep_copy) {
 }
 
 function copy_object(obj, new_name, deep_copy) {
-    var new_obj = m_obj_util.create_object(new_name, obj.type);
+
+    var origin_name = new_name;
+    var dg_parent = m_obj_util.get_dg_parent(obj);
+    var name = dg_parent ? m_obj_util.gen_dupli_name(dg_parent.name, new_name) : new_name;
+
+    if (get_object_by_name(name, _all_objects["ALL"], false, DATA_ID_ALL)) {
+        var i = 1;
+        var num;
+        while (true) {
+            num = "." + (String(i).length < 3 ? ("000" + String(i)).slice(-3) : String(i));
+            if(!get_object_by_name(name + num, _all_objects["ALL"], false,
+                    DATA_ID_ALL))
+                break;
+            i++;
+        }
+
+        m_print.error("Object \"" + name + "\" already exists. "
+                + "Name was replaced by \"" + name + num + "\".");
+        origin_name += num;
+        name += num;
+    }
+
+    var new_obj = m_obj_util.create_object(name, obj.type, origin_name);
+
+    // NOTE: not all props are needed or supported for the copied object
+    new_obj.is_dynamic = obj.is_dynamic;
+    new_obj.is_hair_dupli = obj.is_hair_dupli;
+    new_obj.use_default_animation = obj.use_default_animation;
 
     new_obj.render = m_obj_util.copy_object_props_by_value(obj.render);
-    new_obj.is_dynamic = obj.is_dynamic;
-    new_obj.parent = obj.parent;
+    new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
+
+    copy_scene_data(obj, new_obj);
+    new_obj.action_anim_cache =m_obj_util.copy_bpy_object_props_by_link(obj.action_anim_cache);
+    
+    new_obj.parent = m_obj_util.copy_bpy_object_props_by_link(obj.parent);
     new_obj.parent_is_dupli = obj.parent_is_dupli;
     new_obj.parent_bone = obj.parent_bone;
 
-    if (obj._action_anim_cache)
-        new_obj._action_anim_cache = copy_bpy_object_props_by_link(obj._action_anim_cache);
+    new_obj.temp_bpy_obj = obj.temp_bpy_obj;
+
+    // copied object can't be a vehicle, floater or character
+    if (obj.physics && !(obj.is_vehicle || obj.is_character 
+            || obj.is_floating)) {
+        new_obj.use_obj_physics = obj.use_obj_physics;
+        new_obj.physics = m_obj_util.copy_object_props_by_value(obj.physics);
+    }
 
     new_obj.physics_settings =
             m_obj_util.copy_object_props_by_value(obj.physics_settings);
 
-    if (obj.physics && !(obj.is_vehicle || obj.is_character 
-            || obj.is_floating))
-        new_obj.physics = m_obj_util.copy_object_props_by_value(obj.physics);
+    copy_batches(obj, new_obj, deep_copy);
 
-    new_obj.use_obj_physics = obj.use_obj_physics;
+    // disable scene data for the new obj until appending it to the scene
+    m_obj_util.scene_data_set_active(new_obj, false);
 
-    new_obj["b4w_collision_id"] = obj["b4w_collision_id"];
-    new_obj["b4w_correct_bounding_offset"] = obj["b4w_correct_bounding_offset"];
+    objects_storage_add(new_obj);
 
-    new_obj["data"] = obj["data"];
+    return new_obj;
+}
 
-    copy_scene_data(obj, new_obj);
-
+function copy_batches(obj, new_obj, deep_copy) {
     var bpy_bufs_data = [];
+    var uuid = m_util.gen_uuid();
     for (var i = 0; i < obj.scenes_data.length; i++) {
 
         var sc_data = obj.scenes_data[i];
@@ -895,48 +941,18 @@ function copy_object(obj, new_name, deep_copy) {
                     m_geom.update_gl_buffers(new_batches[j].bufs_data);
 
                 //create unique batch ID
-                new_batches[j].odd_id_prop = new_obj["uuid"];
-                m_batch.update_batch_id(new_batches[j], m_util.calc_variable_id(new_obj.render, 0));
+                new_batches[j].odd_id_prop = uuid;
+                m_batch.update_batch_id(new_batches[j],
+                                        m_batch.calculate_render_id(new_obj.render));
             }
 
         } else
-            new_sc_data.batches = copy_bpy_object_props_by_link(batches);
+            new_sc_data.batches = m_obj_util.copy_bpy_object_props_by_link(batches);
     }
-
-    // disable scene data for the new obj until appending it to the scene
-    m_obj_util.scene_data_set_active(new_obj, false);
-
-    if (get_object_by_name(obj.name, _all_objects["ALL"], false,
-                           DATA_ID_ALL)) {
-        var i = 1;
-        while (true) {
-            if (String(i).length < 3)
-                var num = "." + ("000" + String(i)).slice(-3);
-            else
-                var num = "." + String(i);
-            new_name = obj.name + num;
-            if(!get_object_by_name(obj.name, _all_objects["ALL"], false,
-                                   DATA_ID_ALL)) {
-                obj.name = new_name;
-                m_print.error("object \"" + obj.name + "\" already exists. "
-                        + "Name was replaced by \"" + new_name + "\".");
-                break;
-            }
-            i++;
-        }
-    }
-    add_object(new_obj);
-
-    return new_obj;
 }
 
-function copy_bpy_object_props_by_link(obj) {
-    if (obj instanceof Array)
-        return obj.slice();
-    else
-        return obj;
-}
-exports.get_value_node_ind_by_id = function(obj, id) {
+exports.get_value_node_ind_by_id = get_value_node_ind_by_id;
+function get_value_node_ind_by_id (obj, id) {
     var value_inds = obj.render.mats_value_inds;
     for (var i = 0; i < value_inds.length; i+=2) {
         if (value_inds[i] == id)
@@ -945,7 +961,8 @@ exports.get_value_node_ind_by_id = function(obj, id) {
     return null;
 }
 
-exports.get_rgb_node_ind_by_id = function(obj, id) {
+exports.get_rgb_node_ind_by_id = get_rgb_node_ind_by_id;
+function get_rgb_node_ind_by_id(obj, id) {
     var rgb_inds = obj.render.mats_rgb_inds;
     for (var i = 0; i < rgb_inds.length; i+=2) {
         if (rgb_inds[i] == id)
@@ -1068,6 +1085,27 @@ function prepare_physics_settings(bpy_obj, obj) {
             limit_angle_min_z:   cons["limit_angle_min_z"]
         });
     }
+}
+
+function prepare_default_actions(bpy_obj, obj) {
+    var anim_data = bpy_obj["animation_data"];
+    var speak_anim_data = bpy_obj["data"]["animation_data"];
+
+    if (anim_data && anim_data["action"]) {
+        var action = anim_data["action"];
+
+        if (action._render.type == m_anim.AT_OBJECT || 
+                action._render.type == m_anim.AT_ARMATURE && obj.type == "ARMATURE")
+            obj.actions.push(action);
+    }
+
+    if (speak_anim_data && speak_anim_data["action"] && obj.type == "SPEAKER")
+        obj.actions.push(speak_anim_data["action"]);
+
+    // NOTE: nla material tracks are considered during the nla's object updating
+    // and aren't presented in the actions property
+    if (obj.type == "MESH")
+        obj.actions.push.apply(obj.actions, m_anim.get_bpy_material_actions(bpy_obj));
 }
 
 function prepare_vertex_anim(bpy_obj, obj) {
@@ -1303,27 +1341,6 @@ exports.update_boundings = function(obj) {
         }
 }
 
-exports.add_object = add_object;
-function add_object(obj) {
-    _all_objects["ALL"].push(obj);
-
-    if(!_all_objects[obj.type])
-        _all_objects[obj.type] = [];
-
-    _all_objects[obj.type].push(obj);
-
-    var plane_refl_id = obj.render.plane_reflection_id;
-
-    if (plane_refl_id != null)
-        for (var i = 0; i < _refl_plane_objs.length; i++) {
-            var refl_plane = _refl_plane_objs[i];
-            if (refl_plane.render.plane_reflection_id == plane_refl_id) {
-                refl_plane.reflective_objs.push(obj);
-            }
-        }
-
-}
-
 exports.get_scene_objs = get_scene_objs;
 function get_scene_objs(scene, type, data_id) {
     var objs_by_type = _all_objects[type] || [];
@@ -1346,6 +1363,7 @@ function get_scene_objs(scene, type, data_id) {
 
 /**
  * Get all objects derived from the source bpy objects on a certain scene 
+ * (ignoring meta-objects).
  */
 exports.get_scene_objs_derived = function(scene, type, data_id) {
     var objs_by_type = _all_objects[type] || [];
@@ -1457,7 +1475,7 @@ exports.get_object = function() {
     switch (arguments[0]) {
     case exports.GET_OBJECT_BY_NAME:
         obj_name = arguments[1];
-        obj_found = get_object_by_name(arguments[1], objs, false, arguments[2]);
+        obj_found = get_object_by_name(arguments[1], objs, true, arguments[2]);
         break;
     case exports.GET_OBJECT_BY_DUPLI_NAME:
         obj_name = arguments[2];
@@ -1482,10 +1500,13 @@ function get_object_by_name(name, objects, use_origin_name, data_id) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
         var obj_name = (use_origin_name) ? obj.origin_name : obj.name;
-
-        if (obj_name == name && obj.render.data_id == data_id) {
+        if (obj_name == name && (obj.render.data_id == data_id 
+                || data_id == DATA_ID_ALL)) {
             obj_found = obj;
-            break;
+
+            // NOTE: prefer non-duplicated object
+            if (!m_obj_util.get_dg_parent(obj_found))
+                break;
         }
     }
 
@@ -1493,56 +1514,56 @@ function get_object_by_name(name, objects, use_origin_name, data_id) {
 }
 
 function get_object_by_dupli_name(empty_name, dupli_name, objects, data_id) {
-    var obj_found = null;
-
-    var empty_obj = get_object_by_name(empty_name, objects, false, data_id);
-    if (empty_obj && empty_obj.temp_bpy_obj["dupli_group"]) {
-        var bpy_dg_objs = empty_obj.temp_bpy_obj["dupli_group"]["objects"];
-        var dg_objs = [];
-        for (var i = 0; i < bpy_dg_objs.length; i++)
-            dg_objs.push(bpy_dg_objs[i]._object);
-
-        obj_found = get_object_by_name(dupli_name, dg_objs, true, data_id);
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        if (obj.origin_name == dupli_name && (obj.render.data_id == data_id 
+                || data_id == DATA_ID_ALL)) {
+            var dg_parent = m_obj_util.get_dg_parent(obj);
+            if (dg_parent && dg_parent.origin_name == empty_name)
+                return obj;
+        }
     }
 
-    return obj_found;
+    return null;
 }
 
 function get_object_by_dupli_name_list(name_list, objects, data_id) {
-    var obj_found = null;
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        
+        var j = name_list.length - 1;
+        var curr_obj = obj;
+        var is_valid = true;
+        while (j >= 0 && is_valid) {
+            is_valid = curr_obj && (curr_obj.origin_name == name_list[j] 
+                    && (curr_obj.render.data_id == data_id || data_id == DATA_ID_ALL));
+            if (curr_obj)
+                curr_obj = m_obj_util.get_dg_parent(curr_obj);
+            j--;
+        }
 
-    for (var i = 0; i < name_list.length; i++) {
-        obj_found = get_object_by_name(name_list[i], objects, i != 0, data_id);
-
-        if (obj_found && obj_found.temp_bpy_obj["dupli_group"]) {
-            var bpy_dg_objs = obj_found.temp_bpy_obj["dupli_group"]["objects"];
-            var dg_objs = [];
-            for (var j = 0; j < bpy_dg_objs.length; j++)
-                dg_objs.push(bpy_dg_objs[j]._object);
-
-            objects = dg_objs;
-        } else
-            break;
+        // successfully iterated over the whole list && the object doesn't have further hierarchy
+        if (is_valid && !curr_obj)
+            return obj;
     }
-
-    return obj_found;
+    return null;
 }
 
 function update_obj_outline_intensity(obj, timeline) {
     var outline_intensity = 0;
-    var ga_settings = obj._outline_anim;
-    if (ga_settings.time_start == 0)
-        ga_settings.time_start = timeline;
+    var oa = obj.outline_animation;
+    if (oa.time_start == 0)
+        oa.time_start = timeline;
 
-    var dt = timeline - ga_settings.time_start;
-    if (ga_settings.relapses && dt / ga_settings.period >= ga_settings.relapses) {
+    var dt = timeline - oa.time_start;
+    if (oa.relapses && dt / oa.period >= oa.relapses) {
         clear_outline_anim(obj);
         return;
     }
 
-    var periodic_time = dt % ga_settings.period;
-    if (periodic_time < ga_settings.outline_time) {
-        var outline_time = periodic_time / (ga_settings.outline_time / 5);
+    var periodic_time = dt % oa.period;
+    if (periodic_time < oa.outline_time) {
+        var outline_time = periodic_time / (oa.outline_time / 5);
         var stage = Math.floor(outline_time);
 
         switch (stage) {
@@ -1564,14 +1585,6 @@ function update_obj_outline_intensity(obj, timeline) {
         }
     }
     obj.render.outline_intensity = outline_intensity;
-}
-
-exports.check_object = function(obj, scene) {
-    if (_all_objects[obj["type"]] &&
-            _all_objects[obj["type"]].indexOf(obj) > -1)
-        return true;
-    else
-        return false;
 }
 
 exports.pick_object = function(canvas_x, canvas_y) {
@@ -1598,19 +1611,13 @@ exports.pick_object = function(canvas_x, canvas_y) {
                     Math.abs(255 * color_id[2] - color[2]) < COLOR_ID_THRESHOLD) {
 
                 if (render.outlining && render.outline_on_select) {
-                    if (cfg_out.outlining_overview_mode) {
-                        m_scenes.set_outline_color(cfg_out.outline_color);
-                        render.outline_intensity = cfg_out.outline_intensity;
-
+                    if (cfg_out.outlining_overview_mode)
                         exports.apply_outline_anim(sobjs[i], cfg_out.outline_duration,
                                 cfg_out.outline_period, cfg_out.outline_relapses);
-                    } else {
-                        m_scenes.set_outline_color(main_scene["b4w_outline_color"]);
-                        render.outline_intensity = main_scene["b4w_outline_factor"];
-
-                        var ga = render.outline_anim_settings;
-                        exports.apply_outline_anim(sobjs[i], ga.outline_duration,
-                                ga.outline_period, ga.outline_relapses);
+                    else {
+                        var oa_set = render.outline_anim_settings_default;
+                        exports.apply_outline_anim(sobjs[i], oa_set.outline_duration,
+                                oa_set.outline_period, oa_set.outline_relapses);
                     }
                 }
                 return sobjs[i];
@@ -1654,30 +1661,34 @@ exports.set_wind_params = function(scene, wind_params) {
     m_scenes.update_scene_permanent_uniforms(scene);
 }
 
-exports.get_parent = function(obj) {
-    return !obj.parent_is_dupli ? obj.parent : null;
-}
-
-exports.get_dg_parent = get_dg_parent;
-function get_dg_parent(obj) {
-    if (obj.parent_is_dupli)
-        return obj.parent;
-    else if (obj.parent)
-        return get_dg_parent(obj.parent);
-    else
-        return null;
-}
-
 exports.remove_object = function(obj) {
     if (m_cons.check_constraint(obj))
         m_cons.remove(obj);
 
-    if (obj.parent_is_dupli && obj.parent && obj.parent.temp_bpy_obj["dupli_group"]["objects"]) {
-        var ind = obj.parent.temp_bpy_obj["dupli_group"]["objects"].indexOf(obj);
-        if (ind != -1)
-            obj.parent.temp_bpy_obj["dupli_group"]["objects"].splice(ind, 1);
-    }
+    objects_storage_remove(obj);
+}
 
+exports.objects_storage_add = objects_storage_add;
+function objects_storage_add(obj) {
+    _all_objects["ALL"].push(obj);
+
+    if(!_all_objects[obj.type])
+        _all_objects[obj.type] = [];
+
+    _all_objects[obj.type].push(obj);
+
+    var plane_refl_id = obj.render.plane_reflection_id;
+
+    if (plane_refl_id != null)
+        for (var i = 0; i < _refl_plane_objs.length; i++) {
+            var refl_plane = _refl_plane_objs[i];
+            if (refl_plane.render.plane_reflection_id == plane_refl_id) {
+                refl_plane.reflective_objs.push(obj);
+            }
+        }
+}
+
+function objects_storage_remove(obj) {
     var all_objs = _all_objects["ALL"];
     var typed_objs = _all_objects[obj.type];
     var ind_all = all_objs.indexOf(obj);
@@ -1687,6 +1698,33 @@ exports.remove_object = function(obj) {
         all_objs.splice(ind_all, 1);
     if (ind_typed != -1)
         typed_objs.splice(ind_typed, 1);
+}
+
+exports.objects_storage_check = function(obj) {
+    return _all_objects[obj.type] && _all_objects[obj.type].indexOf(obj) > -1;
+}
+
+exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
+    var node_id = name_list.join("%join%");
+    var ind = get_rgb_node_ind_by_id(obj, node_id);
+    if (ind != null) {
+        obj.render.mats_rgbs[3 * ind]     = r;
+        obj.render.mats_rgbs[3 * ind + 1] = g;
+        obj.render.mats_rgbs[3 * ind + 2] = b;
+    } else {
+        m_print.error("The RGB node \"" + node_id +
+        "\" was not found in the object \"" + obj.name + "\".");
+    }
+}
+
+exports.set_nodemat_value = function(obj, name_list, value) {
+    var node_id = name_list.join("%join%");
+    var ind = get_value_node_ind_by_id(obj, node_id);
+    if (ind != null)
+        obj.render.mats_values[ind] = value;
+    else
+        m_print.error("The Value node \"" + node_id +
+        "\" was not found in the object \"" + obj.name + "\".");
 }
 
 }

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -24,6 +41,7 @@ var m_util     = require("__util");
 
 var cfg_dbg = m_cfg.debug_subs;
 var cfg_def = m_cfg.defaults;
+var cfg_out = m_cfg.outlining;
 var cfg_scs = m_cfg.scenes;
 
 var DEBUG_DISABLE_TEX_REUSE = false;
@@ -590,7 +608,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
         var csm_num = shadow_params.csm_num;
         for (var i = 0; i < csm_num; i++) {
-            var subs_shadow = create_subs_shadow_cast(i, shadow_params);
+            var subs_shadow = create_subs_shadow_cast(i, shadow_params, num_lights);
             m_graph.append_node_attr(graph, subs_shadow);
             shadow_subscenes.push(subs_shadow);
 
@@ -734,8 +752,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             var cam_depth = cam_copy(cam);
             cam_render.cameras.push(cam_depth);
 
-            subs_depth = create_subs_depth_shadow(graph, cam_depth,
-                                                  shadow_params);
+            subs_depth = create_subs_depth_shadow(graph, cam_depth, num_lights);
             depth_subscenes.push(subs_depth);
 
             m_graph.append_node_attr(graph, subs_depth);
@@ -848,13 +865,13 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
         // camera depends on bpy camera
         cam_render.cameras.push(cam);
 
-        var subs_color_picking = create_subs_color_picking(cam, false);
+        var subs_color_picking = create_subs_color_picking(cam, false, num_lights);
         m_graph.append_node_attr(graph, subs_color_picking);
 
         if (sc_render.xray) {
             var cam = cam_copy(prev_level[0].camera);
             cam_render.cameras.push(cam);
-            var subs_color_picking_xray = create_subs_color_picking(cam, true);
+            var subs_color_picking_xray = create_subs_color_picking(cam, true, num_lights);
             m_graph.append_node_attr(graph, subs_color_picking_xray);
             var cp_slink_c = create_slink("COLOR", "COLOR", 1, 1, true);
             m_graph.append_edge_attr(graph, subs_color_picking,
@@ -1314,7 +1331,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             var cam_outline = cam_copy(main_cams[i]);
             cam_render.cameras.push(cam_outline);
 
-            var subs_outline_mask = create_subs_outline_mask(cam_outline);
+            var subs_outline_mask = create_subs_outline_mask(cam_outline, num_lights);
             m_graph.append_node_attr(graph, subs_outline_mask);
 
             var pp_x_ext = create_subs_postprocessing("X_EXTEND");
@@ -1711,8 +1728,18 @@ function assign_debug_subscene(graph, subs_to_debug) {
             create_slink("SCREEN", "NONE", 0.5, 0.5, true));
 }
 
+function add_light_attributes(subs, num_lights) {
+    subs.num_lights = num_lights;
+    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
+    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
+    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
 
-function create_subs_shadow_cast(csm_index, shadow_params) {
+    // packed vec2's into vec4's
+    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
+    subs.light_factors           = new Float32Array(num_lfac);
+}
+
+function create_subs_shadow_cast(csm_index, shadow_params, num_lights) {
     var subs = init_subs("SHADOW_CAST");
     subs.csm_index = csm_index;
     subs.self_shadow_polygon_offset = shadow_params.self_shadow_polygon_offset;
@@ -1730,6 +1757,8 @@ function create_subs_shadow_cast(csm_index, shadow_params) {
     default:
         subs.camera = m_cam.create_camera(m_cam.TYPE_ORTHO_ASYMMETRIC);
     }
+
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2131,14 +2160,7 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
     if (water_params)
         assign_water_params(subs, water_params, sun_exist)
 
-    subs.num_lights = num_lights;
-    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2193,7 +2215,7 @@ function assign_inputs(graph, subs, inputs) {
     }
 }
 
-function create_subs_color_picking(cam, xray) {
+function create_subs_color_picking(cam, xray, num_lights) {
 
     var subs = init_subs("COLOR_PICKING");
     if (xray) {
@@ -2205,6 +2227,8 @@ function create_subs_color_picking(cam, xray) {
     subs.enqueue = false;
 
     subs.camera = cam;
+
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2235,9 +2259,12 @@ function create_subs_anchor_visibility(cam) {
 /**
  * Used for depth and (optionally) shadow receive rendering
  */
-function create_subs_depth_shadow(graph, cam) {
+function create_subs_depth_shadow(graph, cam, num_lights) {
     var subs = init_subs("DEPTH");
     subs.camera = cam;
+
+    add_light_attributes(subs, num_lights);
+
     return subs;
 }
 
@@ -2371,10 +2398,12 @@ function create_subs_dof(cam) {
 }
 
 
-function create_subs_outline_mask(cam) {
+function create_subs_outline_mask(cam, num_lights) {
     var subs = init_subs("OUTLINE_MASK");
     subs.depth_test = false;
     subs.camera = cam;
+
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2382,7 +2411,10 @@ function create_subs_outline_mask(cam) {
 function create_subs_outline(outline_params) {
     var subs = init_subs("OUTLINE");
 
-    subs.outline_color.set(outline_params.outline_color);
+    if (cfg_out.outlining_overview_mode)
+        subs.outline_color.set(cfg_out.outline_color);
+    else
+        subs.outline_color.set(outline_params.outline_color);
     subs.outline_factor = outline_params.outline_factor;
     subs.ext_texel_size_mult = 5;
     subs.blur_texel_size_mult = 3;
@@ -2425,14 +2457,7 @@ function create_subs_god_rays(cam, water, ray_length, pack, step,
     subs.steps_per_pass = steps_per_pass;
     subs.camera = cam;
 
-    subs.num_lights = num_lights;
-    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2448,14 +2473,7 @@ function create_subs_god_rays_comb(intensity, num_lights) {
 
     subs.god_rays_intensity = intensity;
 
-    subs.num_lights = num_lights;
-    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }
@@ -2482,14 +2500,7 @@ function create_subs_sky(num_lights, sky_params) {
 
     subs.cube_view_matrices = m_util.generate_cubemap_matrices();
 
-    subs.num_lights = num_lights;
-    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    add_light_attributes(subs, num_lights);
 
     subs.horizon_color = new Float32Array([1, 1, 1]);
     subs.zenith_color = new Float32Array([1, 1, 1]);
@@ -2572,14 +2583,7 @@ function create_subs_luminance_trunced(bloom_key, edge_lum, num_lights, cam) {
     //var cam = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.camera = cam;
 
-    subs.num_lights = num_lights;
-    subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    add_light_attributes(subs, num_lights);
 
     return subs;
 }

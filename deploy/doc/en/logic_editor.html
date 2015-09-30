@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Visual Programming &mdash; User Manual: Blend4Web vv15.08</title>
+  <title>Visual Programming &mdash; User Manual: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="Non-Linear Animation" href="nla.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -108,15 +108,24 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Visual Programming</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Visual Programming (Logic Editor)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#play">Play</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play">Select &amp; Play</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-jump">Select &amp; Jump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-timeline">Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline">Select &amp; Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-animation">Select &amp; Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#register-store">Register Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#show-object-hide-object">Show Object and Hide Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Debugging</a></li>
 </ul>
 </li>
@@ -183,30 +192,39 @@
 <p>For implementing complicated logic there are numeric variables called registers. Each of 8 registers can store a single numeric value. The registers can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character&#8217;s health points etc).</p>
 <p>Logic Editor usage example:</p>
 <a class="reference internal image-reference" href="_images/logic_editor_example.png"><img alt="_images/logic_editor_example.png" class="align-center" src="_images/logic_editor_example.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <p>All possible nodes are described below.</p>
-<div class="section" id="play">
-<h3>Play<a class="headerlink" href="#play" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="entry-point">
+<h3>Entry Point<a class="headerlink" href="#entry-point" title="Permalink to this headline">¶</a></h3>
+<p>This is where the script starts.</p>
+</div>
+<div class="section" id="play-timeline">
+<h3>Play Timeline<a class="headerlink" href="#play-timeline" title="Permalink to this headline">¶</a></h3>
 <p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker is met, or to the end of the timeline. Finally the next node receives the control.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_anim.png"><img alt="_images/logic_editor_anim.png" class="align-center" src="_images/logic_editor_anim.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="select-play">
-<span id="nla-select-play"></span><h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
-<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If an object that is specified in this slot is selected - start animation similar to <code class="docutils literal"><span class="pre">Play</span></code> node. If any other object is selected - immediately transfer the control to the next node.</p>
+<div class="section" id="play-animation">
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
+<p>Play the object&#8217;s animation. The animation name can be optionally specified.</p>
 </div>
-<div class="section" id="select-jump">
-<h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="select-play-timeline">
+<h3>Select &amp; Play Timeline<a class="headerlink" href="#select-play-timeline" title="Permalink to this headline">¶</a></h3>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
+</div>
+<div class="section" id="select-play-animation">
+<h3>Select &amp; Play Animation<a class="headerlink" href="#select-play-animation" title="Permalink to this headline">¶</a></h3>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
+</div>
+<div class="section" id="select">
+<h3>Select<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h3>
 <p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
 </div>
 <div class="section" id="conditional-jump">
 <h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
 <p>Go to the specified node if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.</p>
 </div>
-<div class="section" id="register-store">
-<h3>Register Store<a class="headerlink" href="#register-store" title="Permalink to this headline">¶</a></h3>
-<p>Save a numeric value in the register.</p>
+<div class="section" id="variable-store">
+<h3>Variable Store<a class="headerlink" href="#variable-store" title="Permalink to this headline">¶</a></h3>
+<p>Save a numeric value in a variable.</p>
 </div>
 <div class="section" id="math-operation">
 <h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
@@ -223,6 +241,30 @@
 <div class="section" id="page-param">
 <h3>Page Param<a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
 <p>Allows to store any web page parameter in a given numerical register.</p>
+</div>
+<div class="section" id="send-request">
+<h3>Send Request<a class="headerlink" href="#send-request" title="Permalink to this headline">¶</a></h3>
+<p>Send an HTTP GET request to the specified URL and save the respond&#8217;s fields to variables.</p>
+</div>
+<div class="section" id="inherit-material">
+<h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Permalink to this headline">¶</a></h3>
+<p>Copy attributes from one material to another.</p>
+</div>
+<div class="section" id="set-shader-node-param">
+<h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Permalink to this headline">¶</a></h3>
+<p>Set vaue for the shader node. Currently only Value and RGB nodes are supported.</p>
+</div>
+<div class="section" id="delay">
+<h3>Delay<a class="headerlink" href="#delay" title="Permalink to this headline">¶</a></h3>
+<p>Make a delay before going to the next node.</p>
+</div>
+<div class="section" id="apply-shape-key">
+<h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Permalink to this headline">¶</a></h3>
+<p>Set the Shape Key factor.</p>
+</div>
+<div class="section" id="outline">
+<h3>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
+<p>Controls object outliing effect.</p>
 </div>
 <div class="section" id="id3">
 <h3>Debugging<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -251,7 +293,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-08-31.
+      Last updated on 2015-09-30.
 
     </p>
   </div>
@@ -273,7 +315,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

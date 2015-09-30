@@ -162,7 +162,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
 
         
             
-<li> <a href="#.enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -194,6 +194,10 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
 
         
             
+<li> <a href="#.queue_animate">queue_animate<span class="signature">(queue)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.report_app_error">report_app_error<span class="signature">(text_message, link_message, link, purge_elements)</span><span class="type-signature"></span></a></li>
 
         
@@ -217,7 +221,15 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
         <ul>
         
                 
+<li> <a href="#~AnimFinishCallback">AnimFinishCallback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+            
+                
 <li> <a href="#~AppInitCallback">AppInitCallback<span class="signature">(canvas, success)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~QueueObject">QueueObject</a></li>
 
             
         </ul>
@@ -514,7 +526,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1494">line 1494</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1506">line 1506</a>
     </li></ul></dd>
     
 
@@ -622,7 +634,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1337">line 1337</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1349">line 1349</a>
     </li></ul></dd>
     
 
@@ -696,7 +708,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+<span class="param-type">HTMLElement</span>
 
 
             
@@ -990,7 +1002,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1445">line 1445</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1457">line 1457</a>
     </li></ul></dd>
     
 
@@ -1076,7 +1088,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1075">line 1075</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1086">line 1086</a>
     </li></ul></dd>
     
 
@@ -1162,7 +1174,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1238">line 1238</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1250">line 1250</a>
     </li></ul></dd>
     
 
@@ -1297,7 +1309,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1206">line 1206</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1218">line 1218</a>
     </li></ul></dd>
     
 
@@ -1319,7 +1331,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
 
     
 
-    <h4 class="name" id=".enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1445,6 +1457,45 @@ camera-defined pivot point</td>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>disable_zoom</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Disable zoom</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1494,7 +1545,7 @@ camera-defined pivot point</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line531">line 531</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -1653,7 +1704,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1221">line 1221</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1233">line 1233</a>
     </li></ul></dd>
     
 
@@ -1744,7 +1795,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1258">line 1258</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1270">line 1270</a>
     </li></ul></dd>
     
 
@@ -1879,7 +1930,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1120">line 1120</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1132">line 1132</a>
     </li></ul></dd>
     
 
@@ -1965,7 +2016,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1321">line 1321</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1333">line 1333</a>
     </li></ul></dd>
     
 
@@ -2073,7 +2124,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1568">line 1568</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1632">line 1632</a>
     </li></ul></dd>
     
 
@@ -2253,7 +2304,7 @@ even when the mouse is leaving the HTML element.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1409">line 1409</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1421">line 1421</a>
     </li></ul></dd>
     
 
@@ -2955,7 +3006,142 @@ canvas container height, based on its width and passed ratio value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line134">line 134</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line139">line 139</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".queue_animate">queue_animate<span class="signature">(queue)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Animate queue of the html elements.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>queue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="module-app.html#~QueueObject">module:app~QueueObject</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of the queue objects.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1574">line 1574</a>
     </li></ul></dd>
     
 
@@ -3161,7 +3347,7 @@ elements are inserted.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1366">line 1366</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1378">line 1378</a>
     </li></ul></dd>
     
 
@@ -3343,7 +3529,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1270">line 1270</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1282">line 1282</a>
     </li></ul></dd>
     
 
@@ -3479,7 +3665,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1097">line 1097</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1108">line 1108</a>
     </li></ul></dd>
     
 
@@ -3614,7 +3800,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1559">line 1559</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1623">line 1623</a>
     </li></ul></dd>
     
 
@@ -3636,6 +3822,92 @@ Security issues: execute by user event.
         <h3 class="subsection-title">Type Definitions</h3>
 
         
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~AnimFinishCallback">AnimFinishCallback<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Animation finish callback.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1555">line 1555</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
                 
 <div class="item_container">
 <div class="item_name">
@@ -3778,7 +4050,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line91">line 91</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -3794,6 +4066,425 @@ Security issues: execute by user event.
 </div>
 </div>
             
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~QueueObject">QueueObject</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Queue object params.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Animation type.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>elem</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Animated html element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>prop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Animated property.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Initial property value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target property value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Animation duration in ms.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
+            
+
+            <td class="description last">Prefix for the css property.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_suffix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
+            
+
+            <td class="description last">Prefix for the css property.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-app.html#~AnimFinishCallback">AnimFinishCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    function(){}
+                
+                </td>
+            
+
+            <td class="description last">Animation finish callback.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1560">line 1560</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
     
 
     
@@ -3807,13 +4498,13 @@ Security issues: execute by user event.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:57 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:55 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

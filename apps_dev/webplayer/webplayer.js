@@ -47,6 +47,7 @@ var _buttons_container;
 var _quality_buttons_container;
 var _help_info_container;
 var _help_button;
+var _selected_object;
 
 var _player_buttons = [
     {type: "simple_button", id: "opened_button", callback: open_menu},
@@ -97,6 +98,7 @@ exports.init = function() {
 
     var is_debug = (m_version.type() == "DEBUG");
     var show_fps = false;
+    var alpha = false;
     var dds_available = false;
     var min50_available = false;
     var url_params = m_app.get_url_params();
@@ -109,6 +111,9 @@ exports.init = function() {
 
     if (url_params && "show_fps" in url_params)
         show_fps = true;
+
+    if (url_params && "alpha" in url_params)
+        alpha = true;
 
     if (url_params && url_params["load"])
         m_storage.init("b4w_webplayer:" + url_params["load"]);
@@ -128,7 +133,7 @@ exports.init = function() {
         report_init_failure: false,
         console_verbose: is_debug,
         error_purge_elements: ['control_panel'],
-        alpha: false,
+        alpha: alpha,
         key_pause_enabled: false,
         fps_elem_id: "fps_container",
         fps_wrapper_id: "fps_wrapper",
@@ -804,6 +809,30 @@ function on_resize() {
     m_main.resize(w, h);
 }
 
+function get_selected_object() {
+    return _selected_object;
+}
+
+function set_selected_object(obj) {
+    _selected_object = obj;
+}
+
+function main_canvas_clicked(event) {
+    if (!m_scs.can_select_objects())
+        return;
+
+    var x = event.clientX;
+    var y = event.clientY;
+
+    var prev_obj = get_selected_object();
+
+    if (prev_obj && m_scs.outlining_is_enabled(prev_obj))
+        m_scs.clear_outline_anim(prev_obj);
+
+    var obj = m_scs.pick_object(x, y);
+    set_selected_object(obj);
+}
+
 function loaded_callback(data_id, success) {
     if (!success) {
         report_app_error("Could not load the scene",
@@ -812,6 +841,9 @@ function loaded_callback(data_id, success) {
 
         return;
     }
+
+    var canvas_elem = m_main.get_canvas_elem();
+    canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     check_autorotate();
 

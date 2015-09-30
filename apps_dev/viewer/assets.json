@@ -87,6 +87,10 @@
         "name": "Demos - Animation",
         "items": [
             {
+                "name": "Golem Ragdoll",
+                "load_file": "animation/golem_ragdoll.json"
+            },
+            {
                 "name": "NLA Strips",
                 "load_file": "animation/nla_strips.json"
             },
@@ -129,20 +133,28 @@
                 "load_file": "interactivity/annotations_nla.json"
             },
             {
-                "name": "Camera Views",
+                "name": "Camera Views Switching",
                 "load_file": "interactivity/camera_views.json"
             },
             {
-                "name": "Math, Conditional Jump",
+                "name": "Inherit Material",
+                "load_file": "interactivity/inherit_material.json"
+            },
+            {
+                "name": "Math, Cond. Jump Logic",
                 "load_file": "interactivity/logic_editor_math_conditions.json"
             },
             {
-                "name": "Page Redirect",
+                "name": "NLA Video",
+                "load_file": "interactivity/video_nla.json"
+            },
+            {
+                "name": "Page Redirect Logic",
                 "load_file": "interactivity/logic_editor_page_redirect.json"
             },
             {
-                "name": "Select & Play",
-                "load_file": "interactivity/logic_editor_select&play.json"
+                "name": "Play Anim Logic",
+                "load_file": "interactivity/node_play_anim.json"
             },
             {
                 "name": "Solar System (En)",

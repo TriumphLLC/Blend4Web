@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -597,7 +614,7 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * specified, the sensor will detect collisions with any entities.
  * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
- * @param {Object3D} obj Collision object.
+ * @param {Object3D} obj_src Collision object.
  * @param {?String} [collision_id="ANY"] Collision ID
  * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
@@ -814,7 +831,7 @@ exports.set_custom_sensor = function(sensor, value) {
  * @param {Sensor} sensor Sensor object
  * @returns {Number} Sensor value
  */
-exports.get_custom_sensor = function(sensor, value) {
+exports.get_custom_sensor = function(sensor) {
     return sensor.value;
 }
 
@@ -911,7 +928,7 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
  * @method module:controls.remove_sensor_manifolds
  * @param {?Object3D} obj Object 3D to delete manifolds from, or null to denote
  * the global object
- * @deprecated Use remove_sensor_manifold with null manifold ID instead
+ * @deprecated Use {@link module:controls.remove_sensor_manifold|controls.remove_sensor_manifold} with null manifold ID instead
  */
 exports.remove_sensor_manifolds = function(obj) {
     m_print.error("remove_sensor_manifolds() deprecated, use" +

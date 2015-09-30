@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -53,7 +70,8 @@ exports.OBJECT_SUBSCENE_TYPES = OBJECT_SUBSCENE_TYPES;
 // need light update
 var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW",
     "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "GOD_RAYS", "GOD_RAYS_COMBINE", "SKY",
-    "LUMINANCE_TRUNCED"];
+    "LUMINANCE_TRUNCED", "DEPTH", "SHADOW_CAST", "COLOR_PICKING", "COLOR_PICKING_XRAY",
+    "OUTLINE_MASK"];
 
 var FOG_SUBSCENE_TYPES = ["MAIN_OPAQUE", "SSAO", "MAIN_BLEND", "MAIN_XRAY",
     "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT"];
@@ -71,8 +89,6 @@ var MAIN_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY",
 var SHORE_DIST_COMPAT = 100;
 
 var MAX_BATCH_TEXTURES = 8;
-
-var _seq_video_time = 0;
 
 var _main_scene = null;
 var _active_scene = null;
@@ -277,7 +293,7 @@ exports.append_scene = append_scene;
  * prepare camera before execution
  * @methodOf scenes
  */
-function append_scene(bpy_scene, textures, all_objs, lamps, mesh_objs, empty_objs) {
+function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
     bpy_scene._render_to_textures = bpy_scene._render_to_textures || [];
     bpy_scene._nla = null;
 
@@ -285,7 +301,6 @@ function append_scene(bpy_scene, textures, all_objs, lamps, mesh_objs, empty_obj
     var cam_render = bpy_scene._camera.render;
 
     render.video_textures = [];
-    append_scene_vtex(bpy_scene, textures);
 
     var world = bpy_scene["world"];
 
@@ -373,11 +388,12 @@ function append_scene(bpy_scene, textures, all_objs, lamps, mesh_objs, empty_obj
         m_obj_util.scene_data_set_active(all_objs[i], true, bpy_scene);
 }
 
-exports.append_scene_vtex = append_scene_vtex;
-function append_scene_vtex(scene, textures) {
+exports.append_scene_vtex = function(scene, textures, data_id) {
     for (var i = 0; i < textures.length; i++)
-        if (textures[i]._render && textures[i]._render.is_movie)
+        if (textures[i]._render && textures[i]._render.is_movie) {
+            textures[i]._render.vtex_data_id = data_id;
             scene._render.video_textures.push(textures[i]);
+        }
 }
 
 exports.combine_scene_bpy_objects = combine_scene_bpy_objects;
@@ -1391,16 +1407,8 @@ exports.append_object = function(scene, obj, copy) {
 
         var subs_arr = subs_array(scene, OBJECT_SUBSCENE_TYPES);
 
-        if (copy) {
-
-            if(m_phy.obj_has_physics(obj))
-                m_phy.append_object(obj, scene);
-
-            if (obj.parent_is_dupli && obj.parent && obj.parent.temp_bpy_obj["dupli_group"]["objects"]) {
-                obj.origin_name = obj.name;
-                obj.parent.temp_bpy_obj["dupli_group"]["objects"].push(obj.temp_bpy_obj);
-            }
-        }
+        if (copy && m_phy.obj_has_physics(obj))
+            m_phy.append_object(obj, scene);
 
         for (var i = 0; i < subs_arr.length; i++) {
             var subs = subs_arr[i];
@@ -1511,7 +1519,7 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
         connect_textures(graph, subs, batch);
         check_batch_textures_number(batch);
     }
-
+    
     // first sort by blend then by offset_z
     var sort_fun = function(a, b) {
         if (a == b) return 0;
@@ -1519,7 +1527,8 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
     }
     var sort_fun_double = function(a, b) {
         if (a.batch && b.batch)
-            return sort_fun(a.batch.blend, b.batch.blend) ||
+            return -sort_fun(a.batch.blend, b.batch.blend) || 
+                   -sort_fun(a.batch.alpha_clip, b.batch.alpha_clip) ||
                    sort_fun(a.batch.offset_z, b.batch.offset_z);
         else
             return 0;
@@ -1885,6 +1894,12 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
         update_needed = true;
 
         if (!copy) {
+            var num_lights = subs.num_lights;
+            m_batch.set_batch_directive(batch, "NUM_LIGHTS", num_lights);
+            var num_lfac = num_lights % 2 == 0 ? num_lights / 2:
+                                                 Math.floor(num_lights / 2) + 1;
+            m_batch.set_batch_directive(batch, "NUM_LFACTORS", num_lfac);
+            
             m_shaders.set_directive(batch.shaders_info, "SHADOW_USAGE", "SHADOW_CASTING");
 
             if (batch.dynamic_grass && subs_grass_map)
@@ -3461,45 +3476,60 @@ exports.update = function(timeline, elapsed) {
                                            active_cam_render.trans[2]);
         }
 
-        var textures = render.video_textures;
+        for (var j = 0; j < render.video_textures.length; j++) {
+            var vtex = render.video_textures[j]._render;
+            var video = vtex.video_file;
+            var seq_video = vtex.seq_video;
 
-        for (var j = 0; j < textures.length; j++) {
-            var texture = textures[j]._render;
-            var video = texture.video_file;
-            var end_frame = texture.frame_duration +
-                    texture.frame_offset;
-            if (video) {
-                var current_frame = Math.round(video.currentTime * texture.fps);
-                var start_time = texture.frame_offset / texture.fps;
+            if (scene["b4w_use_nla"] && vtex.use_nla)
+                continue;
 
-                var frame_eps = (cfg_def.is_mobile_device) ? FRAME_EPS : 0;
+            if (!video && !seq_video)
+                continue;
 
-                if ((current_frame < texture.frame_offset - frame_eps) ||
-                        textures[j]._render.use_cyclic && current_frame > end_frame)
-                    video.currentTime = start_time;
+            if (!m_tex.video_is_played(vtex))
+                continue;
 
-                if (!texture.use_cyclic && current_frame > end_frame)
-                    video.pause();
+            var current_frame = m_tex.video_get_current_frame(vtex);
+            var start_frame = m_tex.video_get_start_frame(vtex);
+            if (video && cfg_def.is_mobile_device)
+                start_frame -= FRAME_EPS;
+            var end_frame = m_tex.video_get_end_frame(vtex);
 
-                if (video.readyState >= 2 && !video.paused)
-                    m_tex.update_video_texture(texture);
-            } else
-                if (texture.seq_video) {
-                    var length = Math.min(texture.seq_video.length, texture.frame_duration + texture.frame_offset);
-                    if ((texture.seq_cur_frame < texture.frame_offset) ||
-                            texture.use_cyclic && texture.seq_cur_frame >= length)
-                        texture.seq_cur_frame = texture.frame_offset;
-                    if (!texture.use_cyclic && texture.seq_cur_frame >= length)
-                        texture.seq_video_played = false;
-                    var time = Math.round(timeline * cfg_ani.framerate / texture.fps) * texture.seq_fps;
-                    if (time != _seq_video_time && texture.seq_video_played) {
-                        m_tex.update_seq_video_texture(texture);
-                        texture.seq_cur_frame++;
+            // NOTE: if frame_duration + frame_offset is bigger than the actual 
+            // video length, cycled non-NLA video won't consider frames at 
+            // the end of the cycle
+
+            // pause
+            if (!vtex.use_cyclic && current_frame >= end_frame) {
+                m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+                continue;
+            }
+
+            // reset
+            if (seq_video && current_frame >= end_frame) {
+                vtex.seq_cur_frame = 0;
+                current_frame = 0;
+            }
+            if (current_frame < start_frame)
+                m_tex.reset_video(vtex.name, vtex.vtex_data_id);
+
+            // update
+            if (m_tex.video_update_is_available(vtex)) {
+                if (video)
+                    m_tex.update_video_texture(vtex);
+                else {
+                    var mark = m_tex.seq_video_get_discrete_timemark(vtex, 
+                            timeline);
+                    if (mark != vtex.seq_last_discrete_mark) {
+                        m_tex.update_seq_video_texture(vtex);
+                        vtex.seq_cur_frame++;
                     }
-
-                    _seq_video_time = time;
+                    vtex.seq_last_discrete_mark = mark;
+                }
             }
         }
+
         m_graph.traverse(graph, function(node, attr) {
             var subs = attr;
             if (TIME_SUBSCENE_TYPES.indexOf(subs.type) > -1) {
@@ -3767,22 +3797,14 @@ function update_scene_permanent_uniforms(scene) {
 }
 
 exports.set_wireframe_mode = function(subs_wireframe, mode) {
-    switch (mode) {
-    case "WM_NONE":
-        subs_wireframe.do_render = false;
-        break;
-    case "WM_OPAQUE_WIREFRAME":
-    case "WM_TRANSPARENT_WIREFRAME":
-    case "WM_FRONT_BACK_VIEW":
-    case "WM_DEBUG_SPHERES":
-        for (var i = 0; i < subs_wireframe.bundles.length; i++) {
-            var batch = subs_wireframe.bundles[i].batch;
-            batch.wireframe_mode = m_debug.WIREFRAME_MODES[mode];
-        }
-        subs_wireframe.do_render = true;
-        break;
+
+    subs_wireframe.do_render = mode != m_debug.WM_NONE;
+    for (var i = 0; i < subs_wireframe.bundles.length; i++) {
+        var batch = subs_wireframe.bundles[i].batch;
+        batch.wireframe_mode = mode;
     }
-    subs_wireframe.blend = (mode == "WM_TRANSPARENT_WIREFRAME");
+
+    subs_wireframe.blend = (mode == m_debug.WM_TRANSPARENT_WIREFRAME);
     subs_wireframe.need_perm_uniforms_update = true;
 }
 

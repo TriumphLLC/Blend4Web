@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -129,7 +146,8 @@ exports.get_object_by_dupli_name = function(empty_name, dupli_name,
 /**
  * Get the duplicated object by empty name and dupli name list.
  * @method module:scenes.get_object_by_dupli_name_list
- * @param {String[]} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name].
+ * @param {String[]} name_list List of the EMPTY and DUPLI object names: 
+ * [empty_name,empty_name,...,dupli_name]. Can be retrieved with the get_object_name_hierarchy() method.
  * @param {Number} [data_id=0] ID of loaded data.
  * @returns {Object3D} Object 3D.
  */
@@ -143,7 +161,7 @@ exports.get_object_by_dupli_name_list = function(name_list, data_id) {
 }
 
 /**
- * Returns object data_id property
+ * Returns object data_id property.
  * @method module:scenes.get_object_data_id
  * @param {Object3D} obj Object 3D
  * @returns {Number} data_id Data ID property
@@ -161,10 +179,11 @@ exports.get_object_data_id = function(obj) {
 exports.pick_object = m_obj.pick_object;
 
 /**
- * Outlining is enabled
+ * Check if the outlining is enabled or not for the object.
  * @method module:scenes.outlining_is_enabled
  * @param {Object3D} obj Object 3D
  * @param {Boolean} value Is enabled?
+ * @returns {Boolean} Checking result.
  */
 exports.outlining_is_enabled = function(obj) {
     return obj && obj.render && obj.render.outlining;
@@ -218,9 +237,9 @@ exports.apply_outline_anim = function(obj, tau, T, N) {
  */
 exports.apply_outline_anim_def = function(obj) {
     if (obj && obj.render && obj.render.outlining) {
-        var ga = obj.render.outline_anim_settings;
-        m_obj.apply_outline_anim(obj, ga.outline_duration, ga.outline_period,
-                ga.outline_relapses);
+        var oa_set = obj.render.outline_anim_settings_default;
+        m_obj.apply_outline_anim(obj, oa_set.outline_duration, 
+                oa_set.outline_period, oa_set.outline_relapses);
     } else
         m_print.error("apply_outline_anim_def(): wrong object");
 }
@@ -265,7 +284,7 @@ exports.get_outline_color = function(dest) {
  * @method module:scenes.set_glow_intensity
  * @param {Object3D} obj Object 3D
  * @param {Number} value Intensity value
- * @deprecated use set_outline_intensity() instead
+ * @deprecated use {@link module:scenes.set_outline_intensity|scenes.set_outline_intensity} instead
  */
 exports.set_glow_intensity = function(obj, value) {
     m_print.error("set_glow_intensity() deprecated, use set_outline_intensity() instead");
@@ -276,8 +295,7 @@ exports.set_glow_intensity = function(obj, value) {
  * Get outline glow intensity for the object.
  * @method module:scenes.get_glow_intensity
  * @param {Object3D} obj Object 3D
- * @returns {Number} Intensity value
- * @deprecated use get_outline_intensity() instead
+ * @deprecated use {@link module:scenes.get_outline_intensity|scenes.get_outline_intensity} instead
  */
 exports.get_glow_intensity = function(obj) {
     m_print.error("get_glow_intensity() deprecated, use get_outline_intensity() instead");
@@ -291,7 +309,7 @@ exports.get_glow_intensity = function(obj) {
  * @param {Number} tau Glowing duration
  * @param {Number} T Period of glowing
  * @param {Number} N Number of relapses (0 - infinity)
- * @deprecated use apply_outline_anim() instead
+ * @deprecated use {@link module:scenes.apply_outline_anim|scenes.apply_outline_anim} instead
  */
 exports.apply_glow_anim = function(obj, tau, T, N) {
     m_print.error("apply_glow_anim() deprecated, use apply_outline_anim() instead");
@@ -302,7 +320,7 @@ exports.apply_glow_anim = function(obj, tau, T, N) {
  * Apply glowing animation to the object and use the object's default settings
  * @method module:scenes.apply_glow_anim_def
  * @param {Object3D} obj Object 3D
- * @deprecated use apply_outline_anim_def() instead
+ * @deprecated use {@link module:scenes.apply_outline_anim_def|scenes.apply_outline_anim_def} instead
  */
 exports.apply_glow_anim_def = function(obj) {
     m_print.error("apply_glow_anim_def() deprecated, use apply_outline_anim_def() instead");
@@ -313,7 +331,7 @@ exports.apply_glow_anim_def = function(obj) {
  * Stop glowing animation for the object.
  * @method module:scenes.clear_glow_anim
  * @param {Object3D} obj Object 3D
- * @deprecated use clear_outline_anim() instead
+ * @deprecated use {@link module:scenes.clear_outline_anim|scenes.clear_outline_anim} instead
  */
 exports.clear_glow_anim = function(obj) {
     m_print.error("clear_glow_anim() deprecated, use clear_outline_anim() instead");
@@ -324,7 +342,7 @@ exports.clear_glow_anim = function(obj) {
  * Set the color of outline glow effect for active scene.
  * @method module:scenes.set_glow_color
  * @param {RGB} color RGB color vector
- * @deprecated use set_outline_color() instead
+ * @deprecated use {@link module:scenes.set_outline_color|scenes.set_outline_color} instead
  */
 exports.set_glow_color = function(color) {
     m_print.error("set_glow_color() deprecated, use set_outline_color() instead");
@@ -335,8 +353,7 @@ exports.set_glow_color = function(color) {
  * Get the color of outline glow effect for active scene.
  * @method module:scenes.get_glow_color
  * @param {?RGB} dest Destination RGB color vector.
- * @returns {RGB} Destination RGB color vector.
- * @deprecated use get_outline_color() instead
+ * @deprecated use {@link module:scenes.get_outline_color|scenes.get_outline_color} instead
  */
 exports.get_glow_color = function(dest) {
     m_print.error("get_glow_color() deprecated, use get_outline_color() instead");
@@ -409,7 +426,7 @@ exports.get_shadow_params = function() {
 exports.set_shadow_params = function(shadow_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
 
     var active_scene = m_scenes.get_active();
@@ -499,7 +516,7 @@ exports.set_environment_colors = function(opt_environment_energy,
         opt_horizon_color, opt_zenith_color) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_environment_colors(active_scene,
@@ -530,7 +547,7 @@ exports.get_fog_color_density = function(dest) {
 exports.set_fog_color_density = function(val) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_fog_color_density(active_scene, val);
@@ -561,7 +578,7 @@ exports.get_ssao_params = function() {
 exports.set_ssao_params = function(ssao_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_ssao_params(active_scene, ssao_params);
@@ -602,13 +619,13 @@ exports.get_color_correction_params = function() {
 exports.set_color_correction_params = function(color_corr_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return null;
+        return;
     }
 
     var active_scene = m_scenes.get_active();
     var subs = m_scenes.get_subs(active_scene, "COMPOSITING");
     if (!subs)
-        return null;
+        return;
 
     if (typeof color_corr_params.brightness == "number")
         subs.brightness = color_corr_params.brightness;
@@ -652,7 +669,7 @@ exports.get_sky_params = function() {
 exports.set_sky_params = function(sky_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_sky_params(active_scene, sky_params);
@@ -679,13 +696,13 @@ exports.get_dof_params = function() {
 /**
  * Set depth-of-field (DOF) params
  * @method module:scenes.set_dof_params
- * @param {DOFParams} DOF params
+ * @param {DOFParams} dof_params DOF parameters
  * @cc_externs dof_on dof_distance dof_front dof_rear dof_power
  */
 exports.set_dof_params = function(dof_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_dof_params(active_scene, dof_params);
@@ -712,13 +729,13 @@ exports.get_god_rays_params = function() {
 /**
  * Set god rays parameters
  * @method module:scenes.set_god_rays_params
- * @param {GodRaysParams} god rays params
+ * @param {GodRaysParams} god_rays_params God rays parameters
  * @cc_externs god_rays_max_ray_length god_rays_intensity god_rays_steps
  */
 exports.set_god_rays_params = function(god_rays_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_god_rays_params(active_scene, god_rays_params);
@@ -745,13 +762,13 @@ exports.get_bloom_params = function() {
 /**
  * Set bloom parameters
  * @method module:scenes.set_bloom_params
- * @param {BloomParams} bloom params
+ * @param {BloomParams} bloom_params Bloom parameters
  * @cc_externs bloom_key bloom_edge_lum bloom_blur
  */
 exports.set_bloom_params = function(bloom_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_bloom_params(active_scene, bloom_params);
@@ -779,13 +796,13 @@ exports.get_glow_material_params = function() {
 /**
  * Set glow material parameters
  * @method module:scenes.set_glow_material_params
- * @param {GlowMaterialParams} glow material params
+ * @param {GlowMaterialParams} glow_material_params Glow material parameters
  * @cc_externs small_glow_mask_coeff large_glow_mask_coeff small_glow_mask_width large_glow_mask_width
  */
 exports.set_glow_material_params = function(glow_material_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
 
     var active_scene = m_scenes.get_active();
@@ -809,13 +826,13 @@ exports.get_wind_params = function() {
 /**
  * Set wind parameters
  * @method module:scenes.set_wind_params
- * @param {WindParams} wind params
+ * @param {WindParams} wind_params Wind parameters
  * @cc_externs wind_dir wind_strength
  */
 exports.set_wind_params = function(wind_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_obj.set_wind_params(active_scene, wind_params);
@@ -831,7 +848,7 @@ exports.get_water_surface_level = m_scenes.get_water_surface_level;
 /**
  * Set water params
  * @method module:scenes.set_water_params
- * @param {WaterParams} water params
+ * @param {WaterParams} water_params Water parameters
  * @cc_externs waves_height waves_length water_fog_density water_fog_color
  * @cc_externs dst_noise_scale0 dst_noise_scale1 dst_noise_freq0 dst_noise_freq1
  * @cc_externs dir_min_shore_fac dir_freq dir_noise_scale dir_noise_freq
@@ -840,7 +857,7 @@ exports.get_water_surface_level = m_scenes.get_water_surface_level;
 exports.set_water_params = function(water_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.set_water_params(active_scene, water_params);
@@ -849,12 +866,12 @@ exports.set_water_params = function(water_params) {
 /**
  * Get water material parameters.
  * @method module:scenes.get_water_mat_params
- * @param {WaterParams} water params
+ * @param {WaterParams} water_params Water parameters
  */
 exports.get_water_mat_params = function(water_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.get_water_mat_params(active_scene, water_params);
@@ -867,7 +884,7 @@ exports.get_water_mat_params = function(water_params) {
 exports.update_scene_materials_params = function() {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return;
     }
     var active_scene = m_scenes.get_active();
     m_scenes.update_scene_permanent_uniforms(active_scene);
@@ -881,7 +898,7 @@ exports.update_scene_materials_params = function() {
  * @param {Object3D} obj Object 3D
  */
 exports.hide_object = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj))
+    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj))
         m_scenes.hide_object(obj);
     else
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -894,7 +911,7 @@ exports.hide_object = function(obj) {
  * @param {Object3D} obj Object 3D
  */
 exports.show_object = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj))
+    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj))
         m_scenes.show_object(obj);
     else
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -908,7 +925,7 @@ exports.show_object = function(obj) {
  * @returns {Boolean} Check result
  */
 exports.is_hidden = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_util.is_empty(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj)) {
         return m_scenes.is_hidden(obj);
     } else {
         m_print.error("show/hide is only supported for dynamic meshes/empties");
@@ -931,7 +948,7 @@ exports.is_visible = function(obj) {
  * @method module:scenes.check_object
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
- * @deprecated use check_object_by_name() instead
+ * @deprecated use {@link module:scenes.check_object_by_name|scenes.check_object_by_name} instead
  */
 exports.check_object = function(obj) {
     if (!m_scenes.check_active()) {
@@ -939,7 +956,7 @@ exports.check_object = function(obj) {
         return false;
     }
 
-    return m_obj.check_object(obj, m_scenes.get_active());
+    return m_obj.objects_storage_check(obj, m_scenes.get_active());
 }
 
 /**
@@ -1022,15 +1039,35 @@ exports.get_object_name = function(obj) {
         m_print.error("Wrong object name");
         return "";
     }
+    return obj.origin_name;
+}
 
-    return obj.name;
+/**
+ * Get the object names hierarchy (considering dupli group parenting).
+ * @method module:scenes.get_object_name_hierarchy
+ * @param {Object3D} obj Object 3D
+ * @returns {?Array} Object names hierarchy array (from the highest parent to the object itself).
+ */
+exports.get_object_name_hierarchy = function(obj) {
+    if (!obj) {
+        m_print.error("Wrong object name");
+        return null;
+    }
+
+    var names = [];
+    var curr_obj = obj;
+    while (curr_obj) {
+        names.push(curr_obj.origin_name);
+        curr_obj = m_obj_util.get_dg_parent(curr_obj);
+    }
+    return names.reverse();
 }
 
 /**
  * Get the object's type.
  * @method module:scenes.get_object_type
  * @param {Object3D} obj Object 3D
- * @return {String} Object type
+ * @returns {String} Object type
  */
 exports.get_object_type = function(obj) {
     if (!(obj && obj.type)) {
@@ -1046,11 +1083,11 @@ exports.get_object_type = function(obj) {
  * @method module:scenes.get_object_dg_parent
  * @param {Object3D} obj Object 3D
  * @returns {?Object3D} Parent object
- * @deprecated use objects.get_dg_parent() instead
+ * @deprecated use {@link module:objects.get_dg_parent|objects.get_dg_parent} instead
  */
 exports.get_object_dg_parent = function(obj) {
     m_print.error("scenes.get_object_dg_parent() deprecated, use objects.get_dg_parent() instead");
-    return m_obj.get_dg_parent(obj);
+    return m_obj_util.get_dg_parent(obj);
 }
 
 /**
@@ -1110,7 +1147,7 @@ exports.get_cam_water_depth = function() {
  * @returns {String} Render type: "DYNAMIC" or "STATIC".
  */
 exports.get_type_mesh_object = function(obj) {
-    if (m_util.is_mesh(obj))
+    if (m_obj_util.is_mesh(obj))
         return obj.render.type;
     return null;
 }
@@ -1141,7 +1178,7 @@ exports.append_object = function(obj, scene_name) {
 
     if (!obj.render.is_copied) {
         m_print.error("object \"" + obj.name + "\" has been created not by coping.");
-        return false;
+        return;
     }
 
     if (scene_name) {
@@ -1160,7 +1197,7 @@ exports.append_object = function(obj, scene_name) {
 exports.remove_object = function(obj) {
     if (!obj.render.is_copied) {
         m_print.error("Can't remove object \"" + obj.name + "\". It was not copied.");
-        return false;
+        return;
     }
     var scene = m_scenes.get_active();
     m_data.prepare_object_unloading(scene, obj, false);
@@ -1215,4 +1252,15 @@ exports.set_mb_params = function(mb_params) {
         m_print.error("The motion blur subscene doesn't exist.")
 }
 
+/**
+ * Check if objects can be selected
+ * @method module:scenes.can_select_objects
+ * @returns {Boolean} True if objects can be selected.
+ */
+exports.can_select_objects = function() {
+    var scene = m_scenes.get_active();
+    return Boolean(m_scenes.get_subs(scene, "COLOR_PICKING"));
 }
+
+}
+

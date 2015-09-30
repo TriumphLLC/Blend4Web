@@ -179,7 +179,7 @@ typedef struct ParticleBillboardData {
 
 typedef struct ParticleCollisionElement {
 	/* pointers to original data */
-	float *x[4], *v[4];
+	float *x[3], *v[3];
 
 	/* values interpolated from original data*/
 	float x0[3], x1[3], x2[3], p[3];
@@ -464,6 +464,7 @@ typedef struct ParticleRenderData {
 struct EvaluationContext;
 
 void BKE_particle_system_eval(struct EvaluationContext *eval_ctx,
+                              struct Scene *scene,
                               struct Object *ob,
                               struct ParticleSystem *psys);
 

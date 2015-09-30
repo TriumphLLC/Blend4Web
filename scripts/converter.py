@@ -332,7 +332,7 @@ def sequential_video_file_conv(path_from, path_to, media_converter):
     os.mkdir(tmp_folder)
 
     fps = str(SEQ_VIDEO_FPS)
-    if ext == ".m4v" and media_converter == "avconv":
+    if ext == ".m4v":
         rez = os.system(media_converter + " -i " + path_from + " -r " + fps + " -strict experimental " + tmp_folder + "/_seq_tmp" + ext)
     else:
         rez = os.system(media_converter + " -i " + path_from + " -r " + fps + " " + tmp_folder + "/_seq_tmp" + ext)

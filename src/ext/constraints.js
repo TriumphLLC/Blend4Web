@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -6,12 +23,12 @@
  */
 b4w.module["constraints"] = function(exports, require) {
 
-var m_cam   = require("__camera");
-var m_cons  = require("__constraints");
-var m_obj   = require("__objects");
-var m_phy   = require("__physics");
-var m_print = require("__print");
-var m_trans = require("__transform");
+var m_cam      = require("__camera");
+var m_cons     = require("__constraints");
+var m_obj_util = require("__obj_util");
+var m_phy      = require("__physics");
+var m_print    = require("__print");
+var m_trans    = require("__transform");
 
 /**
  * Attach the object to the other object or to the armature bone using a
@@ -89,7 +106,7 @@ exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
     if (!m_cam.is_eye_camera(obj)) {
         m_print.error("append_semi_stiff_cam(): wrong object type, only EYE" +
             " camera objects can be parented.");
-        return null;
+        return;
     }
 
     m_cons.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset,
@@ -115,7 +132,7 @@ exports.append_semi_soft_cam = function(obj, target, offset, softness) {
     if (!m_cam.is_eye_camera(obj)) {
         m_print.error("append_semi_soft_cam(): wrong object type, only EYE" +
             " camera objects can be parented.");
-        return null;
+        return;
     }
 
     if (!softness || softness < 0)
@@ -242,9 +259,7 @@ exports.append_follow = function(obj, target, dist_min, dist_max) {
  * @method module:constraints.append_stiff_viewport
  * @param {Object3D} obj Object 3D
  * @param {Object3D} camobj Camera object.
- * @param {Number} x_rel X offset as fraction to camera height.
- * @param {Number} y_rel Y offset as fraction to camera height.
- * @param {Number} dist Distance from the camera
+ * @param {Object} positioning Positioning.
  */
 exports.append_stiff_viewport = function(obj, camobj, positioning) {
     m_cons.append_stiff_viewport(obj, camobj, positioning);
@@ -268,11 +283,11 @@ exports.remove = function(obj) {
  * @method module:constraints.get_parent
  * @param {Object3D} obj Object 3D
  * @returns {?Object3D} Parent object
- * @deprecated use objects.get_parent() instead.
+ * @deprecated use {@link module:objects.get_parent|objects.get_parent} instead.
  */
 exports.get_parent = function(obj) {
     m_print.error("constraints.get_parent() deprecated, use objects.get_parent() instead");
-    return m_obj.get_parent(obj);
+    return m_obj_util.get_parent(obj);
 }
 
 }

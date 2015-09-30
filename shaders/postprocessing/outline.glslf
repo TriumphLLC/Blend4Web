@@ -27,7 +27,6 @@ void main(void) {
                 vec3 outline_color_srgb = u_outline_color;
                 lin_to_srgb(outline_color_srgb);
                 vec4 outline_color = vec4(clamp(outline_color_srgb, 0.0, 1.0), 1.0);
-
                 gl_FragColor = mix(outline_src, outline_color, outline_strength);
             }
         }

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -900,7 +917,7 @@ exports.extract_submesh = extract_submesh;
  * Extract submesh from mesh with given material index
  * @methodOf geometry
  */
-function extract_submesh(mesh, material_index, attr_names, bone_pointers,
+function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
         vertex_colors_usage, uv_maps_usage) {
 
     // TODO: implement caching
@@ -928,7 +945,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
         var local_coord = new Float32Array(0);
 
     // INFLUENCES (SKINNING)
-    var influences = extract_influences(attr_names, base_length, bone_pointers,
+    var influences = extract_influences(attr_names, base_length, bone_skinning_info,
             bsub["group"]);
 
 
@@ -1078,8 +1095,7 @@ function extract_texcoords(mesh, material_index) {
         switch (slot["texture_coords"]) {
         case "UV":
             var index = mesh["uv_textures"].indexOf(slot["uv_layer"]);
-            // NOTE: check UV layer index for compatibility
-            if (index == 0 || index == -1)
+            if (index == 0)
                 texcoords = new Float32Array(submesh["texcoord"]);
             else if (index == 1)
                 texcoords = new Float32Array(submesh["texcoord2"]);
@@ -1091,41 +1107,46 @@ function extract_texcoords(mesh, material_index) {
     }
 
     if (texcoords === null)
-        texcoords = new Float32Array(submesh["texcoord"]);
+        texcoords = new Float32Array(submesh["base_length"] * 2);
 
     return texcoords;
 }
 
-// NOTE: this function is used when node outputs "Orco" & "Generated" is been using
+// NOTE: this function is used when node outputs "Orco" & "Generated" are used
 function extract_orco_texcoords_nodes(mesh, submesh) {
     var bb = mesh["b4w_bounding_box_source"];
     var local_coords = new Float32Array(submesh["base_length"] * 3);
     var pos = submesh["position"];
 
     var size_x = bb["max_x"] - bb["min_x"];
-    var size_z = bb["max_z"] - bb["min_z"];
     var size_y = bb["max_y"] - bb["min_y"];
+    var size_z = bb["max_z"] - bb["min_z"];
 
     var localco_index = 0;
     for (var i = 0; i < submesh["position"].length; i+=3) {
         // -1 values will be updated in fragment shader
         if (size_x == 0)
-            local_coords[localco_index++] = -1;
+            local_coords[localco_index++] = 0.5;
         else
-            local_coords[localco_index++] = parseFloat(((submesh["position"][i] 
-                    - bb.min_x) / size_x).toFixed(3));
+            local_coords[localco_index++] = m_util.clamp(
+                    parseFloat(((submesh["position"][i] 
+                    - bb.min_x) / size_x).toFixed(5)), 0, 1);
         // y -> -z
         if (size_z == 0)
-            local_coords[localco_index++] = -1;
+            local_coords[localco_index++] = 0.5;
         else
-            local_coords[localco_index++] =  parseFloat(((-bb.min_z 
-                    - submesh["position"][i + 2]) / size_z).toFixed(3));
+            local_coords[localco_index++] = m_util.clamp(
+                    parseFloat(((bb.max_z 
+                    - submesh["position"][i + 2]) / size_z).toFixed(5)), 0, 1);
         if (size_y == 0)
-            local_coords[localco_index++] = -1;
+            local_coords[localco_index++] = 0.5;
         else
-            local_coords[localco_index++] =  parseFloat(((submesh["position"][i + 1] 
-                    - bb.min_y) / size_y).toFixed(3));
+            local_coords[localco_index++] = m_util.clamp(
+                    parseFloat(((submesh["position"][i + 1] 
+                    - bb.min_y) / size_y).toFixed(5)), 0, 1);
+
     }
+
     return local_coords;
 }
 
@@ -1133,10 +1154,10 @@ function generate_orco_texcoords(bb, submesh) {
     var texcoords = new Float32Array(submesh["base_length"] * 2);
     var pos = submesh["position"];
 
-    var center_x = (bb.max_x + bb.min_x) / 2;
-    var center_z = (bb.max_z + bb.min_z) / 2;
-    var size_x = bb.max_x - bb.min_x;
-    var size_z = bb.max_z - bb.min_z;
+    var center_x = (bb["max_x"] + bb["min_x"]) / 2;
+    var center_z = (bb["max_z"] + bb["min_z"]) / 2;
+    var size_x = bb["max_x"] - bb["min_x"];
+    var size_z = bb["max_z"] - bb["min_z"];
 
     var texco_index = 0;
     for (var i = 0; i < submesh["position"].length; i+=3) {
@@ -1257,9 +1278,6 @@ function assign_node_uv_maps(mesh_uvs, bsub_texcoord, bsub_texcoord2,
     for (var uv_name in uv_maps_usage) {
 
         var uv_map_index = mesh_uvs.indexOf(uv_name);
-        if (uv_map_index == -1)
-            m_util.panic("uv map \"" + uv_name +
-                  "\" for mesh \"" + mesh_name + "\" not found");
 
         if (uv_map_index == 0)
             var uv_node_arr = new Float32Array(bsub_texcoord);
@@ -1366,14 +1384,14 @@ exports.extract_submesh_all_mats = function(mesh, attr_names, common_vc_usage) {
     return submesh_all;
 }
 
-function extract_influences(attr_names, base_length, bone_pointers,
+function extract_influences(attr_names, base_length, bone_skinning_info,
         groups) {
-    if (has_attr(attr_names, "a_influence") && bone_pointers) {
+    if (has_attr(attr_names, "a_influence") && bone_skinning_info) {
 
             var influences = new Float32Array(base_length * INFLUENCE_NUM_COMP);
             var groups_num = groups.length/base_length;
             // bones corresponding to vertex group
-            var deform_bone_indices = get_deform_bone_indices(bone_pointers, groups_num);
+            var deform_bone_indices = get_deform_bone_indices(bone_skinning_info, groups_num);
 
             // NOTE: create buffers outside vertices cycle
             var buf_length = groups_num > 3 ? groups_num: 4;
@@ -1399,15 +1417,15 @@ function extract_influences(attr_names, base_length, bone_pointers,
     return influences;
 }
 
-function get_deform_bone_indices(bone_pointers, groups_num) {
+function get_deform_bone_indices(bone_skinning_info, groups_num) {
     var deform_bone_indices = new Float32Array(groups_num);
 
     for (var i = 0; i < groups_num; i++) {
         deform_bone_indices[i] = -1;
-        for (var j in bone_pointers) {
-            var bone_pointer = bone_pointers[j];
-            if (bone_pointer.vgroup_index === i) {
-                deform_bone_indices[i] = bone_pointer.deform_bone_index;
+        for (var j in bone_skinning_info) {
+            var bone_sk_info = bone_skinning_info[j];
+            if (bone_sk_info.vgroup_index === i) {
+                deform_bone_indices[i] = bone_sk_info.deform_bone_index;
                 break;
             }
         }

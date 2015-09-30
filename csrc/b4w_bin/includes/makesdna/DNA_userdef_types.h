@@ -465,7 +465,8 @@ typedef struct UserDef {
 
 	int scrollback; /* console scrollback limit */
 	int dpi;		/* range 48-128? */
-	char pad2[2];
+	char node_margin; /* node insert offset (aka auto-offset) margin, but might be useful for later stuff as well */
+	char pad2;
 	short transopts;
 	short menuthreshold1, menuthreshold2;
 	
@@ -491,7 +492,6 @@ typedef struct UserDef {
 	int memcachelimit;
 	int prefetchframes;
 	float pad_rot_angle; /* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
-	float pad3;
 	short frameserverport;
 	short pad4;
 	short obcenter_dia;
@@ -519,6 +519,7 @@ typedef struct UserDef {
 
 	float ndof_sensitivity;	/* overall sensitivity of 3D mouse */
 	float ndof_orbit_sensitivity;
+	float ndof_deadzone; /* deadzone of 3D mouse */
 	int ndof_flag;			/* flags for 3D mouse */
 
 	short ogl_multisamples;	/* amount of samples for OpenGL FSA, if zero no FSA */
@@ -561,6 +562,9 @@ typedef struct UserDef {
 	short pie_menu_threshold;     /* pie menu distance from center before a direction is set */
 
 	struct WalkNavigation walk_navigation;
+
+	short opensubdiv_compute_type;
+	char pad5[6];
 } UserDef;
 
 extern UserDef U; /* from blenkernel blender.c */
@@ -882,6 +886,16 @@ typedef enum eUserpref_VirtualPixel {
 	VIRTUAL_PIXEL_NATIVE = 0,
 	VIRTUAL_PIXEL_DOUBLE = 1,
 } eUserpref_VirtualPixel;
+
+typedef enum eOpensubdiv_Computee_Type {
+	USER_OPENSUBDIV_COMPUTE_NONE = 0,
+	USER_OPENSUBDIV_COMPUTE_CPU = 1,
+	USER_OPENSUBDIV_COMPUTE_OPENMP = 2,
+	USER_OPENSUBDIV_COMPUTE_OPENCL = 3,
+	USER_OPENSUBDIV_COMPUTE_CUDA = 4,
+	USER_OPENSUBDIV_COMPUTE_GLSL_TRANSFORM_FEEDBACK = 5,
+	USER_OPENSUBDIV_COMPUTE_GLSL_COMPUTE = 6,
+} eOpensubdiv_Computee_Type;
 
 #ifdef __cplusplus
 }

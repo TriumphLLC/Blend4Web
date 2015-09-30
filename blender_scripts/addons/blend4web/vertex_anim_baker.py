@@ -1,44 +1,67 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import mathutils
 import math
 import os
+import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 
 class VertexAnimVertex(bpy.types.PropertyGroup):
     # combine to single 6 dimensional vector to prevent some strange performance
     # penalties
-    posnor = bpy.props.FloatVectorProperty(name="PosNor", subtype="NONE",
+    posnor = bpy.props.FloatVectorProperty(name=_("PosNor"), subtype="NONE",
             unit="NONE", size=6)
 
 class VertexAnimFrame(bpy.types.PropertyGroup):
     vertices = bpy.props.CollectionProperty(type=VertexAnimVertex,
-        name="Vertices")
+        name=_("Vertices"))
  
 class VertexAnim(bpy.types.PropertyGroup):
-    frames = bpy.props.CollectionProperty(type=VertexAnimFrame, name="Frames")
-    frame_start = bpy.props.IntProperty(name="Start", 
-            description="First frame of vertex animation",
+    frames = bpy.props.CollectionProperty(type=VertexAnimFrame, name=_("Frames"))
+    frame_start = bpy.props.IntProperty(name=_("Start"), 
+            description=_("First frame of vertex animation"),
             default=0, min=0, max=300000, soft_min=0, soft_max=30000, 
             subtype="TIME")
-    frame_end = bpy.props.IntProperty(name="End", 
-            description="End frame of vertex animation",
+    frame_end = bpy.props.IntProperty(name=_("End"), 
+            description=_("End frame of vertex animation"),
             default=0, min=0, max=300000, soft_min=0, soft_max=30000, 
             subtype="TIME")
 
-    averaging = bpy.props.BoolProperty(name="Averaging", 
-            description="Perform vertex animation averaging: mix end " +
+    averaging = bpy.props.BoolProperty(name=_("Averaging"), 
+            description=_("Perform vertex animation averaging: mix end ") +
             "frames with first ones", default=False)
-    averaging_interval  = bpy.props.IntProperty(name="Interval",
-            description="Averaging interval",
+    averaging_interval  = bpy.props.IntProperty(name=_("Interval"),
+            description=_("Averaging interval"),
             default=5, min=0, max=1000, soft_min=1, soft_max=50,
             subtype="TIME")
 
-    allow_nla = bpy.props.BoolProperty(name="Allow NLA", 
-            description="Allow animation to be controlled by the NLA",
+    allow_nla = bpy.props.BoolProperty(name=_("Allow NLA"), 
+            description=_("Allow animation to be controlled by the NLA"),
             default=True)
 
 
 class B4W_VertexAnimBakerPanel(bpy.types.Panel):
-    bl_label = "Bake Vertex Animation"
+    bl_label = _("Bake Vertex Animation")
     bl_idname = "OBJECT_PT_va_baker"
     bl_space_type = "VIEW_3D"
     bl_region_type = "TOOLS"
@@ -63,8 +86,8 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
         row.template_list("UI_UL_list", "OBJECT_UL_va_baker", obj,
                 "b4w_vertex_anim", obj, "b4w_vertex_anim_index", rows=3)
         col = row.column(align=True)
-        col.operator("b4w.vertex_anim_add", icon='ZOOMIN', text="")
-        col.operator("b4w.vertex_anim_remove", icon='ZOOMOUT', text="")
+        col.operator("b4w.vertex_anim_add", icon='ZOOMIN', text=_(""))
+        col.operator("b4w.vertex_anim_remove", icon='ZOOMOUT', text=_(""))
 
         # controls only for non-empty vertex animation view
         va = obj.b4w_vertex_anim
@@ -74,7 +97,7 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
         va_index = obj.b4w_vertex_anim_index
 
         row = layout.row()
-        row.prop(va[va_index], "name", text="Name")
+        row.prop(va[va_index], "name", text=_("Name"))
 
         row = layout.row(align=True)
         row.prop(va[va_index], "frame_start")
@@ -89,19 +112,21 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
 
         row = layout.row()
         if va[va_index].frames:
-            row.label(text="Status: " + str(len(va[va_index].frames)) + 
-                    " frames recorded")
+            text = bpy.app.translations.pgettext_iface(_("Status: ")) + \
+                    str(len(va[va_index].frames)) + \
+                    bpy.app.translations.pgettext_iface(_(" frames recorded"))
+            row.label(text=text)
         else:
-            row.label(text="Status: Empty")
+            row.label(text=_("Status: Empty"))
 
         row = layout.row()
-        row.operator("b4w.vertex_anim_bake", text="Bake", icon="REC")
+        row.operator("b4w.vertex_anim_bake", text=_("Bake"), icon="REC")
 
         
 class B4W_VertexAnimAddOperator(bpy.types.Operator):
     bl_idname      = 'b4w.vertex_anim_add'
-    bl_label       = "Add vertex animation"
-    bl_description = "Add vertex animation"
+    bl_label       = p_("Add vertex animation", "Operator")
+    bl_description = _("Add new vertex animation")
     bl_options = {"INTERNAL"}
 
     def invoke(self, context, event):
@@ -110,7 +135,7 @@ class B4W_VertexAnimAddOperator(bpy.types.Operator):
         va = obj.b4w_vertex_anim
 
         va.add()
-        va[-1].name= "New Anim"
+        va[-1].name= _("New Anim")
         va[-1].frame_start = context.scene.frame_start
         va[-1].frame_end = context.scene.frame_end
 
@@ -119,8 +144,8 @@ class B4W_VertexAnimAddOperator(bpy.types.Operator):
  
 class B4W_VertexAnimRemOperator(bpy.types.Operator):
     bl_idname      = 'b4w.vertex_anim_remove'
-    bl_label       = "Remove vertex animation"
-    bl_description = "Remove vertex animation"
+    bl_label       = p_("Remove vertex animation", "Operator")
+    bl_description = _("Remove existing vertex animation")
     bl_options = {"INTERNAL"}
 
     def invoke(self, context, event):
@@ -136,8 +161,8 @@ class B4W_VertexAnimRemOperator(bpy.types.Operator):
 
 class B4W_VertexAnimBakeOperator(bpy.types.Operator):
     bl_idname      = 'b4w.vertex_anim_bake'
-    bl_label       = "Bake vertex animation"
-    bl_description = "Bake vertex animation"
+    bl_label       = p_("Bake vertex animation", "Operator")
+    bl_description = _("Bake vertex animation")
     bl_options = {"INTERNAL"}
 
     def bake_frame(self, mesh, va_frame):
@@ -198,12 +223,12 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
         va_index = obj.b4w_vertex_anim_index
 
         if va_index < len(va):
-            self.report({"INFO"}, "Bake start")
+            self.report({"INFO"}, _("Bake start"))
 
             if self.bake(obj, va[va_index]):
-                self.report({"INFO"}, "Bake finish")
+                self.report({"INFO"}, _("Bake finish"))
             else:
-                self.report({"ERROR"}, "Bake error")
+                self.report({"ERROR"}, _("Bake error"))
 
         return{'FINISHED'}
 
@@ -221,9 +246,9 @@ def register():
 
     bpy.types.Object.b4w_vertex_anim =\
             bpy.props.CollectionProperty(type=VertexAnim,
-                name="B4W: vertex animation")
+                name=_("B4W: vertex animation"))
     bpy.types.Object.b4w_vertex_anim_index =\
-            bpy.props.IntProperty(name="B4W: vertex animation index")
+            bpy.props.IntProperty(name=_("B4W: vertex animation index"))
 
 
 def unregister(): 

@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = victory_day_2015
+title = Victory Day 2015
+
+[paths]
+assets_dirs = deploy/assets/victory_day_2015;
+blend_dirs = blender/victory_day_2015;
+blender_exec = blender
+build_dir = deploy/apps/victory_day_2015
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = 
+optimization = advanced
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix =
+override = 

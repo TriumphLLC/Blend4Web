@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -37,6 +54,7 @@ var m_ext      = require("__extensions");
 var m_geom     = require("__geometry");
 var m_hud      = require("__hud");
 var m_nla      = require("__nla");
+var m_lnodes   = require("__logic_nodes")
 var m_obj      = require("__objects");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
@@ -47,6 +65,7 @@ var m_shaders  = require("__shaders");
 var m_textures = require("__textures");
 var m_time     = require("__time");
 var m_trans    = require("__transform");
+var m_armat    = require("__armature");
 var m_util     = require("__util");
 var m_version  = require("__version");
 
@@ -358,7 +377,7 @@ function clear_render_callback() {
  * Return the engine's global timeline value
  * @method module:main.global_timeline
  * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
- * @deprecated Use time.get_timeline() instead
+ * @deprecated Use {@link module:time.get_timeline|time.get_timeline} instead
  */
 exports.global_timeline = function() {
     return m_time.get_timeline();
@@ -463,6 +482,8 @@ function frame(timeline, delta) {
     m_hud.reset();
 
     m_trans.update(delta);
+
+    m_lnodes.update(timeline, delta)
 
     m_nla.update(timeline, delta);
 
@@ -571,7 +592,7 @@ exports.reset = function() {
 
 /**
  * Register one-time callback to return DataURL of rendered canvas element.
- * @param callback DataURL callback
+ * @param {DataURLCallback} callback DataURL callback
  */
 exports.canvas_data_url = function(callback) {
     _canvas_data_url_callback = callback;
@@ -581,7 +602,7 @@ exports.canvas_data_url = function(callback) {
  * Return the main canvas element.
  * @method module:main.get_canvas_elem
  * @returns {HTMLCanvasElement} Canvas element
- * @deprecated Use container.get_canvas() instead
+ * @deprecated Use {@link module:container.get_canvas|container.get_canvas} instead
  */
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
@@ -589,6 +610,7 @@ exports.get_canvas_elem = function() {
 /**
  * Check using device.
  * @method module:main.detect_mobile
+ * @returns {Boolean} Checking result.
  */
 exports.detect_mobile = function() {
     return m_compat.detect_mobile();

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -7,12 +24,12 @@
  */
 b4w.module["objects"] = function(exports, require) {
 
-var m_geom    = require("__geometry");
-var m_obj     = require("__objects");
-var m_objutil = require("__obj_util");
-var m_print   = require("__print");
-var m_scenes  = require("__scenes");
-var m_util    = require("__util");
+var m_geom     = require("__geometry");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
+var m_print    = require("__print");
+var m_scenes   = require("__scenes");
+var m_util     = require("__util");
 
 /**
  * @typedef ObjectMetaTags
@@ -37,18 +54,18 @@ exports.get_meta_tags = function(obj) {
  * Copy MESH object.
  * @method module:objects.copy
  * @param {Object3D} obj Object 3D
- * @param {String} new_name New unique object name
+ * @param {String} name New unique object name
  * @param {Boolean} [deep_copy=false] Copy WebGL buffers
  * @returns {Object3D} New object.
  */
 exports.copy = function(obj, name, deep_copy) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("object \"" + obj.name + "\" is not of type \"MESH\".");
         return false;
     }
 
-    if (!m_objutil.is_dynamic(obj)) {
+    if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("object \"" + obj.name + "\" is not dynamic.");
         return false;
     }
@@ -78,19 +95,13 @@ exports.copy = function(obj, name, deep_copy) {
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return null;
+        return;
     }
 
-    var node_id = name_list.join("%join%");
-    var ind = m_obj.get_value_node_ind_by_id(obj, node_id);
-    if (ind != null)
-        obj.render.mats_values[ind] = value;
-    else
-        m_print.error("The Value node \"" + node_id +
-            "\" was not found in the object \"" + obj.name + "\".");
+    m_obj.set_nodemat_value(obj, name_list, value)
 }
 
 /**
@@ -105,22 +116,13 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return null;
+        return;
     }
 
-    var node_id = name_list.join("%join%");
-    var ind = m_obj.get_rgb_node_ind_by_id(obj, node_id);
-    if (ind != null) {
-        obj.render.mats_rgbs[3 * ind]     = r;
-        obj.render.mats_rgbs[3 * ind + 1] = g;
-        obj.render.mats_rgbs[3 * ind + 2] = b;
-    } else {
-        m_print.error("The RGB node \"" + node_id +
-            "\" was not found in the object \"" + obj.name + "\".");
-    }
+    m_obj.set_nodemat_rgb(obj, name_list, r, g, b)
 }
 /**
  * Update object's boundings (box, cone, cylinder, ellipsoid, sphere, capsule).
@@ -129,16 +131,16 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  */
 exports.update_boundings = function(obj) {
 
-    if (!m_util.is_mesh(obj)) {
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\".");
-        return false;
+        return;
     }
 
     if (!(m_geom.has_dyn_geom(obj) || m_geom.check_shape_keys(obj))) {
         m_print.error("object \"" + obj.name + "\" has not dynamic " 
                 + "geometry.");
-        return false;
+        return;
     }
     m_obj.update_boundings(obj);
 }
@@ -149,7 +151,7 @@ exports.update_boundings = function(obj) {
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
  */
-exports.get_parent = m_obj.get_parent;
+exports.get_parent = m_obj_util.get_parent;
 
 /**
  * Get DupliGroup parent object.
@@ -157,6 +159,54 @@ exports.get_parent = m_obj.get_parent;
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
  */
-exports.get_dg_parent = m_obj.get_dg_parent;
+exports.get_dg_parent = m_obj_util.get_dg_parent;
+
+/**
+ * Check if the object is a MESH.
+ * @method module:objects.is_mesh
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_mesh = m_obj_util.is_mesh;
+
+/**
+ * Check if the object is an ARMATURE.
+ * @method module:objects.is_armature
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_armature = m_obj_util.is_armature;
+
+/**
+ * Check if the object is a SPEAKER.
+ * @method module:objects.is_speaker
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_speaker = m_obj_util.is_speaker;
+
+/**
+ * Check if the object is a CAMERA.
+ * @method module:objects.is_camera
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_camera = m_obj_util.is_camera;
+
+/**
+ * Check if the object is a LAMP.
+ * @method module:objects.is_lamp
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_lamp = m_obj_util.is_lamp;
+
+/**
+ * Check if the object is an EMPTY.
+ * @method module:objects.is_empty
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_empty = m_obj_util.is_empty;
 
 }

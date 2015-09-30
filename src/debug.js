@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -12,10 +29,15 @@ b4w.module["__debug"] = function(exports, require) {
 var m_ext   = require("__extensions");
 var m_print = require("__print");
 var m_tex   = require("__textures");
+var m_time  = require("__time");
 var m_util  = require("__util");
 
 var _gl = null;
 var ERRORS = {};
+
+var FAKE_LOAD_INTERVAL         = 5000;
+var FAKE_LOAD_START_PERCENTAGE = 0;
+var FAKE_LOAD_END_PERCENTAGE   = 100;
 
 // NOTE: possible cleanup needed
 var _check_errors = false;
@@ -26,13 +48,11 @@ var _depth_only_issue = -1;
 var _assert_struct_last_obj = null;
 var _assert_struct_init = false;
 
-exports.WIREFRAME_MODES = {
-    "WM_OPAQUE_WIREFRAME": 0,
-    "WM_TRANSPARENT_WIREFRAME": 1,
-    "WM_FRONT_BACK_VIEW": 2,
-    "WM_DEBUG_SPHERES": 3
-}
-
+exports.WM_NONE = 0;
+exports.WM_OPAQUE_WIREFRAME = 1;
+exports.WM_TRANSPARENT_WIREFRAME = 2;
+exports.WM_FRONT_BACK_VIEW = 3;
+exports.WM_DEBUG_SPHERES = 4;
 
 /**
  * Setup WebGL context
@@ -438,5 +458,39 @@ exports.assert_structure_seq = function(obj) {
     _assert_struct_last_obj = obj;
 }
 
+exports.fake_load = function(stageload_cb, interval, start, end, loaded_cb) {
+    stageload_cb = stageload_cb || null;
+
+    if (!stageload_cb)
+        m_util.panic("Stage load callback is undefined");
+
+    interval = interval || FAKE_LOAD_INTERVAL;
+    start    = start || FAKE_LOAD_START_PERCENTAGE;
+    end      = end || FAKE_LOAD_END_PERCENTAGE;
+
+    if (end > 100)
+        m_util.panic("Max percentage must be less than 100");
+
+    if (start < 0)
+        m_util.panic("Min percentage must be greater than 0");
+
+    if (start > end)
+        m_util.panic("Max percentage must be greater than min percentage");
+
+    var animator = m_time.animate(start, end, interval, function(e) {
+        var rounded_percentage = e.toFixed();
+
+        stageload_cb(rounded_percentage);
+
+        if (rounded_percentage == 100) {
+            m_time.clear_animation(animator);
+
+            if (loaded_cb)
+                loaded_cb();
+
+            return;
+        }
+    })
 }
 
+}

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -13,9 +30,6 @@ var m_print    = require("__print");
 var m_shaders  = require("__shaders");
 
 var cfg_def = m_cfg.defaults;
-
-var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0",
-        "u_specmap", "u_normalmap0", "u_mirrormap"];
 
 /**
  * Inherit the batch material from another object.
@@ -33,50 +47,7 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
         return;
     }
 
-    var types = ["MAIN", "DEPTH", "COLOR_ID"];
-    var batches_found = false;
-    for (var i = 0; i < types.length; i++) {
-        var type = types[i];
-
-        var batch_from = m_batch.find_batch_material(obj_from, 
-                mat_from_name, type);
-        var batch_to = m_batch.find_batch_material(obj_to, mat_to_name, 
-                type);
-
-        if (batch_from && batch_to) {
-            batches_found = true;
-            var child_batch = m_batch.find_batch_material_forked(obj_to, mat_to_name,
-                    type);
-            if (type == "MAIN") {
-                m_batch.set_material_props(batch_to, batch_from);
-                if (child_batch)
-                    m_batch.set_material_props(child_batch, batch_from);
-            }
-
-            // inherit textures
-            for (var j = 0; j < batch_to.texture_names.length; j++) {
-                var to_name = batch_to.texture_names[j];
-                if (BATCH_INHERITED_TEXTURES.indexOf(to_name) !== -1) {
-                    var from_index = batch_from.texture_names.indexOf(to_name);
-                    if (from_index !== -1) {
-                        batch_to.textures[j] = batch_from.textures[from_index];
-
-                        //inherit textures for child batches
-                        if (child_batch) {
-                            var child_index 
-                                        = child_batch.texture_names.indexOf(to_name);
-                            if (child_index !== -1)
-                                child_batch.textures[child_index] 
-                                        = batch_from.textures[from_index];
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (!batches_found)
-        m_print.error("Wrong objects for inheriting material!")
+    m_batch.inherit_material(obj_from, mat_from_name, obj_to, mat_to_name)
 }
 
 function check_batch_material(obj, mat_name) {
@@ -216,6 +187,39 @@ exports.get_specular_color = function(obj, mat_name) {
         return color;
     } else
         m_print.error("Couldn't get property \"specular_color\"!");
+}
+
+/**
+ * Set the specular color factor for the object material.
+ * @method module:material.set_specular_color_factor
+ * @param {Object3D} obj Object 3D 
+ * @param {String} mat_name Material name
+ * @param {RGB} factor Specular color factor
+ */
+exports.set_specular_color_factor = function(obj, mat_name, factor) {
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch) {
+        batch.specular_color_factor = factor;
+        var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+        if (reflect_batch)
+            reflect_batch.specular_color_factor = factor;
+    } else
+        m_print.error("Couldn't set property \"specular_color_factor\"!");
+}
+
+/**
+ * Get the specular color factor for the object material.
+ * @method module:material.get_specular_color_factor
+ * @param {Object3D} obj Object 3D 
+ * @param {String} mat_name Material name
+ * @returns {RGB} Specular color factor
+ */
+exports.get_specular_color_factor = function(obj, mat_name) {
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch) {
+        return batch.specular_color_factor;
+    } else
+        m_print.error("Couldn't get property \"specular_color_factor\"!");
 }
 
 /**
@@ -585,7 +589,7 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
     // check that setting material params is possible
     if (!check_batch_material(obj, mat_name)) {
         m_print.error("setting material params is not possible");
-        return null;
+        return;
     }
     
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -643,20 +647,20 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
 
     if (!obj || !water_mat_name || !water_mat_params) {
         m_print.error("missing arguments in set_water_material_params");
-        return null;
+        return;
     }
 
     // check that setting material params is possible
     if (!check_batch_material(obj, water_mat_name)) {
         m_print.error("setting water material params is not possible");
-        return null;
+        return;
     }
 
     var batch = m_batch.find_batch_material(obj, water_mat_name, "MAIN");
 
     if (!batch) {
         m_print.error("material not found");
-        return null;
+        return;
     }
     var batches = [batch];
     var reflect_batch = m_batch.find_batch_material_forked(obj, water_mat_name, "MAIN");
@@ -784,7 +788,6 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
         }
         m_batch.update_shader(batch, true);
     }
-    return true;
 }
 
 }

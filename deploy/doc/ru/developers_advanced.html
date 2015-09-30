@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web vv15.08</title>
+  <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web vv15.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
         <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html"/>
         <link rel="prev" title="Разработчикам приложений" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.08
+              v15.09
             </div>
           
         
@@ -128,7 +128,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#index-7">Ошибки компилятора</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#translator">Перевод аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">Обновление переводов аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -725,25 +725,24 @@ NAME, которая нигде не используется.</td>
 </table>
 </div>
 </div>
-<div class="section" id="translator">
-<span id="id16"></span><h2>Перевод аддона<a class="headerlink" href="#translator" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для перевода новых текстовых строк необходимо выполнить ряд подготовительных действий.</p>
-<p>Первым делом убедитесь, что у вас установлена программа <em>Subversion</em>. Затем склонируйте репозиторий с переводами Blender&#8217;a. Сделать это можно следующей командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre>svn checkout https://svn.blender.org/svnroot/bf-translations
+<div class="section" id="id16">
+<h2>Обновление переводов аддона<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h2>
+<p>При необходимости обновить все существующие .po файлы, запустите скрипт
+<em>translator.py</em> из директории SDK/scripts без параметра:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
 </pre></div>
 </div>
-<p>Вторым шагом будет подключение и настройка аддона <em>Manage UI translations</em>. Самой важной настройкой тут является &#8220;Translation Root&#8221;, где необходимо указать путь к склонированному репозиторию. Затем выберите абсолютный путь для сохранения настроек в поле &#8220;Persistent Data Path&#8221; и сохраните настройки в .json-файл.</p>
-<a class="reference internal image-reference" href="_images/translator.png"><img alt="_images/translator.png" class="align-center" src="_images/translator.png" style="width: 100%;" /></a>
-<p>Затем необходимо вызвать скрипт <code class="docutils literal"><span class="pre">translator.py</span></code> из директории <code class="docutils literal"><span class="pre">scripts/</span></code> для обновления .po-файла:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py ru_RU /home/user/bf-translations/branches/ru/ru.po
+<p>Для обновления существующего .po файла необходимо вызвать скрипт с передачей ему
+одного из поддерживаемых языков:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
-<p>Первым параметром необходимо указать язык, на который будет переводиться аддон. Список доступных языков можно посмотреть следующим образом:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 scripts/translator.py <span class="nb">help</span>
+<p>Для просмотра списка поддерживаемых языков вызовите скрипт следующим образом:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
-<p>Второй параметр является опциональным и служит для слияния полученного .po-файла с .po-файлом Blender&#8217;a, который доступен из описаного выше репозитория в директории <em>/bf-translations/branches/</em>. Совпадающие фразы из вашего .po-файла с .po-файлом Blender&#8217;a переведутся автоматически.</p>
-<p>Теперь осталось открыть полученный файл и написать перевод новых строк.</p>
+<p>При вызове скрипта в любом случае будет обновлен файл <em>empty.po</em>.</p>
+<p>После обновления .po файлы могут быть отредактированы/переведены.</p>
 </div>
 </div>
 
@@ -767,7 +766,7 @@ NAME, которая нигде не используется.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-08-31.
+      Обновлено: 2015-09-30.
 
     </p>
   </div>
@@ -789,7 +788,7 @@ NAME, которая нигде не используется.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.08',
+            VERSION:'v15.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

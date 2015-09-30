@@ -1,9 +1,32 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import math 
 import time 
 import mathutils 
 import multiprocessing
 import platform
+import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_, get_translate
 
 # NOTE: have a great influence on calc time
 NUM_PROC = multiprocessing.cpu_count() * 4
@@ -11,8 +34,8 @@ NUM_PROC = multiprocessing.cpu_count() * 4
 ##########################################################
 # draw UI ButtonS
 class B4W_ShoreDistanceBakerUI(bpy.types.Panel):
-    bl_idname = 'Bake Shore Distance Map'
-    bl_label = 'Bake Shore Distance Map'
+    bl_idname = _('Bake Shore Distance Map')
+    bl_label = _('Bake Shore Distance Map')
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
@@ -32,23 +55,23 @@ class B4W_ShoreDistanceBakerUI(bpy.types.Panel):
 
         row = layout.row()
         row.prop(context.window_manager, 'b4w_shoremap_texure_size',
-            text = 'Texture Size')
+            text = _('Texture Size'))
 
         row = layout.row()
         row.prop(context.window_manager, 'b4w_max_shore_distance',
-            text = 'Maximum Distance')
+            text = _('Maximum Distance'))
 
         row = layout.row()
-        row.operator('b4w.shore_distance_baker', text = 'Bake', icon='REC')
+        row.operator('b4w.shore_distance_baker', text = _('Bake'), icon='REC')
 
 
 def init_properties():
     bpy.types.WindowManager.b4w_max_shore_distance = bpy.props.IntProperty(
-        name="B4W: shoremap max distance",
+        name=_("B4W: shoremap max distance"),
         default=100)
 
     bpy.types.WindowManager.b4w_shoremap_texure_size = bpy.props.IntProperty(
-        name="B4W: shoremap texture size",
+        name=_("B4W: shoremap texture size"),
         default=128)
 
 def clear_properties():
@@ -65,7 +88,7 @@ def clear_properties():
 class B4W_ShoreDistanceBaker(bpy.types.Operator):
     '''Generate distance field to the nearest shore vertex'''
     bl_idname = "b4w.shore_distance_baker"
-    bl_label = "B4W Shore Distance Baker"
+    bl_label = p_("B4W Shore Distance Baker", "Operator")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -93,7 +116,7 @@ class BakeError(Exception):
 
 class BakeErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.bake_error_dialog"
-    bl_label = "Bake Error Dialog"
+    bl_label = p_("Bake Error Dialog", "Operator")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -110,16 +133,16 @@ class BakeErrorDialog(bpy.types.Operator):
 
         row = self.layout.row()
         row.alignment = "CENTER"
-        row.label("=== BLEND4WEB: SHORE BAKE ERROR ===")
+        row.label(_("=== BLEND4WEB: SHORE BAKE ERROR ==="))
 
         if _shore_bake_error.component is not None:
             row = self.layout.row()
-            row.label("COMPONENT: " + _shore_bake_error.component.rna_type.name.upper())
+            row.label(get_translate(_("COMPONENT: ")) + _shore_bake_error.component.rna_type.name.upper())
             row = self.layout.row()
-            row.label("NAME: " + _shore_bake_error.component.name)
+            row.label(get_translate(_("NAME: ")) + _shore_bake_error.component.name)
 
         row = self.layout.row()
-        row.label("ERROR: " + _shore_bake_error.message)
+        row.label(get_translate(_("ERROR: ")) + _shore_bake_error.message)
 
 def process_pixels(queue, minx, maxx, miny, maxy, max_shore_dist, texture_size,
                    tiles, num_x_tiles, tile_x_length, tile_y_length,
@@ -267,10 +290,10 @@ def run():
         bpy.ops.object.mode_set(mode="OBJECT")
 
     if len(bpy.context.selected_editable_objects) == 0:
-        raise BakeError("No objects selected")
+        raise BakeError(get_translate(_("No objects selected")))
 
     if len(bpy.context.selected_editable_objects) == 1:
-        raise BakeError("Source object is not selected.")
+        raise BakeError(get_translate(_("Source object is not selected.")))
 
     objects = bpy.data.objects
 
@@ -279,7 +302,7 @@ def run():
     obj_dst = objects.get(obj_dst_name)
 
     if len(obj_dst.material_slots) == 0:
-        raise BakeError(obj_dst.name + " doesn't have material.", obj_dst)
+        raise BakeError(obj_dst.name + get_translate(_(" doesn't have material.")), obj_dst)
 
     mesh_dst = obj_dst.data
     dst_ver_list = mesh_dst.vertices
@@ -490,7 +513,7 @@ def store_to_texture(data, x_max, x_min, y_max, y_min, max_shore_dist,
 
     if not dst_texture.image:
         # create new image
-        dst_texture.image = bpy.data.images.new(name   ='ShoreDistance',
+        dst_texture.image = bpy.data.images.new(name   =_('ShoreDistance'),
                                                 width  = texture_size,
                                                 height = texture_size)
     dst_texture.image.pixels = data

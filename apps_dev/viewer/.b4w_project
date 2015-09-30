@@ -1,0 +1,25 @@
+[info]
+author = Blend4Web
+name = viewer
+title = Viewer
+
+[paths]
+assets_dirs = deploy/assets/animation;deploy/assets/dev;deploy/assets/environment;deploy/assets/interactivity;deploy/assets/materials;deploy/assets/media;deploy/assets/misc;deploy/assets/particles;deploy/assets/physics;deploy/assets/postprocessing;
+blend_dirs = blender/animation;blender/dev;blender/environment;blender/interactivity;blender/materials;blender/media;blender/misc;blender/particles;blender/physics;blender/postprocessing;
+blender_exec = blender
+build_dir = deploy/apps/viewer
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = jquery-*.js;
+optimization = simple
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

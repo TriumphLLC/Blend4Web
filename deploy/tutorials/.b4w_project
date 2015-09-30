@@ -1,0 +1,22 @@
+[info]
+name = tutorials
+title = Tutorials
+author = Blend4Web
+
+[paths]
+build_dir = deploy/tutorials
+blend_dirs = deploy/tutorials;
+assets_dirs = deploy/tutorials;
+blender_exec = blender
+export_dir = 
+
+[compile]
+apps = 
+version = 
+engine_type =
+optimization =
+js_ignore =
+css_ignore = 
+
+[export]
+assets_path_prefix =

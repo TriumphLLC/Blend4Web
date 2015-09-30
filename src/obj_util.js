@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -8,13 +25,17 @@
  */
 b4w.module["__obj_util"] = function(exports, require) {
 
-var m_cam   = require("__camera");
 var m_mat4  = require("__mat4");
 var m_print = require("__print");
 var m_quat  = require("__quat");
 var m_tsr   = require("__tsr");
 var m_vec4  = require("__vec4");
 
+var _vec4_tmp   = new Float32Array(4);
+var _quat4_tmp  = new Float32Array(4);
+var _quat4_tmp2 = new Float32Array(4);
+var _tsr8_tmp   = new Float32Array(8);
+var _tsr8_tmp2  = new Float32Array(8);
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
 
@@ -49,7 +70,7 @@ function create_render(type) {
 
         use_panning: false,
 
-        move_style: m_cam.MS_STATIC,
+        move_style: 0,
         velocity_trans: 1,
         velocity_rot: 1,
         velocity_zoom: 1,
@@ -69,7 +90,13 @@ function create_render(type) {
         hover_angle_limits: null,
         enable_hover_hor_rotation: true,
         cameras: null,
-        outline_anim_settings: null,
+        
+        outline_anim_settings_default: {
+            outline_duration: 1,
+            outline_period: 1,
+            outline_relapses: 0
+        },
+        
         cube_reflection_id: null,
         plane_reflection_id: null,
         reflection_plane: new Float32Array(4),
@@ -82,6 +109,7 @@ function create_render(type) {
         lod_transition_ratio: 0,
 
         // rendering flags
+        do_not_render: false,
         shadow_cast: false,
         shadow_receive: false,
         shadow_cast_only: false,
@@ -147,6 +175,7 @@ function create_render(type) {
         trans_before: null,
         trans_after: null,
         bone_pointers: null,
+        bone_skinning_info: null,
         pose_data: null,
         arm_rel_trans: null,
         arm_rel_quat: null,
@@ -192,14 +221,6 @@ function create_object(name, type, origin_name) {
 
     var obj = {
 
-        // hacks for update_object
-        "data": null,
-
-        _sensor_manifolds_arr : [],
-        _action_anim_cache: [],
-        _sensor_manifolds : null,
-
-        // new object props ("_...")
         name: name,
         origin_name: origin_name,
         type: type,
@@ -221,9 +242,14 @@ function create_object(name, type, origin_name) {
         scenes_data: [],
         vertex_anim: [],
         cons_descends: [],
+        cons_armat_bone_descends: [],
         anim_slots: [],
         reflective_objs: [],
         nla_events: [],
+        action_anim_cache: [],
+
+        sensor_manifolds : null,
+        sensor_manifolds_arr : [],
         
         parent: null,
         parent_is_dupli: false,
@@ -266,18 +292,36 @@ function create_object(name, type, origin_name) {
             use_collision_compound: false
         },
 
+        outline_animation: {
+            time_start: 0,
+            outline_time: 0,
+            period: 0,
+            relapses: 0
+        },
+
+        anim_behavior_def: 0,
+        actions: [],
+
+        need_update_transform: false, // used for armature bones constraints
         temp_bpy_obj: null
     };
     return obj;
 }
 
+/**
+ * Additional meta-object which in general doesn't match with any of the scene objects.
+ */
 exports.create_meta_object = function(name, type) {
     var obj = create_object(name, type);
     obj.is_meta = true;
-
-    // HACK: tmp
-    obj["particle_systems"] = [];
     return obj;
+}
+
+exports.copy_bpy_object_props_by_link = function(obj) {
+    if (obj instanceof Array)
+        return obj.slice();
+    else
+        return obj;
 }
 
 exports.copy_object_props_by_value = copy_object_props_by_value;
@@ -413,7 +457,8 @@ function init_scene_data(scene) {
         plane_refl_subs: null,
         cube_refl_subs: null,
         shadow_subscenes: [],
-        light_index: 0
+        light_index: 0,
+        obj_has_nla_on_scene: false
     }
     return sc_data;
 }
@@ -434,6 +479,58 @@ exports.get_first_lamp_with_shadows = function(lamps) {
             return lamp;
     }
     return null;
+}
+
+exports.gen_dupli_name = function(dg_parent_name, name) {
+    return dg_parent_name + "*" + name;
+}
+
+exports.get_parent = function(obj) {
+    return !obj.parent_is_dupli ? obj.parent : null;
+}
+
+exports.get_dg_parent = get_dg_parent;
+function get_dg_parent(obj) {
+    if (obj.parent_is_dupli)
+        return obj.parent;
+    else if (obj.parent)
+        return get_dg_parent(obj.parent);
+    else
+        return null;
+}
+
+exports.get_dg_objects = function(dg_parent, objects) {
+    var dg_objs = [];
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        if (get_dg_parent(obj) == dg_parent)
+            dg_objs.push(obj);
+    }
+    return dg_objs;
+}
+
+exports.is_mesh = function(obj) {
+    return obj.type === "MESH";
+}
+
+exports.is_armature = function(obj) {
+    return obj.type === "ARMATURE";
+}
+
+exports.is_speaker = function(obj) {
+    return obj.type === "SPEAKER";
+}
+
+exports.is_camera = function(obj) {
+    return obj.type === "CAMERA";
+}
+
+exports.is_lamp = function(obj) {
+    return obj.type === "LAMP";
+}
+
+exports.is_empty = function(obj) {
+    return obj.type === "EMPTY";
 }
 
 }

@@ -9,12 +9,29 @@ from custom_json_encoder import CustomJSONEncoder
 
 SRC=os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
 DEST=os.path.join(SRC, "deploy", "pub")
+GPL_TEMPLATE=os.path.join(SRC, "scripts", "templates", "gpl_header.license")
+EULA_TEMPLATE=os.path.join(SRC, "scripts", "templates", "eula_header.license")
+ADDON_PATH=os.path.join("blender_scripts", "addons", "blend4web")
+
+LICENSE_PATHS=[
+    {
+        "paths": [os.path.join("src", "*.js")], 
+        "file_type": ".js", 
+        "license_type": set(("free", "pro")), 
+        "except_paths": []
+    },
+    {
+        "paths": [os.path.join(ADDON_PATH, "*.py")], 
+        "file_type": ".py", 
+        "license_type": set(("free",)), 
+        "except_paths": [os.path.join(ADDON_PATH, "lib", "*.py")]
+    },
+]
 
 def help():
     print("Usage: make_dist.py [-v version] [-f] DIST_FILE")
 
 def process_dist_list(dist_path, version, force):
-
     print("Creating a distribution archive from " + str(dist_path))
 
     try:
@@ -90,11 +107,65 @@ def process_dist_list(dist_path, version, force):
                     info.external_attr = 0o664 << 16
                     z.writestr(info, index)
                 else:
-                    z.write(path_curr_rel, path_arc)
+                    src = None
+                    for rule in LICENSE_PATHS:
+                        if check_path(path_root_rel, rule["paths"], rule["except_paths"]) \
+                                and os.path.splitext(path_root_rel)[-1] == rule["file_type"]:
+
+                            if basename_dest.split("_")[-1] == "pro" and "pro" in rule["license_type"]:
+                                src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
+                            else:
+                                if "free" in rule["license_type"]:
+                                    src = insert_license(path_curr_rel, rule["file_type"], GPL_TEMPLATE)
+                                elif "pro" in rule["license_type"]:
+                                    src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
+
+                    if src:
+                        # modify access rights
+                        info = zipfile.ZipInfo(path_arc)
+                        info.external_attr = 0o664 << 16
+                        z.writestr(info, src)
+                    else:
+                        z.write(path_curr_rel, path_arc)
 
     z.close()
 
     print("Archive created: " + str(path_dest))
+
+def insert_license(path, file_type, license_path):
+    try:
+        fp = open(path, "r")
+    except IOError:
+        print("Source file not found: " + path)
+        exit(1)
+
+    try:
+        lic_fp = open(license_path, "r")
+    except IOError:
+        print("License file not found: " + license_path)
+        exit(1)
+    
+    print("Insert license into file: " + path)
+
+    in_str = fp.read()
+    fp.close()
+
+    lic_lines = lic_fp.readlines()
+    lic_fp.close()
+
+    out_str = ""
+    if file_type == ".py":
+        for line in lic_lines:
+            out_str += "# " + line
+        out_str += os.linesep * 2
+    elif file_type == ".js":
+        out_str += "/**" + os.linesep
+        for line in lic_lines:
+            out_str += ' * ' + line
+        out_str += ' */' + os.linesep * 2
+
+    out_str += in_str
+    return out_str
 
 def check_path(path, pos_patterns, neg_patterns):
     """Check path against positive and negative patterns"""

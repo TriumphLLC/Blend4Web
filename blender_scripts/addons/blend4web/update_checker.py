@@ -1,9 +1,31 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 __author__ = 'dal'
 
 import urllib
 import bpy
 import json
 import blend4web
+
+b4w_modules =  ["translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
+from blend4web.translator import _, p_
 
 def check_for_update(blender_version, b4w_version):
     try:
@@ -43,8 +65,8 @@ def check_for_update_callback(arg):
     blender_current_version = "%s.%02d.%02d" % (bv[0], bv[1], bv[2])
     if check:
         # uncomment for testing
-        # blender_current_version = '2.74'
-        # b4w_current_version = '15.03'
+        # blender_current_version = '2.75'
+        # b4w_current_version = '15.09'
         new_ver = check_for_update(blender_current_version, b4w_current_version)
         if new_ver:
             pref.b4w_available_for_update_version = new_ver
@@ -52,7 +74,7 @@ def check_for_update_callback(arg):
 
 class B4WUpdateMessage(bpy.types.Operator):
     bl_idname = "b4w.update_message"
-    bl_label = "Message"
+    bl_label = p_("Message", "Context")
 
     def execute(self, context):
         return {'FINISHED'}
@@ -63,9 +85,10 @@ class B4WUpdateMessage(bpy.types.Operator):
 
     def draw(self, context):
         pref = bpy.context.user_preferences.addons[__package__].preferences
-        self.layout.label("New version of Blend4Web is available: %s" % \
+        version_message = bpy.app.translations.pgettext_tip(_("New version of Blend4Web is available: %s"))
+        self.layout.label(version_message % \
             (pref.b4w_available_for_update_version))
-        self.layout.operator("wm.url_open", text="Download", icon='URL').url = "https://www.blend4web.com/en/downloads/"
+        self.layout.operator("wm.url_open", text=_("Download"), icon='URL').url = "https://www.blend4web.com/en/downloads/"
 
 def register():
     bpy.utils.register_class(B4WUpdateMessage)

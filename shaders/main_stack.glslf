@@ -290,7 +290,7 @@ void main(void) {
     vec2 texcoord = v_texcoord;
 #endif
 
-    vec3 sided_normal = v_normal;
+    vec3 sided_normal = normalize(v_normal);
 #if DOUBLE_SIDED_LIGHTING
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers

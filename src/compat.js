@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -29,6 +46,7 @@ exports.set_hardware_defaults = function(gl) {
     var cfg_ctx = m_cfg.context;
     var cfg_scs = m_cfg.scenes;
     var cfg_sfx = m_cfg.sfx;
+    var cfg_phy = m_cfg.physics;
 
     cfg_def.max_vertex_uniform_vectors = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
 
@@ -36,34 +54,34 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
-
     // HACK: fix depth issue in Firefox 28
     if (check_user_agent("Firefox/28.0") &&
             (check_user_agent("Linux") || check_user_agent("Macintosh"))) {
         m_print.warn("Firefox 28 detected, applying depth hack");
         depth_tex_available = false;
     }
-    if (check_user_agent("iPad") || check_user_agent("iPhone")) {
-        m_print.warn("iOS detected, applying alpha hack, applying vertex "
-                + "animation mix normals hack, applying ios depth hack and " 
-                + "disable smaa. Disable ssao for performance. Disable video " 
-                + "textures. Initialize WebAudio context with empty sound.");
-        if (!cfg_ctx.alpha)
-            cfg_def.background_color[3] = 1.0;
-        cfg_def.vert_anim_mix_normals_hack = true;
-        cfg_def.smaa = false;
-        cfg_def.ssao = false;
-        cfg_def.precision = "highp";
-        cfg_def.init_wa_context_hack = true;
-        cfg_def.ios_depth_hack = true;
+    if (!check_user_agent("Windows Phone"))
+        if (check_user_agent("iPad") || check_user_agent("iPhone")) {
+            m_print.warn("iOS detected, applying alpha hack, applying vertex "
+                    + "animation mix normals hack, applying ios depth hack and " 
+                    + "disable smaa. Disable ssao for performance. Disable video " 
+                    + "textures. Initialize WebAudio context with empty sound.");
+            if (!cfg_ctx.alpha)
+                cfg_def.background_color[3] = 1.0;
+            cfg_def.vert_anim_mix_normals_hack = true;
+            cfg_def.smaa = false;
+            cfg_def.ssao = false;
+            cfg_def.precision = "highp";
+            cfg_def.init_wa_context_hack = true;
+            cfg_def.ios_depth_hack = true;
 
-    } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
-            && !check_user_agent("Chrome")) {
-        m_print.warn("OS X / Safari detected, force to wait complete loading. " +
-                "Applying playback rate hack for video textures.");
-        cfg_sfx.audio_loading_hack = true;
-        cfg_sfx.clamp_playback_rate_hack = true;
-    }
+        } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
+                && !check_user_agent("Chrome")) {
+            m_print.warn("OS X / Safari detected, force to wait complete loading. " +
+                    "Applying playback rate hack for video textures.");
+            cfg_sfx.audio_loading_hack = true;
+            cfg_sfx.clamp_playback_rate_hack = true;
+        }
     if ((check_user_agent("Windows"))
              &&(check_user_agent("Chrome/40") ||
                 check_user_agent("Firefox/33") ||
@@ -77,7 +95,8 @@ exports.set_hardware_defaults = function(gl) {
     if (detect_mobile()) {
         m_print.warn("Mobile detected, applying various hacks for video textures.");
         cfg_def.is_mobile_device = true;
-        if (!(check_user_agent("iPad") || check_user_agent("iPhone"))) {
+        if (!(check_user_agent("iPad") || check_user_agent("iPhone"))
+                    && !check_user_agent("Windows Phone")) {
             m_print.warn("Mobile (not iOS) detected, disable playback rate for video textures.");
             cfg_sfx.disable_playback_rate_hack = true;
         }
@@ -99,6 +118,24 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.disable_blend_shadows_hack = true;
     }
 
+    if (check_user_agent("Windows Phone")) {
+        m_print.warn("Windows Phone detected. Disable wireframe mode, "
+                    + "glow materials, ssao, smaa, shadows, reflections, refractions.");
+        cfg_def.wireframe_debug = false;
+        cfg_def.precision = "highp";
+        cfg_def.glow_materials = false;
+        cfg_def.ssao = false;
+        cfg_def.smaa = false;
+        cfg_def.shadows = false;
+        cfg_def.reflections = false;
+        cfg_def.refractions = false;
+        cfg_def.quality_aa = false;
+    }
+    if (check_user_agent("Firefox") && cfg_def.is_mobile_device) {
+        m_print.warn("Mobile FireFox detected, applying depth hack");
+        cfg_phy.use_workers = false;
+        depth_tex_available = false;
+    }
     // NOTE: check compatibility for particular device
     var rinfo = m_ext.get_renderer_info();
     if (rinfo) {
@@ -106,11 +143,6 @@ exports.set_hardware_defaults = function(gl) {
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel HD Graphics 3000") > -1) {
             m_print.warn("OS X / Intel HD 3000 detected, applying depth hack");
             depth_tex_available = false;
-        }
-        if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge")
-                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel") > -1) {
-            m_print.warn("Chrome / Windows / Intel GPU detected, applying cubemap mipmap/rgb hack");
-            cfg_def.intel_cubemap_hack = true;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-400") > -1) {

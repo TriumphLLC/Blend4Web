@@ -39,11 +39,9 @@
 b4w.module["animation"] = function(exports, require) {
 
 var m_anim  = require("__animation");
-var m_cons  = require("__constraints");
-var m_phy   = require("__physics");
 var m_print = require("__print");
-var m_util  = require("__util");
-
+var m_armat = require("__armature");
+var m_obj_util = require("__obj_util");
 
 /**
  * Animation finish callback.
@@ -185,12 +183,13 @@ exports.AB_FINISH_RESET = m_anim.AB_FINISH_RESET;
  */
 exports.AB_FINISH_STOP = m_anim.AB_FINISH_STOP;
 
-var _vec4_tmp = new Float32Array(4);
+var _tsr8_tmp = new Float32Array(8);
 
 /**
  * Check if the object is animated.
  * @method module:animation.is_animated
  * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
  */
 exports.is_animated = function(obj) {
     return m_anim.is_animated(obj);
@@ -200,7 +199,7 @@ exports.is_animated = function(obj) {
  * Return the names of all available animations.
  * @method module:animation.get_actions
  * @returns {String[]} Animation names.
- * @deprecated Use get_anim_names() instead.
+ * @deprecated Use {@link module:animation.get_anim_names|animation.get_anim_names} instead.
  */
 exports.get_actions = function() {
     m_print.error("get_actions() deprecated, use get_anim_names() instead");
@@ -217,7 +216,7 @@ exports.get_actions = function() {
  * @method module:animation.get_current_action
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_current_anim_name() instead.
+ * @deprecated Use {@link module:animation.get_current_anim_name|animation.get_current_anim_name} instead.
  */
 exports.get_current_action = function(obj, slot_num) {
     m_print.error("get_current_action() deprecated, use get_current_anim_name() instead");
@@ -355,6 +354,7 @@ exports.stop = function(obj, slot_num) {
  * @method module:animation.is_play
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {Boolean} Checking result.
  */
 exports.is_play = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -369,7 +369,7 @@ exports.is_play = function(obj, slot_num) {
  * @param {Object3D} obj Object 3D
  * @param {Number} cff Current frame
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use set_frame() instead.
+ * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.set_current_frame_float = function(obj, cff, slot_num) {
     m_print.error("set_current_frame_float() deprecated, use set_frame() instead");
@@ -380,7 +380,7 @@ exports.set_current_frame_float = function(obj, cff, slot_num) {
  * @method module:animation.get_current_frame_float
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_frame() instead
+ * @deprecated Use {@link module:animation.get_frame|animation.get_frame} instead
  */
 exports.get_current_frame_float = function(obj, slot_num) {
     m_print.error("get_current_frame_float() deprecated, use get_frame() instead");
@@ -406,24 +406,18 @@ exports.set_frame = function(obj, frame, slot_num) {
  * Set the first frame of the object's animation.
  * @method module:animation.set_first_frame
  * @param {Object3D} obj Object 3D
- * @param {Number} frame Current frame (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_first_frame = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-
-    var start = m_anim.get_anim_start_frame(obj, slot_num);
-    m_anim.set_frame(obj, start, slot_num);
+    m_anim.set_first_frame(obj, slot_num);
 }
 
 /**
  * Set the last frame of the object's animation.
  * @method module:animation.set_last_frame
  * @param {Object3D} obj Object 3D
- * @param {Number} frame Current frame (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_last_frame = function(obj, slot_num) {
@@ -475,6 +469,7 @@ exports.set_speed = function(obj, speed, slot_num) {
  * @method module:animation.get_speed
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
+ * @returns {Number} Animation speed.
  */
 exports.get_speed = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -493,8 +488,8 @@ exports.get_speed = function(obj, slot_num) {
  * @method module:animation.get_frame_range
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Array} Frame range pair or null for incorrect object
- * @deprecated Use get_anim_start_frame() and get_anim_length() instead
+ * @returns {?Array} Frame range pair or null for incorrect object
+ * @deprecated Use {@link module:animation.get_anim_start_frame|animation.get_anim_start_frame} and {@link module:animation.get_anim_length|animation.get_anim_length} instead
  */
 exports.get_frame_range = function(obj, slot_num) {
     m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
@@ -555,7 +550,7 @@ exports.get_anim_length = function(obj, slot_num) {
  * @param {Object3D} obj Object 3D
  * @param {Boolean} cyclic_flag
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use set_behavior() instead.
+ * @deprecated Use {@link module:animation.set_behavior|animation.set_behavior} instead.
  */
 exports.cyclic = function(obj, cyclic_flag, slot_num) {
     m_print.error("cyclic() deprecated, use set_behavior() instead");
@@ -567,7 +562,7 @@ exports.cyclic = function(obj, cyclic_flag, slot_num) {
  * @method module:animation.is_cyclic
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_behavior() instead.
+ * @deprecated Use {@link module:animation.get_behavior|animation.get_behavior} instead.
  */
 exports.is_cyclic = function(obj, slot_num) {
     m_print.error("is_cyclic() deprecated, use get_behavior() instead");
@@ -630,9 +625,10 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
  * @param {Number} elapsed Animation delay
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  * @param {Boolean} [force_update = false] Update animation even stopped one.
- * @deprecated Use set_frame() instead.
+ * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
+    m_print.error("update_object_animation() deprecated, use set_frame() instead");
     if (!m_anim.is_animated(obj))
         return;
 
@@ -657,21 +653,28 @@ exports.frame_to_sec = function(frame) {
  * @method module:animation.get_bone_translation
  * @param {Object3D} armobj Armature object
  * @param {String} bone_name Bone name
- * @param {Vec3} dest Destination vector
+ * @param {Vec3} [dest] Destination vector
+ * @deprecated Use {@link module:armature.get_bone_tsr|armature.get_bone_tsr} instead
  */
 exports.get_bone_translation = function(armobj, bone_name, dest) {
-    if (!m_util.is_armature(armobj))
+    m_print.error("get_bone_translation() deprecated, use armature.get_bone_tsr() instead");
+    if (!m_obj_util.is_armature(armobj))
         return null;
+
+    if (!m_armat.check_bone(armobj, bone_name)) {
+        m_print.error("There is no bone: \"", bone_name, "\" in \"", armobj.name, "\".");
+        return null;
+    }
 
     if (!dest)
         var dest = new Float32Array(3);
 
-    var trans_scale = _vec4_tmp;
-    m_cons.get_bone_pose(armobj, bone_name, false, trans_scale, null);
+    var tsr = _tsr8_tmp;
+    m_armat.get_bone_tsr(armobj, bone_name, false, false, tsr);
 
-    dest[0] = trans_scale[0];
-    dest[1] = trans_scale[1];
-    dest[2] = trans_scale[2];
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
 
     return dest;
 }
@@ -707,7 +710,7 @@ exports.get_slot_num_by_anim = function(obj, anim_name) {
  * @method module:animation.get_anim_type
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Slot number
- * @returns {AnimType} Animation type
+ * @returns {?AnimType} Animation type
  */
 exports.get_anim_type = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -747,7 +750,7 @@ exports.get_skel_mix_factor = function(armobj) {
  * the current to the target value.
  */
 exports.set_skel_mix_factor = function(armobj, factor, time) {
-    if (!m_util.is_armature(armobj)) {
+    if (!m_obj_util.is_armature(armobj)) {
         m_print.error("Can't blend animation. Object \"" + armobj.name + "\" is not armature");
         return;
     }
@@ -772,13 +775,13 @@ exports.set_skel_mix_factor = function(armobj, factor, time) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Aug 31 2015 12:43:57 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Sep 30 2015 10:28:55 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

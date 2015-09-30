@@ -1,13 +1,29 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import imp
 import os
 
 import blend4web
 
-b4w_modules =["addon_prefs"]
+b4w_modules =["addon_prefs", "translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
-
+from blend4web.translator import _, p_
 
 @bpy.app.handlers.persistent
 def load_reexport_paths(arg):
@@ -42,7 +58,7 @@ class UI_UL_reexport_paths(bpy.types.UIList):
 
 class B4WReexportPanel(bpy.types.Panel):
     bl_idname = "b4w.reexport_dialog"
-    bl_label = "Mass Reexporter"
+    bl_label = _("Mass Reexporter")
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "render"
@@ -60,19 +76,19 @@ class B4WReexportPanel(bpy.types.Panel):
         layout = self.layout
 
         if prefs.b4w_src_path == "" or not os.path.exists(prefs.b4w_src_path):
-            layout.label(text = "Blend4Web SDK was not found.")
-            layout.label(text = "Please download and configure it before using Mass Reexporter.")
+            layout.label(text = _("Blend4Web SDK was not found."))
+            layout.label(text = _("Please download and configure it before using Mass Reexporter."))
             return
 
-        layout.label(text = "Check info window for export results.")
+        layout.label(text = _("Check info window for export results."))
         
         row = layout.row()
         row.template_list("UI_UL_reexport_paths", "", prefs,
                 "b4w_reexport_paths", prefs, "b4w_reexport_path_index", rows=3)
 
         col = row.column(align=True)
-        col.operator("b4w.reexport_path_append", icon='ZOOMIN', text="")
-        col.operator("b4w.reexport_path_remove", icon='ZOOMOUT', text="")
+        col.operator("b4w.reexport_path_append", icon='ZOOMIN', text=_(""))
+        col.operator("b4w.reexport_path_remove", icon='ZOOMOUT', text=_(""))
 
         paths = prefs.b4w_reexport_paths
         path_index = prefs.b4w_reexport_path_index
@@ -82,17 +98,17 @@ class B4WReexportPanel(bpy.types.Panel):
             return
 
         row = layout.row(align=True)
-        row.prop(paths[path_index], "path", text="Exported Directory")
-        row.operator("buttons.file_browse", text="", icon='FILESEL').relative_path = False
+        row.prop(paths[path_index], "path", text=_("Exported Directory"))
+        row.operator("buttons.file_browse", text=_(""), icon='FILESEL').relative_path = False
 
         row = layout.row()
-        row.operator("b4w.reexport", text="Reexport")
+        row.operator("b4w.reexport", text=p_("Reexport", "Operator"))
 
 class B4WReexportPathAppend(bpy.types.Operator):
     bl_idname      = "b4w.reexport_path_append"
-    bl_label       = "Reexport Append"
+    bl_label       = p_("Reexport Append", "Operator")
     bl_options     = {"INTERNAL"}
-    bl_description = "Append exported directory"
+    bl_description = _("Append exported directory")
 
     def invoke(self, context, event):
         prefs = bpy.context.user_preferences.addons[__package__].preferences
@@ -106,9 +122,9 @@ class B4WReexportPathAppend(bpy.types.Operator):
 
 class B4WReexportPathRemove(bpy.types.Operator):
     bl_idname      = "b4w.reexport_path_remove"
-    bl_label       = "Reexport Remove"
+    bl_label       = p_("Reexport Remove", "Operator")
     bl_options     = {"INTERNAL"}
-    bl_description = "Remove exported directory"
+    bl_description = _("Remove exported directory")
 
     def invoke(self, context, event):
         prefs = bpy.context.user_preferences.addons[__package__].preferences
@@ -126,10 +142,10 @@ class B4WReexportPathRemove(bpy.types.Operator):
 
 class B4WReexport(bpy.types.Operator):
     bl_idname      = 'b4w.reexport'
-    bl_label       = "Reexport"
+    bl_label       = p_("Reexport", "Operator")
     bl_options     = {"INTERNAL"}
-    bl_description = ("Perform mass reexport. Depending on amount of work this "
-            "may take some time.")
+    bl_description = _("Perform mass reexport. Depending on amount of work this "
+            "may take some time")
 
     def execute(self, context):
         obj = context.active_object

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2014-2015 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 "use strict";
 
 /**
@@ -108,7 +125,7 @@ exports.update = function(timeline, elapsed) {
 
     for (var i = 0; i < _objects.length; i++) {
         var obj = _objects[i];
-        var manifolds_arr = obj._sensor_manifolds_arr;
+        var manifolds_arr = obj.sensor_manifolds_arr;
 
         for (var j = 0; j < manifolds_arr.length; j++) {
             var manifold = manifolds_arr[j];
@@ -137,7 +154,7 @@ exports.update = function(timeline, elapsed) {
     // discharge after ALL callback exec
     for (var i = 0; i < _objects.length; i++) {
         var obj = _objects[i];
-        var manifolds_arr = obj._sensor_manifolds_arr;
+        var manifolds_arr = obj.sensor_manifolds_arr;
 
         for (var j = 0; j < manifolds_arr.length; j++) {
             var manifold = manifolds_arr[j];
@@ -436,7 +453,7 @@ exports.create_timer_sensor = function(period, do_repeat) {
 exports.reset_timer_sensor = function(obj, manifold_id, num, period) {
     obj = obj || _global_object;
 
-    var manifolds = obj._sensor_manifolds;
+    var manifolds = obj.sensor_manifolds;
 
     if (!manifolds || !manifolds[manifold_id]) {
         m_print.error("reset_timer_sensor(): wrong object");
@@ -504,7 +521,7 @@ function manifold_logic_result(manifold) {
 exports.get_sensor_value = function(obj, manifold_id, num) {
     obj = obj || _global_object;
 
-    var manifolds = obj._sensor_manifolds;
+    var manifolds = obj.sensor_manifolds;
 
     if (!manifolds || !manifolds[manifold_id]) {
         m_print.error("get_sensor_value(): wrong object");
@@ -523,7 +540,7 @@ exports.get_sensor_value = function(obj, manifold_id, num) {
 exports.get_sensor_payload = function(obj, manifold_id, num) {
     obj = obj || _global_object;
 
-    var manifolds = obj._sensor_manifolds;
+    var manifolds = obj.sensor_manifolds;
 
     if (!manifolds || !manifolds[manifold_id]) {
         m_print.error("get_sensor_payload(): wrong object");
@@ -790,15 +807,15 @@ exports.check_sensor_manifold = function(obj, id) {
     obj = obj || _global_object;
 
     // NOTE: need to be initialized in object update routine
-    if (!obj._sensor_manifolds)
+    if (!obj.sensor_manifolds)
         return false;
 
-    if (id && obj._sensor_manifolds[id])
+    if (id && obj.sensor_manifolds[id])
         return true;
     else if (id)
         return false;
     else
-        for (var i in obj._sensor_manifolds)
+        for (var i in obj.sensor_manifolds)
             return true;
 
     return false;
@@ -808,11 +825,11 @@ exports.remove_sensor_manifold = function(obj, id) {
 
     obj = obj || _global_object;
 
-    var manifolds = obj._sensor_manifolds;
+    var manifolds = obj.sensor_manifolds;
     if (!manifolds)
         return;
 
-    var manifolds_arr = obj._sensor_manifolds_arr;
+    var manifolds_arr = obj.sensor_manifolds_arr;
 
     if (id) {
         var manifold = manifolds[id];
@@ -877,7 +894,7 @@ function get_sensor_users_num(sensor, objects) {
     for (var i = 0; i < objects.length; i++) {
 
         var obj = objects[i];
-        var manifolds_arr = obj._sensor_manifolds_arr;
+        var manifolds_arr = obj.sensor_manifolds_arr;
 
         for (var j = 0; j < manifolds_arr.length; j++) {
             var manifold = manifolds_arr[j];
@@ -925,11 +942,11 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
         logic_fun, callback, callback_param) {
     obj = obj || _global_object;
 
-    obj._sensor_manifolds = obj._sensor_manifolds || {};
-    obj._sensor_manifolds_arr = obj._sensor_manifolds_arr || [];
+    obj.sensor_manifolds_arr = obj.sensor_manifolds_arr || [];
+    obj.sensor_manifolds = obj.sensor_manifolds || {};
 
-    var manifolds = obj._sensor_manifolds;
-    var manifolds_arr = obj._sensor_manifolds_arr;
+    var manifolds = obj.sensor_manifolds;
+    var manifolds_arr = obj.sensor_manifolds_arr;
 
     var old_manifold = manifolds[id];
     if (old_manifold) {
@@ -1047,8 +1064,8 @@ function append_sensors(sensors) {
 exports.reset = function() {
     for (var i = 0; i < _objects.length; i++) {
         var obj = _objects[i];
-        var manifolds = obj._sensor_manifolds;
-        var manifolds_arr = obj._sensor_manifolds_arr;
+        var manifolds = obj.sensor_manifolds;
+        var manifolds_arr = obj.sensor_manifolds_arr;
 
         for (var j in manifolds)
             delete manifolds[j];

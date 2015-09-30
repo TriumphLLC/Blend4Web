@@ -1,3 +1,19 @@
+# Copyright (C) 2014-2015 Triumph LLC
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import bpy
 import imp
 import mathutils
@@ -9,9 +25,10 @@ import blend4web
 
 from bpy.types import Panel
 
-b4w_modules = ["logic_node_tree"]
+b4w_modules = ["logic_node_tree", "translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
+from blend4web.translator import _, p_
 
 # common properties for all B4W scene panels
 class SceneButtonsPanel:
@@ -26,7 +43,7 @@ class SceneButtonsPanel:
         return scene and (scene.render.engine in cls.COMPAT_ENGINES)
 
 class B4W_SCENE_PT_scene(SceneButtonsPanel, Panel):
-    bl_label = "Scene"
+    bl_label = _("Scene")
 
     def draw(self, context):
         layout = self.layout
@@ -36,10 +53,10 @@ class B4W_SCENE_PT_scene(SceneButtonsPanel, Panel):
         row = layout.row()
         row.prop(scene, "camera")
         row = layout.row()
-        row.prop(scene, "background_set", text="Background")
+        row.prop(scene, "background_set", text=_("Background"))
 
 class B4W_SCENE_PT_unit(SceneButtonsPanel, Panel):
-    bl_label = "Units"
+    bl_label = _("Units")
 
     def draw(self, context):
         layout = self.layout
@@ -52,16 +69,16 @@ class B4W_SCENE_PT_unit(SceneButtonsPanel, Panel):
 
         if unit.system != 'NONE':
             row = layout.row()
-            row.prop(unit, "scale_length", text="Scale")
+            row.prop(unit, "scale_length", text=_("Scale"))
             row.prop(unit, "use_separate")
 
 class B4W_SCENE_PT_simplify(SceneButtonsPanel, Panel):
-    bl_label = "Simplify"
+    bl_label = _("Simplify")
     COMPAT_ENGINES = {'BLENDER_RENDER'}
 
     def draw_header(self, context):
         rd = context.scene.render
-        self.layout.prop(rd, "use_simplify", text="")
+        self.layout.prop(rd, "use_simplify", text=_(""))
 
     def draw(self, context):
         layout = self.layout
@@ -72,25 +89,25 @@ class B4W_SCENE_PT_simplify(SceneButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.label(text="Viewport:")
-        col.prop(rd, "simplify_subdivision", text="Subdivision")
-        col.prop(rd, "simplify_child_particles", text="Child Particles")
+        col.label(text=_("Viewport:"))
+        col.prop(rd, "simplify_subdivision", text=_("Subdivision"))
+        col.prop(rd, "simplify_child_particles", text=_("Child Particles"))
 
         col = split.column()
-        col.label(text="Render:")
-        col.prop(rd, "simplify_subdivision_render", text="Subdivision")
-        col.prop(rd, "simplify_child_particles_render", text="Child Particles")
-        col.prop(rd, "simplify_shadow_samples", text="Shadow Samples")
-        col.prop(rd, "simplify_ao_sss", text="AO and SSS")
+        col.label(text=_("Render:"))
+        col.prop(rd, "simplify_subdivision_render", text=_("Subdivision"))
+        col.prop(rd, "simplify_child_particles_render", text=_("Child Particles"))
+        col.prop(rd, "simplify_shadow_samples", text=_("Shadow Samples"))
+        col.prop(rd, "simplify_ao_sss", text=_("AO and SSS"))
         col.prop(rd, "use_simplify_triangulate")
 
 class B4W_SceneAudio(SceneButtonsPanel, Panel):
-    bl_label = "Audio"
+    bl_label = _("Audio")
     bl_idname = "SCENE_PT_b4w_audio"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_audio", text="")
+        self.layout.prop(context.scene, "b4w_enable_audio", text=_(""))
 
     def draw(self, context):
 
@@ -101,23 +118,23 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
         layout.active = getattr(scene, "b4w_enable_audio")
 
         row = layout.row()
-        row.prop(scene, "b4w_enable_dynamic_compressor", text="Dynamic Compressor")
+        row.prop(scene, "b4w_enable_dynamic_compressor", text=_("Dynamic Compressor"))
 
         row = layout.row()
         box = row.box()
         box.active = getattr(scene, "b4w_enable_dynamic_compressor")
         col = box.column()
-        col.label("Compressor settings:")
-        col.prop(dcompr, "threshold", text="Threshold")
-        col.prop(dcompr, "knee", text="Knee")
-        col.prop(dcompr, "ratio", text="Ratio")
-        col.prop(dcompr, "attack", text="Attack")
-        col.prop(dcompr, "release", text="Release")
+        col.label(text=_("Compressor settings:"))
+        col.prop(dcompr, "threshold", text=_("Threshold"))
+        col.prop(dcompr, "knee", text=_("Knee"))
+        col.prop(dcompr, "ratio", text=_("Ratio"))
+        col.prop(dcompr, "attack", text=_("Attack"))
+        col.prop(dcompr, "release", text=_("Release"))
 
 class B4W_LogicEditorRefreshAvailableTrees(bpy.types.Operator):
     bl_idname      = 'scene.b4w_logic_editor_refresh_available_trees'
-    bl_label       = "Refresh"
-    bl_description = "Refresh list of available Trees"
+    bl_label       = p_("Refresh", "Operator")
+    bl_description = _("Refresh list of available Trees")
 
     def invoke(self, context, event):
         logic_node_tree.b4w_logic_editor_refresh_available_trees()
@@ -126,8 +143,8 @@ class B4W_LogicEditorRefreshAvailableTrees(bpy.types.Operator):
 
 class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
     bl_idname      = 'scene.b4w_logic_editor_add_tree'
-    bl_label       = "Add"
-    bl_description = "Add new logic node tree"
+    bl_label       = p_("Add", "Operator")
+    bl_description = _("Add new logic node tree")
 
     def invoke(self, context, event):
         ntree = bpy.data.node_groups.new("B4WLogicNodeTree", "B4WLogicNodeTreeType")
@@ -142,8 +159,8 @@ class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
 
 class B4W_LogicEditorRemoveNodeTree(bpy.types.Operator):
     bl_idname      = 'scene.b4w_logic_editor_remove_tree'
-    bl_label       = "Remove"
-    bl_description = "Remove logic node tree"
+    bl_label       = p_("Remove", "Operator")
+    bl_description = _("Remove logic node tree")
 
     def invoke(self, context, event):
         if context.scene.b4w_active_logic_node_tree in bpy.data.node_groups:
@@ -164,12 +181,12 @@ class B4W_LogicEditorRemoveNodeTree(bpy.types.Operator):
         return {'FINISHED'}
 
 class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
-    bl_label = "Logic Editor"
+    bl_label = _("Logic Editor")
     bl_idname = "SCENE_PT_b4w_logic_editor"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_use_logic_editor", text="")
+        self.layout.prop(context.scene, "b4w_use_logic_editor", text=_(""))
 
     def draw(self, context):
         scene = context.scene
@@ -177,7 +194,7 @@ class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
         layout = self.layout
         layout.active = getattr(scene, "b4w_use_logic_editor")
         row = layout.row()
-        row.label("Active Node Tree:")
+        row.label(text=_("Active Node Tree:"))
         row = layout.row(align=True)
         row.operator('scene.b4w_logic_editor_refresh_available_trees', icon='FILE_REFRESH', text='')
         row.operator('scene.b4w_logic_editor_add_tree', icon='ZOOMIN', text='')
@@ -188,12 +205,12 @@ class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
         row.prop_search(scene, 'b4w_active_logic_node_tree', bpy.context.scene, 'b4w_available_logic_trees', icon=icon, text='')
 
 class B4W_SceneNLA(SceneButtonsPanel, Panel):
-    bl_label = "NLA"
+    bl_label = _("NLA")
     bl_idname = "SCENE_PT_b4w_nla"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_use_nla", text="")
+        self.layout.prop(context.scene, "b4w_use_nla", text=_(""))
 
     def draw(self, context):
         scene = context.scene
@@ -201,15 +218,15 @@ class B4W_SceneNLA(SceneButtonsPanel, Panel):
         layout = self.layout
         row = layout.row()
         row.active = getattr(scene, "b4w_use_nla")
-        row.prop(scene, "b4w_nla_cyclic", text="Cyclic NLA")
+        row.prop(scene, "b4w_nla_cyclic", text=_("Cyclic NLA"))
 
 class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
-    bl_label = "Meta Tags"
+    bl_label = _("Meta Tags")
     bl_idname = "SCENE_PT_b4w_meta_tags"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_tags", text="")
+        self.layout.prop(context.scene, "b4w_enable_tags", text=_(""))
 
     def draw(self, context):
         scene = context.scene
@@ -219,7 +236,7 @@ class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
         layout.active = getattr(scene, "b4w_enable_tags");
 
         row = layout.row()
-        row.prop(b4w_tags, "title", text="Title")
+        row.prop(b4w_tags, "title", text=_("Title"))
 
         row = layout.row()
         if b4w_tags.desc_source == "TEXT":
@@ -233,30 +250,30 @@ class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
         row.prop(b4w_tags, "description", icon=icon)
 
         row = layout.row()
-        row.label("Description Source:")
-        row.prop(b4w_tags, "desc_source", expand=True, text="Source")
+        row.label(text=_("Description Source:"))
+        row.prop(b4w_tags, "desc_source", expand=True, text=_("Source"))
 
 class B4W_ScenePhysics(SceneButtonsPanel, Panel):
-    bl_label = "Physics"
+    bl_label = _("Physics")
     bl_idname = "SCENE_PT_b4w_physics"
 
     def draw(self, context):
         scene = context.scene
         layout = self.layout
-        layout.prop(scene, "b4w_enable_physics", text="Enable Physics")
+        layout.prop(scene, "b4w_enable_physics", text=_("Enable Physics"))
 
 class B4W_SceneBatching(SceneButtonsPanel, Panel):
-    bl_label = "Batching"
+    bl_label = _("Batching")
     bl_idname = "SCENE_PT_b4w_batching"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
         scene = context.scene
         layout = self.layout
-        layout.prop(scene, "b4w_batch_grid_size", text="Batch Grid Size")
+        layout.prop(scene, "b4w_batch_grid_size", text=_("Batch Grid Size"))
 
 class B4W_SceneObjsSelection(SceneButtonsPanel, Panel):
-    bl_label = "Objects Selection"
+    bl_label = _("Objects Selection")
     bl_idname = "SCENE_PT_b4w_objs_selection"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -266,10 +283,10 @@ class B4W_SceneObjsSelection(SceneButtonsPanel, Panel):
         layout = self.layout
 
         row = layout.row()
-        row.prop(scene, "b4w_enable_object_selection", text="Enable")
+        row.prop(scene, "b4w_enable_object_selection", text=_("Enable"))
 
 class B4W_SceneAnchors(SceneButtonsPanel, Panel):
-    bl_label = "Anchors"
+    bl_label = _("Anchors")
     bl_idname = "SCENE_PT_b4w_anchors"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -279,10 +296,10 @@ class B4W_SceneAnchors(SceneButtonsPanel, Panel):
         layout = self.layout
 
         row = layout.row()
-        row.prop(scene, "b4w_enable_anchors_visibility", text="Detect Anchor Visibility")
+        row.prop(scene, "b4w_enable_anchors_visibility", text=_("Detect Anchor Visibility"))
 
 class B4W_SceneExportOptions(SceneButtonsPanel, Panel):
-    bl_label = "Export Options"
+    bl_label = _("Export Options")
     bl_idname = "SCENE_PT_b4w_scenes_export_options"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -291,7 +308,7 @@ class B4W_SceneExportOptions(SceneButtonsPanel, Panel):
         layout = self.layout
 
         row = layout.row()
-        row.prop(scene, "b4w_do_not_export", text="Do Not Export")
+        row.prop(scene, "b4w_do_not_export", text=_("Do Not Export"))
 
 def register():
     bpy.utils.register_class(B4W_SCENE_PT_scene)
