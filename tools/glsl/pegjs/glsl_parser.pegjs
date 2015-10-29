@@ -1951,7 +1951,7 @@ EOF
 ============================================================================*/
 
 expression_statement_start
-  = exp:expression_statement
+  = __ exp:expression_statement
   { 
     return parenting_unit(exp);
   }

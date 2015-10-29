@@ -4,7 +4,7 @@
 #var WAVES_HEIGHT 0.0
 
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 
 uniform vec4  u_diffuse_color;
 uniform vec3  u_halo_rings_color;

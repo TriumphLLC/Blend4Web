@@ -1,0 +1,517 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 17:57\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../viewer.rst:1
+msgid "просмотрщик"
+# msgstr "viewer"
+msgstr ""
+
+#: ../viewer.rst:7
+msgid "Просмотрщик сцен"
+# msgstr "Scene Viewer"
+msgstr ""
+
+#: ../viewer.rst:9
+msgid ":ref:`Запуск просмотрщика сцен <getting_started_launching_viewer>`."
+# msgstr ":ref:`Running The Scenes Viewer <getting_started_launching_viewer>`."
+msgstr ""
+
+#: ../viewer.rst:12
+msgid "Навигация"
+# msgstr "Navigation"
+msgstr ""
+
+#: ../viewer.rst:14
+msgid ""
+"Управление камерой осуществляется мышью с нажатой кнопкой, а также клавишами"
+" ``W``, ``A``, ``S``, ``D``, ``R``, ``F``: вперед, влево, назад, вправо, "
+"вверх, вниз. Также поддерживаются стрелки и клавиши ``numpad``. В режиме "
+"камеры ``Target`` возможно фокусирование на выделенный объект посредством "
+"нажатия клавишей ``Z`` или ``.(точка)``."
+# msgstr ""
+# "To control the camera hold down a mouse button and move the mouse. Also "
+# "control can be performed using the ``W``, ``A``, ``S``, ``D``, ``R``, ``F`` "
+# "keys: forward, left, back, right, up, down. Arrows and ``numpad`` keys can "
+# "be used as well. In the ``Target`` camera mode it's possible to focus on the"
+# " selected object using the ``Z`` or ``.(dot)`` keys."
+msgstr ""
+
+#: ../viewer.rst:17
+msgid "Боковая панель"
+# msgstr "The Side Panel"
+msgstr ""
+
+#: ../viewer.rst:19
+msgid ""
+"Боковая панель содержит в себе три области: информационное табло, базовые "
+"кнопки управления и список выпадающих панелей, содержащий дополнительные "
+"элементы управления, разделённые по функциональному признаку."
+# msgstr ""
+# "The side panel consists of three areas: the information board, basic control"
+# " buttons and the list of drop-down panels with additional control elements "
+# "differentiated by functionality."
+msgstr ""
+
+#: ../viewer.rst:29
+msgid "Список элементов управления сверху вниз"
+# msgstr "Control elements list in top-to-bottom order"
+msgstr ""
+
+#: ../viewer.rst:32
+msgid "**Build**"
+# msgstr "**Build**"
+msgstr ""
+
+#: ../viewer.rst:32
+msgid ""
+"Дата и время сборки движка. В версии для разработки показывает время "
+"загрузки страницы."
+# msgstr ""
+# "The engine build date and time. In the developer version this shows the page"
+# " load time."
+msgstr ""
+
+#: ../viewer.rst:35
+msgid "**Scene**"
+# msgstr "**Scene**"
+msgstr ""
+
+#: ../viewer.rst:35
+msgid ""
+"Название загруженной сцены, взятое из файла ``assets.json``. При наведении "
+"курсора мыши всплывает путь к файлу."
+# msgstr ""
+# "Loaded scene name from the ``assets.json`` file. Path to the file pops-up on"
+# " mouse hover."
+msgstr ""
+
+#: ../viewer.rst:38
+msgid "**Loaded**"
+# msgstr "**Loaded**"
+msgstr ""
+
+#: ../viewer.rst:38
+msgid "Процент и время загрузки."
+# msgstr "Loading progress and time."
+msgstr ""
+
+#: ../viewer.rst:41
+msgid "**Reset**"
+# msgstr "**Reset**"
+msgstr ""
+
+#: ../viewer.rst:41
+msgid ""
+"Кнопка удаляет сохраненное название последней просмотренной сцены и "
+"перезагружает страницу, возвращая к сцене по умолчанию."
+# msgstr ""
+# "This button deletes the saved name of the last viewed scene and reloads the "
+# "page back to display the default scene."
+msgstr ""
+
+#: ../viewer.rst:44
+msgid "Выпадающее меню выбора профиля работы движка."
+# msgstr "Drop-down menu for choosing the performance profile of the engine."
+msgstr ""
+
+#: ../viewer.rst:46
+msgid "**LOW Q - HIGH Q - ULTRA Q**"
+# msgstr "**LOW Q - HIGH Q - ULTRA Q**"
+msgstr ""
+
+#: ../viewer.rst:46
+msgid ":ref:`quality_settings`"
+# msgstr ""
+msgstr ""
+
+#: ../viewer.rst:49
+msgid "**Pause**"
+# msgstr "**Pause**"
+msgstr ""
+
+#: ../viewer.rst:49
+msgid "Приостановка рендеринга."
+# msgstr "Pause rendering."
+msgstr ""
+
+#: ../viewer.rst:52
+msgid "**Resume**"
+# msgstr "**Resume**"
+msgstr ""
+
+#: ../viewer.rst:52
+msgid "Возобновление рендеринга."
+# msgstr "Resume rendering."
+msgstr ""
+
+#: ../viewer.rst:55
+msgid "**Auto View**"
+# msgstr "**Auto View**"
+msgstr ""
+
+#: ../viewer.rst:55
+msgid ""
+"Активация режима автоматического переключения сцен по списку, пауза между "
+"просмотрами 1 секунда."
+# msgstr ""
+# "Activate the automatic scene switching mode; the delay between views is 1 "
+# "second."
+msgstr ""
+
+#: ../viewer.rst:58
+msgid "**Scenes**"
+# msgstr "**Scenes**"
+msgstr ""
+
+#: ../viewer.rst:58
+msgid "Двухуровневый список категорий и сцен из файла ``assets.json``."
+# msgstr ""
+# "A double-level list of the categories and scenes from the ``assets.json`` "
+# "file."
+msgstr ""
+
+#: ../viewer.rst:61
+msgid "**Animation**"
+# msgstr "**Animation**"
+msgstr ""
+
+#: ../viewer.rst:61
+msgid ""
+"Управление анимацией. При просмотре анимированных моделей можно выбирать "
+"объект и переключать для него анимацию с помощью выпадающего меню, включать "
+"режим циклической анимации, останавливать и возобновлять анимацию, "
+"выставлять нужный кадр (при этом анимация должна быть остановлена)."
+# msgstr ""
+# "Animation controls. When viewing animated models it's possible: to select an"
+# " object and switch its animation with a drop-down menu, switch cyclic "
+# "animation mode, stop and resume animation, set the required frame (the "
+# "animation should be stopped)."
+msgstr ""
+
+#: ../viewer.rst:64
+msgid "**Materials**"
+# msgstr "**Materials**"
+msgstr ""
+
+#: ../viewer.rst:64
+msgid ""
+"Настройка свойств материалов. Материал выбирается с помощью выпадающего "
+"меню. В настоящий момент поддерживается изменение ограниченного ряда "
+"свойств."
+# msgstr ""
+# "Material properties setup. A material can be selected using the drop-down "
+# "menu. At the moment only a limited range of properties is supported."
+msgstr ""
+
+#: ../viewer.rst:67
+msgid "**Lighting**"
+# msgstr "**Lighting**"
+msgstr ""
+
+#: ../viewer.rst:67
+msgid ""
+"Настройка параметров прямого освещения. Источник света выбирается с помощью "
+"выпадающего меню. Поддерживается изменение цвета и интенсивности. Также на "
+"этой панели осуществляется настройка параметров времени суток и солнечного "
+"освещения."
+# msgstr ""
+# "Direct lighting parameters setup. A light source can be selected using the "
+# "drop-down menu. Changing color and intensity is supported. Daytime and sun "
+# "lighting parameters can also be tweaked on this panel."
+msgstr ""
+
+#: ../viewer.rst:70
+msgid "**Ambient**"
+# msgstr "**Ambient**"
+msgstr ""
+
+#: ../viewer.rst:70
+msgid ""
+"Настройка параметров освещения от окружающей среды. Поддерживается изменение"
+" цветов в полусферической модели освещения и интенсивности."
+# msgstr ""
+# "Ambient lighting parameters setup. Changing the colors and intensity of a "
+# "hemispheric ambient model is supported."
+msgstr ""
+
+#: ../viewer.rst:73
+msgid "**Shadows**"
+# msgstr "**Shadows**"
+msgstr ""
+
+#: ../viewer.rst:73
+msgid ""
+"Настройка параметров падающих теней, включая параметры каскадов теней и "
+"параметры смягчения краев теней."
+# msgstr ""
+# "Shadow parameters setup, including shadow cascades and shadow edges "
+# "softening parameters."
+msgstr ""
+
+#: ../viewer.rst:76
+msgid "**Sky**"
+# msgstr "**Sky**"
+msgstr ""
+
+#: ../viewer.rst:76
+msgid ""
+"Настройка параметров динамического неба, таких как цвет, параметры "
+"рассеивания солнечного света и т.д."
+# msgstr ""
+# "Dynamic sky parameters setup such as color, sun light scattering parameters "
+# "etc."
+msgstr ""
+
+#: ../viewer.rst:79
+msgid "**Sea**"
+# msgstr "**Sea**"
+msgstr ""
+
+#: ../viewer.rst:79
+msgid ""
+"Настройка параметров рендеринга воды, включая переходы цвета по глубине и "
+"удаленности от берега, параметры пены, подповерхностного рассеивания, "
+"динамики волн и т.д."
+# msgstr ""
+# "Water rendering parameters setup, including color transitions by depth and "
+# "by shore distance, foam and subsurface scattering parameters, waves dynamics"
+# " etc."
+msgstr ""
+
+#: ../viewer.rst:82
+msgid "**Fog**"
+# msgstr "**Fog**"
+msgstr ""
+
+#: ../viewer.rst:82
+msgid "Настройка параметров тумана, включая плотность и цвет."
+# msgstr "Fog parameters setup, including density and color."
+msgstr ""
+
+#: ../viewer.rst:85
+msgid "**Wind**"
+# msgstr "**Wind**"
+msgstr ""
+
+#: ../viewer.rst:85
+msgid "Настройка параметров ветра, включая направление и силу."
+# msgstr "Wind parameters setup, including direction and strength."
+msgstr ""
+
+#: ../viewer.rst:88
+msgid "**Screen Space Amb Occlus**"
+# msgstr "**Screen Space Amb Occlus**"
+msgstr ""
+
+#: ../viewer.rst:88
+msgid "Настройка параметров взаимного затенения."
+# msgstr "Ambient occlusion parameters setup."
+msgstr ""
+
+#: ../viewer.rst:91
+msgid "**God Rays**"
+# msgstr "**God Rays**"
+msgstr ""
+
+#: ../viewer.rst:91
+msgid "Настройка параметров эффекта сумеречных лучей."
+# msgstr "Crepuscular rays effect parameters setup."
+msgstr ""
+
+#: ../viewer.rst:94
+msgid "**Bloom**"
+# msgstr "**Bloom**"
+msgstr ""
+
+#: ../viewer.rst:94
+msgid "Настройка параметров эффекта засветки ярким светом."
+# msgstr "Bright light effect parameters setup."
+msgstr ""
+
+#: ../viewer.rst:97
+msgid "**Depth of Field**"
+# msgstr "**Depth of Field**"
+msgstr ""
+
+#: ../viewer.rst:97
+msgid "Настройка параметров эффекта глубины резкости камеры."
+# msgstr "Depth of field effect parameters setup."
+msgstr ""
+
+#: ../viewer.rst:100
+msgid "**Color correction**"
+# msgstr "**Color correction**"
+msgstr ""
+
+#: ../viewer.rst:100
+msgid ""
+"Настройка параметров цветовой коррекции, включая яркость, контрастность, "
+"экспозицию и насыщенность."
+# msgstr ""
+# "Color correction parameters setup, including brightness, contrast, exposure "
+# "and saturation."
+msgstr ""
+
+#: ../viewer.rst:103
+msgid "**Anti-aliasing**"
+# msgstr "**Anti-aliasing**"
+msgstr ""
+
+#: ../viewer.rst:103
+msgid "Выбор метода сглаживания изображения (антиалиасинга)."
+# msgstr "Selecting the anti-aliasing method."
+msgstr ""
+
+#: ../viewer.rst:106
+msgid "**Audio**"
+# msgstr "**Audio**"
+msgstr ""
+
+#: ../viewer.rst:106
+msgid ""
+"На панели находится переключатель режима микширования. После включения на "
+"сценах со звуковыми источниками появляется интерфейс микшера."
+# msgstr ""
+# "There is a mixing mode switch on the panel. After it is enabled the mixer "
+# "interface becomes visible (only for scenes with sound sources)."
+msgstr ""
+
+#: ../viewer.rst:109
+msgid "**Stereo View**"
+# msgstr "**Stereo View**"
+msgstr ""
+
+#: ../viewer.rst:109
+msgid "На панели находится переключатель режима стерео-изображения."
+# msgstr "There is a stereoscopy mode switch on the panel."
+msgstr ""
+
+#: ../viewer.rst:112
+msgid ""
+"На панели находится ряд инструментов отладки сцен, в частности переключатель"
+" режима просмотра сетки, переключатель режима просмотра постпроцессинговых "
+"стадий."
+# msgstr ""
+# "This panel contains a range of debugging tools, including the wireframe mode"
+# " and the postprocessing stages viewer switches."
+msgstr ""
+
+#: ../viewer.rst:113
+msgid "**Debug**"
+# msgstr "**Debug**"
+msgstr ""
+
+#: ../viewer.rst:116
+msgid "Индикаторы"
+# msgstr "Indicators"
+msgstr ""
+
+#: ../viewer.rst:119
+msgid "**Счетчик количества кадров в секунду**"
+# msgstr "**Frames per second counter**"
+msgstr ""
+
+#: ../viewer.rst:119
+msgid ""
+"Находится в правом верхнем углу. Выводит усредненное и округленное значение "
+"за последние 1,5 секунды."
+# msgstr ""
+# "This is located in the top right corner. It displays the averaged and "
+# "rounded value for the last 1.5 seconds."
+msgstr ""
+
+#: ../viewer.rst:122
+msgid "**Размер области рендеринга**"
+# msgstr "**Viewport dimensions**"
+msgstr ""
+
+#: ../viewer.rst:122
+msgid ""
+"Находится в левом верхнем углу. Выводит размер области рендеринга в "
+"пикселах."
+# msgstr ""
+# "This is located in the top left corner. It displays the viewport dimensions "
+# "in pixels."
+msgstr ""
+
+#: ../viewer.rst:125
+msgid "**Выбранный объект и контролируемый объект**"
+# msgstr "**Selected object and controlled object**"
+msgstr ""
+
+#: ../viewer.rst:125
+msgid ""
+"Находится в левом нижнем углу. Выводит название выбранного объекта и "
+"контролируемого объекта. Выбор объекта осуществляется мышью. Для получения "
+"прямого контроля над объектом (обычно в целях проверки физики) нужно нажать "
+"``Q`` и выбрать объект. Движение объекта осуществляется клавишами ``W``, "
+"``A``, ``S``, ``D``. Для выхода из режима контроля нужно нажать ``Q`` и "
+"\"кликнуть\" на пустом пространстве. Индикатор также показывает расстояние "
+"до выбранного объекта в единицах Blender'a (эквивалент метра)."
+# msgstr ""
+# "This is located in the left bottom corner. It displays the names of selected"
+# " and controlled objects. Object selection can be performed with the mouse. "
+# "To control the object directly (normally for physics debugging) press the "
+# "``Q`` key and click on the object. The object movement is performed with the"
+# " ``W``, ``A``, ``S``, ``D`` keys. To exit the control mode press the ``Q`` "
+# "key and click on an empty space. The indicator also displays the distance to"
+# " the selected object in Blender units (meters equivalent)."
+msgstr ""
+
+#: ../viewer.rst:128
+msgid "**Индикатор сложности сцены**"
+# msgstr "**Scene complexity indicator**"
+msgstr ""
+
+#: ../viewer.rst:128
+msgid ""
+"Находится в правом верхнем углу области рендеринга. Выводит количество "
+"вершин, треугольников и WebGL вызовов на основной рендер-сцене (т.е. не "
+"учитываются, например, вызовы по отрисовке динамических теней)."
+# msgstr ""
+# "Is located in the top right corner of the rendering area. It displays the "
+# "number of vertices, triangles and WebGL calls on the main rendering scene "
+# "(i.e. shadow rendering calls are not included, for example)."
+msgstr ""
+
+#: ../viewer.rst:131
+msgid ""
+"Находится в правом нижнем углу области рендеринга. Выводит количество видео-"
+"памяти, занимаемой геометрией, текстурами, буферами с результатами "
+"рендеринга (render targets), а также суммарное количество занимаемой памяти."
+# msgstr ""
+# "Is located in the bottom right corner of the rendering area. It displays the"
+# " amount of video memory used by geometry, textures, render targets, and also"
+# " the total memory usage."
+msgstr ""
+
+#: ../viewer.rst:131
+msgid "**Индикатор видео-памяти**"
+# msgstr "**Video memory indicator**"
+msgstr ""
+
+#: ../viewer.rst:134
+msgid "**Индикатор ошибок при загрузке сцены**"
+# msgstr "**Scene load errors indicator**"
+msgstr ""
+
+#: ../viewer.rst:134
+msgid ""
+"Находится под счетчиком количества кадров. Выводит ошибки и предупреждения "
+"при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, "
+"зеленый - загрузка сцены прошла успешно."
+# msgstr ""
+# "Is located under the FPS counter. Shows errors and warnings which occurred "
+# "during scene load. Red light means errors, yellow - warnings and green means"
+# " that the scene was loaded successfully."
+msgstr ""

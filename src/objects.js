@@ -135,6 +135,9 @@ function clear_outline_anim(obj) {
  */
 exports.update_object = function(bpy_obj, obj) {
 
+    obj.uuid = bpy_obj["uuid"];
+    obj.bpy_origin = true;
+
     prepare_default_actions(bpy_obj, obj);
 
     bpy_obj._is_dynamic = obj.is_dynamic = calc_is_dynamic(bpy_obj, obj);
@@ -368,7 +371,7 @@ exports.update_object = function(bpy_obj, obj) {
     objects_storage_add(obj);
 }
 
-exports.update_object_relations = function(obj) {
+exports.update_object_relations = function(bpy_obj, obj) {
     var render = obj.render;
 
     if (obj.parent) {
@@ -404,7 +407,6 @@ exports.update_object_relations = function(obj) {
         }
     }
     if (obj.type == "ARMATURE") {
-        var bpy_obj = obj.temp_bpy_obj;
         var pose_bones = bpy_obj["pose"]["bones"];
         for (var i = 0; i < pose_bones.length; i++) {
             var pose_bone = pose_bones[i];
@@ -424,7 +426,7 @@ exports.update_object_relations = function(obj) {
     }
 
     if (obj.type == "MESH" && render.reflective)
-        attach_reflection_data(obj);
+        attach_reflection_data(bpy_obj, obj);
 }
 
 function has_dynamic_physics(obj) {
@@ -447,14 +449,14 @@ function update_force(obj) {
     }
 }
 
-function attach_reflection_data(obj) {
+function attach_reflection_data(bpy_obj, obj) {
     var render = obj.render;
 
     if (render.reflection_type == "CUBE")
         render.cube_reflection_id = _cube_refl_counter++;
     else if (render.reflection_type == "PLANE") {
 
-        var refl_plane_obj = get_reflection_plane_obj(obj);
+        var refl_plane_obj = get_reflection_plane_obj(bpy_obj, obj);
 
         if (!refl_plane_obj)
             refl_plane_obj = create_default_refl_plane(obj);
@@ -493,13 +495,17 @@ function create_default_refl_plane(obj) {
     return reflection_plane;
 }
 
-function get_reflection_plane_obj(obj) {
-    var bpy_obj = obj.temp_bpy_obj;
+function get_reflection_plane_obj(bpy_obj, obj) {
     var constraints = bpy_obj["constraints"];
     for (var i = 0; i < constraints.length; i++) {
         var cons = constraints[i];
         if (cons["type"] == "LOCKED_TRACK" && cons.name == "REFLECTION PLANE")
+            if (cons["target"]._object)
                 return cons["target"]._object;
+            else
+                m_print.warn("Reflection plane target \"" +
+                    cons["target"]["name"] + "\" for object: \"" + obj.name +
+                    "\" is not present on the scene. Using object's Z-axis.");
     }
     return null;
 }
@@ -872,6 +878,8 @@ function copy_object(obj, new_name, deep_copy) {
 
     var new_obj = m_obj_util.create_object(name, obj.type, origin_name);
 
+    new_obj.bpy_origin = obj.bpy_origin;
+
     // NOTE: not all props are needed or supported for the copied object
     new_obj.is_dynamic = obj.is_dynamic;
     new_obj.is_hair_dupli = obj.is_hair_dupli;
@@ -887,14 +895,15 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.parent_is_dupli = obj.parent_is_dupli;
     new_obj.parent_bone = obj.parent_bone;
 
-    new_obj.temp_bpy_obj = obj.temp_bpy_obj;
-
     // copied object can't be a vehicle, floater or character
     if (obj.physics && !(obj.is_vehicle || obj.is_character 
             || obj.is_floating)) {
         new_obj.use_obj_physics = obj.use_obj_physics;
         new_obj.physics = m_obj_util.copy_object_props_by_value(obj.physics);
     }
+
+    new_obj.collision_id = obj.collision_id;
+    new_obj.correct_bounding_offset = obj.correct_bounding_offset;
 
     new_obj.physics_settings =
             m_obj_util.copy_object_props_by_value(obj.physics_settings);
@@ -911,7 +920,6 @@ function copy_object(obj, new_name, deep_copy) {
 
 function copy_batches(obj, new_obj, deep_copy) {
     var bpy_bufs_data = [];
-    var uuid = m_util.gen_uuid();
     for (var i = 0; i < obj.scenes_data.length; i++) {
 
         var sc_data = obj.scenes_data[i];
@@ -940,8 +948,8 @@ function copy_batches(obj, new_obj, deep_copy) {
                 if (new_batches[j].bufs_data)
                     m_geom.update_gl_buffers(new_batches[j].bufs_data);
 
-                //create unique batch ID
-                new_batches[j].odd_id_prop = uuid;
+                // to create unique batch ID
+                new_batches[j].odd_id_prop = new_obj.uuid;
                 m_batch.update_batch_id(new_batches[j],
                                         m_batch.calculate_render_id(new_obj.render));
             }
@@ -977,6 +985,8 @@ function prepare_physics_settings(bpy_obj, obj) {
     obj.is_character = bpy_obj["b4w_character"];
     obj.is_floating = bpy_obj["b4w_floating"];
     obj.use_obj_physics = bpy_obj["b4w_collision"];
+    obj.collision_id = bpy_obj["b4w_collision_id"];
+    obj.correct_bounding_offset = bpy_obj["b4w_correct_bounding_offset"];
 
     var game = bpy_obj["game"];
 
@@ -1088,19 +1098,21 @@ function prepare_physics_settings(bpy_obj, obj) {
 }
 
 function prepare_default_actions(bpy_obj, obj) {
-    var anim_data = bpy_obj["animation_data"];
-    var speak_anim_data = bpy_obj["data"]["animation_data"];
+    var obj_anim_data = bpy_obj["animation_data"];
+    var data_anim_data = bpy_obj["data"]["animation_data"];
 
-    if (anim_data && anim_data["action"]) {
-        var action = anim_data["action"];
+    if (obj_anim_data && obj_anim_data["action"]) {
+        var action = obj_anim_data["action"];
 
         if (action._render.type == m_anim.AT_OBJECT || 
-                action._render.type == m_anim.AT_ARMATURE && obj.type == "ARMATURE")
+                action._render.type == m_anim.AT_ARMATURE && obj.type == "ARMATURE" ||
+                action._render.type == m_anim.AT_LIGHT && obj.type == "LAMP")
             obj.actions.push(action);
     }
 
-    if (speak_anim_data && speak_anim_data["action"] && obj.type == "SPEAKER")
-        obj.actions.push(speak_anim_data["action"]);
+    if (data_anim_data && data_anim_data["action"] && (obj.type == "SPEAKER"
+                                                    || obj.type == "LAMP"))
+        obj.actions.push(data_anim_data["action"]);
 
     // NOTE: nla material tracks are considered during the nla's object updating
     // and aren't presented in the actions property
@@ -1362,16 +1374,14 @@ function get_scene_objs(scene, type, data_id) {
 }
 
 /**
- * Get all objects derived from the source bpy objects on a certain scene 
- * (ignoring meta-objects).
+ * Get all objects derived from the source bpy objects on a certain scene.
  */
 exports.get_scene_objs_derived = function(scene, type, data_id) {
     var objs_by_type = _all_objects[type] || [];
     var objs = [];
     for (var i = 0; i < objs_by_type.length; i++) {
-
         var obj = objs_by_type[i];
-        if (obj.render.data_id != data_id && data_id != DATA_ID_ALL || !obj.temp_bpy_obj)
+        if (obj.render.data_id != data_id && data_id != DATA_ID_ALL || !obj.bpy_origin)
             continue;
 
         var scenes_data = obj.scenes_data;

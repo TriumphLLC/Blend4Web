@@ -17,9 +17,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 9, 0),
+    "version": (15, 10, 0),
     "blender": (2, 76, 0),
-    "b4w_format_version": "5.06",
+    "b4w_format_version": "5.07",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
     "warning": "",
@@ -69,6 +69,7 @@ b4w_modules = [
     "logic_node_tree",
     "server",
     "addon_prefs",
+    "ui_scene",
 ]
 for m in b4w_modules:
     exec(load_module_script.format(m))
@@ -179,7 +180,7 @@ def nla_slots_to_nodetree_convert():
                     tree = bpy.data.node_groups.new("B4WLogicNodeTree", "B4WLogicNodeTreeType")
                     tree.import_slots(scene)
                     tree.use_fake_user = True
-                    logic_node_tree.b4w_logic_editor_refresh_available_trees()
+                    ui_scene.b4w_logic_editor_refresh_available_trees()
                     scene.b4w_active_logic_node_tree = tree.name
                     scene.b4w_use_logic_editor = True
 

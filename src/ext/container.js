@@ -34,6 +34,13 @@ var m_print  = require("__print");
 exports.get_canvas = m_cont.get_canvas;
 
 /**
+ * Returns the HUD element.
+ * @method module:container.get_canvas_hud
+ * @returns {HTMLElement} Canvas hud element
+ */
+exports.get_canvas_hud = m_cont.get_canvas_hud;
+
+/**
  * Returns the HTML element which contains the 3D canvas.
  * @method module:container.get_container
  * @returns {HTMLElement} Canvas container element
@@ -94,5 +101,22 @@ exports.client_to_canvas_coords = m_cont.client_to_canvas_coords;
  * @method module:container.force_offsets_updating
  */
 exports.force_offsets_updating = m_cont.force_offsets_updating;
+
+/**
+ * Resize the rendering canvas.
+ * @method module:container.resize
+ * @param {Number} width New canvas width
+ * @param {Number} height New canvas height
+ * @param {Boolean} [update_canvas_css=true] Change canvas CSS width/height
+ */
+exports.resize = function(width, height, update_canvas_css) {
+
+    if (!width || !height)
+        m_print.warn("Wrong canvas container dimensions: " + width + "x" + height 
+                + ". Zero dimensions aren't allowed. Resized to: " 
+                + m_cont.DEFAULT_CANVAS_W + "x" + m_cont.DEFAULT_CANVAS_H + ".");
+
+    m_cont.resize(width, height, update_canvas_css);
+}
 
 }

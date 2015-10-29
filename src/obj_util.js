@@ -29,6 +29,7 @@ var m_mat4  = require("__mat4");
 var m_print = require("__print");
 var m_quat  = require("__quat");
 var m_tsr   = require("__tsr");
+var m_util  = require("__util");
 var m_vec4  = require("__vec4");
 
 var _vec4_tmp   = new Float32Array(4);
@@ -222,10 +223,12 @@ function create_object(name, type, origin_name) {
     var obj = {
 
         name: name,
+        uuid: m_util.gen_uuid(),
         origin_name: origin_name,
         type: type,
 
-        is_meta: false,
+        bpy_origin: false,
+
         is_dynamic: false,
         is_hair_dupli: false,
         use_default_animation: false,
@@ -256,6 +259,8 @@ function create_object(name, type, origin_name) {
         parent_bone: "",
 
         use_obj_physics: false,
+        collision_id: "",
+        correct_bounding_offset: "AUTO",
         is_vehicle: false,
         is_character: false,
         is_floating: false,
@@ -302,18 +307,8 @@ function create_object(name, type, origin_name) {
         anim_behavior_def: 0,
         actions: [],
 
-        need_update_transform: false, // used for armature bones constraints
-        temp_bpy_obj: null
+        need_update_transform: false // used for armature bones constraints
     };
-    return obj;
-}
-
-/**
- * Additional meta-object which in general doesn't match with any of the scene objects.
- */
-exports.create_meta_object = function(name, type) {
-    var obj = create_object(name, type);
-    obj.is_meta = true;
     return obj;
 }
 

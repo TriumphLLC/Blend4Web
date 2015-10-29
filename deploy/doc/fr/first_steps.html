@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Экспресс-установка &mdash; User Manual: Blend4Web vv15.10</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="À propos de ces documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+        <link rel="next" title="Развёртывание среды разработки" href="setup.html"/>
+        <link rel="prev" title="Функционал движка" href="features.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Экспресс-установка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#blender">Установка программы Blender</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-1">Установка аддона движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#blend4web">Профиль Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-install-export-viewer">Экспорт и просмотр сцены</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-install-addon-upgrade">Установка новой версии аддона</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Экспресс-установка</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-install">
+<span id="id1"></span><h1>Экспресс-установка<a class="headerlink" href="#quick-install" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Экспресс-установка аддона Blend4Web подойдет обычным пользователям, которым не требуется разработка полноценных 3D приложений.
+Основной возможностью в этом случае является экспорт сцены в один HTML-файл с последующим просмотром в браузере, поддерживающем WebGL.</p>
+<p>Для более серьезных задач необходима установка <a class="reference internal" href="setup.html#setup"><span>комплекта средств разработки</span></a>.</p>
+<span class="target" id="quick-install-blender"></span><div class="section" id="blender">
+<span id="index-0"></span><h2>Установка программы Blender<a class="headerlink" href="#blender" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Создание 3D сцен осуществляется в графическом пакете <a class="reference external" href="http://ru.wikipedia.org/wiki/Blender">Blender</a>, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.</p>
+<p>Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с <a class="reference external" href="http://www.blender.org/download">официального сайта</a>.</p>
+<a class="reference internal image-reference" href="_images/blender_first_run.jpg"><img alt="_images/blender_first_run.jpg" class="align-center" src="_images/blender_first_run.jpg" style="width: 100%;" /></a>
+<span class="target" id="quick-install-addon"></span></div>
+<div class="section" id="index-1">
+<span id="id4"></span><h2>Установка аддона движка<a class="headerlink" href="#index-1" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>.
+Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Во вкладке <code class="file docutils literal"><span class="pre">Addons</span></code> нажать <code class="file docutils literal"><span class="pre">Install</span> <span class="pre">from</span> <span class="pre">File...</span></code> и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>.</p>
+<a class="reference internal image-reference" href="_images/user_preferences_install_b4w.jpg"><img alt="_images/user_preferences_install_b4w.jpg" class="align-center" src="_images/user_preferences_install_b4w.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Далее нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и закрыть окно пользовательских настроек.</p>
+</div>
+<div class="section" id="blend4web">
+<span id="quick-install-engine-select"></span><span id="index-2"></span><h2>Профиль Blend4Web<a class="headerlink" href="#blend4web" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:</p>
+<a class="reference internal image-reference" href="_images/selecting_engine.jpg"><img alt="_images/selecting_engine.jpg" class="align-center" src="_images/selecting_engine.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="quick-install-export-viewer">
+<span id="index-3"></span><span id="id5"></span><h2>Экспорт и просмотр сцены<a class="headerlink" href="#quick-install-export-viewer" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">Voir aussi</p>
+<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>Поддержка WebGL в браузерах</span></a></p>
+</div>
+</div>
+<div class="section" id="quick-install-addon-upgrade">
+<span id="index-4"></span><span id="id6"></span><h2>Установка новой версии аддона<a class="headerlink" href="#quick-install-addon-upgrade" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Чтобы установить новую версию аддона, необходимо <strong>сначала отключить, а затем удалить</strong> старую версию.</p>
+<p>Для отключения аддона запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>. Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Перейти на вкладку <code class="file docutils literal"><span class="pre">Addons</span></code> и выбрать категорию <code class="file docutils literal"><span class="pre">Import-Export</span></code>. Снять галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>. Далее нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и <strong>перезапустить Blender</strong>.</p>
+<p>Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку <code class="file docutils literal"><span class="pre">Remove</span></code>.</p>
+<a class="reference internal image-reference" href="_images/user_preferences_disable_addon.jpg"><img alt="_images/user_preferences_disable_addon.jpg" class="align-center" src="_images/user_preferences_disable_addon.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="setup.html" class="btn btn-neutral float-right" title="Развёртывание среды разработки" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="features.html" class="btn btn-neutral" title="Функционал движка" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Mis à jour le 2015-10-29.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

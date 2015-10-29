@@ -64,7 +64,7 @@ Table of contents
 
   * Installing the Addon
 
-  * Blend4Web mode
+  * Blend4Web Mode
 
   * Exporting and Viewing Scenes
 
@@ -76,7 +76,7 @@ Table of contents
 
   * Setting up the Add-on
 
-  * Blend4Web mode
+  * Blend4Web Mode
 
   * Local Development Server
 
@@ -240,9 +240,9 @@ Table of contents
 
   * Color Correction
 
-  * Anti-Aliasing
-
   * Glow
+
+  * Anti-Aliasing
 
 * Particle System. Fluids
 
@@ -405,6 +405,8 @@ Table of contents
   * WebGL Failed to Init
 
 * Release Notes
+
+  * v15.10
 
   * v15.09
 

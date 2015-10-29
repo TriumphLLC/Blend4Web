@@ -1,5 +1,5 @@
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 #include <pack.glslf>
 
 uniform sampler2D u_main;
@@ -21,6 +21,9 @@ void main(void) {
             + u_god_rays_intensity * vec3(god_rays) * lcolorint;
     lin_to_srgb(fin_color);
 
-    gl_FragColor.rgb = fin_color;
-    gl_FragColor.a = main_col.a;
+#if SAFARI_CANVAS_ALPHA_HACK
+    gl_FragColor = vec4(fin_color, max(0.01, main_col.a));
+#else
+    gl_FragColor = vec4(fin_color, main_col.a);
+#endif
 }

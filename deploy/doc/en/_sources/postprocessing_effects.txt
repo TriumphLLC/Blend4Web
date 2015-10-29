@@ -289,37 +289,6 @@ Additional settings
    The default value is 1.0.
 
 
-Anti-Aliasing
-=============
-
-Anti-aliasing is used to reduce undesirable rendering artefacts (poor
-pixelization).
-
-[image]
-
-
-Activation
-----------
-
-Activate the "Enable Antialiasing" option on the "Render >
-Antialiasing" panel.
-
-
-Additional settings
--------------------
-
-The anti-aliasing method is assigned simultaneously with the selection
-of the engine performance profile.
-
-   * *low quality* - anti-aliasing is disabled
-
-   * *high quality* - the anti-aliasing method is FXAA (Fast
-     Approximate Anti-Aliasing) by Nvidia
-
-   * *maximum quality* - the anti-aliasing method is SMAA (Enhanced
-     Subpixel Morphological Anti-Aliasing) by Crytek
-
-
 Glow
 ====
 
@@ -358,3 +327,38 @@ Additional settings
 
 *Render Glow Over Transparent Object*
    Render the glow effect over transparent objects.
+
+
+Anti-Aliasing
+=============
+
+Anti-aliasing is used to reduce undesirable rendering artefacts (poor
+pixelization).
+
+[image]
+
+
+Activation
+----------
+
+Select quality profile using "AA Quality" menu located on the "Render
+> Anti-Aliasing" panel.
+
+   * *None* - disable anti-aliasing,
+
+   * *Low*, *Medium*, *High* - enable anti-aliasing with the given
+     quality profile.
+
+*Medium* profile is used by default.
+
+
+Additional settings
+-------------------
+
+The anti-aliasing method is assigned simultaneously with the selection
+of the engine performance profile:
+
+   * *low quality* - no anti-aliasing,
+
+   * *high quality* and *ultra quality* - use the FXAA 3.11
+     algorithm (Fast Approximate Anti-Aliasing by Nvidia).

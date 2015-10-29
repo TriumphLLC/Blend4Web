@@ -24,10 +24,21 @@
  */
 b4w.module["__container"] = function(exports, require) {
 
-var m_print = require("__print");
-var m_util  = require("__util");
+var m_anchors = require("__anchors");
+var m_cfg     = require("__config");
+var m_data    = require("__data");
+var m_hud     = require("__hud");
+var m_obj     = require("__objects");
+var m_print   = require("__print");
+var m_scenes  = require("__scenes");
+var m_time    = require("__time");
+var m_trans   = require("__transform");
+var m_util    = require("__util");
+
+var cfg_def = m_cfg.defaults;
 
 var _canvas      = null;
+var _canvas_hud  = null;
 var _canvas_cont = null;
 
 // NOTE: for optimization, to request canvas bounds only once a frame
@@ -41,17 +52,39 @@ var _viewport_layout = {
     offset_left: 0  // css pixels
 }
 
-exports.get_canvas = function() {
+var _gl = null;
+
+// default canvas dimensions
+exports.DEFAULT_CANVAS_W = 320;
+exports.DEFAULT_CANVAS_H = 240;
+
+/**
+ * Setup WebGL context
+ * @param gl WebGL context
+ */
+exports.setup_context = function(gl) {
+    _gl = gl;
+}
+
+exports.get_canvas = get_canvas;
+function get_canvas() {
     return _canvas;
 }
 
-exports.get_container = function() {
+exports.get_canvas_hud = get_canvas_hud;
+function get_canvas_hud() {
+    return _canvas_hud;
+}
+
+exports.get_container = get_container;
+function get_container() {
     return _canvas_cont;
 }
 
-exports.init = function(canvas) {
+exports.init = function(canvas, canvas_hud) {
     if (canvas && canvas.parentNode) {
         _canvas      = canvas;
+        _canvas_hud  = canvas_hud;
         _canvas_cont = canvas.parentNode;
     } else
         m_util.panic("canvas container is not available");
@@ -110,7 +143,8 @@ function update_canvas_offsets() {
     set_canvas_offsets(boundaries.left, boundaries.top);
 }
 
-exports.setup_viewport_dim = function(width, height, scale) {
+exports.setup_viewport_dim = setup_viewport_dim;
+function setup_viewport_dim(width, height, scale) {
     _viewport_layout.width = width;
     _viewport_layout.height = height;
     _viewport_layout.scale = scale;
@@ -190,6 +224,13 @@ exports.is_child = function(elem) {
         return exports.is_child(elem.parentNode);
 }
 
+exports.is_hidpi = is_hidpi;
+function is_hidpi() {
+    if (cfg_def.allow_hidpi && window.devicePixelRatio >= 2)
+        return true;
+    return false;
+}
+
 exports.find_script = function(src) {
     var scripts = document.getElementsByTagName("script");
     var norm_src = m_util.normpath_preserve_protocol(src);
@@ -200,6 +241,95 @@ exports.find_script = function(src) {
     }
 
     return null;
+}
+
+exports.resize = resize;
+function resize(width, height, update_canvas_css) {
+    if (!width || !height) {
+        width = exports.DEFAULT_CANVAS_W;
+        height = exports.DEFAULT_CANVAS_H;
+
+        var canvas_cont = get_container();
+        canvas_cont.style.width = exports.DEFAULT_CANVAS_W + "px";
+        canvas_cont.style.height = exports.DEFAULT_CANVAS_H + "px";
+    }
+
+    var canvas_webgl = get_canvas();
+    var canvas_hud   = get_canvas_hud();
+
+    if (update_canvas_css !== false) {
+        canvas_webgl.style.width = width + "px";
+        canvas_webgl.style.height = height + "px";
+
+        if (canvas_hud) {
+            canvas_hud.style.width = width + "px";
+            canvas_hud.style.height = height + "px";
+        }
+    }
+
+    if (canvas_hud) {
+        // no HIDPI/resolution factor for HUD canvas
+        canvas_hud.width  = width;
+        canvas_hud.height = height;
+        m_hud.update_dim();
+    }
+
+    if (navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i))
+            cfg_def.canvas_resolution_factor = 1;
+
+    var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
+    var ch = Math.floor(height * cfg_def.canvas_resolution_factor);
+
+    if (is_hidpi()) {
+        cw *= window.devicePixelRatio;
+        ch *= window.devicePixelRatio;
+    }
+
+    if (m_data.is_primary_loaded()) {
+        var scene = m_scenes.get_active();
+        var sc_render = scene._render;
+        cw = Math.floor(cw * sc_render.resolution_factor);
+        ch = Math.floor(ch * sc_render.resolution_factor);
+    }
+
+    canvas_webgl.width  = cw;
+    canvas_webgl.height = ch;
+
+    if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
+        m_print.warn("Canvas size exceeds platform limits, downscaling");
+
+        var downscale = Math.min(_gl.drawingBufferWidth/cw,
+                _gl.drawingBufferHeight/ch);
+
+        cw *= downscale;
+        ch *= downscale;
+
+        canvas_webgl.width  = cw;
+        canvas_webgl.height = ch;
+    }
+
+    m_scenes.setup_dim(cw, ch, cw/width);
+
+    // needed for frustum culling/constraints
+    if (m_scenes.check_active())
+        m_trans.update_transform(m_scenes.get_active()._camera);
+
+    m_data.update_media_controls(canvas_webgl.width, canvas_webgl.height);
+
+    // possible unload in controls callbacks
+    if (!m_data.is_primary_loaded())
+        return;
+
+    // anchors
+    m_anchors.update();
+
+    // rendering
+    m_scenes.update(m_time.get_timeline(), 0);
+
+    // anchors
+    m_anchors.update_visibility();
 }
 
 }

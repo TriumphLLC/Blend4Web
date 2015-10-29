@@ -9,4 +9,3 @@ void main(void) {
     
     gl_Position = vec4(4.0 * (a_position.xy-0.25), 0.0, 1.0);
 }
-

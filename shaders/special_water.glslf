@@ -23,7 +23,7 @@
 #include <precision_statement.glslf>
 #include <procedural.glslf>
 #include <pack.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 #include <math.glslv>
 
 #define REFL_BUMP 0.001  //How much normal affects reflection displacement

@@ -39,6 +39,8 @@ var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 var m_vec3      = require("__vec3");
 var m_armat     = require("__armature");
+var m_lights    = require("__lights");
+var m_scs       = require("__scenes");
 
 var cfg_ani = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
@@ -54,6 +56,7 @@ var OBJ_ANIM_TYPE_VERTEX     = 30;
 var OBJ_ANIM_TYPE_SOUND      = 40;
 var OBJ_ANIM_TYPE_PARTICLES  = 50;
 var OBJ_ANIM_TYPE_MATERIAL   = 60;
+var OBJ_ANIM_TYPE_LIGHT      = 70;
 
 exports.OBJ_ANIM_TYPE_NONE      = OBJ_ANIM_TYPE_NONE;
 exports.OBJ_ANIM_TYPE_ARMATURE  = OBJ_ANIM_TYPE_ARMATURE;
@@ -62,6 +65,7 @@ exports.OBJ_ANIM_TYPE_VERTEX    = OBJ_ANIM_TYPE_VERTEX;
 exports.OBJ_ANIM_TYPE_SOUND     = OBJ_ANIM_TYPE_SOUND;
 exports.OBJ_ANIM_TYPE_PARTICLES = OBJ_ANIM_TYPE_PARTICLES;
 exports.OBJ_ANIM_TYPE_MATERIAL  = OBJ_ANIM_TYPE_MATERIAL;
+exports.OBJ_ANIM_TYPE_LIGHT     = OBJ_ANIM_TYPE_LIGHT;
 
 var SLOT_0   = 0;
 var SLOT_1   = 1;
@@ -105,6 +109,7 @@ var AT_ARMATURE = exports.AT_ARMATURE = 1;
 var AT_SPEAKER = exports.AT_SPEAKER = 2;
 var AT_OBJECT = exports.AT_OBJECT = 3;
 var AT_MATERIAL = exports.AT_MATERIAL = 4;
+var AT_LIGHT = exports.AT_LIGHT = 5;
 
 var _frame_info_tmp = new Array(3);
 var _vec3_tmp = new Float32Array(3);
@@ -275,6 +280,9 @@ function init_anim(obj, slot_num) {
 
         volume: null,
         pitch: null,
+
+        color: null,
+        energy: null,
 
         nodemat_values: [],
         node_value_inds: [],
@@ -653,9 +661,9 @@ exports.obj_is_animatable = function(obj) {
 
     for (var i = 0; i < obj.actions.length; i++) {
         var act_type = obj.actions[i]._render.type;
-
         if (act_type == AT_OBJECT || act_type == AT_ARMATURE 
                 || act_type == AT_SPEAKER && obj.type == "SPEAKER"
+                || act_type == AT_LIGHT && obj.type == "LAMP"
                 || act_type == AT_MATERIAL && obj.type == "MESH")
             return true;
     }
@@ -756,6 +764,14 @@ function apply_action(obj, action, slot_num) {
             anim_slot.volume = act_render.params["volume"] || null;
             anim_slot.pitch = act_render.params["pitch"] || null;
             anim_slot.type = OBJ_ANIM_TYPE_SOUND;
+        }
+        break;
+
+    case AT_LIGHT:
+        if (m_obj_util.is_lamp(obj)) {
+            anim_slot.color = act_render.params["color"] || null;
+            anim_slot.energy = act_render.params["energy"] || null;
+            anim_slot.type = OBJ_ANIM_TYPE_LIGHT;
         }
         break;
 
@@ -1070,7 +1086,7 @@ function animate(obj, elapsed, slot_num, force_update) {
         // NOTE: skeletal animation blending is being processed after animate()
         if (!render.anim_mixing) {
 
-            var finfo = action_anim_finfo(anim_slot, cff, _frame_info_tmp);
+            var finfo = action_anim_finfo(anim_slot);
 
             var frame = finfo[0];
             var frame_next = finfo[1];
@@ -1089,7 +1105,7 @@ function animate(obj, elapsed, slot_num, force_update) {
         break;
 
     case OBJ_ANIM_TYPE_OBJECT:
-        var finfo = action_anim_finfo(anim_slot, cff, _frame_info_tmp);
+        var finfo = action_anim_finfo(anim_slot);
 
         var trans = get_anim_translation(anim_slot, 0, finfo, _vec3_tmp);
         var quat = get_anim_rotation(anim_slot, 0, finfo, _quat4_tmp);
@@ -1123,15 +1139,14 @@ function animate(obj, elapsed, slot_num, force_update) {
         break;
 
     case OBJ_ANIM_TYPE_VERTEX:
-        vertex_anim_finfo(anim_slot, cff, _frame_info_tmp);
-        var finfo = _frame_info_tmp;
+        var finfo = vertex_anim_finfo(anim_slot);
 
         render.va_frame = finfo[0];
         render.va_frame_factor = finfo[2];
         break;
 
     case OBJ_ANIM_TYPE_SOUND:
-        var finfo = action_anim_finfo(anim_slot, cff, _frame_info_tmp);
+        var finfo = action_anim_finfo(anim_slot);
         var fc = finfo[0];
         var fn = finfo[1];
         var ff = finfo[2];
@@ -1153,7 +1168,7 @@ function animate(obj, elapsed, slot_num, force_update) {
         break;
 
     case OBJ_ANIM_TYPE_MATERIAL:
-        var finfo = action_anim_finfo(anim_slot, cff, _frame_info_tmp);
+        var finfo = action_anim_finfo(anim_slot);
         var fc = finfo[0];
         var fn = finfo[1];
         var ff = finfo[2];
@@ -1184,6 +1199,34 @@ function animate(obj, elapsed, slot_num, force_update) {
         }
         break;
 
+    case OBJ_ANIM_TYPE_LIGHT:
+        var finfo = action_anim_finfo(anim_slot);
+        var fc = finfo[0];
+        var fn = finfo[1];
+        var ff = finfo[2];
+
+        var mask = anim_slot.channels_mask;
+
+        var energy = anim_slot.energy;
+        if (energy && mask[0]) {
+            var en = (1-ff) * energy[fc] + ff * energy[fn];
+            m_lights.set_light_energy(obj.light, en);
+        }
+
+        var color = anim_slot.color;
+        if (color && mask[1]) {
+            _vec3_tmp[0] = (1-ff) * color[3 * fc]     + ff * color[3 * fn];
+            _vec3_tmp[1] = (1-ff) * color[3 * fc + 1] + ff * color[3 * fn + 1];
+            _vec3_tmp[2] = (1-ff) * color[3 * fc + 2] + ff * color[3 * fn + 2];
+            m_lights.set_light_color(obj.light, _vec3_tmp);
+        }
+
+        var scenes_data = obj.scenes_data;
+        for (var i = 0; i < scenes_data.length; i++)
+            m_scs.update_lamp_scene_color_intensity(obj, scenes_data[i].scene);
+
+        break;
+
     default:
         m_util.panic("Unknown animation type:" + anim_type);
         break;
@@ -1193,10 +1236,8 @@ function animate(obj, elapsed, slot_num, force_update) {
 /**
  * Calculate integer frame, frame_next and float frame_factor
  */
-function action_anim_finfo(anim_slot, cff, dest) {
-    if (!dest)
-        var dest = new Array(3);
-
+function action_anim_finfo(anim_slot) {
+    var cff = anim_slot.current_frame_float;
     var action_start = anim_slot.action_frame_range[0];
     var action_end = anim_slot.action_frame_range[1];
 
@@ -1223,20 +1264,18 @@ function action_anim_finfo(anim_slot, cff, dest) {
 
     var frame_next = Math.ceil(frame + frame_factor);
 
-    dest[0] = frame;
-    dest[1] = frame_next;
-    dest[2] = frame_factor;
+    _frame_info_tmp[0] = frame;
+    _frame_info_tmp[1] = frame_next;
+    _frame_info_tmp[2] = frame_factor;
 
-    return dest;
+    return _frame_info_tmp;
 }
 
 /**
  * Calculate integer frame, frame_next and float frame_factor
  */
-function vertex_anim_finfo(anim_slot, cff, dest) {
-    if (!dest)
-        var dest = new Array(3);
-
+function vertex_anim_finfo(anim_slot) {
+    var cff = anim_slot.current_frame_float;
     // index in VBO array, starting from 0
     var index_float = cff - anim_slot.start;
 
@@ -1261,11 +1300,11 @@ function vertex_anim_finfo(anim_slot, cff, dest) {
     // take into account previous vertex anims
     var va_frame_offset = anim_slot.va_frame_offset;
 
-    dest[0] = frame + va_frame_offset;
-    dest[1] = frame_next + va_frame_offset;
-    dest[2] = frame_factor;
+    _frame_info_tmp[0] = frame + va_frame_offset;
+    _frame_info_tmp[1] = frame_next + va_frame_offset;
+    _frame_info_tmp[2] = frame_factor;
 
-    return dest;
+    return _frame_info_tmp;
 }
 
 function animate_skinned_objs(render, anim_slot, frame, frame_next) {
@@ -1306,8 +1345,7 @@ function mix_skeletal_animation(obj, elapsed) {
 
         if (skeletal_slot_0.play || elapsed == 0) {
 
-            var cff_0 = skeletal_slot_0.current_frame_float;
-            var finfo_0 = action_anim_finfo(skeletal_slot_0, cff_0, _frame_info_tmp);
+            var finfo_0 = action_anim_finfo(skeletal_slot_0);
 
             var frame_0 = finfo_0[0];
             var frame_next_0 = finfo_0[1];
@@ -1327,8 +1365,7 @@ function mix_skeletal_animation(obj, elapsed) {
 
     if (skeletal_slot_1.play || elapsed == 0) {
 
-        var cff_1 = skeletal_slot_1.current_frame_float;
-        var finfo_1 = action_anim_finfo(skeletal_slot_1, cff_1, _frame_info_tmp);
+        var finfo_1 = action_anim_finfo(skeletal_slot_1);
 
         var frame_1 = finfo_1[0];
         var frame_next_1 = finfo_1[1];
@@ -1728,7 +1765,10 @@ exports.append_action = function(action) {
     act_render.bflags = action._bflags;
     
     if ("tsr" in params)
-        set_act_channels_mask(fcurves, act_render.channels_mask);
+        set_tsr_act_channels_mask(fcurves, act_render.channels_mask);
+
+    if ("color" in params || "energy" in params)
+        set_lamp_act_channels_mask(fcurves, act_render.channels_mask);
 
     update_action_type(action);
 
@@ -1750,6 +1790,8 @@ function update_action_type(action) {
             act_render.type = AT_SPEAKER;
         else if (is_material_action(action))
             act_render.type = AT_MATERIAL;
+        else if (is_light_action(action))
+            act_render.type = AT_LIGHT;
         else
             act_render.type = AT_OBJECT;
     } else
@@ -1766,7 +1808,21 @@ function is_material_action(action) {
     return false;
 }
 
-function set_act_channels_mask(fcurves, mask) {
+function is_light_action(action) {
+    var params = action._render.params;
+
+    if (params) {
+        var fcurves = action["fcurves"];
+        for (var param in fcurves)
+            if (param == "color" && !fcurves[param][3])
+                return true;
+            if (param == "energy")
+                return true;
+    }
+    return false;
+}
+
+function set_tsr_act_channels_mask(fcurves, mask) {
     mask[0] = mask[1] = mask[2] = 0;
     for (var data_path in fcurves) {
         var channels = fcurves[data_path];
@@ -1776,6 +1832,17 @@ function set_act_channels_mask(fcurves, mask) {
             mask[1] = 1;
         else if (data_path == "scale")
             mask[2] = 1;
+    }
+}
+
+function set_lamp_act_channels_mask(fcurves, mask) {
+    mask[0] = mask[1] = 0;
+    for (var data_path in fcurves) {
+        var channels = fcurves[data_path];
+        if (data_path == "energy")
+            mask[0] = 1;
+        else if (data_path == "color")
+            mask[1] = 1;
     }
 }
 
@@ -1910,7 +1977,7 @@ exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
                         out_cursor++;
                         break;
                     default:
-                        m_util.panic("Unknown keyframe intepolation mode: " + interp);
+                        m_util.panic("Unknown keyframe interpolation mode: " + interp);
                     }
                 }
             }

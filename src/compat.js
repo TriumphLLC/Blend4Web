@@ -32,6 +32,18 @@ var m_util  = require("__util");
 
 var MIN_VARYINGS_REQUIRED = 10;
 var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
+var AMD_MESA_RENDER_NAMES = ["R600", "RV610", "RV630", "RV620", "RV635", "RV670",
+        "RS780", "RS880", "RV770", "RV730", "RV710", "RV740", "CEDAR", "REDWOOD",
+        "JUNIPER", "CYPRESS", "PALM (Wrestler/Ontario)", "SUMO (Llano)",
+        "SUMO2 (Llano)", "ARUBA (Trinity/Richland)", "BARTS", "TURKS", "CAICOS",
+        "CAYMAN"];
+
+var cfg_anim = m_cfg.animation;
+var cfg_def = m_cfg.defaults;
+var cfg_ctx = m_cfg.context;
+var cfg_scs = m_cfg.scenes;
+var cfg_sfx = m_cfg.sfx;
+var cfg_phy = m_cfg.physics;
 
 exports.detect_tegra_invalid_enum_issue = function(gl) {
     // this hardware don't like context.antialias = true
@@ -41,13 +53,6 @@ exports.detect_tegra_invalid_enum_issue = function(gl) {
 }
 
 exports.set_hardware_defaults = function(gl) {
-    var cfg_anim = m_cfg.animation;
-    var cfg_def = m_cfg.defaults;
-    var cfg_ctx = m_cfg.context;
-    var cfg_scs = m_cfg.scenes;
-    var cfg_sfx = m_cfg.sfx;
-    var cfg_phy = m_cfg.physics;
-
     cfg_def.max_vertex_uniform_vectors = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
 
     cfg_def.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
@@ -60,6 +65,7 @@ exports.set_hardware_defaults = function(gl) {
         m_print.warn("Firefox 28 detected, applying depth hack");
         depth_tex_available = false;
     }
+
     if (!check_user_agent("Windows Phone"))
         if (check_user_agent("iPad") || check_user_agent("iPhone")) {
             m_print.warn("iOS detected, applying alpha hack, applying vertex "
@@ -78,7 +84,9 @@ exports.set_hardware_defaults = function(gl) {
         } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
                 && !check_user_agent("Chrome")) {
             m_print.warn("OS X / Safari detected, force to wait complete loading. " +
-                    "Applying playback rate hack for video textures.");
+                    "Applying playback rate hack for video textures. " + 
+                    "Applying canvas alpha hack.");
+            cfg_def.safari_canvas_alpha_hack = true;
             cfg_sfx.audio_loading_hack = true;
             cfg_sfx.clamp_playback_rate_hack = true;
         }
@@ -129,10 +137,10 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.shadows = false;
         cfg_def.reflections = false;
         cfg_def.refractions = false;
-        cfg_def.quality_aa = false;
+        cfg_def.quality_aa_method = false;
     }
     if (check_user_agent("Firefox") && cfg_def.is_mobile_device) {
-        m_print.warn("Mobile FireFox detected, applying depth hack");
+        m_print.warn("Mobile Firefox detected, applying depth hack, disable workers.");
         cfg_phy.use_workers = false;
         depth_tex_available = false;
     }
@@ -187,18 +195,18 @@ exports.set_hardware_defaults = function(gl) {
                          "setting max cubemap size to 256.");
             cfg_def.max_cube_map_size = 256;
         }
+        var architecture = check_disabled_architecture(gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL));
+        if (architecture) {
+            m_print.warn("Architecture " + architecture + " detected. Blending between frames" + 
+                    " and shadows on blend objects will be disabled.");
+            cfg_def.amd_skinning_hack = true;
+            cfg_def.disable_blend_shadows_hack = true;
+        }
     }
 
     if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) == 0) {
         m_print.warn("Vertex textures are not allowed. Disabling vertex textures");
         cfg_def.allow_vertex_textures = false;
-    }
-
-    // no need on HIDPI displays
-    if (cfg_def.allow_hidpi && window.devicePixelRatio > 1) {
-        m_print.log("%cENABLE HIDPI MODE", "color: #00a");
-        cfg_def.render_resolution_factor = 1;
-        cfg_def.smaa = false;
     }
 
     if (!depth_tex_available) {
@@ -298,6 +306,15 @@ exports.apply_context_alpha_hack = function() {
 exports.is_ie11 = is_ie11;
 function is_ie11() {
     return !(window.ActiveXObject) && "ActiveXObject" in window;
+}
+
+function check_disabled_architecture(info) {
+    for (var i = 0; i < AMD_MESA_RENDER_NAMES.length; i++)
+        if (info.indexOf(AMD_MESA_RENDER_NAMES[i]) > -1) {
+            return AMD_MESA_RENDER_NAMES[i];
+            break;
+        }
+    return "";
 }
 
 }

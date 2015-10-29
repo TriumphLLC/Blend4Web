@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-18 17:57\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-10-27 11:23+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -231,16 +231,14 @@ msgstr "Nodes for Colouring"
 #: ../gamma_alpha.rst:79
 msgid ""
 "При использовании текстур и вертексных цветов для окраски (не в качестве "
-"масок), необходима распаковка (sRGB -> Linear). Нода текстуры реализует "
-"распаковку автоматически. Для вертексного цвета распаковку необходимо "
-"осуществлять явно, с помощью специальной ноды `SRGB_TO_LINEAR`."
+"масок), необходима распаковка (sRGB -> Linear). Выход `Vertex Color` ноды "
+"`Geometry` и нода текстуры реализуют распаковку автоматически."
 msgstr ""
 "Unpacking (sRGB -> Linear) is required when textures and vertex colors are "
-"used for colouring (not for masking). The texture node implements unpacking "
-"automatically. For vertex colors the unpacking should be performed "
-"explicitely with the `SRGB_TO_LINEAR` special node."
+"used for colouring (not for masking). The texture node and `Vertex Color` "
+"output of `Geometry` node implement unpacking automatically."
 
-#: ../gamma_alpha.rst:83
+#: ../gamma_alpha.rst:82
 msgid ""
 "Отметим, что альфа-канал ноды текстуры коррекции не подвергается, его "
 "значения находятся в линейном пространстве."
@@ -248,54 +246,62 @@ msgstr ""
 "Note that the alpha channel of a texture node is not corrected. Its values "
 "are in the linear space."
 
-#: ../gamma_alpha.rst:86
+#: ../gamma_alpha.rst:85
 msgid "Ноды для масок"
 msgstr "Nodes for Masking"
 
-#: ../gamma_alpha.rst:88
+#: ../gamma_alpha.rst:87
 msgid ""
 "Текстуры и вертексные цвета могут использоваться в качестве масок, т.е. для "
-"смешения цветов или других математических операций. В таком случае в "
-"преобразованиях нет необходимости."
+"смешения цветов или других математических операций. В таком случае "
+"необходима упаковка (Linear -> sRGB)."
 msgstr ""
-"Textures and vertex colors can be used as masks i.e. for mixing colors and "
-"for other mathematical operations. In such a case no transformations are "
-"required."
+"Textures and vertex colors can be used as masks i.e. input data for some "
+"mathematical operations. In such a case the packing operation is required."
 
-#: ../gamma_alpha.rst:91
+#: ../gamma_alpha.rst:90
 msgid ""
-"В случае текстуры, тем не менее, имеется нюанс: нода текстуры реализует "
-"распаковку автоматически. Это приводит к необходимости дополнительного "
-"преобразования обратно в нелинейное пространство, для чего используется нода"
-" `LINEAR_TO_SRGB`."
+"Следует обратить внимание, что выход `Vertex Color` ноды `Geometry` и нода "
+"текстуры реализуют распаковку автоматически. Это приводит к необходимости "
+"дополнительного преобразования обратно в нелинейное пространство, для чего "
+"используется специальная нода `LINEAR_TO_SRGB` или нода `GAMMA` со значением"
+" γ = 1/2.2."
 msgstr ""
-"In case of a texture however there is a nuance: a texture node implements "
-"unpacking automatically. This results in necessity of the additional "
+"Keep in mind that a texture node and `Vertex Color` output of `Geometry` node "
+"implement unpacking automatically. This results in necessity of the additional "
 "transformation back to the non-linear space, for which the `LINEAR_TO_SRGB` "
-"node is used."
+"or `GAMMA` node with γ = 1/2.2 is used."
 
-#: ../gamma_alpha.rst:96
+#: ../gamma_alpha.rst:95
+msgid ""
+"Нода `LINEAR_TO_SRGB` считается устаревшей, следует использовать ноду "
+"`GAMMA`."
+msgstr ""
+"`LINEAR_TO_SRGB` and `SRGB_TO_LINEAR` nodes are deprecated. `GAMMA` node "
+"should be used instead."
+
+#: ../gamma_alpha.rst:98
 msgid "Карты нормалей"
 msgstr "Normal Maps"
 
-#: ../gamma_alpha.rst:98
+#: ../gamma_alpha.rst:100
 msgid ""
 "При использовании карт нормалей никакие преобразования не производятся."
 msgstr "No transformations are performed for normal maps. "
 
-#: ../gamma_alpha.rst:102
+#: ../gamma_alpha.rst:104
 msgid "Сводная таблица коррекции в нодовых материалах"
 msgstr "Summary Table"
 
-#: ../gamma_alpha.rst:106
+#: ../gamma_alpha.rst:108
 msgid "Случай использования"
 msgstr "Use case"
 
-#: ../gamma_alpha.rst:106
+#: ../gamma_alpha.rst:108
 msgid "Коррекция"
 msgstr "Correction"
 
-#: ../gamma_alpha.rst:108
+#: ../gamma_alpha.rst:110
 msgid ""
 "реализуется автоматически в ноде текстуры (альфа-канал коррекции не "
 "подвергается)"
@@ -303,51 +309,47 @@ msgstr ""
 "implemented automatically in the texture node (the alpha channel is not "
 "corrected)"
 
-#: ../gamma_alpha.rst:108
+#: ../gamma_alpha.rst:110
 msgid "Текстура для окраски"
 msgstr "Texture for colouring"
 
-#: ../gamma_alpha.rst:113
+#: ../gamma_alpha.rst:115
 msgid "Текстура для маски"
 msgstr "Texture for masking"
 
-#: ../gamma_alpha.rst:113
-msgid "LINEAR_TO_SRGB"
-msgstr ""
+#: ../gamma_alpha.rst:115 ../gamma_alpha.rst:119
+msgid "GAMMA со значением γ = 0.45"
+msgstr "`GAMMA` with γ = 0.45"
 
-#: ../gamma_alpha.rst:115
+#: ../gamma_alpha.rst:117
 msgid "Вертексный цвет для окраски"
 msgstr "Vertex color for colouring"
 
-#: ../gamma_alpha.rst:115
-msgid "SRGB_TO_LINEAR"
-msgstr ""
-
-#: ../gamma_alpha.rst:117 ../gamma_alpha.rst:119
-msgid "не требуется"
-msgstr "not required"
-
 #: ../gamma_alpha.rst:117
+msgid "реализуется автоматически"
+msgstr "implemented automatically"
+
+#: ../gamma_alpha.rst:119
 msgid "Вертексный цвет для маски"
 msgstr "Vertex color for masking"
 
-#: ../gamma_alpha.rst:119
+#: ../gamma_alpha.rst:121
+msgid "не требуется"
+msgstr "not required"
+
+#: ../gamma_alpha.rst:121
 msgid "Карта нормалей"
 msgstr "Normal map"
 
-#: ../gamma_alpha.rst:123
-msgid ":ref:`node_gamma`"
-msgstr ""
-
-#: ../gamma_alpha.rst:129
+#: ../gamma_alpha.rst:127
 msgid "Альфа-композитинг"
 msgstr "Alpha Compositing"
 
-#: ../gamma_alpha.rst:132
+#: ../gamma_alpha.rst:130
 msgid "Общие сведения"
 msgstr "Overview"
 
-#: ../gamma_alpha.rst:134
+#: ../gamma_alpha.rst:132
 msgid ""
 "Физически корректный альфа-композитинг осуществляется по формуле [`источник "
 "<http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
@@ -356,11 +358,11 @@ msgstr ""
 "[`source "
 "<http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
 
-#: ../gamma_alpha.rst:136
+#: ../gamma_alpha.rst:134
 msgid ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
 msgstr ""
 
-#: ../gamma_alpha.rst:138
+#: ../gamma_alpha.rst:136
 msgid ""
 "Формула отличается от классической операции смешивания (mix, выпуклая "
 "комбинация) наличием множителя :math:`\\alpha_b` во втором слагаемом. Таким "
@@ -374,7 +376,7 @@ msgstr ""
 " known for alpha compositing, but also the :math:`\\alpha_b` value of the "
 "pixel over which the rendering is performed."
 
-#: ../gamma_alpha.rst:140
+#: ../gamma_alpha.rst:138
 msgid ""
 "В случае предварительного умножения значений :math:`\\alpha` на цветовые "
 "каналы (т.н. premultiplied alpha) формула принимает вид:"
@@ -383,11 +385,11 @@ msgstr ""
 "color channels (so called premultiplied alpha) the formula becomes as "
 "following: "
 
-#: ../gamma_alpha.rst:143
+#: ../gamma_alpha.rst:141
 msgid ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
 msgstr ""
 
-#: ../gamma_alpha.rst:145
+#: ../gamma_alpha.rst:143
 msgid ""
 "Последняя формула используется также для расчёта результирующего значения "
 ":math:`\\alpha_o`:"
@@ -395,11 +397,11 @@ msgstr ""
 "The last formula is used also to calculate the resulting :math:`\\alpha_o` "
 "value:"
 
-#: ../gamma_alpha.rst:147
+#: ../gamma_alpha.rst:145
 msgid ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
 msgstr ""
 
-#: ../gamma_alpha.rst:149
+#: ../gamma_alpha.rst:147
 msgid ""
 "Предварительное умножение цветовых каналов на значения :math:`\\alpha` "
 "позволяет сэкономить две операции умножения. Еще более существенным является"
@@ -413,15 +415,15 @@ msgstr ""
 " divide the :math:`C_o` color by the :math:`\\alpha_o` value on each "
 "consequent iteration."
 
-#: ../gamma_alpha.rst:153
+#: ../gamma_alpha.rst:151
 msgid "Реализация"
 msgstr "Implementation"
 
-#: ../gamma_alpha.rst:155
+#: ../gamma_alpha.rst:153
 msgid "Функция смешивания в движке Blend4Web имеет вид:"
 msgstr "The blending function used in Blend4Web is the following:"
 
-#: ../gamma_alpha.rst:161
+#: ../gamma_alpha.rst:159
 msgid ""
 "Инициализация контекста WebGL производится с параметром `premultipliedAlpha "
 "= true` (что является значением по умолчанию). Кроме того, на выходе "

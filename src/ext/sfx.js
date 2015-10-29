@@ -39,6 +39,8 @@ var m_print    = require("__print");
  * seconds). duration=0 - assign default value according to sound playback length.
  */
 exports.play = function(obj, when, duration) {
+    when = when || 0;
+    duration = duration || 0;
     m_sfx.play(obj, when, duration);
 }
 /**
@@ -55,9 +57,20 @@ exports.play_def = function(obj) {
  * @method module:sfx.is_play
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Playing state
+ * @deprecated Use {@link module:sfx.is_playing|sfx.is_playing} instead.
  */
 exports.is_play = function(obj) {
-    return m_sfx.is_play(obj);
+    return m_sfx.is_playing(obj);
+}
+
+/**
+ * Check if sound is played through the speaker now.
+ * @method module:sfx.is_playing
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Playing state
+ */
+exports.is_playing = function(obj) {
+    return m_sfx.is_playing(obj);
 }
 
 /**

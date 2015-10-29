@@ -49,6 +49,11 @@ exports.AT_AUDIO_ELEMENT = 60;
 exports.AT_VIDEO_ELEMENT = 70;
 exports.AT_SEQ_VIDEO_ELEMENT = 80;
 
+// post type
+exports.APT_JSON         = exports.AT_JSON;
+exports.APT_TEXT         = exports.AT_TEXT;
+
+
 // asset states: enqueued -> requested -> received
 var ASTATE_ENQUEUED = 10;
 var ASTATE_REQUESTED = 20;
@@ -178,13 +183,16 @@ exports.cleanup = function() {
 
 exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
     for (var i = 0; i < assets_pack.length; i++) {
-        var pack_elem = assets_pack[i];
+        var elem = assets_pack[i];
 
         var asset = {
-            uri: pack_elem[0],
-            type: pack_elem[1],
-            filepath: pack_elem[2],
-            opt_param: pack_elem[3],
+            id: elem.id,
+            type: elem.type,
+            url: elem.url,
+            request: elem.request ? elem.request : "GET",
+            post_type: elem.post_type ? elem.post_type : null,
+            post_data: elem.post_data ? elem.post_data : null,
+            param: elem.param ? elem.param : null,
 
             state: ASTATE_ENQUEUED,
 
@@ -197,8 +205,8 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
 
         if (cfg_ldr.prevent_caching) {
             var bd = get_built_in_data();
-            if (!(bd && asset.filepath in bd))
-                asset.filepath += m_version.timestamp();
+            if (!(bd && asset.url in bd))
+                asset.url += m_version.timestamp();
         }
 
         _assets_queue.push(asset);
@@ -271,12 +279,24 @@ function request_assets(queue) {
 
 function request_arraybuffer(asset, response_type) {
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd)
+    if (bd && asset.url in bd)
         var req = new FakeHttpRequest();
     else
         var req = new XMLHttpRequest();
 
-    req.open("GET", asset.filepath, true);
+    if (asset.request == "GET") {
+        req.open("GET", asset.url, true);
+    } else if (asset.request == "POST") {
+        req.open("POST", asset.url, true);
+        switch (asset.post_type) {
+        case exports.APT_TEXT:
+            req.setRequestHeader('Content-type', 'text/plain');
+            break;
+        case exports.APT_JSON:
+            req.setRequestHeader('Content-type', 'application/json');
+            break;
+        }
+    }
 
     if (response_type == "text") {
         // to prevent "not well formed" error (GLSL)
@@ -302,20 +322,20 @@ function request_arraybuffer(asset, response_type) {
                             try {
                                 response = JSON.parse(response);
                             } catch(e) {
-                                m_print.error(e + " (parsing JSON " + asset.filepath + ")");
-                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                                m_print.error(e + " (parsing JSON " + asset.url + ")");
+                                asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
                                 return;
                             }
                         }
 
-                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                        asset.asset_cb(response, asset.id, asset.type, asset.url, asset.param);
                     } else {
-                        m_print.error("empty responce when trying to get " + asset.filepath);
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                        m_print.error("empty responce when trying to get " + asset.url);
+                        asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
                     }
                 } else {
-                    m_print.error(req.status + " when trying to get " + asset.filepath);
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    m_print.error(req.status + " when trying to get " + asset.url);
+                    asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
                 }
                 asset.state = ASTATE_RECEIVED;
             }
@@ -327,17 +347,20 @@ function request_arraybuffer(asset, response_type) {
             asset.progress_cb(e.loaded / e.total);
     }, false);
 
-    req.send(null);
+    req.send(asset.post_data);
 }
 
 function request_audiobuffer(asset) {
+    if (asset.request != "GET") {
+        m_util.panic("Unsupported request type for audio buffer");
+    }
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd)
+    if (bd && asset.url in bd)
         var req = new FakeHttpRequest();
     else
         var req = new XMLHttpRequest();
 
-    req.open("GET", asset.filepath, true);
+    req.open("GET", asset.url, true);
 
     req.responseType = "arraybuffer";
 
@@ -348,56 +371,59 @@ function request_audiobuffer(asset) {
                     var response = req.response;
                     if (response) {
                         var decode_cb = function(audio_buffer) {
-                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                            asset.asset_cb(audio_buffer, asset.id, asset.type, asset.url, asset.param);
                             asset.state = ASTATE_RECEIVED;
                         }
                         var fail_cb = function() {
-                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                            m_print.error("failed to decode " + asset.filepath);
+                            asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+                            m_print.error("failed to decode " + asset.url);
                             asset.state = ASTATE_RECEIVED;
                         }
 
                         m_sfg.decode_audio_data(response, decode_cb, fail_cb);
 
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                        m_print.error("empty responce when trying to get " + asset.filepath);
+                        asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+                        m_print.error("empty responce when trying to get " + asset.url);
                         asset.state = ASTATE_RECEIVED;
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                    m_print.error(req.status + " when trying to get " + asset.filepath);
+                    asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+                    m_print.error(req.status + " when trying to get " + asset.url);
                     asset.state = ASTATE_RECEIVED;
                 }
             }
     };
 
-    req.send(null);
+    req.send(asset.post_data);
 }
 
 function request_image(asset) {
+    if (asset.request != "GET") {
+        m_util.panic("Unsupported request type for image element");
+    }
     var image = document.createElement("img");
     if (cfg_def.allow_cors)
         image.crossOrigin = "Anonymous";
     image.onload = function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(image, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            asset.asset_cb(image, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
         }
     };
     image.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-            m_print.error("could not load image: " + asset.filepath);
+            asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+            m_print.error("could not load image: " + asset.url);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd) {
-        if (bd[asset.filepath]) {
-            var img_mime_type = get_image_mime_type(asset.filepath);
-            image.src = "data:" + img_mime_type + ";base64," + bd[asset.filepath];
+    if (bd && asset.url in bd) {
+        if (bd[asset.url]) {
+            var img_mime_type = get_image_mime_type(asset.url);
+            image.src = "data:" + img_mime_type + ";base64," + bd[asset.url];
         } else {
             if (m_compat.is_ie11()) {
                 var e = document.createEvent("CustomEvent");
@@ -407,36 +433,39 @@ function request_image(asset) {
             image.dispatchEvent(e);
         }
     } else
-        image.src = asset.filepath;
+        image.src = asset.url;
 }
 
 function request_audio(asset) {
+    if (asset.request != "GET") {
+        m_util.panic("Unsupported request type for audio element");
+    }
     var audio = document.createElement("audio");
     if (cfg_def.allow_cors || cfg_def.cors_chrome_hack)
         audio.crossOrigin = "Anonymous";
     
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            asset.asset_cb(audio, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
     audio.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-            m_print.error("could not load sound: " + asset.filepath);
+            asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+            m_print.error("could not load sound: " + asset.url);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd) {
-        if (bd[asset.filepath]) {
-            var snd_mime_type = get_sound_mime_type(asset.filepath);
-            audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
+    if (bd && asset.url in bd) {
+        if (bd[asset.url]) {
+            var snd_mime_type = get_sound_mime_type(asset.url);
+            audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.url];
             if (asset.state != ASTATE_HALTED) {
-                asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                asset.asset_cb(audio, asset.id, asset.type, asset.url, asset.param);
                 asset.state = ASTATE_RECEIVED;
             }
 
@@ -449,7 +478,7 @@ function request_audio(asset) {
             audio.dispatchEvent(e);
         }
     } else {
-        audio.src = asset.filepath;
+        audio.src = asset.url;
         if (cfg_def.is_mobile_device)
             audio.load();
     }
@@ -464,6 +493,9 @@ function request_audio(asset) {
 }
 
 function request_video(asset) {
+    if (asset.request != "GET") {
+        m_util.panic("Unsupported request type for video element");
+    }
     var video = document.createElement("video");
     video.muted = true;
     // HACK: allow crossOrigin for mobile devices (Android Chrome bug)
@@ -472,28 +504,28 @@ function request_video(asset) {
     video.addEventListener("loadeddata", function() {
         video.removeEventListener("error", video_error_event, false);
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
+            asset.asset_cb(video, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
     function video_error_event(e) {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-            m_print.error("could not load video: " + asset.filepath, asset.opt_param);
+            asset.asset_cb(null, asset.id, asset.type, asset.url);
+            m_print.error("could not load video: " + asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
         }
     }
     video.addEventListener("error", video_error_event, false);
 
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd) {
-        if (bd[asset.filepath]) {
-            var vid_mime_type = get_video_mime_type(asset.filepath);
-            video.src = "data:" + vid_mime_type + ";base64," + bd[asset.filepath];
+    if (bd && asset.url in bd) {
+        if (bd[asset.url]) {
+            var vid_mime_type = get_video_mime_type(asset.url);
+            video.src = "data:" + vid_mime_type + ";base64," + bd[asset.url];
             if (asset.state != ASTATE_HALTED)
                 video.addEventListener("loadeddata", function() {
-                    asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    asset.asset_cb(video, asset.id, asset.type, asset.url, asset.param);
                     asset.state = ASTATE_RECEIVED;
                 }, false);
         } else {
@@ -505,7 +537,7 @@ function request_video(asset) {
             video.dispatchEvent(e);
         }
     } else {
-        video.src = asset.filepath;
+        video.src = asset.url;
         if (cfg_def.is_mobile_device)
             video.load();
     }
@@ -520,16 +552,32 @@ function request_video(asset) {
 }
 
 function request_seq_video(asset) {
+    if (asset.request != "GET") {
+        m_util.panic("Unsupported request type for seq video element");
+    }
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd)
+    if (bd && asset.url in bd)
         var req = new FakeHttpRequest();
     else
         var req = new XMLHttpRequest();
-    req.open("GET", asset.filepath, true);
+    if (asset.post_type == null && asset.post_data == null) {
+        req.open("GET", asset.url, true);
+    } else {
+        req.open("POST", asset.url, true);
+        switch (asset.post_type) {
+        case exports.APT_TEXT:
+            req.setRequestHeader('Content-type', 'text/plain');
+            break;
+        case exports.APT_JSON:
+            req.setRequestHeader('Content-type', 'application/json');
+            break;
+        }
+    }
     req.responseType = "arraybuffer";
 
     function load_cb(images) { 
-        asset.asset_cb(images, asset.uri, asset.type, asset.filepath, asset.opt_param);
+        asset.asset_cb(images, asset.id, asset.type, asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
     }
 
     req.onreadystatechange = function() {
@@ -537,18 +585,18 @@ function request_seq_video(asset) {
         if (req.readyState == 4) {
             if (req.status == 200 || req.status == 0) {
                 var response = req.response;
-                if (response) {
+                if (response)
                     parse_seq_video_file(response, load_cb);                    
-                }
                 else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                    m_print.error("empty responce when trying to get " + asset.filepath);
+                    asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+                    m_print.error("empty responce when trying to get " + asset.url);
+                    asset.state = ASTATE_RECEIVED;
                 }
             } else {
-                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                m_print.error(req.status + " when trying to get " + asset.filepath);
+                asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+                m_print.error(req.status + " when trying to get " + asset.url);
+                asset.state = ASTATE_RECEIVED;
             }
-            asset.state = ASTATE_RECEIVED;
         }
     };
     req.addEventListener("progress", function(e) {
@@ -557,7 +605,7 @@ function request_seq_video(asset) {
             asset.progress_cb(e.loaded / e.total);
     }, false);
 
-    req.send(null);
+    req.send(asset.post_data);
 }
 
 function parse_seq_video_file(response, callback) {

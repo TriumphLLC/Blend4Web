@@ -2,7 +2,7 @@
 #define INV_PI 0.318309886
 
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 
 #if WO_SKYTEX || PROCEDURAL_SKYDOME
 uniform samplerCube u_sky;
@@ -159,7 +159,7 @@ void main(void) {
     tin = tcol.a;
 
 #  if MTEX_RGBTOINT   // MTEX_RGBTOINT means RGB flag too
-    tin = dot(tcol.rgb, vec3(0.2126, 0.7152, 0.0722)); // luma_coefficients
+    tin = luma(tcol);
 #  endif
 #  if MTEX_NEGATIVE
 #   if !MTEX_RGBTOINT

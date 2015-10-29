@@ -1298,7 +1298,7 @@ exports.extract_halo_submesh = function(submesh) {
 
     var pos_arr      = new Float32Array(12 * base_length);
     var bb_vert_arr  = new Float32Array(8 * base_length);
-    var indices_out  = new Uint16Array (4 * submesh.indices.length);
+    var indices_out  = new Uint32Array (4 * submesh.indices.length);
 
     for (var i = 0; i < base_length; i++) {
         // generate positions

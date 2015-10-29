@@ -137,6 +137,10 @@
                 "load_file": "interactivity/camera_views.json"
             },
             {
+                "name": "Coin Flipping",
+                "load_file": "interactivity/coin_flip/coin_flip.json"
+            },
+            {
                 "name": "Inherit Material",
                 "load_file": "interactivity/inherit_material.json"
             },
@@ -151,6 +155,10 @@
             {
                 "name": "Page Redirect Logic",
                 "load_file": "interactivity/logic_editor_page_redirect.json"
+            },
+            {
+                "name": "Piano",
+                "load_file": "interactivity/piano.json"
             },
             {
                 "name": "Play Anim Logic",
@@ -354,7 +362,7 @@
             },
             {
                 "name": "Interactive Web Application",
-                "load_file": "../tutorials/examples/interactive_web_application/example.json"
+                "load_file": "../tutorials/examples/interactive_web_application/simple_app.json"
             },
             {
                 "name": "Pirate vs Alien",

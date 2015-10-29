@@ -45,11 +45,14 @@ var _vec4_tmp = new Float32Array(4);
 
 var cfg_def = m_cfg.defaults;
 
+var VECTOR_VALUE = 0;
+var SCALAR_VALUE = 1;
+
 exports.compose_nmat_graph = compose_nmat_graph;
 function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
                             shader_type) {
     var active_scene = m_scenes.get_active();
-    var ntree_graph_id = generate_graph_id(source_id, shader_type, active_scene.uuid);
+    var ntree_graph_id = generate_graph_id(source_id, shader_type, active_scene["uuid"]);
     if (ntree_graph_id in _composed_node_graphs)
         return _composed_node_graphs[ntree_graph_id];
 
@@ -157,10 +160,10 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
 exports.create_lighting_graph = create_lighting_graph;
 function create_lighting_graph(source_id, mat_name, data) {
     var active_scene = m_scenes.get_active();
-    var ntree_graph_id = generate_graph_id(source_id, "MAIN", active_scene.uuid);
+    var ntree_graph_id = generate_graph_id(source_id, "MAIN", active_scene["uuid"]);
 
     if (ntree_graph_id in _composed_node_graphs)
-        return _composed_node_graphs[source_id];
+        return _composed_node_graphs[ntree_graph_id];
 
     var graph = m_graph.create();
 
@@ -178,7 +181,7 @@ function create_lighting_graph(source_id, mat_name, data) {
     add_lighting_subgraph(graph, data, begin_node_id, end_node_id, 
             translucency_edges, null, mat_name);
     clean_sockets_linked_property(graph);
-    _composed_node_graphs[source_id] = graph;
+    _composed_node_graphs[ntree_graph_id] = graph;
     return graph;
 }
 
@@ -2812,7 +2815,10 @@ function init_node_elem(mat_node) {
                         && (input.identifier == "Value"
                         || input.identifier == "Value_001") ||
                         mat_node.type.indexOf("VECT_MATH_") >= 0
-                        && (input.identifier == "Vector_001"))
+                        && (input.identifier == "Vector_001") ||
+                        mat_node.type.indexOf("LIGHTING_APPLY") >= 0 ||
+                        mat_node.type.indexOf("MATERIAL_END") >= 0 ||
+                        mat_node.type.indexOf("MATERIAL_BEGIN") >= 0)
                     input_val = replace_zero_unity_vals(input_val);
 
             finput_values.push(input_val);
@@ -2957,11 +2963,28 @@ function set_input_default_value(link, graph, value) {
     var node_ids = nmat_node_ids(link["to_node"], graph);
     for (var i = 0; i < node_ids.length; i++) {
         var node_attr = m_graph.get_node_attr(graph, node_ids[i]);
-        for (var j = 0; j < node_attr.inputs.length; j++)
-            if (node_attr.inputs[j].identifier == link["to_socket"]["identifier"]) {
-                node_attr.inputs[j].default_value = value;
+        for (var j = 0; j < node_attr.inputs.length; j++) {
+            var input = node_attr.inputs[j];
+            if (input.identifier == link["to_socket"]["identifier"]) {
+
+                var old_val_type = get_socket_value_type(input.default_value);
+                var new_val_type = get_socket_value_type(value);
+
+                if (new_val_type == old_val_type)
+                    input.default_value = value;
+                else
+                    switch (old_val_type) {
+                    case VECTOR_VALUE:
+                        scalar_to_vector(value, input.default_value);
+                        break;
+                    case SCALAR_VALUE:
+                        input.default_value = vector_to_scalar(value);
+                        break;
+                    }
+
                 break;
             }
+        }
     }
 }
 
@@ -2981,8 +3004,23 @@ function change_default_values(links, graph, node, unused_links) {
     }
 }
 
-function change_node_groups_links(node, links, graph) {
+// get type for a node input/output.
+function get_socket_value_type(value) {
+    return value instanceof Object ? VECTOR_VALUE : SCALAR_VALUE;
+}
 
+// convert scalar socket value to vector
+function scalar_to_vector(scalar, vector) {
+    vector[0] = vector[1] = vector[2] = scalar;
+    return vector;
+}
+
+// convert vector socket value to scalar
+function vector_to_scalar(vector) {
+    return (vector[0] + vector[1] + vector[2]) / 3.0;
+}
+
+function change_node_groups_links(node, links, graph) {
     var group_name = node.name;
 
     var node_group_links_from = [];     // node outputs

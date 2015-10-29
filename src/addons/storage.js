@@ -40,8 +40,18 @@ exports.init = init;
 function init(prefix) {
     _prefix = prefix;
 
+    if (_storage) // storage was initialized previously
+        return;
+
     try {
         _storage = window.localStorage;
+        try {
+            _storage["tmp"] = null;
+            delete _storage["tmp"];
+        } catch (e) {
+            m_print.warn("localStorage quota is limited. Disabling localStorage");
+            _storage = null;
+        }
     } catch (e) {
         m_print.warn("Applying chrome localStorage bug workaround");
         _storage = null;

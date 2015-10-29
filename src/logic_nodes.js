@@ -28,7 +28,7 @@
  */
 
 b4w.module["__logic_nodes"] = function(exports, require) {
-var m_obj       = require("__objects")
+var m_obj       = require("__objects");
 var m_scs       = require("__scenes");
 var m_print     = require("__print");
 var m_nla       = require("__nla");
@@ -40,6 +40,11 @@ var m_assets    = require("__assets");
 var m_batch     = require("__batch");
 var m_geom      = require("__geometry");
 var m_time      = require("__time");
+var m_cam       = require("__camera");
+var m_vec3      = require("__vec3");
+var m_vec4      = require("__vec4");
+var m_trans     = require("__transform");
+var m_sfx       = require("__sfx");
 
 var _logic_arr = [];
 
@@ -51,6 +56,10 @@ var INITIALIZATION = 1;
 var RUNNING        = 2;
 var STOPPED        = 3;
 var PAUSED         = 4;
+
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp1 = new Float32Array(3);
+var _vec2_tmp = new Float32Array(2);
 
 /**
  * Add your node to _nodes_handlers
@@ -74,7 +83,10 @@ var _nodes_handlers = {
     "SET_SHADER_NODE_PARAM": set_shader_node_param_handler,
     "DELAY": delay_handler,
     "APPLY_SHAPE_KEY": apply_shape_key_handler,
-    "OUTLINE": outline_handler
+    "OUTLINE": outline_handler,
+    "MOVE_CAMERA": move_camera_handler,
+    "SET_CAMERA_MOVE_STYLE": set_camera_move_style_handler,
+    "SPEAKER_PLAY": speaker_play_handler
 }
 
 function do_nothing_handler(node, logic, thread_state, timeline, elapsed, start_time) {
@@ -151,15 +163,25 @@ function process_logic(index, timeline, elapsed, start_time) {
  * Return numerical URL param
  */
 function get_url_param(name) {
+    var cfg_url_params = m_cfg.get("url_params");
+
+    if (cfg_url_params && name in cfg_url_params)
+        return Number(cfg_url_params[name])
+
     var url = location.href.toString();
+
     if (url.indexOf("?") == -1)
         return 0;
+
     var params = url.split("?")[1].split("&");
+
     for (var i = 0; i < params.length; i++) {
         var param = params[i].split("=");
+
         if (param.length > 1 && param[0] == name)
             return Number(param[1]);
     }
+
     return 0;
 }
 
@@ -232,7 +254,7 @@ function create_select_sensor(node, logic, thread) {
 
     if (obj_idx == -1) {
         m_print.error("logic script error: non-selectable object:",
-            node["dupli_name_list"][node["dupli_name_list"].length -1]);
+            node.dupli_name_list[node.dupli_name_list.length -1]);
         return -1;
     }
     node.state = -1;
@@ -319,13 +341,10 @@ function redirect_handler(node, logic, thread_state, timeline, elapsed, start_ti
 
 function send_req_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     function asset_cb(loaded_data, uri, type, path, param) {
-        for (var prop in loaded_data) {
-            for (var ind in param[0].parse_resp_list) {
-                if (prop == param[0].parse_resp_list[ind]) {
+        for (var prop in loaded_data)
+            for (var ind in param[0].parse_resp_list)
+                if (prop == param[0].parse_resp_list[ind])
                     param[1][prop] = loaded_data[prop];
-                }
-            }
-        }
         param[0].state = 1;
     }
     switch(logic.state) {
@@ -333,7 +352,19 @@ function send_req_handler(node, logic, thread_state, timeline, elapsed, start_ti
         switch(node.state) {
         case -1:
             node.state = 0;
-            m_assets.enqueue([[node.url, m_assets.AT_JSON, node.url, [node, thread_state.variables]]], asset_cb, null, null);
+            if (node.common_usage_names["request_type"] == "GET")
+                m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url,
+                    param:[node, thread_state.variables]}], asset_cb, null, null);
+            else if(node.common_usage_names["request_type"] == "POST") {
+                var req = {};
+                for (var i = 0; i < node.send_req_vars_list.length; i++) {
+                    var key = node.send_req_vars_list[i];
+                    req[key] = thread_state.variables[key];
+                }
+                m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url,
+                    request:"POST", post_type:m_assets.APT_JSON, post_data:JSON.stringify(req),
+                    param:[node, thread_state.variables]}], asset_cb, null, null);
+            }
             break;
         case 0:
             break;
@@ -353,7 +384,8 @@ function inherit_mat_handler(node, logic, thread_state, timeline, elapsed, start
             node.objects["id"+i] = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id"+i], 0);
         break;
     case RUNNING:
-        m_batch.inherit_material(node.objects['id0'], node.materials_names['id0'], node.objects['id1'], node.materials_names['id1'])
+        m_batch.inherit_material(node.objects['id0'], node.materials_names['id0'],
+            node.objects['id1'], node.materials_names['id1'])
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -372,7 +404,8 @@ function delay_handler(node, logic, thread_state, timeline, elapsed, start_time)
         } else if (node.state == 0) {
             // count the time
             node.timer += elapsed;
-            if (node.floats["dl"] < node.timer) {
+            var dl = node.bools["dl"] ? thread_state.variables[node.vars['dl']] : node.floats["dl"];
+            if (dl < node.timer) {
                 node.state = -1;
                 thread_state.curr_node = node.slot_idx_order;
             }
@@ -433,6 +466,98 @@ function outline_handler(node, logic, thread_state, timeline, elapsed, start_tim
         break;
     }
 }
+function move_camera_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case INITIALIZATION:
+        var o = null;
+        o = node.objects["ca"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id0"], 0);
+        node.objects["tr"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id1"], 0);
+        node.objects["ta"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id2"], 0);
+        break;
+    case RUNNING:
+        var cam = node.objects["ca"];
+        var trans = node.objects["tr"].render.trans;
+        var target = node.objects["ta"].render.trans;
+        switch (m_cam.get_move_style(cam)) {
+        case m_cam.MS_TARGET_CONTROLS:
+            m_cam.set_trans_pivot(cam, trans, target);
+            break;
+        case m_cam.MS_EYE_CONTROLS:
+        case m_cam.MS_STATIC:
+            m_cam.set_look_at(cam, trans, target, m_util.AXIS_Y);
+            break;
+        case m_cam.MS_HOVER_CONTROLS:
+            m_vec3.sub(target, trans, _vec3_tmp);
+            m_vec3.normalize(_vec3_tmp, _vec3_tmp);
+            m_cam.set_hover_pivot(cam, target);
+            var phi = 0;
+            var theta = 0;
+            // ZOX projection
+            _vec3_tmp1[0] = _vec3_tmp[0];
+            _vec3_tmp1[1] = 0;
+            _vec3_tmp1[2] = _vec3_tmp[2];
+            var dot = m_vec3.dot(_vec3_tmp1, _vec3_tmp);
+            theta = Math.acos(dot/(m_vec3.length(_vec3_tmp1)*m_vec3.length(_vec3_tmp)));
+            if (_vec3_tmp[2])
+                phi = Math.atan(_vec3_tmp[0]/_vec3_tmp[2]);
+            else {
+                if (_vec3_tmp[0] > 0)
+                    phi = 0;
+                else
+                    phi = Math.PI;
+            }
+            if (_vec3_tmp[2] > 0 && _vec3_tmp[0] > 0) {
+                _vec2_tmp[1] = -(Math.PI + _vec2_tmp[1])
+            }
+            else
+            if (_vec3_tmp[2] > 0 && _vec3_tmp[0] < 0) {
+                _vec2_tmp[1] = -(Math.PI + _vec2_tmp[1]);
+            }
+            else
+            if (_vec3_tmp[2] < 0 && _vec3_tmp[0] < 0) {
+                _vec2_tmp[0] += Math.PI;
+                phi = -(Math.PI - phi)
+            }
+            else
+            if (_vec3_tmp[2] < 0 && _vec3_tmp[0] > 0) {
+                _vec2_tmp[0] += Math.PI;
+                phi -= Math.PI;
+            }
+            m_cam.rotate_hover_camera(cam, phi+Math.PI, -theta, true, true);
+            m_trans.update_transform(cam);
+            break;
+        }
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function set_camera_move_style_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case INITIALIZATION:
+        node.tmp1 = m_cam.move_style_bpy_to_b4w(node["common_usage_names"]["camera_move_style"])
+        break;
+    case RUNNING:
+        m_cam.set_move_style(m_scs.get_camera(thread_state.scene), node.tmp1);
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function speaker_play_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case INITIALIZATION:
+        node.objects["id0"] = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id0"], 0);
+        break;
+    case RUNNING:
+        m_sfx.play_def(node.objects["id0"]);
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
 
 function set_shader_node_param_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
@@ -480,6 +605,9 @@ function math_handler(node, logic, thread_state, timeline, elapsed, start_time) 
                 m_util.panic("Division by zero in Logic script");
 
             thread_state.variables[node.vard] = val1 / val2;
+            break;
+        case "RAND":
+            thread_state.variables[node.vard] = Math.random() * (val2 - val1) + val1;
             break;
         }
         thread_state.curr_node = node.slot_idx_order;
@@ -686,10 +814,12 @@ function prepare_logic(scene, logic) {
                 materials_names: snode["materials_names"],
                 shader_nd_type: snode["shader_nd_type"],
                 common_usage_names: snode["common_usage_names"],
+                send_req_vars_list: snode["send_req_vars_list"],
                 thread: logic_script,
-                process_node: _nodes_handlers[snode.type]?_nodes_handlers[snode.type]:unknown_node_handler,
+                process_node: _nodes_handlers[snode["type"]]?_nodes_handlers[snode["type"]]:unknown_node_handler,
                 processed: false,
-                timer: 0
+                timer: 0,
+                tmp1: 0
             }
 
             // just copy all

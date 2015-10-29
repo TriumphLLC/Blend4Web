@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web vv15.09</title>
+  <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
         <link rel="prev" title="Освещение, тени и фон" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -138,12 +138,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#id24">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#antialiasing">Сглаживание</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#glow">Свечение (glow)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id26">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id27">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#glow">Свечение (glow)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#antialiasing">Сглаживание</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id29">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id30">Дополнительные настройки</a></li>
 </ul>
@@ -383,36 +383,16 @@
 </dl>
 </div>
 </div>
-<div class="section" id="antialiasing">
-<span id="index-7"></span><span id="id25"></span><h2>Сглаживание<a class="headerlink" href="#antialiasing" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (&#8220;зубчатости&#8221;).</p>
-<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="glow">
+<span id="id25"></span><h2>Свечение (glow)<a class="headerlink" href="#glow" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.</p>
+<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
 <div class="section" id="id26">
 <h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Включить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Antialiasing</span></code>.</p>
+<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id27">
 <h3>Дополнительные настройки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Метод сглаживания назначается одновременно с выбором профиля работы движка.</p>
-<blockquote>
-<div><ul class="simple">
-<li><em>низкое качество</em> - антиалиасинг отключен</li>
-<li><em>высокое качество</em> - метод антиалиасинга FXAA (Fast Approximate Anti-Aliasing), предложенный Nvidia</li>
-<li><em>максимальное качество</em> - метод антиалиасинга SMAA (Enhanced Subpixel Morphological Anti-Aliasing), предложенный Crytek</li>
-</ul>
-</div></blockquote>
-</div>
-</div>
-<div class="section" id="glow">
-<span id="id28"></span><h2>Свечение (glow)<a class="headerlink" href="#glow" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Эффект возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.</p>
-<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
-<div class="section" id="id29">
-<h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</div>
-<div class="section" id="id30">
-<h3>Дополнительные настройки<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Small Mask: Intensity</em></dt>
 <dd>Интенсивность свечения по малой маске. Значение по умолчанию 2.0.</dd>
@@ -425,6 +405,32 @@
 <dt><em>Render Glow Over Transparent Object</em></dt>
 <dd>Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.</dd>
 </dl>
+</div>
+</div>
+<div class="section" id="antialiasing">
+<span id="index-7"></span><span id="id28"></span><h2>Сглаживание<a class="headerlink" href="#antialiasing" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (&#8220;зубчатости&#8221;).</p>
+<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="id29">
+<h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выбрать один из профилей качества в поле <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>None</em> - антиалиасинг отключен,</li>
+<li><em>Low</em>, <em>Medium</em>, <em>High</em> - применяется антиалиасинг с низкими, средними и высокими параметрами качества соответственно.</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию: <em>Medium</em>.</p>
+</div>
+<div class="section" id="id30">
+<h3>Дополнительные настройки<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Итоговые настройки сглаживания назначаются копмозицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>низкое качество</em> - антиалиасинг отключен,</li>
+<li><em>высокое качество</em> и <em>максимальное качество</em> - использовать алгоритм FXAA 3.11 (Fast Approximate Anti-Aliasing, Nvidia).</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 </div>
@@ -449,7 +455,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-09-30.
+      Обновлено: 2015-10-29.
 
     </p>
   </div>
@@ -471,7 +477,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -135,7 +135,7 @@ vec3 uv_to_vec(vec2 uv)
 #if USE_NODE_TEXTURE_COLOR || USE_NODE_TEXTURE_NORMAL || USE_NODE_B4W_PARALLAX
 vec2 vec_to_uv(vec3 vec)
 {
-    return vec2(vec.xy * 0.5 + vec2(0.5, 0.5));
+    return vec2(vec.xy * HALF_VALUE_NODES + vec2(HALF_VALUE_NODES, HALF_VALUE_NODES));
 }
 #endif
 
@@ -178,7 +178,7 @@ vec2 vec_to_uv(vec3 vec)
 #node EMPTY_UV
     #node_out vec3 uv
 
-    uv = vec3(-1.0, -1.0, 0.0);
+    uv = vec3(-UNITY_VALUE_NODES, -UNITY_VALUE_NODES, ZERO_VALUE_NODES);
 #endnode
 
 #node EMPTY_VC
@@ -204,6 +204,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_param varying vec3 v_vc
 
     vc = v_vc;
+    srgb_to_lin(vc);
 #endnode
 
 #node GEOMETRY_VC1
@@ -211,6 +212,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_param varying float v_vc
 
     channel0_out = v_vc;
+    srgb_to_lin(channel0_out);
 #endnode
 
 #node GEOMETRY_VC2
@@ -220,6 +222,8 @@ vec2 vec_to_uv(vec3 vec)
 
     channel0_out = v_vc[0];
     channel1_out = v_vc[1];
+    srgb_to_lin(channel0_out);
+    srgb_to_lin(channel1_out);
 #endnode
 
 #node GEOMETRY_VC3
@@ -231,6 +235,9 @@ vec2 vec_to_uv(vec3 vec)
     channel0_out = v_vc[0];
     channel1_out = v_vc[1];
     channel2_out = v_vc[2];
+    srgb_to_lin(channel0_out);
+    srgb_to_lin(channel1_out);
+    srgb_to_lin(channel2_out);
 #endnode
 
 #node GEOMETRY_NO
@@ -301,7 +308,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 color
 
     vec3 hsv = rgb_to_hsv(color_in);
-    hsv[0] += (hue - 0.5);
+    hsv[0] += (hue - HALF_VALUE_NODES);
     if (hsv[0] > UNITY_VALUE_NODES)
         hsv[0] -= UNITY_VALUE_NODES;
     else if (hsv[0] < ZERO_VALUE_NODES)
@@ -644,7 +651,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float brightness
     #node_in float contrast
     #node_out vec3 color_out
-    float b = brightness - contrast * 0.5;
+    float b = brightness - contrast * HALF_VALUE_NODES;
     color_out = max((UNITY_VALUE_NODES + contrast) * color + b, ZERO_VECTOR);
 #endnode
 
@@ -1158,10 +1165,16 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float val_in2
     #node_out float val
 
-    // return zero value for special cases which causes undefined result;
-    // according to pow specification:
-    // https://www.opengl.org/sdk/docs/man/html/pow.xhtml
-    if (val_in1 < ZERO_VALUE_NODES || val_in1 == ZERO_VALUE_NODES && val_in2 == ZERO_VALUE_NODES)
+    if (val_in1 < ZERO_VALUE_NODES && val_in2 != floor(val_in2))
+        val = ZERO_VALUE_NODES;
+    else if (val_in2 == ZERO_VALUE_NODES)
+        // NOTE: x^0 -> 1, including 0^0, 
+        // see 'Two Notes on Notation' by Donald E. Knuth, p. 6:
+        // http://arxiv.org/abs/math/9205211
+        val = UNITY_VALUE_NODES;
+    else if (val_in1 < ZERO_VALUE_NODES)
+        val = mix(1.0, -1.0, sign(mod(-val_in2, 2.0))) * pow(-val_in1, val_in2);
+    else if (val_in1 == ZERO_VALUE_NODES)
         val = ZERO_VALUE_NODES;
     else
         val = pow(val_in1, val_in2);
@@ -1205,7 +1218,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float val_in2
     #node_out float val
 
-    val = floor(val_in1 + 0.5);
+    val = floor(val_in1 + HALF_VALUE_NODES);
 # node_if MATH_USE_CLAMP
     val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 # node_endif
@@ -1378,7 +1391,7 @@ vec2 vec_to_uv(vec3 vec)
     vec3 f_vec = vec3(UNITY_VALUE_NODES - clamped_factor);
     color = mix(color1 * (f_vec + 2.0*clamped_factor*color2),
                 UNITY_VECTOR - (f_vec + 2.0*clamped_factor*(UNITY_VECTOR - color2)) * (UNITY_VECTOR - color1),
-                step(0.5, color1));
+                step(HALF_VALUE_NODES, color1));
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 # node_endif
@@ -1391,7 +1404,7 @@ vec2 vec_to_uv(vec3 vec)
 
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     vec3 tmp = UNITY_VECTOR - clamped_factor * color2;
-    vec3 tmp1 = clamp(color1 / tmp, 0.0, 1.0);
+    vec3 tmp1 = clamp(color1 / tmp, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(mix(tmp1, UNITY_VECTOR, step(tmp, ZERO_VECTOR)), color1, step(color1, ZERO_VECTOR));
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
@@ -1403,10 +1416,10 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 color2
     #node_out vec3 color
 
-    float clamped_factor = clamp(factor, 0.0, 1.0);
-    vec3 facm = vec3(1.0 - clamped_factor);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    vec3 facm = vec3(UNITY_VALUE_NODES - clamped_factor);
     vec3 tmp = facm + clamped_factor*color2;
-    vec3 tmp1 = clamp(UNITY_VECTOR - (UNITY_VECTOR - color1) / tmp, 0.0, 1.0);
+    vec3 tmp1 = clamp(UNITY_VECTOR - (UNITY_VECTOR - color1) / tmp, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(tmp1, ZERO_VECTOR, step(tmp, ZERO_VECTOR));
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
@@ -1929,11 +1942,11 @@ vec2 vec_to_uv(vec3 vec)
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g == UNITY_VALUE_NODES) {
-        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_NODES)
+        if (sp_params[0] < UNITY_VALUE_NODES || sp_params[1] == ZERO_VALUE_NODES)
             sfactor = ZERO_VALUE_NODES;
         else {
             if (sp_params[1] < 100.0)
-                sp_params[1]= sqrt(1.0 / sp_params[1]);
+                sp_params[1]= sqrt(UNITY_VALUE_NODES / sp_params[1]);
             else
                 sp_params[1]= 10.0 / sp_params[1];
 
@@ -2077,7 +2090,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float center
     #node_out float value
 
-    value = UNITY_VALUE_NODES / (UNITY_VALUE_NODES + pow(2.71828183, -((value_in-center)*width)));
+    value = UNITY_VALUE_NODES / (UNITY_VALUE_NODES + pow(2.71828183, -(value_in-center)*width));
 #endnode
 
 #node GAMMA
@@ -2085,8 +2098,13 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float gamma
     #node_out vec3 color_out
 
-    color_out = max(ZERO_VECTOR, color_in);
-    color_out = pow(color_out, vec3(gamma));
+    color_out = color_in;
+    if (color_out.x > ZERO_VALUE_NODES)
+        color_out.x = pow(color_in.x, gamma);
+    if (color_out.y > ZERO_VALUE_NODES)
+        color_out.y = pow(color_in.y, gamma);
+    if (color_out.z > ZERO_VALUE_NODES)
+        color_out.z = pow(color_in.z, gamma);
 #endnode
 
 #node B4W_SRGB_TO_LINEAR
@@ -2111,15 +2129,15 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float value
 
 #node_if USE_OUT_value
-    color[2] = color[1] = color[0] = 0.0;
+    color[2] = color[1] = color[0] = ZERO_VALUE_NODES;
 #node_endif
 
 #node_if USE_OUT_value
-    normal[2] = normal[1] = normal[0] = 0.0;
+    normal[2] = normal[1] = normal[0] = ZERO_VALUE_NODES;
 #node_endif
 
 #node_if USE_OUT_value
-    value = 0.0;
+    value = ZERO_VALUE_NODES;
 #node_endif
 #endnode
 
@@ -2216,7 +2234,7 @@ vec2 vec_to_uv(vec3 vec)
 
     vec4 texval = texture2D(texture, vec_to_uv(uv));
 # node_if USE_OUT_normal
-    normal = normalize(nin_tbn_matrix * (texval.xyz - 0.5));
+    normal = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
 # node_endif
 # node_if USE_OUT_value
     value = texval.w;
@@ -2225,7 +2243,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_if USE_uv2
     texval = texture2D(texture, vec_to_uv(uv2));
 #  node_if USE_OUT_normal2
-    normal2 = normalize(nin_tbn_matrix * (texval.xyz - 0.5));
+    normal2 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
 #  node_endif
 #  node_if USE_OUT_value2
     value2 = texval.w;
@@ -2235,7 +2253,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_if USE_uv3
     texval = texture2D(texture, vec_to_uv(uv3));
 #  node_if USE_OUT_normal3
-    normal3 = normalize(nin_tbn_matrix * (texval.xyz - 0.5));
+    normal3 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
 #  node_endif
 #  node_if USE_OUT_value3
     value3 = texval.w;
@@ -2245,7 +2263,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_if USE_uv4
     texval = texture2D(texture, vec_to_uv(uv4));
 #  node_if USE_OUT_normal4
-    normal4 = normalize(nin_tbn_matrix * (texval.xyz - 0.5));
+    normal4 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
 #  node_endif
 #  node_if USE_OUT_value4
     value4 = texval.w;
@@ -2353,7 +2371,7 @@ vec2 vec_to_uv(vec3 vec)
 
         vec2 texcoord = vec_to_uv(uv_in);
 
-        float multiplier = clamp(0.5 * (lod_dist - view_dist),
+        float multiplier = clamp(HALF_VALUE_NODES * (lod_dist - view_dist),
                                  ZERO_VALUE_NODES, UNITY_VALUE_NODES);
         float scale = parallax_scale * multiplier;
 

@@ -197,7 +197,7 @@ LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
 echo "Generating uranium.js ($LOPTS)"
 
-EMCC_CLOSURE_ARGS="--externs $EXT_MODS --externs $EXT_GLOBS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
+EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
 
 #echo "Wrap in closure"
 #

@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Визуальное программирование &mdash; User Manual: Blend4Web vv15.10</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="À propos de ces documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+        <link rel="next" title="Разработчикам приложений" href="developers.html"/>
+        <link rel="prev" title="Нелинейная анимация" href="nla.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Визуальное программирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Визуальное программирование (Logic Editor)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-timeline">Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline">Select &amp; Play Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-animation">Select &amp; Play Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#show-object-hide-object">Show Object и Hide Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Отладка</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Визуальное программирование</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="logic-editor">
+<span id="id1"></span><h1>Визуальное программирование<a class="headerlink" href="#logic-editor" title="Lien permanent vers ce titre">¶</a></h1>
+<div class="section" id="id2">
+<h2>Визуальное программирование (Logic Editor)<a class="headerlink" href="#id2" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Осуществляется путем создания нодового дерева логики в окне нодового
+редактора. С помощью <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> можно существенно расширить функциональность
+сцены, не прибегая при этом к программированию.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_app_example.jpg"><img alt="_images/logic_editor_app_example.jpg" class="align-center" src="_images/logic_editor_app_example.jpg" style="width: 100%;" /></a>
+<p>Для активации логики, на вкладке настроек сцены
+Blender необходимо установить галочку <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> и добавить/выбрать
+активное нодовое дерево:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_activation.png"><img alt="_images/logic_editor_activation.png" class="align-center" src="_images/logic_editor_activation.png" style="width: 100%;" /></a>
+<p>Для редактирования дерева логики необходимо перейти в <code class="docutils literal"><span class="pre">Редактор</span> <span class="pre">Нод</span></code>
+(Node Editor) выбрать тип нодового дерева <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">logic</span></code>:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_tree_type.png"><img alt="_images/logic_editor_tree_type.png" class="align-center" src="_images/logic_editor_tree_type.png" style="width: 100%;" /></a>
+<p>Затем выбрать дерево для редактирования:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_select_tree.png"><img alt="_images/logic_editor_select_tree.png" class="align-center" src="_images/logic_editor_select_tree.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Создание нод осуществляется привычным для Blender сочетанием клавиш
+<code class="docutils literal"><span class="pre">Shift+A</span></code>.</p>
+<p>Ноды  - это логические блоки, выполнение которых начинается с
+<code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code>, которая имеет один единственный выход. Почти все остальные
+ноды помимо одного или двух выходов имеют также входы, таким образом они
+могут быть вставлены в любое место в дереве. Ноды без выходов, например
+<code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code>, могут быть вставлены только в конец какой-либо ветви.
+Ноды с двумя выходами позволяют ветвить алгоритм в зависимости от
+успеха/провала указанного условия, например <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>.</p>
+<p>Для реализации сложной логики предусмотрены числовые переменные, называемые
+регистрами. Каждый из 8 регистров может хранить в себе одно числовое значение.
+Регистры могут быть использованы для хранения какого-либо состояния сцены
+(например, это может быть счётчик проигрываемых анимаций, количество жизней,
+оставшихся у персонажа и т.д.).</p>
+<p>Пример использования Logic Editor:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_example.png"><img alt="_images/logic_editor_example.png" class="align-center" src="_images/logic_editor_example.png" style="width: 100%;" /></a>
+<p>Ниже рассмотрены все возможные варианты нод.</p>
+<div class="section" id="entry-point">
+<h3>Entry Point<a class="headerlink" href="#entry-point" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Является точкой начала выполнения скрипта.</p>
+</div>
+<div class="section" id="play-timeline">
+<h3>Play Timeline<a class="headerlink" href="#play-timeline" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Проигрывать участок NLA, начиная с кадра, на который указывает маркер.
+Анимация воспроизводится до следующего маркера, либо до конца шкалы времени
+сцены, после чего управление переходит к следующей ноде.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_anim.png"><img alt="_images/logic_editor_anim.png" class="align-center" src="_images/logic_editor_anim.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="play-animation">
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Проигрывает объектную анимацию. Присутствует возможность указать название анимации.</p>
+</div>
+<div class="section" id="select-play-timeline">
+<h3>Select &amp; Play Timeline<a class="headerlink" href="#select-play-timeline" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии
+движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран
+объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде
+<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code>, если же был выбран любой другой объект - немедленно передать управление
+следующей ноде.</p>
+</div>
+<div class="section" id="select-play-animation">
+<h3>Select &amp; Play Animation<a class="headerlink" href="#select-play-animation" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии
+движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран
+объект, указанный в параметрах ноды, начать играть анимацию аналогично ноде
+<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code>, если же был выбран любой другой объект - немедленно передать управление
+следующей ноде.</p>
+</div>
+<div class="section" id="select">
+<h3>Select<a class="headerlink" href="#select" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Аналогично ноде <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code>, за исключением того, что вместо анимации
+осуществляется переход. Указанная функция позволяет реализовать более сложную
+логику, поскольку появляется возможность распознавания результата выбора
+пользователя.</p>
+</div>
+<div class="section" id="conditional-jump">
+<h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Перейти к указанной ноде в случае выполнения выбранного условия. В качестве
+параметров условия (операндов) могут выступать также регистры, которые
+активируются с помощью соответствующих переключателей.</p>
+</div>
+<div class="section" id="variable-store">
+<h3>Variable Store<a class="headerlink" href="#variable-store" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Записать числовое значение в переменную.</p>
+</div>
+<div class="section" id="math-operation">
+<h3>Math Operation<a class="headerlink" href="#math-operation" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Выполнить математическую операцию и сохранить результат в регистр. Любой из
+параметров (операндов) может быть либо числовым значением, либо регистром.</p>
+</div>
+<div class="section" id="show-object-hide-object">
+<h3>Show Object и Hide Object<a class="headerlink" href="#show-object-hide-object" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Используются для скрытия и отображения объектов.</p>
+</div>
+<div class="section" id="page-redirect">
+<h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Служит для перенаправления на другие веб-страницы.</p>
+</div>
+<div class="section" id="page-param">
+<h3>Page Param<a class="headerlink" href="#page-param" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом регистре.</p>
+</div>
+<div class="section" id="send-request">
+<h3>Send Request<a class="headerlink" href="#send-request" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей
+ответа в переменные.</p>
+</div>
+<div class="section" id="inherit-material">
+<h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет скопировать атрибуты одного материала на другой.</p>
+</div>
+<div class="section" id="set-shader-node-param">
+<h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет установить значение шейдерной ноды. В данный момент поддерживаются
+ноды Value и RGB.</p>
+</div>
+<div class="section" id="delay">
+<h3>Delay<a class="headerlink" href="#delay" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет установить задержку перед выполнением следующей ноды.</p>
+</div>
+<div class="section" id="apply-shape-key">
+<h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет задать значение параметра Shape Key.</p>
+</div>
+<div class="section" id="outline">
+<h3>Outline<a class="headerlink" href="#outline" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Позволяет управлять эффектом обводки объекта.</p>
+</div>
+<div class="section" id="id3">
+<h3>Отладка<a class="headerlink" href="#id3" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Для отладки имеется возможность отключения (muting) нод. Для этого необходимо
+выделить ноду и нажать горячую клавишу <code class="docutils literal"><span class="pre">M</span></code>. Отключенная нода не выполняется,
+но при этом передает управление следующей ноде. Если у отключенной ноды имеется
+несколько выходов, то будет происходить выполнение ветки со стороны выхода отрицательного
+результата (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="developers.html" class="btn btn-neutral float-right" title="Разработчикам приложений" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nla.html" class="btn btn-neutral" title="Нелинейная анимация" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Mis à jour le 2015-10-29.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

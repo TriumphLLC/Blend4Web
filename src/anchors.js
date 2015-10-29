@@ -119,7 +119,13 @@ function create_annotation(obj, max_width) {
 
     var meta_tags = m_obj.get_meta_tags(obj);
 
-    var title = meta_tags.title || obj.name;
+    if (meta_tags) {
+        var title = meta_tags.title || obj.name;
+        var desc = meta_tags.description;
+    } else {
+        var title = obj.name;
+        var desc = "";
+    }
 
     var title_span = document.createElement("span");
     var title_span_style = title_span.style;
@@ -133,8 +139,6 @@ function create_annotation(obj, max_width) {
 
     add_noselect_style(title_span);
     div.appendChild(title_span);
-
-    var desc = meta_tags.description;
 
     if (desc) {
         var desc_div = document.createElement("div");

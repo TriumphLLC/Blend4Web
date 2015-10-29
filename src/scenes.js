@@ -28,6 +28,7 @@ b4w.module["__scenes"] = function(exports, require) {
 var m_batch      = require("__batch");
 var m_bounds     = require("__boundings");
 var m_cam        = require("__camera");
+var m_compat     = require("__compat");
 var m_cfg        = require("__config");
 var m_cont       = require("__container");
 var m_cstr       = require("__constraints");
@@ -293,7 +294,7 @@ exports.append_scene = append_scene;
  * prepare camera before execution
  * @methodOf scenes
  */
-function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
+function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_objs) {
     bpy_scene._render_to_textures = bpy_scene._render_to_textures || [];
     bpy_scene._nla = null;
 
@@ -309,10 +310,10 @@ function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
     render.sky_params        = extract_sky_params(world, render.sun_exist);
     render.world_light_set   = get_world_light_set(world, render.sky_params);
     render.world_fog_set     = get_world_fog_set(world);
-    render.anchor_visibility = check_anchor_visibility_objects(bpy_scene, empty_objs);
+    render.anchor_visibility = check_anchor_visibility_objects(bpy_scene, bpy_empty_objs);
     render.anaglyph_use      = check_anaglyph_use(cam_render);
 
-    render.reflection_params = extract_reflections_params(bpy_scene, all_objs);
+    render.reflection_params = extract_reflections_params(bpy_scene, scene_objects);
     render.bloom_params      = extract_bloom_params(bpy_scene);
     render.mb_params         = extract_mb_params(bpy_scene);
     render.cc_params         = extract_cc_params(bpy_scene);
@@ -323,25 +324,25 @@ function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
     render.dof               = cfg_def.dof && (cam_render.dof_distance > 0 || cam_render.dof_object);
     render.motion_blur       = cfg_def.motion_blur && bpy_scene["b4w_enable_motion_blur"];
     render.compositing       = cfg_def.compositing && bpy_scene["b4w_enable_color_correction"];
-    render.antialiasing      = cfg_def.antialiasing && bpy_scene["b4w_enable_antialiasing"];
+    render.antialiasing      = cfg_def.antialiasing && (bpy_scene["b4w_antialiasing_quality"] != "NONE");
     render.ssao              = cfg_def.ssao && bpy_scene["b4w_enable_ssao"];
     render.god_rays          = cfg_def.god_rays && bpy_scene["b4w_enable_god_rays"] && render.sun_exist;
     render.depth_tex         = cfg_def.depth_tex_available;
     render.glow_over_blend   = bpy_scene["world"]["b4w_render_glow_over_blend"];
     render.ssao_params       = extract_ssao_params(bpy_scene);
 
-    var materials_params     = get_material_params(mesh_objs)
+    var materials_params     = get_material_params(bpy_mesh_objs)
     render.materials_params  = materials_params;
     render.refractions       = check_refraction(bpy_scene, materials_params);
-    render.shadow_params     = extract_shadow_params(bpy_scene, lamps, mesh_objs);
-    render.water_params      = get_water_params(mesh_objs);
-    render.xray              = check_xray_materials(mesh_objs);
-    render.soft_particles    = check_soft_particles(mesh_objs);
-    render.shore_smoothing   = check_shore_smoothing(mesh_objs);
-    render.dynamic_grass     = check_dynamic_grass(mesh_objs);
-    render.color_picking     = check_selectable_objects(bpy_scene, mesh_objs);
-    render.outline           = check_outlining_objects(bpy_scene, mesh_objs);
-    render.glow_materials    = check_glow_materials(bpy_scene, mesh_objs);
+    render.shadow_params     = extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs);
+    render.water_params      = get_water_params(bpy_mesh_objs);
+    render.xray              = check_xray_materials(bpy_mesh_objs);
+    render.soft_particles    = check_soft_particles(bpy_mesh_objs);
+    render.shore_smoothing   = check_shore_smoothing(bpy_mesh_objs);
+    render.dynamic_grass     = check_dynamic_grass(bpy_mesh_objs);
+    render.color_picking     = check_selectable_objects(bpy_scene, bpy_mesh_objs);
+    render.outline           = check_outlining_objects(bpy_scene, bpy_mesh_objs);
+    render.glow_materials    = check_glow_materials(bpy_scene, bpy_mesh_objs);
 
     switch (bpy_scene["b4w_reflection_quality"]) {
     case "LOW":
@@ -360,6 +361,41 @@ function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
         render.cubemap_refl_size = cfg_scs.cube_reflect_low;
         render.plane_refl_size = cfg_scs.plane_reflect_low;
         break;
+    }
+
+    if (m_cont.is_hidpi()) { 
+        m_print.log("%cENABLE HIDPI MODE", "color: #00a");
+        render.aa_quality = "AA_QUALITY_LOW";
+        render.resolution_factor = 1.0;
+    } else {
+        render.aa_quality = "AA_QUALITY_" + bpy_scene["b4w_antialiasing_quality"];
+
+        switch (bpy_scene["b4w_antialiasing_quality"]) {
+        case "LOW":
+            if (render.antialiasing)
+                render.resolution_factor = 1.0;
+            break;
+        case "MEDIUM":
+            if (cfg_def.quality == m_cfg.P_LOW || cfg_def.quality == m_cfg.P_HIGH)
+                render.resolution_factor = 1.0;
+            else if (cfg_def.quality == m_cfg.P_ULTRA)
+                render.resolution_factor = 1.33;
+            break;
+        case "HIGH":
+            if (cfg_def.quality == m_cfg.P_LOW)
+                render.resolution_factor = 1.0;
+            else if (cfg_def.quality == m_cfg.P_HIGH)
+                render.resolution_factor = 1.33;
+            else if (cfg_def.quality == m_cfg.P_ULTRA)
+                render.resolution_factor = 2.0;
+            break;
+        case "NONE":
+            if (cfg_def.quality == m_cfg.P_LOW || cfg_def.quality == m_cfg.P_HIGH)
+                render.resolution_factor = 1.0;
+            else if (cfg_def.quality == m_cfg.P_ULTRA)
+                render.resolution_factor = 2.0;
+            break;
+        }
     }
 
     var rtt_sort_fun = function(bpy_tex1, bpy_tex2) {
@@ -384,8 +420,12 @@ function append_scene(bpy_scene, all_objs, lamps, mesh_objs, empty_objs) {
     m_graph.append_node_attr(_scenes_graph, bpy_scene);
 
     // scene_data is ready after scene appending
-    for (var i = 0; i < all_objs.length; i++)
-        m_obj_util.scene_data_set_active(all_objs[i], true, bpy_scene);
+    for (var i = 0; i < scene_objects.length; i++)
+        m_obj_util.scene_data_set_active(scene_objects[i], true, bpy_scene);
+
+    var canvas_container_elem = m_cont.get_container();
+    m_cont.resize(canvas_container_elem.clientWidth, 
+            canvas_container_elem.clientHeight, true);
 }
 
 exports.append_scene_vtex = function(scene, textures, data_id) {
@@ -396,39 +436,10 @@ exports.append_scene_vtex = function(scene, textures, data_id) {
         }
 }
 
-exports.combine_scene_bpy_objects = combine_scene_bpy_objects;
-/**
- * Combine all bpy objects from the scene.
- */
-function combine_scene_bpy_objects(bpy_scene, type) {
-    if (!type)
-        type = "ALL";
-
-    var scene_objs_arr = [];
-    combine_scene_bpy_objects_iter(bpy_scene["objects"], type, scene_objs_arr);
-    return scene_objs_arr;
-}
-
-function combine_scene_bpy_objects_iter(bpy_objects, type, dest) {
-    // search in dupli groups
-    for (var i = 0; i < bpy_objects.length; i++) {
-        var bpy_obj = bpy_objects[i];
-
-        if (type == "ALL" || type == bpy_obj["type"])
-            dest.push(bpy_obj);
-
-        var dupli_group = bpy_obj["dupli_group"];
-        if (dupli_group) {
-            var dg_objects = dupli_group["objects"];
-            combine_scene_bpy_objects_iter(dg_objects, type, dest);
-        }
-    }
-}
-
-function extract_shadow_params(bpy_scene, lamps, mesh_objs) {
+function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
 
     if (!(cfg_def.depth_tex_available &&
-          check_render_shadows(bpy_scene, lamps, mesh_objs)))
+          check_render_shadows(bpy_scene, lamps, bpy_mesh_objs)))
         return null;
 
     var shs = bpy_scene["b4w_shadow_settings"];
@@ -479,7 +490,7 @@ function extract_shadow_params(bpy_scene, lamps, mesh_objs) {
     return rshs;
 }
 
-function check_render_shadows(bpy_scene, lamps, mesh_objects) {
+function check_render_shadows(bpy_scene, lamps, bpy_mesh_objs) {
 
     if (cfg_def.shadows) {
         switch (bpy_scene["b4w_render_shadows"]) {
@@ -498,9 +509,8 @@ function check_render_shadows(bpy_scene, lamps, mesh_objects) {
     if (lamps.length == 0 && !use_ssao)
         return false;
 
-    for (var i = 0; i < mesh_objects.length; i++) {
-        var obj = mesh_objects[i];
-        var bpy_obj = obj.temp_bpy_obj;
+    for (var i = 0; i < bpy_mesh_objs.length; i++) {
+        var bpy_obj = bpy_mesh_objs[i];
 
         if (bpy_obj["b4w_shadow_cast"])
             has_casters = true;
@@ -524,16 +534,16 @@ function check_scenes_sun(lamps) {
 
 }
 /**
- * Check if shore smoothing required for given scene.
+ * Check if shore smoothing required for given bpy objects which represent the scene.
  * Shore smoothing required if we have shore smoothing flag
  * enabled for water materials
  */
-function check_shore_smoothing(objects) {
+function check_shore_smoothing(bpy_objects) {
 
     if (!cfg_def.shore_smoothing)
         return false;
 
-    var mats = get_objs_materials(objects);
+    var mats = get_objs_materials(bpy_objects);
 
     for (var i = 0; i < mats.length; i++) {
         var mat = mats[i];
@@ -545,11 +555,9 @@ function check_shore_smoothing(objects) {
     return false;
 }
 
-function check_soft_particles(objects) {
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var bpy_obj = obj.temp_bpy_obj;
-        var psystems = bpy_obj["particle_systems"];
+function check_soft_particles(bpy_objects) {
+    for (var i = 0; i < bpy_objects.length; i++) {
+        var psystems = bpy_objects[i]["particle_systems"];
         for (var j = 0; j < psystems.length; j++) {
             var pset = psystems[j]["settings"];
             if (pset["b4w_enable_soft_particles"] &&
@@ -561,11 +569,11 @@ function check_soft_particles(objects) {
     return false;
 }
 /**
- * Check water parameters on a given scene
+ * Check water parameters based on the given bpy objects.
  */
-function get_water_params(objects) {
+function get_water_params(bpy_objects) {
 
-    var mats = get_objs_materials(objects);
+    var mats = get_objs_materials(bpy_objects);
     var water_params = [];
 
     for (var i = 0; i < mats.length; i++) {
@@ -575,9 +583,8 @@ function get_water_params(objects) {
 
             var wp = {};
             // set water level to obect's origin y coord
-            for (var j = 0; j < objects.length; j++) {
-                var obj = objects[j];
-                var bpy_obj = obj.temp_bpy_obj;
+            for (var j = 0; j < bpy_objects.length; j++) {
+                var bpy_obj = bpy_objects[j];
                 var mesh = bpy_obj["data"];
                 var mesh_mats = mesh["materials"];
                 for (var k = 0; k < mesh_mats.length; k++) {
@@ -650,13 +657,13 @@ function get_water_params(objects) {
         return null;
 }
 
-function get_material_params(objects) {
+function get_material_params(bpy_objects) {
 
     var materials_properties_existance = {
         refractions: false
     };
 
-    var materials = get_objs_materials(objects);
+    var materials = get_objs_materials(bpy_objects);
 
     var get_nodes_properties = function(node_tree) {
         if (!node_tree)
@@ -699,7 +706,7 @@ function check_anaglyph_use(cam_render) {
  * Check if reflections are required for the given scene.
  * Returns an array of reflection planes and cube reflectibe objs on the scene.
  */
-function extract_reflections_params(bpy_scene, scene_objs) {
+function extract_reflections_params(bpy_scene, scene_objects) {
 
     if (cfg_def.reflections) {
         switch (bpy_scene["b4w_render_reflections"]) {
@@ -713,8 +720,8 @@ function extract_reflections_params(bpy_scene, scene_objs) {
     var refl_plane_objs = [];
     var num_cube_refl = 0;
 
-    for (var i = 0; i < scene_objs.length; i++) {
-        var obj = scene_objs[i];
+    for (var i = 0; i < scene_objects.length; i++) {
+        var obj = scene_objects[i];
 
         if (obj.render.reflective && obj.render.reflection_type == "CUBE")
             num_cube_refl++;
@@ -980,16 +987,15 @@ function get_world_fog_set(world) {
  * at least one terrain material
  * at least one HAIR particle system (settings) with dynamic grass enabled
  */
-function check_dynamic_grass(objects) {
+function check_dynamic_grass(bpy_objects) {
     if (!cfg_def.dynamic_grass)
         return false;
 
     var has_terrain = false;
     var has_dyn_grass = false;
 
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var bpy_obj = obj.temp_bpy_obj;
+    for (var i = 0; i < bpy_objects.length; i++) {
+        var bpy_obj = bpy_objects[i];
         var materials = bpy_obj["data"]["materials"];
         for (var j = 0; j < materials.length; j++) {
             var mat = materials[j];
@@ -1011,7 +1017,7 @@ function check_dynamic_grass(objects) {
     return false;
 }
 
-function check_selectable_objects(bpy_scene, objects) {
+function check_selectable_objects(bpy_scene, bpy_objects) {
     if (cfg_out.outlining_overview_mode)
         return true;
 
@@ -1022,18 +1028,16 @@ function check_selectable_objects(bpy_scene, objects) {
         case "ON":
             return true;
         case "AUTO":
-            for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                if (obj.render.selectable)
+            for (var i = 0; i < bpy_objects.length; i++)
+                if (bpy_objects[i]._object.render.selectable)
                     return true;
-            }
             return false;
         }
     } else
         return false;
 }
 
-function check_outlining_objects(bpy_scene, objects) {
+function check_outlining_objects(bpy_scene, bpy_objects) {
     if (cfg_out.outlining_overview_mode)
         return true;
 
@@ -1044,18 +1048,16 @@ function check_outlining_objects(bpy_scene, objects) {
         case "ON":
             return true;
         case "AUTO":
-            for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                if (obj.render.outlining)
+            for (var i = 0; i < bpy_objects.length; i++)
+                if (bpy_objects[i]._object.render.outlining)
                     return true;
-            }
             return false;
         }
     else
         return false;
 }
 
-function check_glow_materials(bpy_scene, objects) {
+function check_glow_materials(bpy_scene, bpy_objects) {
     if (cfg_def.glow_materials) {
         switch (bpy_scene["b4w_enable_glow_materials"]) {
         case "OFF":
@@ -1063,12 +1065,8 @@ function check_glow_materials(bpy_scene, objects) {
         case "ON":
             return true;
         case "AUTO":
-            for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                var bpy_obj = obj.temp_bpy_obj;
-                var mesh = bpy_obj["data"];
-                var materials = mesh["materials"];
-
+            for (var i = 0; i < bpy_objects.length; i++) {
+                var materials = bpy_objects[i]["data"]["materials"];
                 for (var j = 0; j < materials.length; j++) {
                     if (m_nodemat.check_material_glow_output(materials[j]))
                         return true;
@@ -1094,11 +1092,9 @@ function check_refraction(bpy_scene, mat_params) {
         return false;
 }
 
-function check_xray_materials(objects) {
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var bpy_obj = obj.temp_bpy_obj;
-        var materials = bpy_obj["data"]["materials"];
+function check_xray_materials(bpy_objects) {
+    for (var i = 0; i < bpy_objects.length; i++) {
+        var materials = bpy_objects[i]["data"]["materials"];
         for (var j = 0; j < materials.length; j++) {
             var mat = materials[j];
             var gs = mat["game_settings"];
@@ -1112,7 +1108,7 @@ function check_xray_materials(objects) {
     return false;
 }
 
-function check_anchor_visibility_objects(bpy_scene, empty_objs) {
+function check_anchor_visibility_objects(bpy_scene, bpy_empty_objs) {
 
     switch (bpy_scene["b4w_enable_anchors_visibility"]) {
     case "OFF":
@@ -1120,16 +1116,13 @@ function check_anchor_visibility_objects(bpy_scene, empty_objs) {
     case "ON":
         return true;
     case "AUTO":
-        // perform objects check
+        for (var i = 0; i < bpy_empty_objs.length; i++) {
+            var obj = bpy_empty_objs[i]._object;
+            if (obj.anchor && obj.anchor.detect_visibility)
+                return true;
+        }
+        return false;
     }
-
-    for (var i = 0; i < empty_objs.length; i++) {
-        var obj = empty_objs[i];
-        if (obj.anchor && obj.anchor.detect_visibility)
-            return true;
-    }
-
-    return false;
 }
 
 exports.get_graph = function(scene) {
@@ -1241,7 +1234,7 @@ exports.generate_auxiliary_batches = function(graph) {
             break;
 
         case "ANTIALIASING":
-            batch = m_batch.create_antialiasing_batch();
+            batch = m_batch.create_antialiasing_batch(subs);
             break;
 
         case "SMAA_RESOLVE":
@@ -2394,6 +2387,21 @@ function remove_bundle(subscene, render) {
         }
     }
 }
+exports.update_lamp_scene_color_intensity = update_lamp_scene_color_intensity;
+/**
+ * Update light color intensities on subscenes
+ */
+function update_lamp_scene_color_intensity(lamp, scene) {
+    var light = lamp.light;
+    var sc_data = m_obj_util.get_scene_data(lamp, scene);
+    var ind = sc_data.light_index;
+    var subs_arr = subs_array(scene, LIGHT_SUBSCENE_TYPES);
+    for (var i = 0; i < subs_arr.length; i++) {
+        var subs = subs_arr[i];
+        subs.light_color_intensities.set(light.color_intensity, ind * 3);
+        subs.need_perm_uniforms_update = true;
+    }
+}
 
 exports.update_lamp_scene = update_lamp_scene;
 /**
@@ -2558,14 +2566,12 @@ exports.make_frustum_shot = function(cam, subscene, color) {
 /**
  * Get all unuque materials of mesh objects
  */
-function get_objs_materials(objs) {
+function get_objs_materials(bpy_objects) {
 
     var mats = [];
 
-    for (var i = 0; i < objs.length; i++) {
-        var obj = objs[i];
-        var bpy_obj = obj.temp_bpy_obj;
-        var mesh = bpy_obj["data"];
+    for (var i = 0; i < bpy_objects.length; i++) {
+        var mesh = bpy_objects[i]["data"];
 
         for (var j = 0; j < mesh["materials"].length; j++) {
             var mat = mesh["materials"][j];
@@ -2588,14 +2594,15 @@ exports.get_scene_timeline = function(scene) {
     return [start, end];
 }
 
-
-exports.setup_dim = function(width, height, scale) {
+exports.setup_dim = setup_dim;
+function setup_dim(width, height, scale) {
     m_cont.setup_viewport_dim(width, height, scale);
 
     if (_active_scene)
         setup_scene_dim(_active_scene, width, height);
 }
 
+exports.setup_scene_dim = setup_scene_dim;
 /**
  * Setup dimension for specific scene subscenes
  */
@@ -3500,17 +3507,18 @@ exports.update = function(timeline, elapsed) {
             // video length, cycled non-NLA video won't consider frames at 
             // the end of the cycle
 
-            // pause
-            if (!vtex.use_cyclic && current_frame >= end_frame) {
-                m_tex.pause_video(vtex.name, vtex.vtex_data_id);
-                continue;
-            }
+            if (current_frame >= end_frame)
+                if (vtex.use_cyclic) {
+                    // reset
+                    m_tex.reset_video(vtex.name, vtex.vtex_data_id);
+                    current_frame = start_frame;
+                } else {
+                    // pause
+                    m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+                    continue;
+                }
 
-            // reset
-            if (seq_video && current_frame >= end_frame) {
-                vtex.seq_cur_frame = 0;
-                current_frame = 0;
-            }
+            // initial reset
             if (current_frame < start_frame)
                 m_tex.reset_video(vtex.name, vtex.vtex_data_id);
 

@@ -5,8 +5,12 @@ b4w.register("${name}", function(exports, require) {
 
 // import modules used by the app
 var m_app  = require("app");
-var m_data = require("data");
 var m_cfg  = require("config");
+var m_data = require("data");
+var m_ver  = require("version");
+
+// detect application mode
+var DEBUG = (m_ver.type() === "DEBUG");
 
 // automatically detect assets path
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "${name}/";
@@ -18,7 +22,8 @@ exports.init = function() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
-        show_fps: true,
+        show_fps: DEBUG,
+        console_verbose: DEBUG,
         autoresize: true
     });
 }
@@ -46,7 +51,13 @@ function load() {
 /**
  * callback executed when the scene is loaded
  */
-function load_cb(data_id) {
+function load_cb(data_id, success) {
+
+    if (!success) {
+        console.log("b4w load failure");
+        return;
+    }
+
     m_app.enable_controls();
     m_app.enable_camera_controls();
 

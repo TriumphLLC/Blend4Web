@@ -1,0 +1,340 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.03.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-02 11:07+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../workflow.rst:5
+msgid "Рабочий процесс"
+# msgstr "Workflow"
+msgstr ""
+
+#: ../workflow.rst:7
+msgid ""
+"Создание любого продукта является творческим процессом, в котором могут "
+"участвовать множество людей, с различными навыками и опытом. Однако вне "
+"зависимости от его сложности и конечного результата, всегда можно выделить "
+"стадию производства, на которой создаётся основной объём ресурсов (ассетов) "
+"и исходного кода."
+# msgstr ""
+# "Developing any product is a creative process with many participants who have"
+# " different skills and experience. However no matter how complex it is and "
+# "what is the target it's always possible to separate the production stage in "
+# "which the bulk of assets and source code is authored."
+msgstr ""
+
+#: ../workflow.rst:13
+msgid ""
+"При использовании Blend4Web, производственный процесс можно представить "
+"следующим образом:"
+# msgstr "When using Blend4Web the workflow is the following:"
+msgstr ""
+
+#: ../workflow.rst:16
+msgid "Подготовка трёхмерных сцен в программе Blender."
+# msgstr "Authoring 3D scenes in Blender."
+msgstr ""
+
+#: ../workflow.rst:17
+msgid "Экспорт сцен."
+# msgstr "Exporting scenes."
+msgstr ""
+
+#: ../workflow.rst:18
+msgid "Запуск, настройка и отладка сцены в программе-просмотрщике."
+# msgstr "Running, tweaking and debugging scenes in the Viewer."
+msgstr ""
+
+#: ../workflow.rst:19
+msgid "Создание целевого приложения."
+# msgstr "Creating the target application."
+msgstr ""
+
+#: ../workflow.rst:25
+msgid "Подготовка сцен"
+# msgstr "Authoring Scenes"
+msgstr ""
+
+#: ../workflow.rst:27
+msgid ""
+"Помимо обычных операций по моделированию, текстурированию, анимации и т.д. "
+"должна быть осуществлена подготовка сцены для работы в движке."
+# msgstr ""
+# "Besides the usual stages such as modeling, texturing, animation etc a scene "
+# "should be prepared for working in the engine."
+msgstr ""
+
+#: ../workflow.rst:30
+msgid "Общие рекомендации:"
+# msgstr "General recommendations:"
+msgstr ""
+
+#: ../workflow.rst:32
+msgid ""
+"Настоятельно рекомендуется сохранять blend-файлы в директории "
+"``blender/имя_проекта``. Там же должны находиться вспомогательные файлы, не "
+"предназначенные для загрузки в приложение (например, референсы)."
+# msgstr ""
+# "We strongly recommend to save your blend files in the "
+# "``blender/project_name`` directory. Auxiliary files which are not intended "
+# "for loading in your app (for example, references), should be located there "
+# "as well."
+msgstr ""
+
+#: ../workflow.rst:33
+msgid ""
+"Изображения и медиа-файлы должны быть внешними и находиться в директории "
+"``deploy/assets/имя_проекта``."
+# msgstr ""
+# "Images and media files should be external and located in the "
+# "``deploy/assets/project_name`` directory."
+msgstr ""
+
+#: ../workflow.rst:34
+msgid ""
+"Файл, из которого будет осуществляться экспорт, должен содержать только "
+"необходимые в разрабатываемом приложении ресурсы (объекты, материалы, "
+"текстуры, анимацию и т.д.)"
+# msgstr ""
+# "Files from which you export should contain resources which are actually "
+# "required in your application (objects, materials, textures, animation etc)."
+msgstr ""
+
+#: ../workflow.rst:35
+msgid ""
+"Составные части сцен должны иметь отличающие названия. Они не должны "
+"называться \"Cube.001\", \"Material\", \"Armature\"."
+# msgstr ""
+# "Scene components should have distinct names. They should not be named "
+# "\"Cube.001\", \"Material\" or \"Armature\"."
+msgstr ""
+
+#: ../workflow.rst:36
+msgid ""
+"Рекомендуется практиковать добавление по ссылке (linking) компонентов из "
+"других файлов (библиотек)."
+# msgstr ""
+# "We recommend you to practice linking components from other files "
+# "(libraries)."
+msgstr ""
+
+#: ../workflow.rst:39
+msgid "экспорт"
+# msgstr "export"
+msgstr ""
+
+#: ../workflow.rst:44
+msgid "Экспорт сцен"
+# msgstr "Exporting Scenes"
+msgstr ""
+
+#: ../workflow.rst:46
+msgid ""
+"Для загрузки сцен, созданных с помощью пакета Blender, в движок, необходимо "
+"перевести их в формат, пригодный для чтения браузером. На данный момент "
+"используются текстовые файлы с расширением :file:`.json`, в которые "
+"сохраняются экспортируемые структуры данных в формате JSON (JavaScript "
+"Object Notation). Данный файл, в свою очередь, ссылается на один бинарный "
+"файл с расширением :file:`.bin`, содержащий массивы данных моделей, и на "
+"внешние ресурсы - текстуры и звуковые сэмплы."
+# msgstr ""
+# "In order to load scenes authored in Blender into the engine you have to "
+# "transform them into the format suitable for reading by a browser. At the "
+# "moment text files with :file:`.json` extension are used in which exported "
+# "data structures are saved in the JSON (JavaScript Object Notation) format. "
+# "In turn, this file refers to a single binary file with a :file:`.bin` "
+# "extension (which contains geometry and animation data) and to external "
+# "resources (textures, audio and video files)."
+msgstr ""
+
+#: ../workflow.rst:48
+msgid ""
+"Файлы ``.json`` и ``.bin`` создаются при экспорте, файлы текстур и медиа-"
+"файлы, как правило, должны быть размещены вручную. Внедренные в "
+"``.blend``-файл ресурсы автоматически размещаются рядом с экспортированными "
+"файлами."
+# msgstr ""
+# "While the ``.json`` and ``.bin`` files are created upon export, "
+# "textures and media files are normally placed by hand. Resources embedded in "
+# "``.blend`` files are automatically placed near the exported scene."
+msgstr ""
+
+#: ../workflow.rst:50
+msgid ""
+"Экспорт производится выбором в меню ``File > Export`` опции ``Blend4Web "
+"(.json)``. Быстрый доступ - поиск по ``b4w export`` (горячая клавиша "
+"``ПРОБЕЛ``)."
+# msgstr ""
+# "Export can be performed by choosing the ``Blend4Web (.json)`` option from "
+# "the ``File > Export`` menu. For quick access, search for ``b4w export`` (hot"
+# " key ``SPACE``)."
+msgstr ""
+
+#: ../workflow.rst:52
+msgid ""
+"Экспортные файлы рекомендуется размещать в директории, предназначенной для "
+"развертывания приложения, например ``deploy/assets/имя_проекта``."
+# msgstr ""
+# "It is recommended to export your scenes in the directory "
+# "intended for deploying applications, for example "
+# "``deploy/assets/project_name``."
+msgstr ""
+
+#: ../workflow.rst:54
+msgid ""
+"Необходимо использовать относительные пути для внешних ресурсов (как "
+"правило, это происходит по умолчанию). В случаях, когда это не так, "
+"необходимо выполнить команду ``File > External Data > Make All Paths "
+"Relative`` (т.е. сделать все пути относительными). Использование абсолютных "
+"путей вместо относительных может приводить к ошибкам при попытках загрузки "
+"``.blend`` и ``.json`` файлов на других компьютерах."
+# msgstr ""
+# "It is required to use relative filepaths for external assets (normally this "
+# "is by default). If this is not the case, run the ``File > External Data > "
+# "Make All Paths Relative`` operator. Using absolute filepaths instead of "
+# "relative ones may result in errors upon loading ``.blend`` and ``.json`` "
+# "files on other computers."
+msgstr ""
+
+#: ../workflow.rst:56
+msgid ""
+"В момент экспорта происходит проверка сцены на предмет использования не "
+"поддерживаемых движком возможностей Blender'a. В таких случаях генерируется "
+"сообщение об ошибке. Перечень возможных ошибок экспорта перечислен в "
+":ref:`соответствующем разделе <export_errors>`."
+# msgstr ""
+# "Upon export, the scene is checked for Blender features not supported by the "
+# "engine. In such cases an error message is generated. The list of possible "
+# "export errors is specified in the :ref:`corresponding section "
+# "<export_errors>`."
+msgstr ""
+
+#: ../workflow.rst:58
+msgid ""
+"Опции экспорта подробно описаны в :ref:`соответствующем разделе "
+"<export_opts>`."
+# msgstr ""
+# "Export options are described in detail in the :ref:`corresponding section "
+# "<export_opts>`."
+msgstr ""
+
+#: ../workflow.rst:61
+msgid "просмотрщик"
+# msgstr "viewer"
+msgstr ""
+
+#: ../workflow.rst:61
+msgid "добавление сцен"
+# msgstr "adding scenes"
+msgstr ""
+
+#: ../workflow.rst:66
+msgid "Отображение сцен в просмотрщике"
+# msgstr "Displaying Scenes in the Viewer"
+msgstr ""
+
+#: ../workflow.rst:68
+msgid ""
+"При использовании :ref:`локального сервера разработки "
+"<local_development_server>` и опции экспорта :ref:`Run in Viewer "
+"<run_in_viewer>` сцены показываются в просмотрщике сцен сразу после "
+"экспорта."
+# msgstr ""
+# "When using the :ref:`local development server <local_development_server>` "
+# "and the :ref:`Run in Viewer <run_in_viewer>` export option, scenes are "
+# "displayed in the Scene Viewer immediately after the export."
+msgstr ""
+
+#: ../workflow.rst:70
+msgid ""
+"При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, "
+"нужно вручную добавить запись в текстовой файл "
+"``apps_dev/viewer/assets.json``, который доступен при открытии Blender'a при"
+" использовании Blend4Web SDK."
+# msgstr ""
+# "For the long-term storage of the scene in the scene list of the viewer, it's"
+# " required to manually add the entry to the ``apps_dev/viewer/assets.json`` "
+# "text file. This file is opened automatically in Blender if you are using "
+# "Blend4Web SDK."
+msgstr ""
+
+#: ../workflow.rst:72
+msgid "Для редактирования файла откройте \"Text Editor\":"
+# msgstr "Use the \"Text Editor\" to modify it:"
+msgstr ""
+
+#: ../workflow.rst:79
+msgid ""
+"В появившемся окне вы сможете выбрать файл ``assets.json`` и отредактировать"
+" его:"
+# msgstr "Then select the ``assets.json`` file in the window to edit it:"
+msgstr ""
+
+#: ../workflow.rst:86
+msgid ""
+"Для добавления новой сцены нужно знать категорию, в которой она должна "
+"отображаться. Категория обычно соответствует названию проекта и имени "
+"директории, где хранятся соответствующие файлы."
+# msgstr ""
+# "To add a new scene you need to know the category in which it should be "
+# "displayed. The category normally corresponds to the project name and to the "
+# "name of the directory where the corresponding files are stored."
+msgstr ""
+
+#: ../workflow.rst:90
+msgid "Пример"
+# msgstr "Example"
+msgstr ""
+
+#: ../workflow.rst:92
+msgid ""
+"Ниже приведена примерная часть файла ``assets.json``, в которой находятся "
+"два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом "
+"проекте::"
+# msgstr ""
+# "For example below you can see a part of ``assets.json``. In this file there "
+# "are two projects - \"Capri\" and \"Fridge\" each with corresponding scenes::"
+msgstr ""
+
+#: ../workflow.rst:121
+msgid ""
+"Добавление можно осуществить копированием и вставкой описания похожей сцены "
+"в нужной категории и последующим редактированием ее названия и пути к "
+"экспортному файлу."
+# msgstr ""
+# "To add a new scene you can copy and paste a similar scene's description to "
+# "the required category and then edit its name and path to the exported file."
+msgstr ""
+
+#: ../workflow.rst:123
+msgid ""
+"В случае успешного добавления сцена должна появиться в списке сцен "
+"просмотрщика в нужной категории."
+# msgstr ""
+# "A successfully added scene should appear in the scenes' list of the viewer  "
+# "in the required category."
+msgstr ""
+
+#: ../workflow.rst:130
+msgid "Разработка приложения"
+# msgstr "Application Development"
+msgstr ""
+
+#: ../workflow.rst:132
+msgid ""
+"На этой стадии создаётся приложение, в котором на языке JavaScript пишется "
+"логика по загрузке сцены и взаимодействию с ней пользователя. Документация "
+"для разработчиков приложений приведена в :ref:`соответствующем разделе "
+"<developers>`."
+# msgstr ""
+# "At this stage an application is created. Logic for scene loading and user "
+# "interaction is written using JavaScript. The application developer notes are"
+# " given in the :ref:`corresponding section <developers>`."
+msgstr ""

@@ -24,6 +24,7 @@
 b4w.module["textures"] = function(exports, require) {
 
 var m_print    = require("__print");
+var m_scenes   = require("__scenes");
 var m_textures = require("__textures");
 
 /**
@@ -65,6 +66,13 @@ exports.update_canvas_texture_context = function(id, data_id) {
 exports.play_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
+
+    var scene = m_scenes.get_active();
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+        m_print.error("NLA texture can't be controlled directly through API.");
+        return;
+    }
+
     if (!m_textures.play_video(texture_name, data_id))
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }
@@ -78,6 +86,13 @@ exports.play_video = function(texture_name, data_id) {
 exports.pause_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
+
+    var scene = m_scenes.get_active();
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+        m_print.error("NLA texture can't be controlled directly through API.");
+        return;
+    }
+
     if (!m_textures.pause_video(texture_name, data_id))
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }
@@ -91,6 +106,13 @@ exports.pause_video = function(texture_name, data_id) {
 exports.reset_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
+
+    var scene = m_scenes.get_active();
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+        m_print.error("NLA texture can't be controlled directly through API.");
+        return;
+    }
+
     if (!m_textures.reset_video(texture_name, data_id))
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }

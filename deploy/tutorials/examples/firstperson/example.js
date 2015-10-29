@@ -3,13 +3,13 @@
 b4w.register("example_main", function(exports, require) {
 
 var m_app   = require("app");
-var m_data  = require("data");
-var m_main  = require("main");
-var m_scs   = require("scenes");
 var m_cons  = require("constraints");
 var m_ctl   = require("controls");
+var m_data  = require("data");
+var m_main  = require("main");
 var m_mouse = require("mouse");
 var m_phy   = require("physics");
+var m_scs   = require("scenes");
 var m_trans = require("transform");
 
 exports.init = function() {
@@ -29,8 +29,8 @@ function init_cb(canvas_elem, success) {
 
     m_app.enable_controls(canvas_elem);
 
-    window.onresize = on_resize;
-    on_resize();
+    window.addEventListener("resize", resize);
+
     load();
 }
 
@@ -53,11 +53,9 @@ function load_cb(data_id) {
     setup_movement()
 }
 
-function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_main.resize(w, h);
-};
+function resize() {
+    m_app.resize_to_container();
+}
 
 function setup_movement() {
 

@@ -1,0 +1,28 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="40" width="20" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 40.000001" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs>
+  <linearGradient id="f" x1="2247" xlink:href="#a" gradientUnits="userSpaceOnUse" x2="2247" gradientTransform="matrix(-.9474 0 0 -.9474 2294 -641.4)" y1="-1083" y2="-1074"/>
+  <linearGradient id="a">
+   <stop stop-color="#003389" stop-opacity=".1166" offset="0"/>
+   <stop stop-color="#002975" stop-opacity=".5707" offset="1"/>
+  </linearGradient>
+  <clipPath id="e" clipPathUnits="userSpaceOnUse">
+   <rect height="18" width="18" y="2245" x="9746" fill="#f00"/>
+  </clipPath>
+  <linearGradient id="g" x1="2247" xlink:href="#a" gradientUnits="userSpaceOnUse" y1="-1083" gradientTransform="matrix(-.9474 0 0 -.9474 2272 -641.4)" x2="2247" y2="-1074"/>
+ </defs>
+ <g transform="translate(0 -1012)">
+  <g transform="translate(-141.6 637.9)">
+   <g transform="translate(.00005 -.1786)">
+    <path opacity=".2" style="color:#000000" d="m160.6 393.7v-18h-18v18z" filter="url(#filter5372)" fill="url(#g)"/>
+    <rect height="19" width="19" stroke="#c4e7f5" y="375.2" x="142.1" fill="none"/>
+   </g>
+   <g transform="translate(-22 19.82)">
+    <path opacity=".2" style="color:#000000" d="m182.6 393.7v-18h-18v18z" filter="url(#filter5372)" fill="url(#f)"/>
+    <g transform="translate(-10217 -984.08)" fill="none">
+     <rect height="19" width="19" stroke="#c4e7f5" y="1359" x="1.038e4"/>
+     <path d="m9748 2255 5 4 9-11" clip-path="url(#e)" transform="translate(635.3 -885.3)" stroke="#008ecc" stroke-width="3"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

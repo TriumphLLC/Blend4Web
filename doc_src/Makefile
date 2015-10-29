@@ -17,6 +17,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 RUOPT = -D language='ru' -c conf_ru
 ENOPT = -D language='en' -c conf_en
+FROPT = -D language='fr' -c conf_fr
 
 .PHONY: help clean html latexpdf gettext text
 
@@ -35,6 +36,7 @@ clean:
 html:
 	$(SPHINXBUILD) -b html $(RUOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/ru
 	$(SPHINXBUILD) -b html $(ENOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/en
+	$(SPHINXBUILD) -b html $(FROPT) $(ALLSPHINXOPTS) $(BUILDDIR)/fr
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
 
@@ -68,6 +70,7 @@ gettext:
 
 gettext_update:
 	sphinx-intl update -p locale -d locale -c conf_ru/conf.py -l en 
+	sphinx-intl update -p locale -d locale -c conf_ru/conf.py -l fr
 
 gettext_build:
 	sphinx-intl -d locale -c conf_ru/conf.py build
@@ -80,3 +83,5 @@ sorttext:
 text:
 	$(SPHINXBUILD) -b text -c conf_en . ../deploy/doc/en/_sources/
 	@echo "Build en search pages."
+	$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
+	@echo "Build fr search pages."

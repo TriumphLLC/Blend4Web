@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Гамма-коррекция и альфа-композитинг &mdash; Руководство пользователя: Blend4Web vv15.09</title>
+  <title>Гамма-коррекция и альфа-композитинг &mdash; Руководство пользователя: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="Звуковая подсистема" href="audio.html"/>
         <link rel="prev" title="Рендеринг наружных сцен" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -235,17 +235,20 @@
 <div class="section" id="id6">
 <h3>Ноды для окраски<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании текстур и вертексных цветов для окраски (не в качестве масок),
-необходима распаковка (sRGB -&gt; Linear). Нода текстуры реализует распаковку автоматически. Для вертексного цвета распаковку необходимо осуществлять явно, с помощью специальной ноды
-<cite>SRGB_TO_LINEAR</cite>.</p>
+необходима распаковка (sRGB -&gt; Linear). Выход <cite>Vertex Color</cite> ноды <cite>Geometry</cite> и нода текстуры реализуют распаковку автоматически.</p>
 <p>Отметим, что альфа-канал ноды текстуры коррекции не подвергается, его значения находятся в линейном пространстве.</p>
 </div>
 <div class="section" id="id7">
 <h3>Ноды для масок<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Текстуры и вертексные цвета могут использоваться в качестве масок, т.е. для смешения
-цветов или других математических операций. В таком случае в преобразованиях нет необходимости.</p>
-<p>В случае текстуры, тем не менее, имеется нюанс: нода текстуры реализует распаковку автоматически. Это приводит к
-необходимости дополнительного преобразования обратно в нелинейное пространство, для
-чего используется нода <cite>LINEAR_TO_SRGB</cite>.</p>
+цветов или других математических операций. В таком случае необходима упаковка (Linear -&gt; sRGB).</p>
+<p>Следует обратить внимание, что выход <cite>Vertex Color</cite> ноды <cite>Geometry</cite> и нода текстуры реализуют распаковку автоматически.
+Это приводит к необходимости дополнительного преобразования обратно в нелинейное пространство, для
+чего используется специальная нода <cite>LINEAR_TO_SRGB</cite> или нода <cite>GAMMA</cite> со значением γ = 1/2.2.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Нода <cite>LINEAR_TO_SRGB</cite> считается устаревшей, следует использовать ноду <cite>GAMMA</cite>.</p>
+</div>
 </div>
 <div class="section" id="id8">
 <h3>Карты нормалей<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
@@ -271,23 +274,19 @@
 не подвергается)</td>
 </tr>
 <tr class="row-odd"><td>Текстура для маски</td>
-<td>LINEAR_TO_SRGB</td>
+<td>GAMMA со значением γ = 0.45</td>
 </tr>
 <tr class="row-even"><td>Вертексный цвет для окраски</td>
-<td>SRGB_TO_LINEAR</td>
+<td>реализуется автоматически</td>
 </tr>
 <tr class="row-odd"><td>Вертексный цвет для маски</td>
-<td>не требуется</td>
+<td>GAMMA со значением γ = 0.45</td>
 </tr>
 <tr class="row-even"><td>Карта нормалей</td>
 <td>не требуется</td>
 </tr>
 </tbody>
 </table>
-<div class="admonition seealso">
-<p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-gamma"><span>B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR</span></a></p>
-</div>
 </div>
 </div>
 <div class="section" id="alpha-compositing">
@@ -338,7 +337,7 @@ premultiplied alpha) формула принимает вид:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-09-30.
+      Обновлено: 2015-10-29.
 
     </p>
   </div>
@@ -360,7 +359,7 @@ premultiplied alpha) формула принимает вид:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

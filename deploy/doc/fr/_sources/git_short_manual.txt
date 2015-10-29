@@ -1,0 +1,576 @@
+
+Работа в команде с использованием Git
+*************************************
+
+
+Общие сведения
+==============
+
+Для организации командной работы над проектом может быть использована
+система контроля версий файлов Git. Использование Git имеет ряд
+преимуществ перед другими способами организации совместной работы:
+
+* сохранение полной истории изменений файлов с возможностью возврата
+  к предыдущим версиям
+
+* синхронизация изменений между пользователями и автоматическое
+  слияние изменений
+
+* возможность работы с бинарными файлами большого объёма
+
+Git - распределенная система, и каждый разработчик или дизайнер имеет
+собственный локальный репозиторий (хранилище). Синхронизация между
+локальными репозиториями может осуществляться через центральное
+"общее" хранилище, которое можно разместить на специально выделенной
+для этой цели машине (сервере). К серверу может быть организован
+доступ по протоколу SSH.
+
+Хотя для Git существует множество графических утилит, упрощающих
+работу начинающих пользователей, здесь мы рассмотрим работу со штатной
+консольной утилитой, вызываемой командой "git".
+
+
+Типичный рабочий процесс
+========================
+
+1. В ходе работы в локальных репозиториях создаются, изменяются или
+   удаляются файлы.
+
+2. По завершении некоторого логического этапа работы возникает
+   необходимость фиксации изменений (коммит) и/или синхронизации с
+   коллегами.
+
+3. Проводится подготовка файлов к коммиту - учет измененных, новых
+   и удаленных файлов, а также сброс изменений.
+
+4. Осуществляется коммит.
+
+5. Локальные изменения загружаются в общее хранилище и становятся
+   доступными для коллег.
+
+Далее описывается ограниченный набор команд Git, рекомендуемых к
+использованию при создании приложений и графических ресурсов.
+
+Перед выполнением команд необходимо перейти в репозиторий, например:
+
+   > cd ~/blend4web
+
+
+Индивидуальные настройки
+========================
+
+Новый пользователь может устанавить имя и почтовый адрес командами:
+
+   > git config --global user.name "Ivan Petrov"
+   > git config --global user.email ipetrov@blend4web.com
+
+Установленные данные будут использоваться в логе изменений.
+
+
+Проверка статуса
+================
+
+Перед началом, в процессе или после выполнения любых операций
+рекомендуется проверять текущее состояние репозитория.
+
+Проверить статус можно командой:
+
+   > git status
+
+Результат команды "git status", если все коммиты проведены и нет новых
+файлов:
+
+   # On branch master
+   # Your branch is ahead of 'origin/master' by 2 commits.
+   #
+   nothing to commit (working directory clean)
+
+Возможный результат команды "git status", если имеются изменения.
+Например, файлы "apps_dev/firstperson/firstperson.js" и
+"doc_src/git_short_manual.rst" изменены, и создан новый файл
+"123.txt":
+
+   # On branch master
+   # Changes not staged for commit:
+   #   (use "git add <file>..." to update what will be committed)
+   #   (use "git checkout -- <file>..." to discard changes in working directory)
+   #
+   #   modified:   apps_dev/firstperson/firstperson.js
+   #   modified:   doc_src/git_short_manual.rst
+   #
+   # Untracked files:
+   #   (use "git add <file>..." to include in what will be committed)
+   #
+   #   123.txt
+   no changes added to commit (use "git add" and/or "git commit -a")
+
+
+Перед коммитом
+==============
+
+
+Проверка изменений (текстовых файлов)
+-------------------------------------
+
+Перед совершением коммита в случае текстовых файлов рекомендуется
+просмотреть внесенные изменения.
+
+Проверить, что изменилось, во всей директории:
+
+   > git diff
+
+или только в определенном файле:
+
+   > git diff apps_dev/firstperson/firstperson.js
+
+Возможный результат команды "git diff" для текстового файла:
+
+   diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
+   index 4381c99..44b3b15 100644
+   --- a/apps_dev/firstperson/firstperson.js
+   +++ b/apps_dev/firstperson/firstperson.js
+   @@ -557,8 +557,9 @@ function enable_camera_control_mode() {
+                var cam_view_down = CAMERA_MOVE_UPDOWN * (Math.sin(_passed_time) - 1);
+
+                b4w.camera.translate_view(obj, 0, cam_view_down, cam_view_angle);
+   -        } else
+   +        } else {
+                b4w.camera.translate_view(obj, 0, 0, 0);
+   +        }
+        }
+
+
+Восстановление файлов
+---------------------
+
+Если файл был изменен или удален, но его необходимо восстановить (до
+состояния, зафиксированного последним коммитом), следует использовать
+команду:
+
+   > git checkout doc_src/git_short_manual.rst
+   > git checkout 123.txt
+
+Внесенные изменения будут отменены, поэтому эту команду необходимо
+выполнять с осторожностью.
+
+
+Посторонние файлы
+-----------------
+
+Если файл значится в списке "Untracked files" (команда "git status"),
+но контроль версий для него не нужен, его следует удалить или
+переместить за пределы рабочей директории.
+
+
+Подготовка к коммиту
+====================
+
+
+Добавление файлов
+-----------------
+
+Если изменения устраивают, добавить нужные измененные и/или новые
+файлы для коммита:
+
+   > git add apps_dev/firstperson/firstperson.js
+   > git add 123.txt
+
+Снова проверить статус:
+
+   > git status
+
+Возможный результат команды "git status" после добавления некоторых
+файлов командой "git add":
+
+   # On branch master
+   # Changes to be committed:
+   #   (use "git reset HEAD <file>..." to unstage)
+   #
+   #   new file:   123.txt
+   #   modified:   apps_dev/firstperson/firstperson.js
+   #
+   # Changes not staged for commit:
+   #   (use "git add <file>..." to update what will be committed)
+   #   (use "git checkout -- <file>..." to discard changes in working directory)
+   #
+   #   modified:   doc_src/git_short_manual.rst
+   #
+
+Видно, что для коммита добавлены файлы
+"apps_dev/firstperson/firstperson.js" и "123.txt", а файл
+"doc_src/git_short_manual.rst" остался недобавленным. Для упрощения
+работы рекомендуется либо добавлять такие файлы для коммита, либо
+отбрасывать их изменения командой "git checkout".
+
+
+Удаление файлов
+---------------
+
+Некоторые файлы могут быть отмечены как удаленные из Git после
+выполнения команды "git status", например:
+
+   # On branch master
+   # Your branch is ahead of 'origin/master' by 2 commits.
+   #
+   # Changes not staged for commit:
+   #   (use "git add/rm <file>..." to update what will be committed)
+   #   (use "git checkout -- <file>..." to discard changes in working directory)
+   #
+   #   deleted:    123.txt
+   #
+   no changes added to commit (use "git add" and/or "git commit -a")
+
+В таком случае, если удаление файла должно быть зафиксировано (т.е.
+войти в коммит), выполнить команду "git rm", например:
+
+   > git rm 123.txt
+
+Если же файл был удален по ошибке, и его необходимо вернуть, нужно
+использовать команду "git checkout".
+
+
+Коммит
+======
+
+Выполнить коммит командой:
+
+   > git commit
+
+Появится окно текстового редактора (например, **nano** или **vim**), в
+котором нужно ввести комментарий к коммиту на английском языке.
+
+     GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
+
+   My commit message
+   # Please enter the commit message for your changes. Lines starting
+   # with '#' will be ignored, and an empty message aborts the commit.
+   # On branch master
+   # Changes to be committed:
+   #   (use "git reset HEAD <file>..." to unstage)
+   #
+   #       new file:   123.txt
+   #       modified:   apps_dev/firstperson/firstperson.js
+   #
+   # Changes not staged for commit:
+   #   (use "git add <file>..." to update what will be committed)
+   #   (use "git checkout -- <file>..." to discard changes in working directory)
+   #
+   #       modified:   doc_src/git_short_manual.rst
+   #
+
+   ^G Get Help               ^O WriteOut               ^R Read File              ^Y Prev Page
+   ^X Exit                   ^J Justify                ^W Where Is               ^V Next Page
+
+Сохранить изменения и выйти из редактора (в **nano** Ctrl+O, затем
+Ctrl+X; в **vim** ZZ, или ESC :wq).
+
+После совершения коммита рекомендуется снова проверить статус. Коммит
+совершен правильно, если команда "git status" отображает "nothing to
+commit, working directory clean".
+
+
+Синхронизация между репозиториями
+=================================
+
+
+Из удаленного - в локальный
+---------------------------
+
+После того как все коммиты сделаны, необходимо загрузить изменения из
+удаленного ("общего") репозитория в локальный:
+
+   > git pull
+
+Результат команды "git pull", если в удаленном репозитории нет
+изменений:
+
+   Already up-to-date.
+
+Результат команды "git pull", если в удаленном репозитории были
+изменения, и синхронизация прошла успешно:
+
+   remote: Counting objects: 151, done.
+   remote: Compressing objects: 100% (101/101), done.
+   remote: Total 102 (delta 74), reused 0 (delta 0)
+   Receiving objects: 100% (102/102), 69.77 MiB | 4.87 MiB/s, done.
+   Resolving deltas: 100% (74/74), completed with 32 local objects.
+   From lixer:blend4web
+      dbf3877..9f9700c  master     -> origin/master
+   Updating dbf3877..9f9700c
+   Fast-forward
+    apps_dev/firstperson/firstperson.js                |  338 +--
+    .../location_agriculture.blend                     |  Bin 25601626 -> 25598644 bytes
+    ...
+    src/controls.js                                    |   38 +-
+    src/data.js                                        |    5 +
+    src/physics.js                                     |  185 +-
+    19 files changed, 1452 insertions(+), 2767 deletions(-)
+    create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png
+
+При желании можно посмотреть, какие изменения были внесены коллегами,
+командой:
+
+   > git diff dbf3877..9f9700c
+
+Параметр этой команды - в данном случае dbf3877..9f9700c - указывает,
+между какими именно коммитами просматриваются изменения. Этот параметр
+удобно выделить в результатах команды "git pull" и вставить щелчком
+мыши (средняя кнопка) в консоли в нужном месте.
+
+Также можно просмотреть лог изменений:
+
+   > git log
+
+Команда "git pull" не всегда приводит в успешной синхронизации.
+Результат команды "git pull" в случае наличия конфликтов:
+
+   remote: Counting objects: 11, done.
+   remote: Compressing objects: 100% (6/6), done.
+   remote: Total 6 (delta 5), reused 0 (delta 0)
+   Unpacking objects: 100% (6/6), done.
+   From lixer:blend4web
+      ff715c2..dbf316a  master     -> origin/master
+   warning: Cannot merge binary files: blender/landscape_objects/Fallen_tree.blend (...)
+
+   Auto-merging blender/landscape_objects/Fallen_tree.blend
+   CONFLICT (content): Merge conflict in blender/landscape_objects/Fallen_tree.blend
+   Automatic merge failed; fix conflicts and then commit the result.
+
+Порядок действий при возникновении конфликтов описан далее.
+
+
+Из локального - в удаленный
+---------------------------
+
+Затем нужно загрузить изменения из локального репозитория в удаленный
+("общий"), чтобы локальные изменения стали доступными для коллег.
+
+   > git push
+
+Результат команды "git push", если в удаленном репозитории уже есть
+все локальные изменения:
+
+   Everything up-to-date
+
+Результат команды "git push", если синхронизация прошла успешно:
+
+   Counting objects: 25, done.
+   Delta compression using up to 8 threads.
+   Compressing objects: 100% (14/14), done.
+   Writing objects: 100% (14/14), 1.23 KiB, done.
+   Total 14 (delta 11), reused 0 (delta 0)
+   To gfxteam@lixer:blend4web.git
+      9f9700c..fa1d6ac  master -> master
+
+Результат команды "git push", если синхронизация не прошла, потому что
+сначала не была выполнена команда "git pull":
+
+   To gfxteam@lixer:blend4web.git
+    ! [rejected]        master -> master (non-fast-forward)
+   error: failed to push some refs to 'gfxteam@lixer:blend4web.git'
+   To prevent you from losing history, non-fast-forward updates were rejected
+   Merge the remote changes (e.g. 'git pull') before pushing again.  See the
+   'Note about fast-forwards' section of 'git push --help' for details.
+
+Необходимо выполнить команду "git pull".
+
+Изменения, загруженные в центральный репозиторий, могут быть получены
+другими участниками разработки с помощью команды "git pull".
+
+
+Разрешение конфликтов
+=====================
+
+
+Общие сведения
+--------------
+
+Конфликты синхронизации происходят, если выполнены оба условия
+
+1. один и тот же файл был изменен как в локальном, так и в
+   удаленном репозитории, и
+
+2. автоматическое слияние изменений не произошло, поскольку
+   изменения находятся в одном и том же месте файла.
+
+Типичные случаи:
+
+1. бинарный файл (текстура, blend-файл) независимо изменен двумя
+   участниками разработки
+
+2. в текстовой файл в одной и той же строке были внесены разные
+   изменения
+
+3. один участник разработки изменил файл, а другой - переместил его
+   и т.п.
+
+Хотя конфликты синхронизации - нормальное явление, слишком частое их
+возникновение замедляет работу. Рекомендуется ставить коллег в
+известность о начале работ с общими бинарными файлами, а также чаще
+проводить синхронизацию. Необходимо эффективно распределять работу
+между участниками разработки, чтобы таких общих файлов было как можно
+меньше. Этого можно добиться, в частности, подключением всех ресурсов
+сцены (linking) из отдельных blend-файлов в один мастер-файл.
+
+
+Порядок действий
+----------------
+
+Не рекомендуется производить какие-либо действия с файлами (изменять,
+удалять), пока репозиторий находится в конфликтном состоянии.
+
+Первое что необходимо сделать - выполнить команду "git status".
+
+   # On branch master
+   # Your branch and 'origin/master' have diverged,
+   # and have 7 and 1 different commit each, respectively.
+   #
+   # Unmerged paths:
+   #   (use "git add/rm <file>..." as appropriate to mark resolution)
+   #
+   #   both modified:      blender/landscape_objects/Fallen_tree.blend
+   #
+   no changes added to commit (use "git add" and/or "git commit -a")
+
+Список конфликтующих файлов отображен в разделе "Unmerged paths".
+
+Дальнейший порядок действий различен для бинарных и текстовых файлов.
+
+
+Бинарные файлы
+--------------
+
+На данном этапе конфликтующие бинарные файлы находятся в том
+состоянии, в котором они находились в локальном репозитории до попытки
+синхронизации. Файлы полностью функциональны (например, открываются
+графическими редакторами).
+
+В случае конфликта бинарных файлов необходимо выяснить с коллегами или
+самостоятельно, какую из версий оставить, а какую отбросить. Выбор
+осуществляется командой "git checkout".
+
+Выбрать локальную версию файла (**- -ours**). Его можно открыть и
+убедиться в этом.
+
+   > git checkout --ours blender/landscape_objects/Fallen_tree.blend
+
+Выбрать удаленную версию файла (**- -theirs**). Его можно открыть и
+убедиться в этом.
+
+   > git checkout --theirs blender/landscape_objects/Fallen_tree.blend
+
+Снова выбрать локальную версию файла (**- -ours**).
+
+   > git checkout --ours blender/landscape_objects/Fallen_tree.blend
+
+В итоге необходимо остановиться на нужной версии файла. При угрозе
+потери работы можно сохранить отбрасываемую версию файла вне
+репозитория.
+
+
+Текстовые файлы
+---------------
+
+На данном этапе в конфликтующие текстовые файлы Git'ом вносятся как
+локальные, так и удаленные изменения одновременно, в особом формате.
+Такие текстовые файлы как правило, не работоспособны.
+
+Пример. Один участник разработки изменил имя сцены с "Blue Lizard" на
+"Green Lizard" в файле приложения и загрузил изменения в центральный
+репозиторий. Другой участник разработки изменил в той же строке "Blue
+Lizard" на "Red Lizard", совершил коммит и выполнил команду "git
+pull". В результате именно на этого участника ложится ответственность
+по разрешению конфликта. В его файле приложения будут находиться
+строки:
+
+   <<<<<<< HEAD
+                   "name": "Red Lizard",
+   =======
+                   "name": "Green Lizard",
+   >>>>>>> 81bf4e2d5610d500ad4d2a2605ee7e61f759f201
+
+В случае конфликта текстовых файлов можно поступить следующим образом.
+Файлы, содержащие исходный код, необходимо отредактировать с учетом
+или без учета внесенных обеими сторонами изменений. В то же время
+экспортированные текстовые файлы сцен (заканчивающиеся на **.json**)
+проще повторно экспортировать.
+
+
+Корректирующий коммит
+---------------------
+
+После выбора нужных файлов или редактирования изменений, добавить их
+для коммита:
+
+   > git add blender/landscape_objects/Fallen_tree.blend
+   > git status
+
+Возможный результат выполнения "git status" после добавления
+конфликтующих файлов для коммита:
+
+   # On branch master
+   # Your branch and 'origin/master' have diverged,
+   # and have 7 and 1 different commit each, respectively.
+   #
+   nothing to commit (working directory clean)
+
+Выполнить коммит, комментарий рекомендуется оставить предложенный по
+умолчанию:
+
+   > git commit
+   > git status
+
+   # On branch master
+   # Your branch is ahead of 'origin/master' by 8 commits.
+   #
+   nothing to commit (working directory clean)
+
+Конфликты разрешены, изменения из удаленного репозитория успешно
+применены в локальном репозитории. Теперь изменения в локальном
+репозитории, - включающие только что разрешенный конфликт, - можно
+загрузить в удаленный репозиторий командой "git push".
+
+
+Тэги
+====
+
+Тэги (метки) предназначены для указания на определенный коммит,
+например, с целью обозначения стабилизированной версии продукта.
+
+Просмотреть список тэгов:
+
+   > git tag
+
+Создать тэг для релиза от 3 июня 2013 г., указывающий на коммит со
+стабильной версией проекта:
+
+   > git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
+
+Просмотреть информацию о коммите тэга:
+
+   > git show --shortstat R130603
+
+Перейти к тэгу...
+
+   > git checkout R130603
+
+...и вернуться:
+
+   > git checkout master
+
+Синхронизировать тэги с удаленным репозиторием:
+
+   > git push --tags
+
+Удалить тэг (при ошибочном создании):
+
+   > git tag -d R130603
+
+
+Другие полезные команды
+=======================
+
+Просмотреть лог за январь 2012 г, показывать имена файлов, без
+коммитов слияния:
+
+   > git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges

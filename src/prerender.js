@@ -72,7 +72,7 @@ exports.prerender_subs = function(subs) {
         default:
             // prevent rare bugs when blend is only one rendered
             if (subs.type === "MAIN_OPAQUE" || subs.type === "DEPTH" 
-                    || has_render_bundles)
+                    || subs.type === "MAIN_GLOW" || has_render_bundles)
                 subs.do_render = true;
             else {
                 // clear subscene if it switches "do_render" flag to false

@@ -100,9 +100,8 @@ Nodes for Colouring
 -------------------
 
 Unpacking (sRGB -> Linear) is required when textures and vertex colors
-are used for colouring (not for masking). The texture node implements
-unpacking automatically. For vertex colors the unpacking should be
-performed explicitely with the *SRGB_TO_LINEAR* special node.
+are used for colouring (not for masking). The texture node and *Vertex
+Color* output of *Geometry* node implement unpacking automatically.
 
 Note that the alpha channel of a texture node is not corrected. Its
 values are in the linear space.
@@ -111,14 +110,18 @@ values are in the linear space.
 Nodes for Masking
 -----------------
 
-Textures and vertex colors can be used as masks i.e. for mixing colors
-and for other mathematical operations. In such a case no
-transformations are required.
+Textures and vertex colors can be used as masks i.e. input data for
+some mathematical operations. In such a case the packing operation is
+required.
 
-In case of a texture however there is a nuance: a texture node
-implements unpacking automatically. This results in necessity of the
-additional transformation back to the non-linear space, for which the
-*LINEAR_TO_SRGB* node is used.
+Keep in mind that a texture node and *Vertex Color* output of
+*Geometry* node implement unpacking automatically. This results in
+necessity of the additional transformation back to the non-linear
+space, for which the *LINEAR_TO_SRGB* or *GAMMA* node with γ = 1/2.2
+is used.
+
+Note: *LINEAR_TO_SRGB* and *SRGB_TO_LINEAR* nodes are deprecated.
+  *GAMMA* node should be used instead.
 
 
 Normal Maps
@@ -137,16 +140,14 @@ Summary Table
 |                               | the texture node (the alpha   |
 |                               | channel is not corrected)     |
 +-------------------------------+-------------------------------+
-| Texture for masking           | LINEAR_TO_SRGB                |
+| Texture for masking           | *GAMMA* with γ = 0.45         |
 +-------------------------------+-------------------------------+
-| Vertex color for colouring    | SRGB_TO_LINEAR                |
+| Vertex color for colouring    | implemented automatically     |
 +-------------------------------+-------------------------------+
-| Vertex color for masking      | not required                  |
+| Vertex color for masking      | *GAMMA* with γ = 0.45         |
 +-------------------------------+-------------------------------+
 | Normal map                    | not required                  |
 +-------------------------------+-------------------------------+
-
-See also: B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR
 
 
 Alpha Compositing

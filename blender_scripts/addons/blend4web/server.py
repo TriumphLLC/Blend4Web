@@ -37,6 +37,8 @@ import queue
 import pathlib
 import hashlib
 import shutil
+import tempfile
+import json
 
 from os.path import basename, exists, join, normpath, relpath
 
@@ -105,10 +107,10 @@ class B4WLocalServer():
     server = None
     server_process = None
     server_status = WAIT_RESPONSE
-    
+
     waiting_for_shutdown = False
     server_was_found_at_start = False
-    
+
     error_message = ""
 
     @classmethod
@@ -117,7 +119,7 @@ class B4WLocalServer():
             cls.server_status = WAIT_RESPONSE
             cls.server_process = threading.Thread(target=create_server)
             cls.server_process.daemon = True
-            
+
             try:
                 cls.server_process.start()
             except BaseException as ex:
@@ -176,11 +178,11 @@ class B4WLocalServer():
             port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
             session = requests.Session()
             session.trust_env = False
-            req = session.head("http://localhost:" + str(port)) 
+            req = session.head("http://localhost:" + str(port))
         except:
             pass
         else:
-            if (req.status_code == STATUS_OK and "B4W.LocalServer" in req.headers 
+            if (req.status_code == STATUS_OK and "B4W.LocalServer" in req.headers
                     and req.headers["B4W.LocalServer"] == "1"):
                 server_found = True
 
@@ -252,17 +254,45 @@ class B4WOpenSDK(bpy.types.Operator):
     bl_label = p_("B4W Open SDK", "Operator")
     bl_description = _("Open Blend4Web SDK")
     bl_options = {"INTERNAL"}
-   
+
     def execute(self, context):
         port = context.user_preferences.addons[__package__].preferences.b4w_port_number
         B4WLocalServer.open_url("http://" + ADDRESS + ":" + str(port))
+        return {"FINISHED"}
+
+class B4WOpenProjManager(bpy.types.Operator):
+    bl_idname = "b4w.open_proj_manager"
+    bl_label = p_("B4W Open Project Manager", "Operator")
+    bl_description = _("Open Project Manager")
+    bl_options = {"INTERNAL"}
+
+    def execute(self, context):
+        port = context.user_preferences.addons[__package__].preferences.b4w_port_number
+        B4WLocalServer.open_url("http://" + ADDRESS + ":" + str(port) +
+                "/project/")
+        return {"FINISHED"}
+
+class B4WPreviewScene(bpy.types.Operator):
+    bl_idname = "b4w.preview"
+    bl_label = p_("B4W Preview", "Operator")
+    bl_description = _("Preview the current scene in the Viewer")
+    bl_options = {"INTERNAL"}
+
+    def execute(self, context):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        tmpdir = join(root, "tmp")
+        if not exists(tmpdir):
+            os.mkdir(tmpdir)
+        bpy.ops.export_scene.b4w_json(do_autosave = False, run_in_viewer = True,
+                override_filepath=join(tmpdir, "preview.json"),
+                save_export_path = False)
         return {"FINISHED"}
 
 def open_browser(url):
     try:
         webbrowser.open(url)
     except BaseException as ex:
-        bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
+        bpy.ops.b4w.server_message("INVOKE_DEFAULT",
                 message=get_translate(_("Could not open browser: ")) + str(ex))
 
 def create_server():
@@ -278,15 +308,22 @@ def create_server():
     application = tornado.web.Application([
         (r"/console/?$", ConsoleHandler),
         (r"/project/?$", ProjectRootHandler),
+        (r"/project/sort/up/?$", ProjectSortUpHandler),
+        (r"/project/sort/down/?$", ProjectSortDownHandler),
+        (r"/project/show_b4w/?$", ProjectShowHandler),
+        (r"/project/hide_b4w/?$", ProjectHideHandler),
+        (r"/project/import/?$", UploadFile),
         (r"/project/.+$", ProjectRequestHandler),
         (r"/create/?$", ProjectCreateHandler),
         (r"/run_blender/(.*)$", RunBlenderHandler),
-        (r"/(.*)$", StaticFileHandlerNoCache, 
+        (r"/tests/send_req_post/?$", TestSendReqPost),
+        (r"/(.*)$", StaticFileHandlerNoCache,
             { "path": root, "default_filename": DEFAULT_FILENAME}),
+
     ])
 
     try:
-        B4WLocalServer.server = tornado.httpserver.HTTPServer(application)
+        B4WLocalServer.server = tornado.httpserver.HTTPServer(application, max_buffer_size=10*1024*1024*1024)
         B4WLocalServer.server.listen(port, address=address)
         B4WLocalServer.server_status = SUB_THREAD_START_SERV_OK
         print("serving at port", port)
@@ -316,6 +353,27 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         self.set_header("Last-Modified", exp)
         self.add_header("B4W.LocalServer", "1")
 
+class UploadFile(tornado.web.RequestHandler):
+    def post(self):
+        if not "zip_file" in self.request.files:
+            return self.send_error(status_code=400)
+
+        temp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".zip", delete=False)
+        temp_file.write(self.request.files["zip_file"][0]["body"])
+        temp_file.seek(0)
+        temp_file.close()
+
+        self.redirect("/project/import/" + quote(temp_file.name, safe=""))
+
+class TestSendReqPost(tornado.web.RequestHandler):
+    def post(self):
+        req = json.loads(self.request.body.decode("utf-8"))
+        if req["field1"] == 1 and req["field2"] == 2:
+            resp = {"resp":2}
+        else:
+            resp = {}
+        self.write(resp)
+
 class ProjectRootHandler(tornado.web.RequestHandler):
     def get(self):
         root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
@@ -333,7 +391,7 @@ class ProjectRootHandler(tornado.web.RequestHandler):
         cmd = [python_path, join(root, "apps_dev", "project.py"),
                 "--no-colorama"]
 
-        tpl_html_file = open(join(root, "index_assets", "projects.tmpl"), "r")
+        tpl_html_file = open(join(root, "index_assets", "templates", "projects.tmpl"), "r")
         tpl_html_str = tpl_html_file.read()
         tpl_html_file.close()
 
@@ -350,9 +408,27 @@ class ProjectRootHandler(tornado.web.RequestHandler):
 
         table_insert = ""
 
-        for s in proj_strs:
-            table_insert += "<tr>"
+        sort_type = "up"
+        sort_link = "down"
+        hide_b4w = False
+        show_hide_link = "/project/hide_b4w/"
+        show_hide_text = "Hide"
 
+        if self.get_cookie("hide_b4w") == "hide":
+            hide_b4w = True
+            show_hide_link = "/project/show_b4w/"
+            show_hide_text = "Show"
+
+        if self.get_cookie("sort") == "down":
+            sort_type = "down"
+            sort_link = "up"
+
+        if sort_type == "down":
+            proj_strs.reverse()
+        else:
+            proj_strs.sort()
+
+        for s in proj_strs:
             name = s.split("->")[0].strip(" ")
             path = s.split("->")[1].strip(" ")
 
@@ -363,9 +439,15 @@ class ProjectRootHandler(tornado.web.RequestHandler):
             path_abs = normpath(join(root, path))
             proj_cfg = proj.get_proj_cfg(path_abs)
 
+            author = proj.proj_cfg_value(proj_cfg, "info", "author")
+
+            if author == "Blend4Web" and hide_b4w:
+                continue
+
             build_dir = normpath(proj.proj_cfg_value(proj_cfg, "paths",
                     "build_dir", ""))
 
+            table_insert += "<tr>"
             table_insert += '<td>'
             table_insert += name
 
@@ -374,12 +456,27 @@ class ProjectRootHandler(tornado.web.RequestHandler):
 
             if not len(apps):
                 dev_app = join(path, name + "_dev.html")
+
                 if exists(normpath(join(root, dev_app))):
                     apps.append(proj.unix_path(dev_app))
 
                 build_app = join(build_dir, name + ".html")
+
                 if exists(normpath(join(root, build_app))):
                     apps.append(proj.unix_path(build_app))
+
+                engine_type = proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None)
+
+                if engine_type == "webplayer_html":
+                    apps.extend([join(i, name + ".html")
+                        for i in proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs")
+                            if exists(join(i, name + ".html"))])
+
+                if engine_type == "webplayer_json":
+                    apps.extend([proj.unix_path(join("apps_dev", "webplayer", "webplayer_dev.html?load=", i, name + ".json"))
+                        for i in proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs")
+                            if exists(join(root, i, name + ".json"))])
+
             else:
                 apps = [proj.unix_path(join(build_dir, app))
                         for app in apps if exists(join(root, build_dir, app))]
@@ -390,15 +487,16 @@ class ProjectRootHandler(tornado.web.RequestHandler):
             table_insert += '</td>'
 
             table_insert += '<td>'
-            
+
             path_insert = proj.unix_path(path)
             table_insert += self.shorten(path_insert, 50)
 
             build_dir_insert = proj.unix_path(normpath(build_dir))
-            if build_dir_insert != path_insert:
+
+            if build_dir_insert != path_insert and build_dir_insert != '.':
                 table_insert +=  '<br>'
                 table_insert += self.shorten(build_dir_insert, 50)
-            
+
             table_insert += '</td>'
 
 
@@ -427,21 +525,6 @@ class ProjectRootHandler(tornado.web.RequestHandler):
             table_insert += '<td>'
             for assets_dir in assets_dirs:
                 assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
-                html_files = list(assets_dir_obj.rglob('*.html'))
-                html_files.sort()
-
-                content = ""
-                for file in html_files:
-                    link = proj.unix_path(relpath(str(file), root))
-                    content += self.html_link(link) + "<br>"
-
-                table_insert += self.file_group(table_insert, root,
-                        assets_dir, content);
-            table_insert += '</td>'
-
-            table_insert += '<td>'
-            for assets_dir in assets_dirs:
-                assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
                 json_files = list(assets_dir_obj.rglob('*.json'))
                 json_files.sort()
 
@@ -455,25 +538,41 @@ class ProjectRootHandler(tornado.web.RequestHandler):
             table_insert += '</td>'
 
             table_insert += '<td>'
-            if proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None):
-                table_insert += ('[<a href=/project/-p/' +
+
+            if (proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
+                    ["external", "copy", "compile", "update"]):
+                table_insert += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
-                        '/compile/>compile</a>]<br>')
+                        '/compile/>compile project</a><br>')
 
-            table_insert += ('[<a href=/project/-p/' +
+            table_insert += ('<a href=/project/-p/' +
                     quote(normpath(path), safe="") +
-                    '/convert_resources/>convert resources</a>]<br>')
+                    '/reexport/-b/' +
+                    quote(bpy.app.binary_path, safe="") +
+                    '/>re-export scenes</a><br>')
 
-            table_insert += ('[<a href=/project/-p/' +
+            table_insert += ('<a href=/project/-p/' +
                     quote(normpath(path), safe="") +
-                    '/reexport/-b/' + 
-                    quote(bpy.app.binary_path, safe="") + 
-                    '/>reexport</a>]')
+                    '/convert_resources/>convert resources</a><br>')
+
+            table_insert += ('<a href=/project/export/' +
+                             quote(normpath(basename(path)), safe="") + '/' +
+                             quote(normpath(join("tmp", "downloads", name + ".zip")), safe="") +
+                             '>export project archive</a><br>')
+
+            table_insert += ('<a onclick="show_confirm_window(this);return false;" href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/remove/>remove project</a>')
+
             table_insert += '</td>'
 
             table_insert += "</tr>"
 
-        html_insertions = dict(table_insert=table_insert)
+        html_insertions = dict(table_insert=table_insert,
+                               sort=sort_type,
+                               show_hide_text=show_hide_text,
+                               show_hide_link=show_hide_link,
+                               link="/project/sort/" + sort_link + "/")
 
         out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -481,7 +580,7 @@ class ProjectRootHandler(tornado.web.RequestHandler):
 
     def exec_proc_sync(self, cmd, root):
         cwd = os.getcwd()
- 
+
         # switch to SDK
         os.chdir(root)
 
@@ -523,7 +622,7 @@ class ProjectRootHandler(tornado.web.RequestHandler):
         if not len(content):
             return ""
 
-        tpl_html_file = open(join(root, "index_assets", "spoiler.tmpl"), "r")
+        tpl_html_file = open(join(root, "index_assets", "templates", "spoiler.tmpl"), "r")
         tpl_html_str = tpl_html_file.read()
         tpl_html_file.close()
 
@@ -535,10 +634,28 @@ class ProjectRootHandler(tornado.web.RequestHandler):
 
         return string.Template(tpl_html_str).substitute(html_insertions)
 
+class ProjectSortUpHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("sort", "up")
+        self.redirect("/project/")
+
+class ProjectSortDownHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("sort", "down")
+        self.redirect("/project/")
+
+class ProjectShowHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "show")
+        self.redirect("/project/")
+
+class ProjectHideHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "hide")
+        self.redirect("/project/")
 
 class ProjectRequestHandler(tornado.web.RequestHandler):
     def get(self):
-
         root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
 
         if not ConsoleHandler.console_proc:
@@ -559,19 +676,39 @@ class ProjectRequestHandler(tornado.web.RequestHandler):
             cmd = [python_path, join(root, "apps_dev", "project.py"),
                     "--no-colorama"]
 
+            is_export = False
+
             for part in req.split("/"):
+                if part == "export":
+                    is_export = True
+
                 cmd.append(unquote(part))
+
+            if is_export:
+                file_dir = join(root, os.path.dirname(cmd[-1]))
+                os.makedirs(file_dir,  exist_ok=True)
+                port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+
+                pmod = imp.find_module("project_cli",
+                        [join(scripts_path, "lib")])
+                proj = imp.load_module("project_cli", pmod[0], pmod[1], pmod[2])
+
+                ConsoleHandler.export_link = "/" + proj.unix_path(cmd[-1])
 
             ConsoleHandler.console_proc = self.exec_proc_async_pipe(cmd, root)
 
-            html_file = open(join(root, "index_assets", "request.tmpl"), "r")
+            html_file = open(join(root, "index_assets", "templates", "request.tmpl"), "r")
         else:
-            html_file = open(join(root, "index_assets", "request_busy.tmpl"), "r")
+            html_file = open(join(root, "index_assets", "templates", "request_busy.tmpl"), "r")
 
         html_str = html_file.read()
         html_file.close()
 
-        self.write(html_str)
+        html_insertions = dict(export_link=ConsoleHandler.export_link)
+
+        out_html_str = string.Template(html_str).substitute(html_insertions)
+
+        self.write(out_html_str)
 
     def exec_proc_async_pipe(self, cmd, root):
         cwd = os.getcwd()
@@ -600,12 +737,12 @@ class ProjectRequestHandler(tornado.web.RequestHandler):
             queue.put(line)
         out.close()
 
+
 class ProjectCreateHandler(tornado.web.RequestHandler):
     def get(self):
-        
         root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
 
-        tpl_html_file = open(join(root, "index_assets", "create_form.tmpl"), "r")
+        tpl_html_file = open(join(root, "index_assets", "templates", "create_form.tmpl"), "r")
         tpl_html_str = tpl_html_file.read()
         tpl_html_file.close()
 
@@ -617,7 +754,6 @@ class ProjectCreateHandler(tornado.web.RequestHandler):
 
 class RunBlenderHandler(tornado.web.RequestHandler):
     def get(self, tail):
-        
         root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
 
         cmd = [bpy.app.binary_path]
@@ -625,17 +761,17 @@ class RunBlenderHandler(tornado.web.RequestHandler):
 
         proc = subprocess.Popen(cmd);
 
-        html_file = open(join(root, "index_assets", "run_blender.tmpl"), "r")
+        html_file = open(join(root, "index_assets", "templates", "run_blender.tmpl"), "r")
         html_str = html_file.read()
         html_file.close()
 
         self.write(html_str)
 
-
 class ConsoleHandler(tornado.websocket.WebSocketHandler):
     websocket_conn = None
     console_proc = None
     console_queue = None
+    export_link = ""
 
     def open(self, *args):
         self.__class__.websocket_conn = self
@@ -659,10 +795,11 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
                 break
             else:
                 cls.websocket_conn.write_message(cls.ansi_to_html(line))
-            
+
         if cls.console_proc.poll() != None:
             cls.console_proc = None
             cls.websocket_conn.close()
+            cls.export_link = ""
             cls.websocket_conn = None
 
     @classmethod
@@ -685,7 +822,6 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
 
         return COLOR_REGEX.sub(single_sub, text)
 
-
 @bpy.app.handlers.persistent
 def init_server(arg):
     if init_server in bpy.app.handlers.scene_update_pre:
@@ -693,7 +829,7 @@ def init_server(arg):
 
     if has_valid_sdk_dir():
         already_started = B4WLocalServer.update_server_existed()
-        if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start 
+        if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start
                 and not already_started):
             bpy.ops.b4w.start_server()
 
@@ -703,14 +839,18 @@ def has_valid_sdk_dir():
     normpath(path_to_index)
     return b4w_src_path != "" and exists(path_to_index)
 
-def register(): 
+def register():
     bpy.utils.register_class(B4WStartServer)
     bpy.utils.register_class(B4WShutdownServer)
     bpy.utils.register_class(B4WOpenSDK)
+    bpy.utils.register_class(B4WOpenProjManager)
+    bpy.utils.register_class(B4WPreviewScene)
     bpy.utils.register_class(B4WServerMessage)
 
 def unregister():
     bpy.utils.unregister_class(B4WStartServer)
     bpy.utils.unregister_class(B4WShutdownServer)
     bpy.utils.unregister_class(B4WOpenSDK)
+    bpy.utils.unregister_class(B4WOpenProjManager)
+    bpy.utils.unregister_class(B4WPreviewScene)
     bpy.utils.unregister_class(B4WServerMessage)

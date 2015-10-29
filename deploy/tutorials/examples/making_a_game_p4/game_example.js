@@ -49,16 +49,14 @@ function init_cb(canvas_elem, success) {
 
     m_app.enable_controls(canvas_elem);
 
-    window.onresize = on_resize;
-    on_resize();
+    window.addEventListener("resize", on_resize);
+
     load();
 }
 
 function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_main.resize(w, h);
-};
+    m_app.resize_to_container();
+}
 
 function load() {
     m_data.load("game_example.json", load_cb);

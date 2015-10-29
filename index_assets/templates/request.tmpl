@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Blend4Web SDK</title>
+
+    <link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
+    <link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png" />
+    <link rel="shortcut icon" href="/index_assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png" />
+    <link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/index_assets/css/request.css">
+
+    <script type="text/javascript" >
+
+    var ws = new WebSocket("ws://" + location.host + "/console");
+
+    var _data_received = false;
+
+    ws.onopen = function() {
+        _data_received = false;
+
+        var c = document.getElementById("console");
+        c.innerHTML = "Operation Pending...";
+    };
+
+    ws.onmessage = function(event) {
+        var c = document.getElementById("console");
+
+        if (!_data_received) {
+            _data_received = true;
+            c.innerHTML = "";
+        }
+
+        c.innerHTML += event.data;
+        window.scrollTo(0, document.body.scrollHeight);
+    };
+
+    ws.onclose = function() {
+        if (!"${export_link}")
+            return;
+
+        var row = document.querySelector(".row");
+        var new_row = row.cloneNode();
+        new_row.id = "download";
+        var link = document.createElement("a");
+        var div = document.createElement("div");
+        var span = document.createElement("span");
+        span.appendChild(document.createTextNode("Download Project Archive"));
+
+        link.appendChild(div);
+        link.appendChild(span);
+
+        link.href = "${export_link}";
+        new_row.appendChild(link);
+
+        row.parentElement.appendChild(new_row);
+    };
+
+    </script>
+
+</head>
+
+<body>
+    <h1>Project Manager</h1>
+    <div class="row" id="back_to_projects">
+        <a href="/project/"><div></div><span>Back to Projects</span></a>
+    </div>
+    <div class="row">
+        <h3>Operation Report</h3>
+        <p>Please carefully review the operation results:</p>
+        <div class="console">
+            <pre id="console"></pre>
+        </div>
+    </div>
+</body>
+</html>

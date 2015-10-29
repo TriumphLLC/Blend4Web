@@ -1,5 +1,7 @@
 #include <precision_statement.glslf>
 
+#include <color_util.glslf>
+
 #define PI_4 0.785398163
 
 uniform sampler2D u_color;
@@ -31,8 +33,7 @@ void main(void) {
     color *= u_exposure;
 
     // saturation
-    vec3 luma = vec3(0.299, 0.587, 0.114);
-    float intensity = dot(color, luma);
+    float intensity = luma(vec4(color, 0.0));
     color = mix(vec3(intensity), color, u_saturation);
 
     //gl_FragColor = vec4(sqrt(color), tex_input.a);

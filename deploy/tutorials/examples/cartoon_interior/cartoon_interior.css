@@ -8,7 +8,7 @@ body {
     -o-user-select: none;
 }
 
-#canvas3d {
+div#main_canvas_container {
     position: absolute;
     width: 100%;
     height: 100%;

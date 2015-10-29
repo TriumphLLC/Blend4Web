@@ -429,9 +429,9 @@ exports.check_bpy_data = function(bpy_data) {
             report("scene", scene, "b4w_enable_color_correction");
         }
 
-        if (!("b4w_enable_antialiasing" in scene)) {
-            scene["b4w_enable_antialiasing"] = true;
-            report("scene", scene, "b4w_enable_antialiasing");
+        if (!("b4w_antialiasing_quality" in scene)) {
+            scene["b4w_antialiasing_quality"] = "MEDIUM";
+            report("scene", scene, "b4w_antialiasing_quality");
         }
 
         if (!("b4w_tags" in scene)) {
@@ -1062,6 +1062,9 @@ exports.check_bpy_data = function(bpy_data) {
 
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
+
+        if (mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING")
+            mat["game_settings"]["alpha_blend"] = "CLIP";
 
         if ("b4w_node_mat_type" in mat) {
             report_deprecated("material", mat, "b4w_node_mat_type");
@@ -1904,12 +1907,8 @@ exports.check_bpy_data = function(bpy_data) {
             report("material", bpy_obj, "b4w_collision_id");
         }
 
-        if (check_negative_scale(bpy_obj)) {
-            report_raw("negative scale for object " + bpy_obj["name"] + ", using positive scale instead");
-            bpy_obj["scale"][0] = Math.abs(bpy_obj["scale"][0]);
-            bpy_obj["scale"][1] = Math.abs(bpy_obj["scale"][1]);
-            bpy_obj["scale"][2] = Math.abs(bpy_obj["scale"][2]);
-        }
+        if (check_negative_scale(bpy_obj))
+            report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
         if (!check_uniform_scale(bpy_obj))
             report_raw("non-uniform scale for object " + bpy_obj["name"]);
@@ -2360,6 +2359,8 @@ function modify_mesh_points_interval(mesh, x_min, x_max, y_min, y_max,
 exports.create_material = function(name) {
     var mat = {
         "name": name,
+        "uuid": m_util.gen_uuid(),
+
         "use_nodes": false,
         "diffuse_shader": "LAMBERT",
         "diffuse_color": [0.8, 0.8, 0.8],
@@ -2550,17 +2551,29 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
             case "SELECT_PLAY":
                 report_raw("Logic nodes type \"SELECT_PLAY\" is deprecated, " +
                 "node will be muted. To fix this, reexport scene \"" + scene.name+"\"");
-                snode["object"].mute = true;
+                snode["mute"] = true;
                 break;
             case "SHOW":
             case "HIDE":
             case "PLAY_ANIM":
             case "SET_SHADER_NODE_PARAM":
-                for (var k = 0; k < bpy_objects.length; k++) {
-                    var bpy_obj = bpy_objects[k];
-                    if (bpy_obj["name"] == snode["object"])
-                        bpy_obj["b4w_do_not_batch"] = true;
+            case "INHERIT_MAT":
+                for (var id in snode["objects_paths"]) {
+                    var path = snode["objects_paths"][id];
+                    var name = path[0];
+                    if (path.length > 1)
+                        for (var k = 1; k < path.length; k++)
+                            name += "*" + path[k];
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == name) {
+                            bpy_obj["b4w_do_not_batch"] = true;
+                        }
+                    }
                 }
+                break;
+            case "PLAY":
+                scene["b4w_use_nla"] = true;
                 break;
             }
         }

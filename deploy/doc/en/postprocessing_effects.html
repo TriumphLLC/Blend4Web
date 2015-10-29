@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Postprocessing Effects &mdash; User Manual: Blend4Web vv15.09</title>
+  <title>Postprocessing Effects &mdash; User Manual: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -138,12 +138,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#id24">Additional settings</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#antialiasing">Anti-Aliasing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#glow">Glow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id26">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id27">Additional settings</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#glow">Glow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#antialiasing">Anti-Aliasing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id29">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id30">Additional settings</a></li>
 </ul>
@@ -413,39 +413,16 @@
 </dl>
 </div>
 </div>
-<div class="section" id="antialiasing">
-<span id="index-7"></span><span id="id25"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
-<p>Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization).</p>
-<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="glow">
+<span id="id25"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
+<p>Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.</p>
+<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
 <div class="section" id="id26">
 <h3>Activation<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>Activate the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Antialiasing</span></code> panel.</p>
+<p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id27">
 <h3>Additional settings<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
-<p>The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p class="first"><em>low quality</em> - anti-aliasing is disabled</p>
-</li>
-<li><p class="first"><em>high quality</em> - the anti-aliasing method is FXAA (Fast Approximate Anti-Aliasing) by Nvidia</p>
-</li>
-<li><p class="first"><em>maximum quality</em> - the anti-aliasing method is SMAA (Enhanced Subpixel Morphological Anti-Aliasing) by Crytek</p>
-</li>
-</ul>
-</div></blockquote>
-</div>
-</div>
-<div class="section" id="glow">
-<span id="id28"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
-<p>Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.</p>
-<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
-<div class="section" id="id29">
-<h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</div>
-<div class="section" id="id30">
-<h3>Additional settings<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Small Mask: Intensity</em></dt>
 <dd><p class="first last">Intensity of glow obtained through the smaller mask. The default value is 2.0.</p>
@@ -463,6 +440,36 @@
 <dd><p class="first last">Render the glow effect over transparent objects.</p>
 </dd>
 </dl>
+</div>
+</div>
+<div class="section" id="antialiasing">
+<span id="index-7"></span><span id="id28"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
+<p>Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization).</p>
+<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="id29">
+<h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>Select quality profile using <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> menu located on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code> panel.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><em>None</em> - disable anti-aliasing,</p>
+</li>
+<li><p class="first"><em>Low</em>, <em>Medium</em>, <em>High</em> - enable anti-aliasing with the given quality profile.</p>
+</li>
+</ul>
+</div></blockquote>
+<p><em>Medium</em> profile is used by default.</p>
+</div>
+<div class="section" id="id30">
+<h3>Additional settings<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><em>low quality</em> - no anti-aliasing,</p>
+</li>
+<li><p class="first"><em>high quality</em> and <em>ultra quality</em> - use the FXAA 3.11 algorithm (Fast Approximate Anti-Aliasing by Nvidia).</p>
+</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 </div>
@@ -487,7 +494,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-09-30.
+      Last updated on 2015-10-29.
 
     </p>
   </div>
@@ -509,7 +516,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

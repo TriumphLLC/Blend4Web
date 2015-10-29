@@ -9137,15 +9137,24 @@ module.exports = (function() {
     }
 
     function peg$parseexpression_statement_start() {
-      var s0, s1;
+      var s0, s1, s2;
 
       s0 = peg$currPos;
-      s1 = peg$parseexpression_statement();
+      s1 = peg$parse__();
       if (s1 !== peg$FAILED) {
-        peg$reportedPos = s0;
-        s1 = peg$c455(s1);
+        s2 = peg$parseexpression_statement();
+        if (s2 !== peg$FAILED) {
+          peg$reportedPos = s0;
+          s1 = peg$c455(s2);
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
       }
-      s0 = s1;
 
       return s0;
     }

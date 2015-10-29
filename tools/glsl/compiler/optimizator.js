@@ -61,6 +61,26 @@ exports.optimize_declarations = function(max_uid) {
                     if (ast_node.decl_id.type == "array")
                         break;
 
+                    // NOTE: don't optimize variable declared with replaceable type or name
+                    parent = m_search.get_nearest_parent_by_uid(ast_node.decl_id.uid, 
+                            ["simple_statement"])
+                    parent_smpl = m_search.get_nearest_parent_by_node(parent)
+                    var node = m_search.get_node_by_uid(ast_node.decl_id.uid)
+                    var all_comments = parent_smpl.before_comments.concat(node.before_comments);
+                    if (all_comments.length) {
+                        var repl_begin_expr = /\/\*%replace%from%(.*?)%to%(.*?)%\*\//gi;
+                        var found = false;
+
+                        for (var i = 0; i < all_comments.length; i++) {
+                            if (repl_begin_expr.exec(all_comments[i])) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found)
+                            break;
+                    }
+
                     // NOTE: id_to_global_id[ast_node.decl_id.name] 
                     //          && get_last_list_elem(id_to_global_id[ast_node.decl_id.name])["scope"] == ast_node.decl_in_scope
                     //      is mean that ast_node is second declaration in scope (#if)

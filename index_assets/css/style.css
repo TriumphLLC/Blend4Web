@@ -34,13 +34,13 @@ img {
 }
 
 h2, h3 {
-    cursor: pointer;
     text-align: center;
     font-family: Open Sans Semibold;
 }
 
 h3 {
     cursor: default;
+    display: inline-block;
 }
 
 table {
@@ -116,10 +116,9 @@ td.create {
 
 input.create {
     width: 96%;
-    margin: 5px;
+    margin: 5px 0;
     padding: 2px;
 }
-
 
 table > tbody > tr:nth-child(odd) {
     background-color: rgba(0, 72, 165, 0.03);
@@ -177,4 +176,83 @@ table > tbody > tr:nth-child(odd) {
 
 pre {
     white-space: pre-wrap;
+}
+
+div#sort_name {
+    width: 10px;
+    height: 10px;
+    background-image: url(/index_assets/img/arrow.png);
+    display: inline-block;
+    margin-left: 4px;
+}
+
+div#sort_name.down {
+    background-position: 0 0;
+}
+
+div#sort_name.down {
+    background-position: 0 -10px;
+}
+
+div.input_group {
+    display: inline-block;
+}
+
+div.input_group > label {
+    display: block;
+    margin: 10px 0;
+}
+
+div.input_group:first-child > label {
+    padding-left: 0;
+}
+
+div.input_group > label > input {
+    float: right;
+    cursor: pointer;
+}
+
+input[type=radio],
+input[type=checkbox] {
+    display: none;
+}
+
+div.input_group > label.check {
+    background-image: url(/index_assets/img/check.svg);
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+div.input_group > label.radio {
+    display: block;
+}
+
+div.input_group > label.radio::before {
+    content: "";
+    background-image: url(/index_assets/img/radio.svg);
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    margin-right: 7px;
+    padding: 0 11px;
+}
+
+input[type=checkbox]:checked + label.check {
+    background-position: 0 -20px;
+}
+
+input[type=radio]:checked + label.radio::before {
+    background-position: 0 -22px;
+}
+
+input[type=checkbox]:disabled + label,
+input[type=radio]:disabled + label {
+    opacity: 0.3;
+    cursor: default;
+    text-decoration: none;
 }

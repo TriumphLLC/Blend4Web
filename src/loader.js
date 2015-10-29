@@ -90,8 +90,10 @@ exports.create_thread = function(stages, path, loaded_callback,
 
     var scheduler = get_scheduler();
 
+    var id = scheduler.threads.length;
     var thread = {
-        id: scheduler.threads.length,
+        id: id,
+        is_primary: id == 0,
         status: THREAD_IDLE,
 
         filepath: path,
@@ -117,7 +119,7 @@ exports.create_thread = function(stages, path, loaded_callback,
         init_wa_context: false
     }
 
-    var graph = create_loading_graph(thread.id === 0, stages, 
+    var graph = create_loading_graph(thread.is_primary, stages, 
             wait_complete_loading, do_not_load_resources);
     thread.stage_graph = graph;
 
@@ -168,7 +170,7 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
             cb_finish, cb_set_rate) {
         
         // primary thread loaded, allow to load secondary threads
-        if (thread.id === 0)
+        if (thread.is_primary)
             scheduler.start_secondary_threads = true;
 
         if (!thread_is_finished(thread))
@@ -186,21 +188,38 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
         relative_size: 5
     });
 
-    var prefinish_nodes = [];
-    if (wait_complete_loading) {
-        var ids = m_graph.get_sink_nodes(graph);
-        for (var i = 0; i < ids.length; i++)
-            prefinish_nodes.push(m_graph.get_node_attr(graph, ids[i]));
-    } else
-        m_graph.traverse(graph, function(id, attr) {
-            if (!attr.background_loading)
-                prefinish_nodes.push(attr);
-        });
+    if (wait_complete_loading)
+        var sink_ids = m_graph.get_sink_nodes(graph);
+    else {
+        var tmp_graph = m_graph.clone(graph);
+        var sink_ids;
+        var bkg_sink_ids;
+
+        do {
+            sink_ids = m_graph.get_sink_nodes(tmp_graph);
+            bkg_sink_ids = [];            
+
+            for (var i = 0; i < sink_ids.length; i++) {
+                var id = sink_ids[i];
+                var sink_node = m_graph.get_node_attr(tmp_graph, id);
+                if (sink_node.background_loading)
+                    bkg_sink_ids.push(id);
+            }
+
+            for (var i = 0; i < bkg_sink_ids.length; i++)
+                m_graph.remove_node(tmp_graph, bkg_sink_ids[i]);
+            if (bkg_sink_ids.length)
+                m_graph.cleanup_loose_edges(tmp_graph);
+        } while (bkg_sink_ids.length);
+    }
 
     m_graph.append_node_attr(graph, finish_node);
-    for (var i = 0; i < prefinish_nodes.length; i++) {
-        finish_node.inputs.push(prefinish_nodes[i].name);
-        m_graph.append_edge_attr(graph, prefinish_nodes[i], finish_node, null);
+
+    for (var i = 0; i < sink_ids.length; i++) {
+        var id = sink_ids[i];
+        var sink_node = m_graph.get_node_attr(graph, id);
+        finish_node.inputs.push(sink_node.name);
+        m_graph.append_edge_attr(graph, sink_node, finish_node, null);
     }
 
     return graph;
@@ -279,7 +298,7 @@ exports.abort_thread = function(thread) {
     thread.status = THREAD_ABORTED;
 
     // primary thread finished, allow to load secondary threads
-    if (thread.id === 0)
+    if (thread.is_primary)
         scheduler.start_secondary_threads = true;
 
     thread.loaded_cb(thread.id, false);
@@ -545,7 +564,8 @@ function skip_stage(stage) {
 function release_thread(thread) {
     thread.stageload_cb = null;
     thread.complete_load_cb = null;
-    thread.stage_graph = null;
+    if (!DEBUG_MODE)
+        thread.stage_graph = null;
     thread.stages_queue = null;
     // NOTE: thread.loaded_cb needed for aborted threads
 }
@@ -577,6 +597,35 @@ exports.is_primary_loaded = function(data_id) {
     return scheduler.threads[data_id] 
             && (scheduler.threads[data_id].status == THREAD_FINISHED ||
                 scheduler.threads[data_id].status == THREAD_FINISHED_NO_RESOURCES);
+}
+
+exports.graph_to_dot = function(data_id) {
+    if (!DEBUG_MODE) {
+        m_print.error("Debug mode isn't enabled. Can not retrieve the graph.");
+        return;
+    }
+
+    var scheduler = get_scheduler();
+    if (scheduler && scheduler.threads[data_id] 
+            && scheduler.threads[data_id].stage_graph)
+        return m_graph.debug_dot(scheduler.threads[data_id].stage_graph, 
+                function(node, attr) {
+                    if (attr.skip)
+                        return "SKIPPED\n(" + attr.name + ")";
+                    else {
+                        var node_label = attr.name + "\n";
+                        var props = [];
+                        props.push(attr.priority == exports.ASYNC_PRIORITY ? "ASYNC" : "SYNC");
+
+                        if (attr.background_loading)
+                            props.push("BKG");
+                        if (attr.is_resource)
+                            props.push("RES");
+                        return node_label + props.join(" | ");
+                    }
+                }, null);
+    else
+        return null;
 }
 
 exports.cleanup = function() {

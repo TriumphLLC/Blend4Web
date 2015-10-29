@@ -76,7 +76,7 @@ exports.update_object = function(bpy_obj, obj) {
             }
         }
 
-        if (bpy_obj_has_spk_param_nla(bpy_obj)) {
+        if (bpy_obj_has_data_param_nla(bpy_obj)) {
             var nla_tracks = bpy_obj["data"]["animation_data"]["nla_tracks"];
             var nla_events = get_nla_events(nla_tracks, slot_num);
 
@@ -148,7 +148,7 @@ function find_scene_data_for_nla(obj) {
     var scene_data = null;
     for (var i = obj.scenes_data.length - 1; i >= 0; i--) {
         var sd = obj.scenes_data[i];
-        if (scene_use_nla(sd.scene)) {
+        if (sd.scene["b4w_use_nla"]) {
             scene_data = sd;
             // prefer main scene
             if (sd.scene._is_main)
@@ -224,16 +224,21 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
             nla.textures.push(texture);
 
             if (texture.video_file)
-                texture.video_file.oncanplay = function() {
-                    // NOTE: setting new frame for an HTML5 video texture forces it 
-                    // to seek at this point which requires some time, so it can be 
-                    // updated only on the next frame after this operation.
-                    m_tex.update_video_texture(texture);
-                };
+                // avoiding closures in a loop
+                create_oncanplay_handler(texture);
         }
     }
 
     _nla_arr.push(nla);
+}
+
+function create_oncanplay_handler(tex) {
+    tex.video_file.oncanplay = function() {
+        // NOTE: setting new frame for an HTML5 video texture forces it 
+        // to seek at this point which requires some time, so it can be 
+        // updated only on the next frame after this operation.
+        m_tex.update_video_texture(tex);
+    }
 }
 
 function enforce_nla_consistency(nla_events, nla, name) {
@@ -564,11 +569,26 @@ function process_nla_video_textures(timeline, nla, nla_frame) {
             var need_play = frame_need_play_video(nla_frame, tex);
             var is_played = m_tex.video_is_played(tex);
 
-            if (need_play && !is_played) {
+            var curr_frame = m_tex.video_get_current_frame(tex);
+            if (!is_played) {
+                // if video is stopped on a wrong frame (e.g. dynamically 
+                // loaded textures) set the correct one
+                if (tex.video_file) {
+                    if (video_frame != curr_frame)
+                        m_tex.set_frame_video(tex.name, video_frame, tex.vtex_data_id);
+                } else {
+                    if (seq_video_frame != curr_frame) {
+                        m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
+                        need_update = true;
+                    }
+                }
+            }
+
+            if (need_play && !is_played)
                 m_tex.play_video(tex.name, tex.vtex_data_id);
-                if (tex.seq_video)
-                    need_update = true;
-            } else if (is_played && !need_play) {
+            else if (need_play && is_played)
+                need_update = true;
+            else if (!need_play && is_played) {
                 if (tex.video_file) {
                     // NOTE: allow to play non-sequential video until it'll reach calced video 
                     // frame (may be caused by lags)
@@ -579,8 +599,7 @@ function process_nla_video_textures(timeline, nla, nla_frame) {
                         m_tex.pause_video(tex.name, tex.vtex_data_id);
                 } else
                     m_tex.pause_video(tex.name, tex.vtex_data_id);
-            } else if (is_played && need_play)
-                need_update = true;
+            }
         }
 
         if (m_tex.video_update_is_available(tex) && need_update)
@@ -770,15 +789,16 @@ exports.bpy_obj_has_nla = function(bpy_obj) {
     // TODO: particles/vertex animation
     var adata = bpy_obj["animation_data"];
 
-    if ((adata && adata["nla_tracks"].length) || bpy_obj_has_spk_param_nla(bpy_obj) ||
+    if ((adata && adata["nla_tracks"].length) || bpy_obj_has_data_param_nla(bpy_obj) ||
             bpy_obj_has_nodemats_nla(bpy_obj))
         return true;
     else
         return false;
 }
 
-function bpy_obj_has_spk_param_nla(bpy_obj) {
-    if (bpy_obj["type"] == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
+function bpy_obj_has_data_param_nla(bpy_obj) {
+    if ((bpy_obj["type"] == "SPEAKER" || bpy_obj["type"] == "LAMP")
+         && bpy_obj["data"]["animation_data"] &&
             bpy_obj["data"]["animation_data"]["nla_tracks"].length)
         return true;
     else
@@ -821,11 +841,6 @@ function check_nodetree_nla_tracks_r(node_tree, container) {
         }
     }
     return false;
-}
-
-exports.scene_use_nla = scene_use_nla;
-function scene_use_nla(bpy_scene) {
-    return bpy_scene["b4w_use_nla"] || bpy_scene["b4w_use_logic_editor"];
 }
 
 exports.set_frame = set_frame;

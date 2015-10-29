@@ -32,6 +32,7 @@ var m_cfg      = require("__config");
 var m_debug    = require("__debug");
 var m_textures = require("__textures");
 var m_util     = require("__util");
+var m_batch    = require("__batch");
 
 var cfg_def = m_cfg.defaults;
 
@@ -422,7 +423,7 @@ function setup_vec4_attribute(attributes, name, value) {
 /**
  * frame used for vertex animation
  */
-function draw_buffers(bufs_data, attribute_setters, frame, aaa) {
+function draw_buffers(bufs_data, attribute_setters, frame) {
 
     _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
 
@@ -474,7 +475,6 @@ exports.assign_attribute_setters = function(batch) {
 
     var bufs_data = batch.bufs_data;
     var shader = batch.shader;
-
     if (!bufs_data || !shader)
         m_util.panic("Incomplete batch");
 
@@ -1482,7 +1482,6 @@ function assign_uniform_setters(shader) {
                 gl.uniform1f(loc, subscene.saturation);
             }
             break;
-
         default:
             var fun = null;
             break;
@@ -1520,7 +1519,6 @@ exports.assign_texture_uniforms = function(batch) {
     for (var i = 0; i < textures.length; i++) {
         var tex = textures[i];
         var name = names[i];
-
         _gl.uniform1i(shader.uniforms[name], i);
     }
 }
@@ -1672,6 +1670,71 @@ exports.render_target_cleanup = function(framebuffer, color_attachment,
 
 exports.increment_subpixel_index = function() {
     _subpixel_index = (_subpixel_index + 1) % 2;
+}
+
+exports.draw_resized_cubemap_texture = function(texture, w_target, pot_dim, img_dim, w_tex,
+        tex_num) {
+    var w_texture = texture.w_texture;
+
+    _gl.viewport(0, 0, pot_dim, pot_dim);
+
+    _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+            w_target, w_texture, 0);
+
+    var batch = m_batch.create_postprocessing_batch("FLIP_CUBEMAP_COORDS");
+    var shader = batch.shader;
+
+    _gl.activeTexture(_gl.TEXTURE0);
+    _gl.bindTexture(_gl.TEXTURE_2D, w_tex);
+
+    var delta_x = 0;
+    var delta_y = 0;
+    if (pot_dim != img_dim) {
+        delta_x = 1.0 / (6 * img_dim);
+        delta_y = 1.0 / (4 * img_dim);
+    }
+    _gl.uniform1i(shader.uniforms["u_tex_number"], tex_num);
+    _gl.uniform2fv(shader.uniforms["u_delta"], [delta_x, delta_y]);
+
+    _gl.useProgram(shader.program);
+    var attribute_setters = batch.attribute_setters;
+    var bufs_data = batch.bufs_data;
+    draw_buffers(bufs_data, attribute_setters, 0);
+
+    _gl.bindTexture(_gl.TEXTURE_2D, null);
+}
+
+exports.draw_resized_texture = function(texture, size_x, size_y, fbo, w_tex,
+            batch_type) {
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, fbo);
+
+    var w_texture = texture.w_texture;
+    var w_target = texture.w_target;
+    _gl.bindTexture(w_target, w_texture);
+
+    _gl.viewport(0, 0, size_x, size_y);
+
+    _gl.texImage2D(w_target, 0, _gl.RGBA, size_x, size_y, 0, _gl.RGBA,
+            _gl.UNSIGNED_BYTE, null);  
+
+    _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+            w_target, w_texture, 0);
+
+    var batch = m_batch.create_postprocessing_batch(batch_type);
+    var shader = batch.shader;
+
+    _gl.bindTexture(w_target, null);
+
+    _gl.activeTexture(_gl.TEXTURE0);
+    _gl.bindTexture(w_target, w_tex);
+
+    _gl.useProgram(shader.program);
+    var attribute_setters = batch.attribute_setters;
+    var bufs_data = batch.bufs_data;
+    draw_buffers(bufs_data, attribute_setters, 0);
+
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
+    _gl.bindTexture(w_target, null);
 }
 
 /**

@@ -6,7 +6,6 @@ b4w.register("${name}", function(exports, require) {
 // import modules used by the app
 var m_app       = require("app");
 var m_data      = require("data");
-var m_cfg       = require("config");
 
 /**
  * export the method to initialize the app (called at the bottom of this file)
@@ -16,6 +15,7 @@ exports.init = function() {
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         show_fps: true,
+        console_verbose: true,
         autoresize: true
     });
 }

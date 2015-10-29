@@ -1,5 +1,5 @@
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 #if SOFT_PARTICLES
 #include <pack.glslf>
 #endif

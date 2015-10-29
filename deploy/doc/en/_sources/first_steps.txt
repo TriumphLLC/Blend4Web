@@ -37,10 +37,10 @@ files. After that turn on the "Import-Export: Blend4Web"  checkbox.
 Then click "Save User Settings" and close the user preferences window.
 
 
-Blend4Web mode
+Blend4Web Mode
 ==============
 
-To reveal the engine's settings, select Blend4Web from the upper panel
+To reveal the engine settings, select Blend4Web from the upper panel
 menu:
 
 [image]

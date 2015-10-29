@@ -1,0 +1,206 @@
+body {
+    padding: 20px;
+}
+
+label {
+    display: inline-block;
+    cursor: pointer;
+    color: rgba(0, 100, 200, 1.0);
+    padding: 10px;
+    /*border: 1px solid rgba(0, 100, 200, 0.5);*/
+    border-radius: 5px;
+    /*width: 40px;*/
+    /*height: 40px;*/
+    /*background-image: url(../img/upload.svg);*/
+    /*margin-bottom: 10px;*/
+}
+
+label:hover {
+    text-decoration: underline;
+}
+
+input[type=file] {
+    display: none;
+}
+
+button {
+    background-color: transparent;
+    border: 0;
+    color: rgba(0, 100, 200, 1.0);
+    font-size: 16px;
+    cursor: pointer;
+    outline: 0;
+    display: block;
+    padding: 0;
+    padding: 10px;
+    border: 1px solid rgba(0, 100, 200, 0.5);
+    border-radius: 5px;
+    display: inline-block;
+    outline: 0;
+    line-height: 22px;
+}
+
+button span {
+    font-family: Open Sans Light;
+    font-weight: bold;
+}
+
+input[type=text] {
+    border: 1px solid #c4e7f5;
+    border-radius: 4px;
+}
+
+button:hover {
+    text-decoration: underline;
+}
+
+table .doc th, table .doc td, th {
+    height: auto;
+}
+
+table .doc th {
+    padding: 10px;
+}
+
+td:last-child {
+    text-align: left;
+    padding: 10px;
+    vertical-align: top;
+}
+
+div.action_cont {
+    text-align: right;
+}
+
+div.action_cont a {
+    font-family: Open Sans Light;
+}
+
+h2 {
+    font-family: Open Sans Semibold;
+    color: #002350;
+    text-align: right;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+p.create_hint {
+    text-align: right;
+}
+
+tr:first-child > th:last-child {
+    border-left: 0;
+}
+
+h3.back {
+    margin: 0;
+    margin-top: 26px;
+    margin-left: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+h3.back a {
+    font-size: 24px;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+    color: #002350;
+    font-family: Open Sans Semibold;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+#new_project,
+#help,
+#back_to_index,
+#show_hide_b4w {
+    padding: 10px;
+    border: 1px solid rgba(0, 100, 200, 0.5);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+button div,
+label div,
+#new_project div,
+#back_to_index div,
+#help div,
+#show_hide_b4w div{
+    width: 20px;
+    height: 20px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+button div {
+    background-image: url(../img/apply.svg);
+}
+
+label div {
+    background-image: url(../img/upload.svg);
+}
+
+#new_project div {
+    background-image: url(../img/new.svg);
+}
+
+#back_to_index div {
+    background-image: url(../img/back.svg);
+}
+
+#help div {
+    background-image: url(../img/help.svg);
+}
+
+#show_hide_b4w div {
+    background-image: url(../img/eye.svg);
+}
+
+tbody tr:last-child td:last-child,
+thead tr:first-child {
+    border: 0;
+}
+
+thead tr:first-child th {
+    padding: 10px;
+}
+
+tbody tr:last-child {
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+th {
+    font-family: Open Sans Light;
+}
+
+td:first-child {
+    padding: 10px;
+    width: 34%;
+}
+
+table > tbody tr:last-child {
+    background-color: transparent;
+}
+
+label {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+table.create {
+    width: 68%;
+}

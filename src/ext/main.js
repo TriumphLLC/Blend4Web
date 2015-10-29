@@ -139,6 +139,15 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     setup_clock();
 
     _elem_canvas_webgl = elem_canvas_webgl;
+    if (elem_canvas_hud) {
+        m_hud.init(elem_canvas_hud);
+        _elem_canvas_hud = elem_canvas_hud;
+    } else {
+        // disable features which depend on HUD
+        m_cfg.defaults.show_hud_debug_info = false;
+        m_cfg.sfx.mix_mode = false;
+    }
+
     m_compat.apply_context_alpha_hack(gl);
 
     var gl = get_context(elem_canvas_webgl);
@@ -147,7 +156,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     _gl = gl;
 
-    init_context(_elem_canvas_webgl, gl);
+    init_context(_elem_canvas_webgl, _elem_canvas_hud, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
 
@@ -157,15 +166,6 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         elem_canvas_webgl.style["touch-action"] = "none";
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
-
-    if (elem_canvas_hud) {
-        m_hud.init(elem_canvas_hud);
-        _elem_canvas_hud = elem_canvas_hud;
-    } else {
-        // disable features which depend on HUD
-        m_cfg.defaults.show_hud_debug_info = false;
-        m_cfg.sfx.mix_mode = false;
-    }
 
     return gl;
 }
@@ -191,7 +191,6 @@ function setup_clock() {
     m_time.set_timeline(0);
 }
 
-
 function get_context(canvas) {
 
     var ctx = null;
@@ -215,7 +214,7 @@ function get_context(canvas) {
     return ctx;
 }
 
-function init_context(canvas, gl) {
+function init_context(canvas, canvas_hud, gl) {
     canvas.addEventListener("webglcontextlost",
             function(event) {
                 event.preventDefault();
@@ -240,8 +239,9 @@ function init_context(canvas, gl) {
     m_textures.setup_context(gl);
     m_shaders.setup_context(gl);
     m_debug.setup_context(gl);
+    m_cont.setup_context(gl);
     m_data.setup_canvas(canvas);
-    m_cont.init(canvas);
+    m_cont.init(canvas, canvas_hud);
 
     m_scenes.setup_dim(canvas.width, canvas.height, 1);
 
@@ -268,66 +268,15 @@ exports.set_check_gl_errors = function(val) {
  * @param {Number} width New canvas width
  * @param {Number} height New canvas height
  * @param {Boolean} [update_canvas_css=true] Change canvas CSS width/height
+ * @deprecated Use {@link module:container.resize|container.resize} instead
  */
-exports.resize = function(width, height, update_canvas_css) {
-
-    if (update_canvas_css !== false) {
-        _elem_canvas_webgl.style.width = width + "px";
-        _elem_canvas_webgl.style.height = height + "px";
-
-        if (_elem_canvas_hud) {
-            _elem_canvas_hud.style.width = width + "px";
-            _elem_canvas_hud.style.height = height + "px";
-        }
-    }
-
-    if (_elem_canvas_hud) {
-        // no HIDPI/resolution factor for HUD canvas
-        _elem_canvas_hud.width  = width;
-        _elem_canvas_hud.height = height;
-        m_hud.update_dim();
-    }
-
-
-    if (navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/iPod/i))
-            cfg_def.canvas_resolution_factor = 1;
-
-    var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
-    var ch = Math.floor(height * cfg_def.canvas_resolution_factor);
-
-    if (cfg_def.allow_hidpi && window.devicePixelRatio > 1) {
-        cw *= window.devicePixelRatio;
-        ch *= window.devicePixelRatio;
-    }
-
-    _elem_canvas_webgl.width  = cw;
-    _elem_canvas_webgl.height = ch;
-
-    if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
-        m_print.warn("Canvas size exceeds platform limits, downscaling");
-
-        var downscale = Math.min(_gl.drawingBufferWidth/cw,
-                _gl.drawingBufferHeight/ch);
-
-        cw *= downscale;
-        ch *= downscale;
-
-        _elem_canvas_webgl.width  = cw;
-        _elem_canvas_webgl.height = ch;
-    }
-
-    m_scenes.setup_dim(cw, ch, cw/width);
-
-    // needed for frustum culling/constraints
-    if (m_scenes.check_active())
-        m_trans.update_transform(m_scenes.get_active()._camera);
-
-    frame(m_time.get_timeline(), 0);
-
-    m_data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
+exports.resize = resize;
+function resize(width, height, update_canvas_css) {
+    m_print.error("resize() deprecated, use container.resize() instead");
+    
+    m_cont.resize(width, height, update_canvas_css);
 }
+
 
 /**
  * Set the callback for the FPS counter

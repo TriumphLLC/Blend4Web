@@ -25,7 +25,7 @@ import blend4web
 
 from bpy.types import Panel
 
-b4w_modules = ["logic_node_tree", "translator"]
+b4w_modules = ["translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 from blend4web.translator import _, p_
@@ -131,13 +131,21 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
         col.prop(dcompr, "attack", text=_("Attack"))
         col.prop(dcompr, "release", text=_("Release"))
 
+def b4w_logic_editor_refresh_available_trees():
+    trees = bpy.context.scene.b4w_available_logic_trees
+    trees.clear()
+    for t in bpy.data.node_groups:
+        if t.bl_idname == 'B4WLogicNodeTreeType':
+            trees.add()
+            trees[-1].name = t.name
+
 class B4W_LogicEditorRefreshAvailableTrees(bpy.types.Operator):
     bl_idname      = 'scene.b4w_logic_editor_refresh_available_trees'
     bl_label       = p_("Refresh", "Operator")
     bl_description = _("Refresh list of available Trees")
 
     def invoke(self, context, event):
-        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+        b4w_logic_editor_refresh_available_trees()
 
         return {'FINISHED'}
 
@@ -153,7 +161,7 @@ class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
         node.type = "ENTRYPOINT"
         node.location = (-500, 0)
         context.scene.b4w_active_logic_node_tree = ntree.name
-        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+        b4w_logic_editor_refresh_available_trees()
 
         return {'FINISHED'}
 
@@ -176,7 +184,7 @@ class B4W_LogicEditorRemoveNodeTree(bpy.types.Operator):
             if bpy.data.node_groups[context.scene.b4w_active_logic_node_tree].users == 0:
                 bpy.data.node_groups.remove(bpy.data.node_groups[context.scene.b4w_active_logic_node_tree])
         context.scene.b4w_active_logic_node_tree = ""
-        logic_node_tree.b4w_logic_editor_refresh_available_trees()
+        b4w_logic_editor_refresh_available_trees()
 
         return {'FINISHED'}
 

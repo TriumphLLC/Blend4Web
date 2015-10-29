@@ -27,7 +27,7 @@
  */
   
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 #include <pack.glslf>
 
 #define SMAA_RESOLVE 1

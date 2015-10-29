@@ -107,22 +107,20 @@ msgstr ""
 "In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and "
 ":file:`Blend4Web (.html)` options should appear."
 
-#: ../setup.rst:54
-msgid "Активация движка"
-msgstr "Blend4Web mode"
+#: ../setup.rst:55
+msgid "Профиль Blend4Web"
+msgstr "Blend4Web Mode"
 
-#: ../setup.rst:56
-msgid ""
-"Для активации движка необходимо выбрать его в выпадающем меню верхней "
-"панели:"
+#: ../setup.rst:57
+msgid "Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:"
 msgstr ""
-"To reveal the engine's settings, select Blend4Web from the upper panel menu:"
+"To reveal the engine settings, select Blend4Web from the upper panel menu:"
 
-#: ../setup.rst:65
+#: ../setup.rst:67
 msgid "Локальный сервер разработки"
 msgstr "Local Development Server"
 
-#: ../setup.rst:67
+#: ../setup.rst:69
 msgid ""
 "Настройки локального сервера разработки находятся в меню :file:`File > User "
 "Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Здесь можно изменить "
@@ -137,7 +135,7 @@ msgstr ""
 " enable its launching upon Blender startup. To do this, enable ``Run on "
 "Startup`` option in the add-on settings."
 
-#: ../setup.rst:76
+#: ../setup.rst:78
 msgid ""
 "После изменения настроек локального сервера разработчика требуется "
 "перезапуск Blender'a."
@@ -145,7 +143,7 @@ msgstr ""
 "After changing local development server settings in it required to restart "
 "Blender."
 
-#: ../setup.rst:78
+#: ../setup.rst:80
 msgid ""
 "Имеется возможность сделать локальный сервер доступным из внешней сети. Для "
 "этого достаточно включить свойство ``Enable External Requests``."
@@ -153,7 +151,7 @@ msgstr ""
 "It is possible for the local server to process external requests. To do that"
 " enable the option ``Enable External Requests``."
 
-#: ../setup.rst:80
+#: ../setup.rst:82
 msgid ""
 "Если не был настроен автоматический запуск сервера, то его можно стартовать "
 "вручную по кнопке ``Start`` во вкладке ``Render->Developement Server``:"
@@ -162,7 +160,7 @@ msgstr ""
 "manually: go to the ``Render`` tab and press the ``Start`` button on the "
 "``Development Server`` panel:"
 
-#: ../setup.rst:90
+#: ../setup.rst:92
 msgid ""
 "Если путь к Blend4Web SDK не был указан, запуск локального сервера "
 "невозможен. При этом вместо кнопки ``Start`` будет выведено соответствующее "
@@ -172,14 +170,14 @@ msgstr ""
 "server cannot be launched. In this case the corresponding message will be "
 "displayed instead of the ``Start`` button."
 
-#: ../setup.rst:92
+#: ../setup.rst:94
 msgid ""
 "В случае ошибки запуска сервера будет показано окно с описанием причины:"
 msgstr ""
 "If the server is failed to run, an error message will be shown describing "
 "the reason:"
 
-#: ../setup.rst:97
+#: ../setup.rst:99
 msgid ""
 "Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже "
 "используется другим приложением."
@@ -187,7 +185,7 @@ msgstr ""
 "This error can arise if the server port is already used by some other "
 "application."
 
-#: ../setup.rst:99
+#: ../setup.rst:101
 msgid ""
 "Нажмите кнопку ``Open SDK`` для запуска в браузере обзорной веб-страницы "
 "Blend4Web SDK, доступной по адресу http://localhost:6687."
@@ -195,14 +193,14 @@ msgstr ""
 "Press the ``Open SDK`` button to open the index web page of the Blend4Web "
 "SDK in the browser. This page is available at http://localhost:6687."
 
-#: ../setup.rst:107
+#: ../setup.rst:109
 msgid ""
 "При этом будет автоматически запущен браузер, используемой в операционной "
 "системе по умолчанию."
 msgstr ""
 "As a result, the default browser for your operating system will be launched."
 
-#: ../setup.rst:109
+#: ../setup.rst:111
 msgid ""
 "Сервер может быть остановлен по нажатию на кнопку ``Stop``. Сервер также "
 "прекращает работу при закрытии программы Blender."
@@ -210,19 +208,19 @@ msgstr ""
 "The server can be stopped by pressing the ``Stop`` button. It is also "
 "stopped when Blender is closed."
 
-#: ../setup.rst:112
+#: ../setup.rst:114
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../setup.rst:112
+#: ../setup.rst:114
 msgid "запуск"
 msgstr "launch"
 
-#: ../setup.rst:117
+#: ../setup.rst:119
 msgid "Запуск просмотрщика сцен и демо-приложений"
 msgstr "Running Viewer and Demos"
 
-#: ../setup.rst:119
+#: ../setup.rst:121
 msgid ""
 "На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-"
 "приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL "
@@ -232,7 +230,7 @@ msgstr ""
 "applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
 "required to run these apps."
 
-#: ../setup.rst:129
+#: ../setup.rst:131
 msgid ""
 "Если приложения SDK не отображаются корректно, или появляются сообщения об "
 "ошибках, необходимо предпринять действия, описанные в разделе "

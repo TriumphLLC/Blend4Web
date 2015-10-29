@@ -6,9 +6,15 @@
 #define POST_EFFECT_Y_BLUR 4
 #define POST_EFFECT_X_EXTEND 5
 #define POST_EFFECT_Y_EXTEND 6
+#define FLIP_CUBEMAP_COORDS 7
 
 uniform vec2 u_texel_size;
 uniform sampler2D u_color;
+
+#if POST_EFFECT == FLIP_CUBEMAP_COORDS
+uniform int u_tex_number;
+uniform vec2 u_delta;
+#endif
 
 varying vec2 v_texcoord;
 
@@ -134,6 +140,52 @@ void main(void) {
             if (color.a > 0.0)
                 gl_FragColor = vec4(1.0, 1.0, 1.0, color.a);
         }
+    }
+
+#elif POST_EFFECT == FLIP_CUBEMAP_COORDS
+    float delta_x = u_delta[0];
+    float delta_y = u_delta[1];
+    float rel_x_dim = 1.0 / 3.0;
+    float rel_y_dim = 0.5;
+    vec2 scale = vec2(rel_x_dim, rel_y_dim);
+    if (u_tex_number == 0) {
+        // +X
+        vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, 0.0);
+        texcoord[0] = min(texcoord[0], 1.0 - delta_x);
+        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
+        gl_FragColor = texture2D(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
+    } else if (u_tex_number == 1) {
+        // -X
+        vec2 texcoord = v_texcoord * scale;
+        texcoord[0] = max(texcoord[0], delta_x);
+        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
+        gl_FragColor = texture2D(u_color, vec2(rel_x_dim - texcoord[0], texcoord[1]));
+    } else if (u_tex_number == 2) {
+        // +Y
+        vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, rel_y_dim);
+        texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
+        texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
+        texcoord[1] = min(texcoord[1], 1.0 - delta_y);
+        gl_FragColor = texture2D(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
+    } else if (u_tex_number == 3) {
+        // -Y
+        vec2 texcoord = v_texcoord * scale + vec2(0.0, rel_y_dim);
+        texcoord[0] = min(texcoord[0], rel_x_dim - delta_x);
+        texcoord[1] = min(texcoord[1], 1.0 - delta_y);
+        gl_FragColor = texture2D(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
+    } else if (u_tex_number == 4) {
+        // +Z
+        vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, 0.0);
+        texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
+        texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
+        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
+        gl_FragColor = texture2D(u_color, vec2(1.0 - texcoord[0], texcoord[1]));
+    } else {
+        // -Z
+        vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, rel_y_dim);
+        texcoord[0] = min(texcoord[0], 1.0 - delta_x);
+        texcoord[1] = max(texcoord[1], 0.5 + delta_y);
+        gl_FragColor = texture2D(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
     }
 
 #endif

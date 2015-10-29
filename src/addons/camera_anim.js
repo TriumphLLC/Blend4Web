@@ -327,8 +327,9 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * while the next call will disable auto-rotation.
  * @param {Number} auto_rotate_ratio Rotation speed multiplier
  * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotation is disabled
+ * @param {Boolean} Disable camera auto-rotation after mouse scrolling.
  */
-exports.auto_rotate = function(auto_rotate_ratio, callback) {
+exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_wheel) {
 
     callback = callback || function(){};
 
@@ -416,11 +417,16 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
         var touch_zoom   = m_ctl.create_touch_zoom_sensor();
         var elapsed      = m_ctl.create_elapsed_sensor();
 
-        var logic_func = function(s) {return (s[0] && s[2]) || (s[1] && s[2]) || s[3] || s[4]};
+        if (disable_on_mouse_wheel)
+            var wheel_zoom = m_ctl.create_mouse_wheel_sensor();
+        else
+            var wheel_zoom = m_ctl.create_custom_sensor(0);
+
+        var logic_func = function(s) {return (s[0] && s[2]) || (s[1] && s[2]) || s[3] || s[4] || s[5]};
 
         m_ctl.create_sensor_manifold(obj, "DISABLE_AUTO_ROTATE", m_ctl.CT_LEVEL,
                                     [mouse_move_x, mouse_move_y, mouse_down,
-                                    touch_move, touch_zoom], logic_func,
+                                    touch_move, touch_zoom, wheel_zoom], logic_func,
                                     disable_cb);
 
         m_ctl.create_sensor_manifold(obj, "AUTO_ROTATE", m_ctl.CT_CONTINUOUS,

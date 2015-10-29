@@ -357,11 +357,15 @@ when a scene is loaded. The message looks like this:
 | sockets compatibility: "FROM_NODE"    | types of the link between the "FROM_NODE"   |
 | with "TO_NODE".                       | and "TO_NODE" nodes should match.           |
 +---------------------------------------+---------------------------------------------+
+| Object "NAME" hasn't renderable data. | An object named "NAME" is degenerate, e.g.  |
+| Converted to EMPTY.                   | has no polygons. The object's type has been |
+|                                       | changed to EMPTY.                           |
++---------------------------------------+---------------------------------------------+
+
++---------------------------------------+---------------------------------------------+
 | Object "NAME" has the mesh with shape | An object named "NAME" has a mesh with      |
 | keys. The property "Relative" of mesh | shape keys. This mesh has the "Relative"    |
 | has been enabled.                     | property enabled which is forbidden.        |
-+---------------------------------------+---------------------------------------------+
-
 +---------------------------------------+---------------------------------------------+
 | Only 2 UV textures are allowed for a  | The engine supports up to 2 UV texture      |
 | mesh; The mesh has N UVs.             | layers for each mesh. The number of UV      |
@@ -393,6 +397,9 @@ when a scene is loaded. The message looks like this:
 | "NAME". Invalid dupli object          | Invalid dupli-object OBJECT_NAME.           |
 | "OBJECT_NAME".                        |                                             |
 +---------------------------------------+---------------------------------------------+
+| Sound file is missing in the SPEAKER  | The speaker has no sound attached. The      |
+| object "NAME". Converted to EMPTY.    | object's type has been changed to EMPTY.    |
++---------------------------------------+---------------------------------------------+
 | The main scene NAME can not be        | The main scene NAME can not be rendered by  |
 | rendered by another scene. Material   | another scene. The material NAME has been   |
 | NAME has been removed.                | deleted.                                    |
@@ -412,14 +419,14 @@ when a scene is loaded. The message looks like this:
 | armature object or it is not          | armature object or it is not exported.      |
 | exported. Modifier removed.           | Modifier removed.                           |
 +---------------------------------------+---------------------------------------------+
+
++---------------------------------------+---------------------------------------------+
 | The NAME curve modifier has no curve  | The NAME curve modifier has no object.      |
 | object. Modifier removed.             | Modifier removed.                           |
 +---------------------------------------+---------------------------------------------+
 | The NAME curve modifier has           | The NAME curve modifier has unsupported     |
 | unsupported curve object. Modifier    | object. Modifier removed.                   |
 | removed.                              |                                             |
-+---------------------------------------+---------------------------------------------+
-
 +---------------------------------------+---------------------------------------------+
 | The NAME object has the NAME armature | The NAME object has both vertex animation   |
 | modifier and a vertex animation.      | and an armature modifier which is not       |

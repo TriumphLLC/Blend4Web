@@ -204,15 +204,19 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
             snrm += wght * skin_vector(normal,   u_quatsb[ind], u_quatsa[ind], ff);
 # else
             spos += wght * skin_point(position, u_quatsb[ind], u_transb[ind]);
+            snrm += wght * skin_vector(normal,   u_quatsb[ind]);
+#  if !DISABLE_TANGENT_SKINNING
             stng += wght * skin_vector(tangent,  u_quatsb[ind]);
             sbnr += wght * skin_vector(binormal, u_quatsb[ind]);
-            snrm += wght * skin_vector(normal,   u_quatsb[ind]);
+#  endif
 # endif
         }
         position = spos;
+        normal   = snrm;
+# if !DISABLE_TANGENT_SKINNING
         tangent  = stng;
         binormal = sbnr;
-        normal   = snrm;
+# endif
     }
 
     if (!(a_influence.y > 0.0)) { // sorted in descending order so no need to check others
@@ -228,9 +232,11 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
             normal   = skin_vector(normal,   u_quatsb[index], u_quatsa[index], ff);
 # else
             position = skin_point(position, u_quatsb[index], u_transb[index]);
+            normal   = skin_vector(normal,   u_quatsb[index]);
+#  if !DISABLE_TANGENT_SKINNING
             tangent  = skin_vector(tangent,  u_quatsb[index]);        
             binormal = skin_vector(binormal, u_quatsb[index]);
-            normal   = skin_vector(normal,   u_quatsb[index]);
+#  endif
 # endif
         }
     }

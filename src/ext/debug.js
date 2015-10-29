@@ -31,6 +31,7 @@ var m_cfg      = require("__config");
 var m_ctl      = require("__controls");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
+var m_load     = require("__loader");
 var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
@@ -567,6 +568,11 @@ exports.scenes_to_dot = function() {
 
 }
 
+exports.loading_graph_to_dot = function(data_id) {
+    data_id = data_id | 0;
+    m_print.log("\n" + m_load.graph_to_dot(data_id));
+}
+
 /**
  * Print info about the controls module.
  * @method module:debug.controls_info
@@ -799,6 +805,10 @@ function get_shaders_stat(vshader, fshader) {
 
     var vsrc = ext_ds.getTranslatedShaderSource(vshader);
     var fsrc = ext_ds.getTranslatedShaderSource(fshader);
+
+    // HACK: lower GLSL version for NVIDIA drivers
+    vsrc = vsrc.replace("#version", "#version 400 //")
+    fsrc = fsrc.replace("#version", "#version 400 //")
 
     var vout = post_sync("/nvidia_vert", vsrc);
     var vstats = parse_shader_assembly(vout);

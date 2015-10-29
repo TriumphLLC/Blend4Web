@@ -285,7 +285,7 @@ exports.init = function(options) {
 
                 if (ccw != canvas_elem.clientWidth ||
                         cch != canvas_elem.clientHeight)
-                    m_main.resize(ccw, cch, true);
+                    m_cont.resize(ccw, cch, true);
             });
         }
 
@@ -422,7 +422,7 @@ function resize_to_container() {
     var w = canvas_container_elem.clientWidth;
     var h = canvas_container_elem.clientHeight;
 
-    m_main.resize(w, h, true);
+    m_cont.resize(w, h, true);
 }
 
 exports.set_onclick = function(elem_id, callback) {

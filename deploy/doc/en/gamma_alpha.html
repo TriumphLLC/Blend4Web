@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Gamma and Alpha &mdash; User Manual: Blend4Web vv15.09</title>
+  <title>Gamma and Alpha &mdash; User Manual: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="Audio System" href="audio.html"/>
         <link rel="prev" title="Outdoor Rendering" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -236,13 +236,17 @@
 <span id="id5"></span><h2>Gamma in Node Materials<a class="headerlink" href="#gamma-node-materials" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
 <h3>Nodes for Colouring<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node implements unpacking automatically. For vertex colors the unpacking should be performed explicitely with the <cite>SRGB_TO_LINEAR</cite> special node.</p>
+<p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node and <cite>Vertex Color</cite> output of <cite>Geometry</cite> node implement unpacking automatically.</p>
 <p>Note that the alpha channel of a texture node is not corrected. Its values are in the linear space.</p>
 </div>
 <div class="section" id="id7">
 <h3>Nodes for Masking<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<p>Textures and vertex colors can be used as masks i.e. for mixing colors and for other mathematical operations. In such a case no transformations are required.</p>
-<p>In case of a texture however there is a nuance: a texture node implements unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> node is used.</p>
+<p>Textures and vertex colors can be used as masks i.e. input data for some mathematical operations. In such a case the packing operation is required.</p>
+<p>Keep in mind that a texture node and <cite>Vertex Color</cite> output of <cite>Geometry</cite> node implement unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> or <cite>GAMMA</cite> node with γ = 1/2.2 is used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>LINEAR_TO_SRGB</cite> and <cite>SRGB_TO_LINEAR</cite> nodes are deprecated. <cite>GAMMA</cite> node should be used instead.</p>
+</div>
 </div>
 <div class="section" id="id8">
 <h3>Normal Maps<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
@@ -270,15 +274,17 @@
 </tr>
 <tr class="row-odd"><td><p class="first last">Texture for masking</p>
 </td>
-<td>LINEAR_TO_SRGB</td>
+<td><p class="first last"><cite>GAMMA</cite> with γ = 0.45</p>
+</td>
 </tr>
 <tr class="row-even"><td><p class="first last">Vertex color for colouring</p>
 </td>
-<td>SRGB_TO_LINEAR</td>
+<td><p class="first last">implemented automatically</p>
+</td>
 </tr>
 <tr class="row-odd"><td><p class="first last">Vertex color for masking</p>
 </td>
-<td><p class="first last">not required</p>
+<td><p class="first last"><cite>GAMMA</cite> with γ = 0.45</p>
 </td>
 </tr>
 <tr class="row-even"><td><p class="first last">Normal map</p>
@@ -288,10 +294,6 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-gamma"><span>B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR</span></a></p>
-</div>
 </div>
 </div>
 <div class="section" id="alpha-compositing">
@@ -341,7 +343,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-09-30.
+      Last updated on 2015-10-29.
 
     </p>
   </div>
@@ -363,7 +365,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

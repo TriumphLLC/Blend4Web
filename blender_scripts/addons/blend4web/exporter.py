@@ -435,7 +435,8 @@ def attach_export_properties(tags):
                 component["hair_exp_done"] = False
             if tag == "groups":
                 component["hair_exp_done"] = False
-
+            if tag == "scenes":
+                component["metaballs_processed"] = False
 
 def check_dupli_groups(objects, group_number):
     global _dg_counter
@@ -455,6 +456,12 @@ def detach_export_properties(tags):
         for component in source:
             if "export_done" in component:
                 del component["export_done"]
+            if "curve_exp_done" in component:
+                del component["curve_exp_done"]
+            if "hair_exp_done" in component:
+                del component["hair_exp_done"]
+            if "metaballs_processed" in component:
+                del component["metaballs_processed"]
 
 def gen_uuid(comp, addition=""):
     # type + name + lib path/blend path
@@ -699,19 +706,21 @@ def check_main_scene(scenes):
 
 def update_material_fallback(uuid, main_scene_name):
 
-    for mat_data in _export_data["materials"]:
-        if mat_data["uuid"] == uuid:
-            err("The main scene \"" + main_scene_name +"\" can not be rendered " + 
-                    "by another scene. Material \"" + mat_data["name"] 
-                    + "\" has been removed.")
-            original_name = mat_data["name"]
-            _export_data["materials"].remove(mat_data)
-            break
+    uuids = [md for md in _export_data["materials"] if md["source_uuid"] == uuid]
+    for md in uuids:
+        _export_data["materials"].remove(md)
+
+    err("The main scene \"" + main_scene_name +"\" can not be rendered " + 
+            "by another scene. Material \"" + md["name"] 
+            + "\" has been removed.")
+    original_name = md["name"]
+
     fallback_material = get_fallback_material()
-    process_material(fallback_material, uuid)
+    for md in uuids:
+        process_material(fallback_material, md["uuid"])
 
     for mat_data in _export_data["materials"]:
-        if mat_data["uuid"] == uuid:
+        if mat_data["source_uuid"] == uuid:
             mat_data["name"] = original_name
 
 def update_texture_fallback(uuid, main_scene_name):
@@ -784,10 +793,13 @@ def process_action(action):
         is_rotation_quat = data_path.find("rotation_quaternion") > -1
         is_rotation_euler = data_path.find("rotation_euler") > -1
         is_node = data_path.find("nodes") == 0
+        is_light_color = data_path.find("color") == 0
 
         num_channels = 1
         if is_scale or is_location or is_rotation_quat or is_rotation_euler:
             num_channels = 8
+        if is_light_color:
+            num_channels = 3
         elif is_node:
             num_channels_mat = get_mat_action_num_channels(action, data_path)
 
@@ -1003,7 +1015,7 @@ def process_scene(scene):
     scene_data["b4w_enable_bloom"] = scene.b4w_enable_bloom
     scene_data["b4w_enable_motion_blur"] = scene.b4w_enable_motion_blur
     scene_data["b4w_enable_color_correction"] = scene.b4w_enable_color_correction
-    scene_data["b4w_enable_antialiasing"] = scene.b4w_enable_antialiasing
+    scene_data["b4w_antialiasing_quality"] = scene.b4w_antialiasing_quality
     scene_data["b4w_enable_object_selection"] = scene.b4w_enable_object_selection
     scene_data["b4w_enable_outlining"] = scene.b4w_enable_outlining
     scene_data["b4w_enable_anchors_visibility"] = scene.b4w_enable_anchors_visibility
@@ -1149,7 +1161,7 @@ def get_logic_nodetree_name(scene):
 
 def force_mute_node(node_data, desc):
      err("Incorrect Logic Editor node " + "\"" + node_data["name"] \
-     + "\"." + desc + " Node muted.")
+     + "\". " + desc + " Node muted.")
      node_data['mute'] = True
 
 def process_scene_nla(scene, scene_data):
@@ -1215,6 +1227,7 @@ def process_scene_nla(scene, scene_data):
             slot_data["variables"] = slot["variables_names"]
             slot_data["shader_nd_type"] = slot["shader_nd_type"]
             slot_data["common_usage_names"] = slot["common_usage_names"]
+            slot_data["send_req_vars_list"] = slot["send_req_vars_list"]
 
             if slot['type'] == "PLAY":
                 frame_range = markers_to_frame_range(scene,
@@ -1242,12 +1255,7 @@ def process_scene_nla(scene, scene_data):
                     force_mute_node(slot_data, "Object is not selected or not exported.")
 
             elif slot['type'] == "INHERIT_MAT":
-                for o in slot["objects_paths"]:
-                    obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"][o])
-                    if (obj and do_export(obj) and object_is_valid(obj)):
-                        pass
-                    else:
-                        force_mute_node(slot_data, "Object is not selected or not exported.")
+                check_objects_paths(scene, slot, slot_data)
 
             elif slot['type'] == "SET_SHADER_NODE_PARAM":
                 obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"]["id0"])
@@ -1324,6 +1332,9 @@ def process_scene_nla(scene, scene_data):
 
                 slot_data["variabled"] = slot['param_var_dest']
 
+            elif slot['type'] == "MOVE_CAMERA":
+                check_objects_paths(scene, slot, slot_data)
+
             elif slot['type'] == "NOOP":
                 pass
 
@@ -1331,6 +1342,16 @@ def process_scene_nla(scene, scene_data):
 
     # import pprint
     # pprint.pprint(scene_data["b4w_logic_nodes"])
+
+
+def check_objects_paths(scene, slot, slot_data):
+    for o in slot["objects_paths"]:
+        obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"][o])
+        if (obj and do_export(obj) and object_is_valid(obj)):
+            pass
+        else:
+            force_mute_node(slot_data, "Object is not selected or not exported.")
+
 
 def process_scene_dyn_compr_settings(scene_data, scene):
     dcompr = scene.b4w_dynamic_compressor_settings
@@ -1416,6 +1437,55 @@ def process_scene_glow_settings(scene_data, scene):
     dct["small_glow_mask_width"]  = round_num(glow.small_glow_mask_width, 2)
     dct["large_glow_mask_width"]  = round_num(glow.large_glow_mask_width, 2)
 
+def check_main_metaball(obj, mesh_data):
+    curr_scene = _curr_stack["scenes"][-1]
+    is_main_metaball = (obj.type == "META" and mesh_data is not None and 
+            not curr_scene["metaballs_processed"])
+    if is_main_metaball:
+        curr_scene["metaballs_processed"] = True
+
+    return is_main_metaball
+
+def process_object_type(obj, data, curve_as_curve):
+
+    new_type = obj.type
+
+    if obj.type != "EMPTY":
+        if obj.data is None:
+            # broken object data
+            raise InternalError("Object data not available for \"" + obj.name + "\"")
+
+        is_main_metaball = check_main_metaball(obj, data)
+        if data is None:
+            # data != obj.data -> degenerated data was created through the "to_mesh" 
+            # operation -> convert to EMPTY
+            new_type = "EMPTY"
+        else:
+            if (obj.type == "SURFACE" or obj.type == "FONT" 
+                    or obj.type == "CURVE" and not curve_as_curve):
+                new_type = "MESH"
+
+            if obj.type == "META":
+                if is_main_metaball:
+                    new_type = "MESH"
+                else:
+                    new_type = "EMPTY"
+
+            if new_type == "MESH" and not len(data.polygons):
+                new_type = "EMPTY"
+
+            if new_type == "SPEAKER" and data.sound is None:
+                new_type = "EMPTY"
+
+        if new_type == "EMPTY":
+            if obj.type == "SPEAKER":
+                warn("Sound file is missing in the SPEAKER object \"" + obj.name 
+                        + "\". Converted to EMPTY.")
+            elif obj.type != "META" or is_main_metaball:
+                warn("Object \"" + obj.name 
+                        + "\" hasn't renderable data. Converted to EMPTY.")
+
+    return new_type
 
 def process_object(obj, is_curve=False, is_hair=False):
 
@@ -1448,31 +1518,11 @@ def process_object(obj, is_curve=False, is_hair=False):
     else:
         data = get_obj_data(obj, _curr_stack["scenes"][-1])
 
-    obj_data["body_text"] = None
-    if obj.type == "SURFACE":
-        obj_data["type"] = "MESH"
-    elif obj.type == "CURVE":
-        if is_curve:
-            obj_data["type"] = "CURVE"
-        else:
-            obj_data["type"] = "MESH"
-    elif obj.type == "META":
-        if data:
-            obj_data["type"] = "MESH"
-        else:
-            obj_data["type"] = "EMPTY"
-    elif obj.type == "FONT":
-        obj_data["type"] = "MESH"
+    obj_data["type"] = process_object_type(obj, data, is_curve)
+    if obj.type == "FONT" and obj_data["type"] == "MESH":
         obj_data["body_text"] = obj.data.body
     else:
-        obj_data["type"] = obj.type
-
-    if (data is None and obj_data["type"] != "EMPTY" and obj.type != "CURVE"
-            and obj.type != "FONT"):
-        raise InternalError("Object data not available for \"" + obj.name + "\"")
-
-    if obj_data["type"] == "MESH" and (data is None or not len(data.polygons)):
-        obj_data["type"] = "EMPTY"
+        obj_data["body_text"] = None
 
     obj_data["data"] = gen_uuid_dict(data)
 
@@ -1573,7 +1623,10 @@ def process_object(obj, is_curve=False, is_hair=False):
 
     obj_data["b4w_lod_transition"] = round_num(obj.b4w_lod_transition, 3);
 
-    obj_data["lod_levels"] = process_object_lod_levels(obj)
+    if is_hair:
+        obj_data["lod_levels"] = []
+    else:
+        obj_data["lod_levels"] = process_object_lod_levels(obj)
 
     obj_data["b4w_proxy_inherit_anim"] = obj.b4w_proxy_inherit_anim
 
@@ -1886,6 +1939,13 @@ def process_object_nla(nla_tracks_data, nla_tracks, actions):
         for strip in track.strips:
             if strip.mute:
                 continue
+
+            # can be a speaker converted to an empty object
+            curr_obj = _curr_stack["object"][-1]
+            if (strip.type == "SOUND" and (curr_obj.type != "SPEAKER" 
+                    or curr_obj.data.sound is None)):
+                continue
+
             strip_data = OrderedDict()
             strip_data["name"] = strip.name
             strip_data["type"] = strip.type
@@ -2118,6 +2178,8 @@ def process_lamp(lamp):
 
     lamp_data = OrderedDict()
 
+    process_animation_data(lamp_data, lamp, bpy.data.actions)
+
     lamp_data["name"] = lamp.name
     lamp_data["uuid"] = gen_uuid(lamp)
     lamp_data["type"] = lamp.type
@@ -2331,6 +2393,7 @@ def process_material(material, uuid = None):
         or uuid is not None)
 
     if need_append:
+        mat_data["source_uuid"] = gen_uuid(material)
         material["export_done"] = True
         _export_data["materials"].append(mat_data)
         _export_uuid_cache[mat_data["uuid"]] = mat_data

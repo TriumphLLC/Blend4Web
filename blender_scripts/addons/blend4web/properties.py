@@ -29,6 +29,13 @@ for m in b4w_modules:
 from .interface import *
 from blend4web.translator import _, p_
 
+b4w_camera_move_style_items = [
+        ("STATIC", _("Static"), _("Static camera")),
+        ("TARGET", _("Target"), _("Move target")),
+        ("EYE", _("Eye"), _("Move eye")),
+        ("HOVER", _("Hover"), _("Hover mode"))
+    ]
+
 class B4W_StringWrap(bpy.types.PropertyGroup):
     name = bpy.props.StringProperty(name = _("name"),)
 
@@ -1148,12 +1155,7 @@ def add_b4w_props():
         name = _("B4W: movement style"),
         description = _("Default camera movement style"),
         default = "TARGET",
-        items = [
-            ("STATIC", _("Static"), _("Static camera")),
-            ("TARGET", _("Target"), _("Move target")),
-            ("EYE", _("Eye"), _("Move eye")),
-            ("HOVER", _("Hover"), _("Hover mode"))
-        ]
+        items = b4w_camera_move_style_items
     )
     bpy.types.Camera.b4w_move_style = b4w_move_style
 
@@ -1590,7 +1592,7 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_motion_blur_settings
     del bpy.types.Scene.b4w_enable_color_correction
     del bpy.types.Scene.b4w_color_correction_settings
-    del bpy.types.Scene.b4w_enable_antialiasing
+    del bpy.types.Scene.b4w_antialiasing_quality
     del bpy.types.Scene.b4w_enable_tags
     del bpy.types.Scene.b4w_tags
     del bpy.types.Scene.b4w_enable_object_selection
@@ -1979,12 +1981,18 @@ def add_scene_properties():
         type = B4W_ColorCorrectionSettings
     )
 
-    b4w_enable_antialiasing = bpy.props.BoolProperty(
-        name = _("B4W: enable antialiasing"),
-        description = _("Enable antialiasing"),
-        default = True
+    b4w_antialiasing_quality = bpy.props.EnumProperty(
+        name = _("B4W: antialiasing quality"),
+        description = _("antialiasing quality"),
+        items = [
+            ("NONE",     _("NONE"),     _("NONE"), 1),
+            ("LOW",      _("LOW"),      _("LOW"), 2),
+            ("MEDIUM",   _("MEDIUM"),   _("MEDIUM"), 3),
+            ("HIGH",     _("HIGH"),     _("HIGH"), 4)
+        ],
+        default = "MEDIUM"
     )
-    scene_type.b4w_enable_antialiasing = b4w_enable_antialiasing
+    scene_type.b4w_antialiasing_quality = b4w_antialiasing_quality
 
     b4w_enable_tags = bpy.props.BoolProperty(
         name = _("B4W: enable tags"),
@@ -3456,11 +3464,14 @@ def replace_deprecated_props(arg):
 
         world = scene.world
 
-        if world and ("b4w_glow_color" in world.keys()) and hasattr(scene, "b4w_outline_color"):
+        if not world:
+            continue
+
+        if ("b4w_glow_color" in world.keys()) and hasattr(scene, "b4w_outline_color"):
             scene["b4w_outline_color"] = world["b4w_glow_color"]
             del world["b4w_glow_color"]
 
-        if world and ("b4w_glow_factor" in world.keys()) and hasattr(scene, "b4w_outline_factor"):
+        if ("b4w_glow_factor" in world.keys()) and hasattr(scene, "b4w_outline_factor"):
             scene["b4w_outline_factor"] = world["b4w_glow_factor"]
             del world["b4w_glow_factor"]
 

@@ -4,8 +4,10 @@ APPDIR = apps_dev
 APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
 SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
-#VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/_pre/' VERSION`
-VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/_rc/' VERSION`
+
+# exec "VERPREFIX=_new_prefix make -e" to override
+VERPREFIX=
+VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all
 all: build
@@ -19,12 +21,12 @@ compile: compile_shaders compile_b4w compile_apps build_tutorials
 .PHONY: compile_shaders
 compile_shaders:
 	@echo "Compiling b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --obf --rem_braces
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --obf --rem_braces --opt_decl
 
 .PHONY: verify_shaders
 verify_shaders:
 	@echo "Verifying b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --obf --rem_braces
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --obf --rem_braces --opt_decl
 
 .PHONY: compile_b4w
 compile_b4w:

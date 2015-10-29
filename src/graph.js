@@ -463,6 +463,7 @@ function subgraph_node_conn_iter(graph, node_id, visit_state, dir) {
     }
 }
 
+exports.cleanup_loose_edges = cleanup_loose_edges;
 function cleanup_loose_edges(graph) {
     var nodes = graph.nodes;
     var edges = graph.edges;

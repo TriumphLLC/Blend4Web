@@ -11,9 +11,9 @@ build_dir = deploy/apps/website
 deploy_dir = ../website_b4w/website/blend4web/static/blend4web/3d/
 
 [compile]
-apps = logo_3d_dev.html;
+apps = logo_3d_dev.html;contest_dev.html;
 css_ignore = 
-engine_type = compile
+engine_type = copy
 js_ignore = 
 optimization = advanced
 use_physics = False

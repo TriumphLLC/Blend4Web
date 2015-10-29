@@ -41,6 +41,7 @@ var SPKSTATE_UNDEFINED  = 10;
 var SPKSTATE_PLAY       = 20
 var SPKSTATE_STOP       = 30;
 var SPKSTATE_PAUSE      = 40;
+var SPKSTATE_FINISH     = 50;
 
 var SCHED_PARAM_LOOPS = 5;
 var SCHED_PARAM_ANTICIPATE_TIME = 3.0;
@@ -69,6 +70,9 @@ var _playlist = null;
 
 exports.create_sfx = function() {
     var sfx = {
+        uuid: -1,
+        filepath: "",
+
         behavior: "NONE",
         disable_doppler: false,
         muted: false,
@@ -301,11 +305,11 @@ exports.detect_video_container = function(hint) {
  */
 exports.update_object = function(bpy_obj, obj) {
 
-    if (obj.type != "SPEAKER")
-        throw "Wrong speaker object";
-
     var speaker = bpy_obj["data"];
     var sfx = obj.sfx;
+
+    sfx.uuid = bpy_obj["data"]["sound"]["uuid"];
+    sfx.filepath = bpy_obj["data"]["sound"]["filepath"];
 
     switch(speaker["b4w_behavior"]) {
     case "POSITIONAL":
@@ -321,7 +325,7 @@ exports.update_object = function(bpy_obj, obj) {
         break;
     }
 
-    // allow speakers without sound
+    // NOTE: temporary compatibility actions: allow speakers without sound
     if (!speaker["sound"])
         sfx.behavior = "NONE";
 
@@ -483,9 +487,13 @@ exports.update = function(timeline, elapsed) {
 
         var curr_time = _wa.currentTime;
 
+        // finish state may be already set by onended handler
+        if (!sfx.loop && sfx.state == SPKSTATE_PLAY && sfx.duration &&
+                (sfx.start_time + sfx.duration < curr_time))
+            sfx.state = SPKSTATE_FINISH;
+
         // handle restarts
-        if (_wa && !sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
-                sfx.duration && (sfx.start_time + sfx.duration < curr_time))
+        if (sfx.cyclic && sfx.state == SPKSTATE_FINISH)
             play_def(obj);
 
         // handle volume pitch randomization
@@ -527,9 +535,6 @@ function play(obj, when, duration) {
     if (sfx.behavior == "NONE")
         return;
 
-    if (!duration)
-        var duration = 0.0;
-
     var loop = sfx.loop;
     var playrate = sfx.pitch;
 
@@ -555,6 +560,11 @@ function play(obj, when, duration) {
 
         source.buffer = sfx.src;
         source.playbackRate.value = playrate;
+
+        // NOTE: may affect pause/resume behavior if not supported
+        source.onended = function() {
+            sfx.state = SPKSTATE_FINISH;
+        };
 
         if (loop) {
             // switch off previous node graph
@@ -908,7 +918,10 @@ function stop(sobj) {
 
     var sfx = sobj.sfx;
 
-    if (sfx.state != SPKSTATE_PLAY && sfx.state != SPKSTATE_PAUSE)
+    if (sfx.state == SPKSTATE_FINISH) {
+        sfx.state = SPKSTATE_STOP;
+        return;
+    } else if (sfx.state != SPKSTATE_PLAY && sfx.state != SPKSTATE_PAUSE)
         return;
 
     var fade_gnode = sfx.fade_gain_node;
@@ -956,8 +969,8 @@ function stop(sobj) {
     sfx.state = SPKSTATE_STOP;
 }
 
-exports.is_play = is_play;
-function is_play(obj) {
+exports.is_playing = is_playing;
+function is_playing(obj) {
     return (obj.sfx.state == SPKSTATE_PLAY);
 }
 
@@ -1041,6 +1054,10 @@ function speaker_resume(obj) {
         var playrate = source.playbackRate.value;
         var buf_dur = source.buffer.duration;
 
+        // NOTE: may affect pause/resume behavior if not supported
+        source.onended = function() {
+            sfx.state = SPKSTATE_FINISH;
+        };
         source.start(sfx.start_time, sfx.buf_offset);
 
         schedule_volume_pitch_random(sfx);
@@ -1238,9 +1255,13 @@ exports.check_active_speakers = function() {
 }
 
 function spk_is_active(obj) {
-    if (obj.sfx && (obj.sfx.state == SPKSTATE_PLAY ||
-                obj.sfx.state == SPKSTATE_PAUSE ||
-                obj.sfx.state == SPKSTATE_STOP))
+
+    var sfx = obj.sfx;
+
+    if (sfx && (sfx.state == SPKSTATE_PLAY ||
+                sfx.state == SPKSTATE_PAUSE ||
+                sfx.state == SPKSTATE_STOP ||
+                sfx.state == SPKSTATE_FINISH))
         return true;
     else
         return false;

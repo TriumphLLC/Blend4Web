@@ -39,7 +39,7 @@
 #include <caustics.glslf>
 # endif
 
-#include <gamma.glslf>
+#include <color_util.glslf>
 #include <math.glslv>
 #endif // NODES && ALPHA
 

@@ -2314,4 +2314,8 @@ function normpath(path) {
     return path || dot;
 }
 
+exports.check_npot = function(num) {
+    return parseInt(num.toString(2).substr(1), 2) != 0;
+}
+
 }

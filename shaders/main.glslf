@@ -33,7 +33,7 @@
 # endif
 #endif
 
-#include <gamma.glslf>
+#include <color_util.glslf>
 #include <math.glslv>
 
 /*============================================================================
@@ -277,7 +277,7 @@ void main(void) {
 
 #if ALPHA
 # if ALPHA_CLIP
-    if (alpha <= 0.5)
+    if (alpha < 0.5)
         discard;
     alpha = 1.0; // prevent blending with html content
 # endif  // ALPHA CLIP

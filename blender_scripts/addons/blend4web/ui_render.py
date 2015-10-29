@@ -221,7 +221,7 @@ class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
         layout.prop(god_rays, "steps_per_pass", text=_("Steps per Pass"))
 
 class B4W_RenderAntialiasing(RenderButtonsPanel, bpy.types.Panel):
-    bl_label = _("Antialiasing")
+    bl_label = _("Anti-Aliasing")
     bl_idname = "RENDER_PT_b4w_antialiasing"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -229,7 +229,7 @@ class B4W_RenderAntialiasing(RenderButtonsPanel, bpy.types.Panel):
         scene = context.scene
 
         layout = self.layout
-        layout.prop(scene, "b4w_enable_antialiasing", text=_("Enable Antialiasing"))
+        layout.prop(scene, "b4w_antialiasing_quality", text=_("AA Quality"))
 
 class B4W_SceneAniso(RenderButtonsPanel, bpy.types.Panel):
     bl_label = _("Anisotropic Filtering")
@@ -312,14 +312,18 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
 
             if allow_actions:
                 if is_started:
-                    layout.operator("b4w.stop_server", text=p_("Stop", "Operator"), icon="PAUSE")
+                    layout.operator("b4w.stop_server", text=p_("Stop Server", "Operator"), icon="PAUSE")
                 elif not is_waiting_for_shutdown:
-                    layout.operator("b4w.start_server", text=p_("Start", "Operator"), icon="PLAY")
+                    layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
             else:
                 layout.label(text = _("Server actions are available in the other Blender instance."))
 
             if is_started:
-                layout.operator("b4w.open_sdk", text=p_("Open SDK", "Operator"), icon="URL")
+                layout.operator("b4w.open_sdk", text=p_("SDK Index", "Operator"), icon="URL")
+                layout.operator("b4w.open_proj_manager",
+                        text=p_("Project Manager", "Operator"), icon="URL")
+                layout.operator("b4w.preview",
+                        text=p_("Fast Preview", "Operator"), icon="VIEWZOOM")
 
         else:
             layout.label(text = _("Blend4Web SDK was not found."))

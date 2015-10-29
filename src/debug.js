@@ -31,6 +31,7 @@ var m_print = require("__print");
 var m_tex   = require("__textures");
 var m_time  = require("__time");
 var m_util  = require("__util");
+var m_graph = require("__graph");
 
 var _gl = null;
 var ERRORS = {};
@@ -491,6 +492,21 @@ exports.fake_load = function(stageload_cb, interval, start, end, loaded_cb) {
             return;
         }
     })
+}
+
+exports.nodegraph_to_dot = function(graph) {
+    var nodes_label_cb = function (id, attr) {
+        return attr.type;
+    }
+    var edges_label_cb = function (id1, id2, attr) {
+        var node1 = m_graph.get_node_attr(graph, id1);
+        var node2 = m_graph.get_node_attr(graph, id2);
+        var out1 = node1.outputs[attr[0]];
+        var in2 = node2.inputs[attr[1]];
+        return out1.identifier + "\n==>\n" + in2.identifier;
+    }
+
+    return m_graph.debug_dot(graph, nodes_label_cb, edges_label_cb);
 }
 
 }

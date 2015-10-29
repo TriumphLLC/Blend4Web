@@ -48,7 +48,7 @@ exports.defaults = {
 
     alpha_clip_filtering_hack  : false,
 
-    min_format_version         : [5, 6],
+    min_format_version         : [5, 7],
 
     max_fps                    : 10000, // not accurate
 
@@ -65,8 +65,6 @@ exports.defaults = {
     background_color           : [0.0, 0.0, 0.0, 0.0],
 
     lod_transition_ratio       : 0.01,
-
-    render_resolution_factor   : 1.0,
 
     canvas_resolution_factor   : 1.0,
 
@@ -188,7 +186,13 @@ exports.defaults = {
 
     edge_min_tex_size_hack     : false,
 
-    quality_aa                 : true
+    quality_aa_method          : true,
+
+    amd_skinning_hack          : false,
+
+    url_params                 : null,
+
+    safari_canvas_alpha_hack   : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -282,7 +286,7 @@ exports.debug_subs = {
     enabled     : false,
     subs_type   : "MAIN_OPAQUE",
     subs_number : 0,
-    slink_type  : "DEPTH"
+    slink_type  : "COLOR"
 }
 exports.debug_subs_save = m_util.clone_object_r(exports.debug_subs);
 
@@ -323,8 +327,6 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = true;
 
-        cfg_def.render_resolution_factor = 1.75;
-
         cfg_scs.grass_tex_size = 4.0*512;
 
         cfg_def.texture_min_filter = 3;
@@ -341,7 +343,7 @@ exports.apply_quality = function() {
 
         cfg_def.antialiasing = true;
 
-        cfg_def.smaa = true;
+        cfg_def.smaa = false;
 
         cfg_def.compositing = true;
 
@@ -382,8 +384,6 @@ exports.apply_quality = function() {
         cfg_def.dynamic_grass = true;
 
         cfg_def.procedural_fog = true;
-
-        cfg_def.render_resolution_factor = 1.0;
 
         cfg_scs.grass_tex_size = 2*512;
 
@@ -442,8 +442,6 @@ exports.apply_quality = function() {
         cfg_def.dynamic_grass = false;
 
         cfg_def.procedural_fog = false;
-
-        cfg_def.render_resolution_factor = 1; // can be 0.5
 
         cfg_scs.grass_tex_size = 1*512;
 
@@ -554,9 +552,6 @@ function set(prop, value) {
     case "quality":
         exports.defaults.quality = value;
         break;
-    case "render_resolution_factor":
-        exports.defaults.render_resolution_factor = value;
-        break;
     case "sfx_mix_mode":
         exports.sfx.mix_mode = value;
         break;
@@ -589,6 +584,9 @@ function set(prop, value) {
         break;
     case "glow_materials":
         exports.defaults.glow_materials = value;
+        break;
+    case "url_params":
+        exports.defaults.url_params = value;
         break;
     default:
         m_print.error("Unknown config property: " + prop);
@@ -644,8 +642,6 @@ exports.get = function(prop) {
         return exports.defaults.precision;
     case "quality":
         return exports.defaults.quality;
-    case "render_resolution_factor":
-        return exports.defaults.render_resolution_factor;
     case "sfx_mix_mode":
         return exports.sfx.mix_mode;
     case "shaders_dir":
@@ -668,6 +664,8 @@ exports.get = function(prop) {
         return exports.outlining.outlining_overview_mode;
     case "glow_materials":
         return exports.defaults.glow_materials;
+    case "url_params":
+        return exports.defaults.url_params;
     default:
         m_print.error("Unknown config property: " + prop);
         break;

@@ -904,7 +904,7 @@ function action_firework_item(firework_num) {
 
     var cb = null;
 
-    if (_rocket_num == firework_num)
+    if (_rocket_num == firework_num - 1)
         cb = fly_flag;
 
     m_time.set_timeout(function() {

@@ -63,23 +63,6 @@ float calc_poisson_visibility(float poisson_disc_x, float poisson_disc_y,
         return step(shadow_coord.z, texture2D(shadow_map, coords).r);
 }
 
-void calc_poisson_visibility_overlap(inout float vis0, inout float vis1,
-        float poisson_disc_x, float poisson_disc_y, mat2 rotation_mat,
-        vec3 shadow_coord0, vec3 shadow_coord1,
-        float blur_radius0, float blur_radius1,
-        PRECISION sampler2D shadow_map0, PRECISION sampler2D shadow_map1) {
-
-    vec2 coords, offset;
-    offset.x = poisson_disc_x;
-    offset.y = poisson_disc_y;
-    offset = rotation_mat * offset;
-
-    coords = shadow_coord0.xy + offset * blur_radius0 / SHADOW_TEX_RES;
-    vis0 += step(shadow_coord0.z, texture2D(shadow_map0, coords).r);
-    coords = shadow_coord1.xy + offset * blur_radius1 / SHADOW_TEX_RES;
-    vis1 += step(shadow_coord1.z, texture2D(shadow_map1, coords).r);
-}
-
 float shadow_map_visibility(vec3 shadow_coord, PRECISION sampler2D shadow_map,
         float blur_radius) {
 
@@ -139,19 +122,36 @@ float shadow_map_visibility_overlap(vec3 shadow_coord0, PRECISION sampler2D shad
     float rnd_sin = sin(rnd_val);
     mat2 rotation_mat = mat2(rnd_cos, rnd_sin, -rnd_sin, rnd_cos);
 
+    // NOTE: use different loops for sampling different shadow maps to avoid 
+    // some issues on systems with free drivers (e.g. Arch)
     for (int i = 0; i < 4; i++) {
-        calc_poisson_visibility_overlap(vis0, vis1, POISSON_DISK_X_0[i],
-                POISSON_DISK_Y_0[i], rotation_mat, shadow_coord0, shadow_coord1,
-                blur_radius0, blur_radius1, shadow_map0, shadow_map1);
-        calc_poisson_visibility_overlap(vis0, vis1, POISSON_DISK_X_1[i],
-                POISSON_DISK_Y_1[i], rotation_mat, shadow_coord0, shadow_coord1,
-                blur_radius0, blur_radius1, shadow_map0, shadow_map1);
-        calc_poisson_visibility_overlap(vis0, vis1, POISSON_DISK_X_2[i],
-                POISSON_DISK_Y_2[i], rotation_mat, shadow_coord0, shadow_coord1,
-                blur_radius0, blur_radius1, shadow_map0, shadow_map1);
-        calc_poisson_visibility_overlap(vis0, vis1, POISSON_DISK_X_3[i],
-                POISSON_DISK_Y_3[i], rotation_mat, shadow_coord0, shadow_coord1,
-                blur_radius0, blur_radius1, shadow_map0, shadow_map1);
+        vis0 += calc_poisson_visibility(POISSON_DISK_X_0[i],
+                POISSON_DISK_Y_0[i], rotation_mat, shadow_coord0,
+                blur_radius0, shadow_map0);
+        vis0 += calc_poisson_visibility(POISSON_DISK_X_1[i],
+                POISSON_DISK_Y_1[i], rotation_mat, shadow_coord0,
+                blur_radius0, shadow_map0);
+        vis0 += calc_poisson_visibility(POISSON_DISK_X_2[i],
+                POISSON_DISK_Y_2[i], rotation_mat, shadow_coord0,
+                blur_radius0, shadow_map0);
+        vis0 += calc_poisson_visibility(POISSON_DISK_X_3[i],
+                POISSON_DISK_Y_3[i], rotation_mat, shadow_coord0,
+                blur_radius0, shadow_map0);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        vis1 += calc_poisson_visibility(POISSON_DISK_X_0[i],
+                POISSON_DISK_Y_0[i], rotation_mat, shadow_coord1,
+                blur_radius1, shadow_map1);
+        vis1 += calc_poisson_visibility(POISSON_DISK_X_1[i],
+                POISSON_DISK_Y_1[i], rotation_mat, shadow_coord1,
+                blur_radius1, shadow_map1);
+        vis1 += calc_poisson_visibility(POISSON_DISK_X_2[i],
+                POISSON_DISK_Y_2[i], rotation_mat, shadow_coord1,
+                blur_radius1, shadow_map1);
+        vis1 += calc_poisson_visibility(POISSON_DISK_X_3[i],
+                POISSON_DISK_Y_3[i], rotation_mat, shadow_coord1,
+                blur_radius1, shadow_map1);
     }
 
     vis0 = mix(vis0, vis1, factor);

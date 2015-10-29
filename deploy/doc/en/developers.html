@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; User Manual: Blend4Web vv15.09</title>
+  <title>For Application Developers &mdash; User Manual: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Visual Programming" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -123,24 +123,25 @@
 <li class="toctree-l3"><a class="reference internal" href="#id10">Resource Conversion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id11">Projects List</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id12">Deploying Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Remove project</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">Preparing Assets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id14">App Logic Coding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Building Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">Preparing Assets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">App Logic Coding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Building Apps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sdk">Exporting Apps Outside SDK</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#converter">Resource Conversion</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Data format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Data format</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#canvas-nonfullscreen-coords">Non-FullScreen Web Apps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-snippets">Code Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#index-0">Sensors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">SDK File Structure</a></li>
@@ -337,9 +338,11 @@
 </li>
 <li><p class="first">automate re-exporting all scenes of an app, including export to JSON and HTML formats.</p>
 </li>
+<li><p class="first">remove projects.</p>
+</li>
 </ul>
 </div></blockquote>
-<p>You can manage your projects in two ways: by using <em>project.py</em> which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the SDK can be opened by clicking on the <code class="docutils literal"><span class="pre">Open</span> <span class="pre">SDK</span></code> button in Blender.</p>
+<p>You can manage your projects in two ways: by using <em>project.py</em> which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the Project Manager can be opened by clicking on the <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button in Blender.</p>
 <p>The project managment system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
 </pre></div>
@@ -350,11 +353,82 @@
 </div>
 <div class="section" id="project-manager">
 <h3>Project Manager<a class="headerlink" href="#project-manager" title="Permalink to this headline">¶</a></h3>
-<p>This graphical app allows you to perform basic project managment functions, such as browsing projects, building apps, exporting scenes and converting resources. It also includes a master for creating new apps. We recommend those developers who need a full control over their apps to use the script <em>project.py</em> and manually configure <em>.b4w_project</em> files.</p>
-<p>The app <em>Project Manager</em> can be run from the <em>Tools</em> section of the SDK&#8217;s index page. Upon launching, the app outputs a list of all projects which are currently present in the SDK. Commands for managing these projects can be found on the right area of this list. A new project can be created by clicking on the link <code class="docutils literal"><span class="pre">[+new]</span></code> on the top of the page.</p>
+<p>This graphical app allows you to perform basic project managment functions, such as browsing projects, building apps, exporting scenes and converting resources. It also includes a master for creating new apps. We recommend advanced developers who need a full control over their apps to use the script <em>project.py</em> and manually configure <em>.b4w_project</em> files.</p>
+<p>The app <em>Project Manager</em> can be run from the <em>Tools</em> section of the SDK&#8217;s index page. Upon launching, the app outputs a list of all projects which are currently present in the SDK.</p>
+<p>Commands for managing these projects can be found on the right area of this list. A new project can be created by clicking on the button <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> on the top of the page. It&#8217;s also possible to import external project (<code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project</span> <span class="pre">Archive]</span></code>) and show/hide SDK projects by using <code class="docutils literal"><span class="pre">[Hide/Show</span> <span class="pre">Stock</span> <span class="pre">Projects]</span></code> button.</p>
 <blockquote>
-<div><a class="reference internal image-reference" href="_images/project_management.png"><img alt="_images/project_management.png" class="align-center" src="_images/project_management.png" style="width: 100%;" /></a>
+<div><a class="reference internal image-reference" href="_images/project_actions.png"><img alt="_images/project_actions.png" class="align-center" src="_images/project_actions.png" style="width: 100%;" /></a>
 </div></blockquote>
+<p>Commands for managing specific project is located on the right side.</p>
+<blockquote>
+<div><img alt="_images/project_commands.png" class="align-center" src="_images/project_commands.png" />
+</div></blockquote>
+<ol class="arabic simple">
+<li><p class="first">Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).</p>
+</li>
+<li><p class="first">Reexport blend files from the project.</p>
+</li>
+<li><p class="first">Convert media resources.</p>
+</li>
+<li><p class="first">Export and download a project archive.</p>
+</li>
+<li><p class="first">Remove the project.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All project paths are retreived from .b4w_project file.</p>
+</div>
+<p id="create-new-project">Master to create a new project.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/create_project.png"><img alt="_images/create_project.png" class="align-center" src="_images/create_project.png" style="width: 100%;" /></a>
+</div></blockquote>
+<ol class="arabic">
+<li><p class="first">Project name. Used to name project directories such as &#8220;apps_dev/project_name&#8221;, &#8220;deploy/assets/project_name&#8221;, blender and &#8220;deploy/apps/project_name&#8221;</p>
+</li>
+<li><p class="first">Project title shown as shown in browser.</p>
+</li>
+<li><p class="first">Project&#8217;s author name</p>
+</li>
+<li><p class="first">Add application templates. Standard application templates: html-file, css-file, js-file will be added to the project directory &#8220;apps_dev/project_name&#8221;.</p>
+</li>
+<li><p class="first">Add scene templates. Standard json-file will be added to the &#8220;deploy/assets/project_name&#8221; directory; blend-file will be added to the &#8220;blender/project_name&#8221; directory.</p>
+</li>
+<li><p class="first">Copy project manager script. project.py script will be copied to the project directory.</p>
+</li>
+<li><p class="first">All project files will be located in the same directory. It is preferably to be used in small projects, such as lessons and examples. Only project type is available for this option.</p>
+</li>
+<li><p class="first">Project&#8217;s type. Several options are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">&#8220;External&#8221; - engine will be taken from the &#8220;deploy/apps/common/&#8221; directory. Only application files will be compiled;</p>
+</li>
+<li><p class="first">&#8220;Copy&#8221; - engine is copied into the compiled application directory. Only application files are compiled;</p>
+</li>
+<li><p class="first">&#8220;Compile&#8221; - engine sources are compiled with application scripts;</p>
+</li>
+<li><p class="first">&#8220;Update&#8221; - engine inside the project directory will be replaced;</p>
+</li>
+<li><p class="first">&#8220;Webplayer JSON&#8221; - json-file placed inside the project is run with the help of web-player inside SDK;</p>
+</li>
+<li><p class="first">&#8220;Webplayer HTML&#8221; - project is packed into single html-file, containing all required resources.</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Javascript optimization level.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">&#8220;Simple&#8221; - variable names are replaced in the code;</p>
+</li>
+<li><p class="first">&#8220;Advanced&#8221; - perform code optimization.</p>
+</li>
+<li><p class="first">&#8220;Whitespace Only&#8221; - only whitespaces are removed from the code;</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
 </div>
 <div class="section" id="id6">
 <h3>Project Structure<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -396,7 +470,6 @@ blend_dirs =
 blender_exec =
 build_dir =
 deploy_dir =
-export_dir =
 
 [compile]
 apps =
@@ -456,7 +529,6 @@ blend_dirs = blender/myproject;
 blender_exec = blender
 build_dir = deploy/apps/myproject
 deploy_dir =
-export_dir =
 
 [compile]
 apps =
@@ -555,11 +627,20 @@ remove_exist_ext_dir =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> specify directory with scene assets.</p>
 </li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (optional) determine a type of the deployed application.</p>
+</li>
 </ul>
 </div>
-</div>
 <div class="section" id="id13">
-<h2>Preparing Assets<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<h3>Remove project<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject remove
+</pre></div>
+</div>
+<p>Remove project. Removed directories are retrieved from project configuration file.</p>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>Preparing Assets<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <p>The next step is <a class="reference internal" href="workflow.html#authoring-scenes"><span>authoring scenes</span></a>. It is convenient to store all assets for your app in a single directory. Then the scene is assembled in Blender and <a class="reference internal" href="workflow.html#export-scene"><span>exported</span></a> to the assets directory.</p>
 <p><a class="reference internal" href="#converter"><span>Converting resources</span></a> is neccesary to develop cross-browser and cross-platform applications.</p>
 <p>During development it is more convenient to use the non-obfuscated engine because it makes the debugging process much easier. To use the non-obfuscated engine, go to the new app directory:</p>
@@ -597,8 +678,8 @@ remove_exist_ext_dir =
 <span class="nt">&lt;/head&gt;</span>
 </pre></div>
 </div>
-<div class="section" id="id14">
-<h3>App Logic Coding<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>App Logic Coding<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>The next step is writing scripts for app logic. The scripts are linked to the main HTML file:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;head&gt;</span>
 . . .
@@ -612,8 +693,8 @@ remove_exist_ext_dir =
 </div>
 <p>After building the finished app, the paths to assets will change. Thus, using <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> wil allow you to avoid problems with incorrect paths.</p>
 </div>
-<div class="section" id="id15">
-<h3>Building Apps<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Building Apps<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>The SDK includes the script <code class="docutils literal"><span class="pre">apps_dev/project.py</span></code> for building finished applications.</p>
 <p>We recommend you to immediately complile your app in order to make sure that it works. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>./project.py -p example -o advanced
@@ -649,7 +730,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="converter">
-<span id="id16"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
+<span id="id17"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
 <p>Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.</p>
 <p>To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution. Run it with the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py <span class="o">[</span>-d file_path<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
@@ -667,8 +748,8 @@ remove_exist_ext_dir =
 <p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
 <p>To exclude some directory from resource conversion, it is enough to put a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
-<div class="section" id="id17">
-<h3>Dependencies<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>Dependencies<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>Please make sure that you have all converter dependencies installed. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -734,8 +815,8 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="id18">
-<h3>Data format<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Data format<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>The conversion is performed as follows:</p>
 <dl class="docutils">
 <dt>for audio (convert_media):</dt>
@@ -787,7 +868,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="canvas-nonfullscreen-coords">
-<span id="id19"></span><h2>Non-FullScreen Web Apps<a class="headerlink" href="#canvas-nonfullscreen-coords" title="Permalink to this headline">¶</a></h2>
+<span id="id20"></span><h2>Non-FullScreen Web Apps<a class="headerlink" href="#canvas-nonfullscreen-coords" title="Permalink to this headline">¶</a></h2>
 <p>The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.</p>
 <p>In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).</p>
 <ol class="arabic simple">
@@ -860,7 +941,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="code-snippets">
-<span id="id20"></span><h2>Code Examples<a class="headerlink" href="#code-snippets" title="Permalink to this headline">¶</a></h2>
+<span id="id21"></span><h2>Code Examples<a class="headerlink" href="#code-snippets" title="Permalink to this headline">¶</a></h2>
 <p>The SDK includes the Code Snippets application which demonstrates how to use the engine&#8217;s functionality.</p>
 <p>Currently, this application contains the following examples:</p>
 <blockquote>
@@ -888,10 +969,10 @@ remove_exist_ext_dir =
 <p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
 </div>
 <div class="section" id="event-model">
-<span id="id21"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
+<span id="id22"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simpifies the processing of physics events and user actions.</p>
 <div class="section" id="index-0">
-<span id="id22"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
+<span id="id23"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload. For example the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-1">Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the <code class="docutils literal"><span class="pre">controls.create_sensor_manifold()</span></code> function):</p>
 <ul class="simple">
@@ -911,8 +992,8 @@ remove_exist_ext_dir =
 </li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>Example<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Example<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Lets define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
@@ -959,7 +1040,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="repo-file-structure">
-<span id="id24"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
+<span id="id25"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first">source code of the applications</p>
@@ -1162,12 +1243,12 @@ remove_exist_ext_dir =
 </dl>
 </div>
 <div class="section" id="browser-for-local-loading">
-<span id="id25"></span><h2>Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
+<span id="id26"></span><h2>Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory.</p>
 <p>Since version 15.02, the Blend4Web SDK includes the <a class="reference internal" href="setup.html#local-development-server"><span>development server</span></a> to solve the problem of loading local resources.</p>
 </div>
 <div class="section" id="quality-settings">
-<span id="id27"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<span id="id28"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -1224,7 +1305,7 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-09-30.
+      Last updated on 2015-10-29.
 
     </p>
   </div>
@@ -1246,7 +1327,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

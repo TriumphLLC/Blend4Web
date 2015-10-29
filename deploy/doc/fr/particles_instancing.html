@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Система частиц. Инстансинг &mdash; User Manual: Blend4Web vv15.10</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="À propos de ces documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+        <link rel="next" title="Анимация" href="animation.html"/>
+        <link rel="prev" title="Система частиц. Флюиды" href="particles.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Система частиц. Инстансинг</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Настройки системы частиц</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Настройки отображения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Настройки динамической травы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Настройки наследования</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#particles-grass">Травяной покров</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#particles-leaves">Листва деревьев</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Система частиц. Инстансинг</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="particles-instancing"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Система частиц. Инстансинг<a class="headerlink" href="#index-0" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Система частиц может использоваться для создания множественных копий объектов
+(инстансинга). Кроме сокращения времени на создание сцены, инстансинг позволяет
+сэкономить на времени загрузки и сократить потребление памяти сценой, нежели при
+использовании отдельных объектов.</p>
+<a class="reference internal image-reference" href="_images/particles_instancing_example.jpg"><img alt="_images/particles_instancing_example.jpg" class="align-center" src="_images/particles_instancing_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Использование системы частиц для инстансинга имеет ограничения:</p>
+<ul class="simple">
+<li>Невозможно осуществлять движение и анимацию объектов внутри системы частиц.</li>
+<li>Не допускается создавать иерархические сущности среди объектов внутри системы
+частиц за исключением дуплицирования групп.</li>
+<li>Не допускается инстансинг отличных от объектов-мешей сущностей.</li>
+</ul>
+<div class="section" id="id2">
+<h2>Настройки системы частиц<a class="headerlink" href="#id2" title="Lien permanent vers ce titre">¶</a></h2>
+<a class="reference internal image-reference" href="_images/particles_settings_panel1.jpg"><img alt="_images/particles_settings_panel1.jpg" class="align-center" src="_images/particles_settings_panel1.jpg" style="width: 100%;" /></a>
+<div class="section" id="id3">
+<h3>Активация<a class="headerlink" href="#id3" title="Lien permanent vers ce titre">¶</a></h3>
+<ol class="arabic simple">
+<li>На эмиттере создать систему частиц типа <code class="docutils literal"><span class="pre">Hair</span></code>.</li>
+<li>В панели <code class="docutils literal"><span class="pre">Render</span></code> выбрать тип отображения <code class="docutils literal"><span class="pre">Object</span></code> (или <code class="docutils literal"><span class="pre">Group</span></code>).</li>
+<li>В поле <code class="docutils literal"><span class="pre">Dupli</span> <span class="pre">Object</span></code> (или <code class="docutils literal"><span class="pre">Dupli</span> <span class="pre">Group</span></code>) выбрать объект (или группу объектов) для инстансинга. Поддерживаются как локальные, так и подключенные по ссылке объекты (или группы).</li>
+</ol>
+<p><strong>Рекомендуемые дополнительные настройки</strong></p>
+<ol class="arabic simple">
+<li>Для корректного отображения размера установить значение 1.0 для параметров <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Hair</span> <span class="pre">Length</span></code> и <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code>.</li>
+</ol>
+<a class="reference internal image-reference" href="_images/particles_instancing_setup.jpg"><img alt="_images/particles_instancing_setup.jpg" class="align-center" src="_images/particles_instancing_setup.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Настройки отображения<a class="headerlink" href="#id4" title="Lien permanent vers ce titre">¶</a></h3>
+<p><em>Render &gt; Use Count</em></p>
+<blockquote>
+<div>Опция доступна для групп объектов-частиц. При включении появляется интерфейс установки относительного количества входящих в группу объектов. Движок не воспроизводит точное местонахождение объектов заданных типов.</div></blockquote>
+<p><em>Render &gt; Randomize Location and Size</em></p>
+<blockquote>
+<div>Опция устанавливает случайный характер расположения и размеров объектов. Если опция включена, движок генерирует случайные координаты и размер (в пределах ±25%) объектов-частиц. Если опция выключена, производится экспорт и использование текущих координат и размеров объектов-частиц.</div></blockquote>
+<p><em>Render &gt; Randomize Initial Rotation</em></p>
+<blockquote>
+<div>Опция устанавливает случайный характер вращения объектов относительно оси определяемой параметром <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Type</span></code>. Если опция включена, движок генерирует случайные углы вращения объектов-частиц. Если опция выключена, применяется ориентация согласно панели <code class="docutils literal"><span class="pre">Rotation</span></code>.</div></blockquote>
+<p><em>Render &gt; Rotation Type</em></p>
+<blockquote>
+<div><p>Ось случайного поворота объекта (опция доступна при включении <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code>). Возможны два варианта:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code> - случайный поворот будет осуществлен относительно вертикальной оси Z</li>
+<li><code class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></code> - случайный поворот будет осуществлен относительно случайной оси</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code>.</p>
+</div></blockquote>
+<p><em>Render &gt; Rotation Strength</em></p>
+<blockquote>
+<div><p>Коэффициент, определяющий диапазон случайных углов поворота, отсчитываемых от направления на камеру (опция доступна при включении <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code>). Например:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Strength</span> <span class="pre">=</span> <span class="pre">1</span></code> - углы будут лежать в пределах <span class="math">\([-\pi, \pi]\)</span></li>
+<li><code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Strength</span> <span class="pre">=</span> <span class="pre">0.5</span></code> - углы будут лежать в пределах <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span></li>
+<li><code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Strength</span> <span class="pre">=</span> <span class="pre">0.1</span></code> - углы будут лежать в пределах <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span></li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию 1.</p>
+</div></blockquote>
+<p><em>Render &gt; Billboard</em></p>
+<blockquote>
+<div>Включение биллбординга для частиц. По умолчанию выключено.</div></blockquote>
+<p><em>Render &gt; Billboard Type</em></p>
+<blockquote>
+<div><p>Тип биллбординга (опция доступна при включении <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>). Доступны три типа:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Basic</span></code> - простой односторонний биллбординг: частицы всегда будут повернуты лицевой стороной</li>
+<li><code class="docutils literal"><span class="pre">Random</span></code> - случайный двусторонний биллбординг: частицы чаще всего будут повернуты лицевой, либо обратной стороной, реже - боком; присутствует небольшой случайный поворот; модель создана специально для инстансинга травы</li>
+<li><code class="docutils literal"><span class="pre">Jittered</span></code> - односторонний биллбординг с колебанием частиц в плоскости, обращенной к наблюдателю; модель создана специально для инстансинга листвы деревьев</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Basic</span></code>.</p>
+</div></blockquote>
+<p><em>Render &gt; Jitter Amplitude</em></p>
+<blockquote>
+<div>Коэффициент амплитуды колебаний частиц (опция доступна при выборе типа <code class="docutils literal"><span class="pre">Jittered</span></code> в  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code>). При увеличении параметра амплитуда растет. Значение по умолчанию 0.</div></blockquote>
+<p><em>Render &gt; Jitter Frequency</em></p>
+<blockquote>
+<div>Частота колебаний частиц, Гц (опция доступна при выборе типа <code class="docutils literal"><span class="pre">Jittered</span></code> в  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code>). Значение по умолчанию 0.</div></blockquote>
+<p><em>Render &gt; Billboard Geometry</em></p>
+<blockquote>
+<div><p>Тип вращения биллбордов (опция доступна при включении <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>). Доступны два типа:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Spherical</span></code> - сферический биллбординг, полная ориентация частиц по отношению к наблюдателю, вращение ничем не ограничено;</li>
+<li><code class="docutils literal"><span class="pre">Cylindrical</span></code> - цилиндрический биллбординг, вращение частиц только относительно оси Z</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Spherical</span></code>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>Настройки динамической травы<a class="headerlink" href="#id5" title="Lien permanent vers ce titre">¶</a></h3>
+<p><em>Dynamic Grass</em></p>
+<blockquote>
+<div>Опция включает режим динамического рендеринга травяного покрова. По умолчанию отключено.</div></blockquote>
+<p><em>Dynamic Grass &gt; Scale Threshold</em></p>
+<blockquote>
+<div>Минимальный размер частиц динамической травы. Частицы меньшего размера не отображаются. Опция доступна при включении <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code>.</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>Настройки наследования<a class="headerlink" href="#id6" title="Lien permanent vers ce titre">¶</a></h3>
+<p><em>Properties Inheritance &gt; Wind Bending</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - наследование с эмиттера</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code> - наследование с объекта самой частицы</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Parent</span></code>.</p>
+</div></blockquote>
+<p><em>Properties Inheritance &gt; Shadows</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек теней:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - наследование с эмиттера</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code> - наследование с объекта самой частицы</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Parent</span></code>.</p>
+</div></blockquote>
+<p><em>Properties Inheritance &gt; Reflection</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек отражений:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - наследование с эмиттера</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code> - наследование с объекта самой частицы</li>
+</ul>
+</div></blockquote>
+<p>Значение по умолчанию <code class="docutils literal"><span class="pre">Parent</span></code>.</p>
+</div></blockquote>
+<p><em>Properties Inheritance &gt; Vertex color</em></p>
+<blockquote>
+<div><p>Наследование частицами вертексного цвета с эмиттера. Содержит два поля:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">From</span></code> - имя существующего у эмиттера вертексного цвета</li>
+<li><code class="docutils literal"><span class="pre">To</span></code> - имя существующего у частицы вертексного цвета</li>
+</ul>
+</div></blockquote>
+<p>По умолчанию наследования не происходит.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="particles-grass">
+<span id="id7"></span><h2>Травяной покров<a class="headerlink" href="#particles-grass" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Инстансинг объектов может использоваться для визуализации травяного покрова на обширных площадях. При этом происходит отрисовка травы вблизи камеры по мере ее движения по ландшафту.</p>
+<a class="reference internal image-reference" href="_images/dynamic_grass.jpg"><img alt="_images/dynamic_grass.jpg" class="align-center" src="_images/dynamic_grass.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Активация</strong></p>
+<ol class="arabic simple">
+<li>На отдельном объекте-плоскости создать систему частиц для инстансинга объектов. Включить опцию <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code>.</li>
+<li>На предполагаемом материале ландшафта включить опцию <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code>.</li>
+</ol>
+<p><strong>Настройка</strong></p>
+<p>Рекомендуется создать несколько плоскостей (например, 3) с размерами, соответствующими желаемому размеру каскада травяного покрова (например, 100, 150 и 250 м).</p>
+<p>На <strong>материале</strong> ландшафта при включении опции <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> становятся активными текстовые поля:</p>
+<dl class="docutils">
+<dt><em>Dynamic Grass Size (R)</em></dt>
+<dd>Название слоя вертексного цвета меша ландшафта, предназначенного для модифицирования размера травяного покрова. Размер (&#8220;высота&#8221;) травяного покрова задается оттенками серого - чем светлее, тем больше.</dd>
+<dt><em>Dynamic Grass Color (RGB)</em></dt>
+<dd>Название слоя вертексного цвета меша ландшафта, предназначенного для подкраски травяного покрова. Вертексный цвет умножается на цвет материала травы. Параметр <code class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></code> диффузной текстуры материала травы должен иметь значение <code class="docutils literal"><span class="pre">Multiply</span></code>.</dd>
+</dl>
+<p>Слои вертексного цвета с такими названиями должны существовать в меше ландшафта.</p>
+<p>Рекомендуется также отключить отображение эмиттера (опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code>).</p>
+<a class="reference internal image-reference" href="_images/dynamic_grass_setup.jpg"><img alt="_images/dynamic_grass_setup.jpg" class="align-center" src="_images/dynamic_grass_setup.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="particles-leaves">
+<span id="id8"></span><h2>Листва деревьев<a class="headerlink" href="#particles-leaves" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Инстансинг хорошо подходит для отображения листвы на деревьях, и позволяет добиться более высокого уровня детализации.</p>
+<a class="reference internal image-reference" href="_images/tree_leaves.jpg"><img alt="_images/tree_leaves.jpg" class="align-center" src="_images/tree_leaves.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Активация</strong></p>
+<p>Осуществляется как описано выше в разделе <code class="docutils literal"><span class="pre">Настройки</span> <span class="pre">системы</span> <span class="pre">частиц</span> <span class="pre">-&gt;</span> <span class="pre">Активация</span></code>. Здесь соответственно эмиттером будет выступать дерево, а частицами - ветки, листья и т.д.</p>
+<p>Для эмиттера дополнительно можно сделать следующее:</p>
+<blockquote>
+<div><ul class="simple">
+<li>создать вертексную группу, включающую вершины, на которых будут располагаться частицы</li>
+<li>создать слой вертексного цвета для настройки Wind Bending дерева и листвы</li>
+<li>создать слой вертексного цвета для наследования его частицами (можно использовать, например, для подкраски частиц)</li>
+</ul>
+</div></blockquote>
+<p><strong>Настройка</strong></p>
+<ol class="arabic simple">
+<li><em>Настройки случайного поворота</em></li>
+</ol>
+<p>Если включена опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code>, то рекомендуется выставить вертикальную ось случайного поворота - <code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code> (опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Rotation</span> <span class="pre">Type</span></code>). Опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Rotation</span> <span class="pre">Strength</span></code> - на свое усмотрение.</p>
+<ol class="arabic simple" start="2">
+<li><em>Настройки биллбординга</em></li>
+</ol>
+<p>Рекомендуется включить биллбординг, выставить тип <code class="docutils literal"><span class="pre">Jittered</span></code> (опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code>) и сделать его сферическим - <code class="docutils literal"><span class="pre">Spherical</span></code> (опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Geometry</span></code>). Настройки <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Jitter</span> <span class="pre">Amplitude</span></code> и <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Jitter</span> <span class="pre">Frequency</span></code> - на свое усмотрение.</p>
+<ol class="arabic simple" start="3">
+<li><em>Настройки расположения частиц</em></li>
+</ol>
+<p>Рекомендуется выставить опцию <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Emit</span> <span class="pre">From</span></code> в значение <code class="docutils literal"><span class="pre">Verts</span></code>, а в <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Group</span> <span class="pre">&gt;</span> <span class="pre">Density</span></code> выбрать вертексную группу эмиттера с вершинами для расположения частиц. Также нужно отключить опцию <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Location</span> <span class="pre">and</span> <span class="pre">Size</span></code>.</p>
+<ol class="arabic simple" start="4">
+<li><em>Настройки эффекта ветра</em></li>
+</ol>
+<p>Рекомендуется включить наследование настроек из эмиттера - выставить <code class="docutils literal"><span class="pre">Parent</span></code> в опции <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">Bending</span></code>. Затем у эмиттера в панели <code class="docutils literal"><span class="pre">Object</span></code> выбрать опцию <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> и настроить параметры бендинга. Для дерева достаточно указать параметры <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Frequency</span></code>, а также вертексный цвет для бендинга - <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Stiffness</span></code>.</p>
+<ol class="arabic simple" id="particles-inheritance" start="5">
+<li><em>Настройки наследования вертексного цвета</em></li>
+</ol>
+<p>Для наследования частицами вертексного цвета эмиттера нужно указать имя цвета эмиттера и имя цвета частицы соответственно в полях <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">From</span></code> и <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code>. При наследовании цвет ближайшей к частице вершины эмиттера из <code class="docutils literal"><span class="pre">From</span></code> будет скопирован и размножен в цвет <code class="docutils literal"><span class="pre">To</span></code> частицы.</p>
+<p>Полученный таким образом вертексный цвет с именем <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> можно будет использовать в нодовом материале частицы для ее подкрашивания либо каких-то других эффектов.</p>
+<ol class="arabic simple" start="6">
+<li><em>Настройки размеров частиц в зависимости от весовых коэффициентов вертексной группы</em></li>
+</ol>
+<p>Для создания зависимости между размером частиц и весовым коэффициентом вертекса из вертексной группы укажите на панели <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">groups</span> <span class="pre">&gt;</span> <span class="pre">Length</span></code> имя вертексной группы.</p>
+<p>Для управления эффектом необходимо задать весовые коэффициенты в выбранной вертексной группе.</p>
+<a class="reference internal image-reference" href="_images/particle_settings.jpg"><img alt="_images/particle_settings.jpg" class="align-center" src="_images/particle_settings.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="animation.html" class="btn btn-neutral float-right" title="Анимация" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="particles.html" class="btn btn-neutral" title="Система частиц. Флюиды" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Mis à jour le 2015-10-29.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

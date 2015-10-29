@@ -3,6 +3,198 @@ Release Notes
 *************
 
 
+v15.10
+======
+
+
+New Features
+------------
+
+* New Project Manager features.
+
+     It is now possible to export/import projects. This simplifies
+     updating projects to newer versions of the SDK and also allows
+     users to run and debug projects on various platforms. You can
+     also share your projects with other developers in an efficient
+     way.
+
+     You can now create "WebPlayer JSON" and "WebPlayer HTML"
+     projects. Such options allow you to create projects specifically
+     for WebPlayer app which do not require writing any additional
+     code.
+
+     To simplify navigation between your projects, two features have
+     been added. The first one is the possibility to sort projects by
+     name, and the second one is the possibility to show/hide SDK's
+     stock projects.
+
+     It is now possible to remove projects from the SDK.
+
+     Improved Windows support. We now provide a Windows version of
+     Java with the SDK, so you are no longer required to install any
+     additional dependencies in order to build projects.
+
+* Anti-aliasing improvements.
+
+     A new option "AA Quality" has been added to the "Render > Anti-
+     Aliasing" panel in Blender. This options allows you to select
+     quality level of anti-aliasing. Also, the anti-aliasing algorithm
+     is now based on FXAA 3.11, which increases both quality and
+     performance especially for HIGH and ULTRA quality profiles.
+
+* New logic editor nodes:
+
+     * "Move Camera" node.
+
+          Allows you to specify the camera's location and target.
+
+     * "Play Sound" node.
+
+          Allows you to play back sound from a selected speaker.
+
+     * "Switch Select" node.
+
+          This node works the same way as Select but allows you to
+          select multiple objects in more flexible and convenient way.
+
+     * Support for random numbers generation has been added to the
+       "Math Operation" node.
+
+     * Support for "POST" requests in the "Send Request" node.
+
+* "Repeat" mapping type for non-power-of-two textures is now
+  supported.
+
+     "Repeat" mapping type is now supported for non-power-of-two
+     textures (i.e. textures whose dimensions are not 256, 512, 1024,
+     etc). Also the mipmapping technique (trilinear filtering) is also
+     supported for such textures.
+
+* Automatic rescaling of textures is now performed if their
+  dimensions exceed platform limits.
+
+     In the cases when texture dimensions exceed platform limits,
+     textures will be automatically downscaled. The only exception is
+     compressed textures.
+
+* New button "Fast Preview" to perform fast scene previews.
+
+     The button is located on the "Render > Development Server" panel.
+
+* Support for *Intensity* and *Color* animation of lamp objects.
+
+     It is now possible to animate intensity and color of lamp
+     objects, both when using conventional and NLA animation.
+
+
+Changes
+-------
+
+* Project Manager inteface has been improved.
+
+     Improved UI, added "Development Server > Project Manager" button
+     to run the Project Manager in the default browser.
+
+* Speakers functioning has been improved.
+
+     The is_play() method now correctly notifies about finishing sound
+     playback, with a minimal delay.
+
+* Some new export warnings have been added.
+
+     Upon exporting some objects, their type will be changed to
+     "EMPTY" in case of empty geometry or in the case when the sound
+     file for the "SPEAKER" object does not exist. Messages on such
+     facts are now displayed in the browser console.
+
+* Displaying the object selector for logic nodes has been improved.
+
+* Gamma correction behavior in node materials has been changed.
+
+     Gamma correction in node materials is now performed differently
+     because of changes in Blender 2.76.
+
+* Changes in API.
+
+     The resize method is now deprecated and will be deleted from the
+     main module. The resize method from the container module should
+     be used instead.
+
+
+Fixes
+-----
+
+* Project Manager errors were fixed.
+
+* Stability on mobile devices has been improved for scenes with too
+  many lamps.
+
+* Stability on Unix systems has been increased.
+
+     Stability on Unix-systems using AMD GPUs and open source drivers
+     has been increased.
+
+* An error related to annotations being added to a scene has been
+  fixed.
+
+     Fixed an error which occured when annotations without the *Object
+     -> Meta Tags* property were added to the scene.
+
+* Fixed an error with incorrect audio playback during browser tabs
+  switch.
+
+* Several video texture errors have been fixed.
+
+* Fixed an error occured when an empty node group was used inside a
+  node material.
+
+* Fixed an error with a particle system which use an object with LOD
+  as a particle.
+
+* The Delay node error when using a variable as a parameter has been
+  fixed in the logic editor.
+
+* Fixed an error in the logic editor which occured upon deleting an
+  "Entry Point" node.
+
+* Fixed an error in the logic editor with duplicated variables in
+  the dropdown list.
+
+* Fixed an error in scenes which use both the "Play Animation" logic
+  node and the switched off "NLA" flag.
+
+* The behavior of the "Math->Power" and "Gamma" shader nodes has
+  been fixed and is now consistent with Blender.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     It's strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+* Incorrect Depth texture behavior on Windows OS.
+
+     Depth textures are unstable on Google Chrome 32 bit on Windows.
+     This problem is fixed in the beta version of the browser.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+* You may require to install Python 3.4 on the systems with Apple OS
+  X and Blender 2.76. This issue is connected with Blender bug
+  https://developer.blender.org/T46623.
+
+
 v15.09
 ======
 
@@ -1666,7 +1858,7 @@ New Features
 
      Supported rendering features on systems without depth-texture
      support were extended. There are such effects available now:
-     reflections, bloom, glow, motion blur, antialiasing.
+     reflections, bloom, glow, motion blur, anti-aliasing.
 
 * *New documentation is added.*
 

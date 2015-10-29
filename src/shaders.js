@@ -93,11 +93,12 @@ var SHADERS = ["anchors.glslf",
 
     "include/blending.glslf",
     "include/caustics.glslf",
+    "include/color_util.glslf",
     "include/depth_fetch.glslf",
     "include/dynamic_grass.glslv",
     "include/environment.glslf",
     "include/fog.glslf",
-    "include/gamma.glslf",
+    "include/fxaa.glslf",
     "include/lighting_nodes.glslf",
     "include/math.glslv",
     "include/mirror.glslf",
@@ -559,7 +560,7 @@ exports.load_shaders = function() {
         for (var i = 0; i < SHADERS.length; i++) {
             var shader_path = m_util.normpath_preserve_protocol(cfg_pth.shaders_dir
                     + SHADERS[i]);
-            shader_assets.push([SHADERS[i], asset_type, shader_path]);
+            shader_assets.push({id:SHADERS[i], type:asset_type, url:shader_path});
         }
 
         var asset_cb = function(shader_text, shader_name, type, path) {

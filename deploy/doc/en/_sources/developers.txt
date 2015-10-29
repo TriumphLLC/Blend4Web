@@ -191,12 +191,14 @@ which makes it possible to:
    * automate re-exporting all scenes of an app, including export to
      JSON and HTML formats.
 
+   * remove projects.
+
 You can manage your projects in two ways: by using *project.py* which
 is a simple-to-use and well documented CLI utility, or by using a
 dedicated web application with GUI working on the local development
 server. The server does not require any additional setup and starts
-automatically with Blender. The index page of the SDK can be opened by
-clicking on the "Open SDK" button in Blender.
+automatically with Blender. The index page of the Project Manager can
+be opened by clicking on the "Project Manager" button in Blender.
 
 The project managment system works in all operating systems. However,
 some operations can require installing additional dependencies. In
@@ -216,18 +218,95 @@ Project Manager
 This graphical app allows you to perform basic project managment
 functions, such as browsing projects, building apps, exporting scenes
 and converting resources. It also includes a master for creating new
-apps. We recommend those developers who need a full control over their
-apps to use the script *project.py* and manually configure
+apps. We recommend advanced developers who need a full control over
+their apps to use the script *project.py* and manually configure
 *.b4w_project* files.
 
 The app *Project Manager* can be run from the *Tools* section of the
 SDK's index page. Upon launching, the app outputs a list of all
-projects which are currently present in the SDK. Commands for managing
-these projects can be found on the right area of this list. A new
-project can be created by clicking on the link "[+new]" on the top of
-the page.
+projects which are currently present in the SDK.
+
+Commands for managing these projects can be found on the right area of
+this list. A new project can be created by clicking on the button
+"[Create New Project]" on the top of the page. It's also possible to
+import external project ("[Import Project Archive]") and show/hide SDK
+projects by using "[Hide/Show Stock Projects]" button.
 
    [image]
+
+Commands for managing specific project is located on the right side.
+
+   [image]
+
+1. Compile project (not available for WebPlayer JSON and WebPlayer
+   HTML projects).
+
+2. Reexport blend files from the project.
+
+3. Convert media resources.
+
+4. Export and download a project archive.
+
+5. Remove the project.
+
+Note: All project paths are retreived from .b4w_project file.
+
+Master to create a new project.
+
+   [image]
+
+1. Project name. Used to name project directories such as
+   "apps_dev/project_name", "deploy/assets/project_name", blender and
+   "deploy/apps/project_name"
+
+2. Project title shown as shown in browser.
+
+3. Project's author name
+
+4. Add application templates. Standard application templates: html-
+   file, css-file, js-file will be added to the project directory
+   "apps_dev/project_name".
+
+5. Add scene templates. Standard json-file will be added to the
+   "deploy/assets/project_name" directory; blend-file will be added to
+   the "blender/project_name" directory.
+
+6. Copy project manager script. project.py script will be copied to
+   the project directory.
+
+7. All project files will be located in the same directory. It is
+   preferably to be used in small projects, such as lessons and
+   examples. Only project type is available for this option.
+
+8. Project's type. Several options are available:
+
+      * "External" - engine will be taken from the
+        "deploy/apps/common/" directory. Only application files will
+        be compiled;
+
+      * "Copy" - engine is copied into the compiled application
+        directory. Only application files are compiled;
+
+      * "Compile" - engine sources are compiled with application
+        scripts;
+
+      * "Update" - engine inside the project directory will be
+        replaced;
+
+      * "Webplayer JSON" - json-file placed inside the project is
+        run with the help of web-player inside SDK;
+
+      * "Webplayer HTML" - project is packed into single html-file,
+        containing all required resources.
+
+9. Javascript optimization level.
+
+      * "Simple" - variable names are replaced in the code;
+
+      * "Advanced" - perform code optimization.
+
+      * "Whitespace Only" - only whitespaces are removed from the
+        code;
 
 
 Project Structure
@@ -273,7 +352,6 @@ script, then they will be taken from the config file.
    blender_exec =
    build_dir =
    deploy_dir =
-   export_dir =
 
    [compile]
    apps =
@@ -349,7 +427,6 @@ The .b4w_project file will look like:
    blender_exec = blender
    build_dir = deploy/apps/myproject
    deploy_dir =
-   export_dir =
 
    [compile]
    apps =
@@ -461,6 +538,18 @@ Available parameters:
 * ""-o | --override"" remove directory if it exists.
 
 * ""-s | --assets"" specify directory with scene assets.
+
+* ""-t | --engine-type"" (optional) determine a type of the deployed
+  application.
+
+
+Remove project
+--------------
+
+   python3 project.py -p myproject remove
+
+Remove project. Removed directories are retrieved from project
+configuration file.
 
 
 Preparing Assets

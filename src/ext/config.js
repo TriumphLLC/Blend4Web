@@ -93,9 +93,6 @@
  * <dt>quality
  * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
  * P_ULTRA, P_CUSTOM enums).
- * <dt>render_resolution_factor
- * <dd>Number, internal rendering resolution factor (use the CUSTOM profile
- * in order to change this parameter).
  * <dt>sfx_mix_mode
  * <dd>Boolean, enable the mixer mode in the SFX subsystem.
  * <dt>shaders_dir
@@ -124,7 +121,7 @@
  * @cc_externs enable_outlining gyro_use outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision quality
- * @cc_externs render_resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
+ * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
  * @cc_externs wireframe_debug
  */

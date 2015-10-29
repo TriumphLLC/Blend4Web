@@ -5,6 +5,7 @@ b4w.register("embed_main", function(exports, require) {
 var m_app         = require("app");
 var m_camera_anim = require("camera_anim");
 var m_cfg         = require("config");
+var m_cont        = require("container");
 var m_scs         = require("scenes");
 var m_data        = require("data");
 var m_main        = require("main");
@@ -805,8 +806,7 @@ function open_qual_menu(e, button) {
 function on_resize() {
     var w = window.innerWidth;
     var h = window.innerHeight;
-
-    m_main.resize(w, h);
+    m_cont.resize(w, h);
 }
 
 function get_selected_object() {

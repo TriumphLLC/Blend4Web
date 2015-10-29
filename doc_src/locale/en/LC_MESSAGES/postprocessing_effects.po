@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-18 17:57\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-10-27 11:34+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: ../postprocessing_effects.rst:86 ../postprocessing_effects.rst:129
 #: ../postprocessing_effects.rst:156 ../postprocessing_effects.rst:187
 #: ../postprocessing_effects.rst:232 ../postprocessing_effects.rst:254
-#: ../postprocessing_effects.rst:288 ../postprocessing_effects.rst:314
+#: ../postprocessing_effects.rst:285 ../postprocessing_effects.rst:323
 msgid "Активация"
 msgstr "Activation"
 
@@ -48,7 +48,7 @@ msgstr "Activate the ``Motion Blur`` panel on the ``Render`` tab."
 #: ../postprocessing_effects.rst:91 ../postprocessing_effects.rst:134
 #: ../postprocessing_effects.rst:161 ../postprocessing_effects.rst:192
 #: ../postprocessing_effects.rst:237 ../postprocessing_effects.rst:259
-#: ../postprocessing_effects.rst:293 ../postprocessing_effects.rst:319
+#: ../postprocessing_effects.rst:290 ../postprocessing_effects.rst:333
 msgid "Дополнительные настройки"
 msgstr "Additional settings"
 
@@ -548,65 +548,15 @@ msgstr "The default value is 1.0."
 msgid "Насыщенность. Значение по умолчанию 1.0."
 msgstr "The default value is 1.0."
 
-#: ../postprocessing_effects.rst:272
+#: ../postprocessing_effects.rst:271
 msgid "*Saturation*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:274
-msgid "сглаживание"
-msgstr "anti-aliasing"
-
-#: ../postprocessing_effects.rst:279
-msgid "Сглаживание"
-msgstr "Anti-Aliasing"
-
-#: ../postprocessing_effects.rst:281
-msgid ""
-"Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
-"артефактов рендеринга (\"зубчатости\")."
-msgstr ""
-"Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
-"pixelization)."
-
-#: ../postprocessing_effects.rst:290
-msgid ""
-"Включить опцию ``Enable Antialiasing`` на панели ``Render > Antialiasing``."
-msgstr ""
-"Activate the ``Enable Antialiasing`` option on the ``Render > Antialiasing``"
-" panel."
-
-#: ../postprocessing_effects.rst:295
-msgid ""
-"Метод сглаживания назначается одновременно с выбором профиля работы движка."
-msgstr ""
-"The anti-aliasing method is assigned simultaneously with the selection of "
-"the engine performance profile. "
-
-#: ../postprocessing_effects.rst:297
-msgid "*низкое качество* - антиалиасинг отключен"
-msgstr "*low quality* - anti-aliasing is disabled"
-
-#: ../postprocessing_effects.rst:298
-msgid ""
-"*высокое качество* - метод антиалиасинга FXAA (Fast Approximate Anti-"
-"Aliasing), предложенный Nvidia"
-msgstr ""
-"*high quality* - the anti-aliasing method is FXAA (Fast Approximate Anti-"
-"Aliasing) by Nvidia"
-
-#: ../postprocessing_effects.rst:299
-msgid ""
-"*максимальное качество* - метод антиалиасинга SMAA (Enhanced Subpixel "
-"Morphological Anti-Aliasing), предложенный Crytek"
-msgstr ""
-"*maximum quality* - the anti-aliasing method is SMAA (Enhanced Subpixel "
-"Morphological Anti-Aliasing) by Crytek"
-
-#: ../postprocessing_effects.rst:305
+#: ../postprocessing_effects.rst:276
 msgid "Свечение (glow)"
 msgstr "Glow"
 
-#: ../postprocessing_effects.rst:307
+#: ../postprocessing_effects.rst:278
 msgid ""
 "Эффект возникновения ореола вокруг светящихся объектов, возникающий "
 "вследствие рассеивания света в атмосфере и внутри человеческого глаза."
@@ -614,7 +564,7 @@ msgstr ""
 "Effect of halo which is observed around emissive objects due to light "
 "scattering in the atmosphere and inside the human eye."
 
-#: ../postprocessing_effects.rst:316
+#: ../postprocessing_effects.rst:287
 msgid ""
 "Добавить в нодовый материал ноду :ref:`B4W_GLOW_OUTPUT <glow_output>`. Для "
 "включения возможности свечения в панели ``Render > Glow Materials`` опция "
@@ -624,50 +574,111 @@ msgstr ""
 "``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel "
 "should be set to ``ON`` or ``AUTO``."
 
-#: ../postprocessing_effects.rst:322
+#: ../postprocessing_effects.rst:293
 msgid "Интенсивность свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 "Intensity of glow obtained through the smaller mask. The default value is "
 "2.0."
 
-#: ../postprocessing_effects.rst:322
+#: ../postprocessing_effects.rst:293
 msgid "*Small Mask: Intensity*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:325
+#: ../postprocessing_effects.rst:296
 msgid "Ширина свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 "Width of glow obtained through the smaller mask. The default value is 2.0."
 
-#: ../postprocessing_effects.rst:325
+#: ../postprocessing_effects.rst:296
 msgid "*Small Mask: Width*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:328
+#: ../postprocessing_effects.rst:299
 msgid "Интенсивность свечения по большой маске. Значение по умолчанию 2.0."
 msgstr ""
 "Intensity of glow obtained through the larger mask. The default value is "
 "2.0."
 
-#: ../postprocessing_effects.rst:329
+#: ../postprocessing_effects.rst:300
 msgid "*Large Mask: Intensity*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:332
+#: ../postprocessing_effects.rst:303
 msgid "Ширина свечения по большой маске. Значение по умолчанию 6.0."
 msgstr ""
 "Width of glow obtained through the larger mask. The default value is 6.0."
 
-#: ../postprocessing_effects.rst:332
+#: ../postprocessing_effects.rst:303
 msgid "*Large Mask: Width*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:334
-msgid "*Render Glow Over Transparent Object*"
-msgstr ""
-
-#: ../postprocessing_effects.rst:335
+#: ../postprocessing_effects.rst:306
 msgid ""
 "Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию "
 "выключено."
 msgstr "Render the glow effect over transparent objects."
+
+#: ../postprocessing_effects.rst:307
+msgid "*Render Glow Over Transparent Object*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:309
+msgid "сглаживание"
+msgstr "anti-aliasing"
+
+#: ../postprocessing_effects.rst:314
+msgid "Сглаживание"
+msgstr "Anti-Aliasing"
+
+#: ../postprocessing_effects.rst:316
+msgid ""
+"Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
+"артефактов рендеринга (\"зубчатости\")."
+msgstr ""
+"Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
+"pixelization)."
+
+#: ../postprocessing_effects.rst:325
+msgid ""
+"Выбрать один из профилей качества в поле ``AA Quality`` на панели ``Render >"
+" Anti-Aliasing``:"
+msgstr ""
+"Select quality profile using ``AA Quality`` menu located on the ``Render > "
+"Anti-Aliasing`` panel."
+
+#: ../postprocessing_effects.rst:327
+msgid "*None* - антиалиасинг отключен,"
+msgstr "*None* - disable anti-aliasing,"
+
+#: ../postprocessing_effects.rst:328
+msgid ""
+"*Low*, *Medium*, *High* - применяется антиалиасинг с низкими, средними и "
+"высокими параметрами качества соответственно."
+msgstr ""
+"*Low*, *Medium*, *High* - enable anti-aliasing with the given quality "
+"profile."
+
+#: ../postprocessing_effects.rst:330
+msgid "Значение по умолчанию: *Medium*."
+msgstr "*Medium* profile is used by default."
+
+#: ../postprocessing_effects.rst:335
+msgid ""
+"Итоговые настройки сглаживания назначаются копмозицией выбора профиля "
+"качества антиалиасинга и выбора профиля работы движка. При выборе профиля "
+"работы движка действуют следующие настройки:"
+msgstr ""
+"The anti-aliasing method is assigned simultaneously with the selection of "
+"the engine performance profile:"
+
+#: ../postprocessing_effects.rst:337
+msgid "*низкое качество* - антиалиасинг отключен,"
+msgstr "*low quality* - no anti-aliasing,"
+
+#: ../postprocessing_effects.rst:338
+msgid ""
+"*высокое качество* и *максимальное качество* - использовать алгоритм FXAA "
+"3.11 (Fast Approximate Anti-Aliasing, Nvidia)."
+msgstr ""
+"*high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast "
+"Approximate Anti-Aliasing by Nvidia)."

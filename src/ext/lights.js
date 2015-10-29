@@ -313,30 +313,22 @@ exports.set_light_params = function(lamp_obj, light_params) {
 
     var scene = m_scenes.get_active();
 
-    if (typeof light_params.light_energy == "number") {
+    if (typeof light_params.light_energy == "number")
         m_lights.set_light_energy(light, light_params.light_energy);
-        m_scenes.update_lamp_scene(lamp_obj, scene);
-    }
 
-    if (typeof light_params.light_color == "object") {
+    if (typeof light_params.light_color == "object")
         m_lights.set_light_color(light, light_params.light_color);
-        m_scenes.update_lamp_scene(lamp_obj, scene);
-    }
 
-    if (typeof light_params.light_spot_blend == "number") {
+    if (typeof light_params.light_spot_blend == "number")
         m_lights.set_light_spot_blend(light, light_params.light_spot_blend);
-        m_scenes.update_lamp_scene(lamp_obj, scene);
-    }
 
-    if (typeof light_params.light_spot_size == "number") {
+    if (typeof light_params.light_spot_size == "number")
         m_lights.set_light_spot_size(light, light_params.light_spot_size);
-        m_scenes.update_lamp_scene(lamp_obj, scene);
-    }
 
-    if (typeof light_params.light_distance == "number") {
+    if (typeof light_params.light_distance == "number")
         m_lights.set_light_distance(light, light_params.light_distance);
-        m_scenes.update_lamp_scene(lamp_obj, scene);
-    }
+
+    m_scenes.update_lamp_scene(lamp_obj, scene);
     m_obj.update_all_mesh_shaders(scene);
 }
 

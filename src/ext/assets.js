@@ -104,7 +104,25 @@ exports.AT_AUDIO_ELEMENT = m_assets.AT_AUDIO_ELEMENT;
  * @param {ProgressCallback} [progress_cb] Callback for the progress of loading
  */
 exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
-    m_assets.enqueue(assets_pack, asset_cb, pack_cb, progress_cb);
+    if (assets_pack.length)
+        if (assets_pack["id"])
+            m_assets.enqueue(assets_pack, asset_cb, pack_cb, progress_cb);
+        else {
+            var new_asset_pack = [];
+            for (var i = 0; i < assets_pack.length; i++) {
+                var pack_elem = assets_pack[i];
+                new_asset_pack.push({
+                    id: pack_elem[0],
+                    type: pack_elem[1],
+                    url: pack_elem[2],
+                    request: pack_elem.request ? pack_elem.request : "GET",
+                    post_type: null,
+                    post_data: null,
+                    param: pack_elem[3]
+                });
+            }
+            m_assets.enqueue(new_asset_pack, asset_cb, pack_cb, progress_cb);
+        }
 }
 
 }

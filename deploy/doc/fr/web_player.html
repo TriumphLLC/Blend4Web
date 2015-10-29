@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Веб-плеер &mdash; User Manual: Blend4Web vv15.10</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="À propos de ces documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+        <link rel="next" title="Аддон" href="addon.html"/>
+        <link rel="prev" title="Просмотрщик сцен" href="viewer.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Веб-плеер</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Использование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Навигация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Панель управления</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webplayer-attributes">Атрибуты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wp-title">Название сцены в заголовке</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Ошибки сцены</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Веб-плеер</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="web-player">
+<span id="index-0"></span><span id="id1"></span><h1>Веб-плеер<a class="headerlink" href="#web-player" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Веб-плеер представляет собой специализированное приложение для отображения моделей и сцен в режиме демонстрации.</p>
+<p>Десктопная версия:</p>
+<a class="reference internal image-reference" href="_images/web_player_example.jpg"><img alt="_images/web_player_example.jpg" class="align-center" src="_images/web_player_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Мобильная версия:</p>
+<a class="reference internal image-reference" href="_images/web_player_example_mobile.jpg"><img alt="_images/web_player_example_mobile.jpg" class="align-center" src="_images/web_player_example_mobile.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id2">
+<h2>Использование<a class="headerlink" href="#id2" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Директорию с файлами веб-плеера <code class="docutils literal"><span class="pre">deploy/apps/webplayer</span></code> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <code class="docutils literal"><span class="pre">load</span></code>.</p>
+<p>При экспорте в единый HTML файл интерфейс веб-плеера интегрируется автоматически.</p>
+</div>
+<div class="section" id="id3">
+<h2>Навигация<a class="headerlink" href="#id3" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Управление камерой (в режимах <code class="docutils literal"><span class="pre">Target</span></code> и <code class="docutils literal"><span class="pre">Eye</span></code>) осуществляется мышью с нажатой кнопкой, а также клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <code class="docutils literal"><span class="pre">numpad</span></code>.</p>
+</div>
+<div class="section" id="id4">
+<h2>Панель управления<a class="headerlink" href="#id4" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Ниже показана панель управления веб-плеера.</p>
+<a class="reference internal image-reference" href="_images/web_player_interface.jpg"><img alt="_images/web_player_interface.jpg" class="align-center" src="_images/web_player_interface.jpg" style="width: 100%;" /></a>
+<ol class="arabic simple">
+<li>показ / скрытие панели управления;</li>
+<li>включение / выключение полноэкранного режима;</li>
+<li>установка качества сцены;</li>
+<li>включение / выключение звука;</li>
+<li>включение / выключение автоматического поворота камеры вокруг сцены;</li>
+<li>запуск / остановка движка;</li>
+<li>открытие окно помощи;</li>
+<li>кнопка Твиттер;</li>
+<li>кнопка Facebook;</li>
+<li>кнопка Google+;</li>
+<li>кнопка ВКонтакте.</li>
+</ol>
+</div>
+<div class="section" id="webplayer-attributes">
+<span id="id5"></span><h2>Атрибуты<a class="headerlink" href="#webplayer-attributes" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Веб-плеер принимает атрибуты из адресной строки браузера:</p>
+<a class="reference internal image-reference" href="_images/player_params.jpg"><img alt="_images/player_params.jpg" class="align-center" src="_images/player_params.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple">
+<li>для загрузки сцены используется обязательный атрибут <code class="docutils literal"><span class="pre">load</span></code>, в который помещается относительный путь к JSON файлу.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_image</span></code> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_video</span></code> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL.
+Может использоваться неоднократно с целью добавления видео файлов различных форматов.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">show_fps</span></code> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">autorotate</span></code> используется для включения автоматического вращения камеры сразу после загрузки сцены.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures</span></code> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">alpha</span></code> используется для установки прозрачности области отрисовки.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Если указаны параметры <code class="docutils literal"><span class="pre">fallback_image</span></code> и <code class="docutils literal"><span class="pre">fallback_video</span></code>, приоритет имеет <code class="docutils literal"><span class="pre">fallback_image</span></code>.</p>
+</div>
+</div>
+<div class="section" id="wp-title">
+<span id="id6"></span><h2>Название сцены в заголовке<a class="headerlink" href="#wp-title" title="Lien permanent vers ce titre">¶</a></h2>
+<p>По умолчанию веб-плеер устанавливает тег <code class="docutils literal"><span class="pre">title</span></code> равным <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></code>. С помощью мета-тега <code class="docutils literal"><span class="pre">title</span></code>
+в настройках сцены можно изменить значение по умолчанию.</p>
+<a class="reference internal image-reference" href="_images/title.jpg"><img alt="_images/title.jpg" class="align-center" src="_images/title.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id7">
+<h2>Ошибки сцены<a class="headerlink" href="#id7" title="Lien permanent vers ce titre">¶</a></h2>
+<p>В случае некорректного использования веб-плеера выводятся сообщения об ошибках.</p>
+<ol class="arabic simple">
+<li>атрибутом <code class="docutils literal"><span class="pre">load</span></code> указан неверный путь к JSON файлу или данный файл неисправен;</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>атрибут <code class="docutils literal"><span class="pre">load</span></code> не найден или его значение пустое;</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>ошибка инициализации WebGL.</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_webgl.jpg"><img alt="_images/error_webgl.jpg" class="align-center" src="_images/error_webgl.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="addon.html" class="btn btn-neutral float-right" title="Аддон" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viewer.html" class="btn btn-neutral" title="Просмотрщик сцен" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Mis à jour le 2015-10-29.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 #include <precision_statement.glslf>
-#include <gamma.glslf>
+#include <color_util.glslf>
 
 uniform vec3 u_sky_color;
 uniform vec3 u_sun_direction;

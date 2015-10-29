@@ -773,6 +773,11 @@ exports.clear_collision_impulse_test = function(obj) {
 exports.append_ray_test = function(obj_src, from, to, collision_id, callback, 
         autoremove) {
 
+    if (!m_phy.obj_has_physics(obj_src)) {
+        m_print.error("No physics for object " + obj_src.name);
+        return;
+    }
+
     autoremove = autoremove || false;
 
     var calc_all_hits = false;
@@ -802,6 +807,11 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
  */
 exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback, 
         autoremove, calc_all_hits, calc_pos_norm, ign_src_rot) {
+
+    if (!m_phy.obj_has_physics(obj_src)) {
+        m_print.error("No physics for object " + obj_src.name);
+        return;
+    }
 
     autoremove = autoremove || false;
     calc_all_hits = calc_all_hits || false;

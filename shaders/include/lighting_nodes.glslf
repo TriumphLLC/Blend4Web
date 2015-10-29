@@ -16,10 +16,10 @@
 
 #export nodes_lighting
 
-float ZERO_VALUE_LIGHT = 0.0;
-float UNITY_VALUE_LIGHT = 1.0;
-float HALF_VALUE_LIGHT = 0.5;
-vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
+float ZERO_VALUE_NODES = 0.0;
+float UNITY_VALUE_NODES = 1.0;
+float HALF_VALUE_NODES = 0.5;
+vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 
 #node LIGHTING_BEGIN
     #node_out vec3 E
@@ -67,7 +67,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_out vec4 color_out
     #node_out vec3 specular_out
 
-    color_out = vec4(E + D * A, ZERO_VALUE_LIGHT);
+    color_out = vec4(E + D * A, ZERO_VALUE_NODES);
     specular_out = ZERO_VECTOR;
 #endnode
 
@@ -83,9 +83,9 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
 # node_if !NODES_GLOW && NUM_LIGHTS > 0
     lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
 #  node_if LAMP_TYPE == HEMI
-    norm_fac = HALF_VALUE_LIGHT;
+    norm_fac = HALF_VALUE_NODES;
 #  node_else
-    norm_fac = ZERO_VALUE_LIGHT;
+    norm_fac = ZERO_VALUE_NODES;
 #  node_endif
 
     // 0.0 - full shadow, 1.0 - no shadow
@@ -108,7 +108,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     // source/blender/gpu/shaders/gpu_shader_material.glsl
     vec3 ldirect = u_light_directions[LAMP_IND];
     float spot_factor = dot(ldir, ldirect);
-    spot_factor *= smoothstep(ZERO_VALUE_LIGHT, UNITY_VALUE_LIGHT,
+    spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
                               (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
     lcolorint *= spot_factor;
 #   node_endif
@@ -126,18 +126,18 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 dif_params
     #node_out float lfactor
 
-    lfactor = ZERO_VALUE_LIGHT;
-    if (lfac.r != ZERO_VALUE_LIGHT) {
-        float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        if (dif_params[0] == ZERO_VALUE_LIGHT) {
-            lfactor = UNITY_VALUE_LIGHT;
+        if (dif_params[0] == ZERO_VALUE_NODES) {
+            lfactor = UNITY_VALUE_NODES;
         } else {
-            float t = UNITY_VALUE_LIGHT + abs(dot_nl);
-            t = dif_params[1] + (UNITY_VALUE_LIGHT - dif_params[1]) * pow(t, dif_params[0]);
-            lfactor = clamp(t, ZERO_VALUE_LIGHT, UNITY_VALUE_LIGHT);
+            float t = UNITY_VALUE_NODES + abs(dot_nl);
+            t = dif_params[1] + (UNITY_VALUE_NODES - dif_params[1]) * pow(t, dif_params[0]);
+            lfactor = clamp(t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
         }
-        lfactor = max(lfactor, ZERO_VALUE_LIGHT);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
     }
 #endnode
 
@@ -148,11 +148,11 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in float norm_fac
     #node_out float lfactor
 
-    lfactor = ZERO_VALUE_LIGHT;
-    if (lfac.r != ZERO_VALUE_LIGHT) {
-        float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        lfactor = max(dot_nl, ZERO_VALUE_LIGHT);
+        lfactor = max(dot_nl, ZERO_VALUE_NODES);
     }
 #endnode
 
@@ -164,22 +164,22 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 dif_params
     #node_out float lfactor
 
-    lfactor = ZERO_VALUE_LIGHT;
-    if (lfac.r != ZERO_VALUE_LIGHT) {
-        float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        if (dif_params[0] > ZERO_VALUE_LIGHT) {
-            float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_LIGHT);
+        if (dif_params[0] > ZERO_VALUE_NODES) {
+            float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
             float sigma_sq = dif_params[0] * dif_params[0];
-            float A = UNITY_VALUE_LIGHT - HALF_VALUE_LIGHT * (sigma_sq / (sigma_sq + 0.33));
+            float A = UNITY_VALUE_NODES - HALF_VALUE_NODES * (sigma_sq / (sigma_sq + 0.33));
 
             vec3 l_diff = ldir - dot_nl*normal;
             vec3 e_diff = nin_eye_dir - nv*normal;
             // handle normalize() and acos() values which may result to
             // "undefined behavior"
             // (noticeable for "mediump" precision, nin_eye_dir.g some mobile devies)
-            if (length(l_diff) == ZERO_VALUE_LIGHT || length(e_diff) == ZERO_VALUE_LIGHT ||
-                    abs(dot_nl) > UNITY_VALUE_LIGHT || abs(nv) > UNITY_VALUE_LIGHT)
+            if (length(l_diff) == ZERO_VALUE_NODES || length(e_diff) == ZERO_VALUE_NODES ||
+                    abs(dot_nl) > UNITY_VALUE_NODES || abs(nv) > UNITY_VALUE_NODES)
                 // HACK: undefined result of normalize() for this vectors
                 // remove t-multiplier for zero-length vectors
                 lfactor = dot_nl * A;
@@ -194,13 +194,13 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
                 b = min(Lit_A, View_A);
                 b *= 0.95;
 
-                float t = max(dot(Lit_B, View_B), ZERO_VALUE_LIGHT);
+                float t = max(dot(Lit_B, View_B), ZERO_VALUE_NODES);
                 float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
                 lfactor = dot_nl * (A + (B * t * sin(a) * tan(b)));
             }
         } else
             lfactor = dot_nl;
-        lfactor = max(lfactor, ZERO_VALUE_LIGHT);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
     }
 #endnode
 
@@ -212,16 +212,16 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 dif_params
     #node_out float lfactor
 
-    lfactor = ZERO_VALUE_LIGHT;
-    if (lfac.r != ZERO_VALUE_LIGHT) {
-        float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
-        float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_LIGHT);
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
 
-        if (dif_params[0] <= UNITY_VALUE_LIGHT)
-            lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - UNITY_VALUE_LIGHT);
+        if (dif_params[0] <= UNITY_VALUE_NODES)
+            lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - UNITY_VALUE_NODES);
         else
-            lfactor = dot_nl * pow(1.0001 - nv, dif_params[0] - UNITY_VALUE_LIGHT);
-        lfactor = max(lfactor, ZERO_VALUE_LIGHT);
+            lfactor = dot_nl * pow(1.0001 - nv, dif_params[0] - UNITY_VALUE_NODES);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
     }
 #endnode
 
@@ -233,18 +233,18 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 dif_params
     #node_out float lfactor
 
-    lfactor = ZERO_VALUE_LIGHT;
-    if (lfac.r != ZERO_VALUE_LIGHT) {
-        float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = ZERO_VALUE_NODES;
+    if (lfac.r != ZERO_VALUE_NODES) {
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
         float ang = acos(dot_nl);
 
         if (ang < dif_params[0])
-            lfactor = UNITY_VALUE_LIGHT;
-        else if (ang > (dif_params[0] + dif_params[1]) || dif_params[1] == ZERO_VALUE_LIGHT)
-                lfactor = ZERO_VALUE_LIGHT;
+            lfactor = UNITY_VALUE_NODES;
+        else if (ang > (dif_params[0] + dif_params[1]) || dif_params[1] == ZERO_VALUE_NODES)
+                lfactor = ZERO_VALUE_NODES;
             else
-                lfactor = UNITY_VALUE_LIGHT - ((ang - dif_params[0])/dif_params[1]);
-        lfactor = max(lfactor, ZERO_VALUE_LIGHT);
+                lfactor = UNITY_VALUE_NODES - ((ang - dif_params[0])/dif_params[1]);
+        lfactor = max(lfactor, ZERO_VALUE_NODES);
     }
 #endnode
 
@@ -256,11 +256,11 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_LIGHT;
-    if (lfac.g != ZERO_VALUE_LIGHT) {
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g != ZERO_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
-        sfactor = (UNITY_VALUE_LIGHT - norm_fac) * max(dot(normal, halfway),
-                         ZERO_VALUE_LIGHT) + norm_fac;
+        sfactor = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
+                         ZERO_VALUE_NODES) + norm_fac;
         sfactor = pow(sfactor, sp_params[0]);
     }
 #endnode
@@ -272,8 +272,8 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_LIGHT;
-    if (lfac.g != ZERO_VALUE_LIGHT) {
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g != ZERO_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
         float nh = max(dot(normal, halfway), 0.001);
         // NOTE: 0.01 for mobile devices
@@ -282,7 +282,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
         float angle = tan(acos(nh));
         float alpha = max(sp_params[0], 0.001);
 
-        sfactor = nl * (UNITY_VALUE_LIGHT/(4.0*M_PI*alpha*alpha))
+        sfactor = nl * (UNITY_VALUE_NODES/(4.0*M_PI*alpha*alpha))
                   * (exp(-(angle * angle) / (alpha * alpha)) /(sqrt(nv * nl)));
     }
 #endnode
@@ -294,17 +294,17 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_LIGHT;
-    if (lfac.g != ZERO_VALUE_LIGHT) {
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g != ZERO_VALUE_NODES) {
         vec3 h = normalize(ldir + nin_eye_dir);
         float angle = acos(dot(h, normal));
 
         if (angle < sp_params[0])
-            sfactor = UNITY_VALUE_LIGHT;
-        else if (angle >= sp_params[0] + sp_params[1] || sp_params[1] == ZERO_VALUE_LIGHT)
-            sfactor = ZERO_VALUE_LIGHT;
+            sfactor = UNITY_VALUE_NODES;
+        else if (angle >= sp_params[0] + sp_params[1] || sp_params[1] == ZERO_VALUE_NODES)
+            sfactor = ZERO_VALUE_NODES;
         else
-            sfactor = UNITY_VALUE_LIGHT - (angle - sp_params[0]) / sp_params[1];
+            sfactor = UNITY_VALUE_NODES - (angle - sp_params[0]) / sp_params[1];
     }
 #endnode
 
@@ -316,10 +316,10 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_LIGHT;
-    if (lfac.g != ZERO_VALUE_LIGHT) {
-        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_LIGHT)
-            sfactor = ZERO_VALUE_LIGHT;
+    sfactor = ZERO_VALUE_NODES;
+    if (lfac.g != ZERO_VALUE_NODES) {
+        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_NODES)
+            sfactor = ZERO_VALUE_NODES;
         else {
             if (sp_params[1] < 100.0)
                 sp_params[1]= sqrt(1.0 / sp_params[1]);
@@ -327,31 +327,31 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_LIGHT);
                 sp_params[1]= 10.0 / sp_params[1];
 
             vec3 halfway = normalize(nin_eye_dir + ldir);
-            float nh = (UNITY_VALUE_LIGHT - norm_fac) * max(dot(normal, halfway),
-                         ZERO_VALUE_LIGHT) + norm_fac;
-            if (nh < ZERO_VALUE_LIGHT)
-                sfactor = ZERO_VALUE_LIGHT;
+            float nh = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
+                         ZERO_VALUE_NODES) + norm_fac;
+            if (nh < ZERO_VALUE_NODES)
+                sfactor = ZERO_VALUE_NODES;
             else {
                 float nv = max(dot(normal, nin_eye_dir), 0.01);
                 float nl = dot(normal, ldir);
                 if (nl <= 0.01)
-                    sfactor = ZERO_VALUE_LIGHT;
+                    sfactor = ZERO_VALUE_NODES;
                 else {
                     float vh = max(dot(nin_eye_dir, halfway), 0.01);
 
-                    float a = UNITY_VALUE_LIGHT;
+                    float a = UNITY_VALUE_NODES;
                     float b = (2.0 * nh * nv) / vh;
                     float c = (2.0 * nh * nl) / vh;
 
                     float g = min(min(a, b), c);
 
-                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - UNITY_VALUE_LIGHT);
-                    float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (UNITY_VALUE_LIGHT 
-                            + pow(vh * (p + vh) - UNITY_VALUE_LIGHT, 2.0)/pow(vh * (p - vh) 
-                            + UNITY_VALUE_LIGHT, 2.0));
+                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - UNITY_VALUE_NODES);
+                    float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (UNITY_VALUE_NODES 
+                            + pow(vh * (p + vh) - UNITY_VALUE_NODES, 2.0)/pow(vh * (p - vh) 
+                            + UNITY_VALUE_NODES, 2.0));
                     float ang = acos(nh);
                     sfactor = max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(sp_params[1], 2.0))), 
-                            ZERO_VALUE_LIGHT);
+                            ZERO_VALUE_NODES);
                 }
             }
         }

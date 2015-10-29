@@ -40,7 +40,7 @@ var _selected_obj = null;
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         physics_enabled: true,
         alpha: false,
@@ -55,7 +55,9 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    m_app.enable_controls(canvas_elem);
+    m_ctl.register_mouse_events(canvas_elem, true);
+    m_ctl.register_wheel_events(canvas_elem, true);
+    m_ctl.register_touch_events(canvas_elem, true);
 
     canvas_elem.addEventListener("mousedown", main_canvas_down);
     canvas_elem.addEventListener("touchstart", main_canvas_down);

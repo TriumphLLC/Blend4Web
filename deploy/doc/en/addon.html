@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>The Add-on &mdash; User Manual: Blend4Web vv15.09</title>
+  <title>The Add-on &mdash; User Manual: Blend4Web vv15.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.09" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="Web Player" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.09
+              v15.10
             </div>
           
         
@@ -615,11 +615,9 @@ Check sockets compatibility:
 <td><p class="first last">Node material error: the input and output types of the link between the <code class="docutils literal"><span class="pre">FROM_NODE</span></code> and <code class="docutils literal"><span class="pre">TO_NODE</span></code> nodes should match.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Object &#8220;NAME&#8221; has the mesh with
-shape keys. The property
-&#8220;Relative&#8221; of mesh has been
-enabled.</td>
-<td><p class="first last">An object named &#8220;NAME&#8221; has a mesh with shape keys. This mesh has the &#8220;Relative&#8221; property enabled which is forbidden.</p>
+<tr class="row-even"><td>Object &#8220;NAME&#8221; hasn&#8217;t renderable
+data. Converted to EMPTY.</td>
+<td><p class="first last">An object named &#8220;NAME&#8221; is degenerate, e.g. has no polygons. The object&#8217;s type has been changed to EMPTY.</p>
 </td>
 </tr>
 </tbody>
@@ -630,18 +628,25 @@ enabled.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Only 2 UV textures are allowed for
+<tr class="row-odd"><td>Object &#8220;NAME&#8221; has the mesh with
+shape keys. The property
+&#8220;Relative&#8221; of mesh has been
+enabled.</td>
+<td><p class="first last">An object named &#8220;NAME&#8221; has a mesh with shape keys. This mesh has the &#8220;Relative&#8221; property enabled which is forbidden.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Only 2 UV textures are allowed for
 a mesh; The mesh has N UVs.</td>
 <td><p class="first last">The engine supports up to 2 UV texture layers for each mesh. The number of UV layers for this mesh is N.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Packed media &#8220;FILE_NAME&#8221; has not
+<tr class="row-odd"><td>Packed media &#8220;FILE_NAME&#8221; has not
 been exported to
 &#8220;CONVERTED_FILE_PATH&#8221;</td>
 <td><p class="first last">The packed media file &#8220;FILE_NAME&#8221; cannot be converted to &#8220;CONVERTED_FILE_PATH&#8221;. Please unpack this file and convert it.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
 the last of the &#8220;OBJECT_NAME&#8221;
@@ -649,7 +654,7 @@ object&#8217;s vertex colors</td>
 <td><p class="first last">The NAME vertex color is specified in the <code class="docutils literal"><span class="pre">from</span></code> field but it not present in the OBJECT_NAME emitter.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the list of the &#8220;OBJECT_NAME&#8221;
@@ -657,7 +662,7 @@ object&#8217;s vertex colors</td>
 <td><p class="first last">The NAME vertex color is specified in the <code class="docutils literal"><span class="pre">to</span></code> field but it is not present in the OBJECT_NAME object which is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the &#8220;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the &#8220;OBJECT_NAME&#8221; object
@@ -665,10 +670,16 @@ the &#8220;OBJECT_NAME&#8221; object
 <td><p class="first last">The NAME vertex color is specified in the <code class="docutils literal"><span class="pre">to</span></code> field but it is not present in the OBJECT_NAME object of the GROUP_NAME group which is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error for object
+<tr class="row-odd"><td>Particle system error for object
 &#8220;NAME&#8221;. Invalid dupli object
 &#8220;OBJECT_NAME&#8221;.</td>
 <td><p class="first last">Particle system error for the object NAME. Invalid dupli-object OBJECT_NAME.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Sound file is missing in the
+SPEAKER object &#8220;NAME&#8221;. Converted
+to EMPTY.</td>
+<td><p class="first last">The speaker has no sound attached. The object&#8217;s type has been changed to EMPTY.</p>
 </td>
 </tr>
 <tr class="row-odd"><td>The main scene NAME can not be
@@ -700,17 +711,6 @@ exported. Modifier removed.</td>
 <td><p class="first last">The NAME <code class="docutils literal"><span class="pre">Armature</span></code> modifier has no armature object or it is not exported. Modifier removed.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The NAME curve modifier has no curve
-object. Modifier removed.</td>
-<td><p class="first last">The NAME curve modifier has no object. Modifier removed.</p>
-</td>
-</tr>
-<tr class="row-odd"><td>The NAME curve modifier has
-unsupported curve object. Modifier
-removed.</td>
-<td><p class="first last">The NAME curve modifier has unsupported object. Modifier removed.</p>
-</td>
-</tr>
 </tbody>
 </table>
 <table border="1" class="docutils">
@@ -719,6 +719,17 @@ removed.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td>The NAME curve modifier has no curve
+object. Modifier removed.</td>
+<td><p class="first last">The NAME curve modifier has no object. Modifier removed.</p>
+</td>
+</tr>
+<tr class="row-even"><td>The NAME curve modifier has
+unsupported curve object. Modifier
+removed.</td>
+<td><p class="first last">The NAME curve modifier has unsupported object. Modifier removed.</p>
+</td>
+</tr>
 <tr class="row-odd"><td>The NAME object has the NAME
 armature modifier and a vertex
 animation. Modifier removed.</td>
@@ -1004,7 +1015,7 @@ PERSPECTIVE type.&#8221;</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-09-30.
+      Last updated on 2015-10-29.
 
     </p>
   </div>
@@ -1026,7 +1037,7 @@ PERSPECTIVE type.&#8221;</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.09',
+            VERSION:'v15.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

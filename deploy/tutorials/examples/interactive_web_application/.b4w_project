@@ -1,7 +1,7 @@
 [info]
 author = Blend4Web
 name = interactive_web_application
-title = Web App
+title = Interactive Web Application
 
 [paths]
 assets_dirs = deploy/tutorials/examples/interactive_web_application/;
@@ -11,7 +11,7 @@ build_dir = deploy/tutorials/examples/interactive_web_application/
 deploy_dir = 
 
 [compile]
-apps = example.html;
+apps = simple_app.html;
 css_ignore = 
 engine_type = update
 js_ignore = 

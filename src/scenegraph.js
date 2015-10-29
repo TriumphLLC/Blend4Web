@@ -326,17 +326,6 @@ function process_subscene_links(graph) {
     });
 }
 
-function apply_resolution_factor(graph) {
-    traverse_slinks(graph, function(slink, internal, subs1, subs2) {
-        if (slink.update_dim
-                && ((has_lower_subs(graph, subs1, "SMAA_NEIGHBORHOOD_BLENDING")
-                && subs1.type != "SMAA_NEIGHBORHOOD_BLENDING") || 
-                has_lower_subs(graph, subs1, "ANTIALIASING") ||
-                subs1.type == "ANCHOR_VISIBILITY"))
-            slink.size_mult *= cfg_def.render_resolution_factor;
-    });
-}
-
 function calc_slink_id(slink) {
     var id_obj = m_util.clone_object_json(slink);
     delete id_obj.to;
@@ -996,7 +985,6 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
             m_graph.append_edge_attr(graph, opaque_subscenes[i], subs_main_glow,
                     slinks_main_depth_o[i]);
-
             var blur_x = create_subs_postprocessing("X_GLOW_BLUR");
             blur_x.subtype = "GLOW_MASK_SMALL";
             set_texel_size_mult(blur_x, sc_render.glow_params.small_glow_mask_width);
@@ -1449,14 +1437,14 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 //}
 
                 // 1-st pass - edge detection
-                var subs_smaa_1 = create_subs_smaa("SMAA_EDGE_DETECTION");
+                var subs_smaa_1 = create_subs_smaa("SMAA_EDGE_DETECTION", sc_render);
                 m_graph.append_node_attr(graph, subs_smaa_1);
 
                 m_graph.append_edge_attr(graph, subs_prev, subs_smaa_1,
                                          slink_smaa_in);
 
                 // 2-nd pass - blending weight calculation
-                var subs_smaa_2 = create_subs_smaa("SMAA_BLENDING_WEIGHT_CALCULATION");
+                var subs_smaa_2 = create_subs_smaa("SMAA_BLENDING_WEIGHT_CALCULATION", sc_render);
                 m_graph.append_node_attr(graph, subs_smaa_2);
                 m_graph.append_edge_attr(graph, subs_smaa_1, subs_smaa_2,
                                          slink_smaa_in);
@@ -1474,7 +1462,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 subs_smaa_2.slinks_internal.push(slink_area_tex);
 
                 // 3-rd pass - neighborhood blending
-                var subs_smaa_3 = create_subs_smaa("SMAA_NEIGHBORHOOD_BLENDING");
+                var subs_smaa_3 = create_subs_smaa("SMAA_NEIGHBORHOOD_BLENDING", sc_render);
                 m_graph.append_node_attr(graph, subs_smaa_3);
 
                 m_graph.append_edge_attr(graph, subs_prev,
@@ -1493,7 +1481,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 //if (!m_cfg.context.alpha) {
                 //    m_graph.append_edge_attr(graph, subs_velocity, subs_smaa_3,
                 //                             slink_velocity_smaa);
-                //    var subs_smaa_r = create_subs_smaa("SMAA_RESOLVE");
+                //    var subs_smaa_r = create_subs_smaa("SMAA_RESOLVE", sc_render);
                 //    m_graph.append_node_attr(graph, subs_smaa_r);
 
                 //    m_graph.append_edge_attr(graph, subs_smaa_3, subs_smaa_r,
@@ -1513,7 +1501,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                     curr_level.push(subs_smaa_3);
 
             } else {
-                var subs_aa = create_subs_aa();
+                var subs_aa = create_subs_aa(sc_render);
                 m_graph.append_node_attr(graph, subs_aa);
 
                 var slink_aa_in = create_slink("COLOR", "u_color", 1, 1, true);
@@ -1521,13 +1509,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 slink_aa_in.mag_filter = m_tex.TF_LINEAR;
                 m_graph.append_edge_attr(graph, subs_prev, subs_aa, slink_aa_in);
 
-                if (cfg_def.render_resolution_factor > 1) {
-                    var subs_rescale = create_subs_postprocessing("NONE");
-                    m_graph.append_node_attr(graph, subs_rescale);
-                    m_graph.append_edge_attr(graph, subs_aa, subs_rescale, slink_aa_in);
-                    curr_level.push(subs_rescale);
-                } else
-                    curr_level.push(subs_aa);
+                curr_level.push(subs_aa);
             }
         }
 
@@ -1663,9 +1645,6 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     }
 
     enforce_graph_consistency(graph, depth_tex);
-
-    if (cfg_def.render_resolution_factor > 1)
-        apply_resolution_factor(graph);
 
     process_subscene_links(graph);
     assign_render_targets(graph);
@@ -2318,20 +2297,22 @@ function create_subs_ssao_blur(cam, ssao_params) {
     return subs;
 }
 
-function create_subs_aa() {
+function create_subs_aa(sc_render) {
     var subs = init_subs("ANTIALIASING");
     subs.clear_color = false;
     subs.clear_depth = false;
     subs.depth_test = false;
 
-    subs.texel_size_multiplier = 1 / cfg_def.render_resolution_factor;
+
+    subs.texel_size_multiplier = 1 / sc_render.resolution_factor;
+    subs.fxaa_quality = sc_render.aa_quality;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
 
     return subs;
 }
 
-function create_subs_smaa(pass) {
+function create_subs_smaa(pass, sc_render) {
     var subs = init_subs(pass);
 
     if (pass == "SMAA_BLENDING_WEIGHT_CALCULATION" ||
@@ -2342,7 +2323,7 @@ function create_subs_smaa(pass) {
 
     subs.clear_depth = false;
     subs.depth_test = false;
-    subs.texel_size_multiplier = 1 / cfg_def.render_resolution_factor;
+    subs.texel_size_multiplier = 1 / sc_render.resolution_factor;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
 

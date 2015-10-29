@@ -302,7 +302,7 @@ def run():
     obj_dst = objects.get(obj_dst_name)
 
     if len(obj_dst.material_slots) == 0:
-        raise BakeError(obj_dst.name + get_translate(_(" doesn't have material.")), obj_dst)
+        raise BakeError(obj_dst.name + get_translate(_(" doesn't have a material.")), obj_dst)
 
     mesh_dst = obj_dst.data
     dst_ver_list = mesh_dst.vertices
@@ -324,6 +324,9 @@ def run():
     old_objs_src_co_list = []
     for obj in bpy.context.selected_editable_objects:
         if obj.name != obj_dst_name:
+
+            if obj.type != "MESH":
+                raise BakeError(get_translate(_("Source object is not \"Mesh\".")), obj)
 
             objs_src.append(obj)
             src_ver_list = obj.data.vertices
@@ -365,7 +368,7 @@ def run():
                 maxy = max(vert_src.co[1], maxy)
 
     # generate tiled structure for the source mesh
-    # num_tiles had to be around 0.4 of src_ver_selected (experimental number)
+    # num_tiles has to be around 0.4 of src_ver_selected (experimental number)
     xy_appr_product = 0.4 * len(src_ver_selected)
 
     x_size = (maxx - minx)

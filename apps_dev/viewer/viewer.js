@@ -745,6 +745,7 @@ function preloader_callback(percentage, load_time) {
 
     // bpy data loaded
     if (m_data.is_primary_loaded()) {
+        on_resize();
         display_scene_stats();
         add_error_tooltip();
 
@@ -1186,7 +1187,7 @@ function on_resize(e) {
     var canvas = m_main.get_canvas_elem();
 
     document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
-            canvas.height + " (" + canvas.width / canvas.clientWidth + ":1)";
+            canvas.height + " (" + (canvas.width / canvas.clientWidth).toFixed(2) + ":1.00)";
 }
 
 function cleanup() {

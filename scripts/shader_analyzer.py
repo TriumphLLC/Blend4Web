@@ -46,7 +46,7 @@ def process_shader_nvidia(is_vert, data):
         #profile = "fp40"    # NV_fragment_program2
         #profile = "arbfp1"  # ARB_fragment_program
 
-    ret = subprocess.check_output([CGC_PATH, "-ogles", "-profile", profile,
+    ret = subprocess.check_output([CGC_PATH, "-oglsl", "-profile", profile,
             TMP_GLSL_FILE, "-o", TMP_OUT])
 
     f = open(TMP_OUT, "rb")

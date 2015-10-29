@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Звуковая подсистема &mdash; User Manual: Blend4Web vv15.10</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="À propos de ces documents"
+              href="about.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+        <link rel="next" title="Физика" href="physics.html"/>
+        <link rel="prev" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v15.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Звуковая подсистема</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Настройка звуковых источников</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#encoding">Обработка и кодирование</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Поддерживаемые форматы (контейнеры):</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Звуковая подсистема</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="audio">
+<span id="id1"></span><h1>Звуковая подсистема<a class="headerlink" href="#audio" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Создание звуковых источников осуществляется в Blender&#8217;e. Используется стандартный объект <code class="docutils literal"><span class="pre">Speaker</span></code>.</p>
+<a class="reference internal image-reference" href="_images/speaker.jpg"><img alt="_images/speaker.jpg" class="align-center" src="_images/speaker.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id2">
+<h2>Настройка звуковых источников<a class="headerlink" href="#id2" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Настройки спикера выставляются в панели <code class="docutils literal"><span class="pre">Properties</span></code> на вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>.</p>
+<p>Движком поддерживаются все стандартные для Blender параметры звука и некоторые специфические для движка опции.</p>
+<p><em>Speaker behavior</em>:</p>
+<blockquote>
+<div><p>Поведение звукового источника.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; высококачественный звук, допускающий позиционирование и
+имеющий направленность (конусность). Для рендеринга используется Web Audio
+API. Воспроизведение подобных звуков обладает наименьшей производительностью,
+поэтому их использовать целесообразно только для коротких сэмплов.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; высококачественный всенаправленный звук без возможности
+позиционирования в пространстве. Для рендеринга используется Web Audio API.
+Более производителен, однако нецелесообразен для музыки.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; используется для воспроизведения музыки. Максимальная
+производительность вследствие использования тега Audio, минимальная гибкость.</p>
+</div></blockquote>
+<p>На панели <code class="docutils literal"><span class="pre">Sound</span></code> доступны следующие настройки:</p>
+<p><em>Volume</em></p>
+<blockquote>
+<div>Громкость источника.</div></blockquote>
+<p><em>Random Volume</em></p>
+<blockquote>
+<div>Дополнительная рандомизация громкости. Результирующее значение определяется
+аналогично задержке.</div></blockquote>
+<p><em>Pitch</em></p>
+<blockquote>
+<div>Скорость проигрывания (высота) звука.</div></blockquote>
+<p><em>Random Pitch</em></p>
+<blockquote>
+<div>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
+аналогично задержке.</div></blockquote>
+<p><em>Fade-In</em></p>
+<blockquote>
+<div>Интервал плавного включения звука.</div></blockquote>
+<p><em>Fade-Out</em></p>
+<blockquote>
+<div>Интервал плавного выключения звука.</div></blockquote>
+<p><em>Disable doppler</em></p>
+<blockquote>
+<div>Игнорировать смещение частоты источника при его перемещении.</div></blockquote>
+<p><em>Cyclic play</em></p>
+<blockquote>
+<div>Зацикливать воспроизведение звука.</div></blockquote>
+<p><em>Delay</em></p>
+<blockquote>
+<div>Задержка в секундах перед началом проигрывания звука.</div></blockquote>
+<p><em>Random Delay</em></p>
+<blockquote>
+<div>Дополнительная рандомизация задержки, результирующее значение определяется
+по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
+<p><em>Loop</em></p>
+<blockquote>
+<div>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>,
+тем, что способен обеспечить нулевую задержку при повторении. Опция доступна
+только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span>
+<span class="pre">Sound</span></code>.</div></blockquote>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="encoding">
+<span id="id3"></span><h2>Обработка и кодирование<a class="headerlink" href="#encoding" title="Lien permanent vers ce titre">¶</a></h2>
+<div class="section" id="id4">
+<h3>Поддерживаемые форматы (контейнеры):<a class="headerlink" href="#id4" title="Lien permanent vers ce titre">¶</a></h3>
+<ul class="simple">
+<li>ogg, кодек Vorbis (Chrome, Firefox)</li>
+<li>mp3 (Chrome, Safari)</li>
+<li>mp4, кодек AAC (Chrome, Safari)</li>
+</ul>
+<p>Рекомендуется использовать <em>Ogg</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и
+совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется
+для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального
+сопровождения.</p>
+<p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><span>соответствующем разделе</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="physics.html" class="btn btn-neutral float-right" title="Физика" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gamma_alpha.html" class="btn btn-neutral" title="Гамма-коррекция и альфа-композитинг" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Triumph LLC.
+      Mis à jour le 2015-10-29.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v15.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
