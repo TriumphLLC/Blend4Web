@@ -6,9 +6,10 @@ var m_app         = require("app");
 var m_camera_anim = require("camera_anim");
 var m_cfg         = require("config");
 var m_cont        = require("container");
-var m_scs         = require("scenes");
+var m_ctl         = require("controls");
 var m_data        = require("data");
 var m_main        = require("main");
+var m_scs         = require("scenes");
 var m_sfx         = require("sfx");
 var m_storage     = require("storage");
 var m_version     = require("version");
@@ -140,7 +141,7 @@ exports.init = function() {
         fps_wrapper_id: "fps_wrapper",
         assets_dds_available: dds_available,
         assets_min50_available: min50_available
-    });
+    })
 }
 
 function init_cb(canvas_element, success) {
@@ -170,7 +171,7 @@ function init_cb(canvas_element, success) {
 
     m_app.enable_controls();
 
-    window.addEventListener("resize", on_resize, false);
+    window.addEventListener("resize", on_resize);
 
     on_resize();
 }
@@ -287,20 +288,20 @@ function init_control_buttons() {
         switch (button.type) {
         case "simple_button":
             if (elem)
-                elem.addEventListener("mouseup", button.callback, false);
+                elem.addEventListener("mouseup", button.callback);
             break;
         case "menu_button":
             if (elem)
                 elem.addEventListener("mouseup", function(e) {
                           button.callback(e, button);
-                      }, false);
+                      });
             break;
         case "trigger_button":
             (function(button){
                 if (elem)
                     elem.addEventListener("mouseup", function(e) {
                         button.callback(e);
-                    }, false);
+                    });
             })(button);
             break;
         }
@@ -398,19 +399,19 @@ function add_hover_class_to_button(elem) {
         elem.addEventListener("touchstart", function() {
             elem.className += " hover";
             clear_deferred_close();
-        }, false);
+        });
         elem.addEventListener("touchend", function() {
             elem.className = elem.className.replace(" hover", "");
             deferred_close();
-        }, false);
+        });
     } else {
         elem.addEventListener("mouseenter", function() {
             elem.className += " hover";
-        }, false);
+        });
 
         elem.addEventListener("mouseout", function(e) {
             elem.className = elem.className.replace(" hover", "");
-        }, false);
+        });
     }
 }
 
@@ -698,9 +699,9 @@ function open_menu() {
     drop_left(hor_elem);
     drop_top(vert_elem);
 
-    _buttons_container.addEventListener("mouseleave", deferred_close, false);
-    _buttons_container.addEventListener("mouseenter", clear_deferred_close, false);
-    document.body.addEventListener("touchmove", deferred_close, false);
+    _buttons_container.addEventListener("mouseleave", deferred_close);
+    _buttons_container.addEventListener("mouseenter", clear_deferred_close);
+    document.body.addEventListener("touchmove", deferred_close);
 }
 
 function check_anim_end() {
@@ -732,7 +733,7 @@ function disable_opened_button() {
 }
 
 function enable_opened_button() {
-    _opened_button.addEventListener("mouseup", open_menu, false);
+    _opened_button.addEventListener("mouseup", open_menu);
 }
 
 function deferred_close(e) {
@@ -788,10 +789,10 @@ function open_qual_menu(e, button) {
         var child_elem = document.getElementById(child_id[i]);
 
         if (_quality_buttons_container.className.indexOf(child_id[i]) < 0)
-            child_elem.addEventListener("mouseup", child_cb[i], false)
+            child_elem.addEventListener("mouseup", child_cb[i]);
         else {
             child_elem.className = "active_elem";
-            child_elem.addEventListener("mouseup", close_qual_menu, false)
+            child_elem.addEventListener("mouseup", close_qual_menu);
         }
     }
 
@@ -804,9 +805,7 @@ function open_qual_menu(e, button) {
 }
 
 function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_cont.resize(w, h);
+    m_app.resize_to_container();
 }
 
 function get_selected_object() {
@@ -843,13 +842,33 @@ function loaded_callback(data_id, success) {
     }
 
     var canvas_elem = m_main.get_canvas_elem();
-    canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
+    canvas_elem.addEventListener("mousedown", main_canvas_clicked);
 
     check_autorotate();
 
     m_app.enable_camera_controls();
     m_main.set_render_callback(render_callback);
     on_resize();
+
+    var mouse_move  = m_ctl.create_mouse_move_sensor();
+    var mouse_click = m_ctl.create_mouse_click_sensor();
+
+    var canvas_cont = m_cont.get_container();
+
+    function move_cb() {
+        canvas_cont.className = "move";
+    }
+
+    function stop_cb(obj, id, pulse) {
+        if (pulse == -1)
+            canvas_cont.className = "";
+    }
+
+    m_ctl.create_sensor_manifold(null, "MOUSE_MOVE", m_ctl.CT_SHOT,
+            [mouse_click, mouse_move], function(s) {return s[0] && s[1]}, move_cb);
+
+    m_ctl.create_sensor_manifold(null, "MOUSE_STOP", m_ctl.CT_TRIGGER,
+            [mouse_click], function(s) {return s[0]}, stop_cb);
 
     var url_params = m_app.get_url_params();
 
@@ -905,19 +924,58 @@ function preloader_callback(percentage, load_time) {
         _circle_container.parentElement.removeChild(_circle_container)
         _load_container.style.backgroundColor = "#000";
 
-        m_app.css_animate(_preloader_caption, "opacity", 1, 0, CAPTION_HIDE_DELAY, "", "", function() {
-            m_app.css_animate(_load_container, "opacity", 1, 0, LOGO_CIRCLE_HIDE_DELAY, "", "", function() {
-                m_app.css_animate(_logo_container, "opacity", 1, 0, LOGO_HIDE_DELAY, "", "", function() {
-                    m_app.css_animate(_preloader_container, "opacity", 1, 0, PRELOADER_HIDE_DELAY, "", "", function() {
-                        _preloader_container.parentElement.removeChild(_preloader_container);
-                        open_menu();
-                    });
-                });
+        var preloader_caption = {
+            elem:     _preloader_caption,
+            duration: CAPTION_HIDE_DELAY
+        }
+
+        var load_container = {
+            elem:     _load_container,
+            duration: LOGO_CIRCLE_HIDE_DELAY,
+            cb:       function() {
                 _opened_button.style.display = "block";
-                m_app.css_animate(_opened_button, "transform", 0, 1, MENU_BUTTON_SHOW_DELAY, "scale(", ")");
-            });
-        });
+                m_app.css_animate(_opened_button, "transform",
+                                  0, 1, MENU_BUTTON_SHOW_DELAY,
+                                  "scale(", ")");
+            }
+        }
+
+        var logo_container = {
+            elem:     _logo_container,
+            duration: LOGO_HIDE_DELAY
+        }
+
+        var preloader_container = {
+            elem:     _preloader_container,
+            duration: PRELOADER_HIDE_DELAY,
+            cb:     function() {
+                _preloader_container.parentElement.removeChild(_preloader_container);
+                open_menu();
+            }
+        }
+
+        var common_obj = {
+            type:     "css",
+            prop:     "opacity",
+            from:     1,
+            to:       0
+        }
+
+        var array = [preloader_caption,
+                     load_container,
+                     logo_container,
+                     preloader_container];
+
+        extend_objs_props(array, common_obj);
+
+        m_app.queue_animate(array);
     }
+}
+
+function extend_objs_props(objs, common_obj) {
+    for (var i = objs.length; i--;)
+        for (var prop in common_obj)
+            objs[i][prop] = common_obj[prop];
 }
 
 function render_callback(elapsed, current_time) {}
@@ -991,4 +1049,4 @@ function report_app_error(text_message, link_message, link) {
 });
 
 // to allow early built-in module check
-window.addEventListener("load", function() {b4w.require("embed_main").init();}, false);
+window.addEventListener("load", function() {b4w.require("embed_main").init();});

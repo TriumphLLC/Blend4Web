@@ -68,7 +68,7 @@ uniform vec4 u_sun_quaternion;
 uniform vec3 u_camera_eye_frag;
 
 #if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_VECTOR_VIEW
-uniform mat4 u_view_matrix_frag;
+uniform mat3 u_view_tsr_frag;
 #endif
 
 #if !DISABLE_FOG
@@ -249,12 +249,25 @@ void main(void) {
     float nout_shadow_factor;
     float nout_alpha;
 
+#  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+    mat4 nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
+
     nodes_main(eye_dir,
+            nin_view_matrix,
             nout_color,
             nout_specular_color,
             nout_normal,
             nout_shadow_factor,
             nout_alpha);
+#  else
+    nodes_main(eye_dir,
+            mat4(0.0),
+            nout_color,
+            nout_specular_color,
+            nout_normal,
+            nout_shadow_factor,
+            nout_alpha);
+#  endif
 
     vec3 color = nout_color;
     float alpha = nout_alpha;

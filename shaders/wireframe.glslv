@@ -53,14 +53,21 @@ attribute vec4 a_influence;
 ============================================================================*/
 
 #if STATIC_BATCH
-const mat4 u_model_matrix = mat4(1.0);
+// NOTE:  mat3(0.0, 0.0, 0.0, --- trans
+//             1.0, --- scale
+//             0.0, 0.0, 0.0, 1.0, --- quat
+//             0.0);
+const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
+                              1.0,
+                              0.0, 0.0, 0.0, 1.0,
+                              0.0);
 #else
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
-uniform mat4 u_proj_matrix;
-uniform mat4 u_view_matrix;
 
+uniform mat3 u_view_tsr;
+uniform mat4 u_proj_matrix;
 #if !DEBUG_SPHERE
 # if WIND_BEND
 uniform vec3 u_wind;
@@ -123,6 +130,10 @@ varying vec3 v_barycentric;
 ============================================================================*/
 
 void main() {
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+
     if (a_polyindex == 0.0)
         v_barycentric = vec3(1.0, 0.0, 0.0);
     else if (a_polyindex == 1.0)
@@ -135,7 +146,7 @@ void main() {
 
 #if DEBUG_SPHERE
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
-            u_model_matrix);
+            model_mat);
 #else
 # if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
@@ -157,20 +168,20 @@ void main() {
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0),
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            u_view_matrix);
+            view_matrix);
 # else
 #  if BILLBOARD
-    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
 #   if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
-            u_view_matrix, u_model_matrix);
+            view_matrix, model_mat);
 #   else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
 #   endif
 
 #   if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
+    vec3 vec_seed = (model_mat * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
 #   endif
@@ -179,7 +190,7 @@ void main() {
     world.center = wcen;
 #  else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
-            u_model_matrix);
+            model_mat);
 #  endif
 # endif
 
@@ -188,6 +199,5 @@ void main() {
 # endif
 #endif // DEBUG_SPHERE
 
-    vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
-    gl_Position = u_proj_matrix * pos_view;
+    gl_Position = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
 }

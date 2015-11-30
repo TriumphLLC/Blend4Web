@@ -68,8 +68,8 @@ var _vec3_tmp  = new Float32Array(3);
 var _vec4_tmp  = new Float32Array(4);
 var _quat4_tmp = new Float32Array(4);
 var _mat4_tmp  = new Float32Array(16);
-var _tsr8_tmp  = new Float32Array(8);
-var _tsr8_tmp2 = new Float32Array(8);
+var _tsr_tmp   = m_tsr.create();
+var _tsr_tmp2  = m_tsr.create();
 
 // vehicle types for internal usage
 var VT_CHASSIS     = 10;
@@ -542,9 +542,9 @@ function update_worker(worker, timeline, delta) {
             if (cfg_def.no_phy_interp_hack)
                 d = 0;
 
-            var tsr = _tsr8_tmp;
+            var tsr = _tsr_tmp;
             m_tsr.integrate(phy.curr_tsr, d, phy.linvel, phy.angvel,
-                    _tsr8_tmp);
+                    _tsr_tmp);
 
             m_trans.set_tsr(obj, tsr);
             m_trans.update_transform(obj);
@@ -572,8 +572,8 @@ function update_prop_transforms(obj_chassis_hull) {
 
     var obj_props = obj_chassis_hull.vehicle.props;
 
-    var chass_hull_tsr = obj_chassis_hull.render.tsr;
-    var prop_tsr = _tsr8_tmp;
+    var chass_hull_tsr = obj_chassis_hull.render.world_tsr;
+    var prop_tsr = _tsr_tmp;
 
     for (var i = 0; i < obj_props.length; i++) {
         var obj_prop = obj_props[i];
@@ -660,7 +660,7 @@ function init_static_mesh_physics(obj, batch, worker) {
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
 
-    var trans = obj.render.trans;
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
 
     var friction = batch.friction;
     var restitution = batch.elasticity;
@@ -744,7 +744,7 @@ function init_ghost_mesh_physics(obj, batch, worker) {
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
-    var trans = obj.render.trans;
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
 
     m_ipc.post_msg(worker, m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
             indices, trans, collision_id_num, collision_margin, collision_group,
@@ -794,8 +794,8 @@ function init_bounding_physics(obj, compound_children, worker) {
         var restitution = render.elasticity;
     }
 
-    var trans = render.trans;
-    var quat = render.quat;
+    var trans = m_tsr.get_trans_view(render.world_tsr);
+    var quat = m_tsr.get_quat_view(render.world_tsr);
     var is_ghost = phy_set.use_ghost;
     // use_sleep=true - no sleeping
     var disable_sleeping = phy_set.use_sleep;
@@ -851,11 +851,10 @@ function get_children_params(render, children, bt, wb) {
 
     comp_children_params.push(parent_params);
 
-    var wm_inv   = _mat4_tmp;
+    var wtsr_inv = m_tsr.invert(render.world_tsr, _tsr_tmp);
     var quat_inv = _quat4_tmp;
-
-    m_mat4.invert(render.world_matrix, wm_inv);
-    m_quat.invert(render.quat, quat_inv);
+    var quat = m_tsr.get_quat_view(render.world_tsr);
+    m_quat.invert(quat, quat_inv);
 
     for (var i = 0; i < children.length; i++) {
         var child_params = {};
@@ -864,8 +863,10 @@ function get_children_params(render, children, bt, wb) {
         var loc_quat     = new Float32Array(4);
         var loc_trans    = new Float32Array(3);
 
-        m_vec3.transformMat4(child.render.trans, wm_inv, loc_trans);
-        m_quat.multiply(quat_inv, child.render.quat, loc_quat);
+        var ch_trans = m_tsr.get_trans_view(child.render.world_tsr);
+        var ch_quat = m_tsr.get_quat_view(child.render.world_tsr);
+        m_tsr.transform_vec3(ch_trans, wtsr_inv, loc_trans);
+        m_quat.multiply(quat_inv, ch_quat, loc_quat);
 
         child_params["trans"] = loc_trans;
         child_params["quat"] = loc_quat;
@@ -976,14 +977,12 @@ function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id,
     // calculate connection point
     // NOTE: initial wheel (bob) and vehicle coords may change
 
-    var prop_trans = obj_prop.render.trans;
-    var chassis_hull_matrix = obj_chassis_hull.render.world_matrix;
+    var prop_trans = m_tsr.get_trans_view(obj_prop.render.world_tsr);
 
-    var chassis_hull_matrix_inv = new Float32Array(16);
-    m_mat4.invert(chassis_hull_matrix, chassis_hull_matrix_inv);
+    var chassis_hull_tsr_inv = m_tsr.invert(obj_chassis_hull.render.world_tsr, _tsr_tmp);
 
     var conn_point = new Float32Array(3);
-    m_vec3.transformMat4(prop_trans, chassis_hull_matrix_inv, conn_point);
+    m_tsr.transform_vec3(prop_trans, chassis_hull_tsr_inv, conn_point);
 
     switch (obj_chassis_hull.vehicle.type) {
     case VT_CHASSIS:
@@ -1042,14 +1041,13 @@ function init_floater(obj, worker) {
 
             // calculate connection point
             var obj_bob = bob_objs[i];
-            var bob_trans = obj_bob.render.trans;
 
-            var wm = obj.render.world_matrix;
-            var wm_inv = new Float32Array(16);
-            m_mat4.invert(wm, wm_inv);
+            var bob_trans = m_tsr.get_trans_view(obj_bob.render.world_tsr);
+
+            var wtsr_inv = m_tsr.invert(obj.render.world_tsr, _tsr_tmp);
 
             var conn_point = new Float32Array(3);
-            m_vec3.transformMat4(bob_trans, wm_inv, conn_point);
+            m_tsr.transform_vec3(bob_trans, wtsr_inv, conn_point);
 
             m_ipc.post_msg(worker, m_ipc.OUT_ADD_FLOATER_BOB, body_id, conn_point, obj_bob.bob_synchronize_pos);
         }
@@ -1154,17 +1152,19 @@ function process_rigid_body_joints(obj) {
         var trans = get_rbj_trans(cons);
         var quat = get_rbj_quat(cons);
 
-        var local = m_mat4.fromRotationTranslation(quat, trans,
-                new Float32Array(16));
-        var world_a = m_mat4.multiply(obj.render.world_matrix, local, new Float32Array(16));
+        var local = m_tsr.identity(_tsr_tmp);
 
-        var world_b_inv = m_mat4.invert(targ.render.world_matrix,
-                new Float32Array(16));
+        local = m_tsr.set_trans(trans, local);
+        local = m_tsr.set_quat(quat, local);
 
-        var local_b = m_mat4.multiply(world_b_inv, world_a, world_b_inv);
+        var world_a = m_tsr.multiply(obj.render.world_tsr, local, _tsr_tmp);
 
-        var local_b_tra = m_util.matrix_to_trans(local_b);
-        var local_b_qua = m_util.matrix_to_quat(local_b);
+        var world_b_inv = m_tsr.invert(targ.render.world_tsr, _tsr_tmp2);
+
+        var local_b = m_tsr.multiply(world_b_inv, world_a, world_b_inv);
+
+        var local_b_tra = m_tsr.get_trans_view(local_b);
+        var local_b_qua = m_tsr.get_quat_view(local_b);
 
         var limits = prepare_limits(cons);
 
@@ -1270,8 +1270,8 @@ exports.clear_constraint = function(obj_a) {
 exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b) {
 
-    var tsr_a = m_tsr.create_sep(trans_a, 1, quat_a, _tsr8_tmp);
-    var tsr_b = m_tsr.create_sep(trans_b, 1, quat_b, _tsr8_tmp2);
+    var tsr_a = m_tsr.set_sep(trans_a, 1, quat_a, _tsr_tmp);
+    var tsr_b = m_tsr.set_sep(trans_b, 1, quat_b, _tsr_tmp2);
 
     // A -> PIVOT
     m_tsr.invert(tsr_a, tsr_a);
@@ -1286,13 +1286,18 @@ exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
 
     m_trans.set_tsr(obj_a, tsr_a);
     m_trans.update_transform(obj_a);
-    exports.set_transform(obj_a, obj_a.render.trans, obj_a.render.quat);
+
+    var trans = m_tsr.get_trans_view(obj_a.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj_a.render.world_tsr);
+    exports.set_transform(obj_a, trans, quat);
 }
 
 exports.set_transform = function(obj, trans, quat) {
 
     var phy = obj.physics;
-    m_tsr.set_sep(obj.render.trans, 1, obj.render.quat, phy.curr_tsr);
+    var obj_trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var obj_quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    m_tsr.set_sep(obj_trans, 1, obj_quat, phy.curr_tsr);
 
     var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
     msg_cache.body_id = phy.body_id;
@@ -1315,17 +1320,19 @@ function sync_transform(obj) {
         var phy = obj.physics;
         var render = obj.render;
 
-        m_vec3.copy(render.trans, phy.cached_trans);
-        m_quat.copy(render.quat, phy.cached_quat);
+        var trans = m_tsr.get_trans_view(render.world_tsr);
+        var quat = m_tsr.get_quat_view(render.world_tsr);
+        m_vec3.copy(trans, phy.cached_trans);
+        m_quat.copy(quat, phy.cached_quat);
 
         var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
         msg_cache.body_id = phy.body_id;
-        msg_cache.trans = render.trans;
+        msg_cache.trans = trans;
 
         if (phy.type == "DYNAMIC")
             m_quat.identity(msg_cache.quat);
         else
-            msg_cache.quat = render.quat;
+            msg_cache.quat = quat;
 
         // NOTE: slow
         var worker = find_worker_by_body_id(phy.body_id);
@@ -1359,12 +1366,15 @@ function allows_transform(obj) {
 }
 
 function transform_changed(obj) {
-    return obj.render.trans[0] != obj.physics.cached_trans[0] ||
-           obj.render.trans[1] != obj.physics.cached_trans[1] ||
-           obj.render.trans[2] != obj.physics.cached_trans[2] ||
-           obj.render.quat[0] != obj.physics.cached_quat[0] ||
-           obj.render.quat[1] != obj.physics.cached_quat[1] ||
-           obj.render.quat[2] != obj.physics.cached_quat[2];
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    return trans[0] != obj.physics.cached_trans[0] ||
+           trans[1] != obj.physics.cached_trans[1] ||
+           trans[2] != obj.physics.cached_trans[2] ||
+           quat[0] != obj.physics.cached_quat[0] ||
+           quat[1] != obj.physics.cached_quat[1] ||
+           quat[2] != obj.physics.cached_quat[2] ||
+           quat[3] != obj.physics.cached_quat[3];
 }
 
 
@@ -1423,7 +1433,7 @@ function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
 
     var v = dest || new Float32Array(3);
 
-    var quat = obj.render.quat;
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
 
     v[0] = vx_local;
     v[1] = vy_local;
@@ -1985,29 +1995,24 @@ function update_steering_wheel_coords(obj_chassis) {
     if (!stw_obj)
         return;
 
-    var stw_matrix = obj_chassis.vehicle.steering_wheel_matrix;
+    var stw_tsr = obj_chassis.vehicle.steering_wheel_tsr;
     var stw_axis = obj_chassis.vehicle.steering_wheel_axis;
 
-    var stw_matrix_world = _mat4_tmp;
+    m_tsr.multiply(obj_chassis.render.world_tsr, stw_tsr, stw_obj.render.world_tsr);
 
-    var chassis_trans = obj_chassis.render.trans;
-    var chassis_quat = obj_chassis.render.quat;
-    m_util.transform_mat4(stw_matrix, 1, chassis_quat, chassis_trans, stw_matrix_world);
-
-    m_util.matrix_to_trans(stw_matrix_world, stw_obj.render.trans);
-    m_util.matrix_to_quat(stw_matrix_world, stw_obj.render.quat);
-
-    var stw_axis_world = _vec4_tmp;
-    m_util.transform_vec4(stw_axis, 1, chassis_quat, chassis_trans, stw_axis_world);
+    var stw_axis_world = _vec3_tmp;
+    m_tsr.transform_dir_vec3(stw_axis, obj_chassis.render.world_tsr, stw_axis_world);
 
     var rotation = _quat4_tmp;
-
     m_quat.setAxisAngle(stw_axis_world, -vehicle.steering *
             vehicle.steering_max * 2 * Math.PI, rotation);
-    m_quat.multiply(rotation, stw_obj.render.quat, stw_obj.render.quat);
+
+    var stw_obj_quat = m_tsr.get_quat_view(stw_obj.render.world_tsr);
+    m_quat.multiply(rotation, stw_obj_quat, stw_obj_quat);
 
     m_trans.update_transform(stw_obj);
 }
+
 
 function update_speedometer(obj_chassis) {
 
@@ -2017,20 +2022,13 @@ function update_speedometer(obj_chassis) {
     if (!sp_obj)
         return;
 
-    var sp_matrix = obj_chassis.vehicle.speedometer_matrix;
+    var sp_tsr = obj_chassis.vehicle.speedometer_tsr;
     var sp_axis = obj_chassis.vehicle.speedometer_axis;
 
-    var sp_matrix_world = _mat4_tmp;
+    m_tsr.multiply(obj_chassis.render.world_tsr, sp_tsr, sp_obj.render.world_tsr);
 
-    var chassis_trans = obj_chassis.render.trans;
-    var chassis_quat = obj_chassis.render.quat;
-    m_util.transform_mat4(sp_matrix, 1, chassis_quat, chassis_trans, sp_matrix_world);
-
-    m_util.matrix_to_trans(sp_matrix_world, sp_obj.render.trans);
-    m_util.matrix_to_quat(sp_matrix_world, sp_obj.render.quat);
-
-    var sp_axis_world = _vec4_tmp;
-    m_util.transform_vec4(sp_axis, 1, chassis_quat, chassis_trans, sp_axis_world);
+    var sp_axis_world = _vec3_tmp;
+    m_tsr.transform_dir_vec3(sp_axis, obj_chassis.render.world_tsr, sp_axis_world);
 
     var rotation = _quat4_tmp;
     var angle = Math.abs(vehicle.speed) * vehicle.speed_ratio;
@@ -2040,7 +2038,9 @@ function update_speedometer(obj_chassis) {
 
     m_quat.setAxisAngle(sp_axis_world, -angle, rotation);
 
-    m_quat.multiply(rotation, sp_obj.render.quat, sp_obj.render.quat);
+    var sp_obj_quat = m_tsr.get_quat_view(sp_obj.render.world_tsr);
+    m_quat.multiply(rotation, sp_obj_quat, sp_obj_quat);
+    m_quat.normalize(sp_obj_quat, sp_obj_quat);
 
     m_trans.update_transform(sp_obj);
 }
@@ -2053,26 +2053,22 @@ function update_tachometer(obj_chassis) {
     if (!tach_obj)
         return;
 
-    var tach_matrix = obj_chassis.vehicle.tachometer_matrix;
+    var tach_tsr = obj_chassis.vehicle.tachometer_tsr;
     var tach_axis = obj_chassis.vehicle.tachometer_axis;
 
-    var tach_matrix_world = _mat4_tmp;
+    m_tsr.multiply(obj_chassis.render.world_tsr, tach_tsr, tach_obj.render.world_tsr);
 
-    var chassis_trans = obj_chassis.render.trans;
-    var chassis_quat = obj_chassis.render.quat;
-    m_util.transform_mat4(tach_matrix, 1, chassis_quat, chassis_trans, tach_matrix_world);
-
-    m_util.matrix_to_trans(tach_matrix_world, tach_obj.render.trans);
-    m_util.matrix_to_quat(tach_matrix_world, tach_obj.render.quat);
-
-    var tach_axis_world = _vec4_tmp;
-    m_util.transform_vec4(tach_axis, 1, chassis_quat, chassis_trans, tach_axis_world);
+    var tach_axis_world = _vec3_tmp;
+    m_tsr.transform_dir_vec3(tach_axis, obj_chassis.render.world_tsr, tach_axis_world);
 
     var rotation = _quat4_tmp;
 
     m_quat.setAxisAngle(tach_axis_world, -Math.abs(vehicle.engine_force) *
             vehicle.delta_tach_angle, rotation);
-    m_quat.multiply(rotation, tach_obj.render.quat, tach_obj.render.quat);
+
+    var tach_obj_quat = m_tsr.get_quat_view(tach_obj.render.world_tsr);
+    m_quat.multiply(rotation, tach_obj_quat, tach_obj_quat);
+    m_quat.normalize(tach_obj_quat, tach_obj_quat);
 
     m_trans.update_transform(tach_obj);
 }

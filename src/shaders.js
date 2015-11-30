@@ -285,6 +285,7 @@ exports.set_default_directives = function(sinfo) {
         "EPSILON",
         "USE_ENVIRONMENT_LIGHT",
         "USE_FOG",
+        "WEBGL2",
         "WO_SKYBLEND",
         "WO_SKYPAPER",
         "WO_SKYREAL",
@@ -396,10 +397,18 @@ exports.set_default_directives = function(sinfo) {
             val = 1;
             break;
 
-        // default > 1
-        // ...
-
+        // integer number
+        case "WEBGL2":
+            val = m_cfg.defaults.webgl2 | 0;
+            break;
+        
         // float
+        case "EPSILON":
+            if (m_cfg.defaults.precision == "highp")
+                val = 0.000001;
+            else
+                val = 0.0001;
+            break;
         case "SHADOW_TEX_RES":
             val = glsl_value(2048.0);
             break;
@@ -432,12 +441,6 @@ exports.set_default_directives = function(sinfo) {
             break;
         case "PRECISION":
             val = m_cfg.defaults.precision;
-            break;
-        case "EPSILON":
-            if (m_cfg.defaults.precision == "highp")
-                val = 0.000001;
-            else
-                val = 0.0001;
             break;
         case "VERTEX_ANIM_MIX_NORMALS_FACTOR":
             val = "u_va_frame_factor";

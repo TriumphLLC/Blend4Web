@@ -2,11 +2,13 @@
 
 #define LIGHT_INDEX 0
 
+#include <math.glslv>
+
 attribute float a_lf_dist;
 attribute vec2 a_lf_bb_vertex;
 attribute vec2 a_texcoord;
 
-uniform mat4 u_view_matrix;
+uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 
 uniform vec3 u_light_directions[NUM_LIGHTS];
@@ -14,13 +16,14 @@ uniform vec3 u_light_directions[NUM_LIGHTS];
 varying vec2 v_texcoord;
 
 void main(void) {
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 
     v_texcoord = a_texcoord;
 
     // locate flare center
 
     vec3 dir = normalize(u_light_directions[LIGHT_INDEX]);
-    vec4 pos_clip = u_proj_matrix * u_view_matrix * vec4(dir, 0.0);
+    vec4 pos_clip = u_proj_matrix * view_matrix * vec4(dir, 0.0);
 
     pos_clip.x /= pos_clip.w; 
     pos_clip.y /= pos_clip.w;

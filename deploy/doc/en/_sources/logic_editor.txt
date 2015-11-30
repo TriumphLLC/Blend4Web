@@ -54,28 +54,50 @@ All possible nodes are described below.
 Entry Point
 -----------
 
-This is where the script starts.
+This is where the script starts. By using multple entry points you can
+create multi-threaded applications.
 
 
-Play Timeline
--------------
+Play Timeline и Stop Timeline
+-----------------------------
 
-Play back the NLA segment starting from the frame to which the marker
-points. Animation is played back until the next marker is met, or to
-the end of the timeline. Finally the next node receives the control.
+Can be used to control NLA animations. The "Play Timeline" node plays
+NLA fragment starting with a frame specified by the marker. Animation
+plays until next marker is encounterd, or to the end of the scene's
+timeline. After that, control passes on to the next node. The "Stop
+Timeline" node stops the playback.
 
 [image]
 
 
-Play Animation
---------------
+Play Animation & Stop Animation
+-------------------------------
 
-Play the object's animation. The animation name can be optionally
-specified.
+Can be used to control object animation. "Play Animation" is used to
+play object animation. Animation's name can be specified. 3 options
+are possible:
+
+Regular Action:
+
+[image]
+
+Shader Action:
+
+[image]
+
+Particle system:
+
+[image]
+
+The "Stop Animation" node stops animation.
 
 
-Select & Play Timeline
-----------------------
+Select & Play Timeline (Deprecated)
+-----------------------------------
+
+Note: Deprecated! Isn't recommended to use. Instead, using a
+  combination of "Switch Select" and "Play Timeline" nodes is
+  recommended.
 
 Wait until the user selects an object (on desktops - with a mouse
 click, on mobile devices - with a touch). If the object, which is
@@ -84,8 +106,12 @@ to the "Play Timeline" node. If any other object is selected - then
 immediately transfer control to the next node.
 
 
-Select & Play Animation
------------------------
+Select & Play Animation (Deprecated)
+------------------------------------
+
+Note: Deprecated! Isn't recommended to use. Instead, using a
+  combination of "Switch Select" and "Play Timeline" nodes is
+  recommended.
 
 Wait until the user selects an object (on desktops - with a mouse
 click, on mobile devices - with a touch). If the object, which is
@@ -94,8 +120,11 @@ to the "Play Animation" node. If any other object is selected - then
 immediately transfer control to the next node.
 
 
-Select
-------
+Select (Deprecated)
+-------------------
+
+Note: Deprecated! Isn't recommended to use. Instead, using a "Switch
+  Select" node is recommended.
 
 It is similar to the "Select & Play" node, except the transition
 happens instead of animation. This function allows to implement a
@@ -178,6 +207,25 @@ Outline
 -------
 
 Controls object outliing effect.
+
+
+Move Camera
+-----------
+
+Can be used to move the camera, including smooth interpolation of its
+position.
+
+
+Play Sound & Stop Sound
+-----------------------
+
+Can be used to play and stop a speaker's sound.
+
+
+Switch Select
+-------------
+
+Can be used to trace the selection of any object from the object list.
 
 
 Debugging

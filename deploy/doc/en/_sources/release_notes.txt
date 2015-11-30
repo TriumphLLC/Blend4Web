@@ -3,6 +3,228 @@ Release Notes
 *************
 
 
+v15.11
+======
+
+
+New Features
+------------
+
+* Initial support of WebGL 2.0 technology.
+
+     New API features are automatically provided with compatible
+     browser and hardware
+
+* New logic editor nodes:
+
+     * Camera animation.
+
+          The option to smoothly change camera's position has been
+          added to the "Move Camera" node.
+
+     * New: behavior animation.
+
+          The "Play Animation" node can now add *Behavior* animation
+          to an object.
+
+     * New "Stop Animation" node
+
+          Can be used to stop object's animation
+
+     * New "Stop Sound" node
+
+          Can be used to stop a speaker's sound playback
+
+     * New "Stop Timeline" node
+
+          Can be used to stop NLA animation
+
+* MSAA support
+
+     This antialiasing algorithm is used in systems compatible with
+     WebGL 2.0. For now, it allows highest image quality on the ULTRA
+     settings by using 16x MSAA algorithm.
+
+* Viewer interface improvements.
+
+     A "Home" button has been added. When pushed, it will open the
+     basic scene specified in the application's URL parameters, or, if
+     there isn't any, a placeholder scene with Blend4Web cubic logo
+     will be opened.
+
+     The "Reset" button has been moved to the right side of the
+     application's upper panel and will now reset not only internal
+     but also URL parameters (such as loaded basic scene) of the
+     Viewer.
+
+     The "Auto View Mode" button used for automatic walkthrough of all
+     scenes has been moved to the "Tools & Debug" panel.
+
+* High precision rendering performance measure mechanic.
+
+     Using the WebGL extension EXT_disjoint_timer_query allows high
+     precision timers to be created, which can be used to measure the
+     performance of GPU operations. With the activation of the debug
+     mode in the Viewer (''HUD Info`` option in the "Tools & Debug"
+     panel), the time (in milliseconds) the GPU needs to render part
+     of the scene (subscene) is shown in the last column of the debug
+     information.
+
+* Web player improvements.
+
+     Now, the cursor changes appearance while the camera is moving.
+
+* There are numerous additions and improvements in the
+  documentation.
+
+
+Changes
+-------
+
+* The "Copy Cursor Location" button has been renamed to "Look At
+  Cursor", and its behavior has also been changed.
+
+     Now, by pressing this button, you can rotate the camera to the
+     pointed direction.
+
+* Changes in API.
+
+     For compatibility with third-party
+     applications,:b4wref:*transform.set_matrix*, get_matrix,
+     set_matrix_rel and get_matrix_rel methods has been added, but for
+     optimization purposes, using set_tsr, get_tsr, set_tsr_rel and
+     get_tsr_rel methods is recommended.
+
+     Now the hide_object and show_object functions will, by default,
+     change the visibility of an object and all its children. To
+     change only the current object's visibility, "ignore_children"
+     parameter with "true" value should be sent.
+
+     The following method has been declared deprecated and will be
+     removed in further releases: create_sep() (tsr module). tsr
+     module's set_sep() method should be used instead of it.
+
+     camera module API has been changed considerably. Deprecated
+     methods *is_camera()*, *rotate_pivot()*, *rotate_hover_cam()*,
+     *get_hover_cam_angle()*, *set_hover_cam_angle()*,
+     *translate_hover_cam_v()*, *set_eye_params()*, *rotate()*,
+     *get_angles()* have been removed. The following methods have also
+     been declared deprecated: set_look_at, rotate_eye_camera,
+     rotate_target_camera, set_trans_pivot, zoom_object, set_pivot,
+     rotate_hover_camera, get_hover_cam_pivot, get_eye, get_pivot,
+     hover_cam_set_translation, set_hover_pivot,
+     get_hover_angle_limits, get_cam_dist_limits,
+     apply_vertical_limits, clear_hover_angle_limits,
+     apply_hover_angle_limits, apply_distance_limits,
+     clear_distance_limits, get_vertical_limits,
+     apply_horizontal_limits, get_horizontal_limits,
+     clear_vertical_limits, clear_horizontal_limits. In their place,
+     we recommend using methods starting with camera type prefix:
+     "target_...", "eye_...", "static_...", "hover_...". Methods
+     set_velocity_params and get_velocity_params have also been
+     declared deprecated, and instead of them, using set_velocities
+     and  b4wref:*camera.get_velocities*, respecitively, is
+     recommended
+
+     For working with the distance between the current TARGET or HOVER
+     camera and the pivot point, target_get_distance,
+     target_set_distance and hover_get_distance methods have been
+     added
+
+* In the Viewer, "Play All" and "Stop All" buttons have been added
+  for playing and stopping all animations, respecitively.
+
+* Logic editor changes:
+
+     * "Select" node and "Select & Play Animation" and "Select &
+       Play Timeline" nodes based on it, have been declared
+       deprecated. As a replacement, using the combination of "Switch
+       Select", "Play Animation" and "Play Timeline" nodes is
+       recommended.
+
+     * SDK examples, which were using aforementioned deprecated
+       nodes, have been updated.
+
+     * For the logic nodes behavior transparency, "Cyclic NLA"
+       option has been switched off.
+
+* Изменено поведение HOVER-камеры при отсутствии у неё лимитов.
+
+     * HOVER camera will now be hanging over pivot point at a fixed
+       distance and fixed angle.
+
+* Glow effect changes.
+
+     Light sources will now influence glow effect, if "Material" or
+     "Extended Material" nodes are present.
+
+
+Fixes
+-----
+
+* Project Manager errors were fixed.
+
+     Links to the developer's applications included in the project are
+     now showing in the list.
+
+     Formatting in the compiled applications' html files has been
+     fixed.
+
+* Skinning on the mobile platforms has been improved.
+
+* Addon's translation files connection error has been fixed.
+
+     An error that could have happened on some devices because of
+     system's inability to process addon's translation files, has been
+     fixed.
+
+* Particle objects shadow casting improvements.
+
+     Fix behavior of the shadows casted by "Hair" particles (used as
+     billboards) while changing the size of the main canvas.
+
+* Engine workflow on the Mali 400 series GPU has been fixed.
+
+* Flat reflections and fog for "double_sided_lighting" materials
+  have been fixed.
+
+* Local Storage limited quota on the Safari browser in the incognito
+  mode no longer causes error.
+
+* Functionality of the *Render Glow Over Transparent Objects`*
+  option in the Blender's glow settings has been restored.
+
+* Several video texture playback issues have been fixed.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     It's strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+* Incorrect Depth texture behavior on Windows OS.
+
+     Depth textures are unstable on Google Chrome 32 bit on Windows.
+     This problem is fixed in the beta version of the browser.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+* You may require to install Python 3.4 on the systems with Apple OS
+  X and Blender 2.76. This issue is connected with Blender bug
+  https://developer.blender.org/T46623.
+
+
 v15.10
 ======
 

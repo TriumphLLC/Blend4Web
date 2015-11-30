@@ -65,13 +65,13 @@ exports.set_translation = function(obj, trans) {
     var render = obj.render;
 
     if (m_cons.has_child_of(obj)) {
-        m_tsr.set_trans(trans, render.tsr);
+        m_tsr.set_trans(trans, render.world_tsr);
         var tsr_par = m_cons.get_child_of_parent_tsr(obj);
         var tsr_inv = m_tsr.invert(tsr_par, _tsr_tmp);
         var offset = m_cons.get_child_of_offset(obj);
-        m_tsr.multiply(tsr_inv, render.tsr, offset);
+        m_tsr.multiply(tsr_inv, render.world_tsr, offset);
     } else
-        m_vec3.copy(trans, render.trans);
+        m_tsr.set_trans(trans, render.world_tsr);
 }
 
 exports.set_translation_rel = set_translation_rel;
@@ -81,12 +81,13 @@ function set_translation_rel(obj, trans) {
         m_tsr.set_trans(trans, offset);
     } else {
         var render = obj.render;
-        m_vec3.copy(trans, render.trans);
+        m_tsr.set_trans(trans, render.world_tsr);
     }
 }
 
 exports.get_translation = function(obj, dest) {
-    m_vec3.copy(obj.render.trans, dest);
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    m_vec3.copy(trans, dest);
     return dest;
 }
 
@@ -95,7 +96,8 @@ exports.get_translation_rel = function(obj, dest) {
         var offset = m_cons.get_child_of_offset(obj);
         m_vec3.copy(m_tsr.get_trans_view(offset), dest);
     } else {
-        m_vec3.copy(obj.render.trans, dest);
+        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+        m_vec3.copy(trans, dest);
     }
     return dest;
 }
@@ -105,13 +107,13 @@ function set_rotation(obj, quat) {
     var render = obj.render;
 
     if (m_cons.has_child_of(obj)) {
-        m_tsr.set_quat(quat, render.tsr);
+        m_tsr.set_quat(quat, render.world_tsr);
         var tsr_par = m_cons.get_child_of_parent_tsr(obj);
         var tsr_inv = m_tsr.invert(tsr_par, _tsr_tmp);
         var offset = m_cons.get_child_of_offset(obj);
-        m_tsr.multiply(tsr_inv, render.tsr, offset);
+        m_tsr.multiply(tsr_inv, render.world_tsr, offset);
     } else
-        m_quat.copy(quat, render.quat);
+        m_tsr.set_quat(quat, render.world_tsr);
 }
 
 exports.set_rotation_rel = set_rotation_rel;
@@ -119,14 +121,13 @@ function set_rotation_rel(obj, quat) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.set_quat(quat, offset);
-    } else {
-        var render = obj.render;
-        m_quat.copy(quat, render.quat);
-    }
+    } else
+        m_tsr.set_quat(quat, obj.render.world_tsr);
 }
 
 exports.get_rotation = function(obj, dest) {
-    m_quat.copy(obj.render.quat, dest);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    m_quat.copy(quat, dest);
     return dest;
 }
 
@@ -135,7 +136,8 @@ exports.get_rotation_rel = function(obj, dest) {
         var offset = m_cons.get_child_of_offset(obj);
         m_quat.copy(m_tsr.get_quat_view(offset), dest);
     } else {
-        m_quat.copy(obj.render.quat, dest);
+        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        m_quat.copy(quat, dest);
     }
     return dest;
 }
@@ -158,19 +160,21 @@ exports.set_scale = function(obj, scale) {
         var scale_par = m_tsr.get_scale(m_cons.get_child_of_parent_tsr(obj));
         m_tsr.set_scale(scale/scale_par, offset);
     } else
-        render.scale = scale;
+        m_tsr.set_scale(scale, render.world_tsr);
 }
 
 exports.set_scale_rel = function(obj, scale) {
+    var render = obj.render;
+
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.set_scale(scale, offset);
     } else
-        obj.render.scale = scale;
+        m_tsr.set_scale(scale, render.world_tsr);
 }
 
 exports.get_scale = function(obj) {
-    return obj.render.scale;
+    return m_tsr.get_scale(obj.render.world_tsr);
 }
 
 exports.get_scale_rel = function(obj) {
@@ -178,20 +182,20 @@ exports.get_scale_rel = function(obj) {
         var offset = m_cons.get_child_of_offset(obj);
         return m_tsr.get_scale(offset);
     } else
-        return obj.render.scale;
+        return m_tsr.get_scale(obj.render.world_tsr);
 }
 
 exports.set_tsr = function(obj, tsr) {
     var render = obj.render;
 
     if (m_cons.has_child_of(obj)) {
-        m_tsr.set_trans(trans, render.tsr);
+        m_tsr.set_trans(trans, render.world_tsr);
         var tsr_par = m_cons.get_child_of_parent_tsr(obj);
         var tsr_inv = m_tsr.invert(tsr_par, _tsr_tmp);
         var offset = m_cons.get_child_of_offset(obj);
-        m_tsr.multiply(tsr_inv, render.tsr, offset);
+        m_tsr.multiply(tsr_inv, render.world_tsr, offset);
     } else
-        set_tsr_raw(obj, tsr);
+        m_tsr.copy(tsr, render.world_tsr);
 }
 
 exports.set_tsr_rel = set_tsr_rel;
@@ -200,25 +204,12 @@ function set_tsr_rel(obj, tsr) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.copy(tsr, offset);
     } else
-        set_tsr_raw(obj, tsr);
+        m_tsr.copy(tsr, obj.render.world_tsr);
 }
 
-function set_tsr_raw(obj, tsr) {
-    var render = obj.render;
-    render.trans[0] = tsr[0];
-    render.trans[1] = tsr[1];
-    render.trans[2] = tsr[2];
-    render.scale = tsr[3];
-    render.quat[0] = tsr[4];
-    render.quat[1] = tsr[5];
-    render.quat[2] = tsr[6];
-    render.quat[3] = tsr[7];
-}
 
 exports.get_tsr = function(obj, dest) {
-    var render = obj.render;
-    m_tsr.set_sep(render.trans, render.scale, render.quat, dest);
-    return dest;
+    return m_tsr.copy(obj.render.world_tsr, dest);
 }
 
 exports.get_tsr_rel = get_tsr_rel;
@@ -226,10 +217,8 @@ function get_tsr_rel(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.copy(offset, dest);
-    } else {
-        var render = obj.render;
-        m_tsr.set_sep(render.trans, render.scale, render.quat, dest);
-    }
+    } else
+        m_tsr.copy(obj.render.world_tsr, dest);
     return dest;
 }
 
@@ -238,9 +227,10 @@ exports.get_object_size = function(obj) {
     var render = obj.render;
     var bb = render.bb_original;
 
-    var x_size = render.scale * (bb.max_x - bb.min_x);
-    var y_size = render.scale * (bb.max_y - bb.min_y);
-    var z_size = render.scale * (bb.max_z - bb.min_z);
+    var scale  = m_tsr.get_scale(render.world_tsr);
+    var x_size = scale * (bb.max_x - bb.min_x);
+    var y_size = scale * (bb.max_y - bb.min_y);
+    var z_size = scale * (bb.max_z - bb.min_z);
 
     var size = 0.5 * Math.sqrt(x_size * x_size + y_size * y_size + z_size * z_size);
     return size;
@@ -263,7 +253,7 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
         dest[1] = (bb.max_y + bb.min_y)/2;
         dest[2] = (bb.max_z + bb.min_z)/2;
 
-        m_vec3.transformMat4(dest, render.world_matrix, dest);
+        m_tsr.transform_vec3(dest, render.world_tsr, dest);
     }
 
     return dest;
@@ -296,7 +286,7 @@ exports.rotate_local = function(obj, quat) {
 
 exports.update_transform = update_transform;
 /**
- * Set object render world_matrix.
+ * Set object render world_tsr.
  * NOTE: do not try to update batched objects (buggy _dg_parent influence)
  * @methodOf transform
  * @param {Object3D} obj Object 3D
@@ -317,31 +307,17 @@ function update_transform(obj) {
         m_cam.update_camera(obj);
 
     // should not change after constraint update
-    var trans = render.trans;
-    var scale = render.scale;
-    var quat = render.quat;
+    var trans = m_tsr.get_trans_view(render.world_tsr);
+    var quat = m_tsr.get_quat_view(render.world_tsr);
 
-    m_tsr.set_sep(trans, scale, quat, render.tsr);
-
-    var wm = render.world_matrix;
-
-    m_mat4.fromQuat(quat, wm);
-
-    // TODO: remove world matrix and move to tsr system
-    if (obj_type != "CAMERA")
-        m_util.scale_mat4(wm, scale, wm);
-
-    wm[12] = trans[0];
-    wm[13] = trans[1];
-    wm[14] = trans[2];
-
-    m_mat4.invert(wm, render.inv_world_matrix);
+    if (obj_type == "CAMERA")
+        m_tsr.set_scale(1, render.world_tsr);
 
     // NOTE: available only after batch creation (really needed now?)
     if (render.bb_local && render.bb_world) {
-        m_bounds.bounding_box_transform(render.bb_local, wm, render.bb_world);
-        m_bounds.bounding_sphere_transform(render.bs_local, wm, render.bs_world);
-        m_bounds.bounding_ellipsoid_transform(render.be_local, render.tsr,
+        m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, render.bb_world);
+        m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, render.bs_world);
+        m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr,
                                              render.be_world)
     }
 
@@ -352,9 +328,9 @@ function update_transform(obj) {
     case "MESH":
         var armobj = obj.armobj;
         if (armobj) {
-            var armobj_tsr = armobj.render.tsr;
+            var armobj_tsr = armobj.render.world_tsr;
             m_tsr.invert(armobj_tsr, _tsr_tmp);
-            m_tsr.multiply(_tsr_tmp, render.tsr, _tsr_tmp);
+            m_tsr.multiply(_tsr_tmp, render.world_tsr, _tsr_tmp);
             m_vec4.set(_tsr_tmp[0], _tsr_tmp[1], _tsr_tmp[2], _tsr_tmp[3],
                      render.arm_rel_trans);
             m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
@@ -440,11 +416,14 @@ function update_transform(obj) {
 }
 
 exports.distance = function(obj1, obj2) {
-    return m_vec3.dist(obj1.render.trans, obj2.render.trans);
+    var trans1 = m_tsr.get_trans_view(obj1.render.world_tsr);
+    var trans2 = m_tsr.get_trans_view(obj2.render.world_tsr);
+    return m_vec3.dist(trans1, trans2);
 }
 
 exports.obj_point_distance = function(obj, point) {
-    return m_vec3.dist(obj.render.trans, point);
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    return m_vec3.dist(trans, point);
 }
 
 exports.get_object_bounding_box = function(obj) {

@@ -792,9 +792,15 @@ exports.check_bpy_data = function(bpy_data) {
             report("camera", camera, "b4w_zoom_velocity");
         }
 
-        if (!("b4w_use_distance_limits" in camera)) {
-            camera["b4w_use_distance_limits"] = false;
-            report("camera", camera, "b4w_use_distance_limits");
+        if (!("b4w_use_target_distance_limits" in camera)) {
+            camera["b4w_use_target_distance_limits"] 
+                    = camera["b4w_use_distance_limits"] || false;
+            report("camera", camera, "b4w_use_target_distance_limits");
+        }
+
+        if (!("b4w_use_zooming" in camera)) {
+            camera["b4w_use_zooming"] = camera["b4w_use_distance_limits"] || false;
+            report("camera", camera, "b4w_use_zooming");
         }
 
         if (!("b4w_distance_min" in camera)) {
@@ -2547,6 +2553,21 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
                 if (!snode["bools"]["not_wait"])
                     snode["bools"]["not_wait"] = false
 
+                break;
+            case "SWITCH_SELECT":
+                for (var id in snode["objects_paths"]) {
+                    var path = snode["objects_paths"][id];
+                    var name = path[0];
+                    if (path.length > 1)
+                        for (var k = 1; k < path.length; k++)
+                            name += "*" + path[k];
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == name) {
+                            bpy_obj["b4w_selectable"] = true;
+                        }
+                    }
+                }
                 break;
             case "SELECT_PLAY":
                 report_raw("Logic nodes type \"SELECT_PLAY\" is deprecated, " +

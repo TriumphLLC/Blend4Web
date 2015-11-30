@@ -14,3 +14,15 @@ var $;
 // missing in closure compiler https://github.com/google/closure-compiler/issues/806
 HTMLLinkElement.prototype.download;
 HTMLAreaElement.prototype.download;
+
+// missing WebGL 2.0 stuff
+WebGLRenderingContext.RGB8;
+WebGLRenderingContext.RGBA8;
+WebGLRenderingContext.DEPTH;
+WebGLRenderingContext.DEPTH_COMPONENT24;
+WebGLRenderingContext.MAX_SAMPLES;
+WebGLRenderingContext.READ_FRAMEBUFFER;
+WebGLRenderingContext.DRAW_FRAMEBUFFER;
+WebGLRenderingContext.blitFramebuffer;
+WebGLRenderingContext.renderbufferStorageMultisample;
+

@@ -17,6 +17,7 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
+        background_color: [1,1,1,0],
         show_fps: true,
         autoresize: true
     });

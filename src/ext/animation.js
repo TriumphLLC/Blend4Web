@@ -28,9 +28,11 @@
 b4w.module["animation"] = function(exports, require) {
 
 var m_anim  = require("__animation");
-var m_print = require("__print");
 var m_armat = require("__armature");
 var m_obj_util = require("__obj_util");
+var m_print = require("__print");
+var m_tsr = require("__tsr");
+
 
 /**
  * Animation finish callback.
@@ -172,7 +174,7 @@ exports.AB_FINISH_RESET = m_anim.AB_FINISH_RESET;
  */
 exports.AB_FINISH_STOP = m_anim.AB_FINISH_STOP;
 
-var _tsr8_tmp = new Float32Array(8);
+var _tsr_tmp = m_tsr.create();
 
 /**
  * Check if the object is animated.
@@ -191,7 +193,7 @@ exports.is_animated = function(obj) {
  * @deprecated Use {@link module:animation.get_anim_names|animation.get_anim_names} instead.
  */
 exports.get_actions = function() {
-    m_print.error("get_actions() deprecated, use get_anim_names() instead");
+    m_print.error_deprecated("get_actions", "get_anim_names");
     var anames = [];
     var actions = m_anim.get_all_actions();
     for (var i = 0; i < actions.length; i++)
@@ -208,7 +210,7 @@ exports.get_actions = function() {
  * @deprecated Use {@link module:animation.get_current_anim_name|animation.get_current_anim_name} instead.
  */
 exports.get_current_action = function(obj, slot_num) {
-    m_print.error("get_current_action() deprecated, use get_current_anim_name() instead");
+    m_print.error_deprecated("get_current_action", "get_current_anim_name");
     return exports.get_current_anim_name(obj, slot_num);
 }
 
@@ -361,7 +363,7 @@ exports.is_play = function(obj, slot_num) {
  * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.set_current_frame_float = function(obj, cff, slot_num) {
-    m_print.error("set_current_frame_float() deprecated, use set_frame() instead");
+    m_print.error_deprecated("set_current_frame_float", "set_frame");
     exports.set_frame(obj, cff, slot_num);
 }
 /**
@@ -372,7 +374,7 @@ exports.set_current_frame_float = function(obj, cff, slot_num) {
  * @deprecated Use {@link module:animation.get_frame|animation.get_frame} instead
  */
 exports.get_current_frame_float = function(obj, slot_num) {
-    m_print.error("get_current_frame_float() deprecated, use get_frame() instead");
+    m_print.error_deprecated("get_current_frame_float", "use get_frame");
     return exports.get_frame(obj, slot_num);
 }
 
@@ -481,7 +483,7 @@ exports.get_speed = function(obj, slot_num) {
  * @deprecated Use {@link module:animation.get_anim_start_frame|animation.get_anim_start_frame} and {@link module:animation.get_anim_length|animation.get_anim_length} instead
  */
 exports.get_frame_range = function(obj, slot_num) {
-    m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
+    m_print.error_once("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
         var anim_slot = obj.anim_slots[slot_num];
@@ -542,7 +544,7 @@ exports.get_anim_length = function(obj, slot_num) {
  * @deprecated Use {@link module:animation.set_behavior|animation.set_behavior} instead.
  */
 exports.cyclic = function(obj, cyclic_flag, slot_num) {
-    m_print.error("cyclic() deprecated, use set_behavior() instead");
+    m_print.error_deprecated("cyclic", "set_behavior");
     var behavior = cyclic_flag ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET;
     exports.set_behavior(obj, behavior, slot_num);
 }
@@ -554,7 +556,7 @@ exports.cyclic = function(obj, cyclic_flag, slot_num) {
  * @deprecated Use {@link module:animation.get_behavior|animation.get_behavior} instead.
  */
 exports.is_cyclic = function(obj, slot_num) {
-    m_print.error("is_cyclic() deprecated, use get_behavior() instead");
+    m_print.error_deprecated("is_cyclic", "get_behavior");
     if (!m_anim.is_animated(obj))
         return false;
 
@@ -617,7 +619,7 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
  * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
  */
 exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
-    m_print.error("update_object_animation() deprecated, use set_frame() instead");
+    m_print.error_deprecated("update_object_animation", "set_frame");
     if (!m_anim.is_animated(obj))
         return;
 
@@ -646,7 +648,7 @@ exports.frame_to_sec = function(frame) {
  * @deprecated Use {@link module:armature.get_bone_tsr|armature.get_bone_tsr} instead
  */
 exports.get_bone_translation = function(armobj, bone_name, dest) {
-    m_print.error("get_bone_translation() deprecated, use armature.get_bone_tsr() instead");
+    m_print.error_deprecated("get_bone_translation", "armature.get_bone_tsr");
     if (!m_obj_util.is_armature(armobj))
         return null;
 
@@ -658,7 +660,7 @@ exports.get_bone_translation = function(armobj, bone_name, dest) {
     if (!dest)
         var dest = new Float32Array(3);
 
-    var tsr = _tsr8_tmp;
+    var tsr = _tsr_tmp;
     m_armat.get_bone_tsr(armobj, bone_name, false, false, tsr);
 
     dest[0] = tsr[0];
@@ -676,7 +678,7 @@ exports.get_bone_translation = function(armobj, bone_name, dest) {
  * @deprecated Unused
  */
 exports.get_first_armature_object = function(obj) {
-    m_print.error("get_first_armature_object() deprecated");
+    m_print.error_once("get_first_armature_object() deprecated");
     return null;
 }
 

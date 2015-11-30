@@ -21,6 +21,31 @@ var EYE_LOOK_AT = new Float32Array([-1.5, 0.5, 0]);
 var TARGET_POS = new Float32Array([1.5, 0, 3]);
 var TARGET_PIVOT = new Float32Array([1.5, 0, 0]);
 
+var DIST_LIMITS = {
+    min: 1,
+    max: 2
+};
+var EYE_VERT_LIMITS = {
+    down: -Math.PI/16, 
+    up: Math.PI/16
+}
+var EYE_HORIZ_LIMITS = {
+    left: Math.PI/4, 
+    right: -Math.PI/4
+}
+var TARGET_VERT_LIMITS = {
+    down: -Math.PI/16, 
+    up: -Math.PI/4
+}
+var TARGET_HORIZ_LIMITS = {
+    left: -Math.PI/4, 
+    right: Math.PI/4
+}
+var HOVER_VERT_LIMITS = {
+    down: -Math.PI/16, 
+    up: -Math.PI/4
+}
+
 var HOVER_PIVOT = new Float32Array([4.5, 0, 0]);
 
 var _default_pos = new Float32Array(3);
@@ -103,7 +128,7 @@ function static_camera_action() {
     m_app.set_camera_move_style(m_cam.MS_STATIC);
 
     var camera = m_scenes.get_active_camera();
-    m_cam.set_look_at(camera, STATIC_POS, STATIC_LOOK_AT, m_util.AXIS_Y);
+    m_cam.static_set_look_at(camera, STATIC_POS, STATIC_LOOK_AT, m_util.AXIS_Y);
 }
 
 function eye_camera_action() {
@@ -112,11 +137,11 @@ function eye_camera_action() {
     var camera = m_scenes.get_active_camera();
     
     // setting camera position/orientation
-    m_cam.set_look_at(camera, EYE_POS, EYE_LOOK_AT, m_util.AXIS_Y);
+    m_cam.eye_set_look_at(camera, EYE_POS, EYE_LOOK_AT);
     
     // setting some limits
-    m_cam.apply_horizontal_limits(camera, Math.PI/4, -Math.PI/4);
-    m_cam.apply_vertical_limits(camera, -Math.PI/16, Math.PI/16);
+    m_cam.eye_set_horizontal_limits(camera, EYE_HORIZ_LIMITS);
+    m_cam.eye_set_vertical_limits(camera, EYE_VERT_LIMITS);
 
     // setting some rotation
     m_cam.rotate_camera(camera, 0, -Math.PI/16, true, true);
@@ -128,15 +153,12 @@ function target_camera_action() {
     var camera = m_scenes.get_active_camera();
     
     // setting camera position/orientation
-    m_cam.set_look_at(camera, TARGET_POS, TARGET_PIVOT, m_util.AXIS_Y);
-    
-    // the "pivot" point needed for the TARGET camera
-    m_cam.set_pivot(camera, TARGET_PIVOT);
+    m_cam.target_set_trans_pivot(camera, TARGET_POS, TARGET_PIVOT);
     
     // setting some limits
-    m_cam.apply_distance_limits(camera, 1, 2);
-    m_cam.apply_horizontal_limits(camera, -Math.PI/4, Math.PI/4);
-    m_cam.apply_vertical_limits(camera, -Math.PI/16, -Math.PI/4);
+    m_cam.target_set_distance_limits(camera, DIST_LIMITS);
+    m_cam.target_set_horizontal_limits(camera, TARGET_HORIZ_LIMITS);
+    m_cam.target_set_vertical_limits(camera, TARGET_VERT_LIMITS);
 
     // setting some rotation
     m_cam.rotate_camera(camera, Math.PI/8, 0, true, true);   
@@ -149,9 +171,9 @@ function hover_camera_action() {
 
     // setting necessary parameters for the HOVER camera: the "pivot" point, 
     // the distance limits and the hover angle limits
-    m_cam.set_hover_pivot(camera, HOVER_PIVOT);
-    m_cam.apply_distance_limits(camera, 1, 2);
-    m_cam.apply_hover_angle_limits(camera, -Math.PI/16, -Math.PI/4);
+    m_cam.hover_set_pivot_translation(camera, HOVER_PIVOT);
+    m_cam.hover_set_distance_limits(camera, DIST_LIMITS);
+    m_cam.hover_set_vertical_limits(camera, HOVER_VERT_LIMITS);
 
     // setting some rotation
     m_cam.rotate_camera(camera, -Math.PI/4, -Math.PI/8, true, true);

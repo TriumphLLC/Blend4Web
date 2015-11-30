@@ -123,7 +123,7 @@
  * @cc_externs precision quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs wireframe_debug
+ * @cc_externs wireframe_debug url_params
  */
 b4w.module["config"] = function(exports, require) {
 

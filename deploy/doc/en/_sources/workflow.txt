@@ -84,8 +84,14 @@ Export options are described in detail in the corresponding section.
 Displaying Scenes in the Viewer
 ===============================
 
-When using the local development server and the Run in Viewer export
-option, scenes are displayed in the Scene Viewer immediately after the
+When using the local development server it's possible to preview
+current scene using "Fast Preview" button, located on the
+"Scene->Development Server" panel in Blender. In this case the scene
+will be exported inside some temporary storage and loaded in the
+Viewer app.
+
+The other method is using Run in Viewer export option. In this case
+the scene will be displayed in the Viewer app immediately after the
 export.
 
 For the long-term storage of the scene in the scene list of the

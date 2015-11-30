@@ -1,144 +1,141 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Blend4Web Viewer</title>
-<meta charset="utf-8">
+    <title>Blend4Web Viewer</title>
 
-<link rel="shortcut icon" href="images/favicon.png"/>
+    <meta charset="utf-8">
 
-<link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
-<link rel="stylesheet" href="colorpicker.css" type="text/css" />
-<link rel="stylesheet" href="viewer.css" type="text/css" />
+    <link rel="shortcut icon" href="images/favicon.png"/>
 
+    <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="colorpicker.css" type="text/css" />
+    <link rel="stylesheet" href="viewer.css" type="text/css" />
 
-<script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
+    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="colorpicker.js"></script>
 
-<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
-<script type="text/javascript" src="colorpicker.js"></script>
+    <script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
-<script type="text/javascript" src="../../src/b4w.js"></script>
-<script type="text/javascript" src="../../src/anchors.js"></script>
-<script type="text/javascript" src="../../src/animation.js"></script>
-<script type="text/javascript" src="../../src/armature.js"></script>
-<script type="text/javascript" src="../../src/assets.js"></script>
-<script type="text/javascript" src="../../src/batch.js"></script>
-<script type="text/javascript" src="../../src/boundings.js"></script>
-<script type="text/javascript" src="../../src/camera.js"></script>
-<script type="text/javascript" src="../../src/compat.js"></script>
-<script type="text/javascript" src="../../src/config.js"></script>
-<script type="text/javascript" src="../../src/constraints.js"></script>
-<script type="text/javascript" src="../../src/container.js"></script>
-<script type="text/javascript" src="../../src/controls.js"></script>
-<script type="text/javascript" src="../../src/curve.js"></script>
-<script type="text/javascript" src="../../src/data.js"></script>
-<script type="text/javascript" src="../../src/dds.js"></script>
-<script type="text/javascript" src="../../src/debug.js"></script>
-<script type="text/javascript" src="../../src/extensions.js"></script>
-<script type="text/javascript" src="../../src/geometry.js"></script>
-<script type="text/javascript" src="../../src/graph.js"></script>
-<script type="text/javascript" src="../../src/hud.js"></script>
-<script type="text/javascript" src="../../src/ipc.js"></script>
-<script type="text/javascript" src="../../src/lights.js"></script>
-<script type="text/javascript" src="../../src/loader.js"></script>
-<script type="text/javascript" src="../../src/logic_nodes.js"></script>
-<script type="text/javascript" src="../../src/nla.js"></script>
-<script type="text/javascript" src="../../src/logic_nodes.js"></script>
-<script type="text/javascript" src="../../src/nodemat.js"></script>
-<script type="text/javascript" src="../../src/objects.js"></script>
-<script type="text/javascript" src="../../src/obj_util.js"></script>
-<script type="text/javascript" src="../../src/particles.js"></script>
-<script type="text/javascript" src="../../src/physics.js"></script>
-<script type="text/javascript" src="../../src/prerender.js"></script>
-<script type="text/javascript" src="../../src/primitives.js"></script>
-<script type="text/javascript" src="../../src/print.js"></script>
-<script type="text/javascript" src="../../src/reformer.js"></script>
-<script type="text/javascript" src="../../src/renderer.js"></script>
-<script type="text/javascript" src="../../src/scenegraph.js"></script>
-<script type="text/javascript" src="../../src/scenes.js"></script>
-<script type="text/javascript" src="../../src/sfx.js"></script>
-<script type="text/javascript" src="../../src/shaders.js"></script>
-<script type="text/javascript" src="../../src/textures.js"></script>
-<script type="text/javascript" src="../../src/time.js"></script>
-<script type="text/javascript" src="../../src/transform.js"></script>
-<script type="text/javascript" src="../../src/tsr.js"></script>
-<script type="text/javascript" src="../../src/util.js"></script>
-<script type="text/javascript" src="../../src/version.js"></script>
+    <script type="text/javascript" src="../../src/b4w.js"></script>
+    <script type="text/javascript" src="../../src/anchors.js"></script>
+    <script type="text/javascript" src="../../src/animation.js"></script>
+    <script type="text/javascript" src="../../src/armature.js"></script>
+    <script type="text/javascript" src="../../src/assets.js"></script>
+    <script type="text/javascript" src="../../src/batch.js"></script>
+    <script type="text/javascript" src="../../src/boundings.js"></script>
+    <script type="text/javascript" src="../../src/camera.js"></script>
+    <script type="text/javascript" src="../../src/compat.js"></script>
+    <script type="text/javascript" src="../../src/config.js"></script>
+    <script type="text/javascript" src="../../src/constraints.js"></script>
+    <script type="text/javascript" src="../../src/container.js"></script>
+    <script type="text/javascript" src="../../src/controls.js"></script>
+    <script type="text/javascript" src="../../src/curve.js"></script>
+    <script type="text/javascript" src="../../src/data.js"></script>
+    <script type="text/javascript" src="../../src/dds.js"></script>
+    <script type="text/javascript" src="../../src/debug.js"></script>
+    <script type="text/javascript" src="../../src/extensions.js"></script>
+    <script type="text/javascript" src="../../src/geometry.js"></script>
+    <script type="text/javascript" src="../../src/graph.js"></script>
+    <script type="text/javascript" src="../../src/hud.js"></script>
+    <script type="text/javascript" src="../../src/ipc.js"></script>
+    <script type="text/javascript" src="../../src/lights.js"></script>
+    <script type="text/javascript" src="../../src/loader.js"></script>
+    <script type="text/javascript" src="../../src/logic_nodes.js"></script>
+    <script type="text/javascript" src="../../src/nla.js"></script>
+    <script type="text/javascript" src="../../src/nodemat.js"></script>
+    <script type="text/javascript" src="../../src/objects.js"></script>
+    <script type="text/javascript" src="../../src/obj_util.js"></script>
+    <script type="text/javascript" src="../../src/particles.js"></script>
+    <script type="text/javascript" src="../../src/physics.js"></script>
+    <script type="text/javascript" src="../../src/prerender.js"></script>
+    <script type="text/javascript" src="../../src/primitives.js"></script>
+    <script type="text/javascript" src="../../src/print.js"></script>
+    <script type="text/javascript" src="../../src/reformer.js"></script>
+    <script type="text/javascript" src="../../src/renderer.js"></script>
+    <script type="text/javascript" src="../../src/scenegraph.js"></script>
+    <script type="text/javascript" src="../../src/scenes.js"></script>
+    <script type="text/javascript" src="../../src/sfx.js"></script>
+    <script type="text/javascript" src="../../src/shaders.js"></script>
+    <script type="text/javascript" src="../../src/textures.js"></script>
+    <script type="text/javascript" src="../../src/time.js"></script>
+    <script type="text/javascript" src="../../src/transform.js"></script>
+    <script type="text/javascript" src="../../src/tsr.js"></script>
+    <script type="text/javascript" src="../../src/util.js"></script>
+    <script type="text/javascript" src="../../src/version.js"></script>
 
-<script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
-<script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
-<script type="text/javascript" src="../../src/libs/md5.js"></script>
+    <script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
+    <script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
+    <script type="text/javascript" src="../../src/libs/md5.js"></script>
 
-<script type="text/javascript" src="../../src/ext/anchors.js"></script>
-<script type="text/javascript" src="../../src/ext/animation.js"></script>
-<script type="text/javascript" src="../../src/ext/armature.js"></script>
-<script type="text/javascript" src="../../src/ext/assets.js"></script>
-<script type="text/javascript" src="../../src/ext/camera.js"></script>
-<script type="text/javascript" src="../../src/ext/config.js"></script>
-<script type="text/javascript" src="../../src/ext/constraints.js"></script>
-<script type="text/javascript" src="../../src/ext/container.js"></script>
-<script type="text/javascript" src="../../src/ext/controls.js"></script>
-<script type="text/javascript" src="../../src/ext/data.js"></script>
-<script type="text/javascript" src="../../src/ext/debug.js"></script>
-<script type="text/javascript" src="../../src/ext/geometry.js"></script>
-<script type="text/javascript" src="../../src/ext/hud.js"></script>
-<script type="text/javascript" src="../../src/ext/lights.js"></script>
-<script type="text/javascript" src="../../src/ext/main.js"></script>
-<script type="text/javascript" src="../../src/ext/material.js"></script>
-<script type="text/javascript" src="../../src/ext/objects.js"></script>
-<script type="text/javascript" src="../../src/ext/particles.js"></script>
-<script type="text/javascript" src="../../src/ext/physics.js"></script>
-<script type="text/javascript" src="../../src/ext/rgb.js"></script>
-<script type="text/javascript" src="../../src/ext/scenes.js"></script>
-<script type="text/javascript" src="../../src/ext/sfx.js"></script>
-<script type="text/javascript" src="../../src/ext/textures.js"></script>
-<script type="text/javascript" src="../../src/ext/time.js"></script>
-<script type="text/javascript" src="../../src/ext/tsr.js"></script>
-<script type="text/javascript" src="../../src/ext/transform.js"></script>
-<script type="text/javascript" src="../../src/ext/util.js"></script>
-<script type="text/javascript" src="../../src/ext/version.js"></script>
-<script type="text/javascript" src="../../src/ext/nla.js"></script>
+    <script type="text/javascript" src="../../src/ext/anchors.js"></script>
+    <script type="text/javascript" src="../../src/ext/animation.js"></script>
+    <script type="text/javascript" src="../../src/ext/armature.js"></script>
+    <script type="text/javascript" src="../../src/ext/assets.js"></script>
+    <script type="text/javascript" src="../../src/ext/camera.js"></script>
+    <script type="text/javascript" src="../../src/ext/config.js"></script>
+    <script type="text/javascript" src="../../src/ext/constraints.js"></script>
+    <script type="text/javascript" src="../../src/ext/container.js"></script>
+    <script type="text/javascript" src="../../src/ext/controls.js"></script>
+    <script type="text/javascript" src="../../src/ext/data.js"></script>
+    <script type="text/javascript" src="../../src/ext/debug.js"></script>
+    <script type="text/javascript" src="../../src/ext/geometry.js"></script>
+    <script type="text/javascript" src="../../src/ext/hud.js"></script>
+    <script type="text/javascript" src="../../src/ext/lights.js"></script>
+    <script type="text/javascript" src="../../src/ext/main.js"></script>
+    <script type="text/javascript" src="../../src/ext/material.js"></script>
+    <script type="text/javascript" src="../../src/ext/objects.js"></script>
+    <script type="text/javascript" src="../../src/ext/particles.js"></script>
+    <script type="text/javascript" src="../../src/ext/physics.js"></script>
+    <script type="text/javascript" src="../../src/ext/rgb.js"></script>
+    <script type="text/javascript" src="../../src/ext/scenes.js"></script>
+    <script type="text/javascript" src="../../src/ext/sfx.js"></script>
+    <script type="text/javascript" src="../../src/ext/textures.js"></script>
+    <script type="text/javascript" src="../../src/ext/time.js"></script>
+    <script type="text/javascript" src="../../src/ext/tsr.js"></script>
+    <script type="text/javascript" src="../../src/ext/transform.js"></script>
+    <script type="text/javascript" src="../../src/ext/util.js"></script>
+    <script type="text/javascript" src="../../src/ext/version.js"></script>
+    <script type="text/javascript" src="../../src/ext/nla.js"></script>
 
-<script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
-<script type="text/javascript" src="../../src/addons/mixer.js"></script>
-<script type="text/javascript" src="../../src/addons/storage.js"></script>
-<script type="text/javascript" src="../../src/addons/app.js"></script>
-<script type="text/javascript" src="../../src/addons/gyroscope.js"></script>
+    <script type="text/javascript" src="../../src/addons/app.js"></script>
+    <script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
+    <script type="text/javascript" src="../../src/addons/gyroscope.js"></script>
+    <script type="text/javascript" src="../../src/addons/mixer.js"></script>
+    <script type="text/javascript" src="../../src/addons/mouse.js"></script>
+    <script type="text/javascript" src="../../src/addons/npc_ai.js"></script>
+    <script type="text/javascript" src="../../src/addons/preloader.js"></script>
+    <script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
+    <script type="text/javascript" src="../../src/addons/storage.js"></script>
 
-<script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
-<script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
+    <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
 
-<script type="text/javascript" src="viewer.js"></script>
+    <script type="text/javascript" src="viewer.js"></script>
 
-<script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
+    <script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
 </head>
 
 <body>
 
 <div id="main_canvas_container">
-
     <div class="backgr_checker" id="abc"></div>
-
     <div class="info_corner right_up">
         <div class="info_corner_backgr"></div>
         <span id="info_right_up" class="info_corner_text"></span>
     </div>
-
     <div class="info_corner left_up">
         <div class="info_corner_backgr"></div>
         <span id="info_left_up" class="info_corner_text"></span>
     </div>
-
     <div class="info_corner left_down">
         <div class="info_corner_backgr"></div>
         <span id="info_left_down" class="info_corner_text"></span>
     </div>
-
     <div class="info_corner right_down">
         <div class="info_corner_backgr"></div>
         <span id="info_right_down" class="info_corner_text"></span>
     </div>
-
 </div>
 
 <div id="fps_container">
@@ -162,19 +159,19 @@
 
     <div class="center-wrapper">
         <div data-role="controlgroup" data-type="horizontal">
-            <a href="" id="reset_memory" data-role="button" data-icon="refresh" data-mini="true">Reset</a>
-            <select id="quality" data-native-menu="false" data-mini="true" >
+            <a href="" id="home" data-role="button" data-icon="home" data-mini="true">Home</a>
+            <select id="quality" data-iconpos="left" data-native-menu="false" data-mini="true" >
               <option value="ULTRA">ULTRA Q</option>
               <option value="HIGH">HIGH Q</option>
               <option value="LOW">LOW Q</option>
               <option value="CUSTOM">CUSTOM Q</option>
             </select>
-            <a href="" id="auto_rotate_cam" data-role="button" data-icon="recycle" data-mini="true">Auto Rotate</a>
+            <a href="" id="reset" data-role="button" data-icon="refresh" data-mini="true">Reset</a>
         </div>
         <div data-role="controlgroup" data-type="horizontal">
             <a href="" id="pause" data-role="button" data-icon="delete" data-mini="true">Pause</a>
             <a href="" id="resume" data-role="button" data-icon="arrow-r" data-mini="true">Resume</a>
-            <a href="" id="auto_view" data-role="button" data-icon="search" data-mini="true">Auto View</a>
+            <a href="" id="auto_rotate_cam" data-role="button" data-icon="recycle" data-mini="true">Rotate</a>
         </div>
     </div>
 
@@ -192,6 +189,8 @@
             <h1>Animation</h1>
 
             <div class="ui-grid-solo">
+                <input type="button" value="Play All" id="anim_play_all" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                <input type="button" value="Stop All" id="anim_stop_all" data-inline="true" data-icon="delete" data-mini="true" />
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anim_active_object">Object:</label>
                     <select id="anim_active_object" data-native-menu="false" data-mini="true"></select>
@@ -911,9 +910,14 @@
         </div>
 
         <div data-role="collapsible" data-collapsed="true" class="menu_items">
-            <h1>Debug</h1>
+            <h1>Tools & Debug</h1>
 
             <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <input type="button" value="Auto View Mode"
+                        id="auto_view" data-inline="true"
+                        data-icon="camera" data-mini="true" />
+                </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="canvas_rf">Canvas Resolution Factor:</label>
                     <input id="canvas_rf" data-highlight="true" value="1" min="1" max="10" type="range" step="1">
@@ -953,10 +957,9 @@
                 </div>
             </div>
         </div>
-
-
     </div>
   </div> </div>
 
 </body>
+
 </html>

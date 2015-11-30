@@ -28,6 +28,7 @@ b4w.module["__util"] = function(exports, require) {
 var m_mat3  = require("__mat3");
 var m_mat4  = require("__mat4");
 var m_print = require("__print");
+var m_tsr   = require("__tsr");
 var m_quat  = require("__quat");
 var m_vec3  = require("__vec3");
 var m_vec4  = require("__vec4");
@@ -465,7 +466,7 @@ exports.trans_quat_to_plane = function(trans, quat, ident, dest) {
 exports.dir_ground_proj_angle = function(obj) {
 
     var render = obj.render;
-    var quat = render.quat;
+    var quat = m_tsr.get_quat_view(render.world_tsr);
 
     var proj   = _vec3_tmp;
     var defdir = _vec3_tmp2;
@@ -705,6 +706,7 @@ function matrix_to_quat(matrix, dest) {
     _mat3_tmp[8] /= l2;
 
     m_quat.fromMat3(_mat3_tmp, dest);
+    m_quat.normalize(dest, dest)
 
     return dest;
 }
@@ -1099,7 +1101,7 @@ exports.scale_mat4 = function(matrix, scale, dest) {
 }
 
 /**
- * Unoptimized (uses matrix)
+ * Unused. Unoptimized (uses matrix)
  */
 exports.transform_mat4 = function(matrix, scale, quat, trans, dest) {
     if (!dest)
@@ -1904,7 +1906,10 @@ exports.assert = function(cond) {
 exports.panic = function(s) {
     if (s)
         m_print.error.apply(m_print, arguments);
-    throw "panic: see above for possible error messages";
+    throw "engine panic:\n" +
+          "The engine tried to perform an invalid operation and halted.\n" +
+          "Please copy the console contents above and submit it to the Blend4Web forum at\n" +
+          "https://www.blend4web.com/en/forums/forum/17/";
 }
 
 /**

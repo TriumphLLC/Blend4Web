@@ -330,21 +330,13 @@ Table of contents
 
 * For Application Developers
 
-  * Hello World!
+  * Project management
 
-  * Loading Scenes in Apps
+  * Advanced Project Management
 
-  * Module System
-
-  * Creating Apps Quickly
-
-  * Project Managment
-
-  * Preparing Assets
+  * Application Programming
 
   * Resource Conversion
-
-  * Non-FullScreen Web Apps
 
   * Code Examples
 
@@ -355,6 +347,8 @@ Table of contents
   * Loading Local Resources
 
   * Quality Profiles
+
+  * Non-FullScreen Web Apps
 
 * For Engine Developers
 
@@ -405,6 +399,8 @@ Table of contents
   * WebGL Failed to Init
 
 * Release Notes
+
+  * v15.11
 
   * v15.10
 

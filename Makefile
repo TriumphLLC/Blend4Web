@@ -50,6 +50,7 @@ compile_apps:
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/viewer compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/webplayer compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/petigors_tale compile -v $(VERSION)
 
 .PHONY: build_tutorials
 build_tutorials:

@@ -3,172 +3,8 @@ For Application Developers
 **************************
 
 
-Hello World!
-============
-
-The simplest Blend4Web app may look like this:
-
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.min.js"></script>
-   <script>
-   function hello() {
-       var m_version = b4w.require("version");
-       document.body.innerHTML = "Hello, Blend4Web " + m_version.version() + "!";
-   }
-   </script>
-   </head>
-
-   <body onload="hello()"></body>
-
-   </html>
-
-This app prints a message and the engine's version in the browser
-window. Let's look at this example in detail. The engine library is
-embedded with the "<script src="...">" element. Then, the app waits
-for the page to load and prints the current version in the browser
-window. In this example, "version" is the only used module which has a
-function with the same name - "version()". A more detailed info about
-the usage of engine's modules and functions can be found in the API
-documentation.
-
-The compiled engine file "b4w.min.js" can be copied from the SDK's
-"deploy/apps/common" directory and placed in the same directory as the
-HTML file.
-
-
-Loading Scenes in Apps
-======================
-
-To load a 3D scene you need:
-
-1. Place a "<canvas>" element on a page for rendering.
-
-2. Call the "m_main.init()" function with the created element id to
-   init the WebGL context after the page is loaded.
-
-3. Call the "m_data.load()" function to load a 3D scene.
-
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.min.js"></script>
-   <script>
-   function hello() {
-       var m_main = b4w.require("main");
-       var m_data = b4w.require("data");
-
-       var canvas_elem = document.getElementById("canvas_id");
-       m_main.init(canvas_elem);
-       m_data.load("some_scene.json");
-   }
-   </script>
-   </head>
-
-   <body onload="hello()"><canvas id="canvas_id"></canvas></body>
-
-   </html>
-
-Note: Note that a real app should include error checking, setting up
-  the engine before initializing and also a basic system for
-  interacting with the user.
-
-
-Module System
-=============
-
-While the engine gives an app programmer an API in the scale of dozens
-of modules, it occupies a single "b4w" namespace. To call a module's
-method import it first with the "b4w.require()" function.
-
-It is possible to register external modules if their names do not
-collide with already existing modules. A module can be registered with
-a "b4w.register()" call. Check if a module with some name already
-exists with a "b4w.module_check()" call.
-
-Example:
-
-   // check if module exists
-   if (b4w.module_check("my_module"))
-       throw "Failed to register module: my_module";
-
-   // register my_module
-   b4w.register("my_module", function(exports, require) {
-
-       // import module "version"
-       var m_version = require("version");
-
-       // export print_build_date() from module "my_module"
-       exports.print_build_date = function() {
-           // exec function date() from module "version"
-           console.log("Engine build date: " + m_version.date());
-       }
-   });
-
-   // import module "my_module"
-   var m_my_module = b4w.require("my_module");
-
-   // exec function print_build_date() from module "my_module"
-   m_my_module.print_build_date();
-
-
-Creating Apps Quickly
-=====================
-
-Creating an app from scratch can be a tedious task, especially for
-beginners. To address this there is a special add-on for the engine
-called "app":
-
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.full.min.js"></script>
-   <script>
-
-   var m_app = b4w.require("app");
-   var m_data = b4w.require("data");
-
-   m_app.init({
-       canvas_container_id: "container_id",
-       callback: load_cb
-   })
-
-   function load_cb() {
-       m_data.load("some_scene.json", loaded_cb);
-   }
-
-   function loaded_cb() {
-       m_app.enable_controls();
-       m_app.enable_camera_controls();
-   }
-
-   </script>
-   </head>
-
-   <body>
-       <div id="container_id" style="width: 350px; height: 200px;"></div>
-   </body>
-
-   </html>
-
-In this case the "app" module will create a "<canvas>" element inside
-the container with the specified "container_id" id. Then it will
-initialize the engine after the page is loaded and will finally
-execute the "load_cb()" callback.
-
-Then the some_scene.json scene is loaded similar to the previous
-example. The only difference is that after the scene is loaded, the
-control system is initialized and camera movement with keyboard and
-mouse (or sensor screen) becomes possible.
-
-In case when the "app" module is used, it is necessary to specify
-dimensions of the container element. Otherwise the created "<canvas>"
-element will have zero dimensions.
-
-
-Project Managment
-=================
+Project management
+==================
 
 Since version 15.09, the SDK includes a project managment feature,
 which makes it possible to:
@@ -199,17 +35,6 @@ dedicated web application with GUI working on the local development
 server. The server does not require any additional setup and starts
 automatically with Blender. The index page of the Project Manager can
 be opened by clicking on the "Project Manager" button in Blender.
-
-The project managment system works in all operating systems. However,
-some operations can require installing additional dependencies. In
-order to check whether all dependencies are met, use the following
-command:
-
-   ./project.py check_deps
-
-For MS Windows users:
-
-   python project.py check_deps
 
 
 Project Manager
@@ -251,7 +76,13 @@ Commands for managing specific project is located on the right side.
 
 Note: All project paths are retreived from .b4w_project file.
 
-Master to create a new project.
+
+Master to create a new project
+------------------------------
+
+Master for creating new projects is included in the Project Management
+app and executed by "[Create New Project]" button located on the main
+page of this app.
 
    [image]
 
@@ -261,7 +92,7 @@ Master to create a new project.
 
 2. Project title shown as shown in browser.
 
-3. Project's author name
+3. Project's author name.
 
 4. Add application templates. Standard application templates: html-
    file, css-file, js-file will be added to the project directory
@@ -309,8 +140,44 @@ Master to create a new project.
         code;
 
 
+Advanced Project Management
+===========================
+
+Advanced project management is used by experienced developers which
+require more flexibility and need to automate process of project
+development.
+
+For advanced project management use the *project.py* script and
+manually edit *.b4w_project* config files.
+
+
+Dependencies
+------------
+
+The project managment system works in all operating systems. However,
+some operations can require installing additional dependencies. In
+order to check whether all dependencies are met, use the following
+command:
+
+   ./project.py check_deps
+
+For MS Windows users:
+
+   python project.py check_deps
+
+
+Projects List
+-------------
+
+   python3 project.py -p myproject list
+
+Prints list of projects in the SDK.
+
+
 Project Structure
 -----------------
+
+A typical app developed using the project manager looks as follows:
 
    blend4web/
        apps_dev/
@@ -333,6 +200,22 @@ Project Structure
                myproject/
                    myproject.json
                    myproject.bin
+
+This app consists of 4 different directories.
+
+1. apps_dev/myproject. Contains source files of project's apps.
+
+2. blender/myproject. Contains source files of project's scenes.
+
+3. deploy/assets/myproject. Contains exported files of project's
+   scenes.
+
+4. deploy/apps/myproject. Contains exported files of project's
+   scenes.
+
+Additionally, the deploy command can create yet another directory, but
+it usually is placed outside of the SDK and its name and path depend
+on directory structure on the target server.
 
 
 ".b4w_project" Config File
@@ -368,8 +251,8 @@ script, then they will be taken from the config file.
    remove_exist_ext_dir =
 
 
-Creating New Projects
----------------------
+Advanced project management
+---------------------------
 
    ./project.py init myproject
 
@@ -443,8 +326,8 @@ The .b4w_project file will look like:
    remove_exist_ext_dir =
 
 
-Creating Applications Within Projects
--------------------------------------
+Developing multiple apps inside a project
+-----------------------------------------
 
 A project can contain multiple apps. This can be provided by listing
 the corresponding HTML files in the config file separated with
@@ -462,6 +345,9 @@ Building Projects
    python3 project.py -p myproject compile
 
 Builds a project in the "deploy/apps/myproject" directory.
+
+Note: For script operation it's required to install java and  set
+  the PATH system variable.
 
 Available parameters:
 
@@ -483,6 +369,14 @@ Available parameters:
   *compile*, *update*.
 
 * ""-v | --version"" add version to paths of scripts and styles.
+
+Compiler Requirements
+
+* In the root of the directory the single html file must be stored
+  if "-a" option is disabled
+
+* Scripts and styles can be stored in the app's root and in the
+  subfolders
 
 
 Automatic Re-export
@@ -512,13 +406,8 @@ Available parameters:
 
 * ""-s | --assets"" specify directory with scene assets.
 
-
-Projects List
--------------
-
-   python3 project.py -p myproject list
-
-Outputs a list of projects found inside the "apps_dev" directory.
+Converting of resources is described in detail in the corresponding
+section.
 
 
 Deploying Projects
@@ -552,28 +441,18 @@ Remove project. Removed directories are retrieved from project
 configuration file.
 
 
-Preparing Assets
-================
+Upgrading apps for new SDK versions
+-----------------------------------
 
-The next step is authoring scenes. It is convenient to store all
-assets for your app in a single directory. Then the scene is assembled
-in Blender and exported to the assets directory.
+While upgrading for new SDK versions often two problems arise:
 
-Converting resources is neccesary to develop cross-browser and cross-
-platform applications.
+1. Modules of the new and old versions of the engine do not match.
 
-During development it is more convenient to use the non-obfuscated
-engine because it makes the debugging process much easier. To use the
-non-obfuscated engine, go to the new app directory:
+2. Old and new engine API do not match.
 
-   cd <path_to_sdk>/apps_dev/example
-
-For MS Windows users:
-
-   cd <path_to_sdk>\apps_dev\example
-
-Then run the script which generates paths to all required engine
-files:
+In order to update the list of modules imported in developer version
+of application go to project source directory "apps_dev/my_project"
+and execute module list generator script:
 
    python3 ../../scripts/mod_list.py
 
@@ -600,20 +479,15 @@ the main HTML file:
        . . .
    </head>
 
+To eliminate API incompatibilities you may require refactoring of your
+app.All changes are described in release notes.
 
-App Logic Coding
-----------------
 
-The next step is writing scripts for app logic. The scripts are linked
-to the main HTML file:
+Path to loaded application assets
+---------------------------------
 
-   <head>
-   . . .
-   <script type="text/javascript" src="example.js"></script>
-   </head>
-
-It is worth noting that the "get_std_assets_path()" function from the
-*config.js* module is a convient method for loading .json files.
+To load .json-files you should use "get_std_assets_path()" method
+frome the *config.js* module:
 
    m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
 
@@ -622,48 +496,172 @@ Thus, using "get_std_assets_path()" wil allow you to avoid problems
 with incorrect paths.
 
 
-Building Apps
+Application Programming
+=======================
+
+
+Hello world!
+------------
+
+The simplest Blend4Web app may look like this:
+
+   <!DOCTYPE html>
+   <html>
+   <head>
+   <script src="b4w.min.js"></script>
+   <script>
+   function hello() {
+       var m_version = b4w.require("version");
+       document.body.innerHTML = "Hello, Blend4Web " + m_version.version() + "!";
+   }
+   </script>
+   </head>
+
+   <body onload="hello()"></body>
+
+   </html>
+
+This app prints a message and the engine's version in the browser
+window. Let's look at this example in detail. The engine library is
+embedded with the "<script src="...">" element. Then, the app waits
+for the page to load and prints the current version in the browser
+window. In this example, "version" is the only used module which has a
+function with the same name - "version()". A more detailed info about
+the usage of engine's modules and functions can be found in the API
+documentation.
+
+The compiled engine file "b4w.min.js" can be copied from the SDK's
+"deploy/apps/common" directory and placed in the same directory as the
+HTML file.
+
+
+Loading Scenes in Apps
+----------------------
+
+To load a 3D scene you need:
+
+1. Place a "<canvas>" element on a page for rendering.
+
+2. Call the "m_main.init()" function with the created element id to
+   init the WebGL context after the page is loaded.
+
+3. Call the "m_data.load()" function to load a 3D scene.
+
+   <!DOCTYPE html>
+   <html>
+   <head>
+   <script src="b4w.min.js"></script>
+   <script>
+   function hello() {
+       var m_main = b4w.require("main");
+       var m_data = b4w.require("data");
+
+       var canvas_elem = document.getElementById("canvas_id");
+       m_main.init(canvas_elem);
+       m_data.load("some_scene.json");
+   }
+   </script>
+   </head>
+
+   <body onload="hello()"><canvas id="canvas_id"></canvas></body>
+
+   </html>
+
+Note: Note that a real app should include error checking, setting up
+  the engine before initializing and also a basic system for
+  interacting with the user.
+
+
+Module System
 -------------
 
-The SDK includes the script "apps_dev/project.py" for building
-finished applications.
+While the engine gives an app programmer an API in the scale of dozens
+of modules, it occupies a single "b4w" namespace. To call a module's
+method import it first with the "b4w.require()" function.
 
-We recommend you to immediately complile your app in order to make
-sure that it works. You can do it with the following command:
+It is possible to register external modules if their names do not
+collide with already existing modules. A module can be registered with
+a "b4w.register()" call. Check if a module with some name already
+exists with a "b4w.module_check()" call.
 
-   ./project.py -p example -o advanced
+Example:
 
-For MS Windows users:
+   // check if module exists
+   if (b4w.module_check("my_module"))
+       throw "Failed to register module: my_module";
 
-   python project.py -p example -o advanced
+   // register my_module
+   b4w.register("my_module", function(exports, require) {
 
-Note: For script operation it's required to install java and  set
-  the PATH system variable.
+       // import module "version"
+       var m_version = require("version");
 
-By default, the project is copied as a whole to the
-*deploy/apps/project_name/* directory. Scripts and styles are compiled
-relative to the parent directory.
+       // export print_build_date() from module "my_module"
+       exports.print_build_date = function() {
+           // exec function date() from module "version"
+           console.log("Engine build date: " + m_version.date());
+       }
+   });
+
+   // import module "my_module"
+   var m_my_module = b4w.require("my_module");
+
+   // exec function print_build_date() from module "my_module"
+   m_my_module.print_build_date();
 
 
-Exporting Apps Outside SDK
---------------------------
+Creating Apps Quickly
+---------------------
 
-In order to export the finished app outside the SDK (for further
-deploying) use the following command:
+Creating an app from scratch can be a tedious task, especially for
+beginners. To address this there is a special add-on for the engine
+called "app":
 
-   ./project.py -p example -o advanced -b copy -s ../deploy/assets/example -d ../my_apps
+   <!DOCTYPE html>
+   <html>
+   <head>
+   <script src="b4w.min.js"></script>
+   <script>
 
-For MS Windows users:
+   var m_app = b4w.require("app");
+   var m_data = b4w.require("data");
 
-   python project.py -p example -o advanced -b copy -s ..\deploy\assets\example -d ..\my_apps
+   m_app.init({
+       canvas_container_id: "container_id",
+       callback: load_cb
+   })
 
-Compiler Requirements
+   function load_cb() {
+       m_data.load("some_scene.json", loaded_cb);
+   }
 
-* In the root of the directory the single html file must be stored
-  if "-a" option is disabled
+   function loaded_cb() {
+       m_app.enable_controls();
+       m_app.enable_camera_controls();
+   }
 
-* Scripts and styles can be stored in the app's root and in the
-  subfolders
+   </script>
+   </head>
+
+   <body>
+       <div id="container_id" style="width: 350px; height: 200px;"></div>
+   </body>
+
+   </html>
+
+In this case the "app" module will create a "<canvas>" element inside
+the container with the specified "container_id" id. Then it will
+initialize the engine after the page is loaded and will finally
+execute the "load_cb()" callback.
+
+Then the some_scene.json scene is loaded similar to the previous
+example. The only difference is that after the scene is loaded, the
+control system is initialized and camera movement with keyboard and
+mouse (or sensor screen) becomes possible.
+
+In case when the "app" module is used, it is necessary to explicitely
+specify dimensions of the container element. Otherwise the created
+"<canvas>" element will have zero dimensions.
 
 
 Resource Conversion
@@ -675,7 +673,10 @@ optimization purposes) we recommend you to use the resource converter.
 
 To support a wider range of platforms, a Python script
 (scripts/converter.py) for converting the source files into other
-formats is included into the distribution. Run it with the command:
+formats is included into the distribution.
+
+This script can be run automatically using the project mangment
+system, or manually:
 
    > python3 <path_to_sdk>/scripts/converter.py [-d file_path] resize_textures | convert_dds | convert_media
 
@@ -834,99 +835,6 @@ same directory as the mediafiles used in Blender.
 
 You can also use the free and cross-platform application Miro Video
 Converter to convert mediafiles.
-
-
-Non-FullScreen Web Apps
-=======================
-
-The Canvas element, to which the rendering is performed, can change
-its position relative to the browser window. This can occur due to
-some manipulations over the DOM tree, or as a result of page scrolling
-which is especially relevant for non-fullscreen web applications.
-
-In most cases this will not affect the performance of the app by any
-means. However, some DOM events related to mouse cursor or touch
-position may carry incorrect information. This occurs because the
-coordinates obtained from the corresponding events are measured
-relative to the origin of the browser window, while the engine works
-with the coordinate space of the Canvas element itself (its origin is
-located in the top left corner).
-
-1. If the top left corner of the Canvas element matches the top
-   left corner of the browser window and is fixed in it's position
-   (non- movable) then it's sufficient to use event.clientX and
-   event.clientY coordinates of the input events or
-   get_coords_x()/get_coords_y() methods.
-
-   var m_mouse   = require("mouse");
-
-   // . . .
-   var x = event.clientX;
-   var y = event.clientY;
-   // . . .
-   var x = m_mouse.get_coords_x(event);
-   var y = m_mouse.get_coords_y(event);
-   // . . .
-
-2. In the case of the scrolled browser window, you have to use
-   event.pageX and event.pageY coordinates.
-
-   // . . .
-   var x = event.pageX;
-   var y = event.pageY;
-   // . . .
-
-3. In the case of more sophisticated manipulations with the Canvas
-   element (scrolling of the page elements, displacement from the top
-   level corner of the browser window, changes in the DOM-tree) you
-   need to perform correct coordinate conversions. In order to obtain
-   coordinates suitable for use in the engine, you can covert them by
-   using the "client_to_canvas_coords()" method of the "container"
-   module:
-
-   var m_cont   = require("container");
-   var _vec2_tmp = new Float32Array(2);
-   // . . .
-   var canvas_xy = m_cont.client_to_canvas_coords(event.clientX, event.clientY, _vec2_tmp);
-   // . . .
-
-
-
-   In order to obtain coordinates in the Canvas space, the engine
-   should know its position relative to the browser window. However,
-   if this position is subjected to changes during the work of the app
-   (due to scrolling for example), the Canvas position should be
-   recalculated. To do this automatically, you can set the
-   "track_container_position" property upon app initialization:
-
-   exports.init = function() {
-       m_app.init({
-           // . . .
-           track_container_position: true,
-           // . . .
-       });
-       // . . .
-   }
-
-
-
-   Please note, that this setting can lead to performance degradation
-   in some browsers (such as Firefox) due to frequent DOM tree
-   accesses. If the performance is critical, you can update the Canvas
-   position manually when it is really necessary. To do this, use the
-   "force_offsets_updating()" and "update_canvas_offsets()" methods
-   instead of the "track_container_position" setting, or even the
-   lower-level "set_canvas_offsets()" method from the "container"
-   module:
-
-   var m_cont = require("container");
-   // . . .
-   m_cont.force_offsets_updating();
-   // . . .
-   m_cont.update_canvas_offsets();
-   // . . .
-   m_cont.set_canvas_offsets(offset_left, offset_top);
-   // . . .
 
 
 Code Examples
@@ -1329,3 +1237,96 @@ engine initialization using the "app.js" add-on:
        canvas_container_id: "body_id",
        quality: m_cfg.P_HIGH
    });
+
+
+Non-FullScreen Web Apps
+=======================
+
+The Canvas element, to which the rendering is performed, can change
+its position relative to the browser window. This can occur due to
+some manipulations over the DOM tree, or as a result of page scrolling
+which is especially relevant for non-fullscreen web applications.
+
+In most cases this will not affect the performance of the app by any
+means. However, some DOM events related to mouse cursor or touch
+position may carry incorrect information. This occurs because the
+coordinates obtained from the corresponding events are measured
+relative to the origin of the browser window, while the engine works
+with the coordinate space of the Canvas element itself (its origin is
+located in the top left corner).
+
+1. If the top left corner of the Canvas element matches the top
+   left corner of the browser window and is fixed in it's position
+   (non- movable) then it's sufficient to use event.clientX and
+   event.clientY coordinates of the input events or
+   get_coords_x()/get_coords_y() methods.
+
+   var m_mouse   = require("mouse");
+
+   // . . .
+   var x = event.clientX;
+   var y = event.clientY;
+   // . . .
+   var x = m_mouse.get_coords_x(event);
+   var y = m_mouse.get_coords_y(event);
+   // . . .
+
+2. In the case of the scrolled browser window, you have to use
+   event.pageX and event.pageY coordinates.
+
+   // . . .
+   var x = event.pageX;
+   var y = event.pageY;
+   // . . .
+
+3. In the case of more sophisticated manipulations with the Canvas
+   element (scrolling of the page elements, displacement from the top
+   level corner of the browser window, changes in the DOM-tree) you
+   need to perform correct coordinate conversions. In order to obtain
+   coordinates suitable for use in the engine, you can covert them by
+   using the "client_to_canvas_coords()" method of the "container"
+   module:
+
+   var m_cont   = require("container");
+   var _vec2_tmp = new Float32Array(2);
+   // . . .
+   var canvas_xy = m_cont.client_to_canvas_coords(event.clientX, event.clientY, _vec2_tmp);
+   // . . .
+
+
+
+   In order to obtain coordinates in the Canvas space, the engine
+   should know its position relative to the browser window. However,
+   if this position is subjected to changes during the work of the app
+   (due to scrolling for example), the Canvas position should be
+   recalculated. To do this automatically, you can set the
+   "track_container_position" property upon app initialization:
+
+   exports.init = function() {
+       m_app.init({
+           // . . .
+           track_container_position: true,
+           // . . .
+       });
+       // . . .
+   }
+
+
+
+   Please note, that this setting can lead to performance degradation
+   in some browsers (such as Firefox) due to frequent DOM tree
+   accesses. If the performance is critical, you can update the Canvas
+   position manually when it is really necessary. To do this, use the
+   "force_offsets_updating()" and "update_canvas_offsets()" methods
+   instead of the "track_container_position" setting, or even the
+   lower-level "set_canvas_offsets()" method from the "container"
+   module:
+
+   var m_cont = require("container");
+   // . . .
+   m_cont.force_offsets_updating();
+   // . . .
+   m_cont.update_canvas_offsets();
+   // . . .
+   m_cont.set_canvas_offsets(offset_left, offset_top);
+   // . . .

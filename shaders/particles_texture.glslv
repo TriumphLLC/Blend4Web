@@ -37,13 +37,18 @@ uniform float u_p_wind_fac;
 
 uniform float u_p_max_lifetime;
 
-uniform mat4 u_proj_matrix;
+#if REFLECTION_PASS
 uniform mat4 u_view_matrix;
+#else
+uniform mat3 u_view_tsr;
+#endif
+
+uniform mat4 u_proj_matrix;
 uniform vec3 u_camera_eye;
 uniform vec3 u_wind;
 uniform float u_p_size;
 #if !WORLD_SPACE
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
 varying float v_alpha;
@@ -68,6 +73,12 @@ float vec_vec_angle(vec2 v1, vec2 v2) {
 
 void main(void) {
 
+#if REFLECTION_PASS
+    mat4 view_matrix = u_view_matrix;
+#else
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+#endif
+
     part_params pp;
     pp = calc_part_params();
 
@@ -77,7 +88,7 @@ void main(void) {
     if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW) {
         rotation_angle = pp.angle;
         // NOTE: there is no simple way to extract camera eye from view matrix
-        bb_matrix = billboard_spherical(pp.position, u_view_matrix);
+        bb_matrix = billboard_spherical(pp.position, view_matrix);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_XY) {
         rotation_angle = pp.angle;
         bb_matrix = identity();
@@ -97,7 +108,7 @@ void main(void) {
     vec4 pos_local = vec4(a_p_bb_vertex * 2.0 * pp.size * u_p_size, 0.0, 1.0);
     vec4 pos_world = bb_matrix * rotation_z(rotation_angle) * pos_local;
 
-    vec4 pos_view = u_view_matrix * pos_world;
+    vec4 pos_view = view_matrix * pos_world;
 
     vec4 pos_clip = u_proj_matrix * pos_view;
 

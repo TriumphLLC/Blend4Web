@@ -325,7 +325,7 @@ Additional settings
    Width of glow obtained through the larger mask. The default value
    is 6.0.
 
-*Render Glow Over Transparent Object*
+*Render Glow Over Transparent Objects*
    Render the glow effect over transparent objects.
 
 

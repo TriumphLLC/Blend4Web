@@ -26,11 +26,12 @@
 b4w.module["__lights"] = function(exports, require) {
 
 var m_print = require("__print");
+var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
 var _vec3_tmp = new Float32Array(3);
-
+var _vec3_empty = new Float32Array(3);
 /**
  * Create light
  * @param type Light type: POINT, SUN,...
@@ -89,8 +90,8 @@ exports.lamp_to_light = function(bpy_obj, obj) {
     light.name = obj.name;
     light.use_diffuse = data["use_diffuse"];
     light.use_specular = data["use_specular"];
-
-    var dir = m_util.quat_to_dir(obj.render.quat, m_util.AXIS_Y, _vec3_tmp);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    var dir = m_util.quat_to_dir(quat, m_util.AXIS_Y, _vec3_tmp);
     // though dir seems to be normalized, do it explicitely
     m_vec3.normalize(dir, dir);
     light.direction.set(dir);
@@ -179,7 +180,8 @@ function update_light_transform(obj) {
     if (!light)
         return;
 
-    m_util.quat_to_dir(obj.render.quat, m_util.AXIS_Y, light.direction);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    m_util.quat_to_dir(quat, m_util.AXIS_Y, light.direction);
     m_vec3.normalize(light.direction, light.direction);
 
     if (light.type == "SUN") {

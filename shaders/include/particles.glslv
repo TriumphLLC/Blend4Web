@@ -1,8 +1,9 @@
 #import u_p_time u_p_cyclic u_p_length
 #import u_p_nfactor u_p_gravity u_p_mass u_p_wind_fac u_p_max_lifetime
 #import u_p_size_ramp u_p_fade_in u_p_fade_out u_p_color_ramp
-#import u_model_matrix u_wind
+#import u_model_tsr u_wind
 #import a_position a_normal a_p_vels a_p_delay a_p_lifetime
+#import tsr_to_mat4
 
 #export fade_alpha calc_part_params part_params
 
@@ -112,8 +113,10 @@ part_params calc_part_params(void) {
         vec3 pos = a_position;
         vec3 norm = a_normal;
 #else
-        vec3 pos = (u_model_matrix * vec4(a_position, 1.0)).xyz;
-        vec3 norm = (u_model_matrix * vec4(a_normal, 0.0)).xyz;
+        mat4 model_matrix = tsr_to_mat4(u_model_tsr);
+
+        vec3 pos = (model_matrix * vec4(a_position, 1.0)).xyz;
+        vec3 norm = (model_matrix * vec4(a_normal, 0.0)).xyz;
 #endif
 
         /* cinematics */

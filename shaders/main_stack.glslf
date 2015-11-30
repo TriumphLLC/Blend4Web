@@ -68,7 +68,7 @@ uniform vec4 u_sun_quaternion;
 
 
 #if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE
-uniform mat4 u_view_matrix_frag;
+uniform mat3 u_view_tsr_frag;
 #endif
 
 #if !DISABLE_FOG
@@ -294,7 +294,11 @@ void main(void) {
 #if DOUBLE_SIDED_LIGHTING
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
+#if INVERT_FRONTFACING
+    if (!gl_FrontFacing)
+#else
     if (gl_FrontFacing)
+#endif
         sided_normal = sided_normal;
     else
         sided_normal = -sided_normal;
@@ -306,7 +310,8 @@ void main(void) {
 #endif
 
 #if NORMAL_TEXCOORD
-    vec2 texcoord_norm = normalize(u_view_matrix_frag * vec4(v_normal, 0.0)).st;
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr_frag);
+    vec2 texcoord_norm = normalize(view_matrix * vec4(v_normal, 0.0)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
@@ -393,7 +398,7 @@ void main(void) {
 
 // recalculate normal texcoords with parallax and normalmapping applied
 #if NORMAL_TEXCOORD
-    texcoord_norm = normalize(u_view_matrix_frag * vec4(normal, 0.0)).st;
+    texcoord_norm = normalize(view_matrix * vec4(normal, 0.0)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
@@ -494,9 +499,17 @@ void main(void) {
 #endif // SHADELESS
 
 #if REFLECTION_TYPE == REFL_PLANE || REFLECTION_TYPE == REFL_CUBE
-    apply_mirror(color, eye_dir, normal, u_reflect_factor);
+# if NORMAL_TEXCOORD
+    apply_mirror(color, eye_dir, normal, u_reflect_factor, view_matrix);
+# else
+    apply_mirror(color, eye_dir, normal, u_reflect_factor, mat4(0.0));
+# endif
 #elif REFLECTION_TYPE == REFL_MIRRORMAP
-    apply_mirror(color, eye_dir, normal, 0.0);
+# if NORMAL_TEXCOORD
+    apply_mirror(color, eye_dir, normal, 0.0, view_matrix);
+# else
+    apply_mirror(color, eye_dir, normal, 0.0, mat4(0.0));
+# endif
 #endif
 
 #if !SHADELESS

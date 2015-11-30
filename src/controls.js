@@ -32,6 +32,7 @@ var m_print = require("__print");
 var m_phy   = require("__physics");
 var m_quat  = require("__quat");
 var m_time  = require("__time");
+var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
@@ -394,8 +395,8 @@ exports.create_motion_sensor = function(obj, threshold, rotation_threshold) {
 
     sensor.source_object = obj;
 
-    var trans = obj.render.trans;
-    var quat = obj.render.quat;
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
 
     sensor.quat_temp = new Float32Array(4);
     sensor.trans_last = new Float32Array(trans);
@@ -425,8 +426,8 @@ exports.create_vertical_velocity_sensor = function(obj, threshold) {
 
     sensor.source_object = obj;
 
-    var trans = obj.render.trans;
-    var quat = obj.render.quat;
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
 
     sensor.trans_last = new Float32Array(trans);
     sensor.quat_last = new Float32Array(quat);
@@ -565,8 +566,8 @@ function update_sensor(sensor, timeline, elapsed) {
 
         var obj = sensor.source_object;
 
-        var trans = obj.render.trans;
-        var quat = obj.render.quat;
+        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
 
         var dist = m_vec3.dist(sensor.trans_last, trans);
 
@@ -602,7 +603,7 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_V_VELOCITY:
 
         var obj = sensor.source_object;
-        var trans = obj.render.trans;
+        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
 
         var vel = Math.abs(trans[1] - sensor.trans_last[1]) / elapsed;
         sensor.avg_vertical_vel = m_util.smooth(vel, sensor.avg_vertical_vel,
@@ -1440,7 +1441,7 @@ function touch_end_cb(e) {
 
     var touches = e.targetTouches;
 
-    if (touches.length == 1) {
+    if (touches.length == 0) {
 
         for (var i = 0; i < _sensors.length; i++) {
             var sensor = _sensors[i];
@@ -1541,6 +1542,7 @@ exports.register_wheel_events = function(element, prevent_default) {
 
 exports.register_touch_events = function(element, prevent_default) {
     element.addEventListener("touchstart", touch_start_cb, false);
+    element.addEventListener("touchend", touch_end_cb, false);
     element.addEventListener("touchmove",  touch_move_cb, false);
 
     // HACK: fix touch events issue on some mobile devices

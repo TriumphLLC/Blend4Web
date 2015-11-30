@@ -19,7 +19,6 @@
 float ZERO_VALUE_NODES = 0.0;
 float UNITY_VALUE_NODES = 1.0;
 float HALF_VALUE_NODES = 0.5;
-vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 
 #node LIGHTING_BEGIN
     #node_out vec3 E
@@ -68,7 +67,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
     #node_out vec3 specular_out
 
     color_out = vec4(E + D * A, ZERO_VALUE_NODES);
-    specular_out = ZERO_VECTOR;
+    specular_out = vec3(ZERO_VALUE_NODES);
 #endnode
 
 #node LIGHTING_LAMP
@@ -79,21 +78,19 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
     #node_out vec3 lcolorint
     #node_out float norm_fac
 
-// TODO: remove "NUM_LIGHTS > 0" and fix reflect batches
-# node_if !NODES_GLOW && NUM_LIGHTS > 0
     lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
-#  node_if LAMP_TYPE == HEMI
+# node_if LAMP_TYPE == HEMI
     norm_fac = HALF_VALUE_NODES;
-#  node_else
+# node_else
     norm_fac = ZERO_VALUE_NODES;
-#  node_endif
+# node_endif
 
     // 0.0 - full shadow, 1.0 - no shadow
     lcolorint = u_light_color_intensities[LAMP_IND];
     if (LAMP_SHADOW_MAP_IND != -1)
          lcolorint *= shadow_factor;
 
-#  node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
+# node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     vec3 lpos = u_light_positions[LAMP_IND];
     ldir = lpos - nin_pos_world;
 
@@ -103,7 +100,7 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 
     ldir = normalize(ldir);
 
-#   node_if LAMP_TYPE == SPOT
+#  node_if LAMP_TYPE == SPOT
     // spot shape like in Blender,
     // source/blender/gpu/shaders/gpu_shader_material.glsl
     vec3 ldirect = u_light_directions[LAMP_IND];
@@ -111,11 +108,10 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
     spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
                               (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
     lcolorint *= spot_factor;
-#   node_endif
-#  node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
+#  node_endif
+# node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     ldir = u_light_directions[LAMP_IND];
-#  node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
-# node_endif
+# node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
 #endnode
 
 #node DIFFUSE_FRESNEL

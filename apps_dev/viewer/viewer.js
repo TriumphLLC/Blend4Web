@@ -233,7 +233,7 @@ function enable_camera_controls() {
     var zoom_to_cb = function(obj, id, pulse) {
         var selobj = get_selected_object();
         if (selobj)
-            m_cam.zoom_object(obj, selobj);
+            m_cam.target_zoom_object(obj, selobj);
     }
 
     m_ctl.create_sensor_manifold(obj, "ZOOM_TO", m_ctl.CT_SHOT, zoom_to_array,
@@ -300,11 +300,12 @@ function init_ui() {
     bind_control(save_quality_and_reload, "quality", "string");
     refresh_quality_ui();
 
-    m_app.set_onclick("reset_memory", reset_memory);
+    m_app.set_onclick("reset", reset_clicked);
     m_app.set_onclick("auto_rotate_cam", auto_rotate_cam);
     m_app.set_onclick("pause", pause_clicked);
     m_app.set_onclick("resume", resume_clicked);
     m_app.set_onclick("auto_view", start_auto_view);
+    m_app.set_onclick("home", home_clicked);
 
     // list of scenes
     init_scenes_list();
@@ -319,6 +320,8 @@ function init_ui() {
     bind_control(set_animation_params, "anim_frame_current", "number");
     m_app.set_onclick("anim_play", anim_play_clicked);
     m_app.set_onclick("anim_stop", anim_stop_clicked);
+    m_app.set_onclick("anim_play_all", anim_play_all_clicked);
+    m_app.set_onclick("anim_stop_all", anim_stop_all_clicked);
 
     // nla
     bind_control(set_nla_params, "nla_frame_current", "number");
@@ -527,10 +530,10 @@ function init_scenes_list() {
     var url_params = m_app.get_url_params();
     if (url_params && url_params["load"]) {
         var elems = url_params["load"].split("/");
-        var scene_name = "Home (" + elems[elems.length - 1] + ")"
+        var scene_name = "Home - " + elems[elems.length - 1];
     } else {
         var elems = DEFAULT_SCENE.split("/");
-        var scene_name = "Home (" + elems[elems.length - 1] + ")"
+        var scene_name = "Home - " + elems[elems.length - 1];
     }
     s += "<div class='min_font' id='default_scene'>";
     s += "<h6 class='ui-collapsible-heading'><a class='ui-mini ui-btn ui-btn-icon-right ui-icon-home'>" + scene_name + "</a></h6>";
@@ -684,7 +687,7 @@ function loaded_callback(data_id) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
                 m_trans.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
-                var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
+                var cam_eye = m_cam.get_translation(obj, _vec3_tmp2);
                 var dist = m_vec3.dist(sel_obj_pos, cam_eye);
                 _dist_to_camera = dist.toFixed(3);
             }
@@ -1073,9 +1076,16 @@ function save_quality_and_reload(value) {
     }, 100);
 }
 
-function reset_memory() {
+function reset_clicked() {
     m_storage.cleanup();
-    window.location.reload();
+    // NOTE: remove load=... as only the one param used by Viewer
+    var new_href = window.location.href.replace(/load=.*?(&|$)/, "").
+            replace(/(&|\?)$/, "");
+    window.location.href = new_href;
+}
+
+function home_clicked() {
+    process_scene(null, true, false, true);
 }
 
 function pause_clicked() {
@@ -1214,6 +1224,24 @@ function anim_stop_clicked() {
     var anim_name = document.getElementById("animation").value;
     var slot_num = parseInt(document.getElementById("anim_slot").value);
     m_anim.stop(_anim_obj, slot_num);
+}
+
+function anim_play_all_clicked() {
+    var children = document.getElementById("anim_active_object").children;
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        var obj = interface_name_to_object(child.value);
+        m_anim.play(obj, null, m_anim.SLOT_ALL);
+    }
+}
+
+function anim_stop_all_clicked() {
+    var children = document.getElementById("anim_active_object").children;
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        var obj = interface_name_to_object(child.value);
+        m_anim.stop(obj, null, m_anim.SLOT_ALL);
+    }
 }
 
 function nla_play_clicked() {

@@ -54,20 +54,18 @@ exports.TF_NEAREST_MIPMAP_LINEAR = 0;
 exports.TF_LINEAR_MIPMAP_LINEAR = 0;
 
 // texture types
-exports.TT_RGBA_INT = 10;
-exports.TT_RGB_INT = 20;
-exports.TT_RGBA_FLOAT = 30;
-exports.TT_RGB_FLOAT = 40;
-exports.TT_DEPTH = 50;
-exports.TT_RENDERBUFFER = 60;
+exports.TT_RGBA_INT    = 10;
+exports.TT_RGB_INT     = 20;
+exports.TT_RGBA_FLOAT  = 30;
+exports.TT_RGB_FLOAT   = 40;
+exports.TT_DEPTH       = 50;
+exports.TT_RB_RGBA     = 60;
+exports.TT_RB_DEPTH    = 70;
+exports.TT_RB_RGBA_MS  = 80;
+exports.TT_RB_DEPTH_MS = 90;
 
 var _canvas_textures_cache = {};
 var _video_textures_cache = {};
-
-var CHANNEL_SIZE_BYTES_INT = 4;
-var CHANNEL_SIZE_BYTES_FLOAT = 16;
-var CHANNEL_SIZE_BYTES_DEPTH = 3;
-var CHANNEL_SIZE_BYTES_RENDERBUFFER = 2;
 
 var PLAYBACK_RATE = 2;
 
@@ -134,8 +132,6 @@ function init_texture() {
         w_texture: null,
         w_renderbuffer: null,
 
-        _nla_tex_event: null,
-
         // movie properties
         is_movie: false,
 
@@ -180,7 +176,10 @@ exports.create_texture = function(name, type) {
     texture.type = type;
     texture.source = "NONE";
 
-    if (type == exports.TT_RENDERBUFFER) {
+    if (    type == exports.TT_RB_RGBA ||
+            type == exports.TT_RB_DEPTH ||
+            type == exports.TT_RB_RGBA_MS ||
+            type == exports.TT_RB_DEPTH_MS) {
         texture.w_renderbuffer = _gl.createRenderbuffer();
     } else {
         var w_target = _gl.TEXTURE_2D;
@@ -258,7 +257,7 @@ exports.create_cubemap_texture = function(name, size) {
  */
 exports.set_filters = function(texture, min_filter, mag_filter) {
 
-    if (texture.type == exports.TT_RENDERBUFFER)
+    if (is_renderbuffer(texture))
         return;
 
     var w_target = texture.w_target;
@@ -281,12 +280,11 @@ exports.set_filters = function(texture, min_filter, mag_filter) {
 exports.get_filters = function(texture) {
 
     // consider that renderbuffer has NEAREST filtering
-    if (texture.type == exports.TT_RENDERBUFFER) {
+    if (is_renderbuffer(texture))
         return {
             min: exports.TF_NEAREST,
             mag: exports.TF_NEAREST
         }
-    }
 
     var w_target = texture.w_target;
     var w_texture = texture.w_texture;
@@ -311,21 +309,47 @@ exports.resize = function(texture, width, height) {
     if (texture.width == width && texture.height == height)
         return;
 
-    if (texture.type == exports.TT_RENDERBUFFER) {
+    switch (texture.type) {
+    case exports.TT_RB_RGBA:
         _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
+        // NOTE: maximum internal format in WebGL 1
+        _gl.renderbufferStorage(_gl.RENDERBUFFER, _gl.RGB565,
+                width, height);
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
+        break;
+    case exports.TT_RB_DEPTH:
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
+        // NOTE: maximum internal format in WebGL 1
         _gl.renderbufferStorage(_gl.RENDERBUFFER, _gl.DEPTH_COMPONENT16,
                 width, height);
         _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
-    } else {
+        break;
+    case exports.TT_RB_RGBA_MS:
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
+        _gl.renderbufferStorageMultisample(_gl.RENDERBUFFER,
+                cfg_def.msaa_samples, _gl.RGBA8,
+                width, height);
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
+        break;
+    case exports.TT_RB_DEPTH_MS:
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
+        _gl.renderbufferStorageMultisample(_gl.RENDERBUFFER,
+                cfg_def.msaa_samples, _gl.DEPTH_COMPONENT24,
+                width, height);
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
+        break;
+    default:
         var w_tex = texture.w_texture;
         var w_target = texture.w_target;
 
         _gl.bindTexture(w_target, w_tex);
         var format = get_image2d_format(texture);
+        var iformat = get_image2d_iformat(texture);
         var type = get_image2d_type(texture);
-        _gl.texImage2D(w_target, 0, format, width, height, 0, format, type, null);
+        _gl.texImage2D(w_target, 0, iformat, width, height, 0, format, type, null);
 
         _gl.bindTexture(w_target, null);
+        break;
     }
 
     if (check_texture_size(width, height)) {
@@ -514,10 +538,11 @@ function update_texture_canvas(texture) {
     _gl.bindTexture(w_target, w_texture);
 
     var w_format = get_image2d_format(texture);
+    var w_iformat = get_image2d_iformat(texture);
     var w_type = get_image2d_type(texture);
     var canvas = texture.canvas_context.canvas;
     _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
-    _gl.texImage2D(w_target, 0, w_format, w_format, w_type, canvas);
+    _gl.texImage2D(w_target, 0, w_iformat, w_format, w_type, canvas);
     _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
     if (texture.enable_canvas_mipmapping)
         _gl.generateMipmap(w_target);
@@ -527,7 +552,8 @@ function update_texture_canvas(texture) {
     texture.height = canvas.height;
 }
 
-exports.update_video_texture = function(texture) {
+exports.update_video_texture = update_video_texture;
+function update_video_texture(texture) {
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
 
@@ -585,7 +611,7 @@ function draw_resized_image(texture, image_data, width, height, is_dds) {
             _w_texture_tmp, "NONE");
 }
 
-function draw_cube_map(texture, image_data, pot_dim, img_dim) {
+function resize_cube_map(texture, image_data, pot_dim, img_dim) {
     setup_resized_tex_data(_gl.TEXTURE_2D);
     _gl.texImage2D(_gl.TEXTURE_2D, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
     _gl.bindTexture(_gl.TEXTURE_2D, null);
@@ -611,7 +637,7 @@ function draw_cube_map(texture, image_data, pot_dim, img_dim) {
     _gl.texParameteri(texture.w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
 }
 
-function draw_resized_cube_map(texture, image_data, img_dim, pot_dim, infos) {
+function resize_cube_map_canvas(texture, image_data, img_dim, pot_dim, infos) {
     for (var i = 0; i < 6; i++) {
         var info = infos[i];
         var tmpcanvas = get_tmp_canvas();
@@ -771,6 +797,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                             image_data.playbackRate = PLAYBACK_RATE;
                     }
                     var draw_data = image_data;
+                    create_oncanplay_handler(texture);
                 } else {
                     if (!(thread_id in _video_textures_cache))
                         _video_textures_cache[thread_id] = {};
@@ -865,10 +892,10 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                     texture.need_resize = true;
             }
 
-            if (texture.need_resize)
-                draw_resized_cube_map(texture, image_data, img_dim, tex_dim, infos);
+            if (texture.need_resize || cfg_def.resize_cubemap_canvas_hack)
+                resize_cube_map_canvas(texture, image_data, img_dim, tex_dim, infos);
             else
-                draw_cube_map(texture, image_data, tex_dim, img_dim);
+                resize_cube_map(texture, image_data, tex_dim, img_dim);
 
             texture.width = 3 * tex_dim;
             texture.height = 2 * tex_dim;
@@ -882,6 +909,15 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
     }
 
     _gl.bindTexture(w_target, null);
+}
+
+function create_oncanplay_handler(tex) {
+    tex.video_file.oncanplay = function() {
+        // NOTE: setting new frame for an HTML5 video texture forces it 
+        // to seek at this point which requires some time, so it can be 
+        // updated only on the next frame after this operation.
+        update_video_texture(tex);
+    }
 }
 
 function prepare_npot_texture(tex_target) {
@@ -931,6 +967,37 @@ function get_image2d_format(texture) {
 }
 
 /**
+ * Get internalformat for texImage2D()
+ */
+function get_image2d_iformat(texture) {
+
+    var format;
+
+    switch (texture.type) {
+    case exports.TT_RGBA_INT:
+        format = cfg_def.webgl2 ? _gl.RGBA8 : _gl.RGBA;
+        break;
+    case exports.TT_RGB_INT:
+        format = cfg_def.webgl2 ? _gl.RGB8 : _gl.RGB;
+        break;
+    case exports.TT_RGBA_FLOAT:
+        format = cfg_def.webgl2 ? _gl.RGBA8 : _gl.RGBA;
+        break;
+    case exports.TT_RGB_FLOAT:
+        format = cfg_def.webgl2 ? _gl.RGB8 : _gl.RGB;
+        break;
+    case exports.TT_DEPTH:
+        format = cfg_def.webgl2 ? _gl.DEPTH_COMPONENT24 : _gl.DEPTH_COMPONENT;
+        break;
+    default:
+        throw "Wrong texture type";
+        break;
+    }
+
+    return format;
+}
+
+/**
  * Get type for texImage2D()
  */
 function get_image2d_type(texture) {
@@ -967,7 +1034,7 @@ exports.delete_texture = function(texture) {
 }
 
 /**
- * Check if object is a texture
+ * Check if object is a texture, renderbuffer is also a texture.
  */
 exports.is_texture = function(tex) {
     if (tex && tex.name && (tex.w_texture || tex.w_renderbuffer))
@@ -979,7 +1046,8 @@ exports.is_texture = function(tex) {
 /**
  * Check if object is a renderbuffer
  */
-exports.is_renderbuffer = function(tex) {
+exports.is_renderbuffer = is_renderbuffer;
+function is_renderbuffer(tex) {
     if (tex && tex.name && tex.w_renderbuffer)
         return true;
     else
@@ -994,25 +1062,32 @@ exports.is_float = function(tex) {
 }
 
 /**
- * Get texture channel size
+ * Get an amount of bytes occupied by one texel.
  */
-exports.get_texture_channel_size = function(tex) {
+exports.get_texture_texel_size = function(tex) {
     var size = 0;
 
     switch (tex.type) {
     case exports.TT_RGBA_INT:
     case exports.TT_RGB_INT:
-        size = CHANNEL_SIZE_BYTES_INT;
+        size = 4;
         break;
     case exports.TT_RGBA_FLOAT:
     case exports.TT_RGB_FLOAT:
-        size = CHANNEL_SIZE_BYTES_FLOAT;
+        size = 16;
         break;
     case exports.TT_DEPTH:
-        size = CHANNEL_SIZE_BYTES_DEPTH;
+        size = 3;
         break;
-    case exports.TT_RENDERBUFFER:
-        size = CHANNEL_SIZE_BYTES_RENDERBUFFER;
+    case exports.TT_RB_RGBA:
+    case exports.TT_RB_DEPTH:
+        size = 2;
+        break;
+    case exports.TT_RB_RGBA_MS:
+        size = 4 * cfg_def.msaa_samples;
+        break;
+    case exports.TT_RB_DEPTH_MS:
+        size = 3 * cfg_def.msaa_samples;
         break;
     }
 
@@ -1131,10 +1206,13 @@ exports.reset_video = reset_video;
 function reset_video(vtex_name, data_id) {
     if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
         var vtex = _video_textures_cache[data_id][vtex_name];
-        if (vtex.video_file)
+        if (vtex.video_file) {
             vtex.video_file.currentTime = vtex.frame_offset / vtex.fps;
-        else if (vtex.seq_video)
+            // normal video will be updated through the oncanplay handler
+        } else if (vtex.seq_video) {
             vtex.seq_cur_frame = video_frame_to_seq_frame(vtex, vtex.frame_offset);
+            update_seq_video_texture(vtex);
+        }
         return true;
     } else
         return false;
@@ -1146,10 +1224,13 @@ function reset_video(vtex_name, data_id) {
 exports.set_frame_video = function(vtex_name, frame, data_id) {
     if (data_id in _video_textures_cache && vtex_name in _video_textures_cache[data_id]) {
         var vtex = _video_textures_cache[data_id][vtex_name];
-        if (vtex.video_file)
+        if (vtex.video_file) {
             vtex.video_file.currentTime = frame / vtex.fps;
-        else if (vtex.seq_video)
+            // normal video will be updated through the oncanplay handler
+        } else if (vtex.seq_video) {
             vtex.seq_cur_frame = frame;
+            update_seq_video_texture(vtex);
+        }
         return true;
     } else
         return false;

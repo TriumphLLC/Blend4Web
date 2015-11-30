@@ -53,6 +53,7 @@ var m_shaders   = require("__shaders");
 var m_tex       = require("__textures");
 var m_time      = require("__time");
 var m_trans     = require("__transform");
+var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 var m_vec4      = require("__vec4");
 
@@ -1032,6 +1033,13 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         // original and meta objects both        
         var scene_objs = m_obj.get_scene_objs(scene_dst, "ALL", thread.id);
         m_scenes.assign_scene_data_subs(scene_dst, scene_objs, lamps);
+
+        // update boundings for shape keys objs
+        for (var j = 0; j < scene_objs.length; j++) {
+            var obj = scene_objs[j];
+            if (obj.render.use_shape_keys)
+                m_obj.update_boundings(obj);
+        }
     }
 
     m_scenes.append_scene_vtex(_primary_scene, bpy_data["textures"], thread.id);
@@ -1964,8 +1972,12 @@ function update_scenes_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_
     var scenes = m_scenes.get_rendered_scenes();
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
-        if (scene["b4w_use_nla"])
-            m_nla.update_scene(scene, scene["b4w_nla_cyclic"], thread.id);
+        if (scene["b4w_use_nla"]) {
+            var nla_cyclic = scene["b4w_nla_cyclic"];
+            if (scene["b4w_use_logic_editor"])
+                nla_cyclic = false;
+            m_nla.update_scene(scene, nla_cyclic, thread.id);
+        }
     }
     cb_finish(thread, stage);
 }
@@ -2388,49 +2400,45 @@ function prepare_vehicles(objects) {
                     obj_i.vehicle.steering_ratio = vh_set_j.steering_ratio;
                     obj_i.vehicle.inverse_control = vh_set_j.inverse_control;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var steering_wheel_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.steering_wheel_tsr = steering_wheel_tsr;
 
-                    var steering_wheel_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.steering_wheel_matrix = steering_wheel_matrix;
-
-                    var steering_wheel_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(steering_wheel_axis, steering_wheel_matrix,
+                    var steering_wheel_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(steering_wheel_axis, steering_wheel_tsr,
                             steering_wheel_axis);
                     obj_i.vehicle.steering_wheel_axis = steering_wheel_axis;
                 } else if (m_phy.is_vehicle_speedometer(obj_j) && vh_set_i.name == vh_set_j.name) {
-
                     obj_i.vehicle.speedometer = obj_j;
 
                     obj_i.vehicle.speed_ratio = vh_set_j.speed_ratio;
                     obj_i.vehicle.max_speed_angle = vh_set_j.max_speed_angle;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var speedometer_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.speedometer_tsr = speedometer_tsr;
 
-                    var speedometer_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.speedometer_matrix = speedometer_matrix;
-
-                    var speedometer_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(speedometer_axis, speedometer_matrix, speedometer_axis);
+                    var speedometer_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(speedometer_axis, speedometer_tsr,
+                            speedometer_axis);
                     obj_i.vehicle.speedometer_axis = speedometer_axis;
                 } else if (m_phy.is_vehicle_tachometer(obj_j) && vh_set_i.name == vh_set_j.name) {
-
                     obj_i.vehicle.tachometer = obj_j;
 
                     obj_i.vehicle.delta_tach_angle = vh_set_j.delta_tach_angle;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var tachometer_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.tachometer_tsr = tachometer_tsr;
 
-                    var tachometer_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.tachometer_matrix = tachometer_matrix;
-
-                    var tachometer_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(tachometer_axis, tachometer_matrix,
+                    var tachometer_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(tachometer_axis, tachometer_tsr,
                             tachometer_axis);
                     obj_i.vehicle.tachometer_axis = tachometer_axis;
                 }
@@ -2485,50 +2493,44 @@ function prepare_vehicles(objects) {
                     obj_i.vehicle.steering_ratio = vh_set_j.steering_ratio;
                     obj_i.vehicle.inverse_control = vh_set_j.inverse_control;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
-
-                    var steering_wheel_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.steering_wheel_matrix = steering_wheel_matrix;
-
-                    var steering_wheel_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(steering_wheel_axis, steering_wheel_matrix,
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var steering_wheel_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.steering_wheel_tsr = steering_wheel_tsr;
+                    var steering_wheel_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(steering_wheel_axis, steering_wheel_tsr,
                             steering_wheel_axis);
                     obj_i.vehicle.steering_wheel_axis = steering_wheel_axis;
                 } else if (m_phy.is_vehicle_speedometer(obj_j) && vh_set_i.name == vh_set_j.name) {
-
                     obj_i.vehicle.speedometer = obj_j;
 
                     obj_i.vehicle.speed_ratio = vh_set_j.speed_ratio;
                     obj_i.vehicle.max_speed_angle = vh_set_j.max_speed_angle;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var speedometer_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.speedometer_tsr = speedometer_tsr;
 
-                    var speedometer_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.speedometer_matrix = speedometer_matrix;
-
-                    var speedometer_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(speedometer_axis, speedometer_matrix,
+                    var speedometer_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(speedometer_axis, speedometer_tsr,
                             speedometer_axis);
                     obj_i.vehicle.speedometer_axis = speedometer_axis;
                 } else if (m_phy.is_vehicle_tachometer(obj_j) && vh_set_i.name == vh_set_j.name) {
-
                     obj_i.vehicle.tachometer = obj_j;
 
                     obj_i.vehicle.delta_tach_angle = vh_set_j.delta_tach_angle;
 
-                    var wm_inv = m_mat4.invert(obj_i.render.world_matrix,
-                            new Float32Array(16));
+                    var wtsr_inv = m_tsr.invert(obj_i.render.world_tsr,
+                            m_tsr.create())
+                    var tachometer_tsr = m_tsr.multiply(wtsr_inv,
+                            obj_j.render.world_tsr, wtsr_inv);
+                    obj_i.vehicle.tachometer_tsr = tachometer_tsr;
 
-                    var tachometer_matrix = m_mat4.multiply(wm_inv,
-                            obj_j.render.world_matrix, wm_inv);
-                    obj_i.vehicle.tachometer_matrix = tachometer_matrix;
-
-                    var tachometer_axis = new Float32Array([1,0,0,0]);
-                    m_vec4.transformMat4(tachometer_axis, tachometer_matrix,
+                    var tachometer_axis = new Float32Array([1,0,0]);
+                    m_tsr.transform_dir_vec3(tachometer_axis, tachometer_tsr,
                             tachometer_axis);
                     obj_i.vehicle.tachometer_axis = tachometer_axis;
                 }
@@ -2883,7 +2885,7 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
             // add only currently loaded objects
             if (obj.render.data_id == thread.id) {
                 if (thread.load_hidden && m_obj_util.is_mesh(obj))
-                    m_scenes.hide_object(obj);
+                    m_scenes.change_visibility(obj, true);
                 cb_param.added_objects.push({
                     scene: scene,
                     obj: obj
@@ -2914,13 +2916,15 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
             m_obj.sort_lamps(scene);
 
         var cube_refl_subs = sc_data.cube_refl_subs;
-        if (obj.render.cube_reflection_id != null && cube_refl_subs)
-            m_scenes.update_cube_reflect_subs(cube_refl_subs, obj.render.trans);
+        if (obj.render.cube_reflection_id != null && cube_refl_subs){
+            var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+            m_scenes.update_cube_reflect_subs(cube_refl_subs, trans);
+        }
 
         var refl_objs = obj.reflective_objs;
         if (refl_objs.length && scene._render.reflection_params) {
-            var rp_trans = obj.render.trans;
-            var rp_quat = obj.render.quat;
+            var rp_trans = m_tsr.get_trans_view(obj.render.world_tsr);
+            var rp_quat = m_tsr.get_quat_view(obj.render.world_tsr);
             var refl_subs = sc_data.plane_refl_subs;
             m_scenes.update_plane_reflect_subs(refl_subs, rp_trans, rp_quat);
             m_obj_util.update_refl_objects(refl_objs,
@@ -3410,11 +3414,20 @@ exports.set_debug_resources_root = function(debug_resources_root) {
 }
 
 function parent_num(bpy_obj) {
-    var par = bpy_obj["parent"] || m_anim.get_bpy_armobj(bpy_obj);
+    var par = get_parent(bpy_obj);
     if (par)
         return 1 + parent_num(par);
     else
         return 0;
+
+}
+
+function get_parent(bpy_obj) {
+    var armobj = m_anim.get_bpy_armobj(bpy_obj);
+    if (armobj && armobj["parent"] == bpy_obj)
+        return null;
+    else
+        return bpy_obj["parent"] || armobj;
 }
 
 }

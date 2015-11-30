@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -760,11 +760,6 @@ msgstr ""
 msgid "*Large Mask: Width*"
 msgstr ""
 
-# msgstr ""
-#: ../postprocessing_effects.rst:307
-msgid "*Render Glow Over Transparent Object*"
-msgstr ""
-
 # msgstr "Render the glow effect over transparent objects."
 #: ../postprocessing_effects.rst:306
 msgid ""
@@ -808,6 +803,13 @@ msgid ""
 "*высокое качество* и *максимальное качество* - использовать алгоритм FXAA "
 "3.11 (Fast Approximate Anti-Aliasing, Nvidia)."
 msgstr ""
+
+#: ../postprocessing_effects.rst:307
+msgid "*Render Glow Over Transparent Objects*"
+msgstr ""
+
+#~ msgid "*Render Glow Over Transparent Object*"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Выбрать один из профилей качества в поле ``Antialiasing Quality`` на панели "

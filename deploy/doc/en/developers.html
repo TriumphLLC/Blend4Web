@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; User Manual: Blend4Web vv15.10</title>
+  <title>For Application Developers &mdash; User Manual: Blend4Web vv15.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Visual Programming" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.10
+              v15.11
             </div>
           
         
@@ -108,45 +108,49 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">For Application Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hello-world">Hello World!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Loading Scenes in Apps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Module System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Creating Apps Quickly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#app-building">Project Managment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#project-management">Project management</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-manager">Project Manager</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Project Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#b4w-project"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Config File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#c">Creating New Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Creating Applications Within Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Building Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Automatic Re-export</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Resource Conversion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Projects List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Deploying Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Remove project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-new-project">Master to create a new project</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">Preparing Assets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">App Logic Coding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Building Apps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sdk">Exporting Apps Outside SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-project-management">Advanced Project Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Projects List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#b4w-project"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Config File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Advanced project management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Developing multiple apps inside a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Building Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Automatic Re-export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Resource Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Deploying Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Remove project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdk">Upgrading apps for new SDK versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Path to loaded application assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">Application Programming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello world!</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Loading Scenes in Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Module System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Creating Apps Quickly</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#converter">Resource Conversion</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Data format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Data format</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#canvas-nonfullscreen-coords">Non-FullScreen Web Apps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-snippets">Code Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#index-0">Sensors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Loading Local Resources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#canvas-nonfullscreen-coords">Non-FullScreen Web Apps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
@@ -191,138 +195,8 @@
             
   <div class="section" id="developers">
 <span id="id1"></span><h1>For Application Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="hello-world">
-<h2>Hello World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
-<p>The simplest Blend4Web app may look like this:</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script&gt;</span>
-<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;Hello, Blend4Web &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">version</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-
-<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;hello()&quot;</span><span class="nt">&gt;&lt;/body&gt;</span>
-
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</div>
-<p>This app prints a message and the engine&#8217;s version in the browser window. Let&#8217;s look at this example in detail. The engine library is embedded with the <code class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></code> element. Then, the app waits for the page to load and prints the current version in the browser window. In this example, <code class="docutils literal"><span class="pre">version</span></code> is the only used module which has a function with the same name - <code class="docutils literal"><span class="pre">version()</span></code>. A more detailed info about the usage of engine&#8217;s modules and functions can be found in the <a class="reference external" href="https://www.blend4web.com/api_doc/index.html">API documentation</a>.</p>
-<p>The compiled engine file <code class="docutils literal"><span class="pre">b4w.min.js</span></code> can be copied from the SDK&#8217;s <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> directory and placed in the same directory as the HTML file.</p>
-</div>
-<div class="section" id="id2">
-<h2>Loading Scenes in Apps<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>To load a 3D scene you need:</p>
-<ol class="arabic simple">
-<li><p class="first">Place a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element on a page for rendering.</p>
-</li>
-<li><p class="first">Call the <code class="docutils literal"><span class="pre">m_main.init()</span></code> function with the created element id to init the WebGL context after the page is loaded.</p>
-</li>
-<li><p class="first">Call the <code class="docutils literal"><span class="pre">m_data.load()</span></code> function to load a 3D scene.</p>
-</li>
-</ol>
-<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script&gt;</span>
-<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
-
-    <span class="kd">var</span> <span class="nx">canvas_elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
-    <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">);</span>
-    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-
-<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;hello()&quot;</span><span class="nt">&gt;&lt;canvas</span> <span class="na">id=</span><span class="s">&quot;canvas_id&quot;</span><span class="nt">&gt;&lt;/canvas&gt;&lt;/body&gt;</span>
-
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Note that a real app should include error checking, setting up the engine before initializing and also a basic system for interacting with the user.</p>
-</div>
-</div>
-<div class="section" id="id3">
-<h2>Module System<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <code class="docutils literal"><span class="pre">b4w</span></code> namespace. To call a module&#8217;s method import it first with the <code class="docutils literal"><span class="pre">b4w.require()</span></code> function.</p>
-<p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <code class="docutils literal"><span class="pre">b4w.register()</span></code> call. Check if a module with some name already exists with a <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> call.</p>
-<p>Example:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// check if module exists</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
-    <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
-
-<span class="c1">// register my_module</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// import module &quot;version&quot;</span>
-    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
-
-    <span class="c1">// export print_build_date() from module &quot;my_module&quot;</span>
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">print_build_date</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// exec function date() from module &quot;version&quot;</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Engine build date: &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">date</span><span class="p">());</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-
-<span class="c1">// import module &quot;my_module&quot;</span>
-<span class="kd">var</span> <span class="nx">m_my_module</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">);</span>
-
-<span class="c1">// exec function print_build_date() from module &quot;my_module&quot;</span>
-<span class="nx">m_my_module</span><span class="p">.</span><span class="nx">print_build_date</span><span class="p">();</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id4">
-<h2>Creating Apps Quickly<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called <code class="docutils literal"><span class="pre">app</span></code>:</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.full.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script&gt;</span>
-
-<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
-
-<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;container_id&quot;</span><span class="p">,</span>
-    <span class="nx">callback</span><span class="o">:</span> <span class="nx">load_cb</span>
-<span class="p">})</span>
-
-<span class="kd">function</span> <span class="nx">load_cb</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">,</span> <span class="nx">loaded_cb</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">loaded_cb</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_app</span><span class="p">.</span><span class="nx">enable_controls</span><span class="p">();</span>
-    <span class="nx">m_app</span><span class="p">.</span><span class="nx">enable_camera_controls</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-
-<span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container_id&quot;</span> <span class="na">style=</span><span class="s">&quot;width: 350px; height: 200px;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</div>
-<p>In this case the <code class="docutils literal"><span class="pre">app</span></code> module will create a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element inside the container with the specified <code class="docutils literal"><span class="pre">container_id</span></code> id. Then it will initialize the engine after the page is loaded and will finally execute the <code class="docutils literal"><span class="pre">load_cb()</span></code> callback.</p>
-<p>Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.</p>
-<p>In case when the <code class="docutils literal"><span class="pre">app</span></code> module is used, it is necessary to specify dimensions of the container element. Otherwise the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element will have zero dimensions.</p>
-</div>
-<div class="section" id="app-building">
-<span id="project-management"></span><span id="id5"></span><h2>Project Managment<a class="headerlink" href="#app-building" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-management">
+<span id="app-building"></span><span id="id2"></span><h2>Project management<a class="headerlink" href="#project-management" title="Permalink to this headline">¶</a></h2>
 <p>Since version 15.09, the SDK includes a project managment feature, which makes it possible to:</p>
 <blockquote>
 <div><ul class="simple">
@@ -343,14 +217,6 @@
 </ul>
 </div></blockquote>
 <p>You can manage your projects in two ways: by using <em>project.py</em> which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the Project Manager can be opened by clicking on the <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button in Blender.</p>
-<p>The project managment system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
-</pre></div>
-</div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py check_deps</span>
-</pre></div>
-</div>
 <div class="section" id="project-manager">
 <h3>Project Manager<a class="headerlink" href="#project-manager" title="Permalink to this headline">¶</a></h3>
 <p>This graphical app allows you to perform basic project managment functions, such as browsing projects, building apps, exporting scenes and converting resources. It also includes a master for creating new apps. We recommend advanced developers who need a full control over their apps to use the script <em>project.py</em> and manually configure <em>.b4w_project</em> files.</p>
@@ -379,7 +245,10 @@
 <p class="first admonition-title">Note</p>
 <p class="last">All project paths are retreived from .b4w_project file.</p>
 </div>
-<p id="create-new-project">Master to create a new project.</p>
+</div>
+<div class="section" id="create-new-project">
+<span id="id3"></span><h3>Master to create a new project<a class="headerlink" href="#create-new-project" title="Permalink to this headline">¶</a></h3>
+<p>Master for creating new projects is included in the Project Management app and executed by <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> button located on the main page of this app.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/create_project.png"><img alt="_images/create_project.png" class="align-center" src="_images/create_project.png" style="width: 100%;" /></a>
 </div></blockquote>
@@ -388,7 +257,7 @@
 </li>
 <li><p class="first">Project title shown as shown in browser.</p>
 </li>
-<li><p class="first">Project&#8217;s author name</p>
+<li><p class="first">Project&#8217;s author name.</p>
 </li>
 <li><p class="first">Add application templates. Standard application templates: html-file, css-file, js-file will be added to the project directory &#8220;apps_dev/project_name&#8221;.</p>
 </li>
@@ -430,8 +299,32 @@
 </li>
 </ol>
 </div>
+</div>
+<div class="section" id="advanced-project-management">
+<span id="id4"></span><h2>Advanced Project Management<a class="headerlink" href="#advanced-project-management" title="Permalink to this headline">¶</a></h2>
+<p>Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.</p>
+<p>For advanced project management use the <em>project.py</em> script and manually edit <em>.b4w_project</em> config files.</p>
+<div class="section" id="id5">
+<h3>Dependencies<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>The project managment system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
+</pre></div>
+</div>
+<p>For MS Windows users:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py check_deps</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="id6">
-<h3>Project Structure<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>Projects List<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
+</pre></div>
+</div>
+<p>Prints list of projects in the SDK.</p>
+</div>
+<div class="section" id="id7">
+<h3>Project Structure<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>A typical app developed using the project manager looks as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre>blend4web/
     apps_dev/
         myproject/
@@ -455,6 +348,18 @@
                 myproject.bin
 </pre></div>
 </div>
+<p>This app consists of 4 different directories.</p>
+<ol class="arabic simple">
+<li><p class="first">apps_dev/myproject. Contains source files of project&#8217;s apps.</p>
+</li>
+<li><p class="first">blender/myproject. Contains source files of project&#8217;s scenes.</p>
+</li>
+<li><p class="first">deploy/assets/myproject. Contains exported files of project&#8217;s scenes.</p>
+</li>
+<li><p class="first">deploy/apps/myproject. Contains exported files of project&#8217;s scenes.</p>
+</li>
+</ol>
+<p>Additionally, the deploy command can create yet another directory, but it usually is placed outside of the SDK and its name and path depend on directory structure on the target server.</p>
 </div>
 <div class="section" id="b4w-project">
 <h3><code class="docutils literal"><span class="pre">.b4w_project</span></code> Config File<a class="headerlink" href="#b4w-project" title="Permalink to this headline">¶</a></h3>
@@ -487,8 +392,8 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="c">
-<h3>Creating New Projects<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Advanced project management<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>./project.py init myproject
 </pre></div>
 </div>
@@ -546,8 +451,8 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="id7">
-<h3>Creating Applications Within Projects<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Developing multiple apps inside a project<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
@@ -556,12 +461,16 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>Building Projects<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Building Projects<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject compile
 </pre></div>
 </div>
 <p>Builds a project in the <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code> directory.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For script operation it&#8217;s required to install java and  <a class="reference external" href="https://www.java.com/en/download/help/path.xml">set the PATH system variable</a>.</p>
+</div>
 <p>Available parameters:</p>
 <ul class="simple">
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-a</span> <span class="pre">|</span> <span class="pre">--app&quot;</span></code> (optional) specify an HTML file, relative to which the project app will be built.</p>
@@ -577,9 +486,16 @@ remove_exist_ext_dir =
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-v</span> <span class="pre">|</span> <span class="pre">--version&quot;</span></code> add version to paths of scripts and styles.</p>
 </li>
 </ul>
+<p>Compiler Requirements</p>
+<ul class="simple">
+<li><p class="first">In the root of the directory the single html file must be stored if <code class="docutils literal"><span class="pre">-a</span></code> option is disabled</p>
+</li>
+<li><p class="first">Scripts and styles can be stored in the app&#8217;s root and in the subfolders</p>
+</li>
+</ul>
 </div>
-<div class="section" id="id9">
-<h3>Automatic Re-export<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>Automatic Re-export<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject reexport
 </pre></div>
 </div>
@@ -592,8 +508,8 @@ remove_exist_ext_dir =
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Resource Conversion<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Resource Conversion<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject convert_resources
 </pre></div>
 </div>
@@ -603,16 +519,10 @@ remove_exist_ext_dir =
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> specify directory with scene assets.</p>
 </li>
 </ul>
+<p>Converting of resources is described in detail in the <a class="reference internal" href="#converter"><span>corresponding section</span></a>.</p>
 </div>
-<div class="section" id="id11">
-<h3>Projects List<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
-</pre></div>
-</div>
-<p>Outputs a list of projects found inside the <code class="docutils literal"><span class="pre">apps_dev</span></code> directory.</p>
-</div>
-<div class="section" id="id12">
-<h3>Deploying Projects<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Deploying Projects<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject deploy
 </pre></div>
 </div>
@@ -631,27 +541,23 @@ remove_exist_ext_dir =
 </li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>Remove project<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>Remove project<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject remove
 </pre></div>
 </div>
 <p>Remove project. Removed directories are retrieved from project configuration file.</p>
 </div>
-</div>
-<div class="section" id="id14">
-<h2>Preparing Assets<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
-<p>The next step is <a class="reference internal" href="workflow.html#authoring-scenes"><span>authoring scenes</span></a>. It is convenient to store all assets for your app in a single directory. Then the scene is assembled in Blender and <a class="reference internal" href="workflow.html#export-scene"><span>exported</span></a> to the assets directory.</p>
-<p><a class="reference internal" href="#converter"><span>Converting resources</span></a> is neccesary to develop cross-browser and cross-platform applications.</p>
-<p>During development it is more convenient to use the non-obfuscated engine because it makes the debugging process much easier. To use the non-obfuscated engine, go to the new app directory:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> &lt;path_to_sdk&gt;/apps_dev/example
-</pre></div>
-</div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">cd &lt;path_to_sdk&gt;\apps_dev\example</span>
-</pre></div>
-</div>
-<p>Then run the script which generates paths to all required engine files:</p>
+<div class="section" id="sdk">
+<h3>Upgrading apps for new SDK versions<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h3>
+<p>While upgrading for new SDK versions often two problems arise:</p>
+<ol class="arabic simple">
+<li><p class="first">Modules of the new and old versions of the engine do not match.</p>
+</li>
+<li><p class="first">Old and new engine API do not match.</p>
+</li>
+</ol>
+<p>In order to update the list of modules imported in developer version of application go to project source directory <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code> and execute module list generator script:</p>
 <div class="highlight-bash"><div class="highlight"><pre>python3 ../../scripts/mod_list.py
 </pre></div>
 </div>
@@ -678,61 +584,155 @@ remove_exist_ext_dir =
 <span class="nt">&lt;/head&gt;</span>
 </pre></div>
 </div>
-<div class="section" id="id15">
-<h3>App Logic Coding<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<p>The next step is writing scripts for app logic. The scripts are linked to the main HTML file:</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;head&gt;</span>
-. . .
-<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;example.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-</pre></div>
+<p>To eliminate API incompatibilities you may require refactoring of your app.All changes are described in <a class="reference internal" href="release_notes.html#release-notes"><span>release notes</span></a>.</p>
 </div>
-<p>It is worth noting that the <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> function from the <em>config.js</em> module is a convient method for loading .json files.</p>
+<div class="section" id="id15">
+<h3>Path to loaded application assets<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>To load .json-files you should use <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> method frome the <em>config.js</em> module:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>After building the finished app, the paths to assets will change. Thus, using <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> wil allow you to avoid problems with incorrect paths.</p>
 </div>
+</div>
 <div class="section" id="id16">
-<h3>Building Apps<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>The SDK includes the script <code class="docutils literal"><span class="pre">apps_dev/project.py</span></code> for building finished applications.</p>
-<p>We recommend you to immediately complile your app in order to make sure that it works. You can do it with the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>./project.py -p example -o advanced
+<h2>Application Programming<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hello-world">
+<h3>Hello world!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h3>
+<p>The simplest Blend4Web app may look like this:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;Hello, Blend4Web &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">version</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;hello()&quot;</span><span class="nt">&gt;&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py -p example -o advanced</span>
+<p>This app prints a message and the engine&#8217;s version in the browser window. Let&#8217;s look at this example in detail. The engine library is embedded with the <code class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></code> element. Then, the app waits for the page to load and prints the current version in the browser window. In this example, <code class="docutils literal"><span class="pre">version</span></code> is the only used module which has a function with the same name - <code class="docutils literal"><span class="pre">version()</span></code>. A more detailed info about the usage of engine&#8217;s modules and functions can be found in the <a class="reference external" href="https://www.blend4web.com/api_doc/index.html">API documentation</a>.</p>
+<p>The compiled engine file <code class="docutils literal"><span class="pre">b4w.min.js</span></code> can be copied from the SDK&#8217;s <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> directory and placed in the same directory as the HTML file.</p>
+</div>
+<div class="section" id="id17">
+<h3>Loading Scenes in Apps<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>To load a 3D scene you need:</p>
+<ol class="arabic simple">
+<li><p class="first">Place a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element on a page for rendering.</p>
+</li>
+<li><p class="first">Call the <code class="docutils literal"><span class="pre">m_main.init()</span></code> function with the created element id to init the WebGL context after the page is loaded.</p>
+</li>
+<li><p class="first">Call the <code class="docutils literal"><span class="pre">m_data.load()</span></code> function to load a 3D scene.</p>
+</li>
+</ol>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">canvas_elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+    <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">);</span>
+    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;hello()&quot;</span><span class="nt">&gt;&lt;canvas</span> <span class="na">id=</span><span class="s">&quot;canvas_id&quot;</span><span class="nt">&gt;&lt;/canvas&gt;&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For script operation it&#8217;s required to install java and  <a class="reference external" href="https://www.java.com/en/download/help/path.xml">set the PATH system variable</a>.</p>
+<p class="last">Note that a real app should include error checking, setting up the engine before initializing and also a basic system for interacting with the user.</p>
 </div>
-<p>By default, the project is copied as a whole to the <em>deploy/apps/project_name/</em> directory. Scripts and styles are compiled relative to the parent directory.</p>
 </div>
-<div class="section" id="sdk">
-<h3>Exporting Apps Outside SDK<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h3>
-<p>In order to export the finished app outside the SDK (for further deploying) use the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>./project.py -p example -o advanced -b copy -s ../deploy/assets/example -d ../my_apps
+<div class="section" id="id18">
+<h3>Module System<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <code class="docutils literal"><span class="pre">b4w</span></code> namespace. To call a module&#8217;s method import it first with the <code class="docutils literal"><span class="pre">b4w.require()</span></code> function.</p>
+<p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <code class="docutils literal"><span class="pre">b4w.register()</span></code> call. Check if a module with some name already exists with a <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> call.</p>
+<p>Example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// check if module exists</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
+    <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
+
+<span class="c1">// register my_module</span>
+<span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// import module &quot;version&quot;</span>
+    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
+
+    <span class="c1">// export print_build_date() from module &quot;my_module&quot;</span>
+    <span class="nx">exports</span><span class="p">.</span><span class="nx">print_build_date</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// exec function date() from module &quot;version&quot;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Engine build date: &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">date</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// import module &quot;my_module&quot;</span>
+<span class="kd">var</span> <span class="nx">m_my_module</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">);</span>
+
+<span class="c1">// exec function print_build_date() from module &quot;my_module&quot;</span>
+<span class="nx">m_my_module</span><span class="p">.</span><span class="nx">print_build_date</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py -p example -o advanced -b copy -s ..\deploy\assets\example -d ..\my_apps</span>
+</div>
+<div class="section" id="id19">
+<h3>Creating Apps Quickly<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called <code class="docutils literal"><span class="pre">app</span></code>:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+
+<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;container_id&quot;</span><span class="p">,</span>
+    <span class="nx">callback</span><span class="o">:</span> <span class="nx">load_cb</span>
+<span class="p">})</span>
+
+<span class="kd">function</span> <span class="nx">load_cb</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">,</span> <span class="nx">loaded_cb</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">loaded_cb</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">enable_controls</span><span class="p">();</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">enable_camera_controls</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container_id&quot;</span> <span class="na">style=</span><span class="s">&quot;width: 350px; height: 200px;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </div>
-<p>Compiler Requirements</p>
-<ul class="simple">
-<li><p class="first">In the root of the directory the single html file must be stored if <code class="docutils literal"><span class="pre">-a</span></code> option is disabled</p>
-</li>
-<li><p class="first">Scripts and styles can be stored in the app&#8217;s root and in the subfolders</p>
-</li>
-</ul>
+<p>In this case the <code class="docutils literal"><span class="pre">app</span></code> module will create a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element inside the container with the specified <code class="docutils literal"><span class="pre">container_id</span></code> id. Then it will initialize the engine after the page is loaded and will finally execute the <code class="docutils literal"><span class="pre">load_cb()</span></code> callback.</p>
+<p>Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.</p>
+<p>In case when the <code class="docutils literal"><span class="pre">app</span></code> module is used, it is necessary to explicitely specify dimensions of the container element. Otherwise the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element will have zero dimensions.</p>
 </div>
 </div>
 <div class="section" id="converter">
-<span id="id17"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
+<span id="id20"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
 <p>Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.</p>
-<p>To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution. Run it with the command:</p>
+<p>To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution.</p>
+<p>This script can be run automatically using the project mangment system, or manually:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py <span class="o">[</span>-d file_path<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
 </pre></div>
 </div>
@@ -748,8 +748,8 @@ remove_exist_ext_dir =
 <p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
 <p>To exclude some directory from resource conversion, it is enough to put a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
-<div class="section" id="id18">
-<h3>Dependencies<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Dependencies<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p>Please make sure that you have all converter dependencies installed. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -815,8 +815,8 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="id19">
-<h3>Data format<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>Data format<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>The conversion is performed as follows:</p>
 <dl class="docutils">
 <dt>for audio (convert_media):</dt>
@@ -867,81 +867,8 @@ remove_exist_ext_dir =
 <p>You can also use the free and cross-platform application <a class="reference external" href="http://www.mirovideoconverter.com/">Miro Video Converter</a> to convert mediafiles.</p>
 </div>
 </div>
-<div class="section" id="canvas-nonfullscreen-coords">
-<span id="id20"></span><h2>Non-FullScreen Web Apps<a class="headerlink" href="#canvas-nonfullscreen-coords" title="Permalink to this headline">¶</a></h2>
-<p>The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.</p>
-<p>In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).</p>
-<ol class="arabic simple">
-<li><p class="first">If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in it&#8217;s position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a>/<a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</p>
-</li>
-</ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
-
-<span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
-<span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_y</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p class="first">In the case of the scrolled browser window, you have to use event.pageX and event.pageY coordinates.</p>
-</li>
-</ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span><span class="p">;</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p class="first">In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) you need to perform correct coordinate conversions. In order to obtain coordinates suitable for use in the engine, you can covert them by using the <code class="docutils literal"><span class="pre">client_to_canvas_coords()</span></code> method of the <code class="docutils literal"><span class="pre">container</span></code> module:</p>
-</li>
-</ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">canvas_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<blockquote>
-<div><p>In order to obtain coordinates in the Canvas space, the engine should know its position relative to the browser window. However, if this position is subjected to changes during the work of the app (due to scrolling for example), the Canvas position should be recalculated. To do this automatically, you can set the <code class="docutils literal"><span class="pre">track_container_position</span></code> property upon app initialization:</p>
-</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-        <span class="c1">// . . .</span>
-        <span class="nx">track_container_position</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="c1">// . . .</span>
-    <span class="p">});</span>
-    <span class="c1">// . . .</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<blockquote>
-<div><p>Please note, that this setting can lead to performance degradation in some browsers (such as Firefox) due to frequent DOM tree accesses. If the performance is critical, you can update the Canvas position manually when it is really necessary. To do this, use the <code class="docutils literal"><span class="pre">force_offsets_updating()</span></code> and <code class="docutils literal"><span class="pre">update_canvas_offsets()</span></code> methods instead of the <code class="docutils literal"><span class="pre">track_container_position</span></code> setting, or even the lower-level <code class="docutils literal"><span class="pre">set_canvas_offsets()</span></code> method from the <code class="docutils literal"><span class="pre">container</span></code> module:</p>
-</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">force_offsets_updating</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">update_canvas_offsets</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">set_canvas_offsets</span><span class="p">(</span><span class="nx">offset_left</span><span class="p">,</span> <span class="nx">offset_top</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="code-snippets">
-<span id="id21"></span><h2>Code Examples<a class="headerlink" href="#code-snippets" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Code Examples<a class="headerlink" href="#code-snippets" title="Permalink to this headline">¶</a></h2>
 <p>The SDK includes the Code Snippets application which demonstrates how to use the engine&#8217;s functionality.</p>
 <p>Currently, this application contains the following examples:</p>
 <blockquote>
@@ -969,10 +896,10 @@ remove_exist_ext_dir =
 <p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
 </div>
 <div class="section" id="event-model">
-<span id="id22"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
+<span id="id24"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simpifies the processing of physics events and user actions.</p>
 <div class="section" id="index-0">
-<span id="id23"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
+<span id="id25"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload. For example the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-1">Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the <code class="docutils literal"><span class="pre">controls.create_sensor_manifold()</span></code> function):</p>
 <ul class="simple">
@@ -992,8 +919,8 @@ remove_exist_ext_dir =
 </li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>Example<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>Example<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Lets define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
@@ -1040,7 +967,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="repo-file-structure">
-<span id="id25"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
+<span id="id27"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first">source code of the applications</p>
@@ -1243,12 +1170,12 @@ remove_exist_ext_dir =
 </dl>
 </div>
 <div class="section" id="browser-for-local-loading">
-<span id="id26"></span><h2>Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
+<span id="id28"></span><h2>Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory.</p>
 <p>Since version 15.02, the Blend4Web SDK includes the <a class="reference internal" href="setup.html#local-development-server"><span>development server</span></a> to solve the problem of loading local resources.</p>
 </div>
 <div class="section" id="quality-settings">
-<span id="id28"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<span id="id30"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -1283,6 +1210,79 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
+<div class="section" id="canvas-nonfullscreen-coords">
+<span id="id31"></span><h2>Non-FullScreen Web Apps<a class="headerlink" href="#canvas-nonfullscreen-coords" title="Permalink to this headline">¶</a></h2>
+<p>The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.</p>
+<p>In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).</p>
+<ol class="arabic simple">
+<li><p class="first">If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in it&#8217;s position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a>/<a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</p>
+</li>
+</ol>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+
+<span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+<span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_y</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p class="first">In the case of the scrolled browser window, you have to use event.pageX and event.pageY coordinates.</p>
+</li>
+</ol>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span><span class="p">;</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p class="first">In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) you need to perform correct coordinate conversions. In order to obtain coordinates suitable for use in the engine, you can covert them by using the <code class="docutils literal"><span class="pre">client_to_canvas_coords()</span></code> method of the <code class="docutils literal"><span class="pre">container</span></code> module:</p>
+</li>
+</ol>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">canvas_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<blockquote>
+<div><p>In order to obtain coordinates in the Canvas space, the engine should know its position relative to the browser window. However, if this position is subjected to changes during the work of the app (due to scrolling for example), the Canvas position should be recalculated. To do this automatically, you can set the <code class="docutils literal"><span class="pre">track_container_position</span></code> property upon app initialization:</p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="c1">// . . .</span>
+        <span class="nx">track_container_position</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="c1">// . . .</span>
+    <span class="p">});</span>
+    <span class="c1">// . . .</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<blockquote>
+<div><p>Please note, that this setting can lead to performance degradation in some browsers (such as Firefox) due to frequent DOM tree accesses. If the performance is critical, you can update the Canvas position manually when it is really necessary. To do this, use the <code class="docutils literal"><span class="pre">force_offsets_updating()</span></code> and <code class="docutils literal"><span class="pre">update_canvas_offsets()</span></code> methods instead of the <code class="docutils literal"><span class="pre">track_container_position</span></code> setting, or even the lower-level <code class="docutils literal"><span class="pre">set_canvas_offsets()</span></code> method from the <code class="docutils literal"><span class="pre">container</span></code> module:</p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+<span class="nx">m_cont</span><span class="p">.</span><span class="nx">force_offsets_updating</span><span class="p">();</span>
+<span class="c1">// . . .</span>
+<span class="nx">m_cont</span><span class="p">.</span><span class="nx">update_canvas_offsets</span><span class="p">();</span>
+<span class="c1">// . . .</span>
+<span class="nx">m_cont</span><span class="p">.</span><span class="nx">set_canvas_offsets</span><span class="p">(</span><span class="nx">offset_left</span><span class="p">,</span> <span class="nx">offset_top</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -1305,7 +1305,7 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-10-29.
+      Last updated on 2015-11-26.
 
     </p>
   </div>
@@ -1327,7 +1327,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.10',
+            VERSION:'v15.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

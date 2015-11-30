@@ -32,6 +32,7 @@ var _verbose = false;
 var _error_count = 0;
 var _warning_count = 0;
 
+var _deprecated_methods = {};
 /**
  * Set verbose flag for console output.
  */
@@ -64,12 +65,38 @@ function compose_args_prefix(args_in, prefix) {
     return args_out;
 }
 
-exports.error = function() {
+exports.error = error;
+function error() {
     // always reporting errors
     _error_count++;
 
     var args = compose_args_prefix(arguments, "B4W ERROR");
     console.error.apply(console, args);
+}
+exports.error_once = error_once;
+function error_once(message) {
+    if (!(message in _deprecated_methods)) {
+        _deprecated_methods[message] = message;
+        error([message]);
+    }
+}
+
+exports.error_deprecated = error_deprecated;
+function error_deprecated(depr_func, new_func) {
+    error_once(depr_func + "() is deprecated, use " + new_func + "() instead.");
+}
+
+exports.error_deprecated_arr = function(depr_func, new_func_arr) {
+    switch (new_func_arr.length > 1) {
+    case true:
+        error_once(depr_func + "() is deprecated, use " 
+                + new_func_arr.slice(0, -1).join("(), ")
+                + "() or " + new_func_arr[new_func_arr.length - 1] + "() instead.");
+        break;
+    case false:
+        error_deprecated(depr_func, new_func_arr[0]);
+        break;
+    }
 }
 
 exports.warn = function() {

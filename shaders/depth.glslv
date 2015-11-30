@@ -74,24 +74,31 @@ attribute vec2 a_texcoord;
                                    UNIFORMS
 ============================================================================*/
 
-# if STATIC_BATCH
-const mat4 u_model_matrix = mat4(1.0);
-# else
-uniform mat4 u_model_matrix;
-# endif
+#if STATIC_BATCH
+// NOTE:  mat3(0.0, 0.0, 0.0, --- trans
+//             1.0, --- scale
+//             0.0, 0.0, 0.0, 1.0, --- quat
+//             0.0);
+const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
+                              1.0,
+                              0.0, 0.0, 0.0, 1.0,
+                              0.0);
+#else
+uniform mat3 u_model_tsr;
+#endif
 
 #if SMAA_JITTER
 uniform vec2 u_subpixel_jitter;
 #endif
 
-uniform mat4 u_view_matrix;
+uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 # if DYNAMIC_GRASS || BILLBOARD
 uniform vec3 u_camera_eye;
 # endif
 
 #if BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
-uniform mat4 u_shadow_cast_billboard_view_matrix;
+uniform mat3 u_shadow_cast_billboard_view_tsr;
 #endif
 
 #if DYNAMIC_GRASS
@@ -137,10 +144,7 @@ uniform vec3 u_texture_scale;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
 uniform float u_normal_offset;
-uniform mat4 u_v_light_matrix;
-
-// bias light matrix
-uniform mat4 u_b_light_matrix;
+uniform mat3 u_v_light_tsr;
 
 uniform mat4 u_p_light_matrix0;
 
@@ -230,6 +234,8 @@ varying float v_view_depth;
 ============================================================================*/
 
 void main(void) {
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+
     vec3 position = a_position;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN \
@@ -276,36 +282,37 @@ void main(void) {
 #if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal, center,
             u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size,
-            u_camera_eye, u_camera_quat, u_view_matrix);
+            u_camera_eye, u_camera_quat, view_matrix);
 #else
-# if BILLBOARD
-    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
 
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+
+# if BILLBOARD
+    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 // NOTE: only for non-particles geometry on SHADOW_CAST subscene
 # if !HAIR_BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
-    mat4 bill_view_matrix = u_shadow_cast_billboard_view_matrix;
+    mat4 bill_view_matrix = tsr_to_mat4(u_shadow_cast_billboard_view_tsr);
 # else
-    mat4 bill_view_matrix = u_view_matrix;
+    mat4 bill_view_matrix = view_matrix;
 # endif
 
 # if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
-            bill_view_matrix, u_model_matrix);
+            bill_view_matrix, model_mat);
 # else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, bill_view_matrix);
 # endif
 
 #  if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, vec_seed);
+            u_jitter_amp, u_jitter_freq, wcen);
 #  endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
             model_matrix);
     world.center = wcen;
 # else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
-            u_model_matrix);
+            model_mat);
 # endif
 #endif
 
@@ -334,7 +341,7 @@ void main(void) {
 # endif
 
 #endif // NODES && ALPHA
-    vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
 
 #if SMAA_JITTER
@@ -367,8 +374,8 @@ void main(void) {
 #if SHADOW_USAGE == SHADOW_CASTING
     // NOTE: shift coords to remove shadow map panning
 
-    // NOTE: u_view_matrix[3] is world space origin translated into light space
-    vec2 shift = (u_proj_matrix * u_view_matrix[3]).xy;
+    // NOTE: view_matrix[3] is world space origin translated into light space
+    vec2 shift = (u_proj_matrix * view_matrix[3]).xy;
     float half_tex_res = SHADOW_TEX_RES / 2.0;
     shift = floor(shift * half_tex_res + 0.5) / half_tex_res - shift;
     pos_clip.xy += shift;

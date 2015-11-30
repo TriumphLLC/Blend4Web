@@ -6,6 +6,7 @@
 #export tsr_translate
 #export tsr_translate_inv
 #export clip_to_tex
+#export tsr_to_mat4
 
 float ZERO_VALUE_MATH = 0.0;
 float UNITY_VALUE_MATH = 1.0;
@@ -148,3 +149,27 @@ vec3 clip_to_tex(vec4 pos_clip) {
     return tex_pos_clip;
 }
 #endif
+
+mat4 tsr_to_mat4(mat3 t) {
+    mat4 matrix;
+
+    // NOTE: for IPad compatibility
+    matrix[0][0] = (UNITY_VALUE_MATH - (t[1][2] * (t[1][2] + t[1][2]) + t[2][0] * (t[2][0] + t[2][0]))) * t[1][0];
+    matrix[0][1] = (t[1][1] * (t[1][2] + t[1][2]) + t[2][1] * (t[2][0] + t[2][0])) * t[1][0];
+    matrix[0][2] = (t[1][1] * (t[2][0] + t[2][0]) - t[2][1] * (t[1][2] + t[1][2])) * t[1][0];
+    matrix[0][3] = ZERO_VALUE_MATH;
+    matrix[1][0] = (t[1][1] * (t[1][2] + t[1][2]) - t[2][1] * (t[2][0] + t[2][0])) * t[1][0];
+    matrix[1][1] = (UNITY_VALUE_MATH - (t[1][1] * (t[1][1] + t[1][1]) + t[2][0] * (t[2][0] + t[2][0]))) * t[1][0];
+    matrix[1][2] = (t[1][2] * (t[2][0] + t[2][0]) + t[2][1] * (t[1][1] + t[1][1])) * t[1][0];
+    matrix[1][3] = ZERO_VALUE_MATH;
+    matrix[2][0] = (t[1][1] * (t[2][0] + t[2][0]) + t[2][1] * (t[1][2] + t[1][2])) * t[1][0];
+    matrix[2][1] = (t[1][2] * (t[2][0] + t[2][0]) - t[2][1] * (t[1][1] + t[1][1])) * t[1][0];
+    matrix[2][2] = (UNITY_VALUE_MATH - (t[1][1] * (t[1][1] + t[1][1]) + t[1][2] * (t[1][2] + t[1][2]))) * t[1][0];
+    matrix[2][3] = ZERO_VALUE_MATH;
+    matrix[3][0] = t[0][0];
+    matrix[3][1] = t[0][1];
+    matrix[3][2] = t[0][2];
+    matrix[3][3] = UNITY_VALUE_MATH;
+
+    return matrix;
+}

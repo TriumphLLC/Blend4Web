@@ -37,10 +37,10 @@ The camera settings are specified in the "Properties" panel under the
         In the "Static" mode the camera can be moved via animation or
         through API calls.
 
-*Camera Move Style > Target Location*
+*Look At Cursor > Target Location*
    Available for the "Target" mode. This is the position of the camera
-   pivot point. The "Copy Cursor Location" button copies the current
-   3D cursor position into this value.
+   pivot point. The "Look At Cursor" button copies the current 3D
+   cursor position into this value.
 
 *Depth of Field*
    Described in the Depth of Field section.

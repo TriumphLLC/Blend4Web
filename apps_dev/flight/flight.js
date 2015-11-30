@@ -21,7 +21,6 @@ var DEBUG = (m_version.type() === "DEBUG");
 var PRELOADING = true;
 var CAM_TRACKING_OFFSET = new Float32Array([13, 4.5, 13]);
 var CAM_STAT_POS = new Float32Array([-20, 2, 120]);
-var UP = new Float32Array([0, 1, 0]);
 var APPROX_CESSNA_SPEED = 40;
 
 var INIT_PARAMS = {
@@ -363,7 +362,7 @@ function move_camera() {
         m_vec3.add(target, CAM_TRACKING_OFFSET, eye);
     }
 
-    m_cam.set_look_at(_camera, eye, target, UP);
+    m_cam.eye_set_look_at(_camera, eye, target);
 }
 
 });

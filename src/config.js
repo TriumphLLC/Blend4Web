@@ -192,7 +192,15 @@ exports.defaults = {
 
     url_params                 : null,
 
-    safari_canvas_alpha_hack   : false
+    webgl2                     : true,
+
+    msaa_samples               : 4,
+
+    safari_canvas_alpha_hack   : false,
+
+    resize_cubemap_canvas_hack : false,
+
+    arch_mesa_clear_depth_hack : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -284,7 +292,7 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : "MAIN_OPAQUE",
+    subs_type   : "MAIN_BLEND",
     subs_number : 0,
     slink_type  : "COLOR"
 }
@@ -355,6 +363,8 @@ exports.apply_quality = function() {
 
         cfg_def.glow_materials = true;
 
+        cfg_def.msaa_samples = 16;
+
         cfg_phy.max_fps = 120;
 
         break;
@@ -413,6 +423,8 @@ exports.apply_quality = function() {
 
         cfg_def.glow_materials = true;
 
+        cfg_def.msaa_samples = 4;
+
         cfg_phy.max_fps = 60;
 
         break;
@@ -470,6 +482,8 @@ exports.apply_quality = function() {
         cfg_def.enable_outlining = false;
 
         cfg_def.glow_materials = false;
+
+        cfg_def.msaa_samples = 1;
 
         cfg_phy.max_fps = 60;
 

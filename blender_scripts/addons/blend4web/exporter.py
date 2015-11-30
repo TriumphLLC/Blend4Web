@@ -1099,26 +1099,28 @@ def label_to_slot_num(scene, nla_script, label):
 
 def markers_to_frame_range(scene, marker_start, marker_end):
     markers = scene.timeline_markers
-    if marker_start == "" or marker_start not in markers:
-        return None
+    first_mask = True
+    last_mask = True
+    first = 0
+    last = 0
     if marker_end not in markers:
         marker_end = ''
-    first = markers[marker_start].frame
-    if first < scene.frame_start:
-        first = scene.frame_start
+    if marker_start not in markers:
+        marker_start = ''
+    if marker_start == '':
+        first_mask = False
+    else:
+        first = markers[marker_start].frame
+        if first < scene.frame_start:
+            first = scene.frame_start
 
     if marker_end == "":
-        last = scene.frame_end
-
-        for marker in markers:
-            if marker.frame > first and marker.frame < last:
-                last = marker.frame
+        last_mask = False
     else:
         last = markers[marker_end].frame
         if last > scene.frame_end:
             last = scene.frame_end
-
-    return [first, last]
+    return [first, last], [first_mask, last_mask]
 
 def get_node_idx_by_name(nodes, name):
     for i in range(len(nodes)):
@@ -1228,14 +1230,13 @@ def process_scene_nla(scene, scene_data):
             slot_data["shader_nd_type"] = slot["shader_nd_type"]
             slot_data["common_usage_names"] = slot["common_usage_names"]
             slot_data["send_req_vars_list"] = slot["send_req_vars_list"]
+            slot_data["links"] = []
 
             if slot['type'] == "PLAY":
-                frame_range = markers_to_frame_range(scene,
+                frame_range, frame_range_mask = markers_to_frame_range(scene,
                         slot['param_marker_start'], slot['param_marker_end'])
-                if frame_range:
-                    slot_data["frame_range"] = frame_range
-                else:
-                    force_mute_node(slot_data, "Bad markers")
+                slot_data["frame_range"] = frame_range
+                slot_data["frame_range_mask"] = frame_range_mask
 
             elif slot['type'] == "SELECT":
                 obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
@@ -1246,7 +1247,21 @@ def process_scene_nla(scene, scene_data):
                 else:
                     force_mute_node(slot_data, "Object is not selected or not exported.")
 
-            elif slot['type'] == "PLAY_ANIM":
+            elif slot['type'] == "SWITCH_SELECT":
+                ind = 0
+                for k in slot["objects_paths"]:
+                    obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"][k])
+                    if (obj and do_export(obj) and object_is_valid(obj)):
+                        idx = -1
+                        if k in slot["links"]:
+                            idx = get_node_idx_by_name(script, slot['links'][k])
+                        slot_data["links"].append(idx)
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
+                        break
+                    ind += 1
+
+            elif slot['type'] == "PLAY_ANIM" or slot['type'] == "STOP_ANIM":
                 obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
 
                 if (obj and do_export(obj) and object_is_valid(obj)):
@@ -2073,7 +2088,7 @@ def process_camera(camera):
     cam_data["b4w_rot_velocity"] = round_num(camera.b4w_rot_velocity, 3)
     cam_data["b4w_zoom_velocity"] = round_num(camera.b4w_zoom_velocity, 3)
 
-    cam_data["b4w_use_distance_limits"] = camera.b4w_use_distance_limits
+    cam_data["b4w_use_target_distance_limits"] = camera.b4w_use_target_distance_limits
     cam_data["b4w_distance_min"] = round_num(camera.b4w_distance_min, 3)
     cam_data["b4w_distance_max"] = round_num(camera.b4w_distance_max, 3)
 
@@ -2105,6 +2120,7 @@ def process_camera(camera):
     cam_data["b4w_vertical_translation_max"] \
             = round_num(camera.b4w_vertical_translation_max , 3)
 
+    cam_data["b4w_use_zooming"] = camera.b4w_use_zooming
     cam_data["b4w_hover_angle_min"] \
             = round_num(camera.b4w_hover_angle_min, 6)
     cam_data["b4w_hover_angle_max"] \
@@ -3925,7 +3941,7 @@ def process_node_tree(data, tree_source):
     for node in node_tree.nodes:
         if not validate_node(node):
             raise MaterialError("The " + "\"" + node.name + "\"" +" node is not supported. "
-                    + "Nodes will be disable for \"" + tree_source.name + "\".")
+                    + "Nodes will be disabled for \"" + tree_source.name + "\".")
 
         node_data = OrderedDict()
 
@@ -3995,17 +4011,17 @@ def process_node_tree(data, tree_source):
             process_node_group(data, node)
 
         elif node.type == "MAPPING":
-            node_data["translation"] = round_iterable(node.translation, 3)
-            node_data["rotation"] = round_iterable(node.rotation, 3)
-            node_data["scale"] = round_iterable(node.scale, 3)
+            node_data["translation"] = round_iterable(node.translation, 4)
+            node_data["rotation"] = round_iterable(node.rotation, 4)
+            node_data["scale"] = round_iterable(node.scale, 4)
 
             node_data["vector_type"] = node.vector_type
 
             node_data["use_min"] = node.use_min
             node_data["use_max"] = node.use_max
 
-            node_data["min"] = round_iterable(node.min, 3)
-            node_data["max"] = round_iterable(node.max, 3)
+            node_data["min"] = round_iterable(node.min, 4)
+            node_data["max"] = round_iterable(node.max, 4)
 
         elif node.type == "MATERIAL" or node.type == "MATERIAL_EXT":
             if node.material:
@@ -4223,7 +4239,7 @@ def process_material_texture_slots(mat_data, material):
             if do_export(slot.texture):
                 if slot.use_map_color_diffuse and slot.texture.type == "ENVIRONMENT_MAP":
                     raise ExportError("Use of ENVIRONMENT_MAP as diffuse " \
-                        "color is not supported", material)
+                        "color is not supported. Use as mirror instead", material)
                 slot_data = OrderedDict()
 
                 tc = slot.texture_coords

@@ -1169,8 +1169,10 @@ def parse_body(start_body, end_body, src_lines):
 
     new_body_lines = []
     new_body_lines.append(first_line)
-    new_body_lines.extend(src_lines[start_body[0]:end_body[0] - 1])
-    new_body_lines.append(last_line)
+
+    if start_body[0] != end_body[0]:
+        new_body_lines.extend(src_lines[start_body[0]:end_body[0] - 1])
+        new_body_lines.append(last_line)
 
     return new_body_lines
 
@@ -1204,7 +1206,7 @@ def compile_html(**kwargs):
     html_file = open(out_html_file_path, 'w')
 
     inner_text = []
-    inner_text.append("<!DOCTYPE html>\n<head>")
+    inner_text.append("<!DOCTYPE html>\n<html>\n<head>")
 
     if meta:
         meta_item = ""

@@ -27,12 +27,13 @@
  */
 b4w.module["__renderer"] = function(exports, require) {
 
+var m_batch    = require("__batch");
 var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_debug    = require("__debug");
 var m_textures = require("__textures");
+var m_tsr      = require("__tsr");
 var m_util     = require("__util");
-var m_batch    = require("__batch");
 
 var cfg_def = m_cfg.defaults;
 
@@ -63,7 +64,10 @@ var _gl = null;
 var _subpixel_index = 0;
 
 var _ivec4_tmp = new Uint8Array(4);
+var _mat3_tmp  = new Float32Array(9);
+var _tsr_tmp   = new Float32Array(8);
 
+var cfg_def = m_cfg.defaults;
 /**
  * Setup WebGL context
  * @param gl WebGL context
@@ -102,16 +106,29 @@ exports.draw = function(subscene) {
     if (!subscene.do_render)
         return;
 
-    prepare_subscene(subscene);
+    m_debug.render_time_start(subscene);
 
-    if (subscene.type == "MAIN_CUBE_REFLECT")
-        draw_cube_reflection_subs(subscene);
-    else
-        draw_subs(subscene);
+    if (subscene.type == "RESOLVE") {
+        draw_resolve(subscene);
+        m_debug.check_gl("draw resolve");
+    } else if (subscene.type == "COPY") {
+        draw_copy(subscene);
+        m_debug.check_gl("draw copy");
+    } else {
+        prepare_subscene(subscene);
 
-    m_debug.check_gl("draw subscene: " + subscene.type);
-    // NOTE: fix for strange issue with skydome rendering
-    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
+        if (subscene.type == "MAIN_CUBE_REFLECT")
+            draw_cube_reflection_subs(subscene);
+        else
+            draw_subs(subscene);
+
+        m_debug.check_gl("draw subscene: " + subscene.type);
+        // NOTE: fix for strange issue with skydome rendering
+        _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
+
+    }
+
+    m_debug.render_time_stop(subscene);
 }
 
 function draw_cube_reflection_subs(subscene) {
@@ -124,6 +141,8 @@ function draw_cube_reflection_subs(subscene) {
     for (var i = 0; i < 6; i++) {
         var w_target = get_cube_target_by_id(i);
         camera.view_matrix = subscene.cube_view_matrices[i];
+        m_tsr.from_mat4(camera.view_matrix, camera.view_tsr);
+
         m_cam.calc_sky_vp_inverse(camera);
 
         _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
@@ -137,6 +156,31 @@ function draw_cube_reflection_subs(subscene) {
 
         draw_subs(subscene);
     }
+}
+
+function draw_resolve(subscene) {
+    var camera = subscene.camera;
+
+    _gl.bindFramebuffer(_gl.READ_FRAMEBUFFER, camera.framebuffer_prev);
+    _gl.bindFramebuffer(_gl.DRAW_FRAMEBUFFER, camera.framebuffer);
+
+    _gl.blitFramebuffer(
+            0, 0, camera.width, camera.height,
+            0, 0, camera.width, camera.height,
+            _gl.COLOR_BUFFER_BIT | _gl.DEPTH_BUFFER_BIT, _gl.NEAREST);
+}
+
+function draw_copy(subscene) {
+    var camera = subscene.camera;
+
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, camera.framebuffer_prev);
+
+    var tex = camera.color_attachment;
+    var w_tex = tex.w_texture;
+    _gl.bindTexture(_gl.TEXTURE_2D, w_tex);
+
+    _gl.copyTexSubImage2D(_gl.TEXTURE_2D, 0, 
+            0, 0, 0, 0, camera.width, camera.height, 0);
 }
 
 function draw_subs(subscene) {
@@ -216,6 +260,14 @@ function prepare_subscene(subscene) {
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.FRONT);
         break;
+    case "MAIN_GLOW":
+        if (cfg_def.msaa_samples > 1) {
+            // correct resolved depth offset
+            _gl.enable(_gl.POLYGON_OFFSET_FILL);
+            _gl.polygonOffset(-2, -2);
+            break;
+        }
+        // else continue to default
     default:
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.BACK);
@@ -494,6 +546,7 @@ exports.assign_attribute_setters = function(batch) {
 }
 
 exports.assign_uniform_setters = assign_uniform_setters;
+
 function assign_uniform_setters(shader) {
     var uniforms = shader.uniforms;
 
@@ -513,21 +566,34 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
         case "u_view_matrix":
-        case "u_view_matrix_frag":
+            // NOTE: used for reflection
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, camera.view_matrix);
             }
             transient_uni = true;
             break;
-        case "u_shadow_cast_billboard_view_matrix":
+        case "u_view_tsr":
+        case "u_view_tsr_frag":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix4fv(loc, false, camera.shadow_cast_billboard_view_matrix);
+                gl.uniformMatrix3fv(loc, false, camera.view_tsr);
+            }
+            transient_uni = true;
+            break;
+        case "u_shadow_cast_billboard_view_tsr":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix3fv(loc, false, camera.shadow_cast_billboard_view_tsr);
             }
             transient_uni = true;
             break;
         case "u_view_proj_prev":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, camera.prev_view_proj_matrix);
+            }
+            transient_uni = true;
+            break;
+        case "u_view_proj_matrix":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix4fv(loc, false, camera.view_proj_matrix);
             }
             transient_uni = true;
             break;
@@ -546,19 +612,13 @@ function assign_uniform_setters(shader) {
         case "u_camera_eye":
         case "u_camera_eye_frag":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, camera.eye);
-            }
-            transient_uni = true;
-            break;
-        case "u_camera_eye_last":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, camera.eye_last);
+                gl.uniform3fv(loc, m_tsr.get_trans_view(camera.world_tsr));
             }
             transient_uni = true;
             break;
         case "u_camera_quat":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform4fv(loc, camera.quat);
+                gl.uniform4fv(loc, m_tsr.get_quat_view(camera.world_tsr));
             }
             transient_uni = true;
             break;
@@ -763,9 +823,9 @@ function assign_uniform_setters(shader) {
             break;
 
         // obj render
-        case "u_model_matrix":
+        case "u_model_tsr":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix4fv(loc, false, obj_render.world_matrix);
+                gl.uniformMatrix3fv(loc, false, obj_render.world_tsr);
             }
             transient_uni = true;
             break;
@@ -795,7 +855,8 @@ function assign_uniform_setters(shader) {
             break;
         case "u_quat":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform4fv(loc, obj_render.quat);
+                var quat = m_tsr.get_quat_view(obj_render.world_tsr);
+                gl.uniform4fv(loc, quat);
             }
             transient_uni = true;
             break;
@@ -1318,16 +1379,11 @@ function assign_uniform_setters(shader) {
                 gl.uniform4fv(loc, camera.pcf_blur_radii);
             }
             break;
-        case "u_v_light_matrix":
+        case "u_v_light_tsr":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix4fv(loc, false, subscene.v_light_matrix);
+                gl.uniformMatrix3fv(loc, false, subscene.v_light_tsr);
             }
             transient_uni = true;
-            break;
-        case "u_b_light_matrix":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix4fv(loc, false, subscene.b_light_matrix);
-            }
             break;
         // NOTE: add more if needed
         case "u_p_light_matrix0":
@@ -1609,8 +1665,13 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
     var framebuffer = _gl.createFramebuffer();
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
 
-    // texture/null
-    if (color_attachment) {
+    // renderbuffer/texture/null
+    if (m_textures.is_renderbuffer(color_attachment)) {
+        var renderbuffer = color_attachment.w_renderbuffer;
+
+        _gl.framebufferRenderbuffer(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+                _gl.RENDERBUFFER, renderbuffer);
+    } else if (m_textures.is_texture(color_attachment)) {
         var texture = color_attachment;
 
         var w_tex = texture.w_texture;
@@ -1618,7 +1679,7 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
                         _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z : texture.w_target;
 
         _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
-            w_target, w_tex, 0);
+                w_target, w_tex, 0);
     }
 
     // renderbuffer/texture/null
@@ -1626,8 +1687,7 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
         var renderbuffer = depth_attachment.w_renderbuffer;
 
         _gl.framebufferRenderbuffer(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT,
-            _gl.RENDERBUFFER, renderbuffer);
-
+                _gl.RENDERBUFFER, renderbuffer);
     } else if (m_textures.is_texture(depth_attachment)) {
         var texture = depth_attachment;
 
@@ -1657,7 +1717,9 @@ exports.render_target_cleanup = function(framebuffer, color_attachment,
         return;
     }
 
-    if (m_textures.is_texture(color_attachment))
+    if (m_textures.is_renderbuffer(color_attachment))
+        _gl.deleteRenderbuffer(color_attachment.w_renderbuffer);
+    else if (m_textures.is_texture(color_attachment))
         _gl.deleteTexture(color_attachment.w_texture);
 
     if (m_textures.is_renderbuffer(depth_attachment))

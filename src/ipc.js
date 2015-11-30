@@ -24,12 +24,11 @@
  * @exports exports as ipc
  */
 b4w.module["__ipc"] = function(exports, require) {
-
 /*
  * Use Visual Incrementing script to simplify assignment of such numbers in VIM
  * http://www.drchip.org/astronaut/vim/index.html#VISINCR
  */
-
+var _wait_for_loading = true;
 // MAIN <- PHYSICS
 var IN_LOADED                        = exports.IN_LOADED                = 0 ;
 var IN_COLLISION                     = exports.IN_COLLISION             = 1 ;
@@ -256,13 +255,18 @@ exports.create_worker = function(path, fallback) {
 
             worker.fb_worker_ns = worker_ns;
 
-            if (m_cont.find_script(path)) {
+            var uranium_js = m_cont.find_script(path);
+            if (uranium_js) {
                 // just register in the new namespace
-                
-                var uranium_js = m_cont.find_script(path);
-                uranium_js.addEventListener("load", function() {
+                if (_wait_for_loading)
+                    uranium_js.addEventListener("load", function() {
+                        b4w.require("__bindings", worker.fb_worker_ns);
+                    }, false);
+                else {
+                    b4w.cleanup("__bindings", worker.fb_worker_ns);
+                    b4w.cleanup("__ipc", worker.fb_worker_ns);
                     b4w.require("__bindings", worker.fb_worker_ns);
-                }, false);
+                }
             } else {
                 // load and register
                 var uranium_js = document.createElement("script");
@@ -271,6 +275,7 @@ exports.create_worker = function(path, fallback) {
                 uranium_js.defer = "defer";
                 uranium_js.async = "async";
                 uranium_js.addEventListener("load", function() {
+                    _wait_for_loading = false;
                     b4w.require("__bindings", worker.fb_worker_ns);
                 }, false);
 

@@ -28,6 +28,7 @@ b4w.module["__sfx"] = function(exports, require) {
 var m_cfg   = require("__config");
 var m_print = require("__print");
 var m_time  = require("__time");
+var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
@@ -637,8 +638,8 @@ function update_proc_chain(obj) {
     if (sfx.proc_chain_in)
         return;
 
-    var pos = obj.render.trans;
-    var quat = obj.render.quat;
+    var pos = m_tsr.get_trans_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
 
     if (cfg_sfx.mix_mode) {
         var filter_node = _wa.createBiquadFilter();
@@ -1192,12 +1193,13 @@ exports.speaker_update_transform = function(obj, elapsed) {
     if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
         return;
 
-    var pos = obj.render.trans;
+    var pos = m_tsr.get_trans_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
     var panner = sfx.panner_node;
     panner.setPosition(pos[0], pos[1], pos[2]);
 
     var orient = _vec3_tmp;
-    m_util.quat_to_dir(obj.render.quat, m_util.AXIS_MY, orient);
+    m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
     panner.setOrientation(orient[0], orient[1], orient[2]);
 
     var lpos = sfx.last_position;
@@ -1238,8 +1240,8 @@ exports.speaker_reset_speed = function(obj, speed, dir) {
     panner.setVelocity(velocity[0], velocity[1], velocity[2]);
     m_vec3.copy(velocity, sfx.speed_avg);
 
-    var pos = obj.render.trans;
-    m_vec3.copy(obj.render.trans, sfx.last_position);
+    var pos = m_tsr.get_trans_view(obj.render.world_tsr);
+    m_vec3.copy(pos, sfx.last_position);
 }
 
 exports.get_spk_behavior = function(obj) {

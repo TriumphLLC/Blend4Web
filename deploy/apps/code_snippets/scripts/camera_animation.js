@@ -114,7 +114,7 @@ function main_canvas_down(e) {
 function start_camera_animation(camobj, pos_view, pos_target) {
 
         // retrieve camera current position
-        m_cam.get_pivot(camobj, _cam_anim.current_target);
+        m_cam.target_get_pivot(camobj, _cam_anim.current_target);
         m_transform.get_translation(camobj, _cam_anim.current_eye);
 
         // set camera starting position
@@ -163,12 +163,12 @@ function init_camera_animation(camobj) {
             m_vec3.subtract(_cam_anim.final_target, _cam_anim.starting_target, _vec3_tmp);
             m_vec3.scaleAndAdd(_cam_anim.starting_target, _vec3_tmp, delta, _cam_anim.current_target);
 
-            m_cam.set_trans_pivot(camobj, _cam_anim.current_eye, _cam_anim.current_target);
+            m_cam.target_set_trans_pivot(camobj, _cam_anim.current_eye, _cam_anim.current_target);
 
         } else {
             m_app.enable_camera_controls(false);
             if (!_anim_stop)
-                m_cam.set_trans_pivot(camobj, _cam_anim.final_eye, 
+                m_cam.target_set_trans_pivot(camobj, _cam_anim.final_eye, 
                         _cam_anim.final_target);
             else
                 _anim_stop = false;

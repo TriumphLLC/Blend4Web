@@ -27,13 +27,18 @@ uniform float u_p_wind_fac;
 
 uniform float u_p_max_lifetime;
 
+#if REFLECTION_PASS
 uniform mat4 u_view_matrix;
+#else
+uniform mat3 u_view_tsr;
+#endif
+
 uniform mat4 u_proj_matrix;
 uniform vec3 u_wind;
 uniform float u_height;
 uniform float u_p_size;
 #if !WORLD_SPACE
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
 varying float v_alpha;
@@ -45,13 +50,21 @@ varying vec3 v_tex_pos_clip;
 varying float v_size;
 #endif
 
+#include <math.glslv>
 #include <particles.glslv>
 
 void main(void) {
+
+#if REFLECTION_PASS
+    mat4 view_matrix = u_view_matrix;
+#else
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+#endif
+
     part_params pp;
     pp = calc_part_params();
 
-    vec4 pos_view = u_view_matrix * vec4(pp.position, 1.0);
+    vec4 pos_view = view_matrix * vec4(pp.position, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
     gl_Position = pos_clip;
     

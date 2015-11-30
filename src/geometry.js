@@ -134,6 +134,7 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
     return bufs_data;
 }
 
+exports.submesh_init_shape_keys = submesh_init_shape_keys;
 function submesh_init_shape_keys(submesh, frame) {
 
     for (var i = 1; i < submesh.shape_keys.length; i++) {
@@ -1504,7 +1505,7 @@ function num_comp(array, base_length) {
 /**
  * Sort triangles and update index buffers when camera moves.
  */
-exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
+exports.update_buffers_movable = function(bufs_data, world_tsr, eye) {
 
     // retrieve data required for update
     var indices = bufs_data.ibo_array;
@@ -1520,7 +1521,7 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
     // get positions to world space and calc medians
     // note: skinning ignored
     compute_triangle_medians(indices, positions, median_cache);
-    m_util.positions_multiply_matrix(median_cache, world_matrix, median_world_cache);
+    m_tsr.transform_vectors(median_cache, world_tsr, median_world_cache);
 
     compute_triangle_dists(median_world_cache, eye, dist_cache);
     var indices = sort_triangles(dist_cache, indices);

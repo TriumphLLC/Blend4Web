@@ -72,7 +72,6 @@ var HOVER_MOUSE_ZOOM_FACTOR        = 2.0;
 var HOVER_TOUCH_ZOOM_FACTOR        = 2.0;
 var HOVER_ANGLE_MIN                = 2.0;
 var HOVER_SPEED_MIN                = 1.0;
-var HOVER_STATIC_MOVE_FACTOR       = 10;
 
 
 var _smooth_factor = 1;
@@ -107,7 +106,9 @@ var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
-var _vec3_tmp4 = new Float32Array(3);
+var _velocity_tmp = {};
+
+var _limits_tmp = {};
 
 /**
  * Application initialization callback.
@@ -449,15 +450,8 @@ exports.set_onkeypress = function(elem_id, callback) {
 }
 
 function trans_hover_cam_horiz_local(camobj, dir, fact) {
-    if (m_cam.has_distance_limits(camobj)) {
-        var obj_trans = m_trans.get_translation(camobj, _vec3_tmp);
-        var hover_pivot = m_cam.get_hover_cam_pivot(camobj, _vec3_tmp2);
-        var dir_vector = m_vec3.subtract(obj_trans, hover_pivot, _vec3_tmp);
-        var dist = Math.max(m_vec3.len(dir_vector), HOVER_SPEED_MIN);
-    } else {
-        var dist = HOVER_STATIC_MOVE_FACTOR;
-    }
-
+    var dist = Math.max(m_cam.hover_get_distance(camobj), HOVER_SPEED_MIN);
+    
     var obj_quat = m_trans.get_rotation(camobj, _quat4_tmp);
     var abs_dir = m_util.quat_to_dir(obj_quat, dir, _vec3_tmp);
     abs_dir[1] = 0;
@@ -466,25 +460,17 @@ function trans_hover_cam_horiz_local(camobj, dir, fact) {
 
     var obj_trans = m_trans.get_translation(camobj, _vec3_tmp2);
     m_vec3.add(obj_trans, abs_dir, obj_trans)
-    m_cam.hover_cam_set_translation(camobj, obj_trans);
+    m_cam.set_translation(camobj, obj_trans);
 }
 
 function trans_hover_cam_updown(camobj, fact) {
-    if (!m_cam.has_distance_limits(camobj)) {
-        var obj_trans = m_trans.get_translation(camobj, _vec3_tmp);
-        var trans_delta = m_vec3.scale(m_util.AXIS_Y, -fact, _vec3_tmp2);
-        m_vec3.add(obj_trans, trans_delta, obj_trans);
-        m_cam.hover_cam_set_translation(camobj, obj_trans);
-    } else {
-        var limits = m_cam.get_hover_angle_limits(camobj, _vec2_tmp);
-        if (limits[1] - limits[0] < 0) {
-            var y_angle = m_cam.get_camera_angles(camobj, _vec2_tmp2)[1];
-            var angle_factor = (limits[0] - y_angle) / (limits[0] - limits[1]);
-            var dist_limits = m_cam.get_cam_dist_limits(camobj);
-            angle_factor = Math.max(angle_factor, HOVER_ANGLE_MIN /
-                    dist_limits[0]);
-            m_cam.rotate_hover_camera(camobj, 0, angle_factor * fact);
-        }
+    var limits = m_cam.hover_get_vertical_limits(camobj, _limits_tmp);
+    if (limits.up - limits.down < 0) {
+        var y_angle = m_cam.get_camera_angles(camobj, _vec2_tmp2)[1];
+        var angle_factor = (limits.down - y_angle) / (limits.down - limits.up);
+        var dist_limits = m_cam.hover_get_distance_limits(camobj, _limits_tmp);
+        angle_factor = Math.max(angle_factor, HOVER_ANGLE_MIN / dist_limits.max);
+        m_cam.hover_rotate(camobj, 0, angle_factor * fact);
     }
 }
 
@@ -501,7 +487,7 @@ function calc_fact_from(fact_to) {
 
 function trans_targ_cam_local(camobj, fact_view, elapsed) {
     var obj_trans = m_trans.get_translation(camobj, _vec3_tmp);
-    var pivot = m_cam.get_pivot(camobj, _vec3_tmp2);
+    var pivot = m_cam.target_get_pivot(camobj, _vec3_tmp2);
     var dist = m_vec3.dist(obj_trans, pivot);
     var abs_fact_view = Math.abs(fact_view);
     var fact = Math.pow(abs_fact_view * elapsed, TARGET_KEY_ZOOM_POW1
@@ -534,8 +520,8 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
 
     if (use_pivot) {
         // camera zooming
-        var cam_pivot = m_cam.get_pivot(obj, _vec3_tmp);
-        var cam_eye = m_cam.get_eye(obj);
+        var cam_pivot = m_cam.target_get_pivot(obj, _vec3_tmp);
+        var cam_eye = m_cam.get_translation(obj);
         var dist = m_vec3.dist(cam_pivot, cam_eye) + dest_value;
 
         if (value > 0)
@@ -589,7 +575,7 @@ function enable_camera_controls(disable_default_pivot,
         break;
     }
 
-    var velocity = m_cam.get_velocity_params(obj, _vec3_tmp4);
+    var velocity = m_cam.get_velocities(obj, _velocity_tmp);
 
     var elapsed = m_ctl.create_elapsed_sensor();
 
@@ -644,7 +630,7 @@ function enable_camera_controls(disable_default_pivot,
 
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
 
-            m_cam.get_velocity_params(obj, velocity);
+            m_cam.get_velocities(obj, velocity);
             switch (id) {
             case "FORWARD":
                 if (character)
@@ -653,11 +639,11 @@ function enable_camera_controls(disable_default_pivot,
                     var hover_angle = m_cam.get_camera_angles(obj, _vec2_tmp2)[1];
                     var axis = (Math.abs(hover_angle) >= Math.PI / 4) ? m_util.AXIS_MZ : m_util.AXIS_MY;
                     trans_hover_cam_horiz_local(obj, axis,
-                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                            velocity.trans * HOVER_KEY_TRANS_FACTOR * elapsed);
                 } else if (use_pivot)
-                    trans_targ_cam_local(obj, -velocity[2], elapsed);
+                    trans_targ_cam_local(obj, -velocity.zoom, elapsed);
                 else
-                    trans_eye_cam_local(obj, 0, -velocity[0] * elapsed, 0);
+                    trans_eye_cam_local(obj, 0, -velocity.trans * elapsed, 0);
                 break;
             case "BACKWARD":
                 if (character)
@@ -666,74 +652,74 @@ function enable_camera_controls(disable_default_pivot,
                     var hover_angle = m_cam.get_camera_angles(obj, _vec2_tmp2)[1];
                     var axis = (Math.abs(hover_angle) >= Math.PI / 4) ? m_util.AXIS_Z : m_util.AXIS_Y;
                     trans_hover_cam_horiz_local(obj, axis,
-                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                            velocity.trans * HOVER_KEY_TRANS_FACTOR * elapsed);
                 } else if (use_pivot)
-                    trans_targ_cam_local(obj, velocity[2], elapsed);
+                    trans_targ_cam_local(obj, velocity.zoom, elapsed);
                 else
-                    trans_eye_cam_local(obj, 0, velocity[0] * elapsed, 0);
+                    trans_eye_cam_local(obj, 0, velocity.trans * elapsed, 0);
                 break;
             case "UP":
                 if (use_hover)
-                    trans_hover_cam_updown(obj, - velocity[2]
+                    trans_hover_cam_updown(obj, - velocity.zoom
                             * HOVER_KEY_ZOOM_FACTOR * elapsed);
                 else if (!character)
-                    trans_eye_cam_local(obj, 0, 0, -velocity[0] * elapsed);
+                    trans_eye_cam_local(obj, 0, 0, -velocity.trans * elapsed);
                 break;
             case "DOWN":
                 if (use_hover)
-                    trans_hover_cam_updown(obj, velocity[2]
+                    trans_hover_cam_updown(obj, velocity.zoom
                             * HOVER_KEY_ZOOM_FACTOR * elapsed);
                 else if (!character)
-                    trans_eye_cam_local(obj, 0, 0, velocity[0] * elapsed);
+                    trans_eye_cam_local(obj, 0, 0, velocity.trans * elapsed);
                 break;
             case "LEFT":
                 if (character)
                     char_dir[1] = 1;
                 else if (use_hover)
                     trans_hover_cam_horiz_local(obj, m_util.AXIS_MX,
-                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                            velocity.trans * HOVER_KEY_TRANS_FACTOR * elapsed);
                 else
-                    trans_eye_cam_local(obj, -velocity[0] * elapsed, 0, 0);
+                    trans_eye_cam_local(obj, -velocity.trans * elapsed, 0, 0);
                 break;
             case "RIGHT":
                 if (character)
                     char_dir[1] = -1;
                 else if (use_hover)
                     trans_hover_cam_horiz_local(obj, m_util.AXIS_X,
-                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                            velocity.trans * HOVER_KEY_TRANS_FACTOR * elapsed);
                 else
-                    trans_eye_cam_local(obj, velocity[0] * elapsed, 0, 0);
+                    trans_eye_cam_local(obj, velocity.trans * elapsed, 0, 0);
                 break;
             case "ROT_LEFT":
                 if (use_pivot)
-                    m_cam.rotate_target_camera(obj, -velocity[1]
+                    m_cam.target_rotate(obj, -velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed, 0);
                 else
-                    m_cam.rotate_eye_camera(obj, velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
+                    m_cam.eye_rotate(obj, velocity.rot * TARGET_EYE_KEY_ROT_FACTOR
                             * elapsed, 0);
                 break;
             case "ROT_RIGHT":
                 if (use_pivot)
-                    m_cam.rotate_target_camera(obj, velocity[1]
+                    m_cam.target_rotate(obj, velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed, 0);
                 else
-                    m_cam.rotate_eye_camera(obj, -velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
+                    m_cam.eye_rotate(obj, -velocity.rot * TARGET_EYE_KEY_ROT_FACTOR
                             * elapsed, 0);
                 break;
             case "ROT_UP":
                 if (use_pivot)
-                    m_cam.rotate_target_camera(obj, 0, -velocity[1]
+                    m_cam.target_rotate(obj, 0, -velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 else
-                    m_cam.rotate_eye_camera(obj, 0, velocity[1]
+                    m_cam.eye_rotate(obj, 0, velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 break;
             case "ROT_DOWN":
                 if (use_pivot)
-                    m_cam.rotate_target_camera(obj, 0, velocity[1]
+                    m_cam.target_rotate(obj, 0, velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 else
-                    m_cam.rotate_eye_camera(obj, 0, -velocity[1]
+                    m_cam.eye_rotate(obj, 0, -velocity.rot
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 break;
             default:
@@ -843,15 +829,15 @@ function enable_camera_controls(disable_default_pivot,
         var mouse_wheel_cb = function(obj, id, pulse) {
             if (pulse == 1) {
                 var value = m_ctl.get_sensor_value(obj, id, 0);
-                m_cam.get_velocity_params(obj, velocity);
+                m_cam.get_velocities(obj, velocity);
                 if (use_pivot || use_hover) {
-                    dest_zoom_mouse = get_dest_zoom(obj, value, velocity[2],
+                    dest_zoom_mouse = get_dest_zoom(obj, value, velocity.zoom,
                             dest_zoom_mouse, HOVER_MOUSE_ZOOM_FACTOR, use_pivot);
                 } else {
                     // translation speed adjusting
-                    var factor = value * velocity[2];
-                    velocity[0] *= (1 + factor);
-                    m_cam.set_velocity_params(obj, velocity);
+                    var factor = value * velocity.zoom;
+                    velocity.trans *= (1 + factor);
+                    m_cam.set_velocities(obj, velocity);
                 }
             }
         }
@@ -862,11 +848,11 @@ function enable_camera_controls(disable_default_pivot,
         var touch_zoom_cb = function(obj, id, pulse, param) {
             if (pulse == 1) {
                 var value = m_ctl.get_sensor_value(obj, id, 0);
-                m_cam.get_velocity_params(obj, velocity);
+                m_cam.get_velocities(obj, velocity);
 
                 if (m_ctl.get_sensor_payload(obj, id, 0)
                         === m_ctl.PL_MULTITOUCH_MOVE_ZOOM) {
-                    dest_zoom_touch = get_dest_zoom(obj, value, velocity[2]
+                    dest_zoom_touch = get_dest_zoom(obj, value, velocity.zoom
                             * TARGET_TOUCH_ZOOM_FACTOR, dest_zoom_touch,
                             HOVER_TOUCH_ZOOM_FACTOR, use_pivot);
                 }
@@ -894,8 +880,8 @@ function enable_camera_controls(disable_default_pivot,
                     if (use_hover) {
                         trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
                     } else {
-                        var cam_pivot = m_cam.get_pivot(obj, _vec3_tmp);
-                        var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
+                        var cam_pivot = m_cam.target_get_pivot(obj, _vec3_tmp);
+                        var cam_eye = m_cam.get_translation(obj, _vec3_tmp2);
                         var dist = m_vec3.dist(cam_pivot, cam_eye);
                         // Prevent zoom overshooting.
                         if (dist + zoom_mouse + zoom_touch > EPSILON_DISTANCE) {
@@ -942,13 +928,13 @@ function enable_camera_controls(disable_default_pivot,
         if (pulse == 1) {
             var value = m_ctl.get_sensor_value(obj, id, 1);
 
-            m_cam.get_velocity_params(obj, velocity);
+            m_cam.get_velocities(obj, velocity);
             if (!use_hover) {
-                var left_mult  = TARGET_EYE_MOUSE_ROT_MULT_PX * velocity[1];
-                var right_mult = TARGET_EYE_MOUSE_PAN_MULT_PX * velocity[0];
+                var left_mult  = TARGET_EYE_MOUSE_ROT_MULT_PX * velocity.rot;
+                var right_mult = TARGET_EYE_MOUSE_PAN_MULT_PX * velocity.trans;
             } else {
-                var left_mult  = HOVER_MOUSE_PAN_MULT_PX * velocity[0];
-                var right_mult = HOVER_MOUSE_ROT_MULT_PX * velocity[1];
+                var left_mult  = HOVER_MOUSE_PAN_MULT_PX * velocity.trans;
+                var right_mult = HOVER_MOUSE_ROT_MULT_PX * velocity.rot;
             }
 
             if (m_ctl.get_sensor_payload(obj, id, 0) === 1) {
@@ -980,9 +966,9 @@ function enable_camera_controls(disable_default_pivot,
     var touch_cb = function(obj, id, pulse, param) {
         if (pulse == 1) {
             if (use_hover)
-                var r_mult = HOVER_TOUCH_PAN_MULT_PX * velocity[0];
+                var r_mult = HOVER_TOUCH_PAN_MULT_PX * velocity.trans;
             else
-                var r_mult = TARGET_EYE_TOUCH_ROT_MULT_PX * velocity[1];
+                var r_mult = TARGET_EYE_TOUCH_ROT_MULT_PX * velocity.rot;
             var value = m_ctl.get_sensor_value(obj, id, 0);
             if (m_ctl.get_sensor_payload(obj, id, 0)
                     === m_ctl.PL_SINGLE_TOUCH_MOVE) {
@@ -991,9 +977,9 @@ function enable_camera_controls(disable_default_pivot,
             } else if (m_ctl.get_sensor_payload(obj, id, 0)
                     ===  m_ctl.PL_MULTITOUCH_MOVE_PAN) {
                 if (!use_hover) {
-                    var pan_mult = TARGET_EYE_TOUCH_PAN_MULT_PX * velocity[0];
+                    var pan_mult = TARGET_EYE_TOUCH_PAN_MULT_PX * velocity.trans;
                 } else {
-                    var pan_mult = HOVER_TOUCH_ROT_MULT_PX * velocity[1];
+                    var pan_mult = HOVER_TOUCH_ROT_MULT_PX * velocity.rot;
                 }
                 dest_pan_x_touch += (param == "X") ? -value * pan_mult : 0;
                 dest_pan_y_touch += (param == "Y") ? -value * pan_mult : 0;
@@ -1052,7 +1038,7 @@ function enable_camera_controls(disable_default_pivot,
             dest_pan_y_touch -= trans_y_touch;
 
             if (use_pivot) {
-                m_cam.rotate_target_camera(obj, x_mouse + x_touch,
+                m_cam.target_rotate(obj, x_mouse + x_touch,
                         y_mouse + y_touch);
                 m_cam.move_pivot(obj, trans_x_mouse + trans_x_touch,
                         trans_y_mouse + trans_y_touch);
@@ -1070,9 +1056,9 @@ function enable_camera_controls(disable_default_pivot,
                             * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
                 }
 
-                m_cam.rotate_hover_camera(obj, trans_x_mouse + trans_x_touch, 0);
+                m_cam.hover_rotate(obj, trans_x_mouse + trans_x_touch, 0);
             } else {
-                m_cam.rotate_eye_camera(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
+                m_cam.eye_rotate(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
                         (y_mouse + y_touch) * EYE_ROTATION_DECREMENT);
 
                 if (character) {

@@ -227,7 +227,7 @@ function remove_edge_by_attr(graph, id1, id2, attr) {
  */
 exports.append_node_attr = function(graph, attr) {
     if (node_by_attr(graph, attr) == NULL_NODE) {
-        var node_id = gen_node_id(graph)
+        var node_id = gen_node_id(graph);
         append_node(graph, node_id, attr);
         return node_id;
     } else
@@ -243,6 +243,59 @@ exports.replace_edge_attr = function(graph, id1, id2, attr_old, attr_new) {
         if (edges[i] == id1 && edges[i+1] == id2 && edges[i+2] == attr_old)
             edges[i+2] = attr_new;
 }
+
+/**
+ * Append the subgraph to the given graph.
+ * @param {Graph} subgraph Subgraph to append
+ * @param {Graph} graph Graph to append to
+ * @param {Edge[]} subgraph_graph_edges subgraph->graph inter-graph edges
+ * @param {Edge[]} graph_subgraph_edges graph->subgraph inter-graph edges
+ */
+exports.append_subgraph = function(subgraph, graph, 
+        subgraph_graph_edges, graph_subgraph_edges) {
+
+    subgraph_graph_edges = subgraph_graph_edges || [];
+    graph_subgraph_edges = graph_subgraph_edges || [];
+
+    var ids_new = {};
+
+    for (var i = 0; i < subgraph.nodes.length; i+=2) {
+        var id_sub = subgraph.nodes[i];
+        var attr = subgraph.nodes[i+1];
+
+        // subgraph new node id (inside graph)
+        var id_sub_new = gen_node_id(graph);
+        append_node(graph, id_sub_new, attr);
+        ids_new[id_sub] = id_sub_new;
+    }
+
+    for (var i = 0; i < subgraph.edges.length; i+=3) {
+        var id1_sub_new = ids_new[subgraph.edges[i]];
+        var id2_sub_new = ids_new[subgraph.edges[i+1]];
+
+        var attr_edge = subgraph.edges[i+2];
+
+        append_edge(graph, id1_sub_new, id2_sub_new, attr_edge);
+    }
+
+    for (var i = 0; i < subgraph_graph_edges.length; i+=3) {
+        var id1_sub_new = ids_new[subgraph_graph_edges[i]];
+        var id2 = subgraph_graph_edges[i+1];
+        var attr_edge = subgraph_graph_edges[i+2];
+
+        append_edge(graph, id1_sub_new, id2, attr_edge);
+    }
+
+    for (var i = 0; i < graph_subgraph_edges.length; i+=3) {
+        var id1 = graph_subgraph_edges[i];
+        var id2_sub_new = ids_new[graph_subgraph_edges[i+1]];
+
+        var attr_edge = graph_subgraph_edges[i+2];
+
+        append_edge(graph, id1, id2_sub_new, attr_edge);
+    }
+}
+
 
 exports.gen_node_id = gen_node_id;
 function gen_node_id(graph) {
@@ -414,7 +467,7 @@ exports.is_connected = function(graph) {
 }
 
 /**
- * Compose new subgraph with nodes connected to given node.
+ * Compose a new subgraph with the nodes connected to a given node.
  */
 exports.subgraph_node_conn = function(graph, node_id, dir) {
     if (!has_node(graph, node_id))
@@ -1214,7 +1267,7 @@ function state_clone(state) {
 
 
 /**
- * Replace nodes by new one with given attribute.
+ * Replace the nodes by the new one with the given attribute.
  * may create multigraph (multiple edges connecting same nodes)
  */
 exports.replace = function(graph, rnode_ids, new_node_attr) {

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Рабочий процесс &mdash; User Manual: Blend4Web vv15.10</title>
+  <title>Рабочий процесс &mdash; User Manual: Blend4Web vv15.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="À propos de ces documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Развёртывание среды разработки" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.10
+              v15.11
             </div>
           
         
@@ -170,7 +170,7 @@
 <li>Подготовка трёхмерных сцен в программе Blender.</li>
 <li>Экспорт сцен.</li>
 <li>Запуск, настройка и отладка сцены в программе-просмотрщике.</li>
-<li>Создание целевого приложения.</li>
+<li>Создание целевого веб-приложения.</li>
 </ol>
 <div class="section" id="authoring-scenes">
 <span id="id2"></span><h2>Подготовка сцен<a class="headerlink" href="#authoring-scenes" title="Lien permanent vers ce titre">¶</a></h2>
@@ -197,7 +197,8 @@
 </div>
 <div class="section" id="assets-json">
 <span id="index-1"></span><span id="id4"></span><h2>Отображение сцен в просмотрщике<a class="headerlink" href="#assets-json" title="Lien permanent vers ce titre">¶</a></h2>
-<p>При использовании <a class="reference internal" href="setup.html#local-development-server"><span>локального сервера разработки</span></a> и опции экспорта <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> сцены показываются в просмотрщике сцен сразу после экспорта.</p>
+<p>При использовании <a class="reference internal" href="setup.html#local-development-server"><span>локального сервера разработки</span></a> возможно сделать предварительный просмотр сцены используя кнопку <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code>, расположенную на панели <code class="docutils literal"><span class="pre">Scene-&gt;Development</span> <span class="pre">Server</span></code> в Blender. В этом случае будет произведён автоматический экспорт сцены во временное хранилище с последующей загрузкой в просмотрщике.</p>
+<p>Другой способ это использовать опцию экспорта сцены <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a>. В этом случая сцена показывается в просмотрщике сразу после экспорта.</p>
 <p>При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, нужно вручную добавить запись в текстовой файл <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code>, который доступен при открытии Blender&#8217;a при использовании Blend4Web SDK.</p>
 <p>Для редактирования файла откройте &#8220;Text Editor&#8221;:</p>
 <img alt="_images/text_editor.png" class="align-center" src="_images/text_editor.png" />
@@ -272,7 +273,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Mis à jour le 2015-10-29.
+      Mis à jour le 2015-11-26.
 
     </p>
   </div>
@@ -294,7 +295,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.10',
+            VERSION:'v15.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

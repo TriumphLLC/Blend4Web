@@ -21,6 +21,14 @@ div#main_canvas_container {
     overflow: hidden;
 }
 
+div#main_canvas_container.move {
+    cursor: move;
+}
+
+div#main_canvas_container.move * {
+    cursor: inherit !important;
+}
+
 div#preloader_container {
     position: absolute;
     width: 100%;

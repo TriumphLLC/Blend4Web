@@ -69,11 +69,11 @@ gettext:
 	@echo "Build finished. The message catalogs are in locale."
 
 gettext_update:
-	sphinx-intl update -p locale -d locale -c conf_ru/conf.py -l en 
-	sphinx-intl update -p locale -d locale -c conf_ru/conf.py -l fr
+	sphinx-intl -c conf_ru/conf.py update -l en -p locale -d locale 
+	sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale 
 
 gettext_build:
-	sphinx-intl -d locale -c conf_ru/conf.py build
+	sphinx-intl -c conf_ru/conf.py build -d locale
 	mkdir -p $(BUILDDIR)
 	cp -rv locale $(BUILDDIR)
 

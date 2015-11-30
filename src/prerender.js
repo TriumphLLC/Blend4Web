@@ -29,6 +29,7 @@ var m_cfg    = require("__config");
 var m_debug  = require("__debug");
 var m_geom   = require("__geometry");
 var m_render = require("__renderer");
+var m_tsr    = require("__tsr");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 
@@ -63,8 +64,6 @@ exports.prerender_subs = function(subs) {
             }
         }
 
-        var cam = subs.camera;
-
         switch (subs.type) {
         case "WIREFRAME":
             // NOTE: wireframe subs rendered optionally
@@ -96,7 +95,7 @@ function zsort(subs) {
     if (!cfg_def.alpha_sort || !subs.bundles)
         return;
 
-    var eye = subs.camera.eye;
+    var eye = m_tsr.get_trans_view(subs.camera.world_tsr);
 
     // update if coords changed more than for 1 unit
     var cam_updated =
@@ -119,8 +118,7 @@ function zsort(subs) {
 
             var info = bufs_data.info_for_z_sort_updates;
             if (info && info.type == m_geom.ZSORT_BACK_TO_FRONT) {
-                var world_matrix = obj_render.world_matrix;
-                m_geom.update_buffers_movable(bufs_data, world_matrix, eye);
+                m_geom.update_buffers_movable(bufs_data, obj_render.world_tsr, eye);
             }
         }
         obj_render.force_zsort = false;
@@ -138,9 +136,15 @@ function zsort(subs) {
 function prerender_bundle(bundle, subs) {
 
     var obj_render = bundle.obj_render;
-    var cam = subs.camera;
 
     obj_render.is_visible = false;
+
+    var cam = subs.camera;
+
+    if (subs.type == "SHADOW_CAST")
+        var eye = cam.lod_eye;
+    else
+        var eye = m_tsr.get_trans_view(cam.world_tsr);
 
     if (!obj_render)
         return false;
@@ -148,7 +152,7 @@ function prerender_bundle(bundle, subs) {
     if (obj_render.hide)
         return false;
 
-    if (!is_lod_visible(obj_render, cam))
+    if (!is_lod_visible(obj_render, eye))
         return false;
 
     obj_render.is_visible = true;
@@ -191,8 +195,7 @@ function is_out_of_frustum(obj_render, planes) {
     return is_out;
 }
 
-function is_lod_visible(obj_render, camera) {
-    var eye = camera.eye;
+function is_lod_visible(obj_render, eye) {
     var center = obj_render.bs_world.center;
 
     var dist_min = obj_render.lod_dist_min;

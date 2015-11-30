@@ -931,8 +931,7 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
  * @deprecated Use {@link module:controls.remove_sensor_manifold|controls.remove_sensor_manifold} with null manifold ID instead
  */
 exports.remove_sensor_manifolds = function(obj) {
-    m_print.error("remove_sensor_manifolds() deprecated, use" +
-        " remove_sensor_manifold() instead");
+    m_print.error_deprecated("remove_sensor_manifolds", "remove_sensor_manifold");
     m_ctl.remove_sensor_manifold(obj, null);
 }
 

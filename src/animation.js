@@ -117,7 +117,7 @@ var _vec3_tmp2 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
 var _quat4_tmp3 = new Float32Array(4);
-var _tsr8_tmp = new Float32Array(8);
+var _tsr_tmp = m_tsr.create();
 var _mat4_tmp = new Float32Array(16);
 
 // populated after init_anim()
@@ -1193,9 +1193,9 @@ function animate(obj, elapsed, slot_num, force_update) {
             var prev = rgb.subarray(fc*3, fc*3 + 3);
             var next = rgb.subarray(fn*3, fn*3 + 3);
             var curr = m_vec3.lerp(prev, next, ff, _vec3_tmp);
-            obj.render.mats_rgbs[ind] = curr[0];
-            obj.render.mats_rgbs[ind + 1] = curr[1];
-            obj.render.mats_rgbs[ind + 2] = curr[2];
+            obj.render.mats_rgbs[3 * ind] = curr[0];
+            obj.render.mats_rgbs[3 * ind + 1] = curr[1];
+            obj.render.mats_rgbs[3 * ind + 2] = curr[2];
         }
         break;
 
@@ -1610,12 +1610,12 @@ function calc_pose_bone(bone_pointer, dest_trans_scale, dest_quat) {
         // apply basis translation (delta) in armature space
         // go to bone space, apply pose, return back to armature space
         // tsr_local * (tsr_basis * tsr_locali)
-        m_tsr.invert(tsr_local, _tsr8_tmp);
-        m_tsr.multiply(tsr_basis, _tsr8_tmp, _tsr8_tmp);
-        m_tsr.multiply(tsr_local, _tsr8_tmp, _tsr8_tmp);
+        m_tsr.invert(tsr_local, _tsr_tmp);
+        m_tsr.multiply(tsr_basis, _tsr_tmp, _tsr_tmp);
+        m_tsr.multiply(tsr_local, _tsr_tmp, _tsr_tmp);
 
         // apply hierarchy
-        m_tsr.multiply(tsr_channel_parent, _tsr8_tmp, tsr_channel);
+        m_tsr.multiply(tsr_channel_parent, _tsr_tmp, tsr_channel);
 
         // save
         tsr_channel_parent = tsr_channel;

@@ -1,113 +1,119 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Blend4Web Player</title>
-<meta charset="utf-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <title>Blend4Web Player</title>
 
-<meta property="og:title" content="Blend4Web Player" />
-<meta property="og:description" content="Check out these awesome 3D graphics made with Blend4Web!" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
 
-<meta name="description" content="Check out these awesome 3D graphics made with Blend4Web!" />
+    <meta property="og:title" content="Blend4Web Player" />
+    <meta property="og:description" content="Check out these awesome 3D graphics made with Blend4Web!" />
 
-<link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAAACOAMyAOgNuAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wYZCzUe2Yb52wAAAihJREFUOMt9009onFUUBfDf/WYaRaoFsVFsFAqKi0oWZlJHEMSN4KboJoi66UpF6OhMN3VVhWIRMphQF124qGBEELVWNy6EQK2FTqSCUcRqqhYsCgpG+8+Z73aRj2SaVs/m8e475/DOu/eFa2Hv4ohN556W8QxKGQctXz9n77ZL66lxxW72+E0GtWeJlnT7Ou6vmHVx5KA9439eadDtPY6XsRUb/T/+lrlfZ3LfikG39yB+kerCGB7Aq/+tjx3aE0dML9wn8lKBe/G9cIrcIx3RboR2I0SMihzHByDdJctPdXvzImfwQ5ju3abIO2SM4n3U0Mcf5AZiyV8TTZsWQhrFj/hQ0X9BFr/XRT4q401pTrrH7sbpa968u3AL+bOMnWqD75T1L3B3QXyFEJ6yu3Fa98RDur3NVzuUH8s8qijPKIuj2KreLwv8hnNVNzoybsRJ3WM3r2rfWNxI3K8z+bCMAxjBsl3NLHAWixX1FUV+Rp5kwyerBhfPH8KM1xduxbaq+g0U2o2+iC+r4g0ynlerP0Y0TZ/YUb3+29IBZb41NILfrhis5Pt8KOxrynILMSrisJnjY+q1eeElPLLKyjy8ZrBlaQ6zQ4fzcnAB/2o1zygH72Hn8NAbW/pozWBqaqDdaMl4Audxp872ZZRVhO2V8B+RT2o3WqamyqEIFToT7+K5lSEC11XrBfyklk0vTr4zLCmuane7caj6WGtIx9T741qTX6+nXwbCtMDUVtksMQAAAABJRU5ErkJggg==" />
+    <meta name="description" content="Check out these awesome 3D graphics made with Blend4Web!" />
 
-<link href="webplayer.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAAACOAMyAOgNuAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wYZCzUe2Yb52wAAAihJREFUOMt9009onFUUBfDf/WYaRaoFsVFsFAqKi0oWZlJHEMSN4KboJoi66UpF6OhMN3VVhWIRMphQF124qGBEELVWNy6EQK2FTqSCUcRqqhYsCgpG+8+Z73aRj2SaVs/m8e475/DOu/eFa2Hv4ohN556W8QxKGQctXz9n77ZL66lxxW72+E0GtWeJlnT7Ou6vmHVx5KA9439eadDtPY6XsRUb/T/+lrlfZ3LfikG39yB+kerCGB7Aq/+tjx3aE0dML9wn8lKBe/G9cIrcIx3RboR2I0SMihzHByDdJctPdXvzImfwQ5ju3abIO2SM4n3U0Mcf5AZiyV8TTZsWQhrFj/hQ0X9BFr/XRT4q401pTrrH7sbpa968u3AL+bOMnWqD75T1L3B3QXyFEJ6yu3Fa98RDur3NVzuUH8s8qijPKIuj2KreLwv8hnNVNzoybsRJ3WM3r2rfWNxI3K8z+bCMAxjBsl3NLHAWixX1FUV+Rp5kwyerBhfPH8KM1xduxbaq+g0U2o2+iC+r4g0ynlerP0Y0TZ/YUb3+29IBZb41NILfrhis5Pt8KOxrynILMSrisJnjY+q1eeElPLLKyjy8ZrBlaQ6zQ4fzcnAB/2o1zygH72Hn8NAbW/pozWBqaqDdaMl4Audxp872ZZRVhO2V8B+RT2o3WqamyqEIFToT7+K5lSEC11XrBfyklk0vTr4zLCmuane7caj6WGtIx9T741qTX6+nXwbCtMDUVtksMQAAAABJRU5ErkJggg==" />
 
-<script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
+    <link href="webplayer.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="../../src/b4w.js"></script>
-<script type="text/javascript" src="../../src/anchors.js"></script>
-<script type="text/javascript" src="../../src/animation.js"></script>
-<script type="text/javascript" src="../../src/armature.js"></script>
-<script type="text/javascript" src="../../src/assets.js"></script>
-<script type="text/javascript" src="../../src/batch.js"></script>
-<script type="text/javascript" src="../../src/boundings.js"></script>
-<script type="text/javascript" src="../../src/camera.js"></script>
-<script type="text/javascript" src="../../src/compat.js"></script>
-<script type="text/javascript" src="../../src/config.js"></script>
-<script type="text/javascript" src="../../src/constraints.js"></script>
-<script type="text/javascript" src="../../src/container.js"></script>
-<script type="text/javascript" src="../../src/controls.js"></script>
-<script type="text/javascript" src="../../src/curve.js"></script>
-<script type="text/javascript" src="../../src/data.js"></script>
-<script type="text/javascript" src="../../src/dds.js"></script>
-<script type="text/javascript" src="../../src/debug.js"></script>
-<script type="text/javascript" src="../../src/extensions.js"></script>
-<script type="text/javascript" src="../../src/geometry.js"></script>
-<script type="text/javascript" src="../../src/graph.js"></script>
-<script type="text/javascript" src="../../src/hud.js"></script>
-<script type="text/javascript" src="../../src/ipc.js"></script>
-<script type="text/javascript" src="../../src/lights.js"></script>
-<script type="text/javascript" src="../../src/loader.js"></script>
-<script type="text/javascript" src="../../src/logic_nodes.js"></script>
-<script type="text/javascript" src="../../src/nla.js"></script>
-<script type="text/javascript" src="../../src/nodemat.js"></script>
-<script type="text/javascript" src="../../src/objects.js"></script>
-<script type="text/javascript" src="../../src/obj_util.js"></script>
-<script type="text/javascript" src="../../src/particles.js"></script>
-<script type="text/javascript" src="../../src/physics.js"></script>
-<script type="text/javascript" src="../../src/prerender.js"></script>
-<script type="text/javascript" src="../../src/primitives.js"></script>
-<script type="text/javascript" src="../../src/print.js"></script>
-<script type="text/javascript" src="../../src/reformer.js"></script>
-<script type="text/javascript" src="../../src/renderer.js"></script>
-<script type="text/javascript" src="../../src/scenegraph.js"></script>
-<script type="text/javascript" src="../../src/scenes.js"></script>
-<script type="text/javascript" src="../../src/sfx.js"></script>
-<script type="text/javascript" src="../../src/shaders.js"></script>
-<script type="text/javascript" src="../../src/textures.js"></script>
-<script type="text/javascript" src="../../src/time.js"></script>
-<script type="text/javascript" src="../../src/transform.js"></script>
-<script type="text/javascript" src="../../src/tsr.js"></script>
-<script type="text/javascript" src="../../src/util.js"></script>
-<script type="text/javascript" src="../../src/version.js"></script>
+    <script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
-<script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
-<script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
-<script type="text/javascript" src="../../src/libs/md5.js"></script>
+    <script type="text/javascript" src="../../src/b4w.js"></script>
+    <script type="text/javascript" src="../../src/anchors.js"></script>
+    <script type="text/javascript" src="../../src/animation.js"></script>
+    <script type="text/javascript" src="../../src/armature.js"></script>
+    <script type="text/javascript" src="../../src/assets.js"></script>
+    <script type="text/javascript" src="../../src/batch.js"></script>
+    <script type="text/javascript" src="../../src/boundings.js"></script>
+    <script type="text/javascript" src="../../src/camera.js"></script>
+    <script type="text/javascript" src="../../src/compat.js"></script>
+    <script type="text/javascript" src="../../src/config.js"></script>
+    <script type="text/javascript" src="../../src/constraints.js"></script>
+    <script type="text/javascript" src="../../src/container.js"></script>
+    <script type="text/javascript" src="../../src/controls.js"></script>
+    <script type="text/javascript" src="../../src/curve.js"></script>
+    <script type="text/javascript" src="../../src/data.js"></script>
+    <script type="text/javascript" src="../../src/dds.js"></script>
+    <script type="text/javascript" src="../../src/debug.js"></script>
+    <script type="text/javascript" src="../../src/extensions.js"></script>
+    <script type="text/javascript" src="../../src/geometry.js"></script>
+    <script type="text/javascript" src="../../src/graph.js"></script>
+    <script type="text/javascript" src="../../src/hud.js"></script>
+    <script type="text/javascript" src="../../src/ipc.js"></script>
+    <script type="text/javascript" src="../../src/lights.js"></script>
+    <script type="text/javascript" src="../../src/loader.js"></script>
+    <script type="text/javascript" src="../../src/logic_nodes.js"></script>
+    <script type="text/javascript" src="../../src/nla.js"></script>
+    <script type="text/javascript" src="../../src/nodemat.js"></script>
+    <script type="text/javascript" src="../../src/objects.js"></script>
+    <script type="text/javascript" src="../../src/obj_util.js"></script>
+    <script type="text/javascript" src="../../src/particles.js"></script>
+    <script type="text/javascript" src="../../src/physics.js"></script>
+    <script type="text/javascript" src="../../src/prerender.js"></script>
+    <script type="text/javascript" src="../../src/primitives.js"></script>
+    <script type="text/javascript" src="../../src/print.js"></script>
+    <script type="text/javascript" src="../../src/reformer.js"></script>
+    <script type="text/javascript" src="../../src/renderer.js"></script>
+    <script type="text/javascript" src="../../src/scenegraph.js"></script>
+    <script type="text/javascript" src="../../src/scenes.js"></script>
+    <script type="text/javascript" src="../../src/sfx.js"></script>
+    <script type="text/javascript" src="../../src/shaders.js"></script>
+    <script type="text/javascript" src="../../src/textures.js"></script>
+    <script type="text/javascript" src="../../src/time.js"></script>
+    <script type="text/javascript" src="../../src/transform.js"></script>
+    <script type="text/javascript" src="../../src/tsr.js"></script>
+    <script type="text/javascript" src="../../src/util.js"></script>
+    <script type="text/javascript" src="../../src/version.js"></script>
 
-<script type="text/javascript" src="../../src/ext/anchors.js"></script>
-<script type="text/javascript" src="../../src/ext/animation.js"></script>
-<script type="text/javascript" src="../../src/ext/armature.js"></script>
-<script type="text/javascript" src="../../src/ext/assets.js"></script>
-<script type="text/javascript" src="../../src/ext/camera.js"></script>
-<script type="text/javascript" src="../../src/ext/config.js"></script>
-<script type="text/javascript" src="../../src/ext/constraints.js"></script>
-<script type="text/javascript" src="../../src/ext/container.js"></script>
-<script type="text/javascript" src="../../src/ext/controls.js"></script>
-<script type="text/javascript" src="../../src/ext/data.js"></script>
-<script type="text/javascript" src="../../src/ext/debug.js"></script>
-<script type="text/javascript" src="../../src/ext/geometry.js"></script>
-<script type="text/javascript" src="../../src/ext/hud.js"></script>
-<script type="text/javascript" src="../../src/ext/lights.js"></script>
-<script type="text/javascript" src="../../src/ext/main.js"></script>
-<script type="text/javascript" src="../../src/ext/material.js"></script>
-<script type="text/javascript" src="../../src/ext/objects.js"></script>
-<script type="text/javascript" src="../../src/ext/particles.js"></script>
-<script type="text/javascript" src="../../src/ext/physics.js"></script>
-<script type="text/javascript" src="../../src/ext/rgb.js"></script>
-<script type="text/javascript" src="../../src/ext/scenes.js"></script>
-<script type="text/javascript" src="../../src/ext/sfx.js"></script>
-<script type="text/javascript" src="../../src/ext/textures.js"></script>
-<script type="text/javascript" src="../../src/ext/time.js"></script>
-<script type="text/javascript" src="../../src/ext/tsr.js"></script>
-<script type="text/javascript" src="../../src/ext/transform.js"></script>
-<script type="text/javascript" src="../../src/ext/util.js"></script>
-<script type="text/javascript" src="../../src/ext/version.js"></script>
-<script type="text/javascript" src="../../src/ext/nla.js"></script>
+    <script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
+    <script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
+    <script type="text/javascript" src="../../src/libs/md5.js"></script>
 
-<script type="text/javascript" src="../../src/addons/storage.js"></script>
-<script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
-<script type="text/javascript" src="../../src/addons/app.js"></script>
-<script type="text/javascript" src="../../src/addons/preloader.js"></script>
+    <script type="text/javascript" src="../../src/ext/anchors.js"></script>
+    <script type="text/javascript" src="../../src/ext/animation.js"></script>
+    <script type="text/javascript" src="../../src/ext/armature.js"></script>
+    <script type="text/javascript" src="../../src/ext/assets.js"></script>
+    <script type="text/javascript" src="../../src/ext/camera.js"></script>
+    <script type="text/javascript" src="../../src/ext/config.js"></script>
+    <script type="text/javascript" src="../../src/ext/constraints.js"></script>
+    <script type="text/javascript" src="../../src/ext/container.js"></script>
+    <script type="text/javascript" src="../../src/ext/controls.js"></script>
+    <script type="text/javascript" src="../../src/ext/data.js"></script>
+    <script type="text/javascript" src="../../src/ext/debug.js"></script>
+    <script type="text/javascript" src="../../src/ext/geometry.js"></script>
+    <script type="text/javascript" src="../../src/ext/hud.js"></script>
+    <script type="text/javascript" src="../../src/ext/lights.js"></script>
+    <script type="text/javascript" src="../../src/ext/main.js"></script>
+    <script type="text/javascript" src="../../src/ext/material.js"></script>
+    <script type="text/javascript" src="../../src/ext/objects.js"></script>
+    <script type="text/javascript" src="../../src/ext/particles.js"></script>
+    <script type="text/javascript" src="../../src/ext/physics.js"></script>
+    <script type="text/javascript" src="../../src/ext/rgb.js"></script>
+    <script type="text/javascript" src="../../src/ext/scenes.js"></script>
+    <script type="text/javascript" src="../../src/ext/sfx.js"></script>
+    <script type="text/javascript" src="../../src/ext/textures.js"></script>
+    <script type="text/javascript" src="../../src/ext/time.js"></script>
+    <script type="text/javascript" src="../../src/ext/tsr.js"></script>
+    <script type="text/javascript" src="../../src/ext/transform.js"></script>
+    <script type="text/javascript" src="../../src/ext/util.js"></script>
+    <script type="text/javascript" src="../../src/ext/version.js"></script>
+    <script type="text/javascript" src="../../src/ext/nla.js"></script>
 
-<script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
-<script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
+    <script type="text/javascript" src="../../src/addons/app.js"></script>
+    <script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
+    <script type="text/javascript" src="../../src/addons/gyroscope.js"></script>
+    <script type="text/javascript" src="../../src/addons/mixer.js"></script>
+    <script type="text/javascript" src="../../src/addons/mouse.js"></script>
+    <script type="text/javascript" src="../../src/addons/npc_ai.js"></script>
+    <script type="text/javascript" src="../../src/addons/preloader.js"></script>
+    <script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
+    <script type="text/javascript" src="../../src/addons/storage.js"></script>
 
-<script type="text/javascript" src="webplayer.js"></script>
+    <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
 
-<script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
+    <script type="text/javascript" src="webplayer.js"></script>
+
+    <script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
 </head>
 
 <body>
@@ -160,4 +166,5 @@
         <div id="fps_container"></div>
     </div>
 </body>
+
 </html>

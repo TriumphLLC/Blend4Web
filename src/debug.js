@@ -26,12 +26,15 @@
  */
 b4w.module["__debug"] = function(exports, require) {
 
+var m_cfg   = require("__config");
 var m_ext   = require("__extensions");
 var m_print = require("__print");
 var m_tex   = require("__textures");
 var m_time  = require("__time");
 var m_util  = require("__util");
 var m_graph = require("__graph");
+
+var cfg_def = m_cfg.defaults;
 
 var _gl = null;
 var ERRORS = {};
@@ -225,6 +228,63 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
 
 exports.set_check_gl_errors = function(val) {
     _check_errors = val;
+}
+
+/**
+ * Start calculation of rendering time.
+ * use HUD to display subscene rendering time
+ */
+exports.render_time_start = function(subs) {
+    if (!cfg_def.show_hud_debug_info)
+        return;
+
+    var ext = m_ext.get_disjoint_timer_query();
+
+    if (ext) {
+        var query = ext.createQueryEXT();
+        subs.debug_render_time_queries.push(query);
+        ext.beginQueryEXT(ext.TIME_ELAPSED_EXT, query);
+    } else
+        subs.debug_render_time_queries.push(performance.now());
+}
+
+/**
+ * Stop calculation of rendering time.
+ * use HUD to display subscene rendering time
+ */
+exports.render_time_stop = function(subs) {
+    if (!cfg_def.show_hud_debug_info)
+        return;
+
+    var queries = subs.debug_render_time_queries;
+
+    var ext = m_ext.get_disjoint_timer_query();
+
+    if (ext) {
+        ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+
+        for (var i = 0; i < queries.length; i++) {
+            var query = queries[i];
+
+            var available = ext.getQueryObjectEXT(query,
+                    ext.QUERY_RESULT_AVAILABLE_EXT);
+            var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
+
+            if (available && !disjoint) {
+                var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+                var render_time = elapsed / 1000000;
+                subs.debug_render_time = m_util.smooth(render_time,
+                        subs.debug_render_time, 1, 100);
+
+                queries.splice(i, 1);
+                i--;
+            }
+        }
+    } else {
+        var render_time = performance.now() - queries.pop();
+        subs.debug_render_time = m_util.smooth(render_time,
+                subs.debug_render_time, 1, 100);
+    }
 }
 
 /**

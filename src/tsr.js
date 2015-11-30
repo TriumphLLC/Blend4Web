@@ -25,6 +25,7 @@
  */
 b4w.module["__tsr"] = function(exports, require) {
 
+var m_mat3 = require("__mat3");
 var m_mat4 = require("__mat4");
 var m_quat = require("__quat");
 var m_util = require("__util");
@@ -34,7 +35,8 @@ var _vec3_tmp = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 
-exports.create = function() {
+exports.create = create;
+function create() {
     var tsr = new Float32Array(8);
     tsr[3] = 1;
     tsr[7] = 1;
@@ -42,7 +44,28 @@ exports.create = function() {
 }
 
 exports.from_values = function(x, y, z, s, qx, qy, qz, qw) {
-    var tsr = new Float32Array(8);
+    var tsr = create();
+    tsr[0] = x;
+    tsr[1] = y;
+    tsr[2] = z;
+    tsr[3] = s;
+    tsr[4] = qx;
+    tsr[5] = qy;
+    tsr[6] = qz;
+    tsr[7] = qw;
+    return tsr;
+}
+
+exports.create_ext = create_ext;
+function create_ext() {
+    var tsr = new Float32Array(9);
+    tsr[3] = 1;
+    tsr[7] = 1;
+    return tsr;
+}
+
+exports.from_values_ext = function(x, y, z, s, qx, qy, qz, qw) {
+    var tsr = create_ext();
     tsr[0] = x;
     tsr[1] = y;
     tsr[2] = z;
@@ -79,15 +102,6 @@ exports.identity = function(tsr) {
     tsr[7] = 1;
 
     return tsr;
-}
-
-exports.create_sep = function(trans, scale, quat, dest) {
-    if (!dest)
-        var dest = new Float32Array(8);
-
-    set_sep(trans, scale, quat, dest);
-
-    return dest;
 }
 
 exports.set_sep = set_sep; 
@@ -143,7 +157,7 @@ exports.get_scale = function(tsr) {
     return tsr[3];
 }
 exports.get_quat_view = function(tsr) {
-    return tsr.subarray(4);
+    return tsr.subarray(4, 8);
 }
 
 exports.invert = function(tsr, dest) {
@@ -195,7 +209,7 @@ exports.invert = function(tsr, dest) {
 exports.to_mat4 = function(tsr, dest) {
     var trans = tsr.subarray(0, 3);
     var scale = tsr[3];
-    var quat = tsr.subarray(4);
+    var quat = tsr.subarray(4, 8);
 
     var mat = m_mat4.fromRotationTranslation(quat, trans, dest);
 
@@ -242,16 +256,16 @@ exports.multiply = function(tsr, tsr2, dest) {
 /**
  * NOTE: unused, non-optimized
  */
+exports.transform_mat4 = transform_mat4;
 function transform_mat4(matrix, tsr, dest) {
     var trans = tsr.subarray(0, 3);
     var scale = tsr[3];
-    var quat = tsr.subarray(4);
+    var quat = tsr.subarray(4, 8);
 
     var m = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
 
-    // NOTE: possible error!!!
     for (var i = 0; i < 12; i++)
-        dest[i] *= scale;
+        m[i] *= scale;
 
     m_mat4.multiply(m, matrix, dest);
 
@@ -341,7 +355,6 @@ exports.transform_vec3_inv = function(vec, tsr, dest) {
 
     return dest;
 }
-
 
 /**
  * Tranform vec3 vectors by TSR
@@ -535,9 +548,6 @@ exports.translate = function(tsr, vec, dest) {
 }
 
 exports.interpolate = function(tsr, tsr2, factor, dest) {
-    if (!dest)
-        var dest = new Float32Array(8);
-
     // linear
     var trans = tsr.subarray(0, 3);
     var trans2 = tsr2.subarray(0, 3);
@@ -550,9 +560,9 @@ exports.interpolate = function(tsr, tsr2, factor, dest) {
     dest[3] = scale + factor * (scale2 - scale);
 
     // spherical
-    var quat = tsr.subarray(4);
-    var quat2 = tsr2.subarray(4);
-    var quat_dst = dest.subarray(4);
+    var quat = tsr.subarray(4, 8);
+    var quat2 = tsr2.subarray(4, 8);
+    var quat_dst = dest.subarray(4, 8);
     m_quat.slerp(quat, quat2, factor, quat_dst);
 
     return dest;
@@ -564,9 +574,6 @@ exports.interpolate = function(tsr, tsr2, factor, dest) {
  * NOTE: unused, untested, incomplete
  */
 exports.extrapolate = function(tsr, tsr2, factor, dest) {
-    if (!dest)
-        var dest = new Float32Array(8);
-
     // linear
     var trans = tsr.subarray(0, 3);
     var trans2 = tsr2.subarray(0, 3);
@@ -582,9 +589,9 @@ exports.extrapolate = function(tsr, tsr2, factor, dest) {
     dest[3] = scale2*(factor + 1) - scale * factor;
 
     // NOTE: currently use linear interpolation and normalization
-    var quat = tsr.subarray(4);
-    var quat2 = tsr2.subarray(4);
-    var quat_dst = dest.subarray(4);
+    var quat = tsr.subarray(4, 8);
+    var quat2 = tsr2.subarray(4, 8);
+    var quat_dst = dest.subarray(4, 8);
 
     // NOTE: expect issues with opposed quats
     quat_dst[0] = quat2[0]*(factor + 1) - quat[0] * factor;

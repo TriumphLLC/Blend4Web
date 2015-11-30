@@ -1,10 +1,10 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-18 11:34+0300\n"
-"PO-Revision-Date: 2015-07-27 12:05+0300\n"
+"PO-Revision-Date: 2015-11-26 20:40+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -79,20 +79,6 @@ msgstr ""
 
 #: ../camera.rst:30
 msgid "*Camera Move Style > Move Style*"
-msgstr ""
-
-#: ../camera.rst:33
-msgid ""
-"Доступно в режиме ``Target``. Позиция точки, относительно которой будет "
-"вращаться камера. Кнопка ``Copy Cursor Location`` позволяет скопировать "
-"текущее положение курсора."
-msgstr ""
-"Available for the ``Target`` mode. This is the position of the camera pivot "
-"point. The ``Copy Cursor Location`` button copies the current 3D cursor "
-"position into this value."
-
-#: ../camera.rst:33
-msgid "*Camera Move Style > Target Location*"
 msgstr ""
 
 #: ../camera.rst:36
@@ -322,13 +308,13 @@ msgid ""
 "камеры. По умолчанию отключено."
 msgstr ""
 "Set minimum and maximum distances from the camera to the point of "
-"intersection between the camera's view direction and the horizontal reference plane "
-"(Blender's world XOY plane by default). Allowable values: *Min* :math:`\\le`"
-" *Max*. If turned off, the camera will freely move along Blender's world Z "
-"axis, the pivot point will not be defined and the ``Camera Move Style > "
-"Camera Limits > Use Horizontal Translation Limits`` and ``Camera Move Style "
-"> Camera Limits > Use Vertical Translation Limits`` settings will limit the "
-"position of the camera itself. Disabled by default."
+"intersection between the camera's view direction and the horizontal "
+"reference plane (Blender's world XOY plane by default). Allowable values: "
+"*Min* :math:`\\le` *Max*. If turned off, the camera will freely move along "
+"Blender's world Z axis, the pivot point will not be defined and the ``Camera"
+" Move Style > Camera Limits > Use Horizontal Translation Limits`` and "
+"``Camera Move Style > Camera Limits > Use Vertical Translation Limits`` "
+"settings will limit the position of the camera itself. Disabled by default."
 
 #: ../camera.rst:185
 msgid "*Camera Move Style > Camera Limits > Camera Angle Limits*"
@@ -357,9 +343,9 @@ msgid ""
 "Расстояние от опорной плоскости камеры до центра координат. Доступно при "
 "включении опции ``Camera Move Style > Camera Limits > Use Distance Limits``."
 msgstr ""
-"A distance between reference plane and the coordinates origin."
-"Avaliable in ``Hover`` move style with the "
-"``Camera Move Style > Camera Limits > Use Distance Limits`` option enabled."
+"A distance between reference plane and the coordinates origin.Avaliable in "
+"``Hover`` move style with the ``Camera Move Style > Camera Limits > Use "
+"Distance Limits`` option enabled."
 
 #: ../camera.rst:190
 msgid ""
@@ -467,9 +453,9 @@ msgid ""
 "угловых координат ведется в :ref:`системе координат движка "
 "<b4w_blender_coordinates>` следующим образом:"
 msgstr ""
-"When working with the camera's APIs (rotation, setting limits), all angles are "
-"defined in the :ref:`engine's coordinate system <b4w_blender_coordinates>` "
-"as follows:"
+"When working with the camera's APIs (rotation, setting limits), all angles "
+"are defined in the :ref:`engine's coordinate system "
+"<b4w_blender_coordinates>` as follows:"
 
 #: ../camera.rst:286
 msgid "Для типов ``TARGET/HOVER``:"
@@ -527,3 +513,19 @@ msgstr ""
 "camera movement limits and the pivot position (for ``TARGET`` and ``HOVER`` "
 "cameras). These parameters should be set again by using the corresponding "
 "methods of the ``camera.js`` module."
+
+#: ../camera.rst:33
+msgid "*Look At Cursor > Target Location*"
+msgstr ""
+
+#: ../camera.rst:33
+msgid ""
+"Доступно в режиме ``Target``. Позиция точки, относительно которой будет "
+"вращаться камера. Кнопка ``Look At Cursor`` позволяет скопировать текущее "
+"положение курсора, а при нажатии на неё активная камера поворачивается в "
+"направлении указанной точки."
+msgstr ""
+"Available for the ``Target`` mode. This is the position of the camera pivot "
+"point. The ``Look At Cursor`` button copies the current 3D cursor "
+"position into this value."
+

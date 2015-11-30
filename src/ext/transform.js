@@ -29,8 +29,10 @@ var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
 var m_trans    = require("__transform");
+var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 
+var _tsr_tmp = new Float32Array(4);
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 
@@ -135,8 +137,8 @@ exports.set_translation_obj_rel = function(obj, x, y, z, obj_ref) {
         _vec3_tmp[1] = y;
         _vec3_tmp[2] = z;
 
-        var trans = obj_ref.render.trans;
-        var quat = obj_ref.render.quat;
+        var trans = m_tsr.get_trans_view(obj_ref.render.world_tsr);
+        var quat = m_tsr.get_quat_view(obj_ref.render.world_tsr);
 
         m_util.transform_vec3(_vec3_tmp, 1, quat, trans, _vec3_tmp);
 
@@ -228,7 +230,7 @@ exports.set_rotation_rel = function(obj, x, y, z, w) {
  * @deprecated Use {@link module:transform.set_rotation|transform.set_rotation} instead
  */
 exports.set_rotation_quat = function() {
-    m_print.error("set_rotation_quat() deprecated, use set_rotation() instead");
+    m_print.error_deprecated("set_rotation_quat", "set_rotation");
     return exports.set_rotation;
 }
 
@@ -267,7 +269,7 @@ exports.set_rotation_rel_v = function(obj, quat) {
  * @deprecated Use {@link module:transform.set_rotation_v|transform.set_rotation_v} instead
  */
 exports.set_rotation_quat_v = function() {
-    m_print.error("set_rotation_quat_v() deprecated, use set_rotation_v() instead");
+    m_print.error_deprecated("set_rotation_quat_v", "set_rotation_v");
     return exports.set_rotation_v;
 }
 
@@ -307,7 +309,7 @@ exports.get_rotation_rel = function(obj, opt_dest) {
  * @deprecated Use {@link module:transform.get_rotation|transform.get_rotation} instead
  */
 exports.get_rotation_quat = function() {
-    m_print.error("get_rotation_quat() deprecated, use get_rotation() instead");
+    m_print.error_deprecated("get_rotation_quat", "get_rotation");
     return exports.get_rotation;
 }
 
@@ -649,5 +651,76 @@ exports.distance = function(obj1, obj2) {
     return m_trans.distance(obj1, obj2);
 }
 
+/**
+ * Set the object's transformation matrix.
+ * It's better to use TSR form.
+ * @method module:transform.set_matrix
+ * @param {Object3D} obj Object 3D
+ * @param {Mat4} mat Matrix
+ */
+exports.set_matrix = function(obj, mat) {
+    if (m_obj_util.is_dynamic(obj)) {
+        m_tsr.from_mat4(mat, _tsr_tmp);
+        m_trans.set_tsr(obj, _tsr_tmp);
+        m_trans.update_transform(obj);
+        m_phy.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+}
+
+/**
+ * Set the object's transformation matrix
+ * (in the coordinate space of its parent).
+ * It's better to use TSR form.
+ * @method module:transform.set_matrix_rel
+ * @param {Object3D} obj Object 3D
+ * @param {Mat4} mat Matrix
+ */
+exports.set_matrix_rel = function(obj, mat) {
+    if (m_obj_util.is_dynamic(obj)) {
+        m_tsr.from_mat4(mat, _tsr_tmp);
+        m_trans.set_tsr_rel(obj, _tsr_tmp);
+        m_trans.update_transform(obj);
+        m_phy.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+}
+
+/**
+ * Return the object's transformation matrix.
+ * It's better to use TSR form.
+ * @method module:transform.get_matrix
+ * @param {Object3D} obj Object 3D
+ * @param {Mat4} [dest] Destination matrix.
+ * @returns {Mat4} Destination matrix.
+ */
+exports.get_matrix = function(obj, dest) {
+    if (!dest)
+        var dest = new Float32Array(16);
+
+    m_trans.get_tsr(obj, _tsr_tmp);
+    m_tsr.to_mat4(_tsr_tmp, dest);
+
+    return dest;
+}
+
+/**
+ * Return the object's transformation matrix
+ * (in the coordinate space of its parent).
+ * It's better to use TSR form.
+ * @method module:transform.get_matrix_rel
+ * @param {Object3D} obj Object 3D
+ * @param {Mat4} [dest] Destination matrix.
+ * @returns {Mat4} Destination matrix.
+ */
+exports.get_matrix_rel = function(obj, dest) {
+    if (!dest)
+        var dest = new Float32Array(16);
+
+    m_trans.get_tsr_rel(obj, _tsr_tmp);
+    m_tsr.to_mat4(_tsr_tmp, dest);
+
+    return dest;
+}
 
 }

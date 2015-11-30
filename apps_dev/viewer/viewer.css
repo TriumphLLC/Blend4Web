@@ -15,7 +15,7 @@ body {
 
 @media all and (min-width: 750px) {
     #main_canvas_container {
-        right: 330px;
+        right: 310px;
     }
 }
 
@@ -92,7 +92,7 @@ span.info_corner_text {
 
 @media all and (min-width: 750px) {
     #controls_container {
-        width: 330px;
+        width: 310px;
     }
 }
 
@@ -229,4 +229,28 @@ div#fps_container {
     font-weight: bold;
     color: #000;
     z-index: 1;
+}
+
+div.ui-controlgroup-controls {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+div.ui-controlgroup-controls .ui-mini {
+    width: 30%;
+    box-sizing: border-box;
+}
+
+div.ui-controlgroup-controls .ui-mini:nth-child(1) {
+    padding-right: 8px;
+}
+
+div.ui-controlgroup-controls .ui-mini:nth-child(2) {
+    width: 38%;
+}
+
+div.ui-controlgroup-controls .ui-mini:nth-child(3) {
+    padding-right: 8px;
+    width: 32%;
 }

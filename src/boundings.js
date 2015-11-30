@@ -142,14 +142,14 @@ function bb_from_coords(coords, bb) {
 /**
  * Translate shadow object bounding box corners to shadow scene view space
  */
-exports.bounding_box_transform = function(bb, matrix, bb_new) {
+exports.bounding_box_transform = function(bb, tsr, bb_new) {
 
     if (!bb_new)
         var bb_new = exports.zero_bounding_box();
 
     var bb_corners = extract_bb_corners(bb, _bb_corners_cache);
 
-    m_util.positions_multiply_matrix(bb_corners, matrix, bb_corners);
+    m_tsr.transform_vectors(bb_corners, tsr, bb_corners);
 
     return bb_from_coords(bb_corners, bb_new);
 }
@@ -252,14 +252,14 @@ exports.stretch_bounding_box = function(bb, factor, bb_new) {
 }
 
 
-exports.bounding_sphere_transform = function(bs, matrix, bs_new) {
+exports.bounding_sphere_transform = function(bs, tsr, bs_new) {
 
     if (!bs_new)
         var bs_new = exports.zero_bounding_sphere();
 
-    m_vec3.transformMat4(bs.center, matrix, bs_new.center);
+    m_tsr.transform_vec3(bs.center, tsr, bs_new.center);
 
-    bs_new.radius = bs.radius * m_util.matrix_to_scale(matrix);
+    bs_new.radius = bs.radius * m_tsr.get_scale(tsr);
 
     return bs_new;
 }

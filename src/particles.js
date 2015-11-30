@@ -407,7 +407,7 @@ exports.update_emitter_transform = function(obj, batches) {
         var normals = pdata.normals;
 
         var is_billboard = !batch.halo_particles;
-        pose_emitter_world(pdata, is_billboard, positions, normals, obj.render.tsr,
+        pose_emitter_world(pdata, is_billboard, positions, normals, obj.render.world_tsr,
                      pcache, ncache);
 
         m_geom.make_dynamic(pbuf);

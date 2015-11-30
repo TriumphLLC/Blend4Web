@@ -102,10 +102,12 @@ void main(void) {
     gl_FragColor = fxaa_light();
 
 #elif AA_METHOD == AA_METHOD_FXAA_QUALITY
+    // NOTE: iPad hack
+    vec2 vec2_tmp = u_texel_size;
     gl_FragColor = FxaaPixelShader(
             v_texcoord,
             u_color,
-            u_texel_size,
+            vec2_tmp,
             FXAA_QUALITY_SUBPIX,
             FXAA_QUALITY_EDGE_THRESHOLD,
             FXAA_QUALITY_EDGE_THRESHOLD_MIN);

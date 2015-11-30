@@ -23,6 +23,8 @@
  */
 b4w.module["tsr"] = function(exports, require) {
 
+var m_mat3  = require("__mat3");
+var m_mat4  = require("__mat4");
 var m_print = require("__print");
 var m_tsr   = require("__tsr");
 
@@ -71,8 +73,14 @@ exports.identity = m_tsr.identity;
  * @param {Quat} quat Rotation quaternion
  * @param {TSR} [dest] Destination TSR vector
  * @returns {TSR} dest Destination TSR vector
+ * @deprecated use set_sep() instead
  */
-exports.create_sep = m_tsr.create_sep;
+exports.create_sep = create_sep;
+function create_sep(trans, scale, quat, dest) {
+    m_print.error_deprecated("create_sep", "set_sep");
+
+    return set_sep(trans, scale, quat, dest);
+}
 
 /**
  * Set TSR from separate trans, scale and quat.
@@ -80,9 +88,18 @@ exports.create_sep = m_tsr.create_sep;
  * @param {Vec3} trans Translation vector
  * @param {Number} scale Scale
  * @param {Quat} quat Rotation quaternion
- * @param {TSR} dest Destination TSR vector
+ * @param {TSR} [dest] Destination TSR vector
+ * @returns {TSR} dest Destination TSR vector
  */
 exports.set_sep = m_tsr.set_sep;
+function set_sep(trans, scale, quat, dest) {
+    if (!dest)
+        var dest = m_tsr.create();
+
+    set_sep(trans, scale, quat, dest);
+
+    return dest;
+}
 
 /**
  * Set TSR translation.
@@ -153,7 +170,7 @@ exports.invert = m_tsr.invert;
  */
 exports.to_mat4 = function(tsr, dest) {
     if (!dest)
-        var dest = new Float32Array(16);
+        var dest = m_mat4.create();
 
     m_tsr.to_mat4(tsr, dest);
     return dest;
@@ -259,6 +276,13 @@ exports.translate = m_tsr.translate;
  * @param {TSR} dest Destination TSR vector
  * @returns {TSR} Destination TSR vector
  */
-exports.interpolate = m_tsr.interpolate;
+exports.interpolate = function(tsr, tsr2, factor, dest) {
+    if (!dest)
+        var dest = m_tsr.create();
+
+    m_tsr.interpolate(tsr, tsr2, factor, dest);
+
+    return dest;
+}
 
 }

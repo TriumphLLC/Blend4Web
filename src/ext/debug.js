@@ -493,7 +493,7 @@ exports.num_render_targets = function() {
             var tex = subs_textures[j];
             if (m_textures.is_texture(tex) && list.indexOf(tex) == -1) {
                 list.push(tex);
-                memory += cam.width * cam.height * m_textures.get_texture_channel_size(tex);
+                memory += cam.width * cam.height * m_textures.get_texture_texel_size(tex);
             }
         }
     }
@@ -587,7 +587,9 @@ exports.controls_info = m_ctl.debug;
  * @returns {Number} Distance.
  */
 exports.object_distance = function(obj, obj2) {
-    var dist = m_vec3.dist(obj.render.trans, obj2.render.trans);
+    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var trans2 = m_tsr.get_trans_view(obj2.render.world_tsr);
+    var dist = m_vec3.dist(trans, trans2);
     return dist;
 }
 

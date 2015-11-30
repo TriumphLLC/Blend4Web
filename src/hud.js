@@ -85,16 +85,19 @@ exports.show_debug_info = function(scenes, elapsed) {
 
     var sum_bundles = 0;
     var sum_rcalls = 0;
+    var sum_rtimes = 0;
 
     for (var i = 0; i < scenes.length; i++) {
         var sum = show_debug_info_scene(scenes[i]);
         sum_bundles += sum[0];
         sum_rcalls += sum[1];
+        sum_rtimes += sum[2];
         new_line();
     }
 
     print(" -----------------------------------------------");
-    print("    ", "TOTAL ACTIVE", "", "", sum_rcalls, "of", sum_bundles);
+    print("    ", "TOTAL ACTIVE", "", "", sum_rcalls, "of", sum_bundles, "  ",
+            sum_rtimes.toFixed(3));
 }
 
 function show_debug_info_scene(scene) {
@@ -111,6 +114,7 @@ function show_debug_info_scene(scene) {
 
     var sum_bundles = 0;
     var sum_rcalls = 0;
+    var sum_rtimes = 0;
 
     var next_slot = 2;
 
@@ -134,20 +138,23 @@ function show_debug_info_scene(scene) {
 
         // active/passive
         var is_active = subs.enqueue && subs.do_render;
-        if (is_active)
-            print(" (A)", type, subs.num_lights, size, rcalls, "of", bundles);
-        else
-            print(" (P)", type, subs.num_lights, size, rcalls, "of", bundles);
+
+        var render_time = is_active ? subs.debug_render_time : 0;
+
+        var activity_prefix = is_active ? " (A)" : " (P)";
+        print(activity_prefix, type, subs.num_lights, size, rcalls, "of",
+                bundles, "  ", render_time.toFixed(3));
 
         subs.debug_render_calls = 0;
 
         if (is_active) {
             sum_bundles += bundles;
             sum_rcalls += rcalls;
+            sum_rtimes += render_time;
         }
     });
 
-    return [sum_bundles, sum_rcalls];
+    return [sum_bundles, sum_rcalls, sum_rtimes];
 }
 
 function reset_carriage() {

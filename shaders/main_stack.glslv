@@ -78,12 +78,24 @@ attribute vec3 a_normal;
 ============================================================================*/
 
 #if STATIC_BATCH
-const mat4 u_model_matrix = mat4(1.0);
+// NOTE:  mat3(0.0, 0.0, 0.0, --- trans
+//             1.0, --- scale
+//             0.0, 0.0, 0.0, 1.0, --- quat
+//             0.0);
+const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
+                              1.0,
+                              0.0, 0.0, 0.0, 1.0,
+                              0.0);
 #else
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
+#if REFLECTION_PASS
 uniform mat4 u_view_matrix;
+#else
+uniform mat3 u_view_tsr;
+#endif
+
 uniform mat4 u_proj_matrix;
 #if !NODES || BILLBOARD
 uniform vec3 u_camera_eye;
@@ -134,10 +146,7 @@ uniform vec3 u_texture_scale;
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 uniform float u_normal_offset;
-uniform mat4 u_v_light_matrix;
-
-// bias light matrix
-uniform mat4 u_b_light_matrix;
+uniform mat3 u_v_light_tsr;
 
 uniform mat4 u_p_light_matrix0;
 
@@ -229,6 +238,14 @@ varying float v_view_depth;
 
 void main(void) {
 
+#if REFLECTION_PASS
+    mat4 view_matrix = u_view_matrix;
+#else
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+#endif
+
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    
     vec3 position = a_position;
 
 # if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || \
@@ -243,8 +260,8 @@ void main(void) {
     vec3 binormal = a_tangent[3] * cross(normal, tangent);
 # elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     // NOTE: absolutely not precise. Better too avoid using such a setup
-    vec3 world_pos = (u_model_matrix * vec4(a_position, 1.0)).xyz;
-    vec3 norm_world = normalize((u_model_matrix * vec4(a_normal, 0.0)).xyz);
+    vec3 world_pos = (model_mat * vec4(a_position, 1.0)).xyz;
+    vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
     vec3 eye_dir = world_pos - u_camera_eye;
     vec3 binormal = cross(eye_dir, norm_world);
     vec3 tangent = cross(norm_world, binormal);
@@ -284,20 +301,20 @@ void main(void) {
     vertex world = grass_vertex(position, tangent, binormal, normal,
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            u_view_matrix);
+            view_matrix);
 #else
 # if BILLBOARD
-    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
 #  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen,
-            u_view_matrix, u_model_matrix);
+            view_matrix, model_mat);
 #  else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
 #  endif
 
 #  if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
+    vec3 vec_seed = (model_mat * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
 #  endif  // WIND_BEND && BILLBOARD_JITTERED
@@ -306,7 +323,7 @@ void main(void) {
     world.center = wcen;
 # else  // BILLBOARD
     vertex world = to_world(position, center, tangent, binormal, normal,
-            u_model_matrix);
+            model_mat);
 # endif  // BILLBOARD
 #endif  // DYNAMIC_GRASS
 
@@ -343,7 +360,7 @@ void main(void) {
 # endif
 #endif // !NODES
 
-    vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
 
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
     v_pos_view = pos_view;

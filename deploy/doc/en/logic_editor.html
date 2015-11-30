@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Visual Programming &mdash; User Manual: Blend4Web vv15.10</title>
+  <title>Visual Programming &mdash; User Manual: Blend4Web vv15.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.10" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="Non-Linear Animation" href="nla.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.10
+              v15.11
             </div>
           
         
@@ -109,11 +109,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Visual Programming</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Visual Programming (Logic Editor)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#play-timeline">Play Timeline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline">Select &amp; Play Timeline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-animation">Select &amp; Play Animation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-timeline-stop-timeline">Play Timeline и Stop Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation-stop-animation">Play Animation &amp; Stop Animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline-deprecated">Select &amp; Play Timeline (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-animation-deprecated">Select &amp; Play Animation (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-deprecated">Select (Deprecated)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a></li>
@@ -126,6 +126,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#move-camera">Move Camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#play-sound-stop-sound">Play Sound &amp; Stop Sound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#switch-select">Switch Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Debugging</a></li>
 </ul>
 </li>
@@ -195,27 +198,46 @@
 <p>All possible nodes are described below.</p>
 <div class="section" id="entry-point">
 <h3>Entry Point<a class="headerlink" href="#entry-point" title="Permalink to this headline">¶</a></h3>
-<p>This is where the script starts.</p>
+<p>This is where the script starts. By using multple entry points you can create multi-threaded applications.</p>
 </div>
-<div class="section" id="play-timeline">
-<h3>Play Timeline<a class="headerlink" href="#play-timeline" title="Permalink to this headline">¶</a></h3>
-<p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker is met, or to the end of the timeline. Finally the next node receives the control.</p>
+<div class="section" id="play-timeline-stop-timeline">
+<h3>Play Timeline и Stop Timeline<a class="headerlink" href="#play-timeline-stop-timeline" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to control NLA animations. The <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encounterd, or to the end of the scene&#8217;s timeline. After that, control passes on to the next node. The <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node stops the playback.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_anim.png"><img alt="_images/logic_editor_anim.png" class="align-center" src="_images/logic_editor_anim.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="play-animation">
-<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
-<p>Play the object&#8217;s animation. The animation name can be optionally specified.</p>
+<div class="section" id="play-animation-stop-animation">
+<span id="nla-select-play"></span><h3>Play Animation &amp; Stop Animation<a class="headerlink" href="#play-animation-stop-animation" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to control object animation. <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> is used to play object animation. Animation&#8217;s name can be specified. 3 options are possible:</p>
+<p>Regular Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
+<p>Shader Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
+<p>Particle system:</p>
+<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
+<p>The <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code> node stops animation.</p>
 </div>
-<div class="section" id="select-play-timeline">
-<h3>Select &amp; Play Timeline<a class="headerlink" href="#select-play-timeline" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="select-play-timeline-deprecated">
+<h3>Select &amp; Play Timeline (Deprecated)<a class="headerlink" href="#select-play-timeline-deprecated" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
+</div>
 <p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
 </div>
-<div class="section" id="select-play-animation">
-<h3>Select &amp; Play Animation<a class="headerlink" href="#select-play-animation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="select-play-animation-deprecated">
+<h3>Select &amp; Play Animation (Deprecated)<a class="headerlink" href="#select-play-animation-deprecated" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
+</div>
 <p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
 </div>
-<div class="section" id="select">
-<h3>Select<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="select-deprecated">
+<h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node is recommended.</p>
+</div>
 <p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
 </div>
 <div class="section" id="conditional-jump">
@@ -266,6 +288,18 @@
 <h3>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
 <p>Controls object outliing effect.</p>
 </div>
+<div class="section" id="move-camera">
+<h3>Move Camera<a class="headerlink" href="#move-camera" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to move the camera, including smooth interpolation of its position.</p>
+</div>
+<div class="section" id="play-sound-stop-sound">
+<h3>Play Sound &amp; Stop Sound<a class="headerlink" href="#play-sound-stop-sound" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to play and stop a speaker&#8217;s sound.</p>
+</div>
+<div class="section" id="switch-select">
+<h3>Switch Select<a class="headerlink" href="#switch-select" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to trace the selection of any object from the object list.</p>
+</div>
 <div class="section" id="id3">
 <h3>Debugging<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>For debugging purposes some nodes inside logic tree can be muted.To do that select the required node and press the <code class="docutils literal"><span class="pre">M</span></code> key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
@@ -293,7 +327,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-10-29.
+      Last updated on 2015-11-26.
 
     </p>
   </div>
@@ -315,7 +349,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.10',
+            VERSION:'v15.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

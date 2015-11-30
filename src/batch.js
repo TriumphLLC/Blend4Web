@@ -32,6 +32,7 @@ var m_print      = require("__print");
 var m_extensions = require("__extensions");
 var m_geometry   = require("__geometry");
 var m_graph      = require("__graph");
+var m_lights     = require("__lights");
 var m_nodemat    = require("__nodemat");
 var m_obj_util   = require("__obj_util");
 var m_particles  = require("__particles");
@@ -41,6 +42,7 @@ var m_reformer   = require("__reformer");
 var m_render     = require("__renderer");
 var m_scenegraph = require("__scenegraph");
 var m_shaders    = require("__shaders");
+var m_scenes     = require("__scenes");
 var m_textures   = require("__textures");
 var m_tsr        = require("__tsr");
 var m_util       = require("__util");
@@ -59,6 +61,7 @@ var STREE_CELL_COUNT = 20;
 // rotation quat around Z axis for particles system
 var DEFAULT_PART_SYS_QUAT = new Float32Array([0, -Math.sqrt(0.5), 0, Math.sqrt(0.5)]);
 
+var _vec3_tmp = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 
 exports.BATCH_INHERITED_TEXTURES = BATCH_INHERITED_TEXTURES
@@ -543,7 +546,7 @@ function make_dynamic_metabatches(bpy_dynamic_objs, graph) {
 
         render.bb_local = bb_local;
         var bb_world = m_bounds.bounding_box_transform(bb_local,
-                render.world_matrix);
+                render.world_tsr);
         render.bb_world = bb_world;
 
         set_local_cylinder_capsule(render, cyl_radius, cyl_radius, bb_local);
@@ -552,7 +555,7 @@ function make_dynamic_metabatches(bpy_dynamic_objs, graph) {
         var bs_local = m_bounds.create_bounding_sphere(bs_radius, bs_center);
         render.bs_local = bs_local;
         var bs_world = m_bounds.bounding_sphere_transform(bs_local,
-                render.world_matrix);
+                render.world_tsr);
         render.bs_world = bs_world;
 
         // bounding ellipsoid
@@ -561,7 +564,7 @@ function make_dynamic_metabatches(bpy_dynamic_objs, graph) {
                 be_center);
         render.be_local = be_local;
         var be_world = m_bounds.bounding_ellipsoid_transform(be_local,
-                render.tsr);
+                render.world_tsr);
         render.be_world = be_world;
 
         metabatches = metabatches.concat(make_object_metabatches(bpy_obj, render, graph));
@@ -583,11 +586,12 @@ function make_static_metabatches(bpy_static_objs, graph, grid_size) {
             var obj_render = bpy_obj._object.render;
             var obj_metabatches = make_object_metabatches(bpy_obj, render, graph);
 
+            var tsr = m_tsr.create();
             if (obj_render.billboard && !obj_render.billboard_pres_glob_orientation) {
-                var tsr = m_tsr.create();
-                m_tsr.set_trans(obj_render.trans, tsr);
+                var obj_trans = m_tsr.get_trans_view(obj_render.world_tsr);
+                m_tsr.set_trans(obj_trans, tsr);
             } else
-                var tsr = tsr_from_render(obj_render);
+                m_tsr.copy(obj_render.world_tsr, tsr);
 
             var params = {};
 
@@ -832,7 +836,7 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
 
                 m_particles.init_particles_data(batch, psys, pmaterial);
                 var submesh = m_particles.generate_emitter_particles_submesh(
-                        batch, mesh, psys, obj.render.tsr);
+                        batch, mesh, psys, obj.render.world_tsr);
 
                 metabatches.push({
                     batch: batch,
@@ -1154,7 +1158,8 @@ function get_batch_types(graph, render, is_hair_particles) {
         if (m_scenegraph.find_subs(graph, "WIREFRAME"))
             batch_types.push("WIREFRAME");
 
-        if (m_scenegraph.find_subs(graph, "DEPTH") ||
+        if ((render.shadow_cast || render.shadow_receive) &&
+                m_scenegraph.find_subs(graph, "DEPTH") ||
                 m_scenegraph.find_subs(graph, "SHADOW_CAST"))
             batch_types.push("DEPTH");
 
@@ -2625,7 +2630,8 @@ exports.set_lamp_data = set_lamp_data;
 function set_lamp_data(batch, lamp) {
     if (lamp.uuid in batch.lamp_uuid_indexes) {
         var data_lamp_index = batch.lamp_uuid_indexes[lamp.uuid];
-        batch.lamp_light_positions.set(lamp.render.trans, data_lamp_index * 3);
+        var lamp_trans = m_tsr.get_trans_view(lamp.render.world_tsr);
+        batch.lamp_light_positions.set(lamp_trans, data_lamp_index * 3);
         batch.lamp_light_directions.set(lamp.light.direction, data_lamp_index * 3);
         batch.lamp_light_color_intensities.set(lamp.light.color_intensity, data_lamp_index * 3);
         var light_factor = _vec4_tmp;
@@ -2723,6 +2729,8 @@ function get_batch_directive(batch, name) {
 exports.update_batch_geometry = update_batch_geometry;
 function update_batch_geometry(batch, submesh) {
     if (batch.type == "PHYSICS") {
+        if (submesh.shape_keys.length > 0)
+            m_geometry.submesh_init_shape_keys(submesh, submesh.va_frames[0]);
         batch.submesh = submesh;
         return;
     }
@@ -2938,7 +2946,7 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
             trans[2] = ptrans[j+2];
 
             // NOTE: apply particle scale
-            var scale = ptrans[j+3] * part_render.scale;
+            var scale = ptrans[j+3] * m_tsr.get_scale(part_render.world_tsr);
 
             if (pset["b4w_initial_rand_rotation"]) {
                 switch (pset["b4w_rotation_type"]) {
@@ -2963,12 +2971,13 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
                 m_util.quat_bpy_b4w(quat, quat);
 
                 if (!pset["use_whole_group"])
-                    if (pset["use_rotation_dupli"])
-                        m_quat.multiply(quat, part_render.quat, quat);
-                    else
+                    if (pset["use_rotation_dupli"]) {
+                        var part_quat = m_tsr.get_quat_view(part_render.world_tsr);
+                        m_quat.multiply(quat, part_quat, quat);
+                    } else
                         m_quat.multiply(quat, DEFAULT_PART_SYS_QUAT, quat);
             }
-            var tsr = m_tsr.create_sep(trans, scale, quat);
+            var tsr = m_tsr.set_sep(trans, scale, quat, m_tsr.create());
 
             // in object space
             tsr_array.push(tsr);
@@ -3065,7 +3074,7 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
                 submesh = fill_submesh_center_pos(submesh, tsr_array);
                 if (hair_render.wind_bending && hair_render.bend_center_only)
                     submesh = fill_submesh_emitter_center(submesh,
-                            em_obj.render.world_matrix);
+                            em_obj.render.world_tsr);
 
                 var particle_inherited_attrs = get_particle_inherited_attrs(
                         pset["b4w_vcol_from_name"], pset["b4w_vcol_to_name"],
@@ -3237,10 +3246,10 @@ function fill_submesh_center_pos(submesh, transforms) {
     return submesh;
 }
 
-function fill_submesh_emitter_center(submesh, em_world_matrix) {
+function fill_submesh_emitter_center(submesh, em_world_tsr) {
     submesh.va_common["a_emitter_center"] = new Float32Array(submesh.base_length * 3);
-    var origin = m_vec4.fromValues(0, 0, 0, 1);
-    m_vec4.transformMat4(origin, em_world_matrix, origin);
+    var origin = m_vec3.fromValues(0, 0, 0);
+    m_tsr.transform_vec3(origin, em_world_tsr, origin);
 
     for (var i = 0; i < submesh.base_length; i++) {
         submesh.va_common["a_emitter_center"][i * 3] = origin[0];
@@ -3444,7 +3453,9 @@ function distribute_ptrans_group(ptrans, dupli_objects, use_particles_rotation, 
             var obj_name = dupli_objects[j].name;
 
             var obj_trans = m_vec3.create();
-            m_vec3.scale(dupli_objects[j].render.trans, dupli_objects[j].render.scale, obj_trans);
+            var dupli_scale = m_tsr.get_scale(dupli_objects[j].render.world_tsr);
+            var dupli_trans = m_tsr.get_trans_view(dupli_objects[j].render.world_tsr);
+            m_vec3.scale(dupli_trans, dupli_scale, obj_trans);
             var res_trans = m_vec3.clone([ptrans[i], ptrans[i+1], ptrans[i+2]]);
 
             if (!ptrans_dist[j])
@@ -3553,14 +3564,14 @@ function create_object_clusters(bpy_static_objs, grid_size) {
         m_bounds.copy_bb(obj_render.bb_original, bb_local);
 
         var bb_world = m_bounds.bounding_box_transform(bb_local,
-                obj_render.world_matrix);
+                obj_render.world_tsr);
 
         // bounding sphere
         var bs_local = m_bounds.create_bounding_sphere(
                 bpy_obj["data"]["b4w_bounding_sphere_radius"],
                 bpy_obj["data"]["b4w_bounding_sphere_center"]);
         var bs_world = m_bounds.bounding_sphere_transform(bs_local,
-                obj_render.world_matrix);
+                obj_render.world_tsr);
 
         // bounding ellipsoid
         var be_axes = bpy_obj["data"]["b4w_bounding_ellipsoid_axes"];
@@ -3569,7 +3580,7 @@ function create_object_clusters(bpy_static_objs, grid_size) {
                 bpy_obj["data"]["b4w_bounding_ellipsoid_center"]);
 
         var be_world = m_bounds.bounding_ellipsoid_transform(be_local,
-                obj_render.tsr);
+                obj_render.world_tsr);
 
         obj_render.bb_local = bb_local;
         obj_render.bb_world = bb_world;
@@ -3696,10 +3707,6 @@ function calc_grid_id(grid_size, position) {
     var id_z = Math.floor(position[2] / grid_size);
 
     return [id_x, id_z];
-}
-
-function tsr_from_render(render) {
-    return m_tsr.create_sep(render.trans, render.scale, render.quat);
 }
 
 exports.update_batch_id = update_batch_id;

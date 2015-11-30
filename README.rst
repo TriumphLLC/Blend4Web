@@ -91,7 +91,7 @@ Step 3 - Starting Development Server
 
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.10-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.11-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 

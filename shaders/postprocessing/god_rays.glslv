@@ -2,8 +2,7 @@
 
 attribute vec2 a_bb_vertex;
 
-uniform mat4 u_view_matrix;
-uniform mat4 u_proj_matrix;
+uniform mat4 u_view_proj_matrix;
 
 uniform vec3 u_sun_direction;
 
@@ -25,7 +24,7 @@ void main(void) {
     vec3 dir = normalize(u_sun_direction);
 
     // locate sun center
-    v_sun_pos_clip = u_proj_matrix * u_view_matrix * vec4(dir, 0.0);
+    v_sun_pos_clip = u_view_proj_matrix * vec4(dir, 0.0);
  
     #if DEPTH_RGBA && WATER_EFFECTS
         if (u_cam_water_depth < 0.0) {

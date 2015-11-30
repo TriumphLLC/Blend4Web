@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -618,10 +618,6 @@ msgid ""
 "выключено."
 msgstr "Render the glow effect over transparent objects."
 
-#: ../postprocessing_effects.rst:307
-msgid "*Render Glow Over Transparent Object*"
-msgstr ""
-
 #: ../postprocessing_effects.rst:309
 msgid "сглаживание"
 msgstr "anti-aliasing"
@@ -682,3 +678,10 @@ msgid ""
 msgstr ""
 "*high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast "
 "Approximate Anti-Aliasing by Nvidia)."
+
+#: ../postprocessing_effects.rst:307
+msgid "*Render Glow Over Transparent Objects*"
+msgstr ""
+
+#~ msgid "*Render Glow Over Transparent Object*"
+#~ msgstr ""

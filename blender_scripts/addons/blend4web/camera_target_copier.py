@@ -48,8 +48,17 @@ def run():
     cam = bpy.context.scene.camera
     if cam:
         cam.data.b4w_target = cursor_location
+        look_at_location(cam, cursor_location)
 
-        
+def look_at_location(camobj, cursor_location):
+    camera_location = camobj.matrix_world.to_translation()
+    dir = cursor_location - camera_location
+    target_quaternion = dir.to_track_quat('-Z', 'Y')
+    old_mode = camobj.rotation_mode
+    camobj.rotation_mode = "QUATERNION"
+    camobj.rotation_quaternion = target_quaternion
+    camobj.rotation_mode = old_mode
+
 def register(): 
     bpy.utils.register_class(B4W_Camera_Target_Copier)
 

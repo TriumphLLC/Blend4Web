@@ -33,6 +33,7 @@ var m_print  = require("__print");
 var m_render = require("__renderer");
 var m_scenes = require("__scenes");
 var m_time   = require("__time");
+var m_tsr    = require("__tsr");
 var m_util   = require("__util");
 
 var cfg_def = require("__config").defaults;
@@ -176,7 +177,7 @@ function create_annotation(obj, max_width) {
         var width_anim = false;
         var height_anim = false;
 
-        canvas_cont.addEventListener("click", function(e) {
+        canvas_cont.addEventListener("mousedown", function(e) {
             if (width_anim || height_anim || _is_paused)
                 return;
 
@@ -353,8 +354,8 @@ exports.update = function() {
 
         // update always because the anchor may change it's depth
         if (anchor.detect_visibility) {
-            _anchor_batch_pos.set(anchor.obj.render.trans, 3 * det_vis_cnt);
-            det_vis_cnt++;
+            var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
+            _anchor_batch_pos.set(trans, 3 * det_vis_cnt++);
         }
 
         var pp = anchor_project(anchor, _vec3_tmp);
@@ -413,7 +414,8 @@ exports.update = function() {
 
 function anchor_project(anchor, dest) {
     var camobj = m_scenes.get_camera(m_scenes.get_main());
-    var dest = m_cam.project_point(camobj, anchor.obj.render.trans, dest);
+    var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
+    var dest = m_cam.project_point(camobj, trans, dest);
     return dest;
 }
 

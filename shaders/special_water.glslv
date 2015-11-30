@@ -51,12 +51,19 @@ attribute float a_polyindex;
 ============================================================================*/
 
 #if STATIC_BATCH
-const mat4 u_model_matrix = mat4(1.0);
+// NOTE:  mat3(0.0, 0.0, 0.0, --- trans
+//             1.0, --- scale
+//             0.0, 0.0, 0.0, 1.0, --- quat
+//             0.0);
+const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
+                              1.0,
+                              0.0, 0.0, 0.0, 1.0,
+                              0.0);
 #else
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
-uniform mat4 u_view_matrix;
+uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 uniform vec3 u_camera_eye;
 
@@ -190,7 +197,9 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 #endif // DYNAMIC
 
 void main(void) {
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
 #if DEBUG_WIREFRAME
     if (a_polyindex == 0.0)
         v_barycentric = vec3(1.0, 0.0, 0.0);
@@ -211,7 +220,7 @@ void main(void) {
 #endif
 
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), 
-            vec3(0.0), u_model_matrix);
+            vec3(0.0), model_mat);
 
 #if SHORE_PARAMS
     v_shore_params = extract_shore_params(world.position.xz);
@@ -276,7 +285,7 @@ void main(void) {
     v_pos_world = world.position;
     v_eye_dir = u_camera_eye - world.position;
 
-    vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view; 
 
 #if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE

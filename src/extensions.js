@@ -25,7 +25,10 @@
  */
 b4w.module["__extensions"] = function(exports, require) {
 
+var m_cfg   = require("__config");
 var m_print = require("__print");
+
+var cfg_def = m_cfg.defaults;
 
 var _gl = null;
 
@@ -56,6 +59,9 @@ exports.get_s3tc = function() {
  * @methodOf extensions
  */
 exports.get_depth_texture = function() {
+
+    if (cfg_def.webgl2)
+        return {};
 
     var ext_dtex = get(       "WEBGL_depth_texture") ||
                    get("WEBKIT_WEBGL_depth_texture") || 
@@ -101,6 +107,9 @@ exports.get_renderer_info = function() {
  */
 exports.get_elem_index_uint = function() {
 
+    if (cfg_def.webgl2)
+        return {};
+
     var ext_elem_index_uint = get("OES_element_index_uint");
     return ext_elem_index_uint;
 }
@@ -111,10 +120,22 @@ exports.get_elem_index_uint = function() {
  */
 exports.get_standard_derivatives = function() {
 
+    // NOTE: disable until shaders will be converted to GLSL 3.0
+    if (cfg_def.webgl2)
+        return null;
+
     var ext_standard_derivatives = get("OES_standard_derivatives");
     return ext_standard_derivatives;
 }
 
+/**
+ * Request OES_standard_derivatives extension
+ * @methodOf extensions
+ */
+exports.get_disjoint_timer_query = function() {
+    var ext = get("EXT_disjoint_timer_query");
+    return ext;
+}
 
 function get(name) {
 

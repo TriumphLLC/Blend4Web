@@ -31,6 +31,7 @@ var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_trans    = require("__transform");
+var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
@@ -144,9 +145,11 @@ function set_sun_params(sun_params) {
         // rotate sun
         m_trans.set_rotation_euler(sun, [angle_vert, angle_hor, 0]);
         var dir = new Float32Array(3);
-        m_util.quat_to_dir(sun_render.quat, m_util.AXIS_Y, dir);
+        var sun_quat = m_tsr.get_quat_view(sun_render.world_tsr);
+        m_util.quat_to_dir(sun_quat, m_util.AXIS_Y, dir);
 
-        var dist_to_center = m_vec3.length(sun_render.trans);
+        var trans = m_tsr.get_trans_view(sun_render.world_tsr);
+        var dist_to_center = m_vec3.length(trans);
 
         m_vec3.copy(dir, _sun_pos);
         m_vec3.scale(_sun_pos, dist_to_center, _sun_pos);

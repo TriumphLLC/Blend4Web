@@ -287,7 +287,7 @@ exports.get_outline_color = function(dest) {
  * @deprecated use {@link module:scenes.set_outline_intensity|scenes.set_outline_intensity} instead
  */
 exports.set_glow_intensity = function(obj, value) {
-    m_print.error("set_glow_intensity() deprecated, use set_outline_intensity() instead");
+    m_print.error_deprecated("set_glow_intensity", "set_outline_intensity");
     exports.set_outline_intensity(obj, value);
 }
 
@@ -298,7 +298,7 @@ exports.set_glow_intensity = function(obj, value) {
  * @deprecated use {@link module:scenes.get_outline_intensity|scenes.get_outline_intensity} instead
  */
 exports.get_glow_intensity = function(obj) {
-    m_print.error("get_glow_intensity() deprecated, use get_outline_intensity() instead");
+    m_print.error_deprecated("get_glow_intensity", "get_outline_intensity");
     exports.get_outline_intensity(obj);
 }
 
@@ -312,7 +312,7 @@ exports.get_glow_intensity = function(obj) {
  * @deprecated use {@link module:scenes.apply_outline_anim|scenes.apply_outline_anim} instead
  */
 exports.apply_glow_anim = function(obj, tau, T, N) {
-    m_print.error("apply_glow_anim() deprecated, use apply_outline_anim() instead");
+    m_print.error_deprecated("apply_glow_anim", "apply_outline_anim");
     exports.apply_outline_anim(obj, tau, T, N);
 }
 
@@ -323,7 +323,7 @@ exports.apply_glow_anim = function(obj, tau, T, N) {
  * @deprecated use {@link module:scenes.apply_outline_anim_def|scenes.apply_outline_anim_def} instead
  */
 exports.apply_glow_anim_def = function(obj) {
-    m_print.error("apply_glow_anim_def() deprecated, use apply_outline_anim_def() instead");
+    m_print.error_deprecated("apply_glow_anim_def", "apply_outline_anim_def");
     exports.apply_outline_anim_def(obj);
 }
 
@@ -334,7 +334,7 @@ exports.apply_glow_anim_def = function(obj) {
  * @deprecated use {@link module:scenes.clear_outline_anim|scenes.clear_outline_anim} instead
  */
 exports.clear_glow_anim = function(obj) {
-    m_print.error("clear_glow_anim() deprecated, use clear_outline_anim() instead");
+    m_print.error_deprecated("clear_glow_anim", "clear_outline_anim");
     exports.clear_outline_anim(obj);
 }
 
@@ -345,7 +345,7 @@ exports.clear_glow_anim = function(obj) {
  * @deprecated use {@link module:scenes.set_outline_color|scenes.set_outline_color} instead
  */
 exports.set_glow_color = function(color) {
-    m_print.error("set_glow_color() deprecated, use set_outline_color() instead");
+    m_print.error_deprecated("set_glow_color", "set_outline_color");
     exports.set_outline_color(color);
 }
 
@@ -356,7 +356,7 @@ exports.set_glow_color = function(color) {
  * @deprecated use {@link module:scenes.get_outline_color|scenes.get_outline_color} instead
  */
 exports.get_glow_color = function(dest) {
-    m_print.error("get_glow_color() deprecated, use get_outline_color() instead");
+    m_print.error_deprecated("get_glow_color, get_outline_color");
     exports.get_outline_color(dest);
 }
 
@@ -889,46 +889,55 @@ exports.update_scene_materials_params = function() {
     var active_scene = m_scenes.get_active();
     m_scenes.update_scene_permanent_uniforms(active_scene);
 }
-
-
 /**
- * Hide object.
- * Supported only for dynamic meshes/empties.
+ * Hide object and his children if it's necessary.
+ * Supported only for dynamic meshes/empties and lamps.
  * @method module:scenes.hide_object
  * @param {Object3D} obj Object 3D
+ * @param {Boolean} [ignore_children=false] Ignore children parameter
  */
-exports.hide_object = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj))
-        m_scenes.hide_object(obj);
+exports.hide_object = function(obj, ignore_children) {
+    ignore_children = ignore_children || false;
+    if ((m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))
+            && !m_obj_util.is_dynamic(obj))
+        m_print.error("show/hide is only supported for dynamic objects.");
     else
-        m_print.error("show/hide is only supported for dynamic meshes/empties");
+        if (ignore_children)
+            m_scenes.change_visibility(obj, true);
+        else
+            m_scenes.change_visibility_rec(obj, true);
 }
-
 /**
- * Show object.
- * Supported only for dynamic meshes/empties.
+ * Show object and his children if it's necessary.
+ * Supported only for dynamic meshes/empties and lamps.
  * @method module:scenes.show_object
  * @param {Object3D} obj Object 3D
+ * @param {Boolean} [ignore_children=false] Ignore children parameter
  */
-exports.show_object = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj))
-        m_scenes.show_object(obj);
+exports.show_object = function(obj, ignore_children) {
+    ignore_children = ignore_children || false;
+    if ((m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))
+            && !m_obj_util.is_dynamic(obj))
+        m_print.error("show/hide is only supported for dynamic objects.");
     else
-        m_print.error("show/hide is only supported for dynamic meshes/empties");
+        if (ignore_children)
+            m_scenes.change_visibility(obj, false);
+        else
+            m_scenes.change_visibility_rec(obj, false);
 }
-
 /**
  * Check if object is hidden.
- * Supported only for dynamic meshes/empties.
+ * Supported only for dynamic meshes/empties and lamps.
  * @method module:scenes.is_hidden
  * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  */
 exports.is_hidden = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj)
+            || m_obj_util.is_lamp(obj)) {
         return m_scenes.is_hidden(obj);
     } else {
-        m_print.error("show/hide is only supported for dynamic meshes/empties");
+        m_print.error("show/hide is only supported for dynamic meshes/empties and lamps");
         return false;
     }
 }
@@ -1086,7 +1095,7 @@ exports.get_object_type = function(obj) {
  * @deprecated use {@link module:objects.get_dg_parent|objects.get_dg_parent} instead
  */
 exports.get_object_dg_parent = function(obj) {
-    m_print.error("scenes.get_object_dg_parent() deprecated, use objects.get_dg_parent() instead");
+    m_print.error_deprecated("scenes.get_object_dg_parent", "objects.get_dg_parent");
     return m_obj_util.get_dg_parent(obj);
 }
 

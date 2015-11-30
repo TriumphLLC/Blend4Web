@@ -50,6 +50,131 @@
         ]
     },
     {
+        "name": "App - Petigor's Tale",
+        "items": [
+            {
+                "name": "Intro - Scene - HQ",
+                "load_file": "petigors_tale/intro_HQ.json"
+            },
+            {
+                "name": "Intro - Scene - LQ",
+                "load_file": "petigors_tale/intro_LQ.json"
+            },
+            {
+                "name": "Main Menu Stone",
+                "load_file": "petigors_tale/intro/main_menu.json"
+            },
+            {
+                "name": "Trees",
+                "load_file": "petigors_tale/intro/trees.json"
+            },
+            {
+                "name": "Stones",
+                "load_file": "petigors_tale/intro/stones_n_rocks.json"
+            },
+            {
+                "name": "Village Houses",
+                "load_file": "petigors_tale/intro/village_houses.json"
+            },
+            {
+                "name": "Roads",
+                "load_file": "petigors_tale/intro/roads.json"
+            },
+            {
+                "name": "Training - Scene",
+                "load_file": "petigors_tale/training/main_scene_training.json"
+            },
+            {
+                "name": "Level 01 - Scene",
+                "load_file": "petigors_tale/level_01/main_scene_level_01.json"
+            },
+            {
+                "name": "Enviroment Staff",
+                "load_file": "petigors_tale/level_01/env_staff.json"
+            },
+            {
+                "name": "Lava Rocks",
+                "load_file": "petigors_tale/level_01/lava_rock.json"
+            },
+            {
+                "name": "Level 02 - Scene",
+                "load_file": "petigors_tale/level_02/main_scene_level_02.json"
+            },
+            {
+                "name": "Pillars and Supplies",
+                "load_file": "petigors_tale/level_02/pillars_n_supplies.json"
+            },
+            {
+                "name": "Floors and Walls",
+                "load_file": "petigors_tale/level_02/floors_n_walls.json"
+            },
+            {
+                "name": "Petigor Model",
+                "load_file": "petigors_tale/characters/character/character_model.json"
+            },
+            {
+                "name": "Petigor Animation",
+                "load_file": "petigors_tale/characters/character/character_animation.json"
+            },
+            {
+                "name": "Golem Model",
+                "load_file": "petigors_tale/characters/golem/golem_model.json"
+            },
+            {
+                "name": "Golem Animation",
+                "load_file": "petigors_tale/characters/golem/golem_animation.json"
+            },
+            {
+                "name": "Troll Model",
+                "load_file": "petigors_tale/characters/troll/troll_model.json"
+            },
+            {
+                "name": "Troll Animation",
+                "load_file": "petigors_tale/characters/troll/troll_animation.json"
+            },
+            {
+                "name": "Horse Model",
+                "load_file": "petigors_tale/animals/horse/horse_model.json"
+            },
+            {
+                "name": "Horse Animation",
+                "load_file": "petigors_tale/animals/horse/horse_animation.json"
+            },
+            {
+                "name": "Bonuses and Bottles",
+                "load_file": "petigors_tale/props/bonuses_n_bottles.json"
+            },
+            {
+                "name": "Camping Assets",
+                "load_file": "petigors_tale/props/camping_assets.json"
+            },
+            {
+                "name": "Dungeon Props",
+                "load_file": "petigors_tale/props/dungeon_props.json"
+            },
+            {
+                "name": "Training Dummy",
+                "load_file": "petigors_tale/props/training_dummy.json"
+            },
+            {
+                "name": "Cart Model",
+                "load_file": "petigors_tale/transport/cart/cart.json"
+            },
+            {
+                "name": "Cart Animation",
+                "load_file": "petigors_tale/transport/cart/cart_animation.json"
+            },
+            {
+                "name": "Fire and Smoke",
+                "load_file": "petigors_tale/vfx/fire_n_smoke.json"
+            },
+            {
+                "name": "Indicators",
+                "load_file": "petigors_tale/vfx/indicators.json"
+            }
+        ]
+    },
+    {
         "name": "App - Victory Day 2015",
         "items": [
             {
@@ -124,6 +249,10 @@
     {
         "name": "Demos - Interactivity",
         "items": [
+            {
+                "name": "IQ_Test",
+                "load_file": "interactivity/iq_test.json"
+            },
             {
                 "name": "Annotations",
                 "load_file": "interactivity/annotations.json"

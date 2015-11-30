@@ -478,8 +478,15 @@ class ProjectRootHandler(tornado.web.RequestHandler):
                             if exists(join(root, i, name + ".json"))])
 
             else:
-                apps = [proj.unix_path(join(build_dir, app))
+                dev_apps = [proj.unix_path(join(path, app))
+                        for app in apps if exists(join(root, path, app))]
+                build_apps = [proj.unix_path(join(build_dir, app))
                         for app in apps if exists(join(root, build_dir, app))]
+
+                apps = []
+
+                apps.extend(dev_apps)
+                apps.extend(build_apps)
 
             for app in apps:
                 table_insert += self.app_link(app)

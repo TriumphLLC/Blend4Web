@@ -22,8 +22,6 @@
 
 float ZERO_VALUE = 0.0;
 float UNITY_VALUE = 1.0;
-vec3 ZERO_VECTOR = vec3(ZERO_VALUE);
-vec3 UNITY_VECTOR = vec3(UNITY_VALUE);
 
 vec3 rgb_to_hsv(vec3 rgb)
 {
@@ -67,14 +65,14 @@ vec3 col_mul(vec3 col1, vec3 col2, float fact)
 vec3 col_screen(vec3 col1, vec3 col2, float fact)
 {
     vec3 facm = vec3(UNITY_VALUE - fact);
-    return UNITY_VECTOR - (facm + fact * (UNITY_VECTOR - col1)) * (UNITY_VECTOR - col2);
+    return vec3(UNITY_VALUE) - (facm + fact * (vec3(UNITY_VALUE) - col1)) * (vec3(UNITY_VALUE) - col2);
 }
 
 vec3 col_overlay(vec3 col1, vec3 col2, float fact)
 {
     vec3 facm = vec3(UNITY_VALUE - fact);
     return mix(col2 * (facm + 2.0 * fact * col1),
-            UNITY_VECTOR - (facm + 2.0 * fact * (UNITY_VECTOR - col1)) * (UNITY_VECTOR - col2),
+            vec3(UNITY_VALUE) - (facm + 2.0 * fact * (vec3(UNITY_VALUE) - col1)) * (vec3(UNITY_VALUE) - col2),
             step(0.5, col2));
 }
 
@@ -85,7 +83,7 @@ vec3 col_diff(vec3 col1, vec3 col2, float fact)
 
 vec3 col_div(vec3 col1, vec3 col2, float fact)
 {
-    return mix(col2, col2 / (col1 + step(col1, ZERO_VECTOR)), fact);
+    return mix(col2, col2 / (col1 + step(col1, vec3(ZERO_VALUE))), fact);
 }
 
 vec3 col_dark(vec3 col1, vec3 col2, float fact)
@@ -139,8 +137,8 @@ vec3 col_color(vec3 col1, vec3 col2, float fact)
 
 vec3 col_soft_light(vec3 col1, vec3 col2, float fact)
 {
-    vec3 sc = UNITY_VECTOR - (UNITY_VECTOR - col2) * (UNITY_VECTOR - col1);
-    return mix(col1, ((UNITY_VECTOR - col1) * col2 * col1) + col1 * sc, fact);
+    vec3 sc = vec3(UNITY_VALUE) - (vec3(UNITY_VALUE) - col2) * (vec3(UNITY_VALUE) - col1);
+    return mix(col1, ((vec3(UNITY_VALUE) - col1) * col2 * col1) + col1 * sc, fact);
 }
 
 vec3 col_lin_light(vec3 col1, vec3 col2, float fact)

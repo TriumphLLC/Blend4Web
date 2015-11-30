@@ -93,7 +93,8 @@ var _fps_counter = function() {};
 var _render_callback = function() {};
 var _canvas_data_url_callback = null;
 
-var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
+var WEBGL_CTX_IDS = ["webgl", "experimental-webgl"];
+var WEBGL2_CTX_IDS = ["webgl2", "experimental-webgl2"];
 
 var _gl = null;
 
@@ -148,11 +149,25 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.sfx.mix_mode = false;
     }
 
-    m_compat.apply_context_alpha_hack(gl);
+    m_compat.apply_context_alpha_hack();
 
-    var gl = get_context(elem_canvas_webgl);
+    // allow WebGL 2 only in Chrome
+    if (!m_compat.check_user_agent("Chrome"))
+        cfg_def.webgl2 = false;
+
+    var gl = get_context(elem_canvas_webgl, cfg_def.webgl2);
+
+    // fallback to WebGL 1
+    if (!gl && cfg_def.webgl2) {
+        cfg_def.webgl2 = false;
+        gl = get_context(elem_canvas_webgl, false);
+    }
+
     if (!gl)
         return null;
+
+    m_print.log("%cINIT WEBGL " + (cfg_def.webgl2 ? "2" : "1"), "color: #00a");
+    window.gl = gl;
 
     _gl = gl;
 
@@ -191,12 +206,14 @@ function setup_clock() {
     m_time.set_timeline(0);
 }
 
-function get_context(canvas) {
+function get_context(canvas, init_webgl2) {
 
     var ctx = null;
+    
+    var ctx_ids = init_webgl2 ? WEBGL2_CTX_IDS : WEBGL_CTX_IDS;
 
-    for (var i = 0; i < CONTEXT_NAMES.length; i++) {
-        var name = CONTEXT_NAMES[i];
+    for (var i = 0; i < ctx_ids.length; i++) {
+        var name = ctx_ids[i];
 
         try {
             ctx = canvas.getContext(name, cfg_ctx);
@@ -272,7 +289,7 @@ exports.set_check_gl_errors = function(val) {
  */
 exports.resize = resize;
 function resize(width, height, update_canvas_css) {
-    m_print.error("resize() deprecated, use container.resize() instead");
+    m_print.error_deprecated("main.resize", "container.resize");
     
     m_cont.resize(width, height, update_canvas_css);
 }
@@ -338,7 +355,7 @@ exports.global_timeline = function() {
  * @deprecated Never required
  */
 exports.redraw = function() {
-    m_print.error("redraw() deprecated");
+    m_print.error_once("redraw() deprecated");
     frame(m_time.get_timeline(), 0);
 }
 
@@ -565,8 +582,9 @@ exports.detect_mobile = function() {
     return m_compat.detect_mobile();
 }
 /**
- * Append callback to be executed every frame
- * (even if the rendering is paused).
+ * Append a callback to be executed every frame
+ * (even if the rendering is paused). Its purpose is to perform actions 
+ * non-related to the actual rendering, e.g html/css manipulation.
  * This method allows registration of multiple callbacks.
  * @method module:main.append_loop_cb
  * @param {LoopCallback} callback Callback

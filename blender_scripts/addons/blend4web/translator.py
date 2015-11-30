@@ -36,7 +36,11 @@ def get_translation_dict():
 
     multilang_dict = {}
     for po_file in po_files:
-        po = polib.pofile(os.path.join(PATH_TO_PO, po_file))
+        try:
+            po = polib.pofile(os.path.join(PATH_TO_PO, po_file))
+        except:
+            print("Couldn't parse " + os.path.join(PATH_TO_PO, po_file))
+            continue
         lang = os.path.splitext(po_file)[0]
         for entry in po:
             if entry.msgid in multilang_dict:

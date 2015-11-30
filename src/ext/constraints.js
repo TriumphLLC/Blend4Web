@@ -286,7 +286,7 @@ exports.remove = function(obj) {
  * @deprecated use {@link module:objects.get_parent|objects.get_parent} instead.
  */
 exports.get_parent = function(obj) {
-    m_print.error("constraints.get_parent() deprecated, use objects.get_parent() instead");
+    m_print.error_deprecated("constraints.get_parent", "objects.get_parent");
     return m_obj_util.get_parent(obj);
 }
 

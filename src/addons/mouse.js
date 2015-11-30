@@ -89,6 +89,13 @@ var _plock_state = PLS_NONE;
  */
 
 /**
+ * Callback for camera/characters rotation
+ * @callback RotationCallback
+ * @param {rot_x} x rotation
+ * @param {rot_x} y rotation
+ */
+
+/**
  * Request pointer lock mode.
  * Security issues: execute by user event.
  * @method module:mouse.request_pointerlock
@@ -97,9 +104,10 @@ var _plock_state = PLS_NONE;
  * @param {PointerlockDisabledCallback} [disabled_cb] Disabled callback
  * @param {PointerlockMouseMoveCallback} [mouse_move_cb] Mouse movement event callback
  * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the camera/character control
+ * @param {RotationCallback} [rotation_cb] Callback for camera rotation. If not specified, the default one will be used.
  */
 exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
-        mouse_move_cb, use_mouse_control_cb) {
+        mouse_move_cb, use_mouse_control_cb, rotation_cb) {
 
     if (_plock_state == PLS_POINTERLOCK)
         return;
@@ -107,6 +115,7 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
 
     enabled_cb  = enabled_cb  || function() {};
     disabled_cb = disabled_cb || function() {};
+    rotation_cb = rotation_cb || default_rotation_cb;
 
     use_mouse_control_cb = use_mouse_control_cb || function() {return true};
 
@@ -148,7 +157,7 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
                 var elapsed = m_ctl.create_elapsed_sensor();
 
                 m_ctl.create_sensor_manifold(camera, "SMOOTH_PL", m_ctl.CT_CONTINUOUS,
-                    [elapsed], null, smooth_cb);
+                    [elapsed], null, smooth_cb, rotation_cb);
             }
 
             enabled_cb();
@@ -218,10 +227,11 @@ exports.check_pointerlock = function(elem) {
  * Request drag mode.
  * @param {HTMLElement} elem Element
  * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the mouse control
+ * @param {RotationCallback} [rotation_cb] Callback for camera rotation. If not specified, the default one will be used.
  * @method module:mouse.request_mouse_drag
  */
 exports.request_mouse_drag = request_mouse_drag;
-function request_mouse_drag(elem, use_mouse_control_cb) {
+function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb) {
 
     if (_plock_state == PLS_DRAG)
         return;
@@ -230,6 +240,7 @@ function request_mouse_drag(elem, use_mouse_control_cb) {
     exit_pointerlock();
 
     _use_mouse_control_cb = use_mouse_control_cb || function() {return true};
+    rotation_cb = rotation_cb || default_rotation_cb;
 
     elem.addEventListener("mousedown", drag_mouse_down_cb, false);
     elem.addEventListener("mouseup",   drag_mouse_up_cb,   false);
@@ -240,10 +251,10 @@ function request_mouse_drag(elem, use_mouse_control_cb) {
         var elapsed = m_ctl.create_elapsed_sensor();
 
         m_ctl.create_sensor_manifold(camera, "SMOOTH_DRAG", m_ctl.CT_CONTINUOUS,
-            [elapsed], null, smooth_cb);
+            [elapsed], null, smooth_cb, rotation_cb);
     }
-
 }
+
 /**
  * Exit drag mode.
  * @param {HTMLElement} elem Element
@@ -285,26 +296,26 @@ function drag_mouse_up_cb(e) {
     e.preventDefault();
 }
 
-function smooth_cb(obj, id, pulse) {
-
+function smooth_cb(obj, id, pulse, rot_callback) {
     if (Math.abs(_mouse_delta[0]) > 0.01 || Math.abs(_mouse_delta[1]) > 0.01) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
         var rot_x = m_util.smooth(_mouse_delta[0], 0, elapsed, smooth_coeff_mouse());
         var rot_y = m_util.smooth(_mouse_delta[1], 0, elapsed, smooth_coeff_mouse());
 
-        // TODO: need more control with this objects
-        var character = m_scs.get_first_character();
-        var camera    = m_scs.get_active_camera();
-
-        m_cam.rotate_eye_camera(camera, -rot_x * FPS_MOUSE_MULT, -rot_y * FPS_MOUSE_MULT);
-
         _mouse_delta[0] -= rot_x;
         _mouse_delta[1] -= rot_y;
 
-        if (character) {
-            var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
-            m_phy.set_character_rotation(character, angles[0], angles[1]);
-        }
+        rot_callback(-rot_x * FPS_MOUSE_MULT, -rot_y * FPS_MOUSE_MULT);
+    }
+}
+
+function default_rotation_cb(rot_x, rot_y) {
+    var character = m_scs.get_first_character();
+    var camera    = m_scs.get_active_camera();
+    m_cam.eye_rotate(camera, rot_x, rot_y);
+    if (character) {
+        var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
+        m_phy.set_character_rotation(character, angles[0], angles[1]);
     }
 }
 /**

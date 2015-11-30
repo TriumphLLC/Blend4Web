@@ -302,7 +302,7 @@
 *Large Mask: Width*
     Ширина свечения по большой маске. Значение по умолчанию 6.0.
 
-*Render Glow Over Transparent Object*
+*Render Glow Over Transparent Objects*
     Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.
 
 

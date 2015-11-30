@@ -58,6 +58,12 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
 
+    if (!cfg_def.webgl2)
+        cfg_def.msaa_samples = 1;
+    else
+        cfg_def.msaa_samples = Math.min(cfg_def.msaa_samples,
+                gl.getParameter(gl.MAX_SAMPLES));
+
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
     // HACK: fix depth issue in Firefox 28
     if (check_user_agent("Firefox/28.0") &&
@@ -147,58 +153,67 @@ exports.set_hardware_defaults = function(gl) {
     // NOTE: check compatibility for particular device
     var rinfo = m_ext.get_renderer_info();
     if (rinfo) {
-        if (check_user_agent("Macintosh")
-                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel HD Graphics 3000") > -1) {
+        var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
+        var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
+        var mali_4x_re = /\b4\d{2}\b/;
+
+        if (check_user_agent("Macintosh") && renderer.indexOf("Intel HD Graphics 3000") > -1) {
             m_print.warn("OS X / Intel HD 3000 detected, applying depth hack");
             depth_tex_available = false;
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
-                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-400") > -1) {
-            m_print.warn("ARM Mali-400 detected, applying depth and frames blending hacks");
+
+        if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
+            m_print.warn("ARM Mali-400 series detected, applying depth and frames blending hacks");
             depth_tex_available = false;
             cfg_anim.frames_blending_hack = true;
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
-                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-T604") > -1) {
+        if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T604") > -1) {
             m_print.warn("ARM Mali-T604 detected, set \"highp\" precision and disable shadows.");
             cfg_def.precision = "highp";
             cfg_def.shadows = false;
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
-                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-T760") > -1) {
+        if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T760") > -1) {
             m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
             cfg_def.precision = "highp";
             cfg_def.ssao = false;
+            cfg_def.amd_skinning_hack = true;
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("Qualcomm") > -1
-               && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Adreno") > -1) {
+        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1) {
             m_print.warn("Qualcomm Adreno detected, applying shader constants hack.");
             cfg_def.shader_constants_hack = true;
-            if (gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("305") > -1) {
+            if (renderer.indexOf("305") > -1) {
                 m_print.warn("Qualcomm Adreno305 detected, set \"highp\" precision.");
                 cfg_def.precision = "highp";
             }
-            if (gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("330") > -1) {
+            if (renderer.indexOf("330") > -1) {
                 m_print.warn("Qualcomm Adreno330 detected, set \"highp\" precision.");
                 cfg_def.precision = "highp";
             }
         }
-        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("NVIDIA") > -1 &&
-                gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Tegra 3") > -1) {
+        if (vendor.indexOf("NVIDIA") > -1 && renderer.indexOf("Tegra 3") > -1) {
             m_print.warn("NVIDIA Tegra 3 detected, force low quality for "
                                               + "B4W_LEVELS_OF_QUALITY nodes.");
             cfg_def.force_low_quality_nodes = true;
         }
         if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge") &&
-                gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).match(/NVIDIA GeForce 8..0/)) {
-            m_print.warn("Chrome / Windows / NVIDIA GeForce 8000 series detected, " +
-                         "setting max cubemap size to 256.");
+                (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/))) {
+            m_print.warn("Chrome / Windows / NVIDIA GeForce 8000/9000 series detected, " +
+                         "setting max cubemap size to 256, use canvas for resizing.");
             cfg_def.max_cube_map_size = 256;
+            cfg_def.resize_cubemap_canvas_hack = true;
         }
-        var architecture = check_disabled_architecture(gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL));
+
+        var architecture = "";
+        for (var i = 0; i < AMD_MESA_RENDER_NAMES.length; i++)
+            if (renderer.indexOf(AMD_MESA_RENDER_NAMES[i]) > -1) {
+                architecture = AMD_MESA_RENDER_NAMES[i];
+                break;
+            }
+
         if (architecture) {
             m_print.warn("Architecture " + architecture + " detected. Blending between frames" + 
-                    " and shadows on blend objects will be disabled.");
+                    " and shadows on blend objects will be disabled. Applying clear depth hack.");
+            cfg_def.arch_mesa_clear_depth_hack = true;
             cfg_def.amd_skinning_hack = true;
             cfg_def.disable_blend_shadows_hack = true;
         }
@@ -272,6 +287,7 @@ exports.set_hardware_defaults = function(gl) {
     }
 }
 
+exports.check_user_agent = check_user_agent;
 /**
  * for user agent hacks
  */
@@ -306,15 +322,6 @@ exports.apply_context_alpha_hack = function() {
 exports.is_ie11 = is_ie11;
 function is_ie11() {
     return !(window.ActiveXObject) && "ActiveXObject" in window;
-}
-
-function check_disabled_architecture(info) {
-    for (var i = 0; i < AMD_MESA_RENDER_NAMES.length; i++)
-        if (info.indexOf(AMD_MESA_RENDER_NAMES[i]) > -1) {
-            return AMD_MESA_RENDER_NAMES[i];
-            break;
-        }
-    return "";
 }
 
 }

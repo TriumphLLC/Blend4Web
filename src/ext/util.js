@@ -277,7 +277,7 @@ exports.line_plane_intersect = m_util.line_plane_intersect;
  * @deprecated use {@link module:objects.is_mesh|objects.is_mesh} instead.
  */
 exports.is_mesh = function(obj) {
-    m_print.error("util.is_mesh() deprecated, use objects.is_mesh() instead");
+    m_print.error_deprecated("util.is_mesh", "objects.is_mesh");
     return m_obj_util.is_mesh(obj);
 }
 
@@ -289,7 +289,7 @@ exports.is_mesh = function(obj) {
  * @deprecated use {@link module:objects.is_armature|objects.is_armature} instead.
  */
 exports.is_armature = function(obj) {
-    m_print.error("util.is_armature() deprecated, use objects.is_armature() instead");
+    m_print.error_deprecated("util.is_armature", "objects.is_armature");
     return m_obj_util.is_armature(obj);
 }
 

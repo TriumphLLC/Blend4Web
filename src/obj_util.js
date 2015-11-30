@@ -35,8 +35,8 @@ var m_vec4  = require("__vec4");
 var _vec4_tmp   = new Float32Array(4);
 var _quat4_tmp  = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
-var _tsr8_tmp   = new Float32Array(8);
-var _tsr8_tmp2  = new Float32Array(8);
+var _tsr_tmp    = m_tsr.create();
+var _tsr_tmp2   = m_tsr.create();
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
 
@@ -51,13 +51,8 @@ function create_render(type) {
         // common properties
         type: type,
         data_id: 0,
-        scale: 0,
         grid_id: [0, 0],
-        trans: new Float32Array(3),
-        quat: new Float32Array(4),
-        tsr: new Float32Array(8),
-        world_matrix: new Float32Array(16),
-        inv_world_matrix: new Float32Array(16),
+        world_tsr: m_tsr.create_ext(),
         pivot: new Float32Array(3),
         hover_pivot: new Float32Array(3),
         init_dist: 0,
@@ -82,15 +77,16 @@ function create_render(type) {
         dof_object: null,
         underwater: false,
 
-        distance_min: 0,
-        distance_max: 0,
-        use_distance_limits: false,
-        
         horizontal_limits: null,
         vertical_limits: null,
-        hover_angle_limits: null,
+        distance_limits: null,
+        hover_vert_trans_limits: null,
+        hover_horiz_trans_limits: null,
+
         enable_hover_hor_rotation: true,
+        hover_zero_level: 0,
         cameras: null,
+        shadow_cameras: null,
         
         outline_anim_settings_default: {
             outline_duration: 1,
@@ -202,12 +198,7 @@ function create_render(type) {
     }
 
     // setting default values
-    render.scale = 1;
     render.lod_dist_max = 10000;
-    m_quat.identity(render.quat);
-    m_tsr.identity(render.tsr);
-    m_mat4.identity(render.world_matrix);
-    m_mat4.identity(render.inv_world_matrix);
 
     return render;
 }

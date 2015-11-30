@@ -140,7 +140,13 @@ exports.module = _module;
 // require functions per namespace
 var _ns_requires = {};
 
-
+exports.cleanup = function(module_id, ns) {
+    ns = ns || "__b4w_default";
+    var mod = _module[module_id];
+        if (mod)
+            mod._compiled = null;
+    _ns_requires[ns] = null;
+}
 /**
  * Local (module internal) require function.
  * This function is passed to the module implementation function and can be used
@@ -187,7 +193,6 @@ function require(module_id, ns) {
         throw new Error("Module \"" + module_id + "\" not found");
 
     ns = ns || "__b4w_default";
-    
     if (!_ns_requires[ns])
         _ns_requires[ns] = (function(ns) {
             return function(module_id) {
@@ -232,7 +237,6 @@ exports.get_namespace = function(mod_ns_require) {
     for (var ns in _ns_requires)
         if (_ns_requires[ns] == mod_ns_require)
             return ns;
-
     return "";
 }
 

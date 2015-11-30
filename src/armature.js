@@ -30,8 +30,8 @@ var m_quat = require("__quat");
 var m_mat4 = require("__mat4");
 var m_vec3 = require("__vec3");
 
-var _tsr8_tmp = new Float32Array(8);
-var _tsr8_tmp2 = new Float32Array(8);
+var _tsr_tmp = m_tsr.create();
+var _tsr_tmp2 = m_tsr.create();
 var _vec4_tmp = new Float32Array(4);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
@@ -114,8 +114,8 @@ function update_object(bpy_armobj, armobj) {
             var parent_bone_ptr = bone_pointers[parent_bone_name];
             bpointer.parent_bone_ptr = parent_bone_ptr;
 
-            m_tsr.invert(parent_bone_ptr.tsr_local_rest, _tsr8_tmp);
-            m_tsr.multiply(_tsr8_tmp, bpointer.tsr_local_rest,
+            m_tsr.invert(parent_bone_ptr.tsr_local_rest, _tsr_tmp);
+            m_tsr.multiply(_tsr_tmp, bpointer.tsr_local_rest,
                            bpointer.tsr_bone_rest);
 
             // store only direct bone's descendants
@@ -135,7 +135,7 @@ function update_object(bpy_armobj, armobj) {
 
 /**
  * Get armature bone pose data (animated or static)
- * uses _vec4_tmp, _quat4_tmp, _quat4_tmp2, _tsr8_tmp, _tsr8_tmp2
+ * uses _vec4_tmp, _quat4_tmp, _quat4_tmp2, _tsr_tmp, _tsr_tmp2
  */
 exports.get_bone_tsr = function(armobj, bone_name, get_pose_tail,
                                 use_bone_space, dest_tsr) {
@@ -183,12 +183,12 @@ exports.get_bone_tsr = function(armobj, bone_name, get_pose_tail,
 
     m_quat.slerp(quat, quatn, frame_factor, quat);
 
-    var tsr_bone = _tsr8_tmp;
+    var tsr_bone = _tsr_tmp;
     m_tsr.set_transcale(transcale, tsr_bone);
     m_tsr.set_quat(quat, tsr_bone);
 
     if (get_pose_tail) {
-        var tsr_local_tail = _tsr8_tmp2;
+        var tsr_local_tail = _tsr_tmp2;
         m_tsr.translate(tsr_local, bone_pointer.tail, tsr_local_tail);
         m_tsr.multiply(tsr_bone, tsr_local_tail, tsr_bone);
     } else
@@ -199,13 +199,13 @@ exports.get_bone_tsr = function(armobj, bone_name, get_pose_tail,
         if (parent_bone_ptr) {
             // move to bone space
             var tsr_par_local = parent_bone_ptr.tsr_local_pose;
-            var inv_tsr_par_local = _tsr8_tmp2;
+            var inv_tsr_par_local = _tsr_tmp2;
             m_tsr.invert(tsr_par_local, inv_tsr_par_local);
             m_tsr.multiply(inv_tsr_par_local, tsr_bone, tsr_bone);
         }
         // calculate difference with rest pose tsr
         var tsr_bone_rest = bone_pointer.tsr_bone_rest;
-        var inv_tsr_bone_rest = _tsr8_tmp2;
+        var inv_tsr_bone_rest = _tsr_tmp2;
         m_tsr.invert(tsr_bone_rest, inv_tsr_bone_rest);
         m_tsr.multiply(inv_tsr_bone_rest, tsr_bone, tsr_bone);
     }
@@ -275,7 +275,7 @@ function update_bone_tsr_r(bone_pointer, use_bone_space, trans, quats) {
         if (use_bone_space)
             m_tsr.multiply(tsr_par_local, tsr_bone_pose, tsr_local_pose);
         else {
-            var inv_tsr_par_local = _tsr8_tmp2;
+            var inv_tsr_par_local = _tsr_tmp2;
             m_tsr.invert(tsr_par_local, inv_tsr_par_local);
             m_tsr.multiply(inv_tsr_par_local, tsr_local_pose, tsr_bone_pose);
         }
@@ -285,7 +285,7 @@ function update_bone_tsr_r(bone_pointer, use_bone_space, trans, quats) {
         else
             m_tsr.copy(tsr_local_pose, tsr_bone_pose);
 
-    var dest_tsr = _tsr8_tmp;
+    var dest_tsr = _tsr_tmp;
     m_tsr.invert(tsr_local_rest, dest_tsr);
     m_tsr.multiply(tsr_local_pose, dest_tsr, dest_tsr);
 

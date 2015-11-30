@@ -329,7 +329,7 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
             if cam.b4w_move_style == "TARGET":
                 row = layout.column()
                 row.prop(cam, "b4w_target", text=_("Target Location"))
-                row.operator("b4w.camera_target_copy", text=_("Copy Cursor Location"))
+                row.operator("b4w.camera_target_copy", text=_("Look At Cursor"))
 
             box = layout.box()
             col = box.column()
@@ -349,12 +349,12 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                     or cam.b4w_move_style == "HOVER":
                 box = layout.box()
                 col = box.column()
-                col.label(text=_("Camera Limits:"))
+                col.label(text=_("Camera Limits"))
 
             if cam.b4w_move_style == "HOVER":
                 row = col.row()
                 row.prop(cam, "b4w_use_horizontal_clamping",
-                        text=_("Use Horizontal Translation Limits"))
+                        text=_("Horizontal Translation Limits"))
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
@@ -363,44 +363,53 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.row()
                 row.prop(cam, "b4w_use_vertical_clamping", 
-                        text=_("Use Vertical Translation Limits"))
+                        text=_("Vertical Translation Limits"))
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_vertical_clamping")
                 row.prop(cam, "b4w_vertical_translation_min", text=_("MinY"))
                 row.prop(cam, "b4w_vertical_translation_max", text=_("MaxY"))
 
-            if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "HOVER":
+            if cam.b4w_move_style == "TARGET":
                 row = col.row()
-                row.prop(cam, "b4w_use_distance_limits", text=_("Use Distance Limits"))
+                row.prop(cam, "b4w_use_target_distance_limits", text=_("Distance Limits"))
 
                 row = col.split(0.5, align=True)
-                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.active = getattr(cam, "b4w_use_target_distance_limits")
                 row.prop(cam, "b4w_distance_min", text=_("Min"))
                 row.prop(cam, "b4w_distance_max", text=_("Max"))
 
             if cam.b4w_move_style == "HOVER":
-                row = col.row()
-                row.active = getattr(cam, "b4w_use_distance_limits")
-                row.label(text=_("Hover Angle Limits:"))
-                row = col.split(0.5, align=True)
-                row.active = getattr(cam, "b4w_use_distance_limits")
-                row.prop(cam, "b4w_hover_angle_min", text=_("Down Angle"))
-                row.prop(cam, "b4w_hover_angle_max", text=_("Up Angle"))
 
                 row = col.row()
-                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.prop(cam, "b4w_use_zooming", text=_("Use Zooming"))
+
+                row = col.row()
+                row.active = getattr(cam, "b4w_use_zooming")
+
+                row = col.split(0.3, align=True)
+                row.active = getattr(cam, "b4w_use_zooming")
+                row.label("Distance Limits:")
+                row.prop(cam, "b4w_distance_min", text=_("Min"))
+                row.prop(cam, "b4w_distance_max", text=_("Max"))
+
+                row = col.split(0.3, align=True)
+                row.active = getattr(cam, "b4w_use_zooming")
+                row.label("Vertical Rotation Limits:")
+                row.prop(cam, "b4w_hover_angle_min", text=_("Down"))
+                row.prop(cam, "b4w_hover_angle_max", text=_("Up"))
+
+                row = col.row()
                 row.prop(cam, "b4w_hover_zero_level", text=_("Zero Level"))
 
                 row = col.row()
-                row.active = getattr(cam, "b4w_use_distance_limits")
                 row.prop(cam, "b4w_enable_hover_hor_rotation", 
                         text=_("Use Horizontal Rotation"))
 
             if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "EYE":
                 row = col.row()
                 row.prop(cam, "b4w_use_horizontal_clamping", 
-                        text=_("Use Horizontal Rotation Clamping"))
+                        text=_("Horizontal Rotation Limits"))
 
                 row = col.split(1/3, align=True)
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
@@ -410,7 +419,7 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.row()
                 row.prop(cam, "b4w_use_vertical_clamping", 
-                        text=_("Use Vertical Rotation Clamping"))
+                        text=_("Vertical Rotation Limits"))
 
                 row = col.split(1/3, align=True)
                 row.active = getattr(cam, "b4w_use_vertical_clamping")

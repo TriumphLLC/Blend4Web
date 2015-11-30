@@ -36,6 +36,12 @@ b4w_camera_move_style_items = [
         ("HOVER", _("Hover"), _("Hover mode"))
     ]
 
+b4w_anim_behavior_items = [
+        ("CYCLIC", _("Loop"), _("Behavior: cyclically repeat the finished animation")),
+        ("FINISH_RESET", _("Finish Reset"), _("Behavior: reset the finished animation")),
+        ("FINISH_STOP", _("Finish Stop"), _("Behavior: stop the finished animation"))
+    ]
+
 class B4W_StringWrap(bpy.types.PropertyGroup):
     name = bpy.props.StringProperty(name = _("name"),)
 
@@ -48,7 +54,7 @@ class B4W_DetailBendingColors(bpy.types.PropertyGroup):
     )
     leaves_phase_col = bpy.props.StringProperty(
         name = _("B4W: leaves phase color"),
-        description = _("Vertex color used for leaves stiffness"),
+        description = _("Vertex color used for leaves phase"),
         default = _("")
     )
     overall_stiffness_col = bpy.props.StringProperty(
@@ -1219,12 +1225,19 @@ def add_b4w_props():
     )
     bpy.types.Camera.b4w_target = b4w_target
 
-    b4w_use_distance_limits = bpy.props.BoolProperty(
+    b4w_use_target_distance_limits = bpy.props.BoolProperty(
         name = _("B4W: use distance limits"),
         description = _("Check if you wish to set distance limits"),
         default = False
     )
-    bpy.types.Camera.b4w_use_distance_limits = b4w_use_distance_limits
+    bpy.types.Camera.b4w_use_target_distance_limits = b4w_use_target_distance_limits
+
+    b4w_use_zooming = bpy.props.BoolProperty(
+        name = _("B4W: use zooming"),
+        description = _("Enable various limits to set up camera zooming behaviour."),
+        default = False
+    )
+    bpy.types.Camera.b4w_use_zooming = b4w_use_zooming
 
     b4w_distance_min = bpy.props.FloatProperty(
            name = _("B4W: Minimum distance to target"),
@@ -1733,7 +1746,8 @@ def remove_camera_props():
     del bpy.types.Camera.b4w_rot_velocity
     del bpy.types.Camera.b4w_zoom_velocity
     del bpy.types.Camera.b4w_target
-    del bpy.types.Camera.b4w_use_distance_limits
+    del bpy.types.Camera.b4w_use_target_distance_limits
+    del bpy.types.Camera.b4w_use_zooming
     del bpy.types.Camera.b4w_distance_min
     del bpy.types.Camera.b4w_distance_max
     del bpy.types.Camera.b4w_horizontal_translation_min
@@ -2224,11 +2238,7 @@ def add_object_properties():
         name = _("B4W: animation behavior"),
         description = _("The behavior of finished animation: stop, repeat or reset"),
         default = "CYCLIC",
-        items = [
-            ("CYCLIC", _("Loop"), _("Behavior: cyclically repeat the finished animation")),
-            ("FINISH_RESET", _("Finish Reset"), _("Behavior: reset the finished animation")),
-            ("FINISH_STOP", _("Finish Stop"), _("Behavior: stop the finished animation"))
-        ]
+        items = b4w_anim_behavior_items
     )
     obj_type.b4w_animation_mixing = bpy.props.BoolProperty(
         name = _("B4W: animation mixing"),

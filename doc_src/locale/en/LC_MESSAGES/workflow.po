@@ -1,10 +1,10 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-02 11:07+0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-11-26 21:18+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -46,15 +46,11 @@ msgstr "Exporting scenes."
 msgid "Запуск, настройка и отладка сцены в программе-просмотрщике."
 msgstr "Running, tweaking and debugging scenes in the Viewer."
 
-#: ../workflow.rst:19
-msgid "Создание целевого приложения."
-msgstr "Creating the target application."
-
-#: ../workflow.rst:25
+#: ../workflow.rst:24
 msgid "Подготовка сцен"
 msgstr "Authoring Scenes"
 
-#: ../workflow.rst:27
+#: ../workflow.rst:26
 msgid ""
 "Помимо обычных операций по моделированию, текстурированию, анимации и т.д. "
 "должна быть осуществлена подготовка сцены для работы в движке."
@@ -62,11 +58,11 @@ msgstr ""
 "Besides the usual stages such as modeling, texturing, animation etc a scene "
 "should be prepared for working in the engine."
 
-#: ../workflow.rst:30
+#: ../workflow.rst:29
 msgid "Общие рекомендации:"
 msgstr "General recommendations:"
 
-#: ../workflow.rst:32
+#: ../workflow.rst:31
 msgid ""
 "Настоятельно рекомендуется сохранять blend-файлы в директории "
 "``blender/имя_проекта``. Там же должны находиться вспомогательные файлы, не "
@@ -77,7 +73,7 @@ msgstr ""
 "for loading in your app (for example, references), should be located there "
 "as well."
 
-#: ../workflow.rst:33
+#: ../workflow.rst:32
 msgid ""
 "Изображения и медиа-файлы должны быть внешними и находиться в директории "
 "``deploy/assets/имя_проекта``."
@@ -85,7 +81,7 @@ msgstr ""
 "Images and media files should be external and located in the "
 "``deploy/assets/project_name`` directory."
 
-#: ../workflow.rst:34
+#: ../workflow.rst:33
 msgid ""
 "Файл, из которого будет осуществляться экспорт, должен содержать только "
 "необходимые в разрабатываемом приложении ресурсы (объекты, материалы, "
@@ -94,7 +90,7 @@ msgstr ""
 "Files from which you export should contain resources which are actually "
 "required in your application (objects, materials, textures, animation etc)."
 
-#: ../workflow.rst:35
+#: ../workflow.rst:34
 msgid ""
 "Составные части сцен должны иметь отличающие названия. Они не должны "
 "называться \"Cube.001\", \"Material\", \"Armature\"."
@@ -102,7 +98,7 @@ msgstr ""
 "Scene components should have distinct names. They should not be named "
 "\"Cube.001\", \"Material\" or \"Armature\"."
 
-#: ../workflow.rst:36
+#: ../workflow.rst:35
 msgid ""
 "Рекомендуется практиковать добавление по ссылке (linking) компонентов из "
 "других файлов (библиотек)."
@@ -110,15 +106,15 @@ msgstr ""
 "We recommend you to practice linking components from other files "
 "(libraries)."
 
-#: ../workflow.rst:39
+#: ../workflow.rst:38
 msgid "экспорт"
 msgstr "export"
 
-#: ../workflow.rst:44
+#: ../workflow.rst:43
 msgid "Экспорт сцен"
 msgstr "Exporting Scenes"
 
-#: ../workflow.rst:46
+#: ../workflow.rst:45
 msgid ""
 "Для загрузки сцен, созданных с помощью пакета Blender, в движок, необходимо "
 "перевести их в формат, пригодный для чтения браузером. На данный момент "
@@ -136,18 +132,18 @@ msgstr ""
 "extension (which contains geometry and animation data) and to external "
 "resources (textures, audio and video files)."
 
-#: ../workflow.rst:48
+#: ../workflow.rst:47
 msgid ""
 "Файлы ``.json`` и ``.bin`` создаются при экспорте, файлы текстур и медиа-"
 "файлы, как правило, должны быть размещены вручную. Внедренные в "
 "``.blend``-файл ресурсы автоматически размещаются рядом с экспортированными "
 "файлами."
 msgstr ""
-"While the ``.json`` and ``.bin`` files are created upon export, "
-"textures and media files are normally placed by hand. Resources embedded in "
-"``.blend`` files are automatically placed near the exported scene."
+"While the ``.json`` and ``.bin`` files are created upon export, textures and"
+" media files are normally placed by hand. Resources embedded in ``.blend`` "
+"files are automatically placed near the exported scene."
 
-#: ../workflow.rst:50
+#: ../workflow.rst:49
 msgid ""
 "Экспорт производится выбором в меню ``File > Export`` опции ``Blend4Web "
 "(.json)``. Быстрый доступ - поиск по ``b4w export`` (горячая клавиша "
@@ -157,16 +153,15 @@ msgstr ""
 "the ``File > Export`` menu. For quick access, search for ``b4w export`` (hot"
 " key ``SPACE``)."
 
-#: ../workflow.rst:52
+#: ../workflow.rst:51
 msgid ""
 "Экспортные файлы рекомендуется размещать в директории, предназначенной для "
 "развертывания приложения, например ``deploy/assets/имя_проекта``."
 msgstr ""
-"It is recommended to export your scenes in the directory "
-"intended for deploying applications, for example "
-"``deploy/assets/project_name``."
+"It is recommended to export your scenes in the directory intended for "
+"deploying applications, for example ``deploy/assets/project_name``."
 
-#: ../workflow.rst:54
+#: ../workflow.rst:53
 msgid ""
 "Необходимо использовать относительные пути для внешних ресурсов (как "
 "правило, это происходит по умолчанию). В случаях, когда это не так, "
@@ -181,7 +176,7 @@ msgstr ""
 "relative ones may result in errors upon loading ``.blend`` and ``.json`` "
 "files on other computers."
 
-#: ../workflow.rst:56
+#: ../workflow.rst:55
 msgid ""
 "В момент экспорта происходит проверка сцены на предмет использования не "
 "поддерживаемых движком возможностей Blender'a. В таких случаях генерируется "
@@ -193,7 +188,7 @@ msgstr ""
 "export errors is specified in the :ref:`corresponding section "
 "<export_errors>`."
 
-#: ../workflow.rst:58
+#: ../workflow.rst:57
 msgid ""
 "Опции экспорта подробно описаны в :ref:`соответствующем разделе "
 "<export_opts>`."
@@ -201,30 +196,19 @@ msgstr ""
 "Export options are described in detail in the :ref:`corresponding section "
 "<export_opts>`."
 
-#: ../workflow.rst:61
+#: ../workflow.rst:60
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../workflow.rst:61
+#: ../workflow.rst:60
 msgid "добавление сцен"
 msgstr "adding scenes"
 
-#: ../workflow.rst:66
+#: ../workflow.rst:65
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
-#: ../workflow.rst:68
-msgid ""
-"При использовании :ref:`локального сервера разработки "
-"<local_development_server>` и опции экспорта :ref:`Run in Viewer "
-"<run_in_viewer>` сцены показываются в просмотрщике сцен сразу после "
-"экспорта."
-msgstr ""
-"When using the :ref:`local development server <local_development_server>` "
-"and the :ref:`Run in Viewer <run_in_viewer>` export option, scenes are "
-"displayed in the Scene Viewer immediately after the export."
-
-#: ../workflow.rst:70
+#: ../workflow.rst:71
 msgid ""
 "При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, "
 "нужно вручную добавить запись в текстовой файл "
@@ -236,17 +220,17 @@ msgstr ""
 "text file. This file is opened automatically in Blender if you are using "
 "Blend4Web SDK."
 
-#: ../workflow.rst:72
+#: ../workflow.rst:73
 msgid "Для редактирования файла откройте \"Text Editor\":"
 msgstr "Use the \"Text Editor\" to modify it:"
 
-#: ../workflow.rst:79
+#: ../workflow.rst:80
 msgid ""
 "В появившемся окне вы сможете выбрать файл ``assets.json`` и отредактировать"
 " его:"
 msgstr "Then select the ``assets.json`` file in the window to edit it:"
 
-#: ../workflow.rst:86
+#: ../workflow.rst:87
 msgid ""
 "Для добавления новой сцены нужно знать категорию, в которой она должна "
 "отображаться. Категория обычно соответствует названию проекта и имени "
@@ -256,11 +240,11 @@ msgstr ""
 "displayed. The category normally corresponds to the project name and to the "
 "name of the directory where the corresponding files are stored."
 
-#: ../workflow.rst:90
+#: ../workflow.rst:91
 msgid "Пример"
 msgstr "Example"
 
-#: ../workflow.rst:92
+#: ../workflow.rst:93
 msgid ""
 "Ниже приведена примерная часть файла ``assets.json``, в которой находятся "
 "два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом "
@@ -269,7 +253,7 @@ msgstr ""
 "For example below you can see a part of ``assets.json``. In this file there "
 "are two projects - \"Capri\" and \"Fridge\" each with corresponding scenes::"
 
-#: ../workflow.rst:121
+#: ../workflow.rst:122
 msgid ""
 "Добавление можно осуществить копированием и вставкой описания похожей сцены "
 "в нужной категории и последующим редактированием ее названия и пути к "
@@ -278,7 +262,7 @@ msgstr ""
 "To add a new scene you can copy and paste a similar scene's description to "
 "the required category and then edit its name and path to the exported file."
 
-#: ../workflow.rst:123
+#: ../workflow.rst:124
 msgid ""
 "В случае успешного добавления сцена должна появиться в списке сцен "
 "просмотрщика в нужной категории."
@@ -286,11 +270,11 @@ msgstr ""
 "A successfully added scene should appear in the scenes' list of the viewer  "
 "in the required category."
 
-#: ../workflow.rst:130
+#: ../workflow.rst:131
 msgid "Разработка приложения"
 msgstr "Application Development"
 
-#: ../workflow.rst:132
+#: ../workflow.rst:133
 msgid ""
 "На этой стадии создаётся приложение, в котором на языке JavaScript пишется "
 "логика по загрузке сцены и взаимодействию с ней пользователя. Документация "
@@ -300,3 +284,32 @@ msgstr ""
 "At this stage an application is created. Logic for scene loading and user "
 "interaction is written using JavaScript. The application developer notes are"
 " given in the :ref:`corresponding section <developers>`."
+
+#: ../workflow.rst:19
+msgid "Создание целевого веб-приложения."
+msgstr "Creating the target application."
+
+#: ../workflow.rst:67
+msgid ""
+"При использовании :ref:`локального сервера разработки "
+"<local_development_server>` возможно сделать предварительный просмотр сцены "
+"используя кнопку ``Fast Preview``, расположенную на панели "
+"``Scene->Development Server`` в Blender. В этом случае будет произведён "
+"автоматический экспорт сцены во временное хранилище с последующей загрузкой "
+"в просмотрщике."
+msgstr ""
+"When using the :ref:`local development server <local_development_server>` "
+"it's possible to preview current scene using ``Fast Preview`` button, located "
+"on the ``Scene->Development Server`` panel in Blender. In this case "
+"the scene will be exported inside some temporary storage and loaded in "
+"the Viewer app."
+
+#: ../workflow.rst:69
+msgid ""
+"Другой способ это использовать опцию экспорта сцены :ref:`Run in Viewer "
+"<run_in_viewer>`. В этом случая сцена показывается в просмотрщике сразу "
+"после экспорта."
+msgstr ""
+"The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
+"option. In this case the scene will be displayed in the Viewer app "
+"immediately after the export."

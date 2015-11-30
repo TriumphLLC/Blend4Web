@@ -139,7 +139,6 @@ exports.update_object = function(bpy_obj, obj) {
     obj.bpy_origin = true;
 
     prepare_default_actions(bpy_obj, obj);
-
     bpy_obj._is_dynamic = obj.is_dynamic = calc_is_dynamic(bpy_obj, obj);
     bpy_obj._is_updated = true;
 
@@ -236,37 +235,6 @@ exports.update_object = function(bpy_obj, obj) {
 
         prepare_vertex_anim(bpy_obj, obj);
         prepare_shape_keys(bpy_obj, obj);
-
-        // apply pose if any
-        var bpy_armobj = m_anim.get_bpy_armobj(bpy_obj);
-        if (bpy_armobj) {
-
-            var armobj = bpy_armobj._object;
-            var amr_pose_data = armobj.render.pose_data;
-
-            prepare_skinning_info(bpy_obj, obj, armobj);
-            var pose_data = m_anim.extract_skinned_pose_data(
-                                        amr_pose_data.trans,
-                                        amr_pose_data.quats,
-                                        render.bone_skinning_info);
-
-            if (bpy_armobj["b4w_animation_mixing"]) {
-                render.quats_before = new Float32Array(pose_data.quats);
-                render.quats_after  = new Float32Array(pose_data.quats);
-                render.trans_before = new Float32Array(pose_data.trans);
-                render.trans_after  = new Float32Array(pose_data.trans);
-            } else {
-                render.quats_before = pose_data.quats;
-                render.quats_after  = pose_data.quats;
-                render.trans_before = pose_data.trans;
-                render.trans_after  = pose_data.trans;
-            }
-
-            render.arm_rel_trans = new Float32Array(4);
-            render.arm_rel_quat = m_quat.create();
-            render.pose_data = pose_data;
-            render.frame_factor = 0;
-        }
 
         prepare_nodemats_containers(bpy_obj, obj);
 
@@ -376,10 +344,6 @@ exports.update_object_relations = function(bpy_obj, obj) {
 
     if (obj.parent) {
 
-        var trans = render.trans;
-        var quat = render.quat;
-        var scale = render.scale;
-
         // disable object physics on collision compound children 
         // they are just additional shapes for top level parent
         if (!obj.parent_is_dupli &&
@@ -389,19 +353,19 @@ exports.update_object_relations = function(bpy_obj, obj) {
 
         if (has_dynamic_physics(obj)) {
             if (obj.parent_is_dupli)
-                var offset = m_tsr.create_sep(trans, scale, quat);
+                var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
             else
-                var offset = render.tsr;
-            m_tsr.multiply(obj.parent.render.tsr, offset, render.tsr);
-            m_trans.set_translation(obj, m_tsr.get_trans_view(render.tsr));
-            m_trans.set_scale(obj, m_tsr.get_scale(render.tsr));
-            m_trans.set_rotation(obj, m_tsr.get_quat_view(render.tsr));
+                var offset = render.world_tsr;
+            m_tsr.multiply(obj.parent.render.world_tsr, offset, render.world_tsr);
+            m_trans.set_translation(obj, m_tsr.get_trans_view(render.world_tsr));
+            m_trans.set_scale(obj, m_tsr.get_scale(render.world_tsr));
+            m_trans.set_rotation(obj, m_tsr.get_quat_view(render.world_tsr));
         } else if (obj.parent_is_dupli || !obj.parent_bone) {
             // get offset from render before child-of constraint being applied
-            var offset = m_tsr.create_sep(trans, scale, quat);
+            var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
             m_cons.append_child_of(obj, obj.parent, offset);
         } else {
-            var offset = m_tsr.create_sep(trans, scale, quat);
+            var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
             m_cons.append_child_of_bone(obj, obj.parent, obj.parent_bone,
                     offset);
         }
@@ -425,8 +389,40 @@ exports.update_object_relations = function(bpy_obj, obj) {
         }
     }
 
-    if (obj.type == "MESH" && render.reflective)
-        attach_reflection_data(bpy_obj, obj);
+    if (obj.type == "MESH")
+
+        // apply pose if any
+        var bpy_armobj = m_anim.get_bpy_armobj(bpy_obj);
+        if (bpy_armobj) {
+
+            var armobj = bpy_armobj._object;
+            var amr_pose_data = armobj.render.pose_data;
+
+            prepare_skinning_info(bpy_obj, obj, armobj);
+            var pose_data = m_anim.extract_skinned_pose_data(
+                                        amr_pose_data.trans,
+                                        amr_pose_data.quats,
+                                        render.bone_skinning_info);
+
+            if (bpy_armobj["b4w_animation_mixing"]) {
+                render.quats_before = new Float32Array(pose_data.quats);
+                render.quats_after  = new Float32Array(pose_data.quats);
+                render.trans_before = new Float32Array(pose_data.trans);
+                render.trans_after  = new Float32Array(pose_data.trans);
+            } else {
+                render.quats_before = pose_data.quats;
+                render.quats_after  = pose_data.quats;
+                render.trans_before = pose_data.trans;
+                render.trans_after  = pose_data.trans;
+            }
+
+            render.arm_rel_trans = new Float32Array(4);
+            render.arm_rel_quat = m_quat.create();
+            render.pose_data = pose_data;
+            render.frame_factor = 0;
+        }
+        if (render.reflective)
+            attach_reflection_data(bpy_obj, obj);
 }
 
 function has_dynamic_physics(obj) {
@@ -587,8 +583,8 @@ function calc_empty_is_dynamic(bpy_obj, obj) {
     var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj, obj);
     var has_nla = m_nla.bpy_obj_has_nla(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
-
-    return is_animated || has_nla || has_do_not_batch;
+    var anchor = Boolean(bpy_obj["b4w_anchor"]);
+    return is_animated || has_nla || has_do_not_batch || anchor;
 }
 
 function calc_mesh_is_dynamic(bpy_obj, obj) {

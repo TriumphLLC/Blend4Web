@@ -23,7 +23,12 @@ exports.defineTags = function(dictionary) {
 exports.handlers = {
     jsdocCommentFound: function(e) {
         if (thisModule) for (var local in registry) {
-            e.comment = e.comment.replace('{'+local, '{'+thisModule+'~'+local);
+
+            // B4W: commented
+            // e.comment = e.comment.replace("{" + local, "{" + thisModule+'~'+local);
+
+            var re = new RegExp(local, "g");
+            e.comment = e.comment.replace(re, thisModule+'~'+local);
         }
     },
     

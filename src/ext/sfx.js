@@ -93,7 +93,7 @@ exports.is_playing = function(obj) {
  * @deprecated Use {@link module:sfx.play|sfx.play} or {@link module:sfx.play_def|sfx.play_def} instead
  */
 exports.speaker_play = function(obj, cyclic, duration, playrate) {
-    m_print.error("speaker_play() deprecated, use play() or play_def() instead");
+    m_print.error_once("speaker_play() deprecated, use play() or play_def() instead");
     m_sfx.cyclic(obj, cyclic);
     if (playrate)
         m_sfx.playrate(obj, playrate);
@@ -107,7 +107,7 @@ exports.speaker_play = function(obj, cyclic, duration, playrate) {
  * @deprecated Use {@link module:sfx.stop|sfx.stop} instead
  */
 exports.speaker_stop = function(obj) {
-    m_print.error("speaker_stop() deprecated, use stop() instead");
+    m_print.error_deprecated("speaker_stop", "stop");
     m_sfx.stop(obj);
 }
 
@@ -144,7 +144,7 @@ exports.resume = function(obj) {
  * @deprecated Use {@link module:sfx.playrate|sfx.playrate} instead
  */
 exports.speaker_playback_rate = function(obj, playrate) {
-    m_print.error("speaker_playback_rate() deprecated, use playrate() instead");
+    m_print.error_deprecated("speaker_playback_rate", "playrate");
     m_sfx.playrate(obj, playrate);
 }
 /**
@@ -275,7 +275,7 @@ exports.get_speaker_objects = function() {
  * @deprecated Use {@link module:sfx.get_speaker_objects|sfx.get_speaker_objects} instead
  */
 exports.get_speakers = function() {
-    m_print.error("get_speakers() deprecated, use get_speaker_objects() instead");
+    m_print.error_deprecated("get_speakers", "get_speaker_objects");
     return exports.get_speaker_objects();
 }
 

@@ -78,8 +78,8 @@ slot_type_enum = [
         ("REGSTORE", _("Variable Store"), _("Store a value to a variable"), 2),
         ("CONDJUMP", _("Conditional Jump"), _("Conditional jump"), 3),
         ("JUMP", _("Jump"), _("Jump to the slot by label"), 4),
-        ("SELECT_PLAY", _("Select & Play Timeline"), _("Select an object then play timeline"), 5),
-        ("SELECT", _("Select"), _("Select an object"), 6),
+        ("SELECT_PLAY", _("Select & Play Timeline (Deprecated)"), _("Select an object then play timeline"), 5),
+        ("SELECT", _("Select (Derecated)"), _("Select an object"), 6),
         ("PLAY", _("Play Timeline"), _("Play NLA animation"), 7),
         ("ENTRYPOINT", _("Entry Point"), _("Entry Point"), 8),
         ("PLAY_ANIM", _("Play Animation"), _("Play Object Animation"), 13),
@@ -89,11 +89,14 @@ slot_type_enum = [
         ("DELAY", _("Delay"), _("Set Delay Before Next Node Processing"), 17),
         ("APPLY_SHAPE_KEY", _("Apply Shape Key"), _("Set the value of the shape key"), 18),
         ("OUTLINE", _("Outline"), _("Play or stop outline animation"), 19),
-        ("SELECT_PLAY_ANIM", _("Select & Play Animation"), _("Select an object then play Object Animation"), 20),
+        ("SELECT_PLAY_ANIM", _("Select & Play Animation (Deprecated)"), _("Select an object then play Object Animation"), 20),
         ("MOVE_CAMERA", _("Move Camera"), _("Set camera Translation and pivot"), 21),
         ("SET_CAMERA_MOVE_STYLE", _("Set Camera Move Style"), _("Set camera move style"), 22),
         ("SPEAKER_PLAY", _("Play Sound"), _("Play Sound"), 23),
         ("SWITCH_SELECT", _("Switch Select"), _("Switch select"), 24),
+        ("STOP_ANIM", _("Stop Animation"), _("Stop Object Animation"), 25),
+        ("SPEAKER_STOP", _("Stop Sound"), _("Stop Sound"), 26),
+        ("STOP_TIMELINE", _("Stop Timeline"), _("Stop Timeline"), 27),
     ]
 
 operation_type_enum = [
@@ -194,7 +197,8 @@ class B4W_StringWrap(bpy.types.PropertyGroup):
 def check_node(node):
     err_msgs = node.error_messages.prop_err
     err_msgs.clear()
-    if node.type in ["SELECT", "SELECT_PLAY", "SELECT_PLAY_ANIM", "SHOW", "HIDE", "PLAY_ANIM", "APPLY_SHAPE_KEY", "OUTLINE"]:
+    if node.type in ["SELECT", "SELECT_PLAY", "SELECT_PLAY_ANIM", "SHOW", "HIDE",
+                     "PLAY_ANIM", "APPLY_SHAPE_KEY", "OUTLINE", "STOP_ANIM"]:
         obj_ids = ["id0"]
         if node.type == "SELECT_PLAY_ANIM":
             obj_ids.append("id1")
@@ -207,10 +211,6 @@ def check_node(node):
             else:
                 # case when objects_paths is not filled yet (type_init not invoked yet)
                 node.add_error_message(err_msgs, _("Bad object field!"))
-
-    if node.type in ["PLAY", "SELECT_PLAY"]:
-        if node.param_marker_start == "":
-            node.add_error_message(err_msgs, _("Start marker field is empty!"))
 
     if node.type == "PAGEPARAM":
         if node.param_name == "":
@@ -320,7 +320,7 @@ def check_node(node):
             if not ob:
                 node.add_error_message(err_msgs, "Target field is not correct!")
 
-    if node.type in ["SPEAKER_PLAY"]:
+    if node.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
         id = "id0"
         if id in node.objects_paths:
             item = node.objects_paths[id]
@@ -354,7 +354,7 @@ def check_node(node):
 
 def find_node(node_name, tree_name, find_item, type, node_types =
 ["INHERIT_MAT", "SET_SHADER_NODE_PARAM", "HIDE", "SHOW", "SELECT_PLAY", "PLAY_ANIM", "SELECT_PLAY_ANIM",
- "MOVE_CAMERA", "SPEAKER_PLAY", "SWITCH_SELECT"]):
+ "MOVE_CAMERA", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"]):
     node_found = None
     ng = bpy.data.node_groups
     if tree_name in bpy.data.node_groups:
@@ -439,6 +439,9 @@ class B4W_LogicNodeNamedMaterialNameWrap(bpy.types.PropertyGroup):
 
 class B4W_LogicNodeFloatWrap(bpy.types.PropertyGroup):
     float = bpy.props.FloatProperty(name="float")
+
+class B4W_LogicNodeDurationWrap(bpy.types.PropertyGroup):
+    float = bpy.props.FloatProperty(name="float", subtype = "TIME", unit="TIME", min = 0)
 
 class B4W_LogicNodeBoolWrap(bpy.types.PropertyGroup):
     bool = bpy.props.BoolProperty(name="bool")
@@ -641,6 +644,7 @@ class B4W_LogicNodeTree(NodeTree):
             ret["common_usage_names"]["outline_operation"] = node.outline_operation
             ret["common_usage_names"]["camera_move_style"] = node.param_camera_move_style
             ret["common_usage_names"]["request_type"] = node.param_request_type
+            ret["common_usage_names"]["param_anim_behavior"] = node.param_anim_behavior
             ret["bools"] = {}
             for o in node.bools:
                 ret["bools"][o.name] = o.bool
@@ -653,6 +657,8 @@ class B4W_LogicNodeTree(NodeTree):
 
             ret["floats"] = {}
             for f in node.floats:
+                ret["floats"][f.name] = f.float
+            for f in node.durations:
                 ret["floats"][f.name] = f.float
 
             if ret["type"] == "SWITCH_SELECT":
@@ -708,25 +714,6 @@ class B4W_LogicNodeTree(NodeTree):
                         s["link_jump"] = play_anim["label"]
                         del s["objects_paths"]["id1"]
                         script.append(play_anim)
-                    if s["type"] == "SWITCH_SELECT":
-                        sel = copy.deepcopy(s)
-                        inp = sel["link_order"]
-                        for i in reversed(range(0, len(s["objects_paths"]))):
-                            if i == 0:
-                                s["type"] = "SELECT"
-                                s["link_jump"] = s["links"]["id"+str(i)]
-                                s["link_order"] = inp
-                                s["objects_paths"] = {"id0": s["objects_paths"]["id"+str(i)]}
-                                continue
-                            selcp = copy.deepcopy(sel)
-                            selcp["type"] = "SELECT"
-                            selcp["link_jump"] = s["links"]["id"+str(i)]
-                            selcp["link_order"] = inp
-                            selcp["label"] = "SLOT_EX_" + str(ind_added)
-                            selcp["objects_paths"] = {"id0": selcp["objects_paths"]["id"+str(i)]}
-                            inp = selcp["label"]
-                            script.append(selcp)
-                            ind_added+=1
 
         return (scripts, self["errors"])
 
@@ -970,7 +957,8 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         # update vars always when new node was added
 
         if self.type in ["SELECT_PLAY", "PLAY", "HIDE", "SHOW", "SELECT", "PLAY_ANIM", "DELAY",
-                         "MOVE_CAMERA", "SPEAKER_PLAY", "SWITCH_SELECT"]:
+                         "MOVE_CAMERA", "SPEAKER_PLAY", "SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
+                         "STOP_TIMELINE"]:
             self.width = 190
         if self.type in ["PAGE_PARAM"]:
             self.width = 150
@@ -1068,15 +1056,15 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
                 self.variables_names[-1].name = "id%s"%i
 
         if self.type == "DELAY":
-            self.floats.add()
-            self.floats[-1].name = "dl"
+            self.durations.add()
+            self.durations[-1].name = "dl"
             self.bools.add()
             self.bools[-1].name = "dl"
             self.variables_names.add()
             self.variables_names[-1].name = "dl"
 
         if self.type in ["SELECT_PLAY", "PLAY_ANIM","SELECT_PLAY_ANIM", "SELECT", "SHOW",
-                         "HIDE", "APPLY_SHAPE_KEY", "OUTLINE"]:
+                         "HIDE", "APPLY_SHAPE_KEY", "OUTLINE", "STOP_ANIM"]:
             name = "id0"
             self.objects_paths.add()
             item = self.objects_paths[-1]
@@ -1084,9 +1072,11 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             item.node_name = self.name
             item.name = name
 
-        if self.type in ["PLAY_ANIM", "SELECT_PLAY_ANIM", "SELECT"]:
+        if self.type in ["PLAY_ANIM", "SELECT_PLAY_ANIM", "SELECT", "SPEAKER_PLAY", "PLAY"]:
             self.bools.add()
             self.bools[-1].name = "not_wait"
+            if self.type == "SPEAKER_PLAY":
+                self.bools[-1].bool = True
 
         if self.type == "SELECT_PLAY_ANIM":
             name = "id1"
@@ -1126,14 +1116,24 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
                 item.tree_name = self.id_data.name
                 item.node_name = self.name
                 item.name = name
+            self.durations.add()
+            self.durations[-1].name = "dur"
+            self.bools.add()
+            self.bools[-1].name = "dur"
+            self.variables_names.add()
+            self.variables_names[-1].name = "dur"
 
-        if self.type in ["SPEAKER_PLAY"]:
+        if self.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
             name = "id0"
             self.objects_paths.add()
             item = self.objects_paths[-1]
             item.tree_name = self.id_data.name
             item.node_name = self.name
             item.name = name
+
+        if self.type in ["STOP_ANIM", "STOP_TIMELINE"]:
+            self.bools.add()
+            self.bools[-1].name = "rst"
 
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
 
@@ -1224,6 +1224,12 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         default = "TARGET",
         items = properties.b4w_camera_move_style_items,
     )
+    param_anim_behavior = bpy.props.EnumProperty(
+        name = _("B4W: animation behavior"),
+        description = _("The behavior of finished animation: stop, repeat or reset"),
+        default = "FINISH_STOP",
+        items = properties.b4w_anim_behavior_items
+    )
     param_request_type = bpy.props.EnumProperty(
         name = _("Method"),
         description = _("Request method"),
@@ -1295,6 +1301,12 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         name = _("B4W: float array"),
         description = _("Contain floats"),
         type = B4W_LogicNodeFloatWrap
+    )
+
+    durations = bpy.props.CollectionProperty(
+        name = _("B4W: duration array"),
+        description = _("Contain durations"),
+        type = B4W_LogicNodeDurationWrap
     )
 
     bools = bpy.props.CollectionProperty(
@@ -1479,7 +1491,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
     def get_selector_list_len(self, type, index):
         if type == "ob":
             return len(self.objects_paths["id%s"%index].path_arr)
-        if type == "nt":
+        if type == "nd":
             return len(self.nodes_paths["id%s"%index].path_arr)
     def get_child_src(self, item, index, o, type = "ob"):
         if type == "ob":
@@ -1548,6 +1560,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         if self.type == "PLAY":
             self.draw_start_end_markers(col)
+            col.prop(slot.bools["not_wait"], "bool", text="Do Not Wait")
 
         elif slot.type == "SELECT":
             self.draw_selector(col, 0, "Object:", None, "ob")
@@ -1555,10 +1568,18 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         elif slot.type == "PLAY_ANIM":
             self.draw_selector(col, 0, "Object:", None, "ob")
+            col.prop(slot, "param_anim_name")
             row = col.row()
-            row.prop(slot, "param_anim_name")
-            row = col.row()
-            row.prop(slot.bools["not_wait"], "bool", text=_("Do Not Wait"))
+            row.label("Behavior:")
+            row.prop(slot, "param_anim_behavior", text="")
+            col.prop(slot.bools["not_wait"], "bool", text=_("Do Not Wait"))
+
+        elif slot.type == "STOP_ANIM":
+            self.draw_selector(col, 0, "Object:", None, "ob")
+            col.prop(self.bools["rst"], "bool", text="Set First Frame")
+
+        elif slot.type == "STOP_TIMELINE":
+            col.prop(self.bools["rst"], "bool", text="Set First Frame")
 
         elif slot.type == "SELECT_PLAY_ANIM":
             self.draw_selector(col, 0, _("Select Object:"), None, "ob")
@@ -1771,7 +1792,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             col.label(_("Value:"))
             row = col.row(align=True)
             if not self.bools["dl"].bool:
-                row.prop(self.floats["dl"], "float", text = "")
+                row.prop(self.durations["dl"], "float", text = "")
             else:
                 if "entryp" in self:
                     row.prop_search(self.variables_names["dl"], "variable",
@@ -1802,13 +1823,27 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.draw_selector(col, 0, _("Camera:"), None, "ob", icon="OUTLINER_OB_CAMERA")
             self.draw_selector(col, 1, _("Location:"), None, "ob")
             self.draw_selector(col, 2, _("Target:"), None, "ob")
+            col.label(_("Duration:"))
+            row = col.row(align=True)
+            if not self.bools["dur"].bool:
+                row.prop(self.durations["dur"], "float", text = "")
+            else:
+                if "entryp" in self:
+                    row.prop_search(self.variables_names["dur"], "variable",
+                                    self.id_data.nodes[self["entryp"]], "variables", text = "")
+                else:
+                    row.label(no_var_source_msg)
+
+            row.prop(self.bools["dur"], "bool", text = _("Variable"))
 
         elif slot.type == "SET_CAMERA_MOVE_STYLE":
             col.label(_("Camera Style:"))
             col.prop(self, "param_camera_move_style", text="")
 
-        elif slot.type == "SPEAKER_PLAY":
+        elif slot.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
             self.draw_selector(col, 0, _("Speaker:"), None, "ob", icon = "OUTLINER_OB_SPEAKER")
+            if slot.type == "SPEAKER_PLAY":
+                col.prop(slot.bools["not_wait"], "bool", text="Do Not Wait")
 
         elif slot.type == "SWITCH_SELECT":
             for id in self.objects_paths:
@@ -1831,7 +1866,9 @@ node_categories = [
     B4W_LogicNodeCategory("Logic Nodes", _("Logic Nodes"), items=[
         NodeItem("B4W_logic_node", label=_("Entry Point"),settings={"type": repr("ENTRYPOINT")}),
         NodeItem("B4W_logic_node", label=_("Play Timeline"),settings={"type": repr("PLAY")}),
+        NodeItem("B4W_logic_node", label=_("Stop Timeline"),settings={"type": repr("STOP_TIMELINE")}),
         NodeItem("B4W_logic_node", label=_("Play Animation"),settings={"type": repr("PLAY_ANIM")}),
+        NodeItem("B4W_logic_node", label=_("Stop Animation"),settings={"type": repr("STOP_ANIM")}),
         NodeItem("B4W_logic_node", label=_("Page Param"),settings={"type": repr("PAGEPARAM")}),
         NodeItem("B4W_logic_node", label=_("Hide Object"),settings={"type": repr("HIDE")}),
         NodeItem("B4W_logic_node", label=_("Show Object"),settings={"type": repr("SHOW")}),
@@ -1839,9 +1876,10 @@ node_categories = [
         NodeItem("B4W_logic_node", label=_("Math Operation"),settings={"type": repr("MATH")}),
         NodeItem("B4W_logic_node", label=_("Variable Store"),settings={"type": repr("REGSTORE")}),
         NodeItem("B4W_logic_node", label=_("Conditional Jump"),settings={"type": repr("CONDJUMP")}),
-        NodeItem("B4W_logic_node", label=_("Select & Play Timeline"),settings={"type": repr("SELECT_PLAY")}),
-        NodeItem("B4W_logic_node", label=_("Select & Play Animation"),settings={"type": repr("SELECT_PLAY_ANIM")}),
-        NodeItem("B4W_logic_node", label=_("Select"),settings={"type": repr("SELECT")}),
+        NodeItem("B4W_logic_node", label=_("Switch Select"),settings={"type": repr("SWITCH_SELECT")}),
+        NodeItem("B4W_logic_node", label=_("Select & Play Timeline (Deprecated)"),settings={"type": repr("SELECT_PLAY")}),
+        NodeItem("B4W_logic_node", label=_("Select & Play Animation (Deprecated)"),settings={"type": repr("SELECT_PLAY_ANIM")}),
+        NodeItem("B4W_logic_node", label=_("Select (Deprecated)"),settings={"type": repr("SELECT")}),
         NodeItem("B4W_logic_node", label=_("Send Request"),settings={"type": repr("SEND_REQ")}),
         NodeItem("B4W_logic_node", label=_("Inherit Material"),settings={"type": repr("INHERIT_MAT")}),
         NodeItem("B4W_logic_node", label=_("Set Shader Node Param"),settings={"type": repr("SET_SHADER_NODE_PARAM")}),
@@ -1852,7 +1890,7 @@ node_categories = [
         # disabled until there is a collision with app.js
         # NodeItem("B4W_logic_node", label=_("Set Camera Move Style"),settings={"type": repr("SET_CAMERA_MOVE_STYLE")}),
         NodeItem("B4W_logic_node", label=_("Play Sound"),settings={"type": repr("SPEAKER_PLAY")}),
-        NodeItem("B4W_logic_node", label=_("Switch Select"),settings={"type": repr("SWITCH_SELECT")})
+        NodeItem("B4W_logic_node", label=_("Stop Sound"),settings={"type": repr("SPEAKER_STOP")}),
         ]),
     B4W_LogicNodeCategory("Layout", _("Layout"), items=[
         NodeItem("NodeFrame"),
@@ -2339,6 +2377,7 @@ def register():
     bpy.utils.register_class(B4W_LogicNodeNamedMaterialNameWrap)
     bpy.utils.register_class(B4W_LogicNodeBoolWrap)
     bpy.utils.register_class(B4W_LogicNodeFloatWrap)
+    bpy.utils.register_class(B4W_LogicNodeDurationWrap)
     bpy.utils.register_class(B4W_LogicNodeVariableWrap)
     bpy.utils.register_class(B4W_ObjectPathWrap)
     bpy.utils.register_class(B4W_NodePathWrap)
@@ -2365,6 +2404,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_LogicNodeNamedMaterialNameWrap)
     bpy.utils.unregister_class(B4W_LogicNodeBoolWrap)
     bpy.utils.unregister_class(B4W_LogicNodeFloatWrap)
+    bpy.utils.unregister_class(B4W_LogicNodeDurationWrap)
     bpy.utils.unregister_class(B4W_LogicNodeVariableWrap)
     bpy.utils.unregister_class(B4W_LogicNode)
     bpy.utils.unregister_class(B4W_LogicNodeOrderSocket)

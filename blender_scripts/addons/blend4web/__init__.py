@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 10, 0),
+    "version": (15, 11, 0),
     "blender": (2, 76, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -133,6 +133,11 @@ def fix_cam_limits_storage(arg):
             cam.b4w_rotation_up_limit = cam["b4w_rotation_up_limit_storage"]
             del cam["b4w_rotation_up_limit_storage"]
 
+        if "b4w_use_distance_limits" in cam:
+            cam.b4w_use_target_distance_limits = cam["b4w_use_distance_limits"]
+            cam.b4w_use_zooming = cam["b4w_use_distance_limits"]
+            del cam["b4w_use_distance_limits"]            
+
 # NOTE: for compatibility with old versions
 @bpy.app.handlers.persistent
 def fix_obj_export_props(arg):
@@ -238,6 +243,36 @@ def logic_nodetree_reform(arg):
                         if not "not_wait" in node.bools:
                             node.bools.add()
                             node.bools[-1].name = "not_wait"
+
+                    if node.type == "MOVE_CAMERA":
+                        if not "dur" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "dur"
+                        if not "dur" in node.floats:
+                            node.durations.add()
+                            node.durations[-1].name = "dur"
+                        if not "dur" in node.variables_names:
+                            node.variables_names.add()
+                            node.variables_names[-1].name = "dur"
+
+                    if node.type == "DELAY":
+                        if "dl" in node.floats and not "dl" in node.durations:
+                            node.durations.add()
+                            node.durations[-1].name = "dl"
+                            i = 0
+                            for k in node.floats:
+                                if k.name == "dl":
+                                    break
+                                i += 1
+                            node.durations["dl"].float = node.floats["dl"].float
+                            node.floats.remove(i)
+
+                    if node.type in ["SPEAKER_PLAY", "PLAY"]:
+                        if not "not_wait" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "not_wait"
+                            if node.type == "SPEAKER_PLAY":
+                                node.bools[-1].bool = True
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences

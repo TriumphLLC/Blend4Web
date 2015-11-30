@@ -219,26 +219,11 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
             }
 
             ev.anim_name = textures[i].name;
-
-            texture._nla_tex_event = ev;
             nla.textures.push(texture);
-
-            if (texture.video_file)
-                // avoiding closures in a loop
-                create_oncanplay_handler(texture);
         }
     }
 
     _nla_arr.push(nla);
-}
-
-function create_oncanplay_handler(tex) {
-    tex.video_file.oncanplay = function() {
-        // NOTE: setting new frame for an HTML5 video texture forces it 
-        // to seek at this point which requires some time, so it can be 
-        // updated only on the next frame after this operation.
-        m_tex.update_video_texture(tex);
-    }
 }
 
 function enforce_nla_consistency(nla_events, nla, name) {
@@ -525,105 +510,66 @@ function process_nla_objects(nla, curr_frame, elapsed) {
 function process_nla_video_textures(timeline, nla, nla_frame) {
     for (var i = 0; i < nla.textures.length; i++) {
         var tex = nla.textures[i];
-        var ev = tex._nla_tex_event;
 
         if (!tex.video_file && !tex.seq_video)
             continue;
 
+        var video_frame_native = m_tex.video_get_current_frame(tex);
+        var video_frame_clamped = get_video_frame_clamped(nla_frame, tex);
+        var frame_start = m_tex.video_get_start_frame(tex);
+
         var need_update = false;
-        var video_frame = get_video_frame_clamped(nla_frame, tex);
-        
-        var seq_video_frame = m_tex.video_frame_to_seq_frame(tex, video_frame);
-        // NOTE: insufficient video_frame clamping
-        if (seq_video_frame == tex.seq_movie_length)
-            seq_video_frame--;
+        var need_set_frame = false;
 
         // force update via set_frame() or rewinding the whole nla 
-        if (nla.force_update || nla.rewinded_to_start) {
-            if (tex.video_file)
-                m_tex.set_frame_video(tex.name, video_frame, tex.vtex_data_id);
-            else
-                m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
-            need_update = true;
-        }
+        if (nla.force_update || nla.rewinded_to_start)
+            need_set_frame = true;
 
         if (!nla.is_stopped) {
-            // rewind cyclic video texture
-            if (tex.use_cyclic) {
-                if (tex.video_file) {
-                    if (video_frame == tex.frame_offset) {
-                        m_tex.set_frame_video(tex.name, tex.frame_offset, tex.vtex_data_id);
-                        need_update = true;
-                    }
-                } else {
-                    var seq_frame_offset = m_tex.video_frame_to_seq_frame(tex, tex.frame_offset);
-                    if (seq_video_frame == seq_frame_offset) {
-                        m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
-                        need_update = true;
-                    }
-                }
-            }
-
-            // start/stop acyclic video texture periodically; start cyclic 
-            // video texture upon the nla start
             var need_play = frame_need_play_video(nla_frame, tex);
             var is_played = m_tex.video_is_played(tex);
 
-            var curr_frame = m_tex.video_get_current_frame(tex);
-            if (!is_played) {
-                // if video is stopped on a wrong frame (e.g. dynamically 
-                // loaded textures) set the correct one
-                if (tex.video_file) {
-                    if (video_frame != curr_frame)
-                        m_tex.set_frame_video(tex.name, video_frame, tex.vtex_data_id);
-                } else {
-                    if (seq_video_frame != curr_frame) {
-                        m_tex.set_frame_video(tex.name, seq_video_frame, tex.vtex_data_id);
-                        need_update = true;
-                    }
-                }
-            }
+            // rewind cyclic video texture
+            if (tex.use_cyclic && video_frame_clamped == frame_start)
+                need_set_frame = true;
 
+            // if video is stopped on a wrong frame (e.g. dynamically 
+            // loaded textures) we need to set the correct one 
+            if (!is_played && video_frame_native != video_frame_clamped)
+                need_set_frame = true;
+
+            // play/pause video
             if (need_play && !is_played)
                 m_tex.play_video(tex.name, tex.vtex_data_id);
             else if (need_play && is_played)
                 need_update = true;
             else if (!need_play && is_played) {
-                if (tex.video_file) {
-                    // NOTE: allow to play non-sequential video until it'll reach calced video 
-                    // frame (may be caused by lags)
-                    var native_frame = Math.round(tex.video_file.currentTime * tex.fps);
-                    if (native_frame < video_frame)
-                        need_update = true;
-                    else
-                        m_tex.pause_video(tex.name, tex.vtex_data_id);
-                } else
+                // NOTE: allow to play non-sequential video until it'll 
+                // reach calculated frame (may be caused by lags)
+                if (tex.video_file && video_frame_native < video_frame_clamped)
+                    need_update = true;
+                else
                     m_tex.pause_video(tex.name, tex.vtex_data_id);
             }
         }
 
-        if (m_tex.video_update_is_available(tex) && need_update)
+        if (need_set_frame) {
+            m_tex.set_frame_video(tex.name, video_frame_clamped, tex.vtex_data_id);
+            if (tex.seq_video)
+                tex.seq_last_discrete_mark = m_tex.seq_video_get_discrete_timemark(tex, timeline);
+        } else if (need_update && m_tex.video_update_is_available(tex)) {
             if (tex.video_file)
-                m_tex.update_video_texture(tex);        
+                m_tex.update_video_texture(tex);
             else {
                 var mark = m_tex.seq_video_get_discrete_timemark(tex, timeline);
                 if (mark != tex.seq_last_discrete_mark) {
-                    tex.seq_cur_frame = seq_video_frame;
+                    tex.seq_cur_frame = video_frame_clamped;
                     m_tex.update_seq_video_texture(tex);
                 }
                 tex.seq_last_discrete_mark = mark;
             }
+        }
     }
-}
-
-/**
- * Get a valid video frame which is needed to play on a certain nla frame.
- */
-function get_video_frame_clamped(nla_frame, vtex) {
-    var ev = vtex._nla_tex_event;
-    var video_frame = nla_frame_to_video_frame(nla_frame, vtex);
-    return m_util.clamp(video_frame, vtex.frame_offset, 
-            vtex.frame_offset + m_tex.video_get_duration(vtex) - 1);
 }
 
 /**
@@ -639,9 +585,25 @@ function nla_frame_to_video_frame(nla_frame, vtex) {
     return vtex.frame_offset + frame_delta;
 }
 
-function frame_need_play_video(cf, vtex) {
-    var ev = vtex._nla_tex_event;
+/**
+ * Get a valid video frame which is needed to play on a certain nla frame.
+ */
+function get_video_frame_clamped(nla_frame, vtex) {
+    var video_frame = nla_frame_to_video_frame(nla_frame, vtex);
 
+    var frame_clamped = m_util.clamp(video_frame, vtex.frame_offset, 
+            vtex.frame_offset + m_tex.video_get_duration(vtex) - 1);
+
+    if (vtex.seq_video) {
+        frame_clamped = m_tex.video_frame_to_seq_frame(vtex, frame_clamped);
+        // NOTE: insufficient video_frame clamping
+        if (frame_clamped == vtex.seq_movie_length)
+            frame_clamped--;
+    }
+    return frame_clamped;
+}
+
+function frame_need_play_video(cf, vtex) {
     var frame = nla_frame_to_video_frame(cf, vtex);
     return vtex.frame_offset <= frame && frame <= vtex.frame_offset 
             + m_tex.video_get_duration(vtex);
@@ -938,6 +900,22 @@ exports.set_range = function(start_frame, end_frame) {
         return false;
 }
 
+exports.set_range_end = function(end_frame) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla) {
+        active_scene._nla.range_end = end_frame;
+    } else
+        return false;
+}
+
+exports.set_range_start = function(start_frame) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla) {
+        active_scene._nla.range_start = start_frame;
+    } else
+        return false;
+}
+
 exports.reset_range = reset_range;
 function reset_range() {
     var active_scene = m_scs.get_active();
@@ -961,6 +939,15 @@ exports.clear_callback = function() {
     var active_scene = m_scs.get_active();
     if (active_scene._nla)
         active_scene._nla.user_callback = null;
+}
+
+exports.set_offset_from_range_start = function(timeline) {
+    var active_scene = m_scs.get_active();
+    var nla = active_scene._nla;
+    if (nla) {
+        nla.frame_offset = -(timeline - _start_time) * m_time.get_framerate() + nla.range_start;
+        nla.force_update = true;
+    }
 }
 
 }

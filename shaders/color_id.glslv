@@ -75,12 +75,19 @@ attribute vec2 a_texcoord;
 ============================================================================*/
 
 #if STATIC_BATCH
-const mat4 u_model_matrix = mat4(1.0);
+// NOTE:  mat3(0.0, 0.0, 0.0, --- trans
+//             1.0, --- scale
+//             0.0, 0.0, 0.0, 1.0, --- quat
+//             0.0);
+const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
+                              1.0,
+                              0.0, 0.0, 0.0, 1.0,
+                              0.0);
 #else
-uniform mat4 u_model_matrix;
+uniform mat3 u_model_tsr;
 #endif
 
-uniform mat4 u_view_matrix;
+uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 #if BILLBOARD
 uniform vec3 u_camera_eye;
@@ -164,6 +171,7 @@ varying vec2 v_texcoord;
 
 #include <skin.glslv>
 #include <wind_bending.glslv>
+
 #if NODES && ALPHA
 #include <nodes.glslv>
 #endif
@@ -173,6 +181,7 @@ varying vec2 v_texcoord;
 ============================================================================*/
 
 void main(void) {
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 
     vec3 position = a_position;
 
@@ -217,27 +226,28 @@ void main(void) {
     vec3 center = vec3(0.0);
 #endif
 
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+
 #if BILLBOARD
-    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
 # if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
-            u_view_matrix, u_model_matrix);
+            view_matrix, model_mat);
 # else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
 # endif
 
 # if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, vec_seed);
+            u_jitter_amp, u_jitter_freq, wcen);
 # endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0),
             vec3(0.0), model_matrix);
     world.center = wcen;
 #else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0),
-            vec3(0.0), u_model_matrix);
+            vec3(0.0), model_mat);
 #endif
 
 #if WIND_BEND
@@ -274,7 +284,7 @@ void main(void) {
     v_tangent = vec4(world.tangent, m);
 # endif
 
-    v_pos_view = u_view_matrix * vec4(world.position, 1.0);
+    v_pos_view = view_matrix * vec4(world.position, 1.0);
 
     vec4 pos_clip = u_proj_matrix * v_pos_view;
 
@@ -298,6 +308,6 @@ void main(void) {
     nodes_main();
 #endif // NODES && ALPHA
 
-    gl_Position = u_proj_matrix * u_view_matrix * vec4(world.position, 1.0);
+    gl_Position = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
 }
 

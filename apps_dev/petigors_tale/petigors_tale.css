@@ -1,0 +1,139 @@
+div#control_circle {
+    position: absolute;
+    background-image: url(interface/controls_150.png);
+    width: 150px;
+    height: 150px;
+    visibility:hidden;
+}
+
+div#control_tap {
+    position: absolute;
+    background-image: url(interface/tap_50.png);
+    width: 50px;
+    height: 50px;
+    visibility:hidden;
+}
+
+div#control_jump {
+    position: absolute;
+    right: 0px; bottom: 0px;
+    background-image: url(interface/jump_100.png);
+    margin:0px 10px 10px 0px;
+    width: 100px;
+    height: 100px;
+    visibility:hidden;
+}
+
+div#life_bar {
+    position: absolute;
+    left: 0px; top: 0px;
+    width: 256px;
+    height: 40px;
+    visibility:hidden;
+}
+
+div#life_bar_main {
+    position: absolute;
+    left: 0px; top: 0px;
+    width: 256px;
+    height: 40px;
+    background-image: url(interface/life_bar_main.png);
+}
+
+div#life_bar_green {
+    position: absolute;
+    left: 19px; top: 15px;
+    background-image: url(interface/life_bar_green.png);
+    width: 192px;
+    height: 10px;
+}
+
+div#life_bar_red {
+    position: absolute;
+    right: 45px; top: 15px;
+    background-image: url(interface/life_bar_red.png);
+    width: 0px;
+    height: 10px;
+}
+
+div#life_bar_mid {
+    position: absolute;
+    left: 211px; top: 10px;
+    background-image: url(interface/life_bar_mid.png);
+    width: 4px;
+    height: 20px;
+}
+
+div#life_bar_mid {
+    position: absolute;
+    left: 211px; top: 10px;
+    background-image: url(interface/life_bar_mid.png);
+    width: 4px;
+    height: 20px;
+}
+
+div#canvas3d {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+div#replay {
+    position: absolute;
+    left: 50%; top: 50%;
+    background-image: url(interface/replay.png);
+    width: 256px;
+    height: 256px;
+    margin-left: -128px;
+    margin-top: -128px;
+    visibility:hidden;
+}
+
+div#victory {
+    position: absolute;
+    left: 50%; top: 50%;
+    background-image: url(interface/win.png);
+    width: 256px;
+    height: 256px;
+    margin-left: -128px;
+    margin-top: -128px;
+    visibility:hidden;
+}
+
+div#preloader_bg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #000;
+}
+
+div#prelod_static_path {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -107px;
+    margin-top: -20px;
+    width: 215px;
+    height: 40px;
+    text-align: center;
+    background-image: url(interface/loader_bar_background.svg);
+}
+
+div#prelod_dynamic_path {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 40px;
+    background-image: url(interface/loader_bar_line.svg);
+}
+
+div#prelod_static_path > span {
+    display: inline-block;
+    margin-top: 36px;
+    font-size: 28px;
+    color: #fff;
+    font-family: arial;
+}

@@ -35,7 +35,7 @@ var MAX_INDEX_OF_LETTERS = 300;
 var NUMBER_OF_END_ROW = 12;
 var SPLITTERS = " ,.-+!?";
 
-var _default_cam_eye, _current_cam_dist, _default_cam_target, _default_cam_dist, _default_cam_angles;
+var _default_cam_eye, _current_cam_dist, _default_cam_dist, _default_cam_angles;
 var _vec3_tmp, _vec3_tmp2 = new Float32Array(3);
 var _current_cam_angles = new Float32Array(2);
 var _timeline = 0;
@@ -287,11 +287,10 @@ function set_confetti_objs_visibility(visibility) {
 function prepare_cam_and_lamp_params() {
 
     var cam_obj = m_scenes.get_active_camera();
-    _default_cam_eye = m_cam.get_eye(cam_obj);
-    _default_cam_target = m_cam.get_pivot(cam_obj);
+    _default_cam_eye = m_cam.get_translation(cam_obj);
 
     var cam_pivot = new Float32Array(3);
-    m_cam.get_pivot(cam_obj, cam_pivot);
+    m_cam.target_get_pivot(cam_obj, cam_pivot);
     _default_cam_dist = m_vec3.dist(cam_pivot, _default_cam_eye);
     _default_cam_angles = m_cam.get_camera_angles(cam_obj);
 }
@@ -668,8 +667,8 @@ function calc_camera_sensor_data() {
     _timeline = m_main.global_timeline();
 
     var cam_obj = m_scenes.get_active_camera();
-    var cam_pivot = m_cam.get_pivot(cam_obj, _vec3_tmp);
-    var cam_eye = m_cam.get_eye(cam_obj, _vec3_tmp2);
+    var cam_pivot = m_cam.target_get_pivot(cam_obj, _vec3_tmp);
+    var cam_eye = m_cam.get_translation(cam_obj, _vec3_tmp2);
     _current_cam_dist = m_vec3.dist(cam_pivot, cam_eye);
     m_cam.get_camera_angles(cam_obj, _current_cam_angles);
     if (_current_cam_angles[0] > Math.PI)
@@ -693,10 +692,9 @@ function create_sensors() {
             var delta_horisontal_angle = (_default_cam_angles[0] - _current_cam_angles[0]) * (elapsed/LETTER_ANIM_TIME);
             var delta_vertical_angle = (_default_cam_angles[1] - _current_cam_angles[1]) * (elapsed/LETTER_ANIM_TIME);
             m_trans.move_local(cam_obj, 0, delta_distance, 0);
-            m_cam.rotate_target_camera(cam_obj, delta_horisontal_angle, delta_vertical_angle);
-        } else {
-            m_cam.set_look_at(cam_obj, _default_cam_eye, _default_cam_target, m_utils.AXIS_Y);
-        }
+            m_cam.target_rotate(cam_obj, delta_horisontal_angle, delta_vertical_angle);
+        } else
+            m_cam.target_set_trans_pivot(cam_obj, _default_cam_eye, null);
     }
 
     m_controls.create_sensor_manifold(cam_obj, "CAMERA_MOVE", 

@@ -127,10 +127,16 @@ class B4W_PHYSICS_PT_game_collision_bounds(PhysicsButtonsPanel, Panel):
         return (rd.engine in cls.COMPAT_ENGINES) \
                 and (game.physics_type in {'STATIC', 'DYNAMIC', 'RIGID_BODY'})
 
+    def draw_header(self, context):
+        game = context.active_object.game
+        self.layout.prop(game, "use_collision_bounds", text=_(""))
+
     def draw(self, context):
         layout = self.layout
 
         game = context.active_object.game
+
+        layout.active = game.use_collision_bounds
         split = layout.split()
 
         col = split.column()
