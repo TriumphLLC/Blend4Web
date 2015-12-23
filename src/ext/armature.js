@@ -16,8 +16,9 @@
  */
 
 "use strict";
+
 /**
- * Armature API.
+ * API methods to control armature objects.
  * @module armature
  */
 b4w.module["armature"] = function(exports, require) {

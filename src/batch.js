@@ -228,6 +228,7 @@ exports.generate_main_batches = function(scene, bpy_mesh_objects, lamps,
     var all_mbatches = [];
     all_mbatches = all_mbatches.concat(
             make_dynamic_metabatches(bpy_dynamic_objs, scene._render.graph));
+
     all_mbatches = all_mbatches.concat(
             make_static_metabatches(bpy_static_objs, scene._render.graph, 
             scene["b4w_batch_grid_size"]));
@@ -251,6 +252,13 @@ exports.generate_main_batches = function(scene, bpy_mesh_objects, lamps,
             m_obj_util.append_scene_data(meta_obj, scene);
             m_obj_util.append_batch(meta_obj, scene, batch);
             meta_objects.push(meta_obj);
+
+            if (batch.type == "MAIN")
+                for (var j = 0; j < metabatches[i].rel_bpy_objects.length; j++) {
+                    var bpy_obj = metabatches[i].rel_bpy_objects[j];
+                    var obj = bpy_obj._object;
+                    obj.meta_objects.push(meta_obj);
+                }
 
         } else {
             // attach dynamic batches and static COLOR_ID batches to objects
@@ -494,7 +502,6 @@ function copy_forked_batch(batch_src) {
 
     batch_src.bufs_data = bufs_data;
     batch.bufs_data = bufs_data;
-
     return batch;
 }
 
@@ -665,10 +672,8 @@ function make_object_metabatches(bpy_obj, render, graph) {
 
     for (var i = 0; i < batch_types.length; i++) {
         var type = batch_types[i];
-
         // j == submesh index == material index
         for (var j = 0; j < materials.length; j++) {
-
             var material = materials[j];
             if (material["name"] == "LENS_FLARES" && !has_lamp)
                 continue;
@@ -686,9 +691,10 @@ function make_object_metabatches(bpy_obj, render, graph) {
             if (!batch_material_is_valid(batch, material))
                 continue;
 
-            if (type == "DEPTH" && batches_main[j])
+            if (type == "DEPTH" && batches_main[j]) {
                 // Override
                 batch.use_shadeless = batches_main[j].use_shadeless;
+            }
 
             batch.draw_mode = (render.use_shape_keys || render.dynamic_geometry) ?
                     m_geometry.DM_DYNAMIC_TRIANGLES : m_geometry.DM_DEFAULT;
@@ -2085,12 +2091,23 @@ function update_batch_material_depth(batch, material) {
     var alpha_clip = (alpha_blend === "CLIP") ? 1 : 0;
 
     if (colormap0 && alpha_clip) {
+
+        switch (colormap0["blend_type"]) {
+        case "MIX":
+            set_batch_directive(batch, "TEXTURE_BLEND_TYPE", "TEXTURE_BLEND_TYPE_MIX");
+            break;
+        case "MULTIPLY":
+            set_batch_directive(batch, "TEXTURE_BLEND_TYPE", "TEXTURE_BLEND_TYPE_MULTIPLY");
+            break;
+        }
+
         batch.texture_scale.set(colormap0["scale"]);
         set_batch_directive(batch, "TEXTURE_COLOR", 1);
         set_batch_c_attr(batch, "a_texcoord");
 
         if (colormap0["texture"]._render.source == "IMAGE" ||
-                colormap0["texture"]._render.source == "ENVIRONMENT_MAP") {
+                colormap0["texture"]._render.source == "ENVIRONMENT_MAP" ||
+                colormap0["texture"]._render.source == "CANVAS") {
             var tex = get_batch_texture(colormap0);
             append_texture(batch, tex, "u_colormap0");
         }
@@ -2181,6 +2198,15 @@ function update_batch_material_color_id(batch, material) {
     var alpha_clip = (alpha_blend === "CLIP") ? 1 : 0;
 
     if (colormap0 && alpha_clip) {
+
+        switch (colormap0["blend_type"]) {
+        case "MIX":
+            set_batch_directive(batch, "TEXTURE_BLEND_TYPE", "TEXTURE_BLEND_TYPE_MIX");
+            break;
+        case "MULTIPLY":
+            set_batch_directive(batch, "TEXTURE_BLEND_TYPE", "TEXTURE_BLEND_TYPE_MULTIPLY");
+            break;
+        }
         batch.texture_scale.set(colormap0["scale"]);
         set_batch_directive(batch, "TEXTURE_COLOR", 1);
         set_batch_c_attr(batch, "a_texcoord");
@@ -2567,7 +2593,8 @@ function update_batch_lights(batch, lamps, scene) {
     if (!lamps.length)
         return;
 
-    var shadow_lamp = m_obj_util.get_first_lamp_with_shadows(lamps) || lamps[0];
+    var use_ssao = cfg_def.ssao && scene["b4w_enable_ssao"];
+    var shadow_lamps = m_obj_util.get_shadow_lamps(lamps, use_ssao);
     var shaders_info = batch.shaders_info;
 
     var lamp_index = 0;
@@ -2594,11 +2621,7 @@ function update_batch_lights(batch, lamps, scene) {
             var lfac_index = Math.floor(index / 2);
             var lfac_channels = index % 2 == 0 ? "rg": "ba";
 
-            // TODO: support multiple shadow maps for different lamps
-            if (lamp == shadow_lamp)
-                var shadow_map_ind = 0;
-            else
-                var shadow_map_ind = -1;
+            var shadow_map_ind = shadow_lamps.indexOf(lamp);
 
             node.dirs = [["LAMP_TYPE", light.type],
                          ["LAMP_IND", index],
@@ -2678,7 +2701,14 @@ exports.assign_shadow_receive_dirs = function(batch, shadow_params, subs_cast) {
     set_batch_directive(batch, "CSM_SECTION1", 0);
     set_batch_directive(batch, "CSM_SECTION2", 0);
     set_batch_directive(batch, "CSM_SECTION3", 0);
+    set_batch_directive(batch, "NUM_CAST_LAMPS", 0);
+
     if (shadow_params) {
+        var num_cast_lamps = shadow_params.lamp_types.length;
+        set_batch_directive(batch, "NUM_CAST_LAMPS", num_cast_lamps);
+        if (cfg_def.mac_os_shadow_hack)
+            set_batch_directive(batch, "MAC_OS_SHADOW_HACK", 1);
+
         for (var i = 0; i < shadow_params.csm_num; i++)
             set_batch_directive(batch, "CSM_SECTION" + String(i), 1);
 
@@ -3730,7 +3760,6 @@ function update_batch_id(batch, render_id) {
             batch.textures[i].video_file = null;
         }
     }
-
     // reset batch.id for proper id calculation
     batch.id = 0;
     batch.render_id = render_id;
@@ -3781,6 +3810,7 @@ function create_bounding_ellipsoid_batch(bv, render, obj_name, ellipsoid,
 
     update_batch_render(batch, render);
     var render_id = calculate_render_id(render);
+
     update_batch_id(batch, render_id);
 
     if (ellipsoid) {
@@ -3818,7 +3848,6 @@ function append_texture(batch, texture, name) {
         batch.texture_names.push("default0");
 
     name = name || "default" + String(batch.textures.length)
-
     // unique only
     if (batch.texture_names.indexOf(name) == -1) {
         batch.textures.push(texture);
@@ -3866,6 +3895,7 @@ exports.update_shader = update_shader;
 function update_shader(batch) {
     if (!batch.shaders_info)
         throw "No shaders info for batch " + batch.name;
+
     batch.shader = m_shaders.get_compiled_shader(batch.shaders_info);
     m_render.assign_uniform_setters(batch.shader);
 
@@ -4219,9 +4249,9 @@ exports.create_motion_blur_batch = function(decay_threshold) {
     return batch;
 }
 
-exports.create_anaglyph_batch = function(post_effect) {
+exports.create_stereo_batch = function(stereo_type) {
 
-    var batch = init_batch("ANAGLYPH");
+    var batch = init_batch("STEREO");
 
     batch.use_backface_culling = true;
     batch.depth_mask = false;
@@ -4230,7 +4260,9 @@ exports.create_anaglyph_batch = function(post_effect) {
     update_batch_geometry(batch, submesh);
 
     apply_shader(batch, "postprocessing/postprocessing.glslv",
-            "postprocessing/anaglyph.glslf");
+            "postprocessing/stereo.glslf");
+
+    set_batch_directive(batch, "ANAGLYPH", stereo_type === "ANAGLYPH" ? 1 : 0);
     update_shader(batch);
 
     return batch;
@@ -4356,6 +4388,24 @@ exports.create_anchor_visibility_batch = function() {
 
     // NOTE: Prevent crash when there are no anchors but visibility is enabled
     batch.positions = new Float32Array([0, 0, 0]);
+
+    return batch;
+}
+
+exports.create_performance_batch = function() {
+    var batch = init_batch("PERFORMANCE");
+
+    batch.depth_mask = false;
+    batch.use_backface_culling = true;
+
+    var submesh = m_primitives.generate_fullscreen_tri();
+    update_batch_geometry(batch, submesh);
+
+    apply_shader(batch, "postprocessing/postprocessing.glslv",
+            "postprocessing/performance.glslf");
+
+    set_batch_directive(batch, "POST_EFFECT", "POST_EFFECT_X_BLUR");
+    update_shader(batch);
 
     return batch;
 }

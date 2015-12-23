@@ -529,6 +529,8 @@ function translate(golem_wrapper, elapsed) {
         var y_correction = delta;
 
     trans[1] -= y_correction;
+    if (trans[1] > 0)
+        trans[1] = 0;
 
     m_trans.set_translation_v(empty, trans);
 

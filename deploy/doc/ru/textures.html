@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv15.11</title>
+  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Нодовые материалы" href="node_materials.html"/>
         <link rel="prev" title="Материалы" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -575,18 +575,19 @@
 <div class="section" id="canvas">
 <span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В качестве текстуры используется HTML-элемент &lt;canvas&gt;. Его редактирование осуществляется при помощи API.</p>
-<p>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Canvas</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> указать идентификатор объекта типа <code class="docutils literal"><span class="pre">Canvas</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</p>
+<p>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Canvas</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</p>
 <p>Для работы с этими текстурами используется модуль <code class="docutils literal"><span class="pre">textures</span></code>. Пример работы с ним описан ниже.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
-<span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// operations with canvas context</span>
 <span class="p">...</span>
-<span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+<span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Для получения контекста используется функция <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code>, куда передается идентификатор &#8220;canvas_id&#8221;, задаваемый пользователем в Blender. После <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">преобразований с контекстом</a> вызывается функция <code class="docutils literal"><span class="pre">update_canvas_texture_context()</span></code>, которая осуществляет визуализацию изменений элемента с идентификатором &#8220;canvas_id&#8221;.</p>
+<p>Для получения контекста используется функция <code class="docutils literal"><span class="pre">get_canvas_ctx()</span></code>, куда передается объект и имя текстуры, задаваемое в Blender. После <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">преобразований с контекстом</a> вызывается функция <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>, которая осуществляет визуализацию изменений на указанном объекте, в указанной текстуре.</p>
 </div>
 </div>
 </div>
@@ -611,7 +612,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-11-26.
+      Обновлено: 2015-12-22.
 
     </p>
   </div>
@@ -633,7 +634,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

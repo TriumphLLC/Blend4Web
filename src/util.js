@@ -93,6 +93,10 @@ exports.AXIS_MZ = AXIS_MZ;
 
 exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
 
+exports.isdef = function(v) {
+    return (typeof v != "undefined");
+}
+
 exports.keyfind = keyfind;
 function keyfind(key, value, array) {
     var results = [];
@@ -2164,6 +2168,7 @@ exports.rotation_to_stable = function(a, b, out) {
  * Get the angle which returns current angle into range [min_angle, max_angle]
  */
 exports.calc_returning_angle = function(angle, min_angle, max_angle) {
+    // simple optimization
     if (min_angle == max_angle)
         return max_angle - angle;
 
@@ -2172,12 +2177,6 @@ exports.calc_returning_angle = function(angle, min_angle, max_angle) {
     angle = angle_wrap_0_2pi(angle);
     min_angle = angle_wrap_0_2pi(min_angle);
     max_angle = angle_wrap_0_2pi(max_angle);
-
-    // disable err clamping
-    var delta = Math.abs(min_angle - max_angle);
-    if (delta < MIN_CLAMPING_INTERVAL 
-            || Math.abs(delta - 2 * Math.PI) < MIN_CLAMPING_INTERVAL)
-        return 0;
 
     // rotate unit circle to ease calculation
     var rotation = 2 * Math.PI - min_angle;

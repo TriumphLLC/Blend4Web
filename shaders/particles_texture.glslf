@@ -157,7 +157,7 @@ void main(void) {
     vec3 color;
     vec3 specular;
     nodes_lighting(E, A, D, S, v_pos_world, normal, eye_dir, spec_params, 
-            u_diffuse_params, 1.0, 0.0, vec4(0.0), color, specular);
+            u_diffuse_params, vec4(1.0), 0.0, vec4(0.0), color, specular);
     
 #else // !PARTICLES_SHADELESS
     vec3 color = D;

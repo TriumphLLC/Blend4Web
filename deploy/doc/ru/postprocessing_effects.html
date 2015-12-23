@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web vv15.11</title>
+  <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
         <link rel="prev" title="Освещение, тени и фон" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -128,24 +128,24 @@
 <li class="toctree-l3"><a class="reference internal" href="#id18">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#anaglyph">Анаглиф стереоизображение</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#stereo">Стереоизображение</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id20">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Дополнительные настройки</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#color-correction">Коррекция цвета</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Дополнительные настройки</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#glow">Свечение (glow)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Дополнительные настройки</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#antialiasing">Сглаживание</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Дополнительные настройки</a></li>
 </ul>
 </li>
 </ul>
@@ -350,27 +350,39 @@
 <p>При управлении через API настройки на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> воспринимаются как настройки по умолчанию.</p>
 </div>
 </div>
-<div class="section" id="anaglyph">
-<span id="index-5"></span><span id="id19"></span><h2>Анаглиф стереоизображение<a class="headerlink" href="#anaglyph" title="Ссылка на этот заголовок">¶</a></h2>
-<a class="reference internal image-reference" href="_images/anaglyph.jpg"><img alt="_images/anaglyph.jpg" class="align-center" src="_images/anaglyph.jpg" style="width: 100%;" /></a>
+<div class="section" id="stereo">
+<span id="index-5"></span><span id="id19"></span><h2>Стереоизображение<a class="headerlink" href="#stereo" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.</p>
+<p>Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD (Head-mounted display, шлем виртуальной реальности).</p>
+<p>Анаглиф:</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
+<p>HMD:</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
+<p>HMD - экспериментальная возможность, она работает только с камерами типа <code class="docutils literal"><span class="pre">Eye</span></code>.</p>
 <div class="section" id="id20">
 <h3>Активация<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.</p>
+<p>Для работы стереорежима HMD нужно установить <a class="reference external" href="https://developer.oculus.com/downloads/">runtime-утилиту</a> от Oculus. Версии для Windows и MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для Linux пользователю понадобится собирать из исходников самостоятельно.</p>
+<p>На сегодняшний день HMD поддерживается в экспериментальных сборках <a class="reference external" href="http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html">Chromium</a> и в nightly build <a class="reference external" href="https://nightly.mozilla.org/">Firefox</a>.</p>
+<p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Настройки Chromium.</a></p>
+<p><a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">Настройки Firefox.</a></p>
+<p>Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках приложения, в третьем столбце справа, как показано на иллюстрации.</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_hmd.png"><img alt="_images/postprocessing_effects_hmd.png" class="align-center" src="_images/postprocessing_effects_hmd.png" style="width: 100%;" /></a>
+<p>Для корректной работы рекомендуется включить полноэкранный режим.</p>
 </div>
-<div class="section" id="id21">
-<h3>Дополнительные настройки<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Нет.</p>
+<div class="section" id="id23">
+<h3>Дополнительные настройки<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Отсутствуют.</p>
 </div>
 </div>
 <div class="section" id="color-correction">
-<span id="index-6"></span><span id="id22"></span><h2>Коррекция цвета<a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-6"></span><span id="id24"></span><h2>Коррекция цвета<a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
-<div class="section" id="id23">
-<h3>Активация<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id25">
+<h3>Активация<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Активировать панель <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
-<div class="section" id="id24">
-<h3>Дополнительные настройки<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id26">
+<h3>Дополнительные настройки<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
 <dd>Яркость. Значение по умолчанию 0.0.</dd>
@@ -384,15 +396,15 @@
 </div>
 </div>
 <div class="section" id="glow">
-<span id="id25"></span><h2>Свечение (glow)<a class="headerlink" href="#glow" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id27"></span><h2>Свечение (glow)<a class="headerlink" href="#glow" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Эффект возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.</p>
 <a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
-<div class="section" id="id26">
-<h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id28">
+<h3>Активация<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
-<div class="section" id="id27">
-<h3>Дополнительные настройки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id29">
+<h3>Дополнительные настройки<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Small Mask: Intensity</em></dt>
 <dd>Интенсивность свечения по малой маске. Значение по умолчанию 2.0.</dd>
@@ -408,11 +420,11 @@
 </div>
 </div>
 <div class="section" id="antialiasing">
-<span id="index-7"></span><span id="id28"></span><h2>Сглаживание<a class="headerlink" href="#antialiasing" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-7"></span><span id="id30"></span><h2>Сглаживание<a class="headerlink" href="#antialiasing" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (&#8220;зубчатости&#8221;).</p>
 <a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
-<div class="section" id="id29">
-<h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id31">
+<h3>Активация<a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выбрать один из профилей качества в поле <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code>:</p>
 <blockquote>
 <div><ul class="simple">
@@ -422,8 +434,8 @@
 </div></blockquote>
 <p>Значение по умолчанию: <em>Medium</em>.</p>
 </div>
-<div class="section" id="id30">
-<h3>Дополнительные настройки<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id32">
+<h3>Дополнительные настройки<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Итоговые настройки сглаживания назначаются копмозицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:</p>
 <blockquote>
 <div><ul class="simple">
@@ -455,7 +467,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-11-26.
+      Обновлено: 2015-12-22.
 
     </p>
   </div>
@@ -477,7 +489,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

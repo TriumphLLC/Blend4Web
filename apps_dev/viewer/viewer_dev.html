@@ -102,6 +102,7 @@
     <script type="text/javascript" src="../../src/addons/app.js"></script>
     <script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
     <script type="text/javascript" src="../../src/addons/gyroscope.js"></script>
+    <script type="text/javascript" src="../../src/addons/hmd.js"></script>
     <script type="text/javascript" src="../../src/addons/mixer.js"></script>
     <script type="text/javascript" src="../../src/addons/mouse.js"></script>
     <script type="text/javascript" src="../../src/addons/npc_ai.js"></script>
@@ -883,13 +884,14 @@
             <h1>Stereo View</h1>
 
             <div class="ui-grid-solo">
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="anaglyph_use">Anaglyph use:</label>
-                    <select id="anaglyph_use" data-role="slider" data-mini="true">
-                        <option value="0" selected>No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                </div>
+            <div class="ui-block-a colapsed_content ui-body ui-body-c stereo">
+                <label for="stereo">Stereo types:</label>
+                <select id="stereo" name="stereo" data-native-menu="false" data-mini="true">
+                    <option value="NONE" selected="selected">NONE</option>
+                    <option value="ANAGLYPH">ANAGLYPH</option>
+                    <option value="HMD">HMD</option>
+                </select>
+            </div>
             </div>
 
             Use "[" and "]" keys to control the distance to convergence plane.

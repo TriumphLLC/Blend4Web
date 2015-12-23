@@ -81,8 +81,8 @@ It is possible for the local server to process external requests. To
 do that enable the option "Enable External Requests".
 
 If you chose not to start the server automatically, you can always do
-it manually: go to the "Render" tab and press the "Start" button on
-the "Development Server" panel:
+it manually: go to the "Render" tab and press the "Start Server"
+button on the "Development Server" panel:
 
 [image]
 
@@ -90,12 +90,12 @@ the "Development Server" panel:
 
 Note: If the path to the Blend4Web SDK is not specified, the local
   development server cannot be launched. In this case the
-  corresponding message will be displayed instead of the "Start"
-  button.If the server is failed to run, an error message will be
-  shown describing the reason:[image]This error can arise if the
+  corresponding message will be displayed instead of the "Start
+  Server" button.If the server is failed to run, an error message will
+  be shown describing the reason:[image]This error can arise if the
   server port is already used by some other application.
 
-Press the "Open SDK" button to open the index web page of the
+Press the "SDK Index" button to open the index web page of the
 Blend4Web SDK in the browser. This page is available at
 http://localhost:6687.
 
@@ -106,8 +106,13 @@ http://localhost:6687.
 As a result, the default browser for your operating system will be
 launched.
 
-The server can be stopped by pressing the "Stop" button. It is also
-stopped when Blender is closed.
+The "Project Manager" button can be used to open project manager.
+
+The "Fast Preview" button loads the scene that is currently open in
+Blender, into the viewer.
+
+The server can be stopped by pressing the "Stop Server" button. It
+also stops when Blender is closed.
 
 
 Running Viewer and Demos

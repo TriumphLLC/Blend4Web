@@ -1,5 +1,6 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
+#var NUM_CAST_LAMPS 0
 #var SHADOW_TEX_RES 0.0
 #var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
 
@@ -144,19 +145,24 @@ uniform vec3 u_texture_scale;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
 uniform float u_normal_offset;
-uniform mat3 u_v_light_tsr;
+# if MAC_OS_SHADOW_HACK
+uniform mat3 u_v_light_tsr[NUM_CAST_LAMPS];
+# else
+uniform vec4 u_v_light_ts[NUM_CAST_LAMPS];
+uniform vec4 u_v_light_r[NUM_CAST_LAMPS];
+# endif
 
 uniform mat4 u_p_light_matrix0;
 
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 uniform mat4 u_p_light_matrix1;
 # endif
 
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 uniform mat4 u_p_light_matrix2;
 # endif
 
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 uniform mat4 u_p_light_matrix3;
 # endif
 #endif
@@ -194,15 +200,15 @@ varying vec4 v_pos_view;
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
 varying vec4 v_shadow_coord0;
 
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 varying vec4 v_shadow_coord1;
 # endif
 
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 varying vec4 v_shadow_coord2;
 # endif
 
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 varying vec4 v_shadow_coord3;
 # endif
 #endif

@@ -15,21 +15,7 @@ msgstr ""
 msgid "Визуальное программирование"
 msgstr "Visual Programming"
 
-#: ../logic_editor.rst:8
-msgid "Визуальное программирование (Logic Editor)"
-msgstr "Visual Programming (Logic Editor)"
-
-#: ../logic_editor.rst:10
-msgid ""
-"Осуществляется путем создания нодового дерева логики в окне нодового "
-"редактора. С помощью ``Logic Editor`` можно существенно расширить "
-"функциональность сцены, не прибегая при этом к программированию."
-msgstr ""
-"Performed by creating logic node tree in the node editor area in Blender. "
-"These nodes can extend the scene functionality significantly without any "
-"coding."
-
-#: ../logic_editor.rst:18
+#: ../logic_editor.rst:22
 msgid ""
 "Для активации логики, на вкладке настроек сцены Blender необходимо "
 "установить галочку ``Logic Editor`` и добавить/выбрать активное нодовое "
@@ -38,7 +24,7 @@ msgstr ""
 "To activate logic on the given scene set the ``Logic Editor`` property in "
 "the ``Scene`` tab and append/select active node tree."
 
-#: ../logic_editor.rst:26
+#: ../logic_editor.rst:30
 msgid ""
 "Для редактирования дерева логики необходимо перейти в ``Редактор Нод`` (Node"
 " Editor) выбрать тип нодового дерева ``Blend4Web logic``:"
@@ -46,18 +32,18 @@ msgstr ""
 "To edit logic tree go to the ``Node Editor`` area and select the ``Blend4Web"
 " Logic`` tree type:"
 
-#: ../logic_editor.rst:33
+#: ../logic_editor.rst:37
 msgid "Затем выбрать дерево для редактирования:"
 msgstr "Then select the required node tree:"
 
-#: ../logic_editor.rst:42
+#: ../logic_editor.rst:46
 msgid ""
 "Создание нод осуществляется привычным для Blender сочетанием клавиш "
 "``Shift+A``."
 msgstr ""
 "Nodes are created by using standard Blender keyboard shortcut ``Shift+A``."
 
-#: ../logic_editor.rst:45
+#: ../logic_editor.rst:49
 msgid ""
 "Ноды  - это логические блоки, выполнение которых начинается с ``Entry "
 "Point``, которая имеет один единственный выход. Почти все остальные ноды "
@@ -74,7 +60,7 @@ msgstr ""
 "end of the node tree. The nodes which have two outputs allow braching, thus "
 "the next leave is selected based on condition specified for such nodes."
 
-#: ../logic_editor.rst:53
+#: ../logic_editor.rst:57
 msgid ""
 "Для реализации сложной логики предусмотрены числовые переменные, называемые "
 "регистрами. Каждый из 8 регистров может хранить в себе одно числовое "
@@ -87,19 +73,19 @@ msgstr ""
 "registers can be used for storing some scene state (e.g. this can be a "
 "counter of animation playbacks, character's health points etc)."
 
-#: ../logic_editor.rst:59
+#: ../logic_editor.rst:63
 msgid "Пример использования Logic Editor:"
 msgstr "Logic Editor usage example:"
 
-#: ../logic_editor.rst:65
+#: ../logic_editor.rst:72
 msgid "Ниже рассмотрены все возможные варианты нод."
 msgstr "All possible nodes are described below."
 
-#: ../logic_editor.rst:68
+#: ../logic_editor.rst:77
 msgid "Entry Point"
 msgstr ""
 
-#: ../logic_editor.rst:122
+#: ../logic_editor.rst:224
 msgid ""
 "Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
 "движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
@@ -113,7 +99,7 @@ msgstr ""
 "Timeline`` node. If any other object is selected - then immediately transfer"
 " control to the next node."
 
-#: ../logic_editor.rst:135
+#: ../logic_editor.rst:237
 msgid ""
 "Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
 "движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
@@ -127,7 +113,7 @@ msgstr ""
 "Animation`` node. If any other object is selected - then immediately "
 "transfer control to the next node."
 
-#: ../logic_editor.rst:148
+#: ../logic_editor.rst:250
 msgid ""
 "Аналогично ноде ``Select & Play``, за исключением того, что вместо анимации "
 "осуществляется переход. Указанная функция позволяет реализовать более "
@@ -139,11 +125,11 @@ msgstr ""
 "because in this case there is a possibility to identify the user selection "
 "results."
 
-#: ../logic_editor.rst:154
+#: ../logic_editor.rst:258
 msgid "Conditional Jump"
 msgstr ""
 
-#: ../logic_editor.rst:156
+#: ../logic_editor.rst:260
 msgid ""
 "Перейти к указанной ноде в случае выполнения выбранного условия. В качестве "
 "параметров условия (операндов) могут выступать также регистры, которые "
@@ -153,19 +139,19 @@ msgstr ""
 "(operands) can also be registers that are activated using the corresponding "
 "switches."
 
-#: ../logic_editor.rst:161
+#: ../logic_editor.rst:305
 msgid "Variable Store"
 msgstr ""
 
-#: ../logic_editor.rst:163
+#: ../logic_editor.rst:307
 msgid "Записать числовое значение в переменную."
 msgstr "Save a numeric value in a variable."
 
-#: ../logic_editor.rst:166
+#: ../logic_editor.rst:340
 msgid "Math Operation"
 msgstr ""
 
-#: ../logic_editor.rst:168
+#: ../logic_editor.rst:342
 msgid ""
 "Выполнить математическую операцию и сохранить результат в регистр. Любой из "
 "параметров (операндов) может быть либо числовым значением, либо регистром."
@@ -173,37 +159,25 @@ msgstr ""
 "Perform a math operation and save the result in the register. Any of "
 "parameters (operands) can be either a numeric value or a register."
 
-#: ../logic_editor.rst:172
-msgid "Show Object и Hide Object"
-msgstr "Show Object and Hide Object"
-
-#: ../logic_editor.rst:174
-msgid "Используются для скрытия и отображения объектов."
-msgstr "This is used to hide and show 3D objects."
-
-#: ../logic_editor.rst:177
+#: ../logic_editor.rst:443
 msgid "Page Redirect"
 msgstr ""
 
-#: ../logic_editor.rst:179
-msgid "Служит для перенаправления на другие веб-страницы."
-msgstr "This serves as a page redirect to other web pages."
-
-#: ../logic_editor.rst:182
+#: ../logic_editor.rst:471
 msgid "Page Param"
 msgstr ""
 
-#: ../logic_editor.rst:184
+#: ../logic_editor.rst:473
 msgid ""
 "Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом "
 "регистре."
 msgstr "Allows to store any web page parameter in a given numerical register."
 
-#: ../logic_editor.rst:187
+#: ../logic_editor.rst:503
 msgid "Send Request"
 msgstr ""
 
-#: ../logic_editor.rst:189
+#: ../logic_editor.rst:505
 msgid ""
 "Позволяет отправить HTTP GET запрос на указанный URL и поместить значения "
 "полей ответа в переменные."
@@ -211,55 +185,47 @@ msgstr ""
 "Send an HTTP GET request to the specified URL and save the respond's fields "
 "to variables."
 
-#: ../logic_editor.rst:193
+#: ../logic_editor.rst:553
 msgid "Inherit Material"
 msgstr ""
 
-#: ../logic_editor.rst:195
+#: ../logic_editor.rst:555
 msgid "Позволяет скопировать атрибуты одного материала на другой."
 msgstr "Copy attributes from one material to another."
 
-#: ../logic_editor.rst:198
+#: ../logic_editor.rst:591
 msgid "Set Shader Node Param"
 msgstr ""
 
-#: ../logic_editor.rst:200
-msgid ""
-"Позволяет установить значение шейдерной ноды. В данный момент поддерживаются"
-" ноды Value и RGB."
-msgstr ""
-"Set vaue for the shader node. Currently only Value and RGB nodes are "
-"supported."
-
-#: ../logic_editor.rst:204
+#: ../logic_editor.rst:629
 msgid "Delay"
 msgstr ""
 
-#: ../logic_editor.rst:206
+#: ../logic_editor.rst:631
 msgid "Позволяет установить задержку перед выполнением следующей ноды."
 msgstr "Make a delay before going to the next node. "
 
-#: ../logic_editor.rst:209
+#: ../logic_editor.rst:658
 msgid "Apply Shape Key"
 msgstr ""
 
-#: ../logic_editor.rst:211
+#: ../logic_editor.rst:660
 msgid "Позволяет задать значение параметра Shape Key."
 msgstr "Set the Shape Key factor."
 
-#: ../logic_editor.rst:215
+#: ../logic_editor.rst:693
 msgid "Outline"
 msgstr ""
 
-#: ../logic_editor.rst:217
+#: ../logic_editor.rst:695
 msgid "Позволяет управлять эффектом обводки объекта."
-msgstr "Controls object outliing effect."
+msgstr "Controls object outlining effect."
 
-#: ../logic_editor.rst:235
+#: ../logic_editor.rst:930
 msgid "Отладка"
 msgstr "Debugging"
 
-#: ../logic_editor.rst:237
+#: ../logic_editor.rst:932
 msgid ""
 "Для отладки имеется возможность отключения (muting) нод. Для этого "
 "необходимо выделить ноду и нажать горячую клавишу ``M``. Отключенная нода не"
@@ -273,18 +239,19 @@ msgstr ""
 "two outputs the execution continues from the output with negative result "
 "(``Miss``, ``False``)."
 
-#: ../logic_editor.rst:70
+#: ../logic_editor.rst:79
 msgid ""
 "Является точкой начала выполнения скрипта. Использование нескольких точек "
 "входа позволяет эмулировать многопоточное выполнение."
-msgstr "This is where the script starts. By using multple entry points "
-"you can create multi-threaded applications."
-
-#: ../logic_editor.rst:74
-msgid "Play Timeline и Stop Timeline"
 msgstr ""
+"This is where the script starts. By using multple entry points you can "
+"create multi-threaded applications."
 
-#: ../logic_editor.rst:76
+#: ../logic_editor.rst:105
+msgid "Play Timeline и Stop Timeline"
+msgstr "Play Timeline and Stop Timeline"
+
+#: ../logic_editor.rst:107
 msgid ""
 "Позволяют управлять NLA анимацией. ``Play Timeline`` проигрывать участок "
 "NLA, начиная с кадра, на который указывает маркер. Анимация воспроизводится "
@@ -292,70 +259,53 @@ msgid ""
 "управление переходит к следующей ноде. ``Stop Timeline`` останавливает "
 "воспроизведение."
 msgstr ""
-"Can be used to control NLA animations. The ``Play Timeline`` node plays NLA fragment "
-"starting with a frame specified by the marker. Animation plays until next "
-"marker is encounterd, or to the end of the scene's timeline. After that, "
-"control passes on to the next node. The ``Stop Timeline`` node stops the playback."
+"Can be used to control NLA animations. The ``Play Timeline`` node plays NLA "
+"fragment starting with a frame specified by the marker. Animation plays "
+"until next marker is encounterd, or to the end of the scene's timeline. "
+"After that, control passes on to the next node. The ``Stop Timeline`` node "
+"stops the playback."
 
-#: ../logic_editor.rst:90
-msgid "Play Animation и Stop Animation"
-msgstr "Play Animation & Stop Animation"
-
-#: ../logic_editor.rst:91
-msgid ""
-"Позволяют управлять объектной анимацией. ``Play Animation`` проигрывает "
-"объектную анимацию. Присутствует возможность указать название анимации. "
-"Возможны 3 варианта:"
-msgstr ""
-"Can be used to control object animation. ``Play Animation`` is used to "
-"play object animation. Animation's name can be specified. "
-"3 options are possible:"
-
-#: ../logic_editor.rst:95
+#: ../logic_editor.rst:145
 msgid "Обычный Action:"
 msgstr "Regular Action:"
 
-#: ../logic_editor.rst:101
+#: ../logic_editor.rst:151
 msgid "Шейдерный Action:"
 msgstr "Shader Action:"
 
-#: ../logic_editor.rst:107
+#: ../logic_editor.rst:157
 msgid "Система частиц:"
 msgstr "Particle system:"
 
-#: ../logic_editor.rst:113
-msgid "``Stop Animation`` останавливает анимацию."
-msgstr "The ``Stop Animation`` node stops animation."
-
-#: ../logic_editor.rst:116
+#: ../logic_editor.rst:218
 msgid "Select & Play Timeline (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:119
+#: ../logic_editor.rst:221
 msgid ""
 "Устарел! Не рекомендуется использовать! Взамен следует использовать "
 "комбинацию нод ``Switch Select`` и ``Play Timeline``."
 msgstr ""
-"Deprecated! Isn't recommended to use. Instead, using a combination "
-"of ``Switch Select`` and ``Play Timeline`` nodes is recommended."
+"Deprecated! Isn't recommended to use. Instead, using a combination of "
+"``Switch Select`` and ``Play Timeline`` nodes is recommended."
 
-#: ../logic_editor.rst:129
+#: ../logic_editor.rst:231
 msgid "Select & Play Animation (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:132
+#: ../logic_editor.rst:234
 msgid ""
 "Устарел! Не рекомендуется использовать! Взамен следует использовать "
 "комбинацию нод ``Switch Select`` и ``Play Animation``."
 msgstr ""
-"Deprecated! Isn't recommended to use. Instead, using a combination "
-"of ``Switch Select`` and ``Play Timeline`` nodes is recommended."
+"Deprecated! Isn't recommended to use. Instead, using a combination of "
+"``Switch Select`` and ``Play Timeline`` nodes is recommended."
 
-#: ../logic_editor.rst:142
+#: ../logic_editor.rst:244
 msgid "Select (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:145
+#: ../logic_editor.rst:247
 msgid ""
 "Устарел! Не рекомендуется использовать! Взамен следует использовать ноду "
 "``Switch Select``"
@@ -363,31 +313,913 @@ msgstr ""
 "Deprecated! Isn't recommended to use. Instead, using a ``Switch Select`` "
 "node is recommended."
 
-#: ../logic_editor.rst:220
+#: ../logic_editor.rst:732
 msgid "Move Camera"
 msgstr ""
 
-#: ../logic_editor.rst:222
+#: ../logic_editor.rst:734
 msgid ""
 "Позволяет перемещать камеру, в том числе с плавной интерполяцией положения."
 msgstr ""
-"Can be used to move the camera, including smooth interpolation of its position."
+"Can be used to move the camera, including smooth interpolation of its "
+"position."
 
-#: ../logic_editor.rst:225
-msgid "Play Sound и Stop Sound"
-msgstr "Play Sound & Stop Sound"
-
-#: ../logic_editor.rst:227
-msgid "Позволяет воспроизводить/останавливать звук спикера."
-msgstr "Can be used to play and stop a speaker's sound."
-
-#: ../logic_editor.rst:230
+#: ../logic_editor.rst:831
 msgid "Switch Select"
 msgstr ""
 
-#: ../logic_editor.rst:232
+#: ../logic_editor.rst:833
 msgid ""
 "Позволяет отследить событие выбора какого-либо объекта из списка объектов."
 msgstr ""
 "Can be used to trace the selection of any object from the object list."
 
+#: ../logic_editor.rst:0
+msgid "Содержание"
+msgstr "Table of Content"
+
+#: ../logic_editor.rst:12
+msgid "Редактор логики (Logic Editor)"
+msgstr "Logic Editor"
+
+#: ../logic_editor.rst:14
+msgid ""
+"Визуальное программирование осуществляется путем создания нодового дерева "
+"логики в окне нодового редактора. С помощью ``Logic Editor`` можно "
+"существенно расширить функциональность сцены, не прибегая при этом к "
+"программированию."
+msgstr ""
+"Visual programming is performed by creating logic node tree in the node "
+"editor area in Blender. These nodes can extend the scene functionality "
+"significantly without any coding."
+
+#: ../logic_editor.rst:70
+msgid "Ноды"
+msgstr "Nodes"
+
+#: ../logic_editor.rst:87 ../logic_editor.rst:118 ../logic_editor.rst:164
+#: ../logic_editor.rst:201 ../logic_editor.rst:269 ../logic_editor.rst:314
+#: ../logic_editor.rst:350 ../logic_editor.rst:394 ../logic_editor.rst:423
+#: ../logic_editor.rst:452 ../logic_editor.rst:480 ../logic_editor.rst:513
+#: ../logic_editor.rst:562 ../logic_editor.rst:600 ../logic_editor.rst:638
+#: ../logic_editor.rst:667 ../logic_editor.rst:702 ../logic_editor.rst:741
+#: ../logic_editor.rst:779 ../logic_editor.rst:811 ../logic_editor.rst:840
+#: ../logic_editor.rst:872 ../logic_editor.rst:907
+msgid "Входные параметры"
+msgstr "Input parameters"
+
+#: ../logic_editor.rst:89 ../logic_editor.rst:100 ../logic_editor.rst:460
+msgid "Отсутствуют."
+msgstr "None."
+
+#: ../logic_editor.rst:92 ../logic_editor.rst:124 ../logic_editor.rst:170
+#: ../logic_editor.rst:207 ../logic_editor.rst:275 ../logic_editor.rst:320
+#: ../logic_editor.rst:356 ../logic_editor.rst:400 ../logic_editor.rst:429
+#: ../logic_editor.rst:458 ../logic_editor.rst:486 ../logic_editor.rst:519
+#: ../logic_editor.rst:568 ../logic_editor.rst:606 ../logic_editor.rst:644
+#: ../logic_editor.rst:673 ../logic_editor.rst:708 ../logic_editor.rst:747
+#: ../logic_editor.rst:785 ../logic_editor.rst:817 ../logic_editor.rst:846
+#: ../logic_editor.rst:878 ../logic_editor.rst:913
+msgid "Выходные параметры"
+msgstr "Output parameters"
+
+#: ../logic_editor.rst:95 ../logic_editor.rst:127 ../logic_editor.rst:173
+#: ../logic_editor.rst:210 ../logic_editor.rst:323 ../logic_editor.rst:359
+#: ../logic_editor.rst:403 ../logic_editor.rst:432 ../logic_editor.rst:489
+#: ../logic_editor.rst:522 ../logic_editor.rst:571 ../logic_editor.rst:609
+#: ../logic_editor.rst:647 ../logic_editor.rst:676 ../logic_editor.rst:711
+#: ../logic_editor.rst:750 ../logic_editor.rst:788 ../logic_editor.rst:820
+#: ../logic_editor.rst:881 ../logic_editor.rst:916
+msgid "*Next*"
+msgstr ""
+
+#: ../logic_editor.rst:95 ../logic_editor.rst:127 ../logic_editor.rst:173
+#: ../logic_editor.rst:210 ../logic_editor.rst:323 ../logic_editor.rst:359
+#: ../logic_editor.rst:403 ../logic_editor.rst:432 ../logic_editor.rst:489
+#: ../logic_editor.rst:522 ../logic_editor.rst:571 ../logic_editor.rst:609
+#: ../logic_editor.rst:647 ../logic_editor.rst:676 ../logic_editor.rst:711
+#: ../logic_editor.rst:750 ../logic_editor.rst:788 ../logic_editor.rst:820
+#: ../logic_editor.rst:881 ../logic_editor.rst:916
+msgid "Следующая нода."
+msgstr "Next node."
+
+#: ../logic_editor.rst:98 ../logic_editor.rst:130 ../logic_editor.rst:176
+#: ../logic_editor.rst:213 ../logic_editor.rst:284 ../logic_editor.rst:326
+#: ../logic_editor.rst:362 ../logic_editor.rst:406 ../logic_editor.rst:435
+#: ../logic_editor.rst:463 ../logic_editor.rst:492 ../logic_editor.rst:525
+#: ../logic_editor.rst:574 ../logic_editor.rst:612 ../logic_editor.rst:650
+#: ../logic_editor.rst:679 ../logic_editor.rst:714 ../logic_editor.rst:753
+#: ../logic_editor.rst:791 ../logic_editor.rst:823 ../logic_editor.rst:855
+#: ../logic_editor.rst:884 ../logic_editor.rst:919
+msgid "Внутренние параметры"
+msgstr "Internal parameters"
+
+#: ../logic_editor.rst:121 ../logic_editor.rst:167 ../logic_editor.rst:204
+#: ../logic_editor.rst:272 ../logic_editor.rst:317 ../logic_editor.rst:353
+#: ../logic_editor.rst:397 ../logic_editor.rst:426 ../logic_editor.rst:455
+#: ../logic_editor.rst:483 ../logic_editor.rst:516 ../logic_editor.rst:565
+#: ../logic_editor.rst:603 ../logic_editor.rst:641 ../logic_editor.rst:670
+#: ../logic_editor.rst:705 ../logic_editor.rst:744 ../logic_editor.rst:782
+#: ../logic_editor.rst:814 ../logic_editor.rst:843 ../logic_editor.rst:875
+#: ../logic_editor.rst:910
+msgid "*Previous*"
+msgstr ""
+
+#: ../logic_editor.rst:121 ../logic_editor.rst:167 ../logic_editor.rst:204
+#: ../logic_editor.rst:272 ../logic_editor.rst:317 ../logic_editor.rst:353
+#: ../logic_editor.rst:397 ../logic_editor.rst:426 ../logic_editor.rst:455
+#: ../logic_editor.rst:483 ../logic_editor.rst:516 ../logic_editor.rst:565
+#: ../logic_editor.rst:603 ../logic_editor.rst:641 ../logic_editor.rst:670
+#: ../logic_editor.rst:705 ../logic_editor.rst:744 ../logic_editor.rst:782
+#: ../logic_editor.rst:814 ../logic_editor.rst:843 ../logic_editor.rst:875
+#: ../logic_editor.rst:910
+msgid "Предыдущая нода."
+msgstr "Previous node."
+
+#: ../logic_editor.rst:133
+msgid "*Start Marker*"
+msgstr ""
+
+#: ../logic_editor.rst:133
+msgid ""
+"Кадр, с которого должна воспроизводиться анимация. Если не указан, анимация "
+"воспроизводится с первого кадра и может работать некорректно."
+msgstr ""
+"First frame of the animation. If not specified, an animation plays from the "
+"start of the timeline and may not work correctly."
+
+#: ../logic_editor.rst:137
+msgid "*End Marker*"
+msgstr ""
+
+#: ../logic_editor.rst:136
+msgid ""
+"Кадр, на котором проигрывание анимации должно остановиться. Если не указан, "
+"анимация воспроизводится до окончания шкалы времени и может работать "
+"некорректно."
+msgstr ""
+"Last frame of the animation. If not specified, an animation plays to the end"
+" of the timeline and may not work correctly."
+
+#: ../logic_editor.rst:142
+msgid "Play Animation"
+msgstr ""
+
+#: ../logic_editor.rst:143
+msgid ""
+"Используется для воспроизведения анимации объекта. Проигрываемая анимация "
+"может иметь один из трёх типов:"
+msgstr ""
+"Can be used to play object's animation. An animation can be one of the "
+"following types:"
+
+#: ../logic_editor.rst:179 ../logic_editor.rst:409 ../logic_editor.rst:438
+#: ../logic_editor.rst:615 ../logic_editor.rst:682 ../logic_editor.rst:717
+#: ../logic_editor.rst:858 ../logic_editor.rst:887
+msgid "*Object*"
+msgstr ""
+
+#: ../logic_editor.rst:179
+msgid "Имя объекта, анимацию которого следует воспроизвести."
+msgstr "Name of the object, animation of which will be played."
+
+#: ../logic_editor.rst:182
+msgid "*Anim. Name*"
+msgstr ""
+
+#: ../logic_editor.rst:182
+msgid ""
+"Имя анимации, которую следует воспроизвести. В случае, если имя анимации не "
+"указано, проигрывается вся временная шкала."
+msgstr ""
+"Name of an animation to play. If not specified, the entire timeline will be "
+"played."
+
+#: ../logic_editor.rst:189
+msgid "*Behavior*"
+msgstr ""
+
+#: ../logic_editor.rst:185
+msgid "Задаёт поведение анимации. Может иметь одно из следующих значений:"
+msgstr "Specifies animation behavior. Can have one of the following values:"
+
+#: ../logic_editor.rst:187
+msgid "*Finish Stop* - анимация воспроизводится один раз."
+msgstr "*Finish Stop* - animation will be played once."
+
+#: ../logic_editor.rst:188
+msgid ""
+"*Finish Reset* - анимация воспроизводится один раз, после её завершения "
+"объект возвращается в исходное состояние."
+msgstr ""
+"*Finish Reset* - animation will be played once, then the object will return "
+"to the starting point."
+
+#: ../logic_editor.rst:189
+msgid ""
+"*Loop* - анимация воспроизводится циклически до тех пор, пока не остановлена"
+" с помощью ноды ``Stop Animation``."
+msgstr ""
+"*Loop* - animation will be playing repeatedly until it is stopped by the "
+"``Stop Animation`` node."
+
+#: ../logic_editor.rst:192 ../logic_editor.rst:797
+msgid "*Do Not Wait*"
+msgstr ""
+
+#: ../logic_editor.rst:192
+msgid ""
+"Если этот параметр активирован, нода ``Play Animation`` передаст управление "
+"следующей ноде сразу после начала воспроизведения анимации. В противном "
+"случае управление будет передано только после окончания анимации."
+msgstr ""
+"If this parameter is enabled, the ``Play Animation`` node will pass the "
+"control to the next node on starting the animation playback. If it isn't, "
+"the control will be passed to the next node only after playback is finished."
+
+#: ../logic_editor.rst:197
+msgid "Stop Animation"
+msgstr ""
+
+#: ../logic_editor.rst:198
+msgid "Используется для остановки анимации объекта."
+msgstr "Can be used to stop an object's animation."
+
+#: ../logic_editor.rst:215
+msgid "*Set First Frame*"
+msgstr ""
+
+#: ../logic_editor.rst:215
+msgid "Вернуться к первому кадру после того, как анимация остановлена."
+msgstr "Go back to the first frame after the animation has been stopped."
+
+#: ../logic_editor.rst:278
+msgid "*True*"
+msgstr ""
+
+#: ../logic_editor.rst:278
+msgid "Утверждение истинно."
+msgstr "Condition is true."
+
+#: ../logic_editor.rst:281
+msgid "*False*"
+msgstr ""
+
+#: ../logic_editor.rst:281
+msgid "Утверждение ложно."
+msgstr "Condition is false."
+
+#: ../logic_editor.rst:294
+msgid "*Condition*"
+msgstr ""
+
+#: ../logic_editor.rst:287
+msgid "Логическое утверждение. Может иметь один из следующих типов:"
+msgstr "Logical condition. Can have one of the following types:"
+
+#: ../logic_editor.rst:289
+msgid "*Equal* - первый операнд равен второму."
+msgstr "*Equal* - first operand is equal to the second."
+
+#: ../logic_editor.rst:290
+msgid "*Not Equal* - первый операнд не равен второму."
+msgstr "*Not Equal* - frist operand is not equal to the second."
+
+#: ../logic_editor.rst:291
+msgid "*Less Than* - первый операнд меньше второго."
+msgstr "*Less Than* - first operand is less than the second."
+
+#: ../logic_editor.rst:292
+msgid "*Greater Than* - первый операнд больше второго."
+msgstr "*Greater Than* - first operan is greater than the second."
+
+#: ../logic_editor.rst:293
+msgid "*Less Than Or Equal* - первый операнд меньше либо равен второму."
+msgstr ""
+"*Less Than Or Equal* - first operand is less than or equal to the second."
+
+#: ../logic_editor.rst:294
+msgid "*Greater Than Or Equal* - первый операнд больше либо равен второму."
+msgstr ""
+"*Greater Than Or Equal* - first operand is greater than or equal to the "
+"second."
+
+#: ../logic_editor.rst:297 ../logic_editor.rst:374
+msgid "*Operand1*"
+msgstr ""
+
+#: ../logic_editor.rst:297
+msgid ""
+"Первый операнд логического выражения. Должен иметь численное значение. Может"
+" быть задан в самой ноде либо с помощью ссылки на один из восьми регистров."
+msgstr ""
+"First operand of the logical condition. Should have a numeric value. Can be "
+"specified in the node or can be a link to one of the eight registers."
+
+#: ../logic_editor.rst:300 ../logic_editor.rst:377
+msgid "*Operand2*"
+msgstr ""
+
+#: ../logic_editor.rst:300
+msgid "Второй операнд логического выражения. Аналогичен первому."
+msgstr ""
+"Second operand of the logical condition. Works the same way as the first."
+
+#: ../logic_editor.rst:329
+msgid "*Var. n.*"
+msgstr ""
+
+#: ../logic_editor.rst:329
+msgid ""
+"Имя переменной. Может быть выбрано из списка восьми регистров либо задано "
+"самостоятельно (если включен параметр ``New variable``)."
+msgstr ""
+"Name of the variable. Can be selected from the list of eight registers or "
+"specified manually (if the ``New variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:332
+msgid "*New variable*"
+msgstr ""
+
+#: ../logic_editor.rst:332
+msgid ""
+"Если этот параметр активирован, имя переменной может быть задано "
+"самостоятельно (а не выбрано из списка регистров). Может применяться для "
+"обмена данными с сервером."
+msgstr ""
+"If this parameter is enabled, you can manually input a variable's name and "
+"not just select one of the registers. This can be used to transfer the data "
+"between the application and the server."
+
+#: ../logic_editor.rst:335
+msgid "*Num.*"
+msgstr ""
+
+#: ../logic_editor.rst:335
+msgid "Численное значение, присваиваемое переменной. По умолчанию равно нулю."
+msgstr "Numeric value of the variable. Set to zero by default."
+
+#: ../logic_editor.rst:371 ../logic_editor.rst:724
+msgid "*Operation*"
+msgstr ""
+
+#: ../logic_editor.rst:365
+msgid ""
+"Математическая операция, производимая над операндами. Может иметь один из "
+"следующих типов:"
+msgstr "Mathematical operation. Can have one of the following types:"
+
+#: ../logic_editor.rst:367
+msgid "*Random* - случайный выбор одной из нижеперечисленных операций."
+msgstr "*Random* randomly selects one of the following operations."
+
+#: ../logic_editor.rst:368
+msgid "*Add* - сумма операндов."
+msgstr "*Add* sums the operands."
+
+#: ../logic_editor.rst:369
+msgid "*Multiply* - произведение операндов."
+msgstr "*Multiply* multyplies the operands."
+
+#: ../logic_editor.rst:370
+msgid "*Subtract* - разность операндов."
+msgstr "*Subtract* subtracts the second operand from the first."
+
+#: ../logic_editor.rst:371
+msgid "*Divide* - частное операндов."
+msgstr "*Divide* divides first operand by the second."
+
+#: ../logic_editor.rst:374
+msgid ""
+"Первый операнд. Может представлять собой численное значение либо ссылку на "
+"один из регистров (в случае, если активирован параметр ``Variable``)."
+msgstr ""
+"First operand. It can be specified in the node or it can be a link to one of"
+" the registers (if the ``Variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:377
+msgid "Второй операнд. Аналогичен первому."
+msgstr "Second operand. Works the same way as the first."
+
+#: ../logic_editor.rst:380 ../logic_editor.rst:498 ../logic_editor.rst:583
+#: ../logic_editor.rst:890
+msgid "*Destination*"
+msgstr ""
+
+#: ../logic_editor.rst:380
+msgid "Регистр, в который помещается результат операции."
+msgstr ""
+"The result of the operation will be saved in the register specified by this "
+"parameter."
+
+#: ../logic_editor.rst:385
+msgid "Show Object"
+msgstr ""
+
+#: ../logic_editor.rst:387
+msgid "Используется для отображения объектов."
+msgstr "Can be used to show 3D objects."
+
+#: ../logic_editor.rst:409
+msgid "Объект, который нужно отобразить."
+msgstr "An object to show."
+
+#: ../logic_editor.rst:414
+msgid "Hide Object"
+msgstr ""
+
+#: ../logic_editor.rst:416
+msgid "Используется для скрытия объекта."
+msgstr "Can be used to hide 3d objects."
+
+#: ../logic_editor.rst:438
+msgid "Объект, который нужно скрыть."
+msgstr "An object to hide."
+
+#: ../logic_editor.rst:445
+msgid ""
+"Служит для перенаправления на другие веб-страницы. По этой причине нода "
+"всегда находится в конце логической цепочки и не имеет выходных параметров."
+msgstr ""
+"Can be used to redirect the browser to another page. This node always marks "
+"the end of the node tree and doest't have any output parameters."
+
+#: ../logic_editor.rst:466 ../logic_editor.rst:534
+msgid "*Url*"
+msgstr ""
+
+#: ../logic_editor.rst:466
+msgid ""
+"Адрес страницы, которя будет открыта. По умолчанию имеет значение "
+"\"https://www.blend4web.com\"."
+msgstr ""
+"Web adress of a page that will be opened. Set to "
+"\"https://www.blend4web.com\" by default."
+
+#: ../logic_editor.rst:495
+msgid "*Param Name*"
+msgstr ""
+
+#: ../logic_editor.rst:495
+msgid "Имя параметра веб-страницы."
+msgstr "The name of the web page parameter."
+
+#: ../logic_editor.rst:498
+msgid "Регистр, в который следует сохранить параметр."
+msgstr "A register that will be used to save the parameter."
+
+#: ../logic_editor.rst:531
+msgid "*Method*"
+msgstr ""
+
+#: ../logic_editor.rst:528
+msgid "Метод отправки запроса. Может иметь одно из двух значений:"
+msgstr "Method of the request. Can have one of two values:"
+
+#: ../logic_editor.rst:530
+msgid "*GET* - отправляет запрос на получение данных с сервера."
+msgstr "*GET* is used to request data from the server."
+
+#: ../logic_editor.rst:531
+msgid "*POST* - отправляет данные на сервер."
+msgstr "*POST* is used to send data to the server."
+
+#: ../logic_editor.rst:534
+msgid ""
+"Адрес, на который следует отправить запрос. По умолчанию имеет значение "
+"\"https://www.blend4web.com\"."
+msgstr ""
+"A web adress to send request to. Set to \"https://www.blend4web.com\" by "
+"default."
+
+#: ../logic_editor.rst:537
+msgid "*Decode Response Params*"
+msgstr ""
+
+#: ../logic_editor.rst:537
+msgid ""
+"Список переменных, в которые сохраняются параметры, полученные от сервера. "
+"Переменные имеют имена вида ``var0``, ``var1`` и т.д., (полученные с сервера"
+" параметры должны иметь точно такие же имена) а их количество может быть "
+"настроено. На сегодняшний день значения переменных могут быть только "
+"численными."
+msgstr ""
+"A list of variables to store the data recieved from the server. Variables "
+"always have names like ``var0``, ``var1`` and so on (parameters recieved "
+"from the server should have the exact same names), while their quantity can "
+"be customized. For now, variables can only have numeric values."
+
+#: ../logic_editor.rst:540
+msgid "Информация, полученная с сервера, должна иметь следующий вид:"
+msgstr "The data recieved from the server should look like this:"
+
+#: ../logic_editor.rst:577
+msgid "*Source*"
+msgstr ""
+
+#: ../logic_editor.rst:577
+msgid "Объект, которому присвоен материал, который требуется скопировать."
+msgstr "An object that has a material that will be inherited."
+
+#: ../logic_editor.rst:580 ../logic_editor.rst:586 ../logic_editor.rst:618
+msgid "*Material*"
+msgstr ""
+
+#: ../logic_editor.rst:580
+msgid "Материал, который требуется скопировать."
+msgstr "The material to inherit."
+
+#: ../logic_editor.rst:583
+msgid "Объект, которому требуется присвоить скопированный материал."
+msgstr "An object that will inherit selected material."
+
+#: ../logic_editor.rst:586
+msgid "Материал, который будет заменен скопированным материалом."
+msgstr "The material that will be replaced by the inherited one."
+
+#: ../logic_editor.rst:593
+msgid ""
+"Позволяет установить значение одного или нескольких параметров шейдерной "
+"ноды. В данный момент поддерживаются ноды ``Value`` и ``RGB``."
+msgstr ""
+"Can be used to set the value for the shader node. Currently, only ``Value``"
+"  and ``RGB`` nodes are supported."
+
+#: ../logic_editor.rst:615
+msgid "Объект, материал которого нужно отредактировать."
+msgstr "An object that has material that needs to be edited."
+
+#: ../logic_editor.rst:618
+msgid "Материал, параметры которого нужно изменить. Должен использовать ноды."
+msgstr "Material that needs to be edited. It should use nodes."
+
+#: ../logic_editor.rst:621
+msgid "*Node*"
+msgstr ""
+
+#: ../logic_editor.rst:621
+msgid ""
+"Нода, параметры которой нужно изменить. На данный момент поддерживаются "
+"только ноды ``Value`` и ``RGB``."
+msgstr ""
+"A node that has parameters that can be changed. For now, only ``Value`` and "
+"``RGB`` nodes are supported."
+
+#: ../logic_editor.rst:624
+msgid "*Parameters*"
+msgstr ""
+
+#: ../logic_editor.rst:624
+msgid ""
+"Доступные для редактирования параметры выбранной ноды. Значения этих "
+"параметров могут быть заданы непосредственно в самой ноде или взяты из "
+"указанных регистров (для этого нужно активировать параметр ``Variable``)."
+msgstr ""
+"Editable parameters of the selected node. They can be set in the node itself"
+" or through the registers (if the ``Variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:653 ../logic_editor.rst:688
+msgid "*Value*"
+msgstr ""
+
+#: ../logic_editor.rst:653
+msgid ""
+"Время (в секундах), на которое задерживается передача управления следующей "
+"ноде. По умолчанию равно нулю. Может быть задано в явном виде или же взято "
+"из регистра (в случае, если активирован параметр ``Variable``)."
+msgstr ""
+"Time (in seconds) that will pass before the activation of the next node. Set"
+" to zero by default. Can be set manually or through a register (if the "
+"``Variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:682
+msgid "Объект, к которому нужно применить трансформацию."
+msgstr "An object that needs to be transformed."
+
+#: ../logic_editor.rst:685
+msgid "*Shape Key*"
+msgstr ""
+
+#: ../logic_editor.rst:685
+msgid "Ключ формы, который нужно применить к объекту."
+msgstr "Shape key that will be applied to the object."
+
+#: ../logic_editor.rst:688
+msgid ""
+"Степень влияния выбранного ключа формы на объект. Значение может быть задано"
+" в самой ноде или взято из регистра. Изменяется в пределах от 0 до 1."
+msgstr ""
+"How much the shape key will influence the object. This value can be set in "
+"the node or in a register. The value should be between 0 and 1."
+
+#: ../logic_editor.rst:717
+msgid "Объект, эффект обводки которого требуется настроить."
+msgstr ""
+"Any changes of the outline effect will be applied only to an object "
+"specified by this parameter."
+
+#: ../logic_editor.rst:720
+msgid ""
+"Операция, которую следует произвести с обводкой объекта. Этот параметр может"
+" принимать одно из следующих значений:"
+msgstr ""
+"Specifies an operation that will be done to the object's outline. This "
+"parameter can have one of the following values:"
+
+#: ../logic_editor.rst:722
+msgid "*PLAY* - включает анимацию обводки"
+msgstr "*PLAY* enables outline animation"
+
+#: ../logic_editor.rst:723
+msgid "*STOP* - выключает её"
+msgstr "*STOP* disables it"
+
+#: ../logic_editor.rst:724
+msgid "*INTENSITY* - позволяет настраивать интенсивность обводки"
+msgstr "*INTENSITY* can be used to set intensity of the object's outline"
+
+#: ../logic_editor.rst:727
+msgid "*Intensity*"
+msgstr ""
+
+#: ../logic_editor.rst:727
+msgid ""
+"Интенсивность обводки объекта. Этот параметр появляется только если параметр"
+" ``Operation`` имеет значение ``INTENSITY``. Интенсивность может быть задана"
+" численно или взята из регистра (для этого нужно активировать параметр "
+"``Variable``)."
+msgstr ""
+"Outline intensity. This parameter is only avalible if the ``Operation`` "
+"parameter is set to ``INTENSITY``. The value can be set manually or via "
+"register (if the ``Variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:756
+msgid "*Camera*"
+msgstr ""
+
+#: ../logic_editor.rst:756
+msgid "Камера, которую необходимо переместить."
+msgstr "A camera that will be moved."
+
+#: ../logic_editor.rst:759
+msgid "*Location*"
+msgstr ""
+
+#: ../logic_editor.rst:759
+msgid ""
+"Объект, к которому перемещается камера. После того, как перемещение "
+"завершится, координаты камеры и объекта будут совпадать."
+msgstr ""
+"An object to which the camera will move. The camera's coordinates will be "
+"the same as the object's after the movement is finished."
+
+#: ../logic_editor.rst:762
+msgid "*Target*"
+msgstr ""
+
+#: ../logic_editor.rst:762
+msgid ""
+"Объект, в направлении которого камера будет развёрнута после перемещения."
+msgstr ""
+"The camera will point in the direction of this object after being moved."
+
+#: ../logic_editor.rst:765 ../logic_editor.rst:893
+msgid "*Duration*"
+msgstr ""
+
+#: ../logic_editor.rst:765
+msgid ""
+"Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в "
+"этом случае камера перемещается мгновенно). Может быть задано вручную или с "
+"помощью ссылки на регистр (эта возможность появляется при активации "
+"параметра ``Variable``)."
+msgstr ""
+"Time (in seconds) that the camera will spend being moved to a new location. "
+"Set to zero by default (and in this case the camera doesn't actually move, "
+"it simply changes its position). It can be specified manually or as a link "
+"to a register (if the ``Variable`` parameter is enabled)"
+
+#: ../logic_editor.rst:770
+msgid "Play Sound"
+msgstr ""
+
+#: ../logic_editor.rst:772
+msgid "Позволяет воспроизводить звук спикера."
+msgstr "Can be used to play speaker's sound."
+
+#: ../logic_editor.rst:794 ../logic_editor.rst:826
+msgid "*Speaker*"
+msgstr ""
+
+#: ../logic_editor.rst:794
+msgid "Источник звука, который требуется активировать."
+msgstr "A speaker that will be enabled."
+
+#: ../logic_editor.rst:797
+msgid ""
+"Если этот параметр активирован, управление будет передано следующей ноде "
+"сразу же после того, как началось воспроизведение звука. В противном случае "
+"это произойдёт только после того, как звук закончится."
+msgstr ""
+"If this parameter is enabled, the control will pass to the next node right "
+"after sound playback starts. If it isn't enabled, the control will pass only"
+" when the playback is finished."
+
+#: ../logic_editor.rst:802
+msgid "Stop Sound"
+msgstr ""
+
+#: ../logic_editor.rst:804
+msgid "Позволяет останавливать звук спикера."
+msgstr "Can be used to stop speaker's sound."
+
+#: ../logic_editor.rst:826
+msgid "Источник звука, который нужно отключить."
+msgstr "A speaker that will be turned off."
+
+#: ../logic_editor.rst:849
+msgid "*<имя объекта> Hit*"
+msgstr "*<object name> Hit*"
+
+#: ../logic_editor.rst:849
+msgid ""
+"Этот параметр передаёт управление следующей ноде в случае, если выбран "
+"объект, упомянутый в его названии. По умолчанию нода ``Switch Select`` имеет"
+" один параметр этого типа, также присутствует возможность создавать новые и "
+"удалять уже существующие (нода может и не иметь ни одного такого параметра)."
+msgstr ""
+"This parameter will pass the control to the next node if the user selects "
+"(with a mouse or by touch) an object mentioned in the parameter's name. The "
+"``Switch Select`` node has one such parameter by default, but you can add "
+"new ones and remove existing ones (the node can even have no such "
+"parameters)."
+
+#: ../logic_editor.rst:852
+msgid "*Miss*"
+msgstr ""
+
+#: ../logic_editor.rst:852
+msgid ""
+"Этот параметр передаёт управление следующей ноде в случае, если не выбран ни"
+" один объект из списка."
+msgstr ""
+"This parameter will pass the control to the next node if the user hasn't "
+"selected any of the objects specified in the ``Switch Select`` node."
+
+#: ../logic_editor.rst:858
+msgid ""
+"Один из объектов, доступных для выбора пользователю. Такие параметры "
+"создаются и удаляются автоматически при создании или удалении выходных "
+"параметров типа ``Hit``."
+msgstr ""
+"One of the objects that the user can select. These parameters are "
+"automatically created and deleted when you create or delete a ``Hit`` "
+"parameter. The number of such parameters is always equal to the number of "
+"the ``Hit`` parameters."
+
+#: ../logic_editor.rst:941
+msgid "Прочие элементы"
+msgstr "Other elements"
+
+#: ../logic_editor.rst:943
+msgid ""
+"В редакторе логики также присутствуют элементы ``Reroute`` - специальные "
+"ноды, который не выполняют никаких операций, а только передают управление "
+"следующей ноде (или следующему элементу ``Reroute``). Они могут применяться "
+"для создания циклических структур или для того, чтобы сделать логическую "
+"цепочку более понятной и лёгкой для восприятия."
+msgstr ""
+"Logic Editor also has ``Reroute`` elements, the nodes that don't do anything"
+" aside from passing the control to the next node or to the next ``Reroute`` "
+"element. Such elements can be used to create cyclic structures or to make "
+"the node tree easier to read and understand."
+
+#: ../logic_editor.rst:950
+msgid ""
+"Выходной параметр не может быть подключён к входному параметру той же ноды. "
+"В случае, когда это требуется сделать (например, для того, чтобы зациклить "
+"выполнение какой-либо операции), следует использовать ``Reroute``."
+msgstr ""
+"Output parameter can't be connected to the same node's input parameter. If "
+"you need to do this (to make a cycle, for example), you should use "
+"``Reroute`` elements."
+
+#: ../logic_editor.rst:863
+msgid "Move To"
+msgstr ""
+
+#: ../logic_editor.rst:865
+msgid "Позволяет перемещать объекты."
+msgstr "Can be used to move objects."
+
+#: ../logic_editor.rst:887
+msgid "Объект, который требуется переместить."
+msgstr "An object that you need to move."
+
+#: ../logic_editor.rst:890
+msgid ""
+"Цель (объект, источник света, самера и т.п.), к которой перемещается объект."
+" После того, как перемещение завершится, координаты объекта и цели будут "
+"совпадать."
+msgstr ""
+"A target (another object or a light source, camera or anything else) to which "
+"the selected object will move. The object's coordinated will be the same as the "
+"target's after the movement is finished."
+
+#: ../logic_editor.rst:893
+msgid ""
+"Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в "
+"этом случае объект не движется, а мгновенно перемещается к точке назначения)"
+" Может быть задано как в самой ноде, так и с помощью регистра (если "
+"активирован параметр ``Variable``)."
+msgstr ""
+"Time (in seconds) that the object will spend moving to the new location. By "
+"default, this parameter is set to zero (and in this case, the object doesn't "
+"actually move, it just changes it's position in a moment). It can be set manually "
+"or with a register (avalible only if the ``Variable`` parameter is enabled)."
+
+#: ../logic_editor.rst:898
+msgid "Console Print"
+msgstr ""
+
+#: ../logic_editor.rst:900
+msgid ""
+"Позволяет выводить значения переменных и дополнительную информацию в консоли"
+" браузе. Может использоваться для отладки логики."
+msgstr ""
+"This node prints variables's values and additional text to the web browser console. "
+"It can be used for debug purposes."
+
+#: ../logic_editor.rst:922
+msgid "*Message*"
+msgstr ""
+
+#: ../logic_editor.rst:922
+msgid ""
+"Сообщение, которые будет напечатано в консоли вместе со значениями "
+"переменных."
+msgstr ""
+"A message that will be printed to the console along with the values."
+
+#: ../logic_editor.rst:925
+msgid "<имя регистра>"
+msgstr "<register name>"
+
+#: ../logic_editor.rst:925
+msgid ""
+"Имя одного из регистров, значение которого нужно вывести в консоли. По "
+"умолчанию нода ``Console Print`` имеет один параметр такого типа, также "
+"имеется возможность создавать новые и удалять уже существующие (нода может и "
+"не иметь ни одного параметра этого типа)."
+msgstr ""
+"A register that will be printed to the console. By default, a ``Console Print`` "
+"node has one such parameter, but you can add new and delete existing ones (the "
+"node might not even have such parameters at all)."
+
+#~ msgid "Визуальное программирование (Logic Editor)"
+#~ msgstr "Visual Programming (Logic Editor)"
+
+#~ msgid ""
+#~ "Осуществляется путем создания нодового дерева логики в окне нодового "
+#~ "редактора. С помощью ``Logic Editor`` можно существенно расширить "
+#~ "функциональность сцены, не прибегая при этом к программированию."
+#~ msgstr ""
+#~ "Performed by creating logic node tree in the node editor area in Blender. "
+#~ "These nodes can extend the scene functionality significantly without any "
+#~ "coding."
+
+#~ msgid "Show Object и Hide Object"
+#~ msgstr "Show Object and Hide Object"
+
+#~ msgid "Используются для скрытия и отображения объектов."
+#~ msgstr "This is used to hide and show 3D objects."
+
+#~ msgid "Служит для перенаправления на другие веб-страницы."
+#~ msgstr "This serves as a page redirect to other web pages."
+
+#~ msgid ""
+#~ "Позволяет установить значение шейдерной ноды. В данный момент поддерживаются"
+#~ " ноды Value и RGB."
+#~ msgstr ""
+#~ "Set vaue for the shader node. Currently only Value and RGB nodes are "
+#~ "supported."
+
+#~ msgid "Play Animation и Stop Animation"
+#~ msgstr "Play Animation & Stop Animation"
+
+#~ msgid ""
+#~ "Позволяют управлять объектной анимацией. ``Play Animation`` проигрывает "
+#~ "объектную анимацию. Присутствует возможность указать название анимации. "
+#~ "Возможны 3 варианта:"
+#~ msgstr ""
+#~ "Can be used to control object animation. ``Play Animation`` is used to play "
+#~ "object animation. Animation's name can be specified. 3 options are possible:"
+
+#~ msgid "``Stop Animation`` останавливает анимацию."
+#~ msgstr "The ``Stop Animation`` node stops animation."
+
+#~ msgid "Play Sound и Stop Sound"
+#~ msgstr "Play Sound & Stop Sound"
+
+#~ msgid "Позволяет воспроизводить/останавливать звук спикера."
+#~ msgstr "Can be used to play and stop a speaker's sound."

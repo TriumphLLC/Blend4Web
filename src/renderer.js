@@ -35,8 +35,6 @@ var m_textures = require("__textures");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 
-var cfg_def = m_cfg.defaults;
-
 var USE_BACKFACE_CULLING = true;
 
 var DEBUG_DISABLE_RENDER_LOCK = false;
@@ -67,6 +65,7 @@ var _ivec4_tmp = new Uint8Array(4);
 var _mat3_tmp  = new Float32Array(9);
 var _tsr_tmp   = new Float32Array(8);
 
+var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
 /**
  * Setup WebGL context
@@ -106,15 +105,20 @@ exports.draw = function(subscene) {
     if (!subscene.do_render)
         return;
 
-    m_debug.render_time_start(subscene);
-
     if (subscene.type == "RESOLVE") {
+        m_debug.render_time_start(subscene);
         draw_resolve(subscene);
+        m_debug.render_time_stop(subscene);
+
         m_debug.check_gl("draw resolve");
     } else if (subscene.type == "COPY") {
+        m_debug.render_time_start(subscene);
         draw_copy(subscene);
+        m_debug.render_time_stop(subscene);
+
         m_debug.check_gl("draw copy");
     } else {
+        m_debug.render_time_start(subscene);
         prepare_subscene(subscene);
 
         if (subscene.type == "MAIN_CUBE_REFLECT")
@@ -122,13 +126,13 @@ exports.draw = function(subscene) {
         else
             draw_subs(subscene);
 
+        m_debug.render_time_stop(subscene);
+
         m_debug.check_gl("draw subscene: " + subscene.type);
         // NOTE: fix for strange issue with skydome rendering
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
-
     }
 
-    m_debug.render_time_stop(subscene);
 }
 
 function draw_cube_reflection_subs(subscene) {
@@ -1379,6 +1383,18 @@ function assign_uniform_setters(shader) {
                 gl.uniform4fv(loc, camera.pcf_blur_radii);
             }
             break;
+        case "u_v_light_ts":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.v_light_ts);
+            }
+            transient_uni = true;
+            break;
+        case "u_v_light_r":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.v_light_r);
+            }
+            transient_uni = true;
+            break;
         case "u_v_light_tsr":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix3fv(loc, false, subscene.v_light_tsr);
@@ -1536,6 +1552,18 @@ function assign_uniform_setters(shader) {
         case "u_saturation":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.saturation);
+            }
+            break;
+
+        // hmd params
+        case "u_enable_hmd_stereo":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1i(loc, subscene.enable_hmd_stereo);
+            }
+            break;
+        case "u_distortion_params":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.distortion_params);
             }
             break;
         default:

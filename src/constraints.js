@@ -25,13 +25,14 @@
  */
 b4w.module["__constraints"] = function(exports, require) {
 
+var m_armat = require("__armature");
 var m_cam   = require("__camera");
 var m_mat3  = require("__mat3");
+var m_print = require("__print");
 var m_quat  = require("__quat");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
-var m_armat = require("__armature");
 
 var CONS_TYPE_STIFF_OBJ           = 1;
 var CONS_TYPE_STIFF_BONE          = 2;
@@ -352,39 +353,49 @@ exports.append_stiff_viewport = function(obj, camobj, positioning) {
 
     cons.obj_parent = camobj;
 
-    if ("left" in positioning) {
+    if (m_util.isdef(positioning.left)) {
         cons.left_edge = true;
-        cons.left_right_dist = positioning["left"];
-    } else if ("right" in positioning) {
+        cons.left_right_dist = positioning.left;
+    } else if (m_util.isdef(positioning.right)) {
         cons.left_edge = false;
-        cons.left_right_dist = positioning["right"];
+        cons.left_right_dist = positioning.right;
     } else {
         m_print.error("append_stiff_viewport: Wrong positioning params");
         return;
     }
 
-    if ("top" in positioning) {
+    if (m_util.isdef(positioning.top)) {
         cons.top_edge = true;
-        cons.top_bottom_dist = positioning["top"];
-    } else if ("bottom" in positioning) {
+        cons.top_bottom_dist = positioning.top;
+    } else if (m_util.isdef(positioning.bottom)) {
         cons.top_edge = false;
-        cons.top_bottom_dist = positioning["bottom"];
+        cons.top_bottom_dist = positioning.bottom;
     } else {
         m_print.error("append_stiff_viewport: Wrong positioning params");
         return;
     }
 
-    if ("distance" in positioning) {
-        cons.distance = positioning["distance"];
+    if (m_util.isdef(positioning.distance)) {
+        cons.distance = positioning.distance;
     } else {
         m_print.error("append_stiff_viewport: Wrong positioning params");
         return;
     }
 
-    if ("rotation" in positioning) {
-        cons.rotation_offset = new Float32Array(positioning["rotation"]);
-    } else
+    if (m_util.isdef(positioning.rotation))
+        cons.rotation_offset = new Float32Array(positioning.rotation);
+    else
         cons.rotation_offset = null;
+
+    if (m_util.isdef(positioning.hor_units))
+        cons.hor_units = positioning.hor_units;
+    else
+        cons.hor_units = "widths";
+
+    if (m_util.isdef(positioning.vert_units))
+        cons.vert_units = positioning.vert_units;
+    else
+        cons.vert_units = "heights";
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -627,23 +638,34 @@ function update_cons(obj, cons, elapsed) {
 
         var trans = m_tsr.get_trans_view(obj.render.world_tsr);
 
+        var left = m_cam.get_edge(cam, "LEFT");
+        var right = m_cam.get_edge(cam, "RIGHT");
         var top = m_cam.get_edge(cam, "TOP");
         var bottom = m_cam.get_edge(cam, "BOTTOM");
-        var height = top - bottom;
+
+        if (cons.hor_units == "heights")
+            var hor_stride = top - bottom;
+        else
+            var hor_stride = right - left;
 
         if (cons.left_edge) {
             var left = m_cam.get_edge(cam, "LEFT");
-            trans[0] = left + height * cons.left_right_dist;
+            trans[0] = left + hor_stride * cons.left_right_dist;
         } else {
             var right = m_cam.get_edge(cam, "RIGHT");
-            trans[0] = right - height * cons.left_right_dist;
+            trans[0] = right - hor_stride * cons.left_right_dist;
         }
+
+        if (cons.vert_units == "heights")
+            var vert_stride = top - bottom;
+        else
+            var vert_stride = right - left;
 
         // in the camera's local space (not view space)
         if (cons.top_edge)
-            trans[2] = -(top - height * cons.top_bottom_dist);
+            trans[2] = -(top - vert_stride * cons.top_bottom_dist);
         else
-            trans[2] = -(bottom + height * cons.top_bottom_dist);
+            trans[2] = -(bottom + vert_stride * cons.top_bottom_dist);
 
         // NOTE: ortho cameras have scaling problems
         if (m_cam.is_ortho(cam)) {
@@ -826,7 +848,7 @@ exports.correct_up = correct_up;
  * Rotate camera to fix UP direction.
  * Uses _vec3_tmp, _vec3_tmp_2, _vec3_tmp_3
  */
-function correct_up(camobj, y_axis, strict) {
+function correct_up(camobj, up_axis, strict) {
     var render = camobj.render;
     var quat = m_tsr.get_quat_view(render.world_tsr);
 
@@ -834,11 +856,11 @@ function correct_up(camobj, y_axis, strict) {
     var y_cam_world = m_util.quat_to_dir(quat, m_util.AXIS_Y, _vec3_tmp)
     m_vec3.normalize(y_cam_world, y_cam_world);
     // handle extreme case (camera looks UP or DOWN)
-    if (Math.abs(m_vec3.dot(y_axis, y_cam_world)) > 0.999999)
+    if (Math.abs(m_vec3.dot(up_axis, y_cam_world)) > 0.999999)
         var rotation = m_quat.identity(_quat4_tmp);
     else {
 
-        var x_cam_world_new = m_vec3.cross(y_axis, y_cam_world, _vec3_tmp_2);
+        var x_cam_world_new = m_vec3.cross(up_axis, y_cam_world, _vec3_tmp_2);
 
         m_vec3.normalize(x_cam_world_new, x_cam_world_new);
 
@@ -848,7 +870,7 @@ function correct_up(camobj, y_axis, strict) {
         } else {
             // Y coord of local camera Z axis in parent(!) space
             var z_cam_world = m_util.quat_to_dir(quat, m_util.AXIS_Z, _vec3_tmp_3);
-            if (m_vec3.dot(z_cam_world, y_axis) > 0)
+            if (m_vec3.dot(z_cam_world, up_axis) > 0)
                 m_vec3.negate(x_cam_world_new, x_cam_world_new);
         }
 
@@ -871,7 +893,7 @@ function correct_up(camobj, y_axis, strict) {
     // strictly align camera with the given UP vector
     if (strict) {
         var mz_cam_world = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp);
-        if (m_vec3.dot(y_axis, mz_cam_world) < 0)
+        if (m_vec3.dot(up_axis, mz_cam_world) < 0)
             m_quat.rotateY(quat, Math.PI, quat)
     }
 

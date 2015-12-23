@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lighting, Shadows and Background &mdash; User Manual: Blend4Web vv15.11</title>
+  <title>Lighting, Shadows and Background &mdash; User Manual: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -378,7 +378,7 @@
 <dt><em>Spot Shape &gt; Blend</em></dt>
 <dd><p class="first last">Parameter for blurring light spot edges. It is applicable to the <code class="docutils literal"><span class="pre">Spot</span></code> light source type. The default value is 0.15.</p>
 </dd>
-<dt><em>Dynamic intesity</em></dt>
+<dt><em>Dynamic Intesity</em></dt>
 <dd><p class="first last">Use this light source for calculating the time of day. Applicable only to the <code class="docutils literal"><span class="pre">Sun</span></code> light source type. Disabled by default.</p>
 </dd>
 <dt><em>Shadows &gt; Generate shadows</em></dt>
@@ -442,6 +442,8 @@
 <span id="id14"></span><h2>Shadows<a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h2>
 <p>Shadows are exceptionally important for rendering the final picture. They provide the viewer not only with information about the objects&#8217; outline but also about their height and relative position, light source position and so on.</p>
 <p>Blend4Web implements the following shadow rendering techniques: cascaded shadow maps (CSM) and softened shadows (PCF).</p>
+<p>Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows simultaneously. If <em>Generate Shadows</em> parameter is enabled for more than 4 light sources, shadows will still be generated only from 4 of them.</p>
+<a class="reference internal image-reference" href="_images/lighting_multiple_shadows.png"><img alt="_images/lighting_multiple_shadows.png" class="align-center" src="_images/lighting_multiple_shadows.png" style="width: 100%;" /></a>
 <div class="section" id="id15">
 <h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
@@ -472,26 +474,30 @@
 </dd>
 </dl>
 <p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Shadows</span></code> panel of the <code class="docutils literal"><span class="pre">Render</span></code> tab:</p>
-<a class="reference internal image-reference" href="_images/b4w_shadow_settings.png"><img alt="_images/b4w_shadow_settings.png" class="align-center" src="_images/b4w_shadow_settings.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/lighting_shadow_settings.png"><img alt="_images/lighting_shadow_settings.png" class="align-center" src="_images/lighting_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Resolution</em></dt>
 <dd><p class="first last">Shadow map resolution. The default value is 2048x2048px.</p>
 </dd>
-<dt><em>Self-shadow polygon offset</em></dt>
+<dt><em>Self-Shadow Polygon Offset</em></dt>
 <dd><p class="first last">Coefficient for shifting polygons relative to light source orientation. The default value is 1.</p>
 </dd>
-<dt><em>Self-shadow normal offset</em></dt>
-<dd><p class="first last">Coefficient for shifting polygons along their normals. The default value is 0.01.</p>
+<dt><em>Self-Shadow Normal Offset</em></dt>
+<dd><p class="first last">Coefficient for shifting polygons along their normals. The default value is 0.010.</p>
 </dd>
 </dl>
-<p>The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></code> parameter is more effective for fighting against artifacts in inner areas of poligons while <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></code> is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.</p>
+<p>The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Polygon</span> <span class="pre">Offset</span></code> parameter is more effective for fighting against artifacts in inner areas of poligons while <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Normal</span> <span class="pre">Offset</span></code> is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.</p>
 <a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Shadows from <code class="docutils literal"><span class="pre">Point</span></code> light sources are generated the same way as from <code class="docutils literal"><span class="pre">Spot</span></code> light sources and are projected only in one direction specified by the source&#8217;s <code class="docutils literal"><span class="pre">Rotation</span></code> parameter.</p>
+</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>Enable CSM</em></dt>
-<dd><p class="first last">Activates the using of cascaded shadows model; reveals additional options. Disabled by default.</p>
+<dd><p class="first last">Activates the using of cascaded shadows model; reveals additional options. Disabled by default. Won&#8217;t work if the <code class="docutils literal"><span class="pre">Generate</span> <span class="pre">Shadows</span></code> setting is enabled for more than one light source. <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> type light sources support only one shadow cascade.</p>
 </dd>
 </dl>
 <p>This option allows to choose between the following shadow generation models:</p>
@@ -523,48 +529,48 @@
 </div>
 <p>In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.</p>
 <p>When enabled the following extended settings are revealed:</p>
-<img alt="_images/b4w_shadow_settings_csm.png" class="align-center" src="_images/b4w_shadow_settings_csm.png" />
+<img alt="_images/lighting_cascades.png" class="align-center" src="_images/lighting_cascades.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>CSM number</em></dt>
+<dt><em>CSM Number</em></dt>
 <dd><p class="first last">Number of shadow cascades. From 1 to 4 cascades are supported. The default value is 1.</p>
 </dd>
-<dt><em>CSM first cascade border</em></dt>
+<dt><em>CSM First Cascade Border</em></dt>
 <dd><p class="first last">First cascade size. The default value is 10.0.</p>
 </dd>
-<dt><em>CSM last cascade border</em></dt>
+<dt><em>CSM Last Cascade Border</em></dt>
 <dd><p class="first last">Last cascade size. The default value is 100.0.</p>
 </dd>
 </dl>
 <p>The sizes of the intermediate cascades are interpolated between the two above-mentioned parameters.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">border</span></code> parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">border</span></code> parameter forces shadows to disappear at more close distance from the camera. However when softened shadows are used the overall quality will improve thanks to blurring at the edges.</p>
+<p class="last">When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">First</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">Last</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter forces shadows to disappear at more close distance from the camera. However when softened shadows are used the overall quality will improve thanks to blurring at the edges.</p>
 </div>
 <a class="reference internal image-reference" href="_images/csm_cascade_distance.png"><img alt="_images/csm_cascade_distance.png" class="align-center" src="_images/csm_cascade_distance.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>CSM first cascade blur radius</em></dt>
+<dt><em>CSM First Cascade Blur Radius</em></dt>
 <dd><p class="first last">Blur ratio for the first cascade. The default value is 3. Zero value produces hard shadows.</p>
 </dd>
-<dt><em>CSM last cascade blur radius</em></dt>
+<dt><em>CSM Last Cascade Blur Radius</em></dt>
 <dd><p class="first last">Blur ratio for the last cascade. The default value is 1.5. Zero value produces hard shadows.</p>
 </dd>
 </dl>
 <p>The blur radii of the intermediate cascades are interpolated between the two above-mentioned parameters.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">We recommend to start setting up the softened shadows with the first cascade (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>) and then proceed to other cascades (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>). Often the last cascade may need less blurring than the first one. This may be needed to prevent the shadows on the last cascade being too faded due to low resolution. This also reduces undesirable self-shadowing artifacts.</p>
+<p class="last">We recommend to start setting up the softened shadows with the first cascade (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">First</span> <span class="pre">Cascade</span> <span class="pre">Blur</span> <span class="pre">Radius</span></code>) and then proceed to other cascades (using <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">Last</span> <span class="pre">Cascade</span> <span class="pre">Blur</span> <span class="pre">Radius</span></code>). Often the last cascade may need less blurring than the first one. This may be needed to prevent the shadows on the last cascade being too faded due to low resolution. This also reduces undesirable self-shadowing artifacts.</p>
 </div>
 <dl class="docutils">
-<dt><em>Fade-out last cascade</em></dt>
+<dt><em>Fade-out Last Cascade</em></dt>
 <dd><p class="first last">Smooth dying-out of the last cascade. Enabled by default.</p>
 </dd>
-<dt><em>Blend between cascades</em></dt>
+<dt><em>Blend Between Cascades</em></dt>
 <dd><p class="first last">Smoothing the boundaries between the cascades. Enabled by default.</p>
 </dd>
 </dl>
@@ -647,7 +653,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-11-26.
+      Last updated on 2015-12-22.
 
     </p>
   </div>
@@ -669,7 +675,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

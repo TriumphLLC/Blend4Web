@@ -381,6 +381,51 @@ class B4W_ObjectTags(ObjectButtonsPanel, Panel):
         row.label(text=_("Description Source:"))
         row.prop(b4w_obj_tags, "desc_source", expand=True, text=_("Source"))
 
+class B4W_OBJECT_PT_relations(ObjectButtonsPanel, Panel):
+    bl_label = _("Relations")
+
+    def draw(self, context):
+        layout = self.layout
+
+        ob = context.object
+
+        split = layout.split()
+
+        col = split.column()
+        col.prop(ob, "layers")
+        #col.separator()
+        #col.prop(ob, "pass_index")
+
+        col = split.column()
+        col.label(text="Parent:")
+        col.prop(ob, "parent", text="")
+
+        sub = col.column()
+        sub.prop(ob, "parent_type", text="")
+        parent = ob.parent
+        if parent and ob.parent_type == 'BONE' and parent.type == 'ARMATURE':
+            sub.prop_search(ob, "parent_bone", parent.data, "bones", text="")
+        sub.active = (parent is not None)
+
+        if parent and parent.type == "CAMERA":
+            enable_align = ob.b4w_enable_viewport_alignment
+            align = ob.b4w_viewport_alignment
+
+            layout.prop(ob, "b4w_enable_viewport_alignment",
+                    text=_("Viewport Alignment"))
+
+            row = layout.row()
+            row.active = enable_align
+            row.prop(align, "alignment")
+
+            row = layout.row()
+            row.active = enable_align
+            row.prop(align, "distance")
+
+            row = layout.row()
+            row.active = enable_align
+            row.operator("b4w.viewport_alignment_fit")
+
 class B4W_OBJECT_PT_duplication(ObjectButtonsPanel, Panel):
     bl_label = _("Duplication")
     bl_options = {'DEFAULT_CLOSED'}
@@ -501,6 +546,7 @@ class B4W_ObjectEffects(ObjectButtonsPanel, Panel):
         row.prop(obj, "b4w_caustics", text=_("Caustics"))
 
 def register():
+    bpy.utils.register_class(B4W_OBJECT_PT_relations)
     bpy.utils.register_class(B4W_OBJECT_PT_duplication)
     bpy.utils.register_class(B4W_OBJECT_PT_levels_of_detail)
 
@@ -517,6 +563,7 @@ def register():
     bpy.utils.register_class(B4W_ObjectBillboard)
 
 def unregister():
+    bpy.utils.unregister_class(B4W_OBJECT_PT_relations)
     bpy.utils.unregister_class(B4W_OBJECT_PT_duplication)
     bpy.utils.unregister_class(B4W_OBJECT_PT_levels_of_detail)
 

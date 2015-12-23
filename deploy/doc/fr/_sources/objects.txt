@@ -91,6 +91,17 @@
 *Relations > Parent*
    Указатель на родительский объект.
 
+   Если в качестве родительского объекта выбрана камера, становятся
+   доступными настройки "Viewport Alignment".
+
+   [image]
+
+   Параметр "Alignment" определяет, с какой стороны от камеры будет
+   находиться привязанный к ней объект (по умолчанию "Center").
+   Параметр "Distance" задаёт расстояние объекта до камеры (по
+   умолчанию 10). Чтобы привязанный объект отображался в Blender так
+   же, как и в движке, нужно нажать кнопку "Fit to Camera".
+
 *Groups*
    Группы объектов, которым принадлежит данный объект.
 
@@ -132,14 +143,14 @@
    Экспортировать ключи деформации. Актуально только для объектов типа
    "MESH".
 
-Note: Свойства *Apply Modifiers*, *Apply Scale and Modifiers*,
+Note: Свойства *Apply Modifiers*, *Apply Scale And Modifiers*,
   *Export Vertex Animation*, и *Export Shape Keys* взаимоисключают
   друг друга.
 
-*Animation > Apply default animation*
+*Animation > Apply Default Animation*
    Начать воспроизведение в движке связанной с объектом анимации.
 
-*Animation > Animation blending*
+*Animation > Animation Blending*
    Только для арматурных объектов. Разрешить плавный переход от одной
    скелетной анимации к другой.
 
@@ -175,7 +186,7 @@ Note: Свойства *Apply Modifiers*, *Apply Scale and Modifiers*,
 *Reflections > Reflexible*
    При включении объект будет отражаться от зеркальных поверхностей.
 
-*Reflections > Reflexible only*
+*Reflections > Reflexible Only*
    При включении объект будет отражаться, при этом сам будет
    оставаться невидимым. Становится доступным после включения
    "Reflections > Reflexible".
@@ -237,7 +248,8 @@ Note: Свойства *Apply Modifiers*, *Apply Scale and Modifiers*,
       пикселях).
 
 *Wind Bending*
-   Включить процедурную анимацию под действием ветра.
+   Включить процедурную анимацию под действием ветра. Подробно описана
+   в разделе, посвященном рендерингу наружных сцен.
 
 *Billboard*
    Использовать объект в качестве билборда (т.е. автоматически

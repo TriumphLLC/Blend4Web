@@ -36,12 +36,15 @@ var m_graph = require("__graph");
 
 var cfg_def = m_cfg.defaults;
 
-var _gl = null;
 var ERRORS = {};
+
+var RENDER_TIME_SMOOTH_INTERVALS = 10;
 
 var FAKE_LOAD_INTERVAL         = 5000;
 var FAKE_LOAD_START_PERCENTAGE = 0;
 var FAKE_LOAD_END_PERCENTAGE   = 100;
+
+var _gl = null;
 
 // NOTE: possible cleanup needed
 var _check_errors = false;
@@ -235,7 +238,7 @@ exports.set_check_gl_errors = function(val) {
  * use HUD to display subscene rendering time
  */
 exports.render_time_start = function(subs) {
-    if (!cfg_def.show_hud_debug_info)
+    if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
         return;
 
     var ext = m_ext.get_disjoint_timer_query();
@@ -253,39 +256,58 @@ exports.render_time_start = function(subs) {
  * use HUD to display subscene rendering time
  */
 exports.render_time_stop = function(subs) {
-    if (!cfg_def.show_hud_debug_info)
+    if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
         return;
-
-    var queries = subs.debug_render_time_queries;
 
     var ext = m_ext.get_disjoint_timer_query();
 
     if (ext) {
         ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
-
-        for (var i = 0; i < queries.length; i++) {
-            var query = queries[i];
-
-            var available = ext.getQueryObjectEXT(query,
-                    ext.QUERY_RESULT_AVAILABLE_EXT);
-            var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
-
-            if (available && !disjoint) {
-                var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
-                var render_time = elapsed / 1000000;
-                subs.debug_render_time = m_util.smooth(render_time,
-                        subs.debug_render_time, 1, 100);
-
-                queries.splice(i, 1);
-                i--;
-            }
-        }
+        process_timer_queries(subs);
     } else {
+        var queries = subs.debug_render_time_queries;
         var render_time = performance.now() - queries.pop();
-        subs.debug_render_time = m_util.smooth(render_time,
-                subs.debug_render_time, 1, 100);
+        // init value
+        if (!subs.debug_render_time)
+            subs.debug_render_time = render_time;
+        else
+            subs.debug_render_time = m_util.smooth(render_time,
+                    subs.debug_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
     }
 }
+
+/**
+ * External method is for debugging purposes
+ */
+exports.process_timer_queries = process_timer_queries;
+function process_timer_queries(subs) {
+    var ext = m_ext.get_disjoint_timer_query();
+    var queries = subs.debug_render_time_queries;
+
+    for (var i = 0; i < queries.length; i++) {
+        var query = queries[i];
+
+        var available = ext.getQueryObjectEXT(query,
+                ext.QUERY_RESULT_AVAILABLE_EXT);
+        var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
+
+        if (available && !disjoint) {
+            var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+            var render_time = elapsed / 1000000;
+
+            // init value
+            if (!subs.debug_render_time)
+                subs.debug_render_time = render_time;
+            else
+                subs.debug_render_time = m_util.smooth(render_time,
+                        subs.debug_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
+
+            queries.splice(i, 1);
+            i--;
+        }
+    }
+}
+
 
 /**
  * Print number of executions per frame.

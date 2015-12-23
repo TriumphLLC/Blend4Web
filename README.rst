@@ -30,9 +30,9 @@ Demos
 
 |planetarium| |mi-34_hermit| |dairy_plant|
 |capri_begins| |azure_grotto| |the_fountain|
-|the_watch| |sports_car| |naturemorte|
-|the_farm| |fashion_show| |the_island|
-|victory_day_2015| |new_year_2015| |victory_day_2014|
+|the_watch| |naturemorte| |the_farm|
+|fashion_show| |the_island| |victory_day_2015|
+|new_year_2015|
 
 =========
 Tutorials
@@ -42,18 +42,16 @@ Tutorials
 |playroom| |webmasters| |cloth_workflow|
 |tortoise| |visualizing_grass| |simple_app|
 |machinima| |soffit| |beach_umbrella|
-|striped_shader|
 
 ============
 Installation
 ============
 
-Setting up the development environment suits 3D application developers. 
-To familiarize yourself with the Blend4Web addon `Quick Installation <https://www.blend4web.com/doc/en/first_steps.html>`_ can be a better option.
+You need a compatible version of Blender installed in order to use Blend4Web.
 
-----------------------------------
-Step 1 - Adding to Blender Scripts
-----------------------------------
+----------------------------------------
+Step 1 - Specifying Blender Scripts Path
+----------------------------------------
 
 * Run Blender, load the default scene **File > New**;
 * Open the user preferences window **File > User Preferences...**;
@@ -61,7 +59,7 @@ Step 1 - Adding to Blender Scripts
 * Click **Save User Settings** and *restart Blender*.
 
 .. image:: https://www.blend4web.com/doc/en/_images/user_preferences_scripts_path.png
-    :alt: Adding to Blender Scripts
+    :alt: Specifying Blender Scripts Path
     :align: center
 
 ----------------------------
@@ -70,7 +68,7 @@ Step 2 - Enabling the Add-on
 
 * Again load the default scene;
 * Open the user preferences window;
-* Go to the **Addons** tab and choose the **Import-Export** category. Enable the **Import-Export: Blend4Web** checkbox;
+* Go to the **Add-ons** tab and select **Import-Export**. Turn on the **Import-Export: Blend4Web** checkbox;
 
 .. image:: https://www.blend4web.com/doc/en/_images/user_preferences_enable_addon.png
     :alt: Enabling the Add-on
@@ -78,20 +76,41 @@ Step 2 - Enabling the Add-on
 
 * Click **Save User Settings**. Restarting Blender is not required.
 
-------------------------------------
-Step 3 - Starting Development Server
-------------------------------------
+============
+What is Next
+============
 
-* Go to the **Render** tab and press the **Start** button on the **Development Server** panel;
-* Press the **Open SDK** button to open the index web page of the Blend4Web SDK in your default browser. Try running demos!
+To reveal the engine settings, select Blend4Web from the upper panel menu.
 
-.. image:: https://www.blend4web.com/media/img_article/107/rect4179-1-4.jpg
-    :alt: Starting Development Server
-    :align: center
+------------
+Fast Preview
+------------
+
+Preview scenes using **Fast Preview** button, located both at the bottom of the 3D View window and under the **Render** tab. In this case the scene will be exported inside some temporary storage and opened with the Viewer.
+
+------
+Export
+------
+
+Select either **Blend4Web (.html)** or **Blend4Web (.json)** option from the **File > Export** menu.
+
+Exported HTML files are self-contained and can be opened with a generic browser right away. On the other hand, exported JSON (together with BIN) files should be opened with the stock Web Player or loaded into your own 3D web app. See the `tutorial <https://www.blend4web.com/en/article/59/>`_.
+
+--------------
+SDK Index Page
+--------------
+
+Under the **Render** tab click **SDK Index**. The SDK index page will be opened in the default browser. Look through the demos, read the docs, run the Project Manager.
 
 
+=======
+Support
+=======
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.11-blue.svg
+We are always happy to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_.
+
+
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.12-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 
@@ -99,7 +118,7 @@ Step 3 - Starting Development Server
     :target: https://download.blender.org/release/Blender2.76/
     :alt: Compatible Blender Version
 
-.. |license| image:: https://img.shields.io/badge/license-GPLv3,%20commercial-lightgrey.svg
+.. |license| image:: https://img.shields.io/badge/license-GPLv3-lightgrey.svg
     :target: https://www.blend4web.com/en/services/
     :alt: License
 
@@ -133,10 +152,6 @@ Step 3 - Starting Development Server
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/props/watch_scene/watch_scene.json&autorotate&compressed_textures
     :alt: The Watch
 
-.. |sports_car| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/car.min50.png
-    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/car_bv_eb164/car_bv_eb164.json&autorotate&compressed_textures
-    :alt: Sports Car
-
 .. |naturemorte| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/naturemorte.min50.png
     :target: https://www.blend4web.com/en/demo/naturemorte/
     :alt: Nature Morte
@@ -160,10 +175,6 @@ Step 3 - Starting Development Server
 .. |new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.min50.png
     :target: https://www.blend4web.com/en/demo/greetcard_happy_new_year_2015/
     :alt: Happy New Year 2015!
-
-.. |victory_day_2014| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_victory_day_2014.min50.png
-    :target: https://www.blend4web.com/tutorials/victory_day/victory_day.html?autorotate
-    :alt: Victory Day (2014)
 
 .. |jungle_outpost| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_jungle_outpost.min50.png
     :target: https://www.blend4web.com/en/demo/tut_jungle_outpost/
@@ -212,10 +223,4 @@ Step 3 - Starting Development Server
 .. |beach_umbrella| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_beach_umbrella.min50.png
     :target: https://www.blend4web.com/en/demo/tut_beach_umbrella/
     :alt: Beach Umbrella
-
-.. |striped_shader| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_striped_shader.min50.png
-    :target: https://www.blend4web.com/en/demo/tut_striped_shader/
-    :alt: Striped Shader
-
-
 

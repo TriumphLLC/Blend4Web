@@ -30,9 +30,9 @@ float read_depth(in vec2 coord) {
 void main(void) {
 
     // TODO replace this by rendering to one channel using color mask
-    float tex_input = texture2D(u_color, v_texcoord).r;
+    vec3 tex_input = texture2D(u_color, v_texcoord).rgb;
 #if SSAO_WHITE
-    gl_FragColor = vec4(tex_input, 1.0, 0.0, 1.0);
+    gl_FragColor = vec4(tex_input, 1.0);
     return;
 #endif
 
@@ -90,5 +90,5 @@ void main(void) {
     float ssao_influence = u_ssao_influence * (1.0 - u_ssao_dist_factor * depth);
     res = mix(1.0, res, ssao_influence);
 
-    gl_FragColor = vec4(tex_input, res, 0.0, 1.0);
+    gl_FragColor = vec4(tex_input, res);
 }

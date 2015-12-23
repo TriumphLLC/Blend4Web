@@ -97,6 +97,8 @@ slot_type_enum = [
         ("STOP_ANIM", _("Stop Animation"), _("Stop Object Animation"), 25),
         ("SPEAKER_STOP", _("Stop Sound"), _("Stop Sound"), 26),
         ("STOP_TIMELINE", _("Stop Timeline"), _("Stop Timeline"), 27),
+        ("MOVE_TO", _("Move To"), _("Move to"), 28),
+        ("CONSOLE_PRINT", _("Console Print"), _("Console Print"), 29),
     ]
 
 operation_type_enum = [
@@ -314,11 +316,21 @@ def check_node(node):
 
             ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id1"].path_arr)
             if not ob:
-                node.add_error_message(err_msgs, "Translation field is not correct!")
+                node.add_error_message(err_msgs, "Destination field is not correct!")
 
             ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id2"].path_arr)
             if not ob:
-                node.add_error_message(err_msgs, "Target field is not correct!")
+                node.add_error_message(err_msgs, "Look at field is not correct!")
+
+    if node.type == "MOVE_TO":
+        if "id0" in node.objects_paths:
+            ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id0"].path_arr)
+            if not ob:
+                node.add_error_message(err_msgs, "Object field is not correct!")
+
+            ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id1"].path_arr)
+            if not ob:
+                node.add_error_message(err_msgs, "Destination field is not correct!")                
 
     if node.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
         id = "id0"
@@ -347,6 +359,28 @@ def check_node(node):
                 if not ob:
                     node.add_error_message(err_msgs, _("Bad object field: '%s'") % p1.path)
 
+    if node.type in ["CONSOLE_PRINT"]:
+        mess_err = True
+        if "msg" in node.common_usage_names:
+            if not node.common_usage_names["msg"].str == "":
+                mess_err = False
+
+        var_err = False
+        for v in node.variables_names:
+            if v.variable == "":
+                var_err = True
+                break
+
+        if mess_err:
+            node.add_error_message(err_msgs, _("Bad Message field!"))
+        if var_err:
+            node.add_error_message(err_msgs, _("Bad variable field!"))
+
+    if node.type in ["NOOP"]:
+        node.add_error_message(err_msgs, _("Node is not supported."))
+        node.add_error_message(err_msgs, _("It could be outdated or created"))
+        node.add_error_message(err_msgs, _("in a newer version of Blend4Web"))
+
     if len(err_msgs) > 0:
         return False
     else:
@@ -354,7 +388,7 @@ def check_node(node):
 
 def find_node(node_name, tree_name, find_item, type, node_types =
 ["INHERIT_MAT", "SET_SHADER_NODE_PARAM", "HIDE", "SHOW", "SELECT_PLAY", "PLAY_ANIM", "SELECT_PLAY_ANIM",
- "MOVE_CAMERA", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"]):
+ "MOVE_CAMERA", "MOVE_TO", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"]):
     node_found = None
     ng = bpy.data.node_groups
     if tree_name in bpy.data.node_groups:
@@ -377,7 +411,7 @@ def find_node(node_name, tree_name, find_item, type, node_types =
                                 storage = "nodes_paths"
                             if type == "vr":
                                 storage = "variables_names"
-                            if type in ["sk"]:
+                            if type in ["sk", "msg"]:
                                 storage = "common_usage_names"
                             for item in getattr(node, storage):
                                 if find_item == item:
@@ -412,7 +446,7 @@ def update_object_path(self, context):
         print(_("can't find a node: %s:%s") %(self.tree_name, self.node_name))
 
 def update_common_usage_names(self, context):
-    node_found = find_node(self.node_name, self.tree_name, self, self.name, ["APPLY_SHAPE_KEY"])
+    node_found = find_node(self.node_name, self.tree_name, self, self.name, ["APPLY_SHAPE_KEY", "CONSOLE_PRINT"])
     if node_found:
         check_node(node_found)
     else:
@@ -447,7 +481,7 @@ class B4W_LogicNodeBoolWrap(bpy.types.PropertyGroup):
     bool = bpy.props.BoolProperty(name="bool")
 
 def update_variable(self, context):
-    node = find_node(self.node_name,self.tree_name, self, "vr", ["SET_SHADER_NODE_PARAM"])
+    node = find_node(self.node_name,self.tree_name, self, "vr", ["SET_SHADER_NODE_PARAM", "CONSOLE_PRINT"])
     if node:
         check_node(node)
 class B4W_LogicNodeVariableWrap(bpy.types.PropertyGroup):
@@ -957,7 +991,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         # update vars always when new node was added
 
         if self.type in ["SELECT_PLAY", "PLAY", "HIDE", "SHOW", "SELECT", "PLAY_ANIM", "DELAY",
-                         "MOVE_CAMERA", "SPEAKER_PLAY", "SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
+                         "MOVE_CAMERA", "MOVE_TO", "SPEAKER_PLAY", "SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
                          "STOP_TIMELINE"]:
             self.width = 190
         if self.type in ["PAGE_PARAM"]:
@@ -1123,6 +1157,21 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.variables_names.add()
             self.variables_names[-1].name = "dur"
 
+        if self.type in ["MOVE_TO"]:
+            for i in range(2):
+                name = "id%s"%i
+                self.objects_paths.add()
+                item = self.objects_paths[-1]
+                item.tree_name = self.id_data.name
+                item.node_name = self.name
+                item.name = name
+            self.durations.add()
+            self.durations[-1].name = "dur"
+            self.bools.add()
+            self.bools[-1].name = "dur"
+            self.variables_names.add()
+            self.variables_names[-1].name = "dur"            
+
         if self.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
             name = "id0"
             self.objects_paths.add()
@@ -1134,6 +1183,14 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         if self.type in ["STOP_ANIM", "STOP_TIMELINE"]:
             self.bools.add()
             self.bools[-1].name = "rst"
+
+        if self.type in ["CONSOLE_PRINT"]:
+            self.variables_names.add()
+            self.variables_names[-1].name = "id0"
+            self.common_usage_names.add()
+            self.common_usage_names[-1].name = "msg"
+
+
 
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
 
@@ -1821,8 +1878,8 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         elif slot.type == "MOVE_CAMERA":
             self.draw_selector(col, 0, _("Camera:"), None, "ob", icon="OUTLINER_OB_CAMERA")
-            self.draw_selector(col, 1, _("Location:"), None, "ob")
-            self.draw_selector(col, 2, _("Target:"), None, "ob")
+            self.draw_selector(col, 1, _("Destination:"), None, "ob")
+            self.draw_selector(col, 2, _("Look at:"), None, "ob")
             col.label(_("Duration:"))
             row = col.row(align=True)
             if not self.bools["dur"].bool:
@@ -1835,6 +1892,22 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
                     row.label(no_var_source_msg)
 
             row.prop(self.bools["dur"], "bool", text = _("Variable"))
+
+        elif slot.type == "MOVE_TO":
+            self.draw_selector(col, 0, _("Object:"), None, "ob")
+            self.draw_selector(col, 1, _("Destination:"), None, "ob")
+            col.label(_("Duration:"))
+            row = col.row(align=True)
+            if not self.bools["dur"].bool:
+                row.prop(self.durations["dur"], "float", text = "")
+            else:
+                if "entryp" in self:
+                    row.prop_search(self.variables_names["dur"], "variable",
+                                    self.id_data.nodes[self["entryp"]], "variables", text = "")
+                else:
+                    row.label(no_var_source_msg)
+
+            row.prop(self.bools["dur"], "bool", text = _("Variable"))            
 
         elif slot.type == "SET_CAMERA_MOVE_STYLE":
             col.label(_("Camera Style:"))
@@ -1849,6 +1922,24 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             for id in self.objects_paths:
                 index = id.name[2:]
                 self.draw_selector(col, index, _("Object:"), None, "ob")
+
+        elif slot.type == "CONSOLE_PRINT":
+            if "msg" in self.common_usage_names:
+                col.prop(self.common_usage_names["msg"], "str", text="Message")
+            for var in self.variables_names:
+                row = col.row()
+                if "entryp" in self:
+                    row.prop_search(var, "variable",
+                                    self.id_data.nodes[self["entryp"]], "variables", text = "")
+                else:
+                    row.label(no_var_source_msg)
+                op = row.operator(OperatorLogicConsolePrintRemoveVar.bl_idname,  icon='ZOOMOUT', text="")
+                op.node_tree = self.id_data.name
+                op.node = self.name
+                op.var = var.name
+            op = col.operator(OperatorLogicConsolePrintAddVar.bl_idname,  icon='ZOOMIN', text="")
+            op.node_tree = self.id_data.name
+            op.node = self.name
 
     def draw_label(self):
         for t in slot_type_enum:
@@ -1887,10 +1978,12 @@ node_categories = [
         NodeItem("B4W_logic_node", label=_("Apply Shape Key"),settings={"type": repr("APPLY_SHAPE_KEY")}),
         NodeItem("B4W_logic_node", label=_("Outline"),settings={"type": repr("OUTLINE")}),
         NodeItem("B4W_logic_node", label=_("Move Camera"),settings={"type": repr("MOVE_CAMERA")}),
+        NodeItem("B4W_logic_node", label=_("Move To"),settings={"type": repr("MOVE_TO")}),
         # disabled until there is a collision with app.js
         # NodeItem("B4W_logic_node", label=_("Set Camera Move Style"),settings={"type": repr("SET_CAMERA_MOVE_STYLE")}),
         NodeItem("B4W_logic_node", label=_("Play Sound"),settings={"type": repr("SPEAKER_PLAY")}),
         NodeItem("B4W_logic_node", label=_("Stop Sound"),settings={"type": repr("SPEAKER_STOP")}),
+        NodeItem("B4W_logic_node", label=_("Console Print"),settings={"type": repr("CONSOLE_PRINT")}),
         ]),
     B4W_LogicNodeCategory("Layout", _("Layout"), items=[
         NodeItem("NodeFrame"),
@@ -2187,6 +2280,61 @@ def sock_pos_by_name(sockets, name):
             return i
     return -1
 
+class OperatorLogicConsolePrintAddVar(bpy.types.Operator):
+    bl_idname = "node.b4w_logic_console_print_add_var"
+    bl_label = p_("Add new variable", "Operator")
+    node_tree = bpy.props.StringProperty(
+        name = _("Node tree"),
+    )
+    node = bpy.props.StringProperty(
+        name = _("Node name"),
+    )
+    def invoke(self, context, event):
+        for nodetree in bpy.data.node_groups:
+            if nodetree.name == self.node_tree:
+                for node in nodetree.nodes:
+                    if node.name == self.node:
+                        cnt = 0
+                        while (True):
+                            old_cnt = cnt
+                            for p in node.variables_names:
+                                if p.name == "id" + str(cnt):
+                                    cnt+=1
+                            if old_cnt == cnt:
+                                break
+
+                        name = "id"+str(cnt)
+                        node.variables_names.add()
+                        node.variables_names[-1].name = name
+                        check_node(node)
+                        return{'FINISHED'}
+
+        return {'FINISHED'}
+
+class OperatorLogicConsolePrintRemoveVar(bpy.types.Operator):
+    bl_idname = "node.b4w_logic_console_print_remove_var"
+    bl_label = p_("Remove variable", "Operator")
+    node_tree = bpy.props.StringProperty(
+        name = _("Node tree"),
+    )
+    node = bpy.props.StringProperty(
+        name = _("Node name"),
+    )
+    var = bpy.props.StringProperty(
+        name = _("var id"),
+    )
+    def invoke(self, context, event):
+        for nodetree in bpy.data.node_groups:
+            if nodetree.name == self.node_tree:
+                for node in nodetree.nodes:
+                    if node.name == self.node:
+                        ind = index_by_key(node.variables_names, self.var)
+                        node.variables_names.remove(ind)
+                        check_node(node)
+                        return{'FINISHED'}
+
+        return {'FINISHED'}
+
 class OperatorLogicAddDynJumpSock(bpy.types.Operator):
     bl_idname = "node.b4w_logic_add_dyn_jump_sock"
     bl_label = p_("Add dynamic jump socket", "Operator")
@@ -2391,6 +2539,8 @@ def register():
     bpy.utils.register_class(OperatorLogicNodesEditObjectItemLevel)
     bpy.utils.register_class(OperatorLogicRemoveDynJumpSock)
     bpy.utils.register_class(OperatorLogicAddDynJumpSock)
+    bpy.utils.register_class(OperatorLogicConsolePrintAddVar)
+    bpy.utils.register_class(OperatorLogicConsolePrintRemoveVar)
     nodeitems_utils.register_node_categories("B4W_LOGIC_CUSTOM_NODES", node_categories)
     register_hotkey()
 
@@ -2419,4 +2569,6 @@ def unregister():
     bpy.utils.unregister_class(OperatorLogicNodesEditObjectItemLevel)
     bpy.utils.unregister_class(OperatorLogicRemoveDynJumpSock)
     bpy.utils.unregister_class(OperatorLogicAddDynJumpSock)
+    bpy.utils.unregister_class(OperatorLogicConsolePrintAddVar)
+    bpy.utils.unregister_class(OperatorLogicConsolePrintRemoveVar)
     unregister_hotkey()

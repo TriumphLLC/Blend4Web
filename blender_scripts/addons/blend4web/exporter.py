@@ -126,8 +126,6 @@ _packed_files_data = {}
 
 _rendered_scenes = []
 
-_canvases_identifiers = []
-
 _additional_scene_objects = []
 
 # currently processed data
@@ -1350,6 +1348,9 @@ def process_scene_nla(scene, scene_data):
             elif slot['type'] == "MOVE_CAMERA":
                 check_objects_paths(scene, slot, slot_data)
 
+            elif slot['type'] == "MOVE_TO":
+                check_objects_paths(scene, slot, slot_data)                
+
             elif slot['type'] == "NOOP":
                 pass
 
@@ -1577,11 +1578,20 @@ def process_object(obj, is_curve=False, is_hair=False):
     parent = obj.parent
     if parent and do_export(parent) and object_is_valid(parent) and not is_hair:
         obj_data["parent"] = process_object(parent)
+
+        if obj.b4w_enable_viewport_alignment and parent.type == "CAMERA":
+            obj_va = obj_data["b4w_viewport_alignment"] = OrderedDict()
+            obj_va["alignment"] = obj.b4w_viewport_alignment.alignment
+            obj_va["distance"] = obj.b4w_viewport_alignment.distance
+        else:
+            obj_data["b4w_viewport_alignment"] = None
     else:
         obj_data["parent"] = None
+        obj_data["b4w_viewport_alignment"] = None
 
     obj_data["parent_type"] = obj.parent_type
     obj_data["parent_bone"] = obj.parent_bone
+
 
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
@@ -2092,23 +2102,17 @@ def process_camera(camera):
     cam_data["b4w_distance_min"] = round_num(camera.b4w_distance_min, 3)
     cam_data["b4w_distance_max"] = round_num(camera.b4w_distance_max, 3)
 
-    cam_data["b4w_use_horizontal_clamping"] \
-            = camera.b4w_use_horizontal_clamping
-    cam_data["b4w_rotation_left_limit"] \
-            = round_num(camera.b4w_rotation_left_limit, 6)
-    cam_data["b4w_rotation_right_limit"] \
-            = round_num(camera.b4w_rotation_right_limit, 6)
-    cam_data["b4w_horizontal_clamping_type"] \
-            = camera.b4w_horizontal_clamping_type
+    # NOTE: don't round the limits to maintain correspondence between 
+    # how they are displayed in Blender and the behavior in the engine
+    cam_data["b4w_use_horizontal_clamping"] = camera.b4w_use_horizontal_clamping
+    cam_data["b4w_rotation_left_limit"] = camera.b4w_rotation_left_limit
+    cam_data["b4w_rotation_right_limit"] = camera.b4w_rotation_right_limit
+    cam_data["b4w_horizontal_clamping_type"] = camera.b4w_horizontal_clamping_type
 
-    cam_data["b4w_use_vertical_clamping"] \
-            = camera.b4w_use_vertical_clamping
-    cam_data["b4w_rotation_down_limit"] \
-            = round_num(camera.b4w_rotation_down_limit, 6)
-    cam_data["b4w_rotation_up_limit"] \
-            = round_num(camera.b4w_rotation_up_limit, 6)
-    cam_data["b4w_vertical_clamping_type"] \
-            = camera.b4w_vertical_clamping_type
+    cam_data["b4w_use_vertical_clamping"] = camera.b4w_use_vertical_clamping
+    cam_data["b4w_rotation_down_limit"] = camera.b4w_rotation_down_limit
+    cam_data["b4w_rotation_up_limit"] = camera.b4w_rotation_up_limit
+    cam_data["b4w_vertical_clamping_type"] = camera.b4w_vertical_clamping_type
 
     cam_data["b4w_horizontal_translation_min"] \
             = round_num(camera.b4w_horizontal_translation_min, 3)
@@ -2456,15 +2460,6 @@ def process_texture(texture, uuid = None):
         if texture.b4w_source_type == "SCENE":
             _rendered_scenes.append(texture)
         tex_data["extension"] = texture.b4w_extension
-        if texture.b4w_source_type == "CANVAS":
-            if not texture.b4w_source_id:
-                raise MaterialError("Empty canvas texture ID for texture " +
-                        "\"" + tex_data["name"] + "\".")
-            if texture.b4w_source_id in _canvases_identifiers:
-                raise MaterialError("Canvas texture ID " + "\"" + tex_data["b4w_source_id"] + 
-                        "\"" + " already exists. Texture " + "\"" + tex_data["name"] + "\".")
-            else:
-                _canvases_identifiers.append(texture.b4w_source_id)
 
     tex_data["b4w_use_map_parallax"] = texture.b4w_use_map_parallax
     tex_data["b4w_parallax_scale"] = round_num(texture.b4w_parallax_scale, 3)
@@ -4502,9 +4497,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _b4w_export_errors
         _b4w_export_errors = []
-
-        global _canvases_identifiers
-        _canvases_identifiers = []
 
         global _vehicle_integrity
         _vehicle_integrity = {}

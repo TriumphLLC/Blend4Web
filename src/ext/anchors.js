@@ -18,7 +18,8 @@
 "use strict";
 
 /**
- * Anchors are Empty objects placed in Blender. They are used to project 3D points to the 2D screen.
+ * Anchors are Empty objects assigned in Blender.
+ * They are used to project 3D points or HTML elements to the 2D screen.
  * @module anchors
  * @local AnchorMoveCallback
  */

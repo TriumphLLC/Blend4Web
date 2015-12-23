@@ -117,7 +117,6 @@ var _limits_tmp = {};
  * @param {Boolean} success Success flag.
  */
 
-
 /**
  * Initialize the engine.
  * The "options" object may be extended by adding properties from the engine's
@@ -172,7 +171,6 @@ exports.init = function(options) {
     var show_fps = false;
     var show_hud_debug_info = false;
     var track_container_position = false;
-
     for (var opt in options) {
         switch (opt) {
         case "canvas_container_id":
@@ -584,19 +582,17 @@ function enable_camera_controls(disable_default_pivot,
         var collision = m_ctl.create_collision_sensor(obj, null, true);
 
         var collision_cb = function(obj, id, pulse) {
-            if (pulse == 1) {
-                var coll_dist = m_ctl.get_sensor_payload(obj, id, 0).coll_dist;
-                if (coll_dist < 0) {
-                    var coll_norm = m_ctl.get_sensor_payload(obj, id, 0).coll_norm;
-                    var recover_offset = _vec3_tmp;
-                    m_vec3.scale(coll_norm, -0.25 * coll_dist, recover_offset);
-                    var trans = m_trans.get_translation(obj, _vec3_tmp2);
-                    m_vec3.add(trans, recover_offset, trans);
-                    m_trans.set_translation_v(obj, trans);
-                }
+            var coll_dist = m_ctl.get_sensor_payload(obj, id, 0).coll_dist;
+            if (coll_dist < 0) {
+                var coll_norm = m_ctl.get_sensor_payload(obj, id, 0).coll_norm;
+                var recover_offset = _vec3_tmp;
+                m_vec3.scale(coll_norm, -0.25 * coll_dist, recover_offset);
+                var trans = m_trans.get_translation(obj, _vec3_tmp2);
+                m_vec3.add(trans, recover_offset, trans);
+                m_trans.set_translation_v(obj, trans);
             }
         }
-        m_ctl.create_sensor_manifold(obj, "CAMERA_COLLISION", m_ctl.CT_CONTINUOUS,
+        m_ctl.create_sensor_manifold(obj, "CAMERA_COLLISION", m_ctl.CT_POSITIVE,
                 [collision], null, collision_cb);
     }
 
@@ -865,7 +861,7 @@ function enable_camera_controls(disable_default_pivot,
         // camera zoom smoothing
         var zoom_interp_cb = function(obj, id, pulse) {
 
-            if (pulse == 1 && (use_pivot || use_hover)) {
+            if (use_pivot || use_hover) {
                 if (Math.abs(dest_zoom_mouse) > EPSILON_DELTA
                         || Math.abs(dest_zoom_touch) > EPSILON_DELTA) {
                     var value = m_ctl.get_sensor_value(obj, id, 0);
@@ -908,7 +904,7 @@ function enable_camera_controls(disable_default_pivot,
             }
         }
 
-        m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_CONTINUOUS,
+        m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_POSITIVE,
                 [elapsed], null, zoom_interp_cb);
     }
 
@@ -994,14 +990,14 @@ function enable_camera_controls(disable_default_pivot,
 
     // camera rotation and translation smoothing
     var rot_trans_interp_cb = function(obj, id, pulse) {
-        if (pulse == 1 && (Math.abs(dest_x_mouse) > EPSILON_DELTA ||
-                           Math.abs(dest_y_mouse) > EPSILON_DELTA ||
-                           Math.abs(dest_x_touch) > EPSILON_DELTA ||
-                           Math.abs(dest_y_touch) > EPSILON_DELTA ||
-                           Math.abs(dest_pan_x_mouse) > EPSILON_DELTA ||
-                           Math.abs(dest_pan_y_mouse) > EPSILON_DELTA ||
-                           Math.abs(dest_pan_x_touch) > EPSILON_DELTA ||
-                           Math.abs(dest_pan_y_touch) > EPSILON_DELTA)) {
+        if (    Math.abs(dest_x_mouse) > EPSILON_DELTA ||
+                Math.abs(dest_y_mouse) > EPSILON_DELTA ||
+                Math.abs(dest_x_touch) > EPSILON_DELTA ||
+                Math.abs(dest_y_touch) > EPSILON_DELTA ||
+                Math.abs(dest_pan_x_mouse) > EPSILON_DELTA ||
+                Math.abs(dest_pan_y_mouse) > EPSILON_DELTA ||
+                Math.abs(dest_pan_x_touch) > EPSILON_DELTA ||
+                Math.abs(dest_pan_y_touch) > EPSILON_DELTA) {
 
             var value = m_ctl.get_sensor_value(obj, id, 0);
 
@@ -1069,8 +1065,8 @@ function enable_camera_controls(disable_default_pivot,
         }
     }
 
-    m_ctl.create_sensor_manifold(obj, "ROT_TRANS_INTERPOL", m_ctl.CT_CONTINUOUS,
-        [elapsed], null, rot_trans_interp_cb);
+    m_ctl.create_sensor_manifold(obj, "ROT_TRANS_INTERPOL", m_ctl.CT_POSITIVE,
+            [elapsed], null, rot_trans_interp_cb);
 
     m_ctl.create_kb_sensor_manifold(obj, "DEC_STEREO_DIST", m_ctl.CT_SHOT,
             m_ctl.KEY_LEFT_SQ_BRACKET, function(obj, id, pulse) {
@@ -1289,8 +1285,9 @@ exports.request_fullscreen = request_fullscreen;
  * @param {HTMLElement} elem Element
  * @param {FullscreenEnabledCallback} enabled_cb Enabled callback
  * @param {FullscreenDisabledCallback} disabled_cb Disabled callback
+ * @param {HMDVRDevice} vr_display Target device displaying fullscreen
  */
-function request_fullscreen(elem, enabled_cb, disabled_cb) {
+function request_fullscreen(elem, enabled_cb, disabled_cb, vr_display) {
 
     enabled_cb = enabled_cb || function() {};
     disabled_cb = disabled_cb || function() {};
@@ -1327,9 +1324,9 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
             || elem.msRequestFullscreen;
 
     if (elem.requestFullScreen == elem.webkitRequestFullScreen)
-        elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT || {"vrDisplay": vr_display});
     else
-        elem.requestFullScreen();
+        elem.requestFullScreen({"vrDisplay": vr_display});
 }
 
 exports.exit_fullscreen = exit_fullscreen;

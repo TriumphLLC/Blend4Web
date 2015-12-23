@@ -45,6 +45,29 @@ b4w_anim_behavior_items = [
 class B4W_StringWrap(bpy.types.PropertyGroup):
     name = bpy.props.StringProperty(name = _("name"),)
 
+class B4W_ViewportAlignment(bpy.types.PropertyGroup):
+    alignment = bpy.props.EnumProperty(
+        name = _("Alignment"),
+        description = _("Alignment"),
+        default = "CENTER",
+        items = [
+            ("BOTTOM_RIGHT", _("Bottom-Right"), _("Bottom-right corner")),
+            ("BOTTOM", _("Bottom"), _("Bottom edge")),
+            ("BOTTOM_LEFT", _("Bottom-Left"), _("Bottom-left corner")),
+            ("RIGHT", _("Right"), _("Right edge")),
+            ("CENTER", _("Center"), _("Center")),
+            ("LEFT", _("Left"), _("Left edge")),
+            ("TOP_RIGHT", _("Top-Right"), _("Top-right corner")),
+            ("TOP", _("Top"), _("Top edge")),
+            ("TOP_LEFT", _("Top-Left"), _("Top-left corner"))
+        ]
+    )
+    distance = bpy.props.FloatProperty(
+        name = _("Distance"),
+        description = _("Distance"),
+        default = 10
+    )
+
 class B4W_DetailBendingColors(bpy.types.PropertyGroup):
 
     leaves_stiffness_col = bpy.props.StringProperty(
@@ -1203,7 +1226,7 @@ def add_b4w_props():
            description = _("Zoom velocity of the camera"),
            default = 0.1,
            min = 0.0,
-           max = 1.0,
+           max = 0.99,
            soft_max = 1.0,
            soft_min = 0.0,
            step = 0.1,
@@ -1224,6 +1247,13 @@ def add_b4w_props():
         size = 3
     )
     bpy.types.Camera.b4w_target = b4w_target
+
+    b4w_show_limits_in_viewport = bpy.props.BoolProperty(
+        name = _("B4W: display limits in viewport"),
+        description = _("Display limits for the current camera model in viewport"),
+        default = False
+    )
+    bpy.types.Camera.b4w_show_limits_in_viewport = b4w_show_limits_in_viewport
 
     b4w_use_target_distance_limits = bpy.props.BoolProperty(
         name = _("B4W: use distance limits"),
@@ -1254,7 +1284,7 @@ def add_b4w_props():
     b4w_distance_max = bpy.props.FloatProperty(
            name = _("B4W: Maximum distance to target"),
            description = _("Maximum distance to target"),
-           default = 100.0,
+           default = 10.0,
            min = 0.0,
            soft_min = 0.0,
            max = 1000000.0,
@@ -1266,7 +1296,7 @@ def add_b4w_props():
     b4w_horizontal_translation_min = bpy.props.FloatProperty(
            name = _("B4W: Minimum value of the horizontal translation"),
            description = _("Minimum value of the horizontal translation"),
-           default = -100.0,
+           default = -10.0,
            min = -1000000.0,
            soft_min = -1000.0,
            max = 1000000.0,
@@ -1279,7 +1309,7 @@ def add_b4w_props():
     b4w_horizontal_translation_max = bpy.props.FloatProperty(
            name = _("B4W: Maximum value of the horizontal translation"),
            description = _("Maximum value of the horizontal translation"),
-           default = 100.0,
+           default = 10.0,
            min = -1000000.0,
            soft_min = -1000.0,
            max = 1000000.0,
@@ -1292,7 +1322,7 @@ def add_b4w_props():
     b4w_vertical_translation_min = bpy.props.FloatProperty(
            name = _("B4W: Minimum value of the vertical translation"),
            description = _("Minimum value of the vertical translation"),
-           default = -100.0,
+           default = -10.0,
            min = -1000000.0,
            soft_min = -1000.0,
            max = 1000000.0,
@@ -1305,7 +1335,7 @@ def add_b4w_props():
     b4w_vertical_translation_max = bpy.props.FloatProperty(
            name = _("B4W: Maximum value of the vertical translation"),
            description = _("Maximum value of the vertical translation"),
-           default = 100.0,
+           default = 10.0,
            min = -1000000.0,
            soft_min = -1000.0,
            max = 1000000.0,
@@ -1325,26 +1355,28 @@ def add_b4w_props():
     b4w_rotation_left_limit = bpy.props.FloatProperty(
            name = _("B4W: Rotation left limit"),
            description = _("Rotation left limit angle"),
-           default = -math.pi,
+           default = -math.pi / 4,
            min = -2 * math.pi,
            soft_min = -2 * math.pi,
            max = 2 * math.pi,
            soft_max = 2 * math.pi,
            precision = 1,
            subtype = "ANGLE",
+           step = 10
        )
     bpy.types.Camera.b4w_rotation_left_limit = b4w_rotation_left_limit
 
     b4w_rotation_right_limit = bpy.props.FloatProperty(
            name = _("B4W: Rotation right limit"),
            description = _("Rotation right limit angle"),
-           default = math.pi,
+           default = math.pi / 4,
            min = -2 * math.pi,
            soft_min = -2 * math.pi,
            max = 2 * math.pi,
            soft_max = 2 * math.pi,
            precision = 1,
            subtype = "ANGLE",
+           step = 10
        )
     bpy.types.Camera.b4w_rotation_right_limit = b4w_rotation_right_limit
 
@@ -1411,7 +1443,7 @@ def add_b4w_props():
     b4w_rotation_down_limit = bpy.props.FloatProperty(
         name = _("B4W: Rotation down limit"),
         description = _("Rotation down limit angle"),
-        default = -math.pi / 2,
+        default = -math.pi / 4,
         min = -2 * math.pi,
         soft_min = -2 * math.pi,
         max = 2 * math.pi,
@@ -1424,7 +1456,7 @@ def add_b4w_props():
     b4w_rotation_up_limit = bpy.props.FloatProperty(
         name = _("B4W: Rotation up limit"),
         description = _("Rotation up limit angle"),
-        default = math.pi / 2,
+        default = math.pi / 4,
         min = -2 * math.pi,
         soft_min = -2 * math.pi,
         max = 2 * math.pi,
@@ -1746,6 +1778,7 @@ def remove_camera_props():
     del bpy.types.Camera.b4w_rot_velocity
     del bpy.types.Camera.b4w_zoom_velocity
     del bpy.types.Camera.b4w_target
+    del bpy.types.Camera.b4w_show_limits_in_viewport
     del bpy.types.Camera.b4w_use_target_distance_limits
     del bpy.types.Camera.b4w_use_zooming
     del bpy.types.Camera.b4w_distance_min
@@ -2409,6 +2442,16 @@ def add_object_properties():
         name = _("B4W: character settings"),
         type = B4W_CharacterSettings
     )
+
+    # not exported
+    obj_type.b4w_enable_viewport_alignment = bpy.props.BoolProperty(
+        name = _("B4W: enable viewport alignment"),
+        description = _("Enable viewport alignment"),
+        default = False
+    )
+    obj_type.b4w_viewport_alignment = bpy.props.PointerProperty(
+            type=B4W_ViewportAlignment,
+            name=_("B4W: Viewport Alignment"))
 
     # not exported
     obj_type.b4w_anim_clean_keys = bpy.props.BoolProperty(
@@ -3538,6 +3581,7 @@ def register():
     bpy.utils.register_class(B4W_GlowSettings)
     bpy.utils.register_class(B4W_ColorCorrectionSettings)
     bpy.utils.register_class(B4W_ShadowSettings)
+    bpy.utils.register_class(B4W_ViewportAlignment)
     bpy.utils.register_class(B4W_DetailBendingColors)
     bpy.utils.register_class(B4W_SkySettings)
     bpy.utils.register_class(B4W_BloomSettings)
@@ -3561,6 +3605,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_GlowSettings)
     bpy.utils.unregister_class(B4W_ColorCorrectionSettings)
     bpy.utils.unregister_class(B4W_ShadowSettings)
+    bpy.utils.unregister_class(B4W_ViewportAlignment)
     bpy.utils.unregister_class(B4W_DetailBendingColors)
     bpy.utils.unregister_class(B4W_SkySettings)
     bpy.utils.unregister_class(B4W_BloomSettings)

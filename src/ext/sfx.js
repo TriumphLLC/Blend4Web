@@ -20,6 +20,7 @@
 /** 
  * Sound effects API.
  * Uses Web Audio API for sound effects and HTML5 audio for background music.
+ * @see https://www.blend4web.com/doc/en/audio.html
  * @module sfx
  * @cc_externs AudioContext webkitAudioContext MediaElementAudioSourceNode
  */

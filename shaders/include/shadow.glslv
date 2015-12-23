@@ -1,4 +1,4 @@
-#import u_normal_offset u_v_light_tsr \
+#import u_normal_offset u_v_light_ts u_v_light_r u_v_light_tsr\
 u_p_light_matrix0 u_p_light_matrix1 u_p_light_matrix2 u_p_light_matrix3
 #import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3
 #import tsr_to_mat4
@@ -29,13 +29,49 @@ vec4 get_shadow_coords_shifted(mat4 light_proj_matrix, vec4 pos_light_space, mat
 }
 
 void get_shadow_coords(vec3 pos, vec3 nor) {
-    mat4 v_light_matrix = tsr_to_mat4(u_v_light_tsr);
+
+# if MAC_OS_SHADOW_HACK
+    mat4 v_light_matrix = tsr_to_mat4(u_v_light_tsr[0]);
+# else
+    mat4 v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[0], u_v_light_r[0], 0.0));
+# endif
 
     // apply normal offset to prevent shadow acne
     vec4 pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor,
             1.0);
 
     v_shadow_coord0 = get_shadow_coords_shifted(u_p_light_matrix0, pos_light, v_light_matrix);
+
+    // NUM_CAST_LAMPS and CSM_SECTION are mutually exclusive directives
+# if NUM_CAST_LAMPS > 1
+#  if MAC_OS_SHADOW_HACK
+    v_light_matrix = tsr_to_mat4(u_v_light_tsr[1]);
+#  else
+    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[1], u_v_light_r[1], 0.0));
+#  endif
+    pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
+    v_shadow_coord1 = get_shadow_coords_shifted(u_p_light_matrix1, pos_light, v_light_matrix);
+# endif
+
+# if NUM_CAST_LAMPS > 2
+#  if MAC_OS_SHADOW_HACK
+    v_light_matrix = tsr_to_mat4(u_v_light_tsr[2]);
+#  else
+    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[2], u_v_light_r[2], 0.0));
+#  endif
+    pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
+    v_shadow_coord2 = get_shadow_coords_shifted(u_p_light_matrix2, pos_light, v_light_matrix);
+# endif
+
+# if NUM_CAST_LAMPS > 3
+#  if MAC_OS_SHADOW_HACK
+    v_light_matrix = tsr_to_mat4(u_v_light_tsr[3]);
+#  else
+    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[3], u_v_light_r[3], 0.0));
+#  endif
+    pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
+    v_shadow_coord3 = get_shadow_coords_shifted(u_p_light_matrix3, pos_light, v_light_matrix);
+# endif
 
 # if CSM_SECTION1
     v_shadow_coord1 = get_shadow_coords_shifted(u_p_light_matrix1, pos_light, v_light_matrix);

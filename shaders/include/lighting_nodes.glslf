@@ -28,7 +28,7 @@ float HALF_VALUE_NODES = 0.5;
     #node_out optional vec3 normal
     #node_out optional vec2 diffuse_params
     #node_out optional vec2 specular_params
-    #node_out optional float shadow_factor
+    #node_out optional vec4 shadow_factor
     #node_out optional float translucency_color
     #node_out optional vec4 translucency_params
 
@@ -71,7 +71,7 @@ float HALF_VALUE_NODES = 0.5;
 #endnode
 
 #node LIGHTING_LAMP
-    #node_in float shadow_factor
+    #node_in vec4 shadow_factor
 
     #node_out vec3 ldir
     #node_out vec2 lfac
@@ -87,8 +87,9 @@ float HALF_VALUE_NODES = 0.5;
 
     // 0.0 - full shadow, 1.0 - no shadow
     lcolorint = u_light_color_intensities[LAMP_IND];
-    if (LAMP_SHADOW_MAP_IND != -1)
-         lcolorint *= shadow_factor;
+# node_if LAMP_SHADOW_MAP_IND != -1
+    lcolorint *= shadow_factor[LAMP_SHADOW_MAP_IND];
+# node_endif
 
 # node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     vec3 lpos = u_light_positions[LAMP_IND];
@@ -395,7 +396,7 @@ void nodes_lighting(
         vec3 nin_eye_dir,
         vec2 nin_specular_params,
         vec2 nin_diffuse_params,
-        float nin_shadow_factor,
+        vec4 nin_shadow_factor,
         float nin_translucency_color,
         vec4 nin_translucency_params,
         out vec3 nout_color,

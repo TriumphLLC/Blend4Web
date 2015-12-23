@@ -29,9 +29,9 @@
                                   INCLUDES
 ============================================================================*/
 #include <precision_statement.glslf>
+#include <std_enums.glsl>
 
 #if NODES && ALPHA
-#include <std_enums.glsl>
 #include <pack.glslf>
 
 #include <procedural.glslf>
@@ -75,6 +75,7 @@ uniform vec3 u_zenith_color;
 uniform vec4 u_diffuse_color;
 # if TEXTURE_COLOR
 uniform sampler2D u_sampler;
+uniform float u_alpha_factor;
 # endif
 #endif // NODES && ALPHA
 
@@ -210,7 +211,7 @@ void main(void) {
     vec3 nout_color;
     vec3 nout_specular_color;
     vec3 nout_normal;
-    float nout_shadow_factor;
+    vec4 nout_shadow_factor;
     float nout_alpha;
 
 #  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
@@ -237,13 +238,18 @@ void main(void) {
 # else // NODES
 #  if TEXTURE_COLOR
     float alpha = (texture2D(u_sampler, v_texcoord)).a;
+#   if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
+    float texture_alpha = u_alpha_factor * alpha;
+    texture_alpha += (1.0 - step(0.0, texture_alpha));
+    alpha = mix(texture_alpha, 1.0, u_diffuse_color.a);
+#   endif
 #  else
     float alpha = u_diffuse_color.a;
 #  endif
 # endif // NODES
     if (alpha < 0.5)
         discard;
-# endif
+#endif
 
 #if USE_OUTLINE
 	gl_FragColor = vec4(1.0, 1.0, 1.0, u_outline_intensity);

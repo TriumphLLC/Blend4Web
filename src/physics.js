@@ -657,6 +657,7 @@ function init_static_mesh_physics(obj, batch, worker) {
     var body_id = get_unique_body_id();
 
     var submesh = batch.submesh;
+
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
 
@@ -789,7 +790,9 @@ function init_bounding_physics(obj, compound_children, worker) {
         var bounding_type = phy_set.use_collision_bounds ?
                 phy_set.collision_bounds_type : "BOX";
         var bounding_object = find_bounding_type(bounding_type, render);
-
+        var scale = m_tsr.get_scale(render.world_tsr);
+        if (scale != 1)
+            scale_bounding(bounding_object, bounding_type, scale);
         var friction = render.friction;
         var restitution = render.elasticity;
     }
@@ -901,6 +904,28 @@ function find_bounding_type(bounding_type, render) {
     }
 
     return bounding_object;
+}
+
+function scale_bounding(bound, bounding_type, scale) {
+    switch (bounding_type) {
+    case "BOX":
+        bound.min_x *= scale;
+        bound.max_x *= scale;
+        bound.min_y *= scale;
+        bound.max_y *= scale;
+        bound.min_z *= scale;
+        bound.max_z *= scale;
+        break;
+    case "CYLINDER":
+    case "CONE":
+    case "CAPSULE":
+        bound.height *= scale;
+        bound.radius *= scale;
+        break;
+    case "SPHERE":
+        bound.radius *= scale;
+        break;
+    }
 }
 
 function create_worker_bounding(bounding_object) {

@@ -114,13 +114,13 @@ uniform float u_perspective_cast_far_bound;
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform PRECISION sampler2D u_shadow_map0;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 uniform PRECISION sampler2D u_shadow_map1;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 uniform PRECISION sampler2D u_shadow_map2;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 uniform PRECISION sampler2D u_shadow_map3;
 # endif
 #endif
@@ -177,7 +177,9 @@ varying vec3 v_pos_world;
 varying vec3 v_normal;
 #endif
 
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_pos_view;
+#endif
 
 #if TEXTURE_NORM_CO || CALC_TBN_SPACE
 varying vec4 v_tangent;
@@ -185,13 +187,13 @@ varying vec4 v_tangent;
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_shadow_coord0;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 varying vec4 v_shadow_coord1;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 varying vec4 v_shadow_coord2;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 varying vec4 v_shadow_coord3;
 # endif
 #endif
@@ -232,7 +234,9 @@ varying float v_view_depth;
 
 void main(void) {
 
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
     float view_dist = length(v_pos_view);
+#endif
 
 # if WATER_EFFECTS
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
@@ -246,7 +250,7 @@ void main(void) {
     vec3 nout_color;
     vec3 nout_specular_color;
     vec3 nout_normal;
-    float nout_shadow_factor;
+    vec4 nout_shadow_factor;
     float nout_alpha;
 
 #  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
@@ -272,7 +276,7 @@ void main(void) {
     vec3 color = nout_color;
     float alpha = nout_alpha;
     vec3 normal = nout_normal;
-    float shadow_factor = nout_shadow_factor;
+    vec4 shadow_factor = nout_shadow_factor;
 
 #if !SHADELESS
 # if WATER_EFFECTS

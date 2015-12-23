@@ -572,23 +572,23 @@ via API.
 
 Set the "None" type for the texture of the target object on the main
 scene, and select the "Canvas" type in the "Export Options > Source
-Type" menu. Specify the id of the canvas HTML element in the "Export
-Options > Source ID" field. Set the texture size in the "Export
-Options > Source Size" field (in pixels).
+Type" menu. Set the texture size in the "Export Options > Source Size"
+field (in pixels).
 
 Use the "textures" module to handle such textures. See the example
 below.
 
    var m_tex = require("textures");
    ...
-   var ctx = m_tex.get_canvas_texture_context("canvas_id");
+   var obj = m_scenes.get_object_by_name("NAME");
+   var ctx = m_tex.get_canvas_ctx(obj, "TEXTURE_NAME");
    ...
    // operations with canvas context
    ...
-   m_tex.update_canvas_texture_context("canvas_id");
+   m_tex.update_canvas_ctx(obj, "TEXTURE_NAME");
 
 Use "get_canvas_texture_context()" to obtain a context - this method
 requires the "canvas_id" identifier which should be defined in
-Blender. After operations with the context,
-the``update_canvas_texture_context()`` function has to be called which
-will render modifications of the "canvas_id" element.
+Blender. After operations with the context, the "update_canvas_ctx()"
+function has to be called which will render modifications of the
+"canvas_id" element.

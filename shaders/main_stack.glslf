@@ -132,13 +132,13 @@ uniform float u_perspective_cast_far_bound;
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform PRECISION sampler2D u_shadow_map0;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 uniform PRECISION sampler2D u_shadow_map1;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 uniform PRECISION sampler2D u_shadow_map2;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 uniform PRECISION sampler2D u_shadow_map3;
 # endif
 #endif
@@ -206,7 +206,7 @@ varying vec3 v_pos_world;
 
 varying vec3 v_normal;
 
-#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_pos_view;
 #endif
 
@@ -225,13 +225,13 @@ varying vec3 v_color;
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_shadow_coord0;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 varying vec4 v_shadow_coord1;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 varying vec4 v_shadow_coord2;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 varying vec4 v_shadow_coord3;
 # endif
 #endif
@@ -274,7 +274,7 @@ varying float v_view_depth;
 
 void main(void) {
 
-#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
     float view_dist = length(v_pos_view);
 #endif
 
@@ -467,7 +467,7 @@ void main(void) {
 
     vec3 A = u_ambient * environment_color;
 
-    float shadow_factor = calc_shadow_factor(D);
+    vec4 shadow_factor = calc_shadow_factor(D);
 
     // emission
     vec3 E = u_emit * diffuse_color.rgb;

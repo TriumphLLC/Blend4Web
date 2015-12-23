@@ -174,6 +174,10 @@ listeners by using register_* methods.</p></div>
 
         
             
+<li> <a href="#.CT_POSITIVE">CT_POSITIVE</a></li>
+
+        
+            
 <li> <a href="#.CT_SHOT">CT_SHOT</a></li>
 
         
@@ -683,9 +687,8 @@ listeners by using register_* methods.</p></div>
 
 <div class="description">
     Manifold control type: change.
-Such manifold generates a single positive pulse (+1) once the value
+Such manifold executes the callback each time the value
 of any sensor is changed. The logic function is ignored.
-Produces no negative pulses.
 </div>
 
 
@@ -723,7 +726,7 @@ Produces no negative pulses.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line118">line 118</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -753,9 +756,9 @@ Produces no negative pulses.
 
 <div class="description">
     Manifold control type: continuous.
-Such manifold generates a positive pulse (+1) each frame when the result of
-evaluation of its logic function is non-zero.
-It generates a single negative pulse (-1) once the logic function
+Such manifold executes the callback with a positive pulse (+1) each frame
+when the result of evaluation of its logic function is non-zero.
+It executes a callback with a negative pulse (-1) once the logic function
 evaluates to zero.
 </div>
 
@@ -794,7 +797,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line80">line 80</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -824,9 +827,8 @@ evaluates to zero.
 
 <div class="description">
     Manifold control type: level.
-Such manifold generates a single positive pulse (+1) once the result of
+Such manifold executes the callback each time the result of
 evaluation of its logic function is changed.
-Produces no negative pulses.
 </div>
 
 
@@ -864,7 +866,76 @@ Produces no negative pulses.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line109">line 109</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CT_POSITIVE">CT_POSITIVE</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Manifold control type: positive.
+Such manifold executes the callback each frame when the result of
+evaluation of its logic function is positive.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -894,9 +965,8 @@ Produces no negative pulses.
 
 <div class="description">
     Manifold control type: shot.
-Such manifold generates a single positive pulse (+1) once the result of
-evaluation of its logic function is non-zero.
-Produces no negative pulses.
+Such manifold executes the callback once the result of evaluation of its
+logic function becomes a non-zero value.
 </div>
 
 
@@ -934,7 +1004,7 @@ Produces no negative pulses.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line100">line 100</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -964,9 +1034,9 @@ Produces no negative pulses.
 
 <div class="description">
     Manifold control type: trigger.
-Such manifold generates a single positive pulse (+1) once the result of
+Such manifold executes the callback with a single positive pulse (+1) once the result of
 evaluation of its logic function is non-zero.
-It generates a single negative pulse (-1) once the logic function
+It executes a callback with a single negative pulse (-1) once the logic function
 evaluates to zero.
 </div>
 
@@ -1005,7 +1075,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line90">line 90</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -1072,7 +1142,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line211">line 211</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -1139,7 +1209,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line217">line 217</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -1206,7 +1276,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line223">line 223</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line227">line 227</a>
     </li></ul></dd>
     
 
@@ -1273,7 +1343,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line229">line 229</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -1340,7 +1410,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line235">line 235</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -1407,7 +1477,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line241">line 241</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line245">line 245</a>
     </li></ul></dd>
     
 
@@ -1474,7 +1544,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line247">line 247</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line251">line 251</a>
     </li></ul></dd>
     
 
@@ -1541,7 +1611,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line253">line 253</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line257">line 257</a>
     </li></ul></dd>
     
 
@@ -1608,7 +1678,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line259">line 259</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -1675,7 +1745,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line265">line 265</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1742,7 +1812,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line157">line 157</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -1809,7 +1879,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line271">line 271</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -1876,7 +1946,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line536">line 536</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line540">line 540</a>
     </li></ul></dd>
     
 
@@ -1943,7 +2013,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line127">line 127</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -2010,7 +2080,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line277">line 277</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -2077,7 +2147,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line169">line 169</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -2144,7 +2214,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line500">line 500</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line504">line 504</a>
     </li></ul></dd>
     
 
@@ -2211,7 +2281,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line151">line 151</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -2278,7 +2348,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line283">line 283</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -2345,7 +2415,7 @@ evaluates to zero.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line506">line 506</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line510">line 510</a>
     </li></ul></dd>
     
 
@@ -2413,7 +2483,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line481">line 481</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line485">line 485</a>
     </li></ul></dd>
     
 
@@ -2480,7 +2550,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line205">line 205</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -2547,7 +2617,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line289">line 289</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -2614,7 +2684,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line139">line 139</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -2681,7 +2751,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line494">line 494</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line498">line 498</a>
     </li></ul></dd>
     
 
@@ -2748,7 +2818,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line175">line 175</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -2815,7 +2885,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line295">line 295</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -2882,7 +2952,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line518">line 518</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -2949,7 +3019,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line301">line 301</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line305">line 305</a>
     </li></ul></dd>
     
 
@@ -3016,7 +3086,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line524">line 524</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -3083,7 +3153,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line307">line 307</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -3150,7 +3220,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line313">line 313</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -3217,7 +3287,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line319">line 319</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -3284,7 +3354,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line325">line 325</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -3351,7 +3421,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line331">line 331</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -3418,7 +3488,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line187">line 187</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -3485,7 +3555,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line530">line 530</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line534">line 534</a>
     </li></ul></dd>
     
 
@@ -3552,7 +3622,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line337">line 337</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -3619,7 +3689,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line343">line 343</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line347">line 347</a>
     </li></ul></dd>
     
 
@@ -3686,7 +3756,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line421">line 421</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line425">line 425</a>
     </li></ul></dd>
     
 
@@ -3753,7 +3823,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line427">line 427</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line431">line 431</a>
     </li></ul></dd>
     
 
@@ -3820,7 +3890,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line433">line 433</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -3887,7 +3957,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line439">line 439</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line443">line 443</a>
     </li></ul></dd>
     
 
@@ -3954,7 +4024,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line445">line 445</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -4021,7 +4091,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line451">line 451</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -4088,7 +4158,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line457">line 457</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line461">line 461</a>
     </li></ul></dd>
     
 
@@ -4155,7 +4225,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line463">line 463</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line467">line 467</a>
     </li></ul></dd>
     
 
@@ -4222,7 +4292,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line469">line 469</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line473">line 473</a>
     </li></ul></dd>
     
 
@@ -4289,7 +4359,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line475">line 475</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line479">line 479</a>
     </li></ul></dd>
     
 
@@ -4356,7 +4426,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line349">line 349</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line353">line 353</a>
     </li></ul></dd>
     
 
@@ -4423,7 +4493,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line355">line 355</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line359">line 359</a>
     </li></ul></dd>
     
 
@@ -4490,7 +4560,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line163">line 163</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -4557,7 +4627,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line512">line 512</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line516">line 516</a>
     </li></ul></dd>
     
 
@@ -4624,7 +4694,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line361">line 361</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -4691,7 +4761,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line367">line 367</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line371">line 371</a>
     </li></ul></dd>
     
 
@@ -4758,7 +4828,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line199">line 199</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line203">line 203</a>
     </li></ul></dd>
     
 
@@ -4825,7 +4895,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line542">line 542</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line546">line 546</a>
     </li></ul></dd>
     
 
@@ -4892,7 +4962,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line373">line 373</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line377">line 377</a>
     </li></ul></dd>
     
 
@@ -4959,7 +5029,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line488">line 488</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -5026,7 +5096,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line145">line 145</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -5093,7 +5163,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line548">line 548</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -5160,7 +5230,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line181">line 181</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -5227,7 +5297,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line379">line 379</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -5294,7 +5364,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line133">line 133</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -5361,7 +5431,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line385">line 385</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line389">line 389</a>
     </li></ul></dd>
     
 
@@ -5428,7 +5498,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line193">line 193</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -5495,7 +5565,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line391">line 391</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line395">line 395</a>
     </li></ul></dd>
     
 
@@ -5562,7 +5632,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line397">line 397</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line401">line 401</a>
     </li></ul></dd>
     
 
@@ -5629,7 +5699,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line403">line 403</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line407">line 407</a>
     </li></ul></dd>
     
 
@@ -5696,7 +5766,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line409">line 409</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line413">line 413</a>
     </li></ul></dd>
     
 
@@ -5763,7 +5833,7 @@ Can only be used when NUM LOCK is turned on.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line415">line 415</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -5831,7 +5901,7 @@ for multi-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line568">line 568</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line572">line 572</a>
     </li></ul></dd>
     
 
@@ -5899,7 +5969,7 @@ for multi-finger zoom gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line561">line 561</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line565">line 565</a>
     </li></ul></dd>
     
 
@@ -5967,7 +6037,7 @@ for single-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line554">line 554</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line558">line 558</a>
     </li></ul></dd>
     
 
@@ -6175,7 +6245,7 @@ for single-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line900">line 900</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line904">line 904</a>
     </li></ul></dd>
     
 
@@ -6344,7 +6414,7 @@ for single-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line890">line 890</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line894">line 894</a>
     </li></ul></dd>
     
 
@@ -6503,7 +6573,7 @@ by velocity) applied to the object at the collision point.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line614">line 614</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line618">line 618</a>
     </li></ul></dd>
     
 
@@ -6761,7 +6831,7 @@ collision position/normal/distance or not.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line593">line 593</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line597">line 597</a>
     </li></ul></dd>
     
 
@@ -6920,7 +6990,7 @@ and set_custom_sensor() methods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line575">line 575</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line579">line 579</a>
     </li></ul></dd>
     
 
@@ -7029,7 +7099,7 @@ The sensor's value is the time elapsed from the previous frame.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line771">line 771</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line775">line 775</a>
     </li></ul></dd>
     
 
@@ -7139,7 +7209,7 @@ of a mobile device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line728">line 728</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line732">line 732</a>
     </li></ul></dd>
     
 
@@ -7249,7 +7319,7 @@ current orientation and the previous orientation of a mobile device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line737">line 737</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line741">line 741</a>
     </li></ul></dd>
     
 
@@ -7556,7 +7626,7 @@ the global object</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line866">line 866</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line870">line 870</a>
     </li></ul></dd>
     
 
@@ -7713,7 +7783,7 @@ the global object</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line585">line 585</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line589">line 589</a>
     </li></ul></dd>
     
 
@@ -7967,7 +8037,7 @@ radians per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line703">line 703</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line707">line 707</a>
     </li></ul></dd>
     
 
@@ -8075,7 +8145,7 @@ radians per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line661">line 661</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line665">line 665</a>
     </li></ul></dd>
     
 
@@ -8254,7 +8324,7 @@ coordinate(s).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line676">line 676</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line680">line 680</a>
     </li></ul></dd>
     
 
@@ -8363,7 +8433,7 @@ The sensor's value is 1 for a single wheel notch scrolled away from the user.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line668">line 668</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line672">line 672</a>
     </li></ul></dd>
     
 
@@ -8774,7 +8844,7 @@ during ray casting.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line624">line 624</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line628">line 628</a>
     </li></ul></dd>
     
 
@@ -8989,7 +9059,7 @@ another object is selected.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line787">line 787</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line791">line 791</a>
     </li></ul></dd>
     
 
@@ -9326,7 +9396,7 @@ the global object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line843">line 843</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line847">line 847</a>
     </li></ul></dd>
     
 
@@ -9435,7 +9505,7 @@ The sensor's value is the value of the global engine timeline.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line779">line 779</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line783">line 783</a>
     </li></ul></dd>
     
 
@@ -9651,7 +9721,7 @@ short intervals.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line746">line 746</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line750">line 750</a>
     </li></ul></dd>
     
 
@@ -9829,7 +9899,7 @@ The sensor's value is a number of pixels.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line686">line 686</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line690">line 690</a>
     </li></ul></dd>
     
 
@@ -9938,7 +10008,7 @@ The sensor's value is the distance difference in pixels.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line695">line 695</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line699">line 699</a>
     </li></ul></dd>
     
 
@@ -10153,7 +10223,7 @@ units (meters) per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line716">line 716</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line720">line 720</a>
     </li></ul></dd>
     
 
@@ -10310,7 +10380,7 @@ units (meters) per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line811">line 811</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line815">line 815</a>
     </li></ul></dd>
     
 
@@ -10542,7 +10612,7 @@ is identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line832">line 832</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line836">line 836</a>
     </li></ul></dd>
     
 
@@ -10774,7 +10844,7 @@ identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line821">line 821</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line825">line 825</a>
     </li></ul></dd>
     
 
@@ -10860,7 +10930,7 @@ identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line985">line 985</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line989">line 989</a>
     </li></ul></dd>
     
 
@@ -11020,7 +11090,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line938">line 938</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line942">line 942</a>
     </li></ul></dd>
     
 
@@ -11249,7 +11319,7 @@ even when the mouse is leaving the HTML element</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line948">line 948</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line952">line 952</a>
     </li></ul></dd>
     
 
@@ -11409,7 +11479,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line975">line 975</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line979">line 979</a>
     </li></ul></dd>
     
 
@@ -11569,7 +11639,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line965">line 965</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line969">line 969</a>
     </li></ul></dd>
     
 
@@ -11763,7 +11833,7 @@ manifolds</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line921">line 921</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line925">line 925</a>
     </li></ul></dd>
     
 
@@ -11913,7 +11983,7 @@ the global object</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line909">line 909</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line913">line 913</a>
     </li></ul></dd>
     
 
@@ -12000,7 +12070,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line931">line 931</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line935">line 935</a>
     </li></ul></dd>
     
 
@@ -12204,7 +12274,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line761">line 761</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line765">line 765</a>
     </li></ul></dd>
     
 
@@ -12362,7 +12432,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line801">line 801</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line805">line 805</a>
     </li></ul></dd>
     
 
@@ -12449,7 +12519,7 @@ the DOM window.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1022">line 1022</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1026">line 1026</a>
     </li></ul></dd>
     
 
@@ -12584,7 +12654,7 @@ the DOM window.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line991">line 991</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line995">line 995</a>
     </li></ul></dd>
     
 
@@ -12720,7 +12790,7 @@ from the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line998">line 998</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1002">line 1002</a>
     </li></ul></dd>
     
 
@@ -12856,7 +12926,7 @@ element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1014">line 1014</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1018">line 1018</a>
     </li></ul></dd>
     
 
@@ -12992,7 +13062,7 @@ the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1006">line 1006</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1010">line 1010</a>
     </li></ul></dd>
     
 
@@ -13247,7 +13317,7 @@ objects.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line58">line 58</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -13403,8 +13473,8 @@ objects.</td>
 
             
 
-            <td class="description last">Manifold pulse value: +1 (all manifold types) or
--1 (CT_TRIGGER or CT_CONTINUOUS only).</td>
+            <td class="description last">Additional callback condition for CT_TRIGGER or
+CT_CONTINOUS manifolds: +1 or -1</td>
         </tr>
 
     
@@ -13524,8 +13594,7 @@ object to communicate between different manifolds.</td>
 <div class="description">
     Manifold's logic function. Specifies a logic expression which consists of
 sensor values. This logic expression will be evaluated every frame. As a
-result, the manifold can generate a pulse according to its type (CT_SHOT,
-CT_TRIGGER etc) and internal state, and fire the callback.
+result, the manifold changes its internal state and fires the callback.
 </div>
 
 
@@ -13924,7 +13993,7 @@ or -1 if there is no hit anymore.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line69">line 69</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -13953,13 +14022,13 @@ or -1 if there is no hit anymore.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Nov 26 2015 19:06:32 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Dec 22 2015 20:09:38 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

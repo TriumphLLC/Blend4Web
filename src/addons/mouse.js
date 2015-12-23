@@ -27,6 +27,7 @@
  * @local PointerlockEnabledCallback
  * @local PointerlockDisabledCallback
  * @local PointerlockMouseMoveCallback
+ * @local RotationCallback
  */
 b4w.module["mouse"] = function(exports, require) {
 

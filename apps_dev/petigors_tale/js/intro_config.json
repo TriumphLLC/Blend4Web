@@ -68,8 +68,8 @@
     "camera_rotation_fac": 0.1,
 
     "environment_start_anim_delay": 3.0,
-    "environment_anim_length": 3.0,
-    "environment_energy_final": 0.06,
+    "environment_anim_length": 6.0,
+    "environment_energy_final": 0.1,
     "environment_horizon_final": [0.085, 0.107, 0.123],
     "environment_zenith_final": [0.573, 0.619, 1.0],
     "language_obj": "main_menu*Cube"

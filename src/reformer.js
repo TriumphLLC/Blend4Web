@@ -1910,7 +1910,12 @@ exports.check_bpy_data = function(bpy_data) {
 
         if (!("b4w_collision_id" in bpy_obj)) {
             bpy_obj["b4w_collision_id"] = "";
-            report("material", bpy_obj, "b4w_collision_id");
+            report("object", bpy_obj, "b4w_collision_id");
+        }
+
+        if (!("b4w_viewport_alignment" in bpy_obj)) {
+            bpy_obj["b4w_viewport_alignment"] = null;
+            report("object", bpy_obj, "b4w_viewport_alignment");
         }
 
         if (check_negative_scale(bpy_obj))
@@ -2596,6 +2601,20 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
             case "PLAY":
                 scene["b4w_use_nla"] = true;
                 break;
+            case "MOVE_TO":
+                for (var id in snode["objects_paths"]) {
+                    var path = snode["objects_paths"][id];
+                    var name = path[0];
+                    if (path.length > 1)
+                        for (var k = 1; k < path.length; k++)
+                            name += "*" + path[k];
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == name) {
+                            bpy_obj["b4w_do_not_batch"] = true;
+                        }
+                    }
+                }                    
             }
         }
     }

@@ -70,6 +70,14 @@
 *Relations > Parent*
     Указатель на родительский объект.
 
+    Если в качестве родительского объекта выбрана камера, становятся доступными настройки ``Viewport Alignment``.
+
+    .. image:: src_images/objects/objects_viewport_alignment.png
+       :align: center
+       :width: 100%
+
+    Параметр ``Alignment`` определяет, с какой стороны от камеры будет находиться привязанный к ней объект (по умолчанию ``Center``). Параметр ``Distance`` задаёт расстояние объекта до камеры (по умолчанию 10). Чтобы привязанный объект отображался в Blender так же, как и в движке, нужно нажать кнопку ``Fit to Camera``.
+
 *Groups*
     Группы объектов, которым принадлежит данный объект.
 
@@ -110,12 +118,12 @@
 
 .. note::
 
-    Свойства *Apply Modifiers*, *Apply Scale and Modifiers*, *Export Vertex Animation*, и *Export Shape Keys* взаимоисключают друг друга.
+    Свойства *Apply Modifiers*, *Apply Scale And Modifiers*, *Export Vertex Animation*, и *Export Shape Keys* взаимоисключают друг друга.
 
-*Animation > Apply default animation*
+*Animation > Apply Default Animation*
     Начать воспроизведение в движке связанной с объектом анимации.
 
-*Animation > Animation blending*
+*Animation > Animation Blending*
     Только для арматурных объектов. Разрешить плавный переход от одной скелетной
     анимации к другой.
 
@@ -150,7 +158,7 @@
 *Reflections > Reflexible*
     При включении объект будет отражаться от зеркальных поверхностей.
 
-*Reflections > Reflexible only*
+*Reflections > Reflexible Only*
     При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения ``Reflections > Reflexible``.
 
 *Reflections > Reflective*
@@ -193,7 +201,7 @@
         Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).
 
 *Wind Bending*
-    Включить процедурную анимацию под действием ветра.
+    Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном :ref:`рендерингу наружных сцен <wind_bending>`.
 
 .. _objects_billboarding_properties:
 

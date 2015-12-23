@@ -300,20 +300,15 @@ class B4W_TextureExport(TextureButtonsPanel, Panel):
                             if scene.name == tex.b4w_source_id:
                                 icon_source = "SCENE_DATA"
                                 break
-                    else:
-                        for texture in bpy.data.textures:
-                            if (texture.b4w_source_id == tex.b4w_source_id 
-                                    and texture != tex or tex.b4w_source_id == ""):
-                                icon_source = "ERROR"
-                                break
                     
                     row = layout.row()
                     row.active = active
                     row.prop(tex, "b4w_source_type", text=_("Source Type"))
                     if tex.b4w_source_type != "NONE":
-                        row = layout.row()
-                        row.active = active
-                        row.prop(tex, "b4w_source_id", text=_("Source ID"), icon=icon_source)
+                        if tex.b4w_source_type == "SCENE":
+                            row = layout.row()
+                            row.active = active
+                            row.prop(tex, "b4w_source_id", text=_("Source ID"), icon=icon_source)
                         row = layout.row()
                         row.active = active
                         row.prop(tex, "b4w_source_size", text=_("Source Size"))

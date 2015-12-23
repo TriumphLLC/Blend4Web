@@ -53,8 +53,10 @@ var m_tex        = require("__textures");
 var m_tsr        = require("__tsr");
 var m_util       = require("__util");
 var m_vec3       = require("__vec3");
+var m_vec4       = require("__vec4");
 
 var cfg_ani = m_cfg.animation;
+var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
 var cfg_scs = m_cfg.scenes;
@@ -116,6 +118,7 @@ var SHADOW_MAP_EPSILON_Z = 0.005;
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
+var _vec4_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 var _corners_cache = new Float32Array(24);
 var _corners_cache2 = new Float32Array(24);
@@ -314,8 +317,8 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.world_light_set   = get_world_light_set(world, render.sky_params);
     render.world_fog_set     = get_world_fog_set(world);
     render.anchor_visibility = check_anchor_visibility_objects(bpy_scene, bpy_empty_objs);
+    render.hmd_stereo_use    = check_hmd_stereo_use(cam_render);
     render.anaglyph_use      = check_anaglyph_use(cam_render);
-
     render.reflection_params = extract_reflections_params(bpy_scene, scene_objects);
     render.bloom_params      = extract_bloom_params(bpy_scene);
     render.mb_params         = extract_mb_params(bpy_scene);
@@ -463,16 +466,23 @@ function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
     } else
         rshs.csm_resolution         = shs["csm_resolution"];
 
+
+    var use_ssao = cfg_def.ssao && bpy_scene["b4w_enable_ssao"];
+    var shadow_lamps = m_obj_util.get_shadow_lamps(lamps, use_ssao);
+
     rshs.self_shadow_polygon_offset = shs["self_shadow_polygon_offset"];
     rshs.self_shadow_normal_offset  = shs["self_shadow_normal_offset"];
-    rshs.enable_csm                 = shs["b4w_enable_csm"];
+    rshs.enable_csm                 = shs["b4w_enable_csm"] && shadow_lamps.length == 1;
 
-    var shadow_lamp = m_obj_util.get_first_lamp_with_shadows(lamps) || lamps[0];
-    if (shadow_lamp) {
-        rshs.lamp_type = shadow_lamp.light.type;
-        rshs.spot_size = shadow_lamp.light.spot_size;
-        rshs.distance  = shadow_lamp.light.distance;
-        if ((rshs.lamp_type == "SPOT" || rshs.lamp_type == "POINT") &&
+    rshs.lamp_types = [];
+    rshs.spot_sizes = [];
+    rshs.distances = [];
+
+    for (var i = 0; i < shadow_lamps.length; i++) {
+        rshs.lamp_types.push(shadow_lamps[i].light.type);
+        rshs.spot_sizes.push(shadow_lamps[i].light.spot_size);
+        rshs.distances.push(shadow_lamps[i].light.distance);
+        if ((rshs.lamp_types[i] == "SPOT" || rshs.lamp_types[i] == "POINT") &&
                 rshs.enable_csm) {
             m_print.warn("Generating shadows for SPOT " +
                         "or POINT light. Disabling Cascaded Shadow Maps");
@@ -503,6 +513,9 @@ function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
 }
 
 function check_render_shadows(bpy_scene, lamps, bpy_mesh_objs) {
+
+    if (lamps.length == 0)
+        return false;
 
     if (cfg_def.shadows) {
         switch (bpy_scene["b4w_render_shadows"]) {
@@ -707,11 +720,20 @@ function get_material_params(bpy_objects) {
 
 function check_anaglyph_use(cam_render) {
     // NOTE: disable anaglyph stereo for the non-PERSP camera
-    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.anaglyph_use) {
+    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "ANAGLYPH") {
         m_print.warn("Anaglyph stereo is disabled for the non-perspective camera");
         return false;
     } else
-        return cfg_def.anaglyph_use;
+        return cfg_def.stereo == "ANAGLYPH";
+}
+
+function check_hmd_stereo_use(cam_render) {
+    // NOTE: disable head-mounted display stereo for the non-PERSP camera
+    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "HMD") {
+        m_print.warn("Head-mounted display stereo is disabled for the non-perspective camera");
+        return false;
+    } else
+        return cfg_def.stereo == "HMD";
 }
 
 /**
@@ -1252,8 +1274,8 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_smaa_batch(subs.type);
             break;
 
-        case "ANAGLYPH":
-            batch = m_batch.create_anaglyph_batch();
+        case "STEREO":
+            batch = m_batch.create_stereo_batch(subs.subtype);
             break;
 
         case "SKY":
@@ -1295,6 +1317,9 @@ exports.generate_auxiliary_batches = function(graph) {
             break;
         case "ANCHOR_VISIBILITY":
             batch = m_batch.create_anchor_visibility_batch();
+            break;
+        case "PERFORMANCE":
+            batch = m_batch.create_performance_batch();
             break;
         }
 
@@ -1412,7 +1437,7 @@ exports.append_object = function(scene, obj, copy) {
 
         var subs_arr = subs_array(scene, OBJECT_SUBSCENE_TYPES);
 
-        if (copy && m_phy.obj_has_physics(obj))
+        if (copy && obj.use_obj_physics)
             m_phy.append_object(obj, scene);
 
         for (var i = 0; i < subs_arr.length; i++) {
@@ -1430,6 +1455,7 @@ exports.append_object = function(scene, obj, copy) {
         break;
     case "LAMP":
         update_lamp_scene(obj, scene);
+        m_obj.sort_lamps(scene);
         break;
     default:
         break;
@@ -1557,8 +1583,8 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     var scene_data = m_obj_util.get_scene_data(obj, bpy_scene);
 
     var shadow_usage = "NO_SHADOWS";
-    var subs_cast = m_scgraph.find_subs(graph, "SHADOW_CAST");
-    if (subs_cast && batch.shadow_receive) {
+    var subs_cast_arr = subs_array(bpy_scene, ["SHADOW_CAST"]);
+    if (subs_cast_arr.length && batch.shadow_receive) {
         switch (main_type) {
         case "OPAQUE":
             shadow_usage = "SHADOW_MAPPING_OPAQUE";
@@ -1578,7 +1604,8 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         default:
             throw "Wrong subscene type";
         }
-        m_batch.assign_shadow_receive_dirs(batch, bpy_scene._render.shadow_params, subs_cast);
+        for (var i = 0; i < subs_cast_arr.length; i++)
+            m_batch.assign_shadow_receive_dirs(batch, bpy_scene._render.shadow_params, subs_cast_arr[i]);
     }
 
     var shaders_info = batch.shaders_info;
@@ -1612,6 +1639,18 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
 
     if (subs.water_params && subs.caustics && obj_render.caustics) {
         m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
+
+        var sh_params = bpy_scene._render.shadow_params;
+        if (sh_params) {
+            var ltypes = sh_params.lamp_types;
+            var sun_num = 0;
+            for (var i = 0; i < ltypes.length; i++)
+                if (ltypes[i] == "SUN")
+                    sun_num = i;    
+
+            m_shaders.set_directive(shaders_info, "SUN_NUM", sun_num);
+        }
+
         m_shaders.set_directive(shaders_info, "CAUST_SCALE", m_shaders.glsl_value(subs.caust_scale));
         m_shaders.set_directive(shaders_info, "CAUST_SPEED", m_shaders.glsl_value(subs.caust_speed, 2));
         m_shaders.set_directive(shaders_info, "CAUST_BRIGHT", m_shaders.glsl_value(subs.caust_brightness));
@@ -1935,7 +1974,7 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
     if (update_needed) {
         var sh_params = scene._render.shadow_params;
         var subs_main = m_scgraph.find_subs(graph, "MAIN_OPAQUE");
-        update_subs_shadow(subs, subs_main.camera, subs.bundles, sh_params,
+        update_subs_shadow(subs, scene, subs_main.camera, subs.bundles, sh_params,
                            true);
     }
 }
@@ -2015,7 +2054,7 @@ function update_shadow_subscenes(bpy_scene) {
     m_graph.traverse(graph, function(node, attr) {
         var subs = attr;
         if (subs.type === "SHADOW_CAST") {
-            update_subs_shadow(subs, subs_main.camera, subs.bundles, sh_params,
+            update_subs_shadow(subs, bpy_scene, subs_main.camera, subs.bundles, sh_params,
                                recalc_z_bounds);
             recalc_z_bounds = false;
         }
@@ -2029,12 +2068,29 @@ function enable_outline_draw(scene) {
             subs.draw_outline_flag = 1;
     });
 }
+
+exports.update_shadow_billboard_view = function(cam, graph) {
+    var cam_main = cam.render.cameras[0];
+    m_graph.traverse(graph, function(node, attr) {
+        var subs = attr;
+        if (subs.type === "SHADOW_CAST") {
+            // NOTE: inherit light camera eye from main camera (used in LOD calculations)
+            // and cylindrical billboarding shadows
+            var eye = m_tsr.get_trans_view(cam_main.world_tsr);
+            m_tsr.set_trans(eye, subs.camera.world_tsr);
+            // NOTE: inherit view_tsr from main camera
+            m_tsr.copy(cam_main.view_tsr, 
+                    subs.camera.shadow_cast_billboard_view_tsr);
+        }
+    });
+}
+
 /**
  * Update shadow subscene camera based on main subscene light
  * uses _vec3_tmp, _mat4_tmp, _corners_cache
  * @methodOf scenes
  */
-function update_subs_shadow(subs, cam_main, cast_bundles, sh_params,
+function update_subs_shadow(subs, scene, cam_main, cast_bundles, sh_params,
                             recalc_z_bounds) {
 
     if (cast_bundles.length == 0)
@@ -2042,12 +2098,14 @@ function update_subs_shadow(subs, cam_main, cast_bundles, sh_params,
 
     var cam = subs.camera;
     // NOTE: inherit light camera eye from main camera (used in LOD calculations)
+    // and cylindrical billboarding shadows
     var eye = m_tsr.get_trans_view(cam_main.world_tsr);
     m_tsr.set_trans(eye, cam.world_tsr);
     // NOTE: inherit view_tsr from main camera
-    m_vec3.copy(cam_main.view_tsr, cam.shadow_cast_billboard_view_tsr);
+    m_tsr.copy(cam_main.view_tsr, cam.shadow_cast_billboard_view_tsr);
 
-    if (sh_params.lamp_type === "SUN" || sh_params.lamp_type === "HEMI") {
+    if (sh_params.lamp_types[subs.shadow_lamp_index] === "SUN"
+            || sh_params.lamp_types[subs.shadow_lamp_index] === "HEMI") {
         // determine camera frustum for shadow casting
         var bb_world = get_shadow_casters_bb(cast_bundles, _bb_tmp);
         var bb_corners = m_bounds.extract_bb_corners(bb_world, _corners_cache);
@@ -2090,6 +2148,9 @@ function update_subs_shadow(subs, cam_main, cast_bundles, sh_params,
                 m_mat4.rotate(rot_mat, optimal_angle, m_util.AXIS_MZ, rot_mat);
                 m_mat4.multiply(rot_mat, cam.view_matrix, cam.view_matrix);
                 m_tsr.from_mat4(cam.view_matrix, cam.view_tsr);
+                // NOTE: it's not optimal method to update shadow cam quat
+                // on shadow receive subs
+                update_shadow_receive_subs(subs, scene._render.graph);
             }
             bb_view = correct_bb_proportions(bb_view);
         }
@@ -2097,10 +2158,37 @@ function update_subs_shadow(subs, cam_main, cast_bundles, sh_params,
                 bb_view.min_y, bb_view.max_y, -bb_view.max_z, -bb_view.min_z);
         m_cam.set_projection(cam);
         m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
-    } else if (sh_params.lamp_type === "SPOT" || sh_params.lamp_type === "POINT")
+    } else if (sh_params.lamp_types[subs.shadow_lamp_index] === "SPOT"
+            || sh_params.lamp_types[subs.shadow_lamp_index] === "POINT") {
         m_cam.set_projection(cam, cam.aspect);
+    }
 }
 
+exports.update_shadow_receive_subs = update_shadow_receive_subs;
+function update_shadow_receive_subs(subs, graph) {
+    var cam_cast = subs.camera;
+    var outputs = m_scgraph.get_outputs(graph, subs);
+    for (var i = 0; i < outputs.length; i++) {
+        var output = outputs[i];
+
+        // NOTE: it's for debug_subs
+        if (output.type != "MAIN_OPAQUE" && output.type != "DEPTH"
+                && output.type != "MAIN_BLEND" && output.type != "MAIN_XRAY")
+            continue;
+
+        if (cfg_def.mac_os_shadow_hack)
+            output.v_light_tsr.set(cam_cast.view_tsr, subs.shadow_lamp_index * 9);
+        else {
+            var view_trans = m_tsr.get_trans_view(cam_cast.view_tsr);
+            var scale = m_tsr.get_scale(cam_cast.view_tsr);
+            var quat = m_tsr.get_quat_view(cam_cast.view_tsr);
+
+            m_vec4.set(view_trans[0], view_trans[1], view_trans[2], scale, _vec4_tmp);
+            output.v_light_ts.set(_vec4_tmp, subs.shadow_lamp_index * 4);
+            output.v_light_r.set(quat, subs.shadow_lamp_index * 4);
+        }
+    }
+}
 /**
  * Get optimal bounding box in light space (smallest cross
  * sectional area seen from the light source) and angle for light rotation
@@ -2454,7 +2542,6 @@ function update_lamp_scene(lamp, scene) {
 
     for (var i = 0; i < subs_arr.length; i++) {
         var subs = subs_arr[i];
-
         subs.light_positions.set(trans, ind * 3);
         subs.light_directions.set(light.direction, ind * 3);
         subs.light_color_intensities.set(light.color_intensity, ind * 3);
@@ -2493,14 +2580,15 @@ function update_lamp_scene(lamp, scene) {
 
     var subs_main = get_subs(scene, "MAIN_OPAQUE");
     var cam_main = subs_main.camera;
-    var shadow_subscenes = sc_data.shadow_subscenes; 
+    var shadow_subscenes = sc_data.shadow_subscenes;
     var sh_params = scene._render.shadow_params;
 
     for (var i = 0; i < shadow_subscenes.length; i++) {
         var subs = shadow_subscenes[i];
         var cam = subs.camera;
         m_cam.set_view_trans_quat(cam, trans, quat);
-        update_subs_shadow(subs, cam_main, subs.bundles, sh_params, true);
+        update_subs_shadow(subs, scene, cam_main, subs.bundles, sh_params, true);
+        update_shadow_receive_subs(subs, scene._render.graph);
     }
 }
 
@@ -2518,24 +2606,29 @@ function update_subs_light_factors(lamp, sc_data, subs) {
 
 function reset_shadow_cam_vm(bpy_scene) {
     var lamps = m_obj.get_scene_objs(bpy_scene, "LAMP", m_obj.DATA_ID_ALL);
-    var shadow_lamp = m_obj_util.get_first_lamp_with_shadows(lamps) || lamps[0];
 
-    if (!shadow_lamp)
+    var use_ssao = cfg_def.ssao && bpy_scene["b4w_enable_ssao"];
+    var shadow_lamps = m_obj_util.get_shadow_lamps(lamps, use_ssao);
+
+    if (!shadow_lamps.length)
         return;
 
-    var lamp_render = shadow_lamp.render;
-    var trans = m_tsr.get_trans_view(lamp_render.world_tsr);
-    var quat = m_tsr.get_quat_view(lamp_render.world_tsr);
+    for (var k = 0; k < shadow_lamps.length; k++) {
+        var shadow_lamp = shadow_lamps[k];
+        var lamp_render = shadow_lamp.render;
+        var trans = m_tsr.get_trans_view(lamp_render.world_tsr);
+        var quat = m_tsr.get_quat_view(lamp_render.world_tsr);
 
-    for (var j = 0; j < shadow_lamp.scenes_data.length; j++) {
-        var sc_data = shadow_lamp.scenes_data[j];
-        var shadow_subscenes = sc_data.shadow_subscenes;
-        if (sc_data.scene == bpy_scene);
-            for (var i = 0; i < shadow_subscenes.length; i++) {
-                var subs = shadow_subscenes[i];
-                var cam = subs.camera;
-                m_cam.set_view_trans_quat(cam, trans, quat);
-            }
+        for (var j = 0; j < shadow_lamp.scenes_data.length; j++) {
+            var sc_data = shadow_lamp.scenes_data[j];
+            var shadow_subscenes = sc_data.shadow_subscenes;
+            if (sc_data.scene == bpy_scene)
+                for (var i = 0; i < shadow_subscenes.length; i++) {
+                    var subs = shadow_subscenes[i];
+                    var cam = subs.camera;
+                    m_cam.set_view_trans_quat(cam, trans, quat);
+                }
+        }
     }
 }
 
@@ -2675,10 +2768,10 @@ exports.setup_scene_dim = setup_scene_dim;
  */
 function setup_scene_dim(scene, width, height) {
     var sc_render = scene._render;
-
     var upd_cameras = scene._camera.render.cameras;
     for (var i = 0; i < upd_cameras.length; i++) {
         var cam = upd_cameras[i];
+
         m_cam.set_projection(cam, width/height);
 
         // NOTE: update size of camera shadow cascades
@@ -2699,8 +2792,8 @@ function setup_scene_dim(scene, width, height) {
         if (!slink.update_dim)
             return;
 
-        var tex_width = slink.size_mult * width;
-        var tex_height = slink.size_mult * height;
+        var tex_width = slink.size_mult_x * width;
+        var tex_height = slink.size_mult_y * height;
         if (internal) {
             for (var i = 0; i < subs1.slinks_internal.length; i++) {
                 var slink_i = subs1.slinks_internal[i];
@@ -3991,7 +4084,9 @@ exports.update_plane_reflect_subs = function(subs, trans, quat) {
 exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
     var shadow_params = scene._render.shadow_params;
     var reflection_params = scene._render.reflection_params;
-    var shadow_lamp = m_obj_util.get_first_lamp_with_shadows(lamps) || lamps[0];
+
+    var use_ssao = cfg_def.ssao && scene["b4w_enable_ssao"];
+    var shadow_lamps = m_obj_util.get_shadow_lamps(lamps, use_ssao);
 
     for (var i = 0; i < scene_objs.length; i++) {
         var obj = scene_objs[i];
@@ -4011,10 +4106,17 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
                     sc_data.cube_refl_subs = cube_refl_subs[refl_id];
                 }
             }
-        
-        if (shadow_params && obj == shadow_lamp)
+    }
+
+    for (var i = 0; i < shadow_lamps.length; i++) {
+        var sc_data = m_obj_util.get_scene_data(shadow_lamps[i], scene);
+        if (shadow_params) {
             //TODO: assign proper subscenes for each lamp
-            sc_data.shadow_subscenes = subs_array(scene, ["SHADOW_CAST"]);
+            var shadow_subscenes = subs_array(scene, ["SHADOW_CAST"]);
+            for (var j = 0; j < shadow_subscenes.length; j++)
+                if (i == shadow_subscenes[j].shadow_lamp_index)
+                    sc_data.shadow_subscenes.push(shadow_subscenes[j]);
+        }
     }
 }
 

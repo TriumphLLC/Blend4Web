@@ -1,5 +1,6 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
+#var NUM_CAST_LAMPS 0
 #var PRECISION lowp
 #var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
 
@@ -146,19 +147,24 @@ uniform vec3 u_texture_scale;
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 uniform float u_normal_offset;
-uniform mat3 u_v_light_tsr;
+# if MAC_OS_SHADOW_HACK
+uniform mat3 u_v_light_tsr[NUM_CAST_LAMPS];
+# else
+uniform vec4 u_v_light_ts[NUM_CAST_LAMPS];
+uniform vec4 u_v_light_r[NUM_CAST_LAMPS];
+# endif
 
 uniform mat4 u_p_light_matrix0;
 
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 uniform mat4 u_p_light_matrix1;
 # endif
 
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 uniform mat4 u_p_light_matrix2;
 # endif
 
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 uniform mat4 u_p_light_matrix3;
 # endif
 #endif
@@ -178,7 +184,7 @@ varying vec3 v_pos_world;
 varying vec3 v_normal;
 #endif
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_pos_view;
 #endif
 
@@ -200,13 +206,13 @@ varying vec3 v_color;
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_shadow_coord0;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 varying vec4 v_shadow_coord1;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 varying vec4 v_shadow_coord2;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 varying vec4 v_shadow_coord3;
 # endif
 #endif
@@ -362,7 +368,7 @@ void main(void) {
 
     vec4 pos_view = view_matrix * vec4(world.position, 1.0);
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
     v_pos_view = pos_view;
 #endif
 

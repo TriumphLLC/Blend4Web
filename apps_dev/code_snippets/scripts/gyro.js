@@ -2,12 +2,12 @@
 
 b4w.register("gyro", function(exports, require) {
 
-var m_data       = require("data");
-var m_app        = require("app");
-var m_cfg        = require("config");
-var m_ctl        = require("controls");
-var m_scenes     = require("scenes");
-var m_phy        = require("physics");
+var m_data   = require("data");
+var m_app    = require("app");
+var m_cfg    = require("config");
+var m_ctl    = require("controls");
+var m_phy    = require("physics");
+var m_scenes = require("scenes");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/gyro/";
 var FORCE = 500;
@@ -28,7 +28,7 @@ exports.init = function() {
 
 function init_cb(canvas_elem, success) {
 
-    if(!success) {
+    if (!success) {
         console.log("b4w init failure");
         return;
     }
@@ -55,9 +55,9 @@ function create_obj_rotation_sensors(obj) {
         clamp_delta(curr_delta_angs);
         m_phy.apply_torque(obj, - FORCE * curr_delta_angs[2], 0, 0);
     }
-    m_ctl.create_sensor_manifold(obj, "GYRO", 
-            m_ctl.CT_CONTINUOUS, [g_a_sensor], null, 
-            cam_rotate_cb);
+
+    m_ctl.create_sensor_manifold(obj, "GYRO", m_ctl.CT_POSITIVE, [g_a_sensor],
+            null, cam_rotate_cb);
 }
 
 function clamp_delta(values) {

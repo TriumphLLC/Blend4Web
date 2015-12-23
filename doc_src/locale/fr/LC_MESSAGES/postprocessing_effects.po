@@ -42,8 +42,8 @@ msgstr ""
 #: ../postprocessing_effects.rst:22 ../postprocessing_effects.rst:50
 #: ../postprocessing_effects.rst:86 ../postprocessing_effects.rst:129
 #: ../postprocessing_effects.rst:156 ../postprocessing_effects.rst:187
-#: ../postprocessing_effects.rst:232 ../postprocessing_effects.rst:254
-#: ../postprocessing_effects.rst:285 ../postprocessing_effects.rst:323
+#: ../postprocessing_effects.rst:246 ../postprocessing_effects.rst:282
+#: ../postprocessing_effects.rst:313 ../postprocessing_effects.rst:351
 msgid "Активация"
 msgstr ""
 
@@ -56,8 +56,8 @@ msgstr ""
 #: ../postprocessing_effects.rst:27 ../postprocessing_effects.rst:60
 #: ../postprocessing_effects.rst:91 ../postprocessing_effects.rst:134
 #: ../postprocessing_effects.rst:161 ../postprocessing_effects.rst:192
-#: ../postprocessing_effects.rst:237 ../postprocessing_effects.rst:259
-#: ../postprocessing_effects.rst:290 ../postprocessing_effects.rst:333
+#: ../postprocessing_effects.rst:265 ../postprocessing_effects.rst:287
+#: ../postprocessing_effects.rst:318 ../postprocessing_effects.rst:361
 msgid "Дополнительные настройки"
 msgstr ""
 
@@ -596,108 +596,98 @@ msgstr ""
 msgid "стереоизображение"
 msgstr ""
 
-# msgstr "Stereoscopic Rendering (Anaglyph)"
-#: ../postprocessing_effects.rst:225
-msgid "Анаглиф стереоизображение"
-msgstr ""
-
 # msgstr ""
 # "The stereoscopic rendering mode is intended for viewing the content using "
 # "special glasses. It is activated by an application via API."
-#: ../postprocessing_effects.rst:234
+#: ../postprocessing_effects.rst:227
 msgid ""
 "Режим стереоизображения предназначен для просмотра контента в специальных "
 "очках и активируется приложением."
 msgstr ""
 
-# msgstr "No."
-#: ../postprocessing_effects.rst:239
-msgid "Нет."
-msgstr ""
-
 # msgstr "color correction"
-#: ../postprocessing_effects.rst:242
+#: ../postprocessing_effects.rst:270
 msgid "коррекция цвета"
 msgstr ""
 
 # msgstr "Color Correction"
-#: ../postprocessing_effects.rst:247
+#: ../postprocessing_effects.rst:275
 msgid "Коррекция цвета"
 msgstr ""
 
 # msgstr "Activate the ``Color Correction`` panel under the ``Render`` tab."
-#: ../postprocessing_effects.rst:256
+#: ../postprocessing_effects.rst:284
 msgid "Активировать панель ``Color Correction`` во вкладке ``Render``."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:262
+#: ../postprocessing_effects.rst:290
 msgid "*Brightness*"
 msgstr ""
 
 # msgstr "The default value is 0.0."
-#: ../postprocessing_effects.rst:262
+#: ../postprocessing_effects.rst:290
 msgid "Яркость. Значение по умолчанию 0.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:265
+#: ../postprocessing_effects.rst:293
 msgid "*Contrast*"
 msgstr ""
 
 # msgstr "The default value is 0.0."
-#: ../postprocessing_effects.rst:265
+#: ../postprocessing_effects.rst:293
 msgid "Контрастность. Значение по умолчанию 0.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:268
+#: ../postprocessing_effects.rst:296
 msgid "*Exposure*"
 msgstr ""
 
 # msgstr "The default value is 1.0."
-#: ../postprocessing_effects.rst:268
+#: ../postprocessing_effects.rst:296
 msgid "Экспозиция. Значение по умолчанию 1.0."
 msgstr ""
 
 # msgstr "The default value is 1.0."
-#: ../postprocessing_effects.rst:271
+#: ../postprocessing_effects.rst:299
 msgid "Насыщенность. Значение по умолчанию 1.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:271
+#: ../postprocessing_effects.rst:299
 msgid "*Saturation*"
 msgstr ""
 
 # msgstr "anti-aliasing"
-#: ../postprocessing_effects.rst:309
+#: ../postprocessing_effects.rst:337
 msgid "сглаживание"
 msgstr ""
 
 # msgstr "Anti-Aliasing"
-#: ../postprocessing_effects.rst:314
+#: ../postprocessing_effects.rst:342
 msgid "Сглаживание"
 msgstr ""
 
 # msgstr ""
 # "Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
 # "pixelization)."
-#: ../postprocessing_effects.rst:316
+#: ../postprocessing_effects.rst:344
 msgid ""
 "Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
 "артефактов рендеринга (\"зубчатости\")."
 msgstr ""
 
 # msgstr "Glow"
-#: ../postprocessing_effects.rst:276
+#: ../postprocessing_effects.rst:304
 msgid "Свечение (glow)"
 msgstr ""
 
 # msgstr ""
 # "Effect of halo which is observed around emissive objects due to light "
 # "scattering in the atmosphere and inside the human eye."
-#: ../postprocessing_effects.rst:278
+#: ../postprocessing_effects.rst:306
 msgid ""
 "Эффект возникновения ореола вокруг светящихся объектов, возникающий "
 "вследствие рассеивания света в атмосфере и внутри человеческого глаза."
@@ -707,7 +697,7 @@ msgstr ""
 # "Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The "
 # "``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel "
 # "should be set to ``ON`` or ``AUTO``."
-#: ../postprocessing_effects.rst:287
+#: ../postprocessing_effects.rst:315
 msgid ""
 "Добавить в нодовый материал ноду :ref:`B4W_GLOW_OUTPUT <glow_output>`. Для "
 "включения возможности свечения в панели ``Render > Glow Materials`` опция "
@@ -717,96 +707,173 @@ msgstr ""
 # msgstr ""
 # "Intensity of glow obtained through the smaller mask. The default value is "
 # "2.0."
-#: ../postprocessing_effects.rst:293
+#: ../postprocessing_effects.rst:321
 msgid "Интенсивность свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:293
+#: ../postprocessing_effects.rst:321
 msgid "*Small Mask: Intensity*"
 msgstr ""
 
 # msgstr ""
 # "Width of glow obtained through the smaller mask. The default value is 2.0."
-#: ../postprocessing_effects.rst:296
+#: ../postprocessing_effects.rst:324
 msgid "Ширина свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:296
+#: ../postprocessing_effects.rst:324
 msgid "*Small Mask: Width*"
 msgstr ""
 
 # msgstr ""
 # "Intensity of glow obtained through the larger mask. The default value is "
 # "2.0."
-#: ../postprocessing_effects.rst:299
+#: ../postprocessing_effects.rst:327
 msgid "Интенсивность свечения по большой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:300
+#: ../postprocessing_effects.rst:328
 msgid "*Large Mask: Intensity*"
 msgstr ""
 
 # msgstr ""
 # "Width of glow obtained through the larger mask. The default value is 6.0."
-#: ../postprocessing_effects.rst:303
+#: ../postprocessing_effects.rst:331
 msgid "Ширина свечения по большой маске. Значение по умолчанию 6.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:303
+#: ../postprocessing_effects.rst:331
 msgid "*Large Mask: Width*"
 msgstr ""
 
 # msgstr "Render the glow effect over transparent objects."
-#: ../postprocessing_effects.rst:306
+#: ../postprocessing_effects.rst:334
 msgid ""
 "Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию "
 "выключено."
 msgstr ""
 
-#: ../postprocessing_effects.rst:327
+#: ../postprocessing_effects.rst:355
 msgid "*None* - антиалиасинг отключен,"
 msgstr ""
 
-#: ../postprocessing_effects.rst:330
+#: ../postprocessing_effects.rst:358
 msgid "Значение по умолчанию: *Medium*."
 msgstr ""
 
-#: ../postprocessing_effects.rst:335
+#: ../postprocessing_effects.rst:363
 msgid ""
 "Итоговые настройки сглаживания назначаются копмозицией выбора профиля "
 "качества антиалиасинга и выбора профиля работы движка. При выборе профиля "
 "работы движка действуют следующие настройки:"
 msgstr ""
 
-#: ../postprocessing_effects.rst:337
+#: ../postprocessing_effects.rst:365
 msgid "*низкое качество* - антиалиасинг отключен,"
 msgstr ""
 
-#: ../postprocessing_effects.rst:325
+#: ../postprocessing_effects.rst:353
 msgid ""
 "Выбрать один из профилей качества в поле ``AA Quality`` на панели ``Render >"
 " Anti-Aliasing``:"
 msgstr ""
 
-#: ../postprocessing_effects.rst:328
+#: ../postprocessing_effects.rst:356
 msgid ""
 "*Low*, *Medium*, *High* - применяется антиалиасинг с низкими, средними и "
 "высокими параметрами качества соответственно."
 msgstr ""
 
-#: ../postprocessing_effects.rst:338
+#: ../postprocessing_effects.rst:366
 msgid ""
 "*высокое качество* и *максимальное качество* - использовать алгоритм FXAA "
 "3.11 (Fast Approximate Anti-Aliasing, Nvidia)."
 msgstr ""
 
-#: ../postprocessing_effects.rst:307
+#: ../postprocessing_effects.rst:335
 msgid "*Render Glow Over Transparent Objects*"
 msgstr ""
+
+#: ../postprocessing_effects.rst:225
+msgid "Стереоизображение"
+msgstr ""
+
+#: ../postprocessing_effects.rst:229
+msgid ""
+"Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD "
+"(Head-mounted display, шлем виртуальной реальности)."
+msgstr ""
+
+#: ../postprocessing_effects.rst:231
+msgid "Анаглиф:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:237
+msgid "HMD:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:243
+msgid ""
+"HMD - экспериментальная возможность, она работает только с камерами типа "
+"``Eye``."
+msgstr ""
+
+#: ../postprocessing_effects.rst:248
+msgid ""
+"Для работы стереорежима HMD нужно установить `runtime-утилиту "
+"<https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows и "
+"MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для "
+"Linux пользователю понадобится собирать из исходников самостоятельно."
+msgstr ""
+
+#: ../postprocessing_effects.rst:252
+msgid ""
+"`Настройки Chromium. "
+"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+msgstr ""
+
+#: ../postprocessing_effects.rst:254
+msgid ""
+"`Настройки Firefox. <https://developer.mozilla.org/en-"
+"US/docs/Web/API/WebVR_API>`_"
+msgstr ""
+
+#: ../postprocessing_effects.rst:256
+msgid ""
+"Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках"
+" приложения, в третьем столбце справа, как показано на иллюстрации."
+msgstr ""
+
+#: ../postprocessing_effects.rst:262
+msgid "Для корректной работы рекомендуется включить полноэкранный режим."
+msgstr ""
+
+#: ../postprocessing_effects.rst:267
+msgid "Отсутствуют."
+msgstr ""
+
+#: ../postprocessing_effects.rst:250
+msgid ""
+"На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium"
+" <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly"
+" build `Firefox <https://nightly.mozilla.org/>`_."
+msgstr ""
+
+#~ msgid ""
+#~ "На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium"
+#~ " <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly"
+#~ " build `Firefox <http://mozvr.com/downloads>`_."
+#~ msgstr ""
+
+#~ msgid "Анаглиф стереоизображение"
+#~ msgstr ""
+
+#~ msgid "Нет."
+#~ msgstr ""
 
 #~ msgid "*Render Glow Over Transparent Object*"
 #~ msgstr ""

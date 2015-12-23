@@ -351,6 +351,10 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                 col = box.column()
                 col.label(text=_("Camera Limits"))
 
+            row = col.row()
+            row.prop(cam, "b4w_show_limits_in_viewport",
+                    text=_("Display Limits in Viewport"))
+
             if cam.b4w_move_style == "HOVER":
                 row = col.row()
                 row.prop(cam, "b4w_use_horizontal_clamping",
@@ -358,6 +362,8 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
+                row.alert = (getattr(cam, "b4w_horizontal_translation_min") 
+                        > getattr(cam, "b4w_horizontal_translation_max"))
                 row.prop(cam, "b4w_horizontal_translation_min", text=_("MinX"))
                 row.prop(cam, "b4w_horizontal_translation_max", text=_("MaxX"))
 
@@ -367,6 +373,8 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_vertical_clamping")
+                row.alert = (getattr(cam, "b4w_vertical_translation_min") 
+                        > getattr(cam, "b4w_vertical_translation_max"))
                 row.prop(cam, "b4w_vertical_translation_min", text=_("MinY"))
                 row.prop(cam, "b4w_vertical_translation_max", text=_("MaxY"))
 
@@ -376,6 +384,8 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
 
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_target_distance_limits")
+                row.alert = (getattr(cam, "b4w_distance_min") 
+                        > getattr(cam, "b4w_distance_max"))
                 row.prop(cam, "b4w_distance_min", text=_("Min"))
                 row.prop(cam, "b4w_distance_max", text=_("Max"))
 
@@ -390,12 +400,16 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                 row = col.split(0.3, align=True)
                 row.active = getattr(cam, "b4w_use_zooming")
                 row.label("Distance Limits:")
+                row.alert = (getattr(cam, "b4w_distance_min") 
+                        > getattr(cam, "b4w_distance_max"))
                 row.prop(cam, "b4w_distance_min", text=_("Min"))
                 row.prop(cam, "b4w_distance_max", text=_("Max"))
 
                 row = col.split(0.3, align=True)
                 row.active = getattr(cam, "b4w_use_zooming")
                 row.label("Vertical Rotation Limits:")
+                row.alert = (getattr(cam, "b4w_hover_angle_min") 
+                        > getattr(cam, "b4w_hover_angle_max"))
                 row.prop(cam, "b4w_hover_angle_min", text=_("Down"))
                 row.prop(cam, "b4w_hover_angle_max", text=_("Up"))
 

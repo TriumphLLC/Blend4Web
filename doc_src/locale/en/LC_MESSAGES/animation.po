@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -93,12 +93,13 @@ msgid ""
 "объект анимируется с момента загрузки сцены. В случае скелетной анимации, по"
 " умолчанию воспроизводится актор, назначенный на объекте в окне ``Action "
 "Editor``."
-msgstr "Automatically, activating the ``Animation`` panel and choosing the "
-"``Behaviour`` parameter in the object's properties. In this case an appropriate "
-"animation method will be chosen by the engine and the object's animation "
-"playback will start just after a scene is loaded. In case of skeletal "
-"animation the action which is assigned to the object in the ``Action "
-"Editor`` window is played by default."
+msgstr ""
+"Automatically, activating the ``Animation`` panel and choosing the "
+"``Behaviour`` parameter in the object's properties. In this case an "
+"appropriate animation method will be chosen by the engine and the object's "
+"animation playback will start just after a scene is loaded. In case of "
+"skeletal animation the action which is assigned to the object in the "
+"``Action Editor`` window is played by default."
 
 #: ../animation.rst:44
 msgid "Программно, используя функции модуля движка ``animation``."
@@ -176,9 +177,10 @@ msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
 msgid ""
 "В случае анимации объекта-меша, необходимо включение опции ``Force Dynamic "
 "Object`` панели ``Rendering Properties`` на вкладке свойств объекта."
-msgstr "If a mesh object is animated it is required to activate the "
-"``Force Dynamic Object`` option on the ``Rendering Propetries`` panel"
-" under the object properties tab."
+msgstr ""
+"If a mesh object is animated it is required to activate the ``Force Dynamic "
+"Object`` option on the ``Rendering Propetries`` panel under the object "
+"properties tab."
 
 #: ../animation.rst:88
 msgid "Скиннинг и скелетная анимация"
@@ -218,7 +220,8 @@ msgid ""
 "кинематику, требуется стадия запекания анимационных акторов (блок ``Action``"
 " в Blender). Запекание производится с помощью интерфейса ``Bake Skeletal "
 "Animation``, расположенного на панели инструментов ``Blend4Web``:"
-msgstr "When inverse kinematics (IK) or other nontrivial structures are used, an "
+msgstr ""
+"When inverse kinematics (IK) or other nontrivial structures are used, an "
 "additional step is required to bake the animations (``Action`` datablocks in"
 " Blender). Baking can be performed using the ``Bake Skeletal Animation`` "
 "interface located on the ``Blend4Web`` panel."
@@ -227,15 +230,17 @@ msgstr "When inverse kinematics (IK) or other nontrivial structures are used, an
 msgid ""
 "Запекание производится при выделенном арматурном объекте. Элементы "
 "интерфейса ``Bake Skeletal Animation``:"
-msgstr "Baking is performed with the armature object selected. Elements"
-" of the ``Bake Skeletal Animation`` interface:"
+msgstr ""
+"Baking is performed with the armature object selected. Elements of the "
+"``Bake Skeletal Animation`` interface:"
 
 #: ../animation.rst:118
 msgid ""
 "Окно со списком запекаемых акторов -- запекать только те акторы, которые "
 "указаны в списке, иначе запекать все возможные акторы."
-msgstr "A window with the list of actions being baked -- bake only the actions which "
-"are listed, else - bake all the actions possible."
+msgstr ""
+"A window with the list of actions being baked -- bake only the actions which"
+" are listed, else - bake all the actions possible."
 
 #: ../animation.rst:121
 msgid "*Name* -- имя текущего актора из списка запекаемых акторов."
@@ -247,9 +252,9 @@ msgid ""
 "*Optimize Keyframes* -- произвести оптимизацию ключей анимации после "
 "запекания. В случае получения некорректных результатов, рекомендуется "
 "отключить опцию."
-msgstr "*Optimize keyframes* -- optimize the animation keyframes after "
-"baking. In case of incorrect results it's recommended to turn this option "
-"off."
+msgstr ""
+"*Optimize keyframes* -- optimize the animation keyframes after baking. In "
+"case of incorrect results it's recommended to turn this option off."
 
 #: ../animation.rst:126
 msgid ""
@@ -257,7 +262,8 @@ msgid ""
 "появляются акторы с именами вида *ИМЯ_B4W_BAKED*. Данные акторы будут "
 "автоматически назначены на арматурном объекте и воспроизведены в движке. "
 "Стоит отметить, что работа подобных акторов в Blender не гарантируется."
-msgstr "*Bake* -- perform baking. If the process is completed successfully, actions "
+msgstr ""
+"*Bake* -- perform baking. If the process is completed successfully, actions "
 "with names of *NAME_B4W_BAKED* type appear in the scene. These actions can "
 "be assigned to the armature object and played back in the engine. It's worth"
 " noting that appropriate functioning of such actions in Blender is not "
@@ -279,14 +285,15 @@ msgstr ""
 msgid ""
 "Для удаления вертексных групп, которые не используются арматурой, можно "
 "воспользоваться кнопкой ``Clean Unused Vertex Groups`` в одноименной панели."
-msgstr "To remove vertex groups which are not used by armature, use button "
-"``Remove Clean Unused Vertex Groups``."
+msgstr ""
+"To remove vertex groups which are not used by armature, use button ``Remove "
+"Clean Unused Vertex Groups``."
 
-#: ../animation.rst:146
+#: ../animation.rst:147
 msgid "Вертексная анимация"
 msgstr "Vertex Animation"
 
-#: ../animation.rst:154
+#: ../animation.rst:155
 msgid ""
 "Позволяет записать любые изменения геометрии объекта-меша. Необходимо "
 "учитывать, что каждый кадр вертексной анимации эквивалентен мешу. Не "
@@ -300,18 +307,19 @@ msgstr ""
 "and exported files significantly and can also slow down the work of the "
 "engine."
 
-#: ../animation.rst:162
+#: ../animation.rst:163
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``Bake Vertex "
 "Animation``, расположенный на панели инструментов ``Blend4Web``."
-msgstr "A special tool is used for baking vertex animation - "
-"``Bake Vertex Animation`` - located on the ``Blend4Web`` tools panel."
+msgstr ""
+"A special tool is used for baking vertex animation - ``Bake Vertex "
+"Animation`` - located on the ``Blend4Web`` tools panel."
 
-#: ../animation.rst:171
+#: ../animation.rst:172
 msgid "Параметризация источников звука"
 msgstr "Audio Source Parametrization"
 
-#: ../animation.rst:173
+#: ../animation.rst:174
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
@@ -319,24 +327,24 @@ msgstr ""
 "In addition the following animation key types are supported for the speaker "
 "objects: "
 
-#: ../animation.rst:176
+#: ../animation.rst:177
 msgid "*Volume* -- громкость звука источника."
 msgstr "*Volume*"
 
-#: ../animation.rst:178
+#: ../animation.rst:179
 msgid "*Pitch* -- высота звука источника."
 msgstr "*Pitch*"
 
-#: ../animation.rst:180
+#: ../animation.rst:181
 msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
 
-#: ../animation.rst:186
+#: ../animation.rst:187
 msgid "Анимация нод Value и RGB"
 msgstr "Animation of Value and RGB Nodes"
 
-#: ../animation.rst:188
+#: ../animation.rst:189
 msgid ""
 "В нодовых материалах поддерживается воспроизведение анимационных ключей, "
 "проставленных на нодах ``Value`` и ``RGB``."
@@ -344,13 +352,13 @@ msgstr ""
 "Playback of keyframes inserted on ``Value`` and ``RGB`` nodes is supported "
 "in node materials."
 
-#: ../animation.rst:201
+#: ../animation.rst:202
 msgid ""
 "Анимация числовых и цветовых значений в других нодах не поддерживается."
 msgstr ""
 "Animation of numerical and color values on other nodes is not supported."
 
-#: ../animation.rst:203
+#: ../animation.rst:204
 msgid ""
 "Может быть также использована для создания треков в :ref:`редакторе "
 "нелинейной анимации <nla_editor>`. Поддерживается несколько анимированных "
@@ -364,6 +372,19 @@ msgstr ""
 "using the ``set_nodemat_value`` and ``set_nodemat_rgb`` methods of the "
 "``objects`` module."
 
-#: ../animation.rst:205
+#: ../animation.rst:206
 msgid ":ref:`node_time`"
 msgstr ""
+
+#: ../animation.rst:144
+msgid ""
+"В Blend4Web присутствует начальная поддержка ограничителей для костей. На "
+"сегодняшний день поддерживается только один тип ограничителя, ``Copy "
+"Transform``. Это позволяет привязывать арматуру к различным объектам, в том "
+"числе физическим (ragdoll). Поддержка других ограничителей ожидается в "
+"будущих версиях."
+msgstr ""
+"Blend4Web also has initial support of the armature constraints. For now, the "
+"only supported constraint type is ``Copy Transform``. It can be used to "
+"attach an armature to an object, producing effects such as ragdoll. "
+"Support of the other types of constraints will be added in further releases."

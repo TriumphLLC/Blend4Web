@@ -15,7 +15,8 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
-        report_init_failure: false
+        report_init_failure: false,
+        media_auto_activation: false
     });
 }
 
@@ -48,6 +49,7 @@ function load_cb(root) {
 }
 
 function demo_link_click(e) {
+    m_data.activate_media();
     var letters_arm = m_scs.get_object_by_name('beads_armature');
     var spk = m_scs.get_object_by_name("Speaker");
 

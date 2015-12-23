@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Animation &mdash; User Manual: Blend4Web vv15.11</title>
+  <title>Animation &mdash; User Manual: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html"/>
         <link rel="prev" title="Particle System. Instancing" href="particles_instancing.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -250,6 +250,7 @@
 <p>To remove vertex groups which are not used by armature, use button <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code>.</p>
 <a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
 </div>
+<p>Blend4Web also has initial support of the armature constraints. For now, the only supported constraint type is <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transform</span></code>. It can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.</p>
 </div>
 <div class="section" id="id5">
 <h2>Vertex Animation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
@@ -290,7 +291,7 @@
 <p>Can be also used to create tracks in the <a class="reference internal" href="nla.html#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>B4W_TIME</span></a></p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>Time (B4W_TIME)</span></a></p>
 </div>
 </div>
 </div>
@@ -315,7 +316,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-11-26.
+      Last updated on 2015-12-22.
 
     </p>
   </div>
@@ -337,7 +338,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

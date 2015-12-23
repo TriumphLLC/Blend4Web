@@ -29,6 +29,7 @@
 
 b4w.module["__logic_nodes"] = function(exports, require) {
 var m_obj       = require("__objects");
+var m_obj_util       = require("__obj_util");
 var m_scs       = require("__scenes");
 var m_print     = require("__print");
 var m_nla       = require("__nla");
@@ -96,10 +97,12 @@ var _nodes_handlers = {
     "OUTLINE": outline_handler,
     "MOVE_CAMERA": move_camera_handler,
     "SET_CAMERA_MOVE_STYLE": set_camera_move_style_handler,
+    "MOVE_TO": move_to_handler,
     "SPEAKER_PLAY": speaker_play_handler,
     "SPEAKER_STOP": speaker_stop_handler,
     "STOP_ANIM": stop_anim_handler,
-    "STOP_TIMELINE": stop_timeline_handler
+    "STOP_TIMELINE": stop_timeline_handler,
+    "CONSOLE_PRINT": console_print_handler
 };
 
 function do_nothing_handler(node, logic, thread_state, timeline, elapsed, start_time) {
@@ -267,7 +270,7 @@ var gen_cb = function() {
 function create_select_sensor(node, logic, thread) {
     var obj = get_object(node);
 
-    var sel_objs = m_obj.get_selectable_objects(logic.scene);
+    var sel_objs = m_obj.get_selectable_objects();
     var obj_idx = sel_objs.indexOf(obj);
 
     if (obj_idx == -1) {
@@ -339,7 +342,7 @@ var gen_switch_select_cb = function() {
     }
 };
 function create_switch_select_sensor(node, logic, thread) {
-    var sel_objs = m_obj.get_selectable_objects(logic.scene);
+    var sel_objs = m_obj.get_selectable_objects();
     node.sel_obj_idxs = [];
     for (var key in node.objects_paths) {
         var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths[key], 0);
@@ -428,11 +431,17 @@ function play_timeline_handler(node, logic, thread_state, timeline, elapsed, sta
                 m_nla.set_range_end(node.frame_end);
             } else {
                 var cur_frame = m_nla.get_frame(timeline);
+                var end = -1;
                 for (var v in logic.sorted_markers_values) {
-                    if (cur_frame < logic.sorted_markers_values[v])
+                    if (cur_frame < logic.sorted_markers_values[v]) {
+                        end = v;
                         break;
+                    }
                 }
-                m_nla.set_range_end(logic.sorted_markers_values[v]);
+                if (end >= 0)
+                    m_nla.set_range_end(logic.sorted_markers_values[end]);
+                else
+                    m_nla.set_range_end(m_nla.get_frame_end());
             }
             m_nla.play_nla(null);
 
@@ -464,6 +473,20 @@ function play_timeline_handler(node, logic, thread_state, timeline, elapsed, sta
             node.state = -1;
             break;
         }
+        break;
+    }
+}
+
+function console_print_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch(logic.state) {
+    case RUNNING:
+        var vars = {};
+        for (var i in node.vars) {
+            var key = node.vars[i];
+            vars[key] = thread_state.variables[key];
+        }
+        m_print.log(node.common_usage_names["msg"], JSON.stringify(vars))
+        thread_state.curr_node = node.slot_idx_order;
         break;
     }
 }
@@ -782,6 +805,69 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
         m_phy.sync_transform(cam);
         thread_state.curr_node = node.slot_idx_order;
         break;
+    }
+}
+
+function move_to_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    function move_to(obj, dest) {
+        m_trans.set_tsr(obj, dest);
+
+        m_trans.update_transform(obj);
+        m_phy.sync_transform(obj);
+    }
+
+    switch (logic.state) {
+    case INITIALIZATION:
+        node.objects["ob"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id0"], 0);
+        node.objects["de"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id1"], 0);
+        node.state = -1;
+
+        node.obj_state = {
+            dest_tsr_start: new Float32Array(8),
+            dest_tsr_end: new Float32Array(8),
+            interp_tsr_dest: new Float32Array(8)
+        };
+
+        break;    
+    case RUNNING:
+        var obj = node.objects["ob"];
+        m_tsr.copy(node.objects["ob"].render.world_tsr, node.obj_state.dest_tsr_start)
+        //destination
+        m_tsr.copy(node.objects["de"].render.world_tsr, node.obj_state.dest_tsr_end);
+
+        switch (node.state) {
+        case -1:
+            var dur = node.bools["dur"] ? thread_state.variables[node.vars['dur']] : node.floats["dur"];
+            if (dur == 0.0) {
+                move_to(obj, node.obj_state.dest_tsr_end);
+                thread_state.curr_node = node.slot_idx_order;
+                return;
+            }
+
+            node.state = 0;
+            var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
+                    node.obj_state.interp_dest = m_tsr.interpolate(node.obj_state.dest_tsr_start,
+                        node.obj_state.dest_tsr_end, m_util.smooth_step(e), node.obj_state.interp_tsr_dest);
+
+                move_to(obj, node.obj_state.interp_tsr_dest);
+
+                if (e == 1)
+                   node.state = 1;
+            });
+            break;
+        case 0:
+            // interpolation is in progress
+            break;
+        case 1:
+            // end
+            m_time.clear_animation(trans_animator);
+            node.state = -1;
+            thread_state.curr_node = node.slot_idx_order;
+            break;
+        }
+        break;    
     }
 }
 

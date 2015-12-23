@@ -125,6 +125,10 @@
                 "load_file": "petigors_tale/characters/golem/golem_animation.json"
             },
             {
+                "name": "Farmer Male Model",
+                "load_file": "petigors_tale/characters/farmers/farmer_male_model.json"
+            },
+            {
                 "name": "Troll Model",
                 "load_file": "petigors_tale/characters/troll/troll_model.json"
             },
@@ -250,10 +254,6 @@
         "name": "Demos - Interactivity",
         "items": [
             {
-                "name": "IQ_Test",
-                "load_file": "interactivity/iq_test.json"
-            },
-            {
                 "name": "Annotations",
                 "load_file": "interactivity/annotations.json"
             },
@@ -272,6 +272,10 @@
             {
                 "name": "Inherit Material",
                 "load_file": "interactivity/inherit_material.json"
+            },
+            {
+                "name": "IQ Test",
+                "load_file": "interactivity/iq_test.json"
             },
             {
                 "name": "Math, Cond. Jump Logic",
@@ -300,6 +304,10 @@
             {
                 "name": "Solar System (Ru)",
                 "load_file": "interactivity/solar_system/solar_system_ru.json"
+            },
+            {
+                "name": "UI Snap Align",
+                "load_file": "interactivity/snap_align_camera.json"
             }
         ]
     },
@@ -317,6 +325,15 @@
             {
                 "name": "Text",
                 "load_file": "geometry/text.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Lighting",
+        "items": [
+            {
+                "name": "Multiple Lights",
+                "load_file": "lighting/multiple_lights.json"
             }
         ]
     },

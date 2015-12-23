@@ -209,4 +209,23 @@ exports.is_lamp = m_obj_util.is_lamp;
  */
 exports.is_empty = m_obj_util.is_empty;
 
+/**
+ * Get all scene selectable objects.
+ * @method module:objects.get_selectable_objects
+ * @returns {Object3D[]} Array with selectable objects.
+ */
+exports.get_selectable_objects = function() {
+
+    return m_obj.get_selectable_objects();
+}
+/**
+ * Get all scene outlining objects.
+ * @method module:objects.get_outlining_objects
+ * @returns {Object3D[]} Array with outlining objects.
+ */
+exports.get_outlining_objects = function() {
+
+    return m_obj.get_outlining_objects();
+}
+
 }

@@ -332,7 +332,7 @@ Performed in the "Object Data" tab when a lamp object is selected.
    Parameter for blurring light spot edges. It is applicable to the
    "Spot" light source type. The default value is 0.15.
 
-*Dynamic intesity*
+*Dynamic Intesity*
    Use this light source for calculating the time of day. Applicable
    only to the "Sun" light source type. Disabled by default.
 
@@ -418,6 +418,13 @@ source position and so on.
 Blend4Web implements the following shadow rendering techniques:
 cascaded shadow maps (CSM) and softened shadows (PCF).
 
+Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows
+simultaneously. If *Generate Shadows* parameter is enabled for more
+than 4 light sources, shadows will still be generated only from 4 of
+them.
+
+[image]
+
 
 Activation
 ----------
@@ -458,29 +465,35 @@ of the "Render" tab:
 *Resolution*
    Shadow map resolution. The default value is 2048x2048px.
 
-*Self-shadow polygon offset*
+*Self-Shadow Polygon Offset*
    Coefficient for shifting polygons relative to light source
    orientation. The default value is 1.
 
-*Self-shadow normal offset*
+*Self-Shadow Normal Offset*
    Coefficient for shifting polygons along their normals. The default
-   value is 0.01.
+   value is 0.010.
 
 The last two parameters can be used to reduce self-shadowing
 artifacts. These artifacts appear for the objects that cast and
-receive shadows at the same time. The "Self-shadow polygon offset"
+receive shadows at the same time. The "Self-Shadow Polygon Offset"
 parameter is more effective for fighting against artifacts in inner
-areas of poligons while "Self-shadow normal offset" is better for the
+areas of poligons while "Self-Shadow Normal Offset" is better for the
 boundary areas. Both these parameters lead to shadow distortions so we
 recommend to set them as low as possible.
 
 [image]
 
+Note: Shadows from "Point" light sources are generated the same way
+  as from "Spot" light sources and are projected only in one direction
+  specified by the source's "Rotation" parameter.
+
 
 
 *Enable CSM*
    Activates the using of cascaded shadows model; reveals additional
-   options. Disabled by default.
+   options. Disabled by default. Won't work if the "Generate Shadows"
+   setting is enabled for more than one light source. "Point" and
+   "Spot" type light sources support only one shadow cascade.
 
 This option allows to choose between the following shadow generation
 models:
@@ -534,14 +547,14 @@ When enabled the following extended settings are revealed:
 
 
 
-*CSM number*
+*CSM Number*
    Number of shadow cascades. From 1 to 4 cascades are supported. The
    default value is 1.
 
-*CSM first cascade border*
+*CSM First Cascade Border*
    First cascade size. The default value is 10.0.
 
-*CSM last cascade border*
+*CSM Last Cascade Border*
    Last cascade size. The default value is 100.0.
 
 The sizes of the intermediate cascades are interpolated between the
@@ -549,10 +562,10 @@ two above-mentioned parameters.
 
 Note: When setting up the shadows keep in mind that the bigger the
   cascade size is, the worse and less detailed are the shadows inside
-  it. On the other hand, reducing the "CSM first cascade border"
+  it. On the other hand, reducing the "CSM First Cascade Border"
   parameter makes the subsequent less detailed cascades closer to the
-  camera and thus more noticeable. Reducing the "CSM last cascade
-  border" parameter forces shadows to disappear at more close distance
+  camera and thus more noticeable. Reducing the "CSM Last Cascade
+  Border" parameter forces shadows to disappear at more close distance
   from the camera. However when softened shadows are used the overall
   quality will improve thanks to blurring at the edges.
 
@@ -560,11 +573,11 @@ Note: When setting up the shadows keep in mind that the bigger the
 
 
 
-*CSM first cascade blur radius*
+*CSM First Cascade Blur Radius*
    Blur ratio for the first cascade. The default value is 3. Zero
    value produces hard shadows.
 
-*CSM last cascade blur radius*
+*CSM Last Cascade Blur Radius*
    Blur ratio for the last cascade. The default value is 1.5. Zero
    value produces hard shadows.
 
@@ -572,17 +585,17 @@ The blur radii of the intermediate cascades are interpolated between
 the two above-mentioned parameters.
 
 Note: We recommend to start setting up the softened shadows with the
-  first cascade (using "CSM first cascade blur radius") and then
-  proceed to other cascades (using "CSM last cascade blur radius").
+  first cascade (using "CSM First Cascade Blur Radius") and then
+  proceed to other cascades (using "CSM Last Cascade Blur Radius").
   Often the last cascade may need less blurring than the first one.
   This may be needed to prevent the shadows on the last cascade being
   too faded due to low resolution. This also reduces undesirable self-
   shadowing artifacts.
 
-*Fade-out last cascade*
+*Fade-out Last Cascade*
    Smooth dying-out of the last cascade. Enabled by default.
 
-*Blend between cascades*
+*Blend Between Cascades*
    Smoothing the boundaries between the cascades. Enabled by default.
 
 [image]

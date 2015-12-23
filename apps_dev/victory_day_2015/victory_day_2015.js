@@ -771,10 +771,10 @@ function init_constraints() {
     var rotation = m_tsr.get_quat_view(tsr_cbox_in_cam_space);
 
     m_cons.append_stiff_viewport(cbox, _cam, {
-        "right": 0.0,
-        "bottom": 0.0,
-        "distance": distance,
-        "rotation": rotation
+        right: 0.0,
+        bottom: 0.0,
+        distance: distance,
+        rotation: rotation
     });
 
     m_cons.append_track(_light_point, _bm_13);

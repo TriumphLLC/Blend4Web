@@ -3,6 +3,178 @@ Release Notes
 *************
 
 
+v15.12
+======
+
+
+New Features
+------------
+
+* Support for shadows from multiple sources.
+
+     Support for shadows from multiple sources has been added. This
+     feature can be used to greatly improve the realism of scenes lit
+     by multiple light sources. Its functions and limitations are
+     described in the documentation.
+
+* Experimental support of the HMD (Head-mounted display).
+
+     Experimental support fot the head-mounted displays with the WebVR
+     API has been added. For now, using this technology requires a web
+     browser with WebVR support and an Oculus Rift device. More
+     details in the documentation.
+
+* Aligning objects with the camera in the viewport.
+
+     The new Viewport Alignment option can be used to attach objects
+     to the camera in the viewport. This feature can be used to create
+     UI elements attached to the center, edge or corner of the screen.
+     Unlike parent-child alignment, the position of an aligned object
+     will automatically change when screen resolution or aspect ratio
+     is changed.
+
+     Functionality of the append_stiff_viewport() method used for
+     Stiff Viewport constraint has also been expanded.
+
+* An option to show camera limits in Blender viewport.
+
+     To make the task of setting camera limits up simplier, the
+     "Display limtis in viewport" option has been added to the "Data"
+     panel of the camera object. When enabled, it will show the limits
+     right in the Blender viewport. Default settings of the limits has
+     also been changed.
+
+* Anaglyph rendering improvements.
+
+     New anaglyph rendering algorythm has been implemented. It has
+     better color rendering. Also, plane of convergence of the left
+     and right image for a TARGET type camera will now be calculated
+     automatically based on a point around which the camera is
+     rotated.
+
+* New logic editor nodes.
+
+     * "Move To": Can be used to move an object to another object.
+
+     * "Console Print": Can be used to print various information
+       (including variables values) to the web browser console.
+
+* A Stereo View button has been added to the Web Player.
+
+     Can be used to switch to the HMD mode (if the web browser
+     supports this technology) or to anaglyph mode.
+
+* New methods for working with objects.
+
+     The new methods get_selectable_objects and get_outlining_objects
+     have been added to make working with objects simpler.
+
+* Dynamic objects can now be deleted.
+
+     Before, only objects copied by the user could have been deleted.
+
+* The option to choose an annotation of an object based on the
+  canvas coordinates has been added.
+
+     The pick_object function now returns the object's annotation, if
+     the object is present in the sent coordinates.
+
+* A new method to initialize media resources for mobile devices has
+  been added.
+
+     Before, forced canvas block was used as a workaround of the
+     mobile browsers restriction of loading media resources (video and
+     audio), and a user had to click a popup icon to start the
+     application. Now, you can manually initialize media resources by
+     using activate_media method. this function can be useful if the
+     application already have elements that require user input, such
+     as Start button, sound mute button and so on.
+
+* New sensor manifold type - "CT_POSITIVE"
+
+     The new "CT_POSITIVE" sensor manifold type activates event
+     handler if the logic function result isn't zero.
+
+
+Changes
+-------
+
+* The "Fast Preview" button has been duplicated in the UI low panel.
+
+     This button can be used to preview the scene without switching to
+     the "Developement Server" scene settings panel.
+
+* Canvas texture API has been changed.
+
+     Now working with a canvas texture is simpler. New methods
+     get_canvas_ctx and update_canvas_ctx have been added. The
+     get_canvas_texture_context and update_canvas_texture_context
+     methods have been declared deprecated and are not recommended to
+     use. The *Source ID* interface field for the canvas texture has
+     also been removed.
+
+* Wrong behavior of the shadows from Alpha Clip materials has been
+  fixed.
+
+     Incorrect behavior of the shadows casted by the objects with
+     Alpha Clip materials without transparency value has been fixed.
+
+
+Fixes
+-----
+
+* Incorrect physics of a copied object has been fixed.
+
+     Incorrect physics behavior of a copied object (which occured if
+     the object was moved before being added to the scene) has been
+     fixed.
+
+* Incorrect fog behavior if a water plane was added to the scene has
+  been fixed.
+
+* Misplacing of the Blender interface panels in basic scene for a
+  new project has been fixed.
+
+* Cubemap rendering issue on the NVIDIA GeForce 200 series GPU has
+  been fixed.
+
+* Engine workflow on iPhone (4, 4S and 5), iPad (2nd, 3rd and 4th
+  generations) and iPad Mini (1st and 2nd generations) has been
+  improved.
+
+* Incorrect rendering of the shadows casted by billboard objects has
+  been fixed.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     It's strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+* Incorrect Depth texture behavior on Windows OS.
+
+     Depth textures are unstable on Google Chrome 32 bit on Windows.
+     This problem is fixed in the beta version of the browser.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+* For the local developement server to work on Apple OS X and
+  Blender 2.76, you may need to install Python 3.4. This is due to a
+  bug in Blender https://developer.blender.org/T46623. This bug has
+  been fixed in Blender 2.76b, so updating it is advised.
+
+
 v15.11
 ======
 
@@ -148,7 +320,8 @@ Changes
      * For the logic nodes behavior transparency, "Cyclic NLA"
        option has been switched off.
 
-* Изменено поведение HOVER-камеры при отсутствии у неё лимитов.
+* Behavior of the HOVER camera in the absence of limits has been
+  changed.
 
      * HOVER camera will now be hanging over pivot point at a fixed
        distance and fixed angle.

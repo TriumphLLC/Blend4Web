@@ -19,6 +19,7 @@
 
 /**
  * Physics module. Provides API to uranium.js physics engine. 
+ * @see https://www.blend4web.com/doc/en/physics.html
  * @module physics
  * @local CollisionCallback
  * @local CollisionImpulseCallback

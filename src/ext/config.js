@@ -43,7 +43,8 @@
  * <dt>alpha_sort_threshold
  * <dd>Number, camera distance threshold for transparency z-sorting.
  * <dt>anaglyph_use
- * <dd>Boolean, enable anaglyph stereo rendering.
+ * <dd>Boolean, enable anaglyph stereo rendering. Deprecated, use stereo
+ * instead.
  * <dt>animation_framerate
  * <dd>Number, animation framerate.
  * <dt>antialiasing
@@ -74,6 +75,8 @@
  * <dd>Boolean, enable outlining of object.
  * <dt>gyro_use
  * <dd>Boolean, enable gyroscope.
+ * <dt>media_auto_activation
+ * <dd>Boolean, activate media data context on mobile devices using popup dialog.
  * <dt>outlining_overview_mode
  * <dd>Boolean, make all objects selectable, enable outlining and
  * outlining on select.
@@ -108,6 +111,8 @@
  * <dt>smaa_area_texture_path
  * <dd>String, path to the SMAA "area" texture. If not specified, search in the
  * directory with the engine's sources.
+ * <dt>stereo
+ * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
  * <dt>wireframe_debug
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
@@ -118,12 +123,12 @@
  * @cc_externs antialiasing assets_dds_available assets_min50_available audio
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
  * @cc_externs console_verbose do_not_load_resources enable_selectable
- * @cc_externs enable_outlining gyro_use outlining_overview_mode
+ * @cc_externs enable_outlining gyro_use media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs wireframe_debug url_params
+ * @cc_externs wireframe_debug url_params stereo
  */
 b4w.module["config"] = function(exports, require) {
 

@@ -64,7 +64,7 @@ exports.init = function() {
 
 function init_cb(canvas_elem, success) {
 
-    if(!success) {
+    if (!success) {
         console.log("b4w init failure");
         return;
     }

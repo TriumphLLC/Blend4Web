@@ -34,6 +34,7 @@ b4w_modules = [
     "ui_texture",
     "ui_particle",
     "ui_physics",
+    "ui_view3d_ht_header",
     "translator"
 ]
 
@@ -102,6 +103,7 @@ def register():
     ui_texture.register()
     ui_particle.register()
     ui_physics.register()
+    ui_view3d_ht_header.register()
 
     bpy.utils.register_class(CustomConstraintsPanel)
 
@@ -116,5 +118,6 @@ def unregister():
     ui_texture.unregister()
     ui_particle.unregister()
     ui_physics.unregister()
+    ui_view3d_ht_header.unregister(),
 
     bpy.utils.unregister_class(CustomConstraintsPanel)

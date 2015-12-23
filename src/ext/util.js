@@ -18,7 +18,7 @@
 "use strict";
 
 /**
- * Implements various utility functions.
+ * Containts various utility methods for math, searching etc.
  * @module util
  */
 b4w.module["util"] = function(exports, require) {

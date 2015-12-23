@@ -73,7 +73,8 @@ exports.init = function() {
         console_verbose: true,
         show_fps: true,
         alpha: false,
-        physics_use_workers: !is_mobile
+        physics_use_workers: !is_mobile,
+        autoresize: true
     });
 }
 
@@ -82,9 +83,6 @@ function init_cb(canvas_elem, success) {
         m_print.log("b4w init failure");
         return;
     }
-
-    window.onresize = on_resize;
-    on_resize();
 
     _canvas_elem = canvas_elem;
     m_app.enable_controls(canvas_elem);
@@ -102,11 +100,6 @@ function init_cb(canvas_elem, success) {
     else
         m_data.load(ASSETS_PATH + "intro_HQ.json", load_cb, preloader_cb, true);
 }
-
-function on_resize() {
-    m_app.resize_to_container();
-}
-
 
 function detect_mobile() {
     if( navigator.userAgent.match(/Android/i)
@@ -358,7 +351,7 @@ function main_canvas_click(e) {
 
         if (binfo.stop_playlist) {
             play_ending_speaker();
-            run_environment_animation();
+            //run_environment_animation();
         }
         
         if (binfo.level_name)

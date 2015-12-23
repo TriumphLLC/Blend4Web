@@ -19,6 +19,8 @@
 
 /**
  * Material API.
+ * Containts methods to control parameters of standard materials.
+ * The node-based materials are not supported yet.
  * @module material
  */
 b4w.module["material"] = function(exports, require) {

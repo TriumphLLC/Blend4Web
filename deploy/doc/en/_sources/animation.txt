@@ -133,6 +133,12 @@ Note: The engine supports up to 4 vertex groups per vertex. If the
   groups which are not used by armature, use button "Remove Clean
   Unused Vertex Groups".[image]
 
+Blend4Web also has initial support of the armature constraints. For
+now, the only supported constraint type is "Copy Transform". It can be
+used to attach an armature to an object, producing effects such as
+ragdoll. Support of the other types of constraints will be added in
+further releases.
+
 
 Vertex Animation
 ================
@@ -188,4 +194,4 @@ material. Values of these nodes can be also modified via API, by using
 the "set_nodemat_value" and "set_nodemat_rgb" methods of the "objects"
 module.
 
-See also: B4W_TIME
+See also: Time (B4W_TIME)

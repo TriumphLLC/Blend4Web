@@ -7,17 +7,12 @@ v_tex_pos_clip v_pos_view
 #import generate_dithering_tex
 
 #export shadow_visibility calc_shadow_factor
-#export shadow_ssao
 
 #var CSM_BLEND_BETWEEN_CASCADES 1.0
 #var CSM_FADE_LAST_CASCADE 1.0
 #var SHADOW_TEX_RES 0.0
 
 #define M_PI 3.14159265359
-
-#if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
-vec4 shadow_ssao;
-#endif
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 const float SHADOW_BLUR_OFFSET = 0.1;
@@ -208,18 +203,18 @@ float get_visibility_faded(vec3 tex_coords, PRECISION sampler2D shadow_map,
     return vis;
 }
 
-float shadow_visibility(float depth) {
+vec4 shadow_visibility(float depth) {
 
     float vis = 1.0;
 
     vec3 shadow_coord0 = v_shadow_coord0.xyz / v_shadow_coord0.w;
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
     vec3 shadow_coord1 = v_shadow_coord1.xyz / v_shadow_coord1.w;
 # endif
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
     vec3 shadow_coord2 = v_shadow_coord2.xyz / v_shadow_coord2.w;
 # endif
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
     vec3 shadow_coord3 = v_shadow_coord3.xyz / v_shadow_coord3.w;
 # endif
 
@@ -278,24 +273,41 @@ float shadow_visibility(float depth) {
     }
 # endif // CSM_SECTION1
 
-    return vis;
+# if NUM_CAST_LAMPS > 1
+    float vis_lamp_1 = shadow_map_visibility(shadow_coord1, u_shadow_map1, u_pcf_blur_radii[0]);
+# else
+    float vis_lamp_1 = 0.0;
+# endif
+
+# if NUM_CAST_LAMPS > 2
+    float vis_lamp_2 = shadow_map_visibility(shadow_coord2, u_shadow_map2, u_pcf_blur_radii[0]);
+# else
+    float vis_lamp_2 = 0.0;
+# endif
+
+# if NUM_CAST_LAMPS > 3
+    float vis_lamp_3 = shadow_map_visibility(shadow_coord3, u_shadow_map3, u_pcf_blur_radii[0]);
+# else
+    float vis_lamp_3 = 1.0;
+# endif
+
+    return vec4(vis, vis_lamp_1, vis_lamp_2, vis_lamp_3);
 }
 
 #endif  // SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 
-float calc_shadow_factor(inout vec3 D) {
+vec4 calc_shadow_factor(inout vec3 D) {
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
     // TODO:
-    vec2 visibility = texture2DProj(u_shadow_mask, v_tex_pos_clip).rg;
-    //vec3 shadow = mix(u_shadow_color, vec3(1.0), vec3(visibility.r));
-    vec3 shadow = vec3(visibility.r);
-    float ssao = visibility.g;
-    shadow_ssao = vec4(shadow, ssao);
-    D *= shadow_ssao.a;
-    return shadow_ssao.r;
+    vec4 visibility = texture2DProj(u_shadow_mask, v_tex_pos_clip);
+# if NUM_CAST_LAMPS < 3
+    D *= visibility.a;
+# endif
+    return visibility;
 #elif SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
-    return shadow_visibility(v_pos_view.z);
+    vec4 visibility = shadow_visibility(v_pos_view.z);
+    return visibility;
 #else
-    return 1.0;
+    return vec4(1.0);
 #endif
 }

@@ -24,6 +24,7 @@
  * @module scenes
  * @local ColorCorrectionParams
  * @local SceneMetaTags
+ * @local HMDParams
  */
 b4w.module["scenes"] = function(exports, require) {
 
@@ -37,6 +38,7 @@ var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_util     = require("__util");
+var m_vec4     = require("__vec4");
 
 /**
  * Color correction params.
@@ -53,6 +55,15 @@ var m_util     = require("__util");
  * @type {Object}
  * @property {String} title The title meta tag.
  * @property {String} description The description meta tag.
+ */
+
+/**
+ * Head-mounted display params.
+ * @typedef {Object} HMDParams
+ * @property {Boolean} enable_hmd_stereo Enable hmd stereo
+ * @property {Array} distortion_coefs Distortion coefficient list
+ * @property {Number} distortion_scale Distortion scale
+ * @property {Number} distortion_offset Distortion offset
  */
 
 /**
@@ -358,6 +369,47 @@ exports.set_glow_color = function(color) {
 exports.get_glow_color = function(dest) {
     m_print.error_deprecated("get_glow_color, get_outline_color");
     exports.get_outline_color(dest);
+}
+
+/**
+ * Set head-mounted display params.
+ * @method module:scenes.set_hmd_params
+ * @param {HMDParams} hmd_params Head-mounted display params.
+ * @cc_externs enable_hmd_stereo distortion_coefs
+ * @cc_externs distortion_scale distortion_offset
+ */
+exports.set_hmd_params = function(hmd_params) {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return;
+    }
+
+    if (!hmd_params)
+        return;
+
+    var active_scene = m_scenes.get_active();
+    var subs_stereo = m_scenes.get_subs(active_scene, "STEREO");
+
+    if (hmd_params.distortion_coefs && (hmd_params.distortion_coefs instanceof Array)) {
+        subs_stereo.distortion_params[0] = hmd_params.distortion_coefs[0];
+        subs_stereo.distortion_params[1] = hmd_params.distortion_coefs[1];
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params.distortion_scale && (typeof hmd_params.distortion_scale == "number")) {
+        subs_stereo.distortion_params[2] = hmd_params.distortion_scale;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params.distortion_offset && (typeof hmd_params.distortion_offset == "number")) {
+        subs_stereo.distortion_params[3] = hmd_params.distortion_offset;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params && (typeof hmd_params.enable_hmd_stereo == "boolean")) {
+        subs_stereo.enable_hmd_stereo = hmd_params.enable_hmd_stereo;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
 }
 
 /**
@@ -1199,17 +1251,22 @@ exports.append_object = function(obj, scene_name) {
     m_scenes.append_object(scene, obj, true);
 }
 /**
- * Remove copied object from the active scene.
+ * Remove dynamic object from all scenes.
+ * Removing static physics object doesn't support.
  * @method module:scenes.remove_object
  * @param {Object3D} obj Object 3D
  */
 exports.remove_object = function(obj) {
-    if (!obj.render.is_copied) {
-        m_print.error("Can't remove object \"" + obj.name + "\". It was not copied.");
+    if ((m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))
+            && !m_obj_util.is_dynamic(obj)) {
+        m_print.error("Can't remove object \"" + obj.name + "\". It must be dynamic.");
         return;
     }
-    var scene = m_scenes.get_active();
-    m_data.prepare_object_unloading(scene, obj, false);
+    var scenes_data = obj.scenes_data;
+    for (var j = 0; j < scenes_data.length; j++) {
+        var scene = scenes_data[j].scene;
+        m_data.prepare_object_unloading(scene, obj, false);
+    }
     m_obj.remove_object(obj);
 }
 /**

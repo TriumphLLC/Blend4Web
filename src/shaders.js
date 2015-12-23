@@ -66,7 +66,6 @@ var SHADERS = ["anchors.glslf",
     "wireframe.glslf",
     "wireframe.glslv",
 
-    "postprocessing/anaglyph.glslf",
     "postprocessing/antialiasing.glslf",
     "postprocessing/bloom_combine.glslf",
     "postprocessing/compositing.glslf",
@@ -83,12 +82,14 @@ var SHADERS = ["anchors.glslf",
     "postprocessing/luminance_trunced.glslv",
     "postprocessing/motion_blur.glslf",
     "postprocessing/outline.glslf",
+    "postprocessing/performance.glslf",
     "postprocessing/postprocessing.glslf",
     "postprocessing/postprocessing.glslv",
     "postprocessing/smaa.glslf",
     "postprocessing/smaa.glslv",
     "postprocessing/ssao.glslf",
     "postprocessing/ssao_blur.glslf",
+    "postprocessing/stereo.glslf",
     //"postprocessing/velocity.glslf",
 
     "include/blending.glslf",
@@ -204,6 +205,7 @@ exports.set_default_directives = function(sinfo) {
     var dir_names = [
         "ALPHA",
         "ALPHA_CLIP",
+        "ANAGLYPH",
         "BEND_CENTER_ONLY",
         "BILLBOARD_PRES_GLOB_ORIENTATION",
         "CAUSTICS",
@@ -297,7 +299,10 @@ exports.set_default_directives = function(sinfo) {
         "WIREFRAME_QUALITY",
         "SIZE_RAMP_LENGTH",
         "COLOR_RAMP_LENGTH",
-        "PARTICLES_SHADELESS"
+        "PARTICLES_SHADELESS",
+        "NUM_CAST_LAMPS",
+        "SUN_NUM",
+        "MAC_OS_SHADOW_HACK"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -308,6 +313,7 @@ exports.set_default_directives = function(sinfo) {
         // default 0
         case "ALPHA":
         case "ALPHA_CLIP":
+        case "ANAGLYPH":
         case "BILLBOARD_PRES_GLOB_ORIENTATION":
         case "CAUSTICS":
         case "CSM_SECTION0":
@@ -382,6 +388,9 @@ exports.set_default_directives = function(sinfo) {
         case "COLOR_RAMP_LENGTH":
         case "PARTICLES_SHADELESS":
         case "SMAA_JITTER":
+        case "NUM_CAST_LAMPS":
+        case "SUN_NUM":
+        case "MAC_OS_SHADOW_HACK":
             val = 0;
             break;
 

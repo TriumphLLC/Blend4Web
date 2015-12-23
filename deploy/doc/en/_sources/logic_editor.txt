@@ -3,12 +3,78 @@ Visual Programming
 ******************
 
 
-Visual Programming (Logic Editor)
-=================================
+Table of Content
+^^^^^^^^^^^^^^^^
 
-Performed by creating logic node tree in the node editor area in
-Blender. These nodes can extend the scene functionality significantly
-without any coding.
+* Visual Programming
+
+  * Logic Editor
+
+  * Nodes
+
+    * Entry Point
+
+    * Play Timeline and Stop Timeline
+
+    * Play Animation
+
+    * Stop Animation
+
+    * Select & Play Timeline (Deprecated)
+
+    * Select & Play Animation (Deprecated)
+
+    * Select (Deprecated)
+
+    * Conditional Jump
+
+    * Variable Store
+
+    * Math Operation
+
+    * Show Object
+
+    * Hide Object
+
+    * Page Redirect
+
+    * Page Param
+
+    * Send Request
+
+    * Inherit Material
+
+    * Set Shader Node Param
+
+    * Delay
+
+    * Apply Shape Key
+
+    * Outline
+
+    * Move Camera
+
+    * Play Sound
+
+    * Stop Sound
+
+    * Switch Select
+
+    * Move To
+
+    * Console Print
+
+    * Debugging
+
+  * Other elements
+
+
+Logic Editor
+============
+
+Visual programming is performed by creating logic node tree in the
+node editor area in Blender. These nodes can extend the scene
+functionality significantly without any coding.
 
 [image]
 
@@ -48,6 +114,10 @@ Logic Editor usage example:
 
 [image]
 
+
+Nodes
+=====
+
 All possible nodes are described below.
 
 
@@ -57,9 +127,30 @@ Entry Point
 This is where the script starts. By using multple entry points you can
 create multi-threaded applications.
 
+[image]
 
-Play Timeline и Stop Timeline
------------------------------
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+None.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+None.
+
+
+Play Timeline and Stop Timeline
+-------------------------------
 
 Can be used to control NLA animations. The "Play Timeline" node plays
 NLA fragment starting with a frame specified by the marker. Animation
@@ -70,12 +161,37 @@ Timeline" node stops the playback.
 [image]
 
 
-Play Animation & Stop Animation
--------------------------------
+Input parameters
+~~~~~~~~~~~~~~~~
 
-Can be used to control object animation. "Play Animation" is used to
-play object animation. Animation's name can be specified. 3 options
-are possible:
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Start Marker*
+   First frame of the animation. If not specified, an animation plays
+   from the start of the timeline and may not work correctly.
+
+*End Marker*
+   Last frame of the animation. If not specified, an animation plays
+   to the end of the timeline and may not work correctly.
+
+
+Play Animation
+--------------
+
+Can be used to play object's animation. An animation can be one of the
+following types:
 
 Regular Action:
 
@@ -89,7 +205,74 @@ Particle system:
 
 [image]
 
-The "Stop Animation" node stops animation.
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   Name of the object, animation of which will be played.
+
+*Anim. Name*
+   Name of an animation to play. If not specified, the entire timeline
+   will be played.
+
+*Behavior*
+   Specifies animation behavior. Can have one of the following values:
+
+   * *Finish Stop* - animation will be played once.
+
+   * *Finish Reset* - animation will be played once, then the object
+     will return to the starting point.
+
+   * *Loop* - animation will be playing repeatedly until it is
+     stopped by the "Stop Animation" node.
+
+*Do Not Wait*
+   If this parameter is enabled, the "Play Animation" node will pass
+   the control to the next node on starting the animation playback. If
+   it isn't, the control will be passed to the next node only after
+   playback is finished.
+
+
+Stop Animation
+--------------
+
+Can be used to stop an object's animation.
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Set First Frame*
+   Go back to the first frame after the animation has been stopped.
 
 
 Select & Play Timeline (Deprecated)
@@ -139,11 +322,93 @@ Go to the specified node if the certain condition is met. The
 parameters (operands) can also be registers that are activated using
 the corresponding switches.
 
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*True*
+   Condition is true.
+
+*False*
+   Condition is false.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Condition*
+   Logical condition. Can have one of the following types:
+
+   * *Equal* - first operand is equal to the second.
+
+   * *Not Equal* - frist operand is not equal to the second.
+
+   * *Less Than* - first operand is less than the second.
+
+   * *Greater Than* - first operan is greater than the second.
+
+   * *Less Than Or Equal* - first operand is less than or equal to
+     the second.
+
+   * *Greater Than Or Equal* - first operand is greater than or
+     equal to the second.
+
+*Operand1*
+   First operand of the logical condition. Should have a numeric
+   value. Can be specified in the node or can be a link to one of the
+   eight registers.
+
+*Operand2*
+   Second operand of the logical condition. Works the same way as the
+   first.
+
 
 Variable Store
 --------------
 
 Save a numeric value in a variable.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Var. n.*
+   Name of the variable. Can be selected from the list of eight
+   registers or specified manually (if the "New variable" parameter is
+   enabled).
+
+*New variable*
+   If this parameter is enabled, you can manually input a variable's
+   name and not just select one of the registers. This can be used to
+   transfer the data between the application and the server.
+
+*Num.*
+   Numeric value of the variable. Set to zero by default.
 
 
 Math Operation
@@ -152,23 +417,169 @@ Math Operation
 Perform a math operation and save the result in the register. Any of
 parameters (operands) can be either a numeric value or a register.
 
+[image]
 
-Show Object and Hide Object
----------------------------
 
-This is used to hide and show 3D objects.
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Operation*
+   Mathematical operation. Can have one of the following types:
+
+   * *Random* randomly selects one of the following operations.
+
+   * *Add* sums the operands.
+
+   * *Multiply* multyplies the operands.
+
+   * *Subtract* subtracts the second operand from the first.
+
+   * *Divide* divides first operand by the second.
+
+*Operand1*
+   First operand. It can be specified in the node or it can be a link
+   to one of the registers (if the "Variable" parameter is enabled).
+
+*Operand2*
+   Second operand. Works the same way as the first.
+
+*Destination*
+   The result of the operation will be saved in the register specified
+   by this parameter.
+
+
+Show Object
+-----------
+
+Can be used to show 3D objects.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object to show.
+
+
+Hide Object
+-----------
+
+Can be used to hide 3d objects.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object to hide.
 
 
 Page Redirect
 -------------
 
-This serves as a page redirect to other web pages.
+Can be used to redirect the browser to another page. This node always
+marks the end of the node tree and doest't have any output parameters.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+None.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Url*
+   Web adress of a page that will be opened. Set to
+   "https://www.blend4web.com" by default.
 
 
 Page Param
 ----------
 
 Allows to store any web page parameter in a given numerical register.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Param Name*
+   The name of the web page parameter.
+
+*Destination*
+   A register that will be used to save the parameter.
 
 
 Send Request
@@ -177,18 +588,131 @@ Send Request
 Send an HTTP GET request to the specified URL and save the respond's
 fields to variables.
 
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Method*
+   Method of the request. Can have one of two values:
+
+   * *GET* is used to request data from the server.
+
+   * *POST* is used to send data to the server.
+
+*Url*
+   A web adress to send request to. Set to "https://www.blend4web.com"
+   by default.
+
+*Decode Response Params*
+   A list of variables to store the data recieved from the server.
+   Variables always have names like "var0", "var1" and so on
+   (parameters recieved from the server should have the exact same
+   names), while their quantity can be customized. For now, variables
+   can only have numeric values.
+
+Note: The data recieved from the server should look like this:
+
+     {"var0": 1,
+     "var1": 10,
+     "var2": 144,
+     ...
+     }
+
 
 Inherit Material
 ----------------
 
 Copy attributes from one material to another.
 
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Source*
+   An object that has a material that will be inherited.
+
+*Material*
+   The material to inherit.
+
+*Destination*
+   An object that will inherit selected material.
+
+*Material*
+   The material that will be replaced by the inherited one.
+
 
 Set Shader Node Param
 ---------------------
 
-Set vaue for the shader node. Currently only Value and RGB nodes are
-supported.
+Can be used to set the value for the shader node. Currently, only
+"Value"  and "RGB" nodes are supported.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that has material that needs to be edited.
+
+*Material*
+   Material that needs to be edited. It should use nodes.
+
+*Node*
+   A node that has parameters that can be changed. For now, only
+   "Value" and "RGB" nodes are supported.
+
+*Parameters*
+   Editable parameters of the selected node. They can be set in the
+   node itself or through the registers (if the "Variable" parameter
+   is enabled).
 
 
 Delay
@@ -196,17 +720,113 @@ Delay
 
 Make a delay before going to the next node.
 
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Value*
+   Time (in seconds) that will pass before the activation of the next
+   node. Set to zero by default. Can be set manually or through a
+   register (if the "Variable" parameter is enabled).
+
 
 Apply Shape Key
 ---------------
 
 Set the Shape Key factor.
 
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that needs to be transformed.
+
+*Shape Key*
+   Shape key that will be applied to the object.
+
+*Value*
+   How much the shape key will influence the object. This value can be
+   set in the node or in a register. The value should be between 0 and
+   1.
+
 
 Outline
 -------
 
-Controls object outliing effect.
+Controls object outlining effect.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   Any changes of the outline effect will be applied only to an object
+   specified by this parameter.
+
+*Operation*
+   Specifies an operation that will be done to the object's outline.
+   This parameter can have one of the following values:
+
+   * *PLAY* enables outline animation
+
+   * *STOP* disables it
+
+   * *INTENSITY* can be used to set intensity of the object's
+     outline
+
+*Intensity*
+   Outline intensity. This parameter is only avalible if the
+   "Operation" parameter is set to "INTENSITY". The value can be set
+   manually or via register (if the "Variable" parameter is enabled).
 
 
 Move Camera
@@ -215,17 +835,226 @@ Move Camera
 Can be used to move the camera, including smooth interpolation of its
 position.
 
+[image]
 
-Play Sound & Stop Sound
------------------------
 
-Can be used to play and stop a speaker's sound.
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Camera*
+   A camera that will be moved.
+
+*Location*
+   An object to which the camera will move. The camera's coordinates
+   will be the same as the object's after the movement is finished.
+
+*Target*
+   The camera will point in the direction of this object after being
+   moved.
+
+*Duration*
+   Time (in seconds) that the camera will spend being moved to a new
+   location. Set to zero by default (and in this case the camera
+   doesn't actually move, it simply changes its position). It can be
+   specified manually or as a link to a register (if the "Variable"
+   parameter is enabled)
+
+
+Play Sound
+----------
+
+Can be used to play speaker's sound.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Speaker*
+   A speaker that will be enabled.
+
+*Do Not Wait*
+   If this parameter is enabled, the control will pass to the next
+   node right after sound playback starts. If it isn't enabled, the
+   control will pass only when the playback is finished.
+
+
+Stop Sound
+----------
+
+Can be used to stop speaker's sound.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Speaker*
+   A speaker that will be turned off.
 
 
 Switch Select
 -------------
 
 Can be used to trace the selection of any object from the object list.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*<object name> Hit*
+   This parameter will pass the control to the next node if the user
+   selects (with a mouse or by touch) an object mentioned in the
+   parameter's name. The "Switch Select" node has one such parameter
+   by default, but you can add new ones and remove existing ones (the
+   node can even have no such parameters).
+
+*Miss*
+   This parameter will pass the control to the next node if the user
+   hasn't selected any of the objects specified in the "Switch Select"
+   node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   One of the objects that the user can select. These parameters are
+   automatically created and deleted when you create or delete a "Hit"
+   parameter. The number of such parameters is always equal to the
+   number of the "Hit" parameters.
+
+
+Move To
+-------
+
+Can be used to move objects.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that you need to move.
+
+*Destination*
+   A target (another object or a light source, camera or anything
+   else) to which the selected object will move. The object's
+   coordinated will be the same as the target's after the movement is
+   finished.
+
+*Duration*
+   Time (in seconds) that the object will spend moving to the new
+   location. By default, this parameter is set to zero (and in this
+   case, the object doesn't actually move, it just changes it's
+   position in a moment). It can be set manually or with a register
+   (avalible only if the "Variable" parameter is enabled).
+
+
+Console Print
+-------------
+
+This node prints variables's values and additional text to the web
+browser console. It can be used for debug purposes.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Message*
+   A message that will be printed to the console along with the
+   values.
+
+<register name>
+   A register that will be printed to the console. By default, a
+   "Console Print" node has one such parameter, but you can add new
+   and delete existing ones (the node might not even have such
+   parameters at all).
 
 
 Debugging
@@ -236,3 +1065,18 @@ that select the required node and press the "M" key. Muted nodes are
 not evaluated and simply pass control to the next ones. If the muted
 node has two outputs the execution continues from the output with
 negative result ("Miss", "False").
+
+
+Other elements
+==============
+
+Logic Editor also has "Reroute" elements, the nodes that don't do
+anything aside from passing the control to the next node or to the
+next "Reroute" element. Such elements can be used to create cyclic
+structures or to make the node tree easier to read and understand.
+
+[image]
+
+Note: Output parameter can't be connected to the same node's input
+  parameter. If you need to do this (to make a cycle, for example),
+  you should use "Reroute" elements.

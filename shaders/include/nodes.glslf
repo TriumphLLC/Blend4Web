@@ -1567,7 +1567,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 normal
     #node_out vec2 dif_params
     #node_out vec2 sp_params
-    #node_out float shadow_factor
+    #node_out vec4 shadow_factor
     #node_param const vec2 diffuse_params  // vec2(diffuse_param, diffuse_param2)
     #node_param const vec3 specular_params // vec3(intensity, spec_param_0, spec_param_1)
 
@@ -1703,7 +1703,7 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node LIGHTING_LAMP
-    #node_in float shadow_factor
+    #node_in vec4 shadow_factor
 
     #node_out vec3 ldir
     #node_out vec2 lfac
@@ -1719,8 +1719,9 @@ vec2 vec_to_uv(vec3 vec)
 
     // 0.0 - full shadow, 1.0 - no shadow
     lcolorint = u_light_color_intensities[LAMP_IND];
-    if (LAMP_SHADOW_MAP_IND != -1)
-         lcolorint *= shadow_factor;
+# node_if LAMP_SHADOW_MAP_IND != -1
+    lcolorint *= shadow_factor[LAMP_SHADOW_MAP_IND];
+# node_endif
 
 # node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     vec3 lpos = u_light_positions[LAMP_IND];
@@ -2492,14 +2493,14 @@ void nodes_main(in vec3 nin_eye_dir,
         out vec3 nout_color,
         out vec3 nout_specular_color,
         out vec3 nout_normal,
-        out float nout_shadow_factor,
+        out vec4 nout_shadow_factor,
         out float nout_alpha) {
 
     // NOTE: set up out variables to prevent IE 11 linking crash
     nout_color = vec3(ZERO_VALUE_NODES);
     nout_specular_color = vec3(ZERO_VALUE_NODES);
     nout_normal = vec3(ZERO_VALUE_NODES);
-    nout_shadow_factor = ZERO_VALUE_NODES;
+    nout_shadow_factor = vec4(ZERO_VALUE_NODES);
     nout_alpha = ZERO_VALUE_NODES;
 
 #if USE_NODE_MATERIAL_BEGIN  || USE_NODE_GEOMETRY_NO \

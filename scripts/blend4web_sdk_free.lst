@@ -20,6 +20,7 @@ blender/environment
 blender/flight_over_island
 blender/geometry
 blender/interactivity
+blender/lighting
 blender/materials
 blender/media
 blender/misc/logo*
@@ -59,6 +60,7 @@ deploy/assets/fridge/fruits/pear
 deploy/assets/fridge/table_plane
 deploy/assets/geometry
 deploy/assets/interactivity
+deploy/assets/lighting
 deploy/assets/location_agriculture/textures/buildings/house_walls_*
 deploy/assets/materials
 deploy/assets/media

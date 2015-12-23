@@ -37,7 +37,8 @@ function init_cb(canvas_elem, success) {
     torus_text.innerHTML = "Torus (Custom Element)";
     document.body.appendChild(torus_text);
 
-    m_data.load(m_cfg.get_std_assets_path() + "code_snippets/custom_anchors/custom_anchors.json", load_cb);
+    m_data.load(m_cfg.get_std_assets_path() + 
+            "code_snippets/custom_anchors/custom_anchors.json", load_cb);
 }
 
 function load_cb(data_id) {

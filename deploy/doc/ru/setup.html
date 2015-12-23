@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web vv15.11</title>
+  <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
         <link rel="prev" title="Экспресс-установка" href="first_steps.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -202,25 +202,27 @@
 </div>
 <p>После изменения настроек локального сервера разработчика требуется перезапуск Blender&#8217;a.</p>
 <p>Имеется возможность сделать локальный сервер доступным из внешней сети. Для этого достаточно включить свойство <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">External</span> <span class="pre">Requests</span></code>.</p>
-<p>Если не был настроен автоматический запуск сервера, то его можно стартовать вручную по кнопке <code class="docutils literal"><span class="pre">Start</span></code> во вкладке <code class="docutils literal"><span class="pre">Render-&gt;Developement</span> <span class="pre">Server</span></code>:</p>
-<a class="reference internal image-reference" href="_images/start_serv.png"><img alt="_images/start_serv.png" class="align-center" src="_images/start_serv.png" style="width: 100%;" /></a>
+<p>Если не был настроен автоматический запуск сервера, то его можно стартовать вручную по кнопке <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> во вкладке <code class="docutils literal"><span class="pre">Render-&gt;Developement</span> <span class="pre">Server</span></code>:</p>
+<a class="reference internal image-reference" href="_images/server_start.png"><img alt="_images/server_start.png" class="align-center" src="_images/server_start.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки <code class="docutils literal"><span class="pre">Start</span></code> будет выведено соответствующее сообщение.</p>
+<p>Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> будет выведено соответствующее сообщение.</p>
 <p>В случае ошибки запуска сервера будет показано окно с описанием причины:</p>
 <img alt="_images/error.png" class="align-center" src="_images/error.png" />
 <p class="last">Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже используется другим приложением.</p>
 </div>
-<p>Нажмите кнопку <code class="docutils literal"><span class="pre">Open</span> <span class="pre">SDK</span></code> для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
-<a class="reference internal image-reference" href="_images/stop_open.png"><img alt="_images/stop_open.png" class="align-center" src="_images/stop_open.png" style="width: 100%;" /></a>
+<p>Нажмите кнопку <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
+<a class="reference internal image-reference" href="_images/server_open.png"><img alt="_images/server_open.png" class="align-center" src="_images/server_open.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>При этом будет автоматически запущен браузер, используемой в операционной системе по умолчанию.</p>
-<p>Сервер может быть остановлен по нажатию на кнопку <code class="docutils literal"><span class="pre">Stop</span></code>. Сервер также прекращает работу при закрытии программы Blender.</p>
+<p>Кнопка <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> открывает <a class="reference internal" href="developers.html#project-management"><span>менеджер проектов</span></a>.</p>
+<p>Кнопка <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> вызывает <a class="reference internal" href="viewer.html#viewer"><span>просмотрщик сцен</span></a> и загружает в него сцену, открытую в Blender на данный момент.</p>
+<p>Сервер может быть остановлен по нажатию на кнопку <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>. Сервер также прекращает работу при закрытии программы Blender.</p>
 </div>
 <div class="section" id="getting-started-launching-viewer">
 <span id="index-0"></span><span id="id6"></span><h2>Запуск просмотрщика сцен и демо-приложений<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
@@ -256,7 +258,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-11-26.
+      Обновлено: 2015-12-22.
 
     </p>
   </div>
@@ -278,7 +280,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

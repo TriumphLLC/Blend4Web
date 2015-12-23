@@ -68,6 +68,7 @@ exports.append = function(obj) {
         annotation_max_width: obj.anchor.max_width,
         // DOM-access optimization (height won't change)
         annotation_height: 0,
+        annotation_width: 0,
         element_id: obj.anchor.element_id
     }
 
@@ -75,14 +76,20 @@ exports.append = function(obj) {
     case "ANNOTATION":
         anchor.element = create_annotation(obj, anchor.annotation_max_width);
         anchor.annotation_height = anchor.element.offsetHeight;
+        anchor.annotation_width = anchor.element.offsetWidth;
         break;
     case "ELEMENT":
         anchor.element = document.getElementById(obj.anchor.element_id)
 
-        if (!anchor.element) {
+        if (anchor.element) {
+            // NOTE: the dimensions are always zero
+            anchor.annotation_height = anchor.element.offsetHeight;
+            anchor.annotation_width = anchor.element.offsetWidth;
+        } else {
             m_print.warn("Anchor HTML element was not found, making it generic");
             anchor.type = "GENERIC";
         }
+
         break;
     case "GENERIC":
         break;
@@ -577,6 +584,37 @@ exports.pause = function() {
 
 exports.resume = function() {
     _is_paused = false;
+}
+
+exports.pick_anchor = function(x, y) {
+    var index = -1;
+    for (var i = 0; i < _anchors.length; i++)
+        if (_anchors[i].appearance = "visible" && check_anchor_coords(_anchors[i], x, y)) {
+            if (index < 0) {
+                var min_dist = _anchors[i].depth;
+                index = i;
+            } else
+                if (_anchors[i].depth < min_dist) {
+                    index = i;
+                    min_dist = _anchors[i].depth;
+                }
+        }
+
+    if (index < 0)
+        return null;
+    else
+        return _anchors[index].obj;
+}
+
+function check_anchor_coords(anchor, x, y) {
+    var width = Math.round(anchor.annotation_width);
+    var height = Math.round(anchor.annotation_height);
+    var a_x = anchor.x;
+    var a_y = anchor.y;
+    if (x >= a_x && x <= (a_x + width) && y < a_y && y >= (a_y - height))
+        return true;
+    else
+        return false;
 }
 
 }

@@ -5,12 +5,13 @@
 #var CAUST_SPEED vec2(0.0)
 #var CAUST_SCALE 0.0
 #var CAUST_BRIGHT 0.0
+#var SUN_NUM 0
 
 #define CAUSTICS_VIEW_DISTANCE 100.0
 
 //Add caustics to underwater objects
 void apply_caustics (inout vec3 color, float plane_pos,
-                    float time, float shadow_factor, vec3 normal,
+                    float time, vec4 shadow_factor, vec3 normal,
                     vec3 sun_direction, vec3 sun_color_intens,
                     vec4 sun_quat, vec3 pos_world, float view_dist) {
 
@@ -49,7 +50,7 @@ void apply_caustics (inout vec3 color, float plane_pos,
     float height_factor = min(0.25 * plane_pos, -plane_pos) + 1.0;
     height_factor = max(height_factor, 0.0);
 
-    float fade = shadow_factor * l_dot_l;
+    float fade = shadow_factor[SUN_NUM] * l_dot_l;
 
     // side: 1 - above the water, 0 - below the water)
     float water_side = max(sign(plane_pos), 0.0);

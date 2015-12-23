@@ -84,7 +84,6 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
             split = layout.split()
 
             col = split.column()
-            col.prop(game, "use_actor")
             col.prop(game, "use_ghost")
 
             col = split.column()

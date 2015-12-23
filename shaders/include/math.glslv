@@ -169,7 +169,8 @@ mat4 tsr_to_mat4(mat3 t) {
     matrix[3][0] = t[0][0];
     matrix[3][1] = t[0][1];
     matrix[3][2] = t[0][2];
-    matrix[3][3] = UNITY_VALUE_MATH;
+    // NOTE: for IPad3. UNITY_VALUE_MATH doesn't work
+    matrix[3][3] = 1.0;
 
     return matrix;
 }

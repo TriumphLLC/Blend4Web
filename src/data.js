@@ -65,6 +65,7 @@ var cfg_sfx = m_cfg.sfx;
 
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
+var DEFAULT_LOD_DIST_MAX = 1000000;
 
 var BINARY_INT_SIZE = 4;
 var BINARY_SHORT_SIZE = 2;
@@ -81,6 +82,7 @@ var PLAY_MEDIA_IMAGE_MOBILE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALA
 var _play_media_btn = null;
 var _play_media_bkg = null;
 var _canvas_container_z_index = 0;
+var _media_data_init = false;
 
 var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP", "CAMERA"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
@@ -2318,7 +2320,7 @@ function prepare_lod_objects(bpy_objects) {
                     lod_obj.render.lod_dist_max = bpy_obj["lod_levels"][j + 1]["distance"];
                 else {
                     lod_obj.render.last_lod = true;
-                    lod_obj.render.lod_dist_max = 10000;
+                    lod_obj.render.lod_dist_max = DEFAULT_LOD_DIST_MAX;
                     break;
                 }
 
@@ -2333,7 +2335,7 @@ function prepare_lod_objects(bpy_objects) {
         }
 
         if (DEBUG_LOD_DIST_NOT_SET &&
-                bpy_obj["lod_levels"][lods_num - 1]["distance"] === 10000)
+                bpy_obj["lod_levels"][lods_num - 1]["distance"] === DEFAULT_LOD_DIST_MAX)
             m_print.warn("object \"" + obj.name + "\" has default LOD distance.");
     }
 }
@@ -2912,9 +2914,6 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
 
         var rate = ++cb_param.obj_counter / obj_data.length;
 
-        if (obj.type == "LAMP")
-            m_obj.sort_lamps(scene);
-
         var cube_refl_subs = sc_data.cube_refl_subs;
         if (obj.render.cube_reflection_id != null && cube_refl_subs){
             var trans = m_tsr.get_trans_view(obj.render.world_tsr);
@@ -2982,8 +2981,8 @@ function mobile_media_start(bpy_data, thread, stage, cb_param, cb_finish,
 
     // NOTE: not all bpy data can be dropped on this stage at the moment
     drop_bpy_data(bpy_data, thread);
-    if (thread.has_video_textures || thread.has_background_music 
-            || thread.init_wa_context) {
+    if (cfg_def.media_auto_activation && (thread.has_video_textures || 
+            thread.has_background_music || thread.init_wa_context)) {
         if (!_play_media_btn)
             create_media_controls(bpy_data, cb_finish, thread, stage);
     } else
@@ -3349,6 +3348,7 @@ exports.unload = function(data_id) {
         _dupli_obj_id_overrides = {};
         _primary_scene = null;
         _bpy_data_array = null;
+        _media_data_init = false;
     } else {
         m_print.log("%cUNLOAD DATA " + data_id, "color: #00a");
 
@@ -3428,6 +3428,23 @@ function get_parent(bpy_obj) {
         return null;
     else
         return bpy_obj["parent"] || armobj;
+}
+
+exports.activate_media = function() {
+    if (!_media_data_init && !cfg_def.media_auto_activation) {
+
+        m_tex.play();
+        m_tex.pause();
+        m_tex.reset();
+
+        speakers_play(_primary_scene, m_obj.DATA_ID_ALL, true);
+        m_sfx.pause();
+
+        if (cfg_def.init_wa_context_hack)
+            m_sfx.play_empty_sound();
+
+        _media_data_init = true;
+    }
 }
 
 }

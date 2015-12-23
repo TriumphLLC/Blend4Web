@@ -91,6 +91,18 @@ Object Tab
 *Relations > Parent*
    Reference to the parent object.
 
+   If the parent object is a camera, "Viewprt Alignment" settings will
+   be avalible.
+
+   [image]
+
+   The "Alignment" parameter specifies by what side of the viewport an
+   object will be aligned ("Center" by default). The "Distance"
+   parameter specifies the distance between the aligned object and the
+   camera (10 by default). The "Fit to Camera" button can be used to
+   make the aligned object look in the Blender viewport same way it
+   will look in the engine.
+
 *Groups*
    Objects' groups to which this object belongs.
 
@@ -133,11 +145,11 @@ Note: The following properties are mutually exclusive: *Apply
   Modifiers*, *Apply Scale and Modifiers*, *Export Vertex Animation*
   and *Export Shape Keys*.
 
-*Animation > Apply default animation*
+*Animation > Apply Default Animation*
    Upon loading into the engine start playback of the animation
    assigned to the object.
 
-*Animation > Animation blending*
+*Animation > Animation Blending*
    Only for armature objects. Allows blending between skeletal
    animations.
 
@@ -172,7 +184,7 @@ Note: The following properties are mutually exclusive: *Apply
    When enabled the object is reflected in the dynamic mirror
    surfaces.
 
-*Reflections > Reflexible only*
+*Reflections > Reflexible Only*
    The object will be reflected but will remain invisible itself.
    Becomes available after enabling "Reflections > Reflexible".
 
@@ -227,7 +239,8 @@ Note: The following properties are mutually exclusive: *Apply
       window by a predefined value (measured in CSS pixels).
 
 *Wind Bending*
-   Enable procedural animation under the influence of wind.
+   Enables wind bending procedural animation. Thoroughly described at
+   the outdoor rendering page.
 
 *Billboard*
    Use the object as a billboard (i.e. automatically orient relative

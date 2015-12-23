@@ -31,7 +31,7 @@ if (!window["b4w"])
  *
  * @cc_externs vec3 vec4 quat mat3 mat4
  *
- * @cc_externs app camera_anim gyroscope mixer mouse npc_ai ns_compat preloader storage
+ * @cc_externs app camera_anim gyroscope hmd mixer mouse npc_ai ns_compat preloader storage
  */
 b4w.module["ns_compat"] = function(exports, require) {
 

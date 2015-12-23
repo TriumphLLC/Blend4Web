@@ -36,6 +36,7 @@ var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
+var m_render   = require("__renderer");
 var m_scenes   = require("__scenes");
 var m_scgraph  = require("__scenegraph");
 var m_sfx      = require("__sfx");
@@ -45,6 +46,8 @@ var m_util     = require("__util");
 var m_vec3     = require("vec3");
 
 var cfg_def = m_cfg.defaults;
+
+var PERF_NUM_CALLS = 10;
 
 /**
  * Debug wireframe mode.
@@ -130,7 +133,8 @@ exports.visible_objects = function() {
     var objs = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")];
+                          m_scenes.get_subs(scene, "MAIN_BLEND"),
+                          m_scenes.get_subs(scene, "MAIN_GLOW")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
         var subs_main = main_subscenes[i];
@@ -252,7 +256,8 @@ exports.num_vertices = function() {
     var scene = m_scenes.get_active();
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")];
+                          m_scenes.get_subs(scene, "MAIN_BLEND"),
+                          m_scenes.get_subs(scene, "MAIN_GLOW")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -287,7 +292,8 @@ exports.num_triangles = function() {
     var scene = m_scenes.get_active();
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")];
+                          m_scenes.get_subs(scene, "MAIN_BLEND"),
+                          m_scenes.get_subs(scene, "MAIN_GLOW")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -320,10 +326,15 @@ exports.num_draw_calls = function() {
     var scene = m_scenes.get_active();
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")]
+                          m_scenes.get_subs(scene, "MAIN_BLEND"),
+                          m_scenes.get_subs(scene, "MAIN_GLOW")]
 
-    var number = main_subscenes[0].bundles.length +
-                 main_subscenes[1].bundles.length;
+    var number = 0;
+    for (var i = 0; i < main_subscenes.length; i++) {
+        var subs = main_subscenes[i];
+        if (subs)
+            number += subs.bundles.length;
+    }
 
     var reflect_subs = m_scenes.subs_array(scene, ["MAIN_PLANE_REFLECT",
                                                    "MAIN_CUBE_REFLECT"]);
@@ -414,7 +425,8 @@ exports.num_textures = function() {
     var scene = m_scenes.get_active();
 
     var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND")];
+                          m_scenes.get_subs(scene, "MAIN_BLEND"),
+                          m_scenes.get_subs(scene, "MAIN_GLOW")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -981,5 +993,30 @@ function find_material_names_by_comp_shader(cshader) {
     return null;
 }
 
+/**
+ * Perform simple performance test.
+ * @method module:debug.test_performance
+ * @param {TestPerformanceCallback} callback Callback
+ */
+exports.test_performance = function(callback) {
+    var ext = m_ext.get_disjoint_timer_query();
+    if (!ext) {
+        callback(-1);
+        return;
+    }
+
+    var graph = m_scgraph.create_performance_graph();
+    m_scenes.generate_auxiliary_batches(graph);
+
+    var subs = m_scgraph.find_subs(graph, "PERFORMANCE");
+
+    for (var i = 0; i < PERF_NUM_CALLS; i++)
+        m_render.draw(subs);
+
+    window.setTimeout(function() {
+        m_debug.process_timer_queries(subs);
+        callback(subs.debug_render_time);
+    }, 100);
+}
 
 }

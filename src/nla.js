@@ -410,7 +410,6 @@ exports.update = function(timeline, elapsed) {
         if (nla.is_stopped)
             nla.frame_offset -= m_time.get_framerate() * elapsed;
         var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
-
         // range end handling
         if ((!nla.is_stopped || nla.force_update) && cf >= nla.range_end)
             if (nla.cyclic)
@@ -644,6 +643,7 @@ function calc_curr_frame_scene(nla, timeline, allow_repeat, start_time) {
 
     var cf = (timeline - start_time) * m_time.get_framerate() + nla.frame_offset;
 
+
     if (cf > nla.frame_start) {
         cf -= nla.frame_start;
         if (nla.cyclic && allow_repeat) {
@@ -651,6 +651,8 @@ function calc_curr_frame_scene(nla, timeline, allow_repeat, start_time) {
             cf %= stride;
         }
         cf += nla.frame_start;
+    } else {
+        cf = nla.frame_start;
     }
 
     return cf;
@@ -948,6 +950,15 @@ exports.set_offset_from_range_start = function(timeline) {
         nla.frame_offset = -(timeline - _start_time) * m_time.get_framerate() + nla.range_start;
         nla.force_update = true;
     }
+}
+
+exports.get_frame_end = function() {
+    var active_scene = m_scs.get_active();
+    var nla = active_scene._nla;
+    if (nla)
+        return nla.frame_end;
+    else
+        return null;
 }
 
 }

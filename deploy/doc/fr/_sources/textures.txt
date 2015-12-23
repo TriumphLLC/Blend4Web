@@ -587,24 +587,22 @@ Canvas
 
 В главной сцене для текстуры целевого объекта выставить тип "None", в
 поле "Export Options > Source Type" указать тип "Canvas". В поле
-"Export Options > Source ID" указать идентификатор объекта типа
-"Canvas". В поле "Export Options > Source Size" указать размер
-текстуры в пикселях.
+"Export Options > Source Size" указать размер текстуры в пикселях.
 
 Для работы с этими текстурами используется модуль "textures". Пример
 работы с ним описан ниже.
 
    var m_tex = require("textures");
    ...
-   var ctx = m_tex.get_canvas_texture_context("canvas_id");
+   var obj = m_scenes.get_object_by_name("NAME");
+   var ctx = m_tex.get_canvas_ctx(obj, "TEXTURE_NAME");
    ...
    // operations with canvas context
    ...
-   m_tex.update_canvas_texture_context("canvas_id");
+   m_tex.update_canvas_ctx(obj, "TEXTURE_NAME");
 
-Для получения контекста используется функция
-"get_canvas_texture_context()", куда передается идентификатор
-"canvas_id", задаваемый пользователем в Blender. После преобразований
-с контекстом вызывается функция "update_canvas_texture_context()",
-которая осуществляет визуализацию изменений элемента с идентификатором
-"canvas_id".
+Для получения контекста используется функция "get_canvas_ctx()", куда
+передается объект и имя текстуры, задаваемое в Blender. После
+преобразований с контекстом вызывается функция "update_canvas_ctx()",
+которая осуществляет визуализацию изменений на указанном объекте, в
+указанной текстуре.

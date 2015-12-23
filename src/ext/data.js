@@ -85,5 +85,10 @@ exports.is_primary_loaded = m_data.is_primary_loaded;
 exports.load_and_add_new = m_data.load;
 
 exports.cleanup = exports.unload;
+/**
+ * Activate media data context. It's topical only for mobile devices.
+ * @method module:data.activate_media
+ */
+exports.activate_media = m_data.activate_media;
 
 }

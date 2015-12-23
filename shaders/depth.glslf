@@ -113,9 +113,10 @@ uniform vec3 u_node_rgbs[NUM_RGBS];
 #else
 # if TEXTURE_COLOR
 uniform sampler2D u_colormap0;
-# else
-uniform vec4 u_diffuse_color;
+uniform float u_alpha_factor;
 # endif
+uniform vec4 u_diffuse_color;
+
 #endif // NODES && ALPHA
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
@@ -126,15 +127,15 @@ uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform PRECISION sampler2D u_shadow_map0;
 
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 uniform PRECISION sampler2D u_shadow_map1;
 # endif
 
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 uniform PRECISION sampler2D u_shadow_map2;
 # endif
 
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 uniform PRECISION sampler2D u_shadow_map3;
 # endif
 #endif // SHADOW_USAGE == SHADOW_MASK_GENERATION
@@ -178,15 +179,15 @@ varying vec4 v_pos_view;
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
 varying vec4 v_shadow_coord0;
 
-# if CSM_SECTION1
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
 varying vec4 v_shadow_coord1;
 # endif
 
-# if CSM_SECTION2
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
 varying vec4 v_shadow_coord2;
 # endif
 
-# if CSM_SECTION3
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
 varying vec4 v_shadow_coord3;
 # endif
 #endif
@@ -236,7 +237,7 @@ void main(void) {
     vec3 nout_color;
     vec3 nout_specular_color;
     vec3 nout_normal;
-    float nout_shadow_factor;
+    vec4 nout_shadow_factor;
     float nout_alpha;
 
 #  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
@@ -263,6 +264,11 @@ void main(void) {
 # else // NODES
 #  if TEXTURE_COLOR
     float alpha = (texture2D(u_colormap0, v_texcoord)).a;
+#   if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
+    float texture_alpha = u_alpha_factor * alpha;
+    texture_alpha += (1.0 - step(0.0, texture_alpha));
+    alpha = mix(texture_alpha, 1.0, u_diffuse_color.a);
+#   endif
 #  else
     float alpha = u_diffuse_color.a;
 #  endif
@@ -274,13 +280,13 @@ void main(void) {
 #if SHADOW_USAGE == NO_SHADOWS || SHADOW_USAGE == SHADOW_CASTING
     gl_FragColor = vec4(1.0);
 #elif SHADOW_USAGE == SHADOW_MASK_GENERATION
-    gl_FragColor = vec4(shadow_visibility(v_pos_view.z), 1.0, 1.0, 1.0);
+    gl_FragColor = shadow_visibility(v_pos_view.z);
 #endif
 
 // NOTE: It's a hack for PC using Arch Linux and Intel graphic card with open source drivers
 #if NODES && ALPHA
 # if CALC_TBN_SPACE
-    gl_FragColor.a += 0.00001 * v_tangent.r;
+    gl_FragColor.a *= clamp(v_tangent.r, 0.999999999, 1.0);
 # endif
 #endif
 

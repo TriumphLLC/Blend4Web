@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; User Manual: Blend4Web vv15.11</title>
+  <title>Objects &mdash; User Manual: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Camera" href="camera.html"/>
         <link rel="prev" title="The Add-on" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -233,7 +233,10 @@
 <dd><p class="first last">Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.</p>
 </dd>
 <dt><em>Relations &gt; Parent</em></dt>
-<dd><p class="first last">Reference to the parent object.</p>
+<dd><p class="first">Reference to the parent object.</p>
+<p>If the parent object is a camera, <code class="docutils literal"><span class="pre">Viewprt</span> <span class="pre">Alignment</span></code> settings will be avalible.</p>
+<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
+<p class="last">The <code class="docutils literal"><span class="pre">Alignment</span></code> parameter specifies by what side of the viewport an object will be aligned (<code class="docutils literal"><span class="pre">Center</span></code> by default). The <code class="docutils literal"><span class="pre">Distance</span></code> parameter specifies the distance between the aligned object and the camera (10 by default). The <code class="docutils literal"><span class="pre">Fit</span> <span class="pre">to</span> <span class="pre">Camera</span></code> button can be used to make the aligned object look in the Blender viewport same way it will look in the engine.</p>
 </dd>
 <dt><em>Groups</em></dt>
 <dd><p class="first last">Objects&#8217; groups to which this object belongs.</p>
@@ -276,10 +279,10 @@
 <p class="last">The following properties are mutually exclusive: <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em> and <em>Export Shape Keys</em>.</p>
 </div>
 <dl class="docutils">
-<dt><em>Animation &gt; Apply default animation</em></dt>
+<dt><em>Animation &gt; Apply Default Animation</em></dt>
 <dd><p class="first last">Upon loading into the engine start playback of the animation assigned to the object.</p>
 </dd>
-<dt><em>Animation &gt; Animation blending</em></dt>
+<dt><em>Animation &gt; Animation Blending</em></dt>
 <dd><p class="first last">Only for armature objects. Allows blending between skeletal animations.</p>
 </dd>
 <dt><em>Animation &gt; Behavior</em></dt>
@@ -311,7 +314,7 @@
 <dt><em>Reflections &gt; Reflexible</em></dt>
 <dd><p class="first last">When enabled the object is reflected in the dynamic mirror surfaces.</p>
 </dd>
-<dt><em>Reflections &gt; Reflexible only</em></dt>
+<dt><em>Reflections &gt; Reflexible Only</em></dt>
 <dd><p class="first last">The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
 </dd>
 <dt><em>Reflections &gt; Reflective</em></dt>
@@ -358,7 +361,7 @@
 </dl>
 </dd>
 <dt><em>Wind Bending</em></dt>
-<dd><p class="first last">Enable procedural animation under the influence of wind.</p>
+<dd><p class="first last">Enables wind bending procedural animation. Thoroughly described at the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>outdoor rendering</span></a> page.</p>
 </dd>
 </dl>
 <dl class="docutils" id="objects-billboarding-properties">
@@ -671,7 +674,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-11-26.
+      Last updated on 2015-12-22.
 
     </p>
   </div>
@@ -693,7 +696,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

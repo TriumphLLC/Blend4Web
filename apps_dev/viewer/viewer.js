@@ -16,6 +16,7 @@ var m_geom     = require("geometry");
 var m_gyro     = require("gyroscope");
 var m_lights   = require("lights");
 var m_main     = require("main");
+var m_hmd      = require("hmd");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
 var m_nla      = require("nla");
@@ -450,7 +451,7 @@ function init_ui() {
     refresh_mix_mode_ui();
 
     // stereo view
-    bind_control(set_stereo_view_and_reload, "anaglyph_use", "bool");
+    bind_control(set_stereo_view_and_reload, "stereo", "string");
     refresh_stereo_view_ui();
 
     // gyroscope use
@@ -1111,7 +1112,7 @@ function get_show_hud_debug_info_config() {
 }
 
 function set_stereo_view_config() {
-    m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
+    m_cfg.set("stereo", m_storage.get("stereo") || "NONE");
 }
 
 function set_outlining_overview_mode_config() {
@@ -1148,9 +1149,24 @@ function set_mix_mode_and_reload(value) {
 }
 
 function refresh_stereo_view_ui() {
-    var opt_index = Number(m_storage.get("anaglyph_use") === "true");
-    document.getElementById("anaglyph_use").options[opt_index].selected = true;
-    $("#anaglyph_use").slider("refresh");
+    var st_type = m_storage.get("stereo") || "NONE";
+
+    if (!m_hmd.check_browser_support()) {
+        document.getElementById("stereo").options[2].setAttribute('disabled', 'disabled');
+
+        $("#stereo").selectmenu("refresh");
+
+        if (st_type == "HMD") {
+            m_storage.set("stereo", "NONE");
+            st_type = "NONE";
+        }
+    }
+
+    $("#stereo").val(st_type).selectmenu("refresh");
+    $( "#stereo" ).selectmenu( "refresh", true );
+
+    if (st_type == "HMD")
+        m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
 }
 
 function refresh_outlining_overview_mode_ui() {
@@ -1171,7 +1187,7 @@ function refresh_gyro_use_ui() {
 }
 
 function set_stereo_view_and_reload(value) {
-    m_storage.set("anaglyph_use", value.anaglyph_use);
+    m_storage.set("stereo", value.stereo);
     window.location.reload();
 }
 
@@ -1791,7 +1807,7 @@ function set_debug_params(value) {
             debug_params["wireframe_mode"] = m_debug.WM_OPAQUE_WIREFRAME;
             break;
         case "WM_TRANSPARENT_WIREFRAME":
-            debug_params["wireframe_mode"] = m_debug.WM_TRANSPARENT_WIREFRAME;        
+            debug_params["wireframe_mode"] = m_debug.WM_TRANSPARENT_WIREFRAME;
             break;
         case "WM_FRONT_BACK_VIEW":
             debug_params["wireframe_mode"] = m_debug.WM_FRONT_BACK_VIEW;

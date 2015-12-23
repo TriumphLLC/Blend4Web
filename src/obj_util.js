@@ -25,12 +25,13 @@
  */
 b4w.module["__obj_util"] = function(exports, require) {
 
-var m_mat4  = require("__mat4");
-var m_print = require("__print");
-var m_quat  = require("__quat");
-var m_tsr   = require("__tsr");
-var m_util  = require("__util");
-var m_vec4  = require("__vec4");
+var m_tsr    = require("__tsr");
+var m_util   = require("__util");
+var m_vec3   = require("__vec3");
+var m_vec4   = require("__vec4");
+var m_cfg    = require("__config");
+
+var cfg_def = m_cfg.defaults;
 
 var _vec4_tmp   = new Float32Array(4);
 var _quat4_tmp  = new Float32Array(4);
@@ -49,6 +50,7 @@ function create_render(type) {
 
     var render = {
         // common properties
+        id: 0,
         type: type,
         data_id: 0,
         grid_id: [0, 0],
@@ -63,6 +65,7 @@ function create_render(type) {
         outline_intensity: 0,
         // correct only for TARGET camera
         target_cam_upside_down: false,
+        vertical_axis: m_vec3.create(),
 
         use_panning: false,
 
@@ -199,6 +202,7 @@ function create_render(type) {
 
     // setting default values
     render.lod_dist_max = 10000;
+    m_vec3.copy(m_util.AXIS_Y, render.vertical_axis);
 
     return render;
 }
@@ -248,6 +252,7 @@ function create_object(name, type, origin_name) {
         parent: null,
         parent_is_dupli: false,
         parent_bone: "",
+        viewport_alignment: null,
 
         use_obj_physics: false,
         collision_id: "",
@@ -298,7 +303,8 @@ function create_object(name, type, origin_name) {
         anim_behavior_def: 0,
         actions: [],
 
-        need_update_transform: false // used for armature bones constraints
+        need_update_transform: false, // used for armature bones constraints
+        meta_objects : []
     };
     return obj;
 }
@@ -376,6 +382,7 @@ function copy_object_props_by_value(obj) {
         obj_clone.textures = textures;
         obj.textures = textures;
     }
+
     if (texture_names) {
         obj_clone.texture_names = texture_names;
         obj.texture_names = texture_names;
@@ -458,13 +465,22 @@ exports.scene_data_set_active = function(obj, flag, scene) {
     }
 }
 
-exports.get_first_lamp_with_shadows = function(lamps) {
+exports.get_shadow_lamps = function(lamps, use_ssao) {
+    var shadow_lamps = [];
+    var max_shadow_lamps_num = use_ssao ? cfg_def.max_cast_lamps - 1 :
+            cfg_def.max_cast_lamps;
     for (var i = 0; i < lamps.length; i++) {
         var lamp = lamps[i];
-        if (lamp.light.generate_shadows)
-            return lamp;
+        if (lamp.light.generate_shadows && shadow_lamps.length < max_shadow_lamps_num)
+            shadow_lamps.push(lamp);
     }
-    return null;
+
+    if (shadow_lamps.length)
+        return shadow_lamps;
+    else if (lamps[0])
+        return [lamps[0]];
+    else
+        return [];
 }
 
 exports.gen_dupli_name = function(dg_parent_name, name) {

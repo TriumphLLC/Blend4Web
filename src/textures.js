@@ -26,13 +26,14 @@
  */
 b4w.module["__textures"] = function(exports, require) {
 
-var m_cfg   = require("__config");
-var m_dds   = require("__dds");
-var m_ext   = require("__extensions");
-var m_print = require("__print");
-var m_time  = require("__time");
-var m_util  = require("__util");
-var m_ren   = require("__renderer");
+var m_cfg       = require("__config");
+var m_dds       = require("__dds");
+var m_ext       = require("__extensions");
+var m_print     = require("__print");
+var m_time      = require("__time");
+var m_util      = require("__util");
+var m_ren       = require("__renderer");
+var m_obj_util  = require("__obj_util");
 
 var cfg_def = m_cfg.defaults;
 var cfg_sfx = m_cfg.sfx;
@@ -1305,6 +1306,125 @@ exports.video_get_duration = function(vtex) {
 exports.video_frame_to_seq_frame = video_frame_to_seq_frame;
 function video_frame_to_seq_frame(vtex, frame) {
     return Math.round(frame * vtex.seq_movie_length / vtex.movie_length);
+}
+
+exports.get_canvas_context_by_object = function(object, texture_name) {
+
+    var texture = get_texture_by_name(object, texture_name);
+    if (texture && texture.source == "CANVAS")
+        return texture.canvas_context;
+    else
+        return null;
+}
+
+exports.update_canvas_context_by_object = function(object, texture_name) {
+
+    var texture = get_texture_by_name(object, texture_name);
+    if (texture && texture.source == "CANVAS") {
+        update_texture_canvas(texture);
+        return true;
+    } else
+        return false;
+}
+
+function get_texture_by_name(object, texture_name) {
+
+    if (m_obj_util.is_dynamic(object))
+        return find_texture_by_name(object, texture_name);
+    else {
+        var objects = object.meta_objects;
+        for (var i = 0; i < objects.length; i++) {
+            var texture = find_texture_by_name(objects[i], texture_name);
+            if (texture)
+                return texture;
+        } 
+    }
+    return null;
+}
+
+function find_texture_by_name(obj, texture_name) {
+    var texture = null;
+    var scenes_data = obj.scenes_data;
+    for (var j = 0; j < scenes_data.length; j++) {
+        var scene_data = scenes_data[j];
+        var batches = scene_data.batches;
+        for (var k = 0; k < batches.length; k++) {
+            var batch = batches[k];
+            for (var p = 0; p < batch.textures.length; p++)
+                if (batch.textures[p].name == texture_name) {
+                    texture = batch.textures[p];
+                    break;
+                }
+        }
+    }
+    return texture;
+}
+
+function copy_canvas_texture(texture) {
+
+    var new_texture = init_texture();
+    new_texture.name = texture.name;
+    new_texture.source = "CANVAS";
+    new_texture.width = texture.width;
+    new_texture.height = texture.height;
+    new_texture.enable_canvas_mipmapping = texture.enable_canvas_mipmapping;
+    new_texture.type = texture.type;
+
+    var canvas = document.createElement("canvas");
+    canvas.width  = new_texture.width;
+    canvas.height = new_texture.height;
+
+    new_texture.canvas_context = canvas.getContext("2d");
+
+    new_texture.w_target = _gl.TEXTURE_2D;
+    new_texture.w_texture = _gl.createTexture();
+
+    _gl.bindTexture(_gl.TEXTURE_2D, new_texture.w_texture);
+
+    if (new_texture.enable_canvas_mipmapping)
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+    else
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+    _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
+
+    _gl.bindTexture(_gl.TEXTURE_2D, null);
+
+    // update_texture_canvas will be called later
+
+    return new_texture;
+}
+
+exports.share_batch_canvas_textures = function(batches) {
+
+    var canvas_textures = {};
+
+    for (var i = 0; i < batches.length; i++) {
+        var textures = batches[i].textures;
+        var batch_textures = [];
+        for (var j = 0; j < textures.length; j++) {
+            var texture = textures[j];
+            if (texture.source == "CANVAS") {
+                if (texture.name in canvas_textures) {
+                    texture = canvas_textures[texture.name];
+                }  else {
+                    texture = copy_canvas_texture(textures[j]);
+                    draw_canvas_to_canvas(texture, textures[j]);
+                    canvas_textures[texture.name] = texture;
+                }
+            }
+            batch_textures.push(texture);
+        }
+        batches[i].textures = batch_textures;
+    }
+}
+
+function draw_canvas_to_canvas(new_tex, old_tex) {
+
+    var old_ctx = old_tex.canvas_context;
+    var new_ctx = new_tex.canvas_context;
+    new_ctx.drawImage(old_ctx.canvas, 0, 0);
+    update_texture_canvas(new_tex);
+
 }
 
 }

@@ -57,8 +57,8 @@ var m_print = require("__print");
  * @callback ManifoldCallback
  * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} id Manifold ID
- * @param {Number} pulse Manifold pulse value: +1 (all manifold types) or
- * -1 (CT_TRIGGER or CT_CONTINUOUS only).
+ * @param {Number} pulse Additional callback condition for CT_TRIGGER or
+ * CT_CONTINOUS manifolds: +1 or -1
  * @param {*} [param] Callback parameter. The user-defined parameter which is
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
  * object to communicate between different manifolds.
@@ -66,8 +66,7 @@ var m_print = require("__print");
 /**
  * Manifold's logic function. Specifies a logic expression which consists of
  * sensor values. This logic expression will be evaluated every frame. As a
- * result, the manifold can generate a pulse according to its type (CT_SHOT,
- * CT_TRIGGER etc) and internal state, and fire the callback.
+ * result, the manifold changes its internal state and fires the callback.
  * @callback ManifoldLogicFunction
  * @param {Array} s Numeric array with sensor values.
  * @returns {Number} Result of evaluation of the logic expression
@@ -95,10 +94,18 @@ var m_print = require("__print");
  */
 
 /**
+ * Manifold control type: positive.
+ * Such manifold executes the callback each frame when the result of
+ * evaluation of its logic function is positive.
+ * @const module:controls.CT_POSITIVE
+ */
+exports.CT_POSITIVE = m_ctl.CT_POSITIVE;
+
+/**
  * Manifold control type: continuous.
- * Such manifold generates a positive pulse (+1) each frame when the result of
- * evaluation of its logic function is non-zero.
- * It generates a single negative pulse (-1) once the logic function
+ * Such manifold executes the callback with a positive pulse (+1) each frame
+ * when the result of evaluation of its logic function is non-zero.
+ * It executes a callback with a negative pulse (-1) once the logic function
  * evaluates to zero.
  * @const module:controls.CT_CONTINUOUS
  */
@@ -106,9 +113,9 @@ exports.CT_CONTINUOUS = m_ctl.CT_CONTINUOUS;
 
 /**
  * Manifold control type: trigger.
- * Such manifold generates a single positive pulse (+1) once the result of
+ * Such manifold executes the callback with a single positive pulse (+1) once the result of
  * evaluation of its logic function is non-zero.
- * It generates a single negative pulse (-1) once the logic function
+ * It executes a callback with a single negative pulse (-1) once the logic function
  * evaluates to zero.
  * @const module:controls.CT_TRIGGER
  */
@@ -116,27 +123,24 @@ exports.CT_TRIGGER = m_ctl.CT_TRIGGER;
 
 /**
  * Manifold control type: shot.
- * Such manifold generates a single positive pulse (+1) once the result of
- * evaluation of its logic function is non-zero.
- * Produces no negative pulses.
+ * Such manifold executes the callback once the result of evaluation of its
+ * logic function becomes a non-zero value.
  * @const module:controls.CT_SHOT
  */
 exports.CT_SHOT = m_ctl.CT_SHOT;
 
 /**
  * Manifold control type: level.
- * Such manifold generates a single positive pulse (+1) once the result of
+ * Such manifold executes the callback each time the result of
  * evaluation of its logic function is changed.
- * Produces no negative pulses.
  * @const module:controls.CT_LEVEL
  */
 exports.CT_LEVEL = m_ctl.CT_LEVEL;
 
 /**
  * Manifold control type: change.
- * Such manifold generates a single positive pulse (+1) once the value
+ * Such manifold executes the callback each time the value
  * of any sensor is changed. The logic function is ignored.
- * Produces no negative pulses.
  * @const module:controls.CT_CHANGE
  */
 exports.CT_CHANGE = m_ctl.CT_CHANGE;

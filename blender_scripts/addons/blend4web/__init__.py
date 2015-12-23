@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 11, 0),
+    "version": (15, 12, 0),
     "blender": (2, 76, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -48,6 +48,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)),
     "lib"))
 
 b4w_modules = [
+    "bgl_draw",
     "translator",
     "init_validation",
     "properties",
@@ -57,6 +58,7 @@ b4w_modules = [
     "anim_baker",
     "vertex_anim_baker",
     "camera_target_copier",
+    "viewport_align",
     "vertex_normals",
     "vertex_groups_to_materials",
     "shore_distance_baker",
@@ -306,11 +308,15 @@ def register():
     # other operators
     camera_target_copier.register()
 
+    viewport_align.register()
+
     vertex_groups_to_materials.register()
 
     server.register()
 
     mass_reexport.register()
+
+    bgl_draw.register()
 
     addon_prefs.register()
 
@@ -348,7 +354,8 @@ def unregister():
         render_engine.unregister()
         custom_nodeitems_builtins.unregister()
 
-    mass_reexport.unregister();
+    mass_reexport.unregister()
+    bgl_draw.unregister()
     logic_node_tree.unregister()
 
     properties.unregister()
@@ -358,6 +365,7 @@ def unregister():
     anim_baker.unregister()
     vertex_anim_baker.unregister()
     camera_target_copier.unregister()
+    viewport_align.unregister()
 
     vertex_normals.unregister()
     vertex_groups_to_materials.unregister()

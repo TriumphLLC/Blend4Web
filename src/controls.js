@@ -40,8 +40,10 @@ var cfg_ctl = m_cfg.controls;
 var cfg_dft = m_cfg.defaults;
 
 var _objects = [];
-var _sensors = [];
 var _global_object = {};
+
+var _sensors_cache = [];
+var _manifolds_cache = [];
 
 // for ST_MOUSE_WHEEL sensor
 var _wheel_delta = 0;
@@ -104,11 +106,12 @@ var ST_GYRO_DELTA        = 170;
 var ST_GYRO_ANGLES       = 180;
 
 // control types
-exports.CT_CONTINUOUS = 10;
-exports.CT_TRIGGER    = 20;
-exports.CT_SHOT       = 30;
-exports.CT_LEVEL      = 40;
-exports.CT_CHANGE     = 50;
+exports.CT_POSITIVE   = 10;
+exports.CT_CONTINUOUS = 20;
+exports.CT_TRIGGER    = 30;
+exports.CT_SHOT       = 40;
+exports.CT_LEVEL      = 50;
+exports.CT_CHANGE     = 60;
 
 exports.PL_SINGLE_TOUCH_MOVE    = 0;
 exports.PL_MULTITOUCH_MOVE_ZOOM = 1;
@@ -119,8 +122,8 @@ var SENSOR_SMOOTH_PERIOD = 0.3;
 var KEY_SHIFT = 16;
 
 exports.update = function(timeline, elapsed) {
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
         update_sensor(sensor, timeline, elapsed);
     }
 
@@ -563,7 +566,6 @@ function update_sensor(sensor, timeline, elapsed) {
 
     switch (sensor.type) {
     case ST_MOTION:
-
         var obj = sensor.source_object;
 
         var trans = m_tsr.get_trans_view(obj.render.world_tsr);
@@ -601,7 +603,6 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_V_VELOCITY:
-
         var obj = sensor.source_object;
         var trans = m_tsr.get_trans_view(obj.render.world_tsr);
 
@@ -646,10 +647,9 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_GYRO_DELTA:
-
-        sensor.payload[0] =  Math.PI * (sensor.gyro_gamma_new - sensor.gyro_gamma_last) / 180;
-        sensor.payload[1] =  Math.PI * (sensor.gyro_beta_new - sensor.gyro_beta_last) / 180;
-        sensor.payload[2] =  Math.PI * (sensor.gyro_alpha_new - sensor.gyro_alpha_last) / 180;
+        sensor.payload[0] = Math.PI * (sensor.gyro_gamma_new - sensor.gyro_gamma_last) / 180;
+        sensor.payload[1] = Math.PI * (sensor.gyro_beta_new - sensor.gyro_beta_last) / 180;
+        sensor.payload[2] = Math.PI * (sensor.gyro_alpha_new - sensor.gyro_alpha_last) / 180;
 
         sensor.gyro_gamma_last = sensor.gyro_gamma_new;
         sensor.gyro_beta_last = sensor.gyro_beta_new;
@@ -657,9 +657,9 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_GYRO_ANGLES:
-        sensor.payload[0] =  Math.PI * sensor.gyro_gamma_new / 180;
-        sensor.payload[1] =  Math.PI * sensor.gyro_beta_new / 180;
-        sensor.payload[2] =  Math.PI * sensor.gyro_alpha_new / 180;
+        sensor.payload[0] = Math.PI * sensor.gyro_gamma_new / 180;
+        sensor.payload[1] = Math.PI * sensor.gyro_beta_new / 180;
+        sensor.payload[2] = Math.PI * sensor.gyro_alpha_new / 180;
         break;
 
     default:
@@ -677,6 +677,13 @@ function manifold_gen_pulse(manifold) {
     var pulse = 0;
 
     switch (manifold.type) {
+    case exports.CT_POSITIVE:
+        var logic_result = manifold_logic_result(manifold);
+        if (logic_result)
+            pulse = 1;
+        else
+            pulse = 0;
+        break;
     case exports.CT_CONTINUOUS:
         var last_pulse = manifold.last_pulse;
         var logic_result = manifold_logic_result(manifold);
@@ -756,19 +763,6 @@ function manifold_gen_pulse(manifold) {
 }
 
 /**
- * Manifold value is a value of first sensor.
- */
-function manifold_get_value(manifold, logic_result) {
-
-    if (logic_result)
-        var value = manifold.sensors[0].value;
-    else
-        var value = 0.0;
-
-    return value;
-}
-
-/**
  * Some sensors need to be discharged after pulse generation
  */
 function discharge_sensors(sensors) {
@@ -800,8 +794,9 @@ function discharge_sensors(sensors) {
 
 exports.cleanup = function() {
     _objects = [];
-    _sensors = [];
     _global_object = {};
+    _sensors_cache.length = 0;
+    _manifolds_cache.length = 0;
 }
 
 exports.check_sensor_manifold = function(obj, id) {
@@ -822,123 +817,6 @@ exports.check_sensor_manifold = function(obj, id) {
     return false;
 }
 
-exports.remove_sensor_manifold = function(obj, id) {
-
-    obj = obj || _global_object;
-
-    var manifolds = obj.sensor_manifolds;
-    if (!manifolds)
-        return;
-
-    var manifolds_arr = obj.sensor_manifolds_arr;
-
-    if (id) {
-        var manifold = manifolds[id];
-        if (manifold) {
-            var sensors = manifold.sensors;
-            for (var j = 0; j < sensors.length; j++)
-                if (get_sensor_users_num(sensors[j], _objects) === 1) {
-                    remove_sensor(sensors[j], _sensors);
-                }
-            delete manifolds[id];
-
-            var man_index = manifolds_arr.indexOf(manifold);
-            if (man_index > -1)
-                manifolds_arr.splice(man_index, 1);
-            else
-                m_util.panic("Incorrect manifolds array");
-
-            // remove from objects if manifolds have 0 sensors
-            if (!Object.getOwnPropertyNames(manifolds).length) {
-                remove_from_objects(obj);
-            }
-        }
-        return;
-    }
-
-    // remove all manifolds if id is null
-    for (var id in manifolds) {
-        var manifold = manifolds[id];
-        var sensors = manifold.sensors;
-        for (var j = 0; j < sensors.length; j++)
-            if (get_sensor_users_num(sensors[j], _objects) === 1) {
-                remove_sensor(sensors[j], _sensors);
-            }
-
-        delete manifolds[id];
-
-        var man_index = manifolds_arr.indexOf(manifold);
-        if (man_index > -1)
-            manifolds_arr.splice(man_index, 1);
-        else
-            m_util.panic("Incorrect manifolds array");
-    }
-    remove_from_objects(obj);
-    _manifolds_updated = true;
-}
-
-function remove_from_objects(obj) {
-    // remove from _objects
-    var obj_index = _objects.indexOf(obj);
-    if (obj_index > -1)
-        _objects.splice(obj_index, 1);
-    else {
-        m_print.error("Wrong object");
-        return;
-    }
-}
-
-function get_sensor_users_num(sensor, objects) {
-
-    var users = 0;
-
-    for (var i = 0; i < objects.length; i++) {
-
-        var obj = objects[i];
-        var manifolds_arr = obj.sensor_manifolds_arr;
-
-        for (var j = 0; j < manifolds_arr.length; j++) {
-            var manifold = manifolds_arr[j];
-            var sensors = manifold.sensors;
-
-            for (var k = 0; k < sensors.length; k++)
-                if (sensors[k] === sensor)
-                    users++;
-        }
-    }
-
-    return users;
-}
-
-/**
- * Remove sensor from given sensors array.
- * Physics sensors also require proper cleanup
- */
-function remove_sensor(sensor, sensors) {
-    switch (sensor.type) {
-    case ST_COLLISION:
-        m_phy.remove_collision_test(sensor.collision_obj,
-                sensor.collision_id, sensor.collision_cb);
-        sensor.do_activation = true;
-        break;
-    case ST_COLLISION_IMPULSE:
-        m_phy.clear_collision_impulse_test(sensor.col_imp_obj);
-        sensor.do_activation = true;
-        break;
-    case ST_RAY:
-        m_phy.remove_ray_test(sensor.ray_test_id);
-        sensor.do_activation = true;
-        break;
-    case ST_TIMER:
-        sensor.do_activation = true;
-        break;
-    }
-
-    var sens_index = sensors.indexOf(sensor);
-    if (sens_index > -1)
-        sensors.splice(sens_index, 1);
-}
-
 exports.create_sensor_manifold = function(obj, id, type, sensors,
         logic_fun, callback, callback_param) {
     obj = obj || _global_object;
@@ -950,18 +828,8 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
     var manifolds_arr = obj.sensor_manifolds_arr;
 
     var old_manifold = manifolds[id];
-    if (old_manifold) {
-        var sensors = old_manifold.sensors;
-        for (var i = 0; i < sensors.length; i++)
-            if (get_sensor_users_num(sensors[i], _objects) === 1) {
-                remove_sensor(sensors[i], _sensors);
-            }
-        var man_index = manifolds_arr.indexOf(old_manifold);
-        if (man_index > -1)
-            manifolds_arr.splice(man_index, 1);
-        else
-            m_util.panic("Incorrect manifolds array");
-    }
+    if (old_manifold)
+        remove_sensor_manifold(obj, id);
 
     var manifold = {
         id: id,
@@ -993,7 +861,21 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
     if (_objects.indexOf(obj) == -1)
         _objects.push(obj);
 
-    append_sensors(manifold.sensors);
+    var sensors = manifold.sensors;
+
+    for (var i = 0; i < sensors.length; i++) {
+        var sensor = sensors[i];
+
+        activate_sensor(sensor);
+
+        var sens_ind = _sensors_cache.indexOf(sensor);
+        if (sens_ind == -1) {
+            _sensors_cache.push(sensor);
+            _manifolds_cache.push([manifold]);
+        } else
+            _manifolds_cache[sens_ind].push(manifold);
+    }
+
     _manifolds_updated = true;
 }
 
@@ -1022,45 +904,139 @@ exports.default_OR_logic_fun = function(s) {
     return s[s.length - 1];
 }
 
-/**
- * Active and append unique sensors to global _sensors array.
- */
-function append_sensors(sensors) {
-    for (var i = 0; i < sensors.length; i++) {
-        var sensor = sensors[i];
-
-        if (sensor.do_activation) {
-            switch (sensor.type) {
-            case ST_COLLISION:
-                m_phy.append_collision_test(sensor.collision_obj,
-                        sensor.collision_id, sensor.collision_cb,
-                        sensor.calc_pos_norm);
-                break;
-            case ST_COLLISION_IMPULSE:
-                m_phy.apply_collision_impulse_test(sensor.col_imp_obj,
-                        sensor.col_imp_cb);
-                break;
-            case ST_RAY:
-                sensor.ray_test_id = m_phy.append_ray_test(sensor.source_object,
-                        sensor.from, sensor.to, sensor.collision_id,
-                        sensor.ray_test_cb, false, false, sensor.calc_pos_norm,
-                        sensor.ign_src_rot);
-                break;
-            case ST_TIMER:
-                sensor.time_last = m_time.get_timeline();
-                // reset sensor if appended again
-                if (sensor.period < 0)
-                    sensor.period = -sensor.period;
-                break;
-            }
-
-            sensor.do_activation = false;
+function activate_sensor(sensor) {
+    if (sensor.do_activation) {
+        switch (sensor.type) {
+        case ST_COLLISION:
+            m_phy.append_collision_test(sensor.collision_obj,
+                    sensor.collision_id, sensor.collision_cb,
+                    sensor.calc_pos_norm);
+            break;
+        case ST_COLLISION_IMPULSE:
+            m_phy.apply_collision_impulse_test(sensor.col_imp_obj,
+                    sensor.col_imp_cb);
+            break;
+        case ST_RAY:
+            sensor.ray_test_id = m_phy.append_ray_test(sensor.source_object,
+                    sensor.from, sensor.to, sensor.collision_id,
+                    sensor.ray_test_cb, false, false, sensor.calc_pos_norm,
+                    sensor.ign_src_rot);
+            break;
+        case ST_TIMER:
+            sensor.time_last = m_time.get_timeline();
+            // reset sensor if appended again
+            if (sensor.period < 0)
+                sensor.period = -sensor.period;
+            break;
         }
 
-        if (_sensors.indexOf(sensor) == -1)
-            _sensors.push(sensor);
+        sensor.do_activation = false;
     }
 }
+
+exports.remove_sensor_manifold = remove_sensor_manifold;
+function remove_sensor_manifold(obj, id) {
+    obj = obj || _global_object;
+
+    var manifolds = obj.sensor_manifolds;
+    if (!manifolds)
+        return;
+
+    var manifolds_arr = obj.sensor_manifolds_arr;
+
+    if (id) {
+        var manifold = manifolds[id];
+        if (manifold) {
+            var sensors = manifold.sensors;
+
+            for (var i = 0; i < sensors.length; i++) {
+                var sensor = sensors[i];
+
+                var sens_users = get_sensor_users(sensor, _sensors_cache,
+                        _manifolds_cache);
+
+                if (sens_users.length == 1) {
+                    deactivate_sensor(sensor);
+                    var sens_ind = _sensors_cache.indexOf(sensor);
+                    if (sens_ind > -1) {
+                        _sensors_cache.splice(sens_ind, 1);
+                        _manifolds_cache.splice(sens_ind, 1);
+                    } else
+                        m_util.panic("Sensors cache is corrupted");
+                } else if (sens_users.length > 1)
+                    sens_users.splice(sens_users.indexOf(manifold, 1));
+            }
+
+            delete manifolds[id];
+
+            var man_index = manifolds_arr.indexOf(manifold);
+            if (man_index > -1)
+                manifolds_arr.splice(man_index, 1);
+            else
+                m_util.panic("Incorrect manifolds array");
+
+            // remove from objects if manifolds have 0 sensors
+            if (!Object.getOwnPropertyNames(manifolds).length)
+                remove_from_objects(obj);
+        }
+    } else {
+        // make a copy to ensure reliable results
+        var removed_ids = [];
+        for (var id in manifolds)
+            removed_ids.push(id);
+
+        for (var i = 0; i < removed_ids.length; i++)
+            remove_sensor_manifold(obj, removed_ids[i]);
+    }
+
+    _manifolds_updated = true;
+}
+
+function remove_from_objects(obj) {
+    // remove from _objects
+    var obj_index = _objects.indexOf(obj);
+    if (obj_index > -1)
+        _objects.splice(obj_index, 1);
+    else {
+        m_print.error("Wrong object");
+        return;
+    }
+}
+
+function get_sensor_users(sensor, sensors_cache, manifolds_cache) {
+    var sens_ind = sensors_cache.indexOf(sensor);
+    if (sens_ind > -1)
+        return manifolds_cache[sens_ind];
+    else
+        return [];
+}
+
+/**
+ * Remove sensor from given sensors array.
+ * Physics sensors also require proper cleanup
+ */
+function deactivate_sensor(sensor) {
+    switch (sensor.type) {
+    case ST_COLLISION:
+        m_phy.remove_collision_test(sensor.collision_obj,
+                sensor.collision_id, sensor.collision_cb);
+        sensor.do_activation = true;
+        break;
+    case ST_COLLISION_IMPULSE:
+        m_phy.clear_collision_impulse_test(sensor.col_imp_obj);
+        sensor.do_activation = true;
+        break;
+    case ST_RAY:
+        m_phy.remove_ray_test(sensor.ray_test_id);
+        sensor.do_activation = true;
+        break;
+    case ST_TIMER:
+        sensor.do_activation = true;
+        break;
+    }
+
+}
+
 
 exports.reset = function() {
     for (var i = 0; i < _objects.length; i++) {
@@ -1071,25 +1047,27 @@ exports.reset = function() {
         for (var j in manifolds)
             delete manifolds[j];
 
-        manifolds_arr.splice(0, manifolds_arr.length);
+        manifolds_arr.length = 0;
     }
 
-    for (var i = 0; i < _sensors.length; i++) {
-        remove_sensor(_sensors[i], _sensors);
-        i--;
-    }
-    _objects.splice(0, _objects.length);
+    for (var i = 0; i < _sensors_cache.length; i++)
+        deactivate_sensor(_sensors_cache[i]);
+
+    _objects.length = 0;
+
+    _sensors_cache.length = 0;
+    _manifolds_cache.length = 0;
 }
 
 exports.debug = function() {
     m_print.log(String(_objects.length) + " objects with manifolds", _objects);
-    m_print.log(String(_sensors.length) + " sensors", _sensors);
+    m_print.log(String(_sensors_cache.length) + " sensors", _sensors_cache);
 
     var collisions = [];
     var rays = [];
 
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
         if (sensor.type == ST_COLLISION)
             collisions.push(sensor);
         if (sensor.type == ST_RAY)
@@ -1101,8 +1079,8 @@ exports.debug = function() {
 }
 
 function keydown_cb(e) {
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
 
         if (sensor.type == ST_KEYBOARD && e.keyCode == sensor.key)
             sensor_set_value(sensor, 1);
@@ -1116,8 +1094,8 @@ function keydown_cb(e) {
 }
 
 function keyup_cb(e) {
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
 
         // NOTE: hack to prevent wrong keyup with chrome/webkit
         if (sensor.type == ST_KEYBOARD && e.keyCode == 0 &&
@@ -1145,8 +1123,8 @@ function mouse_down_cb(e) {
     _mouse_curr_x = e.clientX;
     _mouse_curr_y = e.clientY;
 
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
 
         if (sensor.type == ST_MOUSE_CLICK) {
             sensor_set_value(sensor, 1);
@@ -1177,8 +1155,8 @@ function mouse_down_cb(e) {
 }
 
 function mouse_up_cb(e) {
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
 
         if (sensor.type == ST_MOUSE_CLICK) {
             sensor_set_value(sensor, 0);
@@ -1211,8 +1189,8 @@ function mouse_move_cb(e) {
 
         var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
 
-        for (var i = 0; i < _sensors.length; i++) {
-            var sensor = _sensors[i];
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
 
             if (sensor.type === ST_MOUSE_MOVE) {
                 switch (sensor.axis) {
@@ -1258,8 +1236,8 @@ function mouse_wheel_cb(e) {
     // accumulated
     _wheel_delta += wd;
 
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
 
         if (sensor.type === ST_MOUSE_WHEEL)
             sensor_set_value(sensor, _wheel_delta);
@@ -1286,8 +1264,8 @@ function touch_start_cb(e) {
         var pick = false;
         var selected_obj = null;
 
-        for (var i = 0; i < _sensors.length; i++) {
-            var sensor = _sensors[i];
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
             if (sensor.type == ST_SELECTION) {
                 if (!pick) {
                     var canvas_xy = m_cont.client_to_canvas_coords(x, y, _vec2_tmp);
@@ -1359,8 +1337,8 @@ function touch_move_cb(e) {
             }
         }
 
-        for (var i = 0; i < _sensors.length; i++) {
-            var sensor = _sensors[i];
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
 
             if (sensor.type === ST_TOUCH_MOVE) {
                 sensor.payload = exports.PL_SINGLE_TOUCH_MOVE;
@@ -1399,8 +1377,8 @@ function touch_move_cb(e) {
         last_center[1] = (_touches_last_y[0] + _touches_last_y[1]) / 2;
         var delta_centers = touch_center_dist(cur_center, last_center);
 
-        for (var i = 0; i < _sensors.length; i++) {
-            var sensor = _sensors[i];
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
 
             if (sensor.type === ST_TOUCH_ZOOM 
                     && Math.abs(delta_centers) < Math.abs(delta_dist)) {
@@ -1443,8 +1421,8 @@ function touch_end_cb(e) {
 
     if (touches.length == 0) {
 
-        for (var i = 0; i < _sensors.length; i++) {
-            var sensor = _sensors[i];
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
             if (sensor.type == ST_SELECTION && sensor.auto_release)
                 sensor_set_value(sensor, 0);
         }
@@ -1460,8 +1438,8 @@ function touch_end_cb(e) {
 
 function orient_handler_cb(e) {
 
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+    for (var i = 0; i < _sensors_cache.length; i++) {
+        var sensor = _sensors_cache[i];
         if (sensor.type == ST_GYRO_DELTA || sensor.type == ST_GYRO_ANGLES) {
             // gamma is the left-to-right tilt in degrees, where right is positive
             // beta is the front-to-back tilt in degrees, where front is positive
@@ -1473,6 +1451,7 @@ function orient_handler_cb(e) {
                 sensor.gyro_gamma_last = e.gamma;
                 sensor.gyro_beta_last = e.beta;
                 sensor.gyro_alpha_last = e.alpha;
+                // NOTE: always 1
                 sensor_set_value(sensor, 1);
             }
         }

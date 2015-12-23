@@ -365,10 +365,13 @@ function update_transform(obj) {
                 break;
             case "CAMERA":
                 m_scs.schedule_grass_map_update(scene);
-                // camera movement only influence csm shadows
-                if (sc_render.shadow_params &&
-                        sc_render.shadow_params.enable_csm)
-                    m_scs.schedule_shadow_update(scene);
+                if (sc_render.shadow_params) {
+                    // camera movement only influence csm shadows
+                    if (sc_render.shadow_params.enable_csm)
+                        m_scs.schedule_shadow_update(scene);
+                    m_scs.update_shadow_billboard_view(obj, sc_render.graph);
+                }
+                   
                 break;
             case "MESH":
                 if (render.bb_local && render.bb_world) {

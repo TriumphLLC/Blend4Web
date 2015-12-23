@@ -202,11 +202,12 @@ function setup_lava(elapsed_sensor) {
         var lava_obj = m_scs.get_object_by_dupli_name("level_02_enviroment", "lava");
         m_anim.apply_def(lava_obj);
         m_anim.set_behavior(lava_obj, m_anim.AB_FINISH_STOP);
-        m_anim.set_frame(lava_obj, 0);
         m_anim.stop(lava_obj);
+        m_anim.set_frame(lava_obj, 0);
         var lava_death_ctrl = m_scs.get_object_by_dupli_name("lava_death_controller",
                                                              "lava_death_controller");
-        m_anim.stop(lava_obj);
+        m_anim.stop(lava_death_ctrl);
+        m_anim.set_frame(lava_death_ctrl, 0);
     }
 }
 

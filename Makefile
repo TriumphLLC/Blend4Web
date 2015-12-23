@@ -44,7 +44,6 @@ compile_apps:
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/fashion compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/firstperson compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/flight compile -v $(VERSION)
-	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/gallery compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/new_year compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/victory_day_2015 compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/viewer compile -v $(VERSION)

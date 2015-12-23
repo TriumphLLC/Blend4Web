@@ -43,15 +43,18 @@ var m_quat       = require("__quat");
 var m_scenes     = require("__scenes");
 var m_sfx        = require("__sfx");
 var m_trans      = require("__transform");
+var m_tex        = require("__textures");
 var m_tsr        = require("__tsr");
 var m_util       = require("__util");
 var m_vec3       = require("__vec3");
 var m_armat      = require("__armature");
+var m_anchors    = require("__anchors");
 
 var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
+var DEFAULT_LOD_DIST_MAX = 1000000;
 
 var _all_objects = {"ALL": []};
 
@@ -171,6 +174,12 @@ exports.update_object = function(bpy_obj, obj) {
             category: bpy_obj["b4w_object_tags"]["category"]
         }
 
+    if (bpy_obj["b4w_viewport_alignment"])
+        obj.viewport_alignment = {
+            alignment: bpy_obj["b4w_viewport_alignment"]["alignment"],
+            distance: bpy_obj["b4w_viewport_alignment"]["distance"]
+        }
+
     switch (bpy_obj["type"]) {
     case "ARMATURE":
         m_armat.update_object(bpy_obj, obj);
@@ -280,7 +289,7 @@ exports.update_object = function(bpy_obj, obj) {
         render.elasticity = first_mat["physics"]["elasticity"];
 
         render.lod_dist_min = 0;
-        render.lod_dist_max = 10000;
+        render.lod_dist_max = DEFAULT_LOD_DIST_MAX;
         render.lod_transition_ratio = bpy_obj["b4w_lod_transition"];
         render.last_lod = true;
         break;
@@ -363,7 +372,56 @@ exports.update_object_relations = function(bpy_obj, obj) {
         } else if (obj.parent_is_dupli || !obj.parent_bone) {
             // get offset from render before child-of constraint being applied
             var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
-            m_cons.append_child_of(obj, obj.parent, offset);
+
+            // second condition is for cases when direct parenting is disabled
+            // due to obj parent group mismatch
+            if (obj.viewport_alignment && obj.parent.type == "CAMERA") {
+                var positioning = {
+                    distance: obj.viewport_alignment.distance,
+                    rotation: m_tsr.get_quat_view(offset)
+                }
+
+                switch (obj.viewport_alignment.alignment) {
+                case "TOP_LEFT":
+                    positioning.top = 0;
+                    positioning.left = 0;
+                    break;
+                case "TOP":
+                    positioning.top = 0;
+                    positioning.left = 0.5;
+                    break;
+                case "TOP_RIGHT":
+                    positioning.top = 0;
+                    positioning.right = 0;
+                    break;
+                case "LEFT":
+                    positioning.top = 0.5;
+                    positioning.left = 0;
+                    break;
+                case "CENTER":
+                    positioning.top = 0.5;
+                    positioning.left = 0.5;
+                    break;
+                case "RIGHT":
+                    positioning.top = 0.5;
+                    positioning.right = 0;
+                    break;
+                case "BOTTOM_LEFT":
+                    positioning.bottom = 0;
+                    positioning.left = 0;
+                    break;
+                case "BOTTOM":
+                    positioning.bottom = 0;
+                    positioning.left = 0.5;
+                    break;
+                case "BOTTOM_RIGHT":
+                    positioning.bottom = 0;
+                    positioning.right = 0;
+                    break;
+                }
+                m_cons.append_stiff_viewport(obj, obj.parent, positioning);
+            } else
+                m_cons.append_child_of(obj, obj.parent, offset);
         } else {
             var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
             m_cons.append_child_of_bone(obj, obj.parent, obj.parent_bone,
@@ -895,7 +953,8 @@ function copy_object(obj, new_name, deep_copy) {
     if (obj.physics && !(obj.is_vehicle || obj.is_character 
             || obj.is_floating)) {
         new_obj.use_obj_physics = obj.use_obj_physics;
-        new_obj.physics = m_obj_util.copy_object_props_by_value(obj.physics);
+        // NOTE: physics will be added later
+        new_obj.physics = null;
     }
 
     new_obj.collision_id = obj.collision_id;
@@ -927,7 +986,8 @@ function copy_batches(obj, new_obj, deep_copy) {
             var new_batches = new_sc_data.batches;
             for (var j = 0; j < batches.length; j++)
                 if (!batches[j].forked_batch) {
-                    new_batches.push(m_obj_util.copy_object_props_by_value(batches[j]));
+                    var new_batch = m_obj_util.copy_object_props_by_value(batches[j]);
+                    new_batches.push(new_batch);
                     bpy_bufs_data.push(batches[j].bufs_data);
                 }
 
@@ -949,6 +1009,8 @@ function copy_batches(obj, new_obj, deep_copy) {
                 m_batch.update_batch_id(new_batches[j],
                                         m_batch.calculate_render_id(new_obj.render));
             }
+
+            m_tex.share_batch_canvas_textures(new_batches);
 
         } else
             new_sc_data.batches = m_obj_util.copy_bpy_object_props_by_link(batches);
@@ -1156,6 +1218,21 @@ exports.update_boundings = function(obj) {
     var max_x, max_y, max_z, min_x, min_y, min_z;
 
     for (var i = 0; i < batches.length; i++) {
+
+        if (batches[i].type != "MAIN")
+            continue;
+
+        var vbo_array = batches[i].bufs_data.vbo_array;
+        var pos_offset = batches[i].bufs_data.pointers["a_position"].offset;
+
+        max_x = min_x = vbo_array[pos_offset];
+        max_y = min_y = vbo_array[pos_offset + 1];
+        max_z = min_z = vbo_array[pos_offset + 2];
+
+        break;
+    }
+
+    for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
         if (batch.type != "MAIN")
@@ -1167,10 +1244,6 @@ exports.update_boundings = function(obj) {
 
         var pos_offset = pointers["a_position"].offset;
         var pos_length = pointers["a_position"].length + pos_offset;
-
-        max_x = min_x = vbo_array[pos_offset];
-        max_y = min_y = vbo_array[pos_offset + 1];
-        max_z = min_z = vbo_array[pos_offset + 2];
 
         for (var j = pos_offset; j < pos_length; j = j + 3) {
             var x = vbo_array[j];
@@ -1462,15 +1535,26 @@ exports.update_all_mesh_shaders = function(scene) {
     }
 }
 
-exports.get_selectable_objects = function(scene) {
+exports.get_selectable_objects = function() {
     var sel_objects = [];
     var objects = _all_objects["MESH"];
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
-        if (obj.render.selectable)
+        if (obj.render.selectable && obj.bpy_origin)
             sel_objects.push(obj);
     }
     return sel_objects;
+}
+
+exports.get_outlining_objects = function() {
+    var outlining_objects = [];
+    var objects = _all_objects["MESH"];
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        if (obj.render.outlining && obj.bpy_origin)
+            outlining_objects.push(obj);
+    }
+    return outlining_objects;
 }
 
 exports.get_object = function() {
@@ -1600,6 +1684,11 @@ exports.pick_object = function(canvas_x, canvas_y) {
         m_print.error("No active scene");
         return null;
     }
+
+    var anchor = m_anchors.pick_anchor(canvas_x, canvas_y);
+
+    if (anchor)
+        return anchor;
 
     var color = m_scenes.pick_color(main_scene, canvas_x, canvas_y);
 

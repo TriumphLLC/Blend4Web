@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя: Blend4Web vv15.11</title>
+  <title>Объекты &mdash; Руководство пользователя: Blend4Web vv15.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
         <link rel="next" title="Камера" href="camera.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.11
+              v15.12
             </div>
           
         
@@ -220,7 +220,11 @@
 <dt><em>Transform &gt; Scale</em></dt>
 <dd>Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
 <dt><em>Relations &gt; Parent</em></dt>
-<dd>Указатель на родительский объект.</dd>
+<dd><p class="first">Указатель на родительский объект.</p>
+<p>Если в качестве родительского объекта выбрана камера, становятся доступными настройки <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code>.</p>
+<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
+<p class="last">Параметр <code class="docutils literal"><span class="pre">Alignment</span></code> определяет, с какой стороны от камеры будет находиться привязанный к ней объект (по умолчанию <code class="docutils literal"><span class="pre">Center</span></code>). Параметр <code class="docutils literal"><span class="pre">Distance</span></code> задаёт расстояние объекта до камеры (по умолчанию 10). Чтобы привязанный объект отображался в Blender так же, как и в движке, нужно нажать кнопку <code class="docutils literal"><span class="pre">Fit</span> <span class="pre">to</span> <span class="pre">Camera</span></code>.</p>
+</dd>
 <dt><em>Groups</em></dt>
 <dd>Группы объектов, которым принадлежит данный объект.</dd>
 </dl>
@@ -253,12 +257,12 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Свойства <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em>, и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
+<p class="last">Свойства <em>Apply Modifiers</em>, <em>Apply Scale And Modifiers</em>, <em>Export Vertex Animation</em>, и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
 </div>
 <dl class="docutils">
-<dt><em>Animation &gt; Apply default animation</em></dt>
+<dt><em>Animation &gt; Apply Default Animation</em></dt>
 <dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
-<dt><em>Animation &gt; Animation blending</em></dt>
+<dt><em>Animation &gt; Animation Blending</em></dt>
 <dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
 анимации к другой.</dd>
 <dt><em>Animation &gt; Behavior</em></dt>
@@ -283,7 +287,7 @@
 <dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
 <dt><em>Reflections &gt; Reflexible</em></dt>
 <dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
-<dt><em>Reflections &gt; Reflexible only</em></dt>
+<dt><em>Reflections &gt; Reflexible Only</em></dt>
 <dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</dd>
 <dt><em>Reflections &gt; Reflective</em></dt>
 <dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
@@ -318,7 +322,7 @@
 </dl>
 </dd>
 <dt><em>Wind Bending</em></dt>
-<dd>Включить процедурную анимацию под действием ветра.</dd>
+<dd>Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>рендерингу наружных сцен</span></a>.</dd>
 </dl>
 <dl class="docutils" id="objects-billboarding-properties">
 <dt><em>Billboard</em></dt>
@@ -598,7 +602,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-11-26.
+      Обновлено: 2015-12-22.
 
     </p>
   </div>
@@ -620,7 +624,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.11',
+            VERSION:'v15.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

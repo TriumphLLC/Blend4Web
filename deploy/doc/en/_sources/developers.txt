@@ -17,19 +17,19 @@ which makes it possible to:
    * create and configure new apps, including those based on ready-
      made templates;
 
-   * build apps and pack them for convenient deployment on a remote
-     server;
+   * build apps and pack them to be conveniently deployed on a
+     remote server;
 
    * convert app resources (textures, audio and video files) into
      alternative formats to ensure cross-browser and cross-platform
      performance;
 
-   * automate re-exporting all scenes of an app, including export to
-     JSON and HTML formats.
+   * automatically re-export all scenes of an app, including export
+     to JSON and HTML formats.
 
    * remove projects.
 
-You can manage your projects in two ways: by using *project.py* which
+You can manage your projects in two ways: by using *project.py*, which
 is a simple-to-use and well documented CLI utility, or by using a
 dedicated web application with GUI working on the local development
 server. The server does not require any additional setup and starts
@@ -43,30 +43,30 @@ Project Manager
 This graphical app allows you to perform basic project managment
 functions, such as browsing projects, building apps, exporting scenes
 and converting resources. It also includes a master for creating new
-apps. We recommend advanced developers who need a full control over
-their apps to use the script *project.py* and manually configure
+apps. We recommend that advanced developers who need full control over
+their apps use the script *project.py* and manually configure
 *.b4w_project* files.
 
 The app *Project Manager* can be run from the *Tools* section of the
 SDK's index page. Upon launching, the app outputs a list of all
-projects which are currently present in the SDK.
+current projects  in the SDK.
 
-Commands for managing these projects can be found on the right area of
-this list. A new project can be created by clicking on the button
-"[Create New Project]" on the top of the page. It's also possible to
-import external project ("[Import Project Archive]") and show/hide SDK
-projects by using "[Hide/Show Stock Projects]" button.
+Commands for managing these projects can be found on the right side of
+this list. A new project can be created by clicking on the "[Create
+New Project]" button at the top of the page. It's also possible to
+import external projects ("[Import Project Archive]") and show/hide
+SDK projects by using the "[Hide/Show Stock Projects]" button.
 
    [image]
 
-Commands for managing specific project is located on the right side.
+Commands for managing a specific project is located at its right.
 
    [image]
 
 1. Compile project (not available for WebPlayer JSON and WebPlayer
    HTML projects).
 
-2. Reexport blend files from the project.
+2. Re-export blend files from the project.
 
 3. Convert media resources.
 
@@ -74,25 +74,25 @@ Commands for managing specific project is located on the right side.
 
 5. Remove the project.
 
-Note: All project paths are retreived from .b4w_project file.
+Note: All project paths are retreived from its .b4w_project file.
 
 
-Master to create a new project
-------------------------------
+Master for creating new projects
+--------------------------------
 
-Master for creating new projects is included in the Project Management
-app and executed by "[Create New Project]" button located on the main
-page of this app.
+The master for creating new projects is included in the Project
+Management app and executed by the "[Create New Project]" button on
+the main page of this app.
 
    [image]
 
-1. Project name. Used to name project directories such as
+1. Project name is used to name project directories such as
    "apps_dev/project_name", "deploy/assets/project_name", blender and
    "deploy/apps/project_name"
 
-2. Project title shown as shown in browser.
+2. Project title as shown in the browser.
 
-3. Project's author name.
+3. Project author's name.
 
 4. Add application templates. Standard application templates: html-
    file, css-file, js-file will be added to the project directory
@@ -102,12 +102,13 @@ page of this app.
    "deploy/assets/project_name" directory; blend-file will be added to
    the "blender/project_name" directory.
 
-6. Copy project manager script. project.py script will be copied to
-   the project directory.
+6. Copy project manager script. The project.py script will be
+   copied to the project directory.
 
 7. All project files will be located in the same directory. It is
-   preferably to be used in small projects, such as lessons and
-   examples. Only project type is available for this option.
+   preferable to use this option in small projects, such as lessons
+   and examples. Only 'update' project type is available for this
+   option.
 
 8. Project's type. Several options are available:
 
@@ -134,7 +135,7 @@ page of this app.
 
       * "Simple" - variable names are replaced in the code;
 
-      * "Advanced" - perform code optimization.
+      * "Advanced" - code optimization is performed.
 
       * "Whitespace Only" - only whitespaces are removed from the
         code;
@@ -845,11 +846,13 @@ to use the engine's functionality.
 
 Currently, this application contains the following examples:
 
-   * Canvas Texture - working with canvas textures
+   * Bone API - an example of individual bones position control
 
    * Camera Animation - procedural camera animation
 
    * Camera Move Styles - changing control modes for the camera
+
+   * Canvas Texture - working with canvas textures
 
    * Custom Anchors - creating custom annotations
 
@@ -863,6 +866,8 @@ Currently, this application contains the following examples:
      objects' materials
 
    * Morphing - using shape keys
+
+   * Ray Test - the usage of raycasting for obstacles detection
 
 The Code Snippets application is available at
 "SDK/apps_dev/code_snippets/code_snippets_dev.html". It can be also
@@ -882,9 +887,10 @@ Sensors
 
 The basic unit of the event-driven model is a sensor. A sensor is a
 programming entity and can only be active (1, one) or inactive (0,
-zero). Some sensors may carry a payload. For example the ray-tracing
-sensor (Ray Sensor) provides the relative length of the intersection
-ray.
+zero). Some sensors may carry a payload which can be received in the
+manifold's callback function with corresponding API. For example, the
+ray-tracing sensor (Ray Sensor) provides the relative length of the
+intersection ray.
 
 Users cannot directly control sensors via the external API. Instead
 all sensors must be present in one or multiple collections - so called
@@ -892,15 +898,19 @@ sensor manifolds. A manifold is a logic container associated with a
 scene object. It generates a response to a defined set of sensor
 events by executing a callback function. To define the manifold it is
 required to have the following information (see also the API
-documenation for decription of the "controls.create_sensor_manifold()"
+documenation for decription of the "controls.create_sensor_manifold"
 function):
 
 * An object to carry the manifold (e.g. a thrown object).
 
 * An unique id of the manifold (e.g. "IMPACT").
 
-* Callback execution mode (the options are: "CT_CONTINUOUS",
-  "CT_LEVEL", "CT_SHOT", "CT_TRIGGER", "CT_CHANGE").
+* Callback execution mode (the options are: "CT_POSITIVE" - logic
+  function positive result, "CT_CONTINUOUS" - every frame with a
+  positive logic function result and once with a zero result,
+  "CT_LEVEL" - any logic, function result change, "CT_SHOT" - one-
+  stage logic function result change, "CT_TRIGGER" - logic function
+  result switch, "CT_CHANGE" - any sensor value change).
 
 * An array of sensors.
 
@@ -910,6 +920,9 @@ function):
 * A callback function.
 
 * An optional parameter to pass into the callback function.
+
+You can read more about engine API in the controls module
+documentation.
 
 
 Example
@@ -983,7 +996,11 @@ SDK File Structure
    source code of the applications
 
    **code_snippets**
-      source files of the Code Snippets app
+      source files of the Blend4Web API usage demonstration
+      application
+
+      **scripts**
+         Blend4Web API usage examples' source files
 
    **dairy_plant**
       source files of the Dairy Plant demo (available only in SDK Pro)
@@ -998,15 +1015,8 @@ SDK File Structure
    **flight**
       source files of the Island demo
 
-   **gallery**
-      source files of the Nature Morte demo (available only in SDK
-      Pro)
-
    **new_year**
       source files of the New Year 2015 greeting card
-
-   **Makefile**
-      the file for building all applications from the SDK
 
    **project.py**
       script for application developers
@@ -1022,6 +1032,9 @@ SDK File Structure
 
    **webplayer**
       source files of the Web Player app
+
+   **website**
+      source files of applications from the Blend4Web official website
 
 **blender**
    source files of the Blender scenes
@@ -1330,3 +1343,13 @@ located in the top left corner).
    // . . .
    m_cont.set_canvas_offsets(offset_left, offset_top);
    // . . .
+
+
+
+4. The possibility to scale the whole webpage can lead to Canvas
+   element displacement on mobile devices. The described decisions are
+   suitable in this case. However, you can lock scaling at all and
+   thus avoid such problems. It is enough to add the following meta-
+   tag to the page's header:
+
+   <meta name="viewport" content="user-scalable=no">

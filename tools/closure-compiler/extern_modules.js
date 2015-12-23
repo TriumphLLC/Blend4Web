@@ -26,3 +26,51 @@ WebGLRenderingContext.DRAW_FRAMEBUFFER;
 WebGLRenderingContext.blitFramebuffer;
 WebGLRenderingContext.renderbufferStorageMultisample;
 
+// missing WebVR API stuff
+Navigator.prototype.getVRDevices;
+
+var HMDVRDevice;
+// HMDVRDevice properties
+// HMDVRDevice.prototype.deviceId;
+HMDVRDevice.prototype.deviceName;
+HMDVRDevice.prototype.hardwareUnitId;
+HMDVRDevice.prototype.getEyeParameters;
+
+var VREyeParameters;
+// PositionSensorVRDevice properties
+VREyeParameters.prototype.eyeTranslation;
+VREyeParameters.prototype.currentFieldOfView;
+// VREyeParameters.prototype.minimumFieldOfView;
+// VREyeParameters.prototype.maximumFieldOfView;
+// VREyeParameters.prototype.recommendedFieldOfView;
+// VREyeParameters.prototype.renderRect;
+
+var VRFieldOfView;
+VRFieldOfView.prototype.upDegrees;
+VRFieldOfView.prototype.rightDegrees;
+VRFieldOfView.prototype.downDegrees;
+VRFieldOfView.prototype.leftDegrees;
+
+var PositionSensorVRDevice;
+// PositionSensorVRDevice properties
+// PositionSensorVRDevice.prototype.deviceId;
+PositionSensorVRDevice.prototype.hardwareUnitId;
+PositionSensorVRDevice.prototype.deviceName;
+
+// PositionSensorVRDevice methods
+PositionSensorVRDevice.prototype.getState;
+PositionSensorVRDevice.prototype.getImmediateState;
+PositionSensorVRDevice.prototype.resetSensor;
+
+var VRPositionState;
+// VRPositionState properties
+VRPositionState.prototype.position;
+VRPositionState.prototype.orientation;
+VRPositionState.prototype.angularVelocity;
+// VRPositionState.prototype.timeStamp;
+// VRPositionState.prototype.hasPosition;
+// VRPositionState.prototype.linearVelocity;
+// VRPositionState.prototype.linearAcceleration;
+// VRPositionState.prototype.hasOrientation;
+// VRPositionState.prototype.angularVelocity;
+// VRPositionState.prototype.angularAcceleration;

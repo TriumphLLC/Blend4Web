@@ -9,6 +9,7 @@ var m_cont        = require("container");
 var m_ctl         = require("controls");
 var m_data        = require("data");
 var m_main        = require("main");
+var m_hmd         = require("hmd");
 var m_scs         = require("scenes");
 var m_sfx         = require("sfx");
 var m_storage     = require("storage");
@@ -16,6 +17,7 @@ var m_version     = require("version");
 
 var BUILT_IN_SCRIPTS_ID      = "built_in_scripts";
 var DEFAULT_QUALITY          = "HIGH";
+var DEFAULT_STEREO           = "NONE";
 var CAMERA_AUTO_ROTATE_SPEED = 0.3;
 
 var HIDE_MENU_DELAY          = 2000;
@@ -34,6 +36,7 @@ var _is_panel_open_left      = false;
 var _is_anim_top             = false;
 var _is_anim_left            = false;
 var _is_qual_menu_opened     = false;
+var _is_stereo_menu_opened   = false;
 var _is_help_menu_opened     = false;
 
 var _circle_container;
@@ -47,6 +50,7 @@ var _opened_button;
 var _logo_container;
 var _buttons_container;
 var _quality_buttons_container;
+var _stereo_buttons_container;
 var _help_info_container;
 var _help_button;
 var _selected_object;
@@ -81,6 +85,17 @@ var _player_buttons = [
      callback:          play_sound,
      replace_button_id: "sound_off_button",
      replace_button_cb: stop_sound},
+
+    {type:                   "menu_button",
+     id:                     "stereo_buttons_container",
+     callback:               open_stereo_menu,
+     child_buttons_array_id: ["def_mode_button",
+                              "anag_mode_button",
+                              "hmd_mode_button"],
+     child_buttons_array_cb: [
+                 function(){change_stereo("NONE")},
+                 function(){change_stereo("ANAGLYPH")},
+                 function(){change_stereo("HMD")}]},
 
     {type:                   "menu_button",
      id:                     "quality_buttons_container",
@@ -122,6 +137,7 @@ exports.init = function() {
     else
         m_storage.init("b4w_webplayer:" + window.location.href);
 
+    set_stereo_config();
     set_quality_config();
 
     var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
@@ -159,6 +175,10 @@ function init_cb(canvas_element, success) {
     check_fullscreen();
 
     set_quality_button();
+
+    set_stereo_button();
+
+    check_hmd();
 
     init_control_buttons();
 
@@ -220,6 +240,7 @@ function define_dom_elems() {
     _logo_container = document.querySelector("#logo_container");
     _buttons_container = document.querySelector("#buttons_container");
     _quality_buttons_container = document.querySelector("#quality_buttons_container");
+    _stereo_buttons_container = document.querySelector("#stereo_buttons_container");
     _help_info_container = document.querySelector("#help_info_container");
     _help_button = document.querySelector("#help_button");
 }
@@ -269,6 +290,26 @@ function set_quality_button() {
     }
 }
 
+function set_stereo_button() {
+    var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
+
+    m_storage.set("stereo", stereo);
+
+    _stereo_buttons_container.className = "control_panel_button";
+
+    switch (stereo) {
+    case "NONE":
+        _stereo_buttons_container.className = "control_panel_button def_mode_button";
+        break;
+    case "ANAGLYPH":
+        _stereo_buttons_container.className = "control_panel_button anag_mode_button";
+        break;
+    case "HMD":
+        _stereo_buttons_container.className = "control_panel_button hmd_mode_button";
+        break;
+    }
+}
+
 function init_control_buttons() {
     window.oncontextmenu = function(e) {
         e.preventDefault();
@@ -291,10 +332,12 @@ function init_control_buttons() {
                 elem.addEventListener("mouseup", button.callback);
             break;
         case "menu_button":
-            if (elem)
-                elem.addEventListener("mouseup", function(e) {
-                          button.callback(e, button);
-                      });
+            (function(button){
+                if (elem)
+                    elem.addEventListener("mouseup", function(e) {
+                              button.callback(e, button);
+                          });
+            })(button);
             break;
         case "trigger_button":
             (function(button){
@@ -493,7 +536,12 @@ function enter_fullscreen(e) {
     if (is_anim_in_process())
         return;
 
-    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
+    var hmd_dev;
+
+    if (m_cfg.get("stereo") == "HMD")
+        hmd_dev = m_hmd.get_hmd_device()
+
+    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb, hmd_dev);
 }
 
 function exit_fullscreen() {
@@ -571,6 +619,7 @@ function close_menu() {
     document.body.removeEventListener("touchmove", deferred_close);
 
     close_qual_menu();
+    close_stereo_menu();
 
     var hor_elem  = document.querySelector("#help_button");
     var vert_elem = document.querySelector("#tw_button");
@@ -762,7 +811,7 @@ function close_qual_menu(e) {
         e.stopPropagation();
         var active_elem = e.target;
     } else
-        var active_elem = document.querySelectorAll(".active_elem")[0];
+        var active_elem = document.querySelectorAll(".active_elem_q")[0];
 
     _quality_buttons_container.style.marginRight = "0px";
 
@@ -774,9 +823,36 @@ function close_qual_menu(e) {
     _quality_buttons_container.className = "control_panel_button " + active_elem.id;
 }
 
+function close_stereo_menu(e) {
+    if (is_anim_in_process())
+        return;
+
+    if (!_is_stereo_menu_opened)
+        return;
+
+    _is_stereo_menu_opened = false;
+
+    if (e) {
+        e.stopPropagation();
+        var active_elem = e.target;
+    } else
+        var active_elem = document.querySelectorAll(".active_elem_s")[0];
+
+    _stereo_buttons_container.style.marginRight = "0px";
+
+    for (var i = 0, child = _stereo_buttons_container.children; i < child.length; i++) {
+        child[i].style.display = "none";
+        child[i].style.opacity = 0;
+    }
+
+    _stereo_buttons_container.className = "control_panel_button " + active_elem.id;
+}
+
 function open_qual_menu(e, button) {
     if (is_anim_in_process())
         return;
+
+    close_stereo_menu();
 
     _is_qual_menu_opened = true;
 
@@ -791,7 +867,7 @@ function open_qual_menu(e, button) {
         if (_quality_buttons_container.className.indexOf(child_id[i]) < 0)
             child_elem.addEventListener("mouseup", child_cb[i]);
         else {
-            child_elem.className = "active_elem";
+            child_elem.className = "active_elem_q";
             child_elem.addEventListener("mouseup", close_qual_menu);
         }
     }
@@ -799,6 +875,46 @@ function open_qual_menu(e, button) {
     _quality_buttons_container.className = "quality_buttons_container";
 
     for (var i = 0, child = _quality_buttons_container.children; i < child.length; i++) {
+        child[i].style.display = "block";
+        child[i].style.opacity = 1;
+    }
+}
+
+function open_stereo_menu(e, button) {
+    if (is_anim_in_process())
+        return;
+
+    close_qual_menu();
+
+    _is_stereo_menu_opened = true;
+
+    _stereo_buttons_container.style.marginRight = "-30px";
+
+    var child_id = button.child_buttons_array_id;
+    var child_cb = button.child_buttons_array_cb;
+
+    for (var i = 0; i < child_id.length; i++) {
+        var child_elem = document.getElementById(child_id[i]);
+
+        if (!child_elem)
+            continue;
+
+        if (_stereo_buttons_container.className.indexOf(child_id[i]) < 0)
+            child_elem.addEventListener("mouseup", child_cb[i]);
+        else {
+            child_elem.className = "active_elem_s";
+            child_elem.addEventListener("mouseup", close_stereo_menu);
+        }
+    }
+
+    var no_hmd = "";
+
+    if (!m_hmd.check_browser_support())
+        no_hmd = "no_hmd";
+
+    _stereo_buttons_container.className = "stereo_buttons_container " + no_hmd;
+
+    for (var i = 0, child = _stereo_buttons_container.children; i < child.length; i++) {
         child[i].style.display = "block";
         child[i].style.opacity = 1;
     }
@@ -879,6 +995,21 @@ function loaded_callback(data_id, success) {
 
     if (meta_tags.title)
         document.title = meta_tags.title;
+}
+
+function check_hmd() {
+    var hmd_mode_button = document.querySelector("#hmd_mode_button");
+
+    if (!m_hmd.check_browser_support()) {
+        hmd_mode_button.parentElement.removeChild(hmd_mode_button);
+
+        return;
+    }
+
+    if (m_cfg.get("stereo") != "HMD")
+        return;
+
+    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
 }
 
 function preloader_callback(percentage, load_time) {
@@ -989,25 +1120,39 @@ function remove_built_in_scripts() {
 function change_quality(qual) {
     var cur_quality = m_cfg.get("quality");
 
-    if (cur_quality != qual) {
+    if (cur_quality == qual)
+        return;
 
-        switch (qual) {
-        case m_cfg.P_LOW:
-            var quality = "LOW";
-            break;
-        case m_cfg.P_HIGH:
-            var quality = "HIGH";
-            break;
-        case m_cfg.P_ULTRA:
-            var quality = "ULTRA";
-            break;
-        }
-        m_storage.set("quality", quality);
-
-        setTimeout(function() {
-            window.location.reload();
-        }, 100);
+    switch (qual) {
+    case m_cfg.P_LOW:
+        var quality = "LOW";
+        break;
+    case m_cfg.P_HIGH:
+        var quality = "HIGH";
+        break;
+    case m_cfg.P_ULTRA:
+        var quality = "ULTRA";
+        break;
     }
+
+    m_storage.set("quality", quality);
+
+    setTimeout(function() {
+        window.location.reload();
+    }, 100);
+}
+
+function change_stereo(stereo) {
+    var cur_stereo = m_cfg.get("stereo");
+
+    if (cur_stereo == stereo)
+        return;
+
+    m_storage.set("stereo", stereo);
+
+    setTimeout(function() {
+        window.location.reload();
+    }, 100);
 }
 
 function set_quality_config() {
@@ -1031,6 +1176,12 @@ function set_quality_config() {
     }
 
     m_cfg.set("quality", qual);
+}
+
+function set_stereo_config() {
+    var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
+
+    m_cfg.set("stereo", stereo);
 }
 
 function report_app_error(text_message, link_message, link) {

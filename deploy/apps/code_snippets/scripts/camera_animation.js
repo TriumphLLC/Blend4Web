@@ -2,22 +2,21 @@
 
 b4w.register("camera_animation", function(exports, require) {
 
-var m_data      = require("data");
-var m_app       = require("app");
-var m_cam       = require("camera");
-var m_cfg       = require("config");
-var m_ctl       = require("controls");
-var m_scenes    = require("scenes");
-var m_main      = require("main");
-var m_transform = require("transform");
-var m_vec3      = require("vec3");
+var m_app    = require("app");
+var m_cam    = require("camera");
+var m_cfg    = require("config");
+var m_ctl    = require("controls");
+var m_data   = require("data");
+var m_main   = require("main");
+var m_scenes = require("scenes");
+var m_trans  = require("transform");
+var m_vec3   = require("vec3");
 
 var ANIM_TIME = 2;
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/camera_animation/";
+
 var _anim_stop = false;
-
 var _delta_target = ANIM_TIME;
-
 var _cam_anim = {
     timeline: -ANIM_TIME,
     starting_eye: new Float32Array(3),
@@ -43,7 +42,7 @@ exports.init = function() {
 
 function init_cb(canvas_elem, success) {
 
-    if(!success) {
+    if (!success) {
         console.log("b4w init failure");
         return;
     }
@@ -91,8 +90,8 @@ function main_canvas_up(e) {
 
     if (eye && target) {
         var camobj = m_scenes.get_active_camera();
-        var pos_view = m_transform.get_translation(eye);
-        var pos_target = m_transform.get_translation(target);
+        var pos_view = m_trans.get_translation(eye);
+        var pos_target = m_trans.get_translation(target);
         start_camera_animation(camobj, pos_view, pos_target);
     } 
 
@@ -112,22 +111,21 @@ function main_canvas_down(e) {
 }
 
 function start_camera_animation(camobj, pos_view, pos_target) {
+    // retrieve camera current position
+    m_cam.target_get_pivot(camobj, _cam_anim.current_target);
+    m_trans.get_translation(camobj, _cam_anim.current_eye);
 
-        // retrieve camera current position
-        m_cam.target_get_pivot(camobj, _cam_anim.current_target);
-        m_transform.get_translation(camobj, _cam_anim.current_eye);
+    // set camera starting position
+    m_vec3.copy(_cam_anim.current_target, _cam_anim.starting_target);
+    m_vec3.copy(_cam_anim.current_eye, _cam_anim.starting_eye);
 
-        // set camera starting position
-        m_vec3.copy(_cam_anim.current_target, _cam_anim.starting_target);
-        m_vec3.copy(_cam_anim.current_eye, _cam_anim.starting_eye);
+    // set camera final position
+    m_vec3.copy(pos_view, _cam_anim.final_eye);
+    m_vec3.copy(pos_target, _cam_anim.final_target);
 
-        // set camera final position
-        m_vec3.copy(pos_view, _cam_anim.final_eye);
-        m_vec3.copy(pos_target, _cam_anim.final_target);
-
-        // start animation
-        _delta_target = ANIM_TIME;
-        _cam_anim.timeline = m_main.global_timeline();
+    // start animation
+    _delta_target = ANIM_TIME;
+    _cam_anim.timeline = m_main.global_timeline();
 }
 
 function init_camera_animation(camobj) {
@@ -143,7 +141,6 @@ function init_camera_animation(camobj) {
     var cam_move_cb = function(camobj, id, pulse) {
 
         if (pulse == 1) {
-
             if (_anim_stop) {
                 _cam_anim.timeline = -ANIM_TIME;
                 return;
@@ -176,7 +173,7 @@ function init_camera_animation(camobj) {
     }
 
     m_ctl.create_sensor_manifold(camobj, "CAMERA_MOVE", m_ctl.CT_CONTINUOUS,
-        [t_sensor, e_sensor], logic_func, cam_move_cb);
+            [t_sensor, e_sensor], logic_func, cam_move_cb);
 }
 
 

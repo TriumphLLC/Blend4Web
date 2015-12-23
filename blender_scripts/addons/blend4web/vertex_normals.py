@@ -883,6 +883,7 @@ class OperatorRotateNormal(bpy.types.Operator):
         if not context.window_manager.b4w_split:
             self.init_normals = []
             i = 0
+            j = 0
             for v in context.active_object.data.vertices:
                 vert = mathutils.Vector()
                 # check for floating vertices

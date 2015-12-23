@@ -35,8 +35,8 @@ exports.P_ULTRA  = 3;  // use all requested features and maximize quality
 exports.P_CUSTOM = 4;  // use exports.defaults
 
 exports.context = {
-    alpha: true,
-    antialias: false,
+    alpha              : true,
+    antialias          : false,
     premultipliedAlpha : true
 }
 exports.context_save = m_util.clone_object_r(exports.context);
@@ -84,7 +84,7 @@ exports.defaults = {
 
     shadows                    : true,
 
-    anaglyph_use               : false,
+    stereo                     : "NONE",
 
     reflections                : true,
 
@@ -200,7 +200,13 @@ exports.defaults = {
 
     resize_cubemap_canvas_hack : false,
 
-    arch_mesa_clear_depth_hack : false
+    arch_mesa_clear_depth_hack : false,
+
+    media_auto_activation      : true,
+
+    max_cast_lamps             : 4,
+
+    mac_os_shadow_hack         : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -292,7 +298,7 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : "MAIN_BLEND",
+    subs_type   : "DEPTH",
     subs_number : 0,
     slink_type  : "COLOR"
 }
@@ -513,7 +519,8 @@ function set(prop, value) {
         exports.defaults.alpha_sort_threshold = value;
         break;
     case "anaglyph_use":
-        exports.defaults.anaglyph_use = value;
+        m_print.error_deprecated_cfg("anaglyph_use", "stereo");
+        exports.defaults.stereo = value? "ANAGLYPH": exports.defaults.stereo;
         break;
     case "animation_framerate":
         exports.animation.framerate = value;
@@ -547,6 +554,12 @@ function set(prop, value) {
         break;
     case "gyro_use":
         exports.defaults.gyro_use = value;
+        break;
+    case "stereo":
+        exports.defaults.stereo = value;
+        break;
+    case "media_auto_activation":
+        exports.defaults.media_auto_activation = value;
         break;
     case "physics_enabled":
         exports.physics.enabled = value;
@@ -621,7 +634,7 @@ exports.get = function(prop) {
     case "alpha_sort_threshold":
         return exports.defaults.alpha_sort_threshold;
     case "anaglyph_use":
-        return exports.defaults.anaglyph_use;
+        return exports.defaults.stereo == "ANAGLYPH";
     case "animation_framerate":
         return exports.animation.framerate;
     case "antialiasing":
@@ -644,6 +657,10 @@ exports.get = function(prop) {
         return exports.defaults.do_not_load_resources;
     case "gyro_use":
         return exports.defaults.gyro_use;
+    case "stereo":
+        return exports.defaults.stereo;
+    case "media_auto_activation":
+        return exports.defaults.media_auto_activation;
     case "physics_enabled":
         return exports.physics.enabled;
     case "physics_uranium_path":

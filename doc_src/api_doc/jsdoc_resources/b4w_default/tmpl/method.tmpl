@@ -10,7 +10,7 @@ var self = this;
     <?js } ?>
 
     <h4 class="name" id="<?js= id ?>"><?js= data.attribs + (kind === 'class' ? 'new ' : '') +
-    name + (data.signature || '') ?></h4>
+    name + (data.signature.replace(/module:.+~/, "") || '') ?></h4>
 
     <?js if (data.summary) { ?>
     <p class="summary"><?js= summary ?></p>

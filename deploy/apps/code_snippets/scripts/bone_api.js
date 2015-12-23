@@ -15,8 +15,10 @@ var m_vec3   = require("vec3");
 var m_util   = require("util");
 var m_cam    = require("camera");
 
+var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/bone_api/";
 var BONE_SPEED_MULT = 0.005;
 var MAX_BONE_SPEED = 15;
+
 var z_dir = new Float32Array([0, 0, 1]);
 
 var _vec3_tmp   = new Float32Array(3);
@@ -33,8 +35,6 @@ var _bones_info = {
     "upper_arm.R": null,
     "spine": null,
 }
-
-var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/bone_api/";
 
 exports.init = function() {
     m_app.init({

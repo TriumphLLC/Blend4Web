@@ -18,10 +18,12 @@
 "use strict";
 
 /** 
- * Camera API.
+ * API for controlling the camera within the bounds of the current camera model.
+ * Use {@link module:transform|Transform API} for low-level actions.<br>
  * All functions require a valid camera object reference. Use 
  * {@link module:scenes.get_object_by_name|scenes.get_object_by_name()} or
  * {@link module:scenes.get_active_camera|scenes.get_active_camera()} to obtain it.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @module camera
  * @local DistanceLimits 
  * @local VerticalRotationLimits
@@ -223,7 +225,7 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
 
     pos = pos || m_tsr.get_trans_view(camobj.render.world_tsr);
     m_cam.set_look_at(camobj, pos, look_at);
-    m_cons.correct_up(camobj, m_util.AXIS_Y, true);
+    m_cons.correct_up(camobj, camobj.render.vertical_axis, true);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -1002,6 +1004,24 @@ exports.is_eye_camera = m_cam.is_eye_camera;
  */
 exports.is_hover_camera = m_cam.is_hover_camera;
 
+function is_hmd_camera(camobj) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("is_hmd_camera(): Wrong camera object");
+        return false;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+
+        if (cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            return true;
+    }
+
+    return false;
+}
+
 /**
  * Set movement style (MS_*) for the camera.
  * @method module:camera.set_move_style
@@ -1145,7 +1165,7 @@ exports.set_velocities = function(camobj, velocity) {
     if (typeof velocity.rot == "number")
         render.velocity_rot = m_util.clamp(velocity.rot, 0, Infinity);
     if (typeof velocity.zoom == "number")
-        render.velocity_zoom = m_util.clamp(velocity.zoom, 0, 1);
+        render.velocity_zoom = m_util.clamp(velocity.zoom, 0, 0.99);
 }
 
 /**
@@ -1276,6 +1296,53 @@ exports.get_stereo_distance = function(camobj) {
 }
 
 /**
+ * Set the distance between eyes of the stereoscopic camera.
+ * @method module:camera.set_eye_distance
+ * @param {Object3D} camobj Camera 3D-object.
+ * @param {Number} eye_dist Distance between eyes.
+ */
+exports.set_eye_distance = function(camobj, eye_dist) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("set_eye_distance(): Wrong camera object");
+        return;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+        if (cam.type == m_cam.TYPE_STEREO_LEFT ||
+                cam.type == m_cam.TYPE_STEREO_RIGHT ||
+                cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            m_cam.set_stereo_params(cam, cam.stereo_conv_dist, eye_dist);
+    }
+}
+/**
+ * Get the distance between eyes of the stereoscopic camera.
+ * @method module:camera.get_eye_distance
+ * @param {Object3D} camobj Camera 3D-object.
+ * @returns {Number} Distance between eyes.
+ */
+exports.get_eye_distance = function(camobj) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("get_eye_distance(): Wrong camera object");
+        return 0;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+        if (cam.type == m_cam.TYPE_STEREO_LEFT ||
+                cam.type == m_cam.TYPE_STEREO_RIGHT ||
+                cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            return cam.stereo_eye_dist;
+    }
+
+    return 0;
+}
+
+/**
  * Translate the view plane of the camera.
  * Modify the projection matrix of the camera so it appears to be moving in up-down
  * and left-right directions. This method can be used to imitate character
@@ -1298,7 +1365,7 @@ exports.translate_view = function(camobj, x, y, angle) {
 
         // NOTE: camera projection matrix already has been updated in 
         // set_view method of camera
-        if (!cam.reflection_plane) 
+        if (!cam.reflection_plane)
             m_cam.set_projection(cam, cam.aspect);
 
         var vec3_tmp = _vec3_tmp;
@@ -1356,6 +1423,44 @@ exports.set_fov = function(camobj, fov) {
 }
 
 /**
+ * Set the angles of the camera's field of view (for head-mounted display only).
+ * @method module:camera.set_hmd_fov
+ * @param {Object3D} camobj Camera 3D-object.
+ * @param {Vec4} hmd_left_fov New left camera field of view.
+ * @param {Vec4} hmd_right_fov New right camera field of view.
+ */
+exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
+    if (!m_obj_util.is_camera(camobj) && !is_hmd_camera(camobj)) {
+        m_print.error("set_hmd_fov(): Wrong camera object");
+        return;
+    }
+
+    if (!hmd_left_fov || !hmd_right_fov)
+        return;
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+
+        if (cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT) {
+
+            if (cam.type == m_cam.TYPE_HMD_LEFT)
+                m_vec4.copy(hmd_left_fov, cam.hmd_fov);
+
+            if (cam.type == m_cam.TYPE_HMD_RIGHT)
+                m_vec4.copy(hmd_right_fov, cam.hmd_fov);
+
+            if (!cam.reflection_plane)
+                m_cam.set_projection(cam);
+
+            m_cam.calc_view_proj_inverse(cam);
+            m_cam.calc_sky_vp_inverse(cam);
+        }
+    }
+}
+
+/**
  * Correct the UP vector of the camera.
  * @method module:camera.correct_up
  * @param {Object3D} camobj Camera 3D-object.
@@ -1367,7 +1472,7 @@ exports.correct_up = function(camobj, y_axis) {
         return;
     }
 
-    y_axis = y_axis || m_util.AXIS_Y;
+    y_axis = y_axis || camobj.render.vertical_axis;
     m_cons.correct_up(camobj, y_axis);
 
     m_trans.update_transform(camobj);
@@ -1606,7 +1711,7 @@ exports.set_velocity_params = function(camobj, velocity) {
     var render = camobj.render;
     render.velocity_trans = m_util.clamp(velocity[0], 0, Infinity);
     render.velocity_rot = m_util.clamp(velocity[1], 0, Infinity);
-    render.velocity_zoom = m_util.clamp(velocity[2], 0, 1);
+    render.velocity_zoom = m_util.clamp(velocity[2], 0, 0.99);
 }
 
 /**
@@ -1707,7 +1812,8 @@ exports.clear_hover_angle_limits = function(camobj) {
 exports.set_look_at = function(camobj, eye, target, up) {
     m_print.error_deprecated_arr("camera.set_look_at", 
             ["camera.static_set_look_at", "camera.eye_set_look_at"]);
-    up = up || m_util.AXIS_Y;
+    up = up || camobj.render.vertical_axis;
+
     m_cam.set_look_at(camobj, eye, target);
     m_cons.correct_up(camobj, up, true);
 

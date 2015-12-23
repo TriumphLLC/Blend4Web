@@ -177,14 +177,15 @@ function set_language() {
 }
 
 function prepare_canvas() {
-    var ctx_image = m_tex.get_canvas_texture_context("my_letter");
+    var obj_letter = m_scenes.get_object_by_dupli_name("letter", "letter");
+    var ctx_image = m_tex.get_canvas_ctx(obj_letter, "canvas_texture");
     if (ctx_image) {
         ctx_image.clearRect(0, 0, ctx_image.canvas.width, ctx_image.canvas.height);
         ctx_image.globalAlpha = CANVAS_BKG_ALPHA_CLIP;
         ctx_image.globalAlpha = 1.0;
         ctx_image.font = "44px congratulatory_font, 'URW Chancery L', cursive";
         ctx_image.fillStyle = "#ffffff";
-        m_tex.update_canvas_texture_context("my_letter");
+        m_tex.update_canvas_ctx(obj_letter, "canvas_texture");
     }
 }
 
@@ -301,7 +302,8 @@ function process_message(message) {
         if (text_area.value.length > MAX_INDEX_OF_LETTERS)
             text_area.value = text_area.value.substr(0, MAX_INDEX_OF_LETTERS);
     }
-    var ctx_image = m_tex.get_canvas_texture_context("my_letter");
+    var obj_letter = m_scenes.get_object_by_dupli_name("letter", "letter");
+    var ctx_image = m_tex.get_canvas_ctx(obj_letter, "canvas_texture");
     if (message)
         text_area.value = decode_message(message);
     else
@@ -369,7 +371,8 @@ function send_button_click_cb() {
     var open_button = document.getElementById("open_button");
     var close_button = document.getElementById("close_button");
     var message = text_area.value;
-    var ctx_image = m_tex.get_canvas_texture_context("my_letter");
+    var obj_letter = m_scenes.get_object_by_dupli_name("letter", "letter");
+    var ctx_image = m_tex.get_canvas_ctx(obj_letter, "canvas_texture");
     var text = prepare_text(message, ctx_image);
     print_text(text);
 
@@ -395,9 +398,11 @@ function on_resize() {
     var text_element = document.getElementById("text_element");
     text_element.style.fontSize = (0.025 * h).toString() + "px";
 
-    var html = document.getElementsByTagName("html")[0];
-    html.style.height = h.toString() + "px";
-    html.style.width = w.toString() + "px";
+    if (navigator.userAgent.indexOf("iPad") == -1) {
+        var html = document.getElementsByTagName("html")[0];
+        html.style.height = h.toString() + "px";
+        html.style.width = w.toString() + "px";
+    }
 
     var bkg_img = document.getElementById("background_image_container");
     if (bkg_img) {
@@ -471,12 +476,13 @@ function prepare_text(message, context) {
 function print_text(text) {
 
     if (text) {
-        var ctx_image = m_tex.get_canvas_texture_context("my_letter");
+        var obj_letter = m_scenes.get_object_by_dupli_name("letter", "letter");
+        var ctx_image = m_tex.get_canvas_ctx(obj_letter, "canvas_texture");
         var font = ctx_image.font.split("px");
         var font_height = parseInt(font[0]);
         for (var i = 0; i < text.length; i++)
             ctx_image.fillText(text[i], MARGIN_LEFT, Math.round(LINE_SPACING * font_height * i + MARGIN_TOP));
-        m_tex.update_canvas_texture_context("my_letter");
+        m_tex.update_canvas_ctx(obj_letter, "canvas_texture");
     }
 
 }

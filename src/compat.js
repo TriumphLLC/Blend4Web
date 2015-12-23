@@ -86,6 +86,7 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.precision = "highp";
             cfg_def.init_wa_context_hack = true;
             cfg_def.ios_depth_hack = true;
+            cfg_scs.cubemap_tex_size = 256;
 
         } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
                 && !check_user_agent("Chrome")) {
@@ -104,6 +105,11 @@ exports.set_hardware_defaults = function(gl) {
                 check_user_agent("Firefox/36"))) {
         m_print.warn("Windows/Chrome40 or Firefox33-36 detected. Applying clear procedural skydome hack.");
         cfg_def.clear_procedural_sky_hack = true;
+    }
+
+    if (check_user_agent("Mac OS X")) {
+        cfg_def.mac_os_shadow_hack = true;
+        m_print.warn("OS X detected, applying shadows hack.");
     }
 
     if (detect_mobile()) {
@@ -196,8 +202,9 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.force_low_quality_nodes = true;
         }
         if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge") &&
-                (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/))) {
-            m_print.warn("Chrome / Windows / NVIDIA GeForce 8000/9000 series detected, " +
+                (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/) 
+                || renderer.match(/NVIDIA GeForce( (G|GT|GTS|GTX))? 2../))) {
+            m_print.warn("Chrome / Windows / NVIDIA GeForce 8/9/200 series detected, " +
                          "setting max cubemap size to 256, use canvas for resizing.");
             cfg_def.max_cube_map_size = 256;
             cfg_def.resize_cubemap_canvas_hack = true;

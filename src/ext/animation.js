@@ -18,7 +18,8 @@
 "use strict";
 
 /**
- * Animation API.
+ * API methods for animation.
+ * @see https://www.blend4web.com/doc/en/animation.html
  * @module animation
  * @local AnimFinishCallback
  * @local AnimBehavior

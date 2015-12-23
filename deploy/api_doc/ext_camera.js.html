@@ -29,10 +29,12 @@
             <pre class="prettyprint source linenums"><code>"use strict";
 
 /** 
- * Camera API.
+ * API for controlling the camera within the bounds of the current camera model.
+ * Use {@link module:transform|Transform API} for low-level actions.&lt;br>
  * All functions require a valid camera object reference. Use 
  * {@link module:scenes.get_object_by_name|scenes.get_object_by_name()} or
  * {@link module:scenes.get_active_camera|scenes.get_active_camera()} to obtain it.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @module camera
  * @local DistanceLimits 
  * @local VerticalRotationLimits
@@ -234,7 +236,7 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
 
     pos = pos || m_tsr.get_trans_view(camobj.render.world_tsr);
     m_cam.set_look_at(camobj, pos, look_at);
-    m_cons.correct_up(camobj, m_util.AXIS_Y, true);
+    m_cons.correct_up(camobj, camobj.render.vertical_axis, true);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -1013,6 +1015,24 @@ exports.is_eye_camera = m_cam.is_eye_camera;
  */
 exports.is_hover_camera = m_cam.is_hover_camera;
 
+function is_hmd_camera(camobj) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("is_hmd_camera(): Wrong camera object");
+        return false;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i &lt; cameras.length; i++) {
+        var cam = cameras[i];
+
+        if (cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            return true;
+    }
+
+    return false;
+}
+
 /**
  * Set movement style (MS_*) for the camera.
  * @method module:camera.set_move_style
@@ -1156,7 +1176,7 @@ exports.set_velocities = function(camobj, velocity) {
     if (typeof velocity.rot == "number")
         render.velocity_rot = m_util.clamp(velocity.rot, 0, Infinity);
     if (typeof velocity.zoom == "number")
-        render.velocity_zoom = m_util.clamp(velocity.zoom, 0, 1);
+        render.velocity_zoom = m_util.clamp(velocity.zoom, 0, 0.99);
 }
 
 /**
@@ -1287,6 +1307,53 @@ exports.get_stereo_distance = function(camobj) {
 }
 
 /**
+ * Set the distance between eyes of the stereoscopic camera.
+ * @method module:camera.set_eye_distance
+ * @param {Object3D} camobj Camera 3D-object.
+ * @param {Number} eye_dist Distance between eyes.
+ */
+exports.set_eye_distance = function(camobj, eye_dist) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("set_eye_distance(): Wrong camera object");
+        return;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i &lt; cameras.length; i++) {
+        var cam = cameras[i];
+        if (cam.type == m_cam.TYPE_STEREO_LEFT ||
+                cam.type == m_cam.TYPE_STEREO_RIGHT ||
+                cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            m_cam.set_stereo_params(cam, cam.stereo_conv_dist, eye_dist);
+    }
+}
+/**
+ * Get the distance between eyes of the stereoscopic camera.
+ * @method module:camera.get_eye_distance
+ * @param {Object3D} camobj Camera 3D-object.
+ * @returns {Number} Distance between eyes.
+ */
+exports.get_eye_distance = function(camobj) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("get_eye_distance(): Wrong camera object");
+        return 0;
+    }
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i &lt; cameras.length; i++) {
+        var cam = cameras[i];
+        if (cam.type == m_cam.TYPE_STEREO_LEFT ||
+                cam.type == m_cam.TYPE_STEREO_RIGHT ||
+                cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
+            return cam.stereo_eye_dist;
+    }
+
+    return 0;
+}
+
+/**
  * Translate the view plane of the camera.
  * Modify the projection matrix of the camera so it appears to be moving in up-down
  * and left-right directions. This method can be used to imitate character
@@ -1309,7 +1376,7 @@ exports.translate_view = function(camobj, x, y, angle) {
 
         // NOTE: camera projection matrix already has been updated in 
         // set_view method of camera
-        if (!cam.reflection_plane) 
+        if (!cam.reflection_plane)
             m_cam.set_projection(cam, cam.aspect);
 
         var vec3_tmp = _vec3_tmp;
@@ -1367,6 +1434,44 @@ exports.set_fov = function(camobj, fov) {
 }
 
 /**
+ * Set the angles of the camera's field of view (for head-mounted display only).
+ * @method module:camera.set_hmd_fov
+ * @param {Object3D} camobj Camera 3D-object.
+ * @param {Vec4} hmd_left_fov New left camera field of view.
+ * @param {Vec4} hmd_right_fov New right camera field of view.
+ */
+exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
+    if (!m_obj_util.is_camera(camobj) &amp;&amp; !is_hmd_camera(camobj)) {
+        m_print.error("set_hmd_fov(): Wrong camera object");
+        return;
+    }
+
+    if (!hmd_left_fov || !hmd_right_fov)
+        return;
+
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i &lt; cameras.length; i++) {
+        var cam = cameras[i];
+
+        if (cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT) {
+
+            if (cam.type == m_cam.TYPE_HMD_LEFT)
+                m_vec4.copy(hmd_left_fov, cam.hmd_fov);
+
+            if (cam.type == m_cam.TYPE_HMD_RIGHT)
+                m_vec4.copy(hmd_right_fov, cam.hmd_fov);
+
+            if (!cam.reflection_plane)
+                m_cam.set_projection(cam);
+
+            m_cam.calc_view_proj_inverse(cam);
+            m_cam.calc_sky_vp_inverse(cam);
+        }
+    }
+}
+
+/**
  * Correct the UP vector of the camera.
  * @method module:camera.correct_up
  * @param {Object3D} camobj Camera 3D-object.
@@ -1378,7 +1483,7 @@ exports.correct_up = function(camobj, y_axis) {
         return;
     }
 
-    y_axis = y_axis || m_util.AXIS_Y;
+    y_axis = y_axis || camobj.render.vertical_axis;
     m_cons.correct_up(camobj, y_axis);
 
     m_trans.update_transform(camobj);
@@ -1617,7 +1722,7 @@ exports.set_velocity_params = function(camobj, velocity) {
     var render = camobj.render;
     render.velocity_trans = m_util.clamp(velocity[0], 0, Infinity);
     render.velocity_rot = m_util.clamp(velocity[1], 0, Infinity);
-    render.velocity_zoom = m_util.clamp(velocity[2], 0, 1);
+    render.velocity_zoom = m_util.clamp(velocity[2], 0, 0.99);
 }
 
 /**
@@ -1718,7 +1823,8 @@ exports.clear_hover_angle_limits = function(camobj) {
 exports.set_look_at = function(camobj, eye, target, up) {
     m_print.error_deprecated_arr("camera.set_look_at", 
             ["camera.static_set_look_at", "camera.eye_set_look_at"]);
-    up = up || m_util.AXIS_Y;
+    up = up || camobj.render.vertical_axis;
+
     m_cam.set_look_at(camobj, eye, target);
     m_cons.correct_up(camobj, up, true);
 
@@ -2269,13 +2375,13 @@ exports.get_horizontal_limits = function(camobj, dest) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Nov 26 2015 19:06:30 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Dec 22 2015 20:09:38 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

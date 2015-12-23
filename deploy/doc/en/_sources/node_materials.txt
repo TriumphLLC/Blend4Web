@@ -2,6 +2,40 @@
 Node Materials
 **************
 
+
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* Node Materials
+
+  * Standard Nodes
+
+  * Engine Specific Nodes
+
+    * Linear to SRGB and SRGB to Linear (Deprecated)
+
+    * Replace (B4W_REPLACE)
+
+    * Clamp (B4W_CLAMP)
+
+    * Time (B4W_TIME)
+
+    * Vector View (B4W_VECTOR_VIEW)
+
+    * Parallax (B4W_PARALLAX)
+
+    * Translucency (B4W_TRANSLUCENCY)
+
+    * Refraction (B4W_REFRACTION)
+
+    * Levels of Quality (B4W_LEVELS_OF_QUALITY)
+
+    * Smoothstep (B4W_SMOOTHSTEP)
+
+    * Glow Output (B4W_GLOW_OUTPUT)
+
+    * Reflect (B4W_REFLECT)
+
 Shader nodes extend significantly the potential of Blender's standard
 materials by means of presenting shading as a batch of basic
 transformations.
@@ -43,27 +77,29 @@ Engine Specific Nodes
 
 Engine-specific nodes extend functionality of the standard nodes to
 support extra features. These nodes are created as node groups ("Node
-groups" or "Node tree") with specially determined names and input
+Groups" or "Node Tree") with specially determined names and input
 formats. For convenience, all special nodes are added to a blend file
 when it is opened.
 
 [image]
 
 
-B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR
------------------------------------------
+Linear to SRGB and SRGB to Linear (Deprecated)
+----------------------------------------------
 
-Color correction from linear color space to sRGB space and back. This
-functionality is declared deprecated since version 15.04 - use
-Blender's native Gamma node instead.
+Converts colors from linear space to sRGB or vice versa. This function
+has been declared deprecated sicne the version 15.04. In the newer
+versions, the native "Gamma" node with the value of 2.200 should be
+used to convert color from sRGB to linear space, and the same node
+with the value of 0.455 to convert color from linear space to sRGB.
 
 [image]
 
 See also: Gamma in Node Materials
 
 
-B4W_REPLACE
------------
+Replace (B4W_REPLACE)
+---------------------
 
 The node replaces the inputs depending on the working environment
 (i.e. Blender viewport or Blend4Web). When working in Blender the
@@ -75,23 +111,55 @@ node structure in the viewport and another - in the engine.
 
 [image]
 
-
-
 As a rule it is used for normal mapping. Blender's node materials do
 not support a tangent space of coordinates. Therefore the only
 possible method to display normal maps in the viewport correctly is
-their usage inside the Material nodes.
+their usage inside the "Material" nodes.
 
 
-B4W_CLAMP
----------
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Color1*
+   Node setup that will be visible in the Blender viewport.
+
+*Color2*
+   Node setup that will be visible in the Blend4Web engine.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Color*
+   Should be connected to the "Color" socket of the "Material" or
+   "Extended Material" node.
+
+
+Clamp (B4W_CLAMP)
+-----------------
 
 The node limits the output value. As a result all the output vector
 components take values from 0 to 1 inclusive.
 
+[image]
 
-B4W_TIME
---------
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Image*
+   Incident vector.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Image*
+   Clamped vector.
+
+
+Time (B4W_TIME)
+---------------
 
 Provides the timeline counting from the engine start (in seconds). Can
 be used for animating any parameters in node materials, such as UV
@@ -100,12 +168,23 @@ coordinates, mixing factors, transparency etc.
 [image]
 
 
+Input parameters
+~~~~~~~~~~~~~~~~
+
+None.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Value*
+   Time (in seconds) elapsed from the engine startup.
 
 See also: Animation of Value and RGB Nodes
 
 
-B4W_VECTOR_VIEW
----------------
+Vector View (B4W_VECTOR_VIEW)
+-----------------------------
 
 The node transforms a vector into the camera's space of coordinates.
 Transformation is necessary because the engine defines most of vectors
@@ -114,11 +193,29 @@ transformed by this node it should be used only for effects and not
 for connecting to the output of the "Material" or "Extended Material"
 nodes.
 
+[image]
 
-B4W_PARALLAX
-------------
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Vector*
+   Vector coordinates in the world-space.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Vector*
+   Vector coordinates in the camera-space.
+
+
+Parallax (B4W_PARALLAX)
+-----------------------
 
 The node implements the texture coordinates offset using a height map.
+
+[image]
 
 
 Input parameters
@@ -149,14 +246,16 @@ Output parameters
    texture nodes.
 
 
-B4W_TRANSLUCENCY
-----------------
+Translucency (B4W_TRANSLUCENCY)
+-------------------------------
 
 The node implements a translucency effect (with respect to light
 sources only) for thin objects such as cloth, leaves, paper etc. The
 effect consists of two parts: 1) brightening of the object side which
 is opposite to the light source and 2) appearance of a light spot
 right in the light source place.
+
+[image]
 
 
 Input parameters
@@ -211,10 +310,13 @@ Note: This node can work incorrectly, if the mesh normals were
   edited.
 
 
-B4W_REFRACTION
---------------
+Refraction (B4W_REFRACTION)
+---------------------------
 
-Get the refracted image behind object.
+Applies refraction effect to an object. This effect works only in the
+Blend4Web engine and not in the Blender's viewport.
+
+[image]
 
 
 Input parameters
@@ -242,10 +344,14 @@ Note: It's neccessary to set the "Refractions" option from the
 See also: Transparency
 
 
-B4W_LEVELS_OF_QUALITY
----------------------
+Levels of Quality (B4W_LEVELS_OF_QUALITY)
+-----------------------------------------
 
-This node sets output color value depending on the quality profile.
+Sets up the output color based on the current image quality settings.
+Can be used to, for example, replace complex material with more simple
+one if the application is running on a mobile device.
+
+[image]
 
 See also: Quality Profiles
 
@@ -261,6 +367,12 @@ Input parameters
    Node links this parameter to "Color" parameter in case of low
    quality usage.
 
+*Fac*
+   This value specifies what quality setting ("HIGH" or "LOW") will be
+   visible in the Blender viewport. Can change from 0 to 1. If the
+   value is lower than 0.5, the "HIGH" setting will be visible, if it
+   is 0.5 or higher, the "LOW" setting will be visible.
+
 
 Output parameters
 ~~~~~~~~~~~~~~~~~
@@ -268,15 +380,14 @@ Output parameters
 *Color*
    Output color.
 
-Note: "HIGH" input parameter is used for rendering in the Blender
-  viewport.
 
+Smoothstep (B4W_SMOOTHSTEP)
+---------------------------
 
-B4W_SMOOTHSTEP
---------------
-
-Perform smooth interpolation between two input values based on first
+Performs smooth interpolation between two input values based on first
 value.
+
+[image]
 
 
 Input parameters
@@ -298,12 +409,12 @@ Output parameters
 *Value*
    Interpolated value.
 
-Note: For the correct interpolation input ''Value'' had to be
-  between ''Edge0'' and ''Edge1''.
+Note: For the correct interpolation input "Value" had to be between
+  "Edge0" and "Edge1".
 
 
-B4W_GLOW_OUTPUT
----------------
+Glow Output (B4W_GLOW_OUTPUT)
+-----------------------------
 
 Applies the Glow effect to the node material. Besides the
 *B4W_GLOW_OUTPUT* node, the node material should have the *Output*.
@@ -324,3 +435,33 @@ Input parameters
 
    * *Factor* \in (0, 1] - there is a glow, colored with *Glow
      Color*.
+
+
+Reflect (B4W_REFLECT)
+---------------------
+
+Calculates the reflection direction for an incident vector and a
+normal vector. Can be used to apply a cubemap to an object.
+
+[image]
+
+
+Input parameters
+~~~~~~~~~~~~~~~~
+
+*Vector*
+   Incident vector. Should be connected to the "View" socket of the
+   "Geometry" node.
+
+*Vector*
+   Normal vector. Should be normalized in order to achieve the desired
+   result. Should be connected to the "Normal" socket of the
+   *Geometry* node.
+
+
+Output parameters
+~~~~~~~~~~~~~~~~~
+
+*Vector*
+   Reflected vector. Should be connected to the "Vector" socket of the
+   "Texture" node that contains the cubemap.

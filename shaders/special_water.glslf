@@ -496,7 +496,7 @@ void main(void) {
     vec3 color;
     vec3 specular;
     nodes_lighting(vec3(0.0), vec3(0.0), D, S, v_pos_world, normal, eye_dir, 
-            spec_params, u_diffuse_params, 1.0, 0.0, vec4(0.0), color, specular);
+            spec_params, u_diffuse_params, vec4(1.0), 0.0, vec4(0.0), color, specular);
 
 #if DYNAMIC
     // fake subsurface scattering (SSS)

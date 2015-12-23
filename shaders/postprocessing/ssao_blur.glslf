@@ -34,7 +34,7 @@ void main() {
    for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         vec2 offset = (hlim + vec2(float(i), float(j))) * u_texel_size;
-        float svalue = texture2D(u_ssao_mask, v_texcoord + offset).g;
+        float svalue = texture2D(u_ssao_mask, v_texcoord + offset).a;
 
 #if SSAO_BLUR_DEPTH
         float sdeph = read_depth(v_texcoord + offset);
@@ -48,8 +48,8 @@ void main() {
    }
 
 #if SSAO_BLUR_DEPTH
-   gl_FragColor = vec4(texture2D(u_ssao_mask, v_texcoord).r, sum / weight, 0.0, 1.0);
+   gl_FragColor = vec4(texture2D(u_ssao_mask, v_texcoord).rgb, sum / weight);
 #else
-   gl_FragColor = vec4(texture2D(u_ssao_mask, v_texcoord).r, sum / 16.0, 0.0, 1.0);
+   gl_FragColor = vec4(texture2D(u_ssao_mask, v_texcoord).rgb, sum / 16.0);
 #endif
 }
