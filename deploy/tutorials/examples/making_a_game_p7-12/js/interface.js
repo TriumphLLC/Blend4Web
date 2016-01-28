@@ -8,7 +8,7 @@ b4w.register("interface", function(exports, require) {
 var m_char = require("character");
 var m_conf = require("game_config");
 var m_ctl   = require("controls");
-var m_main  = require("main");
+var m_time  = require("time");
 
 exports.init_interface = function() {
     m_ctl.create_timer_sensor(1)
@@ -217,10 +217,10 @@ function show_elem(elem, period) {
     elem.style.opacity = 0;
     elem.style.visibility = "visible";
 
-    var finish_time = m_main.global_timeline() + period;
+    var finish_time = m_time.get_timeline() + period;
 
     function show_elem_cb(obj, id, pulse) {
-        var time_left = finish_time - m_main.global_timeline();
+        var time_left = finish_time - m_time.get_timeline();
         if (time_left < 0) {
             m_ctl.remove_sensor_manifold(null, "SHOW_"+ elem.id);
             return;
@@ -241,10 +241,10 @@ function hide_elem(elem, period) {
     period = period || 0;
 
     var start_opacity = elem.style.opacity;
-    var finish_time = m_main.global_timeline() + period;
+    var finish_time = m_time.get_timeline() + period;
 
     function show_elem_cb(obj, id, pulse) {
-        var time_left = finish_time - m_main.global_timeline();
+        var time_left = finish_time - m_time.get_timeline();
         if (time_left < 0) {
             elem.style.visibility = "hidden";
             m_ctl.remove_sensor_manifold(null, "HIDE_"+ elem.id);

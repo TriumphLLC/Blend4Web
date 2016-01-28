@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import mathutils
 import blend4web
@@ -58,10 +42,4 @@ def look_at_location(camobj, cursor_location):
     camobj.rotation_mode = "QUATERNION"
     camobj.rotation_quaternion = target_quaternion
     camobj.rotation_mode = old_mode
-
-def register(): 
-    bpy.utils.register_class(B4W_Camera_Target_Copier)
-
-def unregister():
-    bpy.utils.unregister_class(B4W_Camera_Target_Copier)
 

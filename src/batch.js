@@ -199,13 +199,17 @@ function init_batch(type) {
         refractive: false,
 
         // emitter particles data
-        particles_data: null
+        particles_data: null,
+
+        // line params
+        line_width: 0
     }
 
     // setting default values
     batch.diffuse_color[3] = 1;
     batch.color_mask = true;
     batch.depth_mask = true;
+    batch.line_width = 1.0;
 
     return batch;
 }
@@ -427,6 +431,7 @@ function update_batch_subtype(batch) {
     switch (batch.type) {
     case "MAIN":
     case "PARTICLES":
+    case "LINE":
         if (batch.blend) {
             if (batch.xray)
                 batch.subtype = "XRAY";
@@ -831,7 +836,7 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
                     batch.halo_particles = true;
 
                 update_batch_material(batch, pmaterial);
-                update_batch_particles_emitter(batch, psys);
+                update_batch_particles_emitter(batch, psys, bpy_obj);
 
                 // NOTE: dynamic_geometry for dynamic particles on EMITTER psys
                 batch.dynamic_geometry = true;
@@ -1273,7 +1278,7 @@ function update_batch_material_main(batch, material, update_tex_color) {
         append_texture(batch, tex);
         break;
     default:
-        apply_shader(batch, "main_stack.glslv", "main_stack.glslf");
+        apply_shader(batch, "main.glslv", "main_stack.glslf");
 
         if (!material["use_shadeless"]) {
             var data = {
@@ -1974,6 +1979,15 @@ function update_batch_material_nodes(batch, material, shader_type) {
         case "TEXTURE_ENVIRONMENT":
             var name = attr.data.name;
             var tex = attr.data.value;
+
+            // unsupported texture type, render wasn't created
+            if (!tex._render) {
+                m_print.warn("Wrong texture \"" + attr.data.value["name"] +
+                        "\" in material \"" + material["name"] + "\".")
+                update_batch_material_debug(batch, material);
+                return;
+            }
+
             if (tex._render.allow_node_dds !== false)
                 if (attr.type != "TEXTURE_ENVIRONMENT")
                     tex._render.allow_node_dds = true;
@@ -2026,7 +2040,7 @@ function update_batch_material_debug(batch, material) {
         apply_shader(batch, "color_id.glslv", "color_id.glslf");
         break;
     default:
-        apply_shader(batch, "main_stack.glslv", "main_stack.glslf");
+        apply_shader(batch, "main.glslv", "main_stack.glslf");
         break;
     }
 
@@ -2695,8 +2709,6 @@ function update_batch_particle_systems(batch, psystems) {
 }
 
 exports.assign_shadow_receive_dirs = function(batch, shadow_params, subs_cast) {
-    if (subs_cast && subs_cast.camera.type == m_cam.TYPE_PERSP)
-        set_batch_directive(batch, "PERSPECTIVE_SHADOW_CAST", 1);
     set_batch_directive(batch, "CSM_SECTION0", 0);
     set_batch_directive(batch, "CSM_SECTION1", 0);
     set_batch_directive(batch, "CSM_SECTION2", 0);
@@ -2821,7 +2833,7 @@ function is_triangle_batch(batch) {
 /**
  * Update batch from EMITTER particle system/settings
  */
-function update_batch_particles_emitter(batch, psystem) {
+function update_batch_particles_emitter(batch, psystem, bpy_obj) {
     var pset = psystem["settings"];
     switch(pset["b4w_billboard_align"]) {
     case "VIEW":
@@ -2842,8 +2854,17 @@ function update_batch_particles_emitter(batch, psystem) {
     }
     // NOTE: disable standard billboarding
     set_batch_directive(batch, "BILLBOARD", 0);
-    var enable_softness = pset["b4w_enable_soft_particles"] && 
-                          pset["b4w_particles_softness"] > 0 &&
+
+    var obj_soft_particles = pset["b4w_enable_soft_particles"] &&
+            m_obj_util.check_obj_soft_particles_accessibility(bpy_obj, pset);
+
+    if (pset["b4w_enable_soft_particles"] && !obj_soft_particles)
+        m_print.warn("Emitter object \"" + bpy_obj["name"] + "\" has a particle"
+                + " settings \"" + pset["name"] + "\", which uses material with "
+                + "incorrect type of alpha.");
+
+    var enable_softness = pset["b4w_particles_softness"] > 0 &&
+                          obj_soft_particles &&
                           cfg_def.depth_tex_available;
     set_batch_directive(batch, "SOFT_PARTICLES", enable_softness? 1: 0);
     set_batch_directive(batch, "SOFT_STRENGTH",
@@ -3880,7 +3901,7 @@ exports.create_shadeless_batch = function(submesh, color, alpha) {
 
     update_batch_geometry(batch, submesh);
 
-    apply_shader(batch, "main_stack.glslv", "main_stack.glslf");
+    apply_shader(batch, "main.glslv", "main_stack.glslf");
     set_batch_directive(batch, "SHADELESS", 1);
     update_shader(batch);
 
@@ -3903,6 +3924,28 @@ function update_shader(batch) {
 
     // also do that in append_texture()
     m_render.assign_texture_uniforms(batch);
+}
+
+exports.generate_line_batches = function(scene, bpy_line_objects) {
+    for (var i = 0; i < bpy_line_objects.length; i++) {
+        var line_obj = bpy_line_objects[i]._object;
+
+        var batch = init_batch("LINE");
+        apply_shader(batch, "line.glslv", "line.glslf");
+        // slightly decreases performance but allows alpha diffuse component
+        batch.blend = true;
+
+        var submesh = m_primitives.generate_line();
+        update_batch_geometry(batch, submesh);
+        update_batch_subtype(batch);
+
+        m_obj_util.append_scene_data(line_obj, scene);
+        var sc_data = m_obj_util.get_scene_data(line_obj, scene);
+
+        sc_data.batches.push(batch);
+
+        update_shader(batch);
+    }
 }
 
 /**
@@ -4263,6 +4306,9 @@ exports.create_stereo_batch = function(stereo_type) {
             "postprocessing/stereo.glslf");
 
     set_batch_directive(batch, "ANAGLYPH", stereo_type === "ANAGLYPH" ? 1 : 0);
+    set_batch_directive(batch, "DISABLE_DISTORTION_CORRECTION",
+            cfg_def.use_browser_distortion_cor ? 1 : 0);
+
     update_shader(batch);
 
     return batch;
@@ -4423,6 +4469,18 @@ exports.update_anchor_visibility_batch = function(batch, positions) {
     }
 
     batch.positions = positions;
+}
+
+exports.get_first_batch = function(obj) {
+    if (!obj.scenes_data.length)
+       return null; 
+    
+    var scene_data = obj.scenes_data[0];
+
+    if (scene_data.batches.length)
+        return scene_data.batches[0];
+    else
+        return null;
 }
 
 /**

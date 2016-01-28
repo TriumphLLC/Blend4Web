@@ -41,11 +41,14 @@ void main(void) {
     iters = max(iters, STEPS_PER_PASS);
     
     vec2 uv = v_texcoord;
-    float intens = 0.0;
 
-    for (float i = 0.0; i < STEPS_PER_PASS; i += 1.0 ) {
+    // NOTE: Mac doesn't support iterations with float variables
+    float intens = 0.0;
+    const int steps_per_pass = int(STEPS_PER_PASS);
+    int iters_int = int(iters + 0.5);
+    for (int i = 0; i < steps_per_pass; i += 1) {
         
-        if (i <= iters) {
+        if (i <= iters_int) {
             //On the first iteration Depth map is being unpacked and blurred.
             //On further iterations only performs blur of the given texture.
 #if DEPTH_RGBA

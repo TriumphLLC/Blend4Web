@@ -890,7 +890,7 @@ function correct_up(camobj, up_axis, strict) {
 
     m_quat.multiply(rotation, quat, quat);
 
-    // strictly align camera with the given UP vector
+    // strictly align camera with the given UP vector direction
     if (strict) {
         var mz_cam_world = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp);
         if (m_vec3.dot(up_axis, mz_cam_world) < 0)

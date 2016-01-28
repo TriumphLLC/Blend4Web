@@ -241,15 +241,7 @@
 
         
             
-<li> <a href="#.cyclic">cyclic<span class="signature">(obj, cyclic_flag, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
 <li> <a href="#.frame_to_sec">frame_to_sec<span class="signature">(frame)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
-
-        
-            
-<li> <a href="#.get_actions">get_actions<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></a></li>
 
         
             
@@ -277,15 +269,7 @@
 
         
             
-<li> <a href="#.get_current_action">get_current_action<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
 <li> <a href="#.get_current_anim_name">get_current_anim_name<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {String}</span></a></li>
-
-        
-            
-<li> <a href="#.get_current_frame_float">get_current_frame_float<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -294,10 +278,6 @@
         
             
 <li> <a href="#.get_frame">get_frame<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
-
-        
-            
-<li> <a href="#.get_frame_range">get_frame_range<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Array}</span></a></li>
 
         
             
@@ -314,10 +294,6 @@
         
             
 <li> <a href="#.is_animated">is_animated<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
-<li> <a href="#.is_cyclic">is_cyclic<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -338,10 +314,6 @@
         
             
 <li> <a href="#.set_behavior">set_behavior<span class="signature">(obj, behavior, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.set_current_frame_float">set_current_frame_float<span class="signature">(obj, cff, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -366,10 +338,6 @@
         
             
 <li> <a href="#.stop">stop<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.update_object_animation">update_object_animation<span class="signature">(obj, elapsed, slot_num<span class="signature-attributes">opt</span>, force_update<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -2078,7 +2046,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line229">line 229</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -2213,7 +2181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line286">line 286</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -2482,7 +2450,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line581">line 581</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line480">line 480</a>
     </li></ul></dd>
     
 
@@ -2662,234 +2630,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line697">line 697</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".cyclic">cyclic<span class="signature">(obj, cyclic_flag, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Whether the object's animation playback should be looped or not.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cyclic_flag</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.set_behavior">animation.set_behavior</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line522">line 522</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line576">line 576</a>
     </li></ul></dd>
     
 
@@ -3046,117 +2787,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line616">line 616</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_actions">get_actions<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Return the names of all available animations.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Animation names.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;String></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.get_anim_names">animation.get_anim_names</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line173">line 173</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line495">line 495</a>
     </li></ul></dd>
     
 
@@ -3368,7 +2999,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line502">line 502</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line430">line 430</a>
     </li></ul></dd>
     
 
@@ -3525,7 +3156,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line201">line 201</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -3737,7 +3368,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line482">line 482</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -3949,7 +3580,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line683">line 683</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line562">line 562</a>
     </li></ul></dd>
     
 
@@ -4161,7 +3792,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line566">line 566</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
@@ -4372,199 +4003,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line626">line 626</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_current_action">get_current_action<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Return the name of the applied animation.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.get_current_anim_name">animation.get_current_anim_name</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line189">line 189</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line505">line 505</a>
     </li></ul></dd>
     
 
@@ -4776,199 +4215,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line214">line 214</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_current_frame_float">get_current_frame_float<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the current frame.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.get_frame">animation.get_frame</a> instead</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line353">line 353</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -5127,7 +4374,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line657">line 657</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -5339,221 +4586,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line411">line 411</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_frame_range">get_frame_range<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Array}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get animation frame range.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Frame range pair or null for incorrect object
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.get_anim_start_frame">animation.get_anim_start_frame</a> and <a href="module-animation.html#.get_anim_length">animation.get_anim_length</a> instead</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line461">line 461</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -5710,7 +4743,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line708">line 708</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line587">line 587</a>
     </li></ul></dd>
     
 
@@ -5890,7 +4923,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line669">line 669</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line548">line 548</a>
     </li></ul></dd>
     
 
@@ -6102,7 +5135,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line442">line 442</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line391">line 391</a>
     </li></ul></dd>
     
 
@@ -6260,198 +5293,6 @@ In order to disable the smoothing, specify the zero periods.
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line163">line 163</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".is_cyclic">is_cyclic<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Check if the object's animation is looped.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.get_behavior">animation.get_behavior</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line535">line 535</a>
     </li></ul></dd>
     
 
@@ -6663,7 +5504,7 @@ In order to disable the smoothing, specify the zero periods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line327">line 327</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -6892,7 +5733,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line295">line 295</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -7027,7 +5868,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line263">line 263</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line235">line 235</a>
     </li></ul></dd>
     
 
@@ -7217,7 +6058,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line272">line 272</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -7442,234 +6283,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line551">line 551</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_current_frame_float">set_current_frame_float<span class="signature">(obj, cff, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the current frame.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cff</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Current frame</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.set_frame">animation.set_frame</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line341">line 341</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line450">line 450</a>
     </li></ul></dd>
     
 
@@ -7859,7 +6473,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line380">line 380</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -8084,7 +6698,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line365">line 365</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -8274,7 +6888,7 @@ or the object must have the default animation (i.e. assigned in Blender).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line392">line 392</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -8501,7 +7115,7 @@ the current to the target value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line718">line 718</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line597">line 597</a>
     </li></ul></dd>
     
 
@@ -8726,7 +7340,7 @@ the current to the target value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line426">line 426</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line375">line 375</a>
     </li></ul></dd>
     
 
@@ -8916,273 +7530,7 @@ the current to the target value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line315">line 315</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".update_object_animation">update_object_animation<span class="signature">(obj, elapsed, slot_num<span class="signature-attributes">opt</span>, force_update<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Update object animation (set the pose)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>elapsed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Animation delay</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-animation.html#~AnimSlot">AnimSlot</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    SLOT_0
-                
-                </td>
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>force_update</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Update animation even stopped one.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-animation.html#.set_frame">animation.set_frame</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line596">line 596</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -9621,7 +7969,7 @@ the current to the target value.</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Dec 22 2015 20:09:38 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 28 2016 11:21:43 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

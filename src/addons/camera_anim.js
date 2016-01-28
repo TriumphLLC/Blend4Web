@@ -327,7 +327,7 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * while the next call will disable auto-rotation.
  * @param {Number} auto_rotate_ratio Rotation speed multiplier
  * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotation is disabled
- * @param {Boolean} Disable camera auto-rotation after mouse scrolling.
+ * @param {Boolean} [disable_on_mouse_wheel] Disable camera auto-rotation after mouse scrolling.
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_wheel) {
 
@@ -363,7 +363,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_whe
                 disable_cb();
             else if ((move_style == m_cam.MS_TARGET_CONTROLS 
                     || move_style == m_cam.MS_EYE_CONTROLS) 
-                    && m_cam.has_horizontal_limits(obj)) {
+                    && m_cam.has_horizontal_rot_limits(obj)) {
 
                 var curr_limits = (move_style == m_cam.MS_EYE_CONTROLS) 
                         ? m_cam.eye_get_horizontal_limits(obj, _limits_tmp)

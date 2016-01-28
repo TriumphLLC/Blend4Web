@@ -70,6 +70,9 @@ var _vec2_tmp2 = new Float32Array(2);
 var _touch_zoom_curr_dist = 0;
 var _touch_zoom_last_dist = 0;
 
+// for ST_TOUCH_ROTATE sensor
+var _touch_start_rot = 0;
+
 // flag and counter to maintain object cache and manifolds consistency
 var _manifolds_updated = false;
 var _update_counter = 0;
@@ -93,6 +96,7 @@ var ST_MOUSE_MOVE        = 40;
 var ST_MOUSE_CLICK       = 50;
 var ST_TOUCH_MOVE        = 60;
 var ST_TOUCH_ZOOM        = 70;
+var ST_TOUCH_ROTATE      = 75;
 var ST_COLLISION         = 80;
 var ST_COLLISION_IMPULSE = 90;
 var ST_RAY               = 100;
@@ -104,6 +108,7 @@ var ST_TIMELINE          = 150;
 var ST_SELECTION         = 160;
 var ST_GYRO_DELTA        = 170;
 var ST_GYRO_ANGLES       = 180;
+var ST_CALLBACK          = 190;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -113,9 +118,10 @@ exports.CT_SHOT       = 40;
 exports.CT_LEVEL      = 50;
 exports.CT_CHANGE     = 60;
 
-exports.PL_SINGLE_TOUCH_MOVE    = 0;
-exports.PL_MULTITOUCH_MOVE_ZOOM = 1;
-exports.PL_MULTITOUCH_MOVE_PAN  = 2;
+exports.PL_SINGLE_TOUCH_MOVE      = 0;
+exports.PL_MULTITOUCH_MOVE_ZOOM   = 1;
+exports.PL_MULTITOUCH_MOVE_PAN    = 2;
+exports.PL_MULTITOUCH_MOVE_ROTATE = 3;
 
 var SENSOR_SMOOTH_PERIOD = 0.3;
 
@@ -251,7 +257,10 @@ function init_sensor(type) {
         gyro_alpha_new : 0.0,
         gyro_gamma_last : 0.0,
         gyro_beta_last : 0.0,
-        gyro_alpha_last : 0.0
+        gyro_alpha_last : 0.0,
+
+        // for ST_CALLBACK
+        callback: function() {}
     };
 
     return sensor;
@@ -387,6 +396,12 @@ exports.create_touch_zoom_sensor = function() {
     return sensor;
 }
 
+exports.create_touch_rotate_sensor = function(axis) {
+    var sensor = init_sensor(ST_TOUCH_ROTATE);
+    sensor.payload = 0;
+    return sensor;
+}
+
 exports.create_motion_sensor = function(obj, threshold, rotation_threshold) {
 
     if (!obj) {
@@ -501,6 +516,13 @@ exports.create_selection_sensor = function(obj, auto_release) {
     var sensor = init_sensor(ST_SELECTION);
     sensor.source_object = obj;
     sensor.auto_release = auto_release;
+    return sensor;
+}
+
+exports.create_callback_sensor = function(callback, value) {
+    var sensor = init_sensor(ST_CALLBACK);
+    sensor.callback = callback;
+    sensor_set_value(sensor, value);
     return sensor;
 }
 
@@ -662,6 +684,10 @@ function update_sensor(sensor, timeline, elapsed) {
         sensor.payload[2] = Math.PI * sensor.gyro_alpha_new / 180;
         break;
 
+    case ST_CALLBACK:
+        sensor_set_value(sensor, sensor.callback());
+        break;
+
     default:
         break;
     }
@@ -780,6 +806,9 @@ function discharge_sensors(sensors) {
             sensor_set_value(sensor, 0);
             break;
         case ST_TOUCH_ZOOM:
+            sensor_set_value(sensor, 0);
+            break;
+        case ST_TOUCH_ROTATE:
             sensor_set_value(sensor, 0);
             break;
         case ST_TIMER:
@@ -1290,6 +1319,8 @@ function touch_start_cb(e) {
         _touches_last_x[1] = touches[1].clientX;
         _touches_last_y[0] = touches[0].clientY;
         _touches_last_y[1] = touches[1].clientY;
+
+        _touch_start_rot = touch_rotation(touches);
     }
 
     // reset coords from last touch session
@@ -1356,7 +1387,7 @@ function touch_move_cb(e) {
             }
         }
 
-    } else if (touches.length > 1) { // zooming
+    } else if (touches.length > 1) {
         _touches_curr_x[0] = touches[0].clientX;
         _touches_curr_x[1] = touches[1].clientX;
         _touches_curr_y[0] = touches[0].clientY;
@@ -1377,19 +1408,18 @@ function touch_move_cb(e) {
         last_center[1] = (_touches_last_y[0] + _touches_last_y[1]) / 2;
         var delta_centers = touch_center_dist(cur_center, last_center);
 
+        // rotation
+        var delta_rotation = touch_rotation(touches);
+
         for (var i = 0; i < _sensors_cache.length; i++) {
             var sensor = _sensors_cache[i];
 
-            if (sensor.type === ST_TOUCH_ZOOM 
-                    && Math.abs(delta_centers) < Math.abs(delta_dist)) {
-                // zoom
+            switch (sensor.type) {
+            case ST_TOUCH_ZOOM:
                 sensor.payload = exports.PL_MULTITOUCH_MOVE_ZOOM;
                 sensor_set_value(sensor, delta_dist);
-            }
-                
-            if (sensor.type === ST_TOUCH_MOVE
-                    && Math.abs(delta_centers) > Math.abs(delta_dist)) {   
-                // panning
+                break;
+            case ST_TOUCH_MOVE:
                 sensor.payload = exports.PL_MULTITOUCH_MOVE_PAN;
                 switch(sensor.axis) {
                 case "X":
@@ -1404,6 +1434,11 @@ function touch_move_cb(e) {
                     sensor_set_value(sensor, delta_centers);
                     break;
                 }
+                break;
+            case ST_TOUCH_ROTATE:
+                sensor.payload = exports.PL_MULTITOUCH_MOVE_ROTATE;
+                sensor_set_value(sensor, delta_rotation - _touch_start_rot);
+                break;
             }
         }
     }
@@ -1459,30 +1494,29 @@ function orient_handler_cb(e) {
 }
 
 function touch_center_dist(first, second) {
-    var x1 = first[0];
-    var y1 = first[1];
-
-    var x2 = second[0];
-    var y2 = second[1];
-
-    var center_dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    return center_dist;
+    var x = first[0] - second[0],
+        y = first[1] - second[1];
+    return Math.sqrt(x*x + y*y);
 }
 
 function touch_zoom_dist(touches) {
-
     var touch1 = touches[0];
     var touch2 = touches[1];
 
-    var x1 = touch1.clientX;
-    var y1 = touch1.clientY;
+    var x = touch1.clientX - touch2.clientX,
+        y = touch1.clientY - touch2.clientY;
 
-    var x2 = touch2.clientX;
-    var y2 = touch2.clientY;
+    return Math.sqrt(x*x + y*y);
+}
 
-    var zoom_dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+function touch_rotation(touches) {
+    var touch1 = touches[0];
+    var touch2 = touches[1];
 
-    return zoom_dist;
+    var x = touch1.clientX - touch2.clientX,
+        y = touch1.clientY - touch2.clientY;
+
+    return Math.atan2(y,x);
 }
 
 exports.register_keyboard_events = function(element, prevent_default) {

@@ -94,7 +94,6 @@ var _fps_logger_elem = null;
 
 // Global flags used for re-initializing of application camera controls
 // (which should be done after switching camera type)
-var _camera_controls_is_used = false;
 var _disable_default_pivot   = false;
 var _disable_letter_controls = false;
 var _disable_zoom            = false;
@@ -120,7 +119,7 @@ var _limits_tmp = {};
 /**
  * Initialize the engine.
  * The "options" object may be extended by adding properties from the engine's
- * configuration.
+ * configuration (see {@link module:config|confg} module).
  * In that case they will be applied before engine initialization.
  * @param {Object}   [options={}] Initialization options.
  * @param {String}   [options.canvas_container_id=null] Canvas container ID.
@@ -449,7 +448,7 @@ exports.set_onkeypress = function(elem_id, callback) {
 
 function trans_hover_cam_horiz_local(camobj, dir, fact) {
     var dist = Math.max(m_cam.hover_get_distance(camobj), HOVER_SPEED_MIN);
-    
+
     var obj_quat = m_trans.get_rotation(camobj, _quat4_tmp);
     var abs_dir = m_util.quat_to_dir(obj_quat, dir, _vec3_tmp);
     abs_dir[1] = 0;
@@ -484,9 +483,7 @@ function calc_fact_from(fact_to) {
 }
 
 function trans_targ_cam_local(camobj, fact_view, elapsed) {
-    var obj_trans = m_trans.get_translation(camobj, _vec3_tmp);
-    var pivot = m_cam.target_get_pivot(camobj, _vec3_tmp2);
-    var dist = m_vec3.dist(obj_trans, pivot);
+    var dist = m_cam.target_get_distance(camobj);
     var abs_fact_view = Math.abs(fact_view);
     var fact = Math.pow(abs_fact_view * elapsed, TARGET_KEY_ZOOM_POW1
             - Math.pow(abs_fact_view * elapsed, TARGET_KEY_ZOOM_POW2));
@@ -548,12 +545,13 @@ exports.enable_camera_controls = enable_camera_controls;
 
 function enable_camera_controls(disable_default_pivot,
                                 disable_letter_controls, disable_zoom) {
-    _camera_controls_is_used = true;
+
     _disable_default_pivot = disable_default_pivot;
     _disable_letter_controls = disable_letter_controls;
     _disable_zoom = disable_zoom;
 
     var obj = m_scs.get_active_camera();
+    enable_cam_controls_resetting(obj);
 
     var use_pivot = false;
     var character = null;
@@ -876,26 +874,11 @@ function enable_camera_controls(disable_default_pivot,
                     if (use_hover) {
                         trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
                     } else {
-                        var cam_pivot = m_cam.target_get_pivot(obj, _vec3_tmp);
-                        var cam_eye = m_cam.get_translation(obj, _vec3_tmp2);
-                        var dist = m_vec3.dist(cam_pivot, cam_eye);
-                        // Prevent zoom overshooting.
-                        if (dist + zoom_mouse + zoom_touch > EPSILON_DISTANCE) {
-                            m_trans.move_local(obj, 0, zoom_mouse + zoom_touch, 0);
-
-                        } else {
-                            // In case of overshooting don't use move_local.
-                            // Translation error could appear.
-                            var dir = m_vec3.subtract(cam_eye, cam_pivot,
-                                    _vec3_tmp2);
-                            var dir_normalize = m_vec3.normalize(dir, _vec3_tmp3);
-                            m_vec3.scale(dir_normalize, EPSILON_DISTANCE,
-                                    dir_normalize)
-                            m_vec3.add(cam_pivot, dir_normalize, dir);
-                            m_trans.set_translation_v(obj, dir);
-                            dest_zoom_mouse = 0;
-                            dest_zoom_touch = 0;
-                        }
+                        var res_dist = m_cam.target_get_distance(obj)
+                            + zoom_mouse + zoom_touch;
+                        // NOTE: prevent zoom overshooting.
+                        res_dist = Math.max(res_dist, EPSILON_DISTANCE);
+                        m_cam.target_set_distance(obj, res_dist);
                     }
                 } else {
                     dest_zoom_mouse = 0;
@@ -1036,8 +1019,11 @@ function enable_camera_controls(disable_default_pivot,
             if (use_pivot) {
                 m_cam.target_rotate(obj, x_mouse + x_touch,
                         y_mouse + y_touch);
-                m_cam.move_pivot(obj, trans_x_mouse + trans_x_touch,
-                        trans_y_mouse + trans_y_touch);
+
+                var dist = m_cam.target_get_distance(obj);
+                m_cam.target_pan_pivot(obj,
+                        dist * (trans_x_mouse + trans_x_touch),
+                        dist * (trans_y_mouse + trans_y_touch));
             } else if (use_hover) {
                 if (x_mouse + x_touch) {
                     trans_hover_cam_horiz_local(obj, m_util.AXIS_X,
@@ -1079,7 +1065,29 @@ function enable_camera_controls(disable_default_pivot,
                 var dist = m_cam.get_stereo_distance(obj);
                 m_cam.set_stereo_distance(obj, 1.1 * dist);
             });
+}
 
+/**
+ * Register sensors for resetting the camera controls if the camera move style
+ * was changed.
+ */
+function enable_cam_controls_resetting(cam) {
+    var prev_ms = m_cam.get_move_style(cam);
+    var move_style_cb = function() {
+        var curr_ms = m_cam.get_move_style(cam);
+        var is_changed = curr_ms != prev_ms;
+        prev_ms = curr_ms;
+        return is_changed;
+    }
+    var cb_sensor = m_ctl.create_callback_sensor(move_style_cb);
+
+    function reset_controls_cb(cam, id, pulse) {
+        disable_camera_controls();
+        enable_camera_controls(_disable_default_pivot, _disable_letter_controls,
+                _disable_zoom);
+    }
+    m_ctl.create_sensor_manifold(cam, "CHANGE_MOVE_STYLE", m_ctl.CT_POSITIVE,
+            [cb_sensor], null, reset_controls_cb);
 }
 
 /**
@@ -1090,12 +1098,10 @@ exports.disable_camera_controls = disable_camera_controls;
 function disable_camera_controls() {
     var cam = m_scs.get_active_camera();
 
-    _camera_controls_is_used = false;
-
     var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN",
             "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT",
             "MOUSE_WHEEL", "TOUCH_ZOOM", "ZOOM_INTERPOL", "MOUSE_X", "MOUSE_Y",
-            "TOUCH_X", "TOUCH_Y", "ROT_TRANS_INTERPOL"];
+            "TOUCH_X", "TOUCH_Y", "ROT_TRANS_INTERPOL", "CHANGE_MOVE_STYLE"];
 
     for (var i = 0; i < cam_std_manifolds.length; i++)
         m_ctl.remove_sensor_manifold(cam, cam_std_manifolds[i]);
@@ -1109,19 +1115,12 @@ function disable_camera_controls() {
  * {@link module:app.enable_camera_controls|enable_camera_controls()}.
  * @method module:app.set_camera_move_style
  * @param {CameraMoveStyle} move_style New camera movement style.
+ * @deprecated use {@link module:camera.set_move_style|camera.set_move_style} instead.
  */
 exports.set_camera_move_style = function(move_style) {
-    var disable_enable = _camera_controls_is_used;
-
-    if (disable_enable)
-        disable_camera_controls();
-
-    var cam = m_scs.get_active_camera();
-    m_cam.set_move_style(cam, move_style);
-
-    if (disable_enable)
-        enable_camera_controls(_disable_default_pivot,
-                               _disable_letter_controls, _disable_zoom);
+    m_print.error_deprecated("app.set_camera_move_style", "camera.set_move_style");
+    var camera = m_scs.get_active_camera();
+    m_cam.set_move_style(camera, move_style);
 }
 
 /**
@@ -1323,10 +1322,17 @@ function request_fullscreen(elem, enabled_cb, disabled_cb, vr_display) {
             elem.webkitRequestFullScreen || elem.mozRequestFullScreen
             || elem.msRequestFullscreen;
 
+    var request_obj = null;
     if (elem.requestFullScreen == elem.webkitRequestFullScreen)
-        elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT || {"vrDisplay": vr_display});
-    else
-        elem.requestFullScreen({"vrDisplay": vr_display});
+        request_obj = Element.ALLOW_KEYBOARD_INPUT;
+
+    if (vr_display && elem.requestFullScreen != elem.mozRequestFullScreen)
+        request_obj = request_obj || {
+                "vrDisplay": vr_display,
+                "vrDistortion": m_cfg.get("use_browser_distortion_cor")
+        };
+
+    elem.requestFullScreen(request_obj);
 }
 
 exports.exit_fullscreen = exit_fullscreen;
@@ -1421,7 +1427,7 @@ function report_app_error(text_message, link_message, link, purge_elements) {
 exports.get_url_params = function(allow_param_array) {
     allow_param_array = !!allow_param_array;
 
-    var url = location.href.toString();
+    var url = decodeURIComponent(location.href.toString());
 
     if (url.indexOf("?") == -1)
         return null;

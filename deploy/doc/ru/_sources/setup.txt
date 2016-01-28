@@ -25,9 +25,9 @@
    Если аддон ранее был установлен с помощью :ref:`экспресс-установки <quick_install>`, то рекомендуется прежде его удалить.
 
 Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие клавиши :file:`Ctrl-N`).
-Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории :file:`blender_scripts`.
+Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории SDK.
 
-.. image:: src_images/setup/user_preferences_scripts_path.png
+.. image:: src_images/setup/user_preferences_sdk_path.png
    :align: center
    :width: 100%
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
         <link rel="next" title="Веб-плеер" href="web_player.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -99,22 +99,23 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -167,7 +168,7 @@
 <h2>Боковая панель<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Боковая панель содержит в себе три области: информационное табло, базовые кнопки
 управления и список выпадающих панелей, содержащий дополнительные элементы управления, разделённые по функциональному признаку.</p>
-<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="_images/default_page.jpg" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -199,6 +200,10 @@
 <dd>Двухуровневый список категорий и сцен из файла <code class="docutils literal"><span class="pre">assets.json</span></code>.</dd>
 <dt><strong>Animation</strong></dt>
 <dd>Управление анимацией. При просмотре анимированных моделей можно выбирать объект и переключать для него анимацию с помощью выпадающего меню, включать режим циклической анимации, останавливать и возобновлять анимацию, выставлять нужный кадр (при этом анимация должна быть остановлена).</dd>
+<dt><strong>NLA</strong></dt>
+<dd>Управление NLA-анимацией (если таковая присутствует в сцене). Для работы этой вкладки должна быть включена опция NLA в настройках сцены.</dd>
+<dt><strong>Shape Keys</strong></dt>
+<dd>Управление доступными ключами формы. При просмотре моделей, обладающих ключами формы, можно выбрать объект, один из ключей и степень влияния ключа на объект.</dd>
 <dt><strong>Materials</strong></dt>
 <dd>Настройка свойств материалов. Материал выбирается с помощью выпадающего меню. В настоящий момент поддерживается изменение ограниченного ряда свойств.</dd>
 <dt><strong>Lighting</strong></dt>
@@ -211,8 +216,6 @@
 <dd>Настройка параметров динамического неба, таких как цвет, параметры рассеивания солнечного света и т.д.</dd>
 <dt><strong>Sea</strong></dt>
 <dd>Настройка параметров рендеринга воды, включая переходы цвета по глубине и удаленности от берега, параметры пены, подповерхностного рассеивания, динамики волн и т.д.</dd>
-<dt><strong>Fog</strong></dt>
-<dd>Настройка параметров тумана, включая плотность и цвет.</dd>
 <dt><strong>Wind</strong></dt>
 <dd>Настройка параметров ветра, включая направление и силу.</dd>
 <dt><strong>Screen Space Amb Occlus</strong></dt>
@@ -221,17 +224,21 @@
 <dd>Настройка параметров эффекта сумеречных лучей.</dd>
 <dt><strong>Bloom</strong></dt>
 <dd>Настройка параметров эффекта засветки ярким светом.</dd>
+<dt><strong>Motion Blur</strong></dt>
+<dd>Настройка эффекта размытия изображения при движении.</dd>
+<dt><strong>Glow Materials</strong></dt>
+<dd>Настройка эффекта свечения материалов.</dd>
 <dt><strong>Depth of Field</strong></dt>
 <dd>Настройка параметров эффекта глубины резкости камеры.</dd>
 <dt><strong>Color correction</strong></dt>
 <dd>Настройка параметров цветовой коррекции, включая яркость, контрастность, экспозицию и насыщенность.</dd>
-<dt><strong>Anti-aliasing</strong></dt>
-<dd>Выбор метода сглаживания изображения (антиалиасинга).</dd>
 <dt><strong>Audio</strong></dt>
 <dd>На панели находится переключатель режима микширования. После включения на сценах со звуковыми источниками появляется интерфейс микшера.</dd>
 <dt><strong>Stereo View</strong></dt>
 <dd>На панели находится переключатель режима стерео-изображения.</dd>
-<dt><strong>Debug</strong></dt>
+<dt><strong>Gyroscope</strong></dt>
+<dd>На этой панели расположен переключатель режима использования гироскопа для мобильных устройств.</dd>
+<dt><strong>Tools &amp; Debug</strong></dt>
 <dd>На панели находится ряд инструментов отладки сцен, в частности переключатель режима просмотра сетки, переключатель режима просмотра постпроцессинговых стадий.</dd>
 </dl>
 </div>
@@ -252,7 +259,7 @@
 <dt><strong>Индикатор ошибок при загрузке сцены</strong></dt>
 <dd>Находится под счетчиком количества кадров. Выводит ошибки и предупреждения при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, зеленый - загрузка сцены прошла успешно.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/indicators.jpg"><img alt="_images/indicators.jpg" class="align-center" src="_images/indicators.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
 </div>
 </div>
 
@@ -276,7 +283,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -298,7 +305,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

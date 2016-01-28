@@ -75,6 +75,8 @@
  * <dd>Boolean, enable outlining of object.
  * <dt>gyro_use
  * <dd>Boolean, enable gyroscope.
+ * <dt>use_browser_distortion_cor
+ * <dd>Boolean, use browser distortion correction.
  * <dt>media_auto_activation
  * <dd>Boolean, activate media data context on mobile devices using popup dialog.
  * <dt>outlining_overview_mode

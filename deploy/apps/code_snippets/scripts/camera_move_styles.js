@@ -125,16 +125,14 @@ function create_button(caption) {
 }
 
 function static_camera_action() {
-    m_app.set_camera_move_style(m_cam.MS_STATIC);
-
     var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_STATIC);
     m_cam.static_set_look_at(camera, STATIC_POS, STATIC_LOOK_AT, m_util.AXIS_Y);
 }
 
 function eye_camera_action() {
-    m_app.set_camera_move_style(m_cam.MS_EYE_CONTROLS);
-
     var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_EYE_CONTROLS);
     
     // setting camera position/orientation
     m_cam.eye_set_look_at(camera, EYE_POS, EYE_LOOK_AT);
@@ -148,9 +146,8 @@ function eye_camera_action() {
 }
 
 function target_camera_action() {
-    m_app.set_camera_move_style(m_cam.MS_TARGET_CONTROLS);
-
     var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_TARGET_CONTROLS);
     
     // setting camera position/orientation
     m_cam.target_set_trans_pivot(camera, TARGET_POS, TARGET_PIVOT);
@@ -165,9 +162,8 @@ function target_camera_action() {
 }
 
 function hover_camera_action() {
-    m_app.set_camera_move_style(m_cam.MS_HOVER_CONTROLS);
-
     var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_HOVER_CONTROLS);
 
     // setting necessary parameters for the HOVER camera: the "pivot" point, 
     // the distance limits and the hover angle limits
@@ -180,8 +176,8 @@ function hover_camera_action() {
 }
 
 function reset_camera_action() {
-    m_app.set_camera_move_style(m_cam.MS_STATIC);
     var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_STATIC);
     m_trans.set_translation_v(camera, _default_pos);
     m_trans.set_rotation_v(camera, _default_rot);
 }

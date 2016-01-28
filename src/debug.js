@@ -180,6 +180,10 @@ exports.check_shader_compiling = function(shader, shader_id, shader_text) {
 
     if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
 
+        var ext_ds = cfg_def.allow_shaders_debug_ext && m_ext.get_debug_shaders();
+        if (ext_ds)
+            var shader_text = ext_ds.getTranslatedShaderSource(shader);
+
         shader_text = supply_line_numbers(shader_text);
        
         m_print.error("shader compilation failed:\n" + shader_text + "\n" + 
@@ -212,15 +216,15 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
 
     if (!_gl.getProgramParameter(program, _gl.LINK_STATUS)) {
     
-        var ext_ds = m_ext.get_debug_shaders();
+        var ext_ds = cfg_def.allow_shaders_debug_ext && m_ext.get_debug_shaders();
         if (ext_ds) {
             var vshader_text = ext_ds.getTranslatedShaderSource(vshader);
             var fshader_text = ext_ds.getTranslatedShaderSource(fshader);
         }
-    
+
         vshader_text = supply_line_numbers(vshader_text);
         fshader_text = supply_line_numbers(fshader_text);
-    
+
         m_print.error("shader linking failed:\n" + vshader_text + "\n\n\n" + 
             fshader_text + "\n" + 
             _gl.getProgramInfoLog(program) + " (" + shader_id + ")");

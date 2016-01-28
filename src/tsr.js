@@ -153,11 +153,26 @@ exports.set_quat = function(quat, dest) {
 exports.get_trans_view = function(tsr) {
     return tsr.subarray(0, 3);
 }
+exports.get_trans_value = function(tsr, dest) {
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+
+    return dest;
+}
 exports.get_scale = function(tsr) {
     return tsr[3];
 }
 exports.get_quat_view = function(tsr) {
     return tsr.subarray(4, 8);
+}
+exports.get_quat_value = function(tsr, dest) {
+    dest[0] = tsr[4];
+    dest[1] = tsr[5];
+    dest[2] = tsr[6];
+    dest[3] = tsr[7];
+
+    return dest;
 }
 
 exports.invert = function(tsr, dest) {
@@ -656,4 +671,3 @@ function tsr_quat_normalize(tsr, dest) {
 }
 
 }
-

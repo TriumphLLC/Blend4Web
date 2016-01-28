@@ -40,6 +40,8 @@ var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_PLANE_REFLECT",
         "MAIN_CUBE_REFLECT", "MAIN_GLOW", "SHADOW_CAST", "DEPTH", "OUTLINE_MASK",
         "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY", "COLOR_PICKING_XRAY"];
 
+var _vec3_tmp = new Float32Array(3);
+
 /**
  * Set do_render flag for subscenes/bundles
  */
@@ -95,7 +97,7 @@ function zsort(subs) {
     if (!cfg_def.alpha_sort || !subs.bundles)
         return;
 
-    var eye = m_tsr.get_trans_view(subs.camera.world_tsr);
+    var eye = m_tsr.get_trans_value(subs.camera.world_tsr, _vec3_tmp);
 
     // update if coords changed more than for 1 unit
     var cam_updated =
@@ -144,7 +146,7 @@ function prerender_bundle(bundle, subs) {
     if (subs.type == "SHADOW_CAST")
         var eye = cam.lod_eye;
     else
-        var eye = m_tsr.get_trans_view(cam.world_tsr);
+        var eye = m_tsr.get_trans_value(cam.world_tsr, _vec3_tmp);
 
     if (!obj_render)
         return false;

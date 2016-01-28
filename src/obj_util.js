@@ -447,7 +447,7 @@ function init_scene_data(scene) {
         scene: scene,
         is_active: false,
         batches: [],
-        plane_refl_subs: null,
+        plane_refl_subs: [],
         cube_refl_subs: null,
         shadow_subscenes: [],
         light_index: 0,
@@ -481,6 +481,23 @@ exports.get_shadow_lamps = function(lamps, use_ssao) {
         return [lamps[0]];
     else
         return [];
+}
+
+
+exports.check_obj_soft_particles_accessibility = function(bpy_obj, pset) {
+
+    if (pset["b4w_enable_soft_particles"] &&
+            pset["b4w_particles_softness"] > 0.0) {
+        var index = pset["material"] - 1;
+        var materials = bpy_obj["data"]["materials"];
+        if (index >= 0 && index < materials.length &&
+            (materials[index]["game_settings"]["alpha_blend"] == "ADD" ||
+            materials[index]["game_settings"]["alpha_blend"] == "ALPHA" ||
+            materials[index]["game_settings"]["alpha_blend"] == "ALPHA_SORT"))
+            return true;
+    }
+
+    return false;
 }
 
 exports.gen_dupli_name = function(dg_parent_name, name) {
@@ -533,6 +550,10 @@ exports.is_lamp = function(obj) {
 
 exports.is_empty = function(obj) {
     return obj.type === "EMPTY";
+}
+
+exports.is_line = function(obj) {
+    return obj.type === "LINE";
 }
 
 }

@@ -207,6 +207,8 @@ color. A height map combined with a normal map is required for the
 implementation of relief surface effect (parallax mapping). A height
 map should be present in the alpha channel of a normal map.
 
+[image]
+
 
 Activation
 ----------
@@ -592,3 +594,11 @@ requires the "canvas_id" identifier which should be defined in
 Blender. After operations with the context, the "update_canvas_ctx()"
 function has to be called which will render modifications of the
 "canvas_id" element.
+
+   Note: If one Canvas type texture is assigned in Blender to
+     several different objects, then after engine loading it still
+     will be one texture and not several different ones. Any changes
+     applied to it will be applied to all objects using this texture,
+     which can be useful for optimization purposes. In case this
+     effect is not needed, you should assign different textures in
+     Blender or use deep copy after engine startup.

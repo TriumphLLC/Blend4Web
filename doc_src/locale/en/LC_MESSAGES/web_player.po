@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.07\n"
@@ -194,7 +194,15 @@ msgstr ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
 
-#: ../web_player.rst:86
+#: ../web_player.rst:83
+msgid ""
+"необязательный атрибут ``no_social`` используется для отключения кнопок "
+"социальных сетей на панели управления."
+msgstr ""
+"the optional ``no_social`` attribute is used to disable social networks "
+"buttons on the control panel."
+
+#: ../web_player.rst:87
 msgid ""
 "Если указаны параметры ``fallback_image`` и ``fallback_video``, приоритет "
 "имеет ``fallback_image``."
@@ -202,11 +210,11 @@ msgstr ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are specified, "
 "the ``fallback_image`` parameter is used."
 
-#: ../web_player.rst:91
+#: ../web_player.rst:92
 msgid "Название сцены в заголовке"
 msgstr "Scene Name as Title"
 
-#: ../web_player.rst:93
+#: ../web_player.rst:94
 msgid ""
 "По умолчанию веб-плеер устанавливает тег ``title`` равным ``Blend4Web Web "
 "Player``. С помощью мета-тега ``title`` в настройках сцены можно изменить "
@@ -216,18 +224,18 @@ msgstr ""
 "the meta tag ``title`` on the scene in Blender you can change that value to "
 "something else."
 
-#: ../web_player.rst:101
+#: ../web_player.rst:102
 msgid "Ошибки сцены"
 msgstr "Scene Errors"
 
-#: ../web_player.rst:103
+#: ../web_player.rst:104
 msgid ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 msgstr ""
 "If the player is used incorrectly it displays the corresponding errors."
 
-#: ../web_player.rst:106
+#: ../web_player.rst:107
 msgid ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
@@ -235,10 +243,10 @@ msgstr ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the file "
 "is corrupt;"
 
-#: ../web_player.rst:114
+#: ../web_player.rst:115
 msgid "атрибут ``load`` не найден или его значение пустое;"
 msgstr "the ``load`` attribute is not found or is void;"
 
-#: ../web_player.rst:122
+#: ../web_player.rst:123
 msgid "ошибка инициализации WebGL."
 msgstr "WebGL initialization error."

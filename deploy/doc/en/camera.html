@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Camera &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Camera &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
         <link rel="next" title="Materials" href="materials.html"/>
         <link rel="prev" title="Objects" href="objects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Camera</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Move Styles and General Settings</a></li>
@@ -100,19 +101,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -225,33 +226,35 @@
 <h2>Limiting the Camera Movement<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>There are several settings for the camera which limit/change its movement one way or another. They are grouped as <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">limits</span></code>.</p>
 <a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
+<p>Camera limits can be viewed right in the Blender viewport, if the <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code> parameter is enabled.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>Target camera</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_target.png"><img alt="_images/camera_limits_target.png" class="align-center" src="_images/camera_limits_target.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Distance Limits</em></dt>
-<dd><p class="first last">Set minimum and maximum distances from the camera to the pivot point. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
+<dd><p class="first last">Set minimum and maximum distances from the camera to the pivot point. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img src="_images/distance_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation Clamping</em></dt>
-<dd><p class="first last">Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Rotation Limits</em></dt>
+<dd><p class="first last">Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Rotation Clamping</em></dt>
-<dd><p class="first last">Limit the vertical (around the camera&#8217;s local X axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> clockwise. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd><p class="first last">Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils" id="panning-mode">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use panning mode</em></dt>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Panning Mode</em></dt>
 <dd><p class="first last">Allow camera panning.</p>
 </dd>
 </dl>
@@ -259,16 +262,17 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Eye Camera</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_eye.png"><img alt="_images/camera_limits_eye.png" class="align-center" src="_images/camera_limits_eye.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Use Horizontal Rotation Clamping</em></dt>
-<dd><p class="first last">Limit the horizontal (around the world Z axis in Blender) camera rotation around its position. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> clockwise. Disabled by default.</p>
+<dt><em>Blend4Web &gt; Horizontal Rotation Limits</em></dt>
+<dd><p class="first last">Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_eye.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Rotation Clamping</em></dt>
-<dd><p class="first last">Limit the vertical (around the camera&#8217;s local X axis in Blender) camera rotation around its position. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> anticlockwise. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd><p class="first last">Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_eye.svg" width="100%" /></div>
@@ -277,38 +281,48 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Hover Camera</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_hover.png"><img alt="_images/camera_limits_hover.png" class="align-center" src="_images/camera_limits_hover.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Translation Limits</em></dt>
-<dd><p class="first last">Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Translation Limits</em></dt>
+<dd><p class="first last">Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinX = -10</em>, <em>MaxX = 10</em>. Disabled by default.</p>
 </dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Translation Limits</em></dt>
-<dd><p class="first last">Limit movement of the pivot point along the Blender&#8217;s world Y axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Translation Limits</em></dt>
+<dd><p class="first last">Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinY = -10</em>, <em>MaxY = 10</em>. Disabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Distance Limits</em></dt>
-<dd><p class="first last">Set minimum and maximum distances from the camera to the point of intersection between the camera&#8217;s view direction and the horizontal reference plane (Blender&#8217;s world XOY plane by default). Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. If turned off, the camera will freely move along Blender&#8217;s world Z axis, the pivot point will not be defined and the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> and <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> settings will limit the position of the camera itself. Disabled by default.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Zooming</em></dt>
+<dd><p class="first last">Allows the user to zoom the camera in and out of the pivot point. If turned off, the camera will freely move along Blender&#8217;s world Z axis, the pivot point will not be defined and the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> and <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> settings will limit the position of the camera itself. Disabled by default.</p>
 </dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Camera Angle Limits</em></dt>
-<dd><p class="first last">Limit the camera&#8217;s inclination (the angle between camera view direction and the horizontal plane). Becomes available when the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> option is enabled. Allowable values: 0 <span class="math">\(\le\)</span> Down Angle <span class="math">\(\le\)</span> Up Angle <span class="math">\(\le\)</span> 90. Default values: <em>Down Angle = 0, Up Angle = 90</em>.</p>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
+<dd><p class="first last">Set minimum and maximum distances from the camera to the point of intersection between the camera&#8217;s view direction and the horizontal reference plane (Blender&#8217;s world XOY plane by default). Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</p>
+</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd><p class="first last">Limit the camera&#8217;s inclination (the angle between camera view direction and the horizontal plane). Becomes available when the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> option is enabled. Allowable values: <em>0° :math:`le` Down Angle :math:`le` Up Angle :math:`le` 90°</em>. Default values: <em>Down Angle = 0°, Up Angle = 90°</em>.</p>
 </dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Zero Level</em></dt>
-<dd><p class="first last">A distance between reference plane and the coordinates origin.Avaliable in <code class="docutils literal"><span class="pre">Hover</span></code> move style with the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> option enabled.</p>
+<dd><p class="first last">A distance between reference plane and the coordinates origin. Set to zero by default.</p>
 </dd>
 </dl>
-<p>If the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> setting is turned on, the limits for distance and inclination angle will be applied simultaneously, to define the camera movement path in the vertical plane.</p>
+<p>If the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> setting is turned on, the limits for distance and inclination angle will be applied simultaneously, to define the camera movement path in the vertical plane.</p>
 <a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
 </a>
-<p>Setting incorrect limits for distance or inclination angle will disable the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> option.</p>
+<p>Setting incorrect limits for distance or inclination angle will disable the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> option.</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation</em></dt>
-<dd><p class="first last">Allow camera rotation in Blender&#8217;s XOY plane around to the pivot point. Becomes available upon turning <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> setting on. Enabled by default.</p>
+<dd><p class="first last">Allow camera rotation in Blender&#8217;s XOY plane around to the pivot point. Becomes available upon turning <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> setting on. Enabled by default.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
 </a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Static Camera</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_static.png"><img alt="_images/camera_limits_static.png" class="align-center" src="_images/camera_limits_static.png" style="width: 100%;" /></a>
+<p>This type of camera does not have limits, as it can&#8217;t be directly controlled by the user.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -410,7 +424,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -432,7 +446,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

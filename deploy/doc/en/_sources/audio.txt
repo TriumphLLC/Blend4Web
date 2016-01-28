@@ -1,6 +1,6 @@
 
-Audio System
-************
+Audio
+*****
 
 Audio sources are created in Blender. The standard "Speaker" object is
 used.

@@ -305,4 +305,29 @@ exports.get_shape_key_value = function(obj, key_name) {
     return m_geom.get_shape_key_value(obj, key_name);
 }
 
+/**
+ * Draw a line.
+ * @method module:geometry.draw_line
+ * @param {Object3D} obj Line object
+ * @param {Float32Array} positions Line points [X0,Y0,Z0,X1,Y1,Z1...]
+ * @param {Boolean} is_split True - draw a splitted line
+ * (points specified in pairs), false - draw continuous line
+ */
+exports.draw_line = function(obj, positions, is_split) {
+    is_split = is_split || false;
+
+    if (!(positions instanceof Float32Array)) {
+        m_print.error("Wrong positions type");
+        return;
+    }
+
+    var batch = m_batch.get_first_batch(obj);
+
+    if (batch) {
+        m_geom.draw_line(batch, positions, is_split);
+
+        m_render.assign_attribute_setters(batch);
+    }
+}
+
 }

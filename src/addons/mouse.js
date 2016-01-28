@@ -92,8 +92,8 @@ var _plock_state = PLS_NONE;
 /**
  * Callback for camera/characters rotation
  * @callback RotationCallback
- * @param {rot_x} x rotation
- * @param {rot_x} y rotation
+ * @param {rot_x} x rotation around X-axis
+ * @param {rot_y} y rotation around Y-axis
  */
 
 /**
@@ -326,20 +326,9 @@ function default_rotation_cb(rot_x, rot_y) {
 exports.enable_mouse_hover_outline = enable_mouse_hover_outline;
 function enable_mouse_hover_outline() {
     if (!m_main.detect_mobile()) {
-        var main_canvas = m_main.get_canvas_elem();
+        var main_canvas = m_cont.get_canvas();
         main_canvas.addEventListener("mousemove", objects_outline);
     }
-}
-
-/**
- * Enable objects outlining by mouse hover.
- * @method module:mouse.enable_mouse_hover_glow
- * @deprecated use enable_mouse_hover_outline() instead
- */
-exports.enable_mouse_hover_glow = enable_mouse_hover_glow;
-function enable_mouse_hover_glow() {
-    m_print.error("enable_mouse_hover_glow() deprecated, use enable_mouse_hover_outline() instead");
-    enable_mouse_hover_outline();
 }
 
 /**
@@ -349,22 +338,11 @@ function enable_mouse_hover_glow() {
 exports.disable_mouse_hover_outline = disable_mouse_hover_outline;
 function disable_mouse_hover_outline() {
     if (!m_main.detect_mobile()) {
-        var main_canvas = m_main.get_canvas_elem();
+        var main_canvas = m_cont.get_canvas();
         main_canvas.removeEventListener("mousemove", objects_outline);
         if (_chosen_object)
             m_scs.set_outline_intensity(_chosen_object, 0);
     }
-}
-
-/**
- * Disable objects outlining by mouse hover.
- * @method module:mouse.disable_mouse_hover_glow
- * @deprecated use disable_mouse_hover_outline() instead
- */
-exports.disable_mouse_hover_glow = disable_mouse_hover_glow;
-function disable_mouse_hover_glow() {
-    m_print.error("disable_mouse_hover_glow() deprecated, use disable_mouse_hover_outline() instead");
-    disable_mouse_hover_outline();
 }
 
 function objects_outline(e) {

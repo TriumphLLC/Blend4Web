@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 from bpy.props import StringProperty
 
@@ -209,9 +193,10 @@ class B4WLocalServer():
     @classmethod
     def panel_redraw(cls):
         prop_area = None
-        for area in bpy.context.screen.areas:
-            if area.type == "PROPERTIES":
-                prop_area = area
+        if bpy.context.screen:
+            for area in bpy.context.screen.areas:
+                if area.type == "PROPERTIES":
+                    prop_area = area
         if prop_area:
             prop_area.tag_redraw()
 
@@ -368,7 +353,7 @@ class UploadFile(tornado.web.RequestHandler):
 class TestSendReqPost(tornado.web.RequestHandler):
     def post(self):
         req = json.loads(self.request.body.decode("utf-8"))
-        if req["field1"] == 1 and req["field2"] == 2:
+        if req["field1"] == 1 and req["field2"] == "2":
             resp = {"resp":2}
         else:
             resp = {}
@@ -847,17 +832,4 @@ def has_valid_sdk_dir():
     return b4w_src_path != "" and exists(path_to_index)
 
 def register():
-    bpy.utils.register_class(B4WStartServer)
-    bpy.utils.register_class(B4WShutdownServer)
-    bpy.utils.register_class(B4WOpenSDK)
-    bpy.utils.register_class(B4WOpenProjManager)
-    bpy.utils.register_class(B4WPreviewScene)
-    bpy.utils.register_class(B4WServerMessage)
-
-def unregister():
-    bpy.utils.unregister_class(B4WStartServer)
-    bpy.utils.unregister_class(B4WShutdownServer)
-    bpy.utils.unregister_class(B4WOpenSDK)
-    bpy.utils.unregister_class(B4WOpenProjManager)
-    bpy.utils.unregister_class(B4WPreviewScene)
-    bpy.utils.unregister_class(B4WServerMessage)
+    bpy.app.handlers.scene_update_pre.append(init_server)

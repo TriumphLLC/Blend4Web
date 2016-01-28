@@ -120,9 +120,6 @@ uniform vec4 u_diffuse_color;
 #endif // NODES && ALPHA
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
-# if PERSPECTIVE_SHADOW_CAST
-uniform float u_perspective_cast_far_bound;
-# endif
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform PRECISION sampler2D u_shadow_map0;

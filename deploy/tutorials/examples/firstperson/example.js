@@ -4,9 +4,9 @@ b4w.register("example_main", function(exports, require) {
 
 var m_app   = require("app");
 var m_cons  = require("constraints");
+var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_data  = require("data");
-var m_main  = require("main");
 var m_mouse = require("mouse");
 var m_phy   = require("physics");
 var m_scs   = require("scenes");
@@ -45,7 +45,7 @@ function load_cb(data_id) {
     m_cons.append_stiff_trans(camobj, character, [0, 0.7, 0]);
 
     // enable rotation with mouse
-    var canvas_elem = m_main.get_canvas_elem();
+    var canvas_elem = m_cont.get_canvas();
     canvas_elem.addEventListener("mouseup", function(e) {
         m_mouse.request_pointerlock(canvas_elem);
     }, false);

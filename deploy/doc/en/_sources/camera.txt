@@ -79,98 +79,126 @@ movement one way or another. They are grouped as "Camera limits".
 
 [image]
 
+Camera limits can be viewed right in the Blender viewport, if the
+"Display Limits in Viewport" parameter is enabled.
+
 
 
 **Target camera**
 
-*Camera Move Style > Camera Limits > Use Distance Limits*
-   Set minimum and maximum distances from the camera to the pivot
-   point. Allowable values: *Min* \le *Max*. Disabled by default.
+[image]
 
-*Camera Move Style > Camera Limits > Use Horizontal Rotation Clamping*
+*Camera Move Style > Camera Limits > Distance Limits*
+   Set minimum and maximum distances from the camera to the pivot
+   point. Allowable values: *Min* \le *Max*. Default values: *Min =
+   1*, *Max = 10*. Disabled by default.
+
+*Camera Move Style > Camera Limits > Horizontal Rotation Limits*
    Limit the horizontal (around the Z world axis in Blender) camera
    rotation around the corresponding point. Rotation is performed
    along the arc of a circle between "Left Angle" and "Right Angle"
    values. The rotation arc corresponds to movement from "Left Angle"
-   to "Right Angle" anticlockwise. Disabled by default.
+   to "Right Angle" anticlockwise. Default values: *Left Angle =
+   -45°*, *Right Angle = 45°*. Disabled by default.
 
-*Camera Move Style > Camera Limits > Use Vertical Rotation Clamping*
-   Limit the vertical (around the camera's local X axis in Blender)
-   camera rotation around the corresponding point. Rotation is
-   performed along the arc of a circle between "Down Angle" and "Up
-   Angle" values. The rotation arc corresponds to movement from "Down
-   Angle" to "Up Angle" clockwise. Disabled by default.
+*Camera Move Style > Camera Limits > Vertical Rotation Limits*
+   Limit the horizontal (around the Z world axis in Blender) camera
+   rotation around the corresponding point. Rotation is performed
+   along the arc of a circle between "Left Angle" and "Right Angle"
+   values. The rotation arc corresponds to movement from "Left Angle"
+   to "Right Angle" anticlockwise. Default values: *Left Angle =
+   -45°*, *Right Angle = 45°*. Disabled by default.
 
-*Camera Move Style > Camera Limits > Use panning mode*
+*Camera Move Style > Camera Limits > Use Panning Mode*
    Allow camera panning.
 
 
 
 **Eye Camera**
 
-*Blend4Web > Use Horizontal Rotation Clamping*
-   Limit the horizontal (around the world Z axis in Blender) camera
-   rotation around its position. Rotation is performed along the arc
-   of a circle between "Left Angle" and "Right Angle" values. The
-   rotation arc corresponds to movement from "Left Angle" to "Right
-   Angle" clockwise. Disabled by default.
+[image]
 
-*Camera Move Style > Camera Limits > Use Vertical Rotation Clamping*
-   Limit the vertical (around the camera's local X axis in Blender)
-   camera rotation around its position. Rotation is performed along
-   the arc of a circle between "Down Angle" and "Up Angle" values. The
-   rotation arc corresponds to movement from "Down Angle" to "Up
-   Angle" anticlockwise. Disabled by default.
+*Blend4Web > Horizontal Rotation Limits*
+   Limit the horizontal (around the Z world axis in Blender) camera
+   rotation around the corresponding point. Rotation is performed
+   along the arc of a circle between "Left Angle" and "Right Angle"
+   values. The rotation arc corresponds to movement from "Left Angle"
+   to "Right Angle" anticlockwise. Default values: *Left Angle =
+   -45°*, *Right Angle = 45°*. Disabled by default.
+
+*Camera Move Style > Camera Limits > Vertical Rotation Limits*
+   Limit the horizontal (around the Z world axis in Blender) camera
+   rotation around the corresponding point. Rotation is performed
+   along the arc of a circle between "Left Angle" and "Right Angle"
+   values. The rotation arc corresponds to movement from "Left Angle"
+   to "Right Angle" anticlockwise. Default values: *Left Angle =
+   -45°*, *Right Angle = 45°*. Disabled by default.
 
 
 
 **Hover Camera**
 
-*Camera Move Style > Camera Limits > Use Horizontal Translation
-Limits*
+[image]
+
+*Camera Move Style > Camera Limits > Horizontal Translation Limits*
    Limit movement of the pivot point along the Blender's world X axis.
-   Allowable values: *Min* \le *Max*. Disabled by default.
+   Allowable values: *Min* \le *Max*. Default values: *MinX = -10*,
+   *MaxX = 10*. Disabled by default.
 
-*Camera Move Style > Camera Limits > Use Vertical Translation Limits*
-   Limit movement of the pivot point along the Blender's world Y axis.
-   Allowable values: *Min* \le *Max*. Disabled by default.
+*Camera Move Style > Camera Limits > Vertical Translation Limits*
+   Limit movement of the pivot point along the Blender's world X axis.
+   Allowable values: *Min* \le *Max*. Default values: *MinY = -10*,
+   *MaxY = 10*. Disabled by default.
 
-*Camera Move Style > Camera Limits > Use Distance Limits*
+*Camera Move Style > Camera Limits > Use Zooming*
+   Allows the user to zoom the camera in and out of the pivot point.
+   If turned off, the camera will freely move along Blender's world Z
+   axis, the pivot point will not be defined and the "Camera Move
+   Style > Camera Limits > Use Horizontal Translation Limits" and
+   "Camera Move Style > Camera Limits > Use Vertical Translation
+   Limits" settings will limit the position of the camera itself.
+   Disabled by default.
+
+*Camera Move Style > Camera Limits > Distance Limits*
    Set minimum and maximum distances from the camera to the point of
    intersection between the camera's view direction and the horizontal
    reference plane (Blender's world XOY plane by default). Allowable
-   values: *Min* \le *Max*. If turned off, the camera will freely move
-   along Blender's world Z axis, the pivot point will not be defined
-   and the "Camera Move Style > Camera Limits > Use Horizontal
-   Translation Limits" and "Camera Move Style > Camera Limits > Use
-   Vertical Translation Limits" settings will limit the position of
-   the camera itself. Disabled by default.
+   values: *Min* \le *Max*. Default values: *Min = 1*, *Max = 10*.
+   Disabled by default.
 
-*Camera Move Style > Camera Limits > Camera Angle Limits*
+*Camera Move Style > Camera Limits > Vertical Rotation Limits*
    Limit the camera's inclination (the angle between camera view
    direction and the horizontal plane). Becomes available when the
-   "Camera Move Style > Camera Limits > Use Distance Limits" option is
-   enabled. Allowable values: 0 \le Down Angle \le Up Angle \le 90.
-   Default values: *Down Angle = 0, Up Angle = 90*.
+   "Camera Move Style > Camera Limits > Use Zooming" option is
+   enabled. Allowable values: *0° :math:`le` Down Angle :math:`le` Up
+   Angle :math:`le` 90°*. Default values: *Down Angle = 0°, Up Angle =
+   90°*.
 
 *Camera Move Style > Camera Limits > Zero Level*
-   A distance between reference plane and the coordinates
-   origin.Avaliable in "Hover" move style with the "Camera Move Style
-   > Camera Limits > Use Distance Limits" option enabled.
+   A distance between reference plane and the coordinates origin. Set
+   to zero by default.
 
-If the "Blend4Web > Use Distance Limits" setting is turned on, the
-limits for distance and inclination angle will be applied
-simultaneously, to define the camera movement path in the vertical
-plane.
+If the "Blend4Web > Use Zooming" setting is turned on, the limits for
+distance and inclination angle will be applied simultaneously, to
+define the camera movement path in the vertical plane.
 
 Setting incorrect limits for distance or inclination angle will
-disable the "Camera Move Style > Camera Limits > Use Distance Limits"
+disable the "Camera Move Style > Camera Limits > Distance Limits"
 option.
 
 *Camera Move Style > Camera Limits > Use Horizontal Rotation*
    Allow camera rotation in Blender's XOY plane around to the pivot
    point. Becomes available upon turning "Camera Move Style > Camera
-   Limits > Use Distance Limits" setting on. Enabled by default.
+   Limits > Distance Limits" setting on. Enabled by default.
+
+
+
+**Static Camera**
+
+[image]
+
+This type of camera does not have limits, as it can't be directly
+controlled by the user.
 
 
 

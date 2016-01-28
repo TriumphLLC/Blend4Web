@@ -360,9 +360,12 @@ exports.apply_def = function(obj) {
                 do_before_apply(obj, slot_num);
                 apply_particles_anim(obj, pdata.name, slot_num);
                 do_after_apply(obj, slot_num);
-                obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
+
                 if (pdata.cyclic)
                     obj.anim_slots[slot_num].behavior = AB_CYCLIC;
+                else
+                    obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
+
                 slot_num++;
             }
         }
@@ -1110,6 +1113,14 @@ function animate(obj, elapsed, slot_num, force_update) {
         var trans = get_anim_translation(anim_slot, 0, finfo, _vec3_tmp);
         var quat = get_anim_rotation(anim_slot, 0, finfo, _quat4_tmp);
         var scale = get_anim_scale(anim_slot, 0, finfo);
+        if (obj.parent && obj.pinverse_tsr) {
+            var tsr = m_tsr.create();
+            m_tsr.set_sep(trans, scale, quat, tsr);
+            m_tsr.multiply(obj.pinverse_tsr, tsr, tsr);
+            trans = m_tsr.get_trans_view(tsr);
+            quat = m_tsr.get_quat_view(tsr);
+            scale = m_tsr.get_scale(tsr);
+        }
 
         if (anim_slot.trans_smooth_period) {
             var trans_old = _vec3_tmp2;
@@ -1163,7 +1174,10 @@ function animate(obj, elapsed, slot_num, force_update) {
         break;
 
     case OBJ_ANIM_TYPE_PARTICLES:
-        var time = cff / m_time.get_framerate();
+        if (anim_slot.behavior == AB_CYCLIC)
+            var time = (cff - start) / m_time.get_framerate();
+        else
+            var time = cff / m_time.get_framerate();
         m_particles.set_time(obj, anim_slot.animation_name, time);
         break;
 

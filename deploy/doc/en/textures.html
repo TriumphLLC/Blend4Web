@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Textures &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
-        <link rel="next" title="Node Materials" href="node_materials.html"/>
-        <link rel="prev" title="Materials" href="materials.html"/> 
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+        <link rel="next" title="Particle System. Fluids" href="particles.html"/>
+        <link rel="prev" title="Stereo rendering" href="stereo_rendering.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,9 +91,15 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Texture Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#main-conf">Generic Settings</a></li>
@@ -151,18 +157,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -362,6 +363,7 @@
 <div class="section" id="height-map-parallax-mapping">
 <span id="index-7"></span><h2>Height Map. Parallax Mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
 <p>A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.</p>
+<a class="reference internal image-reference" href="_images/textures_height_map.png"><img alt="_images/textures_height_map.png" class="align-center" src="_images/textures_height_map.png" style="width: 100%;" /></a>
 <div class="section" id="id13">
 <h3>Activation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>For the normal map enable the <code class="docutils literal"><span class="pre">Parallax</span></code> panel in addition to the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox.</p>
@@ -379,7 +381,7 @@
 <dd><p class="first last">Distance at which the parallax effect is observed.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="_images/parallax.jpg" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_parallax.png"><img alt="_images/textures_parallax.png" class="align-center" src="_images/textures_parallax.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -408,11 +410,11 @@
 <div class="section" id="id19">
 <h3>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>The apple model material has the following textures: a normal map, a diffuse texture with a specular map in its alpha channel, a stencil map, a diffuse &#8220;matcap&#8221; map, an environment map.</p>
-<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="_images/stencil_apple.jpg" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_stencil_apple.png"><img alt="_images/textures_stencil_apple.png" class="align-center" src="_images/textures_stencil_apple.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="_images/stencil_apple_separate_textures.jpg" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_stencil_apple_separate_textures.png"><img alt="_images/textures_stencil_apple_separate_textures.png" class="align-center" src="_images/textures_stencil_apple_separate_textures.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -522,7 +524,7 @@
 <li><p class="first">Save the environment map into a file.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="_images/environment_map_baking_scene.jpg" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_environment_map_baking_scene.png"><img alt="_images/textures_environment_map_baking_scene.png" class="align-center" src="_images/textures_environment_map_baking_scene.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -617,7 +619,7 @@
 <li><p class="first">Set the <code class="docutils literal"><span class="pre">None</span></code> type for a texture of the target object on the main scene, and select the <code class="docutils literal"><span class="pre">Scene</span></code> type in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu. Specify the name of the source scene in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> field. Set the texture size in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_render_to_texture.png"><img alt="_images/textures_render_to_texture.png" class="align-center" src="_images/textures_render_to_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -645,6 +647,12 @@
 </pre></div>
 </div>
 <p>Use <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code> to obtain a context - this method requires the &#8220;canvas_id&#8221; identifier which should be defined in Blender. After <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">operations with the context</a>, the <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code> function has to be called which will render modifications of the &#8220;canvas_id&#8221; element.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use <a class="reference internal" href="objects.html#copy-obj"><span>deep copy</span></a> after engine startup.</p>
+</div>
+</div></blockquote>
 </div>
 </div>
 </div>
@@ -656,10 +664,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="node_materials.html" class="btn btn-neutral float-right" title="Node Materials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="particles.html" class="btn btn-neutral float-right" title="Particle System. Fluids" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="materials.html" class="btn btn-neutral" title="Materials" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="stereo_rendering.html" class="btn btn-neutral" title="Stereo rendering" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -669,7 +677,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -691,7 +699,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

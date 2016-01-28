@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Замечания к релизам &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Замечания к релизам &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
         <link rel="prev" title="Проблемы и решения" href="problems_and_solutions.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -90,136 +90,144 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Замечания к релизам</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v15-12">v15.12</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-01">v16.01</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Известные проблемы</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-11">v15.11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-12">v15.12</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id6">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id8">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Известные проблемы</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-10">v15.10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-11">v15.11</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id11">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id12">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id13">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id14">Известные проблемы</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-09">v15.09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-10">v15.10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id16">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id17">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id18">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id19">Известные проблемы</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#v15-09">v15.09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Известные проблемы</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-08">v15.08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Известные проблемы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-07">v15.07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Известные проблемы</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id29">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id30">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id31">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id32">Известные проблемы</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id34">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id35">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id36">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id37">Известные проблемы</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id39">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">Известные проблемы</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id38">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id39">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id40">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">Исправления</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id41">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id42">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id43">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id44">Известные проблемы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id47">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-02">v15.02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id45">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id46">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id47">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id48">Известные проблемы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-01">v15.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id49">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id50">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id51">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id52">Известные проблемы</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id54">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id55">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id56">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id57">Известные проблемы</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id59">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">Известные проблемы</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id58">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id59">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id60">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id61">Известные проблемы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id62">Новый функционал</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id63">Изменения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id64">Исправления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id65">Известные проблемы</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id66">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">Новый функционал</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id68">Изменения</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id69">Исправления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id70">Известные проблемы</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id71">Новый функционал</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id73">Изменения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id74">Исправления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">Известные проблемы</a></li>
 </ul>
 </li>
 </ul>
@@ -262,17 +270,172 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Замечания к релизам<a class="headerlink" href="#release-notes" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="v15-12">
-<span id="index-0"></span><h2>v15.12<a class="headerlink" href="#v15-12" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="v16-01">
+<span id="index-0"></span><h2>v16.01<a class="headerlink" href="#v16-01" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id2">
 <h3>Новый функционал<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first">Рендеринг линий.</p>
+<blockquote>
+<div><p>Теперь поддерживается возможность отрисовки линий, задаваемых процедурным образом. Для этого предусмотрен специальный тип объекта, активируемый с помощью опции <em>Line Renderer</em> в Blender, а также ряд API <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.get_line_params">get_line_params</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params</a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Новые ноды редактора логики.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Transform</span> <span class="pre">Object</span></code>: Позволяет перемещать объект в мировой, родительской или локальной системе координат.</li>
+<li><code class="docutils literal"><span class="pre">String</span> <span class="pre">Operation</span></code>: Позволяет проводить операции над строковыми константами и переменными аналогично ноде <code class="docutils literal"><span class="pre">Math</span> <span class="pre">Operation</span></code>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Упрощена установка SDK.</p>
+<blockquote>
+<div><p>Теперь при <a class="reference internal" href="setup.html#setup"><span>установке SDK</span></a> в меню <em>User Preferences</em> в разделе <em>File-&gt;Scripts</em> достаточно указать путь к SDK.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Улучшения в приложении WebPlayer.</p>
+<blockquote>
+<div><p>Добавлена возможность отключать социальные кнопки, отображаемые в правой части загруженной сцены. Для этого необходимо <a class="reference internal" href="web_player.html#webplayer-attributes"><span>передать атрибут</span></a> <code class="docutils literal"><span class="pre">no_social</span></code> при запуске приложения.</p>
+<p>Экранированные символы в адресной строке плеера теперь обрабатываются корректно.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Улучшение качество отрисовки для шлемов виртуальной реальности (HMD).</p>
+<blockquote>
+<div><p>Для шлемов виртуальной реальности добавлен механизм коррекции дисторсии и устранения хроматической аберрации. Для установки пользовательских настроек коррекции следует использовать функцию <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.set_hmd_params">set_hmd_params()</a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">В модуль <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> добавлены два новых сенсора.</p>
+<blockquote>
+<div><p><em>Touch Rotate</em> (метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_touch_rotate_sensor">create_touch_rotate_sensor()</a>) - сенсор, обрабатывающий событие поворота с помощью двух пальцев на touch-устройствах.</p>
+<p><em>Callback</em> (метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_callback_sensor">create_callback_sensor()</a>) - сенсор, значение которого определяется callback-функцией, вызываемой каждый кадр.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Улучшения в утилите для конвертации ресурсов.</p>
+<blockquote>
+<div><p>В <a class="reference internal" href="developers.html#converter"><span>утилиту для конвертации ресурсов</span></a> <em>converter.py</em> добавлены параметры <cite>&#8211;verbose</cite> и <cite>&#8211;jobs</cite> служащие соответственно для вывода детализированной информации и задания максимального количества параллельно выполняемых процессов в процессе конвертации.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Добавлен ряд методов API.</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.is_line">is_line()</a> - проверка, является ли объект специальным объектом типа <code class="docutils literal"><span class="pre">LINE</span></code>.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.is_idle">is_idle()</a> - проверка, завершил ли загрузчик сцен все запланированные действия.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_switch_horiz_rotation">hover_switch_horiz_rotation()</a> - возможность включать/выключать горизонтальное вращение камеры типа <code class="docutils literal"><span class="pre">HOVER</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Оптимизирован алгоритм обновления нодового дерева.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Изменения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first">Упрощено применение Кубических отражений.</p>
+<blockquote>
+<div><p>Теперь кубическое отражение рендерится относительно геометрического центра объекта, а не относительно его центра в Blender. Так же в кубическом отражении больше не отрисовываются плоские отражения, что раньше приводило к нежелательным артефактам.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Изменения API.</p>
+<blockquote>
+<div><p>В модуль <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> добавлены следующие методы: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_vertical_axis">get_vertical_axis()</a>,
+<a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_vertical_axis">set_vertical_axis()</a>. Теперь вращение на угол &#8220;phi&#8221; камеры типа &#8220;EYE&#8221;
+методом <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a> происходит вокруг вектора, выдаваемого
+функцией <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_vertical_axis">get_vertical_axis()</a>.</p>
+<p>Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.correct_up">correct_up()</a> теперь принимает в качестве параметра флаг <code class="docutils literal"><span class="pre">strict</span></code>. Этот параметр позволяет ориентировать камеру сонаправленно с передаваемым вектором <code class="docutils literal"><span class="pre">y_axis</span></code>, а не просто параллельно ему.</p>
+<p>Методы <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_get_vertical_limits">eye_get_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_get_horizontal_limits">eye_get_horizontal_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_vertical_limits">target_get_vertical_limits</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_horizontal_limits">target_get_horizontal_limits</a> теперь могут возвращать лимиты, заданные в мировых и в локальных координатах относительно камеры. Это определяется параметром <code class="docutils literal"><span class="pre">local</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Изменения в редакторе логики.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Добавлено распределение нод по категориям.</li>
+<li>В ноде <code class="docutils literal"><span class="pre">Variable</span> <span class="pre">Store</span></code> добавлена возможность выбора типа переменной между <code class="docutils literal"><span class="pre">Number</span></code> и <code class="docutils literal"><span class="pre">String</span></code>.</li>
+<li>В ноде <code class="docutils literal"><span class="pre">Send</span> <span class="pre">Request</span></code> добавлена возможность использовать строковые переменные для хранения тела запроса и ответа сервера целиком.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Удаление устаревшего инструмента <em>Mass Reexporter</em>.</p>
+<blockquote>
+<div><p>Панель инструмента <em>Mass Reexporter</em> удалена, поскольку функционал автоматического реекспорта сцен уже имеется в инструменте <em>Project Manager</em> (операция <code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code>).</p>
+</div></blockquote>
+</li>
+<li><p class="first">Устаревший функционал.</p>
+<blockquote>
+<div><p>Были удалены методы: <code class="docutils literal"><span class="pre">mouse.enable_mouse_hover_glow()</span></code>, <code class="docutils literal"><span class="pre">mouse.disable_mouse_hover_glow()</span></code>, <code class="docutils literal"><span class="pre">anim.get_actions()</span></code>, <code class="docutils literal"><span class="pre">anim.get_current_action()</span></code>, <code class="docutils literal"><span class="pre">anim.set_current_frame_float()</span></code>, <code class="docutils literal"><span class="pre">anim.get_current_frame_float()</span></code>, <code class="docutils literal"><span class="pre">anim.get_frame_range()</span></code>, <code class="docutils literal"><span class="pre">anim.cyclic()</span></code>, <code class="docutils literal"><span class="pre">anim.is_cyclic()</span></code>, <code class="docutils literal"><span class="pre">anim.update_object_animation()</span></code>, <code class="docutils literal"><span class="pre">controls.remove_sensor_manifolds()</span></code>, <code class="docutils literal"><span class="pre">main.redraw()</span></code>, <code class="docutils literal"><span class="pre">scenes.set_glow_intensity()</span></code>, <code class="docutils literal"><span class="pre">scenes.get_glow_intensity()</span></code>, <code class="docutils literal"><span class="pre">scenes.apply_glow_anim()</span></code>, <code class="docutils literal"><span class="pre">scenes.apply_glow_anim_def()</span></code>, <code class="docutils literal"><span class="pre">scenes.clear_glow_anim()</span></code>, <code class="docutils literal"><span class="pre">scenes.set_glow_color()</span></code>, <code class="docutils literal"><span class="pre">scenes.get_glow_color()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_play()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_stop()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_playback_rate()</span></code>, <code class="docutils literal"><span class="pre">sfx.get_speakers()</span></code>, <code class="docutils literal"><span class="pre">trans.set_rotation_quat()</span></code>, <code class="docutils literal"><span class="pre">trans.set_rotation_quat_v()</span></code>, <code class="docutils literal"><span class="pre">trans.get_rotation_quat()</span></code>.</p>
+<p>Объявлены устаревшими метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.set_camera_move_style">set_camera_move_style()</a> и константы <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.SPACE_WORLD">SPACE_WORLD</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.SPACE_LOCAL">SPACE_LOCAL</a>.</p>
+<p>Также объявлены устаревшими методы <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_limits">has_vertical_limits()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_limits">has_horizontal_limits()</a>. Вместо них следует использовать наиболее подходящий из новых методов: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_rot_limits">has_vertical_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_rot_limits">has_horizontal_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_trans_limits">has_vertical_trans_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_trans_limits">has_horizontal_trans_limits()</a>.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Исправления<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first">Исправлено позиционирование и мерцание для систем частиц с мировыми координатами.</p>
+</li>
+<li><p class="first">Исправлен Front Facing для кубических отражений.</p>
+</li>
+<li><p class="first">Исправлены ошибки рендеринга для стерео-режимов.</p>
+</li>
+<li><p class="first">Исправлено некорректное позицирование в анимации дочерних объектов.</p>
+</li>
+<li><p class="first">Исправлено зависание загрузки сцены в Safari при использовании аудио файлов формата .ogg в источниках звука типа <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code>.</p>
+</li>
+<li><p class="first">Исправлен баг ноды <code class="docutils literal"><span class="pre">Move</span> <span class="pre">Camera</span></code> из-за которого не оказывало влияние свойство duration после переоткрытия blend файла.</p>
+</li>
+<li><p class="first">Исправлен крэш при экспорте систем частиц с эммитером со сложным мешем.</p>
+</li>
+<li><p class="first">Исправлена ошибка ноды <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> в результате которой осуществлялся неверный переход.</p>
+</li>
+<li><p class="first">Исправлен ряд ошибок при отображении лимитов камеры во вьюпорте Blender.</p>
+</li>
+<li><p class="first">Исправлена ошибка экспорта материалов, привязанных непосредственно к объекту, а не к мешу.</p>
+</li>
+<li><p class="first">Исправлен вызов функции <code class="docutils literal"><span class="pre">RenderCallback</span></code>, задаваемой методом <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.set_render_callback">set_render_callback()</a>.</p>
+<blockquote>
+<div><p>Теперь <code class="docutils literal"><span class="pre">RenderCallback</span></code> будет выполняться прямо перед рендерингом текущего кадра, поэтому в момент вызова состояние сцены и объектов будет актуальным.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Исправлен рендеринг теней от нескольких источников света разных типов (например, <code class="docutils literal"><span class="pre">POINT</span></code> и <code class="docutils literal"><span class="pre">SUN</span></code>).</p>
+</li>
+<li><p class="first">Исправлен рендеринг <code class="docutils literal"><span class="pre">Environment</span></code> текстур при их одновременном использовании в качестве текстуры мира и в стeковом материале.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Известные проблемы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first">Проблемы с обновлением старых версий аддона.</p>
+<blockquote>
+<div><p>Рекомендуется перезагрузка Blender после обновления аддона.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам WebGL.</p>
+</li>
+<li><p class="first">Изменение фильтрации текстур на некоторых устройствах.</p>
+<blockquote>
+<div><p>При использовании <em>iPad</em> или браузера <em>Internet Explorer</em> отключена некорректная фильтрация текстур, которые используются материалами с типом прозрачности <em>Alpha Clip</em>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Некоторые устройства, использующие GPU Mali, требуют принудительного включения WebGL в настройках браузера.</p>
+</li>
+<li><p class="first">На системах Apple OS X и Blender 2.76 для работы локального сервера разработки может потребоваться установка <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. Это связано с ошибкой Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. В Blender 2.76b эта проблема устранена, поэтому рекомендуем обновиться.</p>
+</li>
+<li><p class="first">При использовании драйверов Nouveau скелетная анимация может работать некорректно.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v15-12">
+<h2>v15.12<a class="headerlink" href="#v15-12" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h3>Новый функционал<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Поддержка теней от нескольких источников.</p>
 <blockquote>
 <div><p>Осуществлена поддержка теней от нескольких источников освещения. Функционал позволяет существенно улучшить реалистичность сцен, освещённых множеством источников. Подробнее про функционал и сопутствующие ограничения можно прочитать в <a class="reference internal" href="lighting.html#shadows"><span>документации</span></a>.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><a class="reference internal" href="postprocessing_effects.html#stereo"><span>Экспериментальная поддержка шлемов виртуальной реальности (HMD).</span></a></p>
+<li><p class="first"><a class="reference internal" href="stereo_rendering.html#stereo"><span>Экспериментальная поддержка шлемов виртуальной реальности (HMD).</span></a></p>
 <blockquote>
 <div><p>Добавлена экспериментальная поддержка шлемов виртуальной реальности с использованием WebVR API. На данный момент для использования этой технологии необходимо наличие браузера с поддержкой WebVR и устройства Oculus Rift. Подробнее в соответствующем разделе документации.</p>
 </div></blockquote>
@@ -335,8 +498,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Изменения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id7">
+<h3>Изменения<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Кнопка <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> для быстрого предпросмотра сцены продублирована на нижней панели интерфейса.</p>
 <blockquote>
@@ -360,8 +523,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Исправления<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id8">
+<h3>Исправления<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Исправлено неверное поведение физики скопированного объекта.</p>
 <blockquote>
@@ -381,8 +544,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>Известные проблемы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3>Известные проблемы<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -412,8 +575,8 @@
 </div>
 <div class="section" id="v15-11">
 <h2>v15.11<a class="headerlink" href="#v15-11" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id6">
-<h3>Новый функционал<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id11">
+<h3>Новый функционал<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Начальная поддержка технологии WebGL 2.0.</p>
 <blockquote>
@@ -477,8 +640,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Изменения<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id12">
+<h3>Изменения<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Кнопка <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></code> переименована в <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code>, изменено её поведение.</p>
 <blockquote>
@@ -530,8 +693,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Исправления<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id13">
+<h3>Исправления<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Исправлены ошибки в системе управления проектами.</p>
 <blockquote>
@@ -565,8 +728,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>Известные проблемы<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id14">
+<h3>Известные проблемы<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -596,8 +759,8 @@
 </div>
 <div class="section" id="v15-10">
 <h2>v15.10<a class="headerlink" href="#v15-10" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id11">
-<h3>Новый функционал<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3>Новый функционал<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Новый функционал в системе управления проектами.</p>
 <blockquote>
@@ -668,8 +831,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Изменения<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id17">
+<h3>Изменения<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Улучшен интерфейс системы управления проектами.</p>
 <blockquote>
@@ -690,7 +853,7 @@
 </li>
 <li><p class="first">Изменено поведение гамма-коррекции в нодовых материалах.</p>
 <blockquote>
-<div><p>В связи с изменениями в Blender 2.76 необходимо иначе проводить <a class="reference internal" href="gamma_alpha.html#gamma-node-materials"><span>гамма-коррекцию в нодовых материалах</span></a>.</p>
+<div><p>В связи с изменениями в Blender 2.76 необходимо иначе проводить <a class="reference internal" href="colors.html#gamma-node-materials"><span>гамма-коррекцию в нодовых материалах</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Изменения API.</p>
@@ -700,8 +863,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>Исправления<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id18">
+<h3>Исправления<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Исправлены ошибки в системе управления проектами.</p>
 </li>
@@ -739,8 +902,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>Известные проблемы<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id19">
+<h3>Известные проблемы<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -770,8 +933,8 @@
 </div>
 <div class="section" id="v15-09">
 <h2>v15.09<a class="headerlink" href="#v15-09" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id16">
-<h3>Новый функционал<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id21">
+<h3>Новый функционал<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Система управления проектами.</p>
 <blockquote>
@@ -850,8 +1013,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>Изменения<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id22">
+<h3>Изменения<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Аддоны (такие как <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html">mouse</a> и другие) теперь являются частью скомпилированных версий движка:</p>
 <blockquote>
@@ -923,8 +1086,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>Исправления<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id23">
+<h3>Исправления<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Опция <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Above</span> <span class="pre">All</span></code> теперь корректно отображается на нодовых материалах.</p>
 </li>
@@ -965,8 +1128,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>Известные проблемы<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id24">
+<h3>Известные проблемы<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -987,8 +1150,8 @@
 </div>
 <div class="section" id="v15-08">
 <h2>v15.08<a class="headerlink" href="#v15-08" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id20">
-<h3>Новый функционал<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id25">
+<h3>Новый функционал<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Нодовый редактор логики.</p>
 <blockquote>
@@ -1042,8 +1205,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>Изменения<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id26">
+<h3>Изменения<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Изменения в интерфейсе редактора материалов.</p>
 <blockquote>
@@ -1064,8 +1227,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>Исправления<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id27">
+<h3>Исправления<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li>В утилите <em>project.py</em> исправлена ошибка компиляции проекта во внешнюю директорию.</li>
 <li>Устранена ошибка работы локального сервера, возникающая на ОС Windows при наличии поврежденной записи в реестре.</li>
@@ -1078,8 +1241,8 @@
 <li>Исправлен баг, связанный с отсутствием отклика при использовании touch-скрина на некоторых устройствах в браузере Microsoft Edge.</li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>Известные проблемы<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id28">
+<h3>Известные проблемы<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li>В редакторе логики при зацикливании нод часть соединений подкрашиваются красным цветом. Данный дефект никак не сказывается на работе инструмента и может быть проигнорирован.</li>
 </ul>
@@ -1087,8 +1250,8 @@
 </div>
 <div class="section" id="v15-07">
 <h2>v15.07<a class="headerlink" href="#v15-07" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id24">
-<h3>Новый функционал<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id29">
+<h3>Новый функционал<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Реализована поддержка типа прозрачности <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> для нодового материала.</p>
 <blockquote>
@@ -1155,8 +1318,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>Изменения<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id30">
+<h3>Изменения<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Многочисленные изменения в интерфейсе аддона, нацеленные на повышение удобства использования.</p>
 </li>
@@ -1219,8 +1382,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id26">
-<h3>Исправления<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id31">
+<h3>Исправления<a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Исправлена ошибка неправильных размеров элемента Canvas на начальном этапе загрузки.</p>
 </li>
@@ -1256,8 +1419,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>Известные проблемы<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id32">
+<h3>Известные проблемы<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -1286,8 +1449,8 @@
 </div>
 <div class="section" id="v15-06">
 <h2>v15.06<a class="headerlink" href="#v15-06" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id29">
-<h3>Новый функционал<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id34">
+<h3>Новый функционал<a class="headerlink" href="#id34" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Новый интерфейс аддона.</p>
 <blockquote>
@@ -1383,8 +1546,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id30">
-<h3>Изменения<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id35">
+<h3>Изменения<a class="headerlink" href="#id35" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Новый формат API для определения столкновений и трассировки лучей.</p>
 <blockquote>
@@ -1450,8 +1613,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>Исправления<a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id36">
+<h3>Исправления<a class="headerlink" href="#id36" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Исправлена работа аддона <code class="docutils literal"><span class="pre">screenshooter.js</span></code>.</p>
 <blockquote>
@@ -1490,8 +1653,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>Известные проблемы<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id37">
+<h3>Известные проблемы<a class="headerlink" href="#id37" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -1510,8 +1673,8 @@
 </div>
 <div class="section" id="v15-05">
 <h2>v15.05<a class="headerlink" href="#v15-05" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id34">
-<h3>Новый функционал<a class="headerlink" href="#id34" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id39">
+<h3>Новый функционал<a class="headerlink" href="#id39" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Эффект свечения (Glow).</em></p>
 <blockquote>
@@ -1571,8 +1734,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id35">
-<h3>Изменения<a class="headerlink" href="#id35" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id40">
+<h3>Изменения<a class="headerlink" href="#id40" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Переработан список сцен из состава SDK.</em></p>
 <blockquote>
@@ -1620,8 +1783,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h3>Исправления<a class="headerlink" href="#id36" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id41">
+<h3>Исправления<a class="headerlink" href="#id41" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Исправлена ошибка, приводящая к установке неправильной высоты элемента с описанием в модуле &#8220;anchors.js&#8221;.</em></p>
 </li>
@@ -1645,8 +1808,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>Известные проблемы<a class="headerlink" href="#id37" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id42">
+<h3>Известные проблемы<a class="headerlink" href="#id42" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -1658,8 +1821,8 @@
 </div>
 <div class="section" id="v15-04">
 <h2>v15.04<a class="headerlink" href="#v15-04" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id38">
-<h3>Новый функционал<a class="headerlink" href="#id38" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id43">
+<h3>Новый функционал<a class="headerlink" href="#id43" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Добавлена поддержка ключей деформации (Shape Keys).</em></p>
 <blockquote>
@@ -1713,8 +1876,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id39">
-<h3>Изменения<a class="headerlink" href="#id39" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id44">
+<h3>Изменения<a class="headerlink" href="#id44" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Изменен внешний вид документации API движка. Появились ссылки для быстрого перехода к описаниям методов и свойств.</em></p>
 </li>
@@ -1792,8 +1955,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id40">
-<h3>Исправления<a class="headerlink" href="#id40" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id45">
+<h3>Исправления<a class="headerlink" href="#id45" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Исправлена ошибка, приводящая к исчезновению описания объекта в модуле &#8220;anchors.js&#8221;.</em></p>
 </li>
@@ -1829,8 +1992,8 @@
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id41">
-<h3>Новый функционал<a class="headerlink" href="#id41" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id46">
+<h3>Новый функционал<a class="headerlink" href="#id46" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Инструмент для создания подписей к трёхмерным объектам.</em></p>
 <blockquote>
@@ -1879,8 +2042,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h3>Изменения<a class="headerlink" href="#id42" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id47">
+<h3>Изменения<a class="headerlink" href="#id47" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Изменение точки отсчета лимитов перемещения камеры.</em></p>
 <blockquote>
@@ -1945,8 +2108,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id43">
-<h3>Исправления<a class="headerlink" href="#id43" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id48">
+<h3>Исправления<a class="headerlink" href="#id48" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><em>Исправлена ошибка автоповорота камеры в веб-плеере.</em></li>
 <li><em>Исправлена ошибка полноэкранного режима в веб-плеере.</em></li>
@@ -1963,8 +2126,8 @@
 <li><em>Исправлена ошибка рендеринга тумана в отдельных версиях Chrome и Firefox под Windows.</em></li>
 </ul>
 </div>
-<div class="section" id="id44">
-<h3>Известные проблемы<a class="headerlink" href="#id44" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id49">
+<h3>Известные проблемы<a class="headerlink" href="#id49" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -1978,8 +2141,8 @@
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id45">
-<h3>Новый функционал<a class="headerlink" href="#id45" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id50">
+<h3>Новый функционал<a class="headerlink" href="#id50" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Добавлена возможность запуска локального сервера разработки непосредственно из Blender.</em></p>
 <blockquote>
@@ -2065,8 +2228,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id46">
-<h3>Изменения<a class="headerlink" href="#id46" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id51">
+<h3>Изменения<a class="headerlink" href="#id51" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Теперь в приложение можно добавлять опции с одинаковыми именами через адресную строку браузера.</em></p>
 <blockquote>
@@ -2105,8 +2268,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id47">
-<h3>Исправления<a class="headerlink" href="#id47" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id52">
+<h3>Исправления<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Исправлено поведение прелоадера для веб-плеера.</em></p>
 <blockquote>
@@ -2129,8 +2292,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id48">
-<h3>Известные проблемы<a class="headerlink" href="#id48" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id53">
+<h3>Известные проблемы<a class="headerlink" href="#id53" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2144,8 +2307,8 @@
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id49">
-<h3>Новый функционал<a class="headerlink" href="#id49" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id54">
+<h3>Новый функционал<a class="headerlink" href="#id54" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Поддержка режима панорамирования для устройств с сенсорным экраном.</em></p>
 <blockquote>
@@ -2231,8 +2394,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id50">
-<h3>Изменения<a class="headerlink" href="#id50" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id55">
+<h3>Изменения<a class="headerlink" href="#id55" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Упрощена файловая структура SDK.</em></p>
 <blockquote>
@@ -2266,8 +2429,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id51">
-<h3>Исправления<a class="headerlink" href="#id51" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id56">
+<h3>Исправления<a class="headerlink" href="#id56" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><em>При выставлении в Blender&#8217;е камере типа &#8220;Panoramic&#8221; в движке принудительно используется камера типа &#8220;Perspective&#8221;.</em></li>
 <li><em>Исправлено дрожание камеры типа &#8220;Target&#8221; в отдельных случаях.</em></li>
@@ -2279,8 +2442,8 @@
 <li><em>Исправлена ошибка рендеринга нодового материала, содержащего ноду ``REFRACTION``.</em></li>
 </ul>
 </div>
-<div class="section" id="id52">
-<h3>Известные проблемы<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id57">
+<h3>Известные проблемы<a class="headerlink" href="#id57" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2300,8 +2463,8 @@
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id54">
-<h3>Новый функционал<a class="headerlink" href="#id54" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id59">
+<h3>Новый функционал<a class="headerlink" href="#id59" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Поддержка настройки скоростей камеры.</em></p>
 <blockquote>
@@ -2331,8 +2494,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id55">
-<h3>Изменения<a class="headerlink" href="#id55" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id60">
+<h3>Изменения<a class="headerlink" href="#id60" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Удалена поддержка устаревшей опции текстур &#8220;UV translation velocity&#8221;.</em></p>
 <blockquote>
@@ -2370,8 +2533,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id56">
-<h3>Исправления<a class="headerlink" href="#id56" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id61">
+<h3>Исправления<a class="headerlink" href="#id61" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Исправлена ошибка воспроизведения звуков через инструмент NLA.</em></p>
 <blockquote>
@@ -2407,8 +2570,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id57">
-<h3>Известные проблемы<a class="headerlink" href="#id57" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id62">
+<h3>Известные проблемы<a class="headerlink" href="#id62" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2422,8 +2585,8 @@
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id58">
-<h3>Новый функционал<a class="headerlink" href="#id58" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id63">
+<h3>Новый функционал<a class="headerlink" href="#id63" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Поддержка видео-текстур.</em></p>
 <blockquote>
@@ -2469,8 +2632,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h3>Изменения<a class="headerlink" href="#id59" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id64">
+<h3>Изменения<a class="headerlink" href="#id64" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Опция &#8220;bg&#8221; веб-плеера переименована в &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
@@ -2489,8 +2652,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id60">
-<h3>Исправления<a class="headerlink" href="#id60" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id65">
+<h3>Исправления<a class="headerlink" href="#id65" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Карты нормалей теперь работают с типами текстурных координат Generated и Normal.</em></p>
 <blockquote>
@@ -2508,8 +2671,8 @@ HTML-файлом веб-плеера.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id61">
-<h3>Известные проблемы<a class="headerlink" href="#id61" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id66">
+<h3>Известные проблемы<a class="headerlink" href="#id66" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2521,8 +2684,8 @@ HTML-файлом веб-плеера.</p>
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id62">
-<h3>Новый функционал<a class="headerlink" href="#id62" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id67">
+<h3>Новый функционал<a class="headerlink" href="#id67" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Новый веб-плеер.</em></p>
 <blockquote>
@@ -2577,8 +2740,8 @@ HTML-файлом веб-плеера.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id63">
-<h3>Изменения<a class="headerlink" href="#id63" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id68">
+<h3>Изменения<a class="headerlink" href="#id68" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>В SDK изменился путь для настройки экспорта в HTML.</em></p>
 <blockquote>
@@ -2611,8 +2774,8 @@ HTML-файлом веб-плеера.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id64">
-<h3>Исправления<a class="headerlink" href="#id64" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id69">
+<h3>Исправления<a class="headerlink" href="#id69" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Исправлена ошибка рендеринга материала типа HALO.</em></p>
 </li>
@@ -2641,8 +2804,8 @@ Qualcomm Adreno 305.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id65">
-<h3>Известные проблемы<a class="headerlink" href="#id65" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id70">
+<h3>Известные проблемы<a class="headerlink" href="#id70" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2659,8 +2822,8 @@ Qualcomm Adreno 305.</em></p>
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id66">
-<h3>Новый функционал<a class="headerlink" href="#id66" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id71">
+<h3>Новый функционал<a class="headerlink" href="#id71" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Поддержка типа ABSOLUTE для ноды MATH.</em></p>
 </li>
@@ -2740,8 +2903,8 @@ API необходимо подавать параметр <code class="docutils
 </li>
 </ul>
 </div>
-<div class="section" id="id68">
-<h3>Изменения<a class="headerlink" href="#id68" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id73">
+<h3>Изменения<a class="headerlink" href="#id73" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Улучшение рендеринга теней.</em></p>
 <blockquote>
@@ -2775,8 +2938,8 @@ Eсли они привязаны к какой-либо анимированн�
 </li>
 </ul>
 </div>
-<div class="section" id="id69">
-<h3>Исправления<a class="headerlink" href="#id69" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id74">
+<h3>Исправления<a class="headerlink" href="#id74" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><em>Индикатор загрузки не скрывался, если в процессе происходила ошибка загрузки ресурса (текстуры либо звукового файла).</em></li>
 <li><em>Исправлены лаги при масштабировании и повороте на touch-устройствах.</em></li>
@@ -2789,8 +2952,8 @@ Eсли они привязаны к какой-либо анимированн�
 <li><em>Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит в иерархию с другими объектами.</em></li>
 </ul>
 </div>
-<div class="section" id="id70">
-<h3>Известные проблемы<a class="headerlink" href="#id70" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id75">
+<h3>Известные проблемы<a class="headerlink" href="#id75" title="Ссылка на этот заголовок">¶</a></h3>
 <ul>
 <li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
 <blockquote>
@@ -2829,7 +2992,7 @@ Eсли они привязаны к какой-либо анимированн�
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -2851,7 +3014,7 @@ Eсли они привязаны к какой-либо анимированн�
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

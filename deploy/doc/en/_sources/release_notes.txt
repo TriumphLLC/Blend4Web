@@ -3,6 +3,221 @@ Release Notes
 *************
 
 
+v16.01
+======
+
+
+New Features
+------------
+
+* Line rendering.
+
+     Procedurally generated line rendering is now supported. Special
+     type of object, activated by the *Line Renderer* option in
+     blender, is provided for it, as well as several API functions:
+     draw_line, get_line_params and set_line_params.
+
+* New logic editor nodes.
+
+     * The "Transform Object" node can be used to move an object in
+       world, parent or local coordinate space.
+
+     * The "String Operation" node can be used to perform operations
+       with string constants and variables, like the "Math Operation"
+       node.
+
+* Simplified SDK installation.
+
+     Now, to install SDK, you just need to specify the path to SDK in
+     the *File->Scripts* section of the *User Preferences* panel.
+
+* WebPlayer application improvements.
+
+     An option to turn off social network buttons located in the
+     bottom-right corner of a loaded scene. To do this, you need to
+     specify the "no_social" attribute before the application starts.
+
+     Escape characters in the Web Player's address bar are now
+     processed correctly.
+
+* Rendering quality improvements for Head-Mounted Displays (HMD).
+
+     Means to correct distortion and disable chromatic aberration
+     while using Head-Mounted Displays have been added. Use
+     set_hmd_params() function to set up this parameters.
+
+* Two new sensors have been added to the controls module.
+
+     *Touch Rotate* (create_touch_rotate_sensor() method) sensor can
+     be used to process rotation using two fingers on touch devices.
+
+     *Callback* (create_callback_sensor() method) is a sensor whose
+     value is defined by a callback function called every frame.
+
+* Resource converter utilty improvements.
+
+     The *--verbose* and *--jobs* parameters have been added to the
+     resource converter utility *converter.py*, which can be used to
+     output detailed information and to set maximum number of the
+     parallel processes during conversion, respectively.
+
+* Several API methods have been added.
+
+     is_line() checks whether the object has "LINE" type.
+
+     is_idle() checks whether the scene loader has finished all
+     planned tasks.
+
+     hover_switch_horiz_rotation() can be used to enable and disable
+     horizontal rotation of "HOVER" type cameras.
+
+* Node tree refresh algorithm has been optimized.
+
+
+Changes
+-------
+
+* Using cubic reflections has been simplified.
+
+     Cubic reflection is now rendered from the object's geometric
+     center and not from its Blender origin point. Also, flat
+     reflection is no longer rendered when rendering cubic reflection,
+     which caused artifacts before.
+
+* Changes in API.
+
+     The following methods have been added to the camera module:
+     get_vertical_axis(), set_vertical_axis(). "EYE" type camera
+     rotation to a "phi" angle is now performed along the vector
+     returned by the get_vertical_axis() function.
+
+     The correct_up() method now accepts the "strict" flag as a
+     parameter. This parameter can be used to align camera
+     codirectionally with the "y_axis" vector and not simply parallel
+     to it.
+
+     eye_get_vertical_limits, eye_get_horizontal_limits,
+     target_get_vertical_limits and target_get_horizontal_limits
+     methods can now return limits set in both world and local
+     coordinate spaces. This can be defined by the "local" parameter.
+
+* Logic node changes.
+
+     * The nodes have been separated into categories.
+
+     * An option to select between "Number" and "String" variable
+       types has been added to the "Variable Store" node.
+
+     * An option to use string variables to store the entire body of
+       the server request and response has been added to the "Send
+       Request" node.
+
+* Deprecated *Mass Reexporter* tool has been removed.
+
+     The *Mass Reexporter* tool panel has been removed, as automatic
+     scene reexport function is already present in the *Project
+     Manager* ("re-export scenes" operation).
+
+* Deprecated funcionality.
+
+     The following methods: "mouse.enable_mouse_hover_glow()",
+     "mouse.disable_mouse_hover_glow()", "anim.get_actions()",
+     "anim.get_current_action()", "anim.set_current_frame_float()",
+     "anim.get_current_frame_float()", "anim.get_frame_range()",
+     "anim.cyclic()", "anim.is_cyclic()",
+     "anim.update_object_animation()",
+     "controls.remove_sensor_manifolds()", "main.redraw()",
+     "scenes.set_glow_intensity()", "scenes.get_glow_intensity()",
+     "scenes.apply_glow_anim()", "scenes.apply_glow_anim_def()",
+     "scenes.clear_glow_anim()", "scenes.set_glow_color()",
+     "scenes.get_glow_color()", "sfx.speaker_play()",
+     "sfx.speaker_stop()", "sfx.speaker_playback_rate()",
+     "sfx.get_speakers()", "trans.set_rotation_quat()",
+     "trans.set_rotation_quat_v()", "trans.get_rotation_quat()" have
+     been removed.
+
+     The set_camera_move_style() method and SPACE_WORLD and
+     SPACE_LOCAL constants have been declared deprecated.
+
+     The has_vertical_limits() and has_horizontal_limits() methods
+     have also been declared deprecated. The new methods
+     has_vertical_rot_limits(), has_horizontal_rot_limits(),
+     has_vertical_trans_limits() and has_horizontal_trans_limits()
+     have been added to replace them.
+
+
+Fixes
+-----
+
+* Positioning and flickering of the particle systems with world
+  coordinates have been fixed.
+
+* Front Facing for cubic reflections has been fixed.
+
+* Stereo mode rendering errors have been fixed.
+
+* Incorrect positioning in the child object animation has been
+  fixed.
+
+* Scene loading freeze in the Safari browser while using .ogg audio
+  files with "Background Music" type speakers has been fixed.
+
+* The "Move Camera" node bug, which disabled "Duration" parameter
+  after .blend file reopening, has been fixed.
+
+* System crash while exporting particle system with complex mesh
+  emitter has been fixed.
+
+* The "Switch Select" node error that led to incorrect switches has
+  been fixed.
+
+* Several camera limit rendering issues in the Blender viewport have
+  been fixed.
+
+* The issue with exporting materials attached directly to the object
+  and not to the mesh has been fixed.
+
+* The "RenderCallback" function set by the set_render_callback()
+  method has been fixed.
+
+     The "RenderCallback" function are now called right before
+     rendering the current frame, so the scene and objects are up-to-
+     date.
+
+* Issues with rendering shadows from multiple light sources of
+  different types (such as "POINT" and "SUN") have been fixed.
+
+* "Environment" texture rendering in case it is used as the world
+  texture and in a stack material simultaneously has been fixed.
+
+
+Known Issues
+------------
+
+* Problems with updating of the add-on.
+
+     It's strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with *Alpha Clip* type of transparency.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+* For the local developement server to work on Apple OS X and
+  Blender 2.76, you may need to install Python 3.4. This is due to a
+  bug in Blender https://developer.blender.org/T46623. This bug has
+  been fixed in Blender 2.76b, so updating it is advised.
+
+* Skeletal animation may work incorrectly while using Nouveau
+  drivers.
+
+
 v15.12
 ======
 

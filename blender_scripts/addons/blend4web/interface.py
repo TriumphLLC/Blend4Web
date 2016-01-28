@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import mathutils
 import math
@@ -93,31 +77,7 @@ def add_remove_refl_plane(obj):
             obj.constraints.remove(cons)
 
 def register():
-    ui_render.register()
-    ui_layers.register()
-    ui_scene.register()
-    ui_world.register()
-    ui_object.register()
-    ui_data.register()
-    ui_material.register()
-    ui_texture.register()
-    ui_particle.register()
-    ui_physics.register()
     ui_view3d_ht_header.register()
 
-    bpy.utils.register_class(CustomConstraintsPanel)
-
 def unregister():
-    ui_render.unregister()
-    ui_layers.unregister()
-    ui_scene.unregister()
-    ui_world.unregister()
-    ui_object.unregister()
-    ui_data.unregister()
-    ui_material.unregister()
-    ui_texture.unregister()
-    ui_particle.unregister()
-    ui_physics.unregister()
-    ui_view3d_ht_header.unregister(),
-
-    bpy.utils.unregister_class(CustomConstraintsPanel)
+    ui_view3d_ht_header.unregister()

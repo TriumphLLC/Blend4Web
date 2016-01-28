@@ -9,7 +9,7 @@ Navigation
 ==========
 
 To control the camera hold down a mouse button and move the mouse.
-Also control can be performed using the "W", "A", "S", "D", "R", "F"
+Control can also be performed using the "W", "A", "S", "D", "R", "F"
 keys: forward, left, back, right, up, down. Arrows and "numpad" keys
 can be used as well. In the "Target" camera mode it's possible to
 focus on the selected object using the "Z" or ".(dot)" keys.
@@ -65,14 +65,24 @@ Control elements list in top-to-bottom order
    "assets.json" file.
 
 **Animation**
-   Animation controls. When viewing animated models it's possible: to
-   select an object and switch its animation with a drop-down menu,
-   switch cyclic animation mode, stop and resume animation, set the
-   required frame (the animation should be stopped).
+   Animation controls. When viewing animated models, you can select an
+   object and switch its animation with a drop-down menu, switch
+   cyclic animation mode, stop and resume animation, set the required
+   frame (the animation should be stopped to do this).
+
+**NLA**
+   A tool to control Non-Linear Animation (if it is present in the
+   scene). For this panel to work, NLA option should be enabled in the
+   scene's settings.
+
+**Shape Keys**
+   Shape Keys control. When viewing models that has shape keys, you
+   can select an object, one of its shape keys and the infuence that
+   the key has on the object.
 
 **Materials**
    Material properties setup. A material can be selected using the
-   drop-down menu. At the moment only a limited range of properties is
+   drop-down menu. For now, only a limited number of properties is
    supported.
 
 **Lighting**
@@ -98,9 +108,6 @@ Control elements list in top-to-bottom order
    depth and by shore distance, foam and subsurface scattering
    parameters, waves dynamics etc.
 
-**Fog**
-   Fog parameters setup, including density and color.
-
 **Wind**
    Wind parameters setup, including direction and strength.
 
@@ -113,15 +120,18 @@ Control elements list in top-to-bottom order
 **Bloom**
    Bright light effect parameters setup.
 
+**Motion Blur**
+   Motion blur effect settings.
+
+**Glow Materials**
+   Glow Materials effect settings.
+
 **Depth of Field**
    Depth of field effect parameters setup.
 
 **Color correction**
    Color correction parameters setup, including brightness, contrast,
    exposure and saturation.
-
-**Anti-aliasing**
-   Selecting the anti-aliasing method.
 
 **Audio**
    There is a mixing mode switch on the panel. After it is enabled the
@@ -131,7 +141,11 @@ Control elements list in top-to-bottom order
 **Stereo View**
    There is a stereoscopy mode switch on the panel.
 
-**Debug**
+**Gyroscope**
+   Gyroscope settings for mobile devices can be controlled from this
+   panel.
+
+**Tools & Debug**
    This panel contains a range of debugging tools, including the
    wireframe mode and the postprocessing stages viewer switches.
 

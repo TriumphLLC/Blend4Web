@@ -1,3 +1,58 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url(interface/title_bg_en.png);
+    background-repeat: no-repeat;
+}
+
+select {
+    font-size: 30px;
+}
+
+div#start_menu {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    height: 200px;
+}
+
+#start_menu>div {
+    position: relative;
+    width: 250px;
+    height: 60px;
+    font-size: 30px;
+    color: #8b8b8b;
+}
+
+div #start_game {
+    cursor: pointer;
+}
+
+div #quality {
+    cursor: default;
+}
+
+div.languages_flag {
+    position: absolute;
+    height: 30px;
+    width: 45px;
+    cursor: pointer;
+}
+
+#languages_flag_ru {
+    left: 0px;
+    background: url("interface/flag_ru.png");
+}
+
+#languages_flag_en {
+    left: 55px;
+    background: url("interface/flag_en.png");
+}
+
 div#control_circle {
     position: absolute;
     background-image: url(interface/controls_150.png);
@@ -76,6 +131,7 @@ div#canvas3d {
     position: absolute;
     width: 100%;
     height: 100%;
+    visibility:hidden;
 }
 
 div#replay {
@@ -107,6 +163,7 @@ div#preloader_bg {
     right: 0;
     left: 0;
     background-color: #000;
+    visibility:hidden;
 }
 
 div#prelod_static_path {
@@ -137,3 +194,49 @@ div#prelod_static_path > span {
     color: #fff;
     font-family: arial;
 }
+
+div#game_menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -225px;
+    margin-left: -150px;
+    width: 300px;
+    height: 450px;
+    background-image: url("interface/game_menu.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    visibility: hidden;
+}
+
+#game_menu div {
+    position: relative;
+    top: 20%;
+    left: 20%;
+    width: 250px;
+    height: 60px;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+#credits_panel {
+    background-image: url("interface/credits.png");
+}
+
+#help_panel {
+    background-image: url("interface/help.png");
+}
+
+.additional_panel {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center center;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -250px;
+    width: 500px;
+    height: 500px;
+    visibility: hidden;
+}
+

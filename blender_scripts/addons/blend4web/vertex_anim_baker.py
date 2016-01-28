@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import mathutils
 import math
@@ -103,9 +87,9 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
         row.prop(va[va_index], "frame_start")
         row.prop(va[va_index], "frame_end")
 
-        row = layout.row(align=True)
-        row.prop(va[va_index], "averaging")
-        row.prop(va[va_index], "averaging_interval")
+        #row = layout.row(align=True)
+        #row.prop(va[va_index], "averaging")
+        #row.prop(va[va_index], "averaging_interval")
 
         row = layout.row()
         row.prop(va[va_index], "allow_nla")
@@ -234,30 +218,9 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
 
 
 def register(): 
-    bpy.utils.register_class(VertexAnimVertex)
-    bpy.utils.register_class(VertexAnimFrame)
-    bpy.utils.register_class(VertexAnim)
-
-    bpy.utils.register_class(B4W_VertexAnimBakerPanel)
-
-    bpy.utils.register_class(B4W_VertexAnimAddOperator)
-    bpy.utils.register_class(B4W_VertexAnimRemOperator)
-    bpy.utils.register_class(B4W_VertexAnimBakeOperator)
-
     bpy.types.Object.b4w_vertex_anim =\
             bpy.props.CollectionProperty(type=VertexAnim,
                 name=_("B4W: vertex animation"))
     bpy.types.Object.b4w_vertex_anim_index =\
             bpy.props.IntProperty(name=_("B4W: vertex animation index"))
 
-
-def unregister(): 
-    bpy.utils.unregister_class(VertexAnim)
-    bpy.utils.unregister_class(VertexAnimFrame)
-    bpy.utils.unregister_class(VertexAnimVertex)
-
-    bpy.utils.unregister_class(B4W_VertexAnimBakerPanel)
-
-    bpy.utils.unregister_class(B4W_VertexAnimAddOperator)
-    bpy.utils.unregister_class(B4W_VertexAnimRemOperator)
-    bpy.utils.unregister_class(B4W_VertexAnimBakeOperator)

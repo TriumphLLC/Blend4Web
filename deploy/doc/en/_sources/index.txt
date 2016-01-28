@@ -130,6 +130,14 @@ Table of contents
 
   * Add-on Translations
 
+* Scene settings
+
+  * The Render panel.
+
+  * The Scene panel
+
+  * The World panel
+
 * Objects
 
   * Types
@@ -139,6 +147,8 @@ Table of contents
   * Settings
 
   * Object Transform API
+
+  * Get object API
 
   * Quaternions
 
@@ -176,37 +186,35 @@ Table of contents
 
   * Halo Materials
 
-* Textures
-
-  * Texture Types
-
-  * Generic Settings
-
-  * Diffuse Map
-
-  * Specular Map
-
-  * Normal Map
-
-  * Height Map. Parallax Mapping
-
-  * Stencil Map
-
-  * Video Textures
-
-  * Environment Map
-
-  * Mirror Map
-
-  * Skydome
-
-  * Special Texture Types
-
 * Node Materials
 
   * Standard Nodes
 
   * Engine Specific Nodes
+
+* Logic Nodes
+
+  * Basics
+
+  * Control Flow
+
+  * Animation
+
+  * Camera
+
+  * Object
+
+  * Math
+
+  * Sound
+
+  * Web
+
+  * Debug
+
+  * Layout
+
+  * Debugging
 
 * Lighting, Shadows and Background
 
@@ -236,13 +244,41 @@ Table of contents
 
   * Outlining
 
-  * Stereo rendering
-
-  * Color Correction
-
   * Glow
 
   * Anti-Aliasing
+
+* Stereo rendering
+
+  * Activation
+
+  * Additional settings
+
+* Textures
+
+  * Texture Types
+
+  * Generic Settings
+
+  * Diffuse Map
+
+  * Specular Map
+
+  * Normal Map
+
+  * Height Map. Parallax Mapping
+
+  * Stencil Map
+
+  * Video Textures
+
+  * Environment Map
+
+  * Mirror Map
+
+  * Skydome
+
+  * Special Texture Types
 
 * Particle System. Fluids
 
@@ -270,11 +306,15 @@ Table of contents
 
   * Vertex Animation
 
+  * Default Animation
+
+  * Non-Linear Animation
+
   * Audio Source Parametrization
 
   * Animation of Value and RGB Nodes
 
-* Outdoor Rendering
+* Outdoor effects
 
   * Water
 
@@ -282,7 +322,7 @@ Table of contents
 
   * Wind
 
-* Gamma and Alpha
+* Color Management
 
   * Gamma Overview
 
@@ -294,7 +334,9 @@ Table of contents
 
   * Alpha Compositing
 
-* Audio System
+  * Color Correction
+
+* Audio
 
   * Audio Source Settings
 
@@ -317,20 +359,6 @@ Table of contents
   * Floating Vehicles aka Watercrafts
 
   * Use in Applications
-
-* Non-Linear Animation
-
-  * NLA Editor
-
-  * Controlling via API
-
-* Visual Programming
-
-  * Logic Editor
-
-  * Nodes
-
-  * Other elements
 
 * For Application Developers
 
@@ -403,6 +431,8 @@ Table of contents
   * WebGL Failed to Init
 
 * Release Notes
+
+  * v16.01
 
   * v15.12
 

@@ -679,12 +679,12 @@ formats is included into the distribution.
 This script can be run automatically using the project mangment
 system, or manually:
 
-   > python3 <path_to_sdk>/scripts/converter.py [-d file_path] resize_textures | convert_dds | convert_media
+   > python3 <path_to_sdk>/scripts/converter.py [options] resize_textures | convert_dds | convert_media
 
 For MS Windows users:
 
    cd <path_to_sdk>\scripts
-   python converter.py [-d file_path] resize_textures | convert_dds | convert_media
+   python converter.py [options] resize_textures | convert_dds | convert_media
 
 Note: To run the scripts the Python 3.x needs to be installed in
   your system.

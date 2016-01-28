@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import imp
 import mathutils
@@ -179,6 +163,9 @@ class B4W_ObjectRenderProps(ObjectButtonsPanel, Panel):
             row.active = not obj.b4w_do_not_render
             row.prop(obj, "b4w_do_not_cull", text=_("Disable Frustum Culling"))
             row.prop(obj, "b4w_dynamic_geometry", text=_("Dynamic Geometry"))
+        elif obj.type == "EMPTY":
+            row = layout.row()
+            row.prop(obj, "b4w_line_renderer", text=_("Line Renderer"))
 
 class B4W_ObjectShadows(ObjectButtonsPanel, Panel):
     bl_label = _("Shadows")
@@ -545,36 +532,3 @@ class B4W_ObjectEffects(ObjectButtonsPanel, Panel):
         row = layout.row()
         row.prop(obj, "b4w_caustics", text=_("Caustics"))
 
-def register():
-    bpy.utils.register_class(B4W_OBJECT_PT_relations)
-    bpy.utils.register_class(B4W_OBJECT_PT_duplication)
-    bpy.utils.register_class(B4W_OBJECT_PT_levels_of_detail)
-
-    bpy.utils.register_class(B4W_ObjectEffects)
-    bpy.utils.register_class(B4W_ObjectExportOptions)
-    bpy.utils.register_class(B4W_ObjectAnimation)
-    bpy.utils.register_class(B4W_ObjectRenderProps)
-    bpy.utils.register_class(B4W_ObjectShadows)
-    bpy.utils.register_class(B4W_ObjectReflections)
-    bpy.utils.register_class(B4W_ObjectOutlineSelect)
-    bpy.utils.register_class(B4W_ObjectAnchors)
-    bpy.utils.register_class(B4W_ObjectTags)
-    bpy.utils.register_class(B4W_ObjectWindBending)
-    bpy.utils.register_class(B4W_ObjectBillboard)
-
-def unregister():
-    bpy.utils.unregister_class(B4W_OBJECT_PT_relations)
-    bpy.utils.unregister_class(B4W_OBJECT_PT_duplication)
-    bpy.utils.unregister_class(B4W_OBJECT_PT_levels_of_detail)
-
-    bpy.utils.unregister_class(B4W_ObjectEffects)
-    bpy.utils.unregister_class(B4W_ObjectExportOptions)
-    bpy.utils.unregister_class(B4W_ObjectAnimation)
-    bpy.utils.unregister_class(B4W_ObjectRenderProps)
-    bpy.utils.unregister_class(B4W_ObjectShadows)
-    bpy.utils.unregister_class(B4W_ObjectReflections)
-    bpy.utils.unregister_class(B4W_ObjectOutlineSelect)
-    bpy.utils.unregister_class(B4W_ObjectAnchors)
-    bpy.utils.unregister_class(B4W_ObjectTags)
-    bpy.utils.unregister_class(B4W_ObjectWindBending)
-    bpy.utils.unregister_class(B4W_ObjectBillboard)

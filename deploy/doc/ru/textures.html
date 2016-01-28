@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
-        <link rel="next" title="Нодовые материалы" href="node_materials.html"/>
-        <link rel="prev" title="Материалы" href="materials.html"/> 
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+        <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
+        <link rel="prev" title="Стереоизображение" href="stereo_rendering.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,9 +91,15 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Текстуры</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Типы текстур</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#main-conf">Общие настройки</a></li>
@@ -151,18 +157,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -337,6 +338,7 @@
 <div class="section" id="height-map-parallax-mapping">
 <span id="index-7"></span><h2>Карта высот (height map). Parallax mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Карта высот содержит информацию о распределении относительных высот рельефа. Более высокий уровень поверхности обозначается более светлым цветом. Карта высот в сочетании с картой нормалей требуются в качестве входящих данных для реализации рельефной поверхности (parallax mapping). Карта высот должна содержатся в альфа-канале карты нормалей.</p>
+<a class="reference internal image-reference" href="_images/textures_height_map.png"><img alt="_images/textures_height_map.png" class="align-center" src="_images/textures_height_map.png" style="width: 100%;" /></a>
 <div class="section" id="id13">
 <h3>Активация<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для карты нормалей дополнительно к опции <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> активировать панель <code class="docutils literal"><span class="pre">Parallax</span></code>.</p>
@@ -351,7 +353,7 @@
 <dt><em>Parallax &gt; Parallax LOD distance</em></dt>
 <dd>Расстояние на котором виден эффект параллакса.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="_images/parallax.jpg" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_parallax.png"><img alt="_images/textures_parallax.png" class="align-center" src="_images/textures_parallax.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -378,11 +380,11 @@
 <div class="section" id="id19">
 <h3>Пример<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту &#8220;matcap&#8221;, карту зеркального отражения.</p>
-<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="_images/stencil_apple.jpg" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_stencil_apple.png"><img alt="_images/textures_stencil_apple.png" class="align-center" src="_images/textures_stencil_apple.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="_images/stencil_apple_separate_textures.jpg" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_stencil_apple_separate_textures.png"><img alt="_images/textures_stencil_apple_separate_textures.png" class="align-center" src="_images/textures_stencil_apple_separate_textures.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -472,7 +474,7 @@
 <li>Выполнить рендеринг сцены <code class="docutils literal"><span class="pre">F12</span></code> (требуется наличие камеры).</li>
 <li>Сохранить карту окружения в файл.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="_images/environment_map_baking_scene.jpg" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_environment_map_baking_scene.png"><img alt="_images/textures_environment_map_baking_scene.png" class="align-center" src="_images/textures_environment_map_baking_scene.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -560,7 +562,7 @@
 <li>Создать дополнительную сцену-источник, переименовать для удобства, создать <code class="docutils literal"><span class="pre">World</span></code>, добавить нужные объекты, настроить вид из камеры.</li>
 <li>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Scene</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> указать название сцены-источника. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/textures_render_to_texture.png"><img alt="_images/textures_render_to_texture.png" class="align-center" src="_images/textures_render_to_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -588,6 +590,13 @@
 </pre></div>
 </div>
 <p>Для получения контекста используется функция <code class="docutils literal"><span class="pre">get_canvas_ctx()</span></code>, куда передается объект и имя текстуры, задаваемое в Blender. После <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">преобразований с контекстом</a> вызывается функция <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>, которая осуществляет визуализацию изменений на указанном объекте, в указанной текстуре.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Если в Blender на разных объектах была назначена одна и та же текстура типа Canvas, то и после загрузки в движке будет одна общая текстура, а не несколько уникальных.
+Результат работы с ней будет заметен на всех использующих её объектах. Это может быть полезно с точки зрения оптимизации. Если же требуется противоположное поведение, то следует назначить разные текстуры ещё в Blender, либо использовать <a class="reference internal" href="objects.html#copy-obj"><span>глубокое копирование</span></a> уже непосредственно в приложении.</p>
+</div>
+</div></blockquote>
 </div>
 </div>
 </div>
@@ -599,10 +608,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="node_materials.html" class="btn btn-neutral float-right" title="Нодовые материалы" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="particles.html" class="btn btn-neutral float-right" title="Система частиц. Флюиды" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="materials.html" class="btn btn-neutral" title="Материалы" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="stereo_rendering.html" class="btn btn-neutral" title="Стереоизображение" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -612,7 +621,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -634,7 +643,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

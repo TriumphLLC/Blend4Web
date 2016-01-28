@@ -110,7 +110,7 @@ Support
 We are always happy to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_.
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.12-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-16.01-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 

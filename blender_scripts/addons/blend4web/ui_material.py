@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import imp
 import mathutils
@@ -575,29 +559,3 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
         row.active = getattr(mat, "b4w_water_enable_caust")
         row.prop(mat, "b4w_water_caust_brightness", text=_("Brightness"))
 
-
-def register():
-    bpy.utils.register_class(B4W_MATERIAL_PT_diffuse)
-    bpy.utils.register_class(B4W_MATERIAL_PT_specular)
-    bpy.utils.register_class(B4W_MATERIAL_PT_shading)
-    bpy.utils.register_class(B4W_MATERIAL_PT_transp)
-    bpy.utils.register_class(B4W_MATERIAL_PT_mirror)
-    bpy.utils.register_class(B4W_MATERIAL_PT_halo)
-    bpy.utils.register_class(B4W_MATERIAL_PT_rendering_options)
-    bpy.utils.register_class(B4W_WaterMaterial)
-    bpy.utils.register_class(B4W_CollisionMaterial)
-    bpy.utils.register_class(B4W_TerrainDynGrass)
-    bpy.utils.register_class(B4W_MaterialExport)
-
-def unregister():
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_diffuse)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_specular)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_shading)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_transp)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_mirror)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_halo)
-    bpy.utils.unregister_class(B4W_MATERIAL_PT_rendering_options)
-    bpy.utils.unregister_class(B4W_WaterMaterial)
-    bpy.utils.unregister_class(B4W_CollisionMaterial)
-    bpy.utils.unregister_class(B4W_TerrainDynGrass)
-    bpy.utils.unregister_class(B4W_MaterialExport)

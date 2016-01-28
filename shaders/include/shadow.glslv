@@ -24,7 +24,6 @@ vec4 get_shadow_coords_shifted(mat4 light_proj_matrix, vec4 pos_light_space, mat
     // NOTE scaling by 0.5 and adding 0.5 produces the same result
     // as multiplying by the bias matrix
     shadow_coord.xyz = 0.5 * (shadow_coord.xyz + shadow_coord.w);
-
     return shadow_coord;
 }
 

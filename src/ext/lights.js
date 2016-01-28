@@ -20,6 +20,7 @@
 /**
  * Lights API.
  * @module lights
+ * @local LightParams
  */
 b4w.module["lights"] = function(exports, require) {
 
@@ -39,6 +40,20 @@ var _sun_pos        = new Float32Array(3);
 var _date           = {};
 var _julian_date    = 0;
 var _max_sun_angle  = 60;
+
+/**
+ * @typedef LightParams
+ * @type {Object}
+ * @property {String} light_type Light type
+ * @property {Number} light_energy Light energy
+ * @property {RGB} light_color Light color
+ * @property {Number} light_spot_blend Blend parameter of SPOT light
+ * @property {Number} light_spot_size Size parameter of SPOT light
+ * @property {Number} light_distance Light falloff distance for POINT and SPOT
+ * lights
+ * @cc_externs light_type light_energy light_color
+ * @cc_externs light_spot_blend light_spot_size light_distance
+*/
 
 /**
  * Get lamp objects.
@@ -237,7 +252,7 @@ exports.set_max_sun_angle = function(angle) {
  * Get the light params.
  * @method module:lights.get_light_params
  * @param {Object3D} lamp_obj Lamp object
- * @returns {LightParams} Light params
+ * @returns {LightParams | null} Light params or null in case of error
  */
 exports.get_light_params = function(lamp_obj) {
 
@@ -245,13 +260,13 @@ exports.get_light_params = function(lamp_obj) {
         var light = lamp_obj.light;
     else {
         m_print.error("get_light_params(): Wrong object");
-        return false;
+        return null;
     }
 
     var type = get_light_type(lamp_obj);
 
     if (type)
-        switch(type) {
+        switch (type) {
         case "SPOT":
             var rslt = {
                 "light_type": type,
@@ -281,7 +296,7 @@ exports.get_light_params = function(lamp_obj) {
     if (rslt)
         return rslt;
     else
-        return false;
+        return null;
 }
 
 exports.get_light_type = get_light_type
@@ -301,9 +316,8 @@ function get_light_type(lamp_obj) {
 /**
  * Set the light params.
  * @method module:lights.set_light_params
- * @param {Object3D} lamp_obj Lamp object.
+ * @param {Object3D} lamp_obj Lamp object
  * @param {LightParams} light_params Light params
- * @cc_externs light_distance light_spot_size light_spot_blend light_energy light_color
  */
 exports.set_light_params = function(lamp_obj, light_params) {
 

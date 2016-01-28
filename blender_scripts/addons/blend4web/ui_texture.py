@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import imp
 import mathutils
@@ -486,28 +470,3 @@ class B4W_ParallaxPanel(TextureTypePanel, Panel):
         row.prop(tex, "b4w_parallax_steps", text=_("Steps"), slider=True)
         row.prop(tex, "b4w_parallax_lod_dist", text=_("Lod Distance"), slider=True)
 
-def register():
-    bpy.utils.register_class(B4W_TEXTURE_PT_preview)
-    bpy.utils.register_class(B4W_TEXTURE_PT_envmap)
-    bpy.utils.register_class(B4W_TEXTURE_PT_colors)
-    bpy.utils.register_class(B4W_TEXTURE_PT_image_sampling)
-    bpy.utils.register_class(B4W_TEXTURE_PT_image_mapping)
-    bpy.utils.register_class(B4W_TEXTURE_PT_image)
-    bpy.utils.register_class(B4W_TEXTURE_PT_mapping)
-    bpy.utils.register_class(B4W_TEXTURE_PT_influence)
-    bpy.utils.register_class(B4W_TextureExport)
-    bpy.utils.register_class(B4W_ParallaxPanel)
-    bpy.utils.register_class(B4W_TextureWaterFoam)
-
-def unregister():
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_preview)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_envmap)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_colors)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_image_sampling)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_image_mapping)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_mapping)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_influence)
-    bpy.utils.unregister_class(B4W_TEXTURE_PT_image)
-    bpy.utils.unregister_class(B4W_TextureExport)
-    bpy.utils.unregister_class(B4W_ParallaxPanel)
-    bpy.utils.unregister_class(B4W_TextureWaterFoam)

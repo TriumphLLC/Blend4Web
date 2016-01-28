@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Postprocessing Effects &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Postprocessing Effects &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
-        <link rel="next" title="Particle System. Fluids" href="particles.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+        <link rel="next" title="Stereo rendering" href="stereo_rendering.html"/>
         <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,11 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Postprocessing Effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">Motion Blur</a><ul>
@@ -118,7 +119,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id13">Additional settings</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">Bloom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bloom">Bloom</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id15">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id16">Additional settings</a></li>
 </ul>
@@ -128,37 +129,27 @@
 <li class="toctree-l3"><a class="reference internal" href="#id18">Additional settings</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#stereo">Stereo rendering</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Additional settings</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#color-correction">Color Correction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Additional settings</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#glow">Glow</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id28">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Additional settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Additional settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#antialiasing">Anti-Aliasing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id31">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id32">Additional settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Additional settings</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -205,7 +196,7 @@
 <div class="section" id="motion-blur">
 <span id="index-0"></span><span id="id2"></span><h2>Motion Blur<a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h2>
 <p>The motion blur effect can be used to improve the realism of an interactive scene. It is displayed as picture blurring when the camera or objects move.</p>
-<a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_motion_blur.png"><img alt="_images/effects_motion_blur.png" class="align-center" src="_images/effects_motion_blur.png" style="width: 100%;" /></a>
 <div class="section" id="id3">
 <h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Activate the <code class="docutils literal"><span class="pre">Motion</span> <span class="pre">Blur</span></code> panel on the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
@@ -225,7 +216,7 @@
 <div class="section" id="dof">
 <span id="index-1"></span><span id="id5"></span><h2>Depth of Field<a class="headerlink" href="#dof" title="Permalink to this headline">¶</a></h2>
 <p>The depth of field effect (DOF) can be used to accentuate a part of a scene. It is displayed as picture blurring nearer and further from the camera focus.</p>
-<a class="reference internal image-reference" href="_images/dof.jpg"><img alt="_images/dof.jpg" class="align-center" src="_images/dof.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_dof.png"><img alt="_images/effects_dof.png" class="align-center" src="_images/effects_dof.png" style="width: 100%;" /></a>
 <div class="section" id="id6">
 <h3>Activation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
@@ -261,7 +252,7 @@
 <div class="section" id="ssao">
 <span id="index-2"></span><span id="id8"></span><h2>Screen-Space Ambient Occlusion<a class="headerlink" href="#ssao" title="Permalink to this headline">¶</a></h2>
 <p>The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.</p>
-<a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_ssao.png"><img alt="_images/effects_ssao.png" class="align-center" src="_images/effects_ssao.png" style="width: 50%;" /></a>
 <div class="section" id="id9">
 <h3>Activation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Activate the <code class="docutils literal"><span class="pre">Ambient</span> <span class="pre">Occlusion</span> <span class="pre">SSAO</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab and set the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> parameter to <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>  on the <code class="docutils literal"><span class="pre">Rander</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span></code> panel.</p>
@@ -296,7 +287,7 @@
 <div class="section" id="god-rays">
 <span id="index-3"></span><span id="id11"></span><h2>God Rays<a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h2>
 <p>The god rays effect (aka crepuscular rays) simulates well-known natural phenomenon - the shining of illuminated air parts.</p>
-<a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_god_rays.png"><img alt="_images/effects_god_rays.png" class="align-center" src="_images/effects_god_rays.png" style="width: 100%;" /></a>
 <div class="section" id="id12">
 <h3>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Activate the <code class="docutils literal"><span class="pre">God</span> <span class="pre">Rays</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
@@ -316,10 +307,10 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>Bloom<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bloom">
+<span id="id14"></span><h2>Bloom<a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h2>
 <p>Bloom appears when a picture has elements with a very different brightness. A glowing halo is created around the bright details.</p>
-<a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_bloom.png"><img alt="_images/effects_bloom.png" class="align-center" src="_images/effects_bloom.png" style="width: 100%;" /></a>
 <div class="section" id="id15">
 <h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>Activate the <code class="docutils literal"><span class="pre">Bloom</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
@@ -342,7 +333,7 @@
 <div class="section" id="outlining">
 <span id="outline"></span><span id="index-4"></span><h2>Outlining<a class="headerlink" href="#outlining" title="Permalink to this headline">¶</a></h2>
 <p>As a result of the outline glow effect, a luminous colored halo will be displayed around the object.</p>
-<a class="reference internal image-reference" href="_images/outline.jpg"><img alt="_images/outline.jpg" class="align-center" src="_images/outline.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/effects_outline.png"><img alt="_images/effects_outline.png" class="align-center" src="_images/effects_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id17">
 <h3>Activation<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel&#8217;s <code class="docutils literal"><span class="pre">Enable</span></code> property is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
@@ -376,65 +367,16 @@
 <p>The <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> settings are taken as default when the glow effect is initiated via API.</p>
 </div>
 </div>
-<div class="section" id="stereo">
-<span id="index-5"></span><span id="id19"></span><h2>Stereo rendering<a class="headerlink" href="#stereo" title="Permalink to this headline">¶</a></h2>
-<p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
-<p>Blend4Web supports two techniques of the stereo image rendering - anagliph image and the HMD (head-mounted display).</p>
-<p>Anaglyph:</p>
-<a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
-<p>HMD:</p>
-<a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
-<p>HMD is an experimental feature, for now it works only with the <code class="docutils literal"><span class="pre">Eye</span></code> type cameras.</p>
+<div class="section" id="glow">
+<span id="id19"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
+<p>Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.</p>
+<a class="reference internal image-reference" href="_images/effects_glow.png"><img alt="_images/effects_glow.png" class="align-center" src="_images/effects_glow.png" style="width: 100%;" /></a>
 <div class="section" id="id20">
 <h3>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
-<p>To use HMD stereo rendering, you need to install Oculus&#8217;s <a class="reference external" href="https://developer.oculus.com/downloads/">runtime utility</a>. Windows and MacOS versions can be found on the Oculus web site in binary format, while Linux version should be compiled from the source code.</p>
-<p>For now, the HMD is supported by the <a class="reference external" href="http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html">Chromium experimental builds</a> and in the <a class="reference external" href="https://nightly.mozilla.org/">Firefox nightly builds</a>.</p>
-<p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Chromium settings.</a></p>
-<p><a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">Firefox settings.</a></p>
-<p>To turn the stereo rendering on, you need to choose certain option in the settings, in the third column from the right, as shown on the picture.</p>
-<a class="reference internal image-reference" href="_images/postprocessing_effects_hmd.png"><img alt="_images/postprocessing_effects_hmd.png" class="align-center" src="_images/postprocessing_effects_hmd.png" style="width: 100%;" /></a>
-<p>For stereo rendering to work correctly, switching to the full screen mode is recommended.</p>
-</div>
-<div class="section" id="id23">
-<h3>Additional settings<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
-<p>None.</p>
-</div>
-</div>
-<div class="section" id="color-correction">
-<span id="index-6"></span><span id="id24"></span><h2>Color Correction<a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
-<div class="section" id="id25">
-<h3>Activation<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
-<p>Activate the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
-</div>
-<div class="section" id="id26">
-<h3>Additional settings<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><em>Brightness</em></dt>
-<dd><p class="first last">The default value is 0.0.</p>
-</dd>
-<dt><em>Contrast</em></dt>
-<dd><p class="first last">The default value is 0.0.</p>
-</dd>
-<dt><em>Exposure</em></dt>
-<dd><p class="first last">The default value is 1.0.</p>
-</dd>
-<dt><em>Saturation</em></dt>
-<dd><p class="first last">The default value is 1.0.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="glow">
-<span id="id27"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
-<p>Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.</p>
-<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
-<div class="section" id="id28">
-<h3>Activation<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
-<div class="section" id="id29">
-<h3>Additional settings<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Additional settings<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Small Mask: Intensity</em></dt>
 <dd><p class="first last">Intensity of glow obtained through the smaller mask. The default value is 2.0.</p>
@@ -455,11 +397,11 @@
 </div>
 </div>
 <div class="section" id="antialiasing">
-<span id="index-7"></span><span id="id30"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
+<span id="index-5"></span><span id="id22"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
 <p>Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization).</p>
-<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
-<div class="section" id="id31">
-<h3>Activation<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/effects_antialiasing.png"><img alt="_images/effects_antialiasing.png" class="align-center" src="_images/effects_antialiasing.png" style="width: 100%;" /></a>
+<div class="section" id="id23">
+<h3>Activation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>Select quality profile using <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> menu located on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code> panel.</p>
 <blockquote>
 <div><ul class="simple">
@@ -471,8 +413,8 @@
 </div></blockquote>
 <p><em>Medium</em> profile is used by default.</p>
 </div>
-<div class="section" id="id32">
-<h3>Additional settings<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Additional settings<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile:</p>
 <blockquote>
 <div><ul class="simple">
@@ -493,7 +435,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="particles.html" class="btn btn-neutral float-right" title="Particle System. Fluids" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="stereo_rendering.html" class="btn btn-neutral float-right" title="Stereo rendering" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="lighting.html" class="btn btn-neutral" title="Lighting, Shadows and Background" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -506,7 +448,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -528,7 +470,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

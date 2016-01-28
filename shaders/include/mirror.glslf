@@ -34,7 +34,7 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
 # if REFLECTION_TYPE == REFL_CUBE
     vec3 reflect_color = textureCube(u_cube_reflection, eye_reflected).xyz;
 # elif REFLECTION_TYPE == REFL_PLANE
-
+#  if !REFLECTION_PASS
     vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);
     vec3 normal_offset = normal - norm_proj_refl;
     vec2 normal_offset_view = (view_matrix * vec4(normal_offset, 0.0)).xy;
@@ -42,6 +42,10 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
     vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
     refl_coord += normal_offset_view * REFL_BUMP;
     vec3 reflect_color = texture2D(u_plane_reflection, refl_coord).rgb;
+#  else //!REFLECTION_PASS
+    vec3 reflect_color = vec3(1.0);
+    reflect_factor = 0.0;
+#  endif //!REFLECTION_PASS
 # elif REFLECTION_TYPE == REFL_MIRRORMAP
     vec3 reflect_color = textureCube(u_mirrormap, eye_reflected).xyz;
     reflect_factor = u_mirror_factor;

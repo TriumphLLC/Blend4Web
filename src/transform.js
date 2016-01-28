@@ -54,8 +54,6 @@ var _elapsed = 0;
 exports.SPACE_WORLD = 0;
 // transform in local space
 exports.SPACE_LOCAL = 1;
-// transform in parent space
-exports.SPACE_PARENT = 2;
 
 exports.update = function(elapsed) {
     _elapsed = elapsed;
@@ -186,16 +184,14 @@ exports.get_scale_rel = function(obj) {
 }
 
 exports.set_tsr = function(obj, tsr) {
-    var render = obj.render;
+    m_tsr.copy(tsr, obj.render.world_tsr);
 
     if (m_cons.has_child_of(obj)) {
-        m_tsr.set_trans(trans, render.world_tsr);
         var tsr_par = m_cons.get_child_of_parent_tsr(obj);
         var tsr_inv = m_tsr.invert(tsr_par, _tsr_tmp);
         var offset = m_cons.get_child_of_offset(obj);
-        m_tsr.multiply(tsr_inv, render.world_tsr, offset);
-    } else
-        m_tsr.copy(tsr, render.world_tsr);
+        m_tsr.multiply(tsr_inv, obj.render.world_tsr, offset);
+    }
 }
 
 exports.set_tsr_rel = set_tsr_rel;
@@ -307,11 +303,8 @@ function update_transform(obj) {
         m_cam.update_camera(obj);
 
     // should not change after constraint update
-    var trans = m_tsr.get_trans_view(render.world_tsr);
-    var quat = m_tsr.get_quat_view(render.world_tsr);
-
-    if (obj_type == "CAMERA")
-        m_tsr.set_scale(1, render.world_tsr);
+    var trans = m_tsr.get_trans_value(render.world_tsr, _vec3_tmp);
+    var quat = m_tsr.get_quat_value(render.world_tsr, _quat4_tmp);
 
     // NOTE: available only after batch creation (really needed now?)
     if (render.bb_local && render.bb_world) {
@@ -379,12 +372,10 @@ function update_transform(obj) {
                         m_scs.schedule_shadow_update(scene);
 
                     var cube_refl_subs = sc_data.cube_refl_subs;
-                    if (render.cube_reflection_id != null && cube_refl_subs)
+                    if (render.cube_reflection_id != null && cube_refl_subs) {
                         m_scs.update_cube_reflect_subs(cube_refl_subs, trans);
+                    }
                 }
-                if (obj.anim_slots.length &&
-                        m_particles.obj_has_anim_particles(obj))
-                    m_particles.update_emitter_transform(obj, batches);
                 break;
             case "EMPTY":
                 m_obj.update_force(obj);
@@ -393,12 +384,14 @@ function update_transform(obj) {
 
             var plane_refl_subs = sc_data.plane_refl_subs;
             var refl_objs = obj.reflective_objs;
-            if (refl_objs.length && plane_refl_subs) {
-                var cam = plane_refl_subs.camera;
-                m_scs.update_plane_reflect_subs(plane_refl_subs, trans, quat);
-                m_obj_util.update_refl_objects(refl_objs, cam.reflection_plane);
-                m_cam.set_view(cam, m_scs.get_camera(scene));
-                m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
+            if (refl_objs.length) {
+                for (var j = 0; j < plane_refl_subs.length; j++) {
+                    var cam = plane_refl_subs[j].camera;
+                    m_scs.update_plane_reflect_subs(plane_refl_subs[j], trans, quat);
+                    m_obj_util.update_refl_objects(refl_objs, cam.reflection_plane);
+                    m_cam.set_view(cam, m_scs.get_camera(scene));
+                    m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
+                }
             }
         }
     }

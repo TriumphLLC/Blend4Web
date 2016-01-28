@@ -11,6 +11,7 @@ var m_scs = require("scenes");
 var m_phy = require("physics");
 var m_anim = require("animation");
 var m_sfx = require("sfx");
+var m_time  = require("time");
 var m_trans = require("transform");
 var m_util  = require("util");
 var m_vec3  = require("vec3");
@@ -78,7 +79,7 @@ exports.setup_controls = function (elapsed_sensor) {
 
     setup_ground_sensor(on_ground_sens);
 
-    if(detect_mobile()) {
+    if(m_main.detect_mobile()) {
         m_interface.setup_touch_controls(right_arrow, up_arrow, left_arrow,
                                          down_arrow, touch_jump, touch_attack);
     }
@@ -151,22 +152,6 @@ function setup_ground_sensor(on_ground) {
             m_ctl.CT_TRIGGER, [ground_sens, lava_sens, common_coll_sens],
             function(s) {return s[0] || s[1] || s[2]}, ground_cb);
 }
-
-
-function detect_mobile() {
-    if( navigator.userAgent.match(/Android/i)
-     || navigator.userAgent.match(/webOS/i)
-     || navigator.userAgent.match(/iPhone/i)
-     || navigator.userAgent.match(/iPad/i)
-     || navigator.userAgent.match(/iPod/i)
-     || navigator.userAgent.match(/BlackBerry/i)
-     || navigator.userAgent.match(/Windows Phone/i)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 
 function setup_movement(up_arrow, down_arrow, on_ground_sens) {
     var key_w     = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
@@ -469,7 +454,7 @@ function change_hp(amount) {
     if (_char_wrapper.hp <= 0)
         return;
 
-    var cur_time = m_main.global_timeline();
+    var cur_time = m_time.get_timeline();
 
     if (amount < 0 && _last_hurt_sound < cur_time - 0.5) {
         var id = Math.floor(2 * Math.random());

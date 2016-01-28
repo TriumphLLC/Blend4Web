@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Камера &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Камера &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
         <link rel="next" title="Материалы" href="materials.html"/>
         <link rel="prev" title="Объекты" href="objects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Камера</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Режимы управления и общие настройки</a></li>
@@ -100,19 +101,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -220,45 +221,48 @@
 <h2>Ограничения движения камеры<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для камеры доступно несколько настроек, ограничивающих/изменяющих её движение тем или иным образом. Они объединены в группу <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Limits</span></code>.</p>
 <a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
+<p>Ограничители перемещения камеры могут отображаться непосредственно во вьюпорте Blender. Для этого нужно включить опцию <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>Камера типа Target</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_target.png"><img alt="_images/camera_limits_target.png" class="align-center" src="_images/camera_limits_target.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Distance Limits</em></dt>
-<dd>Задание минимального и максимального расстояний от камеры до точки вращения. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
+<dd>Задание минимального и максимального расстояний от камеры до точки вращения. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img src="_images/distance_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation Clamping</em></dt>
-<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Rotation Limits</em></dt>
+<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Rotation Clamping</em></dt>
-<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> по часовой стрелке. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> по часовой стрелке. Значения по умолчанию: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils" id="panning-mode">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use panning mode</em></dt>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Panning Mode</em></dt>
 <dd>Разрешить панорамное перемещение камеры.</dd>
 </dl>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>Камера типа Eye</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_eye.png"><img alt="_images/camera_limits_eye.png" class="align-center" src="_images/camera_limits_eye.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Use Horizontal Rotation Clamping</em></dt>
-<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> по часовой стрелке. По умолчанию отключено.</dd>
+<dt><em>Blend4Web &gt; Horizontal Rotation Limits</em></dt>
+<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> по часовой стрелке. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_eye.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Rotation Clamping</em></dt>
-<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> против часовой стрелки. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_eye.svg" width="100%" /></div>
 </a>
@@ -266,33 +270,42 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Камера типа Hover</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_hover.png"><img alt="_images/camera_limits_hover.png" class="align-center" src="_images/camera_limits_hover.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Translation Limits</em></dt>
-<dd>Ограничение перемещения опорной точки вдоль оси X в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. По умолчанию отключено.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Vertical Translation Limits</em></dt>
-<dd>Ограничение перемещения опорной точки вдоль оси Y в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Translation Limits</em></dt>
+<dd>Ограничение перемещения опорной точки вдоль оси X в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinX = -10</em>, <em>MaxX = 10</em>. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Translation Limits</em></dt>
+<dd>Ограничение перемещения опорной точки вдоль оси Y в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinY = -10</em>, <em>MaxY = 10</em>. По умолчанию отключено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Distance Limits</em></dt>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Zooming</em></dt>
+<dd>Позволяет пользователю приближать и удалять камеру относительно опорной точки. При отключении этого параметра камера будет свободно двигаться вдоль оси Z мировых координат в Blender&#8217;е, опорная точка не будет задана, а настройки <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> и <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> будут ограничивать позицию самой камеры. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
 <dd>Задание минимального и максимального расстояний от камеры до точки пересечения (опорная точка) направления взгляда камеры с горизонтальной опорной плоскостью
-(по умолчанию с плоскостью XOY мировых координат в Blender&#8217;е). Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. При отключении камера будет свободно двигаться вдоль оси Z мировых координат в Blender&#8217;е, опорная точка не будет задана, а настройки <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> и <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> будут ограничивать позицию самой камеры. По умолчанию отключено.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Camera Angle Limits</em></dt>
-<dd>Ограничения угла подъема камеры (угла между направлением взгляда камеры и горизонтальной плоскостью). Становятся доступными при включении опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>. Допустимые значения: 0 <span class="math">\(\le\)</span> Down Angle <span class="math">\(\le\)</span> Up Angle <span class="math">\(\le\)</span> 90. Значения по умолчанию: <em>Down Angle = 0, Up Angle = 90</em>.</dd>
+(по умолчанию с плоскостью XOY мировых координат в Blender&#8217;е). Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</dd>
+<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
+<dd>Ограничения угла подъема камеры (угла между направлением взгляда камеры и горизонтальной плоскостью). Становятся доступными при включении опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code>. Допустимые значения: <em>0° :math:`le` Down :math:`le` Up :math:`le` 90°</em>. Значения по умолчанию: <em>Down = 0°, Up = 90°</em>.</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Zero Level</em></dt>
-<dd>Расстояние от опорной плоскости камеры до центра координат. Доступно при включении опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>.</dd>
+<dd>Расстояние от опорной плоскости камеры до центра координат. По умолчанию равно нулю.</dd>
 </dl>
-<p>При включении настройки <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code> лимиты по расстоянию и углу подъема будут действовать одновременно, задавая траекторию движения камеры в вертикальной плоскости.</p>
+<p>При включении настройки <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> лимиты по расстоянию и углу подъема будут действовать одновременно, задавая траекторию движения камеры в вертикальной плоскости.</p>
 <a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
 </a>
-<p>Некорректное задание лимитов по расстоянию либо углу подъема приведет к отключению опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>.</p>
+<p>Некорректное задание лимитов по расстоянию либо углу подъема приведет к отключению опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>.</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation</em></dt>
-<dd>Разрешить вращение камеры в плоскости XOY Blender&#8217;а относительно опорной точки. Становятся доступными при включении опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>. По умолчанию включено.</dd>
+<dd>Разрешить вращение камеры в плоскости XOY Blender&#8217;а относительно опорной точки. Становятся доступными при включении опции <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span> <span class="pre">&gt;</span> <span class="pre">Camera</span> <span class="pre">Limits</span> <span class="pre">&gt;</span> <span class="pre">Distance</span> <span class="pre">Limits</span></code>. По умолчанию включено.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
 </a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Камера типа Static</strong></p>
+<a class="reference internal image-reference" href="_images/camera_limits_static.png"><img alt="_images/camera_limits_static.png" class="align-center" src="_images/camera_limits_static.png" style="width: 100%;" /></a>
+<p>Камера этого типа не имеет ограничителей, так как не контролируется пользователем.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -388,7 +401,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -410,7 +423,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

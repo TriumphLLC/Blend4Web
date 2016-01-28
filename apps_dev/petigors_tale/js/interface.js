@@ -9,13 +9,92 @@ var m_char = require("character");
 var m_conf = require("game_config");
 var m_ctl   = require("controls");
 var m_main  = require("main");
+var m_time  = require("time");
+var m_data  = require("data");
+var m_cfg   = require("config");
 
-exports.init = function(replay_cb) {
-    document.getElementById("replay").addEventListener("touchstart", replay_cb, false);
-    document.getElementById("replay").addEventListener("click", replay_cb, false);
+var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
 
-    var life_bar = document.getElementById("life_bar");
+exports.init = function(replay_cb, elapsed_sensor, intro_load_cb, preloader_cb) {
+    var replay_button = document.getElementById("replay");
+    var life_bar      = document.getElementById("life_bar");
     life_bar.style.visibility = "visible";
+
+    var game_menu     = document.getElementById("game_menu");
+    var menu_resume   = document.getElementById("menu_resume");
+    var menu_help     = document.getElementById("menu_help");
+    var menu_restart  = document.getElementById("menu_restart");
+    var menu_exit     = document.getElementById("menu_exit");
+    var menu_credits  = document.getElementById("menu_credits");
+
+    var credits_panel  = document.getElementById("credits_panel");
+    var help_panel  = document.getElementById("help_panel");
+    var preloader_bg = document.getElementById("preloader_bg");
+
+    function resume_cb() {
+        game_menu.style.visibility = "hidden";
+        m_main.resume();
+    }
+    function credits_cb() {
+        credits_panel.style.visibility = "visible";
+    }
+    function help_cb() {
+        help_panel.style.visibility = "visible";
+    }
+    function menu_exit_cb() {
+        m_main.resume();
+        m_data.unload();
+        game_menu.style.visibility = "hidden";
+        preloader_bg.style.visibility = "visible"
+        if (m_main.detect_mobile())
+            m_data.load(ASSETS_PATH + "intro_LQ.json", intro_load_cb, preloader_cb, true);
+        else
+            m_data.load(ASSETS_PATH + "intro_HQ.json", intro_load_cb, preloader_cb, true);
+    }
+    function menu_restart_cb() {
+        m_main.resume();
+        game_menu.style.visibility = "hidden";
+        replay_cb(elapsed_sensor);
+    }
+    function replay_btn_cb() {
+        replay_button.style.visibility = "hidden";
+        replay_cb(elapsed_sensor);
+    }
+
+    function esc_cb() {
+        if (game_menu.style.visibility != "visible") {
+            game_menu.style.visibility = "visible";
+            m_main.pause();
+        }
+    }
+
+    if (m_main.detect_mobile()) {
+        menu_resume.addEventListener("touchstart", resume_cb, false);
+        menu_help.addEventListener("touchstart", help_cb, false);
+        menu_exit.addEventListener("touchstart", menu_exit_cb, false);
+        menu_credits.addEventListener("touchstart", credits_cb, false);
+        menu_restart.addEventListener("touchstart", menu_restart_cb, false);
+        replay_button.addEventListener("touchstart", replay_btn_cb, false);
+        credits_panel.addEventListener("touchstart", function(){credits_panel.style.visibility = "hidden"}, false);
+        help_panel.addEventListener("touchstart", function(){help_panel.style.visibility = "hidden"}, false);
+    } else {
+        menu_resume.addEventListener("click", resume_cb, false);
+        menu_help.addEventListener("click", help_cb, false);
+        menu_exit.addEventListener("click", menu_exit_cb, false);
+        menu_credits.addEventListener("click", credits_cb, false);
+        menu_restart.addEventListener("click", menu_restart_cb, false);
+        replay_button.addEventListener("click", replay_btn_cb, false);
+        credits_panel.addEventListener("click", function(){credits_panel.style.visibility = "hidden"}, false);
+        help_panel.addEventListener("click", function(){help_panel.style.visibility = "hidden"}, false);
+    }
+
+    var key_esc = m_ctl.KEY_ESC;
+    m_ctl.create_kb_sensor_manifold(null, "SHOW_MENU", m_ctl.CT_SHOT, key_esc, esc_cb);
+}
+
+exports.show_game_menu = function() {
+    var game_menu = document.getElementById("game_menu");
+    game_menu.style.visibility = "visible";
 }
 
 exports.update_hp_bar = function(hp) {
@@ -216,10 +295,10 @@ function show_elem(elem, period) {
     elem.style.opacity = 0;
     elem.style.visibility = "visible";
 
-    var finish_time = m_main.global_timeline() + period;
+    var finish_time = m_time.get_timeline() + period;
 
     function show_elem_cb(obj, id, pulse) {
-        var time_left = finish_time - m_main.global_timeline();
+        var time_left = finish_time - m_time.get_timeline();
         if (time_left < 0) {
             m_ctl.remove_sensor_manifold(null, "SHOW_"+ elem.id);
             return;
@@ -240,10 +319,10 @@ function hide_elem(elem, period) {
     period = period || 0;
 
     var start_opacity = elem.style.opacity;
-    var finish_time = m_main.global_timeline() + period;
+    var finish_time = m_time.get_timeline() + period;
 
     function show_elem_cb(obj, id, pulse) {
-        var time_left = finish_time - m_main.global_timeline();
+        var time_left = finish_time - m_time.get_timeline();
         if (time_left < 0) {
             elem.style.visibility = "hidden";
             m_ctl.remove_sensor_manifold(null, "HIDE_"+ elem.id);

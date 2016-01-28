@@ -570,6 +570,7 @@ function release_thread(thread) {
     // NOTE: thread.loaded_cb needed for aborted threads
 }
 
+exports.is_finished = is_finished;
 function is_finished() {
     var scheduler = get_scheduler();
     return scheduler.active_threads == 0;

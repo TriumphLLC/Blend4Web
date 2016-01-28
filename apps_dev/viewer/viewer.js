@@ -9,6 +9,7 @@ var m_cam      = require("camera");
 var m_cam_anim = require("camera_anim");
 var m_cfg      = require("config");
 var m_cons     = require("constraints");
+var m_cont     = require("container");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_debug    = require("debug");
@@ -20,6 +21,7 @@ var m_hmd      = require("hmd");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
 var m_nla      = require("nla");
+var m_obj      = require("objects");
 var m_rgb      = require("rgb");
 var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
@@ -182,6 +184,10 @@ function main_canvas_clicked(event) {
         m_scenes.clear_outline_anim(prev_obj);
 
     var obj = m_scenes.pick_object(x, y);
+
+    if (obj && m_obj.is_empty(obj))
+        return;
+
     _selected_object = obj;
 
     if (obj) {
@@ -650,7 +656,7 @@ function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
     if (call_reset_b4w)
         reset_b4w();
 
-    var canvas_elem = m_main.get_canvas_elem();
+    var canvas_elem = m_cont.get_canvas();
     canvas_elem.removeEventListener('mousedown', main_canvas_clicked);
     m_debug.clear_errors_warnings();
 
@@ -658,7 +664,7 @@ function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
 }
 
 function loaded_callback(data_id) {
-    var canvas_elem = m_main.get_canvas_elem();
+    var canvas_elem = m_cont.get_canvas();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     _selected_object = null;
@@ -672,6 +678,9 @@ function loaded_callback(data_id) {
 
     if (m_cfg.get("gyro_use"))
         m_gyro.enable_camera_rotation();
+
+    if (m_cfg.get("stereo") == "HMD")
+        m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
 
     m_main.set_render_callback(render_callback);
 
@@ -1210,7 +1219,7 @@ function on_resize(e) {
 
     m_app.resize_to_container();
 
-    var canvas = m_main.get_canvas_elem();
+    var canvas = m_cont.get_canvas();
 
     document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
             canvas.height + " (" + (canvas.width / canvas.clientWidth).toFixed(2) + ":1.00)";
@@ -2405,15 +2414,8 @@ function set_dof_params(value) {
     if ("dof_power" in value)
         dof_params["dof_power"] = value.dof_power;
 
-    if ("dof_on" in value) {
-
-        dof_params["dof_on"] = Boolean($("#dof_on").val());
-
-        if (Number(value.dof_on))
-            dof_params["dof_distance"] = parseFloat($("#dof_distance").val());
-        else
-            dof_params["dof_distance"] = 0;
-    }
+    if ("dof_on" in value)
+        dof_params["dof_on"] = Boolean(value.dof_on);
 
     m_scenes.set_dof_params(dof_params);
 }

@@ -21,6 +21,7 @@ blender/flight_over_island
 blender/geometry
 blender/interactivity
 blender/lighting
+blender/material_library
 blender/materials
 blender/media
 blender/misc/logo*
@@ -32,6 +33,7 @@ blender/postprocessing
 blender/victory_day_2015
 blender/website
 
+addons
 blender_scripts
 
 deploy/api_doc
@@ -62,6 +64,7 @@ deploy/assets/geometry
 deploy/assets/interactivity
 deploy/assets/lighting
 deploy/assets/location_agriculture/textures/buildings/house_walls_*
+deploy/assets/material_library
 deploy/assets/materials
 deploy/assets/media
 deploy/assets/misc/logo*
@@ -126,6 +129,7 @@ VERSION
 !*.js~
 !*.json~
 !*.html~
+!*.xcf
 
 !csrc/b4w_bin/build/
 !uranium/build/src/.libs
@@ -144,8 +148,7 @@ VERSION
 # exclude cg event stuff
 !deploy/tutorials/cg_event_2014/interactive_scenes/*
 
-!blender_scripts/addons/oscurart_tools/
-!blender_scripts/scripts/*
+!addons/oscurart_tools/
 
 # exclude big victory day 2015 design files
 !blender/victory_day_2015/design/

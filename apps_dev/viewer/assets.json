@@ -129,6 +129,18 @@
                 "load_file": "petigors_tale/characters/farmers/farmer_male_model.json"
             },
             {
+                "name": "Farmer Male Animation",
+                "load_file": "petigors_tale/characters/farmers/farmer_male_animation.json"
+            },
+            {
+                "name": "Farmer Female Model",
+                "load_file": "petigors_tale/characters/farmers/farmer_female_model.json"
+            },
+            {
+                "name": "Farmer Female Animation",
+                "load_file": "petigors_tale/characters/farmers/farmer_female_animation.json"
+            },
+            {
                 "name": "Troll Model",
                 "load_file": "petigors_tale/characters/troll/troll_model.json"
             },
@@ -464,6 +476,15 @@
             {
                 "name": "SSAO",
                 "load_file": "postprocessing/ssao.json"
+            }
+        ]
+    },
+    {
+        "name": "Material Library",
+        "items": [
+            {
+                "name": "Promo",
+                "load_file": "material_library/promo/promo.json"
             }
         ]
     },

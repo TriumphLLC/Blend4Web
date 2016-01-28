@@ -346,17 +346,8 @@ function clear_render_callback() {
  * @deprecated Use {@link module:time.get_timeline|time.get_timeline} instead
  */
 exports.global_timeline = function() {
+    m_print.error_deprecated("main.global_timeline", "time.get_timeline");
     return m_time.get_timeline();
-}
-
-/**
- * Force redraw.
- * @method module:main.redraw
- * @deprecated Never required
- */
-exports.redraw = function() {
-    m_print.error_once("redraw() deprecated");
-    frame(m_time.get_timeline(), 0);
 }
 
 exports.pause = pause;
@@ -470,13 +461,6 @@ function frame(timeline, delta) {
     if (!m_data.is_primary_loaded())
         return;
 
-    // user callback
-    _render_callback(delta, timeline);
-
-    // possible unload in render callback
-    if (!m_data.is_primary_loaded())
-        return;
-
     // controls
     m_ctl.update(timeline, delta);
 
@@ -489,6 +473,13 @@ function frame(timeline, delta) {
 
     // objects
     m_obj.update(timeline, delta);
+
+    // user callback
+    _render_callback(delta, timeline);
+
+    // possible unload in render callback
+    if (!m_data.is_primary_loaded())
+        return;
 
     // rendering
     m_scenes.update(timeline, delta);
@@ -571,6 +562,7 @@ exports.canvas_data_url = function(callback) {
  * @deprecated Use {@link module:container.get_canvas|container.get_canvas} instead
  */
 exports.get_canvas_elem = function() {
+    m_print.error_deprecated("main.get_canvas_elem", "container.get_canvas");
     return _elem_canvas_webgl;
 }
 /**

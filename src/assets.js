@@ -181,7 +181,7 @@ exports.cleanup = function() {
     _loaded_assets = {};
 }
 
-exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
+exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb, json_reviver) {
     for (var i = 0; i < assets_pack.length; i++) {
         var elem = assets_pack[i];
 
@@ -199,6 +199,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
             asset_cb: asset_cb || (function() {}),
             pack_cb: pack_cb || (function() {}),
             progress_cb: progress_cb || (function() {}),
+            json_reviver: json_reviver || null,
 
             pack_index: _assets_pack_index
         }
@@ -320,7 +321,7 @@ function request_arraybuffer(asset, response_type) {
                         // NOTE: json workaround, see above
                         if (response_type == "json" && typeof response == "string") {
                             try {
-                                response = JSON.parse(response);
+                                response = JSON.parse(response, asset.json_reviver);
                             } catch(e) {
                                 m_print.error(e + " (parsing JSON " + asset.url + ")");
                                 asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
@@ -452,6 +453,14 @@ function request_audio(asset) {
     }, false);
 
     audio.addEventListener("error", function() {
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
+            m_print.error("could not load sound: " + asset.url);
+            asset.state = ASTATE_RECEIVED;
+        }
+    }, false);
+
+    audio.addEventListener("stalled", function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
             m_print.error("could not load sound: " + asset.url);

@@ -46,6 +46,7 @@
  * @local ManifoldLogicFunction
  * @local CollisionPayload
  * @local RayPayload
+ * @local SensorCallback
  */
 b4w.module["controls"] = function(exports, require) {
 
@@ -91,6 +92,11 @@ var m_print = require("__print");
  * @param {Number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space.
  * @param {Vec3} hit_norm Hit normal in world space.
+ */
+/**
+ * Special callback for callback-sensor. It's executed every frame and 
+ * its return value is copied into the sensor value. Should return a numeric value.
+ * @callback SensorCallback
  */
 
 /**
@@ -594,6 +600,13 @@ exports.PL_MULTITOUCH_MOVE_ZOOM = m_ctl.PL_MULTITOUCH_MOVE_ZOOM;
 exports.PL_MULTITOUCH_MOVE_PAN  = m_ctl.PL_MULTITOUCH_MOVE_PAN;
 
 /**
+ * Payload value of a touch movement sensor. Returned by get_sensor_payload()
+ * for multi-finger rotate gestures.
+ * @const module:controls.PL_MULTITOUCH_MOVE_ROTATE
+ */
+exports.PL_MULTITOUCH_MOVE_ROTATE  = m_ctl.PL_MULTITOUCH_MOVE_ROTATE;
+
+/**
  * Create a custom sensor.
  * A custom sensor can be controlled manually by using the get_custom_sensor()
  * and set_custom_sensor() methods.
@@ -722,6 +735,14 @@ exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
 exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
 
 /**
+ * Create a touch rotate sensor.
+ * The sensor's value is the angle from -PI to PI.
+ * @method module:controls.create_touch_rotate_sensor
+ * @returns {Sensor} Sensor object
+ */
+exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
+
+/**
  * Create a motion sensor.
  * The sensor's value is 1 if the object is in motion.
  * @method module:controls.create_motion_sensor
@@ -817,6 +838,18 @@ exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
  */
 exports.create_selection_sensor = function(obj, auto_release) {
     return m_ctl.create_selection_sensor(obj, auto_release || false);
+}
+
+/**
+ * Create a callback sensor.
+ * The given callback is executed every frame and its return value is copied into the sensor value.
+ * @param {SensorCallback} callback A callback which modifies sensor value.
+ * @param {Number} [value=0] Initial sensor value.
+ * @method module:controls.create_callback_sensor
+ * @returns {Sensor} Sensor object
+ */
+exports.create_callback_sensor = function(callback, value) {
+    return m_ctl.create_callback_sensor(callback, value || 0);
 }
 
 /**
@@ -926,18 +959,6 @@ exports.check_sensor_manifolds = function(obj) {
  * @returns {Boolean} Result of the check
  */
 exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
-
-/**
- * Remove all sensor manifolds registered for the object.
- * @method module:controls.remove_sensor_manifolds
- * @param {?Object3D} obj Object 3D to delete manifolds from, or null to denote
- * the global object
- * @deprecated Use {@link module:controls.remove_sensor_manifold|controls.remove_sensor_manifold} with null manifold ID instead
- */
-exports.remove_sensor_manifolds = function(obj) {
-    m_print.error_deprecated("remove_sensor_manifolds", "remove_sensor_manifold");
-    m_ctl.remove_sensor_manifold(obj, null);
-}
 
 /**
  * Remove the sensor manifold registered for the object.

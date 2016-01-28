@@ -27,6 +27,7 @@ b4w.module["data"] = function(exports, require) {
 
 /**
  * Data loaded callback.
+ * Executed when the data loading process has been completed.
  * @callback LoadedCallback
  * @param {Number} data_id Data ID
  * @param {Boolean} success Load success
@@ -34,14 +35,16 @@ b4w.module["data"] = function(exports, require) {
 
 /**
  * Loading stage callback.
+ * Used to implement loading progress indicators (preloaders).
  * @callback StageloadCallback
  * @param {Number} percentage Loading progress (0-100).
  * @param {Number} load_time Loading time in ms.
  */
 
-var m_data  = require("__data");
-var m_print = require("__print");
-var m_util  = require("__util");
+var m_data   = require("__data");
+var m_loader = require("__loader");
+var m_print  = require("__print");
+var m_util   = require("__util");
 
 /**
  * Load data from the json file exported from Blender.
@@ -76,17 +79,27 @@ exports.unload = function(data_id) {
 exports.set_debug_resources_root = m_data.set_debug_resources_root;
 
 /**
- * Check if the engine primary data is loaded (detect the last loading stage).
+ * Check if the engine primary data (main scene) is loaded (detect the last loading stage).
  * @method module:data.is_primary_loaded
  * @returns {Boolean} Check result
  */
 exports.is_primary_loaded = m_data.is_primary_loaded;
 
+/**
+ * Check if the engine has finished all of the scheduled loading actions.
+ * @method module:data.is_idle
+ * @returns {Boolean} Check result
+ */
+exports.is_idle = m_loader.is_finished;
+
 exports.load_and_add_new = m_data.load;
 
 exports.cleanup = exports.unload;
 /**
- * Activate media data context. It's topical only for mobile devices.
+ * Activate media data context.
+ * Activation of audio/video contexts is required for mobile platforms which
+ * disable media playback without explicit user interaction. This method
+ * should be executed inside some input event listener.
  * @method module:data.activate_media
  */
 exports.activate_media = m_data.activate_media;

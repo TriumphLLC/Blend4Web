@@ -306,6 +306,17 @@ msgstr ""
 msgid "Split Normals"
 msgstr ""
 
+#: ../lighting.rst:162
+msgid ""
+"Режим ``Split Normals`` позволяет редактировать вертексные нормали "
+"индивидуально для каждой грани (``Face`` в Blender), образующей "
+"редактируемую вершину (``Vertex`` в Blender). Переключатель вертексных "
+"индексов позволяет перемещаться между нормалями разделенного вертекса."
+msgstr ""
+"The ``Split Normals`` mode allows to edit vertex normals separately for each"
+" ``face`` that form the ``vertex``. Index allows you to navigate between the"
+" split normals."
+
 #: ../lighting.rst:164 ../lighting.rst:233
 msgid "Использование"
 msgstr "Usage"
@@ -646,6 +657,10 @@ msgstr ""
 "Use this light source for calculating the time of day. Applicable only to "
 "the ``Sun`` light source type. Disabled by default."
 
+#: ../lighting.rst:371
+msgid "*Dynamic Intesity*"
+msgstr ""
+
 #: ../lighting.rst:374
 msgid ""
 "Источник света используется для расчета падающих теней. Применяется в случае"
@@ -804,6 +819,17 @@ msgstr ""
 "Blend4Web implements the following shadow rendering techniques: cascaded "
 "shadow maps (CSM) and softened shadows (PCF). "
 
+#: ../lighting.rst:438
+msgid ""
+"Генерировать тени могут не более четырёх (или трёх, если включен SSAO) "
+"источников света одновременно. Если источников света больше (и у всех "
+"включён параметр Generate Shadows), будут видны тени только от четырёх из "
+"них."
+msgstr ""
+"Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows "
+"simultaneously. If *Generate Shadows* parameter is enabled for more than 4 "
+"light sources, shadows will still be generated only from 4 of them."
+
 #: ../lighting.rst:447
 msgid ""
 "На объектах, **отбрасывающих** тени, включить опцию ``Shadows: Cast`` во "
@@ -889,9 +915,63 @@ msgstr ""
 "Coefficient for shifting polygons relative to light source orientation. The "
 "default value is 1."
 
+#: ../lighting.rst:481
+msgid "*Self-Shadow Polygon Offset*"
+msgstr ""
+
+#: ../lighting.rst:484
+msgid "*Self-Shadow Normal Offset*"
+msgstr ""
+
+#: ../lighting.rst:484
+msgid ""
+"Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.010."
+msgstr ""
+"Coefficient for shifting polygons along their normals. The default value is "
+"0.010."
+
+#: ../lighting.rst:486
+msgid ""
+"Последние две настройки служат для борьбы с артефактами самозатенения. Они "
+"проявляются на объектах, одновременно отбрасывающих и принимающих тени. "
+"Параметр ``Self-Shadow Polygon Offset`` лучше справляется с артефактами во "
+"внутренних областях полигонов, а ``Self-Shadow Normal Offset`` - в "
+"приграничных. Оба параметра приводят к искажению теней, поэтому "
+"рекомендуется держать их как можно меньшими."
+msgstr ""
+"The last two parameters can be used to reduce self-shadowing artifacts. "
+"These artifacts appear for the objects that cast and receive shadows at the "
+"same time. The ``Self-Shadow Polygon Offset`` parameter is more effective "
+"for fighting against artifacts in inner areas of poligons while ``Self-"
+"Shadow Normal Offset`` is better for the boundary areas. Both these "
+"parameters lead to shadow distortions so we recommend to set them as low as "
+"possible."
+
+#: ../lighting.rst:495
+msgid ""
+"Тени для точечных (``Point``) источников света генерируются так же, как и "
+"для направленных (``Spot``), и падают только в одном направлении, "
+"определяемом параметром ``Rotation``."
+msgstr ""
+"Shadows from ``Point`` light sources are generated the same way as from "
+"``Spot`` light sources and are projected only in one direction specified by "
+"the source's ``Rotation`` parameter."
+
 #: ../lighting.rst:500
 msgid "*Enable CSM*"
 msgstr ""
+
+#: ../lighting.rst:500
+msgid ""
+"Включение каскадной модели теней; открывает доступ к расширенным настройкам."
+" Отключено по умолчанию. Не работает, если опция ``Generate Shadows`` "
+"включена более чем для одного источника света. Для источников света типа "
+"``Point`` и ``Spot`` поддерживается только один каскад теней."
+msgstr ""
+"Activates the using of cascaded shadows model; reveals additional options. "
+"Disabled by default. Won't work if the ``Generate Shadows`` setting is "
+"enabled for more than one light source. ``Point`` and ``Spot`` type light "
+"sources support only one shadow cascade."
 
 #: ../lighting.rst:502
 msgid ""
@@ -993,13 +1073,25 @@ msgstr ""
 "Number of shadow cascades. From 1 to 4 cascades are supported. The default "
 "value is 1."
 
+#: ../lighting.rst:543
+msgid "*CSM Number*"
+msgstr ""
+
 #: ../lighting.rst:546
 msgid "Размер первого каскада. Значение по умолчанию: 10.0."
 msgstr "First cascade size. The default value is 10.0."
 
+#: ../lighting.rst:546
+msgid "*CSM First Cascade Border*"
+msgstr ""
+
 #: ../lighting.rst:549
 msgid "Размер последнего каскада. Значение по умолчанию: 100.0."
 msgstr "Last cascade size. The default value is 100.0."
+
+#: ../lighting.rst:549
+msgid "*CSM Last Cascade Border*"
+msgstr ""
 
 #: ../lighting.rst:551
 msgid ""
@@ -1009,6 +1101,25 @@ msgstr ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
 
+#: ../lighting.rst:555
+msgid ""
+"При настройке следует помнить, что, увеличивая размер каскада, мы получаем "
+"на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM"
+" First Cascade Border`` приблизит к камере и сделает более заметными "
+"последующие менее детальные каскады. Уменьшение параметра ``CSM Last Cascade"
+" Border`` приведет к исчезновению теней на более близком расстоянии от "
+"камеры. Однако, при использовании мягких теней качество в целом улучшится "
+"благодаря размытию на границах."
+msgstr ""
+"When setting up the shadows keep in mind that the bigger the cascade size "
+"is, the worse and less detailed are the shadows inside it. On the other "
+"hand, reducing the ``CSM First Cascade Border`` parameter makes the "
+"subsequent less detailed cascades closer to the camera and thus more "
+"noticeable. Reducing the ``CSM Last Cascade Border`` parameter forces "
+"shadows to disappear at more close distance from the camera. However when "
+"softened shadows are used the overall quality will improve thanks to "
+"blurring at the edges."
+
 #: ../lighting.rst:564
 msgid ""
 "Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. "
@@ -1016,6 +1127,10 @@ msgid ""
 msgstr ""
 "Blur ratio for the first cascade. The default value is 3. Zero value "
 "produces hard shadows."
+
+#: ../lighting.rst:564
+msgid "*CSM First Cascade Blur Radius*"
+msgstr ""
 
 #: ../lighting.rst:567
 msgid ""
@@ -1025,6 +1140,10 @@ msgstr ""
 "Blur ratio for the last cascade. The default value is 1.5. Zero value "
 "produces hard shadows."
 
+#: ../lighting.rst:567
+msgid "*CSM Last Cascade Blur Radius*"
+msgstr ""
+
 #: ../lighting.rst:569
 msgid ""
 "Радиус размытия каждого промежуточного каскада интерполируется на основе "
@@ -1033,13 +1152,37 @@ msgstr ""
 "The blur radii of the intermediate cascades are interpolated between the two"
 " above-mentioned parameters."
 
+#: ../lighting.rst:573
+msgid ""
+"Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией "
+"``CSM First Cascade Blur Radius``, а далее на всех остальных с помощью ``CSM"
+" Last Cascade Blur Radius``. Часто на последнем каскаде может потребоваться "
+"размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на "
+"последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому"
+" же это уменьшит нежелательные артефакты самозатенения."
+msgstr ""
+"We recommend to start setting up the softened shadows with the first cascade"
+" (using ``CSM First Cascade Blur Radius``) and then proceed to other "
+"cascades (using ``CSM Last Cascade Blur Radius``). Often the last cascade "
+"may need less blurring than the first one. This may be needed to prevent the"
+" shadows on the last cascade being too faded due to low resolution. This "
+"also reduces undesirable self-shadowing artifacts."
+
 #: ../lighting.rst:577
 msgid "Плавное исчезновение последнего каскада. По умолчанию включено."
 msgstr "Smooth dying-out of the last cascade. Enabled by default."
 
+#: ../lighting.rst:577
+msgid "*Fade-out Last Cascade*"
+msgstr ""
+
 #: ../lighting.rst:580
 msgid "Сглаживание границ между каскадами. По умолчанию включено."
 msgstr "Smoothing the boundaries between the cascades. Enabled by default."
+
+#: ../lighting.rst:580
+msgid "*Blend Between Cascades*"
+msgstr ""
 
 #: ../lighting.rst:588
 msgid "цвет фона"
@@ -1126,247 +1269,3 @@ msgstr ""
 #: ../lighting.rst:635
 msgid ":ref:`alpha_compositing`"
 msgstr ""
-
-#: ../lighting.rst:162
-msgid ""
-"Режим ``Split Normals`` позволяет редактировать вертексные нормали "
-"индивидуально для каждой грани (``Face`` в Blender), образующей "
-"редактируемую вершину (``Vertex`` в Blender). Переключатель вертексных "
-"индексов позволяет перемещаться между нормалями разделенного вертекса."
-msgstr ""
-"The ``Split Normals`` mode allows to edit vertex normals separately for each"
-" ``face`` that form the ``vertex``. Index allows you to navigate between the"
-" split normals."
-
-#: ../lighting.rst:371
-msgid "*Dynamic Intesity*"
-msgstr ""
-
-#: ../lighting.rst:438
-msgid ""
-"Генерировать тени могут не более четырёх (или трёх, если включен SSAO) "
-"источников света одновременно. Если источников света больше (и у всех "
-"включён параметр Generate Shadows), будут видны тени только от четырёх из "
-"них."
-msgstr ""
-"Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows "
-"simultaneously. If *Generate Shadows* parameter is enabled for more than 4 "
-"light sources, shadows will still be generated only from 4 of them."
-
-#: ../lighting.rst:481
-msgid "*Self-Shadow Polygon Offset*"
-msgstr ""
-
-#: ../lighting.rst:484
-msgid "*Self-Shadow Normal Offset*"
-msgstr ""
-
-#: ../lighting.rst:484
-msgid ""
-"Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.010."
-msgstr ""
-"Coefficient for shifting polygons along their normals. The default value is "
-"0.010."
-
-#: ../lighting.rst:486
-msgid ""
-"Последние две настройки служат для борьбы с артефактами самозатенения. Они "
-"проявляются на объектах, одновременно отбрасывающих и принимающих тени. "
-"Параметр ``Self-Shadow Polygon Offset`` лучше справляется с артефактами во "
-"внутренних областях полигонов, а ``Self-Shadow Normal Offset`` - в "
-"приграничных. Оба параметра приводят к искажению теней, поэтому "
-"рекомендуется держать их как можно меньшими."
-msgstr ""
-"The last two parameters can be used to reduce self-shadowing artifacts. "
-"These artifacts appear for the objects that cast and receive shadows at the "
-"same time. The ``Self-Shadow Polygon Offset`` parameter is more effective "
-"for fighting against artifacts in inner areas of poligons while ``Self-"
-"Shadow Normal Offset`` is better for the boundary areas. Both these "
-"parameters lead to shadow distortions so we recommend to set them as low as "
-"possible."
-
-#: ../lighting.rst:495
-msgid ""
-"Тени для точечных (``Point``) источников света генерируются так же, как и "
-"для направленных (``Spot``), и падают только в одном направлении, "
-"определяемом параметром ``Rotation``."
-msgstr ""
-"Shadows from ``Point`` light sources are generated the same way as from "
-"``Spot`` light sources and are projected only in one direction specified by "
-"the source's ``Rotation`` parameter."
-
-#: ../lighting.rst:500
-msgid ""
-"Включение каскадной модели теней; открывает доступ к расширенным настройкам."
-" Отключено по умолчанию. Не работает, если опция ``Generate Shadows`` "
-"включена более чем для одного источника света. Для источников света типа "
-"``Point`` и ``Spot`` поддерживается только один каскад теней."
-msgstr ""
-"Activates the using of cascaded shadows model; reveals additional options. "
-"Disabled by default. Won't work if the ``Generate Shadows`` setting is "
-"enabled for more than one light source. ``Point`` and ``Spot`` type light "
-"sources support only one shadow cascade."
-
-#: ../lighting.rst:543
-msgid "*CSM Number*"
-msgstr ""
-
-#: ../lighting.rst:546
-msgid "*CSM First Cascade Border*"
-msgstr ""
-
-#: ../lighting.rst:549
-msgid "*CSM Last Cascade Border*"
-msgstr ""
-
-#: ../lighting.rst:555
-msgid ""
-"При настройке следует помнить, что, увеличивая размер каскада, мы получаем "
-"на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM"
-" First Cascade Border`` приблизит к камере и сделает более заметными "
-"последующие менее детальные каскады. Уменьшение параметра ``CSM Last Cascade"
-" Border`` приведет к исчезновению теней на более близком расстоянии от "
-"камеры. Однако, при использовании мягких теней качество в целом улучшится "
-"благодаря размытию на границах."
-msgstr ""
-"When setting up the shadows keep in mind that the bigger the cascade size "
-"is, the worse and less detailed are the shadows inside it. On the other "
-"hand, reducing the ``CSM First Cascade Border`` parameter makes the "
-"subsequent less detailed cascades closer to the camera and thus more "
-"noticeable. Reducing the ``CSM Last Cascade Border`` parameter forces "
-"shadows to disappear at more close distance from the camera. However when "
-"softened shadows are used the overall quality will improve thanks to "
-"blurring at the edges."
-
-#: ../lighting.rst:564
-msgid "*CSM First Cascade Blur Radius*"
-msgstr ""
-
-#: ../lighting.rst:567
-msgid "*CSM Last Cascade Blur Radius*"
-msgstr ""
-
-#: ../lighting.rst:573
-msgid ""
-"Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией "
-"``CSM First Cascade Blur Radius``, а далее на всех остальных с помощью ``CSM"
-" Last Cascade Blur Radius``. Часто на последнем каскаде может потребоваться "
-"размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на "
-"последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому"
-" же это уменьшит нежелательные артефакты самозатенения."
-msgstr ""
-"We recommend to start setting up the softened shadows with the first cascade"
-" (using ``CSM First Cascade Blur Radius``) and then proceed to other "
-"cascades (using ``CSM Last Cascade Blur Radius``). Often the last cascade "
-"may need less blurring than the first one. This may be needed to prevent the"
-" shadows on the last cascade being too faded due to low resolution. This "
-"also reduces undesirable self-shadowing artifacts."
-
-#: ../lighting.rst:577
-msgid "*Fade-out Last Cascade*"
-msgstr ""
-
-#: ../lighting.rst:580
-msgid "*Blend Between Cascades*"
-msgstr ""
-
-#~ msgid ""
-#~ "Режим ``Split Normals`` позволяет редактировать вертексные нормали "
-#~ "индивидуально для каждой грани (``face`` в Blender), образующей "
-#~ "редактируемую вершину (``vertex`` в Blender). Переключатель вертексных "
-#~ "индексов позволяет перемещаться между нормалями разделенного вертекса."
-#~ msgstr ""
-#~ "The ``Split Normals`` mode allows to edit vertex normals separately for each"
-#~ " ``face`` that form the ``vertex``. Index allows you to navigate between the"
-#~ " split normals."
-
-#~ msgid "*Dynamic intesity*"
-#~ msgstr ""
-
-#~ msgid "*Self-shadow polygon offset*"
-#~ msgstr ""
-
-#~ msgid "*Self-shadow normal offset*"
-#~ msgstr ""
-
-#~ msgid "Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01."
-#~ msgstr ""
-#~ "Coefficient for shifting polygons along their normals. The default value is "
-#~ "0.01."
-
-#~ msgid ""
-#~ "Последние две настройки служат для борьбы с артефактами самозатенения. Они "
-#~ "проявляются на объектах, одновременно отбрасывающих и принимающих тени. "
-#~ "Параметр ``Self-shadow polygon offset`` лучше справляется с артефактами во "
-#~ "внутренних областях полигонов, а ``Self-shadow normal offset`` - в "
-#~ "приграничных. Оба параметра приводят к искажению теней, поэтому "
-#~ "рекомендуется держать их как можно меньшими."
-#~ msgstr ""
-#~ "The last two parameters can be used to reduce self-shadowing artifacts. "
-#~ "These artifacts appear for the objects that cast and receive shadows at the "
-#~ "same time. The ``Self-shadow polygon offset`` parameter is more effective "
-#~ "for fighting against artifacts in inner areas of poligons while ``Self-"
-#~ "shadow normal offset`` is better for the boundary areas. Both these "
-#~ "parameters lead to shadow distortions so we recommend to set them as low as "
-#~ "possible."
-
-#~ msgid ""
-#~ "Включение каскадной модели теней; открывает доступ к расширенным настройкам."
-#~ " Отключено по умолчанию."
-#~ msgstr ""
-#~ "Activates the using of cascaded shadows model; reveals additional options. "
-#~ "Disabled by default."
-
-#~ msgid "*CSM number*"
-#~ msgstr ""
-
-#~ msgid "*CSM first cascade border*"
-#~ msgstr ""
-
-#~ msgid "*CSM last cascade border*"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "При настройке следует помнить, что, увеличивая размер каскада, мы получаем "
-#~ "на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM"
-#~ " first cascade border`` приблизит к камере и сделает более заметными "
-#~ "последующие менее детальные каскады. Уменьшение параметра ``CSM last cascade"
-#~ " border`` приведет к исчезновению теней на более близком расстоянии от "
-#~ "камеры. Однако, при использовании мягких теней качество в целом улучшится "
-#~ "благодаря размытию на границах."
-#~ msgstr ""
-#~ "When setting up the shadows keep in mind that the bigger the cascade size "
-#~ "is, the worse and less detailed are the shadows inside it. On the other "
-#~ "hand, reducing the ``CSM first cascade border`` parameter makes the "
-#~ "subsequent less detailed cascades closer to the camera and thus more "
-#~ "noticeable. Reducing the ``CSM last cascade border`` parameter forces "
-#~ "shadows to disappear at more close distance from the camera. However when "
-#~ "softened shadows are used the overall quality will improve thanks to "
-#~ "blurring at the edges."
-
-#~ msgid "*CSM first cascade blur radius*"
-#~ msgstr ""
-
-#~ msgid "*CSM last cascade blur radius*"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией "
-#~ "``CSM first cascade blur radius``, а далее на всех остальных с помощью ``CSM"
-#~ " last cascade blur radius``. Часто на последнем каскаде может потребоваться "
-#~ "размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на "
-#~ "последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому"
-#~ " же это уменьшит нежелательные артефакты самозатенения."
-#~ msgstr ""
-#~ "We recommend to start setting up the softened shadows with the first cascade"
-#~ " (using ``CSM first cascade blur radius``) and then proceed to other "
-#~ "cascades (using ``CSM last cascade blur radius``). Often the last cascade "
-#~ "may need less blurring than the first one. This may be needed to prevent the"
-#~ " shadows on the last cascade being too faded due to low resolution. This "
-#~ "also reduces undesirable self-shadowing artifacts."
-
-#~ msgid "*Fade-out last cascade*"
-#~ msgstr ""
-
-#~ msgid "*Blend between cascades*"
-#~ msgstr ""

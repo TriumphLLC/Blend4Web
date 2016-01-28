@@ -101,6 +101,9 @@ Web player accepts attributes from the browser address line:
 7. optional "alpha" parameter is used to enable transparency for
    the rendering area.
 
+8. the optional "no_social" attribute is used to disable social
+   networks buttons on the control panel.
+
 Note: If both "fallback_image" and "fallback_video" parameters are
   specified, the "fallback_image" parameter is used.
 

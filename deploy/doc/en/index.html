@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Table of contents &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Table of contents &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="#"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="#"/>
         <link rel="next" title="Overview" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -90,22 +90,23 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -231,12 +232,19 @@
 <li class="toctree-l2"><a class="reference internal" href="addon.html#translator">Add-on Translations</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#render">The Render panel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#scene">The Scene panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#world">The World panel</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#id2">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#id3">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-dynamic-objects">Static and Dynamic Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#id4">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#id5">Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#index-0">Object Transform API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#index-1">Quaternions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#index-1">Get object API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#index-2">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#blender-blend4web">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#tsr">Moving via TSR Vectors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#copy-obj">Copying Objects (Instancing)</a></li>
@@ -260,24 +268,23 @@
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo">Halo Materials</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-1">Texture Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#main-conf">Generic Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-4">Diffuse Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-5">Specular Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Normal Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-8">Stencil Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#video-texture">Video Textures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-9">Environment Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#mirror-map">Mirror Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#skydome">Skydome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-12">Special Texture Types</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#generic-node-materials">Standard Nodes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#custom-node-materials">Engine Specific Nodes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#id3">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#control-flow">Control Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#animation">Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#camera">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#object">Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#math">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#sound">Sound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#web">Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">Debug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#nla-debug">Debugging</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a><ul>
@@ -294,12 +301,30 @@
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#dof">Depth of Field</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#ssao">Screen-Space Ambient Occlusion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#god-rays">God Rays</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#id14">Bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#bloom">Bloom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#outlining">Outlining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#stereo">Stereo rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#color-correction">Color Correction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#glow">Glow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#antialiasing">Anti-Aliasing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#id2">Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#id5">Additional settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-1">Texture Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#main-conf">Generic Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-4">Diffuse Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-5">Specular Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Normal Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-8">Stencil Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#video-texture">Video Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-9">Environment Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#mirror-map">Mirror Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#skydome">Skydome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-12">Special Texture Types</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a><ul>
@@ -315,29 +340,32 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="animation.html#id2">Animation Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#id3">Animation Control</a></li>
 <li class="toctree-l2"><a class="reference internal" href="animation.html#whole-object-anim">Object Animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="animation.html#id4">Skinning and Skeletal Animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="animation.html#id5">Vertex Animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="animation.html#id6">Audio Source Parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#skeletal-animation">Skinning and Skeletal Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#id7">Vertex Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#default-animation">Default Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#nla">Non-Linear Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#speaker-animation">Audio Source Parametrization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="animation.html#value-rgb">Animation of Value and RGB Nodes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#water">Water</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#atmosphere">Atmosphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Wind</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id2">Gamma Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Human Vision and Monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id4">Gamma Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#gamma-node-materials">Gamma in Node Materials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#alpha-compositing">Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#id2">Gamma Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#id3">Human Vision and Monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#id4">Gamma Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#gamma-node-materials">Gamma in Node Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#alpha-compositing">Alpha Compositing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#color-correction">Color Correction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#id2">Audio Source Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#encoding">Processing and Decoding</a></li>
 </ul>
@@ -351,17 +379,6 @@
 <li class="toctree-l2"><a class="reference internal" href="physics.html#id7">Floating Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#id9">Floating Vehicles aka Watercrafts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#id11">Use in Applications</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nla.html#nla-editor">NLA Editor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nla.html#api">Controlling via API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#id3">Logic Editor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#id4">Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#nla-other">Other elements</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a><ul>
@@ -408,6 +425,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-01">v16.01</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-12">v15.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-11">v15.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-10">v15.10</a></li>
@@ -452,7 +470,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -474,7 +492,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

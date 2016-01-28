@@ -3,6 +3,7 @@
 b4w.register("new_year_main", function(exports, require) {
 
 var m_tex       = require("textures");
+var m_time      = require("time");
 var m_data      = require("data");
 var m_app       = require("app");
 var m_main      = require("main");
@@ -670,7 +671,7 @@ function play_confetti_ribbons_above() {
 }
 
 function calc_camera_sensor_data() {
-    _timeline = m_main.global_timeline();
+    _timeline = m_time.get_timeline();
 
     var cam_obj = m_scenes.get_active_camera();
     var cam_pivot = m_cam.target_get_pivot(cam_obj, _vec3_tmp);

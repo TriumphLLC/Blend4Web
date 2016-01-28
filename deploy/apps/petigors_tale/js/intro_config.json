@@ -8,6 +8,7 @@
             "glow_grow_time": 1,
             "min_glow_value": 0,
             "max_glow_value": 1,
+            "level_name": "level_01",
             "mouse_over_speaker": "main_menu*Speaker",
             "stop_playlist_onclick": false
         },
@@ -19,6 +20,7 @@
             "glow_grow_time": 1,
             "min_glow_value": 0,
             "max_glow_value": 1,
+            "level_name": "level_02",
             "mouse_over_speaker": "main_menu*Speaker",
             "stop_playlist_onclick": false
         },
@@ -54,6 +56,7 @@
             "min_glow_value": 0,
             "max_glow_value": 1,
             "mouse_over_speaker": "main_menu*Speaker",
+            "level_name": "training",
             "outline_grow_time": 1,
             "min_outline_value": 0,
             "max_outline_value": 1,

@@ -189,34 +189,6 @@ exports.is_animated = function(obj) {
 
 /**
  * Return the names of all available animations.
- * @method module:animation.get_actions
- * @returns {String[]} Animation names.
- * @deprecated Use {@link module:animation.get_anim_names|animation.get_anim_names} instead.
- */
-exports.get_actions = function() {
-    m_print.error_deprecated("get_actions", "get_anim_names");
-    var anames = [];
-    var actions = m_anim.get_all_actions();
-    for (var i = 0; i < actions.length; i++)
-        anames.push(m_anim.strip_baked_suffix(actions[i]["name"]));
-
-    return anames;
-}
-
-/**
- * Return the name of the applied animation.
- * @method module:animation.get_current_action
- * @param {Object3D} obj Object 3D
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use {@link module:animation.get_current_anim_name|animation.get_current_anim_name} instead.
- */
-exports.get_current_action = function(obj, slot_num) {
-    m_print.error_deprecated("get_current_action", "get_current_anim_name");
-    return exports.get_current_anim_name(obj, slot_num);
-}
-
-/**
- * Return the names of all available animations.
  * @method module:animation.get_anim_names
  * @param {Object3D} obj Object 3D
  * @returns {String[]} Array of animation names.
@@ -355,29 +327,6 @@ exports.is_play = function(obj, slot_num) {
     slot_num = slot_num || m_anim.SLOT_0;
     return m_anim.is_play(obj, slot_num);
 }
-/**
- * Set the current frame.
- * @method module:animation.set_current_frame_float
- * @param {Object3D} obj Object 3D
- * @param {Number} cff Current frame
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
- */
-exports.set_current_frame_float = function(obj, cff, slot_num) {
-    m_print.error_deprecated("set_current_frame_float", "set_frame");
-    exports.set_frame(obj, cff, slot_num);
-}
-/**
- * Get the current frame.
- * @method module:animation.get_current_frame_float
- * @param {Object3D} obj Object 3D
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use {@link module:animation.get_frame|animation.get_frame} instead
- */
-exports.get_current_frame_float = function(obj, slot_num) {
-    m_print.error_deprecated("get_current_frame_float", "use get_frame");
-    return exports.get_frame(obj, slot_num);
-}
 
 /**
  * Set the current frame of the object's animation.
@@ -476,27 +425,6 @@ exports.get_speed = function(obj, slot_num) {
 }
 
 /**
- * Get animation frame range.
- * @method module:animation.get_frame_range
- * @param {Object3D} obj Object 3D
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {?Array} Frame range pair or null for incorrect object
- * @deprecated Use {@link module:animation.get_anim_start_frame|animation.get_anim_start_frame} and {@link module:animation.get_anim_length|animation.get_anim_length} instead
- */
-exports.get_frame_range = function(obj, slot_num) {
-    m_print.error_once("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
-    if (m_anim.is_animated(obj)) {
-        slot_num = slot_num || m_anim.SLOT_0;
-        var anim_slot = obj.anim_slots[slot_num];
-        if (anim_slot)
-            // GARBAGE
-            return [anim_slot.start, anim_slot.start + anim_slot.length];
-    }
-
-    return null;
-}
-
-/**
  * Get the starting frame of the object's animation.
  * @method module:animation.get_anim_start_frame
  * @param {Object3D} obj Object 3D
@@ -534,35 +462,6 @@ exports.get_anim_length = function(obj, slot_num) {
     }
 
     return -1;
-}
-
-/**
- * Whether the object's animation playback should be looped or not.
- * @method module:animation.cyclic
- * @param {Object3D} obj Object 3D
- * @param {Boolean} cyclic_flag
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use {@link module:animation.set_behavior|animation.set_behavior} instead.
- */
-exports.cyclic = function(obj, cyclic_flag, slot_num) {
-    m_print.error_deprecated("cyclic", "set_behavior");
-    var behavior = cyclic_flag ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET;
-    exports.set_behavior(obj, behavior, slot_num);
-}
-/**
- * Check if the object's animation is looped.
- * @method module:animation.is_cyclic
- * @param {Object3D} obj Object 3D
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use {@link module:animation.get_behavior|animation.get_behavior} instead.
- */
-exports.is_cyclic = function(obj, slot_num) {
-    m_print.error_deprecated("is_cyclic", "get_behavior");
-    if (!m_anim.is_animated(obj))
-        return false;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-    return m_anim.is_cyclic(obj, slot_num);
 }
 
 /**
@@ -608,26 +507,6 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
     slot_num = slot_num || m_anim.SLOT_0;
     if (m_anim.is_animated(obj))
         m_anim.apply_smoothing(obj, trans_period, quat_period, slot_num);
-}
-
-/**
- * Update object animation (set the pose)
- * @method module:animation.update_object_animation
- * @param {Object3D} obj Object 3D
- * @param {Number} elapsed Animation delay
- * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @param {Boolean} [force_update = false] Update animation even stopped one.
- * @deprecated Use {@link module:animation.set_frame|animation.set_frame} instead.
- */
-exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
-    m_print.error_deprecated("update_object_animation", "set_frame");
-    if (!m_anim.is_animated(obj))
-        return;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-    elapsed = elapsed || 0;
-    force_update = force_update || false;
-    m_anim.update_object_animation(obj, elapsed, slot_num, force_update);
 }
 
 /**

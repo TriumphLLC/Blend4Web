@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import imp
 import mathutils
@@ -475,37 +459,3 @@ class B4W_DATA_PT_custom_props(DataButtonsPanel, PropertyPanel, Panel):
             cls._property_type = bpy.types.Armature
 
         return context.scene.render.engine in cls.COMPAT_ENGINES
-
-def register():
-    bpy.utils.register_class(B4W_DATA_PT_normals)
-    bpy.utils.register_class(B4W_DATA_PT_spot)
-
-    bpy.utils.register_class(B4W_DATA_PT_camera)
-    bpy.utils.register_class(B4W_DATA_PT_camera_dof)
-    bpy.utils.register_class(B4W_DATA_PT_lamp)
-    bpy.utils.register_class(B4W_DATA_PT_speaker)
-    bpy.utils.register_class(B4W_DATA_PT_distance)
-    bpy.utils.register_class(B4W_DATA_PT_cone)
-
-    bpy.utils.register_class(B4W_DataSpeakerTypePanel)
-
-    bpy.utils.register_class(B4W_CameraMovePanel)
-    bpy.utils.register_class(B4W_DataLampShadows)
-    #bpy.utils.register_class(B4W_DATA_PT_custom_props)
-
-def unregister():
-    bpy.utils.unregister_class(B4W_DATA_PT_normals)
-    bpy.utils.unregister_class(B4W_DATA_PT_spot)
-
-    bpy.utils.unregister_class(B4W_DATA_PT_camera)
-    bpy.utils.unregister_class(B4W_DATA_PT_camera_dof)
-    bpy.utils.unregister_class(B4W_DATA_PT_lamp)
-    bpy.utils.unregister_class(B4W_DATA_PT_speaker)
-    bpy.utils.unregister_class(B4W_DATA_PT_distance)
-    bpy.utils.unregister_class(B4W_DATA_PT_cone)
-
-    bpy.utils.unregister_class(B4W_DataSpeakerTypePanel)
-
-    bpy.utils.unregister_class(B4W_CameraMovePanel)
-    bpy.utils.unregister_class(B4W_DataLampShadows)
-    #bpy.utils.unregister_class(B4W_DATA_PT_custom_props)

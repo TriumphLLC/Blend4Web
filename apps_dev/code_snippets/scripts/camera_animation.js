@@ -5,10 +5,11 @@ b4w.register("camera_animation", function(exports, require) {
 var m_app    = require("app");
 var m_cam    = require("camera");
 var m_cfg    = require("config");
+var m_cont   = require("container");
 var m_ctl    = require("controls");
 var m_data   = require("data");
-var m_main   = require("main");
 var m_scenes = require("scenes");
+var m_time   = require("time");
 var m_trans  = require("transform");
 var m_vec3   = require("vec3");
 
@@ -59,7 +60,7 @@ function load_cb(data_id) {
     var camobj = m_scenes.get_active_camera();
     init_camera_animation(camobj);
 
-    var main_canvas = m_main.get_canvas_elem();
+    var main_canvas = m_cont.get_canvas();
     main_canvas.addEventListener("mouseup", main_canvas_up);
     main_canvas.addEventListener("mousedown", main_canvas_down);
 }
@@ -125,7 +126,7 @@ function start_camera_animation(camobj, pos_view, pos_target) {
 
     // start animation
     _delta_target = ANIM_TIME;
-    _cam_anim.timeline = m_main.global_timeline();
+    _cam_anim.timeline = m_time.get_timeline();
 }
 
 function init_camera_animation(camobj) {
@@ -134,7 +135,7 @@ function init_camera_animation(camobj) {
     var e_sensor = m_ctl.create_elapsed_sensor();
 
     var logic_func = function(s) {
-        // s[0] = m_main.global_timeline() (t_sensor value)
+        // s[0] = m_time.get_timeline() (t_sensor value)
         return s[0] - _cam_anim.timeline < ANIM_TIME;
     }
 

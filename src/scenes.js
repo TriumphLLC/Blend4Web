@@ -582,16 +582,16 @@ function check_shore_smoothing(bpy_objects) {
 
 function check_soft_particles(bpy_objects) {
     for (var i = 0; i < bpy_objects.length; i++) {
-        var psystems = bpy_objects[i]["particle_systems"];
+        var bpy_obj = bpy_objects[i];
+        var psystems = bpy_obj["particle_systems"];
         for (var j = 0; j < psystems.length; j++) {
             var pset = psystems[j]["settings"];
-            if (pset["b4w_enable_soft_particles"] &&
-                    pset["b4w_particles_softness"] > 0.0)
+            if (m_obj_util.check_obj_soft_particles_accessibility(bpy_objects[i], pset))
                 return true;
         }
     }
-
     return false;
+
 }
 /**
  * Check water parameters based on the given bpy objects.
@@ -1429,6 +1429,7 @@ exports.append_object = function(scene, obj, copy) {
 
     switch (type) {
     case "MESH":
+    case "LINE":
         var graph = scene._render.graph;
         var obj_render = obj.render;
 
@@ -1538,7 +1539,7 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
             continue;
 
         if (batch.type != "MAIN" && batch.type != "NODES_GLOW"
-                && batch.type != "PARTICLES")
+                && batch.type != "PARTICLES" && batch.type != "LINE")
             continue;
 
         if (!(batch.subtype == "OPAQUE" && main_type == "OPAQUE" ||
@@ -1672,10 +1673,12 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         var tex = subs_cube_refl.camera.color_attachment;
         m_batch.append_texture(batch, tex, "u_cube_reflection");
         m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_CUBE");
-    } else if (batch.reflective && subs_plane_refl) {
-        var tex = subs_plane_refl.camera.color_attachment;
-        m_batch.append_texture(batch, tex, "u_plane_reflection");
-        m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_PLANE");
+    } else if (batch.reflective && subs_plane_refl.length) {
+        for (var i = 0; i < subs_plane_refl.length; i++) {
+            var tex = subs_plane_refl[i].camera.color_attachment;
+            m_batch.append_texture(batch, tex, "u_plane_reflection");
+            m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_PLANE");
+        }
     } else {
         m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_NONE");
     }
@@ -1743,7 +1746,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
 
     if (batch.water) {
         if (cfg_def.shore_smoothing && batch.water_shore_smoothing
-                && m_scgraph.find_subs(graph, "DEPTH")) {
+                && m_scgraph.find_subs(graph, "DEPTH_PACK")) {
             m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 1);
         } else
             m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 0);
@@ -1987,7 +1990,7 @@ function add_object_subs_reflect(subs, obj, graph, scene, copy) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "MAIN" && batch.type != "PARTICLES")
+        if (batch.type != "MAIN" && batch.type != "PARTICLES" && batch.type != "LINE")
             continue;
 
         if (batch.subtype != "REFLECT")
@@ -2009,14 +2012,18 @@ function add_object_subs_reflect(subs, obj, graph, scene, copy) {
             var shaders_info = batch.shaders_info;
 
             m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 0);
-            m_shaders.set_directive(shaders_info, "INVERT_FRONTFACING", 1);
 
             m_shaders.set_directive(shaders_info, "REFLECTION_PASS", 1);
 
             // disable normalmapping in shader for optimization purposes
             m_shaders.set_directive(shaders_info, "TEXTURE_NORM", 0);
 
+            // invert gl_FrontFacing vector for plane reflections
+            if (subs.type == "MAIN_PLANE_REFLECT")
+                m_shaders.set_directive(shaders_info, "INVERT_FRONTFACING", 1);
+
             m_batch.update_shader(batch);
+
             validate_batch(batch);
         }
 
@@ -2099,7 +2106,7 @@ function update_subs_shadow(subs, scene, cam_main, cast_bundles, sh_params,
     var cam = subs.camera;
     // NOTE: inherit light camera eye from main camera (used in LOD calculations)
     // and cylindrical billboarding shadows
-    var eye = m_tsr.get_trans_view(cam_main.world_tsr);
+    var eye = m_tsr.get_trans_value(cam_main.world_tsr, _vec3_tmp);
     m_tsr.set_trans(eye, cam.world_tsr);
     // NOTE: inherit view_tsr from main camera
     m_tsr.copy(cam_main.view_tsr, cam.shadow_cast_billboard_view_tsr);
@@ -2148,11 +2155,12 @@ function update_subs_shadow(subs, scene, cam_main, cast_bundles, sh_params,
                 m_mat4.rotate(rot_mat, optimal_angle, m_util.AXIS_MZ, rot_mat);
                 m_mat4.multiply(rot_mat, cam.view_matrix, cam.view_matrix);
                 m_tsr.from_mat4(cam.view_matrix, cam.view_tsr);
-                // NOTE: it's not optimal method to update shadow cam quat
-                // on shadow receive subs
-                update_shadow_receive_subs(subs, scene._render.graph);
             }
             bb_view = correct_bb_proportions(bb_view);
+            
+            // NOTE: it's not optimal method to update shadow cam quat
+            // on shadow receive subs
+            update_shadow_receive_subs(subs, scene._render.graph);
         }
         m_cam.set_frustum_asymmetric(cam, bb_view.min_x, bb_view.max_x,
                 bb_view.min_y, bb_view.max_y, -bb_view.max_z, -bb_view.min_z);
@@ -2616,8 +2624,8 @@ function reset_shadow_cam_vm(bpy_scene) {
     for (var k = 0; k < shadow_lamps.length; k++) {
         var shadow_lamp = shadow_lamps[k];
         var lamp_render = shadow_lamp.render;
-        var trans = m_tsr.get_trans_view(lamp_render.world_tsr);
-        var quat = m_tsr.get_quat_view(lamp_render.world_tsr);
+        var trans = m_tsr.get_trans_value(lamp_render.world_tsr, _vec3_tmp);
+        var quat = m_tsr.get_quat_value(lamp_render.world_tsr, _quat4_tmp);
 
         for (var j = 0; j < shadow_lamp.scenes_data.length; j++) {
             var sc_data = shadow_lamp.scenes_data[j];
@@ -3160,7 +3168,7 @@ function set_dof_params(scene, dof_params) {
     var graph = scene._render.graph;
 
     if (typeof dof_params.dof_on == "boolean")
-        subs.camera.dof_on = parseFloat(dof_params.dof_on);
+        subs.camera.dof_on = dof_params.dof_on;
     if (typeof dof_params.dof_distance == "number")
         subs.camera.dof_distance = dof_params.dof_distance;
     if (typeof dof_params.dof_front == "number")
@@ -3179,7 +3187,6 @@ function set_dof_params(scene, dof_params) {
         m_scgraph.set_texel_size(subs_pp2, 1/subs.camera.width,
                                            1/subs.camera.height);
     }
-    subs.need_perm_uniforms_update = true;
 }
 
 exports.get_god_rays_params = function(scene) {
@@ -4123,8 +4130,9 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
 function get_plane_refl_id_by_subs(scene, subs) {
     var refl_subs = scene._render.reflection_params.plane_refl_subs;
     for (var i = 0; i < refl_subs.length; i++) {
-        if (refl_subs[i] == subs)
-            return i;
+        for (var j = 0; j < refl_subs[i].length; j++)
+            if (refl_subs[i][j] == subs)
+                return i;
     }
     return null;
 }

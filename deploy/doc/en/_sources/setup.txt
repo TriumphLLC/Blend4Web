@@ -28,7 +28,7 @@ Note: We strongly recommend to remove the addon first if it was
 Run Blender, load the default scene "File > New" (hot keys "Ctrl-N").
 Open the user preferences window "File > User Preferences..." (hot
 keys "Ctrl-Alt-U"). Under the "File" tab in the "Scripts" field,
-choose the path to the "blender_scripts" directory.
+choose the path to the SDK directory.
 
 [image]
 

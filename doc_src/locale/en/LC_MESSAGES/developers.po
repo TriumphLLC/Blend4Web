@@ -15,145 +15,9 @@ msgstr ""
 msgid "Разработчикам приложений"
 msgstr "For Application Developers"
 
-#: ../developers.rst:432
-msgid "Простейшее приложение на основе Blend4Web может иметь вид:"
-msgstr "The simplest Blend4Web app may look like this:"
-
-#: ../developers.rst:453
-msgid ""
-"Приложение выводит сообщение и текущую версию движка в окне браузера. "
-"Рассмотрим представленный пример. Базовый код движка подключается с помощью "
-"тега ``<script src=\"...\">``. Далее, приложение ожидает окончания загрузки "
-"страницы и выводит сообщение в окне браузера. В данном примере используется "
-"единственный модуль ``version``, в котором находится одноимённая функция "
-"``version()``. Подробную информацию о предназначении модулей и функций "
-"движка можно найти в `документации по API "
-"<https://www.blend4web.com/api_doc/index.html>`_."
-msgstr ""
-"This app prints a message and the engine's version in the browser window. "
-"Let's look at this example in detail. The engine library is embedded with "
-"the ``<script src=\"...\">`` element. Then, the app waits for the page to "
-"load and prints the current version in the browser window. In this example, "
-"``version`` is the only used module which has a function with the same name "
-"- ``version()``. A more detailed info about the usage of engine's modules "
-"and functions can be found in the `API documentation "
-"<https://www.blend4web.com/api_doc/index.html>`_."
-
-#: ../developers.rst:455
-msgid ""
-"Файл ``b4w.min.js`` со скомпилированным кодом движка необходимо скопировать "
-"из директории SDK ``deploy/apps/common``  и разместить в той же директории, "
-"что и представленный HTML-файл."
-msgstr ""
-"The compiled engine file ``b4w.min.js`` can be copied from the SDK's "
-"``deploy/apps/common`` directory and placed in the same directory as the "
-"HTML file."
-
-#: ../developers.rst:458
-msgid "Загрузка сцены в приложение"
-msgstr "Loading Scenes in Apps"
-
-#: ../developers.rst:460
-msgid ""
-"Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую "
-"последовательность действий:"
-msgstr "To load a 3D scene you need:"
-
-#: ../developers.rst:463
-msgid ""
-"Разместить на странице элемент ``<canvas>``, на котором будет производиться "
-"рендеринг."
-msgstr "Place a ``<canvas>`` element on a page for rendering."
-
-#: ../developers.rst:466
-msgid ""
-"После загрузки страницы, для инициализации контекста WebGL, вызвать функцию "
-"``m_main.init()`` с идентификатором созданного элемента."
-msgstr ""
-"Call the ``m_main.init()`` function with the created element id to init the "
-"WebGL context after the page is loaded."
-
-#: ../developers.rst:469
-msgid "Вызвать функцию ``m_data.load()`` для загрузки трёхмерной сцены."
-msgstr "Call the ``m_data.load()`` function to load a 3D scene."
-
-#: ../developers.rst:495
-msgid ""
-"Следует отметить, что реальное приложение должно включать в себя проверку "
-"ошибок, настройку движка перед инициализацией, а также базовую систему "
-"взаимодействия с пользователем."
-msgstr ""
-"Note that a real app should include error checking, setting up the engine "
-"before initializing and also a basic system for interacting with the user."
-
-#: ../developers.rst:499
-msgid "Система модулей"
-msgstr "Module System"
-
-#: ../developers.rst:501
-msgid ""
-"Несмотря на то, что движок предоставляет прикладному программисту API в "
-"объёме десятков модулей, в процессе работы он занимает в глобальном "
-"пространстве имён единственный объект ``b4w``. При необходимости обращения к"
-" модулю, последний импортируется с помощью вызова функции ``b4w.require()``."
-msgstr ""
-"While the engine gives an app programmer an API in the scale of dozens of "
-"modules, it occupies a single ``b4w`` namespace. To call a module's method "
-"import it first with the ``b4w.require()`` function."
-
-#: ../developers.rst:506
-msgid ""
-"Допустима регистрация сторонних модулей, если их имена не пересекаются с "
-"имеющимися. Регистрация происходит посредством вызова ``b4w.register()``. "
-"Проверка наличия модуля с некоторым именем может быть осуществлена с помощью"
-" ``b4w.module_check()``."
-msgstr ""
-"It is possible to register external modules if their names do not collide "
-"with already existing modules. A module can be registered with a "
-"``b4w.register()`` call. Check if a module with some name already exists "
-"with a ``b4w.module_check()`` call."
-
-#: ../developers.rst:228 ../developers.rst:511
-msgid "Пример:"
-msgstr "Example:"
-
-#: ../developers.rst:541
-msgid "Быстрое создание приложений"
-msgstr "Creating Apps Quickly"
-
-#: ../developers.rst:543
-msgid ""
-"Поскольку создание приложения с нуля может быть достаточно сложной операцей,"
-" особенно для начинающих пользователей, в движке существует специальное "
-"дополнение ``app``:"
-msgstr ""
-"Creating an app from scratch can be a tedious task, especially for "
-"beginners. To address this there is a special add-on for the engine called "
-"``app``:"
-
-#: ../developers.rst:579
-msgid ""
-"В данном случае модуль ``app`` создаст элемент ``<canvas>`` внутри "
-"контейнера с указанным идентификатором ``container_id``, осуществит "
-"инициализацию движка при загрузке страницы и сообщит о её окончании с "
-"помощью обработчика ``load_cb()``."
-msgstr ""
-"In this case the ``app`` module will create a ``<canvas>`` element inside "
-"the container with the specified ``container_id`` id. Then it will "
-"initialize the engine after the page is loaded and will finally execute the "
-"``load_cb()`` callback."
-
-#: ../developers.rst:583
-msgid ""
-"Далее загружается сцена some_scene.json, аналогично предыдущему примеру, с "
-"тем лишь отличием, что по окончании загрузки этой сцены инициализируется "
-"подсистема управления и активируются средства для перемещения камеры с "
-"помощью клавиатуры и мыши (сенсорного экрана для мобильных устройств)."
-msgstr ""
-"Then the some_scene.json scene is loaded similar to the previous example. "
-"The only difference is that after the scene is loaded, the control system is"
-" initialized and camera movement with keyboard and mouse (or sensor screen) "
-"becomes possible."
+#: ../developers.rst:12
+msgid "Управление проектами"
+msgstr "Project management"
 
 #: ../developers.rst:14
 msgid ""
@@ -226,21 +90,6 @@ msgstr ""
 "does not require any additional setup and starts automatically with Blender."
 " The index page of the Project Manager can be opened by clicking on the "
 "``Project Manager`` button in Blender."
-
-#: ../developers.rst:108
-msgid ""
-"Система управления проектами работает на всех операционных системах, однако "
-"для некоторых операций может потребоваться установка дополнительных "
-"зависимостей. Проверить, установлены ли необходимые зависимости, можно с "
-"помощью команды:"
-msgstr ""
-"The project managment system works in all operating systems. However, some "
-"operations can require installing additional dependencies. In order to check"
-" whether all dependencies are met, use the following command:"
-
-#: ../developers.rst:114 ../developers.rst:383 ../developers.rst:607
-msgid "Для пользователей ОС Windows:"
-msgstr "For MS Windows users:"
 
 #: ../developers.rst:33
 msgid "Project Manager"
@@ -315,6 +164,20 @@ msgstr "Remove the project."
 #: ../developers.rst:60
 msgid "Все пути берутся из конфигурационного файла .b4w_project."
 msgstr "All project paths are retreived from its .b4w_project file."
+
+#: ../developers.rst:66
+msgid "Мастер создания проектов"
+msgstr "Master for creating new projects"
+
+#: ../developers.rst:68
+msgid ""
+"Мастер создания новых проектов входит в состав приложения Project Manager и "
+"вызывается по ссылке ``[Create New Project]`` на главной странице этого "
+"приложения."
+msgstr ""
+"The master for creating new projects is included in the Project Management "
+"app and executed by the ``[Create New Project]`` button on the main page of "
+"this app."
 
 #: ../developers.rst:74
 msgid ""
@@ -434,9 +297,93 @@ msgstr "\"Advanced\" - code optimization is performed."
 msgid "\"Whitespace Only\" - в коде удаляются только пробелы;"
 msgstr "\"Whitespace Only\" - only whitespaces are removed from the code;"
 
+#: ../developers.rst:99
+msgid "Расширенное управление проектами"
+msgstr "Advanced Project Management"
+
+#: ../developers.rst:101
+msgid ""
+"Расширенное управление проектами используется опытными разработчикам, "
+"которым необходима как большая степень гибкости, так и возвожность "
+"втоматизировать все рабочие процессы, связанные с разработкой приложений."
+msgstr ""
+"Advanced project management is used by experienced developers which require "
+"more flexibility and need to automate process of project development."
+
+#: ../developers.rst:103
+msgid ""
+"Для расширенного управления проектами следует использовать скрипт "
+"*project.py* и ручное редактирование конфигурационных файлов *.b4w_project*."
+msgstr ""
+"For advanced project management use the *project.py* script and manually "
+"edit *.b4w_project* config files."
+
+#: ../developers.rst:106 ../developers.rst:630
+msgid "Зависимости"
+msgstr "Dependencies"
+
+#: ../developers.rst:108
+msgid ""
+"Система управления проектами работает на всех операционных системах, однако "
+"для некоторых операций может потребоваться установка дополнительных "
+"зависимостей. Проверить, установлены ли необходимые зависимости, можно с "
+"помощью команды:"
+msgstr ""
+"The project managment system works in all operating systems. However, some "
+"operations can require installing additional dependencies. In order to check"
+" whether all dependencies are met, use the following command:"
+
+#: ../developers.rst:114 ../developers.rst:383 ../developers.rst:607
+msgid "Для пользователей ОС Windows:"
+msgstr "For MS Windows users:"
+
+#: ../developers.rst:122
+msgid "Список проектов"
+msgstr "Projects List"
+
+#: ../developers.rst:128
+msgid "Выводит список проектов, находящихся в SDK."
+msgstr "Prints list of projects in the SDK."
+
 #: ../developers.rst:132
 msgid "Структура проекта"
 msgstr "Project Structure"
+
+#: ../developers.rst:134
+msgid ""
+"Типовое приложение, разрабатываемая с помощью системы управления проектами "
+"имеет вид:"
+msgstr "A typical app developed using the project manager looks as follows:"
+
+#: ../developers.rst:161
+msgid "Как видно, это приложение состоит из 4 различных директорий:"
+msgstr "This app consists of 4 different directories."
+
+#: ../developers.rst:163
+msgid "apps_dev/myproject. Содержит исходные файлы приложений проекта."
+msgstr "apps_dev/myproject. Contains source files of project's apps."
+
+#: ../developers.rst:164
+msgid "blender/myproject. Содержит исходные файлы сцен проекта."
+msgstr "blender/myproject. Contains source files of project's scenes."
+
+#: ../developers.rst:165
+msgid "deploy/assets/myproject. Содержит экспортированные файлы сцен проекта."
+msgstr "deploy/assets/myproject. Contains exported files of project's scenes."
+
+#: ../developers.rst:166
+msgid "deploy/apps/myproject. Содержит экспортированные файлы сцен проекта."
+msgstr "deploy/apps/myproject. Contains exported files of project's scenes."
+
+#: ../developers.rst:168
+msgid ""
+"Кроме того, операция развёртывания (deploy) может создавать ещё одну "
+"директорию, однако она обычно располагается за пределами SDK и её название и"
+" расположение зависит от структуры директорий на конечном сервере."
+msgstr ""
+"Additionally, the deploy command can create yet another directory, but it "
+"usually is placed outside of the SDK and its name and path depend on "
+"directory structure on the target server."
 
 #: ../developers.rst:172
 msgid "Конфигурационный файл ``.b4w_project``"
@@ -449,6 +396,10 @@ msgid ""
 msgstr ""
 "If you did not use any arguments upon executing the *project.py* script, "
 "then they will be taken from the config file."
+
+#: ../developers.rst:206
+msgid "Низкоуровневое создание проекта"
+msgstr "Advanced project management"
 
 #: ../developers.rst:212
 msgid ""
@@ -532,6 +483,10 @@ msgid ""
 msgstr ""
 "``-t | --engine-type`` (optional) write an engine type in the config file."
 
+#: ../developers.rst:228 ../developers.rst:511
+msgid "Пример:"
+msgstr "Example:"
+
 #: ../developers.rst:234
 msgid ""
 "Данная команда создаст директорию *myproject*, в которой будут находиться "
@@ -545,6 +500,10 @@ msgstr ""
 #: ../developers.rst:237
 msgid "Файл .b4w_project будет выглядеть следущим образом::"
 msgstr "The .b4w_project file will look like::"
+
+#: ../developers.rst:267
+msgid "Разработка нескольких приложений в составе проекта"
+msgstr "Developing multiple apps inside a project"
 
 #: ../developers.rst:269
 msgid ""
@@ -562,6 +521,14 @@ msgstr "Building Projects"
 #: ../developers.rst:284
 msgid "Собирает проект в директории ``deploy/apps/myproject``."
 msgstr "Builds a project in the ``deploy/apps/myproject`` directory."
+
+#: ../developers.rst:288
+msgid ""
+"Для работы скрипта необходимо установить java и `записать ее в переменную "
+"среды PATH <https://www.java.com/ru/download/help/path.xml>`_"
+msgstr ""
+"For script operation it's required to install java and  `set the PATH system"
+" variable <https://www.java.com/en/download/help/path.xml>`_."
 
 #: ../developers.rst:293
 msgid ""
@@ -610,6 +577,25 @@ msgstr ""
 msgid "``\"-v | --version\"`` добавляет версию к адресам скриптов и стилей."
 msgstr "``\"-v | --version\"`` add version to paths of scripts and styles."
 
+#: ../developers.rst:302
+msgid "Требования, накладываемые компилятором:"
+msgstr "Compiler Requirements"
+
+#: ../developers.rst:304
+msgid ""
+"В корне директории должен находится единственный html-файл, если не указана "
+"опция ``-a``."
+msgstr ""
+"In the root of the directory the single html file must be stored if ``-a`` "
+"option is disabled"
+
+#: ../developers.rst:305
+msgid ""
+"Скрипты и стили могут находиться как в корне проекта (приложения), так и во "
+"вложенных папках."
+msgstr ""
+"Scripts and styles can be stored in the app's root and in the subfolders"
+
 #: ../developers.rst:310
 msgid "Автоматический экспорт ресурсов"
 msgstr "Automatic Re-export"
@@ -639,9 +625,13 @@ msgstr ""
 "Converts external resources (textures, audio and video files) into "
 "alternative formats to ensure cross-browser and cross-platform performance."
 
-#: ../developers.rst:122
-msgid "Список проектов"
-msgstr "Projects List"
+#: ../developers.rst:338
+msgid ""
+"Более подробно о процессе конвертации ресурсов сказано в "
+":ref:`соответствующем разделе <converter>`."
+msgstr ""
+"Converting of resources is described in detail in the :ref:`corresponding "
+"section <converter>`."
 
 #: ../developers.rst:342
 msgid "Развертывание проекта"
@@ -686,6 +676,35 @@ msgstr ""
 "Remove project. Removed directories are retrieved from project configuration"
 " file."
 
+#: ../developers.rst:370
+msgid "Обновление приложений на новые версии SDK"
+msgstr "Upgrading apps for new SDK versions"
+
+#: ../developers.rst:372
+msgid ""
+"В процессе обновления на новые версии движка чаще всего возникает две "
+"проблемы:"
+msgstr "While upgrading for new SDK versions often two problems arise:"
+
+#: ../developers.rst:374
+msgid "Несоответствие модулей новой и старой версии движка."
+msgstr "Modules of the new and old versions of the engine do not match."
+
+#: ../developers.rst:375
+msgid "Несоответствие старых и новых API движка."
+msgstr "Old and new engine API do not match."
+
+#: ../developers.rst:377
+msgid ""
+"Для того, чтобы обновить список модулей, подключаемых в необфусцированной "
+"версии приложений, необходимо перейти в директорию с исходными файлами "
+"приложений ``apps_dev/my_project``. Затем необходимо вызвать скрипт, "
+"генерирующий пути к файлам движка:"
+msgstr ""
+"In order to update the list of modules imported in developer version of "
+"application go to project source directory ``apps_dev/my_project`` and "
+"execute module list generator script:"
+
 #: ../developers.rst:391 ../developers.rst:616
 msgid ""
 "Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор "
@@ -701,6 +720,26 @@ msgstr ""
 "The console will print the list of modules - copy them and paste into the "
 "main HTML file:"
 
+#: ../developers.rst:411
+msgid ""
+"Несоответствие API решается рефакторингом кода приложения. Все изменения "
+"подробно описываются в :ref:`замечаниях к релизам <release_notes>`."
+msgstr ""
+"To eliminate API incompatibilities you may require refactoring of your "
+"app.All changes are described in :ref:`release notes <release_notes>`."
+
+#: ../developers.rst:415
+msgid "Пути к загружаемым ресурсам приложения"
+msgstr "Path to loaded application assets"
+
+#: ../developers.rst:417
+msgid ""
+"При загрузке .json-файлов необходимо использовать функцию "
+"``get_std_assets_path()`` из модуля *config.js*:"
+msgstr ""
+"To load .json-files you should use ``get_std_assets_path()`` method frome "
+"the *config.js* module:"
+
 #: ../developers.rst:423
 msgid ""
 "После сборки готового приложения путь к данным изменится, а использование "
@@ -711,32 +750,159 @@ msgstr ""
 "using ``get_std_assets_path()`` wil allow you to avoid problems with "
 "incorrect paths."
 
-#: ../developers.rst:288
-msgid ""
-"Для работы скрипта необходимо установить java и `записать ее в переменную "
-"среды PATH <https://www.java.com/ru/download/help/path.xml>`_"
-msgstr ""
-"For script operation it's required to install java and  `set the PATH system"
-" variable <https://www.java.com/en/download/help/path.xml>`_."
+#: ../developers.rst:427
+msgid "Написание логики приложений"
+msgstr "Application Programming"
 
-#: ../developers.rst:302
-msgid "Требования, накладываемые компилятором:"
-msgstr "Compiler Requirements"
+#: ../developers.rst:430
+msgid "Приложение Hello world!"
+msgstr "Hello world!"
 
-#: ../developers.rst:304
-msgid ""
-"В корне директории должен находится единственный html-файл, если не указана "
-"опция ``-a``."
-msgstr ""
-"In the root of the directory the single html file must be stored if ``-a`` "
-"option is disabled"
+#: ../developers.rst:432
+msgid "Простейшее приложение на основе Blend4Web может иметь вид:"
+msgstr "The simplest Blend4Web app may look like this:"
 
-#: ../developers.rst:305
+#: ../developers.rst:453
 msgid ""
-"Скрипты и стили могут находиться как в корне проекта (приложения), так и во "
-"вложенных папках."
+"Приложение выводит сообщение и текущую версию движка в окне браузера. "
+"Рассмотрим представленный пример. Базовый код движка подключается с помощью "
+"тега ``<script src=\"...\">``. Далее, приложение ожидает окончания загрузки "
+"страницы и выводит сообщение в окне браузера. В данном примере используется "
+"единственный модуль ``version``, в котором находится одноимённая функция "
+"``version()``. Подробную информацию о предназначении модулей и функций "
+"движка можно найти в `документации по API "
+"<https://www.blend4web.com/api_doc/index.html>`_."
 msgstr ""
-"Scripts and styles can be stored in the app's root and in the subfolders"
+"This app prints a message and the engine's version in the browser window. "
+"Let's look at this example in detail. The engine library is embedded with "
+"the ``<script src=\"...\">`` element. Then, the app waits for the page to "
+"load and prints the current version in the browser window. In this example, "
+"``version`` is the only used module which has a function with the same name "
+"- ``version()``. A more detailed info about the usage of engine's modules "
+"and functions can be found in the `API documentation "
+"<https://www.blend4web.com/api_doc/index.html>`_."
+
+#: ../developers.rst:455
+msgid ""
+"Файл ``b4w.min.js`` со скомпилированным кодом движка необходимо скопировать "
+"из директории SDK ``deploy/apps/common``  и разместить в той же директории, "
+"что и представленный HTML-файл."
+msgstr ""
+"The compiled engine file ``b4w.min.js`` can be copied from the SDK's "
+"``deploy/apps/common`` directory and placed in the same directory as the "
+"HTML file."
+
+#: ../developers.rst:458
+msgid "Загрузка сцены в приложение"
+msgstr "Loading Scenes in Apps"
+
+#: ../developers.rst:460
+msgid ""
+"Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую "
+"последовательность действий:"
+msgstr "To load a 3D scene you need:"
+
+#: ../developers.rst:463
+msgid ""
+"Разместить на странице элемент ``<canvas>``, на котором будет производиться "
+"рендеринг."
+msgstr "Place a ``<canvas>`` element on a page for rendering."
+
+#: ../developers.rst:466
+msgid ""
+"После загрузки страницы, для инициализации контекста WebGL, вызвать функцию "
+"``m_main.init()`` с идентификатором созданного элемента."
+msgstr ""
+"Call the ``m_main.init()`` function with the created element id to init the "
+"WebGL context after the page is loaded."
+
+#: ../developers.rst:469
+msgid "Вызвать функцию ``m_data.load()`` для загрузки трёхмерной сцены."
+msgstr "Call the ``m_data.load()`` function to load a 3D scene."
+
+#: ../developers.rst:495
+msgid ""
+"Следует отметить, что реальное приложение должно включать в себя проверку "
+"ошибок, настройку движка перед инициализацией, а также базовую систему "
+"взаимодействия с пользователем."
+msgstr ""
+"Note that a real app should include error checking, setting up the engine "
+"before initializing and also a basic system for interacting with the user."
+
+#: ../developers.rst:499
+msgid "Система модулей"
+msgstr "Module System"
+
+#: ../developers.rst:501
+msgid ""
+"Несмотря на то, что движок предоставляет прикладному программисту API в "
+"объёме десятков модулей, в процессе работы он занимает в глобальном "
+"пространстве имён единственный объект ``b4w``. При необходимости обращения к"
+" модулю, последний импортируется с помощью вызова функции ``b4w.require()``."
+msgstr ""
+"While the engine gives an app programmer an API in the scale of dozens of "
+"modules, it occupies a single ``b4w`` namespace. To call a module's method "
+"import it first with the ``b4w.require()`` function."
+
+#: ../developers.rst:506
+msgid ""
+"Допустима регистрация сторонних модулей, если их имена не пересекаются с "
+"имеющимися. Регистрация происходит посредством вызова ``b4w.register()``. "
+"Проверка наличия модуля с некоторым именем может быть осуществлена с помощью"
+" ``b4w.module_check()``."
+msgstr ""
+"It is possible to register external modules if their names do not collide "
+"with already existing modules. A module can be registered with a "
+"``b4w.register()`` call. Check if a module with some name already exists "
+"with a ``b4w.module_check()`` call."
+
+#: ../developers.rst:541
+msgid "Быстрое создание приложений"
+msgstr "Creating Apps Quickly"
+
+#: ../developers.rst:543
+msgid ""
+"Поскольку создание приложения с нуля может быть достаточно сложной операцей,"
+" особенно для начинающих пользователей, в движке существует специальное "
+"дополнение ``app``:"
+msgstr ""
+"Creating an app from scratch can be a tedious task, especially for "
+"beginners. To address this there is a special add-on for the engine called "
+"``app``:"
+
+#: ../developers.rst:579
+msgid ""
+"В данном случае модуль ``app`` создаст элемент ``<canvas>`` внутри "
+"контейнера с указанным идентификатором ``container_id``, осуществит "
+"инициализацию движка при загрузке страницы и сообщит о её окончании с "
+"помощью обработчика ``load_cb()``."
+msgstr ""
+"In this case the ``app`` module will create a ``<canvas>`` element inside "
+"the container with the specified ``container_id`` id. Then it will "
+"initialize the engine after the page is loaded and will finally execute the "
+"``load_cb()`` callback."
+
+#: ../developers.rst:583
+msgid ""
+"Далее загружается сцена some_scene.json, аналогично предыдущему примеру, с "
+"тем лишь отличием, что по окончании загрузки этой сцены инициализируется "
+"подсистема управления и активируются средства для перемещения камеры с "
+"помощью клавиатуры и мыши (сенсорного экрана для мобильных устройств)."
+msgstr ""
+"Then the some_scene.json scene is loaded similar to the previous example. "
+"The only difference is that after the scene is loaded, the control system is"
+" initialized and camera movement with keyboard and mouse (or sensor screen) "
+"becomes possible."
+
+#: ../developers.rst:585
+msgid ""
+"При использовании модуля ``app`` необходимо явно задавать размеры "
+"контейнерного элемента, поскольку в противном случае создаваемый элемент "
+"``<canvas>`` будет иметь нулевые размеры."
+msgstr ""
+"In case when the ``app`` module is used, it is necessary to explicitely "
+"specify dimensions of the container element. Otherwise the created "
+"``<canvas>`` element will have zero dimensions."
 
 #: ../developers.rst:593
 msgid ""
@@ -747,6 +913,24 @@ msgstr ""
 "Currently, browsers do not fully support all possible media formats, so in "
 "order to create cross-browser applications (and also for optimization "
 "purposes) we recommend you to use the resource converter."
+
+#: ../developers.rst:597
+msgid ""
+"В состав дистрибутива включен Python скрипт (scripts/converter.py) для "
+"конвертации исходных файлов в другие форматы с целью расширения спектра "
+"поддерживаемых платформ, а также для уменьшения размера ресурсов."
+msgstr ""
+"To support a wider range of platforms, a Python script "
+"(scripts/converter.py) for converting the source files into other formats is"
+" included into the distribution."
+
+#: ../developers.rst:601
+msgid ""
+"Данный скрипт может вызываться автоматически, используя систему управления "
+"проектами, либо вручную:"
+msgstr ""
+"This script can be run automatically using the project mangment system, or "
+"manually:"
 
 #: ../developers.rst:618
 msgid ""
@@ -773,10 +957,6 @@ msgid ""
 msgstr ""
 "The **resize_textures** argument is used for decreasing texture resolution "
 "for the **LOW** mode."
-
-#: ../developers.rst:106 ../developers.rst:630
-msgid "Зависимости"
-msgstr "Dependencies"
 
 #: ../developers.rst:632
 msgid ""
@@ -1041,112 +1221,6 @@ msgstr ""
 "You can also use the free and cross-platform application `Miro Video "
 "Converter <http://www.mirovideoconverter.com/>`_ to convert mediafiles."
 
-#: ../developers.rst:1136
-msgid "Специфика неполноэкранных приложений"
-msgstr "Non-FullScreen Web Apps"
-
-#: ../developers.rst:1138
-msgid ""
-"Элемент Canvas, на котором осуществляется рендеринг, может изменять своё "
-"местоположение относительно окна браузера. Это может происходить в "
-"результате манипуляций, проводимых над DOM-деревом, либо в результате "
-"скроллинга страницы, что особенно актуально для неполноэкранных приложений."
-msgstr ""
-"The Canvas element, to which the rendering is performed, can change its "
-"position relative to the browser window. This can occur due to some "
-"manipulations over the DOM tree, or as a result of page scrolling which is "
-"especially relevant for non-fullscreen web applications."
-
-#: ../developers.rst:1140
-msgid ""
-"В большинстве случаев это не будет никак сказываться на работе приложения. "
-"Однако для событий, связанных с положением курсора мыши или позицией касания"
-" на touch-устройстве, возможно получение некорректных результатов. Это "
-"происходит, потому что координаты, получаемые из соответствующих событий, "
-"принадлежат системе отсчета относительно окна браузера, а движок работает с "
-"координатами в системе отсчета именно Canvas элемента (верхний левый угол "
-"элемента)."
-msgstr ""
-"In most cases this will not affect the performance of the app by any means. "
-"However, some DOM events related to mouse cursor or touch position may carry"
-" incorrect information. This occurs because the coordinates obtained from "
-"the corresponding events are measured relative to the origin of the browser "
-"window, while the engine works with the coordinate space of the Canvas "
-"element itself (its origin is located in the top left corner)."
-
-#: ../developers.rst:1142
-msgid ""
-"Если верхний левый угол Canvas'а совпадает с верхним левым углом окна "
-"браузера, и его местоположение не будет изменяться, то достаточно "
-"использовать координаты event.clientX и event.clientY соответствующего "
-"события либо функции API :b4wref:`mouse.get_coords_x()` и "
-":b4wref:`mouse.get_coords_y()`:"
-msgstr ""
-"If the top left corner of the Canvas element matches the top left corner of "
-"the browser window and is fixed in it's position (non-movable) then it's "
-"sufficient to use event.clientX and event.clientY coordinates of the input "
-"events or :b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` "
-"methods."
-
-#: ../developers.rst:1156
-msgid ""
-"Если на странице присутствует только скроллинг окна браузера, то достаточно "
-"использовать координаты event.pageX и event.pageY:"
-msgstr ""
-"In the case of the scrolled browser window, you have to use event.pageX and "
-"event.pageY coordinates."
-
-#: ../developers.rst:1165
-msgid ""
-"В случае более сложных манипуляций с положением элемента Canvas (скроллинг "
-"отдельных элементов страницы, смещение относительно левого верхнего угла "
-"окна браузера, манипуляции с DOM-деревом) требуется корректный пересчет "
-"координат. Чтобы получить координаты, подходящие для использования в движке,"
-" можно провести преобразование при помощи метода "
-":b4wref:`container.client_to_canvas_coords()`:"
-msgstr ""
-"In the case of more sophisticated manipulations with the Canvas element "
-"(scrolling of the page elements, displacement from the top level corner of "
-"the browser window, changes in the DOM-tree) you need to perform correct "
-"coordinate conversions. In order to obtain coordinates suitable for use in "
-"the engine, you can covert them by using the ``client_to_canvas_coords()`` "
-"method of the ``container`` module:"
-
-#: ../developers.rst:1177
-msgid ""
-"Для получения координат в системе отсчета Canvas элемента, движок должен "
-"знать его положение относительно окна браузера. Однако, если оно будет "
-"меняться во время работы приложения (тот же скроллинг), то необходимо будет "
-"как-то пересчитывать позицию Canvas'а. Для того, чтобы это происходило "
-"автоматически, нужно выставить настройку ``track_container_position`` при "
-"инициализации приложения:"
-msgstr ""
-"In order to obtain coordinates in the Canvas space, the engine should know "
-"its position relative to the browser window. However, if this position is "
-"subjected to changes during the work of the app (due to scrolling for "
-"example), the Canvas position should be recalculated. To do this "
-"automatically, you can set the ``track_container_position`` property upon "
-"app initialization:"
-
-#: ../developers.rst:1192
-msgid ""
-"При её использовании в некоторых браузерах (например, Firefox) возможно "
-"незначительное снижение производительности вследствие частого обращения к "
-"DOM-дереву. Если этот момент критичен, то вместо флага "
-"``track_container_position`` можно пользоваться методами "
-":b4wref:`container.force_offsets_updating()`, "
-":b4wref:`container.update_canvas_offsets()` или более низкоуровневым "
-":b4wref:`container.set_canvas_offsets()` для обновления положения элемента "
-"Canvas вручную, когда это действительно необходимо:"
-msgstr ""
-"Please note, that this setting can lead to performance degradation in some "
-"browsers (such as Firefox) due to frequent DOM tree accesses. If the "
-"performance is critical, you can update the Canvas position manually when it"
-" is really necessary. To do this, use the ``force_offsets_updating()`` and "
-"``update_canvas_offsets()`` methods instead of the "
-"``track_container_position`` setting, or even the lower-level "
-"``set_canvas_offsets()`` method from the ``container`` module:"
-
 #: ../developers.rst:764
 msgid "Примеры кода"
 msgstr "Code Examples"
@@ -1163,9 +1237,9 @@ msgstr ""
 msgid "На данный момент приложение включает в себя следующие примеры:"
 msgstr "Currently, this application contains the following examples:"
 
-#: ../developers.rst:773
-msgid "Canvas Texture - пример работы с canvas-текстурой"
-msgstr "Canvas Texture - working with canvas textures"
+#: ../developers.rst:770
+msgid "Bone API - пример управления положением отдельных костей скелета"
+msgstr "Bone API - an example of individual bones position control"
 
 #: ../developers.rst:771
 msgid "Camera Animation - создание процедурной анимации камеры"
@@ -1174,6 +1248,10 @@ msgstr "Camera Animation - procedural camera animation"
 #: ../developers.rst:772
 msgid "Camera Move Styles - переключение режимов управления камерой"
 msgstr "Camera Move Styles - changing control modes for the camera"
+
+#: ../developers.rst:773
+msgid "Canvas Texture - пример работы с canvas-текстурой"
+msgstr "Canvas Texture - working with canvas textures"
 
 #: ../developers.rst:774
 msgid "Custom Anchors - процедурное создание аннотаций"
@@ -1201,6 +1279,22 @@ msgstr ""
 msgid "Morphing - использование ключей деформации объекта"
 msgstr "Morphing - using shape keys"
 
+#: ../developers.rst:780
+msgid ""
+"Ray Test - использование функционала испускания лучей для определения "
+"препятствий"
+msgstr "Ray Test - the usage of raycasting for obstacles detection"
+
+#: ../developers.rst:782
+msgid ""
+"Приложение Code Snippets доступно по пути "
+"``SDK/apps_dev/code_snippets/code_snippets_dev.html``. Также оно доступно по"
+" ссылке из файла ``index.html`` в корне SDK."
+msgstr ""
+"The Code Snippets application is available at "
+"``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by"
+" using a link in the ``index.html`` file located in the SDK root."
+
 #: ../developers.rst:787
 msgid "Событийная модель"
 msgstr "Event-Driven Model"
@@ -1227,6 +1321,22 @@ msgstr ""
 msgid "Сенсоры"
 msgstr "Sensors"
 
+#: ../developers.rst:798
+msgid ""
+"Основным блоком событийной модели является сенсор (sensor). Сенсор является "
+"программной сущностью, которая выдаёт на выходе единственное числовое "
+"значение, в большинстве случаев это либо 1 (единица), либо 0 (ноль). "
+"Некоторые сенсоры также несут полезную нагрузку (payload), которую можно "
+"получить в фунции-обработчике множества с помощью соответствующего API. "
+"Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную "
+"длину луча пересечения."
+msgstr ""
+"The basic unit of the event-driven model is a sensor. A sensor is a "
+"programming entity and can only be active (1, one) or inactive (0, zero). "
+"Some sensors may carry a payload which can be received in the manifold's "
+"callback function with corresponding API. For example, the ray-tracing sensor (Ray "
+"Sensor) provides the relative length of the intersection ray."
+
 #: ../developers.rst:800
 msgid "множество"
 msgstr "manifold"
@@ -1235,6 +1345,24 @@ msgstr "manifold"
 msgid "manifold"
 msgstr ""
 
+#: ../developers.rst:802
+msgid ""
+"Опрос значений сенсоров не доступен пользователю в виде API. Вместо этого, "
+"каждый сенсор должен присутствовать в одном или нескольких множествах "
+"(sensor manifold). Множество является логическим контейнером, "
+"ассоциированным с объектом на сцене. Оно генерирует ответ на определенный "
+"набор событий сенсоров в виде вызова функции-обработчика. Для определения "
+"множества необходимо иметь следующую информацию (см. также описание функции "
+":b4wref:`controls.create_sensor_manifold` в документации по API):"
+msgstr ""
+"Users cannot directly control sensors via the external API. Instead all "
+"sensors must be present in one or multiple collections - so called sensor "
+"manifolds. A manifold is a logic container associated with a scene object. "
+"It generates a response to a defined set of sensor events by executing a "
+"callback function. To define the manifold it is required to have the "
+"following information (see also the API documenation for decription of the "
+"``controls.create_sensor_manifold`` function):"
+
 #: ../developers.rst:805
 msgid "Объект-носитель множества (например, бросаемый объект)."
 msgstr "An object to carry the manifold (e.g. a thrown object)."
@@ -1242,6 +1370,23 @@ msgstr "An object to carry the manifold (e.g. a thrown object)."
 #: ../developers.rst:806
 msgid "Уникальный идентификатор множества (например, \"IMPACT\")."
 msgstr "An unique id of the manifold (e.g. \"IMPACT\")."
+
+#: ../developers.rst:807
+msgid ""
+"Тип вызова функции-обработчика (варианты: ``CT_POSITIVE`` - положительный "
+"результат логической функции, ``CT_CONTINUOUS`` - каждый кадр при "
+"положительном результате логической функции и один раз при нулевом, "
+"``CT_LEVEL`` - любое изменение значения результата логической функции, "
+"``CT_SHOT`` - одномоментный скачок результата логической функции, "
+"``CT_TRIGGER`` - переключение результата логической функции, ``CT_CHANGE`` -"
+" любое изменение любого из сенсоров)."
+msgstr ""
+"Callback execution mode (the options are: ``CT_POSITIVE`` - logic function "
+"positive result, ``CT_CONTINUOUS`` - every frame with a positive logic "
+"function result and once with a zero result, ``CT_LEVEL`` - any logic, "
+"function result change, ``CT_SHOT`` - one-stage logic function result change"
+", ``CT_TRIGGER`` - logic function result switch, ``CT_CHANGE`` - any sensor "
+"value change)."
 
 #: ../developers.rst:808
 msgid "Массив сенсоров."
@@ -1263,6 +1408,14 @@ msgstr "A callback function."
 msgid ""
 "Необязательный параметр, который может быть передан в функцию-обработчик."
 msgstr "An optional parameter to pass into the callback function."
+
+#: ../developers.rst:813
+msgid ""
+"Более подробно об API, используемых в событийной модели движка, описано в "
+"документации модуля :b4wmod:`controls`."
+msgstr ""
+"You can read more about engine API in the :b4wmod:`controls` module "
+"documentation."
 
 #: ../developers.rst:816
 msgid "Пример"
@@ -1326,9 +1479,23 @@ msgstr "SDK File Structure"
 msgid "исходный код приложений"
 msgstr "source code of the applications"
 
+#: ../developers.rst:891
+msgid ""
+"исходные файлы приложения для демонстрации примеров использования API "
+"Blend4Web"
+msgstr "source files of the Blend4Web API usage demonstration application"
+
 #: ../developers.rst:894
 msgid "**code_snippets**"
 msgstr ""
+
+#: ../developers.rst:894 ../developers.rst:1037
+msgid "**scripts**"
+msgstr ""
+
+#: ../developers.rst:894
+msgid "исходные файлы самих примеров использования API Blend4Web"
+msgstr "Blend4Web API usage examples' source files"
 
 #: ../developers.rst:897
 msgid "**dairy_plant**"
@@ -1370,10 +1537,6 @@ msgstr ""
 msgid "исходные файлы открытки \"С новым годом 2015\""
 msgstr "source files of the New Year 2015 greeting card"
 
-#: ../developers.rst:979
-msgid "**Makefile**"
-msgstr ""
-
 #: ../developers.rst:912
 msgid "**project.py**"
 msgstr ""
@@ -1407,10 +1570,6 @@ msgstr ""
 msgid "**viewer**"
 msgstr ""
 
-#: ../developers.rst:928
-msgid "**apps_dev**"
-msgstr ""
-
 #: ../developers.rst:925
 msgid "**webplayer**"
 msgstr ""
@@ -1418,6 +1577,18 @@ msgstr ""
 #: ../developers.rst:925
 msgid "исходные файлы веб-плеера"
 msgstr "source files of the Web Player app"
+
+#: ../developers.rst:928
+msgid "**apps_dev**"
+msgstr ""
+
+#: ../developers.rst:928
+msgid "**website**"
+msgstr ""
+
+#: ../developers.rst:928
+msgid "исходные файлы приложений, размещаемых на официальном сайте Blend4Web"
+msgstr "source files of applications from the Blend4Web official website"
 
 #: ../developers.rst:931
 msgid "**blender**"
@@ -1559,6 +1730,10 @@ msgid ""
 msgstr ""
 "makefile for building the engine, the applications, the documentation and "
 "for deploying on a remote server (not available as a free version)"
+
+#: ../developers.rst:979
+msgid "**Makefile**"
+msgstr ""
 
 #: ../developers.rst:982
 msgid "**README.rst**"
@@ -1713,10 +1888,6 @@ msgstr ""
 
 #: ../developers.rst:1034
 msgid "**shader_analyzer.py**"
-msgstr ""
-
-#: ../developers.rst:894 ../developers.rst:1037
-msgid "**scripts**"
 msgstr ""
 
 #: ../developers.rst:1037
@@ -1927,205 +2098,111 @@ msgstr ""
 "Application developers can also set the **quality** parameter upon engine "
 "initialization using the ``app.js`` add-on:"
 
-#: ../developers.rst:12
-msgid "Управление проектами"
-msgstr "Project management"
+#: ../developers.rst:1136
+msgid "Специфика неполноэкранных приложений"
+msgstr "Non-FullScreen Web Apps"
 
-#: ../developers.rst:66
-msgid "Мастер создания проектов"
-msgstr "Master for creating new projects"
-
-#: ../developers.rst:99
-msgid "Расширенное управление проектами"
-msgstr "Advanced Project Management"
-
-#: ../developers.rst:101
+#: ../developers.rst:1138
 msgid ""
-"Расширенное управление проектами используется опытными разработчикам, "
-"которым необходима как большая степень гибкости, так и возвожность "
-"втоматизировать все рабочие процессы, связанные с разработкой приложений."
+"Элемент Canvas, на котором осуществляется рендеринг, может изменять своё "
+"местоположение относительно окна браузера. Это может происходить в "
+"результате манипуляций, проводимых над DOM-деревом, либо в результате "
+"скроллинга страницы, что особенно актуально для неполноэкранных приложений."
 msgstr ""
-"Advanced project management is used by experienced developers which require "
-"more flexibility and need to automate process of project development."
+"The Canvas element, to which the rendering is performed, can change its "
+"position relative to the browser window. This can occur due to some "
+"manipulations over the DOM tree, or as a result of page scrolling which is "
+"especially relevant for non-fullscreen web applications."
 
-#: ../developers.rst:103
+#: ../developers.rst:1140
 msgid ""
-"Для расширенного управления проектами следует использовать скрипт "
-"*project.py* и ручное редактирование конфигурационных файлов *.b4w_project*."
+"В большинстве случаев это не будет никак сказываться на работе приложения. "
+"Однако для событий, связанных с положением курсора мыши или позицией касания"
+" на touch-устройстве, возможно получение некорректных результатов. Это "
+"происходит, потому что координаты, получаемые из соответствующих событий, "
+"принадлежат системе отсчета относительно окна браузера, а движок работает с "
+"координатами в системе отсчета именно Canvas элемента (верхний левый угол "
+"элемента)."
 msgstr ""
-"For advanced project management use the *project.py* script and manually "
-"edit *.b4w_project* config files."
+"In most cases this will not affect the performance of the app by any means. "
+"However, some DOM events related to mouse cursor or touch position may carry"
+" incorrect information. This occurs because the coordinates obtained from "
+"the corresponding events are measured relative to the origin of the browser "
+"window, while the engine works with the coordinate space of the Canvas "
+"element itself (its origin is located in the top left corner)."
 
-#: ../developers.rst:128
-msgid "Выводит список проектов, находящихся в SDK."
-msgstr "Prints list of projects in the SDK."
-
-#: ../developers.rst:134
+#: ../developers.rst:1142
 msgid ""
-"Типовое приложение, разрабатываемая с помощью системы управления проектами "
-"имеет вид:"
-msgstr "A typical app developed using the project manager looks as follows:"
-
-#: ../developers.rst:161
-msgid "Как видно, это приложение состоит из 4 различных директорий:"
-msgstr "This app consists of 4 different directories."
-
-#: ../developers.rst:163
-msgid "apps_dev/myproject. Содержит исходные файлы приложений проекта."
-msgstr "apps_dev/myproject. Contains source files of project's apps."
-
-#: ../developers.rst:164
-msgid "blender/myproject. Содержит исходные файлы сцен проекта."
-msgstr "blender/myproject. Contains source files of project's scenes."
-
-#: ../developers.rst:165
-msgid "deploy/assets/myproject. Содержит экспортированные файлы сцен проекта."
-msgstr "deploy/assets/myproject. Contains exported files of project's scenes."
-
-#: ../developers.rst:166
-msgid "deploy/apps/myproject. Содержит экспортированные файлы сцен проекта."
-msgstr "deploy/apps/myproject. Contains exported files of project's scenes."
-
-#: ../developers.rst:168
-msgid ""
-"Кроме того, операция развёртывания (deploy) может создавать ещё одну "
-"директорию, однако она обычно располагается за пределами SDK и её название и"
-" расположение зависит от структуры директорий на конечном сервере."
+"Если верхний левый угол Canvas'а совпадает с верхним левым углом окна "
+"браузера, и его местоположение не будет изменяться, то достаточно "
+"использовать координаты event.clientX и event.clientY соответствующего "
+"события либо функции API :b4wref:`mouse.get_coords_x()` и "
+":b4wref:`mouse.get_coords_y()`:"
 msgstr ""
-"Additionally, the deploy command can create yet another directory, but it "
-"usually is placed outside of the SDK and its name and path depend on "
-"directory structure on the target server."
+"If the top left corner of the Canvas element matches the top left corner of "
+"the browser window and is fixed in it's position (non-movable) then it's "
+"sufficient to use event.clientX and event.clientY coordinates of the input "
+"events or :b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` "
+"methods."
 
-#: ../developers.rst:206
-msgid "Низкоуровневое создание проекта"
-msgstr "Advanced project management"
-
-#: ../developers.rst:267
-msgid "Разработка нескольких приложений в составе проекта"
-msgstr "Developing multiple apps inside a project"
-
-#: ../developers.rst:338
+#: ../developers.rst:1156
 msgid ""
-"Более подробно о процессе конвертации ресурсов сказано в "
-":ref:`соответствующем разделе <converter>`."
+"Если на странице присутствует только скроллинг окна браузера, то достаточно "
+"использовать координаты event.pageX и event.pageY:"
 msgstr ""
-"Converting of resources is described in detail in the :ref:`corresponding "
-"section <converter>`."
+"In the case of the scrolled browser window, you have to use event.pageX and "
+"event.pageY coordinates."
 
-#: ../developers.rst:370
-msgid "Обновление приложений на новые версии SDK"
-msgstr "Upgrading apps for new SDK versions"
-
-#: ../developers.rst:372
+#: ../developers.rst:1165
 msgid ""
-"В процессе обновления на новые версии движка чаще всего возникает две "
-"проблемы:"
-msgstr "While upgrading for new SDK versions often two problems arise:"
-
-#: ../developers.rst:374
-msgid "Несоответствие модулей новой и старой версии движка."
-msgstr "Modules of the new and old versions of the engine do not match."
-
-#: ../developers.rst:375
-msgid "Несоответствие старых и новых API движка."
-msgstr "Old and new engine API do not match."
-
-#: ../developers.rst:377
-msgid ""
-"Для того, чтобы обновить список модулей, подключаемых в необфусцированной "
-"версии приложений, необходимо перейти в директорию с исходными файлами "
-"приложений ``apps_dev/my_project``. Затем необходимо вызвать скрипт, "
-"генерирующий пути к файлам движка:"
+"В случае более сложных манипуляций с положением элемента Canvas (скроллинг "
+"отдельных элементов страницы, смещение относительно левого верхнего угла "
+"окна браузера, манипуляции с DOM-деревом) требуется корректный пересчет "
+"координат. Чтобы получить координаты, подходящие для использования в движке,"
+" можно провести преобразование при помощи метода "
+":b4wref:`container.client_to_canvas_coords()`:"
 msgstr ""
-"In order to update the list of modules imported in developer version of "
-"application go to project source directory ``apps_dev/my_project`` and "
-"execute module list generator script:"
+"In the case of more sophisticated manipulations with the Canvas element "
+"(scrolling of the page elements, displacement from the top level corner of "
+"the browser window, changes in the DOM-tree) you need to perform correct "
+"coordinate conversions. In order to obtain coordinates suitable for use in "
+"the engine, you can covert them by using the ``client_to_canvas_coords()`` "
+"method of the ``container`` module:"
 
-#: ../developers.rst:411
+#: ../developers.rst:1177
 msgid ""
-"Несоответствие API решается рефакторингом кода приложения. Все изменения "
-"подробно описываются в :ref:`замечаниях к релизам <release_notes>`."
+"Для получения координат в системе отсчета Canvas элемента, движок должен "
+"знать его положение относительно окна браузера. Однако, если оно будет "
+"меняться во время работы приложения (тот же скроллинг), то необходимо будет "
+"как-то пересчитывать позицию Canvas'а. Для того, чтобы это происходило "
+"автоматически, нужно выставить настройку ``track_container_position`` при "
+"инициализации приложения:"
 msgstr ""
-"To eliminate API incompatibilities you may require refactoring of your "
-"app.All changes are described in :ref:`release notes <release_notes>`."
+"In order to obtain coordinates in the Canvas space, the engine should know "
+"its position relative to the browser window. However, if this position is "
+"subjected to changes during the work of the app (due to scrolling for "
+"example), the Canvas position should be recalculated. To do this "
+"automatically, you can set the ``track_container_position`` property upon "
+"app initialization:"
 
-#: ../developers.rst:415
-msgid "Пути к загружаемым ресурсам приложения"
-msgstr "Path to loaded application assets"
-
-#: ../developers.rst:417
+#: ../developers.rst:1192
 msgid ""
-"При загрузке .json-файлов необходимо использовать функцию "
-"``get_std_assets_path()`` из модуля *config.js*:"
+"При её использовании в некоторых браузерах (например, Firefox) возможно "
+"незначительное снижение производительности вследствие частого обращения к "
+"DOM-дереву. Если этот момент критичен, то вместо флага "
+"``track_container_position`` можно пользоваться методами "
+":b4wref:`container.force_offsets_updating()`, "
+":b4wref:`container.update_canvas_offsets()` или более низкоуровневым "
+":b4wref:`container.set_canvas_offsets()` для обновления положения элемента "
+"Canvas вручную, когда это действительно необходимо:"
 msgstr ""
-"To load .json-files you should use ``get_std_assets_path()`` method frome "
-"the *config.js* module:"
-
-#: ../developers.rst:427
-msgid "Написание логики приложений"
-msgstr "Application Programming"
-
-#: ../developers.rst:430
-msgid "Приложение Hello world!"
-msgstr "Hello world!"
-
-#: ../developers.rst:597
-msgid ""
-"В состав дистрибутива включен Python скрипт (scripts/converter.py) для "
-"конвертации исходных файлов в другие форматы с целью расширения спектра "
-"поддерживаемых платформ, а также для уменьшения размера ресурсов."
-msgstr ""
-"To support a wider range of platforms, a Python script "
-"(scripts/converter.py) for converting the source files into other formats is"
-" included into the distribution."
-
-#: ../developers.rst:601
-msgid ""
-"Данный скрипт может вызываться автоматически, используя систему управления "
-"проектами, либо вручную:"
-msgstr ""
-"This script can be run automatically using the project mangment system, or "
-"manually:"
-
-#: ../developers.rst:68
-msgid ""
-"Мастер создания новых проектов входит в состав приложения Project Manager и "
-"вызывается по ссылке ``[Create New Project]`` на главной странице этого "
-"приложения."
-msgstr ""
-"The master for creating new projects is included in the Project Management "
-"app and executed by the ``[Create New Project]`` button on the main page of "
-"this app."
-
-#: ../developers.rst:585
-msgid ""
-"При использовании модуля ``app`` необходимо явно задавать размеры "
-"контейнерного элемента, поскольку в противном случае создаваемый элемент "
-"``<canvas>`` будет иметь нулевые размеры."
-msgstr ""
-"In case when the ``app`` module is used, it is necessary to explicitely "
-"specify dimensions of the container element. Otherwise the created "
-"``<canvas>`` element will have zero dimensions."
-
-#: ../developers.rst:770
-msgid "Bone API - пример управления положением отдельных костей скелета"
-msgstr "Bone API - an example of individual bones position control"
-
-#: ../developers.rst:780
-msgid ""
-"Ray Test - использование функционала испускания лучей для определения "
-"препятствий"
-msgstr "Ray Test - the usage of raycasting for obstacles detection"
-
-#: ../developers.rst:782
-msgid ""
-"Приложение Code Snippets доступно по пути "
-"``SDK/apps_dev/code_snippets/code_snippets_dev.html``. Также оно доступно по"
-" ссылке из файла ``index.html`` в корне SDK."
-msgstr ""
-"The Code Snippets application is available at "
-"``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by"
-" using a link in the ``index.html`` file located in the SDK root."
+"Please note, that this setting can lead to performance degradation in some "
+"browsers (such as Firefox) due to frequent DOM tree accesses. If the "
+"performance is critical, you can update the Canvas position manually when it"
+" is really necessary. To do this, use the ``force_offsets_updating()`` and "
+"``update_canvas_offsets()`` methods instead of the "
+"``track_container_position`` setting, or even the lower-level "
+"``set_canvas_offsets()`` method from the ``container`` module:"
 
 #: ../developers.rst:1208
 msgid ""
@@ -2138,81 +2215,3 @@ msgstr "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in this "
 "case. However, you can lock scaling at all and thus avoid such problems. "
 "It is enough to add the following meta-tag to the page's header:"
-
-#: ../developers.rst:798
-msgid ""
-"Основным блоком событийной модели является сенсор (sensor). Сенсор является "
-"программной сущностью, которая выдаёт на выходе единственное числовое "
-"значение, в большинстве случаев это либо 1 (единица), либо 0 (ноль). "
-"Некоторые сенсоры также несут полезную нагрузку (payload), которую можно "
-"получить в фунции-обработчике множества с помощью соответствующего API. "
-"Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную "
-"длину луча пересечения."
-msgstr ""
-"The basic unit of the event-driven model is a sensor. A sensor is a "
-"programming entity and can only be active (1, one) or inactive (0, zero). "
-"Some sensors may carry a payload which can be received in the manifold's "
-"callback function with corresponding API. For example, the ray-tracing sensor (Ray "
-"Sensor) provides the relative length of the intersection ray."
-
-#: ../developers.rst:802
-msgid ""
-"Опрос значений сенсоров не доступен пользователю в виде API. Вместо этого, "
-"каждый сенсор должен присутствовать в одном или нескольких множествах "
-"(sensor manifold). Множество является логическим контейнером, "
-"ассоциированным с объектом на сцене. Оно генерирует ответ на определенный "
-"набор событий сенсоров в виде вызова функции-обработчика. Для определения "
-"множества необходимо иметь следующую информацию (см. также описание функции "
-":b4wref:`controls.create_sensor_manifold` в документации по API):"
-msgstr ""
-"Users cannot directly control sensors via the external API. Instead all "
-"sensors must be present in one or multiple collections - so called sensor "
-"manifolds. A manifold is a logic container associated with a scene object. "
-"It generates a response to a defined set of sensor events by executing a "
-"callback function. To define the manifold it is required to have the "
-"following information (see also the API documenation for decription of the "
-"``controls.create_sensor_manifold`` function):"
-
-#: ../developers.rst:807
-msgid ""
-"Тип вызова функции-обработчика (варианты: ``CT_POSITIVE`` - положительный "
-"результат логической функции, ``CT_CONTINUOUS`` - каждый кадр при "
-"положительном результате логической функции и один раз при нулевом, "
-"``CT_LEVEL`` - любое изменение значения результата логической функции, "
-"``CT_SHOT`` - одномоментный скачок результата логической функции, "
-"``CT_TRIGGER`` - переключение результата логической функции, ``CT_CHANGE`` -"
-" любое изменение любого из сенсоров)."
-msgstr ""
-"Callback execution mode (the options are: ``CT_POSITIVE`` - logic function "
-"positive result, ``CT_CONTINUOUS`` - every frame with a positive logic "
-"function result and once with a zero result, ``CT_LEVEL`` - any logic, "
-"function result change, ``CT_SHOT`` - one-stage logic function result change"
-", ``CT_TRIGGER`` - logic function result switch, ``CT_CHANGE`` - any sensor "
-"value change)."
-
-#: ../developers.rst:813
-msgid ""
-"Более подробно об API, используемых в событийной модели движка, описано в "
-"документации модуля :b4wmod:`controls`."
-msgstr ""
-"You can read more about engine API in the :b4wmod:`controls` module "
-"documentation."
-
-#: ../developers.rst:891
-msgid ""
-"исходные файлы приложения для демонстрации примеров использования API "
-"Blend4Web"
-msgstr "source files of the Blend4Web API usage demonstration application"
-
-#: ../developers.rst:894
-msgid "исходные файлы самих примеров использования API Blend4Web"
-msgstr "Blend4Web API usage examples' source files"
-
-#: ../developers.rst:928
-msgid "**website**"
-msgstr ""
-
-#: ../developers.rst:928
-msgid "исходные файлы приложений, размещаемых на официальном сайте Blend4Web"
-msgstr "source files of applications from the Blend4Web official website"
-

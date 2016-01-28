@@ -39,7 +39,7 @@ var _vec3_tmp_4 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
 
-exports.level_load_cb = function(data_id, level_name) {
+exports.level_load_cb = function(data_id, level_name, preloader_cb, intro_load_cb) {
 
     _level_conf = require(level_name + "_config");
     m_char.init_wrapper(_level_conf, level_name)
@@ -58,12 +58,7 @@ exports.level_load_cb = function(data_id, level_name) {
     m_char.setup_controls(elapsed_sensor);
     setup_camera(elapsed_sensor);
 
-    function replay_cb() {
-        document.getElementById("replay").style.visibility = "hidden";
-        cleanup_game(elapsed_sensor);
-    }
-
-    m_interface.init(replay_cb);
+    m_interface.init(cleanup_game, elapsed_sensor, intro_load_cb, preloader_cb);
 }
 
 function cleanup_game(elapsed_sensor) {
@@ -82,20 +77,6 @@ function cleanup_game(elapsed_sensor) {
     m_interface.update_hp_bar();
 
     setup_music();
-}
-
-function detect_mobile() {
-    if( navigator.userAgent.match(/Android/i)
-     || navigator.userAgent.match(/webOS/i)
-     || navigator.userAgent.match(/iPhone/i)
-     || navigator.userAgent.match(/iPad/i)
-     || navigator.userAgent.match(/iPod/i)
-     || navigator.userAgent.match(/BlackBerry/i)
-     || navigator.userAgent.match(/Windows Phone/i)) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function setup_camera(elapsed_sensor) {

@@ -288,14 +288,15 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     // needed to restore original delays when using particles number factor
     pdata.delay_attrs_masked = new Float32Array(delay_attrs);
 
-    pdata.emitter_tsr_snapshots = new Float32Array(delay_attrs.length * 8);
-    for (var i = 0; i < delay_attrs.length * 8; i++)
-        for (var j = 0; j < 8; j++)
-            pdata.emitter_tsr_snapshots[8 * i + j] = tsr[j];
+    if (pdata.use_world_space) {
+        pdata.emitter_tsr_snapshots = new Float32Array(delay_attrs.length * 8);
+        for (var i = 0; i < delay_attrs.length * 8; i++)
+            for (var j = 0; j < 8; j++)
+                pdata.emitter_tsr_snapshots[8 * i + j] = tsr[j];
 
-    if (pdata.use_world_space)
         pose_emitter_world(pdata, is_billboard, positions, normals, tsr, 
                 positions, normals);
+    }
 
     var submesh = m_util.create_empty_submesh("EMITTER_PARTICLES");
     var va_frame = m_util.create_empty_va_frame();
@@ -344,11 +345,13 @@ function pose_emitter_world(pdata, is_billboard, positions, normals, tsr,
                 || (time < prev_time && (delay > prev_time || time >= delay));
 
         if (need_emitter_pos)
-            for (var k = 0; k < 8; k++)
+            for (var k = 0; k < 8; k++) {
                 em_snapshots[8 * j + k]  = tsr[k];
-
-        for (var k = 0; k < 8; k++)
-            tsr_tmp[k] = em_snapshots[8 * j + k];
+                tsr_tmp[k] = tsr[k];
+            }
+        else
+            for (var k = 0; k < 8; k++)
+                tsr_tmp[k] = em_snapshots[8 * j + k];
 
         // positions
         var pos = vec3_tmp;
@@ -390,15 +393,12 @@ function pose_emitter_world(pdata, is_billboard, positions, normals, tsr,
 exports.update_emitter_transform = function(obj, batches) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
-        var pdata = batches[i].particles_data;
+        var pdata = batch.particles_data;
 
-        if (!pdata)
+        if (!pdata || !pdata.use_world_space)
             continue;
 
         var pbuf = batch.bufs_data;
-
-        if (!pdata.use_world_space)
-            return;
 
         var pcache = pdata.positions_cache;
         var ncache = pdata.normals_cache;
@@ -807,7 +807,7 @@ exports.update_start_pos = function(obj, trans, quats) {
         var batches = scenes_data[i].batches;
         for (var j = 0; j < batches.length; j++) {
             var pdata = batches[j].particles_data;
-            if (!pdata)
+            if (!pdata || !pdata.use_world_space)
                 continue;
 
             for (var k = 0; k < pdata.delay_attrs.length * 8; k++) {
@@ -819,7 +819,7 @@ exports.update_start_pos = function(obj, trans, quats) {
                 pdata.emitter_tsr_snapshots[8 * k + 5] = quats[1];
                 pdata.emitter_tsr_snapshots[8 * k + 6] = quats[2];
                 pdata.emitter_tsr_snapshots[8 * k + 7] = quats[3];
-            }        
+            }
         }
     }
 }

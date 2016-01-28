@@ -2,7 +2,7 @@
 
 import os, subprocess, sys, shutil
 
-PATH_TO_ADDON = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "blender_scripts", "addons", "blend4web"))
+PATH_TO_ADDON = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "addons", "blend4web"))
 EMPTY_NAME = "empty.po"
 PATH_TO_PO = os.path.join(PATH_TO_ADDON, "locales")
 PATH_TO_EMPTY = os.path.join(PATH_TO_PO, "empty")

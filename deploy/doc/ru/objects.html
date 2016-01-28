@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Объекты &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
         <link rel="next" title="Камера" href="camera.html"/>
-        <link rel="prev" title="Аддон" href="addon.html"/> 
+        <link rel="prev" title="Параметры сцены" href="scene_settings.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,25 +91,28 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Объекты</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Типы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-dynamic-objects">Статические и динамические объекты</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Настройка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Настройка</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#object">Вкладка Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">Вкладка Physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#override-bounding-volumes">Override Bounding Volumes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Управление перемещением объектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Кватернионы</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Пример работы с кватернионами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-1">Выбор объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-2">Кватернионы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Пример работы с кватернионами</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#blender-blend4web">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tsr">Перемещение с помощью векторов TSR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-obj">Копирование объектов (инстансинг)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Простое копирование</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Глубокое копирование</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Удаление объектов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Простое копирование</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Глубокое копирование</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Удаление объектов</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#selection">Выделение объектов</a></li>
@@ -118,19 +121,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -173,10 +176,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="objects">
-<span id="id1"></span><h1>Объекты<a class="headerlink" href="#objects" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id16">Объекты</a><a class="headerlink" href="#objects" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#objects" id="id16">Объекты</a><ul>
+<li><a class="reference internal" href="#id3" id="id17">Типы</a></li>
+<li><a class="reference internal" href="#static-dynamic-objects" id="id18">Статические и динамические объекты</a></li>
+<li><a class="reference internal" href="#id5" id="id19">Настройка</a><ul>
+<li><a class="reference internal" href="#object" id="id20">Вкладка Object</a></li>
+<li><a class="reference internal" href="#physics" id="id21">Вкладка Physics</a></li>
+<li><a class="reference internal" href="#override-bounding-volumes" id="id22">Override Bounding Volumes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-0" id="id23">Управление перемещением объектов</a></li>
+<li><a class="reference internal" href="#index-1" id="id24">Выбор объектов</a></li>
+<li><a class="reference internal" href="#index-2" id="id25">Кватернионы</a><ul>
+<li><a class="reference internal" href="#id9" id="id26">Пример работы с кватернионами</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#blender-blend4web" id="id27">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
+<li><a class="reference internal" href="#tsr" id="id28">Перемещение с помощью векторов TSR</a></li>
+<li><a class="reference internal" href="#copy-obj" id="id29">Копирование объектов (инстансинг)</a><ul>
+<li><a class="reference internal" href="#id11" id="id30">Простое копирование</a></li>
+<li><a class="reference internal" href="#id12" id="id31">Глубокое копирование</a></li>
+<li><a class="reference internal" href="#id13" id="id32">Удаление объектов</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#selection" id="id33">Выделение объектов</a></li>
+<li><a class="reference internal" href="#morphing" id="id34">Морфинг</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p>Объекты служат целям размещения компонентов различного типа (мешей, камер, ламп и т.д.) в пространстве 3D сцены.</p>
-<div class="section" id="id2">
-<h2>Типы<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id17">Типы</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Движком поддерживаются объекты следующих типов:</p>
 <blockquote>
 <div><ul class="simple">
@@ -194,7 +229,7 @@
 </div></blockquote>
 </div>
 <div class="section" id="static-dynamic-objects">
-<span id="id3"></span><h2>Статические и динамические объекты<a class="headerlink" href="#static-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id18">Статические и динамические объекты</a><a class="headerlink" href="#static-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Все объекты типа <code class="docutils literal"><span class="pre">MESH</span></code> можно разделить на статические и динамические.</p>
 <p><strong>Статические объекты</strong> - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
 <p><strong>Динамические объекты</strong> - объекты, меши которых не могут быть скомбинированы друг с другом.</p>
@@ -203,11 +238,11 @@
 <p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
 <p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>.</p>
 </div>
-<div class="section" id="id4">
-<h2>Настройка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id19">Настройка</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.</p>
 <div class="section" id="object">
-<h3>Вкладка Object<a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">Вкладка Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -310,6 +345,8 @@
 <dd>Тип (источник) описания объекта: текст либо файл с текстом.</dd>
 </dl>
 </dd>
+</dl>
+<dl class="docutils" id="objects-anchors">
 <dt><em>Anchors &gt; Enable Anchor</em></dt>
 <dd><p class="first">Опция доступна только для объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>. Интерфейс добавления графических меток (якорей) к объектам:</p>
 <dl class="last docutils">
@@ -336,7 +373,7 @@
 </dl>
 </div>
 <div class="section" id="physics">
-<h3>Вкладка Physics<a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Вкладка Physics</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -357,9 +394,37 @@
 <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
 </dl>
 </div>
+<div class="section" id="override-bounding-volumes">
+<h3><a class="toc-backref" href="#id22">Override Bounding Volumes</a><a class="headerlink" href="#override-bounding-volumes" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Эта вкладка используется для настройки ограничивающих объёмов. Такие объёмы используются при определении видимости объекта, для рассчёта столкновений и физических взаимодействий. Манипулируя ими, можно добиться различных эффектов.</p>
+<a class="reference internal image-reference" href="_images/objects_override_bounding_volumes.png"><img alt="_images/objects_override_bounding_volumes.png" class="align-center" src="_images/objects_override_bounding_volumes.png" style="width: 100%;" /></a>
+<p>Раздел <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> расположен на панели иструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code> (рядом с <a class="reference internal" href="lighting.html#normals-editor"><span>редактором нормалей</span></a>).</p>
+<dl class="docutils">
+<dt><em>Show Boundings</em></dt>
+<dd><a class="first reference internal image-reference" href="_images/objects_show_boundings.png"><img alt="_images/objects_show_boundings.png" class="align-center" src="_images/objects_show_boundings.png" style="width: 100%;" /></a>
+<p class="last">Отобразить ограничивающий объём во вьюпорте Blender.  Работает только если активирована опция <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Mesh</span> <span class="pre">Boundings</span></code>. Объём может быть представлен в виде параллелепипеда либо в виде комбинации окружностей или эллипсов. Одновременно может работать более одного метода визуализации (в том числе все три).</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Метод визуализации не влияет на форму ограничивающего объёма, только на его представление во вьюпорте.</p>
+</div>
+<dl class="docutils">
+<dt><em>Override Mesh Boundings</em></dt>
+<dd><a class="first reference internal image-reference" href="_images/objects_override_mesh_boundings.png"><img alt="_images/objects_override_mesh_boundings.png" class="align-center" src="_images/objects_override_mesh_boundings.png" style="width: 100%;" /></a>
+<p class="last">Эта кнопка включает использование нестандартного ограничивающего объёма. Ограничивающий объём имеет форму параллелпипеда, центр которого совпадает с точкой привязки объекта.</p>
+</dd>
+<dt><em>MinX и MaxX</em></dt>
+<dd>Размеры ограничивающего объёма по оси X. По умолчанию <em>MinX</em> = -1, <em>MaxX</em> = 1.</dd>
+<dt><em>MinY и MaxY</em></dt>
+<dd>Размеры ограничивающего объёма по оси Y. Поумолчанию <em>MinY</em> = -1, <em>MaxY</em> = 1.</dd>
+<dt><em>MinZ и MaxZ</em></dt>
+<dd>Размеры ограничивающего объёма по оси Z. По умолчанию <em>MinZ</em> = -1, <em>MaxZ</em> = 1.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="index-0">
-<span id="id5"></span><h2>Управление перемещением объектов<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id23">Управление перемещением объектов</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</p>
@@ -404,7 +469,77 @@
 </dl>
 </div>
 <div class="section" id="index-1">
-<span id="id6"></span><h2>Кватернионы<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id7"></span><h2><a class="toc-backref" href="#id24">Выбор объектов</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для того, чтобы производить какие-либо манипуляции с трёхмерным объектом, необходимо получить ссылку на него. Для этого используется ряд функций API. Ссылка на объект имеет тип <code class="docutils literal"><span class="pre">Object3D</span></code>.</p>
+<dl class="docutils">
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
+<dd><p class="first">Получить ссылку на объект, основываясь на известном имени объекта.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
+<dd><p class="first">Получить ссылку на скопированный объект, используя имя скопированного объекта и имя объекта типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, который использовался для копирования.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
+<dd><p class="first">Получить ссылку на скопированный объект, используя списки (массивы элементов типа <code class="docutils literal"><span class="pre">String</span></code>) имён скопированных объектов и объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, использованных для копирования.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
+<dd><p class="first">Возвращает список (массив) предков объекта, начиная от старшего предка и заканчивая самим объектом.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
+<dd><p class="first">Проверить, существует ли в сцене объект с указанным именем.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
+<dd><p class="first">Проверить, существует ли в сцене скопированный объект с заданным именем и заданным именем объекта типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, который использовался для копирования.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
+<dd><p class="first">Проверить, существует ли в сцене скопированный объект, используя списки (массивы элементов типа <code class="docutils literal"><span class="pre">String</span></code>) имён скопированных объектов и объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, использованных для копирования.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
+<dd><p class="first">Получить имя объекта, основываясь на известной ссылке на этот объект.</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="index-2">
+<span id="id8"></span><h2><a class="toc-backref" href="#id25">Кватернионы</a><a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:</p>
 <blockquote>
 <div><ul class="simple">
@@ -434,8 +569,8 @@
 <dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
 <dd>Преобразование из углов Эйлера и наоборот.</dd>
 </dl>
-<div class="section" id="id7">
-<h3>Пример работы с кватернионами<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id26">Пример работы с кватернионами</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием &#8220;Cessna&#8221;.</p>
 <a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -483,7 +618,7 @@
 </div>
 </div>
 <div class="section" id="blender-blend4web">
-<span id="b4w-blender-coordinates"></span><h2>Отличия систем координат Blender&#8217;а и Blend4Web<a class="headerlink" href="#blender-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id27">Отличия систем координат Blender&#8217;а и Blend4Web</a><a class="headerlink" href="#blender-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В системе координат Blender&#8217;а вектор <code class="docutils literal"><span class="pre">UP</span></code>, указывающий направление вверх, сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в OpenGL, это направление совпадает с направлением оси Y. Таким образом система координат движка оказывается повернутой относительно системы координат Blender&#8217;а на 90 градусов вокруг оси X.</p>
 <img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
 <div class="line-block">
@@ -492,7 +627,7 @@
 <p>Методы API используют именно систему координат движка, поэтому работа с API может отличаться от работы с настройками непосредственно в Blender&#8217;е.</p>
 </div>
 <div class="section" id="tsr">
-<h2>Перемещение с помощью векторов TSR<a class="headerlink" href="#tsr" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id28">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#tsr" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -500,7 +635,7 @@
 <p>Для работы с данными векторами существует специальный модуль <cite>tsr</cite>, а также методы <cite>set_tsr()</cite>/<cite>get_tsr()</cite> модуля <cite>transform</cite>.</p>
 </div>
 <div class="section" id="copy-obj">
-<span id="id8"></span><h2>Копирование объектов (инстансинг)<a class="headerlink" href="#copy-obj" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id10"></span><h2><a class="toc-backref" href="#id29">Копирование объектов (инстансинг)</a><a class="headerlink" href="#copy-obj" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Часто возникает необходимость копирования объектов (инстансинг) во время работы приложения.</p>
 <dl class="docutils">
 <dt>Существует ряд ограничений на копируемые объекты:</dt>
@@ -511,13 +646,13 @@
 </ul>
 </dd>
 </dl>
-<div class="section" id="id9">
-<h3>Простое копирование<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id30">Простое копирование</a><a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае простого копирования для объекта-копии будет использоваться геометрия объекта, с которого осуществлялось копирование. При изменении геометрии на исходном объекте, геометрия изменится и на объекте-копии.</p>
 </div>
-<div class="section" id="id10">
-<h3>Глубокое копирование<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
-<p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Force Dynamic Geometry</span></a>.</p>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id31">Глубокое копирование</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Также при глубоком копировании canvas-текстуры на копиях - именно разные текстуры, в то время как при простом копировании - одна и та же. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -531,9 +666,9 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id11">
-<h3>Удаление объектов<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Для удаления объектов, созданных копированием, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">remove_object</span></code>, куда надо передать объект. Возможно удаление только объектов-копий.</p>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id32">Удаление объектов</a><a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Для удаления объектов, созданных копированием, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">remove_object</span></code>, куда надо передать объект. Возможно удаление динамических mesh- и empty-объектов.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
@@ -542,7 +677,7 @@
 </div>
 </div>
 <div class="section" id="selection">
-<span id="id12"></span><h2>Выделение объектов<a class="headerlink" href="#selection" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id14"></span><h2><a class="toc-backref" href="#id33">Выделение объектов</a><a class="headerlink" href="#selection" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <code class="docutils literal"><span class="pre">Selectable</span></code> в панели <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -561,7 +696,7 @@
 <p>Если для выделяемого объекта в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> установлены флаги <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> и <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code>, то вызов функции <code class="docutils literal"><span class="pre">pick_object</span></code> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><span>Outline-анимации</span></a>.</p>
 </div>
 <div class="section" id="morphing">
-<span id="id13"></span><h2>Морфинг<a class="headerlink" href="#morphing" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id15"></span><h2><a class="toc-backref" href="#id34">Морфинг</a><a class="headerlink" href="#morphing" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для создания ключей деформации (опорных фигур) перейдите во вкладку <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></code>.</p>
 <img alt="_images/morphing.png" class="align-center" src="_images/morphing.png" />
 <div class="line-block">
@@ -592,7 +727,7 @@
         <a href="camera.html" class="btn btn-neutral float-right" title="Камера" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="addon.html" class="btn btn-neutral" title="Аддон" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="scene_settings.html" class="btn btn-neutral" title="Параметры сцены" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -602,7 +737,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -624,7 +759,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

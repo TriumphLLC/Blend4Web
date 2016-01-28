@@ -47,10 +47,11 @@ var SHADERS = ["anchors.glslf",
     "grass_map.glslv",
     "halo.glslf",
     "halo.glslv",
+    "line.glslf",
+    "line.glslv",
     "main.glslf",
     "main.glslv",
     "main_stack.glslf",
-    "main_stack.glslv",
     "particles_color.glslf",
     "particles_color.glslv",
     "particles_texture.glslf",
@@ -218,6 +219,7 @@ exports.set_default_directives = function(sinfo) {
         "DEBUG_SPHERE",
         "DEBUG_SPHERE_DYNAMIC",
         "DEPTH_RGBA",
+        "DISABLE_DISTORTION_CORRECTION",
         "DISABLE_FOG",
         "DOUBLE_SIDED_LIGHTING",
         "DYNAMIC",
@@ -236,7 +238,6 @@ exports.set_default_directives = function(sinfo) {
         "NUM_NORMALMAPS",
         "PARALLAX",
         "PARALLAX_STEPS",
-        "PERSPECTIVE_SHADOW_CAST",
         "PROCEDURAL_FOG",
         "PROCEDURAL_SKYDOME",
         "REFLECTION",
@@ -323,6 +324,7 @@ exports.set_default_directives = function(sinfo) {
         case "DEBUG_SPHERE":
         case "DEBUG_SPHERE_DYNAMIC":
         case "DEPTH_RGBA":
+        case "DISABLE_DISTORTION_CORRECTION":
         case "DISABLE_FOG":
         case "DOUBLE_SIDED_LIGHTING":
         case "DYNAMIC":
@@ -342,7 +344,6 @@ exports.set_default_directives = function(sinfo) {
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
-        case "PERSPECTIVE_SHADOW_CAST":
         case "PROCEDURAL_FOG":
         case "PROCEDURAL_SKYDOME":
         case "REFLECTION":

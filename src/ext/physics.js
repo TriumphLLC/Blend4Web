@@ -648,19 +648,6 @@ exports.character_rotation_inc = function(obj, h_angle, v_angle) {
     m_phy.character_rotation_inc(obj, h_angle, v_angle);
 }
 /**
- * Set the character rotation quaternion
- * @method module:physics.set_character_rotation_quat
- * @param {Object3D} obj Object 3D
- * @param {Quat} quat Rotation quaternion
- */
-exports.set_character_rotation_quat = function(obj, quat) {
-    if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
-        return;
-    }
-    m_phy.set_character_rotation_quat(obj, quat);
-}
-/**
  * Set the character rotation in horizontal and vertical planes
  * @method module:physics.set_character_rotation
  * @param {Object3D} obj Object 3D

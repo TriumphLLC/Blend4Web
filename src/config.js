@@ -86,6 +86,8 @@ exports.defaults = {
 
     stereo                     : "NONE",
 
+    use_browser_distortion_cor : true,
+
     reflections                : true,
 
     refractions                : true,
@@ -200,13 +202,15 @@ exports.defaults = {
 
     resize_cubemap_canvas_hack : false,
 
-    arch_mesa_clear_depth_hack : false,
+    clear_depth_hack           : false,
 
     media_auto_activation      : true,
 
     max_cast_lamps             : 4,
 
-    mac_os_shadow_hack         : false
+    mac_os_shadow_hack         : false,
+
+    allow_shaders_debug_ext    : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -558,6 +562,8 @@ function set(prop, value) {
     case "stereo":
         exports.defaults.stereo = value;
         break;
+    case "use_browser_distortion_cor":
+        exports.defaults.use_browser_distortion_cor = value;
     case "media_auto_activation":
         exports.defaults.media_auto_activation = value;
         break;
@@ -659,6 +665,8 @@ exports.get = function(prop) {
         return exports.defaults.gyro_use;
     case "stereo":
         return exports.defaults.stereo;
+    case "use_browser_distortion_cor":
+        return exports.defaults.use_browser_distortion_cor;
     case "media_auto_activation":
         return exports.defaults.media_auto_activation;
     case "physics_enabled":
@@ -735,7 +743,7 @@ exports.set_paths = function() {
             || cfg_pth.smaa_area_texture_path == "") {
         var resources_dir = js_src_dir() + cfg_pth.resources_dir;
 
-        cfg_pth.smaa_search_texture_path = cfg_pth.smaa_search_texture_path || 
+        cfg_pth.smaa_search_texture_path = cfg_pth.smaa_search_texture_path ||
                 resources_dir + "smaa_search_texture.png";
         cfg_pth.smaa_area_texture_path = cfg_pth.smaa_area_texture_path ||
                 resources_dir + "smaa_area_texture.png";
@@ -772,7 +780,7 @@ function js_src_dir() {
     }
 
     if (!src_path) {
-        m_print.warn("Couldn't determine path to ancillary resources, " + 
+        m_print.warn("Couldn't determine path to ancillary resources, " +
                 "fallback to the current page directory");
         src_path = document.location.href;
     }
@@ -789,4 +797,3 @@ exports.get_std_assets_path = function() {
 }
 
 }
-

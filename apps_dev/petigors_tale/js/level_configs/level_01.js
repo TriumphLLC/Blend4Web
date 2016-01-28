@@ -9,7 +9,7 @@ exports.CHAR_DEF_POS = new Float32Array([0, 2, 0]);
 
 // obelisks
 exports.NUM_OBELISKS = 5;
-exports.OBELISK_NUM_GEMS = 1;
+exports.OBELISK_NUM_GEMS = 4;
 exports.OBELISK_GEM_HEALTH = 3;
 exports.OBELISKS_GEMS_NAME = ["BG", "PG", "RG", "GG", "YG"];
 

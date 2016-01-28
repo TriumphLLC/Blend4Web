@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import getopt, json, os, sys, zipfile, re
+import getopt, json, os, sys, zipfile, re, shutil
 
 # for UNIX-like OSes only
 import fnmatch
@@ -11,7 +11,7 @@ SRC=os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
 DEST=os.path.join(SRC, "deploy", "pub")
 GPL_TEMPLATE=os.path.join(SRC, "scripts", "templates", "gpl_header.license")
 EULA_TEMPLATE=os.path.join(SRC, "scripts", "templates", "eula_header.license")
-ADDON_PATH=os.path.join("blender_scripts", "addons", "blend4web")
+ADDON_PATH=os.path.join("addons", "blend4web")
 
 LICENSE_PATHS=[
     {
@@ -31,8 +31,21 @@ LICENSE_PATHS=[
 def help():
     print("Usage: make_dist.py [-v version] [-f] DIST_FILE")
 
+def create_blender_scripts_dir():
+    path_to_blender_scripts = os.path.join(SRC, "blender_scripts", "addons")
+    if os.path.isdir(path_to_blender_scripts):
+        remove_blender_scripts_dir()
+    path_to_addons = os.path.join(SRC, "addons")
+    shutil.copytree(path_to_addons, path_to_blender_scripts)
+
+def remove_blender_scripts_dir():
+    path_to_blender_scripts = os.path.join(SRC, "blender_scripts")
+    shutil.rmtree(path_to_blender_scripts)
+
 def process_dist_list(dist_path, version, force):
     print("Creating a distribution archive from " + str(dist_path))
+
+    create_blender_scripts_dir()
 
     try:
         dist_file = open(dist_path, "r")
@@ -129,6 +142,8 @@ def process_dist_list(dist_path, version, force):
                         z.write(path_curr_rel, path_arc)
 
     z.close()
+
+    remove_blender_scripts_dir()
 
     print("Archive created: " + str(path_dest))
 

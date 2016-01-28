@@ -84,7 +84,9 @@ exports.update = function(timeline, elapsed) {
         var scenes_data = obj.scenes_data;
 
         for (var j = 0; j < scenes_data.length; j++) {
-            var scene = scenes_data[j].scene;
+            var sc_data = scenes_data[j];
+            var scene = sc_data.scene;
+            var batches = sc_data.batches;
             var render = scene._render;
 
             // render outline animation
@@ -96,6 +98,9 @@ exports.update = function(timeline, elapsed) {
                 if (obj.render.outline_intensity)
                     m_scenes.request_outline(scene);
             }
+
+            //TODO: need to track every particle independently
+            m_particles.update_emitter_transform(obj, batches);
         }
     }
 
@@ -292,6 +297,16 @@ exports.update_object = function(bpy_obj, obj) {
         render.lod_dist_max = DEFAULT_LOD_DIST_MAX;
         render.lod_transition_ratio = bpy_obj["b4w_lod_transition"];
         render.last_lod = true;
+        break;
+
+    case "LINE":
+        render.do_not_cull = true;
+        render.bb_local = m_bounds.zero_bounding_box();
+        render.bs_local = m_bounds.zero_bounding_sphere();
+        render.be_local = m_bounds.zero_bounding_ellipsoid();
+        render.bb_world = m_bounds.zero_bounding_box();
+        render.bs_world = m_bounds.zero_bounding_sphere();
+        render.be_world = m_bounds.zero_bounding_ellipsoid();
         break;
 
     case "CAMERA":
@@ -1202,6 +1217,13 @@ function prepare_parenting_props(bpy_obj, obj) {
                    bpy_obj["parent"]["type"] == "ARMATURE")
             obj.parent_bone = bpy_obj["parent_bone"];
 
+        if(bpy_obj["pinverse_tsr"]) {
+            obj.pinverse_tsr = m_tsr.create();
+            m_tsr.copy(bpy_obj["pinverse_tsr"], obj.pinverse_tsr);
+        }
+        else {
+            obj.pinverse_tsr = undefined;
+        }
     } else if (bpy_obj["dg_parent"]) {
         obj.parent = bpy_obj["dg_parent"]._object;
         obj.parent_is_dupli = true;

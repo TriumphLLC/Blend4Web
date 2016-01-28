@@ -36,7 +36,7 @@ clean:
 html:
 	$(SPHINXBUILD) -b html $(RUOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/ru
 	$(SPHINXBUILD) -b html $(ENOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/en
-	$(SPHINXBUILD) -b html $(FROPT) $(ALLSPHINXOPTS) $(BUILDDIR)/fr
+	#$(SPHINXBUILD) -b html $(FROPT) $(ALLSPHINXOPTS) $(BUILDDIR)/fr
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
 
@@ -70,7 +70,7 @@ gettext:
 
 gettext_update:
 	sphinx-intl -c conf_ru/conf.py update -l en -p locale -d locale 
-	sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale 
+	#sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale 
 
 gettext_build:
 	sphinx-intl -c conf_ru/conf.py build -d locale
@@ -83,5 +83,5 @@ sorttext:
 text:
 	$(SPHINXBUILD) -b text -c conf_en . ../deploy/doc/en/_sources/
 	@echo "Build en search pages."
-	$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
-	@echo "Build fr search pages."
+	#$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
+	#@echo "Build fr search pages."

@@ -32,19 +32,16 @@ var m_util  = require("__util");
 
 var cfg_def  = m_cfg.defaults;
 
-exports.generate_lines = function(num) {
+exports.generate_line = function() {
     var submesh = m_util.create_empty_submesh("LINE");
 
-    var points = [];
-    for (var i = 0; i < num * 2; i++)
-        points.push(i);
-
     var va_frame = m_util.create_empty_va_frame();
-    va_frame["a_point"] = new Float32Array(points);
+    va_frame["a_position"] = new Float32Array(3);
+    va_frame["a_direction"] = new Float32Array(3);
 
     submesh.va_frames[0] = va_frame;
-    submesh.indices = new Uint32Array(points);
-    submesh.base_length = num * 2;
+    submesh.indices = new Uint32Array(1);
+    submesh.base_length = 1;
 
     return submesh;
 }

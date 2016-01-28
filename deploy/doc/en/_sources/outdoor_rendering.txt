@@ -1,6 +1,61 @@
 
-Outdoor Rendering
-*****************
+Outdoor effects
+***************
+
+
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* Outdoor effects
+
+  * Water
+
+    * Activation
+
+    * Basic Settings
+
+    * Waves Dynamics
+
+    * Surface Wetting
+
+    * Reflection and Fresnel Effect
+
+    * Shoreline Smoothing
+
+    * Color Gradient
+
+    * Refraction
+
+    * Foam
+
+    * Caustics and Chromatic Aberration
+
+    * Underwater Environment
+
+    * Volumetric Waves
+
+    * Settings for Surface Generation
+
+  * Atmosphere
+
+    * Scattering
+
+    * Fog
+
+    * Time of Day
+
+    * Stars
+
+  * Wind
+
+    * Activation
+
+    * Setting up
+
+    * Animation of Grass and Tree Leaves
+
+Blend4Web has several environmental effects that can be useful for
+creating outdoor scenes.
 
 
 Water

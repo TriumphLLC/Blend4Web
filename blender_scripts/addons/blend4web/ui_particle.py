@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import imp
 import mathutils
@@ -722,6 +706,9 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
             row.prop(pset, "b4w_coordinate_system", text=_("Coordinate System"))
 
             split = layout.split()
+            mat_name = pset.material_slot
+            alpha_blend = bpy.data.materials[mat_name].game_settings.alpha_blend
+            split.active = alpha_blend in ["ADD", "ALPHA", "ALPHA_SORT"]
             col = split.column()
             col.prop(pset, "b4w_enable_soft_particles", text=_("Soft Particles"))
             col = split.column()
@@ -975,35 +962,3 @@ class B4W_ParticleInheritanceOptions(ParticleButtonsPanel, Panel):
 
         row.prop(pset, "b4w_vcol_from_name", text=_("From"), expand=True, icon=icon_from)
         row.prop(pset, "b4w_vcol_to_name", text=_("To"), expand=True, icon=icon_to)
-
-
-def register():
-    bpy.utils.register_class(B4W_PARTICLE_PT_context_particles)
-    bpy.utils.register_class(B4W_PARTICLE_PT_emission)
-    bpy.utils.register_class(B4W_PARTICLE_PT_cache)
-    bpy.utils.register_class(B4W_PARTICLE_PT_velocity)
-    bpy.utils.register_class(B4W_PARTICLE_PT_rotation)
-    bpy.utils.register_class(B4W_PARTICLE_PT_physics)
-    bpy.utils.register_class(B4W_PARTICLE_PT_render)
-    bpy.utils.register_class(B4W_PARTICLE_PT_draw)
-    bpy.utils.register_class(B4W_PARTICLE_PT_field_weights)
-    bpy.utils.register_class(B4W_PARTICLE_PT_vertexgroups)
-    bpy.utils.register_class(B4W_ParticleExportOptions)
-    bpy.utils.register_class(B4W_ParticleDynamicGrassOptions)
-    bpy.utils.register_class(B4W_ParticleInheritanceOptions)
-    
-
-def unregister():
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_context_particles)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_emission)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_cache)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_velocity)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_rotation)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_physics)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_render)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_draw)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_field_weights)
-    bpy.utils.unregister_class(B4W_PARTICLE_PT_vertexgroups)
-    bpy.utils.unregister_class(B4W_ParticleExportOptions)
-    bpy.utils.unregister_class(B4W_ParticleDynamicGrassOptions)
-    bpy.utils.unregister_class(B4W_ParticleInheritanceOptions)

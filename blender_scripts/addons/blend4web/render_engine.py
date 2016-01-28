@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 #====================== BEGIN GPL LICENSE BLOCK ============================
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -310,14 +294,14 @@ class OBJECT_PT_relations_new(bpy.types.OBJECT_PT_relations):
     @classmethod
     def poll(cls, context):
         return custom_poll(context)
-class OBJECT_PT_groups_new(bpy.types.OBJECT_PT_groups):
-    @classmethod
-    def poll(cls, context):
-        return custom_poll(context)
-class OBJECT_PT_display_new(bpy.types.OBJECT_PT_display):
-    @classmethod
-    def poll(cls, context):
-        return custom_poll(context)
+# class OBJECT_PT_groups_new(bpy.types.OBJECT_PT_groups):
+#     @classmethod
+#     def poll(cls, context):
+#         return custom_poll(context)
+# class OBJECT_PT_display_new(bpy.types.OBJECT_PT_display):
+#     @classmethod
+#     def poll(cls, context):
+#         return custom_poll(context)
 class OBJECT_PT_duplication_new(bpy.types.OBJECT_PT_duplication):
     @classmethod
     def poll(cls, context):
@@ -658,8 +642,6 @@ class PHYSICS_PT_softbody_field_weights_new(bpy.types.PHYSICS_PT_softbody_field_
 
 def register():
 
-    bpy.utils.register_class(B4WRenderEngine)
-
     global _RENDER_PT_encoding
     global _OBJECT_PT_delta_transform
     global _OBJECT_PT_transform_locks
@@ -728,6 +710,7 @@ def register():
     bpy.utils.unregister_class(_OBJECT_PT_relations)
     #bpy.utils.unregister_class(_OBJECT_PT_groups)
     #bpy.utils.unregister_class(_OBJECT_PT_display)
+
     bpy.utils.unregister_class(_OBJECT_PT_duplication)
     bpy.utils.unregister_class(_OBJECT_PT_relations_extras)
     bpy.utils.unregister_class(_OBJECT_PT_motion_paths)
@@ -783,70 +766,6 @@ def register():
     bpy.utils.unregister_class(_PHYSICS_PT_softbody_solver)
     bpy.utils.unregister_class(_PHYSICS_PT_softbody_field_weights)
 
-    ############
-    # REGISTER #
-    ############
-    bpy.utils.register_class(RENDER_PT_encoding_new)
-    bpy.utils.register_class(OBJECT_PT_delta_transform_new)
-    bpy.utils.register_class(OBJECT_PT_transform_locks_new)
-    bpy.utils.register_class(OBJECT_PT_relations_new)
-    #bpy.utils.register_class(OBJECT_PT_groups_new)
-    #bpy.utils.register_class(OBJECT_PT_display_new)
-    bpy.utils.register_class(OBJECT_PT_duplication_new)
-    bpy.utils.register_class(OBJECT_PT_relations_extras_new)
-    bpy.utils.register_class(OBJECT_PT_motion_paths_new)
-    bpy.utils.register_class(OBJECT_PT_custom_props_new)
-    bpy.utils.register_class(OBJECT_PT_constraints_new)
-
-    bpy.utils.register_class(PHYSICS_PT_add_new)
-    # cloth
-    bpy.utils.register_class(PHYSICS_PT_cloth_new)
-    bpy.utils.register_class(PHYSICS_PT_cloth_collision_new)
-    bpy.utils.register_class(PHYSICS_PT_cloth_cache_new)
-    bpy.utils.register_class(PHYSICS_PT_cloth_stiffness_new)
-    bpy.utils.register_class(PHYSICS_PT_cloth_sewing_new)
-    bpy.utils.register_class(PHYSICS_PT_cloth_field_weights_new)
-    # dyn paint
-    bpy.utils.register_class(PHYSICS_PT_dynamic_paint_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_advanced_canvas_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_canvas_output_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_canvas_initial_color_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_effects_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_cache_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_brush_source_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_brush_velocity_new)
-    bpy.utils.register_class(PHYSICS_PT_dp_brush_wave_new)
-    # field
-    bpy.utils.register_class(PHYSICS_PT_field_new)
-    bpy.utils.register_class(PHYSICS_PT_collision_new)
-    # fluid
-    bpy.utils.register_class(PHYSICS_PT_fluid_new)
-    bpy.utils.register_class(PHYSICS_PT_domain_gravity_new)
-    bpy.utils.register_class(PHYSICS_PT_domain_boundary_new)
-    bpy.utils.register_class(PHYSICS_PT_domain_particles_new)
-    # rigidbody
-    bpy.utils.register_class(PHYSICS_PT_rigid_body_new)
-    bpy.utils.register_class(PHYSICS_PT_rigid_body_collisions_new)
-    bpy.utils.register_class(PHYSICS_PT_rigid_body_dynamics_new)
-    bpy.utils.register_class(PHYSICS_PT_rigid_body_constraint_new)
-    # smoke
-    bpy.utils.register_class(PHYSICS_PT_smoke_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_flow_advanced_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_fire_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_adaptive_domain_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_highres_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_groups_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_cache_new)
-    bpy.utils.register_class(PHYSICS_PT_smoke_field_weights_new)
-    # softbody
-    bpy.utils.register_class(PHYSICS_PT_softbody_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_cache_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_goal_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_edge_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_collision_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_solver_new)
-    bpy.utils.register_class(PHYSICS_PT_softbody_field_weights_new)
-
 def unregister():
     global _RENDER_PT_encoding
     global _OBJECT_PT_delta_transform
@@ -901,70 +820,6 @@ def unregister():
     global _PHYSICS_PT_softbody_collision
     global _PHYSICS_PT_softbody_solver
     global _PHYSICS_PT_softbody_field_weights
-
-    ##############
-    # UNREGISTER #
-    ##############
-    bpy.utils.unregister_class(RENDER_PT_encoding_new)
-    bpy.utils.unregister_class(OBJECT_PT_delta_transform_new)
-    bpy.utils.unregister_class(OBJECT_PT_transform_locks_new)
-    bpy.utils.unregister_class(OBJECT_PT_relations_new)
-    #bpy.utils.unregister_class(OBJECT_PT_groups_new)
-    #bpy.utils.unregister_class(OBJECT_PT_display_new)
-    bpy.utils.unregister_class(OBJECT_PT_duplication_new)
-    bpy.utils.unregister_class(OBJECT_PT_relations_extras_new)
-    bpy.utils.unregister_class(OBJECT_PT_motion_paths_new)
-    bpy.utils.unregister_class(OBJECT_PT_custom_props_new)
-    bpy.utils.unregister_class(OBJECT_PT_constraints_new)
-
-    bpy.utils.unregister_class(PHYSICS_PT_add_new)
-    # cloth
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_new)
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_collision_new)
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_cache_new)
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_stiffness_new)
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_sewing_new)
-    bpy.utils.unregister_class(PHYSICS_PT_cloth_field_weights_new)
-    # dyn paint
-    bpy.utils.unregister_class(PHYSICS_PT_dynamic_paint_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_advanced_canvas_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_canvas_output_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_canvas_initial_color_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_effects_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_cache_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_brush_source_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_brush_velocity_new)
-    bpy.utils.unregister_class(PHYSICS_PT_dp_brush_wave_new)
-    # field
-    bpy.utils.unregister_class(PHYSICS_PT_field_new)
-    bpy.utils.unregister_class(PHYSICS_PT_collision_new)
-    # fluid
-    bpy.utils.unregister_class(PHYSICS_PT_fluid_new)
-    bpy.utils.unregister_class(PHYSICS_PT_domain_gravity_new)
-    bpy.utils.unregister_class(PHYSICS_PT_domain_boundary_new)
-    bpy.utils.unregister_class(PHYSICS_PT_domain_particles_new)
-    # rigidbody
-    bpy.utils.unregister_class(PHYSICS_PT_rigid_body_new)
-    bpy.utils.unregister_class(PHYSICS_PT_rigid_body_collisions_new)
-    bpy.utils.unregister_class(PHYSICS_PT_rigid_body_dynamics_new)
-    bpy.utils.unregister_class(PHYSICS_PT_rigid_body_constraint_new)
-    # smoke
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_flow_advanced_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_fire_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_adaptive_domain_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_highres_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_groups_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_cache_new)
-    bpy.utils.unregister_class(PHYSICS_PT_smoke_field_weights_new)
-    # softbody
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_cache_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_goal_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_edge_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_collision_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_solver_new)
-    bpy.utils.unregister_class(PHYSICS_PT_softbody_field_weights_new)
 
     ############
     # REGISTER #
@@ -1030,4 +885,3 @@ def unregister():
     bpy.utils.register_class(_PHYSICS_PT_softbody_solver)
     bpy.utils.register_class(_PHYSICS_PT_softbody_field_weights)
 
-    bpy.utils.unregister_class(B4WRenderEngine)

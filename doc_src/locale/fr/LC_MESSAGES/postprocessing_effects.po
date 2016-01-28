@@ -11,11 +11,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# msgstr "Postprocessing Effects"
-#: ../postprocessing_effects.rst:5
-msgid "Постпроцессинговые эффекты"
-msgstr ""
-
 # msgstr "motion blur"
 #: ../postprocessing_effects.rst:8
 msgid "размытие при движении (motion blur)"
@@ -41,23 +36,16 @@ msgstr ""
 # msgstr "Activation"
 #: ../postprocessing_effects.rst:22 ../postprocessing_effects.rst:50
 #: ../postprocessing_effects.rst:86 ../postprocessing_effects.rst:129
-#: ../postprocessing_effects.rst:156 ../postprocessing_effects.rst:187
-#: ../postprocessing_effects.rst:246 ../postprocessing_effects.rst:282
-#: ../postprocessing_effects.rst:313 ../postprocessing_effects.rst:351
+#: ../postprocessing_effects.rst:158 ../postprocessing_effects.rst:189
+#: ../postprocessing_effects.rst:234 ../postprocessing_effects.rst:272
 msgid "Активация"
-msgstr ""
-
-# msgstr "Activate the ``Motion Blur`` panel on the ``Render`` tab."
-#: ../postprocessing_effects.rst:24
-msgid "Активировать панель ``Motion Blur`` во вклдадке ``Render``."
 msgstr ""
 
 # msgstr "Additional settings"
 #: ../postprocessing_effects.rst:27 ../postprocessing_effects.rst:60
 #: ../postprocessing_effects.rst:91 ../postprocessing_effects.rst:134
-#: ../postprocessing_effects.rst:161 ../postprocessing_effects.rst:192
-#: ../postprocessing_effects.rst:265 ../postprocessing_effects.rst:287
-#: ../postprocessing_effects.rst:318 ../postprocessing_effects.rst:361
+#: ../postprocessing_effects.rst:163 ../postprocessing_effects.rst:194
+#: ../postprocessing_effects.rst:239 ../postprocessing_effects.rst:282
 msgid "Дополнительные настройки"
 msgstr ""
 
@@ -72,7 +60,7 @@ msgid ""
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:215
+#: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:217
 msgid "*Factor*"
 msgstr ""
 
@@ -400,7 +388,7 @@ msgid "*Steps Per Pass*"
 msgstr ""
 
 # msgstr "Bloom"
-#: ../postprocessing_effects.rst:147
+#: ../postprocessing_effects.rst:149
 msgid "Эффект засветки ярких деталей"
 msgstr ""
 
@@ -408,34 +396,34 @@ msgstr ""
 # "Bloom appears when a picture has elements with a very different brightness.
 # "
 # "A glowing halo is created around the bright details."
-#: ../postprocessing_effects.rst:149
+#: ../postprocessing_effects.rst:151
 msgid ""
 "Эффект засветки (Bloom) проявляется при наличии на экране элементов с "
 "большой разницей в яркости. Вокруг ярких деталей создается светящийся ореол."
 msgstr ""
 
 # msgstr "Activate the ``Bloom`` panel under the ``Render`` tab."
-#: ../postprocessing_effects.rst:158
+#: ../postprocessing_effects.rst:160
 msgid "Активировать панель ``Bloom`` во вкладке ``Render``."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:164
+#: ../postprocessing_effects.rst:166
 msgid "*Key*"
 msgstr ""
 
 # msgstr "Bloom intensity."
-#: ../postprocessing_effects.rst:164
+#: ../postprocessing_effects.rst:166
 msgid "Интенсивность эффекта свечения."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:167
+#: ../postprocessing_effects.rst:169
 msgid "*Blur*"
 msgstr ""
 
 # msgstr "Bloom blurriness factor."
-#: ../postprocessing_effects.rst:167
+#: ../postprocessing_effects.rst:169
 msgid "Степень размытия засветки."
 msgstr ""
 
@@ -443,19 +431,19 @@ msgstr ""
 # "The boundary value of an element's relative brightness above which the
 # bloom"
 # " effect appears."
-#: ../postprocessing_effects.rst:170
+#: ../postprocessing_effects.rst:172
 msgid ""
 "Граничное значение относительной яркости элемента, выше которого начинает "
 "проявляться эффект засветки."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:171
+#: ../postprocessing_effects.rst:173
 msgid "*Edge Luminance*"
 msgstr ""
 
 # msgstr "outline glow"
-#: ../postprocessing_effects.rst:173
+#: ../postprocessing_effects.rst:175
 msgid "подсветка контура (outline glow)"
 msgstr ""
 
@@ -465,14 +453,14 @@ msgid "Подсветка контура (outlining)"
 msgstr ""
 
 # msgstr "Outlining"
-#: ../postprocessing_effects.rst:178
+#: ../postprocessing_effects.rst:180
 msgid "Подсветка контура (outlining)"
 msgstr ""
 
 # msgstr ""
 # "As a result of the outline glow effect, a luminous colored halo will be "
 # "displayed around the object."
-#: ../postprocessing_effects.rst:180
+#: ../postprocessing_effects.rst:182
 msgid ""
 "В результате применения эффекта подсветки контура вокруг объекта появляется "
 "светящийся ореол произвольного цвета."
@@ -486,7 +474,7 @@ msgstr ""
 # object,"
 # " make sure that the ``Render > Object Outlining`` panel's ``Enable`` "
 # "property is set to ``ON`` or ``AUTO``."
-#: ../postprocessing_effects.rst:189
+#: ../postprocessing_effects.rst:191
 msgid ""
 "Эффект подсветки контура активируется программно через API. Может быть "
 "реализован как эффект постоянного свечения, так и затухающего, пульсирующего"
@@ -496,38 +484,38 @@ msgid ""
 msgstr ""
 
 # msgstr "On the ``Object > Selection and Outlining`` panel:"
-#: ../postprocessing_effects.rst:194
+#: ../postprocessing_effects.rst:196
 msgid "На панели ``Object > Selection and Outlining``:"
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:197
+#: ../postprocessing_effects.rst:199
 msgid "*Enable Outlining*"
 msgstr ""
 
 # msgstr "Permit using the outline glow effect on this object."
-#: ../postprocessing_effects.rst:197
+#: ../postprocessing_effects.rst:199
 msgid ""
 "Разрешить использование эффекта подсветки контура на конкретном объекте."
 msgstr ""
 
 # msgstr "Duration of glow animation, seconds. The default value is 1."
-#: ../postprocessing_effects.rst:200
+#: ../postprocessing_effects.rst:202
 msgid "Длительность анимации подсветки, сек. Значение по умолчанию 1."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:200
+#: ../postprocessing_effects.rst:202
 msgid "*Duration*"
 msgstr ""
 
 # msgstr "Repeat period of glow animation, seconds. The default value is 1."
-#: ../postprocessing_effects.rst:203
+#: ../postprocessing_effects.rst:205
 msgid "Период повторения анимации подсветки, сек. Значение по умолчанию 1."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:203
+#: ../postprocessing_effects.rst:205
 msgid "*Period*"
 msgstr ""
 
@@ -535,14 +523,14 @@ msgstr ""
 # "The number of iterations of glow animation. If zero, animation is repeated
 # "
 # "forever. The default value is 0."
-#: ../postprocessing_effects.rst:206
+#: ../postprocessing_effects.rst:208
 msgid ""
 "Количество итераций анимации подсветки. В случае 0 анимация будет "
 "повторяться бесконечно. Значение по умолчанию 0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:206
+#: ../postprocessing_effects.rst:208
 msgid "*Relapses*"
 msgstr ""
 
@@ -550,7 +538,7 @@ msgstr ""
 # "Activate glow animation upon selecting the object. In this case the "
 # "``Selectable`` option must be enabled. In case of a user-defined glow "
 # "animation model, this option must be disabled in order to avoid conflict."
-#: ../postprocessing_effects.rst:209
+#: ../postprocessing_effects.rst:211
 msgid ""
 "Активация анимации подсветки при выделении объекта. Для данного случая "
 "необходимо включить опцию ``Selectable``. При необходимости реализации "
@@ -559,19 +547,19 @@ msgid ""
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:210
+#: ../postprocessing_effects.rst:212
 msgid "*Outline on Select*"
 msgstr ""
 
 # msgstr "On the ``Render > Object Outlining`` panel:"
-#: ../postprocessing_effects.rst:212
+#: ../postprocessing_effects.rst:214
 msgid "На панели ``Render > Object Outlining``:"
 msgstr ""
 
 # msgstr ""
 # "When this parameter decreases so does the thickness and the brightness of "
 # "the halo around the object. The default value is 1."
-#: ../postprocessing_effects.rst:215
+#: ../postprocessing_effects.rst:217
 msgid ""
 "Толщина и яркость ореола, окружающего объект. Падает с уменьшением "
 "параметра. Значение по умолчанию 1."
@@ -580,114 +568,40 @@ msgstr ""
 # msgstr ""
 # "The ``Render > Object Outlining`` settings are taken as default when the "
 # "glow effect is initiated via API."
-#: ../postprocessing_effects.rst:217
+#: ../postprocessing_effects.rst:219
 msgid ""
 "При управлении через API настройки на панели ``Render > Object Outlining`` "
 "воспринимаются как настройки по умолчанию."
 msgstr ""
 
-# msgstr "anaglyph"
-#: ../postprocessing_effects.rst:220
-msgid "анаглиф"
-msgstr ""
-
-# msgstr "stereoscopic rendering"
-#: ../postprocessing_effects.rst:220
-msgid "стереоизображение"
-msgstr ""
-
-# msgstr ""
-# "The stereoscopic rendering mode is intended for viewing the content using "
-# "special glasses. It is activated by an application via API."
-#: ../postprocessing_effects.rst:227
-msgid ""
-"Режим стереоизображения предназначен для просмотра контента в специальных "
-"очках и активируется приложением."
-msgstr ""
-
-# msgstr "color correction"
-#: ../postprocessing_effects.rst:270
-msgid "коррекция цвета"
-msgstr ""
-
-# msgstr "Color Correction"
-#: ../postprocessing_effects.rst:275
-msgid "Коррекция цвета"
-msgstr ""
-
-# msgstr "Activate the ``Color Correction`` panel under the ``Render`` tab."
-#: ../postprocessing_effects.rst:284
-msgid "Активировать панель ``Color Correction`` во вкладке ``Render``."
-msgstr ""
-
-# msgstr ""
-#: ../postprocessing_effects.rst:290
-msgid "*Brightness*"
-msgstr ""
-
-# msgstr "The default value is 0.0."
-#: ../postprocessing_effects.rst:290
-msgid "Яркость. Значение по умолчанию 0.0."
-msgstr ""
-
-# msgstr ""
-#: ../postprocessing_effects.rst:293
-msgid "*Contrast*"
-msgstr ""
-
-# msgstr "The default value is 0.0."
-#: ../postprocessing_effects.rst:293
-msgid "Контрастность. Значение по умолчанию 0.0."
-msgstr ""
-
-# msgstr ""
-#: ../postprocessing_effects.rst:296
-msgid "*Exposure*"
-msgstr ""
-
-# msgstr "The default value is 1.0."
-#: ../postprocessing_effects.rst:296
-msgid "Экспозиция. Значение по умолчанию 1.0."
-msgstr ""
-
-# msgstr "The default value is 1.0."
-#: ../postprocessing_effects.rst:299
-msgid "Насыщенность. Значение по умолчанию 1.0."
-msgstr ""
-
-# msgstr ""
-#: ../postprocessing_effects.rst:299
-msgid "*Saturation*"
-msgstr ""
-
 # msgstr "anti-aliasing"
-#: ../postprocessing_effects.rst:337
+#: ../postprocessing_effects.rst:258
 msgid "сглаживание"
 msgstr ""
 
 # msgstr "Anti-Aliasing"
-#: ../postprocessing_effects.rst:342
+#: ../postprocessing_effects.rst:263
 msgid "Сглаживание"
 msgstr ""
 
 # msgstr ""
 # "Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
 # "pixelization)."
-#: ../postprocessing_effects.rst:344
+#: ../postprocessing_effects.rst:265
 msgid ""
 "Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
 "артефактов рендеринга (\"зубчатости\")."
 msgstr ""
 
 # msgstr "Glow"
-#: ../postprocessing_effects.rst:304
+#: ../postprocessing_effects.rst:225
 msgid "Свечение (glow)"
 msgstr ""
 
 # msgstr ""
 # "Effect of halo which is observed around emissive objects due to light "
 # "scattering in the atmosphere and inside the human eye."
-#: ../postprocessing_effects.rst:306
+#: ../postprocessing_effects.rst:227
 msgid ""
 "Эффект возникновения ореола вокруг светящихся объектов, возникающий "
 "вследствие рассеивания света в атмосфере и внутри человеческого глаза."
@@ -697,7 +611,7 @@ msgstr ""
 # "Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The "
 # "``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel "
 # "should be set to ``ON`` or ``AUTO``."
-#: ../postprocessing_effects.rst:315
+#: ../postprocessing_effects.rst:236
 msgid ""
 "Добавить в нодовый материал ноду :ref:`B4W_GLOW_OUTPUT <glow_output>`. Для "
 "включения возможности свечения в панели ``Render > Glow Materials`` опция "
@@ -707,161 +621,207 @@ msgstr ""
 # msgstr ""
 # "Intensity of glow obtained through the smaller mask. The default value is "
 # "2.0."
-#: ../postprocessing_effects.rst:321
+#: ../postprocessing_effects.rst:242
 msgid "Интенсивность свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:321
+#: ../postprocessing_effects.rst:242
 msgid "*Small Mask: Intensity*"
 msgstr ""
 
 # msgstr ""
 # "Width of glow obtained through the smaller mask. The default value is 2.0."
-#: ../postprocessing_effects.rst:324
+#: ../postprocessing_effects.rst:245
 msgid "Ширина свечения по малой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:324
+#: ../postprocessing_effects.rst:245
 msgid "*Small Mask: Width*"
 msgstr ""
 
 # msgstr ""
 # "Intensity of glow obtained through the larger mask. The default value is "
 # "2.0."
-#: ../postprocessing_effects.rst:327
+#: ../postprocessing_effects.rst:248
 msgid "Интенсивность свечения по большой маске. Значение по умолчанию 2.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:328
+#: ../postprocessing_effects.rst:249
 msgid "*Large Mask: Intensity*"
 msgstr ""
 
 # msgstr ""
 # "Width of glow obtained through the larger mask. The default value is 6.0."
-#: ../postprocessing_effects.rst:331
+#: ../postprocessing_effects.rst:252
 msgid "Ширина свечения по большой маске. Значение по умолчанию 6.0."
 msgstr ""
 
 # msgstr ""
-#: ../postprocessing_effects.rst:331
+#: ../postprocessing_effects.rst:252
 msgid "*Large Mask: Width*"
 msgstr ""
 
 # msgstr "Render the glow effect over transparent objects."
-#: ../postprocessing_effects.rst:334
+#: ../postprocessing_effects.rst:255
 msgid ""
 "Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию "
 "выключено."
 msgstr ""
 
-#: ../postprocessing_effects.rst:355
+#: ../postprocessing_effects.rst:276
 msgid "*None* - антиалиасинг отключен,"
 msgstr ""
 
-#: ../postprocessing_effects.rst:358
+#: ../postprocessing_effects.rst:279
 msgid "Значение по умолчанию: *Medium*."
 msgstr ""
 
-#: ../postprocessing_effects.rst:363
+#: ../postprocessing_effects.rst:284
 msgid ""
 "Итоговые настройки сглаживания назначаются копмозицией выбора профиля "
 "качества антиалиасинга и выбора профиля работы движка. При выборе профиля "
 "работы движка действуют следующие настройки:"
 msgstr ""
 
-#: ../postprocessing_effects.rst:365
+#: ../postprocessing_effects.rst:286
 msgid "*низкое качество* - антиалиасинг отключен,"
 msgstr ""
 
-#: ../postprocessing_effects.rst:353
+#: ../postprocessing_effects.rst:274
 msgid ""
 "Выбрать один из профилей качества в поле ``AA Quality`` на панели ``Render >"
 " Anti-Aliasing``:"
 msgstr ""
 
-#: ../postprocessing_effects.rst:356
+#: ../postprocessing_effects.rst:277
 msgid ""
 "*Low*, *Medium*, *High* - применяется антиалиасинг с низкими, средними и "
 "высокими параметрами качества соответственно."
 msgstr ""
 
-#: ../postprocessing_effects.rst:366
+#: ../postprocessing_effects.rst:287
 msgid ""
 "*высокое качество* и *максимальное качество* - использовать алгоритм FXAA "
 "3.11 (Fast Approximate Anti-Aliasing, Nvidia)."
 msgstr ""
 
-#: ../postprocessing_effects.rst:335
+#: ../postprocessing_effects.rst:256
 msgid "*Render Glow Over Transparent Objects*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:225
-msgid "Стереоизображение"
+#: ../postprocessing_effects.rst:5
+msgid "Спецэффекты"
 msgstr ""
 
-#: ../postprocessing_effects.rst:229
-msgid ""
-"Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD "
-"(Head-mounted display, шлем виртуальной реальности)."
+#: ../postprocessing_effects.rst:24
+msgid "Активировать панель ``Motion Blur`` во вкладке ``Render``."
 msgstr ""
 
-#: ../postprocessing_effects.rst:231
-msgid "Анаглиф:"
-msgstr ""
+#~ msgid "Активировать панель ``Motion Blur`` во вклдадке ``Render``."
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:237
-msgid "HMD:"
-msgstr ""
+#~ msgid "Постпроцессинговые эффекты"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:243
-msgid ""
-"HMD - экспериментальная возможность, она работает только с камерами типа "
-"``Eye``."
-msgstr ""
+#~ msgid "анаглиф"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:248
-msgid ""
-"Для работы стереорежима HMD нужно установить `runtime-утилиту "
-"<https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows и "
-"MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для "
-"Linux пользователю понадобится собирать из исходников самостоятельно."
-msgstr ""
+#~ msgid "стереоизображение"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:252
-msgid ""
-"`Настройки Chromium. "
-"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
-msgstr ""
+#~ msgid ""
+#~ "Режим стереоизображения предназначен для просмотра контента в специальных "
+#~ "очках и активируется приложением."
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:254
-msgid ""
-"`Настройки Firefox. <https://developer.mozilla.org/en-"
-"US/docs/Web/API/WebVR_API>`_"
-msgstr ""
+#~ msgid "коррекция цвета"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:256
-msgid ""
-"Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках"
-" приложения, в третьем столбце справа, как показано на иллюстрации."
-msgstr ""
+#~ msgid "Коррекция цвета"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:262
-msgid "Для корректной работы рекомендуется включить полноэкранный режим."
-msgstr ""
+#~ msgid "Активировать панель ``Color Correction`` во вкладке ``Render``."
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:267
-msgid "Отсутствуют."
-msgstr ""
+#~ msgid "*Brightness*"
+#~ msgstr ""
 
-#: ../postprocessing_effects.rst:250
-msgid ""
-"На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium"
-" <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly"
-" build `Firefox <https://nightly.mozilla.org/>`_."
-msgstr ""
+#~ msgid "Яркость. Значение по умолчанию 0.0."
+#~ msgstr ""
+
+#~ msgid "*Contrast*"
+#~ msgstr ""
+
+#~ msgid "Контрастность. Значение по умолчанию 0.0."
+#~ msgstr ""
+
+#~ msgid "*Exposure*"
+#~ msgstr ""
+
+#~ msgid "Экспозиция. Значение по умолчанию 1.0."
+#~ msgstr ""
+
+#~ msgid "Насыщенность. Значение по умолчанию 1.0."
+#~ msgstr ""
+
+#~ msgid "*Saturation*"
+#~ msgstr ""
+
+#~ msgid "Стереоизображение"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD "
+#~ "(Head-mounted display, шлем виртуальной реальности)."
+#~ msgstr ""
+
+#~ msgid "Анаглиф:"
+#~ msgstr ""
+
+#~ msgid "HMD:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "HMD - экспериментальная возможность, она работает только с камерами типа "
+#~ "``Eye``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Для работы стереорежима HMD нужно установить `runtime-утилиту "
+#~ "<https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows и "
+#~ "MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для "
+#~ "Linux пользователю понадобится собирать из исходников самостоятельно."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`Настройки Chromium. "
+#~ "<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`Настройки Firefox. <https://developer.mozilla.org/en-"
+#~ "US/docs/Web/API/WebVR_API>`_"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках"
+#~ " приложения, в третьем столбце справа, как показано на иллюстрации."
+#~ msgstr ""
+
+#~ msgid "Для корректной работы рекомендуется включить полноэкранный режим."
+#~ msgstr ""
+
+#~ msgid "Отсутствуют."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium"
+#~ " <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly"
+#~ " build `Firefox <https://nightly.mozilla.org/>`_."
+#~ msgstr ""
 
 #~ msgid ""
 #~ "На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium"

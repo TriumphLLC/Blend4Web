@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -11,17 +11,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+# msgstr "Table of contents"
 #: ../index.rst:7
 msgid "Содержание"
-# msgstr "Table of contents"
 msgstr ""
 
-#: ../index.rst:43
-msgid ":ref:`genindex`"
 # msgstr ""
-msgstr ""
-
 #: ../index.rst:44
-msgid ":ref:`search`"
+msgid ":ref:`genindex`"
+msgstr ""
+
 # msgstr ""
+#: ../index.rst:45
+msgid ":ref:`search`"
 msgstr ""

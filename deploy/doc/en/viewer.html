@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Viewer &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Scene Viewer &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
         <link rel="next" title="Web Player" href="web_player.html"/>
         <link rel="prev" title="Workflow" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -99,22 +99,23 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -161,12 +162,12 @@
 <p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>Running The Scenes Viewer</span></a>.</p>
 <div class="section" id="id2">
 <h2>Navigation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>To control the camera hold down a mouse button and move the mouse. Also control can be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
+<p>To control the camera hold down a mouse button and move the mouse. Control can also be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
 </div>
 <div class="section" id="id3">
 <h2>The Side Panel<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>The side panel consists of three areas: the information board, basic control buttons and the list of drop-down panels with additional control elements differentiated by functionality.</p>
-<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="_images/default_page.jpg" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -205,10 +206,16 @@
 <dd><p class="first last">A double-level list of the categories and scenes from the <code class="docutils literal"><span class="pre">assets.json</span></code> file.</p>
 </dd>
 <dt><strong>Animation</strong></dt>
-<dd><p class="first last">Animation controls. When viewing animated models it&#8217;s possible: to select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped).</p>
+<dd><p class="first last">Animation controls. When viewing animated models, you can select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped to do this).</p>
+</dd>
+<dt><strong>NLA</strong></dt>
+<dd><p class="first last">A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene&#8217;s settings.</p>
+</dd>
+<dt><strong>Shape Keys</strong></dt>
+<dd><p class="first last">Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the infuence that the key has on the object.</p>
 </dd>
 <dt><strong>Materials</strong></dt>
-<dd><p class="first last">Material properties setup. A material can be selected using the drop-down menu. At the moment only a limited range of properties is supported.</p>
+<dd><p class="first last">Material properties setup. A material can be selected using the drop-down menu. For now, only a limited number of properties is supported.</p>
 </dd>
 <dt><strong>Lighting</strong></dt>
 <dd><p class="first last">Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.</p>
@@ -225,9 +232,6 @@
 <dt><strong>Sea</strong></dt>
 <dd><p class="first last">Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.</p>
 </dd>
-<dt><strong>Fog</strong></dt>
-<dd><p class="first last">Fog parameters setup, including density and color.</p>
-</dd>
 <dt><strong>Wind</strong></dt>
 <dd><p class="first last">Wind parameters setup, including direction and strength.</p>
 </dd>
@@ -240,14 +244,17 @@
 <dt><strong>Bloom</strong></dt>
 <dd><p class="first last">Bright light effect parameters setup.</p>
 </dd>
+<dt><strong>Motion Blur</strong></dt>
+<dd><p class="first last">Motion blur effect settings.</p>
+</dd>
+<dt><strong>Glow Materials</strong></dt>
+<dd><p class="first last">Glow Materials effect settings.</p>
+</dd>
 <dt><strong>Depth of Field</strong></dt>
 <dd><p class="first last">Depth of field effect parameters setup.</p>
 </dd>
 <dt><strong>Color correction</strong></dt>
 <dd><p class="first last">Color correction parameters setup, including brightness, contrast, exposure and saturation.</p>
-</dd>
-<dt><strong>Anti-aliasing</strong></dt>
-<dd><p class="first last">Selecting the anti-aliasing method.</p>
 </dd>
 <dt><strong>Audio</strong></dt>
 <dd><p class="first last">There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</p>
@@ -255,7 +262,10 @@
 <dt><strong>Stereo View</strong></dt>
 <dd><p class="first last">There is a stereoscopy mode switch on the panel.</p>
 </dd>
-<dt><strong>Debug</strong></dt>
+<dt><strong>Gyroscope</strong></dt>
+<dd><p class="first last">Gyroscope settings for mobile devices can be controlled from this panel.</p>
+</dd>
+<dt><strong>Tools &amp; Debug</strong></dt>
 <dd><p class="first last">This panel contains a range of debugging tools, including the wireframe mode and the postprocessing stages viewer switches.</p>
 </dd>
 </dl>
@@ -283,7 +293,7 @@
 <dd><p class="first last">Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/indicators.jpg"><img alt="_images/indicators.jpg" class="align-center" src="_images/indicators.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
 </div>
 </div>
 
@@ -307,7 +317,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -329,7 +339,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

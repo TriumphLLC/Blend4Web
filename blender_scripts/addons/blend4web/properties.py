@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 import mathutils
 import math
@@ -1197,6 +1181,7 @@ def add_b4w_props():
         max = 1000000.0,
         soft_max = 1000.0,
         precision = 2,
+        step = 1
     )
     bpy.types.Camera.b4w_hover_zero_level \
             = b4w_hover_zero_level
@@ -1278,6 +1263,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_distance_min = b4w_distance_min
 
@@ -1290,6 +1276,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_distance_max = b4w_distance_max
 
@@ -1302,6 +1289,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_horizontal_translation_min \
             = b4w_horizontal_translation_min
@@ -1315,6 +1303,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_horizontal_translation_max \
             = b4w_horizontal_translation_max
@@ -1328,6 +1317,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_vertical_translation_min \
             = b4w_vertical_translation_min 
@@ -1341,6 +1331,7 @@ def add_b4w_props():
            max = 1000000.0,
            soft_max = 1000.0,
            precision = 3,
+           step = 1
        )
     bpy.types.Camera.b4w_vertical_translation_max \
             = b4w_vertical_translation_max 
@@ -1390,6 +1381,7 @@ def add_b4w_props():
            soft_max = math.pi / 2,
            precision = 1,
            subtype = "ANGLE",
+           step = 10
        )
     bpy.types.Camera.b4w_hover_angle_min = b4w_hover_angle_min
 
@@ -1403,6 +1395,7 @@ def add_b4w_props():
            soft_max = math.pi / 2,
            precision = 1,
            subtype = "ANGLE",
+           step = 10
        )
     bpy.types.Camera.b4w_hover_angle_max = b4w_hover_angle_max
 
@@ -1449,7 +1442,8 @@ def add_b4w_props():
         max = 2 * math.pi,
         soft_max = 2 * math.pi,
         precision = 1,
-        subtype = "ANGLE"
+        subtype = "ANGLE",
+        step = 10
     )
     bpy.types.Camera.b4w_rotation_down_limit = b4w_rotation_down_limit
 
@@ -1462,7 +1456,8 @@ def add_b4w_props():
         max = 2 * math.pi,
         soft_max = 2 * math.pi,
         precision = 1,
-        subtype = "ANGLE"
+        subtype = "ANGLE",
+        step = 10
     )
     bpy.types.Camera.b4w_rotation_up_limit = b4w_rotation_up_limit
 
@@ -2528,6 +2523,11 @@ def add_object_properties():
         name = _("B4W: anchor settings"),
         type = B4W_AnchorSettings
     )
+    obj_type.b4w_line_renderer = bpy.props.BoolProperty(
+        name = _("B4W: line renderer"),
+        description = _("Use object for line rendering"),
+        default = False
+    )
 
 def add_speaker_properties():
     """Add properties for the speaker panel"""
@@ -3572,49 +3572,9 @@ def replace_deprecated_props(arg):
                     mat.b4w_collision_mask[i] = False
 
 def register():
-    bpy.utils.register_class(B4W_VehicleSettings)
-    bpy.utils.register_class(B4W_OutlineSettings)
-    bpy.utils.register_class(B4W_FloatingSettings)
-    bpy.utils.register_class(B4W_CharacterSettings)
-    bpy.utils.register_class(B4W_SSAOSettings)
-    bpy.utils.register_class(B4W_GodRaysSettings)
-    bpy.utils.register_class(B4W_GlowSettings)
-    bpy.utils.register_class(B4W_ColorCorrectionSettings)
-    bpy.utils.register_class(B4W_ShadowSettings)
-    bpy.utils.register_class(B4W_ViewportAlignment)
-    bpy.utils.register_class(B4W_DetailBendingColors)
-    bpy.utils.register_class(B4W_SkySettings)
-    bpy.utils.register_class(B4W_BloomSettings)
-    bpy.utils.register_class(B4W_DynamicCompressorSettings)
-    bpy.utils.register_class(B4W_MotionBlurSettings)
-    bpy.utils.register_class(B4W_BoundingsSettings)
-    bpy.utils.register_class(B4W_Tags)
-    bpy.utils.register_class(B4W_Object_Tags)
-    bpy.utils.register_class(B4W_AnchorSettings)
-    bpy.utils.register_class(B4W_StringWrap)
     add_b4w_props()
     bpy.app.handlers.load_post.append(replace_deprecated_props)
 
 def unregister():
-    bpy.utils.unregister_class(B4W_VehicleSettings)
-    bpy.utils.unregister_class(B4W_OutlineSettings)
-    bpy.utils.unregister_class(B4W_FloatingSettings)
-    bpy.utils.unregister_class(B4W_CharacterSettings)
-    bpy.utils.unregister_class(B4W_SSAOSettings)
-    bpy.utils.unregister_class(B4W_GodRaysSettings)
-    bpy.utils.unregister_class(B4W_GlowSettings)
-    bpy.utils.unregister_class(B4W_ColorCorrectionSettings)
-    bpy.utils.unregister_class(B4W_ShadowSettings)
-    bpy.utils.unregister_class(B4W_ViewportAlignment)
-    bpy.utils.unregister_class(B4W_DetailBendingColors)
-    bpy.utils.unregister_class(B4W_SkySettings)
-    bpy.utils.unregister_class(B4W_BloomSettings)
-    bpy.utils.unregister_class(B4W_DynamicCompressorSettings)
-    bpy.utils.unregister_class(B4W_MotionBlurSettings)
-    bpy.utils.unregister_class(B4W_BoundingsSettings)
-    bpy.utils.unregister_class(B4W_Tags)
-    bpy.utils.unregister_class(B4W_Object_Tags)
     remove_b4w_props()
-    bpy.utils.unregister_class(B4W_AnchorSettings)
-    bpy.utils.unregister_class(B4W_StringWrap)
 

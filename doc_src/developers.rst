@@ -602,14 +602,14 @@ Project Manager
 
 .. code-block:: bash
 
-    > python3 <path_to_sdk>/scripts/converter.py [-d file_path] resize_textures | convert_dds | convert_media
+    > python3 <path_to_sdk>/scripts/converter.py [options] resize_textures | convert_dds | convert_media
 
 Для пользователей ОС Windows:
 
 .. code-block:: console
     
     cd <path_to_sdk>\scripts
-    python converter.py [-d file_path] resize_textures | convert_dds | convert_media
+    python converter.py [options] resize_textures | convert_dds | convert_media
 
 .. note::
 

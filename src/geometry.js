@@ -2191,4 +2191,135 @@ exports.has_dyn_geom = function(obj) {
         return false;
 }
 
+exports.draw_line = function(batch, positions, is_split) {
+
+    var bufs_data = batch.bufs_data;
+
+    if (bufs_data) {
+
+        if (is_split)
+            var num_line_segm = positions.length / 3 / 2;
+        else
+            var num_line_segm = positions.length / 3 - 1;
+
+        // two triangles, 4 vertices, 6 indices
+        var tri_pos = new Float32Array(num_line_segm * 4 * 3);
+        var tri_dir = new Float32Array(num_line_segm * 4 * 3);
+        var tri_ind = new Uint16Array(num_line_segm * 6);
+
+        for (var i = 0; i < num_line_segm; i++) {
+            if (is_split) {
+                var pos_offset = 2 * 3 * i;
+                var pos_offset_next = 2 * 3 * i + 3;
+            } else {
+                var pos_offset = 3 * i;
+                var pos_offset_next = 3 * (i + 1);
+            }
+
+            var pos_x = positions[pos_offset];
+            var pos_y = positions[pos_offset + 1];
+            var pos_z = positions[pos_offset + 2];
+
+            var pos_x_next = positions[pos_offset_next];
+            var pos_y_next = positions[pos_offset_next + 1];
+            var pos_z_next = positions[pos_offset_next + 2];
+
+            var dir_x = pos_x_next - pos_x;
+            var dir_y = pos_y_next - pos_y;
+            var dir_z = pos_z_next - pos_z;
+
+            // 0, right
+            tri_pos[i * 4 * 3     ] = pos_x;
+            tri_pos[i * 4 * 3 +  1] = pos_y;
+            tri_pos[i * 4 * 3 +  2] = pos_z;
+
+            tri_dir[i * 4 * 3     ] = dir_x;
+            tri_dir[i * 4 * 3 +  1] = dir_y;
+            tri_dir[i * 4 * 3 +  2] = dir_z;
+
+            // 1, left, next
+            tri_pos[i * 4 * 3 +  3] = pos_x_next;
+            tri_pos[i * 4 * 3 +  4] = pos_y_next;
+            tri_pos[i * 4 * 3 +  5] = pos_z_next;
+
+            tri_dir[i * 4 * 3 +  3] = -dir_x;
+            tri_dir[i * 4 * 3 +  4] = -dir_y;
+            tri_dir[i * 4 * 3 +  5] = -dir_z;
+
+            // 2, left
+            tri_pos[i * 4 * 3 +  6] = pos_x;
+            tri_pos[i * 4 * 3 +  7] = pos_y;
+            tri_pos[i * 4 * 3 +  8] = pos_z;
+
+            tri_dir[i * 4 * 3 +  6] = -dir_x;
+            tri_dir[i * 4 * 3 +  7] = -dir_y;
+            tri_dir[i * 4 * 3 +  8] = -dir_z;
+
+            // 3, right, next
+            tri_pos[i * 4 * 3 +  9] = pos_x_next;
+            tri_pos[i * 4 * 3 + 10] = pos_y_next;
+            tri_pos[i * 4 * 3 + 11] = pos_z_next;
+
+            tri_dir[i * 4 * 3 +  9] = dir_x;
+            tri_dir[i * 4 * 3 + 10] = dir_y;
+            tri_dir[i * 4 * 3 + 11] = dir_z;
+
+            // 0 1 2
+            tri_ind[i * 6] = 4 * i;
+            tri_ind[i * 6 + 1] = 4 * i + 1;
+            tri_ind[i * 6 + 2] = 4 * i + 2;
+
+            // 0 3 1
+            tri_ind[i * 6 + 3] = 4 * i;
+            tri_ind[i * 6 + 4] = 4 * i + 3;
+            tri_ind[i * 6 + 5] = 4 * i + 1;
+        }
+
+        var new_vbo_size = 0;
+        for (var attr in bufs_data.pointers) {
+            var pointer = bufs_data.pointers[attr];
+
+            new_vbo_size += tri_pos.length / 3 * pointer.num_comp;
+        }
+
+        bufs_data.vbo_array = new Float32Array(new_vbo_size);
+        var vbo_array = bufs_data.vbo_array;
+
+        exports.update_bufs_data_index_array(bufs_data, batch.draw_mode,
+                tri_ind);
+
+        var offset = 0;
+
+        for (var attr in bufs_data.pointers) {
+            var pointer = bufs_data.pointers[attr];
+
+            switch (attr) {
+            case "a_position":
+                vbo_array.set(tri_pos, offset);
+                pointer.offset = offset;
+                pointer.length = tri_pos.length;
+                offset += pointer.length;
+                break;
+            case "a_direction":
+                vbo_array.set(tri_dir, offset);
+                pointer.offset = offset;
+                pointer.length = tri_dir.length;
+                offset += pointer.length;
+                break;
+            default:
+                pointer.offset = offset;
+                pointer.length = tri_pos.length / 3 * pointer.num_comp;
+
+                var new_array = new Float32Array(pointer.length);
+
+                vbo_array.set(new_array, offset);
+                offset += pointer.length;
+                break;
+            }
+        }
+
+        update_gl_buffers(bufs_data);
+    }
+}
+
 }

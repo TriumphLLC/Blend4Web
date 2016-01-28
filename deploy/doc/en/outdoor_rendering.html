@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Outdoor Rendering &mdash; User Manual: Blend4Web vv15.12</title>
+  <title>Outdoor effects &mdash; User Manual: Blend4Web vv16.01</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv15.12" href="index.html"/>
-        <link rel="next" title="Gamma and Alpha" href="gamma_alpha.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+        <link rel="next" title="Color Management" href="colors.html"/>
         <link rel="prev" title="Animation" href="animation.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,72 +91,73 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Rendering</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">Water</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Basic Settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Waves Dynamics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Surface Wetting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Reflection and Fresnel Effect</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Shoreline Smoothing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Color Gradient</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Refraction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Foam</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Activation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Setting up the Textures</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">Setting up the Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Basic Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Waves Dynamics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Surface Wetting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Reflection and Fresnel Effect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Shoreline Smoothing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Color Gradient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Refraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Foam</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Activation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Setting up the Textures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Setting up the Material</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Caustics and Chromatic Aberration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Underwater Environment</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Visibility Settings (&#8220;fog&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Caustics and Chromatic Aberration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Underwater Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Visibility Settings (&#8220;fog&#8221;)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#water-volumetric-waves">Volumetric Waves</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id19">Activation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Setting up</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Activation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Setting up</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Settings for Surface Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Settings for Surface Generation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#shore-distance-bake">Baking Shoreline Data to Texture</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#atmosphere">Atmosphere</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Fog</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Time of Day</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Stars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Fog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Time of Day</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Stars</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Wind</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Setting up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Setting up</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wind-bending">Animation of Grass and Tree Leaves</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">Activation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">Setting up</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Activation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">Setting up</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Visual Programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -186,7 +187,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Outdoor Rendering</li>
+    <li>Outdoor effects</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -199,16 +200,54 @@
            <div itemprop="articleBody">
             
   <div class="section" id="outdoor-rendering">
-<span id="id1"></span><h1>Outdoor Rendering<a class="headerlink" href="#outdoor-rendering" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id35">Outdoor effects</a><a class="headerlink" href="#outdoor-rendering" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Content</p>
+<ul class="simple">
+<li><a class="reference internal" href="#outdoor-rendering" id="id35">Outdoor effects</a><ul>
+<li><a class="reference internal" href="#water" id="id36">Water</a><ul>
+<li><a class="reference internal" href="#id4" id="id37">Activation</a></li>
+<li><a class="reference internal" href="#id5" id="id38">Basic Settings</a></li>
+<li><a class="reference internal" href="#id6" id="id39">Waves Dynamics</a></li>
+<li><a class="reference internal" href="#id7" id="id40">Surface Wetting</a></li>
+<li><a class="reference internal" href="#id8" id="id41">Reflection and Fresnel Effect</a></li>
+<li><a class="reference internal" href="#id9" id="id42">Shoreline Smoothing</a></li>
+<li><a class="reference internal" href="#id10" id="id43">Color Gradient</a></li>
+<li><a class="reference internal" href="#id11" id="id44">Refraction</a></li>
+<li><a class="reference internal" href="#id12" id="id45">Foam</a></li>
+<li><a class="reference internal" href="#id16" id="id46">Caustics and Chromatic Aberration</a></li>
+<li><a class="reference internal" href="#id17" id="id47">Underwater Environment</a></li>
+<li><a class="reference internal" href="#water-volumetric-waves" id="id48">Volumetric Waves</a></li>
+<li><a class="reference internal" href="#id22" id="id49">Settings for Surface Generation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#atmosphere" id="id50">Atmosphere</a><ul>
+<li><a class="reference internal" href="#id25" id="id51">Scattering</a></li>
+<li><a class="reference internal" href="#id26" id="id52">Fog</a></li>
+<li><a class="reference internal" href="#id27" id="id53">Time of Day</a></li>
+<li><a class="reference internal" href="#id28" id="id54">Stars</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wind" id="id55">Wind</a><ul>
+<li><a class="reference internal" href="#id30" id="id56">Activation</a></li>
+<li><a class="reference internal" href="#id31" id="id57">Setting up</a></li>
+<li><a class="reference internal" href="#wind-bending" id="id58">Animation of Grass and Tree Leaves</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Blend4Web has several environmental effects that can be useful for creating outdoor scenes.</p>
 <div class="section" id="water">
-<span id="id2"></span><h2>Water<a class="headerlink" href="#water" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h2><a class="toc-backref" href="#id36">Water</a><a class="headerlink" href="#water" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id37">Activation</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>For the supposed water material activate the <code class="docutils literal"><span class="pre">Water</span></code> panel option under the <code class="docutils literal"><span class="pre">Material</span></code> tab.</p>
 <a class="reference internal image-reference" href="_images/water_material_setup.png"><img alt="_images/water_material_setup.png" class="align-center" src="_images/water_material_setup.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id4">
-<h3>Basic Settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id38">Basic Settings</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency</em></dt>
 <dd><p class="first last">It is recommended to enable the gradient transparency <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span> <span class="pre">Blend</span></code> and to tweak the <code class="docutils literal"><span class="pre">Alpha</span></code> value.</p>
@@ -218,21 +257,21 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id5">
-<h3>Waves Dynamics<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id39">Waves Dynamics</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>Ripples on the water are simulated by normal maps with animated UVs (from 0 up to 4 pieces). For normal map the only shared image is used - the textures differs only by the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> parameters. The water mesh must have a UV layer.</p>
 </div>
-<div class="section" id="id6">
-<h3>Surface Wetting<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id40">Surface Wetting</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Is carried out automatically. To turn the effect on activate the <code class="docutils literal"><span class="pre">Wettable</span></code> option on the needed materials <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span></code> panel.</p>
 </div>
-<div class="section" id="id7">
-<h3>Reflection and Fresnel Effect<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id41">Reflection and Fresnel Effect</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the <a class="reference internal" href="materials.html#material-mirror"><span>Reflection</span></a> section.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.jpg"><img alt="_images/water_reflection_dynamic.jpg" class="align-center" src="_images/water_reflection_dynamic.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id8">
-<h3>Shoreline Smoothing<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id42">Shoreline Smoothing</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>The effect affects the water near the shoreline - it becomes more transparent.</p>
 <dl class="docutils">
 <dt><em>Water &gt; Shore Smoothing</em></dt>
@@ -243,8 +282,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id9">
-<h3>Color Gradient<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id43">Color Gradient</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>For color gradient the water material must have a texture with the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> option enabled. This texture can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><span>baking shoreline parameters</span></a></p>
 <dl class="docutils">
 <dt><em>Shallow water &gt; Color</em></dt>
@@ -261,20 +300,20 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id10">
-<h3>Refraction<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id44">Refraction</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>Under the <code class="docutils literal"><span class="pre">Render</span></code> tab in the <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> panel set the <code class="docutils literal"><span class="pre">Refractions</span></code> option to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_refraction.jpg"><img alt="_images/water_refraction.jpg" class="align-center" src="_images/water_refraction.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id11">
-<h3>Foam<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id12">
-<h4>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<h3><a class="toc-backref" href="#id45">Foam</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h4>Activation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <p>For creating foam add a diffuse texture into the water material slot. Every RGB channel of this image must contain a BW foam texture in it. Then enable the <code class="docutils literal"><span class="pre">Water</span> <span class="pre">Foam</span></code> panel.</p>
 <a class="reference internal image-reference" href="_images/water_texture_setup_foam.png"><img alt="_images/water_texture_setup_foam.png" class="align-center" src="_images/water_texture_setup_foam.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id13">
-<h4>Setting up the Textures<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>Setting up the Textures<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Influence &gt; Color</em></dt>
 <dd><p class="first last">Texture color influence factor. The default value is 1.0.</p>
@@ -287,8 +326,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id14">
-<h4>Setting up the Material<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>Setting up the Material<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Foam &gt; Factor</em></dt>
 <dd><p class="first last">General influence factor for the foam. The default value is 0.5.</p>
@@ -296,8 +335,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id15">
-<h3>Caustics and Chromatic Aberration<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id46">Caustics and Chromatic Aberration</a><a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>To create the caustics effect turn on the <code class="docutils literal"><span class="pre">Caustics</span></code> option on the water material. Also, there has to be at least one sun on the scene.</p>
 <a class="reference internal image-reference" href="_images/water_caustics.jpg"><img alt="_images/water_caustics.jpg" class="align-center" src="_images/water_caustics.jpg" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -309,11 +348,11 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id16">
-<h3>Underwater Environment<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="_images/underwater.jpg" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
 <div class="section" id="id17">
-<h4>Visibility Settings (&#8220;fog&#8221;)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<h3><a class="toc-backref" href="#id47">Underwater Environment</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="_images/underwater.jpg" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
+<div class="section" id="id18">
+<h4>Visibility Settings (&#8220;fog&#8221;)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Underwater Fog &gt; Color</em></dt>
 <dd><p class="first last">Fog color. The default value is (0.4, 0.6, 0.7).</p>
@@ -331,14 +370,14 @@
 </div>
 </div>
 <div class="section" id="water-volumetric-waves">
-<span id="id18"></span><h3>Volumetric Waves<a class="headerlink" href="#water-volumetric-waves" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id19">
-<h4>Activation<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<span id="id19"></span><h3><a class="toc-backref" href="#id48">Volumetric Waves</a><a class="headerlink" href="#water-volumetric-waves" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h4>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
 <p>To enable procedural waves the <code class="docutils literal"><span class="pre">Waves</span></code> option must be turned on.</p>
 <a class="reference internal image-reference" href="_images/water_waves.jpg"><img alt="_images/water_waves.jpg" class="align-center" src="_images/water_waves.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id20">
-<h4>Setting up<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id21">
+<h4>Setting up<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Wave Height</em></dt>
 <dd><p class="first last">Wave height. The default value is 0.0.</p>
@@ -382,8 +421,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id21">
-<h3>Settings for Surface Generation<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3><a class="toc-backref" href="#id49">Settings for Surface Generation</a><a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Generate Mesh</em></dt>
 <dd><p class="first last">Enable generated surface.</p>
@@ -399,7 +438,7 @@
 </dd>
 </dl>
 <div class="section" id="shore-distance-bake">
-<span id="index-0"></span><span id="id22"></span><h4>Baking Shoreline Data to Texture<a class="headerlink" href="#shore-distance-bake" title="Permalink to this headline">¶</a></h4>
+<span id="index-0"></span><span id="id23"></span><h4>Baking Shoreline Data to Texture<a class="headerlink" href="#shore-distance-bake" title="Permalink to this headline">¶</a></h4>
 <p>On the tools panel (hotkey &#8220;T&#8221;) under the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tab open the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> panel. Set the parameters: maximum distance to shore (<code class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></code>) and the resulting texture size (<code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></code>). Select a landscape object (or multiple objects) first, and then - a water object. Click the <code class="docutils literal"><span class="pre">Bake</span></code> button.</p>
 <p>Depending on the texture size and the number of vertices in the processed meshes the execution time of the script may vary from a fraction of a second up to several minutes. Make sure that the texture named <code class="docutils literal"><span class="pre">ShoreDistance</span></code> is created for the water mesh.</p>
 <p>Upon script execution some system properties are saved in the water material. Therefore the scene must be saved after the script has finished working.</p>
@@ -407,9 +446,9 @@
 </div>
 </div>
 <div class="section" id="atmosphere">
-<span id="id23"></span><h2>Atmosphere<a class="headerlink" href="#atmosphere" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id24">
-<h3>Scattering<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<span id="id24"></span><h2><a class="toc-backref" href="#id50">Atmosphere</a><a class="headerlink" href="#atmosphere" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id25">
+<h3><a class="toc-backref" href="#id51">Scattering</a><a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <p>Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then activate <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> panel under the <code class="docutils literal"><span class="pre">World</span></code> tab. Please note, that if a static <a class="reference internal" href="textures.html#skydome-texture"><span>skydome texture</span></a> is being used at the same time, it will be replaced.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -453,8 +492,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id25">
-<h3>Fog<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3><a class="toc-backref" href="#id52">Fog</a><a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>The engine supports standard parameters located on the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code> panel. Besides this, overriding fog color is possible.</p>
 <dl class="docutils">
 <dt><em>Mist &gt; Use custom color</em></dt>
@@ -466,20 +505,20 @@
 </dl>
 <p>When a dynamic skydome is used the fog color is defined by the sky color.</p>
 </div>
-<div class="section" id="id26">
-<h3>Time of Day<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3><a class="toc-backref" href="#id53">Time of Day</a><a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> options for the lamp.</p>
 <p>Time of day can be set by applications via API. Particularly time of day can be set using the <code class="docutils literal"><span class="pre">Lighting</span></code> interface of the <a class="reference internal" href="viewer.html#viewer"><span>Scene viewer</span></a>.</p>
 <a class="reference internal image-reference" href="_images/sunset.jpg"><img alt="_images/sunset.jpg" class="align-center" src="_images/sunset.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id27">
-<h3>Stars<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3><a class="toc-backref" href="#id54">Stars</a><a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><span>Halo Materials</span></a> section.</p>
 <a class="reference internal image-reference" href="_images/stars.jpg"><img alt="_images/stars.jpg" class="align-center" src="_images/stars.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="wind">
-<span id="id28"></span><h2>Wind<a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h2>
+<span id="id29"></span><h2><a class="toc-backref" href="#id55">Wind</a><a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>Wind strength and direction affect:</dt>
 <dd><ul class="first last simple">
@@ -492,12 +531,12 @@
 </ul>
 </dd>
 </dl>
-<div class="section" id="id29">
-<h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3><a class="toc-backref" href="#id56">Activation</a><a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <p>Add a force field object of the <code class="docutils literal"><span class="pre">Wind</span></code> type.</p>
 </div>
-<div class="section" id="id30">
-<h3>Setting up<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3><a class="toc-backref" href="#id57">Setting up</a><a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Direction</em></dt>
 <dd><p class="first last">Direction can be set by rotating the force field object.</p>
@@ -508,14 +547,14 @@
 </dl>
 </div>
 <div class="section" id="wind-bending">
-<span id="id31"></span><h3>Animation of Grass and Tree Leaves<a class="headerlink" href="#wind-bending" title="Permalink to this headline">¶</a></h3>
+<span id="id32"></span><h3><a class="toc-backref" href="#id58">Animation of Grass and Tree Leaves</a><a class="headerlink" href="#wind-bending" title="Permalink to this headline">¶</a></h3>
 <p>Authoring resources for grass rendering is described in the <a class="reference internal" href="particles_instancing.html#particles-grass"><span>Grass</span></a> section.</p>
-<div class="section" id="id32">
-<h4>Activation<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id33">
+<h4>Activation<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
 <p>Enable the <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> panel for the grass or tree object.object</p>
 </div>
-<div class="section" id="id33">
-<h4>Setting up<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id34">
+<h4>Setting up<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
 <p>The interface panel becomes visible after turning on the <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> panel.</p>
 <a class="reference internal image-reference" href="_images/wind_bending_setup.jpg"><img alt="_images/wind_bending_setup.jpg" class="align-center" src="_images/wind_bending_setup.jpg" style="width: 80%;" /></a>
 <div class="line-block">
@@ -564,7 +603,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="gamma_alpha.html" class="btn btn-neutral float-right" title="Gamma and Alpha" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="colors.html" class="btn btn-neutral float-right" title="Color Management" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="animation.html" class="btn btn-neutral" title="Animation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -577,7 +616,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-12-22.
+      Last updated on 2016-01-28.
 
     </p>
   </div>
@@ -599,7 +638,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

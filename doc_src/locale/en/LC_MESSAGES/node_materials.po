@@ -11,6 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../node_materials.rst:0
+msgid "Содержание"
+msgstr "Table of Content"
+
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:50
 msgid "материалы"
 msgstr "materials"
@@ -101,8 +105,43 @@ msgstr ""
 msgid "Дополнительные ноды"
 msgstr "Engine Specific Nodes"
 
+#: ../node_materials.rst:52
+msgid ""
+"Дополнительные ноды расширяют функционал стандартных с учётом специфики "
+"работы движка. Ноды оформляются в виде нодовых групп (``Node Groups`` или "
+"``Node Tree``) со специально выбранным именем и форматом входов. Для "
+"удобства, все дополнительные ноды добавляются в blend-файл при его открытии."
+msgstr ""
+"Engine-specific nodes extend functionality of the standard nodes to support "
+"extra features. These nodes are created as node groups (``Node Groups`` or "
+"``Node Tree``) with specially determined names and input formats. For "
+"convenience, all special nodes are added to a blend file when it is opened."
+
+#: ../node_materials.rst:61
+msgid "Linear to SRGB и SRGB to Linear (Deprecated)"
+msgstr "Linear to SRGB and SRGB to Linear (Deprecated)"
+
+#: ../node_materials.rst:63
+msgid ""
+"Преобразование цвета из линейного цветового пространства в пространство sRGB"
+" и наоборот. Функционал объявлен устаревшим с версии 15.04. В более новых "
+"версиях для преобразования цвета из sRGB в линейное пространство следует "
+"использовать нативную ноду ``Gamma`` со значением 2.200, а для "
+"преобразования из линейного пространства в sRGB - ту же ноду со значением "
+"0.455."
+msgstr ""
+"Converts colors from linear space to sRGB or vice versa. This function has "
+"been declared deprecated sicne the version 15.04. In the newer versions, the"
+" native ``Gamma`` node with the value of 2.200 should be used to convert "
+"color from sRGB to linear space, and the same node with the value of 0.455 "
+"to convert color from linear space to sRGB."
+
 #: ../node_materials.rst:69
 msgid ":ref:`gamma_node_materials`"
+msgstr ""
+
+#: ../node_materials.rst:74
+msgid "Replace (B4W_REPLACE)"
 msgstr ""
 
 #: ../node_materials.rst:76
@@ -122,6 +161,68 @@ msgstr ""
 "output). The node is intended to display one node structure in the viewport "
 "and another - in the engine."
 
+#: ../node_materials.rst:82
+msgid ""
+"Используется, как правило, для подключения карт нормалей. Нодовые материалы "
+"Blender'а не поддерживают тангентное пространство координат, в связи с чем "
+"единственный способ корректного отображения карт нормалей во viewport'e - их"
+" подключение внутри нод ``Material``."
+msgstr ""
+"As a rule it is used for normal mapping. Blender's node materials do not "
+"support a tangent space of coordinates. Therefore the only possible method "
+"to display normal maps in the viewport correctly is their usage inside the "
+"``Material`` nodes."
+
+#: ../node_materials.rst:85 ../node_materials.rst:112
+#: ../node_materials.rst:135 ../node_materials.rst:159
+#: ../node_materials.rst:182 ../node_materials.rst:217
+#: ../node_materials.rst:265 ../node_materials.rst:299
+#: ../node_materials.rst:329 ../node_materials.rst:360
+#: ../node_materials.rst:382
+msgid "Входные параметры"
+msgstr "Input parameters"
+
+#: ../node_materials.rst:88
+msgid "*Color1*"
+msgstr ""
+
+#: ../node_materials.rst:88
+msgid "Конструкция нод, видимая во вьюпорте Blender'а"
+msgstr "Node setup that will be visible in the Blender viewport."
+
+#: ../node_materials.rst:91
+msgid "*Color2*"
+msgstr ""
+
+#: ../node_materials.rst:91
+msgid "Конструкция нод, видимая объекта в движке Blend4Web."
+msgstr "Node setup that will be visible in the Blend4Web engine."
+
+#: ../node_materials.rst:94 ../node_materials.rst:118
+#: ../node_materials.rst:140 ../node_materials.rst:165
+#: ../node_materials.rst:200 ../node_materials.rst:244
+#: ../node_materials.rst:275 ../node_materials.rst:311
+#: ../node_materials.rst:339 ../node_materials.rst:390
+msgid "Выходные параметры"
+msgstr "Output parameters"
+
+#: ../node_materials.rst:97 ../node_materials.rst:219
+#: ../node_materials.rst:278 ../node_materials.rst:315
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:97
+msgid ""
+"Следует подключать к выходу ``Color`` ноды ``Material`` или ``Extended "
+"Material``."
+msgstr ""
+"Should be connected to the ``Color`` socket of the ``Material`` or "
+"``Extended Material`` node."
+
+#: ../node_materials.rst:102
+msgid "Clamp (B4W_CLAMP)"
+msgstr ""
+
 #: ../node_materials.rst:104
 msgid ""
 "Осуществить операцию ограничения над входом. В результате, все элементы "
@@ -130,8 +231,59 @@ msgstr ""
 "The node limits the output value. As a result all the output vector "
 "components take values from 0 to 1 inclusive."
 
+#: ../node_materials.rst:112
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:112 ../node_materials.rst:161
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:115 ../node_materials.rst:122
+msgid "*Image*"
+msgstr ""
+
+#: ../node_materials.rst:115
+msgid "Заданный вектор."
+msgstr "Incident vector."
+
+#: ../node_materials.rst:121
+msgid "Вектор после ограничения."
+msgstr "Clamped vector."
+
+#: ../node_materials.rst:127
+msgid "Time (B4W_TIME)"
+msgstr ""
+
+#: ../node_materials.rst:129
+msgid ""
+"Осуществляет отсчет времени с момента старта движка в секундах. Может "
+"использоваться для анимации любых параметров в нодовых материалах - UV-"
+"координат, факторов смешивания, прозрачности и т.п."
+msgstr ""
+"Provides the timeline counting from the engine start (in seconds). Can be "
+"used for animating any parameters in node materials, such as UV coordinates,"
+" mixing factors, transparency etc."
+
+#: ../node_materials.rst:137
+msgid "Отсутствуют."
+msgstr "None."
+
+#: ../node_materials.rst:143 ../node_materials.rst:331
+#: ../node_materials.rst:342
+msgid "*Value*"
+msgstr ""
+
+#: ../node_materials.rst:143
+msgid "Время (в секундах), прошедшее с момента старта движка."
+msgstr "Time (in seconds) elapsed from the engine startup."
+
 #: ../node_materials.rst:145
 msgid ":ref:`node_anim`"
+msgstr ""
+
+#: ../node_materials.rst:150
+msgid "Vector View (B4W_VECTOR_VIEW)"
 msgstr ""
 
 #: ../node_materials.rst:152
@@ -149,27 +301,28 @@ msgstr ""
 "this node it should be used only for effects and not for connecting to the "
 "output of the ``Material`` or ``Extended Material`` nodes."
 
+#: ../node_materials.rst:162 ../node_materials.rst:168
+#: ../node_materials.rst:384 ../node_materials.rst:387
+#: ../node_materials.rst:392
+msgid "*Vector*"
+msgstr ""
+
+#: ../node_materials.rst:162
+msgid "Вектор в мировой системе координат."
+msgstr "Vector coordinates in the world-space."
+
+#: ../node_materials.rst:168
+msgid "Вектор в системе координат камеры."
+msgstr "Vector coordinates in the camera-space."
+
+#: ../node_materials.rst:173
+msgid "Parallax (B4W_PARALLAX)"
+msgstr ""
+
 #: ../node_materials.rst:175
 msgid "Реализует смещение текстурных координат в соответствии с картой высот."
 msgstr ""
 "The node implements the texture coordinates offset using a height map."
-
-#: ../node_materials.rst:85 ../node_materials.rst:112
-#: ../node_materials.rst:135 ../node_materials.rst:159
-#: ../node_materials.rst:182 ../node_materials.rst:217
-#: ../node_materials.rst:265 ../node_materials.rst:299
-#: ../node_materials.rst:329 ../node_materials.rst:360
-#: ../node_materials.rst:382
-msgid "Входные параметры"
-msgstr "Input parameters"
-
-#: ../node_materials.rst:112
-msgid "*Color*"
-msgstr ""
-
-#: ../node_materials.rst:112 ../node_materials.rst:161
-msgid "*Color*"
-msgstr ""
 
 #: ../node_materials.rst:185 ../node_materials.rst:203
 msgid "*UV*"
@@ -215,20 +368,16 @@ msgstr ""
 msgid "Максимальное расстояние от камеры, на котором виден эффект."
 msgstr "Maximum distance from camera at which the effect is observed."
 
-#: ../node_materials.rst:94 ../node_materials.rst:118
-#: ../node_materials.rst:140 ../node_materials.rst:165
-#: ../node_materials.rst:200 ../node_materials.rst:244
-#: ../node_materials.rst:275 ../node_materials.rst:311
-#: ../node_materials.rst:339 ../node_materials.rst:390
-msgid "Выходные параметры"
-msgstr "Output parameters"
-
 #: ../node_materials.rst:203
 msgid ""
 "Измененные текстурные координаты, которые используются как вход для "
 "текстурных нод."
 msgstr ""
 "Resulting texture coordinates which are used as input for the texture nodes."
+
+#: ../node_materials.rst:208
+msgid "Translucency (B4W_TRANSLUCENCY)"
+msgstr ""
 
 #: ../node_materials.rst:210
 msgid ""
@@ -243,11 +392,6 @@ msgstr ""
 " of two parts: 1) brightening of the object side which is opposite to the "
 "light source and 2) appearance of a light spot right in the light source "
 "place."
-
-#: ../node_materials.rst:97 ../node_materials.rst:219
-#: ../node_materials.rst:278 ../node_materials.rst:315
-msgid "*Color*"
-msgstr ""
 
 #: ../node_materials.rst:220
 msgid ""
@@ -349,6 +493,18 @@ msgstr ""
 "This node can work incorrectly, if the mesh :ref:`normals were edited "
 "<normals_editor>`."
 
+#: ../node_materials.rst:256
+msgid "Refraction (B4W_REFRACTION)"
+msgstr ""
+
+#: ../node_materials.rst:258
+msgid ""
+"Реализует эффект преломления. Этот эффект виден только в движке Blend4Web, "
+"но не в Blender."
+msgstr ""
+"Applies refraction effect to an object. This effect works only in the "
+"Blend4Web engine and not in the Blender's viewport."
+
 #: ../node_materials.rst:267
 msgid "*Normal*"
 msgstr ""
@@ -387,6 +543,21 @@ msgstr ""
 msgid ":ref:`alpha_blend`"
 msgstr ""
 
+#: ../node_materials.rst:288
+msgid "Levels of Quality (B4W_LEVELS_OF_QUALITY)"
+msgstr ""
+
+#: ../node_materials.rst:290
+msgid ""
+"Устанавливает значение выходного цвета в зависимости от установленного "
+"профиля качества изображения. Может применяться, например, для "
+"автоматической замены сложного материала более простым при запуске "
+"приложения на мобильном устройстве."
+msgstr ""
+"Sets up the output color based on the current image quality settings. Can be"
+" used to, for example, replace complex material with more simple one if the "
+"application is running on a mobile device."
+
 #: ../node_materials.rst:296
 msgid ":ref:`quality_settings`"
 msgstr ""
@@ -415,20 +586,35 @@ msgstr ""
 "Node links this parameter to ``Color`` parameter in case of low quality "
 "usage."
 
+#: ../node_materials.rst:308
+msgid ""
+"Значение, определяющее, какое из значений (``HIGH`` или ``LOW``) будет "
+"отображаться в Blender. Может принимать значения от 0 до 1. При значении "
+"параметра менее 0.5 будет виден вариант ``HIGH``, при значении 0.5 и выше "
+"будет виден вариант ``LOW``."
+msgstr ""
+"This value specifies what quality setting (``HIGH`` or ``LOW``) will be "
+"visible in the Blender viewport. Can change from 0 to 1. If the value is "
+"lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or "
+"higher, the ``LOW`` setting will be visible."
+
+#: ../node_materials.rst:308
+msgid "*Fac*"
+msgstr ""
+
 #: ../node_materials.rst:314
 msgid "Значение выходного цвета."
 msgstr "Output color."
+
+#: ../node_materials.rst:320
+msgid "Smoothstep (B4W_SMOOTHSTEP)"
+msgstr ""
 
 #: ../node_materials.rst:322
 msgid ""
 "Осуществить мягкую интерполяцию двух значений, исходя из первого значения."
 msgstr ""
 "Performs smooth interpolation between two input values based on first value."
-
-#: ../node_materials.rst:143 ../node_materials.rst:331
-#: ../node_materials.rst:342
-msgid "*Value*"
-msgstr ""
 
 #: ../node_materials.rst:332
 msgid "Значение, на основе которого осуществляется интерполяция."
@@ -453,6 +639,18 @@ msgstr "Second interpolation value."
 #: ../node_materials.rst:342
 msgid "Сглаженное значение."
 msgstr "Interpolated value."
+
+#: ../node_materials.rst:345
+msgid ""
+"Для корректной интерполяции входное значение ``Value`` должно лежать в "
+"диапазоне между ``Edge0`` и ``Edge1``."
+msgstr ""
+"For the correct interpolation input ``Value`` had to be between ``Edge0`` "
+"and ``Edge1``."
+
+#: ../node_materials.rst:351
+msgid "Glow Output (B4W_GLOW_OUTPUT)"
+msgstr ""
 
 #: ../node_materials.rst:353
 msgid ""
@@ -488,27 +686,9 @@ msgid "*Factor* :math:`\\in (0, 1]` - свечение цветом *Glow Color*
 msgstr ""
 "*Factor* :math:`\\in (0, 1]` - there is a glow, colored with *Glow Color*."
 
-#: ../node_materials.rst:258
-msgid ""
-"Реализует эффект преломления. Этот эффект виден только в движке Blend4Web, "
-"но не в Blender."
+#: ../node_materials.rst:373
+msgid "Reflect (B4W_REFLECT)"
 msgstr ""
-"Applies refraction effect to an object. This effect works only in the "
-"Blend4Web engine and not in the Blender's viewport."
-
-#: ../node_materials.rst:162 ../node_materials.rst:168
-#: ../node_materials.rst:384 ../node_materials.rst:387
-#: ../node_materials.rst:392
-msgid "*Vector*"
-msgstr ""
-
-#: ../node_materials.rst:162
-msgid "Вектор в мировой системе координат."
-msgstr "Vector coordinates in the world-space."
-
-#: ../node_materials.rst:168
-msgid "Вектор в системе координат камеры."
-msgstr "Vector coordinates in the camera-space."
 
 #: ../node_materials.rst:375
 msgid ""
@@ -517,174 +697,6 @@ msgid ""
 msgstr ""
 "Calculates the reflection direction for an incident vector and a normal "
 "vector. Can be used to apply a cubemap to an object."
-
-#: ../node_materials.rst:0
-msgid "Содержание"
-msgstr "Table of Content"
-
-#: ../node_materials.rst:52
-msgid ""
-"Дополнительные ноды расширяют функционал стандартных с учётом специфики "
-"работы движка. Ноды оформляются в виде нодовых групп (``Node Groups`` или "
-"``Node Tree``) со специально выбранным именем и форматом входов. Для "
-"удобства, все дополнительные ноды добавляются в blend-файл при его открытии."
-msgstr ""
-"Engine-specific nodes extend functionality of the standard nodes to support "
-"extra features. These nodes are created as node groups (``Node Groups`` or "
-"``Node Tree``) with specially determined names and input formats. For "
-"convenience, all special nodes are added to a blend file when it is opened."
-
-#: ../node_materials.rst:63
-msgid ""
-"Преобразование цвета из линейного цветового пространства в пространство sRGB"
-" и наоборот. Функционал объявлен устаревшим с версии 15.04. В более новых "
-"версиях для преобразования цвета из sRGB в линейное пространство следует "
-"использовать нативную ноду ``Gamma`` со значением 2.200, а для "
-"преобразования из линейного пространства в sRGB - ту же ноду со значением "
-"0.455."
-msgstr ""
-"Converts colors from linear space to sRGB or vice versa. This function has "
-"been declared deprecated sicne the version 15.04. In the newer versions, the"
-" native ``Gamma`` node with the value of 2.200 should be used to convert "
-"color from sRGB to linear space, and the same node with the value of 0.455 "
-"to convert color from linear space to sRGB."
-
-#: ../node_materials.rst:74
-msgid "Replace (B4W_REPLACE)"
-msgstr ""
-
-#: ../node_materials.rst:82
-msgid ""
-"Используется, как правило, для подключения карт нормалей. Нодовые материалы "
-"Blender'а не поддерживают тангентное пространство координат, в связи с чем "
-"единственный способ корректного отображения карт нормалей во viewport'e - их"
-" подключение внутри нод ``Material``."
-msgstr ""
-"As a rule it is used for normal mapping. Blender's node materials do not "
-"support a tangent space of coordinates. Therefore the only possible method "
-"to display normal maps in the viewport correctly is their usage inside the "
-"``Material`` nodes."
-
-#: ../node_materials.rst:88
-msgid "*Color1*"
-msgstr ""
-
-#: ../node_materials.rst:88
-msgid "Конструкция нод, видимая во вьюпорте Blender'а"
-msgstr "Node setup that will be visible in the Blender viewport."
-
-#: ../node_materials.rst:91
-msgid "*Color2*"
-msgstr ""
-
-#: ../node_materials.rst:97
-msgid ""
-"Следует подключать к выходу ``Color`` ноды ``Material`` или ``Extended "
-"Material``."
-msgstr ""
-"Should be connected to the ``Color`` socket of the ``Material`` or "
-"``Extended Material`` node."
-
-#: ../node_materials.rst:102
-msgid "Clamp (B4W_CLAMP)"
-msgstr ""
-
-#: ../node_materials.rst:115 ../node_materials.rst:122
-msgid "*Image*"
-msgstr ""
-
-#: ../node_materials.rst:115
-msgid "Заданный вектор."
-msgstr "Incident vector."
-
-#: ../node_materials.rst:121
-msgid "Вектор после ограничения."
-msgstr "Clamped vector."
-
-#: ../node_materials.rst:127
-msgid "Time (B4W_TIME)"
-msgstr ""
-
-#: ../node_materials.rst:129
-msgid ""
-"Осуществляет отсчет времени с момента старта движка в секундах. Может "
-"использоваться для анимации любых параметров в нодовых материалах - UV-"
-"координат, факторов смешивания, прозрачности и т.п."
-msgstr ""
-"Provides the timeline counting from the engine start (in seconds). Can be "
-"used for animating any parameters in node materials, such as UV coordinates,"
-" mixing factors, transparency etc."
-
-#: ../node_materials.rst:137
-msgid "Отсутствуют."
-msgstr "None."
-
-#: ../node_materials.rst:143
-msgid "Время (в секундах), прошедшее с момента старта движка."
-msgstr "Time (in seconds) elapsed from the engine startup."
-
-#: ../node_materials.rst:150
-msgid "Vector View (B4W_VECTOR_VIEW)"
-msgstr ""
-
-#: ../node_materials.rst:173
-msgid "Parallax (B4W_PARALLAX)"
-msgstr ""
-
-#: ../node_materials.rst:208
-msgid "Translucency (B4W_TRANSLUCENCY)"
-msgstr ""
-
-#: ../node_materials.rst:256
-msgid "Refraction (B4W_REFRACTION)"
-msgstr ""
-
-#: ../node_materials.rst:288
-msgid "Levels of Quality (B4W_LEVELS_OF_QUALITY)"
-msgstr ""
-
-#: ../node_materials.rst:290
-msgid ""
-"Устанавливает значение выходного цвета в зависимости от установленного "
-"профиля качества изображения. Может применяться, например, для "
-"автоматической замены сложного материала более простым при запуске "
-"приложения на мобильном устройстве."
-msgstr ""
-"Sets up the output color based on the current image quality settings. Can be"
-" used to, for example, replace complex material with more simple one if the "
-"application is running on a mobile device."
-
-#: ../node_materials.rst:308
-msgid ""
-"Значение, определяющее, какое из значений (``HIGH`` или ``LOW``) будет "
-"отображаться в Blender. Может принимать значения от 0 до 1. При значении "
-"параметра менее 0.5 будет виден вариант ``HIGH``, при значении 0.5 и выше "
-"будет виден вариант ``LOW``."
-msgstr ""
-"This value specifies what quality setting (``HIGH`` or ``LOW``) will be "
-"visible in the Blender viewport. Can change from 0 to 1. If the value is "
-"lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or "
-"higher, the ``LOW`` setting will be visible."
-
-#: ../node_materials.rst:320
-msgid "Smoothstep (B4W_SMOOTHSTEP)"
-msgstr ""
-
-#: ../node_materials.rst:345
-msgid ""
-"Для корректной интерполяции входное значение ``Value`` должно лежать в "
-"диапазоне между ``Edge0`` и ``Edge1``."
-msgstr ""
-"For the correct interpolation input ``Value`` had to be between ``Edge0`` "
-"and ``Edge1``."
-
-#: ../node_materials.rst:351
-msgid "Glow Output (B4W_GLOW_OUTPUT)"
-msgstr ""
-
-#: ../node_materials.rst:373
-msgid "Reflect (B4W_REFLECT)"
-msgstr ""
 
 #: ../node_materials.rst:385
 msgid ""
@@ -708,172 +720,3 @@ msgid ""
 msgstr ""
 "Reflected vector. Should be connected to the ``Vector`` socket of the "
 "``Texture`` node that contains the cubemap."
-
-#: ../node_materials.rst:91
-msgid "Конструкция нод, видимая объекта в движке Blend4Web."
-msgstr "Node setup that will be visible in the Blend4Web engine."
-
-#: ../node_materials.rst:61
-msgid "Linear to SRGB и SRGB to Linear (Deprecated)"
-msgstr "Linear to SRGB and SRGB to Linear (Deprecated)"
-
-#: ../node_materials.rst:308
-msgid "*Fac*"
-msgstr ""
-
-#~ msgid ""
-#~ "Linear to SRGB (B4W_LINEAR_TO_SRGB) и SRGB to Linear (B4W_SRGB_TO_LINEAR)"
-#~ msgstr ""
-#~ "Linear to SRGB (B4W_LINEAR_TO_SRGB) and SRGB to Linear (B4W_SRGB_TO_LINEAR)"
-
-#~ msgid "Кончтрукция нод, видимая объекта в движке Blend4Web."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Дополнительные ноды расширяют функционал стандартных с учётом специфики "
-#~ "работы движка. Ноды оформляются в виде нодовых групп (``Node groups`` или "
-#~ "``Node tree``) со специально выбранным именем и форматом входов. Для "
-#~ "удобства, все дополнительные ноды добавляются в blend-файл при его открытии."
-#~ msgstr ""
-#~ "Engine-specific nodes extend functionality of the standard nodes to support "
-#~ "extra features. These nodes are created as node groups (``Node groups`` or "
-#~ "``Node tree``) with specially determined names and input formats. For "
-#~ "convenience, all special nodes are added to a blend file when it is opened."
-
-#~ msgid "B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR"
-#~ msgstr "B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR"
-
-#~ msgid ""
-#~ "Преобразование цвета из линейного цветового пространства в пространство sRGB"
-#~ " и наоборот. Функционал объявлен устаревшим с версии 15.04 - вместо этих нод"
-#~ " должна использоваться нативная нода Gamma."
-#~ msgstr ""
-#~ "Color correction from linear color space to sRGB space and back. This "
-#~ "functionality is declared deprecated since version 15.04 - use Blender's "
-#~ "native Gamma node instead."
-
-#~ msgid "B4W_REPLACE"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Используется, как правило, для подключения карт нормалей. Нодовые материалы "
-#~ "Blender'а не поддерживают тангентное пространство координат, в связи с чем "
-#~ "единственный способ корректного отображения карт нормалей во viewport'e - их"
-#~ " подключение внутри нод Material."
-#~ msgstr ""
-#~ "As a rule it is used for normal mapping. Blender's node materials do not "
-#~ "support a tangent space of coordinates. Therefore the only possible method "
-#~ "to display normal maps in the viewport correctly is their usage inside the "
-#~ "Material nodes."
-
-#~ msgid "B4W_CLAMP"
-#~ msgstr ""
-
-#~ msgid "B4W_TIME"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Осуществляет отсчет времени с момента старта движка в секундах. Может "
-#~ "использоваться для анимации любых параметров в нодовых материалах - UV "
-#~ "координат, факторов смешивания, прозрачности и т.п."
-#~ msgstr ""
-#~ "Provides the timeline counting from the engine start (in seconds). Can be "
-#~ "used for animating any parameters in node materials, such as UV coordinates,"
-#~ " mixing factors, transparency etc."
-
-#~ msgid "B4W_VECTOR_VIEW"
-#~ msgstr ""
-
-#~ msgid "B4W_PARALLAX"
-#~ msgstr ""
-
-#~ msgid "B4W_TRANSLUCENCY"
-#~ msgstr ""
-
-#~ msgid "B4W_REFRACTION"
-#~ msgstr ""
-
-#~ msgid "B4W_LEVELS_OF_QUALITY"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Устанавливает значение выходного цвета в зависимости от установленного "
-#~ "профиля качества изображения."
-#~ msgstr "This node sets output color value depending on the quality profile."
-
-#~ msgid ""
-#~ "Для отображения во вьюпорте Blender'а используется входной параметр "
-#~ "``HIGH``."
-#~ msgstr ""
-#~ "``HIGH`` input parameter is used for rendering in the Blender viewport."
-
-#~ msgid "B4W_SMOOTHSTEP"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Для корректной интерполяции входное значение ''Value'' должно лежать в "
-#~ "диапазоне между ''Edge0'' и ''Edge1''."
-#~ msgstr ""
-#~ "For the correct interpolation input ''Value'' had to be between ''Edge0'' "
-#~ "and ''Edge1''."
-
-#~ msgid "B4W_GLOW_OUTPUT"
-#~ msgstr ""
-
-#~ msgid "B4W_REFLECT"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Заданный вектор. Должен быть подключён ко входу *View* ноды *Geometry*."
-#~ msgstr ""
-#~ "Incident vector. Should be connected to the *View* socket of the *Geometry* "
-#~ "node."
-
-#~ msgid ""
-#~ "Заданная нормаль. Для получения желаемого результата, вектор должен быть "
-#~ "нормирован. Должен быть подключён ко входу *Normal* ноды *Geometry*."
-#~ msgstr ""
-#~ "Normal vector. Should be normalized in order to achieve the desired result. "
-#~ "Should be connected to the *Normal* socket of the *Geometry* node."
-
-#~ msgid ""
-#~ "Отражённый вектор. Следует подключать к входному параметру *Vector* нода "
-#~ "*Texture*, содержащего кубическую карту."
-#~ msgstr ""
-#~ "Reflected vector. Should be connected to the *Vector* socket of the "
-#~ "*Texture* node that contains the cubemap."
-
-#~ msgid "Применяется для наложения кубической карты (cubemap) на объект."
-#~ msgstr "Can be used to apply cubemap to an object."
-
-#~ msgid "Должен быть подключён к параметру *View* нода *Geometry*."
-#~ msgstr "This is an input for the *View* parameter of the *Geometry* node."
-
-#~ msgid "Должен быть подключён к параметру *Normal* нода *Geometry*."
-#~ msgstr "This is an input for the *Normal* parameter of the *Geometry* node."
-
-#~ msgid ""
-#~ "Следует подключать к входному параметру *Vector* нода *Texture*, содержащего"
-#~ " кубическую карту."
-#~ msgstr ""
-#~ "Should be connected to the *Vector* socket of the *Texture* node that "
-#~ "contains the cubemap."
-
-#~ msgid ""
-#~ "Следует подключать к входному параметру *Vector* нода *Geometry*, "
-#~ "содержащего кубическую карту."
-#~ msgstr ""
-#~ "Should be connected to the *Vector* socket of the *Texture* node that "
-#~ "contains the cubemap."
-
-#~ msgid "Vector View"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Применяется для перевода векторов из мировой системы координат в систему "
-#~ "координат камеры. Как и в случае с нодом Refraction, эффект заметен только в"
-#~ " Blend4Web и никак не проявляется во вьюпорте Blender."
-#~ msgstr ""
-
-#~ msgid "Реализует эффект преломления."
-#~ msgstr "Get the refracted image behind object."

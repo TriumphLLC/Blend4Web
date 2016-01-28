@@ -38,6 +38,7 @@ var _is_anim_left            = false;
 var _is_qual_menu_opened     = false;
 var _is_stereo_menu_opened   = false;
 var _is_help_menu_opened     = false;
+var _no_social               = false;
 
 var _circle_container;
 var _preloader_caption;
@@ -129,6 +130,9 @@ exports.init = function() {
     if (url_params && "show_fps" in url_params)
         show_fps = true;
 
+    if (url_params && "no_social" in url_params)
+        _no_social = true;
+
     if (url_params && "alpha" in url_params)
         alpha = true;
 
@@ -177,8 +181,6 @@ function init_cb(canvas_element, success) {
     set_quality_button();
 
     set_stereo_button();
-
-    check_hmd();
 
     init_control_buttons();
 
@@ -383,11 +385,10 @@ function search_file() {
             file = url_params["load"];
 
             return file;
-        }
-        else {
+        } else {
             report_app_error("Please specify a scene to load",
-                                   "For more info visit",
-                                   "https://www.blend4web.com/troubleshooting");
+                             "For more info visit",
+                             "https://www.blend4web.com/troubleshooting");
             return null;
         }
     }
@@ -630,8 +631,8 @@ function close_menu() {
         m_app.css_animate(elem, "marginRight", 0, -45, ANIM_ELEM_DELAY, "", "px");
 
         m_app.css_animate(elem, "opacity", 1, 0, ANIM_ELEM_DELAY, "", "", function() {
-            if (elem.nextElementSibling && elem.nextElementSibling.id != "opened_button")
-                drop_left(elem.nextElementSibling);
+            if (elem.previousElementSibling && elem.previousElementSibling.id != "opened_button")
+                drop_left(elem.previousElementSibling);
             else {
                 setTimeout(function() {
                     _is_anim_left = false;
@@ -665,7 +666,9 @@ function close_menu() {
     }
 
     drop_left(hor_elem);
-    drop_top(vert_elem);
+
+    if (!_no_social)
+        drop_top(vert_elem);
 }
 
 function open_menu() {
@@ -685,6 +688,7 @@ function open_menu() {
                    document.querySelector("#fullscreen_off_button") ||
                    document.querySelector("#quality_buttons_container");
 
+
     var vert_elem = document.querySelector("#vk_button");
 
     var drop_left = function(elem) {
@@ -692,7 +696,9 @@ function open_menu() {
 
         elem.style.marginRight = "-45px";
 
-        if (elem.id == "help_button" && _is_help_menu_opened) {
+        if ((elem.id == "help_button") &&
+                _is_help_menu_opened) {
+
             setTimeout(function() {
                 _is_anim_left = false;
                 _is_panel_open_left = true;
@@ -706,7 +712,7 @@ function open_menu() {
 
         m_app.css_animate(elem, "marginRight", -45, 0, ANIM_ELEM_DELAY, "", "px", function() {
 
-            if (!elem.previousElementSibling) {
+            if (!elem.nextElementSibling) {
                 setTimeout(function() {
                     _is_anim_left = false;
                     _is_panel_open_left = true;
@@ -716,7 +722,7 @@ function open_menu() {
                 return;
             }
 
-            drop_left(elem.previousElementSibling)
+            drop_left(elem.nextElementSibling)
         });
 
         m_app.css_animate(elem, "opacity", 0, 1, ANIM_ELEM_DELAY, "", "");
@@ -746,7 +752,9 @@ function open_menu() {
     }
 
     drop_left(hor_elem);
-    drop_top(vert_elem);
+
+    if (!_no_social)
+        drop_top(vert_elem);
 
     _buttons_container.addEventListener("mouseleave", deferred_close);
     _buttons_container.addEventListener("mouseenter", clear_deferred_close);
@@ -957,7 +965,7 @@ function loaded_callback(data_id, success) {
         return;
     }
 
-    var canvas_elem = m_main.get_canvas_elem();
+    var canvas_elem = m_cont.get_canvas();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked);
 
     check_autorotate();
@@ -995,6 +1003,8 @@ function loaded_callback(data_id, success) {
 
     if (meta_tags.title)
         document.title = meta_tags.title;
+
+    check_hmd();
 }
 
 function check_hmd() {
@@ -1009,7 +1019,7 @@ function check_hmd() {
     if (m_cfg.get("stereo") != "HMD")
         return;
 
-    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_YAW);
 }
 
 function preloader_callback(percentage, load_time) {

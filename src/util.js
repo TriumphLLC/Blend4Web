@@ -1329,44 +1329,6 @@ function hash_code_string(str, init_val) {
     return hash;
 }
 
-/**
- * Translates a matrix by the given vector (from glMatrix 1)
- *
- * @param {Mat4} mat mat4 to translate
- * @param {Vec3} vec vec3 specifying the translation
- * @param {Mat4} [dest] mat4 receiving operation result. If not specified result is written to mat
- * @returns {Mat4} dest if specified, mat otherwise
- * @deprecated Use function from mat4 module
- */
-exports.mat4_translate = function(mat, vec, dest) {
-    var x = vec[0], y = vec[1], z = vec[2],
-        a00, a01, a02, a03,
-        a10, a11, a12, a13,
-        a20, a21, a22, a23;
-
-    if (!dest || mat === dest) {
-        mat[12] = mat[0] * x + mat[4] * y + mat[8] * z + mat[12];
-        mat[13] = mat[1] * x + mat[5] * y + mat[9] * z + mat[13];
-        mat[14] = mat[2] * x + mat[6] * y + mat[10] * z + mat[14];
-        mat[15] = mat[3] * x + mat[7] * y + mat[11] * z + mat[15];
-        return mat;
-    }
-
-    a00 = mat[0]; a01 = mat[1]; a02 = mat[2]; a03 = mat[3];
-    a10 = mat[4]; a11 = mat[5]; a12 = mat[6]; a13 = mat[7];
-    a20 = mat[8]; a21 = mat[9]; a22 = mat[10]; a23 = mat[11];
-
-    dest[0] = a00; dest[1] = a01; dest[2] = a02; dest[3] = a03;
-    dest[4] = a10; dest[5] = a11; dest[6] = a12; dest[7] = a13;
-    dest[8] = a20; dest[9] = a21; dest[10] = a22; dest[11] = a23;
-
-    dest[12] = a00 * x + a10 * y + a20 * z + mat[12];
-    dest[13] = a01 * x + a11 * y + a21 * z + mat[13];
-    dest[14] = a02 * x + a12 * y + a22 * z + mat[14];
-    dest[15] = a03 * x + a13 * y + a23 * z + mat[15];
-    return dest;
-};
-
 exports.mat3_to_mat4 = function(mat, dest) {
     dest[15] = 1;
     dest[14] = 0;

@@ -1,8 +1,8 @@
 .. _postprocessing_effects:
 
-**************************
-Постпроцессинговые эффекты
-**************************
+***********
+Спецэффекты
+***********
 
 
 .. index:: размытие при движении (motion blur)
@@ -14,14 +14,14 @@
 
 Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде "смазывания" изображения.
 
-.. image:: src_images/postprocessing_effects/motion_blur.jpg
+.. image:: src_images/postprocessing_effects/effects_motion_blur.png
    :align: center
    :width: 100%
 
 Активация
 ---------
 
-Активировать панель ``Motion Blur`` во вклдадке ``Render``.
+Активировать панель ``Motion Blur`` во вкладке ``Render``.
 
 Дополнительные настройки
 ------------------------
@@ -42,7 +42,7 @@
 
 Эффект глубины резкости камеры (depth of field, DOF) акцентирует внимание зрителя на части сцены. Проявляется в размытии изображения ближе и дальше от фокуса камеры.
 
-.. image:: src_images/postprocessing_effects/dof.jpg
+.. image:: src_images/postprocessing_effects/effects_dof.png
    :align: center
    :width: 100%
 
@@ -78,7 +78,7 @@
 
 Эффект взаимного затенения (screen-space ambient occlusion, SSAO) применяется с целью воспроизведения сложного переотражения света от объектов. Пространство между близкими объектами менее доступно для рассеянного света и поэтому затеняется сильнее.
 
-.. image:: src_images/postprocessing_effects/ssao.jpg
+.. image:: src_images/postprocessing_effects/effects_ssao.png
    :align: center
    :width: 50%
 
@@ -121,7 +121,7 @@
 
 Эффект сумеречных лучей (crepuscular rays, "god rays") симулирует известное природное явление - свечение освещенных областей воздуха.  
 
-.. image:: src_images/postprocessing_effects/god_rays.jpg
+.. image:: src_images/postprocessing_effects/effects_god_rays.png
    :align: center
    :width: 100%
 
@@ -143,12 +143,14 @@
     Количество шагов на один сэмпл. Значение по умолчанию 10.0.
 
 
+.. _bloom:
+
 Эффект засветки ярких деталей
 =============================
 
 Эффект засветки (Bloom) проявляется при наличии на экране элементов с большой разницей в яркости. Вокруг ярких деталей создается светящийся ореол.
 
-.. image:: src_images/postprocessing_effects/bloom.jpg
+.. image:: src_images/postprocessing_effects/effects_bloom.png
    :align: center
    :width: 100%
 
@@ -179,7 +181,7 @@
 
 В результате применения эффекта подсветки контура вокруг объекта появляется светящийся ореол произвольного цвета.
 
-.. image:: src_images/postprocessing_effects/outline.jpg
+.. image:: src_images/postprocessing_effects/effects_outline.png
    :align: center
    :width: 100%
 
@@ -216,87 +218,6 @@
 
 При управлении через API настройки на панели ``Render > Object Outlining`` воспринимаются как настройки по умолчанию.
 
-   
-.. index:: анаглиф, стереоизображение
-
-.. _stereo:
-
-Стереоизображение
-=================
-
-Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.
-
-Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD (Head-mounted display, шлем виртуальной реальности).
-
-Анаглиф:
-
-.. image:: src_images/postprocessing_effects/postprocessing_effects_anaglyph.png
-   :align: center
-   :width: 100%
-
-HMD:
-
-.. image:: src_images/postprocessing_effects/postprocessing_effects_stereo.png
-   :align: center
-   :width: 100%
-
-HMD - экспериментальная возможность, она работает только с камерами типа ``Eye``.
-
-Активация
----------
-
-Для работы стереорежима HMD нужно установить `runtime-утилиту <https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows и MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для Linux пользователю понадобится собирать из исходников самостоятельно.
-
-На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly build `Firefox <https://nightly.mozilla.org/>`_.
-
-`Настройки Chromium. <https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_
-
-`Настройки Firefox. <https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API>`_
-
-Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках приложения, в третьем столбце справа, как показано на иллюстрации.
-
-.. image:: src_images/postprocessing_effects/postprocessing_effects_hmd.png
-   :align: center
-   :width: 100%
-
-Для корректной работы рекомендуется включить полноэкранный режим.
-
-Дополнительные настройки
-------------------------
-
-Отсутствуют.
-
-
-.. index:: коррекция цвета
-
-.. _color_correction:
-
-Коррекция цвета
-===============
-
-.. image:: src_images/postprocessing_effects/color_correction.jpg
-   :align: center
-   :width: 100%
-
-Активация
----------
-
-Активировать панель ``Color Correction`` во вкладке ``Render``.
-
-Дополнительные настройки
-------------------------
-
-*Brightness*
-    Яркость. Значение по умолчанию 0.0.
-
-*Contrast*
-    Контрастность. Значение по умолчанию 0.0.
-
-*Exposure*
-    Экспозиция. Значение по умолчанию 1.0.
-
-*Saturation*
-    Насыщенность. Значение по умолчанию 1.0.
 
 .. _glow:
 
@@ -305,7 +226,7 @@ HMD - экспериментальная возможность, она рабо
 
 Эффект возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.
 
-.. image:: src_images/postprocessing_effects/glow.jpg
+.. image:: src_images/postprocessing_effects/effects_glow.png
    :align: center
    :width: 100%
 
@@ -343,7 +264,7 @@ HMD - экспериментальная возможность, она рабо
 
 Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга ("зубчатости"). 
 
-.. image:: src_images/postprocessing_effects/antialiasing.jpg
+.. image:: src_images/postprocessing_effects/effects_antialiasing.png
    :align: center
    :width: 100%
 

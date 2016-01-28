@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 # Original idea from the Recalc Vertex Normals add-on by adsn
     
 import bpy
@@ -925,7 +909,6 @@ def menu_func(self, context):
 addon_keymaps = []
 
 def register_hotkey():
-    bpy.utils.register_class(OperatorRotateNormal)
     bpy.types.VIEW3D_MT_object.append(menu_func)
 
     # handle the keymap
@@ -938,7 +921,6 @@ def register_hotkey():
         addon_keymaps.append(km)
 
 def unregister_hotkey():
-    bpy.utils.unregister_class(OperatorRotateNormal)
     bpy.types.VIEW3D_MT_object.remove(menu_func)
 
     # handle the keymap
@@ -1138,35 +1120,11 @@ def clear_properties():
             pass
 
 def register():
-    bpy.utils.register_class(B4W_TreeVertexNormals)
-    bpy.utils.register_class(B4W_FoliageVertexNormals)
-    bpy.utils.register_class(B4W_FaceVertexNormals)
-    bpy.utils.register_class(B4W_CopyNormalsFromMesh)
-    bpy.utils.register_class(B4W_ApproxNormalsFromMesh)
-    bpy.utils.register_class(B4W_VertexNormalsUI)
-    bpy.utils.register_class(B4W_RestoreNormals)
-    bpy.utils.register_class(B4W_SmoothNormals)
-    bpy.utils.register_class(B4W_CopyNormal)
-    bpy.utils.register_class(B4W_PasteNormal)
-    bpy.utils.register_class(B4W_ShapeKeysNormal)
-
     draw_helper_callback_enable()
     register_hotkey()
     init_properties()
 
 def unregister():
     draw_helper_callback_disable()
-    bpy.utils.unregister_class(B4W_TreeVertexNormals)
-    bpy.utils.unregister_class(B4W_FoliageVertexNormals)
-    bpy.utils.unregister_class(B4W_FaceVertexNormals)
-    bpy.utils.unregister_class(B4W_CopyNormalsFromMesh)
-    bpy.utils.unregister_class(B4W_ApproxNormalsFromMesh)
-    bpy.utils.unregister_class(B4W_VertexNormalsUI)
-    bpy.utils.unregister_class(B4W_RestoreNormals)
-    bpy.utils.unregister_class(B4W_SmoothNormals)
-    bpy.utils.unregister_class(B4W_CopyNormal)
-    bpy.utils.unregister_class(B4W_PasteNormal)
-    bpy.utils.unregister_class(B4W_ShapeKeysNormal)
-
     unregister_hotkey()
     clear_properties()

@@ -1,19 +1,3 @@
-# Copyright (C) 2014-2015 Triumph LLC
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import bpy
 from collections import OrderedDict
 import hashlib
@@ -1207,13 +1191,13 @@ def process_scene_nla(scene, scene_data):
             slot_data["frame_range"] = [0,0]
             slot_data["object"] = None
             slot_data["operation"] = ""
-            slot_data["condition"] = ""
+            #slot_data["condition"] = ""
             # -1 - do not use the register
             slot_data["variable1"] = -1
             slot_data["variable2"] = -1
             slot_data["variabled"] = -1
-            slot_data["number1"] = 0
-            slot_data["number2"] = 0
+            slot_data["input1"] = 0
+            slot_data["input2"] = 0
             slot_data["url"] = ""
             slot_data["param_name"] = ""
             slot_data["mute"] = slot["mute"]
@@ -1225,10 +1209,11 @@ def process_scene_nla(scene, scene_data):
             slot_data["floats"] = slot["floats"]
             slot_data["bools"] = slot["bools"]
             slot_data["variables"] = slot["variables_names"]
+            slot_data["strings"] = slot["strings"]
             slot_data["shader_nd_type"] = slot["shader_nd_type"]
             slot_data["common_usage_names"] = slot["common_usage_names"]
             slot_data["send_req_vars_list"] = slot["send_req_vars_list"]
-            slot_data["links"] = []
+            slot_data["links"] = {}
 
             if slot['type'] == "PLAY":
                 frame_range, frame_range_mask = markers_to_frame_range(scene,
@@ -1253,7 +1238,7 @@ def process_scene_nla(scene, scene_data):
                         idx = -1
                         if k in slot["links"]:
                             idx = get_node_idx_by_name(script, slot['links'][k])
-                        slot_data["links"].append(idx)
+                        slot_data["links"][k] = idx
                     else:
                         force_mute_node(slot_data, "Object is not selected or not exported.")
                         break
@@ -1292,22 +1277,36 @@ def process_scene_nla(scene, scene_data):
                 slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
 
                 if slot['type'] == "CONDJUMP":
-                    slot_data["condition"] = slot['param_condition']
+                    if slot['param_condition'] == "GEQUAL":
+                        slot_data["floats"]["cnd"] = 0
+                    elif slot['param_condition'] == "LEQUAL":
+                        slot_data["floats"]["cnd"] = 1
+                    elif slot['param_condition'] == "GREATER":
+                        slot_data["floats"]["cnd"] = 2
+                    elif slot['param_condition'] == "LESS":
+                        slot_data["floats"]["cnd"] = 3
+                    elif slot['param_condition'] == "NOTEQUAL":
+                        slot_data["floats"]["cnd"] = 4
+                    elif slot['param_condition'] == "EQUAL":
+                        slot_data["floats"]["cnd"] = 5
 
                     if slot['param_var_flag1']:
                         slot_data["variable1"] = slot['param_var1']
                     else:
-                        slot_data["number1"] = round_num(slot['param_number1'], 6)
+                        slot_data["input1"] = round_num(slot['param_number1'], 6)
 
                     if slot['param_var_flag2']:
                         slot_data["variable2"] = slot['param_var2']
                     else:
-                        slot_data["number2"] = round_num(slot['param_number2'], 6)
+                        slot_data["input2"] = round_num(slot['param_number2'], 6)
 
             elif slot['type'] == "REGSTORE":
                 slot_data["variabled"] = \
                 slot['param_var_define'] if slot['param_var_flag1'] else slot['param_var_dest']
-                slot_data["number1"] = round_num(slot['param_number1'], 6)
+                if slot['param_variable_type'] == "Number":
+                    slot_data["input1"] = round_num(slot['param_number1'], 6)
+                else:
+                    slot_data["input1"] = slot['param_string1']
 
             elif slot['type'] == "MATH":
                 slot_data["operation"] = slot['param_operation']
@@ -1315,12 +1314,12 @@ def process_scene_nla(scene, scene_data):
                 if slot['param_var_flag1']:
                     slot_data["variable1"] = slot['param_var1']
                 else:
-                    slot_data["number1"] = round_num(slot['param_number1'], 6)
+                    slot_data["input1"] = round_num(slot['param_number1'], 6)
 
                 if slot['param_var_flag2']:
                     slot_data["variable2"] = slot['param_var2']
                 else:
-                    slot_data["number2"] = round_num(slot['param_number2'], 6)
+                    slot_data["input2"] = round_num(slot['param_number2'], 6)
 
                 slot_data["variabled"] = slot['param_var_dest']
 
@@ -1330,6 +1329,10 @@ def process_scene_nla(scene, scene_data):
             elif slot['type'] == "SEND_REQ":
                 if not get_url(slot, slot_data):
                     return
+                if slot_data["bools"]["prs"]:
+                    del slot_data["variables"]["dst"]
+                if slot_data["bools"]["enc"]:
+                    del slot_data["variables"]["dst1"]
             elif slot['type'] == "SHOW" or slot['type'] == "HIDE":
                 obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
                 if obj and do_export(obj) and object_is_valid(obj):
@@ -1349,7 +1352,54 @@ def process_scene_nla(scene, scene_data):
                 check_objects_paths(scene, slot, slot_data)
 
             elif slot['type'] == "MOVE_TO":
-                check_objects_paths(scene, slot, slot_data)                
+                check_objects_paths(scene, slot, slot_data)
+
+            elif slot['type'] == "TRANSFORM_OBJECT":
+                check_objects_paths(scene, slot, slot_data)
+                #rotate axis if not variables
+                if not (slot_data["bools"]["try"] or slot_data["bools"]["trz"]):
+                    slot_data["floats"]["try"], slot_data["floats"]["trz"] = slot_data["floats"]["trz"], -slot_data["floats"]["try"]
+                if not (slot_data["bools"]["roy"] or slot_data["bools"]["roz"]):
+                    slot_data["floats"]["roy"], slot_data["floats"]["roz"] = slot_data["floats"]["roz"], -slot_data["floats"]["roy"]
+
+                if slot_data["common_usage_names"]["space_type"] == "WORLD":
+                    slot_data["common_usage_names"]["space_type"] = 0
+                elif slot_data["common_usage_names"]["space_type"] == "PARENT":
+                    slot_data["common_usage_names"]["space_type"] = 1
+                elif slot_data["common_usage_names"]["space_type"] == "LOCAL":
+                    slot_data["common_usage_names"]["space_type"] = 2
+
+            elif slot['type'] == "STRING":
+                #remove unused elements
+                if slot['param_string_operation'] != "SPLIT":
+                    del slot_data["variables"]["dst1"]
+                if slot['param_string_operation'] != "REPLACE":
+                    del slot_data["bools"]["id2"]
+                    del slot_data["variables"]["id2"]
+                    del slot_data["strings"]["id2"]
+                
+                if slot['param_string_operation'] == "JOIN":
+                    slot_data["floats"]["sop"] = 0
+                elif slot['param_string_operation'] == "FIND":
+                    slot_data["floats"]["sop"] = 1
+                elif slot['param_string_operation'] == "REPLACE":
+                    slot_data["floats"]["sop"] = 2
+                elif slot['param_string_operation'] == "SPLIT":
+                    slot_data["floats"]["sop"] = 3
+                elif slot['param_string_operation'] == "COMPARE":
+                    slot_data["floats"]["sop"] = 4
+                    if slot['param_condition'] == "GEQUAL":
+                        slot_data["floats"]["cnd"] = 0
+                    elif slot['param_condition'] == "LEQUAL":
+                        slot_data["floats"]["cnd"] = 1
+                    elif slot['param_condition'] == "GREATER":
+                        slot_data["floats"]["cnd"] = 2
+                    elif slot['param_condition'] == "LESS":
+                        slot_data["floats"]["cnd"] = 3
+                    elif slot['param_condition'] == "NOTEQUAL":
+                        slot_data["floats"]["cnd"] = 4
+                    elif slot['param_condition'] == "EQUAL":
+                        slot_data["floats"]["cnd"] = 5
 
             elif slot['type'] == "NOOP":
                 pass
@@ -1501,6 +1551,9 @@ def process_object_type(obj, data, curve_as_curve):
                 warn("Object \"" + obj.name 
                         + "\" hasn't renderable data. Converted to EMPTY.")
 
+    elif obj.b4w_line_renderer:
+        new_type = "LINE";
+
     return new_type
 
 def process_object(obj, is_curve=False, is_hair=False):
@@ -1544,7 +1597,9 @@ def process_object(obj, is_curve=False, is_hair=False):
 
     # process varyous obj data
     if obj_data["type"] == "MESH":
-        process_mesh(data, obj)
+        # NOTE: process mesh returns unique uuid for every shared mesh with 
+        # different materials (assigned to Object) 
+        obj_data["data"] = OrderedDict({ "uuid": process_mesh(data, obj) })
     elif obj_data["type"] == "CURVE":
         process_curve(data)
     elif obj_data["type"] == "ARMATURE":
@@ -1760,19 +1815,25 @@ def process_object(obj, is_curve=False, is_hair=False):
         sca = obj.scale
     else:
         sca = [1.0, 1.0, 1.0]
-        
+
     # resolving clean_parent_inverse issue
     if obj.parent:
         sca_parent = obj.parent.scale
         mat_inv_parent = obj.matrix_parent_inverse
-        scale = mat_inv_parent.to_scale()
+        pinv_scale = mat_inv_parent.to_scale()
+        pinv_rotation_quat = mat_inv_parent.to_quaternion()
+        pinv_translation = mat_inv_parent.to_translation()
         loc = mat_inv_parent * loc
         if obj.parent.b4w_apply_scale:
-            scale = list(map(operator.mul, sca_parent, scale))
+            pinv_scale = list(map(operator.mul, sca_parent, pinv_scale))
             loc = list(map(operator.mul, sca_parent, loc))
 
-        sca = list(map(operator.mul, sca, scale))
+        sca = list(map(operator.mul, sca, pinv_scale))
         rot.rotate(mat_inv_parent)
+        obj_data["pinverse_tsr"] = round_iterable( 
+            [pinv_translation[0], pinv_translation[2], -pinv_translation[1], 
+            pinv_scale[0],
+            pinv_rotation_quat.x, pinv_rotation_quat.z, -pinv_rotation_quat.y, pinv_rotation_quat.w], 5)
 
     obj_data["location"] = round_iterable([loc[0], loc[2], -loc[1]], 5)
 
@@ -2125,10 +2186,8 @@ def process_camera(camera):
             = round_num(camera.b4w_vertical_translation_max , 3)
 
     cam_data["b4w_use_zooming"] = camera.b4w_use_zooming
-    cam_data["b4w_hover_angle_min"] \
-            = round_num(camera.b4w_hover_angle_min, 6)
-    cam_data["b4w_hover_angle_max"] \
-            = round_num(camera.b4w_hover_angle_max, 6)
+    cam_data["b4w_hover_angle_min"] = camera.b4w_hover_angle_min
+    cam_data["b4w_hover_angle_max"] = camera.b4w_hover_angle_max
 
     cam_data["b4w_enable_hover_hor_rotation"] \
             = camera.b4w_enable_hover_hor_rotation
@@ -2611,9 +2670,6 @@ def get_json_relative_filepath(path):
     return guard_slashes(os.path.normpath(path_relative))
 
 def process_mesh(mesh, obj_user):
-    if "export_done" in mesh and mesh["export_done"]:
-        return
-
     global _curr_stack
     _curr_stack["data"].append(mesh)
 
@@ -2626,7 +2682,20 @@ def process_mesh(mesh, obj_user):
 
     mesh_data = OrderedDict()
     mesh_data["name"] = mesh.name
-    mesh_data["uuid"] = gen_uuid(mesh)
+
+    # NOTE: mesh uniqueness
+    mat_names = ""
+    for slot in obj_user.material_slots:
+        # None for empty slot
+        if not slot.material:
+            raise ExportError("Incomplete mesh", mesh, "Material slot is empty")
+        
+        mat_names += "%" + slot.material.name
+
+    mesh_data["uuid"] = gen_uuid(mesh, mat_names)
+
+    if "export_done" in mesh and mesh["export_done"] and mesh_data["uuid"] in _export_uuid_cache:
+        return mesh_data["uuid"]
 
     # process mesh links
     # faces' material_index'es correspond to
@@ -2634,19 +2703,8 @@ def process_mesh(mesh, obj_user):
     # so we will save uuids here
     mesh_data["materials"] = []
 
-    index = 0
-    replaced_materials = OrderedDict()
     for slot in obj_user.material_slots:
-        if slot.link == "OBJECT":
-            slot_mat = slot.material
-            replaced_materials[index] = mesh.materials[index]
-            mesh.materials[index] = slot_mat
-        index += 1
-
-    for material in mesh.materials:
-        # None for empty slot
-        if not material:
-            raise ExportError("Incomplete mesh", mesh, "Material slot is empty")
+        material = slot.material
 
         if do_export(material):
 
@@ -2661,9 +2719,6 @@ def process_mesh(mesh, obj_user):
                 err(str(ex) + " Material: " + "\"" + _curr_stack["material"][-1].name + "\".")
                 _curr_stack["material"].pop()
                 _curr_stack["texture"] = []
-
-    for index in replaced_materials:
-        mesh.materials[index] = replaced_materials[index]
 
     # process object's props
     process_mesh_vertex_anim(mesh_data, obj_user)
@@ -2741,8 +2796,8 @@ def process_mesh(mesh, obj_user):
     # NOTE: using original mesh.materials data for c-export instead of
     # derived mesh_data["materials"]
     if len(mesh_data["materials"]):
-        for mat_index in range(len(mesh.materials)):
-            material = mesh.materials[mat_index]
+        for mat_index in range(len(obj_user.material_slots)):
+            material = obj_user.material_slots[mat_index].material
             if do_export(material):
                 if material.type == "HALO":
                     disab_flat = True
@@ -2763,6 +2818,8 @@ def process_mesh(mesh, obj_user):
     _export_uuid_cache[mesh_data["uuid"]] = mesh_data
     _bpy_uuid_cache[mesh_data["uuid"]] = mesh
     _curr_stack["data"].pop()
+
+    return mesh_data["uuid"]
 
 def process_mesh_boundings(mesh_data, mesh, bounding_data):
     if (mesh.b4w_override_boundings):
@@ -2852,7 +2909,7 @@ def get_mat_vc_channel_usage(mesh, mat_index, obj_user):
     vc_channel_usage = {}
 
     if mesh.vertex_colors:
-        mat = mesh.materials[mat_index] if mat_index >= 0 else None
+        mat = obj_user.material_slots[mat_index].material if mat_index >= 0 else None
 
         nodes_usage = vc_channel_nodes_usage(mat)
         dyn_grass_usage = vc_channel_dyn_grass_usage(mat)
@@ -3825,12 +3882,11 @@ def get_particle_system_scale(obj, psys, vert_group_name):
 
     indices = struct.unpack('i' * f_v_num_len, 
             scales_data_bytearray["face_ver_num"])
-
     vg_index = obj.vertex_groups[vert_group_name].index
     scales = []
     for i in range(len(psys.particles)):
         if psys.settings.emit_from != "VERT":
-            vert = obj.data.polygons[indices[i]].vertices
+            vert = obj.data.tessfaces[indices[i]].vertices
             scale = 0
             for j in range(0, len(vert)):
                 vert_num = vert[j].numerator
@@ -3858,6 +3914,8 @@ def process_object_particle_systems(obj):
                 psys_data["name"] = psys.name
                 psys_data["seed"] = psys.seed
 
+                if not len(obj.data.tessfaces):
+                    obj.data.calc_tessface()
                 # export particle transforms for hairs
                 # [x0,y0,z0,scale0,x1...]
                 if (psys.settings.type == "HAIR" and not
@@ -4158,7 +4216,6 @@ def process_node_group(data, node_group):
         data["use_orco_tex_coord"] = data["use_orco_tex_coord"] or ng_data["use_orco_tex_coord"]
         data["uv_vc_key"] += ng_data["uv_vc_key"]
         return
-    node_group.node_tree["export_done"] = True
     ng_data = OrderedDict()
     ng_data["name"] = node_group.node_tree.name
     ng_data["use_orco_tex_coord"] = False
@@ -4171,6 +4228,7 @@ def process_node_group(data, node_group):
     _export_data["node_groups"].append(ng_data)
     _export_uuid_cache[ng_data["uuid"]] = ng_data
     _bpy_uuid_cache[ng_data["uuid"]] = node_group
+    node_group.node_tree["export_done"] = True
 
 def process_world_texture_slots(world_data, world):
     slots = world.texture_slots
@@ -4182,9 +4240,9 @@ def process_world_texture_slots(world_data, world):
                 if not slot.texture:
                     raise MaterialError("No texture in the \"" + world.name + "\" world texture slot.")
                 if do_export(slot.texture):
-                    if slot.texture.b4w_use_sky != "OFF" and len(slot.texture.users_material) == 0:
+                    if slot.texture.b4w_use_sky != "OFF":
                         if slot.texture.type != "ENVIRONMENT_MAP":
-                            raise ExportError(slot.texture.type + " isn't supported", world)
+                            raise ExportError(slot.texture.type + " texture type is not supported as World texture", world)
                         elif not slot.texture.image is None and slot.texture.image.source == "MOVIE":
                             raise MaterialError("Environment map in the \"" + world.name \
                                     + "\" world texture slot cannot be a movie.")
@@ -4995,17 +5053,7 @@ def check_binaries():
 
 def register():
     check_binaries()
-    bpy.utils.register_class(B4W_ExportProcessor)
-    bpy.utils.register_class(B4W_ExportPathGetter)
-    bpy.utils.register_class(ExportErrorDialog)
-    bpy.utils.register_class(FileErrorDialog)
-    bpy.utils.register_class(ExportMessagesDialog)
     bpy.types.INFO_MT_file_export.append(b4w_export_menu_func)
 
 def unregister():
-    bpy.utils.unregister_class(B4W_ExportProcessor)
-    bpy.utils.unregister_class(B4W_ExportPathGetter)
-    bpy.utils.unregister_class(ExportErrorDialog)
-    bpy.utils.unregister_class(FileErrorDialog)
-    bpy.utils.unregister_class(ExportMessagesDialog)
     bpy.types.INFO_MT_file_export.remove(b4w_export_menu_func)

@@ -17,22 +17,23 @@
     viewer.rst
     web_player.rst
     addon.rst
+    scene_settings.rst
     objects.rst
     camera.rst
-    materials.rst
-    textures.rst
+    materials.rst   
     node_materials.rst
+    logic_editor.rst
     lighting.rst
     postprocessing_effects.rst
+    stereo_rendering.rst
+    textures.rst
     particles.rst
     particles_instancing.rst
     animation.rst
     outdoor_rendering.rst
-    gamma_alpha.rst
+    colors.rst
     audio.rst
-    physics.rst
-    nla.rst
-    logic_editor.rst
+    physics.rst    
     developers.rst
     developers_advanced.rst
     git_short_manual.rst

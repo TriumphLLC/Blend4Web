@@ -33,7 +33,7 @@ var m_util     = require("__util");
 
 /**
  * @typedef ObjectMetaTags
- * @type {Object3D}
+ * @type {Object}
  * @property {String} title The title meta tag.
  * @property {String} description The description meta tag.
  * @property {String} category The category meta tag.
@@ -208,6 +208,14 @@ exports.is_lamp = m_obj_util.is_lamp;
  * @returns {Boolean} Checking result.
  */
 exports.is_empty = m_obj_util.is_empty;
+
+/**
+ * Check if the object is a LINE.
+ * @method module:objects.is_line
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_line = m_obj_util.is_line;
 
 /**
  * Get all scene selectable objects.

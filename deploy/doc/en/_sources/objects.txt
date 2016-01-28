@@ -2,6 +2,48 @@
 Objects
 *******
 
+
+table of Content
+^^^^^^^^^^^^^^^^
+
+* Objects
+
+  * Types
+
+  * Static and Dynamic Objects
+
+  * Settings
+
+    * Object Tab
+
+    * Physics Tab
+
+    * Override Bounding Volumes
+
+  * Object Transform API
+
+  * Get object API
+
+  * Quaternions
+
+    * Quaternion Example
+
+  * Differences Between Coordinate Systems of Blender and Blend4Web
+
+  * Moving via TSR Vectors
+
+  * Copying Objects (Instancing)
+
+    * Making a Simple Copy
+
+    * Making a Deep Copy
+
+    * Removing Objects
+
+  * Object Selection
+
+  * Morphing
+
 Objects are intended to position components of different types
 (meshes, cameras, lamps etc) in a 3D scene space.
 
@@ -283,6 +325,48 @@ Physics Tab
    described in detail in the physics section.
 
 
+Override Bounding Volumes
+-------------------------
+
+This section is used to override bounding volumes. Such volumes are
+used to check object's visibility, to handle collisions and physics
+interaction. By editing them, you can achieve various effects.
+
+[image]
+
+The "Override Bounding Volumes" section can be found on the
+"Blend4Web" panel (beside the normals editor.).
+
+*Show Boundings*
+   [image]
+
+   Show the bounding volumes in the Blender viewport. This option
+   works only if the "Override Mesh Boundings" parameter is enabled.
+   The volume can be rendered as a rectangular cuboid or as a
+   combination of circles or ellises. More then one method of
+   rendering can be active at the same time (even all three methods
+   can be enabled simultaneously).
+
+Note: The selected rendering method does not influence the bounding
+  volume shape, only the way it is represented in the viewport.
+
+*Override Mesh Boundings*
+   [image]
+
+   This button enables the override of the basic mesh boundings. The
+   bounding volume always has the shape of a rectangular cuboid with a
+   center in the object's pivot point.
+
+*MinX and MaxX*
+   The volume's X dimensions. By default, *MinX* = -1, *MaxX* = 1
+
+*MinY and MaxY*
+   The volume's Y dimensions. By default, *MinY* = -1, *MaxY* = 1
+
+*MinZ and MaxZ*
+   The volume's Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1
+
+
 Object Transform API
 ====================
 
@@ -366,6 +450,74 @@ move_local()
 rotate_x_local(), rotate_y_local(), rotate_z_local()
    Rotate the object relative to its original position (in local
    space).
+
+
+Get object API
+==============
+
+To perform any operation with an object, you first need to get it
+(i.e. recieve the link to it). There are several API functions for
+doing this. A link to an object has "Object3D" type.
+
+get_object_by_name()
+   Get object by name.
+
+      // ...
+      var obj = m_scenes.get_object_by_name("Object");
+      // ...
+
+get_object_by_dupli_name()
+   Get the duplicated object by empty name and dupli name.
+
+      // ...
+      var obj = m_scenes.get_object_by_dupli_name("Empty", "Object");
+      // ...
+
+get_object_by_dupli_name_list()
+   Get the duplicated object by empty name and dupli name list (an
+   array of "String" type elements).
+
+      // ...
+      var obj = m_scenes.get_object_by_dupli_name_list(["Empty1", "Empty2", "Object"]);
+      // ...
+
+get_object_name_hierarchy()
+   Get the object names hierarchy array (from the highest parent to
+   the object itself).
+
+      // ...
+      var obj = m_scenes.get_object_name_hierarchy("Object");
+      // ...
+
+check_object_by_name()
+   Check if object with given name is present on scene.
+
+      // ...
+      var object_exists = m_scenes.check_object_by_name("Cube");
+      // ...
+
+check_object_by_dupli_name()
+   Check if duplicated object is present on scene by empty name and
+   dupli name.
+
+      // ...
+      var object_exists = m_scenes.check_object_by_dupli_name("Empty", "Cube");
+      // ...
+
+check_object_by_dupli_name_list()
+   Check if duplicated object is present on scene by empty name and
+   dupli name list (an array of "String" type elements).
+
+      // ...
+      var object_exists = m_scenes.check_object_by_dupli_name_list(["Empty1", "Empty2", "Object"]);
+      // ...
+
+get_object_name()
+   Get the object's name.
+
+      // ...
+      var object_name = m_scenes.get_object_name(obj);
+      // ...
 
 
 Quaternions
@@ -537,9 +689,11 @@ Making a Deep Copy
 
 In case of deep copying, the new object will have unique properties,
 namely it will have its own mesh. Thus, if the original object's mesh
-is changed, the copied object's mesh will not be changed. To make deep
-copying possible, it is required to enable the Rendering Properties >
-Force Dynamic Geometry checkbox for the source object.
+is changed, the copied object's mesh will not be changed. Also, the
+canvas textures on the copied objects are different textures and not
+one and the same like it is the case with the simple copying. To make
+deep copying possible, it is required to enable the Rendering
+Properties > Dynamic Geometry checkbox for the source object.
 
 
 
@@ -564,8 +718,8 @@ Removing Objects
 ----------------
 
 To remove instanced objects, use the "remove_object" method of the
-"scenes.js" module. Pass the object to it as an argument. Only copied
-objects can be removed this way.
+"scenes.js" module. Pass the object to it as an argument. Dynamic
+mesh- and empty-type objects can be removed this way.
 
    // ...
    m_objects.remove_object(new_obj);

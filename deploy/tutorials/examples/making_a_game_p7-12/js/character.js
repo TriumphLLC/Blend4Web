@@ -5,9 +5,9 @@ if (b4w.module_check("character"))
 
 b4w.register("character", function(exports, require) {
 
-var m_main  = require("main");
 var m_ctl = require("controls");
 var m_scs = require("scenes");
+var m_time  = require("time");
 var m_phy = require("physics");
 var m_anim = require("animation");
 var m_sfx = require("sfx");
@@ -455,7 +455,7 @@ function change_hp(amount) {
     if (_char_wrapper.hp <= 0)
         return;
 
-    var cur_time = m_main.global_timeline();
+    var cur_time = m_time.get_timeline();
 
     if (amount < 0 && _last_hurt_sound < cur_time - 0.5) {
         var id = Math.floor(2 * Math.random());

@@ -75,8 +75,8 @@ exports.set_hardware_defaults = function(gl) {
     if (!check_user_agent("Windows Phone"))
         if (check_user_agent("iPad") || check_user_agent("iPhone")) {
             m_print.warn("iOS detected, applying alpha hack, applying vertex "
-                    + "animation mix normals hack, applying ios depth hack and " 
-                    + "disable smaa. Disable ssao for performance. Disable video " 
+                    + "animation mix normals hack, applying ios depth hack and "
+                    + "disable smaa. Disable ssao for performance. Disable video "
                     + "textures. Initialize WebAudio context with empty sound.");
             if (!cfg_ctx.alpha)
                 cfg_def.background_color[3] = 1.0;
@@ -91,7 +91,7 @@ exports.set_hardware_defaults = function(gl) {
         } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
                 && !check_user_agent("Chrome")) {
             m_print.warn("OS X / Safari detected, force to wait complete loading. " +
-                    "Applying playback rate hack for video textures. " + 
+                    "Applying playback rate hack for video textures. " +
                     "Applying canvas alpha hack.");
             cfg_def.safari_canvas_alpha_hack = true;
             cfg_sfx.audio_loading_hack = true;
@@ -156,6 +156,11 @@ exports.set_hardware_defaults = function(gl) {
         cfg_phy.use_workers = false;
         depth_tex_available = false;
     }
+
+    if (check_user_agent("Firefox") && cfg_def.stereo == "HMD") {
+        m_print.warn("Firefox detected, using custom distortion correction.");
+        cfg_def.use_browser_distortion_cor = false;
+    }
     // NOTE: check compatibility for particular device
     var rinfo = m_ext.get_renderer_info();
     if (rinfo) {
@@ -179,7 +184,9 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.shadows = false;
         }
         if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T760") > -1) {
-            m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
+            m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO. "
+                    + "Applying clear depth hack.");
+            cfg_def.clear_depth_hack = true;
             cfg_def.precision = "highp";
             cfg_def.ssao = false;
             cfg_def.amd_skinning_hack = true;
@@ -195,6 +202,12 @@ exports.set_hardware_defaults = function(gl) {
                 m_print.warn("Qualcomm Adreno330 detected, set \"highp\" precision.");
                 cfg_def.precision = "highp";
             }
+            if (renderer.indexOf("420") > -1) {
+                m_print.warn("Qualcomm Adreno420 detected, setting max cubemap size to 4096, "
+                        + "setting max texture size to 4096.");
+                cfg_def.max_texture_size = 4096;
+                cfg_def.max_cube_map_size = 4096;
+            }
         }
         if (vendor.indexOf("NVIDIA") > -1 && renderer.indexOf("Tegra 3") > -1) {
             m_print.warn("NVIDIA Tegra 3 detected, force low quality for "
@@ -202,7 +215,7 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.force_low_quality_nodes = true;
         }
         if (check_user_agent("Windows") && check_user_agent("Chrome") && !check_user_agent("Edge") &&
-                (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/) 
+                (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/)
                 || renderer.match(/NVIDIA GeForce( (G|GT|GTS|GTX))? 2../))) {
             m_print.warn("Chrome / Windows / NVIDIA GeForce 8/9/200 series detected, " +
                          "setting max cubemap size to 256, use canvas for resizing.");
@@ -218,11 +231,24 @@ exports.set_hardware_defaults = function(gl) {
             }
 
         if (architecture) {
-            m_print.warn("Architecture " + architecture + " detected. Blending between frames" + 
+            m_print.warn("Architecture " + architecture + " detected. Blending between frames" +
                     " and shadows on blend objects will be disabled. Applying clear depth hack.");
-            cfg_def.arch_mesa_clear_depth_hack = true;
+            cfg_def.clear_depth_hack = true;
             cfg_def.amd_skinning_hack = true;
             cfg_def.disable_blend_shadows_hack = true;
+        }
+
+        if (check_user_agent("Linux") && vendor.indexOf("nouveau") > -1) {
+            m_print.warn("Nouveau driver detected. Applying clear depth hack");
+            cfg_def.clear_depth_hack = true;
+        }
+
+        if (check_user_agent("Windows") && check_user_agent("Chrome") 
+                && (renderer.match(/GeForce (GT|GTX) 5.(0|5)/) 
+                || renderer.match(/GeForce (GT|GTX) 6.(0|5)/))) {
+            m_print.warn("Windows / Chrome / NVIDIA GeForce 500/600 series detected, " 
+                    + "applying clear depth hack");
+            cfg_def.clear_depth_hack = true;
         }
     }
 
@@ -263,7 +289,7 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
-        m_print.warn("Not enough fragment uniforms, force low quality for " 
+        m_print.warn("Not enough fragment uniforms, force low quality for "
                     + "B4W_LEVELS_OF_QUALITY nodes.");
         cfg_def.force_low_quality_nodes = true;
     }

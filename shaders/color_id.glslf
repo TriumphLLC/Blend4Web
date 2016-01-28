@@ -157,12 +157,10 @@ varying float v_view_depth;
 
 // NOTE: impossible case, needed for shader validator
 # if SHADOW_USAGE == SHADOW_MASK_GENERATION
-uniform float u_perspective_cast_far_bound;
 varying vec4 v_shadow_coord0;
 varying vec4 v_shadow_coord1;
 varying vec4 v_shadow_coord2;
 varying vec4 v_shadow_coord3;
-uniform float u_perspective_cast_far_bound;
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform sampler2D u_shadow_map0;

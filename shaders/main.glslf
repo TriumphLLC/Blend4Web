@@ -108,9 +108,6 @@ uniform samplerCube u_mirrormap;
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
 uniform sampler2D u_shadow_mask;
 #elif SHADOW_USAGE == SHADOW_MAPPING_BLEND
-# if PERSPECTIVE_SHADOW_CAST
-uniform float u_perspective_cast_far_bound;
-# endif
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform PRECISION sampler2D u_shadow_map0;

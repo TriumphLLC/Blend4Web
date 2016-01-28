@@ -299,6 +299,7 @@ exports.zero_bounding_sphere = function() {
     };
 }
 
+exports.zero_bounding_ellipsoid = zero_bounding_ellipsoid;
 function zero_bounding_ellipsoid() {
     return {
         axis_x: new Float32Array(3),

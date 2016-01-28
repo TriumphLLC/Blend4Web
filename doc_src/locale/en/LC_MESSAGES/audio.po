@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../audio.rst:5
-msgid "Звуковая подсистема"
-msgstr "Audio System"
+msgid "Звук"
+msgstr "Audio"
 
 #: ../audio.rst:7
 msgid ""
@@ -40,8 +40,8 @@ msgid ""
 "Движком поддерживаются все стандартные для Blender параметры звука и "
 "некоторые специфические для движка опции."
 msgstr ""
-"The engine supports all the standard Blender sound parameters and "
-"some engine-specific settings."
+"The engine supports all the standard Blender sound parameters and some "
+"engine-specific settings."
 
 #: ../audio.rst:22
 msgid "*Speaker behavior*:"

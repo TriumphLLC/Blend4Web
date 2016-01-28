@@ -241,29 +241,22 @@ exports.check_slink_tex_conn = function(slink) {
 }
 
 function process_subscene_links(graph) {
+    // disable texture reuse for some scenes
+    var FORCE_UNIQUE_TEXTURE_SUBS = ["MOTION_BLUR", "SMAA_RESOLVE",
+            "SMAA_NEIGHBORHOOD_BLENDING", "MAIN_PLANE_REFLECT", "MAIN_QUBE_REFLECT"];
 
     var graph_sorted = m_graph.topsort(graph);
-    var tex_storage_all = [];
+    var tex_storage = [];
 
     m_graph.traverse(graph_sorted, function(id, attr) {
         var subs = attr;
 
-        // disable texture reuse for some scenes
-        switch (subs.type) {
-        case "MOTION_BLUR":
-        case "SMAA_RESOLVE":
-        case "SMAA_NEIGHBORHOOD_BLENDING":
-        case "MAIN_PLANE_REFLECT":
-            var tex_storage = [];
-            break;
-        default:
-            var tex_storage = tex_storage_all;
-            break;
-        }
-
         // assign new (or unused) internal textures
         for (var i = 0; i < subs.slinks_internal.length; i++) {
             var slink = subs.slinks_internal[i];
+
+            if (FORCE_UNIQUE_TEXTURE_SUBS.indexOf(subs.type) > -1)
+                slink.unique_texture = true;
 
             var tex = tex_aquire(tex_storage, slink,
                     calc_slink_id(slink));
@@ -278,22 +271,13 @@ function process_subscene_links(graph) {
             tex_dec_ref(tex_storage, tex);
         }
 
-        // NOTE: special case for internal textures, which may be used as external
-        switch (subs.type) {
-        case "MOTION_BLUR":
-        case "SMAA_RESOLVE":
-        case "SMAA_NEIGHBORHOOD_BLENDING":
-        case "MAIN_PLANE_REFLECT":
-            var tex_storage = [];
-            break;
-        default:
-            break;
-        }
-
         // connect new (or unused) external textures
         m_graph.traverse_outputs(graph_sorted, id, function(id_out, attr_out,
                 attr_edge) {
             var slink = attr_edge;
+
+            if (FORCE_UNIQUE_TEXTURE_SUBS.indexOf(subs.type) > -1)
+                slink.unique_texture = true;
 
             if (slink.texture)
                 return;
@@ -387,6 +371,14 @@ function tex_dec_ref(storage, tex) {
 }
 
 function tex_aquire(storage, slink, slink_id) {
+    if (slink.parent_slink) {
+        tex_inc_ref(storage, slink.parent_slink.texture);
+        return slink.parent_slink.texture;
+    }
+
+    // a unique texture isn't presented in storage
+    if (slink.unique_texture)
+        return tex_create_for_slink(slink);
 
     var storage_item_free = null;
 
@@ -445,6 +437,7 @@ function tex_create_for_slink(slink) {
         var tex = m_tex.create_cubemap_texture("CUBEMAP", size_x);
         return tex;
     case "SCREEN":
+    case "NONE":
         return null;
     default:
         throw "Wrong slink param: " + slink.from;
@@ -581,8 +574,8 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     var rtt = Boolean(render_to_textures.length);
     var msaa = cfg_def.msaa_samples > 1;
 
-    var slink_color_o = create_slink("COLOR", "COLOR", 1, 1, true);
-    var slink_depth_o = create_slink("DEPTH", "DEPTH", 1, 1, true);
+    var slink_color_o = create_slink("COLOR", "COLOR", 1, 1, 1, true);
+    var slink_depth_o = create_slink("DEPTH", "DEPTH", 1, 1, 1, true);
     if (msaa) {
         var slink_color_resolve_o = clone_slink(slink_depth_o);
         var slink_depth_resolve_o = clone_slink(slink_depth_o);
@@ -621,11 +614,11 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                 var index = j > 0 ? j : i;
 
                 shadow_links.push(create_slink("DEPTH", "u_shadow_map" + index,
-                            tex_size, 1, false));
+                            tex_size, 1, 1, false));
 
                 if (m_debug.check_depth_only_issue() || cfg_def.firefox_shadows_slink_hack) {
                     subs_shadow.slinks_internal.push(create_slink("COLOR",
-                            "COLOR", tex_size, 1, false));
+                            "COLOR", tex_size, 1, 1, false));
                 }
             }
         }
@@ -652,11 +645,11 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             m_graph.append_node_attr(graph, subs_main);
 
             var slink_refl_c = create_slink("CUBEMAP", "u_cube_reflection",
-                                            sc_render.cubemap_refl_size, 1, false);
+                                            sc_render.cubemap_refl_size, 1, 1, false);
             slink_refl_c.min_filter = m_tex.TF_LINEAR;
             slink_refl_c.mag_filter = m_tex.TF_LINEAR;
             var slink_refl_d = create_slink("DEPTH", "DEPTH",
-                                            sc_render.cubemap_refl_size, 1, false);
+                                            sc_render.cubemap_refl_size, 1, 1, false);
 
             cube_reflect_links.push(slink_refl_c);
             subs_main.slinks_internal.push(slink_refl_d);
@@ -670,9 +663,6 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     if (refl_params && refl_params.refl_plane_objs.length > 0 && !rtt) {
         for (var j = 0; j < refl_params.refl_plane_objs.length; j++) {
             var cam = cam_copy(main_cam);
-            var refl_plane_obj = refl_params.refl_plane_objs[j];
-            var trans = m_tsr.get_trans_view(refl_plane_obj.render.world_tsr);
-            var quat  = m_tsr.get_quat_view(refl_plane_obj.render.world_tsr);
 
             cam.reflection_plane = new Float32Array(4);
             cam_render.cameras.push(cam);
@@ -683,17 +673,19 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             m_graph.append_node_attr(graph, subs_main);
 
             var slink_refl_c = create_slink("COLOR", "u_plane_reflection", 1,
+                                            sc_render.plane_refl_size,
                                             sc_render.plane_refl_size, true);
             slink_refl_c.min_filter = m_tex.TF_LINEAR;
             slink_refl_c.mag_filter = m_tex.TF_LINEAR;
             var slink_refl_d = create_slink("DEPTH", "DEPTH", 1,
+                                            sc_render.plane_refl_size,
                                             sc_render.plane_refl_size, true);
 
             reflect_links.push(slink_refl_c);
             subs_main.slinks_internal.push(slink_refl_d);
 
             reflect_subscenes.push(subs_main);
-            refl_params.plane_refl_subs.push(subs_main);
+            refl_params.plane_refl_subs.push([subs_main]);
         }
     }
 
@@ -710,14 +702,14 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         subs_grass_map.camera.height = tex_size;
 
         var slink_grass_map_d = create_slink("DEPTH", "u_grass_map_depth",
-                tex_size, 1, false);
+                tex_size, 1, 1, false);
         slink_grass_map_d.min_filter = m_tex.TF_LINEAR;
         slink_grass_map_d.mag_filter = m_tex.TF_LINEAR;
 
 
         // NOTE: need to be optional?
         var slink_grass_map_c = create_slink("COLOR", "u_grass_map_color",
-                tex_size, 1, false);
+                tex_size, 1, 1, false);
         slink_grass_map_c.min_filter = m_tex.TF_LINEAR;
         slink_grass_map_c.mag_filter = m_tex.TF_LINEAR;
     } else {
@@ -744,8 +736,8 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             m_graph.append_edge_attr(graph, subs_shadow, subs_depth, slink_shadow);
         }
 
-        var slink_depth_c = create_slink("COLOR", "u_color", 1, 1, true);
-        var slink_depth_d = create_slink("DEPTH", "u_depth", 1, 1, true);
+        var slink_depth_c = create_slink("COLOR", "u_color", 1, 1, 1, true);
+        var slink_depth_d = create_slink("DEPTH", "u_depth", 1, 1, 1, true);
 
         if (ssao) {
             // ssao
@@ -756,7 +748,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             var subs_ssao = create_subs_ssao(cam_ssao, wfs_params, ssao_params);
             m_graph.append_node_attr(graph, subs_ssao);
 
-            var slink_ssao = create_slink("COLOR", "u_ssao_mask", 1, 1, true);
+            var slink_ssao = create_slink("COLOR", "u_ssao_mask", 1, 1, 1, true);
 
             m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_c);
             m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_d);
@@ -768,14 +760,14 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             var subs_ssao_blur = create_subs_ssao_blur(cam_ssao_blur, ssao_params);
             m_graph.append_node_attr(graph, subs_ssao_blur);
 
-            var slink_ssao_blur = create_slink("COLOR", "u_shadow_mask", 1, 1, true);
+            var slink_ssao_blur = create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true);
 
             m_graph.append_edge_attr(graph, subs_ssao, subs_ssao_blur, slink_ssao);
             m_graph.append_edge_attr(graph, subs_depth, subs_ssao_blur, slink_depth_d);
         }
 
         if (msaa)
-            subs_depth.slinks_internal.push(create_slink("DEPTH", "DEPTH", 1, 1, true));
+            subs_depth.slinks_internal.push(create_slink("DEPTH", "DEPTH", 1, 1, 1, true));
 
         if (subs_grass_map) {
             m_graph.append_edge_attr(graph, subs_grass_map, subs_depth,
@@ -787,7 +779,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_depth = null;
 
     // main opaque
-    var opaque_clear_depth = msaa || !subs_depth || cfg_def.arch_mesa_clear_depth_hack;
+    var opaque_clear_depth = msaa || !subs_depth || cfg_def.clear_depth_hack;
     var subs_main_opaque = create_subs_main("OPAQUE", main_cam, opaque_clear_depth,
             water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
 
@@ -799,10 +791,10 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
         curr_level.push(subs_res_opaque);
 
-        var slink_resolve_in_c = create_slink("COLOR", "RESOLVE", 1, 1, true);
+        var slink_resolve_in_c = create_slink("COLOR", "RESOLVE", 1, 1, 1, true);
         slink_resolve_in_c.multisample = true;
         slink_resolve_in_c.use_renderbuffer = true;
-        var slink_resolve_in_d = create_slink("DEPTH", "RESOLVE", 1, 1, true);
+        var slink_resolve_in_d = create_slink("DEPTH", "RESOLVE", 1, 1, 1, true);
         slink_resolve_in_d.multisample = true;
         slink_resolve_in_d.use_renderbuffer = true;
         m_graph.append_edge_attr(graph, subs_main_opaque, subs_res_opaque, slink_resolve_in_c);
@@ -813,13 +805,12 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                 m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main_opaque, slink_ssao_blur);
             else if (shadow_params)
                 m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque,
-                    create_slink("COLOR", "u_shadow_mask", 1, 1, true));
+                    create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true));
             else
                 m_util.panic("Internal error");
         }
     } else {
         curr_level.push(subs_main_opaque);
-
         if (subs_depth) {
             m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque, slink_depth_o);
 
@@ -827,7 +818,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                 m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main_opaque, slink_ssao_blur);
             else if (shadow_params)
                 m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque,
-                    create_slink("COLOR", "u_shadow_mask", 1, 1, true));
+                    create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true));
             else
                 m_util.panic("Internal error");
         }
@@ -873,23 +864,23 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             cam_render.cameras.push(cam);
             var subs_color_picking_xray = create_subs_color_picking(cam, true, num_lights);
             m_graph.append_node_attr(graph, subs_color_picking_xray);
-            var cp_slink_c = create_slink("COLOR", "COLOR", 1, 1, true);
+            var cp_slink_c = create_slink("COLOR", "COLOR", 1, 1, 1, true);
             m_graph.append_edge_attr(graph, subs_color_picking,
                                      subs_color_picking_xray, cp_slink_c);
-            var cp_slink_d = create_slink("DEPTH", "DEPTH", 1, 1, true);
+            var cp_slink_d = create_slink("DEPTH", "DEPTH", 1, 1, 1, true);
             m_graph.append_edge_attr(graph, subs_color_picking,
                                      subs_color_picking_xray, cp_slink_d);
         }
     } else
         var subs_color_picking = null;
-    
+
     // refraction subscene
     if (mat_params.refractions && !rtt) {
         if (!msaa) {
             var subs_refr = create_subs_copy();
             m_graph.append_node_attr(graph, subs_refr);
 
-            var slink_refr_in = create_slink("COLOR", "COPY", 1, 1, true);
+            var slink_refr_in = create_slink("COLOR", "COPY", 1, 1, 1, true);
             m_graph.append_edge_attr(graph, prev_level[0], subs_refr, slink_refr_in);
         } else
             var subs_refr = subs_res_opaque;
@@ -905,11 +896,11 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_depth_pack = create_subs_depth_pack(cam_depth_pack);
         m_graph.append_node_attr(graph, subs_depth_pack);
 
-        var slink_depth_pack_in = create_slink("DEPTH", "u_depth", 1, 1, true);
+        var slink_depth_pack_in = create_slink("DEPTH", "u_depth", 1, 1, 1, true);
         m_graph.append_edge_attr(graph, msaa ? subs_res_opaque : subs_main_opaque,
                 subs_depth_pack, slink_depth_pack_in);
 
-        var slink_depth_pack_out = create_slink("COLOR", "u_scene_depth", 1, 1, true);
+        var slink_depth_pack_out = create_slink("COLOR", "u_scene_depth", 1, 1, 1, true);
         // disable filtering for packed depth
         slink_depth_pack_out.min_filter = m_tex.TF_NEAREST;
         slink_depth_pack_out.mag_filter = m_tex.TF_NEAREST;
@@ -926,25 +917,25 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
         m_graph.append_node_attr(graph, subs_main);
 
-        // NOTE: it's possible to do better
-        if (msaa && prev_level[0].type == "RESOLVE")
-            var subs_prev = subs_main_opaque;
-        else
-            var subs_prev = prev_level[0];
-
-        m_graph.append_edge_attr(graph, subs_prev, subs_main, slink_color_o);
-
         if (type == "XRAY") {
-            var slink_refl_d = create_slink("DEPTH", "DEPTH", 1, 1, true);
-            if (msaa) {
-                slink_refl_d.multisample = true;
-                slink_refl_d.use_renderbuffer = true;
-            }
-            subs_main.slinks_internal.push(slink_refl_d);
-        } else
+            // NOTE: disable MSAA
+            var slink_color = create_slink("COLOR", "COLOR", 1, 1, 1, true);
+            m_graph.append_edge_attr(graph, prev_level[0], subs_main, slink_color);
+
+            var slink_depth = create_slink("DEPTH", "DEPTH", 1, 1, 1, true);
+            subs_main.slinks_internal.push(slink_depth);
+        } else {
+            // NOTE: it's possible to do better
+            if (msaa && prev_level[0].type == "RESOLVE")
+                var subs_prev = subs_main_opaque;
+            else
+                var subs_prev = prev_level[0];
+
             m_graph.append_edge_attr(graph, subs_prev, subs_main,
                                      slink_depth_o);
-    
+            m_graph.append_edge_attr(graph, subs_prev, subs_main, slink_color_o);
+        }
+
         if (subs_grass_map) {
             m_graph.append_edge_attr(graph, subs_grass_map, subs_main,
                     slink_grass_map_d);
@@ -977,7 +968,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         }
 
         if (subs_refr) {
-            var slink_refr = create_slink("COLOR", "u_refractmap", 1, 1, true);
+            var slink_refr = create_slink("COLOR", "u_refractmap", 1, 1, 1, true);
             m_graph.append_edge_attr(graph, subs_refr, subs_main, slink_refr);
         }
 
@@ -1006,7 +997,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var blur_x = create_subs_postprocessing("X_GLOW_BLUR");
         blur_x.subtype = "GLOW_MASK_SMALL";
         set_texel_size_mult(blur_x, sc_render.glow_params.small_glow_mask_width);
-        var slink_blur_x = create_slink("COLOR", "u_color", 1, 1, true);
+        var slink_blur_x = create_slink("COLOR", "u_color", 1, 1, 1, true);
         slink_blur_x.min_filter = m_tex.TF_LINEAR;
         slink_blur_x.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_node_attr(graph, blur_x);
@@ -1015,7 +1006,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var blur_y = create_subs_postprocessing("Y_GLOW_BLUR");
         blur_y.subtype = "GLOW_MASK_SMALL";
         set_texel_size_mult(blur_y, sc_render.glow_params.small_glow_mask_width);
-        var slink_blur_y = create_slink("COLOR", "u_color", 1, 0.5, true);
+        var slink_blur_y = create_slink("COLOR", "u_color", 1, 0.5, 0.5, true);
         slink_blur_y.min_filter = m_tex.TF_LINEAR;
         slink_blur_y.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_node_attr(graph, blur_y);
@@ -1024,7 +1015,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var blur_x2 = create_subs_postprocessing("X_GLOW_BLUR");
         blur_x2.subtype = "GLOW_MASK_LARGE";
         set_texel_size_mult(blur_x2, sc_render.glow_params.large_glow_mask_width);
-        var slink_blur_x2 = create_slink("COLOR", "u_color", 1, 0.5, true);
+        var slink_blur_x2 = create_slink("COLOR", "u_color", 1, 0.5, 0.5, true);
         slink_blur_x2.min_filter = m_tex.TF_LINEAR;
         slink_blur_x2.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_node_attr(graph, blur_x2);
@@ -1033,7 +1024,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var blur_y2 = create_subs_postprocessing("Y_GLOW_BLUR");
         blur_y2.subtype = "GLOW_MASK_LARGE";
         set_texel_size_mult(blur_y2, sc_render.glow_params.large_glow_mask_width);
-        var slink_blur_y2 = create_slink("COLOR", "u_color", 1, 0.25, true);
+        var slink_blur_y2 = create_slink("COLOR", "u_color", 1, 0.25, 0.25, true);
         slink_blur_y2.min_filter = m_tex.TF_LINEAR;
         slink_blur_y2.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_node_attr(graph, blur_y2);
@@ -1045,7 +1036,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
         m_graph.append_node_attr(graph, subs_glow_combine);
 
-        var slink_c_src = create_slink("COLOR", "u_src_color", 1, 1, true);
+        var slink_c_src = create_slink("COLOR", "u_src_color", 1, 1, 1, true);
 
         if (sc_render.glow_over_blend) {
             if (msaa) {
@@ -1070,12 +1061,12 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_depth_in = sc_render.glow_over_blend ? subs_main_blend : subs_main_opaque;
         m_graph.append_edge_attr(graph, subs_depth_in, subs_glow_combine, slink_depth_o);
 
-        var slink_c_y = create_slink("COLOR", "u_glow_mask_small", 1, 0.5, true);
+        var slink_c_y = create_slink("COLOR", "u_glow_mask_small", 1, 0.5, 0.5, true);
         slink_c_y.min_filter = m_tex.TF_LINEAR;
         slink_c_y.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_edge_attr(graph, blur_y, subs_glow_combine, slink_c_y);
 
-        var slink_c_y2 = create_slink("COLOR", "u_glow_mask_large", 1, 0.25, true);
+        var slink_c_y2 = create_slink("COLOR", "u_glow_mask_large", 1, 0.25, 0.25, true);
         slink_c_y2.min_filter = m_tex.TF_LINEAR;
         slink_c_y2.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_edge_attr(graph, blur_y2, subs_glow_combine, slink_c_y2);
@@ -1087,15 +1078,6 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     if (!sc_render.glow_over_blend) {
         var subs_main_blend = create_custom_sub_main("BLEND");
         curr_level.push(subs_main_blend);
-
-        prev_level = curr_level;
-        curr_level = [];
-    }
-
-    // objects which are rendered above all
-    if (sc_render.xray) {
-        var subs_main_xray = create_custom_sub_main("XRAY");
-        curr_level.push(subs_main_xray);
 
         prev_level = curr_level;
         curr_level = [];
@@ -1162,11 +1144,11 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_prev = prev_level[0];
         var water = water_params ? 1 : 0;
 
-        var slink_gr_d = create_slink("DEPTH", "u_input", 1, 1, true);
+        var slink_gr_d = create_slink("DEPTH", "u_input", 1, 1, 1, true);
         slink_gr_d.min_filter = m_tex.TF_LINEAR;
         slink_gr_d.mag_filter = m_tex.TF_LINEAR;
 
-        var slink_gr_c = create_slink("COLOR", "u_input", 1, 0.25, true);
+        var slink_gr_c = create_slink("COLOR", "u_input", 1, 0.25, 0.25, true);
         slink_gr_c.min_filter = m_tex.TF_LINEAR;
         slink_gr_c.mag_filter = m_tex.TF_LINEAR;
 
@@ -1206,10 +1188,10 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         curr_level.push(subs_god_rays_comb);
         m_graph.append_node_attr(graph, subs_god_rays_comb);
         m_graph.append_edge_attr(graph, subs_prev, subs_god_rays_comb,
-                create_slink("COLOR", "u_main", 1, 1, true));
+                create_slink("COLOR", "u_main", 1, 1, 1, true));
         m_graph.append_edge_attr(graph, subs_gr_blur2, subs_god_rays_comb,
-                create_slink("COLOR", "u_god_rays", 1, 1, true));
- 
+                create_slink("COLOR", "u_god_rays", 1, 1, 1, true));
+
         prev_level = curr_level;
         curr_level = [];
     }
@@ -1221,7 +1203,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_luminance = create_subs_luminance();
         m_graph.append_node_attr(graph, subs_luminance);
         m_graph.append_edge_attr(graph, subs_prev, subs_luminance,
-                create_slink("COLOR", "u_input", 1, 1, true));
+                create_slink("COLOR", "u_input", 1, 1, 1, true));
 
         var subs_av_luminance = create_subs_av_luminance();
         m_graph.append_node_attr(graph, subs_av_luminance);
@@ -1230,11 +1212,11 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         subs_av_luminance.camera.width = cfg_def.edge_min_tex_size_hack? 2: 1;
         subs_av_luminance.camera.height = cfg_def.edge_min_tex_size_hack? 2: 1;
 
-        var slink_luminance_av = create_slink("COLOR", "u_input", 1, 0.25, true);
+        var slink_luminance_av = create_slink("COLOR", "u_input", 1, 0.25, 0.25, true);
         slink_luminance_av.min_filter = m_tex.TF_LINEAR;
         slink_luminance_av.mag_filter = m_tex.TF_LINEAR;
 
-        var slink_luminance_tr = create_slink("COLOR", "u_luminance", 1, 0.25, true);
+        var slink_luminance_tr = create_slink("COLOR", "u_luminance", 1, 0.25, 0.25, true);
         slink_luminance_tr.min_filter = m_tex.TF_LINEAR;
         slink_luminance_tr.mag_filter = m_tex.TF_LINEAR;
 
@@ -1251,13 +1233,13 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
         m_graph.append_node_attr(graph, subs_lum_trunced);
         m_graph.append_edge_attr(graph, subs_prev, subs_lum_trunced,
-                create_slink("COLOR", "u_main", 1, 1, true));
+                create_slink("COLOR", "u_main", 1, 1, 1, true));
         m_graph.append_edge_attr(graph, subs_luminance, subs_lum_trunced,
                 slink_luminance_tr);
         m_graph.append_edge_attr(graph, subs_av_luminance, subs_lum_trunced,
-                create_slink("COLOR", "u_average_lum", 1, 1, false));
+                create_slink("COLOR", "u_average_lum", 1, 1, 1, false));
 
-        var slink_blur_in = create_slink("COLOR", "u_color", 1, 0.25, true);
+        var slink_blur_in = create_slink("COLOR", "u_color", 1, 0.25, 0.25, true);
         slink_blur_in.min_filter = m_tex.TF_LINEAR;
         slink_blur_in.mag_filter = m_tex.TF_LINEAR;
 
@@ -1273,34 +1255,14 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_bloom_combine = create_subs_bloom_combine(bloom_blur);
         m_graph.append_node_attr(graph, subs_bloom_combine);
 
-        var slink_bloom = create_slink("COLOR", "u_bloom", 1, 0.25, true);
+        var slink_bloom = create_slink("COLOR", "u_bloom", 1, 0.25, 0.25, true);
         slink_bloom.min_filter = m_tex.TF_LINEAR;
         slink_bloom.mag_filter = m_tex.TF_LINEAR;
         m_graph.append_edge_attr(graph, blur_y, subs_bloom_combine, slink_bloom);
         m_graph.append_edge_attr(graph, subs_prev, subs_bloom_combine,
-                create_slink("COLOR", "u_main", 1, 1, true));
+                create_slink("COLOR", "u_main", 1, 1, 1, true));
 
         curr_level.push(subs_bloom_combine);
-        prev_level = curr_level;
-        curr_level = [];
-    }
-
-    // motion blur stuff
-    if (motion_blur && !rtt) {
-
-        var subs_to_blur = prev_level[0];
-        var subs_mb = create_subs_motion_blur(mb_params.mb_decay_threshold,
-                mb_params.mb_factor);
-        curr_level.push(subs_mb);
-
-        m_graph.append_node_attr(graph, subs_mb);
-
-        var slink_mb_in = create_slink("COLOR", "u_mb_tex_curr", 1, 1, true);
-        m_graph.append_edge_attr(graph, subs_to_blur, subs_mb, slink_mb_in);
-
-        var slink_mb_accum = create_slink("COLOR", "u_mb_tex_accum", 1, 1, true);
-        subs_mb.slinks_internal.push(slink_mb_accum);
-
         prev_level = curr_level;
         curr_level = [];
     }
@@ -1311,7 +1273,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var cam_dof = cam_copy(main_cam);
         cam_render.cameras.push(cam_dof);
 
-        var slink_blur_in = create_slink("COLOR", "u_color", 1, 1, true);
+        var slink_blur_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
         slink_blur_in.min_filter = m_tex.TF_LINEAR;
         slink_blur_in.mag_filter = m_tex.TF_LINEAR;
 
@@ -1330,16 +1292,45 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         cam_dof.dof_front = cam_render.dof_front;
         cam_dof.dof_rear = cam_render.dof_rear;
         cam_dof.dof_power = cam_render.dof_power;
-        cam_dof.dof_on = 1;
+        cam_dof.dof_on = true;
         curr_level.push(subs_dof);
 
         m_graph.append_node_attr(graph, subs_dof);
         m_graph.append_edge_attr(graph, subs_prev, subs_dof,
-                create_slink("COLOR", "u_sharp", 1, 1, true));
+                create_slink("COLOR", "u_sharp", 1, 1, 1, true));
         m_graph.append_edge_attr(graph, pp_y, subs_dof,
-                create_slink("COLOR", "u_blurred", 1, 1, true));
+                create_slink("COLOR", "u_blurred", 1, 1, 1, true));
         m_graph.append_edge_attr(graph, subs_dof_in, subs_dof,
-                create_slink("DEPTH", "u_depth", 1, 1, true));
+                create_slink("DEPTH", "u_depth", 1, 1, 1, true));
+
+        prev_level = curr_level;
+        curr_level = [];
+    }
+
+    // objects which are rendered above all
+    if (sc_render.xray) {
+        var subs_main_xray = create_custom_sub_main("XRAY");
+        curr_level.push(subs_main_xray);
+
+        prev_level = curr_level;
+        curr_level = [];
+    }
+
+    // motion blur stuff
+    if (motion_blur && !rtt) {
+
+        var subs_to_blur = prev_level[0];
+        var subs_mb = create_subs_motion_blur(mb_params.mb_decay_threshold,
+                mb_params.mb_factor);
+        curr_level.push(subs_mb);
+
+        m_graph.append_node_attr(graph, subs_mb);
+
+        var slink_mb_in = create_slink("COLOR", "u_mb_tex_curr", 1, 1, 1, true);
+        m_graph.append_edge_attr(graph, subs_to_blur, subs_mb, slink_mb_in);
+
+        var slink_mb_accum = create_slink("COLOR", "u_mb_tex_accum", 1, 1, 1, true);
+        subs_mb.slinks_internal.push(slink_mb_accum);
 
         prev_level = curr_level;
         curr_level = [];
@@ -1358,15 +1349,15 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var pp_x_ext = create_subs_postprocessing("X_EXTEND");
 
         // almost the same
-        var slink_mask_pp = create_slink("COLOR", "u_color", 1, 1, true);
-        var slink_mask_gl = create_slink("COLOR", "u_outline_mask", 1, 1, true);
+        var slink_mask_pp = create_slink("COLOR", "u_color", 1, 1, 1, true);
+        var slink_mask_gl = create_slink("COLOR", "u_outline_mask", 1, 1, 1, true);
 
         pp_x_ext.is_for_outline = true;
         m_graph.append_node_attr(graph, pp_x_ext);
         m_graph.append_edge_attr(graph, subs_outline_mask, pp_x_ext,
                 slink_mask_pp);
 
-        var slink_ext = create_slink("COLOR", "u_color", 1, 0.5, true);
+        var slink_ext = create_slink("COLOR", "u_color", 1, 0.5, 0.5, true);
         slink_ext.min_filter = m_tex.TF_LINEAR;
         slink_ext.mag_filter = m_tex.TF_LINEAR;
 
@@ -1381,10 +1372,10 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         m_graph.append_edge_attr(graph, pp_y_ext, pp_x, slink_ext);
 
         // almost the same
-        var slink_blur_blur = create_slink("COLOR", "u_color", 1, 0.25, true);
+        var slink_blur_blur = create_slink("COLOR", "u_color", 1, 0.25, 0.25, true);
         slink_blur_blur.min_filter = m_tex.TF_LINEAR;
         slink_blur_blur.mag_filter = m_tex.TF_LINEAR;
-        var slink_blur_outline = create_slink("COLOR", "u_outline_mask_blurred", 1, 0.25, true);
+        var slink_blur_outline = create_slink("COLOR", "u_outline_mask_blurred", 1, 0.25, 0.25, true);
         slink_blur_outline.min_filter = m_tex.TF_LINEAR;
         slink_blur_outline.mag_filter = m_tex.TF_LINEAR;
 
@@ -1397,7 +1388,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         m_graph.append_node_attr(graph, subs_outline);
 
         m_graph.append_edge_attr(graph, subs_prev, subs_outline,
-                create_slink("COLOR", "u_outline_src", 1, 1, true));
+                create_slink("COLOR", "u_outline_src", 1, 1, 1, true));
 
         m_graph.append_edge_attr(graph, subs_outline_mask, subs_outline,
                 slink_mask_gl);
@@ -1424,10 +1415,10 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
         m_graph.append_node_attr(graph, subs_compositing);
         m_graph.append_edge_attr(graph, subs_prev, subs_compositing,
-                create_slink("COLOR", "u_color", 1, 1, true));
+                create_slink("COLOR", "u_color", 1, 1, 1, true));
 
         curr_level.push(subs_compositing);
-        
+
         prev_level = curr_level;
         curr_level = [];
     }
@@ -1439,7 +1430,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         if (cfg_def.smaa) {
 
             var slink_smaa_in = create_slink("COLOR", "u_color",
-                                             1, 1, true);
+                                             1, 1, 1, true);
             slink_smaa_in.min_filter = m_tex.TF_LINEAR;
             slink_smaa_in.mag_filter = m_tex.TF_LINEAR;
 
@@ -1454,7 +1445,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
             //    var subs_velocity = create_subs_veloctity(cam_velocity);
             //    var slink_velocity_in = create_slink("DEPTH", "u_depth",
-            //                                     1, 1, true);
+            //                                     1, 1, 1, true);
             //    slink_velocity_in.min_filter = m_tex.TF_NEAREST;
             //    slink_velocity_in.mag_filter = m_tex.TF_NEAREST;
 
@@ -1463,7 +1454,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             //                             slink_velocity_in);
 
             //    var slink_velocity_smaa = create_slink("COLOR", "u_velocity_tex",
-            //                                     1, 1, true);
+            //                                     1, 1, 1, true);
             //}
 
             // 1-st pass - edge detection
@@ -1480,9 +1471,9 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                                      slink_smaa_in);
 
             var slink_search_tex = create_slink("COLOR", "u_search_tex",
-                                                1, 1, false);
+                                                1, 1, 1, false);
             var slink_area_tex = create_slink("COLOR", "u_area_tex",
-                                                1, 1, false);
+                                                1, 1, 1, false);
 
             slink_search_tex.min_filter = m_tex.TF_LINEAR;
             slink_search_tex.mag_filter = m_tex.TF_LINEAR;
@@ -1499,7 +1490,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                                      subs_smaa_3, slink_smaa_in);
 
             var slink_smaa_blend = create_slink("COLOR", "u_blend",
-                                                1, 1, true);
+                                                1, 1, 1, true);
             slink_smaa_blend.min_filter = m_tex.TF_LINEAR;
             slink_smaa_blend.mag_filter = m_tex.TF_LINEAR;
             m_graph.append_edge_attr(graph, subs_smaa_2,
@@ -1520,7 +1511,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             //                             slink_velocity_smaa);
 
             //    var slink_smaa_in_prev = create_slink("COLOR", "u_color_prev",
-            //                                          1, 1, true);
+            //                                          1, 1, 1, true);
             //    slink_smaa_in_prev.min_filter = m_tex.TF_LINEAR;
             //    slink_smaa_in_prev.mag_filter = m_tex.TF_LINEAR;
 
@@ -1534,7 +1525,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             var subs_aa = create_subs_aa(sc_render);
             m_graph.append_node_attr(graph, subs_aa);
 
-            var slink_aa_in = create_slink("COLOR", "u_color", 1, 1, true);
+            var slink_aa_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
             slink_aa_in.min_filter = m_tex.TF_LINEAR;
             slink_aa_in.mag_filter = m_tex.TF_LINEAR;
             m_graph.append_edge_attr(graph, subs_prev, subs_aa, slink_aa_in);
@@ -1554,7 +1545,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     // NOTE: it's not possible to resolve (blit) directly on screen framebuffer
     // NOTE: may be a Chromium bug
     var prev_id = m_graph.node_by_attr(graph, prev_level[0]);
-    if (prev_level[0].type == "MOTION_BLUR" || 
+    if (prev_level[0].type == "MOTION_BLUR" ||
             prev_level[0].type == "RESOLVE")
         var need_subs_pp_copy = true;
     else {
@@ -1573,7 +1564,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_pp_copy = create_subs_postprocessing("NONE");
         m_graph.append_node_attr(graph, subs_pp_copy);
         m_graph.append_edge_attr(graph, prev_level[0], subs_pp_copy,
-                create_slink("COLOR", "u_color", 1, 1, true));
+                create_slink("COLOR", "u_color", 1, 1, 1, true));
 
         prev_level = curr_level;
         curr_level = [];
@@ -1583,7 +1574,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     //
     // filling up the last level
     //
-    
+
     if (subs_color_picking)
         if (subs_color_picking_xray)
             curr_level.push(subs_color_picking_xray);
@@ -1610,17 +1601,17 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         case "COLOR_PICKING":
         case "COLOR_PICKING_XRAY":
             m_graph.append_edge_attr(graph, subs, subs_sink,
-                    create_slink("COLOR", "NONE", 1, 1, true));
+                    create_slink("COLOR", "NONE", 1, 1, 1, true));
             m_graph.append_edge_attr(graph, subs, subs_sink,
-                    create_slink("DEPTH", "NONE", 1, 1, true));
+                    create_slink("DEPTH", "NONE", 1, 1, 1, true));
             break;
         case "SKY":
             var slink_sky = create_slink("CUBEMAP", "u_sky",
-                    cfg_scs.cubemap_tex_size, 1, false);
+                    cfg_scs.cubemap_tex_size, 1, 1, false);
             m_graph.append_edge_attr(graph, subs, subs_sink, slink_sky);
             break;
         case "ANCHOR_VISIBILITY":
-            var slink_anchor_color = create_slink("COLOR", "NONE", 1, 1, true);
+            var slink_anchor_color = create_slink("COLOR", "NONE", 1, 1, 1, true);
             m_graph.append_edge_attr(graph, subs, subs_sink, slink_anchor_color);
             break;
         default:
@@ -1628,7 +1619,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             if (rtt) {
                 var tex0 = render_to_textures[0]._render;
 
-                var slink_rtt = create_slink("COLOR", "OFFSCREEN", 1, 1, true);
+                var slink_rtt = create_slink("COLOR", "OFFSCREEN", 1, 1, 1, true);
                 slink_rtt.texture = tex0;
 
                 // first one connected directly to SINK
@@ -1640,7 +1631,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                     var subs_scale = create_subs_postprocessing("NONE");
                     m_graph.append_node_attr(graph, subs_scale);
 
-                    var slink_to_rtt = create_slink("COLOR", "SCALE", 1, 1, true);
+                    var slink_to_rtt = create_slink("COLOR", "SCALE", 1, 1, 1, true);
 
                     m_graph.append_edge_attr(graph, curr_level[i], subs_scale,
                             slink_to_rtt);
@@ -1648,24 +1639,26 @@ exports.create_rendering_graph = function(sc_render, cam_render,
                     // copied textures have smaller size
                     var size_mult = tex.source_size / tex0.source_size;
 
-                    var slink_rtt = create_slink("COLOR", "OFFSCREEN", 1, size_mult, true);
+                    var slink_rtt = create_slink("COLOR", "OFFSCREEN", 1,
+                            size_mult, size_mult, true);
                     slink_rtt.texture = tex;
 
                     m_graph.append_edge_attr(graph, subs_scale, subs_sink, slink_rtt);
                 }
             } else
                 m_graph.append_edge_attr(graph, curr_level[i], subs_sink,
-                        create_slink("SCREEN", "NONE", 1, 1, true));
+                        create_slink("SCREEN", "NONE", 1, 1, 1, true));
             break;
         }
     }
-
     // remove unconnected opaque resolve node
     if (subs_res_opaque && !get_outputs(graph, subs_res_opaque).length) {
         m_graph.remove_node(graph,
                 m_graph.node_by_attr(graph, subs_res_opaque));
         m_graph.cleanup_loose_edges(graph);
     }
+
+    enforce_graph_consistency(graph, depth_tex);
 
     if ((sc_render.anaglyph_use || sc_render.hmd_stereo_use) && !rtt)
         make_stereo(graph, sc_render, cam_render);
@@ -1675,8 +1668,6 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         if (subs_from)
             assign_debug_subscene(graph, subs_from);
     }
-
-    enforce_graph_consistency(graph, depth_tex);
 
     process_subscene_links(graph);
     assign_render_targets(graph);
@@ -1730,26 +1721,41 @@ function assign_debug_subscene(graph, subs_to_debug) {
         if (edge_from == node_to_debug) {
             m_graph.append_edge_attr(graph, subs_to_debug, subs_debug_view,
                     create_slink(cfg_dbg.slink_type, "u_color", edge_attr.size,
-                        edge_attr.size_mult_x, edge_attr.update_dim));
+                        edge_attr.size_mult_x, edge_attr.size_mult_y,
+                        edge_attr.update_dim));
             return true;
         }
     });
 
     m_graph.append_edge(graph, node_debug_view, node_sink,
-            create_slink("SCREEN", "NONE", 0.5, 0.5, true));
+            create_slink("SCREEN", "NONE", 0.5, 0.5, 0.5, true));
 }
 
 function make_stereo(graph, sc_render, cam_render) {
 
-    var LEFT_ONLY_SUBS_TYPES = ["GRASS_MAP",
-            "MAIN_CUBE_REFLECT", "MAIN_PLANE_REFLECT", "SHADOW_CAST"];
+    var LEFT_ONLY_SUBS_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_CUBE_REFLECT"];
 
     var cams = cam_render.cameras;
+    var antialiasing = sc_render.antialiasing;
+    var hmd_stereo_use = sc_render.hmd_stereo_use;
 
-    var nid_sink = m_graph.get_sink_nodes(graph)[0];
-
+    var nid_sink;
     var nid_pre_sink;
     var subs_pre_sink;
+    if (hmd_stereo_use && antialiasing) {
+        m_graph.traverse(graph, function(id, subs) {
+            if (subs.type == "ANTIALIASING") {
+                var compos_subs = find_upper_subs(graph, subs, "COMPOSITING");
+                if (compos_subs)
+                    nid_sink = m_graph.get_node_attr(graph, compos_subs);
+                else
+                    nid_sink = id;
+            } else if (subs.type == "COMPOSITING")
+                nid_sink = id;
+        });
+    } else {
+        nid_sink = m_graph.get_sink_nodes(graph)[0];
+    }
 
     m_graph.traverse_inputs(graph, nid_sink, function(nid_in, subs_in, slink) {
         if (has_upper_subs(graph, subs_in, "MAIN_OPAQUE")){
@@ -1765,6 +1771,7 @@ function make_stereo(graph, sc_render, cam_render) {
     // [[original left only subscene, new right subscene, original slink]...]
     var left_only_edges = [];
     var removed_subscenes = [];
+    var source_nodes_right = [];
 
     var subs_clone_cb = function(subs) {
         var subs_new;
@@ -1775,9 +1782,22 @@ function make_stereo(graph, sc_render, cam_render) {
             subs_new = subs;
         } else {
             subs_new = clone_subs(subs);
-            
+            if (subs_new.type == "MAIN_PLANE_REFLECT") {
+                var plane_refl_subs = sc_render.reflection_params.plane_refl_subs;
+
+                // NOTE: x[0] --- left eye
+                for (var i = 0; i < plane_refl_subs.length; i++) {
+                    if (plane_refl_subs[i][0] == subs) {
+                        sc_render.reflection_params.plane_refl_subs[i] = [subs, subs_new];
+                        subs_new.camera.reflection_plane = subs.camera.reflection_plane;
+                        cam_render.cameras.push(subs_new.camera);
+                        break;
+                    }
+                }
+            }
+
             if (cams.indexOf(subs.camera) > -1) {
-                if (sc_render.hmd_stereo_use) {
+                if (hmd_stereo_use) {
                     m_cam.make_stereo(subs.camera, m_cam.TYPE_HMD_LEFT);
                     m_cam.make_stereo(subs_new.camera, m_cam.TYPE_HMD_RIGHT);
                 } else {
@@ -1793,12 +1813,29 @@ function make_stereo(graph, sc_render, cam_render) {
                 if (LEFT_ONLY_SUBS_TYPES.indexOf(subs_in.type) > -1)
                     left_only_edges.push([subs_in, subs_new, slink]);
             });
+
+            for (var i = 0; i < subs.slinks_internal.length; i++)
+                subs_new.slinks_internal[i].parent_slink = subs.slinks_internal[i];
+
+            // render order: store source nodes for right eye
+            var is_source_node = true;
+            for (var i = 0; i < m_graph.in_edge_count(graph, nid_subs); i++) {
+                var nid_upper_subs = m_graph.get_in_edge(graph, nid_subs, i);
+                var upper_subs = m_graph.get_node_attr(graph, nid_upper_subs);
+                if (LEFT_ONLY_SUBS_TYPES.indexOf(upper_subs.type) == -1)
+                    is_source_node = false;
+            }
+
+            if (is_source_node)
+                source_nodes_right.push(subs_new);
         }
 
         return subs_new;
     }
     var slink_clone_cb = function(slink) {
-        return clone_slink(slink, true);
+        var new_slink = clone_slink(slink, true);
+        new_slink.parent_slink = slink;
+        return new_slink;
     }
     subgraph_right = m_graph.clone(subgraph_right, subs_clone_cb, slink_clone_cb);
 
@@ -1808,20 +1845,30 @@ function make_stereo(graph, sc_render, cam_render) {
 
     m_graph.cleanup_loose_edges(subgraph_right);
 
-    var subs_stereo = create_subs_stereo(sc_render.hmd_stereo_use);
+    var subs_stereo = create_subs_stereo(hmd_stereo_use);
 
     var nid_anaglyph = m_graph.append_node_attr(graph, subs_stereo);
-    
+
     m_graph.reconnect_edges(graph, nid_pre_sink, nid_sink, nid_anaglyph, nid_sink);
-    var slink_left = create_slink("COLOR", "u_sampler_left", 1, 1, true);
+
+    // HACK: fix subs texture reusage of last left subs
+    var left_clone = create_subs_copy();
+    m_graph.append_node_attr(graph, left_clone);
+
+    var slink_copy = create_slink("COLOR", "COPY", 1, 1, 1, true);
+    m_graph.append_edge_attr(graph, subs_pre_sink, left_clone, slink_copy);
+
+    var slink_left = create_slink("COLOR", "u_sampler_left", 1, 1, 1, true);
+    slink_left.unique_texture = true;
     slink_left.min_filter = m_tex.TF_LINEAR;
     slink_left.mag_filter = m_tex.TF_LINEAR;
 
-    m_graph.append_edge_attr(graph, subs_pre_sink, subs_stereo, slink_left);
+    m_graph.append_edge_attr(graph, left_clone, subs_stereo, slink_left);
 
-    var slink_right = create_slink("COLOR", "u_sampler_right", 1, 1, true);
-    slink_left.min_filter = m_tex.TF_LINEAR;
-    slink_left.mag_filter = m_tex.TF_LINEAR;
+    var slink_right = create_slink("COLOR", "u_sampler_right", 1, 1, 1, true);
+    slink_right.min_filter = m_tex.TF_LINEAR;
+    slink_right.mag_filter = m_tex.TF_LINEAR;
+    slink_right.parent_slink = slink_copy;
     m_graph.append_subgraph(subgraph_right, graph,
             [m_graph.get_sink_nodes(subgraph_right)[0], nid_anaglyph,
             slink_right]
@@ -1834,13 +1881,39 @@ function make_stereo(graph, sc_render, cam_render) {
         m_graph.append_edge_attr(graph, subs1, subs2, slink);
     }
 
-    // TODO: uncomment, fix some subscenes
-    // if (sc_render.hmd_stereo_use)
-    //     m_graph.traverse_edges(graph, function(node1, node2, attr) {
-    //         if (attr.from != "SCREEN") {
-    //             attr.size_mult_x = 0.5;
-    //         }
-    //     });
+    // render order: left eye before right eye
+    var slink_order = create_slink("SCREEN", "NONE", 0, 0, 0, false);
+    for (var i = 0; i < source_nodes_right.length; i++)
+        m_graph.append_edge_attr(graph, left_clone, source_nodes_right[i], slink_order);
+
+    // resize subs texture for hmd
+    if (hmd_stereo_use) {
+        var slink_list = [];
+        m_graph.traverse(graph, function(subs_id, subs) {
+            if (LEFT_ONLY_SUBS_TYPES.indexOf(subs.type) == -1 &&
+                    subs.slinks_internal.length &&
+                    has_lower_subs(graph, subs, "STEREO")) {
+                for (var i = 0; i < subs.slinks_internal.length; i++) {
+                    var slink = subs.slinks_internal[i];
+                    if (slink_list.indexOf(slink) == -1)
+                        slink_list.push(slink);
+                }
+            }
+        });
+        m_graph.traverse_edges(graph, function(node1, node2, slink) {
+            var subs1 = m_graph.get_node_attr(graph, node1);
+            var subs2 = m_graph.get_node_attr(graph, node2);
+            if (LEFT_ONLY_SUBS_TYPES.indexOf(subs1.type) == -1 &&
+                    has_lower_subs(graph, subs2, "STEREO")) {
+                if (slink_list.indexOf(slink) == -1)
+                    slink_list.push(slink);
+            }
+        });
+
+        for (var i = 0; i < slink_list.length; i++) {
+            slink_list[i].size_mult_x *= 0.5;
+        }
+    }
 }
 
 function add_light_attributes(subs, num_lights) {
@@ -2028,6 +2101,7 @@ function init_subs(type) {
 
         // head-mounted display params
         distortion_params: new Float32Array(4),
+        chromatic_aberration_coefs: new Float32Array(4),
         enable_hmd_stereo: false,
 
         shadow_lamp_index: 0
@@ -2043,6 +2117,9 @@ function init_subs(type) {
     subs.texel_size_multiplier = 1;
     subs.texel_mask[0] = 1;
     subs.texel_mask[1] = 1;
+
+    //NOTE: set distortion_scale = 1
+    subs.distortion_params[2] = 1;
 
     return subs;
 }
@@ -2077,14 +2154,14 @@ function set_texel_size_mult(subs, mult) {
     subs.texel_size_multiplier = mult;
 }
 
-function create_slink(from, to, size, size_mult, update_dim) {
+function create_slink(from, to, size, size_mult_x, size_mult_y, update_dim) {
     var slink = {
         // assign explicitly in all cases
         from: from,
         to: to,
         size: size,
-        size_mult_x: size_mult,
-        size_mult_y: size_mult,
+        size_mult_x: size_mult_x,
+        size_mult_y: size_mult_y,
         update_dim: update_dim,
 
         // generic default values
@@ -2093,7 +2170,8 @@ function create_slink(from, to, size, size_mult, update_dim) {
         multisample: false,
         use_renderbuffer: false,
         min_filter: m_tex.TF_NEAREST,
-        mag_filter: m_tex.TF_NEAREST
+        mag_filter: m_tex.TF_NEAREST,
+        unique_texture: false
     };
 
     return slink;
@@ -2131,18 +2209,13 @@ function prepare_shadow_receive_subs(graph, subs) {
 
         // shadow map with optional blurring
         if (input.type == "SHADOW_CAST") {
-            // assign uniforms from cast camera
-            var cam_cast = input.camera;
-
-            subs.perspective_cast_far_bound = cam_cast.far / (cam_cast.far - cam_cast.near);
-
             v_light_tsr_num++;
 
             subs.p_light_matrix = subs.p_light_matrix || new Array();
 
             var index = input.shadow_lamp_index > 0 ? input.shadow_lamp_index : csm_index;
-            // by link
-            subs.p_light_matrix[index] = cam_cast.proj_matrix;
+            // assign uniforms from cast camera by link
+            subs.p_light_matrix[index] = input.camera.proj_matrix;
 
             csm_index++;
         }
@@ -2793,8 +2866,8 @@ exports.create_performance_graph = function() {
     m_graph.append_node_attr(graph, subs_sink);
 
     m_graph.append_edge_attr(graph, subs_perf, subs_sink,
-            create_slink("COLOR", "NONE", size, 1, false));
-    //        create_slink("SCREEN", "NONE", size, 1, false));
+            create_slink("COLOR", "NONE", size, 1, 1, false));
+    //        create_slink("SCREEN", "NONE", size, 1, 1, false));
 
     process_subscene_links(graph);
     assign_render_targets(graph);
@@ -3099,7 +3172,9 @@ function dot_format_edge_label(slink, node1, node2, tex_ids) {
         var size_y = (size_mult_y == 1 ? "" : size_mult_y) + "S";
         label += size_x + "x" + size_y;
     } else {
-        label += slink.size + "x" + slink.size;
+        var size_mult_x = slink.size_mult_x;
+        var size_mult_y = slink.size_mult_y;
+        label += slink.size * size_mult_x + "x" + slink.size * size_mult_y;
     }
 
     if (slink.from != "SCREEN") {

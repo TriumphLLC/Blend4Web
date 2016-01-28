@@ -39,16 +39,15 @@ var _quat4_tmp = new Float32Array(4);
 /**
  * Transform in the local space
  * @const {Space} module:transform.SPACE_LOCAL
+ * @deprecated Not needed anymore.
  */
 exports.SPACE_LOCAL = m_trans.SPACE_LOCAL;
 /**
  * Transform in the world space
  * @const {Space} module:transform.SPACE_WORLD
+ * @deprecated Not needed anymore.
  */
 exports.SPACE_WORLD = m_trans.SPACE_WORLD;
-
-// Disabled while no method actually implements this
-//exports.SPACE_PARENT = m_trans.SPACE_PARENT;
 
 /**
  * Set the object translation.
@@ -226,15 +225,6 @@ exports.set_rotation_rel = function(obj, x, y, z, w) {
 }
 
 /**
- * @method module:transform.set_rotation_quat
- * @deprecated Use {@link module:transform.set_rotation|transform.set_rotation} instead
- */
-exports.set_rotation_quat = function() {
-    m_print.error_deprecated("set_rotation_quat", "set_rotation");
-    return exports.set_rotation;
-}
-
-/**
  * Set the object's rotation in vector form.
  * @method module:transform.set_rotation_v
  * @param {Object3D} obj Object 3D
@@ -262,15 +252,6 @@ exports.set_rotation_rel_v = function(obj, quat) {
         m_phy.sync_transform(obj);
     } else
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
-}
-
-/**
- * @method module:transform.set_rotation_quat_v
- * @deprecated Use {@link module:transform.set_rotation_v|transform.set_rotation_v} instead
- */
-exports.set_rotation_quat_v = function() {
-    m_print.error_deprecated("set_rotation_quat_v", "set_rotation_v");
-    return exports.set_rotation_v;
 }
 
 /**
@@ -302,15 +283,6 @@ exports.get_rotation_rel = function(obj, opt_dest) {
 
     m_trans.get_rotation_rel(obj, opt_dest);
     return opt_dest;
-}
-
-/**
- * @method module:transform.get_rotation_quat
- * @deprecated Use {@link module:transform.get_rotation|transform.get_rotation} instead
- */
-exports.get_rotation_quat = function() {
-    m_print.error_deprecated("get_rotation_quat", "get_rotation");
-    return exports.get_rotation;
 }
 
 /**

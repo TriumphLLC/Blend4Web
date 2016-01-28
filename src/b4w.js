@@ -121,6 +121,7 @@
  * @type {Number}
  * @see {@link module:transform.SPACE_LOCAL},
  * {@link module:transform.SPACE_WORLD}
+ * @deprecated Not needed anymore.
  */
 
 /**

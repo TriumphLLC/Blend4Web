@@ -4,19 +4,45 @@
     <meta charset='utf-8' />
     <meta name='viewport' content='initial-scale=1.0, user-scalable=no, width=device-width' />
     <title>Petigor's Tale</title>
-    <link type='text/css' rel='stylesheet' href='petigors_tale.min.css?v=15.12'/>
-    <script type='text/javascript' src='../common/b4w.simple.min.js?v=15.12'></script>
-    <script type='text/javascript' src='js/level_configs/petigors_tale.min.js?v=15.12'></script>
-    <script type='text/javascript' src='js/petigors_tale.min.js?v=15.12'></script>
+    <link type='text/css' rel='stylesheet' href='petigors_tale.min.css?v=16.01'/>
+    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.01'></script>
+    <script type='text/javascript' src='js/level_configs/petigors_tale.min.js?v=16.01'></script>
+    <script type='text/javascript' src='js/petigors_tale.min.js?v=16.01'></script>
 </head>
-<body>
-    <div id ="canvas3d"></div>
+<body onload="menu_initialization()">
+    <div id="start_menu">
+        <div id="start_game">Start Game</div>
+        <div id="quality">Quality:
+            <select id="quality_select">
+                <option visibility:"visibile" value="high">High</option>
+                <option visibility:"visibile" value="low">Low</option>
+            </select>
+        </div>
+        <div class="languages_bar">
+            <div id="languages_flag_ru" class="languages_flag"></div>
+            <div id="languages_flag_en" class="languages_flag"></div>
+        </div>
+    </div>
+
+    <div id="canvas3d"></div>
     <div id="preloader_bg">
         <div id="prelod_static_path">
             <div id="prelod_dynamic_path"></div>
             <span>0%</span>
         </div>
     </div>
+
+    <div id ="game_menu">
+        <div id ="menu_resume">Resume</div>
+        <div id ="menu_help">Help</div>
+        <div id ="menu_credits">Credits</div>
+        <div id ="menu_restart">Restart</div>
+        <div id ="menu_exit">Exit</div>
+    </div>
+
+    <div id ="credits_panel" class="additional_panel"></div>
+    <div id ="help_panel" class="additional_panel"></div>
+
     <div id ="life_bar">
         <div id ="life_bar_main"></div>
         <div id ="life_bar_green"></div>

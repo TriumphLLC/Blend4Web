@@ -1,0 +1,503 @@
+
+Scene settings
+**************
+
+
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* Scene settings
+
+  * The Render panel.
+
+    * Reflections and Refractions
+
+    * Motion Blur
+
+    * Bloom
+
+    * Color Correction
+
+    * Glow Materials
+
+    * Object Outlining
+
+    * Ambient Occlusion (SSAO)
+
+    * God Rays
+
+    * Anti-Aliasing
+
+    * Shadows
+
+    * Development Server
+
+    * Timeline
+
+  * The Scene panel
+
+    * Scene
+
+    * Units
+
+    * Audio
+
+    * Logic Editor
+
+    * NLA
+
+    * Meta Tags
+
+    * Physics
+
+    * Batching
+
+    * Objects Selection
+
+    * Anchors
+
+    * Export Options
+
+  * The World panel
+
+    * Preview
+
+    * World
+
+    * Environment Lighting
+
+    * Mist
+
+    * Procedural Sky
+
+    * Export Options
+
+All the parameters that define the look and behavior of the whole
+scene (and not just a single object) are found on the three panels:
+the "Render" panel, the "Scene" panel and the "World" panel.
+
+
+The Render panel.
+=================
+
+[image]
+
+All scene parameters that concern the image rendering are found on
+this panel.
+
+
+Reflections and Refractions
+---------------------------
+
+Reflection and refraction effect settings.
+
+[image]
+
+*Reflection*
+   Reflection effect settings. Can be set to "ON", "OFF" or "AUTO".
+   Set to "ON" by default.
+
+*Refraction*
+   Refraction effect settings. Can be set to "ON", "OFF" or "AUTO".
+   Set to "AUTO" by default.
+
+*Quality*
+   Quality settings for the reflection effect. Can be set to "HIGH"
+   (highest reflection quality), "MEDIUM" (medium quality) or to "LOW"
+   (lowest quality). Set to "MEDIUM" by default.
+
+
+Motion Blur
+-----------
+
+Motion blur settings. Described thoroughly in its own section.
+
+[image]
+
+
+Bloom
+-----
+
+Bloom effect settings. Described thoroughly in its own section.
+
+[image]
+
+
+Color Correction
+----------------
+
+Color correction settings. Described throughly in its own section.
+
+[image]
+
+
+Glow Materials
+--------------
+
+Glow Material effect settings. Described thoroughly in its own
+section.
+
+[image]
+
+
+Object Outlining
+----------------
+
+Outlining effect settings. Described thoroughly in its own section.
+
+[image]
+
+
+Ambient Occlusion (SSAO)
+------------------------
+
+Screen-space ambient occlusion (SSAO) settings. Described thoroughly
+in its own section.
+
+[image]
+
+
+God Rays
+--------
+
+God Rays effect settings. Described thoroughly in its own section.
+
+[image]
+
+
+Anti-Aliasing
+-------------
+
+Anti-Aliasing settings. Described thoroughly in its own section.
+
+[image]
+
+
+Shadows
+-------
+
+Shadows settings. Described thoroughly in its own section.
+
+[image]
+
+
+Development Server
+------------------
+
+Development Server settings. Described thoroughly in its own section.
+
+[image]
+
+
+Timeline
+--------
+
+Timeline settings.
+
+[image]
+
+*Start Frame*
+   The first frame of the timeline. Set to 1 by default.
+
+*End Frame*
+   The last frame of the timeline. Set to 250 by default.
+
+*Frame Rate*
+   Number of the frames per second. Set to 24 by default. This
+   parameter only affect the animation playback speed (not the scene
+   itself).
+
+
+The Scene panel
+===============
+
+[image]
+
+The settings that concern scene behavior, including audio, physics and
+animation settings, are found on this panel.
+
+
+Scene
+-----
+
+Scene settings.
+
+[image]
+
+*Camera*
+   A camera that is used to render the scene.
+
+
+Units
+-----
+
+Sets the measurement units used in the scene.
+
+[image]
+
+
+Audio
+-----
+
+Audio settings. Enabled by default.
+
+[image]
+
+*Dynamic Compressor*
+   Compress audio signal's dynamic range. This feature can be used to
+   make the sound more rich and even. Disabled by default.
+
+*Treshold*
+   If the amplitude of the audio signal exceeds the value specified by
+   this parameter, the compressor will reduce its level. Set to -24 dB
+   by default.
+
+*Knee*
+   The interval below the threshold where the responce curve switches
+   to the decreasing mode. Set to 30 by default.
+
+*Ratio*
+   Amount of gain reduction. Set to 12 by default.
+
+*Attack*
+   Time (in seconds) that takes the compressor to reduce gain by 10
+   dB. Set to 0.003 by default.
+
+*Release*
+   Time (in seconds) that takes the compressor to increase gain by 10
+   dB. Set to 0.25 by defaault.
+
+
+Logic Editor
+------------
+
+Settings for the use of the logic node trees (created in the logic
+editor) in the scene. Disabled by default.
+
+[image]
+
+*Active Node Tree*
+   Node tree that is used in the scene's playback.
+
+
+NLA
+---
+
+Non-Linear Animation playback settings. Disabled by default.
+
+[image]
+
+*Cyclic NLA*
+   If this parameter is enabled, NLA animation will be repeated after
+   it is finished.
+
+
+Meta Tags
+---------
+
+Application's meta tags.
+
+[image]
+
+*Title*
+   The title of the application.
+
+*Description*
+   The description of the application. Can be a simple text or a link
+   to a text file (if the "Description Source" parameter is set to the
+   "File" value).
+
+*Description Source*
+   The source of the application's description. The description can be
+   loaded from a file or specified directly in the "Description"
+   field. This parameter can have one of the two values, "Text" and
+   "File", and it is set to "Text" by default.
+
+
+Physics
+-------
+
+Physics settings.
+
+[image]
+
+*Enable Physics*
+   Allow using physics in the application. Enabled by default.
+
+
+Batching
+--------
+
+The size of the grid used to batch the object with the same materials
+can be specified here. This parameter can be used for optimization
+purposes.
+
+[image]
+
+*Batch Grid Size*
+   The size of the grid in meters. Set to zero by default (in such
+   case, the grid isn't used).
+
+
+Objects Selection
+-----------------
+
+Object selection settings. Objects can be selected both with the API
+function pick_object() and with the logic nodes.
+
+Note: In the scene viewer, selection is enabled by default. You can
+  turn it off in the "Tools & Debug" panel.
+
+[image]
+
+*Enable*
+   The parameter that defines if the object can or can't be selected.
+   It can have "ON", "OFF" or "AUTO" value. Set to "AUTO" by default.
+
+
+Anchors
+-------
+
+Anchor visibility detection settings.
+
+[image]
+
+*Detect Anchors Visibility*
+   Anchor visibility detection parameter. Can have "ON", "OFF" or
+   "AUTO" value. Set to "AUTO" by default.
+
+
+Export Options
+--------------
+
+Scene settings export parameters.
+
+[image]
+
+*Do Not Export*
+   If this parameter is enabled, scene settings will be ignored during
+   export.
+
+
+The World panel
+===============
+
+[image]
+
+Environment settings such as settings for sky, mist and such are found
+on this panel.
+
+
+Preview
+-------
+
+Environment preview.
+
+[image]
+
+
+World
+-----
+
+Sky settings.
+
+[image]
+
+*Render Sky*
+   If this parameter is enabled, the engine will render sky in the
+   scene.
+
+*Paper Sky*
+   If this parameter is enabled, sky gradient will always be drawn
+   from the top of the screen to the bottom, regargless of the
+   camera's position and angles.
+
+*Blend Sky*
+   Smooth transition between the horizon and zenith colors.
+
+*Real Sky*
+   Sky rendering with the horizon affected by the camera angle.
+
+*Horizon Color*
+   Sky color at the horizon.
+
+*Zenith Color*
+   Sky color in the zenith.
+
+*Ambient Color*
+   The color of the ambient lighting.
+
+*Reflect World*
+   Render the sky while rendering reflections.
+
+*Render Only Reflection*
+   Render the sky *only* while rendering reflections.
+
+
+Environment Lighting
+--------------------
+
+Environment lighting settings. Described thoroughly in their own
+section.
+
+[image]
+
+
+Mist
+----
+
+Mist settings.
+
+[image]
+
+*Minimum*
+   Minimum intensity of the mist. Set to zero by default.
+
+*Depth*
+   At this distance from the camera the mist effect reaches maximum
+   intesity. Set to 25 by default.
+
+*Start*
+   The mist effect starts to appear at this distance from the camera.
+   Set to 5 by default.
+
+*Height*
+   This parameter specifies how fast mist intensity decreases as the
+   the camera's altitude increases. Set to 0 by default.
+
+*Fall out*
+   This parameter specifies the rule, according to which the density
+   of the mist changes between the borders (specified by the "Start"
+   and "Depth" parameters). Can have one of the following values:
+   "Quadratic", "Linear",  "Inverse Quadratic". Set to "Quadratic" by
+   default.
+
+*Use custom colors*
+   Can be used to set the color of the mist. Enabled by default. If
+   this parameter is disabled, standard (0.5, 0.5, 0.5) color will be
+   used.
+
+*Fog color*
+   The color of the mist. Can be changed, if the "Use custom colors"
+   parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by
+   default.
+
+
+Procedural Sky
+--------------
+
+   Procedural sky settings. Described thoroughly in their own section.
+
+[image]
+
+
+Export Options
+--------------
+
+Environment parameters export settings.
+
+[image]
+
+*Do Not Export*
+   If this parameter is enabled, environment settings will be ignored
+   during the export.

@@ -65,11 +65,41 @@ var STOPPED        = 3;
 var PAUSED         = 4;
 
 var _vec4_tmp = new Float32Array(4);
+var _vec4_tmp1 = new Float32Array(4);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp1 = new Float32Array(3);
 var _vec2_tmp = new Float32Array(2);
 var _mat3_tmp = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
+
+//formats for convert_variable
+var NT_NUMBER = 0;
+var NT_STRING = 1;
+
+//keep node constants synchronized with:
+// exporter.py : process_scene_nla and
+// reformer.js : assign_logic_nodes_object_params
+
+//node string operations
+var NSO_JOIN = 0;
+var NSO_FIND = 1;
+var NSO_REPLACE = 2;
+var NSO_SPLIT = 3;
+var NSO_COMPARE = 4;
+
+//node conditions
+var NC_GEQUAL = 0;
+var NC_LEQUAL = 1;
+var NC_GREATER = 2;
+var NC_LESS = 3;
+var NC_NOTEQUAL = 4;
+var NC_EQUAL = 5;
+
+//node space type
+var NST_WORLD = 0;
+var NST_PARENT = 1;
+var NST_LOCAL = 2;
+
 
 /**
  * Add your node to _nodes_handlers
@@ -98,15 +128,17 @@ var _nodes_handlers = {
     "MOVE_CAMERA": move_camera_handler,
     "SET_CAMERA_MOVE_STYLE": set_camera_move_style_handler,
     "MOVE_TO": move_to_handler,
+    "TRANSFORM_OBJECT": transform_object_handler,    
     "SPEAKER_PLAY": speaker_play_handler,
     "SPEAKER_STOP": speaker_stop_handler,
     "STOP_ANIM": stop_anim_handler,
     "STOP_TIMELINE": stop_timeline_handler,
-    "CONSOLE_PRINT": console_print_handler
+    "CONSOLE_PRINT": console_print_handler,
+    "STRING": string_handler
 };
 
 function do_nothing_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         break;
     case RUNNING:
@@ -116,7 +148,7 @@ function do_nothing_handler(node, logic, thread_state, timeline, elapsed, start_
 }
 
 function unknown_node_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         m_print.error("Unknown node type: " + node.type);
         break;
@@ -211,14 +243,14 @@ function get_object(node) {
 }
 
 function entrypoint_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
 }
 function hide_object_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         node.obj = get_object(node);
         break;
@@ -229,7 +261,7 @@ function hide_object_handler(node, logic, thread_state, timeline, elapsed, start
     }
 }
 function show_object_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         node.obj = get_object(node);
         break;
@@ -240,7 +272,7 @@ function show_object_handler(node, logic, thread_state, timeline, elapsed, start
     }
 }
 function pageparam_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
         thread_state.variables[node.vard] = get_url_param(node.param_name);
         thread_state.curr_node = node.slot_idx_order;
@@ -292,7 +324,7 @@ function create_select_sensor(node, logic, thread) {
         sel_sensors, m_ctl.default_OR_logic_fun, select_cb, [node, logic, thread]);
 }
 function select_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         create_select_sensor(node, logic, logic.logic_threads[thread_state.thread_index]);
         break;
@@ -344,6 +376,7 @@ var gen_switch_select_cb = function() {
 function create_switch_select_sensor(node, logic, thread) {
     var sel_objs = m_obj.get_selectable_objects();
     node.sel_obj_idxs = [];
+    node.links_idxs = [];
     for (var key in node.objects_paths) {
         var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths[key], 0);
         var obj_idx = sel_objs.indexOf(obj);
@@ -353,6 +386,7 @@ function create_switch_select_sensor(node, logic, thread) {
             return -1;
         }
         node.sel_obj_idxs.push(obj_idx);
+        node.links_idxs.push(node.links_dict[key]);
     }
     node.state = -1;
     node.sel_objs_len = sel_objs.length;
@@ -361,7 +395,6 @@ function create_switch_select_sensor(node, logic, thread) {
     for (var j = 0; j < sel_objs.length; j++) {
         sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
     }
-
     var select_cb = gen_switch_select_cb();
     m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SWITCH_SELECT_" + node.label, m_ctl.CT_SHOT,
         sel_sensors, m_ctl.default_OR_logic_fun, select_cb, [node, logic, thread]);
@@ -373,7 +406,7 @@ function switch_select_handler(node, logic, thread_state, timeline, elapsed, sta
     //        -2: sensors are reset
     //         0: Miss
     //         1: Hit
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         create_switch_select_sensor(node, logic, logic.logic_threads[thread_state.thread_index]);
         break;
@@ -392,7 +425,7 @@ function switch_select_handler(node, logic, thread_state, timeline, elapsed, sta
 }
 
 function play_timeline_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         m_nla.stop_nla();
         node.state = -1;
@@ -478,7 +511,7 @@ function play_timeline_handler(node, logic, thread_state, timeline, elapsed, sta
 }
 
 function console_print_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
         var vars = {};
         for (var i in node.vars) {
@@ -492,7 +525,7 @@ function console_print_handler(node, logic, thread_state, timeline, elapsed, sta
 }
 
 function stop_timeline_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
         if (node.bools["rst"]) {
             m_nla.set_offset_from_range_start(timeline);
@@ -504,7 +537,7 @@ function stop_timeline_handler(node, logic, thread_state, timeline, elapsed, sta
 }
 
 function redirect_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
         window.location.href = node.url;
         logic.state = STOPPED;
@@ -515,29 +548,88 @@ function redirect_handler(node, logic, thread_state, timeline, elapsed, start_ti
 
 function send_req_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     function asset_cb(loaded_data, uri, type, path, param) {
-        for (var prop in loaded_data)
-            for (var ind in param[0].parse_resp_list)
-                if (prop == param[0].parse_resp_list[ind])
-                    param[1][prop] = loaded_data[prop];
+        if (param[0].bools["prs"]) {
+            for (var prop in loaded_data)
+                for (var ind in param[0].parse_resp_list)
+                    if (prop == param[0].parse_resp_list[ind])
+                        param[1][prop] = loaded_data[prop];
+        }
+        else {
+                param[1][param[0].vars["dst"]] = loaded_data;
+        }
+
         param[0].state = 1;
     }
-    switch(logic.state) {
+    function json_reviver(name, value){
+        if (name === "") return value;
+        switch (typeof(value)) {
+        case "string":
+            return convert_variable(value, NT_STRING);
+        case "number":
+            return convert_variable(value, NT_NUMBER);
+
+        default:
+            return convert_variable(value, NT_STRING);
+        }
+    }
+    function json_replacer(name, value) {
+        if (name === "") return value;
+        if (value == Infinity || value == -Infinity) return convert_variable(value, NT_STRING);
+        switch (typeof(value)) {
+        case "string":
+            return convert_variable(value, NT_STRING);
+        case "number":
+            return convert_variable(value, NT_NUMBER);
+
+        default:
+            return convert_variable(value, NT_STRING);
+        }
+    }
+
+    switch (logic.state) {
     case RUNNING:
-        switch(node.state) {
+        switch (node.state) {
         case -1:
             node.state = 0;
-            if (node.common_usage_names["request_type"] == "GET")
-                m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url,
-                    param:[node, thread_state.variables]}], asset_cb, null, null);
-            else if(node.common_usage_names["request_type"] == "POST") {
-                var req = {};
-                for (var i = 0; i < node.send_req_vars_list.length; i++) {
-                    var key = node.send_req_vars_list[i];
-                    req[key] = thread_state.variables[key];
+            var resp_type = node.bools["prs"] ? m_assets.AT_JSON : m_assets.AT_TEXT;
+            //reviver for response JSON parsing
+            var reviver = node.bools["prs"] ? json_reviver : null;
+
+            if (node.common_usage_names["request_type"] == "GET") {
+                m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                    param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
+            }
+            else if (node.common_usage_names["request_type"] == "POST") {
+                //request data type
+                if (node.bools["enc"]) {
+                    var req = {};
+                    //encode JSON
+                    for (var i = 0; i < node.send_req_vars_list.length; i++) {
+                        var key = node.send_req_vars_list[i];
+                        switch (typeof(thread_state.variables[node.send_req_vars_list[i]])) {
+                        case "string":
+                            req[key] = convert_variable(thread_state.variables[key], NT_STRING);
+                            break;
+                        case "number":
+                            req[key] = convert_variable(thread_state.variables[key], NT_NUMBER);
+                            break;
+
+                        default:
+                            req[key] = convert_variable(thread_state.variables[key], NT_STRING);
+                        }
+                    }
+
+                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                        request:"POST", post_type:m_assets.APT_JSON, post_data:JSON.stringify(req, json_replacer),
+                        param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
                 }
-                m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url,
-                    request:"POST", post_type:m_assets.APT_JSON, post_data:JSON.stringify(req),
-                    param:[node, thread_state.variables]}], asset_cb, null, null);
+                else {
+                    var req = convert_variable(thread_state.variables[node.vars["dst1"]], NT_STRING);
+
+                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                        request:"POST", post_type:m_assets.APT_TEXT, post_data:req,
+                        param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
+                }
             }
             break;
         case 0:
@@ -579,7 +671,7 @@ function delay_handler(node, logic, thread_state, timeline, elapsed, start_time)
         } else if (node.state == 0) {
             // count the time
             node.timer += elapsed;
-            var dl = node.bools["dl"] ? thread_state.variables[node.vars['dl']] : node.floats["dl"];
+            var dl = node.bools["dl"] ? convert_variable(thread_state.variables[node.vars['dl']] , NT_NUMBER) : node.floats["dl"];
             if (dl < node.timer) {
                 node.state = -1;
                 thread_state.curr_node = node.slot_idx_order;
@@ -606,7 +698,7 @@ function apply_shape_key_handler(node, logic, thread_state, timeline, elapsed, s
         break;
     case RUNNING:
         m_geom.apply_shape_key(node.objects["id0"], node.common_usage_names['sk'],
-            node.bools["skv"] ? thread_state.variables[node.vars['skv']] : node.floats['skv']);
+            node.bools["skv"] ? convert_variable(thread_state.variables[node.vars['skv']], NT_NUMBER) : node.floats['skv']);
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -635,13 +727,14 @@ function outline_handler(node, logic, thread_state, timeline, elapsed, start_tim
             break;
         case "INTENSITY":
                 obj.render.outline_intensity =
-                    node.bools["in"] ? thread_state.variables[node.vars['in']] : node.floats['in'];
+                    node.bools["in"] ? convert_variable(thread_state.variables[node.vars['in']], NT_NUMBER) : node.floats['in'];
             break;
         }
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
 }
+
 function move_camera_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     function move_cam(cam, trans, target, tsr) {
         switch (m_cam.get_move_style(cam)) {
@@ -738,7 +831,7 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
 
         switch (node.state) {
         case -1:
-            var dur = node.bools["dur"] ? thread_state.variables[node.vars['dur']] : node.floats["dur"];
+            var dur = node.bools["dur"] ? convert_variable(thread_state.variables[node.vars['dur']], NT_NUMBER) : node.floats["dur"];
             if (dur == 0.0) {
                 set_tsr(cam, trans, target, node.camera_state.tsr_end);
                 move_cam(cam, trans, target, node.camera_state.tsr_end);
@@ -839,7 +932,7 @@ function move_to_handler(node, logic, thread_state, timeline, elapsed, start_tim
 
         switch (node.state) {
         case -1:
-            var dur = node.bools["dur"] ? thread_state.variables[node.vars['dur']] : node.floats["dur"];
+            var dur = node.bools["dur"] ? convert_variable(thread_state.variables[node.vars['dur']], NT_NUMBER) : node.floats["dur"];
             if (dur == 0.0) {
                 move_to(obj, node.obj_state.dest_tsr_end);
                 thread_state.curr_node = node.slot_idx_order;
@@ -848,7 +941,7 @@ function move_to_handler(node, logic, thread_state, timeline, elapsed, start_tim
 
             node.state = 0;
             var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
-                    node.obj_state.interp_dest = m_tsr.interpolate(node.obj_state.dest_tsr_start,
+                node.obj_state.interp_dest = m_tsr.interpolate(node.obj_state.dest_tsr_start,
                         node.obj_state.dest_tsr_end, m_util.smooth_step(e), node.obj_state.interp_tsr_dest);
 
                 move_to(obj, node.obj_state.interp_tsr_dest);
@@ -868,6 +961,119 @@ function move_to_handler(node, logic, thread_state, timeline, elapsed, start_tim
             break;
         }
         break;    
+    }
+}
+
+function transform_object_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    function transform_obj(obj, tsr, space) {
+        if(space == NST_WORLD){
+            m_trans.set_tsr(obj, tsr);
+        }
+        else {
+            m_trans.set_tsr_rel(obj, tsr);
+        }
+
+        m_trans.update_transform(obj);
+        m_phy.sync_transform(obj);       
+    }
+
+
+    switch (logic.state) {
+    case INITIALIZATION:
+        node.objects["ob"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id0"], 0);
+
+        node.state = -1;
+
+        node.obj_state = {
+            space: NST_WORLD,
+            tsr_start: new Float32Array(8),
+            tsr_end: new Float32Array(8),
+            interp_tsr: new Float32Array(8)
+        };
+
+        break;
+    case RUNNING:
+        var obj = node.objects["ob"];
+
+        switch (node.state) {
+        case -1:
+            var tr = _vec3_tmp1;
+            tr[0] = node.bools["trx"] ? convert_variable(thread_state.variables[node.vars['trx']], NT_NUMBER) : node.floats["trx"];
+            tr[1] = node.bools["try"] ? convert_variable(thread_state.variables[node.vars['try']], NT_NUMBER) : node.floats["try"];
+            tr[2] = node.bools["trz"] ? convert_variable(thread_state.variables[node.vars['trz']], NT_NUMBER) : node.floats["trz"];
+            //euler angles rotation
+            var eul_rot =  _vec3_tmp
+            eul_rot[0] = node.bools["rox"] ? convert_variable(thread_state.variables[node.vars['rox']], NT_NUMBER) : node.floats["rox"];
+            eul_rot[1] = node.bools["roy"] ? convert_variable(thread_state.variables[node.vars['roy']], NT_NUMBER) : node.floats["roy"];
+            eul_rot[2] = node.bools["roz"] ? convert_variable(thread_state.variables[node.vars['roz']], NT_NUMBER) : node.floats["roz"];
+            var sc = node.bools["sc"] ? thread_state.variables[node.vars['sc']] : node.floats["sc"]
+
+            //rotate axis if variables are used
+            if (node.bools["try"] || node.bools["trz"]) {
+                tr[1] = tr[1] ^ tr[2];
+                tr[2] = tr[2] ^ tr[1];
+                tr[1] = tr[1] ^ tr[2];
+                tr[2] = -tr[2];
+            }
+            if (node.bools["roy"] || node.bools["roz"]) {
+                eul_rot[1] = eul_rot[1] ^ eul_rot[2];
+                eul_rot[2] = eul_rot[2] ^ eul_rot[1];
+                eul_rot[1] = eul_rot[1] ^ eul_rot[2];
+                eul_rot[2] = -eul_rot[2];
+            }
+            
+            m_util.euler_to_quat(eul_rot, _vec4_tmp);
+            m_tsr.set_sep(
+                tr,
+                sc,
+                _vec4_tmp,
+                node.obj_state.tsr_end
+            );
+
+            node.obj_state.space = node.common_usage_names["space_type"];
+            switch (node.obj_state.space) {
+                case NST_WORLD:
+                    m_trans.get_tsr(obj, node.obj_state.tsr_start);
+                    break;
+                case NST_PARENT:
+                    m_trans.get_tsr_rel(obj, node.obj_state.tsr_start);
+                    break;
+                case NST_LOCAL:
+                    m_trans.get_tsr_rel(obj, node.obj_state.tsr_start);
+                    m_tsr.multiply(node.obj_state.tsr_start, node.obj_state.tsr_end, node.obj_state.tsr_end)
+                    break;
+            }
+
+            var dur = node.bools["dur"] ? convert_variable(thread_state.variables[node.vars['dur']], NT_NUMBER) : node.floats["dur"];
+            if (dur == 0.0) {
+                transform_obj(obj, node.obj_state.tsr_end, node.obj_state.space);
+                thread_state.curr_node = node.slot_idx_order;
+                return;
+            }
+
+            node.state = 0;
+            var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
+                m_tsr.interpolate(node.obj_state.tsr_start, node.obj_state.tsr_end,
+                        m_util.smooth_step(e), node.obj_state.interp_tsr);
+
+                transform_obj(obj, node.obj_state.interp_tsr, node.obj_state.space);
+
+                if (e == 1)
+                   node.state = 1;
+            });
+            break;
+        case 0:
+            // interpolation is in progress
+            break;
+        case 1:
+            // end
+            m_time.clear_animation(trans_animator);
+            node.state = -1;
+            thread_state.curr_node = node.slot_idx_order;
+            break;
+        }
+        break;
     }
 }
 
@@ -948,14 +1154,14 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
     case RUNNING:
         if (node.shader_nd_type == "ShaderNodeRGB") {
             m_obj.set_nodemat_rgb(node.objects["id0"], node.nodes_paths["id0"],
-                node.bools["id0"] ? thread_state.variables[node.vars["id0"]] : node.floats["id0"],
-                node.bools["id1"] ? thread_state.variables[node.vars["id1"]] : node.floats["id1"],
-                node.bools["id2"] ? thread_state.variables[node.vars["id2"]] : node.floats["id2"]);
+                node.bools["id0"] ? convert_variable(thread_state.variables[node.vars["id0"]], NT_NUMBER) : node.floats["id0"],
+                node.bools["id1"] ? convert_variable(thread_state.variables[node.vars["id1"]], NT_NUMBER) : node.floats["id1"],
+                node.bools["id2"] ? convert_variable(thread_state.variables[node.vars["id2"]], NT_NUMBER) : node.floats["id2"]);
         }
 
         if (node.shader_nd_type == "ShaderNodeValue") {
             m_obj.set_nodemat_value(node.objects["id0"], node.nodes_paths["id0"],
-                node.bools["id0"] ? thread_state.variables[node.vars["id0"]] : node.floats["id0"]);
+                node.bools["id0"] ? convert_variable(thread_state.variables[node.vars["id0"]], NT_NUMBER) : node.floats["id0"]);
         }
         thread_state.curr_node = node.slot_idx_order;
         break;
@@ -963,10 +1169,10 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
 }
 
 function math_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
-        var val1 = (node.var1 == -1) ? node.num1 : thread_state.variables[node.var1];
-        var val2 = (node.var2 == -1) ? node.num2 : thread_state.variables[node.var2];
+        var val1 = (node.var1 == -1) ? node.inp1 : convert_variable(thread_state.variables[node.var1], NT_NUMBER);
+        var val2 = (node.var2 == -1) ? node.inp2 : convert_variable(thread_state.variables[node.var2], NT_NUMBER);
 
         switch (node.op) {
         case "ADD":
@@ -995,34 +1201,34 @@ function math_handler(node, logic, thread_state, timeline, elapsed, start_time) 
 }
 
 function conditional_jump_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
-        var val1 = (node.var1 == -1) ? node.num1 : thread_state.variables[node.var1];
-        var val2 = (node.var2 == -1) ? node.num2 : thread_state.variables[node.var2];
+        var val1 = (node.var1 == -1) ? node.inp1 : convert_variable(thread_state.variables[node.var1], NT_NUMBER);
+        var val2 = (node.var2 == -1) ? node.inp2 : convert_variable(thread_state.variables[node.var2], NT_NUMBER);
         var cond_result = false;
 
-        switch (node.cond) {
-        case "EQUAL":
+        switch (node.floats["cnd"]) {
+        case NC_EQUAL:
             if (val1 == val2)
                 cond_result = true;
             break;
-        case "NOTEQUAL":
+        case NC_NOTEQUAL:
             if (val1 != val2)
                 cond_result = true;
             break;
-        case "LESS":
+        case NC_LESS:
             if (val1 < val2)
                 cond_result = true;
             break;
-        case "GREATER":
+        case NC_GREATER:
             if (val1 > val2)
                 cond_result = true;
             break;
-        case "LEQUAL":
+        case NC_LEQUAL:
             if (val1 <= val2)
                 cond_result = true;
             break;
-        case "GEQUAL":
+        case NC_GEQUAL:
             if (val1 >= val2)
                 cond_result = true;
             break;
@@ -1038,9 +1244,9 @@ function conditional_jump_handler(node, logic, thread_state, timeline, elapsed, 
 }
 
 function regstore_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case RUNNING:
-        thread_state.variables[node.vard] = node.num1;
+        thread_state.variables[node.vard] = node.inp1;
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -1067,7 +1273,7 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
     var slot = m_anim.SLOT_ALL;
     if (!node.anim_name == "")
         slot = m_anim.SLOT_0;
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         node.obj = get_object(node);
         var behavior = node.common_usage_names["param_anim_behavior"];
@@ -1140,7 +1346,7 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
 }
 
 function stop_anim_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    switch(logic.state) {
+    switch (logic.state) {
     case INITIALIZATION:
         node.obj = get_object(node);
         break;
@@ -1148,6 +1354,60 @@ function stop_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
         m_anim.stop(node.obj, m_anim.SLOT_ALL);
         if (node.bools["rst"])
             m_anim.set_first_frame(node.obj, m_anim.SLOT_ALL);
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function string_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case RUNNING:
+        var op1 = node.bools["id0"] ? convert_variable(thread_state.variables[node.vars['id0']], NT_STRING) : node.strings["id0"];
+        var op2 = node.bools["id1"] ? convert_variable(thread_state.variables[node.vars['id1']], NT_STRING) : node.strings["id1"];
+        switch (node.floats["sop"]) {
+        case NSO_JOIN:
+            thread_state.variables[node.vars['dst']] = op1 + op2;
+            break;
+        case NSO_FIND:
+            thread_state.variables[node.vars['dst']] = op1.indexOf(op2);
+            break;
+        case NSO_REPLACE:
+            var op3 = node.bools["id2"] ? convert_variable(thread_state.variables[node.vars['id2']], NT_STRING) : node.strings["id2"];
+            thread_state.variables[node.vars['dst']] = op1.replace(op2, op3);
+            break;
+        case NSO_SPLIT:
+            thread_state.variables[node.vars['dst']]  = op1.substring(0, op1.indexOf(op2));
+            thread_state.variables[node.vars['dst1']] = op1.substring(op1.indexOf(op2)+1, op1.length);
+            //if splitter not found keep result in main destination
+            if(thread_state.variables[node.vars['dst']] == "") {
+                thread_state.variables[node.vars['dst']] = thread_state.variables[node.vars['dst1']];
+                thread_state.variables[node.vars['dst1']] = "";
+            }
+            break;        
+        case NSO_COMPARE:
+            switch (node.floats["cnd"]) {
+            case NC_EQUAL:
+                thread_state.variables[node.vars['dst']] = op1 == op2 ? 1 : 0;
+                break;
+            case NC_NOTEQUAL:
+                thread_state.variables[node.vars['dst']] = op1 != op2 ? 1 : 0;
+                break;
+            case NC_LESS:
+                thread_state.variables[node.vars['dst']] = op1 < op2 ? 1 : 0;
+                break;
+            case NC_GREATER:
+                thread_state.variables[node.vars['dst']] = op1 > op2 ? 1 : 0;
+                break;
+            case NC_LEQUAL:
+                thread_state.variables[node.vars['dst']] = op1 <= op2 ? 1 : 0;
+                break;
+            case NC_GEQUAL:
+                thread_state.variables[node.vars['dst']] = op1 >= op2 ? 1 : 0;
+                break;
+            }
+            break;
+        }
+        
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -1227,11 +1487,11 @@ function prepare_logic(scene, logic) {
                 state: -1,
                 sel_objs_len: -1,
                 sel_obj_idx: -1,
-                cond: snode["condition"],
+                //cond: snode["condition"],
                 var1: snode["variable1"],
                 var2: snode["variable2"],
-                num1: snode["number1"],
-                num2: snode["number2"],
+                inp1: snode["input1"],
+                inp2: snode["input2"],
                 vard: snode["variabled"],
                 url: snode["url"],
                 param_name: snode["param_name"],
@@ -1247,6 +1507,7 @@ function prepare_logic(scene, logic) {
                 floats: snode["floats"],
                 bools: snode["bools"],
                 vars: snode["variables"],
+                strings: snode["strings"],
                 materials_names: snode["materials_names"],
                 shader_nd_type: snode["shader_nd_type"],
                 common_usage_names: snode["common_usage_names"],
@@ -1258,7 +1519,8 @@ function prepare_logic(scene, logic) {
                 tmp1: 0,
                 camera_state: null,
                 sel_obj_idxs: null,
-                links_idxs: snode["links"]
+                links_dict: snode["links"],
+                links_idxs: []
             };
             // just copy all
             logic_script.nodes.push(node);
@@ -1280,6 +1542,17 @@ function prepare_logic(scene, logic) {
     logic.state = RUNNING;
     _logic_arr.push(logic)
 }
+
+function convert_variable(variable, type) {
+    switch (type) {
+    case NT_NUMBER:
+        return Boolean(Number(variable)) ? Number(variable) : 0;
+    case NT_STRING:
+        return String(variable);
+    default: 
+        return null;
+    }
+} 
 
 exports.cleanup = function() {
     _logic_arr = [];

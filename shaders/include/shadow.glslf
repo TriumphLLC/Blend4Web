@@ -1,6 +1,6 @@
 #var PRECISION lowp
 
-#import u_csm_center_dists u_pcf_blur_radii u_perspective_cast_far_bound
+#import u_csm_center_dists u_pcf_blur_radii
 #import u_shadow_map0 u_shadow_map1 u_shadow_map2 u_shadow_map3 u_shadow_mask
 #import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3 \
 v_tex_pos_clip v_pos_view
@@ -61,44 +61,30 @@ float calc_poisson_visibility(float poisson_disc_x, float poisson_disc_y,
 float shadow_map_visibility(vec3 shadow_coord, PRECISION sampler2D shadow_map,
         float blur_radius) {
 
-# if PERSPECTIVE_SHADOW_CAST
-    // NOTE: this case represents the area behind the casting camera;
-    // it's a non-CSM scheme (because of SPOT/POINT lighting), so the camera
-    // near/far planes are immutable
-    if (shadow_coord.z > u_perspective_cast_far_bound)
-        return 1.0;
-    else {
-# endif
-        shadow_coord.z = clamp(shadow_coord.z, 0.0, 1.0);
-        float visibility = 0.0;
+    float visibility = 0.0;
+    shadow_coord.z = clamp(shadow_coord.z, 0.0, 1.0);
 
-        // Poisson disk random rotation
-        float rnd_val = generate_dithering_tex(shadow_coord.xy).x * M_PI;
-        float rnd_cos = cos(rnd_val);
-        float rnd_sin = sin(rnd_val);
-        mat2 rotation_mat = mat2(rnd_cos, rnd_sin, -rnd_sin, rnd_cos);
+    // Poisson disk random rotation
+    float rnd_val = generate_dithering_tex(shadow_coord.xy).x * M_PI;
+    float rnd_cos = cos(rnd_val);
+    float rnd_sin = sin(rnd_val);
+    mat2 rotation_mat = mat2(rnd_cos, rnd_sin, -rnd_sin, rnd_cos);
 
-        for (int i = 0; i < 4; i++) {
-            visibility += calc_poisson_visibility(POISSON_DISK_X_0[i],
-                    POISSON_DISK_Y_0[i], rotation_mat, shadow_coord,
-                    blur_radius, shadow_map);
-            visibility += calc_poisson_visibility(POISSON_DISK_X_1[i],
-                    POISSON_DISK_Y_1[i], rotation_mat, shadow_coord,
-                    blur_radius, shadow_map);
-            visibility += calc_poisson_visibility(POISSON_DISK_X_2[i],
-                    POISSON_DISK_Y_2[i], rotation_mat, shadow_coord,
-                    blur_radius, shadow_map);
-            visibility += calc_poisson_visibility(POISSON_DISK_X_3[i],
-                    POISSON_DISK_Y_3[i], rotation_mat, shadow_coord,
-                    blur_radius, shadow_map);
-        }
-
-        visibility /= 16.0;
-        return clamp(visibility, 0.0, 1.0);
-# if PERSPECTIVE_SHADOW_CAST
+    for (int i = 0; i < 4; i++) {
+        visibility += calc_poisson_visibility(POISSON_DISK_X_0[i],
+                POISSON_DISK_Y_0[i], rotation_mat, shadow_coord,
+                blur_radius, shadow_map);
+        visibility += calc_poisson_visibility(POISSON_DISK_X_1[i],
+                POISSON_DISK_Y_1[i], rotation_mat, shadow_coord,
+                blur_radius, shadow_map);
+        visibility += calc_poisson_visibility(POISSON_DISK_X_2[i],
+                POISSON_DISK_Y_2[i], rotation_mat, shadow_coord,
+                blur_radius, shadow_map);
+        visibility += calc_poisson_visibility(POISSON_DISK_X_3[i],
+                POISSON_DISK_Y_3[i], rotation_mat, shadow_coord,
+                blur_radius, shadow_map);
     }
-# endif
-    return 1.0;
+    return clamp(visibility / 16.0, 0.0, 1.0);
 }
 
 float shadow_map_visibility_overlap(vec3 shadow_coord0, PRECISION sampler2D shadow_map0,
@@ -207,15 +193,26 @@ vec4 shadow_visibility(float depth) {
 
     float vis = 1.0;
 
+    // NOTE: possible division by zero
     vec3 shadow_coord0 = v_shadow_coord0.xyz / v_shadow_coord0.w;
+    // fix for shadow maps from perspective camera (actually works for 
+    // all cameras): no shadows behind the camera
+    if (v_shadow_coord0.w < 0.0)
+        shadow_coord0.z = 0.0;
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
     vec3 shadow_coord1 = v_shadow_coord1.xyz / v_shadow_coord1.w;
+    if (v_shadow_coord1.w < 0.0)
+        shadow_coord1.z = 0.0;
 # endif
 # if CSM_SECTION2 || NUM_CAST_LAMPS > 2
     vec3 shadow_coord2 = v_shadow_coord2.xyz / v_shadow_coord2.w;
+    if (v_shadow_coord2.w < 0.0)
+        shadow_coord2.z = 0.0;
 # endif
 # if CSM_SECTION3 || NUM_CAST_LAMPS > 3
     vec3 shadow_coord3 = v_shadow_coord3.xyz / v_shadow_coord3.w;
+    if (v_shadow_coord3.w < 0.0)
+        shadow_coord3.z = 0.0;
 # endif
 
 # if CSM_SECTION1

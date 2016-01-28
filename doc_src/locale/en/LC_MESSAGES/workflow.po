@@ -46,6 +46,10 @@ msgstr "Exporting scenes."
 msgid "Запуск, настройка и отладка сцены в программе-просмотрщике."
 msgstr "Running, tweaking and debugging scenes in the Viewer."
 
+#: ../workflow.rst:19
+msgid "Создание целевого веб-приложения."
+msgstr "Creating the target application."
+
 #: ../workflow.rst:24
 msgid "Подготовка сцен"
 msgstr "Authoring Scenes"
@@ -208,6 +212,31 @@ msgstr "adding scenes"
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
+#: ../workflow.rst:67
+msgid ""
+"При использовании :ref:`локального сервера разработки "
+"<local_development_server>` возможно сделать предварительный просмотр сцены "
+"используя кнопку ``Fast Preview``, расположенную на панели "
+"``Scene->Development Server`` в Blender. В этом случае будет произведён "
+"автоматический экспорт сцены во временное хранилище с последующей загрузкой "
+"в просмотрщике."
+msgstr ""
+"When using the :ref:`local development server <local_development_server>` "
+"it's possible to preview current scene using ``Fast Preview`` button, located "
+"on the ``Scene->Development Server`` panel in Blender. In this case "
+"the scene will be exported inside some temporary storage and loaded in "
+"the Viewer app."
+
+#: ../workflow.rst:69
+msgid ""
+"Другой способ это использовать опцию экспорта сцены :ref:`Run in Viewer "
+"<run_in_viewer>`. В этом случая сцена показывается в просмотрщике сразу "
+"после экспорта."
+msgstr ""
+"The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
+"option. In this case the scene will be displayed in the Viewer app "
+"immediately after the export."
+
 #: ../workflow.rst:71
 msgid ""
 "При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, "
@@ -284,32 +313,3 @@ msgstr ""
 "At this stage an application is created. Logic for scene loading and user "
 "interaction is written using JavaScript. The application developer notes are"
 " given in the :ref:`corresponding section <developers>`."
-
-#: ../workflow.rst:19
-msgid "Создание целевого веб-приложения."
-msgstr "Creating the target application."
-
-#: ../workflow.rst:67
-msgid ""
-"При использовании :ref:`локального сервера разработки "
-"<local_development_server>` возможно сделать предварительный просмотр сцены "
-"используя кнопку ``Fast Preview``, расположенную на панели "
-"``Scene->Development Server`` в Blender. В этом случае будет произведён "
-"автоматический экспорт сцены во временное хранилище с последующей загрузкой "
-"в просмотрщике."
-msgstr ""
-"When using the :ref:`local development server <local_development_server>` "
-"it's possible to preview current scene using ``Fast Preview`` button, located "
-"on the ``Scene->Development Server`` panel in Blender. In this case "
-"the scene will be exported inside some temporary storage and loaded in "
-"the Viewer app."
-
-#: ../workflow.rst:69
-msgid ""
-"Другой способ это использовать опцию экспорта сцены :ref:`Run in Viewer "
-"<run_in_viewer>`. В этом случая сцена показывается в просмотрщике сразу "
-"после экспорта."
-msgstr ""
-"The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
-"option. In this case the scene will be displayed in the Viewer app "
-"immediately after the export."

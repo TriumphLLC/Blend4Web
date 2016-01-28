@@ -45,7 +45,6 @@ var cfg_phy = m_cfg.physics;
 var cfg_def = m_cfg.defaults;
 var cfg_ldr = m_cfg.assets;
 
-var ANY_COL_ID_NUM = 0;
 var RAY_CMP_PRECISION = 0.0000001;
 
 var _phy_fps = 0;
@@ -55,7 +54,7 @@ var _scenes = [];
 var _bounding_objects = {};
 var _bounding_objects_arr = [];
 
-var _collision_ids = [];
+var _collision_ids = ["ANY"];
 
 // IDs always begin with 1
 var _unique_counter = {
@@ -682,8 +681,6 @@ function init_static_mesh_physics(obj, batch, worker) {
 }
 
 function col_id_num(id) {
-    if (id == "ANY")
-        return ANY_COL_ID_NUM;
 
     var num = _collision_ids.indexOf(id);
     if (num == -1) {
@@ -691,13 +688,6 @@ function col_id_num(id) {
         return (_collision_ids.length - 1);
     } else
         return num;
-}
-
-function col_id_by_num(num) {
-    if (num == ANY_COL_ID_NUM)
-        return "ANY";
-    else
-        return _collision_ids[num];
 }
 
 function init_physics(body_id) {

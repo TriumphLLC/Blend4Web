@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import copy
 import math
 import os,sys,subprocess, multiprocessing, re, getopt, platform
 import shutil
@@ -16,8 +17,7 @@ PATH_TO_UTILS_WIN = os.path.join(BASE_DIR, "..", "tools", "converter_utils", "wi
 
 NO_CONV_NAME = ".b4w_no_conv"
 
-DEPENDENCIES = ["avconv", "identify", "nvcompress",
-        "convert", "ffmpeg"]
+DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg"]
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
@@ -27,17 +27,31 @@ ENDCOL = "\033[0m"
 SEQ_VIDEO_FPS = 12
 
 def help():
-    print("usage: converter.py [-d dir_path] <conversion_option>")
+    print("""usage: converter.py [-d dir_path | --dir dir_path] [-j jobs | --jobs jobs]
+                    [-v | --verbose] <command>""")
     print("")
-    print("""conversion options:
-    resize_textures
-    convert_dds
-    convert_media
-    cleanup_textures
-    cleanup_dds
-    cleanup_media
-    check_dependencies""")
+    print("""commands:
+    resize_textures       convert textures to lower resolution
+    convert_dds           convert textures to DDS format
+    convert_media         convert audio and video files to alternative formats
 
+    cleanup_textures      cleanup low resolution textures
+    cleanup_dds           cleanup textures converted to DDS
+    cleanup_media         cleanup converted media
+
+    check_dependencies    check converter dependencies
+
+options:
+    -d, --dir dir_path    specify alternative directory with converted files
+    -j, --jobs jobs       specify the number of jobs to run simultaneously
+                          if not given or 0, the number will be calculated
+                          automatically based on CPU count
+    -v, --verbose         print more information about files being converted
+""")
+
+def print_flush():
+    sys.stdout.flush()
+    sys.stderr.flush()
 
 def check_dependencies(dependencies):
 
@@ -74,16 +88,14 @@ def get_missing_progs(dependencies):
             missing_progs.append(dep)
     return missing_progs
 
-def resize_texture(args):
-    if platform.system() != "Windows":
-        convert_param = " \( +clone -channel A -separate +channel \) -alpha off "
-    else:
-        convert_param = " ^( +clone -channel A -separate +channel ^) -alpha off "
+def resize_textures_handler(args):
+    root = args["root"]
+    filename = args["filename"]
 
-    root = args[0]
-    filename = args[1]
-    convert = args[2]
-    identify = args[3]
+    convert = args["convert"]
+    identify = args["identify"]
+    dds_convert = args["dds_convert"]
+
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
@@ -95,19 +107,23 @@ def resize_texture(args):
         if is_older(path_from, path_to):
             return
 
-        print("resizing file", path_from)
+        print("resizing tex", path_from)
 
         if is_cubemap(path_from, identify):
             # use box filter  in order to prevent seams
-            ret = os.system(convert + " " + path_from + 
-                    " -filter box -resize 50% " + path_to)
+            ret = subprocess.call([convert, path_from, "-filter", "box",
+                    "-resize", "50%", path_to])
         else:
-            ret = os.system(convert + " " + path_from + convert_param + 
-                    "-resize 50% -compose CopyOpacity -composite " +  path_to)
+            convert_params = ["(", "+clone", "-channel", "A", "-separate", "+channel", ")",
+                    "-alpha", "off"]
 
+            ret = subprocess.call([convert, path_from] + convert_params +
+                    ["-resize", "50%", "-compose", "CopyOpacity", "-composite", path_to])
         if ret:
-            print("Conversion error")
+            print("conversion error", path_from, file=sys.stderr)
             sys.exit(1)
+
+        print_flush()
 
 def is_cubemap(path, identify):
     ret = subprocess.check_output([identify, "-format", "%w,%h", path])
@@ -115,16 +131,20 @@ def is_cubemap(path, identify):
     [w, h] = [int(ret[0]), int(ret[1])]
     return w*2 == h*3;
 
-def convert_dds(args):
+def convert_dds_handler(args):
+    root = args["root"]
+    filename = args["filename"]
 
-    root = args[0];
-    filename = args[1];
-    convert = args[2];
-    identify = args[3];
-    dds_convert = args[4];
+    convert = args["convert"]
+    identify = args["identify"]
+    dds_convert = args["dds_convert"]
+
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
+
+    verbose = args["verbose"]
+
     if ext == ".jpg" or ext == ".jpeg" or ext == ".png":
         path_from = os.path.join(root, filename)
         path_to = path_from + ".dds"
@@ -135,9 +155,9 @@ def convert_dds(args):
         height = int(size_data[1])
 
         if check_non_multiple_of_4(width, height):
-            print(RED + " [INCOMPATIBLE IMAGE] " + WHITE \
+            print(RED + "[INCOMPATIBLE IMAGE] " + WHITE \
                     + "Image size must be a multiple of 4:" + ENDCOL, path_from, \
-                    WHITE)
+                    WHITE, file=sys.stderr)
             return
 
         if is_cubemap(path_from, identify):
@@ -147,13 +167,20 @@ def convert_dds(args):
         if is_older(path_from, path_to):
             return
 
-        print("flipping", path_from)
+        if verbose:
+            print("flipping", path_from)
 
         path_flipped = os.path.join(root, head + ".flipped" + ext)
 
+        if verbose:
+            sp_stdout = None
+        else:
+            sp_stdout = subprocess.DEVNULL
+
         if ext == ".png":
             # force PNG32 format to protect greyscale images from darkening
-            subprocess.call([convert, path_from, "-flip", "PNG32:"+path_flipped])
+            subprocess.call([convert, path_from, "-flip",
+                "PNG32:"+path_flipped])
         else:
             subprocess.call([convert, path_from, "-flip", path_flipped])
 
@@ -163,16 +190,20 @@ def convert_dds(args):
 
         if check_non_power_of_two(width, height):
             ret = subprocess.call([dds_convert, compression, "-nomips", \
-                    path_flipped, path_to])
+                    path_flipped, path_to], stdout=sp_stdout)
         else:
             ret = subprocess.call([dds_convert, compression, path_flipped, \
-                    path_to])
+                    path_to], stdout=sp_stdout)
         if ret:
-            print("Conversion error. Can't swpan nvcompress process")
+            print("Conversion error. Can't swpan nvcompress process",
+                    file=sys.stderr)
             sys.exit(1)
 
-        print("removing flipped", path_from, "\n")
+        if verbose:
+            print("removing flipped", path_from, "\n")
         os.remove(path_flipped)
+
+        print_flush()
 
 def check_non_multiple_of_4(width, height):
     return bool(width % 4 or height % 4)
@@ -205,7 +236,7 @@ def check_alpha_usage(path, ext, convert, identify):
         if alpha != 1:
             return True
 
-        print(YELLOW + " [ALPHA UNUSED]" + ENDCOL, path, WHITE)
+        print(YELLOW + "[ALPHA UNUSED]" + ENDCOL, path, WHITE, file=sys.stderr)
 
     return False
 
@@ -232,15 +263,19 @@ def is_older(path, path2):
     else:
         return False
 
-def convert_media(args):
+def convert_media_handler(args):
 
-    root = args[0]
-    filename = args[1]
-    media_converter = args[5]
-    faststart = args[6]
+    root = args["root"]
+    filename = args["filename"]
+
+    media_converter = args["media_converter"]
+    faststart = args["faststart"]
+
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
+
+    verbose = args["verbose"]
 
     if (head.find(".altconv") == -1 and
             (ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
@@ -251,8 +286,11 @@ def convert_media(args):
         path_to = os.path.join(root, head + ".altconv" + new_ext)
 
         if not is_older(path_from, path_to):
-            if sequential_video_file_conv(path_from, path_to, media_converter):
-                print("Conversion error")
+            print("converting media", path_from, "(seq)")
+
+            if sequential_video_file_conv(path_from, path_to, media_converter,
+                    verbose):
+                print("conversion error", file=sys.stderr)
                 sys.exit(1)
 
     if (head.find(".altconv") == -1 and
@@ -281,71 +319,104 @@ def convert_media(args):
         if is_older(path_from, path_to):
             return
 
-        print("converting media file", path_from)
+        print("converting media", path_from)
 
-        if media_conv(path_from, path_to, media_converter):
-            print("Conversion error")
+        if media_conv(path_from, path_to, media_converter, verbose):
+            print("conversion error", file=sys.stderr)
             sys.exit(1)
 
         if check_dependencies(["qt-faststart"]):
-            result = qt_faststart_conv(path_to, faststart)
+            result = qt_faststart_conv(path_to, faststart, verbose)
             if result is not None:
                 if result:
-                    print("Conversion error (qt_faststart)")
+                    print("conversion error (qt_faststart)", file=sys.stderr)
                     sys.exit(1)
                 else:
                     os.remove(path_to)
                     os.rename(path_to + ".tmp", path_to)
 
-def media_conv(path_from, path_to, media_converter):
+        print_flush()
+
+def media_conv(path_from, path_to, media_converter, verbose):
 
     ext_to = os.path.splitext(path_to)[1]
-    args = media_converter + " -y -i " + path_from
+    args = [media_converter, "-y", "-i", path_from]
 
     if ext_to == ".ogg":
-        args += " -acodec libvorbis"
+        args += ["-acodec", "libvorbis"]
     elif ext_to == ".mp3":
-        args += " -acodec mp3"
+        args += ["-acodec", "mp3"]
     elif ext_to == ".mp4" or ext_to == ".m4v":
         # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
-        args += " -acodec aac -strict experimental -ar 48000"
+        args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"]
 
-    args += " " + path_to
+    if verbose:
+        args += ["-loglevel", "info"]
+        print(" ".join(args))
+    else:
+        args += ["-loglevel", "warning"]
 
-    print(args)
+    args += [path_to]
 
-    return os.system(args)
+    return subprocess.call(args)
 
-def qt_faststart_conv(path, faststart):
+def qt_faststart_conv(path, faststart, verbose):
     ext_to = os.path.splitext(path)[1]
 
     if ext_to == ".mp4" or ext_to == ".m4v":
-        return subprocess.call([faststart, path, path + ".tmp"])
+        if verbose:
+            sp_stdout = None
+        else:
+            sp_stdout = subprocess.DEVNULL
+
+        return subprocess.call([faststart, path, path + ".tmp"],
+                stdout=sp_stdout)
     return None
 
-def sequential_video_file_conv(path_from, path_to, media_converter):
+def sequential_video_file_conv(path_from, path_to, media_converter, verbose):
 
     tmp_folder = os.path.join(os.path.dirname(path_from), 
             hashlib.md5(path_from.encode()).hexdigest())
     ext = os.path.splitext(path_from)[1]
+    # TODO: fix crashes when the folder already exists
     os.mkdir(tmp_folder)
 
     fps = str(SEQ_VIDEO_FPS)
     if ext == ".m4v":
-        rez = os.system(media_converter + " -i " + path_from + " -r " + fps + " -strict experimental " + tmp_folder + "/_seq_tmp" + ext)
+        args = [media_converter, "-i", path_from, "-r", fps,
+                "-strict", "experimental", 
+                os.path.join(tmp_folder, "_seq_tmp" + ext)]
     else:
-        rez = os.system(media_converter + " -i " + path_from + " -r " + fps + " " + tmp_folder + "/_seq_tmp" + ext)
-    if rez != 0:
-        shutil.rmtree(tmp_folder)
-        print("Could not convert video ", path_from)
-        return rez
+        args = [media_converter, "-i", path_from, "-r", fps,
+                os.path.join(tmp_folder, "_seq_tmp" + ext)]
 
-    rez =  os.system(media_converter +" -i " + tmp_folder + "/_seq_tmp" + ext + " " + tmp_folder + "/out%08d.jpg")
-    if rez != 0:
+    if verbose:
+        args += ["-loglevel", "info"]
+        print(" ".join(args))
+    else:
+        args += ["-loglevel", "warning"]
+
+    res = subprocess.call(args)
+    if res != 0:
         shutil.rmtree(tmp_folder)
-        print("Could not split frames ", path_from)
-        return rez
+        print("could not convert video ", path_from, file=sys.stderr)
+        return res
+
+    args = [media_converter, "-i", os.path.join(tmp_folder, "_seq_tmp" + ext),
+            os.path.join(tmp_folder, "out%08d.jpg")]
+
+    if verbose:
+        args += ["-loglevel", "info"]
+        print(" ".join(args))
+    else:
+        args += ["-loglevel", "warning"]
+
+    res = subprocess.call(args)
+    if res != 0:
+        shutil.rmtree(tmp_folder)
+        print("could not split frames ", path_from, file=sys.stderr)
+        return res
 
     try:
         sequential_video = open(path_to, "wb")
@@ -379,56 +450,80 @@ def sequential_video_file_conv(path_from, path_to, media_converter):
         return None
 
 
-def remove_media(args):
-    root = args[0]
-    file = args[1]
-    ext = os.path.splitext(file)[1]
-    if (".seq" in file or ".altconv" in file and
+def cleanup_media_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+
+    ext = os.path.splitext(filename)[1]
+    if (".seq" in filename or ".altconv" in filename and
             (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or
             ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
-        print("removing", os.path.join(root, file))
-        os.remove(os.path.join(root, file))
+        print("removing", os.path.join(root, filename))
+        os.remove(os.path.join(root, filename))
 
-def remove_min50_image(args):
-    root = args[0]
-    file = args[1]
-    ext = os.path.splitext(file)[1]
-    if (ext == ".jpg" or ext == ".jpeg" or ext == ".png") and ".min50" in file:
-        print("removing", os.path.join(root, file))
-        os.remove(os.path.join(root, file))
+        print_flush()
 
-def remove_dds(args):
-    root = args[0]
-    file = args[1]
-    if ".jpg.dds" in file or ".jpeg.dds" in file or ".png.dds" in file:
-        print("removing", os.path.join(root, file))
-        os.remove(os.path.join(root, file))
+def cleanup_textures_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+
+    ext = os.path.splitext(filename)[1]
+    if (ext == ".jpg" or ext == ".jpeg" or ext == ".png") and ".min50" in filename:
+        print("removing", os.path.join(root, filename))
+        os.remove(os.path.join(root, filename))
+
+        print_flush()
+
+def cleanup_dds_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+
+    if (".jpg.dds" in filename or ".jpeg.dds" in filename or
+            ".png.dds" in filename):
+        print("removing", os.path.join(root, filename))
+        os.remove(os.path.join(root, filename))
+
+        print_flush()
 
 if __name__ == "__main__":
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                            "d:h:", ["dir=", "help"])
+                "d:j:vh", ["dir=", "jobs=", "verbose", "help"])
     except getopt.GetoptError as err:
         print(err)
         sys.exit(1)
 
     paths = [os.path.normpath(ASSETS_DIR), os.path.normpath(TUTS_DIR)]
 
+    handler_args = {
+        "verbose": False
+    }
+
+    jobs = 0
+
     for o, a in opts:
         if o == "--dir" or o == "-d":
             if os.path.isdir(a):
                 paths = [a]
             else:
-                print("Directory does not exist")
+                print("Directory does not exist", file=sys.stderr)
                 sys.exit(1)
+        elif o == "--jobs" or o == "-j":
+            try:
+                jobs = int(a)
+            except ValueError:
+                print("Invalid number of jobs", file=sys.stderr)
+                sys.exit(1)
+        elif o == "--verbose" or o == "-v":
+            handler_args["verbose"] = True
 
     if not len(args):
         help()
         sys.exit(1)
 
     if len(args) > 1:
-        print("You may specify only one assignment")
+        print("You may specify only one assignment", file=sys.stderr)
         print()
         help()
         sys.exit(1)
@@ -438,26 +533,26 @@ if __name__ == "__main__":
     if task == "convert_media":
         if not check_dependencies(["ffmpeg", "avconv"]):
             sys.exit(1)
-        handler = convert_media
+        handler = convert_media_handler
 
     elif task == "cleanup_media":
-        handler = remove_media
+        handler = cleanup_media_handler
 
     elif task == "resize_textures":
         if not check_dependencies(["convert"]):
             sys.exit(1)
-        handler = resize_texture
+        handler = resize_textures_handler
 
     elif task == "cleanup_textures":
-        handler = remove_min50_image
+        handler = cleanup_textures_handler
 
     elif task == "convert_dds":
         if not check_dependencies(["convert", "identify", "nvcompress"]):
             sys.exit(1)
-        handler = convert_dds
+        handler = convert_dds_handler
 
     elif task == "cleanup_dds":
-        handler = remove_dds
+        handler = cleanup_dds_handler
 
     elif task == "check_dependencies":
         if check_dependencies(DEPENDENCIES):
@@ -469,31 +564,45 @@ if __name__ == "__main__":
         exit(0)
 
     if platform.system() != "Windows":
-        convert = "convert"
-        identify = "identify"
-        dds_convert = "nvcompress"
+        handler_args["convert"] = "convert"
+        handler_args["identify"] = "identify"
+
+        handler_args["dds_convert"] = "nvcompress"
+
         missing_progs = get_missing_progs(DEPENDENCIES)
         if not "ffmpeg" in missing_progs:
-            media_converter = "ffmpeg"
+            handler_args["media_converter"] = "ffmpeg"
         else:
-            media_converter = "avconv"
-        faststart = "qt-faststart"
+            handler_args["media_converter"] = "avconv"
+        handler_args["faststart"] = "qt-faststart"
     else:
-        convert = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "imagemagick", "convert.exe"))
-        identify = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "imagemagick", "identify.exe"))
-        dds_convert = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "nvcompress", "nvcompress.exe"))
-        media_converter = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "ffmpeg", "ffmpeg.exe"))
-        faststart = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN, "qt-faststart", "qt-faststart.exe"))
+        handler_args["convert"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "imagemagick", "convert.exe"))
+        handler_args["identify"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "imagemagick", "identify.exe"))
 
-    args = [];
+        handler_args["dds_convert"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "nvcompress", "nvcompress.exe"))
+
+        handler_args["media_converter"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "ffmpeg", "ffmpeg.exe"))
+        handler_args["faststart"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "qt-faststart", "qt-faststart.exe"))
+
+    args_list = []
 
     for path in paths:
         for root, dirs, files in os.walk(path):
             for f in files:
                 if not os.path.isfile(os.path.join(root, NO_CONV_NAME)):
-                    args.append([root, f, convert, identify, dds_convert, media_converter, faststart])
+                    handler_args["root"] = root
+                    handler_args["filename"] = f
+                    args_list.append(copy.copy(handler_args))
 
-    cpu_count = multiprocessing.cpu_count()
+    if jobs == 0:
+        cpu_count = multiprocessing.cpu_count()
+    else:
+        cpu_count = jobs
     pool = multiprocessing.Pool(processes = cpu_count)
-    pool.map(handler, args)
+    pool.map(handler, args_list)
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Рендеринг наружных сцен &mdash; Руководство пользователя: Blend4Web vv15.12</title>
+  <title>Природные эффекты &mdash; Руководство пользователя: Blend4Web vv16.01</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv15.12" href="index.html"/>
-        <link rel="next" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+        <link rel="next" title="Работа с цветом" href="colors.html"/>
         <link rel="prev" title="Анимация" href="animation.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v15.12
+              v16.01
             </div>
           
         
@@ -91,72 +91,73 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Рендеринг наружных сцен</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Природные эффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">Вода</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Базовые настройки</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Динамика волн</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Смачивание поверхностей</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Отражение и эффект Френеля</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Сглаживание у береговой линии</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Градиент цвета</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Преломление</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Пена</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Активация</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Настройка текстур</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">Настройка материала</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Базовые настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Динамика волн</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Смачивание поверхностей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Отражение и эффект Френеля</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Сглаживание у береговой линии</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Градиент цвета</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Преломление</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Пена</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Активация</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Настройка текстур</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Настройка материала</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Каустика и хроматическая аберрация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Подводная среда</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Настройки видимости (&#8220;туман&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Каустика и хроматическая аберрация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Подводная среда</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Настройки видимости (&#8220;туман&#8221;)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#water-volumetric-waves">Объемные волны</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id19">Активация</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Настройка</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Активация</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Настройка</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Настройки генерируемой поверхности</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Настройки генерируемой поверхности</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#shore-distance-bake">Создание текстуры с параметрами береговой линии</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#atmosphere">Атмосфера</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Рассеивание</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Туман</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Время суток</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Звезды</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Рассеивание</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Туман</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Время суток</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Звезды</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Ветер</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Настройка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Настройка</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wind-bending">Анимация травы и крон деревьев</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">Активация</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">Настройка</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Активация</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">Настройка</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Визуальное программирование</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -186,7 +187,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Рендеринг наружных сцен</li>
+    <li>Природные эффекты</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -199,16 +200,54 @@
            <div itemprop="articleBody">
             
   <div class="section" id="outdoor-rendering">
-<span id="id1"></span><h1>Рендеринг наружных сцен<a class="headerlink" href="#outdoor-rendering" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id35">Природные эффекты</a><a class="headerlink" href="#outdoor-rendering" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#outdoor-rendering" id="id35">Природные эффекты</a><ul>
+<li><a class="reference internal" href="#water" id="id36">Вода</a><ul>
+<li><a class="reference internal" href="#id4" id="id37">Активация</a></li>
+<li><a class="reference internal" href="#id5" id="id38">Базовые настройки</a></li>
+<li><a class="reference internal" href="#id6" id="id39">Динамика волн</a></li>
+<li><a class="reference internal" href="#id7" id="id40">Смачивание поверхностей</a></li>
+<li><a class="reference internal" href="#id8" id="id41">Отражение и эффект Френеля</a></li>
+<li><a class="reference internal" href="#id9" id="id42">Сглаживание у береговой линии</a></li>
+<li><a class="reference internal" href="#id10" id="id43">Градиент цвета</a></li>
+<li><a class="reference internal" href="#id11" id="id44">Преломление</a></li>
+<li><a class="reference internal" href="#id12" id="id45">Пена</a></li>
+<li><a class="reference internal" href="#id16" id="id46">Каустика и хроматическая аберрация</a></li>
+<li><a class="reference internal" href="#id17" id="id47">Подводная среда</a></li>
+<li><a class="reference internal" href="#water-volumetric-waves" id="id48">Объемные волны</a></li>
+<li><a class="reference internal" href="#id22" id="id49">Настройки генерируемой поверхности</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#atmosphere" id="id50">Атмосфера</a><ul>
+<li><a class="reference internal" href="#id25" id="id51">Рассеивание</a></li>
+<li><a class="reference internal" href="#id26" id="id52">Туман</a></li>
+<li><a class="reference internal" href="#id27" id="id53">Время суток</a></li>
+<li><a class="reference internal" href="#id28" id="id54">Звезды</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wind" id="id55">Ветер</a><ul>
+<li><a class="reference internal" href="#id30" id="id56">Активация</a></li>
+<li><a class="reference internal" href="#id31" id="id57">Настройка</a></li>
+<li><a class="reference internal" href="#wind-bending" id="id58">Анимация травы и крон деревьев</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>В Blend4Web присутствует ряд эффектов окружающей среды, которые могут быть полезны при создании открытых пространств.</p>
 <div class="section" id="water">
-<span id="id2"></span><h2>Вода<a class="headerlink" href="#water" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id3">
-<h3>Активация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id3"></span><h2><a class="toc-backref" href="#id36">Вода</a><a class="headerlink" href="#water" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id37">Активация</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для предполагаемого материала воды активировать панель <code class="docutils literal"><span class="pre">Water</span></code> во вкладке <code class="docutils literal"><span class="pre">Material</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_material_setup.png"><img alt="_images/water_material_setup.png" class="align-center" src="_images/water_material_setup.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id4">
-<h3>Базовые настройки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id38">Базовые настройки</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Прозрачность</em></dt>
 <dd>Рекомендуется включить прозрачность с градиентом <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span> <span class="pre">Blend</span></code> и настроить значение <code class="docutils literal"><span class="pre">Alpha</span></code>.</dd>
@@ -216,21 +255,21 @@
 <dd>Параметры освещения материала воды настраиваются как описано в разделе <a class="reference internal" href="materials.html#material-lighting-params"><span>Параметры освещения</span></a>.</dd>
 </dl>
 </div>
-<div class="section" id="id5">
-<h3>Динамика волн<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id39">Динамика волн</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Рябь на водной поверхности симулируется при помощи карт нормалей с анимированными развертками (в количестве от 0 до 4). Для текстур - карт нормалей используется только одно общее изображение, текстуры различаются параметрами <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code>. Меш для воды должен иметь текстурную развертку.</p>
 </div>
-<div class="section" id="id6">
-<h3>Смачивание поверхностей<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id40">Смачивание поверхностей</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществляется автоматически. Для включения эффекта на соответствующих материалах необходимо активировать опцию <code class="docutils literal"><span class="pre">Wettable</span></code> на панели <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span></code>.</p>
 </div>
-<div class="section" id="id7">
-<h3>Отражение и эффект Френеля<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id41">Отражение и эффект Френеля</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для материала воды поддерживается как статическое, так и динамическое зеркальное отражение, с эффектом Френеля. См. раздел <a class="reference internal" href="materials.html#material-mirror"><span>Зеркальное отражение</span></a>.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.jpg"><img alt="_images/water_reflection_dynamic.jpg" class="align-center" src="_images/water_reflection_dynamic.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id8">
-<h3>Сглаживание у береговой линии<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id42">Сглаживание у береговой линии</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Эффект заключается в том, что вода ближе к берегу становится прозрачнее.</p>
 <dl class="docutils">
 <dt><em>Water &gt; Shore Smoothing</em></dt>
@@ -239,8 +278,8 @@
 <dd>Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода.</dd>
 </dl>
 </div>
-<div class="section" id="id9">
-<h3>Градиент цвета<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id43">Градиент цвета</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для создания цветого градиента на материале воды должна быть наложена текстура с включенной опцией <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>, генерируемая с помощью скрипта для <a class="reference internal" href="#shore-distance-bake"><span>запекания параметров береговой линии</span></a>.</p>
 <dl class="docutils">
 <dt><em>Shallow water &gt; Color</em></dt>
@@ -253,20 +292,20 @@
 <dd>Коэффициент примешивания цвета воды на береговой линии.</dd>
 </dl>
 </div>
-<div class="section" id="id10">
-<h3>Преломление<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id44">Преломление</a><a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Во вкладке <code class="docutils literal"><span class="pre">Render</span></code>  в панели <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> выставить опцию <code class="docutils literal"><span class="pre">Refractions</span></code> в положение <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_refraction.jpg"><img alt="_images/water_refraction.jpg" class="align-center" src="_images/water_refraction.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id11">
-<h3>Пена<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="section" id="id12">
-<h4>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
+<h3><a class="toc-backref" href="#id45">Пена</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id13">
+<h4>Активация<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Для создания пены необходимо добавить в текстурный слот материала воды диффузную текстуру, в каждом из RGB - каналов которой сделует расположить черно-белые текстуры пены. Для полученной текстуры необходимо активировать панель <code class="docutils literal"><span class="pre">Water</span> <span class="pre">Foam</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_texture_setup_foam.png"><img alt="_images/water_texture_setup_foam.png" class="align-center" src="_images/water_texture_setup_foam.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id13">
-<h4>Настройка текстур<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id14">
+<h4>Настройка текстур<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Influence &gt; Color</em></dt>
 <dd>Фактор влияния цвета текстуры. Значение по умолчанию 1.0.</dd>
@@ -276,16 +315,16 @@
 <dd>Амплитуда колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0).</dd>
 </dl>
 </div>
-<div class="section" id="id14">
-<h4>Настройка материала<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id15">
+<h4>Настройка материала<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Foam &gt; Factor</em></dt>
 <dd>Фактор общего влияния пены. Значение по умолчанию 0.5.</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="id15">
-<h3>Каустика и хроматическая аберрация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id46">Каустика и хроматическая аберрация</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для создания каустики на подводных объектах следует включить опцию <code class="docutils literal"><span class="pre">Caustics</span></code>. Так же на сцене должен присутстовать источник освещение типа <code class="docutils literal"><span class="pre">Sun</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_caustics.jpg"><img alt="_images/water_caustics.jpg" class="align-center" src="_images/water_caustics.jpg" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -295,11 +334,11 @@
 <dd>Фактор влияния каустики. Значение по умолчанию 0.5.</dd>
 </dl>
 </div>
-<div class="section" id="id16">
-<h3>Подводная среда<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
-<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="_images/underwater.jpg" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
 <div class="section" id="id17">
-<h4>Настройки видимости (&#8220;туман&#8221;)<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
+<h3><a class="toc-backref" href="#id47">Подводная среда</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="_images/underwater.jpg" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
+<div class="section" id="id18">
+<h4>Настройки видимости (&#8220;туман&#8221;)<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Underwater Fog &gt; Color</em></dt>
 <dd>Цвет тумана. Значение по умолчанию (0.4, 0.6, 0.7).</dd>
@@ -315,14 +354,14 @@
 </div>
 </div>
 <div class="section" id="water-volumetric-waves">
-<span id="id18"></span><h3>Объемные волны<a class="headerlink" href="#water-volumetric-waves" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="section" id="id19">
-<h4>Активация<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="id19"></span><h3><a class="toc-backref" href="#id48">Объемные волны</a><a class="headerlink" href="#water-volumetric-waves" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id20">
+<h4>Активация<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Для создания объемных волн следует включить опцию <code class="docutils literal"><span class="pre">Waves</span></code>.</p>
 <a class="reference internal image-reference" href="_images/water_waves.jpg"><img alt="_images/water_waves.jpg" class="align-center" src="_images/water_waves.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id20">
-<h4>Настройка<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id21">
+<h4>Настройка<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Wave Height</em></dt>
 <dd>Высота волн. Значение по умолчанию 0.0.</dd>
@@ -353,8 +392,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id21">
-<h3>Настройки генерируемой поверхности<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id22">
+<h3><a class="toc-backref" href="#id49">Настройки генерируемой поверхности</a><a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Generate Mesh</em></dt>
 <dd>Включить генерируемую поверхность.</dd>
@@ -366,7 +405,7 @@
 <dd>Максимальное расстояние от камеры до края последнего каскада.</dd>
 </dl>
 <div class="section" id="shore-distance-bake">
-<span id="index-0"></span><span id="id22"></span><h4>Создание текстуры с параметрами береговой линии<a class="headerlink" href="#shore-distance-bake" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="index-0"></span><span id="id23"></span><h4>Создание текстуры с параметрами береговой линии<a class="headerlink" href="#shore-distance-bake" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На панели инструментов (горячая клавиша &#8220;T&#8221;) во вкладке <code class="docutils literal"><span class="pre">Blend4Web</span></code> открыть панель <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>. Выставить настройки максимального расстояния до берега <code class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></code> и размера получаемой текстуры <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></code>. Выбрать сначала объект (или несколько объектов) ландшафта, затем объект воды. Нажать кнопку <code class="docutils literal"><span class="pre">Bake</span></code>.</p>
 <p>В зависимости от размера текстуры и количества вершин в обрабатываемых мешах время выполнения скрипта варьируется от долей секунды до нескольких минут. Убедиться, что в меше воды создана текстура с названием <code class="docutils literal"><span class="pre">ShoreDistance</span></code>.</p>
 <p>При вызове скрипта в материале воды сохраняются некоторые системные свойства. Поэтому, после его работы обязательно нужно сохранять сцену.</p>
@@ -374,9 +413,9 @@
 </div>
 </div>
 <div class="section" id="atmosphere">
-<span id="id23"></span><h2>Атмосфера<a class="headerlink" href="#atmosphere" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id24">
-<h3>Рассеивание<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id24"></span><h2><a class="toc-backref" href="#id50">Атмосфера</a><a class="headerlink" href="#atmosphere" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id25">
+<h3><a class="toc-backref" href="#id51">Рассеивание</a><a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Во вкладке <code class="docutils literal"><span class="pre">World</span></code> активировать панель <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code>, предварительно выставив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>. Если одновременно с этим используется статическая <a class="reference internal" href="textures.html#skydome-texture"><span>текстура неба</span></a>, она будет заменена.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -410,8 +449,8 @@
 <dd>Распределение рассеяния Ми. Значение по умолчанию 0.4.</dd>
 </dl>
 </div>
-<div class="section" id="id25">
-<h3>Туман<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id26">
+<h3><a class="toc-backref" href="#id52">Туман</a><a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Движком поддерживаются стандартные параметры вкладки <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code>. Помимо этого возможно переопределение цвета тумана.</p>
 <dl class="docutils">
 <dt><em>Mist &gt; Use custom color</em></dt>
@@ -421,21 +460,21 @@
 </dl>
 <p>При использовании динамического неба цвет тумана определяется цветом неба.</p>
 </div>
-<div class="section" id="id26">
-<h3>Время суток<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id27">
+<h3><a class="toc-backref" href="#id53">Время суток</a><a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для лампы необходимо выставить опцию <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code>.</p>
 <p>Время суток устанавливается приложениями с использованием соответствующего API. В частности, время суток может устанавливаться в интерфейсе <code class="docutils literal"><span class="pre">Lighting</span></code>
 <a class="reference internal" href="viewer.html#viewer"><span>просмотрщика сцен</span></a>.</p>
 <a class="reference internal image-reference" href="_images/sunset.jpg"><img alt="_images/sunset.jpg" class="align-center" src="_images/sunset.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id27">
-<h3>Звезды<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id28">
+<h3><a class="toc-backref" href="#id54">Звезды</a><a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройка данного эффекта описывается в разделе <a class="reference internal" href="materials.html#material-halo"><span>Материалы гало (Halo)</span></a>.</p>
 <a class="reference internal image-reference" href="_images/stars.jpg"><img alt="_images/stars.jpg" class="align-center" src="_images/stars.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="wind">
-<span id="id28"></span><h2>Ветер<a class="headerlink" href="#wind" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id29"></span><h2><a class="toc-backref" href="#id55">Ветер</a><a class="headerlink" href="#wind" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt>Сила и направление ветра оказывает воздействие на:</dt>
 <dd><ul class="first last simple">
@@ -445,12 +484,12 @@
 </ul>
 </dd>
 </dl>
-<div class="section" id="id29">
-<h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id30">
+<h3><a class="toc-backref" href="#id56">Активация</a><a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Добавить на сцену объект - силовое поле типа <code class="docutils literal"><span class="pre">Wind</span></code>.</p>
 </div>
-<div class="section" id="id30">
-<h3>Настройка<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id31">
+<h3><a class="toc-backref" href="#id57">Настройка</a><a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Направление</em></dt>
 <dd>Направление задается посредством вращения объекта - силового поля.</dd>
@@ -459,14 +498,14 @@
 </dl>
 </div>
 <div class="section" id="wind-bending">
-<span id="id31"></span><h3>Анимация травы и крон деревьев<a class="headerlink" href="#wind-bending" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id32"></span><h3><a class="toc-backref" href="#id58">Анимация травы и крон деревьев</a><a class="headerlink" href="#wind-bending" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Подготовка ресурсов для рендеринга травы описана в разделе <a class="reference internal" href="particles_instancing.html#particles-grass"><span>Травяной покров</span></a>.</p>
-<div class="section" id="id32">
-<h4>Активация<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id33">
+<h4>Активация<a class="headerlink" href="#id33" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На объекте травы или дерева активировать панель <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code>.</p>
 </div>
-<div class="section" id="id33">
-<h4>Настройка<a class="headerlink" href="#id33" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id34">
+<h4>Настройка<a class="headerlink" href="#id34" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Интерфейс для настроек появляется после активации панели <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code>.</p>
 <a class="reference internal image-reference" href="_images/wind_bending_setup.jpg"><img alt="_images/wind_bending_setup.jpg" class="align-center" src="_images/wind_bending_setup.jpg" style="width: 80%;" /></a>
 <div class="line-block">
@@ -506,7 +545,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="gamma_alpha.html" class="btn btn-neutral float-right" title="Гамма-коррекция и альфа-композитинг" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="colors.html" class="btn btn-neutral float-right" title="Работа с цветом" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="animation.html" class="btn btn-neutral" title="Анимация" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -519,7 +558,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-12-22.
+      Обновлено: 2016-01-28.
 
     </p>
   </div>
@@ -541,7 +580,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v15.12',
+            VERSION:'v16.01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -485,12 +485,16 @@ exports.update = function(timeline, elapsed) {
     for (var i = 0; i < _speaker_objects.length; i++) {
         var obj = _speaker_objects[i];
         var sfx = obj.sfx;
+        var source = sfx.source_node;
 
         var curr_time = _wa.currentTime;
 
         // finish state may be already set by onended handler
         if (!sfx.loop && sfx.state == SPKSTATE_PLAY && sfx.duration &&
-                (sfx.start_time + sfx.duration < curr_time))
+                (sfx.start_time + sfx.duration < curr_time) &&
+                (sfx.behavior == "BACKGROUND_MUSIC" ||
+                 // if onended is not supported
+                 (source && !m_util.isdef(source.onended))))
             sfx.state = SPKSTATE_FINISH;
 
         // handle restarts
@@ -547,6 +551,7 @@ function play(obj, when, duration) {
     sfx.base_seed = Math.floor(50000 * Math.random());
 
     var start_time = _wa.currentTime + when;
+    start_time = Math.max(0.0, start_time);
 
     sfx.start_time = start_time;
 
@@ -563,9 +568,10 @@ function play(obj, when, duration) {
         source.playbackRate.value = playrate;
 
         // NOTE: may affect pause/resume behavior if not supported
-        source.onended = function() {
-            sfx.state = SPKSTATE_FINISH;
-        };
+        if (m_util.isdef(source.onended))
+            source.onended = function() {
+                sfx.state = SPKSTATE_FINISH;
+            };
 
         if (loop) {
             // switch off previous node graph
@@ -1056,9 +1062,10 @@ function speaker_resume(obj) {
         var buf_dur = source.buffer.duration;
 
         // NOTE: may affect pause/resume behavior if not supported
-        source.onended = function() {
-            sfx.state = SPKSTATE_FINISH;
-        };
+        if (m_util.isdef(source.onended))
+            source.onended = function() {
+                sfx.state = SPKSTATE_FINISH;
+            };
         source.start(sfx.start_time, sfx.buf_offset);
 
         schedule_volume_pitch_random(sfx);

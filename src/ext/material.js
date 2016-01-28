@@ -22,6 +22,7 @@
  * Containts methods to control parameters of standard materials.
  * The node-based materials are not supported yet.
  * @module material
+ * @local LineParams
  */
 b4w.module["material"] = function(exports, require) {
 
@@ -30,8 +31,17 @@ var m_cfg      = require("__config");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_shaders  = require("__shaders");
+var m_util     = require("__util");
 
 var cfg_def = m_cfg.defaults;
+
+/**
+ * Line params.
+ * @typedef {Object} LineParams
+ * @property {RGBA} color Line diffuse color
+ * @property {Number} width Line width in pixels
+ * @cc_externs color width
+ */
 
 /**
  * Inherit the batch material from another object.
@@ -791,5 +801,44 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
         m_batch.update_shader(batch, true);
     }
 }
+
+/**
+ * Set line params.
+ * @method module:material.set_line_params
+ * @param {Object3D} obj Line object
+ * @param {LineParams} line_params Line params
+ */
+exports.set_line_params = function(obj, line_params) {
+    var batch = m_batch.get_first_batch(obj);
+    if (batch) {
+        if (m_util.isdef(line_params.color))
+            batch.diffuse_color.set(line_params.color);
+        if (m_util.isdef(line_params.width))
+            batch.line_width = line_params.width;
+    } else
+        m_print.error("Couldn't set line params!");
+}
+
+/**
+ * Get line params or null in case of error.
+ * @method module:material.get_line_params
+ * @param {Object3D} obj Line object
+ * @returns {(LineParams|null)} Line params
+ */
+exports.get_line_params = function(obj) {
+    var batch = m_batch.get_first_batch(obj);
+    if (batch) {
+        var line_params = {
+            color : new Float32Array(batch.diffuse_color),
+            width: batch.line_width
+        }
+
+        return line_params;
+    } else {
+        m_print.error("Couldn't get line params");
+        return null;
+    }
+}
+
 
 }

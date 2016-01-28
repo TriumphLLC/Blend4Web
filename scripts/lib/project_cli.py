@@ -154,135 +154,66 @@ def run(argv, base_dir, curr_work_dir):
 
     for o, a in opts:
         if o == "--help" or o == "-h":
-
-            if not len(args):
-                help()
-                sys.exit(0)
-            else:
-                arg = args[0]
-
-                if arg == "init":
-                    help_init()
-                if arg == "list":
-                    help_list()
-                if arg == "compile":
-                    help_compile()
-                if arg == "deploy":
-                    help_deploy()
-                if arg == "reexport":
-                    help_reexport()
-                if arg == "convert_resources":
-                    help_convert_resources()
-                if arg == "check_deps":
-                    help_check_deps()
-                if arg == "import":
-                    help_import()
-                if arg == "export":
-                    help_export()
-                if arg == "remove":
-                    help_remove()
-
-                sys.exit(0)
-
+            run_help()
         elif o == "--no-colorama":
             no_colorama = True
         elif o == "--project" or o == "-p":
             # works for absolute paths too
             proj_path = cwd_rel_to_abs(a)
-    else:
-        if not len(args):
-            help()
-            sys.exit(0)
 
     if not no_colorama:
         import colorama
         colorama.init()
 
-    if len(args) == 2 and len(opts) == 0:
-        # allow execution without any "-", "--" options
-        if not "help" in args and not "--help" in args and not "-h" in args:
-            if args[0] == "init":
-                run_init(args[1:])
-            elif args[0] == "check_deps":
-                run_check_deps(args[1:])
-            elif args[0] == "import":
-                run_import(args[1:])
-            elif args[0] == "export":
-                run_export(args[1:])
-            else:
-                help()
-                sys.exit(0)
+    if not len(args):
+        help("Specify project management command")
+        sys.exit(1)
+
+    cmd = args[0]
+
+    if cmd == "help":
+        if len(args) > 1:
+            run_help(args[1])
         else:
-            if "init" in args:
-                help_init()
-            if "list" in args:
-                help_list()
-            if "compile" in args:
-                help_compile()
-            if "deploy" in args:
-                help_deploy()
-            if "reexport" in args:
-                help_reexport()
-            if "convert_resources" in args:
-                help_convert_resources()
-            if "check_deps" in args:
-                help_check_deps()
-            if "import" in args:
-                help_import()
-            if "export" in args:
-                help_export()
-            if "remove" in args:
-                help_remove()
-
-    elif len(args) > 0 and not "help" in args:
-        arg = args[0]
-
-        if arg == "init":
-            run_init(args[1:])
-        elif arg == "list":
-            run_list(args[1:])
-        elif arg == "compile":
-            if not proj_path:
-                help("Project directory not found")
-                sys.exit(1)
-
-            run_compile(args[1:], proj_path)
-        elif arg == "deploy":
-            if not proj_path:
-                help("Project directory not found")
-                sys.exit(1)
-
-            run_deploy(args[1:], proj_path)
-        elif arg == "remove":
-            if not proj_path:
-                help("Project directory not found")
-                sys.exit(1)
-
-            run_remove(args[1:], proj_path)
-        elif arg == "reexport":
-            if not proj_path:
-                help("Project directory not found")
-                sys.exit(1)
-
-            run_reexport(args[1:], proj_path)
-        elif arg == "convert_resources":
-            if not proj_path:
-                help("Project directory not found")
-                sys.exit(1)
-
-            run_convert_resources(args[1:], proj_path)
-        elif arg == "check_deps":
-            run_check_deps(args[1:])
-        elif arg == "import":
-            run_import(args[1:])
-        elif arg == "export":
-            run_export(args[1:])
-        else:
-            help("Specify project management command")
+            run_help()
+    if cmd == "init":
+        run_init(args[1:])
+    elif cmd == "list":
+        run_list(args[1:])
+    elif cmd == "compile":
+        if not proj_path:
+            help("Project directory not found")
             sys.exit(1)
-    elif len(args) == 1 and args[0] == "help":
-        help()
-        sys.exit(0)
+        run_compile(args[1:], proj_path)
+    elif cmd == "convert_resources":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_convert_resources(args[1:], proj_path)
+    elif cmd == "reexport":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_reexport(args[1:], proj_path)
+    elif cmd == "remove":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_remove(args[1:], proj_path)
+    elif cmd == "deploy":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_deploy(args[1:], proj_path)
+    elif cmd == "check_deps":
+        run_check_deps(args[1:])
+    elif cmd == "import":
+        run_import(args[1:])
+    elif cmd == "export":
+        run_export(args[1:])
+    else:
+        help("Wrong project management command: " + cmd)
+        sys.exit(1)
 
 def fill_global_paths(base_dir, curr_work_dir):
     global _base_dir, _curr_work_dir, _cc_dir, _src_dir, _js_cc_params, _engine_dir, _java_exec
@@ -312,6 +243,45 @@ def fill_global_paths(base_dir, curr_work_dir):
 
     # engine sources directory
     _src_dir = normpath(join(base_dir, "src"))
+
+def run_help(cmd=""):
+    if cmd == "":
+        # display generic help
+        help()
+        sys.exit(0)
+    elif cmd == "init":
+        help_init()
+        sys.exit(0)
+    elif cmd == "list":
+        help_list()
+        sys.exit(0)
+    elif cmd == "compile":
+        help_compile()
+        sys.exit(0)
+    elif cmd == "deploy":
+        help_deploy()
+        sys.exit(0)
+    elif cmd == "reexport":
+        help_reexport()
+        sys.exit(0)
+    elif cmd == "convert_resources":
+        help_convert_resources()
+        sys.exit(0)
+    elif cmd == "check_deps":
+        help_check_deps()
+        sys.exit(0)
+    elif cmd == "import":
+        help_import()
+        sys.exit(0)
+    elif cmd == "export":
+        help_export()
+        sys.exit(0)
+    elif cmd == "remove":
+        help_remove()
+        sys.exit(0)
+    else:
+        help("Wrong project management command: " + cmd)
+        sys.exit(1)
 
 
 def help(err=""):

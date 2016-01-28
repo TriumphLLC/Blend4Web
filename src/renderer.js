@@ -61,6 +61,7 @@ var SUBSAMPLE_IND = [new Float32Array([1, 1, 1, 0]),
 var _gl = null;
 var _subpixel_index = 0;
 
+var _vec3_tmp  = new Float32Array(3);
 var _ivec4_tmp = new Uint8Array(4);
 var _mat3_tmp  = new Float32Array(9);
 var _tsr_tmp   = new Float32Array(8);
@@ -183,7 +184,7 @@ function draw_copy(subscene) {
     var w_tex = tex.w_texture;
     _gl.bindTexture(_gl.TEXTURE_2D, w_tex);
 
-    _gl.copyTexSubImage2D(_gl.TEXTURE_2D, 0, 
+    _gl.copyTexSubImage2D(_gl.TEXTURE_2D, 0,
             0, 0, 0, 0, camera.width, camera.height, 0);
 }
 
@@ -616,7 +617,7 @@ function assign_uniform_setters(shader) {
         case "u_camera_eye":
         case "u_camera_eye_frag":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, m_tsr.get_trans_view(camera.world_tsr));
+                gl.uniform3fv(loc, m_tsr.get_trans_value(camera.world_tsr, _vec3_tmp));
             }
             transient_uni = true;
             break;
@@ -1057,6 +1058,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_line_width":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.line_width);
+            }
+            transient_uni = true;
+            break;
 
         // lamp_data
         case "u_lamp_light_positions":
@@ -1368,11 +1375,6 @@ function assign_uniform_setters(shader) {
             break;
 
         // shadow receive subscene
-        case "u_perspective_cast_far_bound":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.perspective_cast_far_bound);
-            }
-            break;
         case "u_normal_offset":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.self_shadow_normal_offset);
@@ -1483,7 +1485,10 @@ function assign_uniform_setters(shader) {
         // depth of field
         case "u_dof_dist":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, camera.dof_distance);
+                if (camera.dof_on)
+                    gl.uniform1f(loc, camera.dof_distance);
+                else
+                    gl.uniform1f(loc, 0);
             }
             transient_uni = true;
             break;
@@ -1564,6 +1569,11 @@ function assign_uniform_setters(shader) {
         case "u_distortion_params":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.distortion_params);
+            }
+            break;
+        case "u_chromatic_aberration_coefs":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.chromatic_aberration_coefs);
             }
             break;
         default:
@@ -1805,7 +1815,7 @@ exports.draw_resized_texture = function(texture, size_x, size_y, fbo, w_tex,
     _gl.viewport(0, 0, size_x, size_y);
 
     _gl.texImage2D(w_target, 0, _gl.RGBA, size_x, size_y, 0, _gl.RGBA,
-            _gl.UNSIGNED_BYTE, null);  
+            _gl.UNSIGNED_BYTE, null);
 
     _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
             w_target, w_texture, 0);

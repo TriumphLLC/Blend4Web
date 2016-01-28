@@ -2557,7 +2557,7 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
                     snode["bools"] = {}
                 if (!snode["bools"]["not_wait"])
                     snode["bools"]["not_wait"] = false
-
+                report_raw("Logic nodes type \"SELECT\" is deprecated");
                 break;
             case "SWITCH_SELECT":
                 for (var id in snode["objects_paths"]) {
@@ -2573,12 +2573,26 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
                         }
                     }
                 }
+                if (snode["links"] instanceof Array) {
+                    report_raw("Format of a \"SWITCH_SELECT\" node is outdated. " +
+                    "It is recommended to reexport the scene \"" + scene.name+"\"");
+                    var links = {};
+                    var kk = 0;
+                    for (k in snode["objects_paths"]) {
+                        links[k] = snode["links"][kk];
+                        kk++;
+                    }
+                    snode["links"] = links;
+                }
                 break;
             case "SELECT_PLAY":
                 report_raw("Logic nodes type \"SELECT_PLAY\" is deprecated, " +
-                "node will be muted. To fix this, reexport scene \"" + scene.name+"\"");
+                "node will be muted. To fix this, reexport the scene \"" + scene.name+"\"");
                 snode["mute"] = true;
                 break;
+            case "SELECT_PLAY_ANIM":
+                report_raw("Logic nodes type \"SELECT_PLAY_ANIM\" is deprecated");
+                break;    
             case "SHOW":
             case "HIDE":
             case "PLAY_ANIM":
@@ -2614,7 +2628,80 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
                             bpy_obj["b4w_do_not_batch"] = true;
                         }
                     }
-                }                    
+                }
+                break;
+            case "TRANSFORM_OBJECT":
+                for (var id in snode["objects_paths"]) {
+                    var path = snode["objects_paths"][id];
+                    var name = path[0];
+                    if (path.length > 1)
+                        for (var k = 1; k < path.length; k++)
+                            name += "*" + path[k];
+                    for (var k = 0; k < bpy_objects.length; k++) {
+                        var bpy_obj = bpy_objects[k];
+                        if (bpy_obj["name"] == name) {
+                            bpy_obj["b4w_do_not_batch"] = true;
+                        }
+                    }
+                } 
+                break;
+            case "CONDJUMP":
+                if (snode["condition"]) {
+                    if (!snode["floats"])
+                        snode["floats"] = {};
+
+                    switch(snode["condition"]){
+                    case "GEQUAL":
+                        snode["floats"]["cnd"] = 0;
+                        break;
+                    case "LEQUAL":
+                        snode["floats"]["cnd"] = 1;
+                        break;
+                    case "GREATER":
+                        snode["floats"]["cnd"] = 2;
+                        break;
+                    case "LESS":
+                        snode["floats"]["cnd"] = 3;
+                        break;
+                    case "NOTEQUAL":
+                        snode["floats"]["cnd"] = 4;
+                        break;
+                    case "EQUAL":
+                        snode["floats"]["cnd"] = 5;
+                        
+                        break;
+                    }
+                }
+                if (snode["number1"] != undefined)
+                    snode["input1"] = snode["number1"];
+                if (snode["number2"] != undefined)
+                    snode["input2"] = snode["number2"];
+                break;
+            case "SEND_REQ":
+                if (!snode["bools"])
+                    snode["bools"] = {};
+
+                if (snode["bools"]["prs"] === undefined)
+                    snode["bools"]["prs"] = true;
+                if (snode["bools"]["enc"] === undefined) 
+                    snode["bools"]["enc"] = true; 
+                break;
+            case "MATH":
+                if (snode["number1"] != undefined)
+                    snode["input1"] = snode["number1"];
+                if (snode["number2"] != undefined)
+                    snode["input2"] = snode["number2"];
+                break;
+            case "REGSTORE":
+                if (snode["number1"] != undefined)
+                    snode["input1"] = snode["number1"];
+                if (snode["number2"] != undefined)
+                    snode["input2"] = snode["number2"];
+                break;
+            case "REGSTORE":
+                if (snode["number1"] != undefined)
+                    snode["input1"] = snode["number1"];
+                break;
             }
         }
     }
