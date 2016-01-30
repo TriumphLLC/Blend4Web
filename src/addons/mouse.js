@@ -390,6 +390,37 @@ function get_coords_y(event) {
         return -1;
 }
 
+/**
+ * Get mouse/touch X coordinate.
+ * @param {MouseEvent|TouchEvent} event Mouse/touch event
+ * @method module:mouse.get_target_coords_x
+ * @returns {Number} Client area horizontal coordinate or -1 if not defined
+ */
+exports.get_target_coords_x = get_target_coords_x;
+function get_target_coords_x(event) {
+    if ("clientX" in event)
+        return event.clientX;
+    else if (event.targetTouches && "clientX" in event.targetTouches[0])
+        return event.targetTouches[0].clientX;
+    else
+        return -1;
+}
+/**
+ * Get mouse/touch Y coordinate.
+ * @param {MouseEvent|TouchEvent} event Mouse/touch event
+ * @method module:mouse.get_target_coords_y
+ * @returns {Number} Client area vertical coordinate or -1 if not defined
+ */
+exports.get_target_coords_y = get_target_coords_y;
+function get_target_coords_y(event) {
+    if ("clientY" in event)
+        return event.clientY;
+    else if (event.targetTouches && "clientY" in event.targetTouches[0])
+        return event.targetTouches[0].clientY;
+    else
+        return -1;
+}
+
 function smooth_coeff_mouse() {
     return CAM_SMOOTH_CHARACTER_MOUSE * _smooth_factor;
 }
