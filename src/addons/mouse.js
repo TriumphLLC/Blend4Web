@@ -391,7 +391,7 @@ function get_coords_y(event) {
 }
 
 /**
- * Get mouse/touch X coordinate.
+ * Get mouse/touch X coordinate on canvas.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
  * @method module:mouse.get_target_coords_x
  * @returns {Number} Client area horizontal coordinate or -1 if not defined
@@ -406,7 +406,7 @@ function get_target_coords_x(event) {
         return -1;
 }
 /**
- * Get mouse/touch Y coordinate.
+ * Get mouse/touch Y coordinate on canvas.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
  * @method module:mouse.get_target_coords_y
  * @returns {Number} Client area vertical coordinate or -1 if not defined
