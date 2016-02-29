@@ -2,6 +2,20 @@
 Scene Viewer
 ************
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Scene Viewer
+
+  * Navigation
+
+  * The Side Panel
+
+    * Control elements list in top-to-bottom order
+
+  * Indicators
+
 Running The Scenes Viewer.
 
 

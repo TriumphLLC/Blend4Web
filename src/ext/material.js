@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -823,7 +823,7 @@ exports.set_line_params = function(obj, line_params) {
  * Get line params or null in case of error.
  * @method module:material.get_line_params
  * @param {Object3D} obj Line object
- * @returns {(LineParams|null)} Line params
+ * @returns {?LineParams} Line params
  */
 exports.get_line_params = function(obj) {
     var batch = m_batch.get_first_batch(obj);

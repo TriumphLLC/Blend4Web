@@ -2,6 +2,18 @@
 Audio
 *****
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Audio
+
+  * Audio Source Settings
+
+  * Processing and Decoding
+
+    * Supported formats (containers):
+
 Audio sources are created in Blender. The standard "Speaker" object is
 used.
 
@@ -19,7 +31,7 @@ Speaker parameters can be set up on the "Properties" panel under the
 The engine supports all the standard Blender sound parameters and some
 engine-specific settings.
 
-*Speaker behavior*:
+*Speaker Behavior*:
 
    The behavior of the audio source.
 
@@ -64,11 +76,11 @@ The following options are available on the "Sound" panel:
 
    Fade-out time interval.
 
-*Disable doppler*
+*Disable Doppler*
 
    Ignore source's frequency shift upon its moving.
 
-*Cyclic play*
+*Cyclic Play*
 
    Loop the sound playback.
 

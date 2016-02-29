@@ -367,8 +367,9 @@ void main(void) {
     vec2 screen_coord = v_tex_pos_clip.xy/v_tex_pos_clip.z;
 #endif
 
-#if SHORE_SMOOTHING || !DISABLE_FOG
-    float surf_dist = v_view_depth * u_view_max_depth;
+#if REFRACTIVE
+    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
+                                                  / v_view_depth;
 #endif
 
 #if SHORE_SMOOTHING
@@ -379,21 +380,10 @@ void main(void) {
     float delta = max(scene_depth - v_view_depth, 0.0);
 
 # if REFRACTIVE
-    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
-                                                  / v_view_depth;
     float scene_depth_refr = refraction_correction(scene_depth, refract_coord, screen_coord);
-
     float delta_refr = max(scene_depth_refr - v_view_depth, 0.0);
     float depth_diff_refr = u_view_max_depth / ABSORB * delta_refr;
-
-    float refract_factor;
-
-    if (u_cam_water_depth < 0.0)
-        refract_factor = 0.0;
-    else
-        refract_factor = min(alpha * depth_diff_refr, 1.0);
-
-    float depth_diff = u_view_max_depth / ABSORB * delta;
+    float refract_factor = min(alpha * depth_diff_refr, 1.0);
 
     // refraction stuff represents disturbed underwater surface
     // so leave alpha slightly transparent only close to the shore
@@ -403,22 +393,17 @@ void main(void) {
     if (u_cam_water_depth > 0.0)
         alpha = min(alpha * depth_diff, 1.0);
 # endif // REFRACTIVE
-
-    // alpha correction for close to eye pixels
-    alpha *= min(5.0 * surf_dist, 1.0);
-
 #else // SHORE_SMOOTHING
-
     float alpha = u_diffuse_color.a;
 
 # if REFRACTIVE
-    float refract_factor = 1.0 - alpha;
-    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
-                                                  / v_view_depth;
+    float refract_factor = alpha;
 # endif
 #endif // SHORE_SMOOTHING
 
 #if REFRACTIVE
+    if (u_cam_water_depth < 0.0)
+        refract_factor = 0.0;
     vec3 refract_color = texture2D(u_refractmap, refract_coord).rgb;
     srgb_to_lin(refract_color);
 #endif
@@ -500,7 +485,6 @@ void main(void) {
 
 #if DYNAMIC
     // fake subsurface scattering (SSS)
-
     float sss_fact = max(dot(u_sun_direction, -v_normal) + SSS_WIDTH, 0.0)
                      * max(dot(-eye_dir, u_sun_direction) - 0.5, 0.0)
                      * max(0.0, length(u_sun_intensity) - 0.1);
@@ -530,17 +514,13 @@ void main(void) {
 
 #if !DISABLE_FOG
     // fog stuff
-# if WATER_EFFECTS
-    if (u_cam_water_depth < 0.0) {
-        //Underwater fog
-        water_fog(color, surf_dist, u_cam_water_depth);
-    } else {
-        fog(color, surf_dist, eye_dir, 1.0);
-    }
-# else
-    fog(color, surf_dist, eye_dir, 1.0);
-# endif
-#endif //!DISABLE_FOG
+    float surf_dist = v_view_depth * u_view_max_depth;
+    float dist_to_water_level = 1.0;
+    // if camera is above the water surface, use only air fog for it's surface
+    if (u_cam_water_depth > 1.0)
+        dist_to_water_level = 2.0;
+    fog(color, surf_dist, eye_dir, dist_to_water_level);
+#endif
 
     lin_to_srgb(color);
 
@@ -551,6 +531,8 @@ void main(void) {
  #if FOAM
     alpha += foam_sum;
  #endif //FOAM
+#elif !SHORE_SMOOTHING
+    alpha = 1.0;
 #endif //!REFRACTIVE
 
 #if ALPHA

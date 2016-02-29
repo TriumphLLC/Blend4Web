@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Веб-плеер" href="web_player.html"/>
-        <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
+        <link rel="prev" title="Управление проектами" href="project_manager.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,19 +88,21 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Просмотрщик сцен</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Навигация</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Боковая панель</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Список элементов управления сверху вниз</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Навигация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Боковая панель</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Список элементов управления сверху вниз</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Индикаторы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Индикаторы</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -140,6 +142,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -158,22 +164,36 @@
            <div itemprop="articleBody">
             
   <div class="section" id="viewer">
-<span id="index-0"></span><span id="id1"></span><h1>Просмотрщик сцен<a class="headerlink" href="#viewer" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id7">Просмотрщик сцен</a><a class="headerlink" href="#viewer" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#viewer" id="id7">Просмотрщик сцен</a><ul>
+<li><a class="reference internal" href="#id3" id="id8">Навигация</a></li>
+<li><a class="reference internal" href="#id4" id="id9">Боковая панель</a><ul>
+<li><a class="reference internal" href="#id5" id="id10">Список элементов управления сверху вниз</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6" id="id11">Индикаторы</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>Запуск просмотрщика сцен</span></a>.</p>
-<div class="section" id="id2">
-<h2>Навигация<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id8">Навигация</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Управление камерой осуществляется мышью с нажатой кнопкой, а также клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <code class="docutils literal"><span class="pre">numpad</span></code>. В режиме камеры <code class="docutils literal"><span class="pre">Target</span></code> возможно фокусирование на выделенный объект посредством нажатия клавишей <code class="docutils literal"><span class="pre">Z</span></code> или <code class="docutils literal"><span class="pre">.(точка)</span></code>.</p>
 </div>
-<div class="section" id="id3">
-<h2>Боковая панель<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id9">Боковая панель</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Боковая панель содержит в себе три области: информационное табло, базовые кнопки
 управления и список выпадающих панелей, содержащий дополнительные элементы управления, разделённые по функциональному признаку.</p>
 <a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="id4">
-<h3>Список элементов управления сверху вниз<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id10">Список элементов управления сверху вниз</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Build</strong></dt>
 <dd>Дата и время сборки движка. В версии для разработки показывает время загрузки страницы.</dd>
@@ -243,8 +263,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Индикаторы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id11">Индикаторы</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt><strong>Счетчик количества кадров в секунду</strong></dt>
 <dd>Находится в правом верхнем углу. Выводит усредненное и округленное значение за последние 1,5 секунды.</dd>
@@ -273,7 +293,7 @@
         <a href="web_player.html" class="btn btn-neutral float-right" title="Веб-плеер" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="workflow.html" class="btn btn-neutral" title="Рабочий процесс" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="project_manager.html" class="btn btn-neutral" title="Управление проектами" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -282,8 +302,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -305,7 +325,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -329,6 +349,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -14,11 +14,13 @@
     first_steps.rst
     setup.rst
     workflow.rst
+    project_manager.rst
     viewer.rst
     web_player.rst
     addon.rst
     scene_settings.rst
     objects.rst
+    meshes.rst
     camera.rst
     materials.rst   
     node_materials.rst

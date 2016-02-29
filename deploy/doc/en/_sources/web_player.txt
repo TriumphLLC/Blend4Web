@@ -2,6 +2,24 @@
 Web Player
 **********
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Web Player
+
+  * Usage
+
+  * Navigation
+
+  * Control Panel
+
+  * Attributes
+
+  * Scene Name as Title
+
+  * Scene Errors
+
 The web player is a special application for rendering models and
 scenes in a demonstration mode.
 

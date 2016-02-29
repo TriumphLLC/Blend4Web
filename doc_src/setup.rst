@@ -4,6 +4,10 @@
 Развёртывание среды разработки
 ******************************
 
+.. contents:: Содержание
+    :depth: 3
+    :backlinks: entry
+
 Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее :ref:`экспресс-установка <quick_install>`.
 
 Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_.
@@ -56,7 +60,7 @@
 
 Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:
 
-.. image:: src_images/first_steps/selecting_engine.jpg
+.. image:: src_images/first_steps/first_steps_selecting_engine.png
    :align: center
    :width: 100%
 
@@ -124,7 +128,7 @@
 
 На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL <browser_webgl_support>`.
 
-.. image:: src_images/setup/sdk_index.jpg
+.. image:: src_images/setup/setup_sdk_index.png
    :align: center
    :width: 100%
 

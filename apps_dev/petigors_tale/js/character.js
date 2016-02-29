@@ -6,16 +6,22 @@ if (b4w.module_check("character"))
 b4w.register("character", function(exports, require) {
 
 var m_main  = require("main");
-var m_ctl = require("controls");
-var m_scs = require("scenes");
-var m_phy = require("physics");
-var m_anim = require("animation");
-var m_sfx = require("sfx");
+var m_ctl   = require("controls");
+var m_scs   = require("scenes");
+var m_phy   = require("physics");
+var m_anim  = require("animation");
+var m_sfx   = require("sfx");
 var m_time  = require("time");
 var m_trans = require("transform");
 var m_util  = require("util");
 var m_vec3  = require("vec3");
 var m_cons  = require("constraints");
+var m_mouse = require("mouse");
+var m_cam   = require("camera");
+var m_cont  = require("container");
+var m_obj   = require("objects");
+
+var m_quat  = require("quat");
 
 var m_conf = require("game_config");
 var m_combat = require("combat");
@@ -35,9 +41,14 @@ var _char_voice_attack_spks = [];
 var _char_hurt_spks = [];
 
 var _char_wrapper = null;
+var _rotation_cb = null;
+
+var _char_attack_anims = [];
+var _char_death_anims = [];
 
 var _last_hurt_sound = -100;
 
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
 var _vec3_tmp_3 = new Float32Array(3);
@@ -47,25 +58,42 @@ exports.init_wrapper = function(level_conf, json_name) {
     _level_conf = level_conf;
     _char_wrapper = {
         phys_body: m_scs.get_first_character(),
-        rig:    m_scs.get_object_by_dupli_name("character", "character_rig"),
-        body:   m_scs.get_object_by_dupli_name("character", "character_body_"+json_name),
-        picker: m_scs.get_object_by_dupli_name("character", "character_picker"),
-        shield_sphere: m_scs.get_object_by_dupli_name("character", "shield_sphere"),
-        hitsparks: m_scs.get_object_by_dupli_name("character", "sword_hitsparks_emitter"),
+        rig:    m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, m_conf.CHAR_ARMAT),
+        body:   m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, m_conf.CHAR_MODEL),
+        picker: m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, m_conf.CHAR_PICKER),
+        target: m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, "camera_target"),
+        lava_shield_prot: m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, m_conf.CHAR_SPHERE),
+        hitsparks: m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, "sword_hitsparks_emitter"),
+        foot_smoke: m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, "foots_smoke_emitter"),
         hp:    m_conf.MAX_CHAR_HP,
         state: m_conf.CH_STILL,
+        move_state: {forw_back:0, left_right:0},
         gem_slot: null,
         island: -1
     };
     m_anim.apply_def(_char_wrapper.hitsparks);
     m_anim.set_behavior(_char_wrapper.hitsparks, m_anim.AB_FINISH_RESET);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "lava_prot_switcher"],
+                            0);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "shield_switcher"],
+                            0);
+
+    m_scs.hide_object(_char_wrapper.foot_smoke);
+
+    if (_level_conf.LEVEL_NAME == "dungeon")
+        m_obj.set_nodemat_value(_char_wrapper.body,
+                                ["petigor", m_conf.CHAR_SWORD_SWITCHER],
+                                1);
 }
 
 exports.setup_controls = function (elapsed_sensor) {
 
     precache_speakers();
+    precache_animations();
 
-    if (_level_conf.LEVEL_NAME == "volcano")
+    if (_level_conf && _level_conf.LEVEL_NAME == "volcano")
         init_island_detection();
 
     var right_arrow = m_ctl.create_custom_sensor(0);
@@ -75,46 +103,145 @@ exports.setup_controls = function (elapsed_sensor) {
     var touch_jump  = m_ctl.create_custom_sensor(0);
     var touch_attack = m_ctl.create_custom_sensor(0);
 
-    var on_ground_sens = m_ctl.create_custom_sensor(0);
+    var ground_sens = m_ctl.create_custom_sensor(0);
 
-    setup_ground_sensor(on_ground_sens);
+    setup_ground_sensor(ground_sens);
 
-    if(m_main.detect_mobile()) {
+    var camobj = m_scs.get_active_camera();
+    var offset = new Float32Array(m_conf.CAM_OFFSET);
+    var dist = m_vec3.length(offset);
+
+    var clamp_left  = 0;
+    var clamp_right = 0;
+    var clamp_up    = Math.PI / 3;
+    var clamp_down  = 0.01;
+
+    function rotation_cb(rot_x, rot_y) {
+        m_phy.character_rotation_inc(_char_wrapper.phys_body, rot_x, 0);
+        if (rot_y) {
+            m_cam.eye_rotate(camobj, 0, rot_y);
+
+            m_cam.get_camera_angles(camobj, _vec3_tmp);
+            offset[2] = -dist * Math.cos(_vec3_tmp[1]);
+            offset[1] = -dist * Math.sin(_vec3_tmp[1]);
+
+            m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
+                                 clamp_left, clamp_right, clamp_up, clamp_down);
+        }
+    }
+    _rotation_cb = rotation_cb;
+
+    if(m_main.detect_mobile())
         m_interface.setup_touch_controls(right_arrow, up_arrow, left_arrow,
-                                         down_arrow, touch_jump, touch_attack);
+                                         down_arrow, touch_jump, touch_attack,
+                                         rotation_cb);
+    else
+        setup_mouse_rotation();
+
+    setup_movement(up_arrow, down_arrow, left_arrow, right_arrow, ground_sens);
+    setup_jumping(touch_jump, ground_sens);
+    setup_attack(touch_attack, elapsed_sensor);
+
+    var targ_pos = m_trans.get_translation(_char_wrapper.target, _vec3_tmp);
+    m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
+                        clamp_left, clamp_right, clamp_up, clamp_down);
+    m_cam.eye_set_look_at(camobj, null, targ_pos);
+}
+
+exports.pointerlock_cb = pointerlock_cb;
+function pointerlock_cb(e) {
+    var game_menu   = document.getElementById("game_menu");
+    var canvas_shadow = document.getElementById("canvas_shadow");
+
+    function plock_disabled_cb() {
+        if (_char_wrapper.hp > 0 && _char_wrapper.state != m_conf.CH_VICTORY) {
+            m_interface.show_elem(game_menu);
+            m_interface.show_elem(canvas_shadow);
+            m_main.pause();
+        }
     }
 
-    setup_movement(up_arrow, down_arrow, on_ground_sens);
-    setup_rotation(right_arrow, left_arrow, elapsed_sensor);
-    setup_jumping(touch_jump, on_ground_sens);
-    setup_attack(touch_attack, elapsed_sensor);
+    var canvas_elem = m_cont.get_canvas();
+    if (_char_wrapper.hp > 0 && !m_main.is_paused() && _char_wrapper.state != m_conf.CH_VICTORY)
+        m_mouse.request_pointerlock(canvas_elem, null, plock_disabled_cb, null, null, function (x,y) {
+            _rotation_cb(m_conf.MOUSE_ROT_MULT * x, m_conf.MOUSE_ROT_MULT * y);
+        });
+}
+
+
+exports.run_camera_victory_rotation = function() {
+    var camobj = m_scs.get_active_camera();
+    m_cons.remove(camobj);
+
+    var pivot = m_trans.get_translation(_char_wrapper.target);
+    var cam_params = {pivot: pivot};
+    m_cam.target_setup(camobj, cam_params);
+
+    var elapsed_sensor = m_ctl.create_elapsed_sensor();
+    function cam_rotate_cb(obj, id, pulse) {
+        var angles = m_cam.get_camera_angles(obj, _vec2_tmp);
+        var dist = m_cam.target_get_distance(obj);
+
+        var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+        var hor_angle = elapsed * 0.1;
+
+        if (angles[1] < _level_conf.VICT_CAM_VERT_ANGLE)
+            var vert_angle = elapsed * 0.05;
+        else
+            var vert_angle = 0;
+
+        m_cam.target_rotate(obj, hor_angle, vert_angle);
+
+        if (dist > _level_conf.VICT_CAM_DIST) {
+            dist -= elapsed;
+            m_cam.target_set_distance(obj, dist);
+        }
+    }
+    m_ctl.create_sensor_manifold(camobj, "CAMERA_ROTATION", m_ctl.CT_CONTINUOUS,
+        [m_ctl.create_elapsed_sensor()], null, cam_rotate_cb);
+}
+
+function setup_mouse_rotation() {
+    var canvas_elem = m_cont.get_canvas();
+    canvas_elem.addEventListener("mouseup", pointerlock_cb, false);
 }
 
 function precache_speakers() {
-    _char_run_spk = m_scs.get_object_by_dupli_name("character",
+    _char_run_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                    m_conf.CHAR_RUN_SPEAKER);
-    _char_attack_spk = m_scs.get_object_by_dupli_name("character",
+    _char_attack_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.CHAR_ATTACK_SPEAKER);
-    _char_hit_spk = m_scs.get_object_by_dupli_name("character",
+    _char_hit_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                    m_conf.CHAR_SWORD_SPEAKER);
-    _char_land_spk = m_scs.get_object_by_dupli_name("character",
+    _char_land_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.CHAR_LANDING_SPEAKER);
-    _gem_pickup_spk = m_scs.get_object_by_dupli_name("character",
+    _gem_pickup_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.GEM_PICKUP_SPEAKER);
     for (var i = 0; i < m_conf.CHAR_JUMP_SPKS.length; i++) {
         var jump_spk_name = m_conf.CHAR_JUMP_SPKS[i];
-        var jump_spk = m_scs.get_object_by_dupli_name("character", jump_spk_name);
+        var jump_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, jump_spk_name);
         _char_jump_spks.push(jump_spk);
     }
     for (var i = 0; i < m_conf.CHAR_ATTACK_VOICE_SPKS.length; i++) {
         var attack_spk_name = m_conf.CHAR_ATTACK_VOICE_SPKS[i];
-        var attack_spk = m_scs.get_object_by_dupli_name("character", attack_spk_name);
+        var attack_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, attack_spk_name);
         _char_voice_attack_spks.push(attack_spk);
     }
     for (var i = 0; i < m_conf.CHAR_HURT_SPKS.length; i++) {
         var hurt_spk_name = m_conf.CHAR_HURT_SPKS[i];
-        var hurt_spk = m_scs.get_object_by_dupli_name("character", hurt_spk_name);
+        var hurt_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, hurt_spk_name);
         _char_hurt_spks.push(hurt_spk);
+    }
+}
+
+function precache_animations() {
+    for (var i = 0; i < m_conf.CHAR_ATTACK_ANIMS.length; i++) {
+        var attack_anim = m_conf.CHAR_ATTACK_ANIMS[i];
+        _char_attack_anims.push(attack_anim);
+    }
+    for (var i = 0; i < m_conf.CHAR_DEATH_ANIMS.length; i++) {
+        var death_anim = m_conf.CHAR_DEATH_ANIMS[i];
+        _char_death_anims.push(death_anim);
     }
 }
 
@@ -153,20 +280,28 @@ function setup_ground_sensor(on_ground) {
             function(s) {return s[0] || s[1] || s[2]}, ground_cb);
 }
 
-function setup_movement(up_arrow, down_arrow, on_ground_sens) {
+function setup_movement(up_arrow, down_arrow, left_arrow, right_arrow, on_ground_sens) {
     var key_w     = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
     var key_s     = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
     var key_up    = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
     var key_down  = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
+    var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
+    var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
 
     var move_array = [
         key_w, key_up, up_arrow,
         key_s, key_down, down_arrow,
-        on_ground_sens
+        on_ground_sens,
+        key_a, left_arrow,
+        key_d, right_arrow
     ];
+
+    var move_state = _char_wrapper.move_state;
 
     var forward_logic  = function(s){return (s[0] || s[1] || s[2])};
     var backward_logic = function(s){return (s[3] || s[4] || s[5])};
+    var left_logic = function(s){return s[7] || s[8]};
+    var right_logic = function(s){return s[9] || s[10]};
 
     function move_cb(obj, id, pulse) {
 
@@ -179,29 +314,36 @@ function setup_movement(up_arrow, down_arrow, on_ground_sens) {
         if (pulse == 1) {
             switch(id) {
             case "FORWARD":
-                var move_dir = 1;
+                move_state.forw_back = 1;
                 break;
             case "BACKWARD":
-                var move_dir = -1;
+                move_state.forw_back = -1;
+                break;
+            case "LEFT":
+                move_state.left_right = 1;
+                break;
+            case "RIGHT":
+                move_state.left_right = -1;
                 break;
             }
-            if (_char_wrapper.state == m_conf.CH_STILL && on_ground) {
-                m_anim.apply(_char_wrapper.rig, "character_run");
-                m_anim.play(_char_wrapper.rig);
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-            }
-            _char_wrapper.state = m_conf.CH_RUN;
+            if (_char_wrapper.state != m_conf.CH_JUMP)
+                _char_wrapper.state = m_conf.CH_RUN;
         } else {
-            var move_dir = 0;
-            if (_char_wrapper.state == m_conf.CH_RUN && on_ground) {
-                m_anim.apply(_char_wrapper.rig, "character_idle_01");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-                m_anim.play(_char_wrapper.rig);
+            switch(id) {
+            case "FORWARD":
+            case "BACKWARD":
+                move_state.forw_back = 0;
+                break;
+            case "LEFT":
+            case "RIGHT":
+                move_state.left_right = 0;
+                break;
             }
-            _char_wrapper.state = m_conf.CH_STILL;
+            if (_char_wrapper.state != m_conf.CH_JUMP)
+                _char_wrapper.state = m_conf.CH_STILL;
         }
 
-        if (move_dir && on_ground) {
+        if ((move_state.forw_back || move_state.left_right) && on_ground) {
             if (!m_sfx.is_play(_char_run_spk))
                 m_sfx.play_def(_char_run_spk);
         } else {
@@ -209,71 +351,63 @@ function setup_movement(up_arrow, down_arrow, on_ground_sens) {
                 m_sfx.stop(_char_run_spk);
         }
 
-        m_phy.set_character_move_dir(obj, move_dir, 0);
+        m_phy.set_character_move_dir(obj, move_state.forw_back,
+                                          move_state.left_right);
     };
 
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "FORWARD",
         m_ctl.CT_CONTINUOUS, move_array, forward_logic, move_cb);
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "BACKWARD",
         m_ctl.CT_CONTINUOUS, move_array, backward_logic, move_cb);
+    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "LEFT",
+        m_ctl.CT_CONTINUOUS, move_array, left_logic, move_cb);
+    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "RIGHT",
+        m_ctl.CT_CONTINUOUS, move_array, right_logic, move_cb);
 
-    // skeletal animation
-    m_anim.apply(_char_wrapper.rig, "character_idle_01");
-    m_anim.play(_char_wrapper.rig);
-    m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-
-    // character material animation
-    if (_char_wrapper.body) {
-        m_anim.apply(_char_wrapper.body, "HEAL_run");
-        m_anim.apply(_char_wrapper.body, "LAVA_grow", m_anim.SLOT_1);
-        m_anim.apply(_char_wrapper.body, "SHIELD_grow", m_anim.SLOT_2);
-    }
-
-    if (_char_wrapper.shield_sphere)
-        m_anim.apply(_char_wrapper.shield_sphere, "SHIELD_GLOW_grow");
-
-    // sound
-    m_sfx.stop(_char_run_spk);
-}
-
-function setup_rotation(right_arrow, left_arrow, elapsed_sensor) {
-    var key_a     = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
-    var key_d     = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
-    var key_left  = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
-    var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
-
-    var rotate_array = [
-        key_a, key_left, left_arrow,
-        key_d, key_right, right_arrow,
-        elapsed_sensor
-    ];
-
-    var left_logic  = function(s){return (s[0] || s[1] || s[2])};
-    var right_logic = function(s){return (s[3] || s[4] || s[5])};
-
-    function rotate_cb(obj, id, pulse) {
-
+    function anim_cb(obj, id, pulse) {
         if (_char_wrapper.state == m_conf.CH_ATTACK)
             return;
 
-        var elapsed = m_ctl.get_sensor_value(obj, "LEFT", 6);
+        var on_ground = m_ctl.get_sensor_value(obj, id, 0);
 
-        if (pulse == 1) {
-            switch(id) {
-            case "LEFT":
-                m_phy.character_rotation_inc(obj, elapsed * m_conf.ROT_SPEED, 0);
-                break;
-            case "RIGHT":
-                m_phy.character_rotation_inc(obj, -elapsed * m_conf.ROT_SPEED, 0);
-                break;
-            }
+        var cur_anim = m_anim.get_current_anim_name(_char_wrapper.rig);
+        var required_anim = m_conf.CHAR_IDLE_ANIM;
+
+        if (_char_wrapper.state == m_conf.CH_JUMP) {
+            var required_anim = m_conf.CHAR_JUMP_ANIM;
+        } else if (move_state.forw_back == 1) {
+            var required_anim = m_conf.CHAR_RUN_ANIM;
+        } else if (move_state.forw_back == -1) {
+            var required_anim = m_conf.CHAR_RUN_ANIM;
+            m_anim.set_speed(_char_wrapper.rig, -1);
+        } else if (move_state.left_right == 1) {
+            var required_anim = m_conf.CHAR_STRAFE;
+            m_anim.set_speed(_char_wrapper.rig, -1);
+        } else if (move_state.left_right == -1) {
+            var required_anim = m_conf.CHAR_STRAFE;
+        }
+
+        if (cur_anim != required_anim) {
+            m_anim.apply(_char_wrapper.rig, required_anim);
+            m_anim.play(_char_wrapper.rig);
+            m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
         }
     }
 
-    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "LEFT",
-        m_ctl.CT_CONTINUOUS, rotate_array, left_logic, rotate_cb);
-    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "RIGHT",
-        m_ctl.CT_CONTINUOUS, rotate_array, right_logic, rotate_cb);
+    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "CHAR_ANIM",
+        m_ctl.CT_CONTINUOUS, [on_ground_sens], function(s){return true}, anim_cb);
+
+    // character material animation
+    if (_char_wrapper.body) {
+        m_anim.apply(_char_wrapper.body, m_conf.CHAR_HEAL_PICK_ANIM);
+        m_anim.apply(_char_wrapper.body, m_conf.CHAR_LAVA_PROT_ANIM,
+                     m_anim.SLOT_1);
+        m_anim.apply(_char_wrapper.body, m_conf.CHAR_SHIELD_PICK_ANIM,
+                     m_anim.SLOT_2);
+    }
+
+    // sound
+    m_sfx.stop(_char_run_spk);
 }
 
 function setup_jumping(touch_jump, on_ground_sens) {
@@ -281,46 +415,41 @@ function setup_jumping(touch_jump, on_ground_sens) {
 
     var jump_cb = function(obj, id, pulse) {
         if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATTACK) {
+            _char_wrapper.state = m_conf.CH_JUMP;
             m_phy.character_jump(obj);
-            var island = m_ctl.get_sensor_value(obj, id, 2);
-            if (island) {
-                var id = Math.floor(2 * Math.random());
-                m_sfx.play_def(_char_jump_spks[id]);
 
-                m_anim.apply(_char_wrapper.rig, "character_jump");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
-                m_anim.play(_char_wrapper.rig);
-            }
+            var id = Math.floor(_char_jump_spks.length * Math.random());
+            m_sfx.play_def(_char_jump_spks[id]);
+
+            m_anim.apply(_char_wrapper.rig, m_conf.CHAR_JUMP_ANIM);
+            m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
+            m_anim.play(_char_wrapper.rig);
+
+            _char_wrapper.move_state.forw_back = 0;
+            _char_wrapper.move_state.left_right = 0;
         }
     }
     var landing_cb = function(obj, id, pulse) {
         if (pulse == 1) {
             m_sfx.play_def(_char_land_spk);
-            if (_char_wrapper.state == m_conf.CH_STILL) {
-                m_anim.apply(_char_wrapper.rig, "character_idle_01");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-                m_anim.play(_char_wrapper.rig);
-            } else if (_char_wrapper.state == m_conf.CH_RUN){
-                m_anim.apply(_char_wrapper.rig, "character_run");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-                m_anim.play(_char_wrapper.rig);
-            }
+            if (_char_wrapper.state != m_conf.CH_ATTACK)
+                _char_wrapper.state = m_conf.CH_STILL;
         }
     }
 
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "JUMP",
         m_ctl.CT_TRIGGER, [key_space, touch_jump, on_ground_sens],
-        function(s){return s[0] || s[1]}, jump_cb);
+        function(s){return (s[0] || s[1]) && s[2]}, jump_cb);
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "LANDING",
         m_ctl.CT_TRIGGER, [on_ground_sens], null, landing_cb);
 }
 
 function setup_attack(touch_attack, elapsed) {
-    var key_enter = m_ctl.create_keyboard_sensor(m_ctl.KEY_ENTER);
+    var click_sensor = m_ctl.create_mouse_click_sensor();
     var char_attack_done = false;
 
     function finish_attack_cb(obj) {
-        m_anim.apply(_char_wrapper.rig, "character_idle_01");
+        m_anim.apply(_char_wrapper.rig, m_conf.CHAR_IDLE_ANIM);
         m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
         m_anim.play(_char_wrapper.rig);
 
@@ -333,15 +462,18 @@ function setup_attack(touch_attack, elapsed) {
 
         m_sfx.play_def(_char_attack_spk);
 
-        var id = Math.floor(3 * Math.random());
+        var id = Math.floor(_char_voice_attack_spks.length * Math.random());
         m_sfx.play_def(_char_voice_attack_spks[id]);
     }
 
     var attack_cb = function(obj, id, pulse) {
         if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATTACK) {
             _char_wrapper.state = m_conf.CH_ATTACK;
-            var rand = Math.floor(3 * Math.random()) + 1;
-            m_anim.apply(_char_wrapper.rig, "character_atack_0" + rand);
+            _char_wrapper.move_state.forw_back = 0;
+            _char_wrapper.move_state.left_right = 0;
+            var anim_id = Math.floor(_char_attack_anims.length * Math.random());
+            var attack_anim = _char_attack_anims[anim_id];
+            m_anim.apply(_char_wrapper.rig, attack_anim);
             m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
             m_anim.play(_char_wrapper.rig, finish_attack_cb);
 
@@ -381,7 +513,7 @@ function setup_attack(touch_attack, elapsed) {
     }
 
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "ATTACK", m_ctl.CT_TRIGGER,
-        [key_enter, touch_attack], function(s){return s[0] || s[1]}, attack_cb);
+        [click_sensor, touch_attack], function(s){return s[0] || s[1]}, attack_cb);
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "DAMAGE_GOLEMS", m_ctl.CT_CONTINUOUS,
         [elapsed], null, damage_enemies_cb);
 }
@@ -392,15 +524,29 @@ function disable_controls() {
         m_ctl.remove_sensor_manifold(_char_wrapper.phys_body);
     m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
     m_sfx.stop(_char_run_spk);
+    var canvas_elem = m_cont.get_canvas();
+
+    if (!m_main.detect_mobile())
+        m_mouse.exit_pointerlock();
 }
 
 exports.reset = function() {
     _char_wrapper.state = m_conf.CH_STILL;
     _char_wrapper.hp = m_conf.MAX_CHAR_HP;
     _char_wrapper.island = -1;
-    m_trans.get_rotation(_char_wrapper.phys_body, _quat4_tmp);
-    m_phy.set_transform(_char_wrapper.phys_body, _level_conf.CHAR_DEF_POS, _quat4_tmp);
-    m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
+    _char_wrapper.move_state.forw_back = 0;
+    _char_wrapper.move_state.left_right = 0;
+    if (_level_conf) {
+        m_trans.get_rotation(_char_wrapper.phys_body, _quat4_tmp);
+        m_phy.set_transform(_char_wrapper.phys_body, _level_conf.CHAR_DEF_POS, _quat4_tmp);
+        m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
+        m_scs.hide_object(_char_wrapper.foot_smoke);
+    }
+
+    var camobj = m_scs.get_active_camera();
+    if (m_ctl.check_sensor_manifold(camobj, "CAMERA_ROTATION"))
+        m_ctl.remove_sensor_manifold(camobj, "CAMERA_ROTATION");
+    m_cam.eye_setup(camobj);
 }
 
 
@@ -410,42 +556,36 @@ exports.apply_hp_potion = function() {
 }
 
 exports.apply_lava_protect = function() {
-    m_anim.apply(_char_wrapper.body, "LAVA_grow", m_anim.SLOT_1);
     m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_1);
     m_anim.play(_char_wrapper.body, null, m_anim.SLOT_1);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "lava_prot_switcher"],
+                            1);
 }
 
 exports.remove_lava_protect = remove_lava_protect;
 function remove_lava_protect() {
-    m_anim.apply(_char_wrapper.body, "LAVA_fall", m_anim.SLOT_1);
-    m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_1);
-    m_anim.play(_char_wrapper.body, null, m_anim.SLOT_1);
-
     m_bonuses.set_lava_protect_time(0);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "lava_prot_switcher"],
+                            0);
 }
 
 exports.apply_shield = apply_shield;
 function apply_shield() {
-    m_anim.apply(_char_wrapper.body, "SHIELD_grow", m_anim.SLOT_2);
     m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_2);
     m_anim.play(_char_wrapper.body, null, m_anim.SLOT_2);
-
-    m_anim.apply(_char_wrapper.shield_sphere, "SHIELD_GLOW_grow");
-    m_anim.set_behavior(_char_wrapper.shield_sphere, m_anim.AB_FINISH_STOP);
-    m_anim.play(_char_wrapper.shield_sphere);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "shield_switcher"],
+                            1);
 }
 
 exports.remove_shield = remove_shield;
 function remove_shield() {
-    m_anim.apply(_char_wrapper.body, "SHIELD_flash", m_anim.SLOT_2);
-    m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_2);
-    m_anim.play(_char_wrapper.body, null, m_anim.SLOT_2);
-
-    m_anim.apply(_char_wrapper.shield_sphere, "SHIELD_GLOW_fall");
-    m_anim.set_behavior(_char_wrapper.shield_sphere, m_anim.AB_FINISH_STOP);
-    m_anim.play(_char_wrapper.shield_sphere);
-
     m_bonuses.set_shield_time(0);
+    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+                            ["lava_shield_prot", "shield_switcher"],
+                            0);
 }
 
 exports.change_hp = change_hp;
@@ -457,7 +597,7 @@ function change_hp(amount) {
     var cur_time = m_time.get_timeline();
 
     if (amount < 0 && _last_hurt_sound < cur_time - 0.5) {
-        var id = Math.floor(2 * Math.random());
+        var id = Math.floor(_char_hurt_spks.length * Math.random());
         m_sfx.play_def(_char_hurt_spks[id]);
         _last_hurt_sound = cur_time;
     }
@@ -474,7 +614,6 @@ function change_hp(amount) {
 function kill() {
 
     disable_controls()
-
     if (_level_conf.MUSIC_SPEAKERS) {
         m_sfx.clear_playlist();
         var intro_spk = m_scs.get_object_by_dupli_name("enviroment",
@@ -486,11 +625,13 @@ function kill() {
         m_sfx.play_def(end_spk);
     }
 
-    var char_death_spk = m_scs.get_object_by_dupli_name("character",
+    var char_death_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.CHAR_DEATH_SPEAKER);
     m_sfx.play_def(char_death_spk);
 
-    m_anim.apply(_char_wrapper.rig, "character_death");
+    var anim_id = Math.floor(_char_death_anims.length * Math.random());
+    var death_anim = _char_death_anims[anim_id];
+    m_anim.apply(_char_wrapper.rig, death_anim);
     m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
     m_anim.play(_char_wrapper.rig);
 
@@ -499,10 +640,10 @@ function kill() {
     if (_char_wrapper.gem_slot)
         remove_gem();
 
-    if (m_bonuses.shield_time_left > 0)
+    if (m_bonuses.shield_time_left() > 0)
         remove_shield();
 
-    if (m_bonuses.lava_protect_time_left > 0)
+    if (m_bonuses.lava_protect_time_left() > 0)
         remove_lava_protect();
 }
 

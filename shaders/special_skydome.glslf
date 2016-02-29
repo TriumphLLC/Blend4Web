@@ -237,23 +237,20 @@ void main(void) {
     srgb_to_lin(sky_color);
 
     // apply underwater fog to the skyplane
-    float cam_depth = u_camera_eye_frag.y - WATER_LEVEL;
-    cam_depth = min(-cam_depth * 0.03, 0.8);
-    float sun_color_intens = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
+    float cam_depth = WATER_LEVEL - u_camera_eye_frag.y;
 
     // color of underwater depth
     vec3 depth_col = vec3(0.0);
 
-    vec4 fog_color = u_underwater_fog_color_density;
-    fog_color.rgb = mix(fog_color.rgb, depth_col, min(-ray.y + cam_depth, 1.0))
-                        * sun_color_intens;
+    vec3 fog_color = mix(u_underwater_fog_color_density.rgb, depth_col, min(-ray.y, 1.0));
+    fog_color *= min(1.0 - min(0.03 * cam_depth, 0.8), 1.0);
 
     // fog blending factor
-    float factor = clamp(sign(ray.y - 0.05 * cam_depth), 0.0, 1.0);
+    float factor = clamp(sign(0.01 * cam_depth - ray.y), 0.0, 1.0);
 
-    sky_color = mix(fog_color.rgb, sky_color, factor);
+    sky_color = mix(sky_color, fog_color, factor);
     lin_to_srgb(sky_color);
 #endif
 
-   gl_FragColor = vec4(sky_color, 1.0);
+    gl_FragColor = vec4(sky_color, 1.0);
 }

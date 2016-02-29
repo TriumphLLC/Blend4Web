@@ -70,16 +70,16 @@
 --------------
 Для создания цветого градиента на материале воды должна быть наложена текстура с включенной опцией ``Export Options > Shore Distance Map``, генерируемая с помощью скрипта для :ref:`запекания параметров береговой линии <shore_distance_bake>`.
 
-*Shallow water > Color*
+*Shallow Water > Color*
     Цвет воды на мелководье.
 
-*Shallow water > Factor*
+*Shallow Water > Factor*
     Коэффициент примешивания цвета воды на мелководье.
 
-*Shore water > Color*
+*Shore Water > Color*
     Цвет воды непосредственно у береговой линии.
 
-*Shore water > Factor*
+*Shore Water > Factor*
     Коэффициент примешивания цвета воды на береговой линии.
 
 Преломление
@@ -312,7 +312,7 @@
 
 Движком поддерживаются стандартные параметры вкладки ``World > Mist``. Помимо этого возможно переопределение цвета тумана.
 
-*Mist > Use custom color*
+*Mist > Use Custom Color*
     Использовать для тумана заданный цвет, вместо цвета ``World > Horizon``. По умолчанию включено.
 
 *Mist > Color*
@@ -395,31 +395,31 @@
 
 |
 
-*Main bending > Angle*
+*Main Bending > Angle*
     Амплитуда угла "основного" отклонения под действием ветра (в градусах). Значение по умолчанию 10.0.
     
-*Main bending > Frequency*
+*Main Bending > Frequency*
     Частота "основного" отклонения под действием ветра. Значение по умолчанию 0.25.
 
-*Main bending > Main Stiffness (A)*
+*Main Bending > Main Stiffness (A)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости "основного" отклонения. Может быть оставлено пустым. 
 
-*Detail bending > Amplitude*
+*Detail Bending > Amplitude*
     Амплитуда угла "детализованного" отклонения под действием ветра (в градусах). Значение по умолчанию 0.1.
 
-*Detail bending > Branch Amplitude*
+*Detail Bending > Branch Amplitude*
     Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение по умолчанию 0.3.
 
-*Detail bending > Bending Frequency*
+*Detail Bending > Bending Frequency*
     Частота колебаний ветвей. Значение по умолчанию 1.0.
 
-*Detail bending > Leaves Stiffness (R)*
+*Detail Bending > Leaves Stiffness (R)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости листвы. Может быть оставлено пустым. 
 
-*Detail bending > Leaves Phase (G)*
+*Detail Bending > Leaves Phase (G)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о фазе отклонения листвы. Может быть оставлено пустым. 
 
-*Detail bending > Overall Stiffness (B)*
+*Detail Bending > Overall Stiffness (B)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию об общей жесткости листвы. Может быть оставлено пустым. 
 
 Слои вертексных цветов с указанными в настройках названиями должны существовать в меше.

@@ -162,6 +162,10 @@ uniform float u_node_values[NUM_VALUES];
 uniform vec3 u_node_rgbs[NUM_RGBS];
 #endif
 
+#if USE_NODE_CURVE_VEC || USE_NODE_CURVE_RGB || USE_NODE_VALTORGB
+uniform sampler2D u_nodes_texture;
+#endif
+
 /*============================================================================
                                    VARYINGS
 ============================================================================*/
@@ -235,13 +239,13 @@ void main(void) {
     float view_dist = length(v_pos_view);
 #endif
 
-# if WATER_EFFECTS
+#if WATER_EFFECTS
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
 # endif
 
-# if WATER_EFFECTS || !DISABLE_FOG || (CAUSTICS && WATER_EFFECTS)
+#if WATER_EFFECTS || !DISABLE_FOG || (CAUSTICS && WATER_EFFECTS)
     vec3 sun_color_intens = u_sun_intensity;
-# endif
+#endif
 
     vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
     vec3 nout_color;
@@ -250,7 +254,8 @@ void main(void) {
     vec4 nout_shadow_factor;
     float nout_alpha;
 
-#  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+#if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+
     mat4 nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
 
     nodes_main(eye_dir,
@@ -260,7 +265,7 @@ void main(void) {
             nout_normal,
             nout_shadow_factor,
             nout_alpha);
-#  else
+#else
     nodes_main(eye_dir,
             mat4(0.0),
             nout_color,
@@ -268,7 +273,7 @@ void main(void) {
             nout_normal,
             nout_shadow_factor,
             nout_alpha);
-#  endif
+#endif
 
     vec3 color = nout_color;
     float alpha = nout_alpha;
@@ -296,9 +301,7 @@ void main(void) {
     alpha = 1.0; // prevent blending with html content
 # endif  // ALPHA CLIP
 #else  // ALPHA
-# if !NODES_GLOW
     alpha = 1.0;
-# endif
 #endif  // ALPHA
 
 
@@ -317,7 +320,7 @@ void main(void) {
 #endif
 
     lin_to_srgb(color);
-#if ALPHA && !ALPHA_CLIP || NODES_GLOW
+#if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
 #endif
     gl_FragColor = vec4(color, alpha);

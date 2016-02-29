@@ -2,6 +2,7 @@
 author = Blend4Web
 name = firstperson
 title = Jungle Outpost
+icon = jungle_outpost.png
 
 [paths]
 assets_dirs = deploy/tutorials/examples/firstperson/;

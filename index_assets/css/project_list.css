@@ -9,10 +9,11 @@ label {
     padding: 10px;
     border: 1px solid rgba(0, 100, 200, 0.5);
     border-radius: 5px;
-    /*width: 40px;*/
-    /*height: 40px;*/
-    /*background-image: url(../img/upload.svg);*/
-    /*margin-bottom: 10px;*/
+}
+
+label.icon {
+    padding: initial;
+    border: none;
 }
 
 label:hover {
@@ -41,11 +42,11 @@ button[type=submit]:hover {
     text-decoration: underline;
 }
 
-table .doc th, table .doc td, th {
+table .project th, table .project td, th {
     height: auto;
 }
 
-table .doc th {
+table .project th {
     padding: 10px;
 }
 
@@ -101,21 +102,13 @@ h1 {
     font-family: Open Sans Light;
 }
 
-/*#new_project {
-    background-image: url(../img/new.svg);
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    float: left;
-    margin-right: 10px;
-}*/
-
 form {
     display: inline-block;
 }
 
 #allow_remove,
 #new_project,
+#export_project,
 #deny_remove,
 #back_to_index,
 #help,
@@ -129,6 +122,7 @@ form {
 label div,
 #new_project div,
 #allow_remove div,
+#export_project div,
 #deny_remove div,
 #back_to_index div,
 #help div,
@@ -140,25 +134,30 @@ label div,
     margin-right: 5px;
 }
 
-label div {
-    background-image: url(../img/upload.svg);
+#back_to_index div {
+    background-image: url(../img/back.svg);
 }
 
 #new_project div {
     background-image: url(../img/new.svg);
 }
 
-#back_to_index div {
-    background-image: url(../img/back.svg);
+label div {
+    background-image: url(../img/upload.svg);
+}
+
+#export_project div {
+    background-image: url(../img/download.svg);
+}
+
+#show_hide_b4w div {
+    background-image: url(../img/eye.svg);
 }
 
 #help div {
     background-image: url(../img/help.svg);
 }
 
-#show_hide_b4w div {
-    background-image: url(../img/eye.svg);
-}
 
 tr:hover {
     /*outline: 2px solid rgba(0, 100, 200, 0.2);*/
@@ -234,4 +233,8 @@ div.input_group a {
 
 #deny_remove div {
     background-image: url(../img/remove.svg);
+}
+
+img {
+    height: 100px;
 }

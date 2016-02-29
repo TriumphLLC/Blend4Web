@@ -21,8 +21,8 @@ exports.init = function() {
         show_fps: true,
         alpha: false,
         gl_debug: true,
-        console_verbose: true,
-        autoresize: true
+        autoresize: true,
+        console_verbose: true
     });
 }
 

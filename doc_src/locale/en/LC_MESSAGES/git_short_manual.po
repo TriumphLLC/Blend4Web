@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
@@ -11,11 +11,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../git_short_manual.rst:1 ../git_short_manual.rst:46
-#: ../git_short_manual.rst:64 ../git_short_manual.rst:108
-#: ../git_short_manual.rst:171 ../git_short_manual.rst:241
-#: ../git_short_manual.rst:286 ../git_short_manual.rst:411
-#: ../git_short_manual.rst:541
+#: ../git_short_manual.rst:0
+msgid "Содержание"
+msgstr "Table of Contents"
+
+#: ../git_short_manual.rst:1 ../git_short_manual.rst:50
+#: ../git_short_manual.rst:68 ../git_short_manual.rst:112
+#: ../git_short_manual.rst:175 ../git_short_manual.rst:245
+#: ../git_short_manual.rst:290 ../git_short_manual.rst:415
+#: ../git_short_manual.rst:545
 msgid "git"
 msgstr ""
 
@@ -23,11 +27,11 @@ msgstr ""
 msgid "Работа в команде с использованием Git"
 msgstr "Team Work. Using Git"
 
-#: ../git_short_manual.rst:12 ../git_short_manual.rst:417
+#: ../git_short_manual.rst:16 ../git_short_manual.rst:421
 msgid "Общие сведения"
 msgstr "Overview"
 
-#: ../git_short_manual.rst:14
+#: ../git_short_manual.rst:18
 msgid ""
 "Для организации командной работы над проектом может быть использована "
 "система контроля версий файлов Git. Использование Git имеет ряд преимуществ "
@@ -37,7 +41,7 @@ msgstr ""
 "Using Git has a number of benifits as compared with other ways to "
 "collaborate:"
 
-#: ../git_short_manual.rst:16
+#: ../git_short_manual.rst:20
 msgid ""
 "сохранение полной истории изменений файлов с возможностью возврата к "
 "предыдущим версиям"
@@ -45,17 +49,17 @@ msgstr ""
 "saving the history of changes with the possibility to roll back to prevoius "
 "versions"
 
-#: ../git_short_manual.rst:17
+#: ../git_short_manual.rst:21
 msgid ""
 "синхронизация изменений между пользователями и автоматическое слияние "
 "изменений"
 msgstr "syncronizing changes between users and automatic merging of changes"
 
-#: ../git_short_manual.rst:18
+#: ../git_short_manual.rst:22
 msgid "возможность работы с бинарными файлами большого объёма"
 msgstr "working with large binary files is possible"
 
-#: ../git_short_manual.rst:20
+#: ../git_short_manual.rst:24
 msgid ""
 "Git - распределенная система, и каждый разработчик или дизайнер имеет "
 "собственный локальный репозиторий (хранилище). Синхронизация между "
@@ -69,19 +73,20 @@ msgstr ""
 "dedicated machine (server). Access to the server can be organized through "
 "SSH protocol."
 
-#: ../git_short_manual.rst:22
+#: ../git_short_manual.rst:26
 msgid ""
 "Хотя для Git существует множество графических утилит, упрощающих работу "
 "начинающих пользователей, здесь мы рассмотрим работу со штатной консольной "
 "утилитой, вызываемой командой ``git``."
 msgstr ""
-"Although there are many GUIs for Git beginners, here the work with the ``git`` standard console utility is explained."
+"Although there are many GUIs for Git beginners, here the work with the "
+"``git`` standard console utility is explained."
 
-#: ../git_short_manual.rst:28
+#: ../git_short_manual.rst:32
 msgid "Типичный рабочий процесс"
 msgstr "Typical Workflow"
 
-#: ../git_short_manual.rst:30
+#: ../git_short_manual.rst:34
 msgid ""
 "В ходе работы в локальных репозиториях создаются, изменяются или удаляются "
 "файлы."
@@ -89,7 +94,7 @@ msgstr ""
 "Files can be created, added or deleted during the work process in the local "
 "repositories."
 
-#: ../git_short_manual.rst:31
+#: ../git_short_manual.rst:35
 msgid ""
 "По завершении некоторого логического этапа работы возникает необходимость "
 "фиксации изменений (коммит) и/или синхронизации с коллегами."
@@ -97,7 +102,7 @@ msgstr ""
 "After a certain logical period of work is finished it is necessary to fix "
 "(commit) the changes and/or syncronize with your team mates."
 
-#: ../git_short_manual.rst:32
+#: ../git_short_manual.rst:36
 msgid ""
 "Проводится подготовка файлов к коммиту - учет измененных, новых и удаленных "
 "файлов, а также сброс изменений."
@@ -105,11 +110,11 @@ msgstr ""
 "Files are prepared for commit i.e. the accounting of changed, new and "
 "deleted files and also the resetting of changes."
 
-#: ../git_short_manual.rst:33
+#: ../git_short_manual.rst:37
 msgid "Осуществляется коммит."
 msgstr "Commit is performed."
 
-#: ../git_short_manual.rst:34
+#: ../git_short_manual.rst:38
 msgid ""
 "Локальные изменения загружаются в общее хранилище и становятся доступными "
 "для коллег."
@@ -117,7 +122,7 @@ msgstr ""
 "Local changes are uploaded into the shared storage and become available for "
 "the collegues."
 
-#: ../git_short_manual.rst:36
+#: ../git_short_manual.rst:40
 msgid ""
 "Далее описывается ограниченный набор команд Git, рекомендуемых к "
 "использованию при создании приложений и графических ресурсов."
@@ -125,37 +130,37 @@ msgstr ""
 "A limited set of Git commands recommended for authoring applications and "
 "their graphical resources is described below."
 
-#: ../git_short_manual.rst:38
+#: ../git_short_manual.rst:42
 msgid "Перед выполнением команд необходимо перейти в репозиторий, например:"
 msgstr ""
 "It's necessary to switch to the repository before executing the commands, "
 "e.g.:"
 
-#: ../git_short_manual.rst:46
+#: ../git_short_manual.rst:50
 msgid "индивидуальные настройки"
 msgstr "individual settings"
 
-#: ../git_short_manual.rst:51
+#: ../git_short_manual.rst:55
 msgid "Индивидуальные настройки"
 msgstr "Individual Settings"
 
-#: ../git_short_manual.rst:53
+#: ../git_short_manual.rst:57
 msgid "Новый пользователь может устанавить имя и почтовый адрес командами:"
 msgstr "A new user can set up his name and email using the commands:"
 
-#: ../git_short_manual.rst:61
+#: ../git_short_manual.rst:65
 msgid "Установленные данные будут использоваться в логе изменений."
 msgstr "The set up data will be used in the changelog."
 
-#: ../git_short_manual.rst:64
+#: ../git_short_manual.rst:68
 msgid "проверка статуса"
 msgstr "checking the status"
 
-#: ../git_short_manual.rst:69
+#: ../git_short_manual.rst:73
 msgid "Проверка статуса"
 msgstr "Checking the Status"
 
-#: ../git_short_manual.rst:71
+#: ../git_short_manual.rst:75
 msgid ""
 "Перед началом, в процессе или после выполнения любых операций рекомендуется "
 "проверять текущее состояние репозитория."
@@ -163,11 +168,11 @@ msgstr ""
 "It's recommended to check the state of the repository before, in progress "
 "and after performing all the operations."
 
-#: ../git_short_manual.rst:73
+#: ../git_short_manual.rst:77
 msgid "Проверить статус можно командой:"
 msgstr "Use this command to check the status:"
 
-#: ../git_short_manual.rst:80
+#: ../git_short_manual.rst:84
 msgid ""
 "Результат команды ``git status``, если все коммиты проведены и нет новых "
 "файлов:"
@@ -175,7 +180,7 @@ msgstr ""
 "The result of the ``git status`` command if all the commits were performed "
 "and there are no new files:"
 
-#: ../git_short_manual.rst:89
+#: ../git_short_manual.rst:93
 msgid ""
 "Возможный результат команды ``git status``, если имеются изменения. "
 "Например, файлы :file:`apps_dev/firstperson/firstperson.js` и "
@@ -187,19 +192,19 @@ msgstr ""
 ":file:`doc_src/git_short_manual.rst` files are changed and a new file "
 ":file:`123.txt` is created:"
 
-#: ../git_short_manual.rst:108
+#: ../git_short_manual.rst:112
 msgid "подготовка к коммиту"
 msgstr "preparing for commit"
 
-#: ../git_short_manual.rst:113
+#: ../git_short_manual.rst:117
 msgid "Перед коммитом"
 msgstr "Before the Commit"
 
-#: ../git_short_manual.rst:116
+#: ../git_short_manual.rst:120
 msgid "Проверка изменений (текстовых файлов)"
 msgstr "Checking changes (of the text files)"
 
-#: ../git_short_manual.rst:118
+#: ../git_short_manual.rst:122
 msgid ""
 "Перед совершением коммита в случае текстовых файлов рекомендуется "
 "просмотреть внесенные изменения."
@@ -207,23 +212,23 @@ msgstr ""
 "In case of text files it is recommended to view the introduced changes "
 "before performing the commit."
 
-#: ../git_short_manual.rst:120
+#: ../git_short_manual.rst:124
 msgid "Проверить, что изменилось, во всей директории:"
 msgstr "Check what was changed in the whole directory:"
 
-#: ../git_short_manual.rst:126
+#: ../git_short_manual.rst:130
 msgid "или только в определенном файле:"
 msgstr "or in a specific file only:"
 
-#: ../git_short_manual.rst:132
+#: ../git_short_manual.rst:136
 msgid "Возможный результат команды ``git diff`` для текстового файла:"
 msgstr "A possible result of the ``git diff`` command for a text file:"
 
-#: ../git_short_manual.rst:151
+#: ../git_short_manual.rst:155
 msgid "Восстановление файлов"
 msgstr "Rolling back files"
 
-#: ../git_short_manual.rst:153
+#: ../git_short_manual.rst:157
 msgid ""
 "Если файл был изменен или удален, но его необходимо восстановить (до "
 "состояния, зафиксированного последним коммитом), следует использовать "
@@ -232,7 +237,7 @@ msgstr ""
 "If the file was changed or deleted but it is necessary to recover it (to the"
 " latest commited state) use the command:"
 
-#: ../git_short_manual.rst:160
+#: ../git_short_manual.rst:164
 msgid ""
 "Внесенные изменения будут отменены, поэтому эту команду необходимо выполнять"
 " с осторожностью."
@@ -240,11 +245,11 @@ msgstr ""
 "The introduced changes will be cancelled - this is why this command should "
 "be performed with caution."
 
-#: ../git_short_manual.rst:164
+#: ../git_short_manual.rst:168
 msgid "Посторонние файлы"
 msgstr "Unwanted files"
 
-#: ../git_short_manual.rst:166
+#: ../git_short_manual.rst:170
 msgid ""
 "Если файл значится в списке ``Untracked files`` (команда ``git status``), но"
 " контроль версий для него не нужен, его следует удалить или переместить за "
@@ -254,19 +259,19 @@ msgstr ""
 " control is not needed for it, it should be deleted or moved beyond the "
 "working directory."
 
-#: ../git_short_manual.rst:171
+#: ../git_short_manual.rst:175
 msgid "добавление и удаление файлов"
 msgstr "adding and removing files"
 
-#: ../git_short_manual.rst:176
+#: ../git_short_manual.rst:180
 msgid "Подготовка к коммиту"
 msgstr "Preparing for Commit"
 
-#: ../git_short_manual.rst:179
+#: ../git_short_manual.rst:183
 msgid "Добавление файлов"
 msgstr "Adding files"
 
-#: ../git_short_manual.rst:181
+#: ../git_short_manual.rst:185
 msgid ""
 "Если изменения устраивают, добавить нужные измененные и/или новые файлы для "
 "коммита:"
@@ -274,11 +279,11 @@ msgstr ""
 "If you are happy with the changes, add the needed changed and/or new files "
 "for commit."
 
-#: ../git_short_manual.rst:188
+#: ../git_short_manual.rst:192
 msgid "Снова проверить статус:"
 msgstr "Check the status again:"
 
-#: ../git_short_manual.rst:194
+#: ../git_short_manual.rst:198
 msgid ""
 "Возможный результат команды ``git status`` после добавления некоторых файлов"
 " командой ``git add``:"
@@ -286,7 +291,7 @@ msgstr ""
 "Possible result of the ``git status`` command after adding some files with "
 "the ``git add`` command:"
 
-#: ../git_short_manual.rst:212
+#: ../git_short_manual.rst:216
 msgid ""
 "Видно, что для коммита добавлены файлы "
 ":file:`apps_dev/firstperson/firstperson.js` и :file:`123.txt`, а файл "
@@ -300,11 +305,11 @@ msgstr ""
 "easier it is recommended to either add such files for commit or cancel their"
 " changes with the ``git checkout`` command."
 
-#: ../git_short_manual.rst:215
+#: ../git_short_manual.rst:219
 msgid "Удаление файлов"
 msgstr "Removing files"
 
-#: ../git_short_manual.rst:217
+#: ../git_short_manual.rst:221
 msgid ""
 "Некоторые файлы могут быть отмечены как удаленные из Git после выполнения "
 "команды ``git status``, например:"
@@ -312,7 +317,7 @@ msgstr ""
 "Some files can be marked as deleted from Git after performing the ``git "
 "status`` command, for example:"
 
-#: ../git_short_manual.rst:232
+#: ../git_short_manual.rst:236
 msgid ""
 "В таком случае, если удаление файла должно быть зафиксировано (т.е. войти в "
 "коммит), выполнить команду ``git rm``, например:"
@@ -320,7 +325,7 @@ msgstr ""
 "In this case if deleting the file should be recorded (i.e. enter the "
 "commit), perform the ``git rm`` command, for example:"
 
-#: ../git_short_manual.rst:238
+#: ../git_short_manual.rst:242
 msgid ""
 "Если же файл был удален по ошибке, и его необходимо вернуть, нужно "
 "использовать команду ``git checkout``."
@@ -328,19 +333,19 @@ msgstr ""
 "If the file was deleted by accident and its necessary to recover it, use the"
 " ``git checkout`` command."
 
-#: ../git_short_manual.rst:241
+#: ../git_short_manual.rst:245
 msgid "коммит"
 msgstr "commit"
 
-#: ../git_short_manual.rst:246
+#: ../git_short_manual.rst:250
 msgid "Коммит"
 msgstr "Commit"
 
-#: ../git_short_manual.rst:248
+#: ../git_short_manual.rst:252
 msgid "Выполнить коммит командой:"
 msgstr "Perform commit with the command:"
 
-#: ../git_short_manual.rst:254
+#: ../git_short_manual.rst:258
 msgid ""
 "Появится окно текстового редактора (например, **nano** или **vim**), в "
 "котором нужно ввести комментарий к коммиту на английском языке."
@@ -348,7 +353,7 @@ msgstr ""
 "A text editor window will show up (for example, **nano** or **vim**), in "
 "which it's nesessary to enter the commit comment in English."
 
-#: ../git_short_manual.rst:280
+#: ../git_short_manual.rst:284
 msgid ""
 "Сохранить изменения и выйти из редактора (в **nano** Ctrl+O, затем Ctrl+X; в"
 " **vim** ZZ, или ESC :wq)."
@@ -356,7 +361,7 @@ msgstr ""
 "Save the changes and quit the editor (in **nano** Ctrl+O, then Ctrl+X; in "
 "**vim** ZZ, or ESC :wq)."
 
-#: ../git_short_manual.rst:282
+#: ../git_short_manual.rst:286
 msgid ""
 "После совершения коммита рекомендуется снова проверить статус. Коммит "
 "совершен правильно, если команда ``git status`` отображает ``nothing to "
@@ -366,19 +371,19 @@ msgstr ""
 "correctly if the ``git status`` command returns ``nothing to commit, working"
 " directory clean``."
 
-#: ../git_short_manual.rst:286
+#: ../git_short_manual.rst:290
 msgid "синхронизация между репозиториями"
 msgstr "synchronization between repositories"
 
-#: ../git_short_manual.rst:291
+#: ../git_short_manual.rst:295
 msgid "Синхронизация между репозиториями"
 msgstr "Syncing Between Repositories"
 
-#: ../git_short_manual.rst:294
+#: ../git_short_manual.rst:298
 msgid "Из удаленного - в локальный"
 msgstr "From the remote - to the local"
 
-#: ../git_short_manual.rst:296
+#: ../git_short_manual.rst:300
 msgid ""
 "После того как все коммиты сделаны, необходимо загрузить изменения из "
 "удаленного (\"общего\") репозитория в локальный:"
@@ -386,14 +391,14 @@ msgstr ""
 "After all the commits are performed it's nesessary to load the changes from "
 "the remote (\"shared\") repository to the local one:"
 
-#: ../git_short_manual.rst:302
+#: ../git_short_manual.rst:306
 msgid ""
 "Результат команды ``git pull``, если в удаленном репозитории нет изменений:"
 msgstr ""
 "Result of the ``git pull`` command if there are no changes in the remote "
 "repository:"
 
-#: ../git_short_manual.rst:308
+#: ../git_short_manual.rst:312
 msgid ""
 "Результат команды ``git pull``, если в удаленном репозитории были изменения,"
 " и синхронизация прошла успешно:"
@@ -401,7 +406,7 @@ msgstr ""
 "Result of the ``git pull`` command if the remote repository contains changes"
 " and syncing was successful:"
 
-#: ../git_short_manual.rst:330
+#: ../git_short_manual.rst:334
 msgid ""
 "При желании можно посмотреть, какие изменения были внесены коллегами, "
 "командой:"
@@ -409,7 +414,7 @@ msgstr ""
 "If you wish it's possible to look up the changes made by your collegues "
 "using the following command:"
 
-#: ../git_short_manual.rst:336
+#: ../git_short_manual.rst:340
 msgid ""
 "Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между "
 "какими именно коммитами просматриваются изменения. Этот параметр удобно "
@@ -421,11 +426,11 @@ msgstr ""
 "conveniently selected in the console in the ``git pull`` results and pasted "
 "with a mouse click (middle button) where you need."
 
-#: ../git_short_manual.rst:339
+#: ../git_short_manual.rst:343
 msgid "Также можно просмотреть лог изменений:"
 msgstr "You can also view the changelog:"
 
-#: ../git_short_manual.rst:346
+#: ../git_short_manual.rst:350
 msgid ""
 "Команда ``git pull`` не всегда приводит в успешной синхронизации. Результат "
 "команды ``git pull`` в случае наличия конфликтов:"
@@ -433,15 +438,15 @@ msgstr ""
 "The ``git pull`` command does not always lead to a successful "
 "synchronization. The result of ``git pull`` when there are conflicts:"
 
-#: ../git_short_manual.rst:363
+#: ../git_short_manual.rst:367
 msgid "Порядок действий при возникновении конфликтов описан далее."
 msgstr "The steps to be taken at conflicts are described below."
 
-#: ../git_short_manual.rst:368
+#: ../git_short_manual.rst:372
 msgid "Из локального - в удаленный"
 msgstr "From the local - to the remote"
 
-#: ../git_short_manual.rst:370
+#: ../git_short_manual.rst:374
 msgid ""
 "Затем нужно загрузить изменения из локального репозитория в удаленный "
 "(\"общий\"), чтобы локальные изменения стали доступными для коллег."
@@ -449,7 +454,7 @@ msgstr ""
 "After that the changes should be uploaded from the local repository to the "
 "remote (\"shared\") one to make the changes available for team mates."
 
-#: ../git_short_manual.rst:376
+#: ../git_short_manual.rst:380
 msgid ""
 "Результат команды ``git push``, если в удаленном репозитории уже есть все "
 "локальные изменения:"
@@ -457,12 +462,12 @@ msgstr ""
 "The result of the ``git push`` command if the remote repository already "
 "contains all the local changes:"
 
-#: ../git_short_manual.rst:382
+#: ../git_short_manual.rst:386
 msgid "Результат команды ``git push``, если синхронизация прошла успешно:"
 msgstr ""
 "The result of the ``git push`` command if synchronization was successful:"
 
-#: ../git_short_manual.rst:394
+#: ../git_short_manual.rst:398
 msgid ""
 "Результат команды ``git push``, если синхронизация не прошла, потому что "
 "сначала не была выполнена команда ``git pull``:"
@@ -470,11 +475,11 @@ msgstr ""
 "The result of the ``git push`` command if synchronization was not successful"
 " because the ``git pull`` command was not executed first:"
 
-#: ../git_short_manual.rst:405
+#: ../git_short_manual.rst:409
 msgid "Необходимо выполнить команду ``git pull``."
 msgstr "You should execute the ``git pull`` command."
 
-#: ../git_short_manual.rst:407
+#: ../git_short_manual.rst:411
 msgid ""
 "Изменения, загруженные в центральный репозиторий, могут быть получены "
 "другими участниками разработки с помощью команды ``git pull``."
@@ -482,26 +487,26 @@ msgstr ""
 "The changes uploaded into the central repository can be received by other "
 "developers with the ``git pull`` command."
 
-#: ../git_short_manual.rst:411
+#: ../git_short_manual.rst:415
 msgid "разрешение конфликтов"
 msgstr "resolving conflicts"
 
-#: ../git_short_manual.rst:414
+#: ../git_short_manual.rst:418
 msgid "Разрешение конфликтов"
 msgstr "Resolving Conflicts"
 
-#: ../git_short_manual.rst:419
+#: ../git_short_manual.rst:423
 msgid "Конфликты синхронизации происходят, если выполнены оба условия"
 msgstr "Synchronization conflicts occur if both conditions are met"
 
-#: ../git_short_manual.rst:421
+#: ../git_short_manual.rst:425
 msgid ""
 "один и тот же файл был изменен как в локальном, так и в удаленном "
 "репозитории, и"
 msgstr ""
 "the same file was changed both in the local and remote repositories, and"
 
-#: ../git_short_manual.rst:422
+#: ../git_short_manual.rst:426
 msgid ""
 "автоматическое слияние изменений не произошло, поскольку изменения находятся"
 " в одном и том же месте файла."
@@ -509,11 +514,11 @@ msgstr ""
 "automatic merging of the changes didn't occur because the changes are in the"
 " same place of the file."
 
-#: ../git_short_manual.rst:424
+#: ../git_short_manual.rst:428
 msgid "Типичные случаи:"
 msgstr "Typical cases:"
 
-#: ../git_short_manual.rst:426
+#: ../git_short_manual.rst:430
 msgid ""
 "бинарный файл (текстура, blend-файл) независимо изменен двумя участниками "
 "разработки"
@@ -521,18 +526,18 @@ msgstr ""
 "a binary file (texture, blend file) was independently changed by two "
 "developers"
 
-#: ../git_short_manual.rst:427
+#: ../git_short_manual.rst:431
 msgid "в текстовой файл в одной и той же строке были внесены разные изменения"
 msgstr ""
 "different changes were introduced to the same line of the same text file"
 
-#: ../git_short_manual.rst:428
+#: ../git_short_manual.rst:432
 msgid ""
 "один участник разработки изменил файл, а другой - переместил его и т.п."
 msgstr ""
 "one developer has changed the file while the other has moved it and so on."
 
-#: ../git_short_manual.rst:430
+#: ../git_short_manual.rst:434
 msgid ""
 "Хотя конфликты синхронизации - нормальное явление, слишком частое их "
 "возникновение замедляет работу. Рекомендуется ставить коллег в известность о"
@@ -550,11 +555,11 @@ msgstr ""
 "be achieved particularly through linking of all the scene's resources from "
 "the separate blend files into the master file."
 
-#: ../git_short_manual.rst:434
+#: ../git_short_manual.rst:438
 msgid "Порядок действий"
 msgstr "The steps to be taken"
 
-#: ../git_short_manual.rst:436
+#: ../git_short_manual.rst:440
 msgid ""
 "Не рекомендуется производить какие-либо действия с файлами (изменять, "
 "удалять), пока репозиторий находится в конфликтном состоянии."
@@ -562,25 +567,25 @@ msgstr ""
 "It's not recommended to perform any files operations (modifying, deleting) "
 "while the repository is in a conflict state."
 
-#: ../git_short_manual.rst:438
+#: ../git_short_manual.rst:442
 msgid "Первое что необходимо сделать - выполнить команду ``git status``."
 msgstr "The first thing to do is to perform the ``git status`` command."
 
-#: ../git_short_manual.rst:453
+#: ../git_short_manual.rst:457
 msgid "Список конфликтующих файлов отображен в разделе ``Unmerged paths``."
 msgstr ""
 "A list of conflicting files can be found in the ``Unmerged paths`` section."
 
-#: ../git_short_manual.rst:455
+#: ../git_short_manual.rst:459
 msgid "Дальнейший порядок действий различен для бинарных и текстовых файлов."
 msgstr ""
 "The order of the following steps is different for binary and text files."
 
-#: ../git_short_manual.rst:458
+#: ../git_short_manual.rst:462
 msgid "Бинарные файлы"
 msgstr "Binary files"
 
-#: ../git_short_manual.rst:460
+#: ../git_short_manual.rst:464
 msgid ""
 "На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в "
 "котором они находились в локальном репозитории до попытки синхронизации. "
@@ -591,7 +596,7 @@ msgstr ""
 "were in the local repository before the synchronization attempt. The files "
 "are fully functional (for example they can be opened by graphics editors)."
 
-#: ../git_short_manual.rst:462
+#: ../git_short_manual.rst:466
 msgid ""
 "В случае конфликта бинарных файлов необходимо выяснить с коллегами или "
 "самостоятельно, какую из версий оставить, а какую отбросить. Выбор "
@@ -602,7 +607,7 @@ msgstr ""
 "should be discarded. Selecting can be performed with the ``git checkout`` "
 "command."
 
-#: ../git_short_manual.rst:464
+#: ../git_short_manual.rst:468
 msgid ""
 "Выбрать локальную версию файла (**- -ours**). Его можно открыть и убедиться "
 "в этом."
@@ -610,7 +615,7 @@ msgstr ""
 "Select the local version of the file (**- -ours**). To make sure that it's "
 "local you can open it."
 
-#: ../git_short_manual.rst:470
+#: ../git_short_manual.rst:474
 msgid ""
 "Выбрать удаленную версию файла (**- -theirs**). Его можно открыть и "
 "убедиться в этом."
@@ -618,11 +623,11 @@ msgstr ""
 "Select the remote version of the file (**- -theirs**). To make sure that "
 "it's remote you can open it."
 
-#: ../git_short_manual.rst:476
+#: ../git_short_manual.rst:480
 msgid "Снова выбрать локальную версию файла (**- -ours**)."
 msgstr "Select the local version of the file again (**- -ours**)."
 
-#: ../git_short_manual.rst:482
+#: ../git_short_manual.rst:486
 msgid ""
 "В итоге необходимо остановиться на нужной версии файла. При угрозе потери "
 "работы можно сохранить отбрасываемую версию файла вне репозитория."
@@ -631,11 +636,11 @@ msgstr ""
 " is a threat of loosing the work you may save the discarded file outside the"
 " repository."
 
-#: ../git_short_manual.rst:486
+#: ../git_short_manual.rst:490
 msgid "Текстовые файлы"
 msgstr "Text files"
 
-#: ../git_short_manual.rst:488
+#: ../git_short_manual.rst:492
 msgid ""
 "На данном этапе в конфликтующие текстовые файлы Git'ом вносятся как "
 "локальные, так и удаленные изменения одновременно, в особом формате. Такие "
@@ -645,7 +650,7 @@ msgstr ""
 "conflicting text files, in a special format. Such text files are not "
 "workable as a rule."
 
-#: ../git_short_manual.rst:490
+#: ../git_short_manual.rst:494
 msgid ""
 "Пример. Один участник разработки изменил имя сцены с \"Blue Lizard\" на "
 "\"Green Lizard\" в файле приложения и загрузил изменения в центральный "
@@ -662,7 +667,7 @@ msgstr ""
 "the conflict. The following lines will be present in his version of the "
 "application file:"
 
-#: ../git_short_manual.rst:500
+#: ../git_short_manual.rst:504
 msgid ""
 "В случае конфликта текстовых файлов можно поступить следующим образом. "
 "Файлы, содержащие исходный код, необходимо отредактировать с учетом или без "
@@ -675,11 +680,11 @@ msgstr ""
 "introduced by both parties. On the other hand, it is easier to reexport the "
 "exported scene text files (ending with **.json**)."
 
-#: ../git_short_manual.rst:504
+#: ../git_short_manual.rst:508
 msgid "Корректирующий коммит"
 msgstr "Correcting commit"
 
-#: ../git_short_manual.rst:506
+#: ../git_short_manual.rst:510
 msgid ""
 "После выбора нужных файлов или редактирования изменений, добавить их для "
 "коммита:"
@@ -687,7 +692,7 @@ msgstr ""
 "After selecting the required files or editing the changes, add them for "
 "commit:"
 
-#: ../git_short_manual.rst:513
+#: ../git_short_manual.rst:517
 msgid ""
 "Возможный результат выполнения ``git status`` после добавления конфликтующих"
 " файлов для коммита:"
@@ -695,13 +700,13 @@ msgstr ""
 "Possible result of ``git status`` command after adding the conflicting files"
 " for commit:"
 
-#: ../git_short_manual.rst:523
+#: ../git_short_manual.rst:527
 msgid ""
 "Выполнить коммит, комментарий рекомендуется оставить предложенный по "
 "умолчанию:"
 msgstr "Perform commit. It is recommended to leave the default comment:"
 
-#: ../git_short_manual.rst:537
+#: ../git_short_manual.rst:541
 msgid ""
 "Конфликты разрешены, изменения из удаленного репозитория успешно применены в"
 " локальном репозитории. Теперь изменения в локальном репозитории, - "
@@ -713,15 +718,15 @@ msgstr ""
 "repository - including the just resolved conflict - can be uploaded to the "
 "remote repository with the ``git push`` command."
 
-#: ../git_short_manual.rst:541
+#: ../git_short_manual.rst:545
 msgid "тэги"
 msgstr "tags"
 
-#: ../git_short_manual.rst:546
+#: ../git_short_manual.rst:550
 msgid "Тэги"
 msgstr "Tags"
 
-#: ../git_short_manual.rst:548
+#: ../git_short_manual.rst:552
 msgid ""
 "Тэги (метки) предназначены для указания на определенный коммит, например, с "
 "целью обозначения стабилизированной версии продукта."
@@ -729,11 +734,11 @@ msgstr ""
 "Tags are intended for pointing at a certain commit, for example, to specify "
 "a stable product version."
 
-#: ../git_short_manual.rst:550
+#: ../git_short_manual.rst:554
 msgid "Просмотреть список тэгов:"
 msgstr "View the list of tags:"
 
-#: ../git_short_manual.rst:557
+#: ../git_short_manual.rst:561
 msgid ""
 "Создать тэг для релиза от 3 июня 2013 г., указывающий на коммит со "
 "стабильной версией проекта:"
@@ -741,31 +746,31 @@ msgstr ""
 "Create a tag for the release from June 3, 2013, pointing to the commit with "
 "a stable product version:"
 
-#: ../git_short_manual.rst:564
+#: ../git_short_manual.rst:568
 msgid "Просмотреть информацию о коммите тэга:"
 msgstr "Check the commit tag information:"
 
-#: ../git_short_manual.rst:571
+#: ../git_short_manual.rst:575
 msgid "Перейти к тэгу..."
 msgstr "Roll back to the tag..."
 
-#: ../git_short_manual.rst:578
+#: ../git_short_manual.rst:582
 msgid "...и вернуться:"
 msgstr "...and return:"
 
-#: ../git_short_manual.rst:585
+#: ../git_short_manual.rst:589
 msgid "Синхронизировать тэги с удаленным репозиторием:"
 msgstr "Synchronize the tags with the remote repository:"
 
-#: ../git_short_manual.rst:592
+#: ../git_short_manual.rst:596
 msgid "Удалить тэг (при ошибочном создании):"
 msgstr "Delete the tag (if created by mistake):"
 
-#: ../git_short_manual.rst:600
+#: ../git_short_manual.rst:604
 msgid "Другие полезные команды"
 msgstr "Other Useful Commands"
 
-#: ../git_short_manual.rst:602
+#: ../git_short_manual.rst:606
 msgid ""
 "Просмотреть лог за январь 2012 г, показывать имена файлов, без коммитов "
 "слияния:"

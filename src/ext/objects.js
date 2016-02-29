@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -216,6 +216,14 @@ exports.is_empty = m_obj_util.is_empty;
  * @returns {Boolean} Checking result.
  */
 exports.is_line = m_obj_util.is_line;
+
+/**
+ * Check if the object is a WORLD.
+ * @method module:objects.is_world
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_world = m_obj_util.is_world;
 
 /**
  * Get all scene selectable objects.

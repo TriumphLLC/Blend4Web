@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Аддон &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Параметры сцены" href="scene_settings.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,9 +88,15 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Аддон</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#export-formats">Форматы экспорта</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#html">HTML</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#export-opts">Опции экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Ошибки инициализации</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-errors">Ошибки совместимости</a></li>
@@ -102,6 +108,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -141,6 +148,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -159,14 +170,56 @@
            <div itemprop="articleBody">
             
   <span class="target" id="addon"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Аддон<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id11">Аддон</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id11">Аддон</a><ul>
+<li><a class="reference internal" href="#export-formats" id="id12">Форматы экспорта</a><ul>
+<li><a class="reference internal" href="#json" id="id13">JSON</a></li>
+<li><a class="reference internal" href="#html" id="id14">HTML</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#export-opts" id="id15">Опции экспорта</a></li>
+<li><a class="reference internal" href="#index-1" id="id16">Ошибки инициализации</a></li>
+<li><a class="reference internal" href="#version-errors" id="id17">Ошибки совместимости</a></li>
+<li><a class="reference internal" href="#export-errors" id="id18">Критические ошибки экспорта</a></li>
+<li><a class="reference internal" href="#index-4" id="id19">Некритические ошибки экспорта</a></li>
+<li><a class="reference internal" href="#export-errors-other" id="id20">Прочие сообщения</a></li>
+<li><a class="reference internal" href="#translator" id="id21">Перевод аддона</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="export-formats">
+<span id="id3"></span><h2><a class="toc-backref" href="#id12">Форматы экспорта</a><a class="headerlink" href="#export-formats" title="Ссылка на этот заголовок">¶</a></h2>
+<p>После того, как сцена закончена, её нужно преобразовать в формат, понятный движку Blend4Web.</p>
+<p>На сегодняшний день поддерживаются два формата экспорта: JSON и HTML.</p>
+<div class="section" id="json">
+<h3><a class="toc-backref" href="#id13">JSON</a><a class="headerlink" href="#json" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При экспорте в этот формат создаётся файл <code class="docutils literal"><span class="pre">.json</span></code> (JavaScript Object Notation), в котором хранятся экспортируемые структуры данных и ссылки на внешние ресурсы (изображения, звуки и пр.), а также файл <code class="docutils literal"><span class="pre">.bin</span></code>, хранящий массивы данных моделей в бинарном формате.</p>
+<p>Если медиаресурсы <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">запакованы в blend-файл</a>, при экспорте они будут извлечены и размещены в скрытой папке <code class="docutils literal"><span class="pre">../tmp/</span></code> в каталоге проекта (внутри каталога SDK). При этом таким файлам будут автоматически присвоены имена (отличные от исходных), что может затруднить дальнейшую работу с ними.</p>
+<p>Ресурсы рекомендуется размещать в отдельной директории внутри каталога SDK, например <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">В соответствии с требованиями безопасности, сервер разработки имеет доступ только к каталогу SDK. Если медиаданные расположены в другом каталоге, сервер не сможет подключить их при экспорте (даже если в самом Blender они работают нормально).</p>
+</div>
+<p>Пути к внешним ресурсам должны быть относительными. Если это не так, следует выполнить команду <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></code>, иначе могут возникнуть проблемы с открытием файлов на других компьютерах.</p>
+<p>Это основной формат для сложных проектов, которые могут включать несколько сцен и требуют написание программного кода на JavaScript. Работа с проектом описана в <a class="reference internal" href="developers.html#developers"><span>соответствующем разделе</span></a>.</p>
+</div>
+<div class="section" id="html">
+<h3><a class="toc-backref" href="#id14">HTML</a><a class="headerlink" href="#html" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При экспорте в этот формат все ресурсы сцены упаковываются в один файл, имеющий расширение HTML. HTML-файл включает не только сцену, но и текстуры, звуки, сам движок Blend4Web и стандартный <a class="reference internal" href="web_player.html#web-player"><span>веб-плеер</span></a>. Такой файл может быть воспроизведен на любом компьютере или мобильном устройстве, имеющем браузер с поддержкой WebGL (список).</p>
+<p>HTML-файлы не могут применяться для дальнейшей разработки, но и не требуют никаких дополнительных действий для запуска. Этот формат рекомендуется применять для относительно простых проектов небольшого размера.</p>
+</div>
+</div>
 <div class="section" id="export-opts">
-<span id="id2"></span><h2>Опции экспорта<a class="headerlink" href="#export-opts" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id15">Опции экспорта</a><a class="headerlink" href="#export-opts" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt><em>Autosave blend File</em></dt>
 <dd>Автосохранение файла, из которого осуществляется экспорт. <strong>Включено по умолчанию</strong>. Осуществляется непосредственно после экспорта с целью поддержки соответствия между текущим содержимым blend-файла и экспортного файла. Кроме того, для удобства в blend-файле сохраняется относительный путь к экспортному файлу.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/save_mode.jpg"><img alt="_images/save_mode.jpg" class="align-center" src="_images/save_mode.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_save_mode.png"><img alt="_images/addon_save_mode.png" class="align-center" src="_images/addon_save_mode.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -174,13 +227,13 @@
 <dt><em>Strict Mode</em></dt>
 <dd>Данный режим блокирует экспорт при наличии ошибок и сообщений, требующих внимания пользователя. Режим включается при выставлении опции <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">Mode</span></code> в меню экспорта:</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/strict_mode.jpg"><img alt="_images/strict_mode.jpg" class="align-center" src="_images/strict_mode.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_strict_mode.png"><img alt="_images/addon_strict_mode.png" class="align-center" src="_images/addon_strict_mode.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <blockquote>
 <div>При наличии некритических ошибок экспорта или сообщений, требующих внимания пользователя, вашему вниманию будет представлено диалоговое окно вида:</div></blockquote>
-<a class="reference internal image-reference" href="_images/messages.jpg"><img alt="_images/messages.jpg" class="align-center" src="_images/messages.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_messages.png"><img alt="_images/addon_messages.png" class="align-center" src="_images/addon_messages.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -188,7 +241,7 @@
 <dt><em>Export Converted Media</em></dt>
 <dd>Опция доступна при html-экспорте. Включение данного режима экспорта позволяет записать в HTML файл конвертированные медиафайлы разных форматов. Это необходимо использовать при создании кроссбраузерных и кроссплатформенных приложений при html-экспорте. При этом в html-файл будут записываться файлы, созданные с использованием <a class="reference internal" href="developers.html#converter"><span>нашего конвертера</span></a>.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/media_data.jpg"><img alt="_images/media_data.jpg" class="align-center" src="_images/media_data.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_media_data.png"><img alt="_images/addon_media_data.png" class="align-center" src="_images/addon_media_data.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -199,16 +252,16 @@
 <p class="last">В качестве директории для экспорта может использоваться созданная пользователем директория внутри Blend4Web SDK. При несоблюдении этого условия опция не будет отображаться в меню экспорта. Также опция не будет отображаться если локальный web-сервер не запущен.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/run_in_viewer.png"><img alt="_images/run_in_viewer.png" class="align-center" src="_images/run_in_viewer.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_run_in_viewer.png"><img alt="_images/addon_run_in_viewer.png" class="align-center" src="_images/addon_run_in_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <span class="target" id="initialization-errors"></span></div>
 <div class="section" id="index-1">
-<span id="id3"></span><h2>Ошибки инициализации<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id5"></span><h2><a class="toc-backref" href="#id16">Ошибки инициализации</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Ошибки инициализации могут проявляться при инициализации аддона, либо при загрузке сцены в Blender.
 При возникновении появится диалоговое окно с описанием ошибки.</p>
-<a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="_images/init_error_message.jpg" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_init_error_message.png"><img alt="_images/addon_init_error_message.png" class="align-center" src="_images/addon_init_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -243,7 +296,7 @@ VER_CURRENT.</td>
 </table>
 </div>
 <div class="section" id="version-errors">
-<span id="index-2"></span><span id="id4"></span><h2>Ошибки совместимости<a class="headerlink" href="#version-errors" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id6"></span><h2><a class="toc-backref" href="#id17">Ошибки совместимости</a><a class="headerlink" href="#version-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Ошибки совместимости версий могут проявиться при просмотре сцены в браузере, если версия аддона, которым был произведен экспорт сцены, не соответствует версии движка Blend4Web, который пытается эту сцену загрузить, а также если .bin-файл не соответствует .json-файлу.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -328,14 +381,14 @@ VER_BIN, версия .json-файла: VER_JSON.
 </table>
 </div>
 <div class="section" id="export-errors">
-<span id="index-3"></span><span id="id5"></span><h2>Критические ошибки экспорта<a class="headerlink" href="#export-errors" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-3"></span><span id="id7"></span><h2><a class="toc-backref" href="#id18">Критические ошибки экспорта</a><a class="headerlink" href="#export-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При возникновении ошибок во время экспорта появляется диалоговое окно <code class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></code> с описанием проблемы:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">COMPONENT</span></code> - тип компонента (объект, меш, материал, текстура и т.д.), при экспорте которого произошла ошибка.</p>
 <p><code class="docutils literal"><span class="pre">NAME</span></code> - имя компонента.</p>
 <p><code class="docutils literal"><span class="pre">ERROR</span></code> - краткое описание возникшей проблемы на англ. языке.</p>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="_images/error_message.jpg" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_error_message.png"><img alt="_images/addon_error_message.png" class="align-center" src="_images/addon_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -577,12 +630,12 @@ ANIM_NAME не совпадает с числом вершин
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="index-4">
-<span id="id6"></span><h2>Некритические ошибки экспорта<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id8"></span><h2><a class="toc-backref" href="#id19">Некритические ошибки экспорта</a><a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В отличие от критических ошибок экспорта, рассмотренных ранее, данные ошибки не препятствуют
 экспорту, однако могут приводить к некорректному отображению сцен. Сообщения выводятся в консоли браузера (горячая клавиша <code class="docutils literal"><span class="pre">F12</span></code>) при загрузке сцены. Сообщение имеет вид:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Сообщение</span> <span class="pre">об</span> <span class="pre">ошибке</span></code></div></blockquote>
-<a class="reference internal image-reference" href="_images/export_error_message.jpg"><img alt="_images/export_error_message.jpg" class="align-center" src="_images/export_error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_export_error_message.png"><img alt="_images/addon_export_error_message.png" class="align-center" src="_images/addon_export_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -889,11 +942,11 @@ in texture NAME. [Material: NAME.]</td>
 </table>
 </div>
 <div class="section" id="export-errors-other">
-<span id="id7"></span><h2>Прочие сообщения<a class="headerlink" href="#export-errors-other" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id9"></span><h2><a class="toc-backref" href="#id20">Прочие сообщения</a><a class="headerlink" href="#export-errors-other" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сообщения выводятся в консоли браузера (горячая клавиша <code class="docutils literal"><span class="pre">F12</span></code>) при загрузке сцены. Сообщение имеет вид:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Сообщение</span> <span class="pre">экспорта,</span> <span class="pre">требующее</span> <span class="pre">внимания</span> <span class="pre">пользователя</span></code></div></blockquote>
-<a class="reference internal image-reference" href="_images/export_warning_message.jpg"><img alt="_images/export_warning_message.jpg" class="align-center" src="_images/export_warning_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_export_warning_message.png"><img alt="_images/addon_export_warning_message.png" class="align-center" src="_images/addon_export_warning_message.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -939,7 +992,7 @@ PERSPECTIVE type.&#8221;</td>
 </table>
 </div>
 <div class="section" id="translator">
-<span id="id8"></span><h2>Перевод аддона<a class="headerlink" href="#translator" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id10"></span><h2><a class="toc-backref" href="#id21">Перевод аддона</a><a class="headerlink" href="#translator" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Имеется возможность перевести аддон на язык, доступный в Blender&#8217;e.
 Для этого необходимо переименовать файл &#8220;empty.po&#8221;, находящийся в директории: SDK/blender_scripts/addons/blend4web/locales, на одно из имен,
 соответствующих таблице:</p>
@@ -1107,8 +1160,8 @@ PERSPECTIVE type.&#8221;</td>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -1130,7 +1183,7 @@ PERSPECTIVE type.&#8221;</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -1154,6 +1207,22 @@ PERSPECTIVE type.&#8221;</td>
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

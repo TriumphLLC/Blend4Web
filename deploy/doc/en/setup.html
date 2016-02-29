@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing the SDK &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Installing the SDK &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Workflow" href="workflow.html"/>
         <link rel="prev" title="Quick Install" href="first_steps.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -87,31 +87,33 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Installing the SDK</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Unpacking the Archive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Setting up the Add-on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Unpacking the Archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Setting up the Add-on</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#blend4web">Blend4Web Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Running Viewer and Demos</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -139,6 +141,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -157,15 +163,28 @@
            <div itemprop="articleBody">
             
   <div class="section" id="setup">
-<span id="id1"></span><h1>Installing the SDK<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id8">Installing the SDK</a><a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#setup" id="id8">Installing the SDK</a><ul>
+<li><a class="reference internal" href="#id4" id="id9">Unpacking the Archive</a></li>
+<li><a class="reference internal" href="#id5" id="id10">Setting up the Add-on</a></li>
+<li><a class="reference internal" href="#blend4web" id="id11">Blend4Web Mode</a></li>
+<li><a class="reference internal" href="#local-development-server" id="id12">Local Development Server</a></li>
+<li><a class="reference internal" href="#getting-started-launching-viewer" id="id13">Running Viewer and Demos</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p>Setting up the development environment suits 3D application developers. To familiarize yourself with the Blend4Web addon <a class="reference internal" href="first_steps.html#quick-install"><span>quick install</span></a> can be a better option.</p>
 <p>Before installation, please download and install the compatible Blender version, according to this <a class="reference external" href="https://www.blend4web.com/downloads/">table</a>.</p>
-<div class="section" id="id3">
-<h2>Unpacking the Archive<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id9">Unpacking the Archive</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>Stable versions of the distribution are available as an archive (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; free SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211; commercial SDK). Simply unpack this archive somewhere.</p>
 </div>
-<div class="section" id="id4">
-<h2>Setting up the Add-on<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id10">Setting up the Add-on</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">We strongly recommend to remove the addon first if it was originally installed using <a class="reference internal" href="first_steps.html#quick-install"><span>quick install</span></a>.</p>
@@ -186,12 +205,12 @@
 <p>In the <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> menu, the <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> and <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> options should appear.</p>
 </div>
 <div class="section" id="blend4web">
-<h2>Blend4Web Mode<a class="headerlink" href="#blend4web" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Blend4Web Mode</a><a class="headerlink" href="#blend4web" title="Permalink to this headline">¶</a></h2>
 <p>To reveal the engine settings, select Blend4Web from the upper panel menu:</p>
-<a class="reference internal image-reference" href="_images/selecting_engine.jpg"><img alt="_images/selecting_engine.jpg" class="align-center" src="_images/selecting_engine.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/first_steps_selecting_engine.png"><img alt="_images/first_steps_selecting_engine.png" class="align-center" src="_images/first_steps_selecting_engine.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="local-development-server">
-<span id="id5"></span><h2>Local Development Server<a class="headerlink" href="#local-development-server" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id12">Local Development Server</a><a class="headerlink" href="#local-development-server" title="Permalink to this headline">¶</a></h2>
 <p>Settings for the local development server can be found in <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (hot keys <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> option in the add-on settings.</p>
 <a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -217,14 +236,14 @@
 <div class="line"><br /></div>
 </div>
 <p>As a result, the default browser for your operating system will be launched.</p>
-<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button can be used to open <a class="reference internal" href="developers.html#project-management"><span>project manager</span></a>.</p>
+<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button can be used to open <a class="reference internal" href="project_manager.html#project-management"><span>project manager</span></a>.</p>
 <p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button loads the scene that is currently open in Blender, into the <a class="reference internal" href="viewer.html#viewer"><span>viewer</span></a>.</p>
 <p>The server can be stopped by pressing the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code> button. It also stops when Blender is closed.</p>
 </div>
 <div class="section" id="getting-started-launching-viewer">
-<span id="index-0"></span><span id="id6"></span><h2>Running Viewer and Demos<a class="headerlink" href="#getting-started-launching-viewer" title="Permalink to this headline">¶</a></h2>
+<span id="index-0"></span><span id="id7"></span><h2><a class="toc-backref" href="#id13">Running Viewer and Demos</a><a class="headerlink" href="#getting-started-launching-viewer" title="Permalink to this headline">¶</a></h2>
 <p>The index page contains links for launching the scene viewer and the demo applications. A <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-capable browser</span></a> is required to run these apps.</p>
-<a class="reference internal image-reference" href="_images/sdk_index.jpg"><img alt="_images/sdk_index.jpg" class="align-center" src="_images/sdk_index.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -254,8 +273,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -277,7 +296,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -300,6 +319,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -93,6 +93,7 @@ uniform mat3 u_model_tsr;
 
 #if REFLECTION_PASS
 uniform mat4 u_view_matrix;
+uniform mat3 u_view_tsr;
 #else
 uniform mat3 u_view_tsr;
 #endif
@@ -246,6 +247,9 @@ void main(void) {
 
 #if REFLECTION_PASS
     mat4 view_matrix = u_view_matrix;
+# if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+    mat4 real_view_matrix = tsr_to_mat4(u_view_tsr);
+# endif
 #else
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 #endif
@@ -369,7 +373,12 @@ void main(void) {
     vec4 pos_view = view_matrix * vec4(world.position, 1.0);
 
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+# if REFLECTION_PASS
+    vec4 real_pos_view = real_view_matrix * vec4(world.position, 1.0);
+    v_pos_view = real_pos_view;
+# else
     v_pos_view = pos_view;
+# endif
 #endif
 
     vec4 pos_clip = u_proj_matrix * pos_view;

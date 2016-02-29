@@ -2,7 +2,7 @@
 #import u_cam_water_depth u_fog_params
 #import v_pos_world
 #import srgb_to_lin
-#export water_fog fog
+#export fog
 
 #var WAVES_HEIGHT 0.0
 
@@ -94,17 +94,6 @@ void fog_underwater(inout vec3 color, in float eye_dist,
 }
 #endif
 
-// special fog for water bottom surface
-void water_fog(inout vec3 color, in float eye_dist, in float cam_depth)
-{
-    float factor = u_underwater_fog_color_density.w * eye_dist;
-    factor = clamp(factor, 0.0, 1.0);
-    water_fog_factor(factor);
-
-    cam_depth = clamp(-cam_depth * 0.03, 0.0, 0.8);
-    vec3 fog_color = mix(u_underwater_fog_color_density.rgb, vec3(0.0), cam_depth);
-    color = mix(color, fog_color, factor);
-}
 #endif
 
 void fog(inout vec3 color, float eye_dist, vec3 eye_dir, float dist_to_water)

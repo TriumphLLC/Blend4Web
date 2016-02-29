@@ -5,20 +5,23 @@ if (b4w.module_check("interface"))
 
 b4w.register("interface", function(exports, require) {
 
-var m_char = require("character");
-var m_conf = require("game_config");
+var m_char  = require("character");
+var m_conf  = require("game_config");
 var m_ctl   = require("controls");
 var m_main  = require("main");
 var m_time  = require("time");
 var m_data  = require("data");
 var m_cfg   = require("config");
+var m_mouse = require("mouse");
+var m_cont  = require("container");
 
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
 
-exports.init = function(replay_cb, elapsed_sensor, intro_load_cb, preloader_cb) {
+exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
+                        preloader_cb, plock_cb, level_name,
+                        load_level) {
     var replay_button = document.getElementById("replay");
     var life_bar      = document.getElementById("life_bar");
-    life_bar.style.visibility = "visible";
 
     var game_menu     = document.getElementById("game_menu");
     var menu_resume   = document.getElementById("menu_resume");
@@ -27,44 +30,91 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb, preloader_cb) 
     var menu_exit     = document.getElementById("menu_exit");
     var menu_credits  = document.getElementById("menu_credits");
 
+    var control_circle = document.getElementById("control_circle");
+    var controls_elem = document.getElementById("controls");
+    var game_menu_calling = document.getElementById("game_menu_calling");
+    var next_level = document.getElementById("next_level");
+    var victory_elem = document.getElementById("victory");
+
     var credits_panel  = document.getElementById("credits_panel");
     var help_panel  = document.getElementById("help_panel");
-    var preloader_bg = document.getElementById("preloader_bg");
+    var preloader_cont = document.getElementById("preloader_cont");
+
+    var back_to_menu  = document.getElementById("back_to_menu");
+    var under_construction = document.getElementById("under_construct");
+
+    var canvas_shadow = document.getElementById("canvas_shadow");
+    var canvas_elem = m_cont.get_canvas();
 
     function resume_cb() {
-        game_menu.style.visibility = "hidden";
         m_main.resume();
+        hide_elem(game_menu, 0.5);
+        hide_elem(canvas_shadow);
+        plock_cb(); // should be after m_main.resume()
     }
     function credits_cb() {
-        credits_panel.style.visibility = "visible";
+        show_elem(credits_panel);
     }
     function help_cb() {
-        help_panel.style.visibility = "visible";
+        show_elem(help_panel);
     }
     function menu_exit_cb() {
         m_main.resume();
         m_data.unload();
-        game_menu.style.visibility = "hidden";
-        preloader_bg.style.visibility = "visible"
-        if (m_main.detect_mobile())
+
+        hide_elem(back_to_menu);
+        hide_elem(under_construction);
+        hide_elem(game_menu);
+        hide_elem(canvas_shadow);
+        hide_elem(life_bar);
+        hide_elem(game_menu_calling);
+        hide_elem(controls_elem);
+        hide_elem(control_circle);
+
+        show_elem(preloader_cont);
+        canvas_elem.removeEventListener("mouseup", plock_cb);
+
+        if (m_main.detect_mobile()) {
+            remove_touch_controls();
             m_data.load(ASSETS_PATH + "intro_LQ.json", intro_load_cb, preloader_cb, true);
-        else
+        } else
             m_data.load(ASSETS_PATH + "intro_HQ.json", intro_load_cb, preloader_cb, true);
     }
     function menu_restart_cb() {
         m_main.resume();
-        game_menu.style.visibility = "hidden";
+        hide_elem(game_menu);
+        hide_elem(canvas_shadow);
         replay_cb(elapsed_sensor);
+        plock_cb(); // should be after m_main.resume()
     }
     function replay_btn_cb() {
-        replay_button.style.visibility = "hidden";
+        hide_elem(replay_button);
+        hide_elem(victory_elem);
         replay_cb(elapsed_sensor);
+        plock_cb();
     }
-
-    function esc_cb() {
+    function show_menu_cb() {
         if (game_menu.style.visibility != "visible") {
-            game_menu.style.visibility = "visible";
             m_main.pause();
+            hide_elem(replay_button);
+            show_elem(game_menu);
+            show_elem(canvas_shadow);
+        }
+    }
+    function next_level_cb(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        hide_elem(victory_elem);
+        hide_elem(life_bar);
+        hide_elem(controls_elem);
+        hide_elem(control_circle);
+        switch (level_name) {
+        case "level_01":
+            load_level("level_02");
+            break;
+        case "level_02":
+            load_level("under_construction");
+            break;
         }
     }
 
@@ -75,8 +125,14 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb, preloader_cb) 
         menu_credits.addEventListener("touchstart", credits_cb, false);
         menu_restart.addEventListener("touchstart", menu_restart_cb, false);
         replay_button.addEventListener("touchstart", replay_btn_cb, false);
-        credits_panel.addEventListener("touchstart", function(){credits_panel.style.visibility = "hidden"}, false);
-        help_panel.addEventListener("touchstart", function(){help_panel.style.visibility = "hidden"}, false);
+        victory_elem.addEventListener("touchstart", replay_btn_cb, false);
+        credits_panel.addEventListener("touchstart", function(){hide_elem(credits_panel)}, false);
+        help_panel.addEventListener("touchstart", function(){hide_elem(help_panel)}, false);
+        next_level.addEventListener("touchstart", next_level_cb, false);
+        help_panel.setAttribute("mobile", "1");
+
+        back_to_menu.addEventListener("touchstart", menu_exit_cb, false);
+        game_menu_calling.addEventListener("touchstart", show_menu_cb, false);
     } else {
         menu_resume.addEventListener("click", resume_cb, false);
         menu_help.addEventListener("click", help_cb, false);
@@ -84,17 +140,37 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb, preloader_cb) 
         menu_credits.addEventListener("click", credits_cb, false);
         menu_restart.addEventListener("click", menu_restart_cb, false);
         replay_button.addEventListener("click", replay_btn_cb, false);
-        credits_panel.addEventListener("click", function(){credits_panel.style.visibility = "hidden"}, false);
-        help_panel.addEventListener("click", function(){help_panel.style.visibility = "hidden"}, false);
+        victory_elem.addEventListener("click", replay_btn_cb, false);
+        credits_panel.addEventListener("click", function(){hide_elem(credits_panel)}, false);
+        help_panel.addEventListener("click", function(){hide_elem(help_panel)}, false);
+        next_level.addEventListener("click", next_level_cb, false);
+        help_panel.setAttribute("mobile", "0");
+
+        back_to_menu.addEventListener("click", menu_exit_cb, false);
+        game_menu_calling.addEventListener("click", show_menu_cb, false);
     }
 
-    var key_esc = m_ctl.KEY_ESC;
-    m_ctl.create_kb_sensor_manifold(null, "SHOW_MENU", m_ctl.CT_SHOT, key_esc, esc_cb);
+    if (level_name == "under_construction") {
+        var back_to_menu  = document.getElementById("back_to_menu");
+        var under_construction = document.getElementById("under_construct");
+        show_elem(back_to_menu);
+        show_elem(under_construction);
+    } else {
+        show_elem(life_bar);
+        if (m_main.detect_mobile())
+            show_elem(game_menu_calling);
+
+        var key_esc = m_ctl.KEY_ESC;
+        m_ctl.create_kb_sensor_manifold(null, "SHOW_MENU", m_ctl.CT_SHOT, key_esc, show_menu_cb);
+    }
 }
 
-exports.show_game_menu = function() {
-    var game_menu = document.getElementById("game_menu");
-    game_menu.style.visibility = "visible";
+function remove_touch_controls() {
+    document.getElementById("canvas3d").removeEventListener("touchstart", touch_start_cb);
+    document.getElementById("control_jump").removeEventListener("touchstart", touch_jump_cb);
+    document.getElementById("control_attack").removeEventListener("touchstart", touch_attack_cb);
+    document.getElementById("canvas3d").removeEventListener("touchmove", touch_move_cb);
+    document.getElementById("canvas3d").removeEventListener("touchend", touch_end_cb);
 }
 
 exports.update_hp_bar = function(hp) {
@@ -105,28 +181,30 @@ exports.update_hp_bar = function(hp) {
     var red_elem = document.getElementById("life_bar_red");
     var mid_elem = document.getElementById("life_bar_mid");
 
-    var hp_px_ratio = 192 / m_conf.MAX_CHAR_HP;
+    var hp_px_ratio = 100 / m_conf.MAX_CHAR_HP;
     var green_width = Math.max(hp * hp_px_ratio, 0);
-    var red_width = Math.min((m_conf.MAX_CHAR_HP - hp) * hp_px_ratio, 192);
+    var red_width = Math.min((m_conf.MAX_CHAR_HP - hp) * hp_px_ratio, 100);
 
-    green_elem.style.width =  green_width + "px";
-    red_elem.style.width =  red_width + "px";
-    mid_elem.style.left = green_width + 19 + "px";
+    green_elem.style.width =  green_width + "%";
+    red_elem.style.width =  red_width + "%";
 }
 
-exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
-                                         down_arrow, jump, attack) {
+exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
+                                        down_arrow, jump, attack, rotation_cb) {
 
-    var touch_start_pos = new Float32Array(2);
+    var move_touch_start_pos = new Float32Array(2);
+    var rot_prev_touch = new Float32Array(2);
 
     var move_touch_idx;
+    var rot_touch_idx;
     var jump_touch_idx;
     var attack_touch_idx;
 
     var tap_elem = document.getElementById("control_tap");
-    var control_elem = document.getElementById("control_circle");
+    var control_circle = document.getElementById("control_circle");
+    var controls_elem = document.getElementById("controls");
     var tap_elem_offset = tap_elem.clientWidth / 2;
-    var ctrl_elem_offset = control_elem.clientWidth / 2;
+    var ctrl_elem_offset = control_circle.clientWidth / 2;
 
     function touch_start_cb(event) {
         event.preventDefault();
@@ -141,20 +219,24 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
             var x = touch.clientX;
             var y = touch.clientY;
 
-            if (x > w / 2) // right side of the screen
-                break;
+            if (x > w / 2) { // right side of the screen
+                rot_prev_touch[0] = x;
+                rot_prev_touch[1] = y;
+                rot_touch_idx = touch.identifier;
+                continue;
+            }
+            move_touch_start_pos[0] = x;
+            move_touch_start_pos[1] = y;
 
-            touch_start_pos[0] = x;
-            touch_start_pos[1] = y;
             move_touch_idx = touch.identifier;
 
-            tap_elem.style.visibility = "visible";
             tap_elem.style.left = x - tap_elem_offset + "px";
             tap_elem.style.top  = y - tap_elem_offset + "px";
+            show_elem(tap_elem)
 
-            control_elem.style.visibility = "visible";
-            control_elem.style.left = x - ctrl_elem_offset + "px";
-            control_elem.style.top  = y - ctrl_elem_offset + "px";
+            control_circle.style.left = x - ctrl_elem_offset + "px";
+            control_circle.style.top  = y - ctrl_elem_offset + "px";
+            show_elem(control_circle)
         }
     }
 
@@ -200,14 +282,23 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
             var x = touch.clientX;
             var y = touch.clientY;
 
-            if (x > w / 2) // right side of the screen
-                break;
+            if (x > w / 2 && touch.identifier == rot_touch_idx) { // right side of the screen
+                var d_x = x - rot_prev_touch[0];
+                var d_y = y - rot_prev_touch[1];
+                rot_prev_touch[0] = x;
+                rot_prev_touch[1] = y;
+                rotation_cb(m_conf.TOUCH_ROT_MULT * d_x, m_conf.TOUCH_ROT_MULT * d_y);
+                continue;
+            }      
+                   
+            if (touch.identifier != move_touch_idx)
+                continue;
 
             tap_elem.style.left = x - tap_elem_offset + "px";
             tap_elem.style.top  = y - tap_elem_offset + "px";
 
-            var d_x = x - touch_start_pos[0];
-            var d_y = y - touch_start_pos[1];
+            var d_x = x - move_touch_start_pos[0];
+            var d_y = y - move_touch_start_pos[1];
 
             var r = Math.sqrt(d_x * d_x + d_y * d_y);
 
@@ -241,9 +332,12 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
                 m_ctl.set_custom_sensor(down_arrow, 0);
                 m_ctl.set_custom_sensor(left_arrow, 0);
                 m_ctl.set_custom_sensor(right_arrow, 0);
-                tap_elem.style.visibility = "hidden";
-                control_elem.style.visibility = "hidden";
+                hide_elem(tap_elem);
+                hide_elem(control_circle);
                 move_touch_idx = null;
+
+            } else if (touches[i].identifier == rot_touch_idx) {
+                rot_touch_idx = null;
 
             } else if (touches[i].identifier == jump_touch_idx) {
                 m_ctl.set_custom_sensor(jump, 0);
@@ -260,12 +354,10 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
     document.getElementById("control_attack").addEventListener("touchstart", touch_attack_cb, false);
 
     document.getElementById("canvas3d").addEventListener("touchmove", touch_move_cb, false);
-
     document.getElementById("canvas3d").addEventListener("touchend", touch_end_cb, false);
-    document.getElementById("controls").addEventListener("touchend", touch_end_cb, false);
 
-    document.getElementById("control_jump").style.visibility = "visible";
-    document.getElementById("control_attack").style.visibility = "visible";
+    controls_elem.addEventListener("touchend", touch_end_cb, false);
+    show_elem(controls_elem);
 }
 
 exports.show_replay_button = function(period) {
@@ -288,12 +380,17 @@ exports.hide_victory_element = function(period) {
     hide_elem(victory_elem, period);
 }
 
+exports.show_elem = show_elem;
 function show_elem(elem, period) {
 
-    period = period || 0;
+    elem.style.visibility = "visible";
+
+    if (!period) {
+        elem.style.opacity = 1;
+        return
+    }
 
     elem.style.opacity = 0;
-    elem.style.visibility = "visible";
 
     var finish_time = m_time.get_timeline() + period;
 
@@ -316,7 +413,11 @@ function show_elem(elem, period) {
 
 function hide_elem(elem, period) {
 
-    period = period || 0;
+    if (!period) {
+        elem.style.opacity = 0;
+        elem.style.visibility = "hidden";
+        return
+    }
 
     var start_opacity = elem.style.opacity;
     var finish_time = m_time.get_timeline() + period;

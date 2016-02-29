@@ -18,12 +18,12 @@ var STATIC_LOOK_AT = new Float32Array([-4.5, 0, 0]);
 var EYE_POS = new Float32Array([-1.5, 0.5, 3]);
 var EYE_LOOK_AT = new Float32Array([-1.5, 0.5, 0]);
 
-var TARGET_POS = new Float32Array([1.5, 0, 3]);
+var TARGET_POS = new Float32Array([1.5, 0, 2]);
 var TARGET_PIVOT = new Float32Array([1.5, 0, 0]);
 
 var DIST_LIMITS = {
     min: 1,
-    max: 2
+    max: 3
 };
 var EYE_VERT_LIMITS = {
     down: -Math.PI/16, 
@@ -41,11 +41,12 @@ var TARGET_HORIZ_LIMITS = {
     left: -Math.PI/4, 
     right: Math.PI/4
 }
-var HOVER_VERT_LIMITS = {
+var HOVER_ANGLE_LIMITS = {
     down: -Math.PI/16, 
     up: -Math.PI/4
 }
 
+var HOVER_POS = new Float32Array([4.5, 3, 3]);
 var HOVER_PIVOT = new Float32Array([4.5, 0, 0]);
 
 var _default_pos = new Float32Array(3);
@@ -58,7 +59,8 @@ exports.init = function() {
         physics_enabled: false,
         alpha: true,
         show_fps: true,
-        autoresize: true
+        autoresize: true,
+        console_verbose: true
     });
 }
 
@@ -126,59 +128,43 @@ function create_button(caption) {
 
 function static_camera_action() {
     var camera = m_scenes.get_active_camera();
-    m_cam.set_move_style(camera, m_cam.MS_STATIC);
-    m_cam.static_set_look_at(camera, STATIC_POS, STATIC_LOOK_AT, m_util.AXIS_Y);
+    
+    m_cam.static_setup(camera, { pos: STATIC_POS, look_at: STATIC_LOOK_AT });
+    m_cam.correct_up(camera, m_util.AXIS_Y, true);
 }
 
 function eye_camera_action() {
     var camera = m_scenes.get_active_camera();
-    m_cam.set_move_style(camera, m_cam.MS_EYE_CONTROLS);
-    
-    // setting camera position/orientation
-    m_cam.eye_set_look_at(camera, EYE_POS, EYE_LOOK_AT);
-    
-    // setting some limits
-    m_cam.eye_set_horizontal_limits(camera, EYE_HORIZ_LIMITS);
-    m_cam.eye_set_vertical_limits(camera, EYE_VERT_LIMITS);
 
+    m_cam.eye_setup(camera, { pos: EYE_POS, look_at: EYE_LOOK_AT, 
+            horiz_rot_lim: EYE_HORIZ_LIMITS, vert_rot_lim: EYE_VERT_LIMITS });
     // setting some rotation
     m_cam.rotate_camera(camera, 0, -Math.PI/16, true, true);
 }
 
 function target_camera_action() {
     var camera = m_scenes.get_active_camera();
-    m_cam.set_move_style(camera, m_cam.MS_TARGET_CONTROLS);
-    
-    // setting camera position/orientation
-    m_cam.target_set_trans_pivot(camera, TARGET_POS, TARGET_PIVOT);
-    
-    // setting some limits
-    m_cam.target_set_distance_limits(camera, DIST_LIMITS);
-    m_cam.target_set_horizontal_limits(camera, TARGET_HORIZ_LIMITS);
-    m_cam.target_set_vertical_limits(camera, TARGET_VERT_LIMITS);
 
+    m_cam.target_setup(camera, { pos: TARGET_POS, pivot: TARGET_PIVOT, 
+            horiz_rot_lim: TARGET_HORIZ_LIMITS, vert_rot_lim: TARGET_VERT_LIMITS, 
+            dist_lim: DIST_LIMITS });
     // setting some rotation
     m_cam.rotate_camera(camera, Math.PI/8, 0, true, true);   
 }
 
 function hover_camera_action() {
     var camera = m_scenes.get_active_camera();
-    m_cam.set_move_style(camera, m_cam.MS_HOVER_CONTROLS);
 
-    // setting necessary parameters for the HOVER camera: the "pivot" point, 
-    // the distance limits and the hover angle limits
-    m_cam.hover_set_pivot_translation(camera, HOVER_PIVOT);
-    m_cam.hover_set_distance_limits(camera, DIST_LIMITS);
-    m_cam.hover_set_vertical_limits(camera, HOVER_VERT_LIMITS);
-
+    m_cam.hover_setup(camera, { pos: HOVER_POS, pivot: HOVER_PIVOT, 
+            dist_lim: DIST_LIMITS, hover_angle_lim: HOVER_ANGLE_LIMITS, 
+            enable_horiz_rot: true});
     // setting some rotation
     m_cam.rotate_camera(camera, -Math.PI/4, -Math.PI/8, true, true);
 }
 
 function reset_camera_action() {
     var camera = m_scenes.get_active_camera();
-    m_cam.set_move_style(camera, m_cam.MS_STATIC);
-    m_trans.set_translation_v(camera, _default_pos);
+    m_cam.static_setup(camera, { pos: _default_pos });
     m_trans.set_rotation_v(camera, _default_rot);
 }
 

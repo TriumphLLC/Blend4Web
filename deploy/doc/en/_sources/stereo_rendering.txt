@@ -1,6 +1,16 @@
 
-Stereo rendering
+Stereo Rendering
 ****************
+
+
+TAble of Contents
+^^^^^^^^^^^^^^^^^
+
+* Stereo Rendering
+
+  * Activation
+
+  * Additional Settings
 
 The stereoscopic rendering mode is intended for viewing the content
 using special glasses. It is activated by an application via API.
@@ -45,7 +55,7 @@ For stereo rendering to work correctly, switching to the full screen
 mode is recommended.
 
 
-Additional settings
+Additional Settings
 ===================
 
 None.

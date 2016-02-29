@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ var m_vec3    = require("__vec3");
 
 var _shader_ident_counters = {};
 var _composed_node_graphs = {};
+var _composed_stack_graphs = {};
 var _lamp_indexes = {};
 var _lamp_index = 0;
 var _material_index = 0;
@@ -53,10 +54,11 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
                             shader_type) {
     var active_scene = m_scenes.get_active();
     var ntree_graph_id = generate_graph_id(source_id, shader_type, active_scene["uuid"]);
+
     if (ntree_graph_id in _composed_node_graphs)
         return _composed_node_graphs[ntree_graph_id];
 
-    if (shader_type != "DEPTH" && shader_type != "COLOR_ID") {
+    if (shader_type != "SHADOW" && shader_type != "COLOR_ID") {
         var graph = m_graph.create();
 
         var bpy_nodes = node_tree["nodes"];
@@ -162,8 +164,8 @@ function create_lighting_graph(source_id, mat_name, data) {
     var active_scene = m_scenes.get_active();
     var ntree_graph_id = generate_graph_id(source_id, "MAIN", active_scene["uuid"]);
 
-    if (ntree_graph_id in _composed_node_graphs)
-        return _composed_node_graphs[ntree_graph_id];
+    if (ntree_graph_id in _composed_stack_graphs)
+        return _composed_stack_graphs[ntree_graph_id];
 
     var graph = m_graph.create();
 
@@ -179,7 +181,7 @@ function create_lighting_graph(source_id, mat_name, data) {
     add_lighting_subgraph(graph, data, begin_node_id, end_node_id, 
             translucency_edges, mat_name);
     clean_sockets_linked_property(graph);
-    _composed_node_graphs[ntree_graph_id] = graph;
+    _composed_stack_graphs[ntree_graph_id] = graph;
     return graph;
 }
 
@@ -416,7 +418,7 @@ function generate_graph_id(graph_id, shader_type, scene_id) {
         // use color output, it is glow
         return graph_id + scene_id + "11";
     case "COLOR_ID":
-    case "DEPTH":
+    case "SHADOW":
         // don't use color output, it isn't glow
         return graph_id + scene_id + "00";
     default:
@@ -1285,7 +1287,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
     case "LIGHT_PATH":
     case "ATTRIBUTE":
     case "HOLDOUT":
-    case "PARTICLE_INFO":
     case "HAIR_INFO":
     case "OBJECT_INFO":
     case "SCRIPT":
@@ -1347,14 +1348,54 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
     case "CURVE_RGB":
-        inputs = node_inputs_bpy_to_b4w(bpy_node);
-        outputs = node_outputs_bpy_to_b4w(bpy_node);
-        m_print.warn("CURVE_RGB node is not fully supported.");
-        break;
     case "CURVE_VEC":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
-        m_print.warn("CURVE_VEC node is not fully supported.");
+        data = {
+            value: bpy_node
+        };
+        break;
+    case "PARTICLE_INFO":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        for (var k = 0; k < bpy_node["outputs"].length; k++) {
+            var output = bpy_node["outputs"][k];
+            var identifier = output["identifier"];
+            var v_name = node_param("v_param_PART_INFO_" + identifier.replace(" ", ""));
+            if (output["is_linked"]) {
+                switch(identifier) {
+                case "Size":
+                    dirs.push(["PART_INFO_SIZE", m_shaders.glsl_value(1)]);
+                    break;
+                case "Age":
+                    dirs.push(["PART_INFO_AGE", m_shaders.glsl_value(1)]);
+                    break;
+                case "Lifetime":
+                    dirs.push(["PART_INFO_LT", m_shaders.glsl_value(1)]);
+                    break;
+                case "Location":
+                    dirs.push(["PART_INFO_LOC", m_shaders.glsl_value(1)]);
+                    break;
+                case "Index":
+                    var a_name = node_param("a_param_PART_INFO_" + output.identifier.replace(" ", ""));
+                    data = a_name;
+                    dirs.push(["PART_INFO_IND", m_shaders.glsl_value(1)]);
+                    break;
+                case "Velocity":
+                    dirs.push(["PART_INFO_VEL", m_shaders.glsl_value(1)]);
+                    break;
+                case "Angular Velocity":
+                    dirs.push(["PART_INFO_A_VEL", m_shaders.glsl_value(1)]);
+                    break;
+                }
+            }
+            if (identifier != "Age" && identifier != "Lifetime" && identifier != "Size") {
+                vparams.push(v_name);
+                params.push(v_name);
+            }
+        }
+        if (a_name)
+            vparams.push(a_name);
         break;
     case "GEOMETRY":
 
@@ -2263,7 +2304,12 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
     case "VALTORGB":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
-        m_print.warn("VALTORGB node is not fully supported.");
+        data = {
+            value: bpy_node
+        };
+        var interpolation = bpy_node["color_ramp"]["interpolation"];
+        if (interpolation != "CONSTANT" && interpolation != "LINEAR")
+            m_print.warn("Color Ramp node is not fully supported.");
         break;
     case "VALUE":
 
@@ -2451,7 +2497,7 @@ function shader_ident(name_base) {
     if (!_shader_ident_counters[name_base])
         _shader_ident_counters[name_base] = 0;
 
-    var name = name_base + _shader_ident_counters[name_base];
+    var name = name_base + "_" + _shader_ident_counters[name_base];
     // remove slash and space symbols
     name = name.replace(/ /g, "_").replace(/\//g, "_");
 
@@ -3067,6 +3113,9 @@ exports.cleanup = cleanup;
 function cleanup() {
     for (var graph_id in _composed_node_graphs) {
         delete _composed_node_graphs[graph_id];
+    }
+    for (var graph_id in _composed_stack_graphs) {
+        delete _composed_stack_graphs[graph_id];
     }
 
     for (var key in _lamp_indexes)

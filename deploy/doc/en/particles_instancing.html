@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Particle System. Instancing &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Particle System. Instancing &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Animation" href="animation.html"/>
         <link rel="prev" title="Particle System. Fluids" href="particles.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,26 +88,28 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Particle System. Instancing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Particle System Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Display settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Dynamic grass setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Inheritance settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Particle System Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Display settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Dynamic grass setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Inheritance settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#particles-grass">Grass</a></li>
@@ -115,7 +117,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -143,6 +145,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -161,7 +167,24 @@
            <div itemprop="articleBody">
             
   <span class="target" id="particles-instancing"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Particle System. Instancing<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id10">Particle System. Instancing</a><a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id10">Particle System. Instancing</a><ul>
+<li><a class="reference internal" href="#id3" id="id11">Particle System Setup</a><ul>
+<li><a class="reference internal" href="#id4" id="id12">Activation</a></li>
+<li><a class="reference internal" href="#id5" id="id13">Display settings</a></li>
+<li><a class="reference internal" href="#id6" id="id14">Dynamic grass setup</a></li>
+<li><a class="reference internal" href="#id7" id="id15">Inheritance settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#particles-grass" id="id16">Grass</a></li>
+<li><a class="reference internal" href="#particles-leaves" id="id17">Tree Leaves</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p>A particle system can be used to create multiple object copies (so called instancing). This technique simplifies scene authoring and also reduces loading time and memory consumption as compared to the using of single objects.</p>
 <a class="reference internal image-reference" href="_images/particles_instancing_example.jpg"><img alt="_images/particles_instancing_example.jpg" class="align-center" src="_images/particles_instancing_example.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -176,11 +199,11 @@
 <li><p class="first">Instancing of non-mesh objects is not possible.</p>
 </li>
 </ul>
-<div class="section" id="id2">
-<h2>Particle System Setup<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="_images/particles_settings_panel1.jpg"><img alt="_images/particles_settings_panel1.jpg" class="align-center" src="_images/particles_settings_panel1.jpg" style="width: 100%;" /></a>
 <div class="section" id="id3">
-<h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h2><a class="toc-backref" href="#id11">Particle System Setup</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/particles_settings_panel1.jpg"><img alt="_images/particles_settings_panel1.jpg" class="align-center" src="_images/particles_settings_panel1.jpg" style="width: 100%;" /></a>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id12">Activation</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p class="first">Create a particle system of the <code class="docutils literal"><span class="pre">Hair</span></code> type on the emitter.</p>
 </li>
@@ -199,8 +222,8 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>Display settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id13">Display settings</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><em>Render &gt; Use Count</em></p>
 <blockquote>
 <div><p>The option is available for groups of particle objects. When enabled, the interface for setting the relative number of objects in a group becomes visible. The engine does not reproduce the exact positions of objects of certain types.</p>
@@ -282,8 +305,8 @@
 <p>The default is <code class="docutils literal"><span class="pre">Spherical</span></code>.</p>
 </div></blockquote>
 </div>
-<div class="section" id="id5">
-<h3>Dynamic grass setup<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id14">Dynamic grass setup</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p><em>Dynamic Grass</em></p>
 <blockquote>
 <div><p>The option enables the dynamic grass rendering mode. Disabled by default.</p>
@@ -293,8 +316,8 @@
 <div><p>Minimum size for dynamic grass particles. Smaller particles will not be rendered. The option is available if <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code> is enabled.</p>
 </div></blockquote>
 </div>
-<div class="section" id="id6">
-<h3>Inheritance settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id15">Inheritance settings</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p><em>Properties Inheritance &gt; Wind Bending</em></p>
 <blockquote>
 <div><p>Inheriting the <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> settings by the particles:</p>
@@ -334,7 +357,7 @@
 </div></blockquote>
 <p>The default is <code class="docutils literal"><span class="pre">Parent</span></code>.</p>
 </div></blockquote>
-<p><em>Properties Inheritance &gt; Vertex color</em></p>
+<p><em>Properties Inheritance &gt; Vertex Color</em></p>
 <blockquote>
 <div><p>Inheriting the vertex color from the emitter. Contains two fields:</p>
 <blockquote>
@@ -350,7 +373,7 @@
 </div>
 </div>
 <div class="section" id="particles-grass">
-<span id="id7"></span><h2>Grass<a class="headerlink" href="#particles-grass" title="Permalink to this headline">¶</a></h2>
+<span id="id8"></span><h2><a class="toc-backref" href="#id16">Grass</a><a class="headerlink" href="#particles-grass" title="Permalink to this headline">¶</a></h2>
 <p>Instancing of objects can be used for visualizing vast grass. In this case grass is rendered near the camera when it moves through the landscape.</p>
 <a class="reference internal image-reference" href="_images/dynamic_grass.jpg"><img alt="_images/dynamic_grass.jpg" class="align-center" src="_images/dynamic_grass.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -379,7 +402,7 @@
 <a class="reference internal image-reference" href="_images/dynamic_grass_setup.jpg"><img alt="_images/dynamic_grass_setup.jpg" class="align-center" src="_images/dynamic_grass_setup.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="particles-leaves">
-<span id="id8"></span><h2>Tree Leaves<a class="headerlink" href="#particles-leaves" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2><a class="toc-backref" href="#id17">Tree Leaves</a><a class="headerlink" href="#particles-leaves" title="Permalink to this headline">¶</a></h2>
 <p>Instancing suits the rendering of tree leaves well and allows to get a better level of detail.</p>
 <a class="reference internal image-reference" href="_images/tree_leaves.jpg"><img alt="_images/tree_leaves.jpg" class="align-center" src="_images/tree_leaves.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -454,8 +477,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -477,7 +500,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -500,6 +523,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

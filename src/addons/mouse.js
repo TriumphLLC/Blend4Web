@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -362,30 +362,40 @@ function objects_outline(e) {
 /**
  * Get mouse/touch X coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
+ * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * started on the event target element (the targetTouches property).
  * @method module:mouse.get_coords_x
  * @returns {Number} Client area horizontal coordinate or -1 if not defined
  */
 exports.get_coords_x = get_coords_x;
-function get_coords_x(event) {
+function get_coords_x(event, target_touches) {
+
+    var touches = target_touches ? event.targetTouches : event.touches;
+
     if ("clientX" in event)
         return event.clientX;
-    else if (event.touches && "clientX" in event.touches[0])
-        return event.touches[0].clientX;
+    else if (touches && "clientX" in touches[0])
+        return touches[0].clientX;
     else
         return -1;
 }
 /**
  * Get mouse/touch Y coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
+ * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * started on the event target element (the targetTouches property).
  * @method module:mouse.get_coords_y
  * @returns {Number} Client area vertical coordinate or -1 if not defined
  */
 exports.get_coords_y = get_coords_y;
-function get_coords_y(event) {
+function get_coords_y(event, target_touches) {
+
+    var touches = target_touches ? event.targetTouches : event.touches;
+
     if ("clientY" in event)
         return event.clientY;
-    else if (event.touches && "clientY" in event.touches[0])
-        return event.touches[0].clientY;
+    else if (touches && "clientY" in touches[0])
+        return touches[0].clientY;
     else
         return -1;
 }

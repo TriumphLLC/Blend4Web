@@ -2,6 +2,42 @@
 Particle System. Fluids
 ***********************
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Particle System. Fluids
+
+  * Usage
+
+    * Necessary steps
+
+    * Recommended additional settings
+
+  * Setup
+
+    * Basic settings
+
+    * Emission settings
+
+    * Direction settings
+
+    * Rotation settings
+
+    * Physics settings
+
+    * Rendering settings
+
+    * Supported settings for force fields influence
+
+    * Engine specific settings
+
+  * Textures in Particle Systems
+
+    * Textures of the particle's material
+
+    * Textures of particle systems
+
 The particle system is intended to visualize phenomena which are
 caused by the movement of numerous small objects such as smoke, fire,
 water splashes and other.
@@ -32,7 +68,8 @@ Necessary steps
 4. Initiate the engine playback. Two options are available:
 
       * "cyclic emission" - enable the "Emission > Cyclic emission"
-        option for the particle system.
+        option for the particle system and the "Animation > Apply
+        Default Animation" for the emitter.
 
       * "non-cyclic animation" - enable the "Animation > Apply
         Default Animation" option for the emitter.
@@ -198,7 +235,7 @@ Rendering settings
    "Billboard" mode for convenient display of billboards. The default
    is "Halo".
 
-*Render > Billboard align*
+*Render > Billboard Align*
    The way billboards are oriented: "View" - follow the camera, "XY
    plane", "YZ plane", "ZX plane" - align to the corresponding plane
    (in the world coordinate system of Blender). The default is "View".
@@ -207,7 +244,7 @@ Render > Dissolve intervals > Fade-in* and *Fade-out*
    Starting and ending intervals (measured in frames) for gradually
    increasing and decreasing the particles' transparency.
 
-*Render > Coordinate system*
+*Render > Coordinate System*
    Coordinate system of emitting particles: "Local" - use local
    coordinate system of the emitter object, "World" - use world
    coordinate system.
@@ -242,6 +279,11 @@ Engine specific settings
 Textures in Particle Systems
 ============================
 
+Particle systems support both standard and node materials. Supported
+material types are "Surface" and "Halo". All additional settings of
+the "Halo" type materilas, such as "Rings", "Lines" and "Star Tips",
+are also supported.
+
 
 Textures of the particle's material
 -----------------------------------
@@ -254,8 +296,7 @@ emitter's mesh has a UV layer.
 For the "Halo" particle's materials it is **possible** to use a
 "Blend" texture with a "Linear" gradient. In the "Mapping >
 Coordinates" menu choose the "Strand / Particle" option. It is
-required to enable "Ramp" on a texture. Up to 4 gradient control
-points are supported.
+required to enable "Ramp" on a texture.
 
 [image]
 

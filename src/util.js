@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,19 @@ var AXIS_MX = new Float32Array([-1, 0, 0]);
 var AXIS_MY = new Float32Array([ 0,-1, 0]);
 var AXIS_MZ = new Float32Array([ 0, 0,-1]);
 
+var XYX = 0;
+var YZY = 1;
+var ZXZ = 2;
+var XZX = 3;
+var YXY = 4;
+var ZYZ = 5;
+var XYZ = 6;
+var YZX = 7;
+var ZXY = 8;
+var XZY = 9;
+var YXZ = 10;
+var ZYX = 11;
+
 var DEFAULT_SEED = 50000;
 var RAND_A = 48271;
 var RAND_M = 2147483647;
@@ -90,6 +103,19 @@ exports.AXIS_Z = AXIS_Z;
 exports.AXIS_MX = AXIS_MX;
 exports.AXIS_MY = AXIS_MY;
 exports.AXIS_MZ = AXIS_MZ;
+
+exports.XYX = XYX;
+exports.YZY = YZY;
+exports.ZXZ = ZXZ;
+exports.XZX = XZX;
+exports.YXY = YXY;
+exports.ZYZ = ZYZ;
+exports.XYZ = XYZ;
+exports.YZX = YZX;
+exports.ZXY = ZXY;
+exports.XZY = XZY;
+exports.YXZ = YXZ;
+exports.ZYX = ZYX;
 
 exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
 
@@ -330,11 +356,117 @@ exports.euler_to_quat = function(euler, quat) {
     var s3 = Math.sin(euler[0]/2);
 
     // xyz
-    quat[0] = s1 * s2 * c3 + c1 * c2 * s3;
+    quat[0] = c1 * c2 * s3 + s1 * s2 * c3;
     quat[1] = s1 * c2 * c3 + c1 * s2 * s3;
     quat[2] = c1 * s2 * c3 - s1 * c2 * s3;
     // w
     quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
+
+    return quat;
+}
+
+
+/**
+ * Translate Euler angles in the intrinsic rotation sequence to quaternion
+ * Source: Appendix A of http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770024290.pdf
+ */
+exports.ordered_angles_to_quat = function(angles, order, quat){
+    var alpha   = angles[0];
+    var beta    = angles[1];
+    var gamma   = angles[2];
+
+    var c1 = Math.cos(alpha / 2);
+    var c2 = Math.cos(beta  / 2);
+    var c3 = Math.cos(gamma / 2);
+    var s1 = Math.sin(alpha / 2);
+    var s2 = Math.sin(beta  / 2);
+    var s3 = Math.sin(gamma / 2);
+
+    var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
+
+    if (PROPER_EULER_ANGLES_LIST.indexOf(order) > -1) {
+        var c13  = Math.cos((alpha + gamma) / 2);
+        var s13  = Math.sin((alpha + gamma) / 2);
+        var c1_3 = Math.cos((alpha - gamma) / 2);
+        var s1_3 = Math.sin((alpha - gamma) / 2);
+        var c3_1 = Math.cos((gamma - alpha) / 2);
+        var s3_1 = Math.sin((gamma - alpha) / 2);
+    }
+
+    switch(order) {
+    case XYX:
+        quat[0] = c2 * s13;
+        quat[1] = s2 * c1_3;
+        quat[2] = s2 * s1_3;
+        quat[3] = c2 * c13;
+        break;
+    case YZY:
+        quat[0] = s2 * s1_3;
+        quat[1] = c2 * s13;
+        quat[2] = s2 * c1_3;
+        quat[3] = c2 * c13;
+        break;
+    case ZXZ:
+        quat[0] = s2 * c1_3;
+        quat[1] = s2 * s1_3;
+        quat[2] = c2 * s13;
+        quat[3] = c2 * c13;
+        break;
+    case XZX:
+        quat[0] = c2 * s13;
+        quat[1] = s2 * s3_1;
+        quat[2] = s2 * c3_1;
+        quat[3] = c2 * c13;
+        break;
+    case YXY:
+        quat[0] = s2 * c3_1;
+        quat[1] = c2 * s13;
+        quat[2] = s2 * s3_1;
+        quat[3] = c2 * c13;
+        break;
+    case ZYZ:
+        quat[0] = s2 * s3_1;
+        quat[1] = s2 * c3_1;
+        quat[2] = c2 * s13;
+        quat[3] = c2 * c13;
+        break;
+    case XYZ:
+        quat[0] = s1 * c2 * c3 + c1 * s2 * s3;
+        quat[1] = c1 * s2 * c3 - s1 * c2 * s3;
+        quat[2] = c1 * c2 * s3 + s1 * s2 * c3;
+        quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
+        break;
+    case YZX:
+        quat[0] = c1 * c2 * s3 + s1 * s2 * c3;
+        quat[1] = s1 * c2 * c3 + c1 * s2 * s3;
+        quat[2] = c1 * s2 * c3 - s1 * c2 * s3;
+        quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
+        break;
+    case ZXY:
+        quat[0] = c1 * s2 * c3 - s1 * c2 * s3;
+        quat[1] = c1 * c2 * s3 + s1 * s2 * c3;
+        quat[2] = s1 * c2 * c3 + c1 * s2 * s3;
+        quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
+        break;
+    case XZY:
+        quat[0] = s1 * c2 * c3 - c1 * s2 * s3;
+        quat[1] = c1 * c2 * s3 - s1 * s2 * c3;
+        quat[2] = c1 * s2 * c3 + s1 * c2 * s3;
+        quat[3] = c1 * c2 * c3 + s1 * s2 * s3;
+        break;
+    case YXZ:
+        quat[0] = c1 * s2 * c3 + s1 * c2 * s3;
+        quat[1] = s1 * c2 * c3 - c1 * s2 * s3;
+        quat[2] = c1 * c2 * s3 - s1 * s2 * c3;
+        quat[3] = c1 * c2 * c3 + s1 * s2 * s3;
+        break;
+    case ZYX:
+        quat[0] = c1 * c2 * s3 - s1 * s2 * c3;
+        quat[1] = c1 * s2 * c3 + s1 * c2 * s3;
+        quat[2] = s1 * c2 * c3 - c1 * s2 * s3;
+        quat[3] = c1 * c2 * c3 + s1 * s2 * s3;
+        break;
+    }
 
     return quat;
 }
@@ -1879,13 +2011,13 @@ exports.panic = function(s) {
 }
 
 /**
- * Convert radian angle into range [from, to]
+ * Convert radian angle into range [from, to)
  */
 exports.angle_wrap_periodic = angle_wrap_periodic;
 function angle_wrap_periodic(angle, from, to) {
-    var rel_angle = angle - from;
-    var period = to - from;
-    return from + (rel_angle - Math.floor(rel_angle / period) * period);
+    var rel_angle = angle - from; // 2Pi
+    var period = to - from; // 2Pi
+    return from + (rel_angle - Math.floor(rel_angle / period) * period); //-Pi + (2Pi - 2Pi)
 }
 
 exports.angle_wrap_0_2pi = angle_wrap_0_2pi;

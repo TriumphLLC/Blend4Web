@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -273,11 +273,6 @@ function resize(width, height, update_canvas_css) {
         canvas_hud.height = height;
         m_hud.update_dim();
     }
-
-    if (navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/iPod/i))
-            cfg_def.canvas_resolution_factor = 1;
 
     var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
     var ch = Math.floor(height * cfg_def.canvas_resolution_factor);

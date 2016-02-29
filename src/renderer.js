@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -242,14 +242,6 @@ function prepare_subscene(subscene) {
 
     // prevent self-shadow issues
     switch (subscene.type) {
-    case "DEPTH":
-        if (cfg_def.ios_depth_hack) {
-            _gl.enable(_gl.POLYGON_OFFSET_FILL);
-            _gl.polygonOffset(5, 5);
-        } else
-            _gl.disable(_gl.POLYGON_OFFSET_FILL);
-        _gl.cullFace(_gl.BACK);
-        break;
     case "SHADOW_CAST":
         _gl.enable(_gl.POLYGON_OFFSET_FILL);
         _gl.polygonOffset(subscene.self_shadow_polygon_offset,
@@ -300,7 +292,7 @@ function clear_binded_framebuffer(subscene) {
         case "SHADOW_CAST":
             var bc = SHADOW_BG_COLOR;
             break;
-        case "DEPTH":
+        case "SHADOW_RECEIVE":
             var bc = DEPTH_BG_COLOR;
             break;
         case "COLOR_PICKING":
@@ -580,7 +572,10 @@ function assign_uniform_setters(shader) {
         case "u_view_tsr":
         case "u_view_tsr_frag":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix3fv(loc, false, camera.view_tsr);
+                if (camera.reflection_plane)
+                    gl.uniformMatrix3fv(loc, false, camera.real_view_tsr);
+                else
+                    gl.uniformMatrix3fv(loc, false, camera.view_tsr);
             }
             transient_uni = true;
             break;
@@ -1326,12 +1321,6 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_p_size_ramp":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.particles_data.size_ramp);
-            }
-            transient_uni = true;
-            break;
         case "u_p_color_ramp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, batch.particles_data.color_ramp);
@@ -1599,8 +1588,12 @@ function assign_uniform_setters(shader) {
 
     // TODO: do not override
     shader.transient_uniform_setters = transient_uniform_setters;
-    shader.permanent_uniform_setters = permanent_uniform_setters;
-    shader.permanent_uniform_setters_table = permanent_uniform_setters_table;
+    if (permanent_uniform_setters.length) {
+        shader.permanent_uniform_setters = permanent_uniform_setters;
+        shader.permanent_uniform_setters_table = permanent_uniform_setters_table;
+    } else
+        // optimization
+        shader.no_permanent_uniforms = true;
 }
 
 exports.assign_texture_uniforms = function(batch) {
@@ -1664,6 +1657,10 @@ function update_subs_permanent_uniforms(subscene) {
 
         var batch = bundle.batch;
         var shader = batch.shader;
+
+        if (shader.no_permanent_uniforms)
+            continue;
+
         _gl.useProgram(shader.program);
 
         var obj_render = bundle.obj_render;
@@ -1675,6 +1672,7 @@ function update_subs_permanent_uniforms(subscene) {
 
         var permanent_uniform_setters = shader.permanent_uniform_setters;
         var j = permanent_uniform_setters.length;
+
         while (j--) {
             var setter = permanent_uniform_setters[j];
             setter.fun(_gl, setter.loc, subscene, obj_render, batch, camera);
@@ -1685,6 +1683,9 @@ function update_subs_permanent_uniforms(subscene) {
 exports.update_batch_permanent_uniform = function(batch, uni_name) {
 
     var shader = batch.shader;
+    if (shader.no_permanent_uniforms)
+        return;
+
     _gl.useProgram(shader.program);
 
     if (!shader.permanent_uniform_setters.length)

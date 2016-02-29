@@ -21,7 +21,7 @@ msgstr "scene"
 
 #: ../scene_settings.rst:7
 msgid "Параметры сцены"
-msgstr "Scene settings"
+msgstr "Scene Settings"
 
 #: ../scene_settings.rst:13
 msgid ""
@@ -34,7 +34,7 @@ msgstr ""
 
 #: ../scene_settings.rst:18
 msgid "Вкладка Render"
-msgstr "The Render panel."
+msgstr "Render Panel"
 
 #: ../scene_settings.rst:24
 msgid ""
@@ -247,7 +247,7 @@ msgstr ""
 
 #: ../scene_settings.rst:188
 msgid "Вкладка Scene"
-msgstr "The Scene panel"
+msgstr "Scene Panel"
 
 #: ../scene_settings.rst:194
 msgid ""
@@ -554,7 +554,7 @@ msgstr ""
 
 #: ../scene_settings.rst:374
 msgid "Вкладка World"
-msgstr "The World panel"
+msgstr "World Panel"
 
 #: ../scene_settings.rst:380
 msgid ""
@@ -719,11 +719,11 @@ msgid ""
 "Определяет, насколько быстро плотность тумана падает с ростом высоты. По "
 "умолчанию равно 0."
 msgstr ""
-"This parameter specifies how fast mist intensity decreases as the "
-"the camera's altitude increases. Set to 0 by default."
+"This parameter specifies how fast mist intensity decreases as the the "
+"camera's altitude increases. Set to 0 by default."
 
 #: ../scene_settings.rst:467
-msgid "*Fall out*"
+msgid "*Fall Out*"
 msgstr ""
 
 #: ../scene_settings.rst:467
@@ -739,10 +739,6 @@ msgstr ""
 "``Linear``,  ``Inverse Quadratic``. Set to ``Quadratic`` by default."
 
 #: ../scene_settings.rst:470
-msgid "*Use custom colors*"
-msgstr ""
-
-#: ../scene_settings.rst:470
 msgid ""
 "Позволяет задать цвет тумана. По умолчанию включено. Если отключено, будет "
 "использоваться стандартный цвет 0.5, 0.5, 0.5."
@@ -750,8 +746,12 @@ msgstr ""
 "Can be used to set the color of the mist. Enabled by default. If this "
 "parameter is disabled, standard (0.5, 0.5, 0.5) color will be used."
 
+#: ../scene_settings.rst:470
+msgid "*Use Custom Colors*"
+msgstr ""
+
 #: ../scene_settings.rst:473
-msgid "*Fog color*"
+msgid "*Fog Color*"
 msgstr ""
 
 #: ../scene_settings.rst:473

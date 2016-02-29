@@ -39,7 +39,7 @@
     };
 
     ws.onclose = function() {
-        if (!"${export_link}")
+        if (!"${download_link}")
             return;
 
         var row = document.querySelector(".row");
@@ -48,12 +48,12 @@
         var link = document.createElement("a");
         var div = document.createElement("div");
         var span = document.createElement("span");
-        span.appendChild(document.createTextNode("Download Project Archive"));
+        span.appendChild(document.createTextNode("Download"));
 
         link.appendChild(div);
         link.appendChild(span);
 
-        link.href = "${export_link}";
+        link.href = "${download_link}";
         new_row.appendChild(link);
 
         row.parentElement.appendChild(new_row);

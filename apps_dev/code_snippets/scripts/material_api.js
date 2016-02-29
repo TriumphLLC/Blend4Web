@@ -19,7 +19,8 @@ exports.init = function() {
         alpha: true,
         background_color: [1,1,1,0],
         show_fps: true,
-        autoresize: true
+        autoresize: true,
+        console_verbose: true
     });
 }
 

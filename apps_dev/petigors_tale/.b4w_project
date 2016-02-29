@@ -2,6 +2,7 @@
 author = Blend4Web
 name = petigors_tale
 title = Petigor's Tale
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/petigors_tale;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -160,7 +160,6 @@ exports.append_semi_stiff_cam_obj = function(obj, obj_parent, offset,
     // link to parent object
     cons.obj_parent = obj_parent;
     cons.offset = new Float32Array(offset);
-
     cons.parent_prev_rotation = new Float32Array(p_quat);
 
     cons.clamp_left = m_util.angle_wrap_0_2pi(clamp_left);

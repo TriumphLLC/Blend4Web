@@ -2,6 +2,7 @@
 author = Blend4Web
 name = code_snippets
 title = Code Snippets
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/code_snippets;

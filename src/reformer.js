@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,32 @@ var _params_reported = {};
 function reform_node(node) {
 
     switch(node["type"]) {
+    case "VALTORGB":
+        if(!node["color_ramp"]) {
+            node["color_ramp"] = {"elements" : [{"position": 0.5, "color": [1, 1, 1, 1]}]};
+            report("node Color Ramp", node, "color_ramp");
+        }
+        break;
+    case "CURVE_RGB":
+        if(!node["curve_mapping"]) {
+            node["curve_mapping"] = {"curves_data": [[[0, 0], [1, 1]],
+                [[0, 0], [1, 1]], [[0, 0], [1, 1]], [[0, 0], [1, 1]]],
+                "curves_handle_types" : ["EXTRAPOLATED", "EXTRAPOLATED",
+                "EXTRAPOLATED", "EXTRAPOLATED"], "curve_extend" : 
+                [["AUTO", "AUTO"], ["AUTO", "AUTO"], ["AUTO", "AUTO"], ["AUTO", "AUTO"]]};
+            report("node RGB Curves", node, "curve_mapping");
+        }
+        break;
+    case "CURVE_VEC":
+        if(!node["curve_mapping"]) {
+            node["curve_mapping"] = {"curves_data": [[[0, 0], [1, 1]],
+                [[0, 0], [1, 1]], [[0, 0], [1, 1]]],
+                "curves_handle_types" : ["EXTRAPOLATED", "EXTRAPOLATED",
+                "EXTRAPOLATED"], "curve_extend" : 
+                [["AUTO", "AUTO"], ["AUTO", "AUTO"], ["AUTO", "AUTO"]]};
+            report("node Vector Curves", node, "curve_mapping");
+        }
+        break;
     case "MAPPING":
         if(!node["vector_type"]) {
             node["vector_type"] = "POINT";
@@ -346,6 +372,16 @@ exports.check_bpy_data = function(bpy_data) {
                 slot["default_value"] = 1.0;
                 report("world_texture_slot", slot, "default_value");
             }
+        }
+
+        if (!("b4w_use_default_animation" in world)) {
+            report("world", world, "b4w_use_default_animation");
+            world["b4w_use_default_animation"] = false;
+        }
+
+        if (!("b4w_anim_behavior" in world)) {
+            report("world", world, "b4w_anim_behavior");
+            world["b4w_anim_behavior"] = "CYCLIC";
         }
     }
 
@@ -886,6 +922,13 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_use_panning" in camera)) {
             camera["b4w_use_panning"] = true;
             report("camera", camera, "b4w_use_panning");
+        }
+
+        if (!("b4w_use_pivot_limits" in camera)) {
+            camera["b4w_use_pivot_limits"] = false;
+            camera["b4w_pivot_z_min"] = 0;
+            camera["b4w_pivot_z_max"] = 10;
+            report("camera", camera, "b4w_use_pivot_limits");
         }
     }
 
@@ -1918,6 +1961,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("object", bpy_obj, "b4w_viewport_alignment");
         }
 
+        if (!("pinverse_tsr" in bpy_obj)) {
+            bpy_obj["pinverse_tsr"] = null;
+            report("object", bpy_obj, "pinverse_tsr");
+        }
+
         if (check_negative_scale(bpy_obj))
             report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
@@ -2530,7 +2578,7 @@ function mesh_transform_locations(mesh, matrix) {
  * Not the best place to do such things, but other methods are much harder to
  * implement (see update_object())
  */
-exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
+exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scene) {
 
     var script = scene["b4w_logic_nodes"];
     for (var i = 0; i < script.length; i++) {
@@ -2684,7 +2732,9 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, scene) {
                 if (snode["bools"]["prs"] === undefined)
                     snode["bools"]["prs"] = true;
                 if (snode["bools"]["enc"] === undefined) 
-                    snode["bools"]["enc"] = true; 
+                    snode["bools"]["enc"] = true;
+                if (snode["bools"]["ct"] === undefined)
+                    snode["bools"]["ct"] = false;
                 break;
             case "MATH":
                 if (snode["number1"] != undefined)

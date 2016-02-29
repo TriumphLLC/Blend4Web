@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,6 +57,7 @@ var DEBUG_KEEP_BUFS_DATA_ARRAYS = false;
 
 var BATCH_TYPES_DEBUG_SPHERE = ["MAIN"];
 var STREE_CELL_COUNT = 20;
+var CURVE_POINT_EPS = 0.01;
 
 // rotation quat around Z axis for particles system
 var DEFAULT_PART_SYS_QUAT = new Float32Array([0, -Math.sqrt(0.5), 0, Math.sqrt(0.5)]);
@@ -202,7 +203,10 @@ function init_batch(type) {
         particles_data: null,
 
         // line params
-        line_width: 0
+        line_width: 0,
+
+        part_use_tangent: false,
+        part_node_data : null
     }
 
     // setting default values
@@ -423,7 +427,7 @@ exports.generate_sky_meta_obj = function(scene, sky) {
 /**
  * Batch type->subtype relation:
  * MAIN/PARTICLES -> OPAQUE/BLEND/XRAY/REFLECT
- * DEPTH          -> DEPTH/NODES/SHADOW_CAST
+ * SHADOW         -> RECEIVE/CAST
  * COLOR_ID       -> COLOR_ID/COLOR_ID_XRAY/OUTLINE
  * others         -> "" (default)
  */
@@ -440,11 +444,13 @@ function update_batch_subtype(batch) {
         } else
             batch.subtype = "OPAQUE";
         break;
-    case "DEPTH":
-        if (batch.has_nodes)
-            batch.subtype = "NODES";
+    case "SHADOW":
+        // NOTE: Cast only > Receive Shadows
+        // other cast batches will be created by forking the RECEIVE batches
+        if (batch.shadow_cast_only)
+            batch.subtype = "CAST";
         else
-            batch.subtype = "DEPTH";
+            batch.subtype = "RECEIVE";
         break;
     case "COLOR_ID":
         if (batch.xray)
@@ -468,9 +474,10 @@ exports.create_forked_batches = function(obj, graph, scene) {
         var batch_src = batches[j];
         var batch = null;
 
-        if (batch_src.type == "DEPTH" && shadow_cast_subs && batch_src.shadow_cast) {
+        if (batch_src.type == "SHADOW" && batch_src.subtype == "RECEIVE" 
+                && batch_src.shadow_cast) {
             batch = copy_forked_batch(batch_src);
-            batch.subtype = "SHADOW_CAST";
+            batch.subtype = "CAST";
         }
 
         if ((batch_src.type == "MAIN" || batch_src.type == "PARTICLES")
@@ -478,6 +485,7 @@ exports.create_forked_batches = function(obj, graph, scene) {
                 && !batch_src.blend && batch_src.reflexible) {
             batch = copy_forked_batch(batch_src);
             batch.subtype = "REFLECT";
+            batch.particles_data = batch_src.particles_data;
         }
 
         if (batch_src.type == "COLOR_ID" && batch_src.can_fork_outline)
@@ -664,7 +672,7 @@ function make_object_metabatches(bpy_obj, render, graph) {
     var metabatches = [];
 
     // NOTE: generate all batches
-    var batch_types = get_batch_types(graph, render);
+    var batch_types = get_batch_types(graph, render, !render.do_not_render, false);
     var render_id = calculate_render_id(render);
     var mesh = bpy_obj["data"];
     var materials = mesh["materials"];
@@ -696,7 +704,7 @@ function make_object_metabatches(bpy_obj, render, graph) {
             if (!batch_material_is_valid(batch, material))
                 continue;
 
-            if (type == "DEPTH" && batches_main[j]) {
+            if (type == "SHADOW" && batches_main[j]) {
                 // Override
                 batch.use_shadeless = batches_main[j].use_shadeless;
             }
@@ -848,6 +856,10 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
                 m_particles.init_particles_data(batch, psys, pmaterial);
                 var submesh = m_particles.generate_emitter_particles_submesh(
                         batch, mesh, psys, obj.render.world_tsr);
+                m_particles.update_particles_submesh(submesh, batch, pset["count"],
+                        pmaterial);
+                if (batch.use_nodes)
+                    update_batch_render(batch, obj.render);
 
                 metabatches.push({
                     batch: batch,
@@ -900,7 +912,8 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
 
             if (pset["render_type"] == "OBJECT") {
                 var particles_batch_types = [get_batch_types(graph,
-                        pset["dupli_object"]._object.render, true)];
+                        pset["dupli_object"]._object.render, 
+                        !render.do_not_render, true)];
 
                 var hair_metabatches = make_hair_particles_metabatches(
                         bpy_obj, render, emitter_vc, em_submesh,
@@ -914,7 +927,8 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
                 var particles_batch_types = [];
                 for (var j = 0; j < bpy_part_objs.length; j++) {
                     var btypes = get_batch_types(graph,
-                            bpy_part_objs[j]._object.render, true);
+                            bpy_part_objs[j]._object.render, 
+                            !render.do_not_render, true);
                     particles_batch_types.push(btypes);
                 }
 
@@ -1151,28 +1165,25 @@ function exclude_batch_types(batch_types, unwanted_types) {
     return batch_types;
 }
 
-function get_batch_types(graph, render, is_hair_particles) {
-    var batch_types;
+function get_batch_types(graph, render, is_rendered, is_hair_particles) {
+    var batch_types = [];
 
-    if (render.do_not_render && !is_hair_particles) {
-        batch_types = []
-        if (render.selectable && m_scenegraph.find_subs(graph, "COLOR_PICKING"))
-            batch_types.push("COLOR_ID");
-    } else {
-        batch_types = ["MAIN", "NODES_GLOW"];
-
-        if ((render.selectable && m_scenegraph.find_subs(graph, "COLOR_PICKING") ||
+    if (!is_hair_particles)
+        if (render.selectable && m_scenegraph.find_subs(graph, "COLOR_PICKING") ||
                 render.outlining && m_scenegraph.find_subs(graph, "OUTLINE_MASK"))
-                && !is_hair_particles)
             batch_types.push("COLOR_ID");
+
+    // NOTE: "is_rendered" doesn't always match with !do_not_render object flag,
+    // it depends on the emitter render for particle system batches
+    if (is_rendered) {
+        batch_types.push("MAIN");
+        batch_types.push("NODES_GLOW");
 
         if (m_scenegraph.find_subs(graph, "WIREFRAME"))
             batch_types.push("WIREFRAME");
 
-        if ((render.shadow_cast || render.shadow_receive) &&
-                m_scenegraph.find_subs(graph, "DEPTH") ||
-                m_scenegraph.find_subs(graph, "SHADOW_CAST"))
-            batch_types.push("DEPTH");
+        if (m_scenegraph.find_subs(graph, "SHADOW_RECEIVE"))
+            batch_types.push("SHADOW");
 
         if (m_scenegraph.find_subs(graph, "GRASS_MAP"))
             batch_types.push("GRASS_MAP");
@@ -1188,7 +1199,7 @@ function get_batch_types(graph, render, is_hair_particles) {
             unwanted_types = ["MAIN", "NODES_GLOW", "COLOR_ID",
                               "PHYSICS", "WIREFRAME"];
         if (render.reflexible_only) {
-            var types = ["COLOR_ID", "PHYSICS", "DEPTH", "WIREFRAME"];
+            var types = ["COLOR_ID", "PHYSICS", "SHADOW", "WIREFRAME"];
             if (unwanted_types !== null)
                 unwanted_types = m_util.array_intersect(unwanted_types, types);
             else
@@ -1216,8 +1227,8 @@ function update_batch_material(batch, material, update_tex_color) {
     case "NODES_GLOW":
         ret = update_batch_material_nodes(batch, material, "GLOW");
         break;
-    case "DEPTH":
-        ret = update_batch_material_depth(batch, material);
+    case "SHADOW":
+        ret = update_batch_material_shadow_receive(batch, material);
         break;
     case "PHYSICS":
         ret = update_batch_material_physics(batch, material);
@@ -1245,7 +1256,7 @@ function update_batch_material_main(batch, material, update_tex_color) {
     if (material["b4w_do_not_render"])
         return false;
 
-    if (material["use_nodes"]) {
+    if (material["use_nodes"] && material["type"] != "HALO") {
         update_batch_material_nodes(batch, material, "MAIN");
         return true;
     }
@@ -1328,10 +1339,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
             var tex = get_batch_texture(colormap0, tex_col);
             append_texture(batch, tex, "u_colormap0");
 
-            if (cfg_def.alpha_clip_filtering_hack && alpha_blend == "CLIP")
-                m_textures.set_filters(tex, m_textures.TF_NEAREST,
-                        m_textures.TF_NEAREST);
-
             // assumed there is only one color texture per material
             batch.diffuse_color_factor = colormap0["diffuse_color_factor"];
             if (colormap0["use_map_alpha"])
@@ -1357,7 +1364,7 @@ function update_batch_material_main(batch, material, update_tex_color) {
         if (normalmap0) {
             set_batch_c_attr(batch, "a_normal");
             set_batch_c_attr(batch, "a_tangent");
-
+            batch.part_use_tangent = true;
             var tex_col = update_tex_color ? [0.5, 0.5, 1, 1] : null;
             var tex = get_batch_texture(normalmap0, tex_col);
             append_texture(batch, tex, "u_normalmap0");
@@ -1416,24 +1423,11 @@ function update_batch_material_main(batch, material, update_tex_color) {
             init_water_material(material, batch);
 
         if (material["type"] === "HALO") {
-            var mat_halo = material["halo"];
             apply_shader(batch, "halo.glslv", "halo.glslf");
 
-            set_batch_directive(batch, "NUM_RINGS", mat_halo["ring_count"]);
-            set_batch_directive(batch, "NUM_LINES", mat_halo["line_count"]);
-            set_batch_directive(batch, "NUM_STARS", mat_halo["star_tip_count"]);
-            set_batch_directive(batch, "SKY_STARS", material["b4w_halo_sky_stars"] ? 1 : 0);
+            set_batch_halo_data(batch, material);
 
             batch.common_attributes = ["a_position"];
-
-            batch.halo_size = mat_halo["size"];
-            // NOTE: hardness works not similiar to blender's one
-            batch.halo_hardness = mat_halo["hardness"] / 20;
-            batch.halo_rings_color.set(mat_halo["b4w_halo_rings_color"]);
-            batch.halo_lines_color.set(mat_halo["b4w_halo_lines_color"]);
-            batch.halo_stars_blend = 1.0 / material["b4w_halo_stars_blend_height"];
-            batch.halo_stars_height = material["b4w_halo_stars_min_height"];
-            batch.halo = true;
         }
 
         set_batch_directive(batch, "TEXCOORD", 0);
@@ -1485,10 +1479,33 @@ function update_batch_material_main(batch, material, update_tex_color) {
 
     update_batch_fresnel_params(batch, material);
 
-    batch.refractive = material["b4w_refractive"];
+    if (material["b4w_refractive"] && !batch.blend) {
+        m_print.warn("Material \"" + material["name"] + "\" is not blend. " +
+                     "Disabling refractions.")
+        batch.refractive = false;
+    } else
+        batch.refractive = material["b4w_refractive"];
+
     batch.refr_bump = material["b4w_refr_bump"];
 
     return true;
+}
+
+function set_batch_halo_data(batch, material) {
+    var mat_halo = material["halo"];
+    set_batch_directive(batch, "NUM_RINGS", mat_halo["ring_count"]);
+    set_batch_directive(batch, "NUM_LINES", mat_halo["line_count"]);
+    set_batch_directive(batch, "NUM_STARS", mat_halo["star_tip_count"]);
+    set_batch_directive(batch, "SKY_STARS", material["b4w_halo_sky_stars"] ? 1 : 0);
+
+    batch.halo_size = mat_halo["size"];
+    // NOTE: hardness works not similiar to blender's one
+    batch.halo_hardness = mat_halo["hardness"] / 20;
+    batch.halo_rings_color.set(mat_halo["b4w_halo_rings_color"]);
+    batch.halo_lines_color.set(mat_halo["b4w_halo_lines_color"]);
+    batch.halo_stars_blend = 1.0 / material["b4w_halo_stars_blend_height"];
+    batch.halo_stars_height = material["b4w_halo_stars_min_height"];
+    batch.halo = true;
 }
 
 function set_batch_texcoord_directive(batch, texture, directive_name) {
@@ -1720,6 +1737,7 @@ function init_water_material(material, batch) {
         if (foam || normalmaps.length) {
             set_batch_c_attr(batch, "a_texcoord");
             set_batch_c_attr(batch, "a_tangent");
+            batch.part_use_tangent = true;
         }
         set_batch_directive(batch, "GENERATED_MESH", 0);
     }
@@ -1851,27 +1869,22 @@ function update_batch_material_nodes(batch, material, shader_type) {
         return false;
 
     var is_glow_output;
-    var use_color_edge;
     switch (shader_type) {
     case "MAIN":
         apply_shader(batch, "main.glslv", "main.glslf");
         is_glow_output = false;
-        use_color_edge = true;
         break;
     case "GLOW":
         apply_shader(batch, "main.glslv", "main.glslf");
         is_glow_output = true;
-        use_color_edge = true;
         break;
-    case "DEPTH":
-        apply_shader(batch, "depth.glslv", "depth.glslf");
+    case "SHADOW":
+        apply_shader(batch, "shadow.glslv", "shadow.glslf");
         is_glow_output = false;
-        use_color_edge = false;
         break;
     case "COLOR_ID":
         apply_shader(batch, "color_id.glslv", "color_id.glslf");
         is_glow_output = false;
-        use_color_edge = false;
         break;
     }
 
@@ -1888,12 +1901,8 @@ function update_batch_material_nodes(batch, material, shader_type) {
 
     batch.has_nodes = true;
     set_batch_directive(batch, "NODES", 1);
-    set_batch_directive(batch, "NODES_GLOW", is_glow_output ? 1 : 0);
 
     // some common stuff
-    var alpha_blend = material["game_settings"]["alpha_blend"];
-    set_batch_directive(batch, "ALPHA", (alpha_blend === "OPAQUE") ? 0 : 1);
-    set_batch_directive(batch, "ALPHA_CLIP", (alpha_blend === "CLIP") ? 1 : 0);
     set_batch_directive(batch, "DOUBLE_SIDED_LIGHTING",
             (material["b4w_double_sided_lighting"]) ? 1 : 0);
 
@@ -1907,6 +1916,15 @@ function update_batch_material_nodes(batch, material, shader_type) {
 
     var gs = material["game_settings"];
     var alpha_blend = gs["alpha_blend"];
+
+    if (is_glow_output) {
+        set_batch_directive(batch, "ALPHA", 1);
+        set_batch_directive(batch, "ALPHA_CLIP", 0);
+    } else {
+        set_batch_directive(batch, "ALPHA", (alpha_blend === "OPAQUE") ? 0 : 1);
+        set_batch_directive(batch, "ALPHA_CLIP", (alpha_blend === "CLIP") ? 1 : 0);
+    }
+
     batch.xray = material["b4w_render_above_all"] && alpha_blend != "OPAQUE"
                     && alpha_blend != "CLIP";
 
@@ -1923,9 +1941,8 @@ function update_batch_material_nodes(batch, material, shader_type) {
     } else
         set_batch_directive(batch, "WETTABLE", 0);
 
-    batch.shaders_info.node_elements =
-          m_nodemat.compose_node_elements(nmat_graph);
-
+    var color_ramp_nodes = [];
+    var curves_nodes = [];
     var has_material_nodes = false;
     m_graph.traverse(nmat_graph, function(node, attr) {
         switch (attr.type) {
@@ -1995,17 +2012,13 @@ function update_batch_material_nodes(batch, material, shader_type) {
                     tex._render.allow_node_dds = false;
 
             append_texture(batch, tex._render, name);
-
-            if (cfg_def.alpha_clip_filtering_hack && alpha_blend == "CLIP")
-                m_textures.set_filters(attr.data.value._render, m_textures.TF_NEAREST,
-                        m_textures.TF_NEAREST);
             break;
         case "TEXTURE_NORMAL":
         case "B4W_PARALLAX":
             set_batch_directive(batch, "CALC_TBN_SPACE", 1);
             set_batch_c_attr(batch, "a_normal");
             set_batch_c_attr(batch, "a_tangent");
-
+            batch.part_use_tangent = true;
             var name = attr.data.name;
             var tex = attr.data.value;
 
@@ -2018,10 +2031,85 @@ function update_batch_material_nodes(batch, material, shader_type) {
                 batch.lamp_uuid_indexes = attr.data;
             break;
         case "B4W_REFRACTION":
-            batch.refractive = true;
+            if (batch.blend)
+                batch.refractive = true;
+            else {
+                batch.refractive = true;
+                m_print.warn("Material \"" + material["name"] + "\" is not blend. " +
+                             "Disabling refractions.")
+            }
+            break;
+        case "VALTORGB":
+            color_ramp_nodes.push(attr);
+            break;
+        case "CURVE_VEC":
+        case "CURVE_RGB":
+            curves_nodes.push(attr);
+            break;
+        case "PARTICLE_INFO":
+            if (batch.type == "PARTICLES" && attr.data)
+                batch.part_node_data = attr.data;
             break;
         }
     });
+
+    var row = 0;
+    var color_ramp_id = null;
+    var curve_id = null;
+    var length = color_ramp_nodes.length + curves_nodes.length;
+    if (color_ramp_nodes.length) {
+        color_ramp_id = m_textures.create_color_ramp_texture(color_ramp_nodes,
+                m_textures.COLORRAMP_TEXT_SIZE);
+        for (var i = 0; i < color_ramp_nodes.length; i++) {
+            color_ramp_nodes[i].dirs = [["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+                    length)]];
+            row++;
+        }
+    }
+    if (curves_nodes.length) {
+        curve_id = m_textures.create_vec_curve_texture(curves_nodes,
+                m_textures.CURVE_NODES_TEXT_SIZE);
+        for (var i = 0; i < curves_nodes.length; i++) {
+            curves_nodes[i].dirs = [["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+                    length)]];
+            row++;
+            var bpy_node = curves_nodes[i].data.value;
+            if (bpy_node["type"] == "CURVE_RGB") {
+                if (check_curve_usage(bpy_node, 0, 0.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_R", 1]);
+                if (check_curve_usage(bpy_node, 1, 0.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_G", 1]);
+                if (check_curve_usage(bpy_node, 2, 0.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_B", 1]);
+                if (check_curve_usage(bpy_node, 3, 0.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_A", 1]);
+            } else if (bpy_node["type"] == "CURVE_VEC") {
+                if (check_curve_usage(bpy_node, 0, -1.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_R", 1]);
+                if (check_curve_usage(bpy_node, 1, -1.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_G", 1]);
+                if (check_curve_usage(bpy_node, 2, -1.0, 1.0))
+                    curves_nodes[i].dirs.push(["READ_B", 1]);
+            }
+        }
+    }
+
+    var image_data = null;
+    if (color_ramp_id && curve_id) {
+        image_data = new Uint8Array(color_ramp_id.length + curve_id.length);
+        image_data.set(color_ramp_id);
+        image_data.set(curve_id, color_ramp_id.length);
+    } else if (color_ramp_id)
+        image_data = color_ramp_id;
+    else
+        image_data = curve_id;
+
+    if (image_data)
+        append_texture_to_batch(batch, image_data, "u_nodes_texture",
+                m_textures.CURVE_NODES_TEXT_SIZE);
+
+    batch.shaders_info.node_elements =
+          m_nodemat.compose_node_elements(nmat_graph);
 
     if (!has_material_nodes)
         batch.use_shadeless = true;
@@ -2029,12 +2117,36 @@ function update_batch_material_nodes(batch, material, shader_type) {
     return true;
 }
 
+function check_curve_usage(bpy_node, ind, start, end) {
+    var curve = bpy_node["curve_mapping"]["curves_data"][ind];
+    if (curve.length == 2 && curve[0][0] < start + CURVE_POINT_EPS
+            && curve[0][1] < start + CURVE_POINT_EPS 
+            && curve[1][0] > end - CURVE_POINT_EPS
+            && curve[1][1] > end - CURVE_POINT_EPS)
+        return false;
+    return true;
+}
+
+exports.append_texture_to_batch = append_texture_to_batch;
+function append_texture_to_batch(batch, image_data, tex_name, size) {
+    var texture = m_textures.generate_texture("NODE_TEX", null);
+    var texture_slot = { "texture": texture };
+    var tex_data = {
+        width: size,
+        height: image_data.length / (size * 4),
+        data: image_data
+    };
+
+    var tex = get_batch_texture(texture_slot, tex_data);
+    append_texture(batch, tex, tex_name);
+}
+
 exports.update_batch_material_debug = update_batch_material_debug;
 function update_batch_material_debug(batch, material) {
 
     switch (batch.type) {
-    case "DEPTH":
-        apply_shader(batch, "depth.glslv", "depth.glslf");
+    case "SHADOW":
+        apply_shader(batch, "shadow.glslv", "shadow.glslf");
         break;
     case "COLOR_ID":
         apply_shader(batch, "color_id.glslv", "color_id.glslf");
@@ -2065,7 +2177,7 @@ function update_batch_material_debug(batch, material) {
     return true;
 }
 
-function update_batch_material_depth(batch, material) {
+function update_batch_material_shadow_receive(batch, material) {
 
     if (material["name"] === "LENS_FLARES" ||
             material["b4w_water"] ||
@@ -2081,9 +2193,9 @@ function update_batch_material_depth(batch, material) {
     var alpha_blend = material["game_settings"]["alpha_blend"];
 
     if (material["use_nodes"] && alpha_blend == "CLIP")
-        update_batch_material_nodes(batch, material, "DEPTH");
+        update_batch_material_nodes(batch, material, "SHADOW");
     else {
-        apply_shader(batch, "depth.glslv", "depth.glslf");
+        apply_shader(batch, "shadow.glslv", "shadow.glslf");
 
         m_vec4.set(material["diffuse_color"][0], material["diffuse_color"][1],
             material["diffuse_color"][2], material["alpha"],
@@ -2315,21 +2427,28 @@ function update_batch_material_particles(batch, material) {
 
     var texture_slots = material["texture_slots"];
 
-    if (batch.halo_particles)
-        apply_shader(batch, "particles_color.glslv", "particles_color.glslf");
-    else {
-
-        apply_shader(batch, "particles_texture.glslv", "particles_texture.glslf");
+    if (batch.halo_particles) {
+        apply_shader(batch, "particle_system.glslv", "particle_system_stack.glslf");
+        set_batch_directive(batch, "HALO_PARTICLES", 1);
+        set_batch_halo_data(batch, material);
+    } else {
         
         var data = {
             use_shadeless: false,
             diffuse_shader: material["diffuse_shader"],
             specular_shader: material["specular_shader"]
         }
-        var nmat_graph = m_nodemat.create_lighting_graph(material["uuid"], 
-                material["name"], data);
-        batch.shaders_info.node_elements =
-                m_nodemat.compose_node_elements(nmat_graph);
+        if (material["use_nodes"]) {
+            apply_shader(batch, "particle_system.glslv", "particle_system.glslf");
+            update_batch_material_nodes(batch, material, "PARTICLES");
+            return true;
+        } else {
+            apply_shader(batch, "particle_system.glslv", "particle_system_stack.glslf");
+            var nmat_graph = m_nodemat.create_lighting_graph(material["uuid"], 
+                    material["name"], data);
+            batch.shaders_info.node_elements =
+                    m_nodemat.compose_node_elements(nmat_graph);
+        }
 
         var colormap = find_valid_textures("use_map_color_diffuse", true, texture_slots)[0];
 
@@ -2395,6 +2514,7 @@ function update_batch_material_particles(batch, material) {
  * Update batch from object render
  */
 function update_batch_render(batch, render) {
+
     if (batch.type === "PHYSICS")
         return;
 
@@ -2513,7 +2633,9 @@ function update_batch_render(batch, render) {
     // maybe should analize directive instead
     batch.dynamic_grass = render.dynamic_grass;
 
-    batch.dynamic_geometry = render.dynamic_geometry;
+    if (batch.type != "PARTICLES")
+        batch.dynamic_geometry = render.dynamic_geometry;
+
     batch.shadow_cast = render.shadow_cast;
     batch.shadow_cast_only = render.shadow_cast_only;
     // NOTE: Will be overriden for DEPTH and COLOR_ID node batches
@@ -2563,11 +2685,9 @@ function update_batch_render(batch, render) {
         set_batch_directive(batch, "DISABLE_FOG", 0);
 
     if (batch.has_nodes) {
-
         var nmat_graph = batch.shaders_info.node_elements;
         var mats_value_inds = render.mats_value_inds;
         var mats_rgb_inds = render.mats_rgb_inds;
-
         for (var i = 0; i < nmat_graph.length; i++) {
             var node = nmat_graph[i];
             switch (node.id) {
@@ -2780,7 +2900,7 @@ function update_batch_geometry(batch, submesh) {
     var zsort_type = batch.zsort_type;
     var draw_mode = batch.draw_mode;
 
-    if (batch.halo)
+    if (batch.halo && batch.type != "PARTICLES")
         var submesh = m_geometry.extract_halo_submesh(submesh);
 
     if (batch.water_generated_mesh) {
@@ -2793,6 +2913,7 @@ function update_batch_geometry(batch, submesh) {
 
     var bufs_data = m_geometry.submesh_to_bufs_data(submesh, zsort_type,
             draw_mode, batch.vertex_colors_usage);
+
     batch.bufs_data = bufs_data;
 
     // remove unneeded arrays to save memory, keep them only for z-sorted
@@ -3091,7 +3212,7 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
                 if (!batch_material_is_valid(batch, material))
                     continue;
 
-                if (type == "DEPTH" && batches_main[j])
+                if (type == "SHADOW" && batches_main[j])
                     // Override
                     batch.use_shadeless = batches_main[j].use_shadeless;
 
@@ -4566,7 +4687,7 @@ exports.clear_batch = function(batch) {
 exports.inherit_material = function(obj_from, mat_from_name, obj_to,
                                     mat_to_name) {
 
-    var types = ["MAIN", "DEPTH", "COLOR_ID"];
+    var types = ["MAIN", "SHADOW", "COLOR_ID"];
     var batches_found = false;
     for (var i = 0; i < types.length; i++) {
         var type = types[i];

@@ -37,7 +37,8 @@ exports.init = function() {
         physics_enabled: false,
         alpha: true,
         show_fps: true,
-        autoresize: true
+        autoresize: true,
+        console_verbose: true
     });
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -367,14 +367,14 @@ exports.get_shadow_params = function() {
 
     var shs = active_scene._render.shadow_params;
     var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
-    var subs_depth = m_scenes.get_subs(active_scene, "DEPTH");
+    var subs_shadow_receive = m_scenes.get_subs(active_scene, "SHADOW_RECEIVE");
 
     var shadow_params = {};
     shadow_params.csm_resolution = shs.csm_resolution;
 
     shadow_params.self_shadow_polygon_offset = shadow_cast.self_shadow_polygon_offset;
-    if (subs_depth)
-        shadow_params.self_shadow_normal_offset = subs_depth.self_shadow_normal_offset;
+    if (subs_shadow_receive)
+        shadow_params.self_shadow_normal_offset = subs_shadow_receive.self_shadow_normal_offset;
 
     shadow_params.enable_csm = shs.enable_csm;
     shadow_params.csm_num = shs.csm_num;
@@ -420,12 +420,12 @@ exports.set_shadow_params = function(shadow_params) {
                 attr.self_shadow_polygon_offset = shadow_params.self_shadow_polygon_offset;
         });
 
-    var subs_depth = m_scenes.get_subs(active_scene, "DEPTH");
-    if (subs_depth) {
+    var subs_shadow_receive = m_scenes.get_subs(active_scene, "SHADOW_RECEIVE");
+    if (subs_shadow_receive) {
         if (typeof shadow_params.self_shadow_normal_offset == "number")
-            subs_depth.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
+            subs_shadow_receive.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
         if (typeof shadow_params.pcf_blur_radius == "number")
-            subs_depth.pcf_blur_radius = shadow_params.pcf_blur_radius;
+            subs_shadow_receive.pcf_blur_radius = shadow_params.pcf_blur_radius;
     }
 
     var subs_main_blend = m_scenes.get_subs(active_scene, "MAIN_BLEND");
@@ -449,8 +449,8 @@ exports.set_shadow_params = function(shadow_params) {
         shs.last_cascade_blur_radius = shadow_params.last_cascade_blur_radius;
 
     // update directives; only depth subs supported
-    if (subs_depth) {
-        var bundles = subs_depth.bundles;
+    if (subs_shadow_receive) {
+        var bundles = subs_shadow_receive.bundles;
 
         for (var i = 0; i < bundles.length; i++) {
 
@@ -464,7 +464,7 @@ exports.set_shadow_params = function(shadow_params) {
 
             m_batch.update_shader(batch);
         }
-        subs_depth.need_perm_uniforms_update = true;
+        subs_shadow_receive.need_perm_uniforms_update = true;
     }
 
     var upd_cameras = active_scene._camera.render.cameras;
@@ -502,9 +502,20 @@ exports.set_environment_colors = function(opt_environment_energy,
         return;
     }
     var active_scene = m_scenes.get_active();
-    m_scenes.set_environment_colors(active_scene,
-            parseFloat(opt_environment_energy), opt_horizon_color,
-            opt_zenith_color);
+    var subs = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
+
+    var energy = opt_environment_energy || opt_environment_energy == 0 ?
+                            parseFloat(opt_environment_energy):
+                            subs.environment_energy;
+    var horizon_color = opt_horizon_color || opt_horizon_color == 0 ?
+                            opt_horizon_color:
+                            subs.horizon_color;
+    var zenith_color = opt_zenith_color || opt_zenith_color == 0 ?
+                            opt_zenith_color:
+                            subs.zenith_color;
+
+    m_scenes.set_environment_colors(active_scene, energy,
+                horizon_color, zenith_color);
 }
 
 /**
@@ -824,9 +835,22 @@ exports.set_wind_params = function(wind_params) {
 /**
  * Get water surface level.
  * @method module:scenes.get_water_surface_level
+ * @param {Number} pos_x World x position
+ * @param {Number} pos_z World z position
  * @returns {Number} Surface level
  */
-exports.get_water_surface_level = m_scenes.get_water_surface_level;
+exports.get_water_surface_level = function(pos_x, pos_z) {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return 0;
+    }
+    var active_scene = m_scenes.get_active();
+    if (!active_scene._render.water_params) {
+        m_print.error("No water parameters on the active scene");
+        return 0;
+    }
+    return m_scenes.get_water_surface_level(active_scene, pos_x, pos_z);
+}
 
 /**
  * Set water params
@@ -1121,7 +1145,14 @@ exports.get_shore_dist = function(trans, v_dist_mult) {
     if (!v_dist_mult && v_dist_mult !== 0)
         v_dist_mult = 1;
 
-    return m_scenes.get_shore_dist(trans, v_dist_mult);
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+
+    var active_scene = m_scenes.get_active();
+
+    return m_scenes.get_shore_dist(active_scene, trans, v_dist_mult);
 }
 
 /**

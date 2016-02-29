@@ -41,4 +41,4 @@ if __name__ == "__main__":
     sys.path.append(os.path.join(base_dir, "scripts", "lib"))
 
     import project_cli
-    project_cli.run(sys.argv, base_dir, curr_work_dir)
+    project_cli.run(sys.argv, base_dir)

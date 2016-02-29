@@ -2,6 +2,7 @@
 author = Blend4Web
 name = flight
 title = The Island
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/flight_over_island;

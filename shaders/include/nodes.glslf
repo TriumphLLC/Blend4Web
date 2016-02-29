@@ -17,6 +17,7 @@
 #var LAMP_LIGHT_FACT_IND 0
 #var LAMP_FAC_CHANNELS rgb
 #var LAMP_SHADOW_MAP_IND 0
+#var NODE_TEX_ROW 0.0
 
 #define M_PI 3.14159265359
 
@@ -47,6 +48,7 @@
 #import u_node_values
 #import u_refractmap
 #import u_time
+#import u_nodes_texture
 
 // functions
 #import apply_mirror
@@ -193,6 +195,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_OR
     #node_out vec3 orco
+
     orco = 2.0 * v_orco_tex_coord - vec3(UNITY_VALUE_NODES);
 #endnode
 
@@ -849,12 +852,12 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 uv_cycles
     #node_param varying vec2 v_uv
 
-# node_if USE_OUT_uv_geom
+#node_if USE_OUT_uv_geom
     uv_geom = uv_to_vec(v_uv);
-# node_endif
-# node_if USE_OUT_uv_cycles
+#node_endif
+#node_if USE_OUT_uv_cycles
     uv_cycles = vec3(v_uv, ZERO_VALUE_NODES);
-# node_endif
+#node_endif
 #endnode
 
 #node TEX_COORD_UV
@@ -900,6 +903,7 @@ vec2 vec_to_uv(vec3 vec)
 #node UVMAP
     #node_out vec3 uv
     #node_param varying vec2 v_uv
+
     uv = vec3(v_uv, ZERO_VALUE_NODES);
 #endnode
 
@@ -911,6 +915,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float size
     #node_out vec3 velocity
     #node_out vec3 angular_velocity
+
     index = ZERO_VALUE_NODES;
     age = ZERO_VALUE_NODES;
     lifetime = ZERO_VALUE_NODES;
@@ -996,18 +1001,56 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float factor
     #node_in vec3 vec_in
     #node_out vec3 vec
+
     vec = vec_in;
-    // NOTE: using unused variable to pass shader verification
-    factor;
+#node_if READ_R
+    vec.r = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.r + 0.5, NODE_TEX_ROW)).r - 0.5) * 2.0;
+#node_endif
+
+#node_if READ_G
+    vec.g = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.g + 0.5, NODE_TEX_ROW)).g - 0.5) * 2.0;
+#node_endif
+
+#node_if READ_B
+    vec.b = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.b + 0.5, NODE_TEX_ROW)).b - 0.5) * 2.0;
+#node_endif
+    vec = mix(vec_in, vec, factor);
 #endnode
 
 #node CURVE_RGB
     #node_in float factor
     #node_in vec3 vec_in
     #node_out vec3 vec
-    vec = vec_in;
-    // NOTE: using unused variable to pass shader verification
-    factor;
+
+#node_if READ_A
+    float r = texture2D(u_nodes_texture, vec2(vec_in.r, NODE_TEX_ROW)).a;
+    float g = texture2D(u_nodes_texture, vec2(vec_in.g, NODE_TEX_ROW)).a;
+    float b = texture2D(u_nodes_texture, vec2(vec_in.b, NODE_TEX_ROW)).a;
+#node_else
+    float r = vec_in.r;
+    float g = vec_in.g;
+    float b = vec_in.b;
+#node_endif
+
+#node_if READ_R
+    vec.r = texture2D(u_nodes_texture, vec2(r, NODE_TEX_ROW)).r;
+#node_else
+    vec.r = r;
+#node_endif
+
+#node_if READ_G
+    vec.g = texture2D(u_nodes_texture, vec2(g, NODE_TEX_ROW)).g;
+#node_else
+    vec.g = g;
+#node_endif
+
+#node_if READ_B
+    vec.b = texture2D(u_nodes_texture, vec2(b, NODE_TEX_ROW)).b;
+#node_else
+    vec.b = b;
+#node_endif
+
+    vec = mix(vec_in, vec, factor);
 #endnode
 
 // ColorRamp node
@@ -1015,8 +1058,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float factor
     #node_out vec3 color
     #node_out float alpha
-    color[0] = color[1] = color[2] = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    alpha = color[0];
+    vec4 texval = texture2D(u_nodes_texture, vec2(factor, NODE_TEX_ROW));
+    color = texval.rgb;
+    alpha = texval.a;
 #endnode
 
 #node MAPPING

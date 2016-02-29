@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -720,20 +720,20 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
     // depth
     if (depth_tex && shadow_params) {
-        var cam_depth = cam_copy(main_cam);
-        cam_render.cameras.push(cam_depth);
+        var cam_sh_receive = cam_copy(main_cam);
+        cam_render.cameras.push(cam_sh_receive);
 
-        var subs_depth = create_subs_depth_shadow(graph, cam_depth, num_lights);
+        var subs_receive = create_subs_shadow_receive(graph, cam_sh_receive, num_lights);
 
-        m_graph.append_node_attr(graph, subs_depth);
+        m_graph.append_node_attr(graph, subs_receive);
 
-        subs_depth.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
+        subs_receive.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
 
         for (var i = 0; i < shadow_subscenes.length; i++) {
             var subs_shadow = shadow_subscenes[i];
             var slink_shadow = shadow_links[i];
 
-            m_graph.append_edge_attr(graph, subs_shadow, subs_depth, slink_shadow);
+            m_graph.append_edge_attr(graph, subs_shadow, subs_receive, slink_shadow);
         }
 
         var slink_depth_c = create_slink("COLOR", "u_color", 1, 1, 1, true);
@@ -750,8 +750,8 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
             var slink_ssao = create_slink("COLOR", "u_ssao_mask", 1, 1, 1, true);
 
-            m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_c);
-            m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_d);
+            m_graph.append_edge_attr(graph, subs_receive, subs_ssao, slink_depth_c);
+            m_graph.append_edge_attr(graph, subs_receive, subs_ssao, slink_depth_d);
 
             // ssao_blur
             var cam_ssao_blur = cam_copy(main_cam);
@@ -763,25 +763,27 @@ exports.create_rendering_graph = function(sc_render, cam_render,
             var slink_ssao_blur = create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true);
 
             m_graph.append_edge_attr(graph, subs_ssao, subs_ssao_blur, slink_ssao);
-            m_graph.append_edge_attr(graph, subs_depth, subs_ssao_blur, slink_depth_d);
+            m_graph.append_edge_attr(graph, subs_receive, subs_ssao_blur, slink_depth_d);
         }
 
         if (msaa)
-            subs_depth.slinks_internal.push(create_slink("DEPTH", "DEPTH", 1, 1, 1, true));
+            subs_receive.slinks_internal.push(create_slink("DEPTH", "DEPTH", 1, 1, 1, true));
+        else 
+            subs_receive.slinks_internal.push(slink_depth_o);
 
         if (subs_grass_map) {
-            m_graph.append_edge_attr(graph, subs_grass_map, subs_depth,
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_receive,
                     slink_grass_map_d);
-            m_graph.append_edge_attr(graph, subs_grass_map, subs_depth,
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_receive,
                     slink_grass_map_c);
         }
     } else
-        var subs_depth = null;
+        var subs_receive = null;
 
     // main opaque
-    var opaque_clear_depth = msaa || !subs_depth || cfg_def.clear_depth_hack;
-    var subs_main_opaque = create_subs_main("OPAQUE", main_cam, opaque_clear_depth,
-            water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
+    var subs_main_opaque = create_subs_main("OPAQUE", main_cam, true,
+            water_params, num_lights, wfs_params, wls_params, null, 
+            sc_render.sun_exist);
 
     m_graph.append_node_attr(graph, subs_main_opaque);
 
@@ -800,24 +802,22 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         m_graph.append_edge_attr(graph, subs_main_opaque, subs_res_opaque, slink_resolve_in_c);
         m_graph.append_edge_attr(graph, subs_main_opaque, subs_res_opaque, slink_resolve_in_d);
 
-        if (subs_depth) {
+        if (subs_receive) {
             if (slink_ssao)
                 m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main_opaque, slink_ssao_blur);
             else if (shadow_params)
-                m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque,
+                m_graph.append_edge_attr(graph, subs_receive, subs_main_opaque,
                     create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true));
             else
                 m_util.panic("Internal error");
         }
     } else {
         curr_level.push(subs_main_opaque);
-        if (subs_depth) {
-            m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque, slink_depth_o);
-
+        if (subs_receive) {
             if (slink_ssao)
                 m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main_opaque, slink_ssao_blur);
             else if (shadow_params)
-                m_graph.append_edge_attr(graph, subs_depth, subs_main_opaque,
+                m_graph.append_edge_attr(graph, subs_receive, subs_main_opaque,
                     create_slink("COLOR", "u_shadow_mask", 1, 1, 1, true));
             else
                 m_util.panic("Internal error");
@@ -1142,7 +1142,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var steps_per_pass = gr_params.steps_per_pass;
 
         var subs_prev = prev_level[0];
-        var water = water_params ? 1 : 0;
+        var water = water_params ? true : false;
 
         var slink_gr_d = create_slink("DEPTH", "u_input", 1, 1, 1, true);
         slink_gr_d.min_filter = m_tex.TF_LINEAR;
@@ -1674,7 +1674,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
 
     if (shadow_params) {
         m_graph.traverse(graph, function(nid, subs) {
-            if (subs.type == "DEPTH" ||
+            if (subs.type == "SHADOW_RECEIVE" ||
                     subs.type == "MAIN_BLEND" ||
                     subs.type == "MAIN_XRAY")
                 prepare_shadow_receive_subs(graph, subs);
@@ -2016,12 +2016,6 @@ function init_subs(type) {
 
         // water properties
         water: 0,
-        water_params: null,
-        use_shoremap: false,
-        shoremap_center: new Float32Array(2),
-        shoremap_size: new Float32Array(2),
-        shoremap_tex_size: 0,
-        max_shore_dist: 0,
         cam_water_depth: 0,
         water_fog_color_density: null,
         water_waves_height: 0,
@@ -2418,25 +2412,8 @@ function assign_water_params(subs, water_params, sun_exist) {
     if (wp.caustics && sun_exist) {
         subs.caustics         = true;
         subs.caust_scale      = wp.caustic_scale;
-        subs.caust_speed.set(wp.caustic_speed);
         subs.caust_brightness = wp.caustic_brightness;
-    }
-
-    // shore boundings
-    if (wp.shoremap_image) {
-        subs.use_shoremap = true;
-
-        var shore_boundings = wp.shore_boundings;
-        subs.shoremap_center[0] = (shore_boundings[0] +
-                                   shore_boundings[1]) / 2;
-        subs.shoremap_center[1] = (shore_boundings[2] +
-                                   shore_boundings[3]) / 2;
-
-        subs.shoremap_size[0]   = shore_boundings[0] - shore_boundings[1];
-        subs.shoremap_size[1]   = shore_boundings[2] - shore_boundings[3];
-
-        subs.shoremap_tex_size  = wp.shoremap_tex_size;
-        subs.max_shore_dist     = wp.max_shore_dist;
+        subs.caust_speed.set(wp.caustic_speed);
     }
 }
 
@@ -2500,8 +2477,8 @@ function create_subs_anchor_visibility(cam) {
 /**
  * Used for depth and (optionally) shadow receive rendering
  */
-function create_subs_depth_shadow(graph, cam, num_lights) {
-    var subs = init_subs("DEPTH");
+function create_subs_shadow_receive(graph, cam, num_lights) {
+    var subs = init_subs("SHADOW_RECEIVE");
     subs.camera = cam;
 
     add_light_attributes(subs, num_lights);

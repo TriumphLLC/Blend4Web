@@ -1,14 +1,14 @@
 
-Scene settings
+Scene Settings
 **************
 
 
 Table of Content
 ^^^^^^^^^^^^^^^^
 
-* Scene settings
+* Scene Settings
 
-  * The Render panel.
+  * Render Panel
 
     * Reflections and Refractions
 
@@ -34,7 +34,7 @@ Table of Content
 
     * Timeline
 
-  * The Scene panel
+  * Scene Panel
 
     * Scene
 
@@ -58,7 +58,7 @@ Table of Content
 
     * Export Options
 
-  * The World panel
+  * World Panel
 
     * Preview
 
@@ -77,8 +77,8 @@ scene (and not just a single object) are found on the three panels:
 the "Render" panel, the "Scene" panel and the "World" panel.
 
 
-The Render panel.
-=================
+Render Panel
+============
 
 [image]
 
@@ -208,8 +208,8 @@ Timeline settings.
    itself).
 
 
-The Scene panel
-===============
+Scene Panel
+===========
 
 [image]
 
@@ -379,8 +379,8 @@ Scene settings export parameters.
    export.
 
 
-The World panel
-===============
+World Panel
+===========
 
 [image]
 
@@ -465,19 +465,19 @@ Mist settings.
    This parameter specifies how fast mist intensity decreases as the
    the camera's altitude increases. Set to 0 by default.
 
-*Fall out*
+*Fall Out*
    This parameter specifies the rule, according to which the density
    of the mist changes between the borders (specified by the "Start"
    and "Depth" parameters). Can have one of the following values:
    "Quadratic", "Linear",  "Inverse Quadratic". Set to "Quadratic" by
    default.
 
-*Use custom colors*
+*Use Custom Colors*
    Can be used to set the color of the mist. Enabled by default. If
    this parameter is disabled, standard (0.5, 0.5, 0.5) color will be
    used.
 
-*Fog color*
+*Fog Color*
    The color of the mist. Can be changed, if the "Use custom colors"
    parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by
    default.

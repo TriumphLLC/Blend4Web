@@ -3,31 +3,76 @@ For Application Developers
 **************************
 
 
-Project management
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* For Application Developers
+
+  * Project Management
+
+  * Advanced Project Management
+
+    * Dependencies
+
+    * Projects List
+
+    * Project Structure
+
+    * ".b4w_project" Config File
+
+    * Advanced Project Management
+
+    * Developing multiple apps inside a project
+
+    * Building Projects
+
+    * Automatic Re-export
+
+    * Resource Conversion
+
+    * Deploying Projects
+
+    * Remove Project
+
+    * Upgrading Apps for New SDK Versions
+
+    * Path to Loaded Application Assets
+
+  * Application Programming
+
+    * "Hello World!" application
+
+    * Loading Scenes in Apps
+
+    * Module System
+
+    * Creating Apps Quickly
+
+  * Resource Conversion
+
+    * Dependencies
+
+    * Data Format
+
+  * Code Examples
+
+  * Event-Driven Model
+
+    * Sensors
+
+    * Example
+
+  * SDK File Structure
+
+  * Loading Local Resources
+
+  * Quality Profiles
+
+  * Non-FullScreen Web Apps
+
+
+Project Management
 ==================
-
-Since version 15.09, the SDK includes a project managment feature,
-which makes it possible to:
-
-   * browse the full list and file structure of the projects;
-
-   * launch apps, run exported scenes in the Viewer, open source
-     blend files in Blender;
-
-   * create and configure new apps, including those based on ready-
-     made templates;
-
-   * build apps and pack them to be conveniently deployed on a
-     remote server;
-
-   * convert app resources (textures, audio and video files) into
-     alternative formats to ensure cross-browser and cross-platform
-     performance;
-
-   * automatically re-export all scenes of an app, including export
-     to JSON and HTML formats.
-
-   * remove projects.
 
 You can manage your projects in two ways: by using *project.py*, which
 is a simple-to-use and well documented CLI utility, or by using a
@@ -36,109 +81,7 @@ server. The server does not require any additional setup and starts
 automatically with Blender. The index page of the Project Manager can
 be opened by clicking on the "Project Manager" button in Blender.
 
-
-Project Manager
----------------
-
-This graphical app allows you to perform basic project managment
-functions, such as browsing projects, building apps, exporting scenes
-and converting resources. It also includes a master for creating new
-apps. We recommend that advanced developers who need full control over
-their apps use the script *project.py* and manually configure
-*.b4w_project* files.
-
-The app *Project Manager* can be run from the *Tools* section of the
-SDK's index page. Upon launching, the app outputs a list of all
-current projects  in the SDK.
-
-Commands for managing these projects can be found on the right side of
-this list. A new project can be created by clicking on the "[Create
-New Project]" button at the top of the page. It's also possible to
-import external projects ("[Import Project Archive]") and show/hide
-SDK projects by using the "[Hide/Show Stock Projects]" button.
-
-   [image]
-
-Commands for managing a specific project is located at its right.
-
-   [image]
-
-1. Compile project (not available for WebPlayer JSON and WebPlayer
-   HTML projects).
-
-2. Re-export blend files from the project.
-
-3. Convert media resources.
-
-4. Export and download a project archive.
-
-5. Remove the project.
-
-Note: All project paths are retreived from its .b4w_project file.
-
-
-Master for creating new projects
---------------------------------
-
-The master for creating new projects is included in the Project
-Management app and executed by the "[Create New Project]" button on
-the main page of this app.
-
-   [image]
-
-1. Project name is used to name project directories such as
-   "apps_dev/project_name", "deploy/assets/project_name", blender and
-   "deploy/apps/project_name"
-
-2. Project title as shown in the browser.
-
-3. Project author's name.
-
-4. Add application templates. Standard application templates: html-
-   file, css-file, js-file will be added to the project directory
-   "apps_dev/project_name".
-
-5. Add scene templates. Standard json-file will be added to the
-   "deploy/assets/project_name" directory; blend-file will be added to
-   the "blender/project_name" directory.
-
-6. Copy project manager script. The project.py script will be
-   copied to the project directory.
-
-7. All project files will be located in the same directory. It is
-   preferable to use this option in small projects, such as lessons
-   and examples. Only 'update' project type is available for this
-   option.
-
-8. Project's type. Several options are available:
-
-      * "External" - engine will be taken from the
-        "deploy/apps/common/" directory. Only application files will
-        be compiled;
-
-      * "Copy" - engine is copied into the compiled application
-        directory. Only application files are compiled;
-
-      * "Compile" - engine sources are compiled with application
-        scripts;
-
-      * "Update" - engine inside the project directory will be
-        replaced;
-
-      * "Webplayer JSON" - json-file placed inside the project is
-        run with the help of web-player inside SDK;
-
-      * "Webplayer HTML" - project is packed into single html-file,
-        containing all required resources.
-
-9. Javascript optimization level.
-
-      * "Simple" - variable names are replaced in the code;
-
-      * "Advanced" - code optimization is performed.
-
-      * "Whitespace Only" - only whitespaces are removed from the
-        code;
+Working with the Project Manager is described in a dedicated chapter.
 
 
 Advanced Project Management
@@ -193,7 +136,7 @@ A typical app developed using the project manager looks as follows:
                myproject.blend
        deploy/
            apps/
-               my_project/
+               myproject/
                    myproject.js
                    myproject.css
                    myproject.html
@@ -252,7 +195,7 @@ script, then they will be taken from the config file.
    remove_exist_ext_dir =
 
 
-Advanced project management
+Advanced Project Management
 ---------------------------
 
    ./project.py init myproject
@@ -433,16 +376,16 @@ Available parameters:
   application.
 
 
-Remove project
+Remove Project
 --------------
 
    python3 project.py -p myproject remove
 
-Remove project. Removed directories are retrieved from project
+Removes a project. Removed directories are retrieved from project
 configuration file.
 
 
-Upgrading apps for new SDK versions
+Upgrading Apps for New SDK Versions
 -----------------------------------
 
 While upgrading for new SDK versions often two problems arise:
@@ -484,7 +427,7 @@ To eliminate API incompatibilities you may require refactoring of your
 app.All changes are described in release notes.
 
 
-Path to loaded application assets
+Path to Loaded Application Assets
 ---------------------------------
 
 To load .json-files you should use "get_std_assets_path()" method
@@ -501,8 +444,8 @@ Application Programming
 =======================
 
 
-Hello world!
-------------
+"Hello World!" application
+--------------------------
 
 The simplest Blend4Web app may look like this:
 
@@ -766,7 +709,7 @@ Now you can build and install the package:
    > make install
 
 
-Data format
+Data Format
 -----------
 
 The conversion is performed as follows:

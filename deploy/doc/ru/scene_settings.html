@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Параметры сцены &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
@@ -133,6 +134,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -172,6 +174,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -489,11 +495,11 @@
 <dd>Расстояние от камеры, на котором начинает проявляться эффект тумана. По умолчанию равно 5.</dd>
 <dt><em>Height</em></dt>
 <dd>Определяет, насколько быстро плотность тумана падает с ростом высоты. По умолчанию равно 0.</dd>
-<dt><em>Fall out</em></dt>
+<dt><em>Fall Out</em></dt>
 <dd>Правило, по которому возрастает интенсивность тумана между его границами (определяются параметрами <code class="docutils literal"><span class="pre">Start</span></code> и <code class="docutils literal"><span class="pre">Depth</span></code>). Доступные значения: <code class="docutils literal"><span class="pre">Quadratic</span></code>, <code class="docutils literal"><span class="pre">Linear</span></code>, <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Quadratic</span></code>.</dd>
-<dt><em>Use custom colors</em></dt>
+<dt><em>Use Custom Colors</em></dt>
 <dd>Позволяет задать цвет тумана. По умолчанию включено. Если отключено, будет использоваться стандартный цвет 0.5, 0.5, 0.5.</dd>
-<dt><em>Fog color</em></dt>
+<dt><em>Fog Color</em></dt>
 <dd>Цвет тумана. Может быть настроен, если активирована опция <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code>. По умолчанию установлен светло-серый цвет (0.5, 0.5, 0.5).</dd>
 </dl>
 </div>
@@ -534,8 +540,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -557,7 +563,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -581,6 +587,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

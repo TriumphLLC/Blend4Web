@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Материалы &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Материалы &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Нодовые материалы" href="node_materials.html"/>
         <link rel="prev" title="Камера" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Материалы</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#material-lighting-params">Параметры освещения</a></li>
@@ -104,12 +106,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#material-mirror">Зеркальное отражение</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#reflection-static">Статическое отражение</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#index-7">Динамическое отражение</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id9">Активация</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10">Ограничения</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Активация</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Ограничения</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#fresnel">Эффект Френеля для отражения</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Настройка</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Настройка</a></li>
 </ul>
 </li>
 </ul>
@@ -117,8 +119,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Опции рендеринга</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-10">Специальные параметры движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#halo">Материалы гало (Halo)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Дополнительные настройки</a></li>
 </ul>
 </li>
 </ul>
@@ -160,6 +162,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -178,12 +184,39 @@
            <div itemprop="articleBody">
             
   <span class="target" id="materials"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Материалы<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id18">Материалы</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id18">Материалы</a><ul>
+<li><a class="reference internal" href="#material-lighting-params" id="id19">Параметры освещения</a></li>
+<li><a class="reference internal" href="#alpha-blend" id="id20">Прозрачность</a><ul>
+<li><a class="reference internal" href="#index-3" id="id21">Типы</a></li>
+<li><a class="reference internal" href="#index-4" id="id22">Дополнительные настройки</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#material-mirror" id="id23">Зеркальное отражение</a><ul>
+<li><a class="reference internal" href="#reflection-static" id="id24">Статическое отражение</a></li>
+<li><a class="reference internal" href="#index-7" id="id25">Динамическое отражение</a></li>
+<li><a class="reference internal" href="#fresnel" id="id26">Эффект Френеля для отражения</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-9" id="id27">Опции рендеринга</a></li>
+<li><a class="reference internal" href="#index-10" id="id28">Специальные параметры движка</a></li>
+<li><a class="reference internal" href="#halo" id="id29">Материалы гало (Halo)</a><ul>
+<li><a class="reference internal" href="#id16" id="id30">Активация</a></li>
+<li><a class="reference internal" href="#id17" id="id31">Дополнительные настройки</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <p>Материалы описывают реакцию поверхности объекта на освещение, а также содержат информацию о ее прозрачности, отражающей способности, физических и других параметрах.</p>
 <p>Меши могут использовать один или несколько материалов. В случае использования нескольких материалов назначение их различным полигонам происходит в режиме редактирования <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>. Для этого нужно выделить нужные полигоны, выбрать материал из списка и нажать кнопку <code class="docutils literal"><span class="pre">Assign</span></code>.</p>
 <p>Поддерживаются следующие типы материалов: <code class="docutils literal"><span class="pre">Surface</span></code> (поверхность), <code class="docutils literal"><span class="pre">Halo</span></code> (гало).</p>
 <div class="section" id="material-lighting-params">
-<span id="index-1"></span><span id="id2"></span><h2>Параметры освещения<a class="headerlink" href="#material-lighting-params" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-1"></span><span id="id3"></span><h2><a class="toc-backref" href="#id19">Параметры освещения</a><a class="headerlink" href="#material-lighting-params" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
@@ -206,15 +239,15 @@
 <dd>Фактор влияния освещения от окружающей среды на материал. Значение по умолчанию 1.0.</dd>
 <dt><em>Shading &gt; Shadeless</em></dt>
 <dd>При включении материал не реагирует на освещение. По умолчанию выключено.</dd>
-<dt><em>Shading &gt; Double-sided Lighting</em></dt>
+<dt><em>Shading &gt; Double-Sided Lighting</em></dt>
 <dd>Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.</dd>
 </dl>
 </div>
 <div class="section" id="alpha-blend">
-<span id="index-2"></span><span id="id3"></span><h2>Прозрачность<a class="headerlink" href="#alpha-blend" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id4"></span><h2><a class="toc-backref" href="#id20">Прозрачность</a><a class="headerlink" href="#alpha-blend" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_transparency.png"><img alt="_images/panel_transparency.png" class="align-center" src="_images/panel_transparency.png" style="width: 100%;" /></a>
 <div class="section" id="index-3">
-<span id="id4"></span><h3>Типы<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id5"></span><h3><a class="toc-backref" href="#id21">Типы</a><a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Тип реализации прозрачности выбирается в меню <code class="docutils literal"><span class="pre">Transparency</span></code> на панели <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code>.</p>
 <p>Движком поддерживаются следующие типы реализации прозрачности, перечисленные в порядке увеличения производительности:</p>
 <dl class="docutils">
@@ -232,7 +265,7 @@
 <a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="_images/alpha_types.jpg" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="index-4">
-<span id="id5"></span><h3>Дополнительные настройки<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id6"></span><h3><a class="toc-backref" href="#id22">Дополнительные настройки</a><a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency &gt; Show Transparency</em></dt>
 <dd>Опция включения прозрачности требуется для отображения прозрачных объектов в Blender&#8217;e. Движок игнорирует эту опцию, используя вместо нее <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</dd>
@@ -244,10 +277,10 @@
 </div>
 </div>
 <div class="section" id="material-mirror">
-<span id="index-5"></span><span id="id6"></span><h2>Зеркальное отражение<a class="headerlink" href="#material-mirror" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-5"></span><span id="id7"></span><h2><a class="toc-backref" href="#id23">Зеркальное отражение</a><a class="headerlink" href="#material-mirror" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_mirror.png"><img alt="_images/panel_mirror.png" class="align-center" src="_images/panel_mirror.png" style="width: 100%;" /></a>
 <div class="section" id="reflection-static">
-<span id="index-6"></span><span id="id7"></span><h3>Статическое отражение<a class="headerlink" href="#reflection-static" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-6"></span><span id="id8"></span><h3><a class="toc-backref" href="#id24">Статическое отражение</a><a class="headerlink" href="#reflection-static" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поверхность отражает одно и то же изображение вне зависимости от изменения окружающей среды. Для активации достаточно использовать <a class="reference internal" href="textures.html#mirror-map"><span>карту зеркального отражения</span></a>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
@@ -255,10 +288,10 @@
 </div>
 </div>
 <div class="section" id="index-7">
-<span id="id8"></span><h3>Динамическое отражение<a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id9"></span><h3><a class="toc-backref" href="#id25">Динамическое отражение</a><a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поверхность отражает текущее расположение определенных объектов. Поддерживаются отражения от плоскости и сферические отражения.</p>
-<div class="section" id="id9">
-<h4>Активация<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id10">
+<h4>Активация<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
 <ol class="arabic simple">
 <li>Проверить опцию <code class="docutils literal"><span class="pre">Reflections</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code>.</li>
 <li>Для <em>отражающих</em> объектов на панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> выставить опцию <code class="docutils literal"><span class="pre">Reflective</span></code>.<ul>
@@ -277,8 +310,8 @@
 <p class="last">Рекомендуется также включить использование освещения от окружающей среды <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code>.</p>
 </div>
 </div>
-<div class="section" id="id10">
-<h4>Ограничения<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id11">
+<h4>Ограничения<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
 <p>В отраженном изображении игнорируется карта нормалей, тени.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
@@ -287,7 +320,7 @@
 </div>
 </div>
 <div class="section" id="fresnel">
-<span id="index-8"></span><span id="id11"></span><h3>Эффект Френеля для отражения<a class="headerlink" href="#fresnel" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-8"></span><span id="id12"></span><h3><a class="toc-backref" href="#id26">Эффект Френеля для отражения</a><a class="headerlink" href="#fresnel" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Эффект Френеля проявляется в зависимости интенсивностей проходящего и отраженного света от угла падения. Если угол падения близок к нулю (т.е. свет падает почти перпедикулярно поверхности), доля проходящего света велика, а отраженного мала. И наоборот, если угол падения близок к 90 градусам (т.е. свет падает почти параллельно поверхности), отражается почти весь свет.</p>
 <p>Движок использует приближенную формулу Шлика:</p>
 <blockquote>
@@ -297,8 +330,8 @@
 <p>θ - угол падения (равный углу отражения, под которым свет попадает в камеру), рассчитывается движком в реальном времени,</p>
 <p>N - показатель степени.</p>
 </div></blockquote>
-<div class="section" id="id12">
-<h4>Настройка<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id13">
+<h4>Настройка<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Эффект Френеля применяется как для статического, так и для динамического отражения.</p>
 <dl class="docutils">
 <dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
@@ -314,7 +347,7 @@
 </div>
 </div>
 <div class="section" id="index-9">
-<span id="id13"></span><h2>Опции рендеринга<a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id14"></span><h2><a class="toc-backref" href="#id27">Опции рендеринга</a><a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Material &gt; Rendering Options &gt; Do not Render</em></dt>
@@ -328,7 +361,7 @@
 <p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Вода</span></a></p>
 </div>
 </dd>
-<dt><em>Material &gt; Rendering Options &gt; Render above all</em></dt>
+<dt><em>Material &gt; Rendering Options &gt; Render Above All</em></dt>
 <dd>Материал отрисовывается поверх всех объектов на сцене. Требует тип прозрачности c градиентом (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> или <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>)</dd>
 <dt><em>Material &gt; Rendering Options &gt; Vertex Color Paint</em></dt>
 <dd>Опция включает использование вертексного цвета меша вместо диффузного цвета.</dd>
@@ -350,7 +383,7 @@
 </div>
 </div>
 <div class="section" id="index-10">
-<span id="id14"></span><h2>Специальные параметры движка<a class="headerlink" href="#index-10" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id15"></span><h2><a class="toc-backref" href="#id28">Специальные параметры движка</a><a class="headerlink" href="#index-10" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_b4w.png"><img alt="_images/panel_b4w.png" class="align-center" src="_images/panel_b4w.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -358,7 +391,7 @@
 <dl class="docutils">
 <dt><em>Material &gt; Water</em></dt>
 <dd>Специальный материал для <a class="reference internal" href="outdoor_rendering.html#water"><span>рендеринга воды</span></a>.</dd>
-<dt><em>Material &gt; Terrain dynamic grass</em></dt>
+<dt><em>Material &gt; Terrain Dynamic Grass</em></dt>
 <dd>Материал используется для <a class="reference internal" href="particles_instancing.html#particles-grass"><span>рендеринга травяного покрова</span></a>.</dd>
 <dt><em>Material &gt; Collision</em></dt>
 <dd><p class="first">Специальный материал для физического объекта.</p>
@@ -372,15 +405,15 @@
 </dl>
 </div>
 <div class="section" id="halo">
-<span id="material-halo"></span><span id="index-11"></span><h2>Материалы гало (Halo)<a class="headerlink" href="#halo" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="material-halo"></span><span id="index-11"></span><h2><a class="toc-backref" href="#id29">Материалы гало (Halo)</a><a class="headerlink" href="#halo" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Используются в системах частиц и в статических мешах. Ниже рассматривается использование гало на статических мешах.</p>
-<div class="section" id="id15">
-<h3>Активация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id30">Активация</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить тип <code class="docutils literal"><span class="pre">Halo</span></code> во вкладке <code class="docutils literal"><span class="pre">Materials</span></code>. Рекомендуется также выставить тип прозрачности c градиентом (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> или <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
 <a class="reference internal image-reference" href="_images/halo.jpg"><img alt="_images/halo.jpg" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id16">
-<h3>Дополнительные настройки<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id31">Дополнительные настройки</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Halo &gt; Alpha</em></dt>
 <dd>Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный).</dd>
@@ -426,8 +459,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -449,7 +482,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -473,6 +506,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

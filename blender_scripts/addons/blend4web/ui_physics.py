@@ -112,7 +112,7 @@ class B4W_PHYSICS_PT_game_collision_bounds(PhysicsButtonsPanel, Panel):
 
     def draw_header(self, context):
         game = context.active_object.game
-        self.layout.prop(game, "use_collision_bounds", text=_(""))
+        self.layout.prop(game, "use_collision_bounds", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -150,7 +150,7 @@ class B4W_PhysicsFloaterPanel(PhysicsButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_floating", text=_(""))
+        self.layout.prop(context.object, "b4w_floating", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -185,7 +185,7 @@ class B4W_PhysicsVehiclePanel(PhysicsButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_vehicle", text=_(""))
+        self.layout.prop(context.object, "b4w_vehicle", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -278,7 +278,7 @@ class B4W_PhysicsCharacterPanel(PhysicsButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_character", text=_(""))
+        self.layout.prop(context.object, "b4w_character", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -318,7 +318,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         split = layout.split(percentage=0.2)
         split.label(text=_("Type:"))
 
-        split.prop(field, "type", text=_(""))
+        split.prop(field, "type", text="")
 
         if not (obj.field.type in SUPPORTED_FIELD_TYPES):
             layout.label(text = _("This field type is not supported"), icon='ERROR')
@@ -327,7 +327,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         #if field.type not in {'NONE', 'GUIDE', 'TEXTURE'}:
         #    split = layout.split(percentage=0.2)
         #    split.label(text=_("Shape:"))
-        #    split.prop(field, "shape", text=_(""))
+        #    split.prop(field, "shape", text="")
         #elif field.type == 'TEXTURE':
         #    split = layout.split(percentage=0.2)
         #    split.label(text=_("Texture:"))
@@ -374,7 +374,7 @@ class B4W_PHYSICS_PT_field(PhysicsButtonsPanel, Panel):
         elif field.type == 'TEXTURE':
             col = split.column()
             col.prop(field, "strength")
-            col.prop(field, "texture_mode", text=_(""))
+            col.prop(field, "texture_mode", text="")
             col.prop(field, "texture_nabla")
 
             col = split.column()

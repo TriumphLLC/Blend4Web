@@ -92,21 +92,21 @@ def print_report(type, preamble, *messages):
         elif is_win:
             print(preamble, message)
         else:
-            print(RED + " " + preamble + ENDCOL, message)
+            print(RED + preamble + ENDCOL, message)
     elif type == "WARN":
         if _blender_report_op:
             _blender_report_op({"WARNING"}, preamble + " " + message)
         elif is_win:
             print(preamble, message)
         else:
-            print(YELLOW + " " + preamble + ENDCOL, message)
+            print(YELLOW + preamble + ENDCOL, message)
     elif type == "GOOD":
         if _blender_report_op:
             _blender_report_op({"INFO"}, preamble + " " + message)
         elif is_win:
             print(preamble, message)
         else:
-            print(GREEN + " " + preamble + ENDCOL, message)
+            print(GREEN + preamble + ENDCOL, message)
     else:
         if _blender_report_op:
             _blender_report_op({"INFO"}, preamble + " " + message)

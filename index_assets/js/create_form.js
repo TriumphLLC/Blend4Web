@@ -23,6 +23,7 @@
 
     function submit_cb() {
         var project_name = "";
+        var url_params = [];
 
         for (var i = inputs.length; i--;) {
             var input = inputs[i];
@@ -70,10 +71,22 @@
                 if (input.checked)
                     form.action += "-o/" + val + "/";
                 break;
+
+            case "show_fps":
+            case "autorotate":
+            case "no_social":
+            case "alpha":
+            case "compressed_textures":
+                if (input.checked)
+                    url_params.push(input.name);
+                break;
             }
         }
 
         form.innerHTML = "";
+
+        if (url_params.length)
+            form.action += "-U/" + url_params.join(",") + "/";
 
         form.action += project_name + "/";
 
@@ -120,13 +133,15 @@
                 proj_ext.disabled = is_checked;
                 proj_compile.disabled = is_checked;
                 proj_copy.disabled = is_checked;
-                proj_json.disabled = is_checked;
-                proj_html.disabled = is_checked;
-                proj_upd.checked = is_checked;
+
+                if (!(proj_html.checked || proj_json.checked))
+                    proj_upd.checked = is_checked;
             }
 
             if (is_checked && !sim_lev.checked && !adv_lev.checked && !white_lev.checked)
                 sim_lev.checked = true;
+
+            disable_webplayer_params();
 
             break;
         case "proj_html":
@@ -139,7 +154,11 @@
             white_lev.disabled = is_checked;
             white_lev.checked = !is_checked;
 
-            if (!project_bundle.checked)
+            if (project_bundle.checked) {
+                proj_ext.disabled = is_checked;
+                proj_compile.disabled = is_checked;
+                proj_copy.disabled = is_checked;
+            } else
                 proj_upd.disabled = true;
 
             break;
@@ -153,7 +172,11 @@
             white_lev.disabled = is_checked;
             white_lev.checked = !is_checked;
 
-            if (!project_bundle.checked)
+            if (project_bundle.checked) {
+                proj_ext.disabled = is_checked;
+                proj_compile.disabled = is_checked;
+                proj_copy.disabled = is_checked;
+            } else
                 proj_upd.disabled = true;
 
             break;
@@ -164,11 +187,31 @@
             if (!sim_lev.checked && !adv_lev.checked && !white_lev.checked)
                 sim_lev.checked = true;
 
-            if (!project_bundle.checked)
+            if (project_bundle.checked) {
+                proj_ext.disabled = is_checked;
+                proj_compile.disabled = is_checked;
+                proj_copy.disabled = is_checked;
+            } else
                 proj_upd.disabled = true;
+
+            disable_webplayer_params();
 
             break;
         }
+    }
+
+    function disable_webplayer_params() {
+        wpp_show_fps.disabled = true;
+        wpp_autorotate.disabled = true;
+        wpp_no_social.disabled = true;
+        wpp_alpha.disabled = true;
+        wpp_compressed_textures.disabled = true;
+
+        wpp_show_fps.checked = false;
+        wpp_autorotate.checked = false;
+        wpp_no_social.checked = false;
+        wpp_alpha.checked = false;
+        wpp_compressed_textures.checked = false;
     }
 
     function check_target(is_checked, name) {
@@ -196,6 +239,8 @@
 
         if (!form)
             return;
+
+        disable_webplayer_params();
 
         form.addEventListener("change", check_inputs, true);
 

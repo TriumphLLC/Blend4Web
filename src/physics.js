@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -507,8 +507,9 @@ exports.update = function(timeline, delta) {
 
         // update physics water time
         var scene = _scenes[i];
-        var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
-        if (subs.water_params && subs.water_params.waves_height > 0.0) {
+        var wp = scene._render.water_params;
+        if (wp && wp.waves_height > 0.0) {
+            var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
             var wind = m_vec3.length(subs.wind);
             m_ipc.post_msg(_workers[i], m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
@@ -609,15 +610,11 @@ function get_unique_body_id() {
 
 function init_water_physics(batch, scene, worker) {
 
-    // NOTE: taking some params from subscene to match water rendering
-    var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
+    var wp = scene._render.water_params;
+    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_WATER, wp.water_level);
 
-    var water_level = subs.water_level;
-    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_WATER, water_level);
-
-    // TODO: get subscene water_params for proper water (not common one)
-    if (subs.water_params && batch.water_dynamics) {
-
+    // TODO: get water_params for proper water object (not the common one)
+    if (batch.water_dynamics) {
         var water_dyn_info = {};
         water_dyn_info["dst_noise_scale0"]  = batch.dst_noise_scale0;
         water_dyn_info["dst_noise_scale1"]  = batch.dst_noise_scale1;
@@ -631,15 +628,15 @@ function init_water_physics(batch, scene, worker) {
         water_dyn_info["dst_min_fac"]       = batch.dst_min_fac;
         water_dyn_info["waves_hor_fac"]     = batch.waves_hor_fac;
 
-        var waves_height   = subs.water_waves_height;
-        var waves_length   = subs.water_waves_length;
-        if (subs.use_shoremap) {
-            var size_x         = subs.shoremap_size[0];
-            var size_y         = subs.shoremap_size[1];
-            var center_x       = subs.shoremap_center[0];
-            var center_y       = subs.shoremap_center[1];
-            var max_shore_dist = subs.max_shore_dist;
-            var array_width    = subs.shoremap_tex_size;
+        var waves_height   = wp.waves_height;
+        var waves_length   = wp.waves_length;
+        if (wp.shoremap_image) {
+            var size_x         = wp.shoremap_size[0];
+            var size_y         = wp.shoremap_size[1];
+            var center_x       = wp.shoremap_center[0];
+            var center_y       = wp.shoremap_center[1];
+            var max_shore_dist = wp.max_shore_dist;
+            var array_width    = wp.shoremap_tex_size;
             m_ipc.post_msg(worker, m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, size_x,
                            size_y, center_x, center_y, max_shore_dist,
                            waves_height, waves_length, array_width,

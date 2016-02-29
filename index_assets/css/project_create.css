@@ -54,11 +54,11 @@ button:hover {
     text-decoration: underline;
 }
 
-table .doc th, table .doc td, th {
+table .project th, table .project td, th {
     height: auto;
 }
 
-table .doc th {
+table .project th {
     padding: 10px;
 }
 
@@ -126,6 +126,7 @@ h1 {
     border: 1px solid rgba(0, 100, 200, 0.5);
     border-radius: 5px;
     display: inline-block;
+    font-weight: bold;
 }
 
 button div,

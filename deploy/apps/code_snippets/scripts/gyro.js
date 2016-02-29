@@ -22,7 +22,8 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
-        gyro_use: true
+        gyro_use: true,
+        console_verbose: true
     });
 }
 

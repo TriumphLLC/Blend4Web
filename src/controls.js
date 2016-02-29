@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,9 @@ var _touches_last_y = new Float32Array(2);
 var _vec2_tmp  = new Float32Array(2);
 var _vec2_tmp2 = new Float32Array(2);
 
+var _vec3_tmp = m_vec3.create();
+var _quat_tmp = m_quat.create();
+
 // for ST_TOUCH_ZOOM sensor
 var _touch_zoom_curr_dist = 0;
 var _touch_zoom_last_dist = 0;
@@ -108,7 +111,8 @@ var ST_TIMELINE          = 150;
 var ST_SELECTION         = 160;
 var ST_GYRO_DELTA        = 170;
 var ST_GYRO_ANGLES       = 180;
-var ST_CALLBACK          = 190;
+var ST_GYRO_QUAT         = 190;
+var ST_CALLBACK          = 200;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -343,6 +347,7 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
         hit_time: 0,
         hit_pos: new Float32Array(3),
         hit_norm: new Float32Array(3),
+        ray_test_id: 0
     }
 
     sensor.ray_test_cb = function(id, hit_fract, obj_hit, hit_time,
@@ -504,6 +509,12 @@ exports.create_gyro_delta_sensor = function() {
 exports.create_gyro_angles_sensor = function() {
     var sensor = init_sensor(ST_GYRO_ANGLES);
     sensor.payload = new Float32Array(3);
+    return sensor;
+}
+
+exports.create_gyro_quat_sensor = function() {
+    var sensor = init_sensor(ST_GYRO_QUAT);
+    sensor.payload = m_quat.create();
     return sensor;
 }
 
@@ -683,6 +694,33 @@ function update_sensor(sensor, timeline, elapsed) {
         sensor.payload[1] = Math.PI * sensor.gyro_beta_new / 180;
         sensor.payload[2] = Math.PI * sensor.gyro_alpha_new / 180;
         break;
+
+    case ST_GYRO_QUAT:
+        if (sensor.gyro_gamma_new == sensor.gyro_gamma_last &&
+            sensor.gyro_beta_new  == sensor.gyro_beta_last &&
+            sensor.gyro_alpha_new == sensor.gyro_alpha_last)
+            break;
+        // Angles has been changed. Recalculate quaternion.
+        var angles = _vec3_tmp;
+        angles[0] = Math.PI * sensor.gyro_alpha_new / 180;
+        angles[1] = Math.PI * sensor.gyro_beta_new / 180;
+        angles[2] = Math.PI * sensor.gyro_gamma_new / 180;
+
+        // NOTE: Euler rotation sequince for deviceorientation event is ZXY
+        // see http://w3c.github.io/deviceorientation/spec-source-orientation.html
+        m_util.ordered_angles_to_quat(angles, m_util.ZXY, sensor.payload);
+
+        var screen_orient = Math.PI * window.orientation / 180;
+        var screen_quat = m_quat.setAxisAngle(m_util.AXIS_Z,
+                -screen_orient, _quat_tmp);
+        m_quat.multiply(sensor.payload, screen_quat, sensor.payload);
+
+        // NOTE: quaternion to WebGL axis orientation
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, -Math.PI / 2, _quat_tmp);
+        m_quat.multiply(quat, sensor.payload, sensor.payload);
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp);
+        m_quat.multiply(sensor.payload, quat, sensor.payload);
+        break
 
     case ST_CALLBACK:
         sensor_set_value(sensor, sensor.callback());
@@ -950,6 +988,7 @@ function activate_sensor(sensor) {
                     sensor.from, sensor.to, sensor.collision_id,
                     sensor.ray_test_cb, false, false, sensor.calc_pos_norm,
                     sensor.ign_src_rot);
+            sensor.payload.ray_test_id = sensor.ray_test_id;
             break;
         case ST_TIMER:
             sensor.time_last = m_time.get_timeline();
@@ -1475,7 +1514,8 @@ function orient_handler_cb(e) {
 
     for (var i = 0; i < _sensors_cache.length; i++) {
         var sensor = _sensors_cache[i];
-        if (sensor.type == ST_GYRO_DELTA || sensor.type == ST_GYRO_ANGLES) {
+        if (sensor.type == ST_GYRO_DELTA || sensor.type == ST_GYRO_ANGLES ||
+                sensor.type == ST_GYRO_QUAT) {
             // gamma is the left-to-right tilt in degrees, where right is positive
             // beta is the front-to-back tilt in degrees, where front is positive
             // alpha is the compass direction the device is facing in degrees

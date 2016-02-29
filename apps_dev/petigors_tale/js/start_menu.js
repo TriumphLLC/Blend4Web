@@ -6,12 +6,12 @@ if (b4w.module_check("start_menu"))
 
 b4w.register("start_menu", function(exports, require) {
 
+var m_main   = require("main");
 var m_app    = require("app");
 var m_cam_anim = require("camera_anim");
 var m_cam    = require("camera");
 var m_data   = require("data");
 var m_ctl    = require("controls");
-var m_cons   = require("constraints");
 var m_scs    = require("scenes");
 var m_cfg    = require("config");
 var m_print  = require("print");
@@ -29,10 +29,6 @@ var m_conf = require("game_config");
 
 var game_main = require("game_main");
 
-var _intro_button = null;
-var _lv1_button = null;
-var _lv2_button = null;
-var _training_button = null;
 var _selected_obj = null;
 var _buttons_info = {};
 
@@ -45,6 +41,7 @@ var _canvas_elem = null;
 var _mouse_x = 0;
 var _mouse_y = 0;
 var _default_cam_rot = new Float32Array(2);
+var _default_cam_pivot = new Float32Array(3);
 var _cam_rot_fac = 0;
 
 var _env_start_anim_delay;
@@ -55,32 +52,14 @@ var _env_zenith_final;
 
 var _lang = "en";
 
+var _back_to_menu_button = null;
+var _screen_saver_obj = null;
+
 var _vec2_tmp = new Float32Array(2);
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
 
-exports.init = function(lang) {
-    _lang = lang;
-
-    var is_mobile = detect_mobile();
-
-    var quality_sel_elem = document.getElementById("quality_select");
-    var qual_ind = quality_sel_elem.selectedIndex;
-    if (qual_ind == 0 && !is_mobile)
-        var quality = m_cfg.P_HIGH;
-    else
-        var quality = m_cfg.P_LOW;
-
-    m_app.init({
-        canvas_container_id: "canvas3d",
-        callback: init_cb,
-        physics_enabled: true,
-        quality: quality,
-        console_verbose: true,
-        show_fps: true,
-        alpha: false,
-        physics_use_workers: !is_mobile,
-        autoresize: true
-    });
+exports.init = function() {
+    window.addEventListener("load", menu_initialization);
 }
 
 function init_cb(canvas_elem, success) {
@@ -90,37 +69,24 @@ function init_cb(canvas_elem, success) {
     }
 
     _canvas_elem = canvas_elem;
-    canvas_elem.style.visibility = "visible";
     m_app.enable_controls(canvas_elem);
 
-    var preloader_bg = document.getElementById("preloader_bg");
-    preloader_bg.style.visibility = "visible"
+    var preloader_cont = document.getElementById("preloader_cont");
+    preloader_cont.style.visibility = "visible";
 
-    //var json_path = ASSETS_PATH + "level_01.json";
+    //var level_name = "level_01";
+    //var json_path = ASSETS_PATH + level_name + ".json";
     //m_data.load(json_path,
     //            function(data_id) {
-    //                game_main.level_load_cb(data_id, "level_01", preloader_cb, load_cb);
+    //                game_main.level_load_cb(data_id, level_name, preloader_cb,
+    //                                        load_cb, load_level);
     //            },
     //            preloader_cb, true);
 
-    if (detect_mobile())
+    if (m_main.detect_mobile())
         m_data.load(ASSETS_PATH + "intro_LQ.json", load_cb, preloader_cb, true);
     else
         m_data.load(ASSETS_PATH + "intro_HQ.json", load_cb, preloader_cb, true);
-}
-
-function detect_mobile() {
-    if( navigator.userAgent.match(/Android/i)
-     || navigator.userAgent.match(/webOS/i)
-     || navigator.userAgent.match(/iPhone/i)
-     || navigator.userAgent.match(/iPad/i)
-     || navigator.userAgent.match(/iPod/i)
-     || navigator.userAgent.match(/BlackBerry/i)
-     || navigator.userAgent.match(/Windows Phone/i)) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function load_cb(data_id) {
@@ -128,25 +94,40 @@ function load_cb(data_id) {
     _mouse_x = _canvas_elem.width / 2;
     _mouse_y = _canvas_elem.height / 2;
 
-    m_cam.get_camera_angles(m_scs.get_active_camera(), _default_cam_rot);
+    var camobj = m_scs.get_active_camera();
+    m_cam.get_camera_angles(camobj, _default_cam_rot);
+    m_cam.target_get_pivot(camobj, _default_cam_pivot);
     m_assets.enqueue([["config", m_assets.AT_JSON, "js/intro_config.json"]],
             process_config, null);
 
     _canvas_elem.addEventListener("mousemove", main_canvas_mouse_move, false);
-    _canvas_elem.addEventListener("mouseup", main_canvas_click, false);
+    _canvas_elem.addEventListener("mousedown", main_canvas_click, false);
+
+    setTimeout(function(){
+            var canvas_cont = m_cont.get_container();
+            canvas_cont.style.opacity = 1;
+        }, 1000);
 }
 
 function setup_language(config) {
 
-    var lang_obj = m_scs.get_object_by_dupli_name_list(config["language_obj"].split("*"));
     var lang_val = 1;
 
     if (_lang == "ru")
         lang_val = 0
 
+    var lang_obj = m_scs.get_object_by_dupli_name_list(config["language_obj"].split("*"));
     m_obj.set_nodemat_value(lang_obj,
-                            ["stones_n_dolmens", "language_switcher"],
+                            ["main_menu_stone", "language_switcher"],
                             lang_val);
+
+    if (!m_main.detect_mobile()) {
+        _back_to_menu_button = m_scs.get_object_by_name(config["back_to_menu_obj_name"]);
+        _screen_saver_obj = m_scs.get_object_by_name(config["screen_saver_obj_name"]);
+        m_obj.set_nodemat_value(_back_to_menu_button,
+                                ["back_to_main_menu", "back_button_language"],
+                                lang_val);
+    }
 }
 
 function process_config(data, uri, type, path) {
@@ -349,16 +330,31 @@ function main_canvas_click(e) {
 
     var obj = m_scs.pick_object(x, y);
 
-    if (obj && _buttons_info[obj.name]) {
-        var binfo = _buttons_info[obj.name];
+    if (obj) {
+        var obj_name = m_scs.get_object_name(obj)
+        var camobj = m_scs.get_active_camera();
+        if (obj == _screen_saver_obj)
+            m_cam.static_setup(camobj);
 
-        if (binfo.stop_playlist) {
-            play_ending_speaker();
-            run_environment_animation();
+        if (obj == _back_to_menu_button)
+            m_cam.target_setup(camobj, {pivot: _default_cam_pivot});
+
+        if (_buttons_info[obj.name]) {
+            var binfo = _buttons_info[obj.name];
+
+            if (binfo.stop_playlist)
+                play_ending_speaker();
+
+            if (binfo.level_name)
+                setTimeout(function() {load_level(binfo.level_name)},
+                           1000 * m_conf.LEVEL_LOAD_DELAY);
+            else
+                m_cam.static_setup(camobj);
+
+            _canvas_elem.removeEventListener("mouseup", main_canvas_click);
+            _canvas_elem.removeEventListener("touchscreen", main_canvas_click);
+            _canvas_elem.removeEventListener("mousemove", main_canvas_mouse_move);
         }
-        
-        if (binfo.level_name)
-            load_level(binfo.level_name);
     }
 }
 
@@ -377,57 +373,17 @@ function play_ending_speaker(speaker) {
                1000);
 }
 
-function run_environment_animation() {
-
-    var env_colors = m_scs.get_environment_colors();
-
-    var start_energy = env_colors[0];
-    var start_horizon = env_colors[1];
-    var start_zenith = env_colors[2];
-    var start_time = 0;
-    var end_time = 0;
-
-    var cur_horizon = [0,0,0];
-    var cur_zenith = [0,0,0];
-
-    var env_anim_cb = function() {
-        var fac = (end_time - m_time.get_timeline()) / _env_anim_length;
-        if (fac <= 0) {
-            m_ctl.remove_sensor_manifold(null, "ANIMATE_ENV");
-            m_scs.set_environment_colors(_env_energy_final, _env_horizon_final, _env_zenith_final);
-            return;
-        }
-        var energy = m_util.lerp(fac, _env_energy_final, start_energy);
-        m_vec3.lerp(_env_horizon_final, start_horizon, fac, cur_horizon);
-        m_vec3.lerp(_env_zenith_final, start_zenith, fac, cur_zenith);
-        m_scs.set_environment_colors(energy, cur_horizon, cur_zenith);
-    }
-
-    setTimeout(
-        function() {
-            start_time = m_time.get_timeline();
-            end_time = start_time + _env_anim_length;
-            var elapsed_sensor = m_ctl.create_elapsed_sensor();
-            m_ctl.create_sensor_manifold(null, "ANIMATE_ENV", m_ctl.CT_CONTINUOUS,
-                                        [elapsed_sensor], null, env_anim_cb);
-        },
-        1000 * _env_start_anim_delay);
-}
-
 function load_level(level_name) {
     var json_path = ASSETS_PATH + level_name + ".json";
 
-    _canvas_elem.removeEventListener("mouseup", main_canvas_click);
-    _canvas_elem.removeEventListener("touchscreen", main_canvas_click);
-    _canvas_elem.removeEventListener("mousemove", main_canvas_mouse_move);
-
     m_data.unload();
 
-    var preloader_bg = document.getElementById("preloader_bg");
-    preloader_bg.style.visibility = "visible"
+    var preloader_cont = document.getElementById("preloader_cont");
+    preloader_cont.style.visibility = "visible";
     m_data.load(json_path,
                 function(data_id) {
-                    game_main.level_load_cb(data_id, level_name, preloader_cb, load_cb);
+                    game_main.level_load_cb(data_id, level_name, preloader_cb,
+                                            load_cb, load_level);
                 },
                 preloader_cb, true);
 }
@@ -447,51 +403,90 @@ function preloader_cb(percentage) {
 }
 
 function remove_preloader() {
-    var preloader_bg = document.getElementById("preloader_bg");
-    preloader_bg.style.visibility = "hidden"
+    var preloader_cont = document.getElementById("preloader_cont");
+    preloader_cont.style.visibility = "hidden"
 }
 
-});
-
 function menu_initialization() {
-
     var start_elem = document.getElementById("start_game");
+    var start_glow = document.getElementById("start_game_hover");
     var quality_elem = document.getElementById("quality");
-    var menu_elem = document.getElementById("start_menu");
-    var body_elem = document.getElementsByTagName("body")[0];
+    var menu_elem = document.getElementById("start_cont");
+    var lang_elem_ru = document.getElementById("lang_ru");
+    var lang_elem_en = document.getElementById("lang_en");
+    var qual_elem_low = document.getElementById("low_qual");
+    var qual_elem_high = document.getElementById("high_qual");
+    var body_elem = document.body;
 
-    var ru_flag_elem = document.getElementById("languages_flag_ru");
-    var en_flag_elem = document.getElementById("languages_flag_en");
-    var lang_selected = "en";
+    menu_elem.style.display = "block";
+    menu_elem.style.opacity = 1;
 
     function switch_lang(lang) {
-        if (lang == "ru") {
-            start_elem.innerHTML = "Начать Игру"
-            quality_elem.innerHTML = quality_elem.innerHTML.replace("Quality", "Качество")
-            var quality_sel_elem = document.getElementById("quality_select");
-            quality_sel_elem.options.length = 0;
-            quality_sel_elem.options[0]=new Option("Выс", "high", true, false)
-            quality_sel_elem.options[1]=new Option("Низ", "high", false, false)
-            body_elem.style.backgroundImage = "url(interface/title_bg_ru.png)";
-        } else {
-            start_elem.innerHTML = "Start Game"
-            quality_elem.innerHTML = quality_elem.innerHTML.replace("Качество", "Quality")
-            var quality_sel_elem = document.getElementById("quality_select");
-            quality_sel_elem.options.length = 0;
-            quality_sel_elem.options[0]=new Option("High", "high", true, false)
-            quality_sel_elem.options[1]=new Option("Low", "high", false, false)
-            body_elem.style.backgroundImage = "url(interface/title_bg_en.png)";
-        }
-        lang_selected = lang;
+        body_elem.setAttribute("lang", lang);
+        start_elem.setAttribute("src", "interface/start_game_" + lang + ".png");
+        _lang = lang;
     }
 
-    ru_flag_elem.addEventListener("click", function() {switch_lang("ru")}, false);
-    en_flag_elem.addEventListener("click", function() {switch_lang("en")}, false);
+    function init_app() {
+        var is_mobile = m_main.detect_mobile();
+
+        var quality_elem = document.getElementById("quality");
+        var qual_kind = quality_elem.getAttribute("quality");
+
+        if (qual_kind == "high" && !is_mobile)
+            var quality = m_cfg.P_HIGH;
+        else
+            var quality = m_cfg.P_LOW;
+
+        m_app.init({
+            canvas_container_id: "canvas3d",
+            callback: init_cb,
+            physics_enabled: true,
+            quality: quality,
+            console_verbose: true,
+            show_fps: true,
+            alpha: false,
+            physics_use_workers: !is_mobile,
+            show_fps: true,
+            autoresize: true
+        });
+    }
+
+    function switch_qual(qual) {
+        quality_elem.setAttribute("quality", qual);
+    }
+
+    function show_start_btn_glow() {
+        start_glow.style.display = "inline-block";
+    }
+
+    function hide_start_btn_glow() {
+        start_glow.style.display = "";
+    }
+
+    lang_elem_ru.addEventListener("click", function() {switch_lang("ru")}, false);
+    lang_elem_en.addEventListener("click", function() {switch_lang("en")}, false);
+
+    qual_elem_low.addEventListener("click", function() {switch_qual("low")}, false);
+    qual_elem_high.addEventListener("click", function() {switch_qual("high")}, false);
+
+    if (m_main.detect_mobile()) {
+        start_elem.addEventListener("touchstart", show_start_btn_glow);
+        start_elem.addEventListener("touchend", hide_start_btn_glow);
+    } else {
+        start_elem.addEventListener("mousedown", show_start_btn_glow);
+        start_elem.addEventListener("mouseup", hide_start_btn_glow);
+        start_elem.addEventListener("mouseleave", hide_start_btn_glow);
+    }
 
     start_elem.addEventListener("click",
                                 function () {
                                     menu_elem.style.visibility = "hidden";
-                                    b4w.require("start_menu").init(lang_selected);
+                                    init_app();
                                 }
                                 , false)
 }
+
+});
+
+b4w.require("start_menu").init("en");

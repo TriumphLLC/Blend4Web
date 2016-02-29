@@ -169,11 +169,11 @@
 
         
             
-<li> <a href="#.append_ray_test">append_ray_test<span class="signature">(obj_src<span class="signature-attributes">nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.append_ray_test">append_ray_test<span class="signature">(obj_src<span class="signature-attributes">opt, nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.append_ray_test_ext">append_ray_test_ext<span class="signature">(obj_src<span class="signature-attributes">nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>, calc_all_hits<span class="signature-attributes">opt</span>, calc_pos_norm<span class="signature-attributes">opt</span>, ign_src_rot<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.append_ray_test_ext">append_ray_test_ext<span class="signature">(obj_src<span class="signature-attributes">opt, nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>, calc_all_hits<span class="signature-attributes">opt</span>, calc_pos_norm<span class="signature-attributes">opt</span>, ign_src_rot<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -968,7 +968,7 @@
 
     
 
-    <h4 class="name" id=".append_ray_test">append_ray_test<span class="signature">(obj_src<span class="signature-attributes">nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".append_ray_test">append_ray_test<span class="signature">(obj_src<span class="signature-attributes">opt, nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1030,6 +1030,8 @@
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -1323,7 +1325,7 @@ in object space, e.g. from/to vectors specified in object space.</td>
 
     
 
-    <h4 class="name" id=".append_ray_test_ext">append_ray_test_ext<span class="signature">(obj_src<span class="signature-attributes">nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>, calc_all_hits<span class="signature-attributes">opt</span>, calc_pos_norm<span class="signature-attributes">opt</span>, ign_src_rot<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".append_ray_test_ext">append_ray_test_ext<span class="signature">(obj_src<span class="signature-attributes">opt, nullable</span>, from, to, collision_id, callback, autoremove<span class="signature-attributes">opt</span>, calc_all_hits<span class="signature-attributes">opt</span>, calc_pos_norm<span class="signature-attributes">opt</span>, ign_src_rot<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1385,6 +1387,8 @@ in object space, e.g. from/to vectors specified in object space.</td>
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -1778,7 +1782,7 @@ callback</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line762">line 762</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line764">line 764</a>
     </li></ul></dd>
     
 
@@ -2410,7 +2414,7 @@ callback</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line826">line 826</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line830">line 830</a>
     </li></ul></dd>
     
 
@@ -3409,7 +3413,7 @@ Pass zero values to remove applied torque.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line809">line 809</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line813">line 813</a>
     </li></ul></dd>
     
 
@@ -6107,7 +6111,7 @@ Pass zero values to remove applied torque.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line865">line 865</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line869">line 869</a>
     </li></ul></dd>
     
 
@@ -6452,7 +6456,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line851">line 851</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line855">line 855</a>
     </li></ul></dd>
     
 
@@ -6587,7 +6591,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line795">line 795</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line799">line 799</a>
     </li></ul></dd>
     
 
@@ -10456,7 +10460,7 @@ or -1 if there is no hit anymore</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 28 2016 11:21:44 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 26 2016 15:16:12 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -3,6 +3,7 @@
 import datetime
 import getopt
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -18,6 +19,8 @@ ENDCOL = "\033[0m"
 
 BASE_DIR   = os.path.abspath(os.path.dirname(__file__))
 COMMON_DIR = join(BASE_DIR, "..", "deploy", "apps", "common")
+WIN_JAVA_DIR = normpath(join(BASE_DIR, "..", "tools", "java", "win",
+        "openjdk-1.7.0", "bin", "java.exe"))
 
 DEFAULT_OPT = "SIMPLE_OPTIMIZATIONS"
 
@@ -26,15 +29,6 @@ ENGINE_NAME_SIMPLE = "b4w.simple.min.js"
 ENGINE_NAME_WHITE  = "b4w.whitespace.min.js"
 
 CURRENT_DATE = "new Date({d.year}, {d.month}-1, {d.day}, {d.hour}, {d.minute}, {d.second})".format(d = datetime.datetime.now())
-
-COMPILER_PARAMS   = ['java',
-                     '-jar',
-                     join(BASE_DIR,
-                        "..",
-                        "tools",
-                        "closure-compiler", "compiler.jar"),
-                     '--language_in=ECMASCRIPT5',
-                     '--jscomp_off=nonStandardJsDocs']
 
 ADDONS            = ["src/addons/app.js",
                      "src/addons/camera_anim.js",
@@ -182,7 +176,19 @@ def run():
     src_ext_files = prepare_js(SRC_EXT_FILES)
     addons = prepare_js(ADDONS)
 
-    compiler_params = list(COMPILER_PARAMS)
+    if platform.system() == "Windows":
+        java_exec = WIN_JAVA_DIR
+    else:
+        java_exec = 'java'
+
+    compiler_params   = [java_exec,
+                         '-jar',
+                         join(BASE_DIR,
+                            "..",
+                            "tools",
+                            "closure-compiler", "compiler.jar"),
+                         '--language_in=ECMASCRIPT5',
+                         '--jscomp_off=nonStandardJsDocs']
 
     externs_gen_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False)
 
@@ -314,6 +320,7 @@ def refact_config(app_js=False):
     config_rel_js_file.truncate()
 
     for line in config_js_text:
+        # TODO: refactor hardcoded paths
         pattern_1 = r'(resources_dir\s*:\s*[\"|\'])+(..\/deploy\/apps\/common)'
         pattern_2 = r'(ASSETS=..\/..\/)+(deploy\/)+(assets\/)'
 

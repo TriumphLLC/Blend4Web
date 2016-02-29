@@ -11,6 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../lighting.rst:0
+msgid "Содержание"
+msgstr "Table of Contents"
+
 #: ../lighting.rst:4
 msgid "освещение"
 msgstr "lighting"
@@ -19,19 +23,19 @@ msgstr "lighting"
 msgid "Освещение, тени и фон"
 msgstr "Lighting, Shadows and Background"
 
-#: ../lighting.rst:10 ../lighting.rst:10
+#: ../lighting.rst:14 ../lighting.rst:14
 msgid "затенение"
 msgstr "shading"
 
-#: ../lighting.rst:10
+#: ../lighting.rst:14
 msgid "типы"
 msgstr "types"
 
-#: ../lighting.rst:13
+#: ../lighting.rst:17
 msgid "Типы затенения"
 msgstr "Shading Types"
 
-#: ../lighting.rst:15
+#: ../lighting.rst:19
 msgid ""
 "Результат расчета освещения (затенения) зависит от направления векторов "
 "нормалей. Поддерживаются стандартные типы затенения, использующиеся в "
@@ -44,7 +48,7 @@ msgstr ""
 "used), ``Shading: Smooth`` (interpolated vertex normals are used) and their "
 "combinations."
 
-#: ../lighting.rst:25
+#: ../lighting.rst:29
 msgid ""
 "Если желаемый результат недостижим стандартными средствами, можно "
 "воспользоваться :ref:`редактором нормалей <normals_editor>`."
@@ -52,42 +56,42 @@ msgstr ""
 "If the required effect is impossible to achieve with the standard tools, you"
 " can use the :ref:`normals editor <normals_editor>`."
 
-#: ../lighting.rst:27
+#: ../lighting.rst:31
 msgid ""
 "Результат применения различных типов затенения и использования редактора "
 "нормалей:"
 msgstr ""
 "The result of applying different shading types and using the normals editor:"
 
-#: ../lighting.rst:34
+#: ../lighting.rst:38
 msgid "Flat Shading"
 msgstr ""
 
-#: ../lighting.rst:35
+#: ../lighting.rst:39
 msgid "Smooth Shading"
 msgstr ""
 
-#: ../lighting.rst:36
+#: ../lighting.rst:40
 msgid "Smooth Shading + фаска"
 msgstr "Smooth Shading + bevel"
 
-#: ../lighting.rst:37
+#: ../lighting.rst:41
 msgid "Smooth Shading + фаска + редактирование нормалей"
 msgstr "Smooth Shading + bevel + editing normals"
 
-#: ../lighting.rst:42 ../lighting.rst:42
+#: ../lighting.rst:46 ../lighting.rst:46
 msgid "нормали"
 msgstr "normals"
 
-#: ../lighting.rst:42
+#: ../lighting.rst:46
 msgid "редактор"
 msgstr "editor"
 
-#: ../lighting.rst:45
+#: ../lighting.rst:49
 msgid "Редактор нормалей"
 msgstr "Normal Editor"
 
-#: ../lighting.rst:47
+#: ../lighting.rst:51
 msgid ""
 "Редактирование нормалей - достаточно простой и эффективный способ изменить "
 "собственное затенение трехмерной модели, не усложняя ее геометрию."
@@ -95,7 +99,7 @@ msgstr ""
 "Editing the selected normals is a pretty easy and effective way to customize"
 " 3d model shading without complicating its geometry."
 
-#: ../lighting.rst:49
+#: ../lighting.rst:53
 msgid ""
 "С помощью редактора нормалей, в некоторых случаях, можно достичь "
 "результатов, аналогичных применению :ref:`карт нормалей <normal_map>`. При "
@@ -107,11 +111,11 @@ msgstr ""
 "  time, editing normals is preferred because it is more computationally "
 "effective and consumes less video memory."
 
-#: ../lighting.rst:51
+#: ../lighting.rst:55
 msgid "Пример работы редактора нормалей:"
 msgstr "Normal editor workflow example:"
 
-#: ../lighting.rst:57
+#: ../lighting.rst:61
 msgid ""
 "Слева - обычное затенение геометрии, справа - дерево с редактированными "
 "нормалями."
@@ -119,7 +123,7 @@ msgstr ""
 "Simple geometry shading is to the left, a tree with edited normals is to the"
 " right."
 
-#: ../lighting.rst:64
+#: ../lighting.rst:68
 msgid ""
 "Слева - ворота с обычным затенением, в центре - ворота с редактированными "
 "нормалями, справа - геометрия модели ворот с сеткой."
@@ -127,7 +131,7 @@ msgstr ""
 "To the left - gates with common shading; at the center - gates with edited "
 "normals; to the right - gates geometry with a wireframe."
 
-#: ../lighting.rst:70
+#: ../lighting.rst:74
 msgid ""
 "Слева - обычное затенение геометрии травы, справа - трава с редактированными"
 " нормалями."
@@ -135,7 +139,11 @@ msgstr ""
 "To the left - common grass geometry shading; to the right - grass with "
 "edited normals."
 
-#: ../lighting.rst:76
+#: ../lighting.rst:79
+msgid "Основные особенности редактора нормалей:"
+msgstr "Main features of the normal editor:"
+
+#: ../lighting.rst:80
 msgid ""
 "Слева - очки с обычным затенением, справа - затенение геометрии с "
 "редактированными нормалями."
@@ -143,15 +151,11 @@ msgstr ""
 "To the left - glasses with common shading; to the right - geometry with "
 "edited normals shading."
 
-#: ../lighting.rst:79
+#: ../lighting.rst:83
 msgid "Основные особенности редактора нормалей:"
 msgstr "Main features of the normal editor:"
 
-#: ../lighting.rst:79
-msgid "Основные особенности редактора нормалей:"
-msgstr "Main features of the normal editor:"
-
-#: ../lighting.rst:81
+#: ../lighting.rst:85
 msgid ""
 "для хранилища массива данных с направлениями вертексных нормалей "
 "используется \"родной\" блок данных Blender (появился в версии 2.74);"
@@ -159,7 +163,7 @@ msgstr ""
 "native Blender storage is used as a container for edited vertices normals "
 "directions (it appeared in Blender 2.74);"
 
-#: ../lighting.rst:82
+#: ../lighting.rst:86
 msgid ""
 "редактирование нормалей и отображение затенения теперь происходит в режиме "
 "редактирования (``Edit Mode``);"
@@ -167,11 +171,11 @@ msgstr ""
 "normals editing and shading visualization are processed in ``Edit Mode`` "
 "now;"
 
-#: ../lighting.rst:83
+#: ../lighting.rst:87
 msgid "все изменения записываются сразу же автоматически;"
 msgstr "all changes are being saved automatically;"
 
-#: ../lighting.rst:84
+#: ../lighting.rst:88
 msgid ""
 "вращение нормали выделенного вертекса можно производить непосредственно в "
 "окне Viewport'a по горячим клавишам ``Shift+Ctrl+R``, подобно остальным "
@@ -181,15 +185,15 @@ msgstr ""
 "window with ``Shift+Ctrl+R`` hotkey, similary to other rotation operations "
 "in Blender;"
 
-#: ../lighting.rst:85
+#: ../lighting.rst:89
 msgid "редактированные нормали экспортируются автоматически."
 msgstr "edited normals are being exported automatically."
 
-#: ../lighting.rst:88
+#: ../lighting.rst:92
 msgid "Интерфейс редактора вертексных нормалей"
 msgstr "Interface of the Vertex Normal Editor"
 
-#: ../lighting.rst:90
+#: ../lighting.rst:94
 msgid ""
 "Интерфейс редактора нормалей располагается на панели инструментов "
 "``Blend4Web > Normal Editor``. Перед началом работы редактора для объекта "
@@ -202,28 +206,28 @@ msgstr ""
 "``Activate`` button should be pressed or ``Auto Smooth`` flag should be "
 "enabled in the mesh settings, before starting to work with the editor."
 
-#: ../lighting.rst:97
+#: ../lighting.rst:101
 msgid "Activate"
 msgstr ""
 
-#: ../lighting.rst:99 ../lighting.rst:110 ../lighting.rst:133
-#: ../lighting.rst:160 ../lighting.rst:183 ../lighting.rst:206
-#: ../lighting.rst:229 ../lighting.rst:264 ../lighting.rst:287
+#: ../lighting.rst:103 ../lighting.rst:114 ../lighting.rst:137
+#: ../lighting.rst:164 ../lighting.rst:187 ../lighting.rst:210
+#: ../lighting.rst:233 ../lighting.rst:268 ../lighting.rst:291
 msgid "*Описание*"
 msgstr "*Description*"
 
-#: ../lighting.rst:101
+#: ../lighting.rst:105
 msgid ""
 "Новая кнопка ``Activate`` включает режим редактирования вертекных нормалей."
 msgstr "The new ``Activate`` button turns on vertex normal editing mode."
 
-#: ../lighting.rst:103 ../lighting.rst:114 ../lighting.rst:139
-#: ../lighting.rst:187 ../lighting.rst:210 ../lighting.rst:268
-#: ../lighting.rst:293
+#: ../lighting.rst:107 ../lighting.rst:118 ../lighting.rst:143
+#: ../lighting.rst:191 ../lighting.rst:214 ../lighting.rst:272
+#: ../lighting.rst:297
 msgid "*Использование*"
 msgstr "*Usage*"
 
-#: ../lighting.rst:105
+#: ../lighting.rst:109
 msgid ""
 "Достаточно в режиме ``Edit Mode`` нажать кнопу ``Activate``, и можно "
 "приступать к редактированию вертексных нормалей. Пока она остаётся в "
@@ -238,11 +242,11 @@ msgstr ""
 "after making some changes, this button should be left active if you want to "
 "see the changes in the Blender Viewport and in the Blend4Web engine."
 
-#: ../lighting.rst:108
+#: ../lighting.rst:112
 msgid "Show Normals"
 msgstr ""
 
-#: ../lighting.rst:112
+#: ../lighting.rst:116
 msgid ""
 "Для удобства в панель продублирована оригинальная кнопка Blender, включающая"
 " отображение маркеров вертексных нормалей во Viewport'е, а так же настройка "
@@ -252,7 +256,7 @@ msgstr ""
 "displaying the normals in the viewport, while the Size field allows you to "
 "set their length."
 
-#: ../lighting.rst:116
+#: ../lighting.rst:120
 msgid ""
 "Достаточно просто включить кнопку ``Show Normals`` прямо на панели редактора"
 " вертексных нормалей Blend4Web или в правой панели Blender в разделе ``Mesh "
@@ -262,17 +266,17 @@ msgstr ""
 "panel or on the Blender's right panel in the Mesh Display section. You can "
 "also set the convenient length of normals by tweaking the Size."
 
-#: ../lighting.rst:131
+#: ../lighting.rst:135
 msgid "Вращение"
 msgstr "Rotation"
 
-#: ../lighting.rst:135
+#: ../lighting.rst:139
 msgid ""
 "При помощи этого инструментария можно вращать нормаль каждого вертекса "
 "индивидуально."
 msgstr "Using these instruments you can change direction of the normals."
 
-#: ../lighting.rst:137
+#: ../lighting.rst:141
 msgid ""
 "Кнопка ``Rotate`` (горячие клавиши ``Shift+Ctrl+R``) позволяет вращать "
 "вертексные нормали в привычном для пользователя Blender режиме."
@@ -280,7 +284,7 @@ msgstr ""
 "The Rotate function is also available through the Shift+Ctrl+R hotkeys, "
 "which allows rotation of vertex normals similarly to Blender."
 
-#: ../lighting.rst:141
+#: ../lighting.rst:145
 msgid ""
 "Выделив один или несколько вертексов, которые хотите изменить, вращайте их, "
 "используя визуальную сферу на панели редактора вертексных нормалей "
@@ -290,7 +294,7 @@ msgstr ""
 "normals using the visual sphere or specify the direction as numerical "
 "values."
 
-#: ../lighting.rst:143
+#: ../lighting.rst:147
 msgid ""
 "Более удобный вариант манипуляции с вертексными нормалями предоставляет "
 "кнопка ``Rotate``. Вращение происходит по координатам в пространстве экрана,"
@@ -302,11 +306,11 @@ msgstr ""
 "rotations in Blender, you can isolate the desired axis during rotation (by "
 "typing X, Y or Z)."
 
-#: ../lighting.rst:158
+#: ../lighting.rst:162
 msgid "Split Normals"
 msgstr ""
 
-#: ../lighting.rst:162
+#: ../lighting.rst:166
 msgid ""
 "Режим ``Split Normals`` позволяет редактировать вертексные нормали "
 "индивидуально для каждой грани (``Face`` в Blender), образующей "
@@ -317,11 +321,11 @@ msgstr ""
 " ``face`` that form the ``vertex``. Index allows you to navigate between the"
 " split normals."
 
-#: ../lighting.rst:164 ../lighting.rst:233
+#: ../lighting.rst:168 ../lighting.rst:237
 msgid "Использование"
 msgstr "Usage"
 
-#: ../lighting.rst:166
+#: ../lighting.rst:170
 msgid ""
 "Перейдя в режим ``Split Normals``, выберите нужный вертекc и измените "
 "направление его нормали. Прежде всего подвергнется модификации та нормаль, "
@@ -334,11 +338,11 @@ msgstr ""
 "the queue will be modified. Then, by switching between indexes you can go to"
 " the next normal of this vertex and edit it, then to the next and so on."
 
-#: ../lighting.rst:181
+#: ../lighting.rst:185
 msgid "Average Split"
 msgstr ""
 
-#: ../lighting.rst:185
+#: ../lighting.rst:189
 msgid ""
 "``Average Split`` усредняет направление вертексной нормали, исходя из "
 "направлений нормалей, разделенных функцией ``Split Normals``."
@@ -346,7 +350,7 @@ msgstr ""
 "The ``Average Split`` button averages the direction of the vertex normals "
 "which was modified in the ``Split Normals`` mode."
 
-#: ../lighting.rst:189
+#: ../lighting.rst:193
 msgid ""
 "Для того, чтобы объединить несколько разделенных вертексных нормалей в одну "
 "так, чтобы она имела их среднее направление, достаточно выделить нужный "
@@ -356,11 +360,11 @@ msgstr ""
 "average direction of these normals, you just need to select the desired "
 "vertex and press the ``Average Split`` button."
 
-#: ../lighting.rst:204
+#: ../lighting.rst:208
 msgid "Restore"
 msgstr ""
 
-#: ../lighting.rst:208
+#: ../lighting.rst:212
 msgid ""
 "Кнопка ``Restore`` восстанавливает исходное направление нормалей выделенных "
 "вертексов."
@@ -368,7 +372,7 @@ msgstr ""
 "The ``Restore`` button restores the original direction of normals for the "
 "selected vertices."
 
-#: ../lighting.rst:212
+#: ../lighting.rst:216
 msgid ""
 "Для того, чтобы восстановить нормали к исходному направлению (которое "
 "раcсчитывается на основе нормалей полигонов), нужно выделить нужные вертексы"
@@ -378,11 +382,11 @@ msgstr ""
 "calculated on the basis of face normals), you need to select the desired "
 "vertices and click the Restore button."
 
-#: ../lighting.rst:227
+#: ../lighting.rst:231
 msgid "Tree, Foliage и Face"
 msgstr "Tree, Foliage and Face"
 
-#: ../lighting.rst:231
+#: ../lighting.rst:235
 msgid ""
 "Функция ``Tree`` направляет нормали выделенных вертексов в сторону от 3D-"
 "курсора. ``Foliage`` направляет нормали вертекcов строго вверх по глобальной"
@@ -394,7 +398,7 @@ msgstr ""
 "strictly up. The ``Face`` button directs the normals of the selected face "
 "parallel to the normal of this face."
 
-#: ../lighting.rst:235
+#: ../lighting.rst:239
 msgid ""
 "Чтобы воспользоваться функцией ``Tree``, выделите нужные вертексы и "
 "расположите курсор в нужном вам месте. После нажатия кнопки ``Tree`` все "
@@ -406,7 +410,7 @@ msgstr ""
 "all the selected vertices will turn their direction away from the cursor, as"
 " if they were shot from one point."
 
-#: ../lighting.rst:237
+#: ../lighting.rst:241
 msgid ""
 "Функция ``Foliage`` очень проста в использовании: выделите нужные вертексы и"
 " нажмите кнопку, и функция направит их строго вверх."
@@ -414,7 +418,7 @@ msgstr ""
 "The ``Foliage`` function is very easy to use: just select the vertices and "
 "press the button, so the function will direct their normals straight up."
 
-#: ../lighting.rst:239
+#: ../lighting.rst:243
 msgid ""
 "Чтобы направить нормали вертексов параллельно нормали полигона, выделите "
 "нужный полигон и нажмите ``Face``. Все нормали вертексов, образующих этот "
@@ -426,15 +430,15 @@ msgstr ""
 "which form the face will be directed parallel to the face normal. This "
 "function works only with one selected face at a time."
 
-#: ../lighting.rst:262
+#: ../lighting.rst:266
 msgid "Copy/Paste"
 msgstr ""
 
-#: ../lighting.rst:266
+#: ../lighting.rst:270
 msgid "Копирует направление нормали с одного вертекса на другой."
 msgstr "Copies the normal direction from one vertex to another."
 
-#: ../lighting.rst:270
+#: ../lighting.rst:274
 msgid ""
 "Выделите вертекс для копирования и нажмите ``Copy``. Затем выделите вертекс,"
 " на который хотите копировать результат, и нажмите ``Paste``. Вставлять "
@@ -448,11 +452,11 @@ msgstr ""
 "The buttons are not active in the ``Split Mode`` and do not copy data of "
 "split vertices."
 
-#: ../lighting.rst:285
+#: ../lighting.rst:289
 msgid "Copy From Mesh"
 msgstr ""
 
-#: ../lighting.rst:289
+#: ../lighting.rst:293
 msgid ""
 "Эта функция позволяет копировать направление вертексных нормалей с одной "
 "геометрии на другую. Существует два режима копирования, ``Matched Vertices``"
@@ -461,7 +465,7 @@ msgstr ""
 "This function allows you to copy the normals from one object to another. "
 "There are two modes: ``Matched Vertices`` and ``Nearest Vertices``."
 
-#: ../lighting.rst:291
+#: ../lighting.rst:295
 msgid ""
 "В режиме ``Matched Vertices`` копируются направления нормалей с вертекса "
 "одной модели на вертекс другой, если у них одинаковые координаты; прочие "
@@ -473,7 +477,7 @@ msgstr ""
 "the other vertices are ignored. The ``Nearest Vertices`` mode copies the "
 "normals of the nearest vertices of the source object."
 
-#: ../lighting.rst:295
+#: ../lighting.rst:299
 msgid ""
 "Работа с этой функцией производится в объектном режиме. Первым нужно "
 "выделить объект, с которого будет происходить копирование, далее объект, на "
@@ -486,15 +490,15 @@ msgstr ""
 " also necessary to select the target object's vertices to which normals are "
 "copied."
 
-#: ../lighting.rst:309
+#: ../lighting.rst:313
 msgid "источники света"
 msgstr "light sources"
 
-#: ../lighting.rst:312
+#: ../lighting.rst:316
 msgid "Освещение от источников света"
 msgstr "Lighting with Light Sources"
 
-#: ../lighting.rst:314
+#: ../lighting.rst:318
 msgid ""
 "На сцене может быть несколько (но не менее одного) источников света разного "
 "типа."
@@ -502,19 +506,19 @@ msgstr ""
 "A scene can have multiple (but not less than one) light sources of different"
 " types."
 
-#: ../lighting.rst:318
+#: ../lighting.rst:322
 msgid "Типы источников света"
 msgstr "Light source types"
 
-#: ../lighting.rst:320
+#: ../lighting.rst:324
 msgid "Поддерживаются источники света следующих типов:"
 msgstr "The following light source types are supported:"
 
-#: ../lighting.rst:323
+#: ../lighting.rst:327
 msgid "*Point*"
 msgstr ""
 
-#: ../lighting.rst:323
+#: ../lighting.rst:327
 msgid ""
 "Точечный. Свет распространяется из одной точки равномерно во все стороны, с "
 "постепенным затуханием."
@@ -522,11 +526,11 @@ msgstr ""
 "Light propagates from one point uniformly to all directions with gradual "
 "attenuation."
 
-#: ../lighting.rst:326
+#: ../lighting.rst:330
 msgid "*Sun*"
 msgstr ""
 
-#: ../lighting.rst:326
+#: ../lighting.rst:330
 msgid ""
 "\"Солнце\". Свет распространяется из бесконечной плоскости прямолинейно в "
 "одном направлении, без затухания."
@@ -534,11 +538,11 @@ msgstr ""
 "Light propagates from an infinite plane in one direction without "
 "attenuation."
 
-#: ../lighting.rst:329
+#: ../lighting.rst:333
 msgid "*Spot*"
 msgstr ""
 
-#: ../lighting.rst:329
+#: ../lighting.rst:333
 msgid ""
 "Прожектор. Свет распространяется из одной точки, с ограничением угла "
 "распространения, с постепенным затуханием."
@@ -546,48 +550,48 @@ msgstr ""
 "Light propagates from one point within the angular limit, with gradual "
 "attenuation."
 
-#: ../lighting.rst:332
+#: ../lighting.rst:336
 msgid ""
 "Полусфера. Свет распространяется из бесконечной полусферы, без затухания."
 msgstr ""
 "Hemispherical. Light propagates from an infinite hemisphere without "
 "attenuation."
 
-#: ../lighting.rst:333
+#: ../lighting.rst:337
 msgid "*Hemi*"
 msgstr ""
 
-#: ../lighting.rst:336
+#: ../lighting.rst:340
 msgid "Настройка источников света"
 msgstr "Light source setup"
 
-#: ../lighting.rst:338
+#: ../lighting.rst:342
 msgid "Производится во вкладке ``Object Data`` при выборе объекта-лампы."
 msgstr "Performed in the ``Object Data`` tab when a lamp object is selected."
 
-#: ../lighting.rst:347
+#: ../lighting.rst:351
 msgid "*Color*"
 msgstr ""
 
-#: ../lighting.rst:347
+#: ../lighting.rst:351
 msgid ""
 "Цветовая характеристика света. Значение по умолчанию (1.0, 1.0, 1.0) "
 "(белый)."
 msgstr "Light color. The default value is (1.0, 1.0, 1.0) (i.e. white)."
 
-#: ../lighting.rst:350
+#: ../lighting.rst:354
 msgid "*Energy*"
 msgstr ""
 
-#: ../lighting.rst:350
+#: ../lighting.rst:354
 msgid "Интенсивность излучения. Значение по умолчанию 1.0."
 msgstr "Radiation intensity. The default value is 1.0."
 
-#: ../lighting.rst:353
+#: ../lighting.rst:357
 msgid "*Falloff*"
 msgstr ""
 
-#: ../lighting.rst:353
+#: ../lighting.rst:357
 msgid ""
 "Тип затухания. Значение экспортируется, но в движке всегда используется "
 "``Inverse Square`` (обратный квадратичный). Применяется для источников света"
@@ -597,11 +601,11 @@ msgstr ""
 " Square``. It is applicable to the ``Point`` and ``Spot`` light source "
 "types. The default value is ``Inverse Square``."
 
-#: ../lighting.rst:356
+#: ../lighting.rst:360
 msgid "*Distance*"
 msgstr ""
 
-#: ../lighting.rst:356
+#: ../lighting.rst:360
 msgid ""
 "Параметр затухания. Применяется для источников света типа ``Point`` и "
 "``Spot``. Значение по умолчанию 25.0."
@@ -609,27 +613,27 @@ msgstr ""
 "Attenuation parameter. It is applicable to the ``Point`` and ``Spot`` light "
 "source types. The default value is 25.0."
 
-#: ../lighting.rst:359
+#: ../lighting.rst:363
 msgid "*Specular*"
 msgstr ""
 
-#: ../lighting.rst:359
+#: ../lighting.rst:363
 msgid "Создание отблеска на объектах. По умолчанию включено."
 msgstr "Create specular highlights. Enabled by default."
 
-#: ../lighting.rst:362
+#: ../lighting.rst:366
 msgid "*Diffuse*"
 msgstr ""
 
-#: ../lighting.rst:362
+#: ../lighting.rst:366
 msgid "Применение рассеянного освещения к объектам. По умолчанию включено."
 msgstr "Do diffuse shading. Enabled by default."
 
-#: ../lighting.rst:365
+#: ../lighting.rst:369
 msgid "*Spot Shape > Size*"
 msgstr ""
 
-#: ../lighting.rst:365
+#: ../lighting.rst:369
 msgid ""
 "Угол конуса в градусах. Применяется для источников света типа ``Spot``. "
 "Значение по умолчанию 45º."
@@ -637,11 +641,11 @@ msgstr ""
 "Cone angle in degrees. It is applicable to the ``Spot`` light source type. "
 "The default value is 45º."
 
-#: ../lighting.rst:368
+#: ../lighting.rst:372
 msgid "*Spot Shape > Blend*"
 msgstr ""
 
-#: ../lighting.rst:368
+#: ../lighting.rst:372
 msgid ""
 "Параметр смягчения края светового пятна. Применяется для источников света "
 "типа ``Spot``. Значение по умолчанию 0.15."
@@ -649,7 +653,7 @@ msgstr ""
 "Parameter for blurring light spot edges. It is applicable to the ``Spot`` "
 "light source type. The default value is 0.15."
 
-#: ../lighting.rst:371
+#: ../lighting.rst:375
 msgid ""
 "Источник света используется для расчета изменения времени суток. Применяется"
 " для источников света типа \"Солнце\". По умолчанию отключено."
@@ -657,11 +661,11 @@ msgstr ""
 "Use this light source for calculating the time of day. Applicable only to "
 "the ``Sun`` light source type. Disabled by default."
 
-#: ../lighting.rst:371
+#: ../lighting.rst:375
 msgid "*Dynamic Intesity*"
 msgstr ""
 
-#: ../lighting.rst:374
+#: ../lighting.rst:378
 msgid ""
 "Источник света используется для расчета падающих теней. Применяется в случае"
 " наличия нескольких источников света. По умолчанию отключено."
@@ -669,25 +673,25 @@ msgstr ""
 "Use this light source for shadow calculation. Should be used when multiple "
 "light sources are present. Disabled by default."
 
-#: ../lighting.rst:375
-msgid "*Shadows > Generate shadows*"
+#: ../lighting.rst:379
+msgid "*Shadow > Shadow*"
 msgstr ""
 
-#: ../lighting.rst:380
+#: ../lighting.rst:384
 msgid "Освещение от окружающей среды"
 msgstr "Environment Lighting (Ambient)"
 
-#: ../lighting.rst:382
+#: ../lighting.rst:386
 msgid ""
 "Движок поддерживает 3 метода симуляции рассеянного освещения от окружающих "
 "объектов."
 msgstr "The engine supports 3 methods of the environment lighting simulation."
 
-#: ../lighting.rst:384
+#: ../lighting.rst:388
 msgid "\"Плоское\" освещение белым цветом."
 msgstr "Flat white lighting."
 
-#: ../lighting.rst:385
+#: ../lighting.rst:389
 msgid ""
 "Полусферическая модель освещения, в которой задается цвет горизонта и цвет "
 "зенита, в результате чего объекты заливаются градиентом между этими цветами "
@@ -697,7 +701,7 @@ msgstr ""
 "specified. As a result objects are filled with a gradient between these two "
 "colors depending on the direction of normals."
 
-#: ../lighting.rst:386
+#: ../lighting.rst:390
 msgid ""
 "Освещение с помощью :ref:`карты окружения <environment_map>` - т.н. методика"
 " image-based lighting."
@@ -705,32 +709,32 @@ msgstr ""
 "Lighting using an :ref:`environment map <environment_map>` - so called "
 "image-based lighting."
 
-#: ../lighting.rst:389 ../lighting.rst:445
+#: ../lighting.rst:393 ../lighting.rst:449
 msgid "Активация"
 msgstr "Activation"
 
-#: ../lighting.rst:391 ../lighting.rst:416
+#: ../lighting.rst:395 ../lighting.rst:420
 msgid "Включить опцию ``Environment Lighting`` во вкладке ``World``."
 msgstr "Enable the ``Environment Lighting`` checkbox on the ``World`` tab."
 
-#: ../lighting.rst:399 ../lighting.rst:462
+#: ../lighting.rst:403 ../lighting.rst:466
 msgid "Настройка"
 msgstr "Setup"
 
-#: ../lighting.rst:402
+#: ../lighting.rst:406
 msgid "*World > Environment Lighting > Energy*"
 msgstr ""
 
-#: ../lighting.rst:402
+#: ../lighting.rst:406
 msgid ""
 "Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0."
 msgstr "Environment lighting intensity. The default value is 1.0."
 
-#: ../lighting.rst:405
+#: ../lighting.rst:409
 msgid "*World > Environment Lighting > Environment Color*"
 msgstr ""
 
-#: ../lighting.rst:405
+#: ../lighting.rst:409
 msgid ""
 "Выбор метода симуляции рассеянного освещения: ``White`` - \"плоское\" "
 "освещение белым цветом, ``Sky Color`` - полусферическая модель , ``Sky "
@@ -742,7 +746,7 @@ msgstr ""
 "lighting using an :ref:`environment map <environment_map>`. The default "
 "value is ``White``."
 
-#: ../lighting.rst:408
+#: ../lighting.rst:412
 msgid ""
 "Если выбрана полусферическая модель рассеянного освещения ``Sky Color``, "
 "цвет горизонта и цвет зенита задаются цветоподборщиками ``World > Horizon "
@@ -754,29 +758,29 @@ msgstr ""
 "``World > Zenith Color`` color pickers. It is recommended to activate the "
 "``World > Blend Sky`` option for better color selection."
 
-#: ../lighting.rst:409
+#: ../lighting.rst:413
 msgid "*World > Horizon Color* и *World > Zenith Color*"
 msgstr "*World > Horizon Color* and *World > Zenith Color*"
 
-#: ../lighting.rst:412
+#: ../lighting.rst:416
 msgid "Использование карты окружения"
 msgstr "Environment map method"
 
-#: ../lighting.rst:414
+#: ../lighting.rst:418
 msgid ""
 "Для того, чтобы использовать карту окружения в целях реализации освещения от"
 " окружающей среды, необходимо:"
 msgstr "To use an environment map for environment lighting:"
 
-#: ../lighting.rst:417
+#: ../lighting.rst:421
 msgid "Выбрать метод ``Environment Lighting > Sky Texture``."
 msgstr "Select ``Environment Lighting > Sky Texture``."
 
-#: ../lighting.rst:418
+#: ../lighting.rst:422
 msgid "Перейти из вкладки ``World`` во вкладку ``Texture``."
 msgstr "Go from the ``World`` tab to the ``Texture`` tab."
 
-#: ../lighting.rst:419
+#: ../lighting.rst:423
 msgid ""
 "Создать :ref:`карту окружения <environment_map>`, загрузить в нее "
 "соответствующее изображение."
@@ -784,7 +788,7 @@ msgstr ""
 "Create an :ref:`environment map <environment_map>`, load the corresponding "
 "image to it."
 
-#: ../lighting.rst:420
+#: ../lighting.rst:424
 msgid ""
 "Для карты окружения на панели ``Export Options`` для значения ``Sky Texture "
 "Usage`` выбрать ``ENVIRONMENT_LIGHTING`` или ``BOTH`` (опция ``BOTH`` "
@@ -796,11 +800,11 @@ msgstr ""
 "option also enables using this texture as a :ref:`skydome texture "
 "<skydome_texture>`)."
 
-#: ../lighting.rst:432
+#: ../lighting.rst:436
 msgid "Тени"
 msgstr "Shadows"
 
-#: ../lighting.rst:434
+#: ../lighting.rst:438
 msgid ""
 "Тени - один из важнейших элементов при рендеринге конечного изображения. Они"
 " предоставляют зрителю не только информацию о силуэте объектов, но и об их "
@@ -811,7 +815,7 @@ msgstr ""
 "also about their height and relative position, light source position and so "
 "on."
 
-#: ../lighting.rst:436
+#: ../lighting.rst:440
 msgid ""
 "Платформой Blend4Web реализуются такие техники, как каскадные карты теней "
 "(CSM) и смягченные тени (PCF)."
@@ -819,18 +823,17 @@ msgstr ""
 "Blend4Web implements the following shadow rendering techniques: cascaded "
 "shadow maps (CSM) and softened shadows (PCF). "
 
-#: ../lighting.rst:438
+#: ../lighting.rst:442
 msgid ""
 "Генерировать тени могут не более четырёх (или трёх, если включен SSAO) "
 "источников света одновременно. Если источников света больше (и у всех "
-"включён параметр Generate Shadows), будут видны тени только от четырёх из "
-"них."
+"включён параметр Shadow), будут видны тени только от четырёх из них."
 msgstr ""
 "Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows "
-"simultaneously. If *Generate Shadows* parameter is enabled for more than 4 "
-"light sources, shadows will still be generated only from 4 of them."
+"simultaneously. If *Shadow* parameter is enabled for more than 4 light "
+"sources, shadows will still be generated only from 4 of them."
 
-#: ../lighting.rst:447
+#: ../lighting.rst:451
 msgid ""
 "На объектах, **отбрасывающих** тени, включить опцию ``Shadows: Cast`` во "
 "вкладке ``Object``."
@@ -838,7 +841,7 @@ msgstr ""
 "Enable the ``Shadows: Cast`` checkbox under the ``Object`` tab for the "
 "objects which **cast** shadows."
 
-#: ../lighting.rst:448
+#: ../lighting.rst:452
 msgid ""
 "На объектах, **получающих** тени, включить опцию ``Shadows: Receive`` во "
 "вкладке ``Object``."
@@ -846,7 +849,7 @@ msgstr ""
 "Enable the ``Shadows: Receive`` checkbox under the ``Object`` tab for the "
 "objects which **receive** shadows."
 
-#: ../lighting.rst:449
+#: ../lighting.rst:453
 msgid ""
 "Убедиться, что включена опция ``Shadows`` ``AUTO`` или ``ON`` во вкладке "
 "``Render``."
@@ -854,7 +857,7 @@ msgstr ""
 "Make sure that the ``Shadows`` option in the ``Render`` tab has the value "
 "``AUTO`` or ``ON``."
 
-#: ../lighting.rst:453
+#: ../lighting.rst:457
 msgid ""
 "Объекты, имеющие :ref:`прозрачные материалы с градиентом <alpha_blend>`, не "
 "отбрасывают теней."
@@ -862,23 +865,23 @@ msgstr ""
 "Objects, which have :ref:`transparent materials with a gradient "
 "<alpha_blend>`, do not cast shadows."
 
-#: ../lighting.rst:465
+#: ../lighting.rst:469
 msgid "*Направление*"
 msgstr "*Direction*"
 
-#: ../lighting.rst:465
+#: ../lighting.rst:469
 msgid ""
 "В случае наличия нескольких источников света рекомендуется указать, какой "
 "именно источник света будет использоваться для расчета падающих теней, "
-"включив опцию ``Shadows > Generate Shadows`` во вкладке ``Object Data`` при "
-"выборе объекта-лампы."
+"включив опцию ``Shadow > Shadow`` во вкладке ``Object Data`` при выборе "
+"объекта-лампы."
 msgstr ""
 "If there are multiple light sources, it is recommended to specify the exact "
-"light source which is used for shadow calculations, by enabling the "
-"``Shadows > Generate shadows`` checkbox under the ``Object Data`` tab for "
-"the selected lamp object."
+"light source which is used for shadow calculations, by enabling the ``Shadow"
+" > Shadow`` checkbox under the ``Object Data`` tab for the selected lamp "
+"object."
 
-#: ../lighting.rst:468
+#: ../lighting.rst:472
 msgid ""
 "Цвет тени определяется настройками :ref:`освещения от окружающей среды "
 "<environment_lighting>`."
@@ -886,11 +889,11 @@ msgstr ""
 "The shadow color is determined by the :ref:`environment lighting "
 "<environment_lighting>` settings."
 
-#: ../lighting.rst:469
+#: ../lighting.rst:473
 msgid "*Цвет*"
 msgstr "*Color*"
 
-#: ../lighting.rst:471
+#: ../lighting.rst:475
 msgid ""
 "Во вкладке ``Render`` на панели ``Shadows`` находятся дополнительные "
 "настройки:"
@@ -898,16 +901,16 @@ msgstr ""
 "The following additional settings are located on the ``Shadows`` panel of "
 "the ``Render`` tab:"
 
-#: ../lighting.rst:478
+#: ../lighting.rst:482
 msgid "*Resolution*"
 msgstr ""
 
-#: ../lighting.rst:478
+#: ../lighting.rst:482
 msgid ""
 "Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px."
 msgstr "Shadow map resolution. The default value is 2048x2048px."
 
-#: ../lighting.rst:481
+#: ../lighting.rst:485
 msgid ""
 "Коэффициент смещения полигона в зависимости от ориентации к источнику света."
 " Значение по умолчанию: 1."
@@ -915,22 +918,22 @@ msgstr ""
 "Coefficient for shifting polygons relative to light source orientation. The "
 "default value is 1."
 
-#: ../lighting.rst:481
+#: ../lighting.rst:485
 msgid "*Self-Shadow Polygon Offset*"
 msgstr ""
 
-#: ../lighting.rst:484
+#: ../lighting.rst:488
 msgid "*Self-Shadow Normal Offset*"
 msgstr ""
 
-#: ../lighting.rst:484
+#: ../lighting.rst:488
 msgid ""
 "Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.010."
 msgstr ""
 "Coefficient for shifting polygons along their normals. The default value is "
 "0.010."
 
-#: ../lighting.rst:486
+#: ../lighting.rst:490
 msgid ""
 "Последние две настройки служат для борьбы с артефактами самозатенения. Они "
 "проявляются на объектах, одновременно отбрасывающих и принимающих тени. "
@@ -947,7 +950,7 @@ msgstr ""
 "parameters lead to shadow distortions so we recommend to set them as low as "
 "possible."
 
-#: ../lighting.rst:495
+#: ../lighting.rst:499
 msgid ""
 "Тени для точечных (``Point``) источников света генерируются так же, как и "
 "для направленных (``Spot``), и падают только в одном направлении, "
@@ -957,29 +960,29 @@ msgstr ""
 "``Spot`` light sources and are projected only in one direction specified by "
 "the source's ``Rotation`` parameter."
 
-#: ../lighting.rst:500
+#: ../lighting.rst:504
 msgid "*Enable CSM*"
 msgstr ""
 
-#: ../lighting.rst:500
+#: ../lighting.rst:504
 msgid ""
 "Включение каскадной модели теней; открывает доступ к расширенным настройкам."
-" Отключено по умолчанию. Не работает, если опция ``Generate Shadows`` "
-"включена более чем для одного источника света. Для источников света типа "
-"``Point`` и ``Spot`` поддерживается только один каскад теней."
+" Отключено по умолчанию. Не работает, если опция ``Shadow`` включена более "
+"чем для одного источника света. Для источников света типа ``Point`` и "
+"``Spot`` поддерживается только один каскад теней."
 msgstr ""
 "Activates the using of cascaded shadows model; reveals additional options. "
-"Disabled by default. Won't work if the ``Generate Shadows`` setting is "
-"enabled for more than one light source. ``Point`` and ``Spot`` type light "
-"sources support only one shadow cascade."
+"Disabled by default. Won't work if the ``Shadow`` setting is enabled for "
+"more than one light source. ``Point`` and ``Spot`` type light sources "
+"support only one shadow cascade."
 
-#: ../lighting.rst:502
+#: ../lighting.rst:506
 msgid ""
 "Эта опция позволяет выбрать один из следующих вариантов наложения теней:"
 msgstr ""
 "This option allows to choose between the following shadow generation models:"
 
-#: ../lighting.rst:504
+#: ../lighting.rst:508
 msgid ""
 "Стандартная модель, использующая одну оптимизированную карту теней, "
 "охватывающую всю сцену (``Enable CSM`` отключена)."
@@ -987,15 +990,11 @@ msgstr ""
 "Generic model which uses a single optimized shadow map for the whole scene "
 "(``Enable CSM`` is turned off)."
 
-#: ../lighting.rst:505
+#: ../lighting.rst:509
 msgid "Каскады теней (``Enable CSM`` включена)."
 msgstr "Shadow cascades (``Enable CSM`` is turned on)."
 
-#: ../lighting.rst:508
-msgid "*Blur radius*"
-msgstr ""
-
-#: ../lighting.rst:508
+#: ../lighting.rst:512
 msgid ""
 "Коэффициент размытия теней, позволяющий настроить cмягченные тени. Значение "
 "по умолчанию: 3. Коэффициент 0 даст жесткие тени."
@@ -1003,7 +1002,11 @@ msgstr ""
 "Blur ratio for setting up softened shadows. The default value is 3. Zero "
 "value produces hard shadows."
 
-#: ../lighting.rst:516
+#: ../lighting.rst:512
+msgid "*Blur Radius*"
+msgstr ""
+
+#: ../lighting.rst:520
 msgid ""
 "Смягченные тени могут повысить качество и реалистичность изображения. Они "
 "скрывают неизбежную при использовании основанных на изображениях техник "
@@ -1017,11 +1020,11 @@ msgstr ""
 "shadows often allows to decrease resolution without substantial quality "
 "loss."
 
-#: ../lighting.rst:520
+#: ../lighting.rst:524
 msgid "Стандартная модель"
 msgstr "Generic shadows"
 
-#: ../lighting.rst:522
+#: ../lighting.rst:526
 msgid ""
 "Этот вариант больше подходит для маленьких сцен, состоящих из небольшого "
 "числа объектов. Благодаря оптимизации на таких сценах можно добиться более "
@@ -1035,11 +1038,11 @@ msgstr ""
 "simpler and faster for setting up, while using a single shadow map greatly "
 "improves the performance."
 
-#: ../lighting.rst:526
+#: ../lighting.rst:530
 msgid "Каскады теней"
 msgstr "Shadow cascades"
 
-#: ../lighting.rst:530
+#: ../lighting.rst:534
 msgid ""
 "Данные настройки поддерживаются только для источников освещения типа "
 "``Sun``. Для других источников каскады автоматически отключаются."
@@ -1047,7 +1050,7 @@ msgstr ""
 "These settings are supported only for ``Sun`` light sources. Cascades are "
 "turned off for other types of light sources."
 
-#: ../lighting.rst:532
+#: ../lighting.rst:536
 msgid ""
 "Для обеспечения приемлемого качества теней и одновременно покрытия "
 "значительных пространств необходимо использовать несколько стадий генерации "
@@ -1061,11 +1064,11 @@ msgstr ""
 "observer while the worst quality cascades are in the distance. This option "
 "suits well middle-to-large scenes, e.g. game levels."
 
-#: ../lighting.rst:535
+#: ../lighting.rst:539
 msgid "При включении предоставляет расширенные настройки:"
 msgstr "When enabled the following extended settings are revealed:"
 
-#: ../lighting.rst:543
+#: ../lighting.rst:547
 msgid ""
 "Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по "
 "умолчанию: 1."
@@ -1073,27 +1076,27 @@ msgstr ""
 "Number of shadow cascades. From 1 to 4 cascades are supported. The default "
 "value is 1."
 
-#: ../lighting.rst:543
+#: ../lighting.rst:547
 msgid "*CSM Number*"
 msgstr ""
 
-#: ../lighting.rst:546
+#: ../lighting.rst:550
 msgid "Размер первого каскада. Значение по умолчанию: 10.0."
 msgstr "First cascade size. The default value is 10.0."
 
-#: ../lighting.rst:546
+#: ../lighting.rst:550
 msgid "*CSM First Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:549
+#: ../lighting.rst:553
 msgid "Размер последнего каскада. Значение по умолчанию: 100.0."
 msgstr "Last cascade size. The default value is 100.0."
 
-#: ../lighting.rst:549
+#: ../lighting.rst:553
 msgid "*CSM Last Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:551
+#: ../lighting.rst:555
 msgid ""
 "Размеры промежуточных каскадов интерполируются на основе последних двух "
 "параметров."
@@ -1101,7 +1104,7 @@ msgstr ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
 
-#: ../lighting.rst:555
+#: ../lighting.rst:559
 msgid ""
 "При настройке следует помнить, что, увеличивая размер каскада, мы получаем "
 "на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM"
@@ -1120,7 +1123,7 @@ msgstr ""
 "softened shadows are used the overall quality will improve thanks to "
 "blurring at the edges."
 
-#: ../lighting.rst:564
+#: ../lighting.rst:568
 msgid ""
 "Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. "
 "Коэффициент 0 даст жесткие тени."
@@ -1128,11 +1131,11 @@ msgstr ""
 "Blur ratio for the first cascade. The default value is 3. Zero value "
 "produces hard shadows."
 
-#: ../lighting.rst:564
+#: ../lighting.rst:568
 msgid "*CSM First Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:567
+#: ../lighting.rst:571
 msgid ""
 "Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5. "
 "Коэффициент 0 даст жесткие тени."
@@ -1140,11 +1143,11 @@ msgstr ""
 "Blur ratio for the last cascade. The default value is 1.5. Zero value "
 "produces hard shadows."
 
-#: ../lighting.rst:567
+#: ../lighting.rst:571
 msgid "*CSM Last Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:569
+#: ../lighting.rst:573
 msgid ""
 "Радиус размытия каждого промежуточного каскада интерполируется на основе "
 "этих параметров."
@@ -1152,7 +1155,7 @@ msgstr ""
 "The blur radii of the intermediate cascades are interpolated between the two"
 " above-mentioned parameters."
 
-#: ../lighting.rst:573
+#: ../lighting.rst:577
 msgid ""
 "Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией "
 "``CSM First Cascade Blur Radius``, а далее на всех остальных с помощью ``CSM"
@@ -1168,35 +1171,35 @@ msgstr ""
 " shadows on the last cascade being too faded due to low resolution. This "
 "also reduces undesirable self-shadowing artifacts."
 
-#: ../lighting.rst:577
+#: ../lighting.rst:581
 msgid "Плавное исчезновение последнего каскада. По умолчанию включено."
 msgstr "Smooth dying-out of the last cascade. Enabled by default."
 
-#: ../lighting.rst:577
+#: ../lighting.rst:581
 msgid "*Fade-out Last Cascade*"
 msgstr ""
 
-#: ../lighting.rst:580
+#: ../lighting.rst:584
 msgid "Сглаживание границ между каскадами. По умолчанию включено."
 msgstr "Smoothing the boundaries between the cascades. Enabled by default."
 
-#: ../lighting.rst:580
+#: ../lighting.rst:584
 msgid "*Blend Between Cascades*"
 msgstr ""
 
-#: ../lighting.rst:588
+#: ../lighting.rst:592
 msgid "цвет фона"
 msgstr "background"
 
-#: ../lighting.rst:591
+#: ../lighting.rst:595
 msgid "Цвет фона"
 msgstr "Background"
 
-#: ../lighting.rst:593
+#: ../lighting.rst:597
 msgid "Цвет фона можно задать несколькими способами:"
 msgstr "You can change the background in the following ways:"
 
-#: ../lighting.rst:595
+#: ../lighting.rst:599
 msgid ""
 "Установить параметры ``Horizon Color`` и ``Zenith Color`` на вкладке "
 "``World`` в Blender, предварительно выставив опцию ``World > Render Sky``."
@@ -1204,7 +1207,7 @@ msgstr ""
 "Enable ``World > Render Sky``, then set the ``Horizon Color`` and the "
 "``Zenith Color`` under Blender's ``World`` tab."
 
-#: ../lighting.rst:597
+#: ../lighting.rst:601
 msgid ""
 "Поместить сцену внутрь модели (например, куба или сферы) с направленными "
 "внутрь нормалями, с материалом и опциональной текстурой."
@@ -1212,7 +1215,7 @@ msgstr ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
 
-#: ../lighting.rst:599
+#: ../lighting.rst:603
 msgid ""
 "Разместить перед камерой поверхность с материалом и опциональной текстурой, "
 "присоединить ее к камере связью родитель-потомок. При необходимости "
@@ -1223,15 +1226,15 @@ msgstr ""
 "camera. Parent it to the camera. If required, tweak the distance to this "
 "surface, starting and ending clipping planes for the camera."
 
-#: ../lighting.rst:605
+#: ../lighting.rst:609
 msgid "Использовать :ref:`текстуру неба <skydome_texture>`."
 msgstr "Use a :ref:`skydome <skydome_texture>`."
 
-#: ../lighting.rst:607
+#: ../lighting.rst:611
 msgid "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
 msgstr "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 
-#: ../lighting.rst:609
+#: ../lighting.rst:613
 msgid ""
 "Установить параметр движка ``background_color``, используя программный метод"
 " ``config.set()``, предварительно отключив опцию ``World > Render Sky`` на "
@@ -1248,7 +1251,7 @@ msgstr ""
 "WebGL context transparency off (the ``alpha`` parameter). Such the "
 "configuration is used by default in the engine's standard web player."
 
-#: ../lighting.rst:622
+#: ../lighting.rst:626
 msgid ""
 "В качестве фона можно использовать любой HTML контент, находящийся позади "
 "элемента ``canvas``, который используется для рендеринга. Для это необходимо"
@@ -1266,6 +1269,6 @@ msgstr ""
 "color. Such the configuration is used by default in the :ref:`scene viewer "
 "<viewer>` of Blend4Web SDK."
 
-#: ../lighting.rst:635
+#: ../lighting.rst:639
 msgid ":ref:`alpha_compositing`"
 msgstr ""

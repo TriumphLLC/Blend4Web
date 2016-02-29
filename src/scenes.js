@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,12 +71,12 @@ var VALID_OBJ_TYPES_SECONDARY = ["ARMATURE", "EMPTY", "MESH", "SPEAKER"];
 // add objects
 var OBJECT_SUBSCENE_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_OPAQUE",
     "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
-    "COLOR_PICKING", "COLOR_PICKING_XRAY", "DEPTH", "OUTLINE_MASK", "WIREFRAME"];
+    "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "OUTLINE_MASK", "WIREFRAME"];
 exports.OBJECT_SUBSCENE_TYPES = OBJECT_SUBSCENE_TYPES;
 // need light update
 var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW",
     "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "GOD_RAYS", "GOD_RAYS_COMBINE", "SKY",
-    "LUMINANCE_TRUNCED", "DEPTH", "SHADOW_CAST", "COLOR_PICKING", "COLOR_PICKING_XRAY",
+    "LUMINANCE_TRUNCED", "SHADOW_RECEIVE", "SHADOW_CAST", "COLOR_PICKING", "COLOR_PICKING_XRAY",
     "OUTLINE_MASK"];
 
 var FOG_SUBSCENE_TYPES = ["MAIN_OPAQUE", "SSAO", "MAIN_BLEND", "MAIN_XRAY",
@@ -85,7 +85,7 @@ var FOG_SUBSCENE_TYPES = ["MAIN_OPAQUE", "SSAO", "MAIN_BLEND", "MAIN_XRAY",
 // need time update
 var TIME_SUBSCENE_TYPES = ["SHADOW_CAST", "MAIN_OPAQUE", "MAIN_BLEND",
     "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
-    "COLOR_PICKING", "COLOR_PICKING_XRAY", "DEPTH", "GOD_RAYS", "OUTLINE_MASK",
+    "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "GOD_RAYS", "OUTLINE_MASK",
     "WIREFRAME"];
 
 // need camera water distance update
@@ -657,12 +657,19 @@ function get_water_params(bpy_objects) {
 
             for (var j = 0; j < texture_slots.length; j++) {
                 var texture = texture_slots[j]["texture"];
-                if (texture["b4w_shore_dist_map"] === true) {
-                    // shoremap
+                if (texture["b4w_shore_dist_map"] === true &&
+                        texture["image"]["source"] == "FILE") {
                     wp.shoremap_image    = texture["image"];
                     wp.shoremap_tex_size = texture["image"]["size"][0];
-                    wp.shore_boundings   = texture["b4w_shore_boundings"];
                     wp.max_shore_dist    = texture["b4w_max_shore_dist"];
+
+                    var shore_boundings = texture["b4w_shore_boundings"];
+                    wp.shoremap_center = [(shore_boundings[0] + shore_boundings[1]) / 2,
+                                          (shore_boundings[2] + shore_boundings[3]) / 2];
+
+                    wp.shoremap_size = [shore_boundings[0] - shore_boundings[1],
+                                        shore_boundings[2] - shore_boundings[3]];
+
                 }
             }
             water_params.push(wp);
@@ -1195,7 +1202,6 @@ exports.generate_auxiliary_batches = function(graph) {
 
             // needed for special underwater god rays
             var water = subs.water;
-
             var steps = subs.steps_per_pass;
 
             batch = m_batch.create_god_rays_batch(tex_input, subs.pack,
@@ -1445,14 +1451,6 @@ exports.append_object = function(scene, obj, copy) {
             var subs = subs_arr[i];
             add_object_sub(subs, obj, graph, scene, copy);
         }
-
-        // remove unused batches
-        for (var i = 0; i < obj.scenes_data.length; i++) {
-            var batches = obj.scenes_data[i].batches;
-            for (var j = 0; j < batches.length; j++)
-                if (batches[j].shader == null)
-                    batches.splice(j--, 1);
-        }
         break;
     case "LAMP":
         update_lamp_scene(obj, scene);
@@ -1495,8 +1493,8 @@ function add_object_sub(subs, obj, graph, bpy_scene, copy) {
     case "MAIN_CUBE_REFLECT":
         add_object_subs_reflect(subs, obj, graph, bpy_scene, copy);
         break;
-    case "DEPTH":
-        add_object_subs_depth(subs, obj, graph, bpy_scene, copy);
+    case "SHADOW_RECEIVE":
+        add_object_subs_shadow_receive(subs, obj, graph, bpy_scene, copy);
         break;
     case "SHADOW_CAST":
         add_object_subs_shadow(subs, obj, graph, bpy_scene, copy);
@@ -1581,6 +1579,7 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
 
 function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     var obj_render = obj.render;
+    var sc_render = bpy_scene._render;
     var scene_data = m_obj_util.get_scene_data(obj, bpy_scene);
 
     var shadow_usage = "NO_SHADOWS";
@@ -1599,7 +1598,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         case "GLOW":
             shadow_usage = "NO_SHADOWS";
             break;
-        case "DEPTH":
+        case "SHADOW":
             shadow_usage = "SHADOW_MASK_GENERATION";
             break;
         default:
@@ -1618,7 +1617,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
     }
 
-    if ((batch.type == "DEPTH" || main_type == "COLOR_ID") && !batch.has_nodes)
+    if ((batch.type == "SHADOW" || main_type == "COLOR_ID") && !batch.has_nodes)
         return;
 
     var num_lights = subs.num_lights;
@@ -1632,13 +1631,14 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     m_shaders.set_directive(shaders_info, "SSAO_ONLY", 0);
     m_shaders.set_directive(shaders_info, "INVERT_FRONTFACING", 0);
 
-    if (subs.water_params && subs.water_fog_color_density) {
+    var wp = sc_render.water_params;
+    if (wp && subs.water_fog_color_density) {
         m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 1);
     } else {
         m_shaders.set_directive(shaders_info, "WATER_EFFECTS", 0);
     }
 
-    if (subs.water_params && subs.caustics && obj_render.caustics) {
+    if (wp && subs.caustics && obj_render.caustics) {
         m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
 
         var sh_params = bpy_scene._render.shadow_params;
@@ -1658,10 +1658,10 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     } else
         m_shaders.set_directive(shaders_info, "CAUSTICS", 0);
 
-    if (subs.water_params) {
-        m_shaders.set_directive(shaders_info, "WAVES_HEIGHT", m_shaders.glsl_value(subs.water_waves_height));
-        m_shaders.set_directive(shaders_info, "WAVES_LENGTH", m_shaders.glsl_value(subs.water_waves_length));
-        m_shaders.set_directive(shaders_info, "WATER_LEVEL", m_shaders.glsl_value(subs.water_level));
+    if (wp) {
+        m_shaders.set_directive(shaders_info, "WAVES_HEIGHT", m_shaders.glsl_value(wp.waves_height));
+        m_shaders.set_directive(shaders_info, "WAVES_LENGTH", m_shaders.glsl_value(wp.waves_length));
+        m_shaders.set_directive(shaders_info, "WATER_LEVEL", m_shaders.glsl_value(wp.water_level));
     }
 
     var subs_cube_refl = scene_data.cube_refl_subs;
@@ -1673,7 +1673,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         var tex = subs_cube_refl.camera.color_attachment;
         m_batch.append_texture(batch, tex, "u_cube_reflection");
         m_shaders.set_directive(shaders_info, "REFLECTION_TYPE", "REFL_CUBE");
-    } else if (batch.reflective && subs_plane_refl.length) {
+    } else if (batch.reflective && subs_plane_refl) {
         for (var i = 0; i < subs_plane_refl.length; i++) {
             var tex = subs_plane_refl[i].camera.color_attachment;
             m_batch.append_texture(batch, tex, "u_plane_reflection");
@@ -1722,7 +1722,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         m_shaders.set_directive(shaders_info, "FOG_TYPE", wfs.falloff);
     }
 
-    if (batch.refractive) {
+    if (batch.refractive && batch.blend) {
         if (cfg_def.depth_tex_available)
             m_shaders.set_directive(shaders_info, "USE_REFRACTION_CORRECTION", 1);
         if (batch.type == "MAIN" && batch.has_nodes
@@ -1751,7 +1751,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         } else
             m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 0);
 
-        if (batch.water_dynamic && subs.water_params && subs.water_waves_height)
+        if (batch.water_dynamic && wp && wp.waves_height)
             m_shaders.set_directive(shaders_info, "DYNAMIC", 1);
         else
             m_shaders.set_directive(shaders_info, "DYNAMIC", 0);
@@ -1902,7 +1902,7 @@ function debug_report_order(bundles) {
 /**
  * Add object to main scene
  */
-function add_object_subs_depth(subs, obj, graph, scene, copy) {
+function add_object_subs_shadow_receive(subs, obj, graph, scene, copy) {
     // divide obj by batches
     var sc_data = m_obj_util.get_scene_data(obj, scene);
     var batches = sc_data.batches;
@@ -1910,15 +1910,11 @@ function add_object_subs_depth(subs, obj, graph, scene, copy) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "DEPTH" || batch.shadow_cast_only ||
-                !batch.shadow_receive)
-            continue;
-
-        if (batch.subtype != "DEPTH" && batch.subtype != "NODES")
+        if (batch.type != "SHADOW" || batch.subtype != "RECEIVE")
             continue;
 
         if (!copy) {
-            update_batch_subs(batch, subs, obj, graph, "DEPTH", scene);
+            update_batch_subs(batch, subs, obj, graph, "SHADOW", scene);
             m_batch.update_shader(batch);
             validate_batch(batch);
         }
@@ -1942,10 +1938,10 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "DEPTH")
+        if (batch.type != "SHADOW")
             continue;
 
-        if (batch.subtype != "SHADOW_CAST")
+        if (batch.subtype != "CAST")
             continue;
 
         update_needed = true;
@@ -2180,7 +2176,7 @@ function update_shadow_receive_subs(subs, graph) {
         var output = outputs[i];
 
         // NOTE: it's for debug_subs
-        if (output.type != "MAIN_OPAQUE" && output.type != "DEPTH"
+        if (output.type != "MAIN_OPAQUE" && output.type != "SHADOW_RECEIVE"
                 && output.type != "MAIN_BLEND" && output.type != "MAIN_XRAY")
             continue;
 
@@ -2789,7 +2785,7 @@ function setup_scene_dim(scene, width, height) {
 
     if (sc_render.shadow_params) {
         sc_render.need_shadow_update = true;
-        get_subs(scene, "DEPTH").need_perm_uniforms_update = true;
+        get_subs(scene, "SHADOW_RECEIVE").need_perm_uniforms_update = true;
         get_subs(scene, "MAIN_BLEND").need_perm_uniforms_update = true;
     }
 
@@ -2895,7 +2891,7 @@ function get_subs(scene, type) {
  */
 exports.get_environment_colors = function(scene) {
 
-    var subs = subs_array(scene, LIGHT_SUBSCENE_TYPES)[0];
+    var subs = get_subs(scene, "MAIN_OPAQUE");
 
     var hor = subs.horizon_color;
     var zen = subs.zenith_color;
@@ -2916,24 +2912,18 @@ exports.get_environment_colors = function(scene) {
 
 exports.set_environment_colors = set_environment_colors;
 /**
- * Set horizon and/or zenith color(s)
+ * Set environment energy, horizon and zenith colors
  */
-function set_environment_colors(scene, opt_environment_energy,
-        opt_horizon_color, opt_zenith_color) {
+function set_environment_colors(scene, environment_energy, horizon_color, zenith_color) {
 
     var subscenes = subs_array(scene, LIGHT_SUBSCENE_TYPES);
 
     for (var i = 0; i < subscenes.length; i++) {
         var subs = subscenes[i];
 
-        if (!isNaN(opt_environment_energy)) {
-            subs.environment_energy = opt_environment_energy;
-        }
-
-        if (opt_horizon_color)
-            subs.horizon_color.set(opt_horizon_color);
-        if (opt_zenith_color)
-            subs.zenith_color.set(opt_zenith_color);
+        subs.horizon_color.set(horizon_color);
+        subs.zenith_color.set(zenith_color);
+        subs.environment_energy = environment_energy;
 
         subs.need_perm_uniforms_update = true;
     }
@@ -3013,6 +3003,84 @@ exports.set_sky_params = function(scene, sky_params) {
         subs.need_perm_uniforms_update = true;
         subs.need_fog_update = true;
         update_sky(scene, subs);
+    }
+}
+
+/**
+ * Get fog params methods
+ */
+exports.get_fog_intensity = function(scene) {
+
+    var subs = subs_array(scene, FOG_SUBSCENE_TYPES)[0];
+
+    return subs.fog_params[0];
+}
+
+exports.get_fog_depth = function(scene) {
+
+    var subs = subs_array(scene, FOG_SUBSCENE_TYPES)[0];
+
+    return subs.fog_params[1];
+}
+
+exports.get_fog_start = function(scene) {
+
+    var subs = subs_array(scene, FOG_SUBSCENE_TYPES)[0];
+
+    return subs.fog_params[2];
+}
+
+exports.get_fog_height = function(scene) {
+
+    var subs = subs_array(scene, FOG_SUBSCENE_TYPES)[0];
+
+    return subs.fog_params[3];
+}
+
+/**
+ * Set fog params methods
+ */
+exports.set_fog_intensity = function(scene, fog_intensity) {
+
+    var subscenes = subs_array(scene, FOG_SUBSCENE_TYPES);
+
+    for (var i = 0; i < subscenes.length; i++) {
+        var subs = subscenes[i];
+        subs.fog_params[0] = fog_intensity;
+        subs.need_perm_uniforms_update = true;
+    }
+}
+
+exports.set_fog_depth = function(scene, fog_depth) {
+
+    var subscenes = subs_array(scene, FOG_SUBSCENE_TYPES);
+
+    for (var i = 0; i < subscenes.length; i++) {
+        var subs = subscenes[i];
+        subs.fog_params[1] = fog_depth;
+        subs.need_perm_uniforms_update = true;
+    }
+}
+
+exports.set_fog_start = function(scene, fog_start) {
+
+    var subscenes = subs_array(scene, FOG_SUBSCENE_TYPES);
+
+    for (var i = 0; i < subscenes.length; i++) {
+        var subs = subscenes[i];
+        subs.fog_params[2] = fog_start;
+        subs.need_perm_uniforms_update = true;
+    }
+}
+
+exports.set_fog_height = function(scene, fog_height) {
+
+    var subscenes = subs_array(scene, FOG_SUBSCENE_TYPES);
+
+    for (var i = 0; i < subscenes.length; i++) {
+        var subs = subscenes[i];
+        subs.fog_params[3] = fog_height;
+        subs.need_perm_uniforms_update = true;
     }
 }
 
@@ -3392,7 +3460,7 @@ exports.get_wind_params = function(scene) {
     if (length == 0)
         return null;
 
-    var angle = Math.atan(wind[0]/wind[2]) * 180 / Math.PI;
+    var angle = Math.atan2(wind[0], wind[2]) * 180 / Math.PI;
 
     var wind_params = {};
     wind_params.wind_dir = angle;
@@ -3415,25 +3483,21 @@ exports.get_water_surface_level = get_water_surface_level;
  * Get water surface level
  * @methodOf scenes
  */
-function get_water_surface_level(pos_x, pos_z) {
+function get_water_surface_level(scene, pos_x, pos_z) {
 
-    var subs = get_subs(_active_scene, "MAIN_OPAQUE");
+    var render = scene._render;
+    var wp = render.water_params;
 
-    if (!subs || !subs.water_params) {
-        m_print.error("get_water_surface_level() - no water parameters on the scene");
-        return 0;
-    }
-
-    var waves_height = subs.water_waves_height;
-    var waves_length = subs.water_waves_length;
-    var water_level  = subs.water_level;
-
-    var wp = subs.water_params;
-
-    if (!waves_height || !wp.dynamic)
+    if (!wp.dynamic)
         return wp.water_level;
 
-    var wind_str = m_vec3.length(subs.wind);
+    var waves_height = wp.waves_height;
+    var waves_length = wp.waves_length;
+    var water_level  = wp.water_level;
+
+    var wind_str = m_vec3.length(render.wind);
+
+    var subs = get_subs(scene, "MAIN_OPAQUE");
     var time = subs.time;
     if (wind_str)
         time *= wind_str;
@@ -3465,14 +3529,14 @@ function get_water_surface_level(pos_x, pos_z) {
     var noise2 = m_util.snoise(noise_coords);
     var dist_waves = waves_height * noise1 * noise2;
 
-    if (subs.use_shoremap) {
-        // waves moving towards the shore
+    // waves moving towards the shore
+    if (wp.shoremap_image) {
 
         // center and size of shore distance field
-        var size_x = subs.shoremap_size[0];
-        var size_z = subs.shoremap_size[1];
-        var center_x = subs.shoremap_center[0];
-        var center_z = subs.shoremap_center[1];
+        var size_x = wp.shoremap_size[0];
+        var size_z = wp.shoremap_size[1];
+        var center_x = wp.shoremap_center[0];
+        var center_z = wp.shoremap_center[1];
 
         // get uv coords on shore distance map
         var x = (pos_x - center_x) / size_x;
@@ -3484,8 +3548,9 @@ function get_water_surface_level(pos_x, pos_z) {
         if (x > 1 || x < 0 || z > 1 || z < 0) {
             var wave_height = dist_waves;
         } else {
-            var width = subs.shoremap_tex_size;
-            var array = _active_scene._render.shore_distances;
+            var width = wp.shoremap_tex_size;
+            var array = render.shore_distances;
+
             var shore_dist = m_util.get_array_smooth_value(array, width, x, z);
             var dir_min_shore_fac = wp.dir_min_shore_fac;
             var dir_freq          = wp.dir_freq;
@@ -3495,7 +3560,7 @@ function get_water_surface_level(pos_x, pos_z) {
             var dst_min_fac       = wp.dst_min_fac;
             var waves_hor_fac     = wp.waves_hor_fac;
 
-            var max_shore_dist = subs.max_shore_dist;
+            var max_shore_dist = wp.max_shore_dist;
             var shore_waves_length = waves_length / max_shore_dist / Math.PI;
             // waves moving towards the shore
             var waves_coords = [dir_noise_scale / waves_length * (pos_x + dir_noise_freq * time),
@@ -3520,13 +3585,14 @@ function get_water_surface_level(pos_x, pos_z) {
 
 exports.get_water_mat_params = function(scene, water_params) {
 
+    var wp = scene._render.water_params;
     var subs = get_subs(scene, "MAIN_OPAQUE");
 
-    if (!subs)
+    if (!subs || !wp)
         return;
 
-    water_params.waves_height = subs.water_waves_height;
-    water_params.waves_length = subs.water_waves_length;
+    water_params.waves_height = wp.waves_height;
+    water_params.waves_length = wp.waves_length;
 
     if (subs.water_fog_color_density){
         water_params.water_fog_density = subs.water_fog_color_density[3];
@@ -3539,14 +3605,12 @@ exports.get_water_mat_params = function(scene, water_params) {
 
 exports.set_water_params = function(scene, water_params) {
 
-    var subs = get_subs(scene, "MAIN_OPAQUE");
+    var wp = scene._render.water_params;
 
-    if (!subs || !subs.water_params) {
+    if (!wp) {
         m_print.error("set_water_params() - no water parameters on the scene");
         return null;
     }
-
-    var wp = subs.water_params;
 
     if (typeof water_params.dst_noise_scale0 == "number")
         wp.dst_noise_scale0 = water_params.dst_noise_scale0;
@@ -3594,20 +3658,20 @@ exports.set_water_params = function(scene, water_params) {
     }
 }
 
-exports.get_shore_dist = function(trans, v_dist_mult) {
-    var subs = get_subs(_active_scene, "MAIN_OPAQUE");
+exports.get_shore_dist = function(scene, trans, v_dist_mult) {
 
-    if (!subs.use_shoremap)
+    var wp = scene._render.water_params;
+    if (!wp.shoremap_image)
         return SHORE_DIST_COMPAT;
 
     // center and size of shore distance field
-    var size_x = subs.shoremap_size[0];
-    var size_z = subs.shoremap_size[1];
-    var center_x = subs.shoremap_center[0];
-    var center_z = subs.shoremap_center[1];
-    var max_shore_dist = subs.max_shore_dist;
+    var size_x = wp.shoremap_size[0];
+    var size_z = wp.shoremap_size[1];
+    var center_x = wp.shoremap_center[0];
+    var center_z = wp.shoremap_center[1];
+    var max_shore_dist = wp.max_shore_dist;
 
-    var water_level = subs.water_level;
+    var water_level = wp.water_level;
 
     // get uv coords on shore distance map
     var x = (trans[0] - center_x) / size_x;
@@ -3619,7 +3683,7 @@ exports.get_shore_dist = function(trans, v_dist_mult) {
     if (x > 1 || x < 0 || z > 1 || z < 0) {
         var shore_dist = 1.0;
     } else {
-        var width = subs.shoremap_tex_size;
+        var width = wp.shoremap_tex_size;
         var array = _active_scene._render.shore_distances;
         var shore_dist_xz = max_shore_dist * m_util.get_array_smooth_value(array, width, x, z);
         var shore_dist_y  = (water_level - trans[1]) * v_dist_mult;
@@ -3646,7 +3710,7 @@ exports.update = function(timeline, elapsed) {
 
         if (render.water_params) {
             var trans = m_tsr.get_trans_view(active_cam_render.world_tsr);
-            var cam_water_depth = trans[1] - get_water_surface_level(trans[0], trans[2]);
+            var cam_water_depth = trans[1] - get_water_surface_level(scene, trans[0], trans[2]);
         }
 
         for (var j = 0; j < render.video_textures.length; j++) {
@@ -3714,7 +3778,6 @@ exports.update = function(timeline, elapsed) {
                 subs.cam_water_depth = cam_water_depth;
             }
         });
-
     }
 
     // rendering

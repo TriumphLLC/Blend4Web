@@ -11,6 +11,7 @@ var m_scs   = require("scenes");
 var m_trans = require("transform");
 var m_vec3  = require("vec3");
 var m_sfx   = require("sfx");
+var m_phy   = require("physics");
 
 var m_char = require("character");
 var m_conf = require("game_config");
@@ -21,6 +22,7 @@ var falling_time = {};
 
 
 var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp_2 = new Float32Array(3);
 
 exports.init = function(elapsed_sensor, level_conf) {
     _level_conf = level_conf;
@@ -28,16 +30,53 @@ exports.init = function(elapsed_sensor, level_conf) {
 
     if (_level_conf.ROCK_EMPTIES)
         setup_falling_rocks(elapsed_sensor, _level_conf);
+
+    if (_level_conf.LEVEL_NAME == "dungeon")
+        setup_random_bonus_spawn(level_conf);
+}
+
+function setup_random_bonus_spawn(level_conf) {
+    var timer = m_ctl.create_timer_sensor(level_conf.BONUS_SPAWN_PERIOD, true);
+    var sphere_empty = m_scs.get_object_by_name(level_conf.BONUS_SPAWN_SPHERE);
+    var bonus_spawn_sphere = m_scs.get_object_by_dupli_name(
+                                    level_conf.BONUS_SPAWN_SPHERE,
+                                    level_conf.BONUS_SPAWN_SPHERE);
+    m_anim.set_behavior(bonus_spawn_sphere, m_anim.AB_FINISH_RESET);
+    m_anim.set_frame(bonus_spawn_sphere, 0);
+
+    function ray_cb(id, fract, obj, time, pos, norm) {
+        var spawned = m_bonuses.spawn(pos);
+        if (spawned) {
+            m_trans.set_translation_v(sphere_empty, pos);
+            m_anim.play(bonus_spawn_sphere);
+        }
+    }
+
+    function bonus_spawn_cb(obj, id, pulse) {
+        var from = _vec3_tmp;
+        var DIST = 20
+        from[0] = 2 * DIST * Math.random() - DIST;
+        from[1] = 20;
+        from[2] = 2 * DIST * Math.random() - DIST;
+        var to = _vec3_tmp_2;
+        _vec3_tmp_2[0] = from[0];
+        _vec3_tmp_2[2] = from[2];
+        _vec3_tmp_2[1] = -10;
+        m_phy.append_ray_test_ext(null, from, to, "GROUND", ray_cb, true,
+                                  false, true, false);
+    }
+    m_ctl.create_sensor_manifold(null, "BONUS_SPAWN", m_ctl.CT_SHOT,
+                                 [timer], null, bonus_spawn_cb);
 }
 
 function setup_falling_rocks(elapsed_sensor, level_conf) {
 
     function rock_fall_cb(obj, id, pulse) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-        var obj_name = m_scs.get_object_name(obj);
-        falling_time[obj_name] += elapsed;
+        var rock_name = m_scs.get_object_name(obj);
+        falling_time[rock_name] += elapsed;
 
-        if (falling_time[obj_name] <= _level_conf.ROCK_FALL_DELAY)
+        if (falling_time[rock_name] <= _level_conf.ROCK_FALL_DELAY)
             return;
 
         var rock_pos = _vec3_tmp;
@@ -63,17 +102,19 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
         m_anim.set_frame(burst_emitter, 0, m_anim.SLOT_ALL);
         m_anim.play(burst_emitter, null, m_anim.SLOT_ALL);
 
-        set_random_rock_position(obj);
-
         if (dist_to_rock < _level_conf.ROCK_DAMAGE_RADIUS) {
-            var damage = -_level_conf.ROCK_DAMAGE
-            if (m_bonuses.shield_time_left() > 0)
-                damage *= m_conf.BONUS_SHIELD_EFFECT
-            m_char.change_hp(damage);
+            if (char_wrapper.state != m_conf.CH_VICTORY) {
+                var damage = -_level_conf.ROCK_DAMAGE
+                if (m_bonuses.shield_time_left() > 0)
+                    damage *= m_conf.BONUS_SHIELD_EFFECT
+                m_char.change_hp(damage);
+            }
         }
 
-        var obj_name = m_scs.get_object_name(obj);
-        falling_time[obj_name] = 0;
+        set_random_rock_position(obj);
+
+        var rock_name = m_scs.get_object_name(obj);
+        falling_time[rock_name] = 0;
 
         var should_spawn_bonus = Math.random() < m_conf.BONUS_SPAWN_CHANCE;
 
@@ -91,9 +132,9 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
         var ray_dist = m_ctl.get_sensor_payload(obj, id, sensor_id).hit_fract;
 
         var mark_pos = _vec3_tmp;
-        var obj_name = m_scs.get_object_name(obj);
+        var rock_name = m_scs.get_object_name(obj);
 
-        if (falling_time[obj_name] <= _level_conf.ROCK_FALL_DELAY) {
+        if (falling_time[rock_name] <= _level_conf.ROCK_FALL_DELAY) {
             m_trans.get_translation(obj, mark_pos);
             mark_pos[1] -= ray_dist * _level_conf.ROCK_RAY_LENGTH - 0.01;
             m_trans.set_translation_v(mark, mark_pos);
@@ -143,7 +184,7 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
     }
 }
 
-exports.reset = function() {
+exports.reset = function(elapsed_sensor) {
     if (_level_conf.LEVEL_NAME == "volcano")
         for (var i = 0; i < _level_conf.ROCK_EMPTIES.length; i++) {
             var dupli_name = _level_conf.ROCK_EMPTIES[i];
@@ -154,6 +195,7 @@ exports.reset = function() {
                 falling_time[rock_name] = 0
             }
         }
+    setup_lava(elapsed_sensor);
 }
 
 function set_random_rock_position(rock) {
@@ -167,10 +209,11 @@ function set_random_rock_position(rock) {
 
 function setup_lava(elapsed_sensor) {
     var time_in_lava = 0;
+    var char_wrapper = m_char.get_wrapper();
 
     function lava_cb(obj, id, pulse, param) {
         if (pulse == 1) {
-
+            m_scs.show_object(char_wrapper.foot_smoke);
             var elapsed = m_ctl.get_sensor_value(obj, id, 1);
             time_in_lava += elapsed;
 
@@ -186,13 +229,15 @@ function setup_lava(elapsed_sensor) {
                 time_in_lava = 0;
             }
         } else {
+            m_scs.hide_object(char_wrapper.foot_smoke);
             time_in_lava = 0;
         }
     }
 
-    var char_wrapper = m_char.get_wrapper();
     var lava_ray = m_ctl.create_ray_sensor(char_wrapper.phys_body, [0, 0, 0],
             [0, -m_conf.CHAR_RAY_LENGTH, 0], "LAVA", true);
+
+    m_ctl.remove_sensor_manifold(char_wrapper.phys_body, "LAVA_COLLISION");
 
     m_ctl.create_sensor_manifold(char_wrapper.phys_body, "LAVA_COLLISION",
         m_ctl.CT_CONTINUOUS, [lava_ray, elapsed_sensor],
@@ -206,8 +251,7 @@ function setup_lava(elapsed_sensor) {
         m_anim.set_frame(lava_obj, 0);
         var lava_death_ctrl = m_scs.get_object_by_dupli_name("lava_death_controller",
                                                              "lava_death_controller");
-        m_anim.stop(lava_death_ctrl);
-        m_anim.set_frame(lava_death_ctrl, 0);
+        m_anim.apply_def(lava_death_ctrl);
     }
 }
 

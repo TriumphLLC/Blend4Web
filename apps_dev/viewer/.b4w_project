@@ -2,6 +2,7 @@
 author = Blend4Web
 name = viewer
 title = Viewer
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/animation;deploy/assets/dev;deploy/assets/environment;deploy/assets/interactivity;deploy/assets/material_library;deploy/assets/materials;deploy/assets/media;deploy/assets/misc;deploy/assets/particles;deploy/assets/physics;deploy/assets/postprocessing;

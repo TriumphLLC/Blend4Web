@@ -1,12 +1,12 @@
 
-Outdoor effects
+Outdoor Effects
 ***************
 
 
 Table of Content
 ^^^^^^^^^^^^^^^^
 
-* Outdoor effects
+* Outdoor Effects
 
   * Water
 
@@ -129,16 +129,16 @@ For color gradient the water material must have a texture with the
 "Export Options > Shore Distance Map" option enabled. This texture can
 be generated using the script for baking shoreline parameters
 
-*Shallow water > Color*
+*Shallow Water > Color*
    Shallow water color.
 
-*Shallow water > Factor*
+*Shallow Water > Factor*
    Shallow water color mixing factor.
 
-*Shore water > Color*
+*Shore Water > Color*
    Water color just at the shore line.
 
-*Shore water > Factor*
+*Shore Water > Factor*
    Factor for mixing water color just near the shoreline.
 
 
@@ -380,7 +380,7 @@ Fog
 The engine supports standard parameters located on the "World > Mist"
 panel. Besides this, overriding fog color is possible.
 
-*Mist > Use custom color*
+*Mist > Use Custom Color*
    Apply the user-defined fog color instead of "World > Horizon"
    color. Enabled by default.
 
@@ -462,41 +462,41 @@ Bending" panel.
 
 
 
-*Main bending > Angle*
+*Main Bending > Angle*
    Angle amplitude of the "main" deviation under the influence of wind
    (in degrees). The default value is 10.0.
 
-*Main bending > Frequency*
+*Main Bending > Frequency*
    Frequency of the "main" deviation under the influence of wind. The
    default value is 0.25.
 
-*Main bending > Main Stiffness (A)*
+*Main Bending > Main Stiffness (A)*
    Text field for specifying the name of the vertex color layer which
    contains the information about the stiffness of the "main"
    deviation. Can be left empty.
 
-*Detail bending > Amplitude*
+*Detail Bending > Amplitude*
    Angle amplitude of the "detail" deviation caused by the influence
    of wind (in degrees). The default value is 0.1.
 
-*Detail bending > Branch Amplitude*
+*Detail Bending > Branch Amplitude*
    Angle amplitude of the branch deviation caused by the influence of
    wind (in degrees). The default value is 0.3.
 
-*Detail bending > Bending Frequency*
+*Detail Bending > Bending Frequency*
    Detail bendind frequency. The default value is 1.0.
 
-*Detail bending > Leaves Stiffness (R)*
+*Detail Bending > Leaves Stiffness (R)*
    Text field for specifying the name of the vertex color layer which
    contains the information about the stiffness of leaves. Can be left
    empty.
 
-*Detail bending > Leaves Phase (G)*
+*Detail Bending > Leaves Phase (G)*
    Text field for specifying the name of the vertex color layer which
    contains the information about the phase of leaves deviation. Can
    be left empty.
 
-*Detail bending > Overall Stiffness (B)*
+*Detail Bending > Overall Stiffness (B)*
    Text field for specifying the name of the vertex color layer which
    contains the information about the overall stiffness of leaves. Can
    be left empty.

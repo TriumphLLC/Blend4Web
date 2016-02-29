@@ -12,8 +12,6 @@ Table of Content
 
   * Engine Specific Nodes
 
-    * Linear to SRGB and SRGB to Linear (Deprecated)
-
     * Replace (B4W_REPLACE)
 
     * Clamp (B4W_CLAMP)
@@ -36,6 +34,8 @@ Table of Content
 
     * Reflect (B4W_REFLECT)
 
+    * Linear to SRGB and SRGB to Linear (Deprecated)
+
 Shader nodes extend significantly the potential of Blender's standard
 materials by means of presenting shading as a batch of basic
 transformations.
@@ -46,30 +46,18 @@ transformations.
 Standard Nodes
 ==============
 
-All Blender functions are supported except the following cases:
+Blend4Web supports all standard Blender nodes, but some of them do not
+work fast enough and are not recommended to use in real time
+applications. Creating very complex materials, especially using large
+numbers of "Geometry" and "Texture" nodes, is also not recommended.
 
-* "Geometry" - The "Vertex Alpha" output is not supported
+Cycles nodes are only partially supported: in most cases they will not
+work in Blend4Web the same way they do in Blender. They also might not
+work at all or even cause material in which they are used to work
+incorrectly. However, using Cycles nodes will not cause instabilities
+in the application workflow.
 
-* "Lamp data" - The "Shadow" output is not supported.
 
-* "Material", "Extended Material" - no more than one node per
-  material is allowed; the "Refl", "Ambient", "SpecTra" inputs are not
-  supported; the "AO" output is not supported.
-
-* "RGB Curves", "Vector Curves", "ColorRamp" and Cycles-nodes have
-  limited support.
-
-In addition a poor performance of some nodes in real-time context
-should be taken into account. It is not recommended to use the
-following nodes:
-
-* "Hue/Saturation"
-
-* "MixRGB" - the "Burn", "Dodge", "Value", "Saturation", "Hue",
-  "Color" types.
-
-It is not recommended to create very complex materials especially if
-they use many "Geometry" or "Texture" nodes.
 
 
 Engine Specific Nodes
@@ -82,20 +70,6 @@ formats. For convenience, all special nodes are added to a blend file
 when it is opened.
 
 [image]
-
-
-Linear to SRGB and SRGB to Linear (Deprecated)
-----------------------------------------------
-
-Converts colors from linear space to sRGB or vice versa. This function
-has been declared deprecated sicne the version 15.04. In the newer
-versions, the native "Gamma" node with the value of 2.200 should be
-used to convert color from sRGB to linear space, and the same node
-with the value of 0.455 to convert color from linear space to sRGB.
-
-[image]
-
-See also: Gamma in Node Materials
 
 
 Replace (B4W_REPLACE)
@@ -325,7 +299,7 @@ Input parameters
 *Normal*
    Normal map for adding perturbations.
 
-*Refraction bump*
+*Refraction Bump*
    Value of perturbation strength.
 
    The default value is 0.001.
@@ -436,6 +410,10 @@ Input parameters
    * *Factor* \in (0, 1] - there is a glow, colored with *Glow
      Color*.
 
+Note: The "Transparency->Type" parameters of the material don't
+  affect behavior of the glow effect. It always corresponds to the
+  transparent material (not the "Alpha Clip" type).
+
 
 Reflect (B4W_REFLECT)
 ---------------------
@@ -465,3 +443,17 @@ Output parameters
 *Vector*
    Reflected vector. Should be connected to the "Vector" socket of the
    "Texture" node that contains the cubemap.
+
+
+Linear to SRGB and SRGB to Linear (Deprecated)
+----------------------------------------------
+
+Converts colors from linear space to sRGB or vice versa. This function
+has been declared deprecated sicne the version 15.04. In the newer
+versions, the native "Gamma" node with the value of 2.200 should be
+used to convert color from sRGB to linear space, and the same node
+with the value of 0.455 to convert color from linear space to sRGB.
+
+[image]
+
+See also: Gamma in Node Materials

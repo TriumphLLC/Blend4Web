@@ -2,6 +2,26 @@
 Particle System. Instancing
 ***************************
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Particle System. Instancing
+
+  * Particle System Setup
+
+    * Activation
+
+    * Display settings
+
+    * Dynamic grass setup
+
+    * Inheritance settings
+
+  * Grass
+
+  * Tree Leaves
+
 A particle system can be used to create multiple object copies (so
 called instancing). This technique simplifies scene authoring and also
 reduces loading time and memory consumption as compared to the using
@@ -204,7 +224,7 @@ Inheritance settings
 
    The default is "Parent".
 
-*Properties Inheritance > Vertex color*
+*Properties Inheritance > Vertex Color*
 
    Inheriting the vertex color from the emitter. Contains two fields:
 

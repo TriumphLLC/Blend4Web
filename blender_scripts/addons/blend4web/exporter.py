@@ -33,7 +33,7 @@ ROW_HEIGHT = 20
 
 SUF_HAIR_DUPLI = "_HAIR_DUPLI"
 
-PATH_TO_VIEWER = "apps_dev/viewer/viewer_dev.html"
+PATH_TO_VIEWER = "apps_dev/viewer/viewer.html"
 
 JSON_PRETTY_PRINT = False
 SUPPORTED_OBJ_TYPES = ["MESH", "CURVE", "ARMATURE", "EMPTY", "CAMERA", "LAMP", \
@@ -244,7 +244,7 @@ class ExportMessagesDialog(bpy.types.Operator):
                 row.label(message["text"])
             row = self.layout.row()
             if _b4w_export_warnings:
-                row.label(text=_(""))
+                row.label(text="")
         if _b4w_export_warnings:
             print(_b4w_export_warnings)
             row = self.layout.row()
@@ -423,7 +423,7 @@ def attach_export_properties(tags):
 def check_dupli_groups(objects, group_number):
     global _dg_counter
     for obj in objects:
-        if obj.dupli_group:
+        if obj.dupli_group and obj.dupli_type == "GROUP":
             _dg_counter += 1
             check_dupli_groups(obj.dupli_group.objects, _dg_counter)
 
@@ -576,8 +576,11 @@ def scenes_store_select_all_layers():
     global _scene_active_layers
     _scene_active_layers = {}
 
-    for scene in bpy.data.scenes:
+    curr_scene = bpy.context.screen.scene
 
+    for scene in bpy.data.scenes:
+        bpy.context.screen.scene = scene 
+               
         if scene.name not in _scene_active_layers:
             _scene_active_layers[scene.name] = {}
 
@@ -587,6 +590,8 @@ def scenes_store_select_all_layers():
         for i in range(len(scene.layers)):
             layers.append(scene.layers[i])
             scene.layers[i] = True
+
+    bpy.context.screen.scene = curr_scene
 
 def scenes_restore_selected_layers():
     global _scene_active_layers
@@ -776,22 +781,24 @@ def process_action(action):
         is_rotation_euler = data_path.find("rotation_euler") > -1
         is_node = data_path.find("nodes") == 0
         is_light_color = data_path.find("color") == 0
+        is_environment_color = data_path.find("horizon_color") == 0 or data_path.find("zenith_color") == 0
+        is_fog_color = data_path.find("b4w_fog_color") == 0
 
         num_channels = 1
         if is_scale or is_location or is_rotation_quat or is_rotation_euler:
             num_channels = 8
-        if is_light_color:
+        elif is_light_color or is_environment_color or is_fog_color:
             num_channels = 3
         elif is_node:
-            num_channels_mat = get_mat_action_num_channels(action, data_path)
+            pattern = r'"([^"]*)"'
+            matched = re.search(pattern, data_path)
+            if matched:
+                node_name = matched.groups()[0]
+                num_channels_mat = get_mat_action_num_channels(action, node_name) or\
+                                   get_ngroups_action_num_channels(action, node_name)
 
-            if num_channels_mat != None:
-                num_channels = num_channels_mat
-            else:
-                num_channels_ngroups = get_ngroups_action_num_channels(action,
-                                                                      data_path)
-                if num_channels_ngroups != None:
-                    num_channels = num_channels_ngroups
+                if num_channels_mat != None:
+                    num_channels = num_channels_mat
 
         for index in fc_indices[data_path]:
             if data_path not in act_data["fcurves"]:
@@ -910,47 +917,56 @@ def process_action(action):
     _export_uuid_cache[act_data["uuid"]] = act_data
     _bpy_uuid_cache[act_data["uuid"]] = action
 
-def get_mat_action_num_channels(action, data_path):
+def get_mat_action_num_channels(action, node_name):
     mats = bpy.data.materials
     for mat in mats:
         node_tree = mat.node_tree
         if not node_tree:
             continue
-        num_channels_mat = num_node_channels(action.name, node_tree,
-                                         data_path)
+        num_channels_mat = num_node_channels(action.name, node_tree, node_name)
         if num_channels_mat:
             return num_channels_mat
     return None
 
-def get_ngroups_action_num_channels(action, data_path):
+def get_ngroups_action_num_channels(action, node_name):
     ngroups = bpy.data.node_groups
     for ntree in ngroups:
-        num_channels_ngroup = num_node_channels(action.name, ntree,
-                                                data_path)
+        num_channels_ngroup = num_node_channels(action.name, ntree, node_name)
         if num_channels_ngroup:
             return num_channels_ngroup
     return None
 
-def num_node_channels(action_name, node_tree, data_path):
+def num_node_channels(action_name, node_tree, node_name):
     anim_data = node_tree.animation_data
     if not anim_data:
         return None
 
     node_action = anim_data.action
-    if node_action:
-        if node_action.name == action_name:
-            pattern = r'"([^"]*)"'
-            matched = re.search(pattern, data_path)
-            if matched:
-                node_name = matched.groups()[0]
-                for node in node_tree.nodes:
-                    if node.name == node_name:
-                        if node.type == "RGB":
-                            return 3
-                        else:
-                            return 1
+    if node_action and node_action.name == action_name:
+        num = extract_node_action_num_channels(node_tree, node_name)
+        if num:
+            return num
 
+    nla_tracks = anim_data.nla_tracks
+    if nla_tracks:
+        for track in nla_tracks:
+            for strip in track.strips:
+                action = strip.action
+                if action and action.name == action_name:
+                    num = extract_node_action_num_channels(node_tree, node_name)
+                    if num:
+                        return num
     return None
+
+def extract_node_action_num_channels(node_tree, node_name):
+    for node in node_tree.nodes:
+        if node.name == node_name:
+            if node.type == "RGB":
+                return 3
+            else:
+                return 1
+    return None
+
 
 def process_scene(scene):
     if "export_done" in scene and scene["export_done"]:
@@ -1144,8 +1160,6 @@ def get_logic_nodetree_name(scene):
     return tree_name
 
 def force_mute_node(node_data, desc):
-     err("Incorrect Logic Editor node " + "\"" + node_data["name"] \
-     + "\". " + desc + " Node muted.")
      node_data['mute'] = True
 
 def process_scene_nla(scene, scene_data):
@@ -1401,6 +1415,9 @@ def process_scene_nla(scene, scene_data):
                     elif slot['param_condition'] == "EQUAL":
                         slot_data["floats"]["cnd"] = 5
 
+            elif slot['type'] == "SPEAKER_PLAY" or slot['type'] == "SPEAKER_STOP":
+                check_objects_paths(scene, slot, slot_data)
+
             elif slot['type'] == "NOOP":
                 pass
 
@@ -1618,7 +1635,7 @@ def process_object(obj, is_curve=False, is_hair=False):
         obj_data["proxy"] = None
 
     dupli_group = obj.dupli_group
-    if dupli_group:
+    if dupli_group and obj.dupli_type == "GROUP":
         obj_data["dupli_group"] = process_group(dupli_group)
         
         dg_uuid = obj_data["dupli_group"]["uuid"]
@@ -1643,6 +1660,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     else:
         obj_data["parent"] = None
         obj_data["b4w_viewport_alignment"] = None
+        obj_data["pinverse_tsr"] = None
 
     obj_data["parent_type"] = obj.parent_type
     obj_data["parent_bone"] = obj.parent_bone
@@ -2028,7 +2046,7 @@ def process_object_nla(nla_tracks_data, nla_tracks, actions):
 
             # can be a speaker converted to an empty object
             curr_obj = _curr_stack["object"][-1]
-            if (strip.type == "SOUND" and (curr_obj.type != "SPEAKER" 
+            if (strip.type == "SOUND" and (curr_obj.type != "SPEAKER"
                     or curr_obj.data.sound is None)):
                 continue
 
@@ -2192,7 +2210,11 @@ def process_camera(camera):
     cam_data["b4w_enable_hover_hor_rotation"] \
             = camera.b4w_enable_hover_hor_rotation
 
-    cam_data["b4w_use_panning"] = camera.b4w_use_panning;
+    cam_data["b4w_use_panning"] = camera.b4w_use_panning
+
+    cam_data["b4w_use_pivot_limits"] = camera.b4w_use_pivot_limits
+    cam_data["b4w_pivot_z_min"] = camera.b4w_pivot_z_min
+    cam_data["b4w_pivot_z_max"] = camera.b4w_pivot_z_max
 
     # translate to b4w coordinates
     b4w_target = [camera.b4w_target[0], camera.b4w_target[2], \
@@ -2280,7 +2302,7 @@ def process_lamp(lamp):
         lamp_data["spot_size"] = None
         lamp_data["spot_blend"] = None
 
-    lamp_data["b4w_generate_shadows"] = lamp.b4w_generate_shadows
+    lamp_data["b4w_generate_shadows"] = lamp.use_shadow
     lamp_data["b4w_dynamic_intensity"] = lamp.b4w_dynamic_intensity
     lamp_data["color"] = round_iterable(lamp.color, 4)
 
@@ -2601,15 +2623,15 @@ def process_texture(texture, uuid = None):
     _bpy_uuid_cache[tex_data["uuid"]] = texture
     _curr_stack["texture"].pop()
 
-def process_color_ramp(tex_data, ramp):
-    tex_data["color_ramp"] = OrderedDict()
-    tex_data["color_ramp"]["elements"] = []
+def process_color_ramp(data, ramp):
+    data["color_ramp"] = OrderedDict()
+    data["color_ramp"]["elements"] = []
 
     for el in ramp.elements:
         el_data = OrderedDict()
         el_data["position"] = round_num(el.position, 3)
         el_data["color"] = round_iterable(el.color, 3)
-        tex_data["color_ramp"]["elements"].append(el_data)
+        data["color_ramp"]["elements"].append(el_data)
 
 def process_image(image):
     if "export_done" in image and image["export_done"]:
@@ -3533,6 +3555,8 @@ def process_world(world):
         return
     world["export_done"] = True
 
+    _curr_stack["object"].append(world)
+
     world_data = OrderedDict()
 
     world_data["name"] = world.name
@@ -3547,13 +3571,20 @@ def process_world(world):
     world_data["use_sky_blend"] = world.use_sky_blend
     world_data["use_sky_real"] = world.use_sky_real
 
+    world_data["b4w_use_default_animation"] = world.b4w_use_default_animation
+    world_data["b4w_anim_behavior"] = world.b4w_anim_behavior
+
     process_world_light_settings(world_data, world)
     process_world_sky_settings(world_data, world)
     process_world_mist_settings(world_data, world)
 
+    process_animation_data(world_data, world, bpy.data.actions)
+
     _export_data["worlds"].append(world_data)
     _export_uuid_cache[world_data["uuid"]] = world_data
     _bpy_uuid_cache[world_data["uuid"]] = world
+
+    _curr_stack["object"].pop()
 
 def process_world_light_settings(world_data, world):
     light_settings = world.light_settings
@@ -4038,6 +4069,24 @@ def process_node_tree(data, tree_source):
             data["uv_vc_key"] += node_data["uv_layer"]
             if node.outputs["Generated"].is_linked:
                 data["use_orco_tex_coord"] = True
+
+        if node.type == "CURVE_VEC" or node.type == "CURVE_RGB":
+            node_data["curve_mapping"] = OrderedDict()
+            def extract_loc(point): return list(point.location.to_tuple())
+            def extract_handle_type(point): return point.handle_type
+            node_data["curve_mapping"]["curves_data"] = []
+            node_data["curve_mapping"]["curves_handle_types"] = []
+            node_data["curve_mapping"]["curve_extend"] = []
+            for curve in node.mapping.curves:
+                node_data["curve_mapping"]["curves_data"].append([point for point
+                        in map(extract_loc, curve.points)])
+                node_data["curve_mapping"]["curves_handle_types"].append([handle_type for handle_type
+                        in map(extract_handle_type, curve.points)])
+                node_data["curve_mapping"]["curve_extend"].append(curve.extend)
+
+        elif node.type == "VALTORGB":
+            process_color_ramp(node_data, node.color_ramp)
+            node_data["color_ramp"]["interpolation"] = node.color_ramp.interpolation
 
         if node.type == "GROUP":
             if node.node_tree.name == "B4W_REFRACTION" or node.node_tree.name == "REFRACTION":
@@ -4611,7 +4660,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
         attach_export_properties(tags)
         for scene in bpy.data.scenes:
             # NOTE: update all scenes to avoid issue with particle systems
-            scene.update()
+            # not needed?
+            # scene.update()
             check_dupli_groups(scene.objects, _dg_counter)
             _dg_counter += 1
         process_components(tags)

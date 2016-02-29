@@ -22,28 +22,30 @@
     <table>
         <thead>
             <tr>
-                <th colspan="6">
+                <th colspan="7">
                     <a id="back_to_index" href="/"><div></div><span>Back to Index</span></a>
                     <a id="new_project" href="/create/"><div></div><span>Create New Project</span></a>
                     <form action="/project/import/" enctype="multipart/form-data" method="post" onsubmit="submit_cb(this); return false;">
                         <label for="zip_file" title=""><div></div>
-                            Import Project Archive
+                            Import Project(s)
                             <input type="file" name="zip_file" id="zip_file"/>
                         </label>
                     </form>
+                    <a id="export_project" href="/export/"><div></div><span>Export Project(s)</span></a>
                     <a id="show_hide_b4w" href="$show_hide_link"><div></div><span>$show_hide_text Stock Projects</span></a>
-                    <a id="help" href="/deploy/doc/en/developers.html#app-building"><div></div><span>Help</span></a>
+                    <a id="help" href="/deploy/doc/en/project_manager.html"><div></div><span>Help</span></a>
                 </th>
             </tr>
-            <tr class="doc">
-                <th>Project Name / Links <a href="$link"><div id="sort_name" class="$sort"></div></a></th>
-                <th>Project Directory / Deploy Directory</th>
+            <tr class="projects">
+                <th>Icon</th>
+                <th>Project Name / Apps <a href="$link"><div id="sort_name" class="$sort"></div></a></th>
+                <th>Project Directory / Build Directory</th>
                 <th>Blend Files</th>
                 <th>JSON Files</th>
                 <th>Operations</th>
             </tr>
         </thead>
-        <tbody class="doc">
+        <tbody class="projects">
             $table_insert
         </tbody>
     </table>

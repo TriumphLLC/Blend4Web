@@ -2,6 +2,22 @@
 Quick Install
 *************
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Quick Install
+
+  * Installing Blender
+
+  * Installing the Addon
+
+  * Blend4Web Mode
+
+  * Exporting and Viewing Scenes
+
+  * Upgrading the Addon
+
 Quick install of the Blend4Web addon suits Blender artists who have no
 need in full-scale 3D applications development. In this case the main
 benefit is the opportunity to export a scene into a single HTML file

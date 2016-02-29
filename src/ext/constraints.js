@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,10 +110,10 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
  * @param {Vec3} offset Offset, in the parent's local space
  * @param {Quat} [rotation_offset] Initial rotation offset, in the
  * parent's local space
- * @param {Number} clamp_left Left camera rotation limit, in radians
- * @param {Number} clamp_right Right camera rotation limit, in radians
- * @param {Number} clamp_up Upward camera rotation limit, in radians
- * @param {Number} clamp_down Downward camera rotation limit, in radians
+ * @param {Number} [clamp_left] Left camera rotation limit, in radians
+ * @param {Number} [clamp_right] Right camera rotation limit, in radians
+ * @param {Number} [clamp_up] Upward camera rotation limit, in radians
+ * @param {Number} [clamp_down] Downward camera rotation limit, in radians
  */
 exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
                                             clamp_left, clamp_right,
@@ -123,6 +123,11 @@ exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
             " camera objects can be parented.");
         return;
     }
+
+    clamp_left  = clamp_left  || -Math.PI / 2;
+    clamp_right = clamp_right ||  Math.PI / 2;
+    clamp_up    = clamp_up    ||  Math.PI / 2;
+    clamp_down  = clamp_down  || -Math.PI / 2;
 
     m_cons.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset,
                                           clamp_left, clamp_right,

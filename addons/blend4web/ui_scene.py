@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ class B4W_SCENE_PT_simplify(SceneButtonsPanel, Panel):
 
     def draw_header(self, context):
         rd = context.scene.render
-        self.layout.prop(rd, "use_simplify", text=_(""))
+        self.layout.prop(rd, "use_simplify", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -107,7 +107,7 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_audio", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_audio", text="")
 
     def draw(self, context):
 
@@ -194,7 +194,7 @@ class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_use_logic_editor", text=_(""))
+        self.layout.prop(context.scene, "b4w_use_logic_editor", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -218,7 +218,7 @@ class B4W_SceneNLA(SceneButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_use_nla", text=_(""))
+        self.layout.prop(context.scene, "b4w_use_nla", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -234,7 +234,7 @@ class B4W_SceneMetaTags(SceneButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_tags", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_tags", text="")
 
     def draw(self, context):
         scene = context.scene

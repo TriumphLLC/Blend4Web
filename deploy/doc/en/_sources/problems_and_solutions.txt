@@ -3,6 +3,18 @@ Problems and Solutions
 **********************
 
 
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Problems and Solutions
+
+  * Problems Upon Startup
+
+  * WebGL Failed to Init
+
+  * Known Issues
+
+
 Problems Upon Startup
 =====================
 
@@ -94,3 +106,41 @@ Enter **about:config** into the browser's address bar, search for the
 "false" to "true".
 
 [image]
+
+
+Known Issues
+============
+
+* Problems with updating of the add-on.
+
+     It’s strongly adviced to restart Blender after installing a newer
+     version of Addon/SDK.
+
+* NVIDIA 331 driver in Linux can cause WebGL errors.
+
+* Changed texture filtering on some platforms.
+
+     An incorrect texture filtering was disabled on iPad and Internet
+     Explorer for materials with Alpha Clip type of transparency.
+
+* Some devices with Mail GPU require manual WebGL activation in
+  browser settings.
+
+* For the local developement server to work on Apple OS X and
+  Blender 2.76, you may need to install *Python 3.4
+  <https://www.python.org/downloads/release/python-343/>*. This is due
+  to a bug in Blender https://developer.blender.org/T46623. This bug
+  has been fixed in Blender 2.76b, so updating it is advised.
+
+* Skeletal animation may work incorrectly while using Nouveau
+  drivers.
+
+* Transparent textures may not render correctly in the IE11 and
+  Microsoft Edge web browsers and on iPad.
+
+     The problem is relevant for the transparent materials. Image
+     artifacts are visible in the areas where alpha channel value is
+     close or equal to zero. To fix this issue, it is recommended to
+     increase the value of the alpha channel until artifact are no
+     longer visible (increasing it by value from 0.01 to 0.05 should
+     be enough in the most cases).

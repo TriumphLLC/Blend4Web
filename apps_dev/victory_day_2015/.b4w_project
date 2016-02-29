@@ -2,6 +2,7 @@
 author = Blend4Web
 name = victory_day_2015
 title = Victory Day 2015
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/victory_day_2015;

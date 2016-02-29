@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ exports.extract_index_array = function(obj, mat_name) {
  * @param {Float32Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
-    var types = ["MAIN", "DEPTH", "COLOR_ID"];
+    var types = ["MAIN", "SHADOW", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj.name);
@@ -133,7 +133,7 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
 exports.override_geometry = function(obj, mat_name, ibo_array,
                                         positions_array, smooth_normals) {
 
-    var types = ["MAIN", "DEPTH", "COLOR_ID"];
+    var types = ["MAIN", "SHADOW", "COLOR_ID"];
 
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj.name);

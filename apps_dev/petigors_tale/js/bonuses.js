@@ -26,11 +26,11 @@ var _vec3_tmp = new Float32Array(3);
 
 exports.init = function(elapsed_sensor, level_config) {
 
-    _char_heal_spk = m_scs.get_object_by_dupli_name("character",
+    _char_heal_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                     m_conf.CHAR_HEAL_SPEAKER);
-    _char_lava_spk = m_scs.get_object_by_dupli_name("character",
+    _char_lava_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                     m_conf.CHAR_LAVA_SPEAKER);
-    _char_shield_spk = m_scs.get_object_by_dupli_name("character",
+    _char_shield_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                       m_conf.CHAR_SHIELD_SPEAKER);
 
     process_bonuses(m_conf.HP_BONUSES_EMPTIES, m_conf.BTYPE_HP,
@@ -159,9 +159,10 @@ exports.spawn = function(position) {
             bonus_wrapper.lifetime = m_conf.BONUS_LIFETIME;
             bonus_wrapper.is_spawned = true;
             m_scs.show_object(bonus_wrapper.body);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 exports.reset = function() {

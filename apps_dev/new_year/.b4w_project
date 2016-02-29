@@ -2,6 +2,7 @@
 author = Blend4Web
 name = new_year
 title = New Year
+icon = .b4w_icon.png
 
 [paths]
 assets_dirs = deploy/assets/new_year;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Работа с цветом &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Работа с цветом &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Звук" href="audio.html"/>
         <link rel="prev" title="Природные эффекты" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -106,24 +108,24 @@
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Работа с цветом</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Общее описание</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Человеческое зрение и мониторы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Гамма</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Общее описание</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Человеческое зрение и мониторы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Гамма</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-node-materials">Коррекция в нодовых материалах</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Ноды для окраски</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Ноды для масок</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Карты нормалей</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Сводная таблица коррекции в нодовых материалах</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Ноды для окраски</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Ноды для масок</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Карты нормалей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Сводная таблица коррекции в нодовых материалах</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">Альфа-композитинг</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Общие сведения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Реализация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Общие сведения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Реализация</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#color-correction">Коррекция цвета</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Дополнительные настройки</a></li>
 </ul>
 </li>
 </ul>
@@ -154,6 +156,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -172,9 +178,37 @@
            <div itemprop="articleBody">
             
   <div class="section" id="gamma">
-<span id="id1"></span><h1>Работа с цветом<a class="headerlink" href="#gamma" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="id2">
-<h2>Общее описание<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id1"></span><h1><a class="toc-backref" href="#id18">Работа с цветом</a><a class="headerlink" href="#gamma" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#gamma" id="id18">Работа с цветом</a><ul>
+<li><a class="reference internal" href="#id3" id="id19">Общее описание</a></li>
+<li><a class="reference internal" href="#id4" id="id20">Человеческое зрение и мониторы</a></li>
+<li><a class="reference internal" href="#id5" id="id21">Гамма</a></li>
+<li><a class="reference internal" href="#gamma-node-materials" id="id22">Коррекция в нодовых материалах</a><ul>
+<li><a class="reference internal" href="#id7" id="id23">Ноды для окраски</a></li>
+<li><a class="reference internal" href="#id8" id="id24">Ноды для масок</a></li>
+<li><a class="reference internal" href="#id9" id="id25">Карты нормалей</a></li>
+<li><a class="reference internal" href="#id10" id="id26">Сводная таблица коррекции в нодовых материалах</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#alpha-compositing" id="id27">Альфа-композитинг</a><ul>
+<li><a class="reference internal" href="#id12" id="id28">Общие сведения</a></li>
+<li><a class="reference internal" href="#id14" id="id29">Реализация</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#color-correction" id="id30">Коррекция цвета</a><ul>
+<li><a class="reference internal" href="#id16" id="id31">Активация</a></li>
+<li><a class="reference internal" href="#id17" id="id32">Дополнительные настройки</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id19">Общее описание</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сущность гамма-коррекции заключается в упаковке яркости канала изображения в 8
 битах информации.</p>
 <p>Стандартные (не HDR) изображения всегда сохраняются в нелинейном пространстве, где тёмные компоненты кодируются большим числом битов чем светлые. Это означает, что значению 0.5 от реальной интенсивности света (физической величины, называемой освещённость) будет соответствовать большее значение, содержащееся в каналах RGB (в самом простом случае <span class="math">\(0.5^{1/2.2} = 0.73)\)</span>.</p>
@@ -218,16 +252,16 @@
 <p>Blender при настройке сцены <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> работает в линейном
 пространстве. Значения цветов материалов и настройки источников света соответствует физическим величинам. При работе с текстурами, за исключением карт нормалей необходимо выставить настройку изображения <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code>. В этом случае при рендеринге будет производится автоматическая распаковка изображения: sRGB-&gt;Linear.</p>
 </div>
-<div class="section" id="id3">
-<h2>Человеческое зрение и мониторы<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id20">Человеческое зрение и мониторы</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Человеческое восприятие света нелинейно (человек лучше различает градации
 тусклого света чем яркого), однако свет, поступающий в глаз, по-прежнему должен подчиняться физическим законам (см. пример с лампочками).</p>
 <p>Мониторы с электронно-лучевыми трубками (ЭЛТ) имеют нелинейную характеристику яркости от приложенного к их входу электрического напряжения, которое, в свою очередь, определяется значением
 канала цветности в видеопамяти. Подобную же характеристику копируют жидкокристаллические мониторы. Тем не менее свет, излучаемый такими мониторами, по-прежнему должен подчиняться физическим законам. Например, в идеальном случае при добавлении второго источника света на сцену в виртуальном мире, яркость пикселей на экране монитора должна увеличиваться в два раза.</p>
 <p>Таким образом, особенности восприятия человеческого глаза являются причиной, по которой стало возможным осуществлять упаковку каналов цветности, в то время как технические характеристики мониторов имеют вторичное значение по отношению к гамма-коррекции.</p>
 </div>
-<div class="section" id="id4">
-<h2>Гамма<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id21">Гамма</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Используется в следующей упрощенной формуле:</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
@@ -237,15 +271,15 @@
 <a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="gamma-node-materials">
-<span id="id5"></span><h2>Коррекция в нодовых материалах<a class="headerlink" href="#gamma-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id6">
-<h3>Ноды для окраски<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id6"></span><h2><a class="toc-backref" href="#id22">Коррекция в нодовых материалах</a><a class="headerlink" href="#gamma-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id23">Ноды для окраски</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании текстур и вертексных цветов для окраски (не в качестве масок),
 необходима распаковка (sRGB -&gt; Linear). Выход <cite>Vertex Color</cite> ноды <cite>Geometry</cite> и нода текстуры реализуют распаковку автоматически.</p>
 <p>Отметим, что альфа-канал ноды текстуры коррекции не подвергается, его значения находятся в линейном пространстве.</p>
 </div>
-<div class="section" id="id7">
-<h3>Ноды для масок<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id24">Ноды для масок</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Текстуры и вертексные цвета могут использоваться в качестве масок, т.е. для смешения
 цветов или других математических операций. В таком случае необходима упаковка (Linear -&gt; sRGB).</p>
 <p>Следует обратить внимание, что выход <cite>Vertex Color</cite> ноды <cite>Geometry</cite> и нода текстуры реализуют распаковку автоматически.
@@ -256,12 +290,12 @@
 <p class="last">Нода <cite>LINEAR_TO_SRGB</cite> считается устаревшей, следует использовать ноду <cite>GAMMA</cite>.</p>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>Карты нормалей<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id25">Карты нормалей</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании карт нормалей никакие преобразования не производятся.</p>
 </div>
-<div class="section" id="id9">
-<h3>Сводная таблица коррекции в нодовых материалах<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id26">Сводная таблица коррекции в нодовых материалах</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
@@ -296,9 +330,9 @@
 </div>
 </div>
 <div class="section" id="alpha-compositing">
-<span id="id10"></span><h2>Альфа-композитинг<a class="headerlink" href="#alpha-compositing" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id11">
-<h3>Общие сведения<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id11"></span><h2><a class="toc-backref" href="#id27">Альфа-композитинг</a><a class="headerlink" href="#alpha-compositing" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id28">Общие сведения</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Физически корректный альфа-композитинг осуществляется по формуле [<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">источник</a>]:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
@@ -312,8 +346,8 @@ premultiplied alpha) формула принимает вид:</p>
 <div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
 <p>Предварительное умножение цветовых каналов на значения <span class="math">\(\alpha\)</span> позволяет сэкономить две операции умножения. Еще более существенным является тот факт, что полученная формула может использоваться многократно, без необходимости деления цвета <span class="math">\(C_o\)</span> на значение <span class="math">\(\alpha_o\)</span> на каждой последующей итерации.</p>
 </div>
-<div class="section" id="id13">
-<h3>Реализация<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id14">
+<h3><a class="toc-backref" href="#id29">Реализация</a><a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Функция смешивания в движке Blend4Web имеет вид:</p>
 <div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
@@ -322,14 +356,14 @@ premultiplied alpha) формула принимает вид:</p>
 </div>
 </div>
 <div class="section" id="color-correction">
-<span id="index-0"></span><span id="id14"></span><h2>Коррекция цвета<a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-0"></span><span id="id15"></span><h2><a class="toc-backref" href="#id30">Коррекция цвета</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/effects_color_correction.png"><img alt="_images/effects_color_correction.png" class="align-center" src="_images/effects_color_correction.png" style="width: 100%;" /></a>
-<div class="section" id="id15">
-<h3>Активация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id31">Активация</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Активировать панель <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
-<div class="section" id="id16">
-<h3>Дополнительные настройки<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id32">Дополнительные настройки</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
 <dd>Яркость. Значение по умолчанию 0.0.</dd>
@@ -363,8 +397,8 @@ premultiplied alpha) формула принимает вид:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -386,7 +420,7 @@ premultiplied alpha) формула принимает вид:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -410,6 +444,22 @@ premultiplied alpha) формула принимает вид:</p>
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

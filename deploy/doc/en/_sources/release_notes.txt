@@ -3,6 +3,251 @@ Release Notes
 *************
 
 
+v16.02
+======
+
+
+New Features
+------------
+
+* Extended support of Emitter type particle systems.
+
+     The support for the node materials that can be used to set
+     particle shading parameters with sequences of basic blocks
+     (including the *Particle Info* node). This function is available
+     for the particle systems with the "Billboard" rendering type.
+
+     The shader for particles with the "Halo" type rendering has been
+     rewritten. The support for the "Rings", "Lines" and "Star Tips"
+     parameters has been added. Maximum particle size limit (caused by
+     the hardware limitations on some platforms) has been removed.
+
+     Maximum number of gradient control points limit in the "Ramp"
+     procedural texture (used for coloring particles) has been
+     removed.
+
+* Extended node material support.
+
+     Two new nodes, *Vector Curves* and *RGB Curves*, have been added.
+
+     The *ColorRamp* node support has been added. For now, this node
+     supports "Linear" and "Constant" type interpolation.
+
+     The *Particle Info* node support has been added. For now, it is
+     fully supported by the "Emitter" type particle systems with the
+     "Billboard" rendering type.
+
+* Project Manager improvements.
+
+     * An option to export multiple projects into one archive.
+
+          This function makes updating the SDK and migrating projects
+          from one workstation to another significantly easier.
+
+     * New project deploying options.
+
+          Project deployment is required for uploading finished
+          project to the server, sending them by mail and so on.
+          Starting with the current release, project deployment can be
+          performed directly from the Project Manager's graphical
+          interface. During deployment, projects are packed into a zip
+          archive.
+
+          Also, starting with the current release, deployment is
+          available for any type of project (including External type).
+
+     * Improvements in the Web Player HTML and Web Player JSON type
+       projects.
+
+          Now, during the creation of these projects, you can set the
+          Web Player application parameters such as FPS counter,
+          automatic camera rotation, turining off social network
+          buttons and so on.
+
+          Also, projects of these types can now be created with a
+          "bundle" option which means that all application resources
+          will be located in the same directory.
+
+     * Graphical interface improvements.
+
+          An option to add and show application icons has been added
+          to make navigation easier and to give users a quick preview
+          of an application in development.
+
+          An option to view project info. By clicking the "[info]"
+          link located at theright side of the project name, a list of
+          detailed information regarding the project can be accessed.
+
+          For convenience, the type of a project is now indicated by
+          the prefix at the right side of the link: "player:" for Web
+          Player HTML or Web Player JSON type projects, "dev:" for
+          projects under development and "build:" for compiled
+          (obfuscated) version of an application.
+
+          The elements of the Project Manager interface now have pop-
+          up tips.
+
+* The possibility to animate environment settings.
+
+     The possibility to animate environment parameters located in the
+     "Sky" ("Horizon Color", "Zenith Color"), "Environment Lighting"
+     ("Energy"), and "Mist" ("Minimum", "Start", "Depth", "Height",
+     "Fog Color") tabs has been added. These functions are also
+     available for the NLA animation.
+
+     The "Animation" tab has been added to Blender's "World" panel. It
+     has "Apply Default Animation" and "Behavior" parameters.
+
+     For all exported environments, "WORLD" type meta-object are added
+     to the scenes. These objects can be used to control the animation
+     of the environment settings. You can access these objects the
+     same way you can access any standard object in the scene.
+
+* Camera improvements.
+
+     An option to set the limits for vertical movement of camera's
+     pivot point has been added. This function is also available via
+     the API by using the target_set_pivot_limits() and
+     target_get_pivot_limits() methods.
+
+     The new static_setup(), eye_setup(), target_setup(),
+     hover_setup() and hover_setup_rel() methods have been added for
+     changing and complete setup of the camera behavior. At the same
+     time, the set_move_style() has been declared deprecated.
+
+     The target_switch_panning() method has been added for controlling
+     camera panning, and the get_view_vector() method has been added
+     for retrieving the camera's line of sight vector.
+
+     The examples of use the camera API are now desribed in the
+     corresponding chapter of the documentation. This chapter can also
+     be accessed from the camera.js API module documentation page.
+
+* Node Logic Editor improvements.
+
+     The "Content-Type" option has been added to the "Send Request"
+     node. It can be used to reassign the title field of an HTTP
+     request.
+
+* A new sensor has been added to the controls module.
+
+     Gyro Quat (create_gyro_quat_sensor method) is the sensor for
+     working with gyroscopes on mobile devices. In can be used to
+     handle device rotation quaternion.
+
+* Experimental UC Browser support has been added.
+
+* User Manual has been reworked and expanded significantly.
+
+
+Changes
+-------
+
+* The "Generate Shadows" light source parameter has been renamed to
+  "Shadow" and now also enables shadow rendering in the Blender
+  Viewport.
+
+* Design of the SDK main page has been changed.
+
+     Project list is now located in the Project Manager. Links to run
+     frequently used applications, *Viewer* and *Code Snippets*, have
+     been added.
+
+* The get_coords_x() and  get_coords_y() can now receive the
+  "target_touches" parameter.
+
+     In case of multitouch, this parameter can be used to use only the
+     touches that are inside of the current target element (the
+     targetTouches parameter).
+
+* camera API module changes.
+
+     The has_vertical_limits() and has_horizontal_limits() methods
+     have been declared deprecated. The has_vertical_rot_limits() and
+     has_horizontal_rot_limits() are recommended to use instead of
+     them.
+
+* Changes in the naming rules for the files of the projects under
+  development.
+
+     Now, the html files of the projects under development (located in
+     the *apps_dev* directory) do not include the *_dev* suffix in
+     their names. To distinguish these projects from the compiled
+     ones, prefixes has been added to the *Project Manager*.
+
+* When you open the SDK main page, presence of the local development
+  server is checked. If it starts from the local file system, an
+  appropriate warning is shown.
+
+
+Fixes
+-----
+
+* Incorrect behavior of the "canvas_resolution_factor" engine
+  parameter on Apple iOS devices has been fixed.
+
+* Engine error that occured in case of absence of the selected
+  object in the "Show Object" and "Hide Object" logic nodes has been
+  fixed.
+
+* The incorrect coordinate rounding along the Y- and Z-axis while
+  using variables as parameters in the "Transform Object" logic node
+  has been fixed.
+
+* Node logic blocking in case some nodes are not linked with the
+  "Entry Point" node has been fixed.
+
+* The issue with the rendering of dynamic objects the RTT-scenes has
+  been fixed.
+
+* Fullscreen switching issue in the Safari browser has been fixed.
+
+* The issue with the Add-on interface (caused by "Emitter" type
+  particle systems without a material assigned to the object) has been
+  fixed.
+
+* The "Factor" output of the "B4W_GLOW_OUTPUT" node in the materials
+  with the "Alpha Clip" type transparency now works correctly.
+
+* Dupli groups with "None" duplication type are not exported and not
+  rendered.
+
+* The append_ray_test() method now works correctly if its first
+  parameter is an empty object.
+
+* Several water settings has been optimized and fixed.
+
+* Physical objects that have parent object will now correctly update
+  their position in the case the physics is disabled in the scene.
+
+* The behavior of the *Camera Data* and *B4W Vector View* nodes for
+  reflected objects has been fixed.
+
+* NLA animation of the *RGB* node in materials has been fixed.
+
+* Now, "HAIR" type particle system will not be rendered if the
+  emitter object has the "Do Not Render" parameter enabled.
+
+* The work of the auto_rotate() method for "EYE" type cameras has
+  been fixed.
+
+* The export of "Hair" type particles from non-active scenes in
+  Blender has been fixed.
+
+* Runtime libraries for Windows have been added to fix the resource
+  convertion error.
+
+* Shader generation error that occured in case there were more than
+  10 textures in the material has been fixed.
+
+
+Known Issues
+------------
+
+   Starting with this release, the list of all known problems and
+   possible solutions is located in the dedicated chapter.
+
+
 v16.01
 ======
 
@@ -187,8 +432,9 @@ Fixes
 * Issues with rendering shadows from multiple light sources of
   different types (such as "POINT" and "SUN") have been fixed.
 
-* "Environment" texture rendering in case it is used as the world
-  texture and in a stack material simultaneously has been fixed.
+* "Environment" texture rendering while using the texture as the
+  world map and in a stock material at the same time has been
+  corrected.
 
 
 Known Issues
@@ -214,7 +460,7 @@ Known Issues
   bug in Blender https://developer.blender.org/T46623. This bug has
   been fixed in Blender 2.76b, so updating it is advised.
 
-* Skeletal animation may work incorrectly while using Nouveau
+* Skeletal animation can work incorrectly while using Nouveau
   drivers.
 
 
@@ -1046,8 +1292,8 @@ Fixes
 * Fixed the bug in NLA animation: it could not start from a frame
   other than 0 before.
 
-* Fixed "Lamp Data" behaviour: previously the information about
-  light sources was not always refreshed during scene loading.
+* Fixed "Lamp Data" behavior: previously the information about light
+  sources was not always refreshed during scene loading.
 
 * Fixed the bug in calculations of  "Normal" vector output in node
   "Geometry" on the back side of a polygon.
@@ -1795,7 +2041,7 @@ New Features
   between inputs and outputs of different types.*
 
      It is now possible to connect outputs of one type with inputs of
-     another type (Non-critical error). Now Blender's native behaviour
+     another type (Non-critical error). Now Blender's native behavior
      is supported by the engine.
 
 * *For Hair particles the options on the Rotation panel are now
@@ -1828,9 +2074,10 @@ New Features
 * *API for changing camera controls mode.*
 
      Added methods of changing movement style of the camera. The
-     example can be found in Code Snippets app in the "Camera Move
-     Styles" section. Also has been added "set_hover_pivot()" method.
-     This method allows to shift the control point of "HOVER" camera.
+     control mode switch example can be found in Code Snippets app in
+     the "Camera Move Styles" section. Also has been added
+     "set_hover_pivot()" method. This method allows to shift the
+     control point of "HOVER" camera.
 
 
 Changes
@@ -1857,7 +2104,7 @@ Changes
 
      The skeletal animation now just turns off when exceeding the
      maximum number of bones. It resulted in shader compilation error
-     and unstable application behaviour before.
+     and unstable application behavior before.
 
 * *Some particle system properties has been renamed and now they are
   turned off by default.*
@@ -1906,7 +2153,7 @@ Fixes
 
      Previously, gestures usage (Windows Touch Gestures) was leading
      to unnecessary HTML-elements scaling and movement on such
-     configurations. It is expected that correct gestures behaviour
+     configurations. It is expected that correct gestures behavior
      will be supported in further browser releases.
 
 * *Vertex animation with animated armature bake error was fixed.*

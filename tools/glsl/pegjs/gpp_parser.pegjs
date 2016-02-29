@@ -343,7 +343,7 @@ NodeOutLine
     }
 
 NodeParamLine
-  = "#" _ "node_param" toks:(MSS Tokens)? _ LineTerminatorSequence {
+  = "#" _ "node_param" opt:(MSS "optional")? toks:(MSS Tokens)? _ LineTerminatorSequence {
       var tokens = [];
 
       if (toks !== null)
@@ -355,7 +355,8 @@ NodeParamLine
       return {
         type: "node_param",
         name: last,
-        qualifier:tokens
+        qualifier: tokens,
+        is_optional: Boolean(opt)
       };
     }
 

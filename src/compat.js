@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,9 +75,9 @@ exports.set_hardware_defaults = function(gl) {
     if (!check_user_agent("Windows Phone"))
         if (check_user_agent("iPad") || check_user_agent("iPhone")) {
             m_print.warn("iOS detected, applying alpha hack, applying vertex "
-                    + "animation mix normals hack, applying ios depth hack and "
-                    + "disable smaa. Disable ssao for performance. Disable video "
-                    + "textures. Initialize WebAudio context with empty sound.");
+                    + "animation mix normals hack, disable smaa. Disable ssao " 
+                    + "for performance. Disable video textures. Initialize " 
+                    + "WebAudio context with empty sound.");
             if (!cfg_ctx.alpha)
                 cfg_def.background_color[3] = 1.0;
             cfg_def.vert_anim_mix_normals_hack = true;
@@ -85,7 +85,6 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.ssao = false;
             cfg_def.precision = "highp";
             cfg_def.init_wa_context_hack = true;
-            cfg_def.ios_depth_hack = true;
             cfg_scs.cubemap_tex_size = 256;
 
         } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
@@ -152,9 +151,8 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.quality_aa_method = false;
     }
     if (check_user_agent("Firefox") && cfg_def.is_mobile_device) {
-        m_print.warn("Mobile Firefox detected, applying depth hack, disable workers.");
+        m_print.warn("Mobile Firefox detected, disable workers.");
         cfg_phy.use_workers = false;
-        depth_tex_available = false;
     }
 
     if (check_user_agent("Firefox") && cfg_def.stereo == "HMD") {
@@ -184,9 +182,7 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.shadows = false;
         }
         if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T760") > -1) {
-            m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO. "
-                    + "Applying clear depth hack.");
-            cfg_def.clear_depth_hack = true;
+            m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
             cfg_def.precision = "highp";
             cfg_def.ssao = false;
             cfg_def.amd_skinning_hack = true;
@@ -232,23 +228,9 @@ exports.set_hardware_defaults = function(gl) {
 
         if (architecture) {
             m_print.warn("Architecture " + architecture + " detected. Blending between frames" +
-                    " and shadows on blend objects will be disabled. Applying clear depth hack.");
-            cfg_def.clear_depth_hack = true;
+                    " and shadows on blend objects will be disabled.");
             cfg_def.amd_skinning_hack = true;
             cfg_def.disable_blend_shadows_hack = true;
-        }
-
-        if (check_user_agent("Linux") && vendor.indexOf("nouveau") > -1) {
-            m_print.warn("Nouveau driver detected. Applying clear depth hack");
-            cfg_def.clear_depth_hack = true;
-        }
-
-        if (check_user_agent("Windows") && check_user_agent("Chrome") 
-                && (renderer.match(/GeForce (GT|GTX) 5.(0|5)/) 
-                || renderer.match(/GeForce (GT|GTX) 6.(0|5)/))) {
-            m_print.warn("Windows / Chrome / NVIDIA GeForce 500/600 series detected, " 
-                    + "applying clear depth hack");
-            cfg_def.clear_depth_hack = true;
         }
     }
 
@@ -271,11 +253,14 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.depth_tex_available = depth_tex_available;
 
     // webglreport.com
-    var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
-    var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,
-            gl.MEDIUM_FLOAT);
-    if (high.precision === 0)
+    if (gl.getShaderPrecisionFormat)
+        var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
+    if (!gl.getShaderPrecisionFormat || high.precision === 0)
         cfg_def.precision = "mediump";
+
+    // TODO: remove "medium", bcz it's unused.
+    // var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,
+    //         gl.MEDIUM_FLOAT);
 
     // IE11 compatibility hack: power of two cubemap texture
     if (is_ie11()) {
@@ -304,11 +289,6 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.disable_doppler_hack = true;
     }
 
-    if (is_ie11() || check_user_agent("iPad")) {
-        m_print.warn("iPad or Internet Explorer detected. Applying alpha clip hack.");
-        cfg_def.alpha_clip_filtering_hack = true;
-    }
-
     if (detect_mobile() && check_user_agent("Firefox")) {
         m_print.log("Mobile firefox detected. Applying autoplay media hack.");
         cfg_def.mobile_firefox_media_hack = true;
@@ -317,6 +297,13 @@ exports.set_hardware_defaults = function(gl) {
     if (check_user_agent("Edge")) {
         m_print.warn("Microsoft Edge detected, set up new minimal texture size.");
         cfg_def.edge_min_tex_size_hack = true;
+    }
+
+    if (check_user_agent("SamsungBrowser")) {
+        m_print.warn("Default Android browser detected, setting max cubemap size to 1024, "
+                + "setting max texture size to 1024.");
+        cfg_def.max_texture_size = 1024;
+        cfg_def.max_cube_map_size = 1024;
     }
 }
 

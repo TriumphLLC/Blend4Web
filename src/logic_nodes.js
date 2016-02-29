@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -239,7 +239,7 @@ function get_url_param(name) {
 }
 
 function get_object(node) {
-    return m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.dupli_name_list, 0);
+    return m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.dupli_name_list || [], 0);
 }
 
 function entrypoint_handler(node, logic, thread_state, timeline, elapsed, start_time) {
@@ -594,9 +594,11 @@ function send_req_handler(node, logic, thread_state, timeline, elapsed, start_ti
             var resp_type = node.bools["prs"] ? m_assets.AT_JSON : m_assets.AT_TEXT;
             //reviver for response JSON parsing
             var reviver = node.bools["prs"] ? json_reviver : null;
-
+            var header = {};
+            if (node.bools["ct"])
+                header["Content-Type"] = node.strings["ct"];
             if (node.common_usage_names["request_type"] == "GET") {
-                m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                m_assets.enqueue([{id:node.url, type:resp_type, url:node.url, overwrite_header: header,
                     param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
             }
             else if (node.common_usage_names["request_type"] == "POST") {
@@ -619,14 +621,14 @@ function send_req_handler(node, logic, thread_state, timeline, elapsed, start_ti
                         }
                     }
 
-                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url, overwrite_header: header,
                         request:"POST", post_type:m_assets.APT_JSON, post_data:JSON.stringify(req, json_replacer),
                         param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
                 }
                 else {
                     var req = convert_variable(thread_state.variables[node.vars["dst1"]], NT_STRING);
 
-                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url,
+                    m_assets.enqueue([{id:node.url, type:resp_type, url:node.url, overwrite_header: header,
                         request:"POST", post_type:m_assets.APT_TEXT, post_data:req,
                         param:[node, thread_state.variables]}], asset_cb, null, null, reviver);
                 }
@@ -893,7 +895,8 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
         break;
     case RUNNING:
         var cam = m_scs.get_camera(thread_state.scene);
-        m_cam.set_move_style(cam, node.tmp1);
+        // NOTE: set_move_style is deprecated
+        // m_cam.set_move_style(cam, node.tmp1);
         m_trans.update_transform(cam);
         m_phy.sync_transform(cam);
         thread_state.curr_node = node.slot_idx_order;
@@ -1011,16 +1014,14 @@ function transform_object_handler(node, logic, thread_state, timeline, elapsed, 
 
             //rotate axis if variables are used
             if (node.bools["try"] || node.bools["trz"]) {
-                tr[1] = tr[1] ^ tr[2];
-                tr[2] = tr[2] ^ tr[1];
-                tr[1] = tr[1] ^ tr[2];
-                tr[2] = -tr[2];
+                _vec2_tmp[1] = -tr[1];
+                tr[1] = tr[2];
+                tr[2] = _vec2_tmp[1];
             }
             if (node.bools["roy"] || node.bools["roz"]) {
-                eul_rot[1] = eul_rot[1] ^ eul_rot[2];
-                eul_rot[2] = eul_rot[2] ^ eul_rot[1];
-                eul_rot[1] = eul_rot[1] ^ eul_rot[2];
-                eul_rot[2] = -eul_rot[2];
+                _vec2_tmp[1] = -eul_rot[1];
+                eul_rot[1] = eul_rot[2];
+                eul_rot[2] = _vec2_tmp[1];
             }
             
             m_util.euler_to_quat(eul_rot, _vec4_tmp);

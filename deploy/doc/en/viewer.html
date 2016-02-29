@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Viewer &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Scene Viewer &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Web Player" href="web_player.html"/>
-        <link rel="prev" title="Workflow" href="workflow.html"/> 
+        <link rel="prev" title="Project Manager" href="project_manager.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,31 +88,33 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Scene Viewer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">The Side Panel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Control elements list in top-to-bottom order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">The Side Panel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Control elements list in top-to-bottom order</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Indicators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Indicators</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -140,6 +142,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -158,21 +164,35 @@
            <div itemprop="articleBody">
             
   <div class="section" id="viewer">
-<span id="index-0"></span><span id="id1"></span><h1>Scene Viewer<a class="headerlink" href="#viewer" title="Permalink to this headline">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id7">Scene Viewer</a><a class="headerlink" href="#viewer" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#viewer" id="id7">Scene Viewer</a><ul>
+<li><a class="reference internal" href="#id3" id="id8">Navigation</a></li>
+<li><a class="reference internal" href="#id4" id="id9">The Side Panel</a><ul>
+<li><a class="reference internal" href="#id5" id="id10">Control elements list in top-to-bottom order</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6" id="id11">Indicators</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>Running The Scenes Viewer</span></a>.</p>
-<div class="section" id="id2">
-<h2>Navigation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id8">Navigation</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>To control the camera hold down a mouse button and move the mouse. Control can also be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
 </div>
-<div class="section" id="id3">
-<h2>The Side Panel<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id9">The Side Panel</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>The side panel consists of three areas: the information board, basic control buttons and the list of drop-down panels with additional control elements differentiated by functionality.</p>
 <a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="id4">
-<h3>Control elements list in top-to-bottom order<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id10">Control elements list in top-to-bottom order</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Build</strong></dt>
 <dd><p class="first last">The engine build date and time. In the developer version this shows the page load time.</p>
@@ -271,8 +291,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Indicators<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id11">Indicators</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>Frames per second counter</strong></dt>
 <dd><p class="first last">This is located in the top right corner. It displays the averaged and rounded value for the last 1.5 seconds.</p>
@@ -307,7 +327,7 @@
         <a href="web_player.html" class="btn btn-neutral float-right" title="Web Player" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="workflow.html" class="btn btn-neutral" title="Workflow" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="project_manager.html" class="btn btn-neutral" title="Project Manager" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -316,8 +336,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -339,7 +359,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -362,6 +382,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

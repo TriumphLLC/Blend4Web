@@ -17,7 +17,7 @@ msgstr "Table of Content"
 
 #: ../outdoor_rendering.rst:5
 msgid "Природные эффекты"
-msgstr "Outdoor effects"
+msgstr "Outdoor Effects"
 
 #: ../outdoor_rendering.rst:11
 msgid ""
@@ -165,7 +165,7 @@ msgid "Цвет воды на мелководье."
 msgstr "Shallow water color."
 
 #: ../outdoor_rendering.rst:74
-msgid "*Shallow water > Color*"
+msgid "*Shallow Water > Color*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:77
@@ -173,7 +173,7 @@ msgid "Коэффициент примешивания цвета воды на 
 msgstr "Shallow water color mixing factor."
 
 #: ../outdoor_rendering.rst:77
-msgid "*Shallow water > Factor*"
+msgid "*Shallow Water > Factor*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:80
@@ -181,7 +181,7 @@ msgid "Цвет воды непосредственно у береговой л
 msgstr "Water color just at the shore line."
 
 #: ../outdoor_rendering.rst:80
-msgid "*Shore water > Color*"
+msgid "*Shore Water > Color*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:83
@@ -189,7 +189,7 @@ msgid "Коэффициент примешивания цвета воды на 
 msgstr "Factor for mixing water color just near the shoreline."
 
 #: ../outdoor_rendering.rst:83
-msgid "*Shore water > Factor*"
+msgid "*Shore Water > Factor*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:86
@@ -675,16 +675,16 @@ msgstr ""
 "panel. Besides this, overriding fog color is possible."
 
 #: ../outdoor_rendering.rst:316
-msgid "*Mist > Use custom color*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:316
 msgid ""
 "Использовать для тумана заданный цвет, вместо цвета ``World > Horizon``. По "
 "умолчанию включено."
 msgstr ""
 "Apply the user-defined fog color instead of ``World > Horizon`` color. "
 "Enabled by default."
+
+#: ../outdoor_rendering.rst:316
+msgid "*Mist > Use Custom Color*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:319
 msgid "Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый)."
@@ -796,10 +796,6 @@ msgstr ""
 "panel."
 
 #: ../outdoor_rendering.rst:399
-msgid "*Main bending > Angle*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:399
 msgid ""
 "Амплитуда угла \"основного\" отклонения под действием ветра (в градусах). "
 "Значение по умолчанию 10.0."
@@ -807,8 +803,8 @@ msgstr ""
 "Angle amplitude of the \"main\" deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
 
-#: ../outdoor_rendering.rst:402
-msgid "*Main bending > Frequency*"
+#: ../outdoor_rendering.rst:399
+msgid "*Main Bending > Angle*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:402
@@ -819,8 +815,8 @@ msgstr ""
 "Frequency of the \"main\" deviation under the influence of wind. The default"
 " value is 0.25."
 
-#: ../outdoor_rendering.rst:405
-msgid "*Main bending > Main Stiffness (A)*"
+#: ../outdoor_rendering.rst:402
+msgid "*Main Bending > Frequency*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:405
@@ -832,6 +828,10 @@ msgstr ""
 "the information about the stiffness of the \"main\" deviation. Can be left "
 "empty."
 
+#: ../outdoor_rendering.rst:405
+msgid "*Main Bending > Main Stiffness (A)*"
+msgstr ""
+
 #: ../outdoor_rendering.rst:408
 msgid ""
 "Амплитуда угла \"детализованного\" отклонения под действием ветра (в "
@@ -841,11 +841,7 @@ msgstr ""
 "(in degrees). The default value is 0.1."
 
 #: ../outdoor_rendering.rst:408
-msgid "*Detail bending > Amplitude*"
-msgstr ""
-
-#: ../outdoor_rendering.rst:411
-msgid "*Detail bending > Branch Amplitude*"
+msgid "*Detail Bending > Amplitude*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:411
@@ -856,16 +852,16 @@ msgstr ""
 "Angle amplitude of the branch deviation caused by the influence of wind (in "
 "degrees). The default value is 0.3."
 
-#: ../outdoor_rendering.rst:414
-msgid "*Detail bending > Bending Frequency*"
+#: ../outdoor_rendering.rst:411
+msgid "*Detail Bending > Branch Amplitude*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:414
 msgid "Частота колебаний ветвей. Значение по умолчанию 1.0."
 msgstr "Detail bendind frequency. The default value is 1.0."
 
-#: ../outdoor_rendering.rst:417
-msgid "*Detail bending > Leaves Stiffness (R)*"
+#: ../outdoor_rendering.rst:414
+msgid "*Detail Bending > Bending Frequency*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:417
@@ -876,8 +872,8 @@ msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the stiffness of leaves. Can be left empty."
 
-#: ../outdoor_rendering.rst:420
-msgid "*Detail bending > Leaves Phase (G)*"
+#: ../outdoor_rendering.rst:417
+msgid "*Detail Bending > Leaves Stiffness (R)*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:420
@@ -888,8 +884,8 @@ msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the phase of leaves deviation. Can be left empty."
 
-#: ../outdoor_rendering.rst:423
-msgid "*Detail bending > Overall Stiffness (B)*"
+#: ../outdoor_rendering.rst:420
+msgid "*Detail Bending > Leaves Phase (G)*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:423
@@ -899,6 +895,10 @@ msgid ""
 msgstr ""
 "Text field for specifying the name of the vertex color layer which contains "
 "the information about the overall stiffness of leaves. Can be left empty."
+
+#: ../outdoor_rendering.rst:423
+msgid "*Detail Bending > Overall Stiffness (B)*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:425
 msgid ""

@@ -6,6 +6,8 @@ b4w.register("level_01_config", function(exports, require) {
 exports.LEVEL_NAME = "volcano";
 
 exports.CHAR_DEF_POS = new Float32Array([0, 2, 0]);
+exports.VICT_CAM_VERT_ANGLE = -0.3;
+exports.VICT_CAM_DIST = 10;
 
 // obelisks
 exports.NUM_OBELISKS = 5;
@@ -34,20 +36,23 @@ exports.BURST_EMITTER_NAMES = ["burst_emitter_01", "burst_emitter_02",
 exports.MARK_NAMES = ["mark_01", "mark_02", "mark_03"];
 
 exports.ISLES_SHIELD_DUPLI_NAME_LIST = ["enviroment", "islands", "island_shield_0"];
+exports.ISLANDS_DOOR = ["enviroment", "islands", "islands_door"];
+exports.STAIRS_OBJ = "second_level_enter_stairs";
+exports.STAIRS_EMITTER = "second_level_stairs_emitter";
 
 exports.GOLEMS_EMPTIES = ["golem_lava", "golem_lava.001", "golem_lava.002"];
 
-exports.GOLEM_SPAWN_POINTS = ["golem_spawn", "golem_spawn.011", "golem_spawn.010",
-                              "golem_spawn.009", "golem_spawn.001", "golem_spawn.008",
-                              "golem_spawn.002", "golem_spawn.006", "golem_spawn.007",
-                              "golem_spawn.003", "golem_spawn.005", "golem_spawn.014",
-                              "golem_spawn.013", "golem_spawn.004", "golem_spawn.012"];
+exports.LAVA_GOLEM_SPAWN_POINTS = ["lava_golem_spawn", "lava_golem_spawn.011", "lava_golem_spawn.010",
+                                   "lava_golem_spawn.009", "lava_golem_spawn.001", "lava_golem_spawn.008",
+                                   "lava_golem_spawn.002", "lava_golem_spawn.006", "lava_golem_spawn.007",
+                                   "lava_golem_spawn.003", "lava_golem_spawn.005", "lava_golem_spawn.014",
+                                   "lava_golem_spawn.013", "lava_golem_spawn.004", "lava_golem_spawn.012"];
 
-exports.GOLEM_PATROL_POINTS = ["golem_spawn",     "golem_patrol",     "golem_patrol.001", "golem_patrol.002", "golem_patrol.003",
-                               "golem_spawn.001", "golem_patrol.004", "golem_patrol.005", "golem_patrol.006", "golem_patrol.007",
-                               "golem_spawn.002", "golem_patrol.008", "golem_patrol.009", "golem_patrol.010", "golem_patrol.011",
-                               "golem_spawn.003", "golem_patrol.012", "golem_patrol.013", "golem_patrol.014", "golem_patrol.015",
-                               "golem_spawn.004", "golem_patrol.016", "golem_patrol.017", "golem_patrol.018", "golem_patrol.019"];
+exports.GOLEM_PATROL_POINTS = ["lava_golem_spawn",     "golem_patrol",     "golem_patrol.001", "golem_patrol.002", "golem_patrol.003",
+                               "lava_golem_spawn.001", "golem_patrol.004", "golem_patrol.005", "golem_patrol.006", "golem_patrol.007",
+                               "lava_golem_spawn.002", "golem_patrol.008", "golem_patrol.009", "golem_patrol.010", "golem_patrol.011",
+                               "lava_golem_spawn.003", "golem_patrol.012", "golem_patrol.013", "golem_patrol.014", "golem_patrol.015",
+                               "lava_golem_spawn.004", "golem_patrol.016", "golem_patrol.017", "golem_patrol.018", "golem_patrol.019"];
 
 exports.ISLAND_SPEAKER = "island_shield_grow";
 

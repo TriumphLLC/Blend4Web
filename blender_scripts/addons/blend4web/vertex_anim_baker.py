@@ -70,8 +70,8 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
         row.template_list("UI_UL_list", "OBJECT_UL_va_baker", obj,
                 "b4w_vertex_anim", obj, "b4w_vertex_anim_index", rows=3)
         col = row.column(align=True)
-        col.operator("b4w.vertex_anim_add", icon='ZOOMIN', text=_(""))
-        col.operator("b4w.vertex_anim_remove", icon='ZOOMOUT', text=_(""))
+        col.operator("b4w.vertex_anim_add", icon='ZOOMIN', text="")
+        col.operator("b4w.vertex_anim_remove", icon='ZOOMOUT', text="")
 
         # controls only for non-empty vertex animation view
         va = obj.b4w_vertex_anim

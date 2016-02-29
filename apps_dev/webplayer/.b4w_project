@@ -1,7 +1,8 @@
 [info]
-author = Blend4Web
 name = webplayer
+author = Blend4Web
 title = Web Player
+icon = .b4w_icon.jpg
 
 [paths]
 assets_dirs = 

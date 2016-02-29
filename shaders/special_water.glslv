@@ -178,7 +178,7 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
     float waves_height = WAVES_HEIGHT * dist_waves;
 # endif // SHORE_PARAMS
 
-# if GENERATED_MESH
+#if GENERATED_MESH
     // high resolution geometric noise waves
     vec2 coords21 = 2.0 * (pos.xz - 0.1 * time);
     vec2 coords22 = 1.3 * (pos.zx + 0.03  * time);
@@ -190,7 +190,7 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
     small_waves *= shore_dist;
 #  endif // SHORE_PARAMS
     waves_height += SMALL_WAVES_FAC * small_waves;
-# endif // GENERATED_MESH
+#endif // GENERATED_MESH
 
     pos.y += waves_height;
 }
@@ -236,12 +236,6 @@ void main(void) {
     // generate two neighbour vertices
     vec3 neighbour1 = world.position + vec3(vertex_delta, 0.0, 0.0);
     vec3 neighbour2 = world.position + vec3(0.0, 0.0, vertex_delta);
-    // Last cascad needs to be flat and a bit lower than others
-    if (a_position.y < 0.0) {
-        world.position.y = WATER_LEVEL - 1.0;
-        neighbour1.y = world.position.y;
-        neighbour2.y = world.position.y;
-    }
 #  if NUM_NORMALMAPS > 0 || FOAM
     v_calm_pos_world = world.position;
 #  endif
@@ -249,7 +243,6 @@ void main(void) {
     vec3 neighbour1 = world.position + vec3(0.05, 0.0, 0.0);
     vec3 neighbour2 = world.position + vec3(0.0, 0.0, 0.05);
 # endif // GENERATED_MESH
-
 # if SHORE_PARAMS
     vec3 shore_params_n1 = extract_shore_params(neighbour1.xz);
     vec3 shore_params_n2 = extract_shore_params(neighbour2.xz);
@@ -261,6 +254,12 @@ void main(void) {
     offset(neighbour2, w_time, vec3(0.0));
     offset(world.position, w_time, vec3(0.0));
 # endif
+    // Last cascad needs to be flat and a bit lower than others
+    if (a_position.y < 0.0) {
+        world.position.y = WATER_LEVEL - 1.0;
+        neighbour1.y = world.position.y;
+        neighbour2.y = world.position.y;
+    }
     // calculate all surface vectors based on 3 positions
     vec3 bitangent = normalize(neighbour1 - world.position);
     vec3 tangent   = normalize(neighbour2 - world.position);

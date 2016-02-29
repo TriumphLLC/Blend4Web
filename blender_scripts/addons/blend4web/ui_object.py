@@ -64,18 +64,18 @@ class B4W_OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
                 continue
             box = col.box()
             row = box.row()
-            row.prop(level, "object", text=_(""))
-            row.operator("object.lod_remove", text=_(""), icon='PANEL_CLOSE').index = i
+            row.prop(level, "object", text="")
+            row.operator("object.lod_remove", text="", icon='PANEL_CLOSE').index = i
 
             row = box.row()
             row.prop(level, "distance")
             row = row.row(align=True)
-            row.prop(level, "use_mesh", text=_(""))
-            row.prop(level, "use_material", text=_(""))
+            row.prop(level, "use_mesh", text="")
+            row.prop(level, "use_material", text="")
 
         row = col.row(align=True)
         row.operator("object.lod_add", text=_("Add"), icon='ZOOMIN')
-        row.menu("OBJECT_MT_lod_tools", text=_(""), icon='TRIA_DOWN')
+        row.menu("OBJECT_MT_lod_tools", text="", icon='TRIA_DOWN')
 
         row = layout.row()
         row.prop(obj, "b4w_lod_transition", text=_("Lod Transition Ratio"))
@@ -207,7 +207,7 @@ class B4W_ObjectBillboard(ObjectButtonsPanel, Panel):
                 and context.scene.render.engine in cls.COMPAT_ENGINES)
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_billboard", text=_(""))
+        self.layout.prop(context.object, "b4w_billboard", text="")
 
     def draw(self, context):
         obj = context.object
@@ -249,7 +249,7 @@ class B4W_ObjectReflections(ObjectButtonsPanel, Panel):
                 index = obj.b4w_refl_plane_index
                 locked_cons = get_locked_track_constraint(obj, index)
                 col.label(text=_("Reflection Plane:"))
-                col.prop(locked_cons, "target", text=_(""))
+                col.prop(locked_cons, "target", text="")
 
         col = split.column()
         col.prop(obj, "b4w_reflexible", text=_("Reflexible"))
@@ -337,7 +337,7 @@ class B4W_ObjectTags(ObjectButtonsPanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_enable_object_tags", text=_(""))
+        self.layout.prop(context.object, "b4w_enable_object_tags", text="")
 
     def draw(self, context):
         obj = context.object
@@ -445,7 +445,7 @@ class B4W_ObjectWindBending(ObjectButtonsPanel, Panel):
                 and context.scene.render.engine in cls.COMPAT_ENGINES)
 
     def draw_header(self, context):
-        self.layout.prop(context.object, "b4w_wind_bending", text=_(""))
+        self.layout.prop(context.object, "b4w_wind_bending", text="")
 
     def draw(self, context):
         obj = context.object
@@ -494,7 +494,7 @@ class B4W_ObjectWindBending(ObjectButtonsPanel, Panel):
         col.prop(obj, "b4w_wind_bending_angle", slider=True, text=_("Angle"))
         col.prop(obj, "b4w_wind_bending_freq", text=_("Frequency"))
 
-        col.label(text=_(""))
+        col.label(text="")
         col.separator()
 
         if obj.type == "MESH":

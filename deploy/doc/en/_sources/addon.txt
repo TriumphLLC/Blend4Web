@@ -3,6 +3,88 @@ The Add-on
 **********
 
 
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* The Add-on
+
+  * Export Formats
+
+    * JSON
+
+    * HTML
+
+  * Export Options
+
+  * Initialization Errors
+
+  * Compatibility Errors
+
+  * Critical Export Errors
+
+  * Non-Critical Export Errors
+
+  * Other Messages
+
+  * Add-on Translations
+
+
+Export Formats
+==============
+
+After the scene is finished, you need to convert it into a format
+supported by the Blend4Web engine.
+
+For now, two formats are supported: JSON and HTML.
+
+
+JSON
+----
+
+Exporting the scene to this format creates a ".json" (JavaScript
+Object Notation) file that contains all exported data structures and
+links to external resources (images, sounds and such), and also a
+".bin" file that contains model data arrays in binary format.
+
+If media resources are packed into the .blend file, they will be
+unpacked during the export and placed to the hidden "../tmp/" folder
+in the project's directory (inside the SDK directory). It should be
+noted that the names of such files will be automatically changed,
+which can complicate working with them.
+
+It is recommended to store all the resources in a dedicated folder
+inside the SDK directory, it can be called
+"deploy/assets/project_name" for example.
+
+Note: In accordance with the security measures, the development
+  server can only access the SDK folder. If media data is placed in
+  another folder, the server won't be able to deploy it during the
+  export (even if it is working correctly in Blender itself).
+
+Paths to the external resources should be relative. If this is not the
+case,  execute the "File > External Data > Make All Paths Relative"
+command, or  else problems with opening the file on other computers
+may occur.
+
+This is the main format for complex projects that include multiple
+scenes and require JavaScript programming. Project development is
+further described in the  corresponding section.
+
+
+HTML
+----
+
+Exporting the scene to this format pack all scene resources into one
+file with the HTML extension. This HTML file contains not only the
+scene itself, but also textures, sounds, Blend4Web engine and standard
+web player. A file like this can be executed on any computer and any
+mobile device that have a web browser with WebGL support.
+
+You can't use HTML files for further development, but you also don't
+need any additional actions to run them. This format is useful for
+developing relatively simple applications of moderate size (?).
+
+
 Export Options
 ==============
 

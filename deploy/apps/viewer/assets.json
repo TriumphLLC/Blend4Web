@@ -110,11 +110,11 @@
             },
             {
                 "name": "Petigor Model",
-                "load_file": "petigors_tale/characters/character/character_model.json"
+                "load_file": "petigors_tale/characters/petigor/petigor_model.json"
             },
             {
                 "name": "Petigor Animation",
-                "load_file": "petigors_tale/characters/character/character_animation.json"
+                "load_file": "petigors_tale/characters/petigor/petigor_animation.json"
             },
             {
                 "name": "Golem Model",
@@ -139,6 +139,10 @@
             {
                 "name": "Farmer Female Animation",
                 "load_file": "petigors_tale/characters/farmers/farmer_female_animation.json"
+            },
+            {
+                "name": "Farmer Instruments",
+                "load_file": "petigors_tale/props/farmers_instruments.json"
             },
             {
                 "name": "Troll Model",
@@ -183,6 +187,10 @@
             {
                 "name": "Fire and Smoke",
                 "load_file": "petigors_tale/vfx/fire_n_smoke.json"
+            },
+            {
+                "name": "Under Construction - Scene",
+                "load_file": "petigors_tale/under_construction.json"
             },
             {
                 "name": "Indicators",
@@ -385,6 +393,10 @@
                 "load_file": "materials/procedural_lines.json"
             },
             {
+                "name": "Ramps",
+                "load_file": "materials/ramps.json"
+            },
+            {
                 "name": "Simple Parallax",
                 "load_file": "materials/simple_parallax.json"
             },
@@ -431,6 +443,10 @@
     {
         "name": "Demos - Particles",
         "items": [
+            {
+                "name": "Particles Node Material",
+                "load_file": "particles/particles_node_material.json"
+            },
             {
                 "name": "Particles Rotation",
                 "load_file": "particles/particles_rotation.json"

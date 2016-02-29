@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Problems and Solutions &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Problems and Solutions &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Release Notes" href="release_notes.html"/>
         <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,23 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -114,6 +116,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Problems and Solutions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Problems Upon Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl">WebGL Failed to Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#known-problems">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
@@ -136,6 +139,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -154,9 +161,20 @@
            <div itemprop="articleBody">
             
   <div class="section" id="problems-and-solutions">
-<span id="id1"></span><h1>Problems and Solutions<a class="headerlink" href="#problems-and-solutions" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id6">Problems and Solutions</a><a class="headerlink" href="#problems-and-solutions" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#problems-and-solutions" id="id6">Problems and Solutions</a><ul>
+<li><a class="reference internal" href="#renderer-not-working" id="id7">Problems Upon Startup</a></li>
+<li><a class="reference internal" href="#webgl" id="id8">WebGL Failed to Init</a></li>
+<li><a class="reference internal" href="#known-problems" id="id9">Known Issues</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="renderer-not-working">
-<span id="id2"></span><h2>Problems Upon Startup<a class="headerlink" href="#renderer-not-working" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id7">Problems Upon Startup</a><a class="headerlink" href="#renderer-not-working" title="Permalink to this headline">¶</a></h2>
 <p><em>1. The &#8220;Browser could not initialize WebGL&#8221; message is shown</em>.</p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
 <p>Follow the instructions listed in the <a class="reference internal" href="#webgl-not-working"><span>WebGL Failed to Init</span></a> section.</p>
@@ -181,7 +199,7 @@
 </div></blockquote>
 </div>
 <div class="section" id="webgl">
-<span id="webgl-not-working"></span><h2>WebGL Failed to Init<a class="headerlink" href="#webgl" title="Permalink to this headline">¶</a></h2>
+<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id8">WebGL Failed to Init</a><a class="headerlink" href="#webgl" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> page tells about problems when viewing it in recent Chrome or Firefox. What can I do?</p>
 <ol class="arabic simple">
 <li><p class="first">Install the latest updates for your system (for MS Windows see <a class="reference external" href="http://support.microsoft.com/kb/311047">the guide</a>). In case of MS Windows install the latest <a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=35">DirectX runtime</a>. Reboot.</p>
@@ -221,6 +239,34 @@
 <p>Enter <strong>about:config</strong> into the browser&#8217;s address bar, search for the <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> parameter and double-click on it to switch from <code class="docutils literal"><span class="pre">false</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="known-problems">
+<span id="id5"></span><h2><a class="toc-backref" href="#id9">Known Issues</a><a class="headerlink" href="#known-problems" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Problems with updating of the add-on.</p>
+<blockquote>
+<div><p>It’s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+</div></blockquote>
+</li>
+<li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
+</li>
+<li><p class="first">Changed texture filtering on some platforms.</p>
+<blockquote>
+<div><p>An incorrect texture filtering was disabled on iPad and Internet Explorer for materials with Alpha Clip type of transparency.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Some devices with Mail GPU require manual WebGL activation in browser settings.</p>
+</li>
+<li><p class="first">For the local developement server to work on Apple OS X and Blender 2.76, you may need to install <cite>Python 3.4 &lt;https://www.python.org/downloads/release/python-343/&gt;</cite>. This is due to a bug in Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. This bug has been fixed in Blender 2.76b, so updating it is advised.</p>
+</li>
+<li><p class="first">Skeletal animation may work incorrectly while using Nouveau drivers.</p>
+</li>
+<li><p class="first">Transparent textures may not render correctly in the IE11 and Microsoft Edge web browsers and on iPad.</p>
+<blockquote>
+<div><p>The problem is relevant for the <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials</span></a>. Image artifacts are visible in the areas where alpha channel value is close or equal to zero. To fix this issue, it is recommended to increase the value of the alpha channel until artifact are no longer visible (increasing it by value from 0.01 to 0.05 should be enough in the most cases).</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -242,8 +288,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -265,7 +311,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -288,6 +334,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -621,6 +621,8 @@ function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_bpy_lods(bpy_data);
     prepare_bpy_scenes(bpy_data, thread);
     prepare_bpy_objects(bpy_data, thread);
+    prepare_bpy_worlds(bpy_data, thread);
+    prepare_bpy_logic_nodes_objects_params(bpy_data);
 
     if (DEBUG_BPYDATA)
         m_print.log("%cDEBUG BPYDATA:", "color: #a0a", bpy_data);
@@ -690,9 +692,6 @@ function prepare_bpy_objects(bpy_data, thread) {
         var bpy_scene = bpy_data["scenes"][i];
         var scene_objs = combine_scene_bpy_objects(bpy_scene, "ALL");
 
-        if (bpy_scene["b4w_use_logic_editor"])
-            m_reformer.assign_logic_nodes_object_params(scene_objs, bpy_scene);
-
         for (var j = 0; j < scene_objs.length; j++) {
             var bpy_obj = scene_objs[j];
 
@@ -726,6 +725,21 @@ function prepare_bpy_objects(bpy_data, thread) {
                 bpy_obj["data"] = mesh;
             }
         }
+    }
+}
+
+/**
+ * Attach scene links through combining bpy worlds by scene
+ */
+function prepare_bpy_worlds(bpy_data, thread) {
+    // process world by scene
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var bpy_scene = bpy_data["scenes"][i];
+        var bpy_world = bpy_scene["world"];
+
+        if (!bpy_world._scenes)
+            bpy_world._scenes = [];
+        bpy_world._scenes.push(thread.is_primary ? bpy_scene : _primary_scene);
     }
 }
 
@@ -764,7 +778,7 @@ function combine_scene_bpy_objects_iter(bpy_objects, type, dest) {
 function prepare_hair_dupli_objects(bpy_objects) {
     for (var i = 0; i < bpy_objects.length; i++) {
         var bpy_obj = bpy_objects[i];
-        if (bpy_obj._scenes) {
+        if (bpy_obj._scenes && bpy_obj.type != "WORLD") {
             var psystems = bpy_obj["particle_systems"];
             for (var j = 0; j < psystems.length; j++) {
                 var pset = psystems[j]["settings"];
@@ -789,6 +803,19 @@ function prepare_hair_dupli_objects(bpy_objects) {
                     }
                 }
             }
+        }
+    }
+}
+
+function prepare_bpy_logic_nodes_objects_params(bpy_data) {
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var bpy_scene = bpy_data["scenes"][i];
+
+        if (bpy_scene["b4w_use_logic_editor"]) {
+            var scene_objs = combine_scene_bpy_objects(bpy_scene, "ALL");
+            var scene_world = bpy_scene["world"];
+
+            m_reformer.assign_logic_nodes_object_params(scene_objs, scene_world, bpy_scene);
         }
     }
 }
@@ -907,7 +934,9 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var bpy_objects = get_bpy_cache(thread.id);
+    var bpy_worlds = bpy_data["worlds"];
     create_objects_from_bpy(bpy_data, bpy_objects, thread.id);
+    create_world_objects_from_bpy(bpy_data, bpy_worlds, thread.id);
     var objects = m_obj.get_all_objects(thread.id);
 
     // update new objects (after creating - for making links beetween 
@@ -916,10 +945,16 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var bpy_obj = bpy_objects[i];
         var obj = bpy_obj._object;
         m_nla.update_object(bpy_obj, obj);
-    }    
+    }
+
+    for (var i = 0; i < bpy_worlds.length; i++) {
+        var bpy_world = bpy_worlds[i];
+        var world = bpy_world._object;
+        m_nla.update_object(bpy_world, world);
+    }
 
     if (thread.is_primary)
-        calc_light_index(bpy_data, thread.id);    
+        calc_light_index(bpy_data, thread.id);
 
     for (var i = 0; i < bpy_objects.length; i++) {
         var bpy_obj = bpy_objects[i];
@@ -959,8 +994,30 @@ function create_objects_from_bpy(bpy_data, bpy_objects, data_id) {
         bpy_obj._object = obj;
 
         m_obj.update_object(bpy_obj, obj);
+
         obj.render.data_id = data_id;
         obj.is_hair_dupli = bpy_obj._is_hair_dupli || false;
+    }
+}
+
+/**
+ * Create new b4w world objects used in environment animation,
+ * append scene data, attach service & hack properties, update new objects.
+ */
+function create_world_objects_from_bpy(bpy_data, bpy_worlds, data_id) {
+    //create new world objects
+    for (var i = 0; i < bpy_worlds.length; i++) {
+        var bpy_world = bpy_worlds[i];
+
+        var world = m_obj_util.create_object(bpy_world["name"], "WORLD",
+                 bpy_world["name"]);
+
+        for (var j = 0; j < bpy_world._scenes.length; j++)
+            m_obj_util.append_scene_data(world, bpy_world._scenes[j]);
+
+        bpy_world._object = world;
+
+        m_obj.update_world(bpy_world, world);
     }
 }
 
@@ -1757,6 +1814,21 @@ function make_bpy_links(bpy_data) {
             for (var j = 0; j < texture_slots.length; j++) {
                 make_link_uuid(texture_slots[j], "texture", storage);
             }
+
+        if (world["animation_data"]) {
+            var adata = world["animation_data"];
+            if (adata["action"])
+                make_link_uuid(adata, "action", storage);
+
+            if (adata["nla_tracks"])
+                for (var j = 0; j < adata["nla_tracks"].length; j++) {
+                    var track = adata["nla_tracks"][j];
+
+                    for (var k = 0; k < track["strips"].length; k++)
+                        if (track["strips"][k]["action"])
+                            make_link_uuid(track["strips"][k], "action", storage);
+                }
+        }
     }
 }
 
@@ -2715,8 +2787,19 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
     if (image_assets.length) {
         var asset_cb = function(html_image, uri, type, path) {
 
-            if (!html_image) // image not loaded
+            if (!html_image) { // image not loaded
+                var image = img_by_uri[uri];
+                for (var i = 0; i < bpy_scenes.length; i++) {
+                    var scene = bpy_scenes[i];
+                    var shr_image = scene._render.water_params.shoremap_image;
+                    if (shr_image === image) {
+                        scene._render.water_params.shoremap_image = null;
+                        m_print.warn("image", shr_image["filepath"],
+                            " was not found. Disabling water shore effects.");
+                    }
+                }
                 return;
+            }
 
             var show_path_warning = true;
             print_image_info(html_image, path, show_path_warning);
@@ -2731,9 +2814,11 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
 
             for (var i = 0; i < bpy_scenes.length; i++) {
                 var scene = bpy_scenes[i];
-                var shr_image = scene._render.water_params.shoremap_image;
-                if (shr_image === image)
-                    update_scene_shore_distance(html_image, image, scene);
+                if (scene._render.water_params) {
+                    var shr_image = scene._render.water_params.shoremap_image;
+                    if (shr_image === image)
+                        update_scene_shore_distance(html_image, image, scene);
+                }
             }
         }
         var pack_cb = function() {
@@ -2960,6 +3045,17 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     var objects = m_obj.get_all_objects(thread.id);
     m_obj.update_objects_dynamics(objects);
 
+    // remove unused batches
+    for (var k = 0; k < objects.length; k++) {
+        var obj = objects[k];
+        for (var i = 0; i < obj.scenes_data.length; i++) {
+            var batches = obj.scenes_data[i].batches;
+            for (var j = 0; j < batches.length; j++)
+                if (batches[j].shader == null)
+                    batches.splice(j--, 1);
+        }
+    }
+
     cb_finish(thread, stage);
 }
 
@@ -3025,7 +3121,18 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
 
     _play_media_bkg.appendChild(_play_media_btn);
 
-    _play_media_btn.addEventListener("click", function() {
+    _play_media_btn.addEventListener("touchstart", init_media, false);
+    _play_media_btn.addEventListener("click", init_media, false);
+
+    //NOTE: Need some better approach. tmp solution
+    var semaphore = false;
+
+    function init_media() {
+
+        if (semaphore)
+            return;
+
+        semaphore = true;
 
         if (thread.has_video_textures) {
             m_tex.play();
@@ -3048,7 +3155,7 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
 
         remove_media_controls();
         cb_finish(thread, stage);
-    }, false);
+    }
 }
 
 function remove_media_controls() {

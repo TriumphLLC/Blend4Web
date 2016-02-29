@@ -4,6 +4,10 @@
 Экспресс-установка
 ******************
 
+.. contents:: Содержание
+    :depth: 3
+    :backlinks: entry
+
 Экспресс-установка аддона Blend4Web подойдет обычным пользователям, которым не требуется разработка полноценных 3D приложений. 
 Основной возможностью в этом случае является экспорт сцены в один HTML-файл с последующим просмотром в браузере, поддерживающем WebGL.
 
@@ -21,7 +25,7 @@
 
 Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с `официального сайта <http://www.blender.org/download>`_.
 
-.. image:: src_images/first_steps/blender_first_run.jpg
+.. image:: src_images/first_steps/blender_first_run.png
    :align: center
    :width: 100%
 
@@ -36,7 +40,7 @@
 Запустить Blender, загрузить сцену по умолчанию :file:`File > New`.
 Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Во вкладке :file:`Addons` нажать :file:`Install from File...` и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив :file:`Import-Export: Blend4Web`.
 
-.. image:: src_images/first_steps/user_preferences_install_b4w.jpg
+.. image:: src_images/first_steps/user_preferences_install_b4w.png
    :align: center
    :width: 100%
 
@@ -55,7 +59,7 @@
 
 Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:
 
-.. image:: src_images/first_steps/selecting_engine.jpg
+.. image:: src_images/first_steps/first_steps_selecting_engine.png
    :align: center
    :width: 100%
 
@@ -87,7 +91,7 @@
 
 Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку :file:`Remove`.
 
-.. image:: src_images/first_steps/user_preferences_disable_addon.jpg
+.. image:: src_images/first_steps/user_preferences_disable_addon.png
    :align: center
    :width: 100%
 

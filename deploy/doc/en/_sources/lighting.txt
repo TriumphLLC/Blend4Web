@@ -3,6 +3,60 @@ Lighting, Shadows and Background
 ********************************
 
 
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Lighting, Shadows and Background
+
+  * Shading Types
+
+  * Normal Editor
+
+    * Main features of the normal editor:
+
+    * Interface of the Vertex Normal Editor
+
+    * Activate
+
+    * Show Normals
+
+    * Rotation
+
+    * Split Normals
+
+    * Average Split
+
+    * Restore
+
+    * Tree, Foliage and Face
+
+    * Copy/Paste
+
+    * Copy From Mesh
+
+  * Lighting with Light Sources
+
+    * Light source types
+
+    * Light source setup
+
+  * Environment Lighting (Ambient)
+
+    * Activation
+
+    * Setup
+
+    * Environment map method
+
+  * Shadows
+
+    * Activation
+
+    * Setup
+
+  * Background
+
+
 Shading Types
 =============
 
@@ -336,7 +390,7 @@ Performed in the "Object Data" tab when a lamp object is selected.
    Use this light source for calculating the time of day. Applicable
    only to the "Sun" light source type. Disabled by default.
 
-*Shadows > Generate shadows*
+*Shadow > Shadow*
    Use this light source for shadow calculation. Should be used when
    multiple light sources are present. Disabled by default.
 
@@ -419,9 +473,8 @@ Blend4Web implements the following shadow rendering techniques:
 cascaded shadow maps (CSM) and softened shadows (PCF).
 
 Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows
-simultaneously. If *Generate Shadows* parameter is enabled for more
-than 4 light sources, shadows will still be generated only from 4 of
-them.
+simultaneously. If *Shadow* parameter is enabled for more than 4 light
+sources, shadows will still be generated only from 4 of them.
 
 [image]
 
@@ -450,8 +503,8 @@ Setup
 *Direction*
    If there are multiple light sources, it is recommended to specify
    the exact light source which is used for shadow calculations, by
-   enabling the "Shadows > Generate shadows" checkbox under the
-   "Object Data" tab for the selected lamp object.
+   enabling the "Shadow > Shadow" checkbox under the "Object Data" tab
+   for the selected lamp object.
 
 *Color*
    The shadow color is determined by the environment lighting
@@ -491,9 +544,9 @@ Note: Shadows from "Point" light sources are generated the same way
 
 *Enable CSM*
    Activates the using of cascaded shadows model; reveals additional
-   options. Disabled by default. Won't work if the "Generate Shadows"
-   setting is enabled for more than one light source. "Point" and
-   "Spot" type light sources support only one shadow cascade.
+   options. Disabled by default. Won't work if the "Shadow" setting is
+   enabled for more than one light source. "Point" and "Spot" type
+   light sources support only one shadow cascade.
 
 This option allows to choose between the following shadow generation
 models:
@@ -503,7 +556,7 @@ models:
 
 * Shadow cascades ("Enable CSM" is turned on).
 
-*Blur radius*
+*Blur Radius*
    Blur ratio for setting up softened shadows. The default value is 3.
    Zero value produces hard shadows.
 

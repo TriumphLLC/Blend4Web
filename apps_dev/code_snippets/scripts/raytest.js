@@ -26,9 +26,9 @@ exports.init = function() {
         autoresize: true,
         callback: init_cb,
         canvas_container_id: "canvas_cont",
-        console_verbose: true,
         physics_enabled: true,
-        show_fps: true
+        show_fps: true,
+        console_verbose: true
     });
 }
 

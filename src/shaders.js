@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ var SHADERS = ["anchors.glslf",
     "anchors.glslv",
     "color_id.glslf",
     "color_id.glslv",
-    "depth.glslf",
-    "depth.glslv",
+    "shadow.glslf",
+    "shadow.glslv",
     "grass_map.glslf",
     "grass_map.glslv",
     "halo.glslf",
@@ -52,10 +52,9 @@ var SHADERS = ["anchors.glslf",
     "main.glslf",
     "main.glslv",
     "main_stack.glslf",
-    "particles_color.glslf",
-    "particles_color.glslv",
-    "particles_texture.glslf",
-    "particles_texture.glslv",
+    "particle_system.glslf",
+    "particle_system_stack.glslf",
+    "particle_system.glslv",
     "procedural_skydome.glslf",
     "procedural_skydome.glslv",
     "special_lens_flares.glslf",
@@ -101,6 +100,7 @@ var SHADERS = ["anchors.glslf",
     "include/environment.glslf",
     "include/fog.glslf",
     "include/fxaa.glslf",
+    "include/halo_color.glslf",
     "include/lighting_nodes.glslf",
     "include/math.glslv",
     "include/mirror.glslf",
@@ -108,6 +108,8 @@ var SHADERS = ["anchors.glslf",
     "include/nodes.glslv",
     "include/pack.glslf",
     "include/particles.glslv",
+    "include/particles_nodes.glslf",
+    "include/particles_nodes.glslv",
     "include/precision_statement.glslf",
     "include/procedural.glslf",
     "include/refraction.glslf",
@@ -234,7 +236,6 @@ exports.set_default_directives = function(sinfo) {
         "SHADOW_TEX_RES",
         "MAIN_BEND_COL",
         "MAX_BONES",
-        "NODES_GLOW",
         "NUM_NORMALMAPS",
         "PARALLAX",
         "PARALLAX_STEPS",
@@ -303,7 +304,10 @@ exports.set_default_directives = function(sinfo) {
         "PARTICLES_SHADELESS",
         "NUM_CAST_LAMPS",
         "SUN_NUM",
-        "MAC_OS_SHADOW_HACK"
+        "MAC_OS_SHADOW_HACK",
+        "USE_COLOR_RAMP",
+        "HALO_PARTICLES",
+        "PARTICLE_BATCH"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -338,7 +342,6 @@ exports.set_default_directives = function(sinfo) {
         case "MAX_BONES":
         case "MTEX_NEGATIVE":
         case "MTEX_RGBTOINT":
-        case "NODES_GLOW":
         case "NUM_LIGHTS":
         case "NUM_LFACTORS":
         case "NUM_NORMALMAPS":
@@ -392,6 +395,9 @@ exports.set_default_directives = function(sinfo) {
         case "NUM_CAST_LAMPS":
         case "SUN_NUM":
         case "MAC_OS_SHADOW_HACK":
+        case "USE_COLOR_RAMP":
+        case "HALO_PARTICLES":
+        case "PARTICLE_BATCH":
             val = 0;
             break;
 
@@ -937,6 +943,38 @@ function preprocess_shader(type, ast, shaders_info) {
         shader_nodes[elem.name] = elem;
     }
 
+    function check_optional_node_param(nelem, decl, param_index) {
+
+        if (nelem.id == "PARTICLE_INFO" && decl.is_optional) {
+            if (dirs["PARTICLE_BATCH"] == 1) {
+                var node_param_usage = false;
+                switch(param_index) {
+                    case 0:
+                        node_param_usage = particle_output_usage(nelem.dirs, "PART_INFO_IND")
+                                || particle_output_usage(nelem.dirs, "PART_INFO_AGE")
+                                || particle_output_usage(nelem.dirs, "PART_INFO_LT")
+                                || particle_output_usage(nelem.dirs, "PART_INFO_SIZE");
+                        break;
+                    case 1:
+                        node_param_usage = particle_output_usage(nelem.dirs, "PART_INFO_LOC");
+                        break;
+                    case 2:
+                        node_param_usage = particle_output_usage(nelem.dirs, "PART_INFO_VEL");
+                        break;
+                    case 3:
+                        node_param_usage = particle_output_usage(nelem.dirs, "PART_INFO_A_VEL");
+                        break;
+                    case 4:
+                        node_param_usage = particle_output_usage(nelem.dirs, "PART_INFO_IND");
+                }
+                return node_param_usage;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
     function process_nodes_global(node_elements) {
 
         for (var i = 0; i < node_elements.length; i++) {
@@ -950,21 +988,22 @@ function preprocess_shader(type, ast, shaders_info) {
 
             var param_index = 0;
             for (var j = 0; j < node_parts.declarations.length; j++) {
-                var part = node_parts.declarations[j];
-                if (part.type == "node_param") {
-                    var glob_var_line = part.qualifier.join(" ") + " ";
+                var decl = node_parts.declarations[j];
+                if (decl.type == "node_param") {
 
-                    if (type == "vert") {
-                        glob_var_line += nelem.vparams[param_index];
-                    } else if (type == "frag") {
-                        glob_var_line += nelem.params[param_index];
+                    if (check_optional_node_param(nelem, decl, param_index)) {
+                        var glob_var_line = decl.qualifier.join(" ") + " ";
 
-                        if (nelem.param_values[param_index] !== null)
-                            glob_var_line += " = " + nelem.param_values[param_index];
+                        if (type == "vert") {
+                            glob_var_line += nelem.vparams[param_index];
+                        } else if (type == "frag") {
+                            glob_var_line += nelem.params[param_index];
+                            if (nelem.param_values[param_index] !== null)
+                                glob_var_line += " = " + nelem.param_values[param_index];
+                        }
+                        glob_var_line += ";";
+                        lines.push(glob_var_line);
                     }
-                    glob_var_line += ";";
-
-                    lines.push(glob_var_line);
                     param_index++;
                 }
             }
@@ -1018,10 +1057,10 @@ function preprocess_shader(type, ast, shaders_info) {
 
                     if ((nelem.id == "MATERIAL_BEGIN" && input_index === 3
                             || !node_dirs["MATERIAL_EXT"] &&
-                                (nelem.id == "MATERIAL_BEGIN" && input_index === 4
-                                || nelem.id == "MATERIAL_END" && input_index === 3
-                                || nelem.id == "MATERIAL_END" && input_index === 4
-                                || nelem.id == "MATERIAL_END" && input_index === 5)
+                            (nelem.id == "MATERIAL_BEGIN" && input_index === 4
+                            || nelem.id == "MATERIAL_END" && input_index === 3
+                            || nelem.id == "MATERIAL_END" && input_index === 4
+                            || nelem.id == "MATERIAL_END" && input_index === 5)
                             || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL")
                             && decl.is_optional) {
                         replaces[decl.name] = nelem.input_values[input_index];
@@ -1050,8 +1089,9 @@ function preprocess_shader(type, ast, shaders_info) {
                     replaces[decl.name] = new_name;
                 }
 
-                if (usage_inputs.indexOf(new_name) > -1)
+                if (usage_inputs.indexOf(new_name) > -1) {
                     node_dirs["USE_OUT_" + decl.name] = [1];
+                }
 
                 output_index++;
                 break;
@@ -1194,6 +1234,7 @@ function init_shader(gl, vshader_text, fshader_text,
         permanent_uniform_setters : [],
         // speeds up access by uniform name
         permanent_uniform_setters_table : {},
+        no_permanent_uniforms: false,
 
         transient_uniform_setters : [],
 
@@ -1355,6 +1396,13 @@ exports.check_uniform = function(shader, name) {
 
 exports.get_varyings_count = function(shader) {
     return (_gl.getShaderSource(shader).match(/(?:^|\s)varying(?=\s)/g) || []).length;
+}
+
+function particle_output_usage(ndirs, dir) {
+    for (var i = 0; i < ndirs.length; i++)
+        if (ndirs[i][0] == dir)
+            return true;
+    return false;
 }
 
 }

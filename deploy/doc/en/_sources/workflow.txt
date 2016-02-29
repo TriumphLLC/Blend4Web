@@ -2,6 +2,22 @@
 Workflow
 ********
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Workflow
+
+  * Authoring Scenes
+
+  * Exporting Scenes
+
+  * Displaying Scenes in the Viewer
+
+    * Example
+
+  * Application Development
+
 Developing any product is a creative process with many participants
 who have different skills and experience. However no matter how
 complex it is and what is the target it's always possible to separate
@@ -49,34 +65,25 @@ General recommendations:
 Exporting Scenes
 ================
 
-In order to load scenes authored in Blender into the engine you have
-to transform them into the format suitable for reading by a browser.
-At the moment text files with ".json" extension are used in which
-exported data structures are saved in the JSON (JavaScript Object
-Notation) format. In turn, this file refers to a single binary file
-with a ".bin" extension (which contains geometry and animation data)
-and to external resources (textures, audio and video files).
+The export procedure converts the scene from the Blender format to one
+of the formats used by Blend4Web.
 
-While the ".json" and ".bin" files are created upon export, textures
-and media files are normally placed by hand. Resources embedded in
-".blend" files are automatically placed near the exported scene.
+[image]
 
-Export can be performed by choosing the "Blend4Web (.json)" option
-from the "File > Export" menu. For quick access, search for "b4w
-export" (hot key "SPACE").
+There are two formats: JSON and HTML.
 
-It is recommended to export your scenes in the directory intended for
-deploying applications, for example "deploy/assets/project_name".
+The JSON format is used for complex projects that require programming,
+while HTML is used for more simple, stand-alone applications. Format
+differences and export options are described in the Export Formats
+chapter.
 
-It is required to use relative filepaths for external assets (normally
-this is by default). If this is not the case, run the "File > External
-Data > Make All Paths Relative" operator. Using absolute filepaths
-instead of relative ones may result in errors upon loading ".blend"
-and ".json" files on other computers.
+To export the scene, select "Blend4Web (.json)" or "Blend4Web (.html)"
+option from the "File > Export" menu, or type "b4w export" in the
+operatop search menu (available by pressing "Spacebar").
 
-Upon export, the scene is checked for Blender features not supported
-by the engine. In such cases an error message is generated. The list
-of possible export errors is specified in the corresponding section.
+Note: If the scene uses Blender features not yet supported by the
+  Blend4Web engine, errors may occur during export. Export errors are
+  listed in this table.
 
 Export options are described in detail in the corresponding section.
 

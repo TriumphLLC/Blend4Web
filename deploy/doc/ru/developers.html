@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -109,11 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам приложений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#project-management">Управление проектами</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#project-manager">Project Manager</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-new-project">Мастер создания проектов</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#app-building">Управление проектами</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-project-management">Расширенное управление проектами</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Зависимости</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id6">Список проектов</a></li>
@@ -177,6 +175,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -195,98 +197,65 @@
            <div itemprop="articleBody">
             
   <div class="section" id="developers">
-<span id="id1"></span><h1>Разработчикам приложений<a class="headerlink" href="#developers" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="project-management">
-<span id="app-building"></span><span id="id2"></span><h2>Управление проектами<a class="headerlink" href="#project-management" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Начиная с версии 15.09, SDK включает систему управления проектами, которая позволяет:</p>
-<blockquote>
-<div><ul class="simple">
-<li>просматривать список и внутреннюю структуру имеющихся проектов;</li>
-<li>запускать приложения, просматривать сцены в программе-просмотрщике, загружать исходные файлы сцен в Blender;</li>
-<li>создавать и конфигурировать новые приложения, в том числе на основе готовых шаблонов;</li>
-<li>осуществлять сборку приложения и его конверсию в форму, удобную для последующего размещения на сервере;</li>
-<li>конвертировать ресурсы приложения (текстуры, звуковые и видео-файлы) в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности;</li>
-<li>автоматизировать повторный экспорт всех сцен из состава приложения, включая файлы в формате JSON и HTML.</li>
-<li>удалять проекты.</li>
+<span id="id1"></span><h1><a class="toc-backref" href="#id32">Разработчикам приложений</a><a class="headerlink" href="#developers" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#developers" id="id32">Разработчикам приложений</a><ul>
+<li><a class="reference internal" href="#app-building" id="id33">Управление проектами</a></li>
+<li><a class="reference internal" href="#advanced-project-management" id="id34">Расширенное управление проектами</a><ul>
+<li><a class="reference internal" href="#id5" id="id35">Зависимости</a></li>
+<li><a class="reference internal" href="#id6" id="id36">Список проектов</a></li>
+<li><a class="reference internal" href="#id7" id="id37">Структура проекта</a></li>
+<li><a class="reference internal" href="#b4w-project" id="id38">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a></li>
+<li><a class="reference internal" href="#id8" id="id39">Низкоуровневое создание проекта</a></li>
+<li><a class="reference internal" href="#id9" id="id40">Разработка нескольких приложений в составе проекта</a></li>
+<li><a class="reference internal" href="#id10" id="id41">Сборка проекта</a></li>
+<li><a class="reference internal" href="#id11" id="id42">Автоматический экспорт ресурсов</a></li>
+<li><a class="reference internal" href="#id12" id="id43">Конвертация ресурсов</a></li>
+<li><a class="reference internal" href="#id13" id="id44">Развертывание проекта</a></li>
+<li><a class="reference internal" href="#id14" id="id45">Удаление проекта</a></li>
+<li><a class="reference internal" href="#sdk" id="id46">Обновление приложений на новые версии SDK</a></li>
+<li><a class="reference internal" href="#id15" id="id47">Пути к загружаемым ресурсам приложения</a></li>
 </ul>
-</div></blockquote>
+</li>
+<li><a class="reference internal" href="#id16" id="id48">Написание логики приложений</a><ul>
+<li><a class="reference internal" href="#hello-world" id="id49">Приложение Hello world!</a></li>
+<li><a class="reference internal" href="#id17" id="id50">Загрузка сцены в приложение</a></li>
+<li><a class="reference internal" href="#id18" id="id51">Система модулей</a></li>
+<li><a class="reference internal" href="#id19" id="id52">Быстрое создание приложений</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#converter" id="id53">Конвертация ресурсов</a><ul>
+<li><a class="reference internal" href="#id21" id="id54">Зависимости</a></li>
+<li><a class="reference internal" href="#id22" id="id55">Формат данных</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code-snippets" id="id56">Примеры кода</a></li>
+<li><a class="reference internal" href="#event-model" id="id57">Событийная модель</a><ul>
+<li><a class="reference internal" href="#index-0" id="id58">Сенсоры</a></li>
+<li><a class="reference internal" href="#id26" id="id59">Пример</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#repo-file-structure" id="id60">Файловая структура SDK</a></li>
+<li><a class="reference internal" href="#browser-for-local-loading" id="id61">Загрузка локальных ресурсов</a></li>
+<li><a class="reference internal" href="#quality-settings" id="id62">Профили качества изображения</a></li>
+<li><a class="reference internal" href="#canvas-nonfullscreen-coords" id="id63">Специфика неполноэкранных приложений</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="app-building">
+<span id="id3"></span><h2><a class="toc-backref" href="#id33">Управление проектами</a><a class="headerlink" href="#app-building" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Управлять проектами возможно двумя способами: с помощью консольной утилиты <em>project.py</em>, имеющей простой формат вызова и подробную справку, либо в графической форме с помощью веб-приложения, выполняющегося на локальном сервере разработчика. Сервер не требует каких-либо дополнительных настроек и запускается автоматически при старте Blender. Главная страница приложения Project Manager открывается с помощью кнопки <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> в Blender.</p>
-<div class="section" id="project-manager">
-<h3>Project Manager<a class="headerlink" href="#project-manager" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Данное графическое приложение позволяет осуществлять базовые функции управления проектами, такие как просмотр, компиляция, экспорт сцен и конвертация ресурсов.
-Разработчикам, которым требуется полный набор функций для управления проектами, следует использовать скрипт <em>project.py</em> и ручное редактирование конфигурационных файлов <em>.b4w_project</em>.</p>
-<p>Приложение <em>Project Manager</em> доступно из раздела <em>Tools</em> главной страницы SDK. При запуске приложение выводит список из всех проектов, находящихся в установленном SDK.</p>
-<p>Команды для управления проектами находятся в верхней части страницы, для создания нового проекта необходимо нажать на ссылку <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code>; для загрузки внешнего проекта - <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project</span> <span class="pre">Archive]</span></code>; чтобы скрыть или показать проекты, изначально входящие в состав SDK - <code class="docutils literal"><span class="pre">[Hide/Show</span> <span class="pre">Stock</span> <span class="pre">Projects]</span></code>.</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="_images/project_actions.png"><img alt="_images/project_actions.png" class="align-center" src="_images/project_actions.png" style="width: 100%;" /></a>
-</div></blockquote>
-<p>Команды управления конкретным проектом находятся справа от него</p>
-<blockquote>
-<div><img alt="_images/project_commands.png" class="align-center" src="_images/project_commands.png" />
-</div></blockquote>
-<ol class="arabic simple">
-<li>Компиляция проекта (недоступно для типов проекта WebPlayer JSON и WebPlayer HTML).</li>
-<li>Реэкспорт блендеровских сцен в проекте.</li>
-<li>Конвертация медиа ресурсов.</li>
-<li>Экспортирование и дальнейшая загрузка проекта.</li>
-<li>Удаление проекта со всеми зависимостями.</li>
-</ol>
-<div class="admonition note">
-<p class="first admonition-title">Примечание</p>
-<p class="last">Все пути берутся из конфигурационного файла .b4w_project.</p>
-</div>
-</div>
-<div class="section" id="create-new-project">
-<span id="id3"></span><h3>Мастер создания проектов<a class="headerlink" href="#create-new-project" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Мастер создания новых проектов входит в состав приложения Project Manager и вызывается по ссылке <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> на главной странице этого приложения.</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="_images/create_project.png"><img alt="_images/create_project.png" class="align-center" src="_images/create_project.png" style="width: 100%;" /></a>
-</div></blockquote>
-<ol class="arabic">
-<li><p class="first">Имя проекта. Текущим именем будут названы директории в &#8220;apps_dev/имя_проекта&#8221;, &#8220;deploy/assets/имя_проекта&#8221;, blender и &#8220;deploy/apps/имя_проекта&#8221;. Для лучшей совместимости рекомендуется использовать буквы и нижнее подчеркивание.</p>
-</li>
-<li><p class="first">Название проекта. Это имя будет показываться в заголовке веб-браузера.</p>
-</li>
-<li><p class="first">Имя автора проекта.</p>
-</li>
-<li><p class="first">Добавить шаблоны приложения. В директорию проекта &#8220;apps_dev/имя_проекта&#8221; будут добавлены стандартные шаблоны приложения: html-файл, css-файл, js-файл.</p>
-</li>
-<li><p class="first">Добавить шаблоны сцены. В директорию &#8220;deploy/assets/имя_проекта&#8221; будет добавлен стандартный json-файл; в директорию &#8220;blender/имя_проекта&#8221; - blend-файл.</p>
-</li>
-<li><p class="first">Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован в директорию проекта.</p>
-</li>
-<li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступен только тип проекта - &#8220;update&#8221;.</p>
-</li>
-<li><p class="first">Тип собираемого проекта. Здесь возможны варианты:</p>
-<blockquote>
-<div><ul class="simple">
-<li>&#8220;External&#8221; - движок берется из директории &#8220;deploy/apps/common/&#8221;. Компилируются только файлы приложения;</li>
-<li>&#8220;Copy&#8221; - движок копируется в директорию собранного приложения. Компилируются только файлы приложения;</li>
-<li>&#8220;Compile&#8221; - исходники движка компилируются вместе со скриптами приложения;</li>
-<li>&#8220;Update&#8221; - заменется движок в директории проекта;</li>
-<li>&#8220;Webplayer JSON&#8221; - json-файл, находящийся в проекте, запускается при помощи веб-плеера в составе SDK;</li>
-<li>&#8220;Webplayer HTML&#8221; - проект состоит из html-файла, внутри которого находятся все необходимые ресурсы.</li>
-</ul>
-</div></blockquote>
-</li>
-<li><p class="first">Уровень оптимизации javascript.</p>
-<blockquote>
-<div><ul class="simple">
-<li>&#8220;Simple&#8221; - в коде заменяются имена переменных;</li>
-<li>&#8220;Advanced&#8221; - призводится оптимизация кода.</li>
-<li>&#8220;Whitespace Only&#8221; - в коде удаляются только пробелы;</li>
-</ul>
-</div></blockquote>
-</li>
-</ol>
-</div>
+<p>Работе с менеджером проектов посвящён <a class="reference internal" href="project_manager.html#project-management"><span>отдельный раздел</span></a>.</p>
 </div>
 <div class="section" id="advanced-project-management">
-<span id="id4"></span><h2>Расширенное управление проектами<a class="headerlink" href="#advanced-project-management" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id34">Расширенное управление проектами</a><a class="headerlink" href="#advanced-project-management" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возвожность втоматизировать все рабочие процессы, связанные с разработкой приложений.</p>
 <p>Для расширенного управления проектами следует использовать скрипт <em>project.py</em> и ручное редактирование конфигурационных файлов <em>.b4w_project</em>.</p>
 <div class="section" id="id5">
-<h3>Зависимости<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id35">Зависимости</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:</p>
 <div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
 </pre></div>
@@ -297,14 +266,14 @@
 </div>
 </div>
 <div class="section" id="id6">
-<h3>Список проектов<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id36">Список проектов</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
 </pre></div>
 </div>
 <p>Выводит список проектов, находящихся в SDK.</p>
 </div>
 <div class="section" id="id7">
-<h3>Структура проекта<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id37">Структура проекта</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Типовое приложение, разрабатываемая с помощью системы управления проектами имеет вид:</p>
 <div class="highlight-python"><div class="highlight"><pre>blend4web/
     apps_dev/
@@ -319,7 +288,7 @@
             myproject.blend
     deploy/
         apps/
-            my_project/
+            myproject/
                 myproject.js
                 myproject.css
                 myproject.html
@@ -339,7 +308,7 @@
 <p>Кроме того, операция развёртывания (deploy) может создавать ещё одну директорию, однако она обычно располагается за пределами SDK и её название и расположение зависит от структуры директорий на конечном сервере.</p>
 </div>
 <div class="section" id="b4w-project">
-<h3>Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code><a class="headerlink" href="#b4w-project" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id38">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a><a class="headerlink" href="#b4w-project" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Если при запуске скрипта <em>project.py</em> не были заданы параметры проекта, то они берутся из конфигурационного файла.</p>
 <div class="highlight-python"><div class="highlight"><pre>[info]
 author =
@@ -370,7 +339,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id8">
-<h3>Низкоуровневое создание проекта<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id39">Низкоуровневое создание проекта</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>./project.py init myproject
 </pre></div>
 </div>
@@ -425,7 +394,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id9">
-<h3>Разработка нескольких приложений в составе проекта<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id40">Разработка нескольких приложений в составе проекта</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В проекте может содержаться несколько приложений. Для этого необходимо в конфигурационном файле указать соответствующие HTML-файлы через точку с запятой:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
@@ -435,7 +404,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id10">
-<h3>Сборка проекта<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id41">Сборка проекта</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject compile
 </pre></div>
 </div>
@@ -463,7 +432,7 @@ remove_exist_ext_dir =
 </ul>
 </div>
 <div class="section" id="id11">
-<h3>Автоматический экспорт ресурсов<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id42">Автоматический экспорт ресурсов</a><a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject reexport
 </pre></div>
 </div>
@@ -475,7 +444,7 @@ remove_exist_ext_dir =
 </ul>
 </div>
 <div class="section" id="id12">
-<h3>Конвертация ресурсов<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id43">Конвертация ресурсов</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject convert_resources
 </pre></div>
 </div>
@@ -488,7 +457,7 @@ remove_exist_ext_dir =
 <p>Более подробно о процессе конвертации ресурсов сказано в <a class="reference internal" href="#converter"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="id13">
-<h3>Развертывание проекта<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id44">Развертывание проекта</a><a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject deploy
 </pre></div>
 </div>
@@ -503,14 +472,14 @@ remove_exist_ext_dir =
 </ul>
 </div>
 <div class="section" id="id14">
-<h3>Удаление проекта<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id45">Удаление проекта</a><a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject remove
 </pre></div>
 </div>
 <p>Удаляет проект. Удаляемые директории берутся из конфигурационного файла.</p>
 </div>
 <div class="section" id="sdk">
-<h3>Обновление приложений на новые версии SDK<a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id46">Обновление приложений на новые версии SDK</a><a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В процессе обновления на новые версии движка чаще всего возникает две проблемы:</p>
 <ol class="arabic simple">
 <li>Несоответствие модулей новой и старой версии движка.</li>
@@ -546,7 +515,7 @@ remove_exist_ext_dir =
 <p>Несоответствие API решается рефакторингом кода приложения. Все изменения подробно описываются в <a class="reference internal" href="release_notes.html#release-notes"><span>замечаниях к релизам</span></a>.</p>
 </div>
 <div class="section" id="id15">
-<h3>Пути к загружаемым ресурсам приложения<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id47">Пути к загружаемым ресурсам приложения</a><a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При загрузке .json-файлов необходимо использовать функцию <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> из модуля <em>config.js</em>:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
@@ -555,9 +524,9 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id16">
-<h2>Написание логики приложений<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id48">Написание логики приложений</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="hello-world">
-<h3>Приложение Hello world!<a class="headerlink" href="#hello-world" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id49">Приложение Hello world!</a><a class="headerlink" href="#hello-world" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Простейшее приложение на основе Blend4Web может иметь вид:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -580,7 +549,7 @@ remove_exist_ext_dir =
 <p>Файл <code class="docutils literal"><span class="pre">b4w.min.js</span></code> со скомпилированным кодом движка необходимо скопировать из директории SDK <code class="docutils literal"><span class="pre">deploy/apps/common</span></code>  и разместить в той же директории, что и представленный HTML-файл.</p>
 </div>
 <div class="section" id="id17">
-<h3>Загрузка сцены в приложение<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id50">Загрузка сцены в приложение</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую
 последовательность действий:</p>
 <ol class="arabic simple">
@@ -617,7 +586,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id18">
-<h3>Система модулей<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id51">Система модулей</a><a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Несмотря на то, что движок предоставляет прикладному программисту API в объёме
 десятков модулей, в процессе работы он занимает в глобальном пространстве имён
 единственный объект <code class="docutils literal"><span class="pre">b4w</span></code>. При необходимости обращения к модулю, последний
@@ -653,7 +622,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id19">
-<h3>Быстрое создание приложений<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id52">Быстрое создание приложений</a><a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поскольку создание приложения с нуля может быть достаточно сложной операцей, особенно для начинающих пользователей, в движке существует специальное дополнение <code class="docutils literal"><span class="pre">app</span></code>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -696,7 +665,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="converter">
-<span id="id20"></span><h2>Конвертация ресурсов<a class="headerlink" href="#converter" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id20"></span><h2><a class="toc-backref" href="#id53">Конвертация ресурсов</a><a class="headerlink" href="#converter" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Существующие браузеры не полностью поддерживают основные форматы медиаданных,
 поэтому для создания кроссбраузерных приложений, а также с целью оптимизации,
 необходимо использовать конвертер ресурсов.</p>
@@ -724,7 +693,7 @@ remove_exist_ext_dir =
 <p>Аргумент <strong>resize_textures</strong> используется для изменения размера
 текстур в режиме <strong>LOW</strong>.</p>
 <div class="section" id="id21">
-<h3>Зависимости<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id54">Зависимости</a><a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Убедитесь, что у вас установлены все необходимые для конвертации программы. Это
 можно сделать следующей командой:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
@@ -791,7 +760,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="id22">
-<h3>Формат данных<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id55">Формат данных</a><a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Преобразование происходит по схеме:</p>
 <dl class="docutils">
 <dt>для аудио (convert_media):</dt>
@@ -851,7 +820,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 </div>
 </div>
 <div class="section" id="code-snippets">
-<span id="id23"></span><h2>Примеры кода<a class="headerlink" href="#code-snippets" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id23"></span><h2><a class="toc-backref" href="#id56">Примеры кода</a><a class="headerlink" href="#code-snippets" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В составе SDK присутствует приложение Code Snippets, демонстрирующее примеры использования функционала движка.</p>
 <p>На данный момент приложение включает в себя следующие примеры:</p>
 <blockquote>
@@ -872,12 +841,12 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 <p>Приложение Code Snippets доступно по пути <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. Также оно доступно по ссылке из файла <code class="docutils literal"><span class="pre">index.html</span></code> в корне SDK.</p>
 </div>
 <div class="section" id="event-model">
-<span id="id24"></span><h2>Событийная модель<a class="headerlink" href="#event-model" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id24"></span><h2><a class="toc-backref" href="#id57">Событийная модель</a><a class="headerlink" href="#event-model" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Событийная модель предоставляет унифицированный интерфейс для описания
 изменения состояний 3D сцены, упрощая обработку событий физики и действий
 пользователя.</p>
 <div class="section" id="index-0">
-<span id="id25"></span><h3>Сенсоры<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id25"></span><h3><a class="toc-backref" href="#id58">Сенсоры</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Основным блоком событийной модели является сенсор (sensor). Сенсор является программной сущностью, которая выдаёт на выходе единственное числовое значение, в большинстве случаев это либо 1 (единица), либо 0 (ноль). Некоторые сенсоры также несут полезную нагрузку (payload), которую можно получить в фунции-обработчике множества с помощью соответствующего API. Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную длину луча пересечения.</p>
 <p id="index-1">Опрос значений сенсоров не доступен пользователю в виде API. Вместо этого, каждый сенсор должен присутствовать в одном или нескольких множествах (sensor manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене. Оно генерирует ответ на определенный набор событий сенсоров в виде вызова функции-обработчика. Для определения множества необходимо иметь
 следующую информацию (см. также описание функции <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_sensor_manifold">create_sensor_manifold</a> в документации по API):</p>
@@ -893,7 +862,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 <p>Более подробно об API, используемых в событийной модели движка, описано в документации модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a>.</p>
 </div>
 <div class="section" id="id26">
-<h3>Пример<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id59">Пример</a><a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поставлена задача озвучить удар бросаемого камня так, чтобы
 при ударе о различные среды (например, земля и стена) выводился характерный звук.
 На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;.
@@ -948,7 +917,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 </div>
 </div>
 <div class="section" id="repo-file-structure">
-<span id="id27"></span><h2>Файловая структура SDK<a class="headerlink" href="#repo-file-structure" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id27"></span><h2><a class="toc-backref" href="#id60">Файловая структура SDK</a><a class="headerlink" href="#repo-file-structure" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first">исходный код приложений</p>
@@ -1113,12 +1082,12 @@ SDK (отсюда и название).</dd>
 </dl>
 </div>
 <div class="section" id="browser-for-local-loading">
-<span id="id28"></span><h2>Загрузка локальных ресурсов<a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id28"></span><h2><a class="toc-backref" href="#id61">Загрузка локальных ресурсов</a><a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории.</p>
 <p>Начиная с версии 15.02, в состав Blend4Web SDK входит <a class="reference internal" href="setup.html#local-development-server"><span>сервер разработки</span></a>, решающий проблему загрузки локальных ресурсов.</p>
 </div>
 <div class="section" id="quality-settings">
-<span id="id30"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id30"></span><h2><a class="toc-backref" href="#id62">Профили качества изображения</a><a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
 <blockquote>
 <div><ul class="simple">
@@ -1127,7 +1096,7 @@ SDK (отсюда и название).</dd>
 <li><em>максимальное качество</em> (<code class="docutils literal"><span class="pre">P_ULTRA</span></code>) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA</li>
 </ul>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/developers_quality.png"><img alt="_images/developers_quality.png" class="align-center" src="_images/developers_quality.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -1151,7 +1120,7 @@ SDK (отсюда и название).</dd>
 </div>
 </div>
 <div class="section" id="canvas-nonfullscreen-coords">
-<span id="id31"></span><h2>Специфика неполноэкранных приложений<a class="headerlink" href="#canvas-nonfullscreen-coords" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id31"></span><h2><a class="toc-backref" href="#id63">Специфика неполноэкранных приложений</a><a class="headerlink" href="#canvas-nonfullscreen-coords" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Элемент Canvas, на котором осуществляется рендеринг, может изменять своё местоположение относительно окна браузера. Это может происходить в результате манипуляций, проводимых над DOM-деревом, либо в результате скроллинга страницы, что особенно актуально для неполноэкранных приложений.</p>
 <p>В большинстве случаев это не будет никак сказываться на работе приложения. Однако для событий, связанных с положением курсора мыши или позицией касания на touch-устройстве, возможно получение некорректных результатов. Это происходит, потому что координаты, получаемые из соответствующих событий, принадлежат системе отсчета относительно окна браузера, а движок работает с координатами в системе отсчета именно Canvas элемента (верхний левый угол элемента).</p>
 <ol class="arabic simple">
@@ -1249,8 +1218,8 @@ SDK (отсюда и название).</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -1272,7 +1241,7 @@ SDK (отсюда и название).</dd>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -1296,6 +1265,22 @@ SDK (отсюда и название).</dd>
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

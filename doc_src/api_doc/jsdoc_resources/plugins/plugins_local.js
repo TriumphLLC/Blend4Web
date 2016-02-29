@@ -27,8 +27,8 @@ exports.handlers = {
             // B4W: commented
             // e.comment = e.comment.replace("{" + local, "{" + thisModule+'~'+local);
 
-            var re = new RegExp(local, "g");
-            e.comment = e.comment.replace(re, thisModule+'~'+local);
+            var re = new RegExp("([^a-zA-Z0-9])" + local, "g");
+            e.comment = e.comment.replace(re, "$1"+thisModule+'~'+local);
         }
     },
     

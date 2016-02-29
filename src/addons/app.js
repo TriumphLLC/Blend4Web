@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ var HOVER_KEY_ZOOM_FACTOR          = 30.0;
 var HOVER_MOUSE_TOUCH_TRANS_FACTOR = 0.2;
 var HOVER_MOUSE_ZOOM_FACTOR        = 2.0;
 var HOVER_TOUCH_ZOOM_FACTOR        = 2.0;
-var HOVER_ANGLE_MIN                = 2.0;
+var HOVER_ZOOM_FACTOR_MIN          = 2.0;
 var HOVER_SPEED_MIN                = 1.0;
 
 
@@ -460,13 +460,13 @@ function trans_hover_cam_horiz_local(camobj, dir, fact) {
     m_cam.set_translation(camobj, obj_trans);
 }
 
-function trans_hover_cam_updown(camobj, fact) {
+function zoom_hover_cam(camobj, fact) {
     var limits = m_cam.hover_get_vertical_limits(camobj, _limits_tmp);
-    if (limits.up - limits.down < 0) {
+    if (limits.up != limits.down) {
         var y_angle = m_cam.get_camera_angles(camobj, _vec2_tmp2)[1];
         var angle_factor = (limits.down - y_angle) / (limits.down - limits.up);
         var dist_limits = m_cam.hover_get_distance_limits(camobj, _limits_tmp);
-        angle_factor = Math.max(angle_factor, HOVER_ANGLE_MIN / dist_limits.max);
+        angle_factor = Math.max(angle_factor, HOVER_ZOOM_FACTOR_MIN / dist_limits.max);
         m_cam.hover_rotate(camobj, 0, angle_factor * fact);
     }
 }
@@ -654,15 +654,15 @@ function enable_camera_controls(disable_default_pivot,
                 break;
             case "UP":
                 if (use_hover)
-                    trans_hover_cam_updown(obj, - velocity.zoom
-                            * HOVER_KEY_ZOOM_FACTOR * elapsed);
+                    zoom_hover_cam(obj, - velocity.zoom * HOVER_KEY_ZOOM_FACTOR 
+                            * elapsed);
                 else if (!character)
                     trans_eye_cam_local(obj, 0, 0, -velocity.trans * elapsed);
                 break;
             case "DOWN":
                 if (use_hover)
-                    trans_hover_cam_updown(obj, velocity.zoom
-                            * HOVER_KEY_ZOOM_FACTOR * elapsed);
+                    zoom_hover_cam(obj, velocity.zoom * HOVER_KEY_ZOOM_FACTOR 
+                            * elapsed);
                 else if (!character)
                     trans_eye_cam_local(obj, 0, 0, velocity.trans * elapsed);
                 break;
@@ -872,7 +872,7 @@ function enable_camera_controls(disable_default_pivot,
                     dest_zoom_touch -= zoom_touch;
 
                     if (use_hover) {
-                        trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
+                        zoom_hover_cam(obj, - (zoom_mouse + zoom_touch));
                     } else {
                         var res_dist = m_cam.target_get_distance(obj)
                             + zoom_mouse + zoom_touch;
@@ -944,6 +944,7 @@ function enable_camera_controls(disable_default_pivot,
 
     var touch_cb = function(obj, id, pulse, param) {
         if (pulse == 1) {
+            m_cam.get_velocities(obj, velocity);
             if (use_hover)
                 var r_mult = HOVER_TOUCH_PAN_MULT_PX * velocity.trans;
             else
@@ -1115,10 +1116,17 @@ function disable_camera_controls() {
  * {@link module:app.enable_camera_controls|enable_camera_controls()}.
  * @method module:app.set_camera_move_style
  * @param {CameraMoveStyle} move_style New camera movement style.
- * @deprecated use {@link module:camera.set_move_style|camera.set_move_style} instead.
+ * @deprecated use {@link module:camera.static_setup|camera.static_setup} or 
+ * {@link module:camera.eye_setup|camera.eye_setup} or 
+ * {@link module:camera.target_setup|camera.target_setup} or 
+ * {@link module:camera.hover_setup|camera.hover_setup} or 
+ * {@link module:camera.hover_setup_rel|camera.hover_setup_rel} instead.
+
  */
 exports.set_camera_move_style = function(move_style) {
-    m_print.error_deprecated("app.set_camera_move_style", "camera.set_move_style");
+    m_print.error_deprecated_arr("app.set_camera_move_style", [
+            "camera.static_setup", "camera.eye_setup", "camera.target_setup", 
+            "camera.hover_setup", "camera.hover_setup_rel"]);
     var camera = m_scs.get_active_camera();
     m_cam.set_move_style(camera, move_style);
 }
@@ -1323,13 +1331,10 @@ function request_fullscreen(elem, enabled_cb, disabled_cb, vr_display) {
             || elem.msRequestFullscreen;
 
     var request_obj = null;
-    if (elem.requestFullScreen == elem.webkitRequestFullScreen)
-        request_obj = Element.ALLOW_KEYBOARD_INPUT;
-
     if (vr_display && elem.requestFullScreen != elem.mozRequestFullScreen)
-        request_obj = request_obj || {
-                "vrDisplay": vr_display,
-                "vrDistortion": m_cfg.get("use_browser_distortion_cor")
+        request_obj = {
+            "vrDisplay": vr_display,
+            "vrDistortion": m_cfg.get("use_browser_distortion_cor")
         };
 
     elem.requestFullScreen(request_obj);

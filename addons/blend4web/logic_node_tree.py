@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -471,19 +471,19 @@ def update_object_path(self, context):
                     s.label_text = node_found.objects_paths[s.name].path
         check_node(node_found)
     else:
-        print(_("can't find a node: %s:%s") %(self.tree_name, self.node_name))
+        print(_("can't find a node") + ": %s:%s" %(self.tree_name, self.node_name))
 
 def update_common_usage_names(self, context):
     node_found = find_node(self.node_name, self.tree_name, self, self.name, ["APPLY_SHAPE_KEY", "CONSOLE_PRINT"])
     if node_found:
         check_node(node_found)
     else:
-        print(_("can't find a node: %s:%s") %(self.tree_name, self.node_name))
+        print(_("can't find a node") + ": %s:%s" %(self.tree_name, self.node_name))
 
 def update_node_path(self, context):
     node_found = find_node(self.node_name, self.tree_name, self, "nd", ["SET_SHADER_NODE_PARAM"])
     if not node_found:
-        print(_("can't find a node: %s:%s") %(self.tree_name, self.node_name))
+        print(_("can't find a node") + ": %s:%s" %(self.tree_name, self.node_name))
         return
     arr = self.path.split(">")
     self.path_arr.clear()
@@ -1320,6 +1320,10 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.variables_names[-1].name = "dst"
             self.variables_names.add()
             self.variables_names[-1].name = "dst1"
+            self.bools.add()
+            self.bools[-1].name = "ct"
+            self.strings.add()
+            self.strings[-1].name = "ct"
 
 
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
@@ -1956,6 +1960,12 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             row = col.row()
             row.label(_("Response Params:"))
             row = col.row()
+            row.prop(self.bools["ct"], "bool", text=_("Content-Type:"))
+            if self.bools["ct"].bool:
+                row.prop(self.strings["ct"], "string", text="")
+            else:
+                row.label("Auto")
+            row = col.row()
             row.prop(self.bools["prs"], "bool", text = _("Parse JSON"))
             row = col.row()
             if self.bools["prs"].bool:
@@ -2418,7 +2428,6 @@ def check_conn(ntree, node, connected):
                         check_conn(ntree, n, connected)
 
 def check_connectivity(ntree, entrypoints):
-    err = False
     if len(ntree.nodes) == 0:
         if "errors" not in ntree:
             ntree["errors"] = []
@@ -2452,21 +2461,16 @@ def check_connectivity(ntree, entrypoints):
                 if "entryp" in n:
                     del n["entryp"]
                 n.add_error_message(n.error_messages.link_err, _("No path from Entry point!"))
-                err = True
     # check subtrees overlap
     arr = []
     for st in subtrees.values():
         for n in st:
             if n in arr:
                 n.add_error_message(n.error_messages.link_err, _("Subtrees overlapping is not allowed!"))
-                err = True
             else:
                 arr.append(n)
 
-    if err:
-        return None
-    else:
-        return subtrees.values()
+    return subtrees.values()
 
 def check_tree(ntree):
     subtrees = None

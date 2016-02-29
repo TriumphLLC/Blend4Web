@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 1, 0),
+    "version": (16, 2, 0),
     "blender": (2, 76, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -314,6 +314,12 @@ def logic_nodetree_reform(arg):
                         if not "dst1" in node.variables_names:
                             node.variables_names.add()
                             node.variables_names[-1].name = "dst1"
+                        if not "ct" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "ct"
+                        if not "ct" in node.strings:
+                            node.strings.add()
+                            node.strings[-1].name = "ct"
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences

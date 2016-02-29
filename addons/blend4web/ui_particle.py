@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ class ParticleButtonsPanel:
 
 
 class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
-    bl_label = _("")
+    bl_label = ""
     bl_options = {'HIDE_HEADER'}
 
     @classmethod
@@ -106,9 +106,9 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
                               ob.particle_systems, "active_index", rows=1)
 
             col = row.column(align=True)
-            col.operator("object.particle_system_add", icon='ZOOMIN', text=_(""))
-            col.operator("object.particle_system_remove", icon='ZOOMOUT', text=_(""))
-            col.menu("PARTICLE_MT_specials", icon='DOWNARROW_HLT', text=_(""))
+            col.operator("object.particle_system_add", icon='ZOOMIN', text="")
+            col.operator("object.particle_system_remove", icon='ZOOMOUT', text="")
+            col.menu("PARTICLE_MT_specials", icon='DOWNARROW_HLT', text="")
 
         if psys is None:
             pset = particle_get_settings(context)
@@ -155,7 +155,7 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
 
             row = col.row()
             row.enabled = particle_panel_enabled(context, psys)
-            row.prop(pset, "type", text=_(""))
+            row.prop(pset, "type", text="")
             row.prop(psys, "seed")
 
         if pset:
@@ -290,7 +290,7 @@ class B4W_PARTICLE_PT_velocity(ParticleButtonsPanel, Panel):
 
             col = split.column()
             col.label(text=_("Emitter Object:"))
-            col.prop(pset, "object_align_factor", text=_(""))
+            col.prop(pset, "object_align_factor", text="")
 
         layout.label(text=_("Other:"))
         split = layout.split()
@@ -328,7 +328,7 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
         else:
             pset = context.space_data.pin_id
 
-        self.layout.prop(pset, "use_rotations", text=_(""))
+        self.layout.prop(pset, "use_rotations", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -346,7 +346,7 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
             split = layout.split()
 
             col = split.column(align=True)
-            col.prop(pset, "rotation_mode", text=_(""))
+            col.prop(pset, "rotation_mode", text="")
             col.prop(pset, "rotation_factor_random", slider=True, text=_("Random"))
 
             col = split.column(align=True)
@@ -359,7 +359,7 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
             split = layout.split()
 
             col = split.column(align=True)
-            col.prop(pset, "angular_velocity_mode", text=_(""))
+            col.prop(pset, "angular_velocity_mode", text="")
 
             if (pset.angular_velocity_mode != "NONE"
                     and pset.angular_velocity_mode != "VELOCITY"
@@ -369,7 +369,7 @@ class B4W_PARTICLE_PT_rotation(ParticleButtonsPanel, Panel):
 
             sub = col.column(align=True)
             sub.active = pset.angular_velocity_mode != 'NONE'
-            sub.prop(pset, "angular_velocity_factor", text=_(""))
+            sub.prop(pset, "angular_velocity_factor", text="")
 
 
 class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
@@ -414,14 +414,14 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
 
                 col = split.column()
                 col.label(text=_("Integration:"))
-                col.prop(pset, "integrator", text=_(""))
+                col.prop(pset, "integrator", text="")
                 col.prop(pset, "timestep")
                 sub = col.row()
                 sub.prop(pset, "subframes")
                 supports_courant = pset.physics_type == 'FLUID'
                 subsub = sub.row()
                 subsub.enabled = supports_courant
-                subsub.prop(pset, "use_adaptive_subframes", text=_(""))
+                subsub.prop(pset, "use_adaptive_subframes", text="")
                 if supports_courant and pset.use_adaptive_subframes:
                     col.prop(pset, "courant_target", text=_("Threshold"))
 
@@ -446,19 +446,19 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                     if fluid.solver == 'DDR':
                         sub = col.row()
                         sub.prop(fluid, "repulsion", slider=fluid.factor_repulsion)
-                        sub.prop(fluid, "factor_repulsion", text=_(""))
+                        sub.prop(fluid, "factor_repulsion", text="")
 
                         sub = col.row()
                         sub.prop(fluid, "stiff_viscosity", slider=fluid.factor_stiff_viscosity)
-                        sub.prop(fluid, "factor_stiff_viscosity", text=_(""))
+                        sub.prop(fluid, "factor_stiff_viscosity", text="")
 
                     sub = col.row()
                     sub.prop(fluid, "fluid_radius", slider=fluid.factor_radius)
-                    sub.prop(fluid, "factor_radius", text=_(""))
+                    sub.prop(fluid, "factor_radius", text="")
 
                     sub = col.row()
                     sub.prop(fluid, "rest_density", slider=fluid.use_factor_density)
-                    sub.prop(fluid, "use_factor_density", text=_(""))
+                    sub.prop(fluid, "use_factor_density", text="")
 
                     if fluid.solver == 'CLASSICAL':
                         # With the classical solver, it is possible to calculate the
@@ -485,8 +485,8 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         col.label(text=_("Advanced:"))
                         sub = col.row()
                         sub.prop(fluid, "rest_length", slider=fluid.factor_rest_length)
-                        sub.prop(fluid, "factor_rest_length", text=_(""))
-                        col.label(text=_(""))
+                        sub.prop(fluid, "factor_rest_length", text="")
+                        col.label(text="")
                         sub = col.column()
                         sub.active = fluid.use_viscoelastic_springs
                         sub.prop(fluid, "use_initial_rest_length")
@@ -562,12 +562,12 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                 col = row.column()
                 sub = col.row()
                 subsub = sub.column(align=True)
-                subsub.operator("particle.new_target", icon='ZOOMIN', text=_(""))
-                subsub.operator("particle.target_remove", icon='ZOOMOUT', text=_(""))
+                subsub.operator("particle.new_target", icon='ZOOMIN', text="")
+                subsub.operator("particle.target_remove", icon='ZOOMOUT', text="")
                 sub = col.row()
                 subsub = sub.column(align=True)
-                subsub.operator("particle.target_move_up", icon='MOVE_UP_VEC', text=_(""))
-                subsub.operator("particle.target_move_down", icon='MOVE_DOWN_VEC', text=_(""))
+                subsub.operator("particle.target_move_up", icon='MOVE_UP_VEC', text="")
+                subsub.operator("particle.target_move_down", icon='MOVE_DOWN_VEC', text="")
 
                 key = psys.active_particle_target
                 if key:
@@ -576,7 +576,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         col = row.column()
                         #doesn't work yet
                         #col.alert = key.valid
-                        col.prop(key, "object", text=_(""))
+                        col.prop(key, "object", text="")
                         col.prop(key, "system", text=_("System"))
                         col = row.column()
                         col.active = psys.use_keyed_timing
@@ -586,7 +586,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         sub = row.row()
                         #doesn't work yet
                         #sub.alert = key.valid
-                        sub.prop(key, "object", text=_(""))
+                        sub.prop(key, "object", text="")
                         sub.prop(key, "system", text=_("System"))
 
                         layout.prop(key, "alliance", expand=True)
@@ -594,7 +594,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         sub = row.row()
                         #doesn't work yet
                         #sub.alert = key.valid
-                        sub.prop(key, "object", text=_(""))
+                        sub.prop(key, "object", text="")
                         sub.prop(key, "system", text=_("System"))
         else:
             row = layout.row()
@@ -627,7 +627,7 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
                 row = layout.row()
                 if pset.render_type in {'OBJECT', 'GROUP'}:
                     row.enabled = False
-                row.prop(pset, "material_slot", text=_(""))
+                row.prop(pset, "material_slot", text="")
 
         layout.prop(pset, "use_render_emitter")
         layout.prop(pset, "render_type", expand=True)
@@ -662,10 +662,10 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
                     col = row.column()
                     sub = col.row()
                     subsub = sub.column(align=True)
-                    subsub.operator("particle.dupliob_copy", icon='ZOOMIN', text=_(""))
-                    subsub.operator("particle.dupliob_remove", icon='ZOOMOUT', text=_(""))
-                    subsub.operator("particle.dupliob_move_up", icon='MOVE_UP_VEC', text=_(""))
-                    subsub.operator("particle.dupliob_move_down", icon='MOVE_DOWN_VEC', text=_(""))
+                    subsub.operator("particle.dupliob_copy", icon='ZOOMIN', text="")
+                    subsub.operator("particle.dupliob_remove", icon='ZOOMOUT', text="")
+                    subsub.operator("particle.dupliob_move_up", icon='MOVE_UP_VEC', text="")
+                    subsub.operator("particle.dupliob_move_down", icon='MOVE_DOWN_VEC', text="")
 
                     weight = pset.active_dupliweight
                     if weight:
@@ -723,8 +723,12 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
 
             split = layout.split()
             mat_name = pset.material_slot
-            alpha_blend = bpy.data.materials[mat_name].game_settings.alpha_blend
-            split.active = alpha_blend in ["ADD", "ALPHA", "ALPHA_SORT"]
+
+            if mat_name in bpy.data.materials:
+                alpha_blend = bpy.data.materials[mat_name].game_settings.alpha_blend
+                split.active = alpha_blend in ["ADD", "ALPHA", "ALPHA_SORT"]
+            else:
+                split.active = False
             col = split.column()
             col.prop(pset, "b4w_enable_soft_particles", text=_("Soft Particles"))
             col = split.column()
@@ -772,11 +776,11 @@ class B4W_PARTICLE_PT_vertexgroups(ParticleButtonsPanel, Panel):
         col = layout.column()
         row = col.row(align=True)
         row.prop_search(psys, "vertex_group_density", ob, "vertex_groups", text=_("Density"))
-        row.prop(psys, "invert_vertex_group_density", text=_(""), toggle=True, icon='ARROW_LEFTRIGHT')
+        row.prop(psys, "invert_vertex_group_density", text="", toggle=True, icon='ARROW_LEFTRIGHT')
 
         row = col.row(align=True)
         row.prop_search(psys, "vertex_group_length", ob, "vertex_groups", text=_("Length"))
-        row.prop(psys, "invert_vertex_group_length", text=_(""), toggle=True, icon='ARROW_LEFTRIGHT')
+        row.prop(psys, "invert_vertex_group_length", text="", toggle=True, icon='ARROW_LEFTRIGHT')
 
 
 class B4W_PARTICLE_PT_cache(ParticleButtonsPanel, Panel):
@@ -836,7 +840,7 @@ class B4W_PARTICLE_PT_draw(ParticleButtonsPanel, Panel):
         if pset.draw_method != 'RENDER' or pset.render_type == 'HALO':
             row.prop(pset, "draw_size")
         else:
-            row.label(text=_(""))
+            row.label(text="")
 
         if pset.draw_percentage != 100 and psys is not None:
             if pset.type == 'HAIR':
@@ -857,7 +861,7 @@ class B4W_PARTICLE_PT_draw(ParticleButtonsPanel, Panel):
 
         col = row.column(align=True)
         col.label(text=_("Color:"))
-        col.prop(pset, "draw_color", text=_(""))
+        col.prop(pset, "draw_color", text="")
         sub = col.row(align=True)
         sub.active = (pset.draw_color in {'VELOCITY', 'ACCELERATION'})
         sub.prop(pset, "color_maximum", text=_("Max"))
@@ -902,7 +906,7 @@ class B4W_ParticleDynamicGrassOptions(ParticleButtonsPanel, Panel):
         else:
             pset = context.space_data.pin_id
 
-        self.layout.prop(pset, "b4w_dynamic_grass", text=_(""))
+        self.layout.prop(pset, "b4w_dynamic_grass", text="")
 
     def draw(self, context):
         layout = self.layout

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
         <link rel="prev" title="Экспресс-установка" href="first_steps.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -87,19 +87,21 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Развёртывание среды разработки</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Распаковка архива</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Подключение аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Распаковка архива</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Подключение аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#blend4web">Профиль Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">Локальный сервер разработки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Запуск просмотрщика сцен и демо-приложений</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -139,6 +141,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -157,17 +163,30 @@
            <div itemprop="articleBody">
             
   <div class="section" id="setup">
-<span id="id1"></span><h1>Развёртывание среды разработки<a class="headerlink" href="#setup" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id8">Развёртывание среды разработки</a><a class="headerlink" href="#setup" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#setup" id="id8">Развёртывание среды разработки</a><ul>
+<li><a class="reference internal" href="#id4" id="id9">Распаковка архива</a></li>
+<li><a class="reference internal" href="#id5" id="id10">Подключение аддона</a></li>
+<li><a class="reference internal" href="#blend4web" id="id11">Профиль Blend4Web</a></li>
+<li><a class="reference internal" href="#local-development-server" id="id12">Локальный сервер разработки</a></li>
+<li><a class="reference internal" href="#getting-started-launching-viewer" id="id13">Запуск просмотрщика сцен и демо-приложений</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p>Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установка</span></a>.</p>
 <p>Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно <a class="reference external" href="https://www.blend4web.com/downloads/">таблице</a>.</p>
-<div class="section" id="id3">
-<h2>Распаковка архива<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id9">Распаковка архива</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Стабильные версии дистрибутива поставляются в виде архива
 (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211;
 коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.</p>
 </div>
-<div class="section" id="id4">
-<h2>Подключение аддона<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id10">Подключение аддона</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установки</span></a>, то рекомендуется прежде его удалить.</p>
@@ -189,12 +208,12 @@
 <p>В меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> должны появиться опции <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>.</p>
 </div>
 <div class="section" id="blend4web">
-<h2>Профиль Blend4Web<a class="headerlink" href="#blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Профиль Blend4Web</a><a class="headerlink" href="#blend4web" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:</p>
-<a class="reference internal image-reference" href="_images/selecting_engine.jpg"><img alt="_images/selecting_engine.jpg" class="align-center" src="_images/selecting_engine.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/first_steps_selecting_engine.png"><img alt="_images/first_steps_selecting_engine.png" class="align-center" src="_images/first_steps_selecting_engine.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="local-development-server">
-<span id="id5"></span><h2>Локальный сервер разработки<a class="headerlink" href="#local-development-server" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id12">Локальный сервер разработки</a><a class="headerlink" href="#local-development-server" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки локального сервера разработки находятся в меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>).
 Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender&#8217;a: для этого достаточно включить опцию <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> в настройках аддона.</p>
 <a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
@@ -221,14 +240,14 @@
 <div class="line"><br /></div>
 </div>
 <p>При этом будет автоматически запущен браузер, используемой в операционной системе по умолчанию.</p>
-<p>Кнопка <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> открывает <a class="reference internal" href="developers.html#project-management"><span>менеджер проектов</span></a>.</p>
+<p>Кнопка <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> открывает <a class="reference internal" href="project_manager.html#project-management"><span>менеджер проектов</span></a>.</p>
 <p>Кнопка <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> вызывает <a class="reference internal" href="viewer.html#viewer"><span>просмотрщик сцен</span></a> и загружает в него сцену, открытую в Blender на данный момент.</p>
 <p>Сервер может быть остановлен по нажатию на кнопку <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>. Сервер также прекращает работу при закрытии программы Blender.</p>
 </div>
 <div class="section" id="getting-started-launching-viewer">
-<span id="index-0"></span><span id="id6"></span><h2>Запуск просмотрщика сцен и демо-приложений<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-0"></span><span id="id7"></span><h2><a class="toc-backref" href="#id13">Запуск просмотрщика сцен и демо-приложений</a><a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><span>браузер с поддержкой WebGL</span></a>.</p>
-<a class="reference internal image-reference" href="_images/sdk_index.jpg"><img alt="_images/sdk_index.jpg" class="align-center" src="_images/sdk_index.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -258,8 +277,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -281,7 +300,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -305,6 +324,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ b4w.module["util"] = function(exports, require) {
 
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
+var m_quat     = require("__quat");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
@@ -58,6 +59,73 @@ exports.AXIS_MY = new Float32Array([ 0,-1, 0]);
  * @const {Vec3} module:util.AXIS_MZ
  */
 exports.AXIS_MZ = new Float32Array([ 0, 0,-1]);
+
+/**
+ * Rotation sequence enum.
+ * @typedef RotationSequence
+ * @type {Number}
+ */
+
+/**
+ * Rotation sequence: XYX.
+ * @const {RotationSequence} module:util.XYX
+ */
+exports.XYX = m_util.XYX;
+/**
+ * Rotation sequence: YZY.
+ * @const {RotationSequence} module:util.YZY
+ */
+exports.YZY = m_util.YZY;
+/**
+ * Rotation sequence: ZXZ.
+ * @const {RotationSequence} module:util.ZXZ
+ */
+exports.ZXZ = m_util.ZXZ;
+/**
+ * Rotation sequence: XZX.
+ * @const {RotationSequence} module:util.XZX
+ */
+exports.XZX = m_util.XZX;
+/**
+ * Rotation sequence: YXY.
+ * @const {RotationSequence} module:util.YXY
+ */
+exports.YXY = m_util.YXY;
+/**
+ * Rotation sequence: ZYZ.
+ * @const {RotationSequence} module:util.ZYZ
+ */
+exports.ZYZ = m_util.ZYZ;
+/**
+ * Rotation sequence: XYZ.
+ * @const {RotationSequence} module:util.XYZ
+ */
+exports.XYZ = m_util.XYZ;
+/**
+ * Rotation sequence: YZX.
+ * @const {RotationSequence} module:util.YZX
+ */
+exports.YZX = m_util.YZX;
+/**
+ * Rotation sequence: ZXY.
+ * @const {RotationSequence} module:util.ZXY
+ */
+exports.ZXY = m_util.ZXY;
+/**
+ * Rotation sequence: XZY.
+ * @const {RotationSequence} module:util.XZY
+ */
+exports.XZY = m_util.XZY;
+/**
+ * Rotation sequence: YXZ.
+ * @const {RotationSequence} module:util.YXZ
+ */
+exports.YXZ = m_util.YXZ;
+/**
+ * Rotation sequence: ZYX.
+ * @const {RotationSequence} module:util.ZYX
+ */
+exports.ZYX = m_util.ZYX;
 
 /**
  * Create a new Float32Array.
@@ -107,9 +175,10 @@ exports.matrix_to_quat = function(matrix) {
 }
 
 /**
- * Convert euler rotation to quaternion rotation.
+ * Convert euler rotation in the YZX intrinsic system to rotation quaternion.
  * @method module:util.euler_to_quat
- * @param {Euler} euler Euler vector
+ * @param {Euler} euler Euler angles. The angles order: an angle of the rotation around the x axis,
+ * an angle of the rotation around the y axis, an angle of the rotation around the z axis.
  * @param {Quat} quat Destination quaternion vector
  * @returns {Quat} Quaternion vector
  */
@@ -118,6 +187,22 @@ exports.euler_to_quat = function(euler, quat) {
         quat = new Float32Array(4);
 
     return m_util.euler_to_quat(euler, quat);
+}
+
+/**
+ * Convert euler rotation in the ordered intrinsic system to quaternion rotation.
+ * @method module:util.ordered_angles_to_quat
+ * @param {Euler} euler Ordered Euler angles. Euler angles have the same order as
+ * the intrinsic rotation sequence
+ * @param {RotationSequence} order Intrinsic rotation sequence
+ * @param {Quat} quat Destination quaternion vector
+ * @returns {Quat} Quaternion vector
+ */
+exports.ordered_angles_to_quat = function(angles, order, quat) {
+    if (!quat)
+        quat = m_quat.create();
+
+    return m_util.ordered_angles_to_quat(angles, order, quat);
 }
 
 /**
@@ -294,7 +379,7 @@ exports.is_armature = function(obj) {
 }
 
 /**
- * Convert radian angle into range [0, 2PI]
+ * Convert radian angle into range [0, 2PI)
  * @method module:util.angle_wrap_0_2pi
  * @param {Number} angle Angle in radians
  * @returns {Number} Converted angle
@@ -302,7 +387,7 @@ exports.is_armature = function(obj) {
 exports.angle_wrap_0_2pi = m_util.angle_wrap_0_2pi;
 
 /**
- * Convert radian angle into custom range [from, to]
+ * Convert radian angle into custom range [from, to)
  * @method module:util.angle_wrap_periodic
  * @param {Number} angle Angle in radians
  * @param {Number} from Value from in radians

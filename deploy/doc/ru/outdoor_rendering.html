@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Природные эффекты &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Природные эффекты &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Работа с цветом" href="colors.html"/>
         <link rel="prev" title="Анимация" href="animation.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -182,6 +184,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -282,13 +288,13 @@
 <h3><a class="toc-backref" href="#id43">Градиент цвета</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для создания цветого градиента на материале воды должна быть наложена текстура с включенной опцией <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>, генерируемая с помощью скрипта для <a class="reference internal" href="#shore-distance-bake"><span>запекания параметров береговой линии</span></a>.</p>
 <dl class="docutils">
-<dt><em>Shallow water &gt; Color</em></dt>
+<dt><em>Shallow Water &gt; Color</em></dt>
 <dd>Цвет воды на мелководье.</dd>
-<dt><em>Shallow water &gt; Factor</em></dt>
+<dt><em>Shallow Water &gt; Factor</em></dt>
 <dd>Коэффициент примешивания цвета воды на мелководье.</dd>
-<dt><em>Shore water &gt; Color</em></dt>
+<dt><em>Shore Water &gt; Color</em></dt>
 <dd>Цвет воды непосредственно у береговой линии.</dd>
-<dt><em>Shore water &gt; Factor</em></dt>
+<dt><em>Shore Water &gt; Factor</em></dt>
 <dd>Коэффициент примешивания цвета воды на береговой линии.</dd>
 </dl>
 </div>
@@ -453,7 +459,7 @@
 <h3><a class="toc-backref" href="#id52">Туман</a><a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Движком поддерживаются стандартные параметры вкладки <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code>. Помимо этого возможно переопределение цвета тумана.</p>
 <dl class="docutils">
-<dt><em>Mist &gt; Use custom color</em></dt>
+<dt><em>Mist &gt; Use Custom Color</em></dt>
 <dd>Использовать для тумана заданный цвет, вместо цвета <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span></code>. По умолчанию включено.</dd>
 <dt><em>Mist &gt; Color</em></dt>
 <dd>Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый).</dd>
@@ -512,23 +518,23 @@
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Main bending &gt; Angle</em></dt>
+<dt><em>Main Bending &gt; Angle</em></dt>
 <dd>Амплитуда угла &#8220;основного&#8221; отклонения под действием ветра (в градусах). Значение по умолчанию 10.0.</dd>
-<dt><em>Main bending &gt; Frequency</em></dt>
+<dt><em>Main Bending &gt; Frequency</em></dt>
 <dd>Частота &#8220;основного&#8221; отклонения под действием ветра. Значение по умолчанию 0.25.</dd>
-<dt><em>Main bending &gt; Main Stiffness (A)</em></dt>
+<dt><em>Main Bending &gt; Main Stiffness (A)</em></dt>
 <dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости &#8220;основного&#8221; отклонения. Может быть оставлено пустым.</dd>
-<dt><em>Detail bending &gt; Amplitude</em></dt>
+<dt><em>Detail Bending &gt; Amplitude</em></dt>
 <dd>Амплитуда угла &#8220;детализованного&#8221; отклонения под действием ветра (в градусах). Значение по умолчанию 0.1.</dd>
-<dt><em>Detail bending &gt; Branch Amplitude</em></dt>
+<dt><em>Detail Bending &gt; Branch Amplitude</em></dt>
 <dd>Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение по умолчанию 0.3.</dd>
-<dt><em>Detail bending &gt; Bending Frequency</em></dt>
+<dt><em>Detail Bending &gt; Bending Frequency</em></dt>
 <dd>Частота колебаний ветвей. Значение по умолчанию 1.0.</dd>
-<dt><em>Detail bending &gt; Leaves Stiffness (R)</em></dt>
+<dt><em>Detail Bending &gt; Leaves Stiffness (R)</em></dt>
 <dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости листвы. Может быть оставлено пустым.</dd>
-<dt><em>Detail bending &gt; Leaves Phase (G)</em></dt>
+<dt><em>Detail Bending &gt; Leaves Phase (G)</em></dt>
 <dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о фазе отклонения листвы. Может быть оставлено пустым.</dd>
-<dt><em>Detail bending &gt; Overall Stiffness (B)</em></dt>
+<dt><em>Detail Bending &gt; Overall Stiffness (B)</em></dt>
 <dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию об общей жесткости листвы. Может быть оставлено пустым.</dd>
 </dl>
 <p>Слои вертексных цветов с указанными в настройках названиями должны существовать в меше.</p>
@@ -557,8 +563,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -580,7 +586,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -604,6 +610,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -4,6 +4,9 @@
 Разработчикам движка
 ********************
 
+.. contents:: Содержание
+    :depth: 3
+    :backlinks: entry
 
 .. _coding_style:
 

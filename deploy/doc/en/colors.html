@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Color Management &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Color Management &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Audio" href="audio.html"/>
-        <link rel="prev" title="Outdoor effects" href="outdoor_rendering.html"/> 
+        <link rel="prev" title="Outdoor Effects" href="outdoor_rendering.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,42 +88,44 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Color Management</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Gamma Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Human Vision and Monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Gamma Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Gamma Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Human Vision and Monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Gamma Formula</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-node-materials">Gamma in Node Materials</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Nodes for Colouring</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Nodes for Masking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Normal Maps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Summary Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Nodes for Colouring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Nodes for Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Normal Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Summary Table</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">Alpha Compositing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#color-correction">Color Correction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Additional settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Additional settings</a></li>
 </ul>
 </li>
 </ul>
@@ -154,6 +156,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -172,9 +178,37 @@
            <div itemprop="articleBody">
             
   <div class="section" id="gamma">
-<span id="id1"></span><h1>Color Management<a class="headerlink" href="#gamma" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>Gamma Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h1><a class="toc-backref" href="#id18">Color Management</a><a class="headerlink" href="#gamma" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#gamma" id="id18">Color Management</a><ul>
+<li><a class="reference internal" href="#id3" id="id19">Gamma Overview</a></li>
+<li><a class="reference internal" href="#id4" id="id20">Human Vision and Monitors</a></li>
+<li><a class="reference internal" href="#id5" id="id21">Gamma Formula</a></li>
+<li><a class="reference internal" href="#gamma-node-materials" id="id22">Gamma in Node Materials</a><ul>
+<li><a class="reference internal" href="#id7" id="id23">Nodes for Colouring</a></li>
+<li><a class="reference internal" href="#id8" id="id24">Nodes for Masking</a></li>
+<li><a class="reference internal" href="#id9" id="id25">Normal Maps</a></li>
+<li><a class="reference internal" href="#id10" id="id26">Summary Table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#alpha-compositing" id="id27">Alpha Compositing</a><ul>
+<li><a class="reference internal" href="#id12" id="id28">Overview</a></li>
+<li><a class="reference internal" href="#id14" id="id29">Implementation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#color-correction" id="id30">Color Correction</a><ul>
+<li><a class="reference internal" href="#id16" id="id31">Activation</a></li>
+<li><a class="reference internal" href="#id17" id="id32">Additional settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id19">Gamma Overview</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>The essence of gamma correction is packing the image brightness channel into  8 bits of information.</p>
 <p>Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in a simplest  case this value equals to 0.5 ^ (1/2.2) = 0.73.</p>
 <p>Overwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect rendering of darker tones. For example, dark  gradients will look stepped.</p>
@@ -224,14 +258,14 @@
 </div>
 <p>When the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> option is enabled for a scene, Blender works in a linear space. Material colors and lamp settings correspond to physical values. For texture images (except normal maps) it is required to select the <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> option. In this case an automatic image unpacking (sRGB -&gt; Linear) is performed at the time of rendering.</p>
 </div>
-<div class="section" id="id3">
-<h2>Human Vision and Monitors<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id20">Human Vision and Monitors</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the light coming into the eye still obeys the physical laws (see the lamps example).</p>
 <p>In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor’s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).</p>
 <p>Therefore, the perception characteristics of the human eye are the reason due to which it is possible to pack color channels. At the same time, the technical characteristics of monitors have a secondary significance for gamma correction.</p>
 </div>
-<div class="section" id="id4">
-<h2>Gamma Formula<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id21">Gamma Formula</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>Used in the following simplified formula:</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
@@ -239,14 +273,14 @@
 <a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="gamma-node-materials">
-<span id="id5"></span><h2>Gamma in Node Materials<a class="headerlink" href="#gamma-node-materials" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>Nodes for Colouring<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h2><a class="toc-backref" href="#id22">Gamma in Node Materials</a><a class="headerlink" href="#gamma-node-materials" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id23">Nodes for Colouring</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node and Vertex Color output of Geometry node implement unpacking automatically.</p>
 <p>Note that the alpha channel of a texture node is not corrected. Its values are in the linear space.</p>
 </div>
-<div class="section" id="id7">
-<h3>Nodes for Masking<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id24">Nodes for Masking</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Textures and vertex colors can be used as masks i.e. input data for some mathematical operations. In such a case the packing operation is required.</p>
 <p>Keep in mind that a texture node and <cite>Vertex Color</cite> output of <cite>Geometry</cite> node implement unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> or <cite>GAMMA</cite> node with γ = 1/2.2 is used.</p>
 <div class="admonition note">
@@ -254,12 +288,12 @@
 <p class="last"><cite>LINEAR_TO_SRGB</cite> and <cite>SRGB_TO_LINEAR</cite> nodes are deprecated. <cite>GAMMA</cite> node should be used instead.</p>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>Normal Maps<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id25">Normal Maps</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>No transformations are performed for normal maps.</p>
 </div>
-<div class="section" id="id9">
-<h3>Summary Table<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id26">Summary Table</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
@@ -303,9 +337,9 @@
 </div>
 </div>
 <div class="section" id="alpha-compositing">
-<span id="id10"></span><h2>Alpha Compositing<a class="headerlink" href="#alpha-compositing" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>Overview<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<span id="id11"></span><h2><a class="toc-backref" href="#id27">Alpha Compositing</a><a class="headerlink" href="#alpha-compositing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id28">Overview</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Physically correct alpha compositing is performed according to the formula [<cite>source</cite> &lt;<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf</a>&gt;`_]:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
@@ -318,8 +352,8 @@
 <div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
 <p>Preliminary multiplication of the color channels by the <span class="math">\(\alpha\)</span>  values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the <span class="math">\(C_o\)</span> color by the αoαo value on each consequent iteration.</p>
 </div>
-<div class="section" id="id13">
-<h3>Implementation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3><a class="toc-backref" href="#id29">Implementation</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>The blending function used in Blend4Web is the following:</p>
 <div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
@@ -328,14 +362,14 @@
 </div>
 </div>
 <div class="section" id="color-correction">
-<span id="index-0"></span><span id="id14"></span><h2>Color Correction<a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
+<span id="index-0"></span><span id="id15"></span><h2><a class="toc-backref" href="#id30">Color Correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/effects_color_correction.png"><img alt="_images/effects_color_correction.png" class="align-center" src="_images/effects_color_correction.png" style="width: 100%;" /></a>
-<div class="section" id="id15">
-<h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id31">Activation</a><a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>Activate the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
 </div>
-<div class="section" id="id16">
-<h3>Additional settings<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id32">Additional settings</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
 <dd><p class="first last">The default value is 0.0.</p>
@@ -364,7 +398,7 @@
         <a href="audio.html" class="btn btn-neutral float-right" title="Audio" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="outdoor_rendering.html" class="btn btn-neutral" title="Outdoor effects" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="outdoor_rendering.html" class="btn btn-neutral" title="Outdoor Effects" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -373,8 +407,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -396,7 +430,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -419,6 +453,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

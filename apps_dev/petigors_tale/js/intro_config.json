@@ -2,8 +2,8 @@
     "buttons_info": [
         {
             "button_name": "main_menu*level_01_button",
-            "glow_obj_names": "main_menu*Cube",
-            "material": "stones_n_dolmens",
+            "glow_obj_names": "main_menu*main_menu_stone",
+            "material": "main_menu_stone",
             "value_node_name": "volcano_switcher",
             "glow_grow_time": 1,
             "min_glow_value": 0,
@@ -14,8 +14,8 @@
         },
         {
             "button_name": "main_menu*level_02_button",
-            "glow_obj_names": "main_menu*Cube",
-            "material": "stones_n_dolmens",
+            "glow_obj_names": "main_menu*main_menu_stone",
+            "material": "main_menu_stone",
             "value_node_name": "dungeon_switcher",
             "glow_grow_time": 1,
             "min_glow_value": 0,
@@ -26,8 +26,8 @@
         },
         {
             "button_name": "main_menu*intro_button",
-            "glow_obj_names": "main_menu*Cube",
-            "material": "stones_n_dolmens",
+            "glow_obj_names": "main_menu*main_menu_stone",
+            "material": "main_menu_stone",
             "value_node_name": "intro_switcher",
             "glow_grow_time": 1,
             "min_glow_value": 0,
@@ -37,19 +37,21 @@
         },
         {
             "button_name": "main_menu*cave_button",
-            "glow_obj_names": "main_menu*Cube",
-            "material": "stones_n_dolmens",
+            "glow_obj_names": "main_menu*main_menu_stone",
+            "material": "main_menu_stone",
             "value_node_name": "cave_switcher",
             "glow_grow_time": 1,
             "min_glow_value": 0,
             "max_glow_value": 1,
+            "level_name": "under_construction",
             "mouse_over_speaker": "main_menu*Speaker",
             "stop_playlist_onclick": false
         },
         {
             "button_name": "button_training",
             "glow_obj_names": ["training_dummy_body*training_dummy_body",
-                               "training_dummy_head*training_dummy_head"],
+                               "training_dummy_head*training_dummy_head",
+                               "sword*training_dummy_sword"],
             "material": "training_dummy_main_scene",
             "value_node_name": "glow_switcher",
             "glow_grow_time": 1,
@@ -75,5 +77,7 @@
     "environment_energy_final": 0.1,
     "environment_horizon_final": [0.085, 0.107, 0.123],
     "environment_zenith_final": [0.573, 0.619, 1.0],
-    "language_obj": "main_menu*Cube"
+    "language_obj": "main_menu*main_menu_stone",
+    "back_to_menu_obj_name": "back_to_main_menu_button",
+    "screen_saver_obj_name": "screensaver_button"
 }

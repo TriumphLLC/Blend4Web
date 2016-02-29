@@ -48,7 +48,7 @@ class B4W_RenderMotionBlur(RenderButtonsPanel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_motion_blur", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_motion_blur", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -67,7 +67,7 @@ class B4W_RenderBloom(RenderButtonsPanel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_bloom", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_bloom", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -86,7 +86,7 @@ class B4W_RenderColorCorrection(RenderButtonsPanel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_color_correction", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_color_correction", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -155,7 +155,7 @@ class B4W_RenderOutlining(RenderButtonsPanel, bpy.types.Panel):
         row.active = getattr(scene, "b4w_enable_outlining") in {"ON", "AUTO"}
 
         split = row.split()
-        split.prop(scene, "b4w_outline_color", text=_(""))
+        split.prop(scene, "b4w_outline_color", text="")
         split = row.split()
         split.prop(scene, "b4w_outline_factor", text=_("Factor"))
 
@@ -165,7 +165,7 @@ class B4W_RenderSSAO(RenderButtonsPanel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_ssao", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_ssao", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -191,7 +191,7 @@ class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_god_rays", text=_(""))
+        self.layout.prop(context.scene, "b4w_enable_god_rays", text="")
 
     def draw(self, context):
         scene = context.scene
@@ -223,7 +223,7 @@ class B4W_SceneAniso(RenderButtonsPanel, bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-        layout.prop(scene, "b4w_anisotropic_filtering", text=_(""))
+        layout.prop(scene, "b4w_anisotropic_filtering", text="")
 
 class B4W_RenderShadows(RenderButtonsPanel, bpy.types.Panel):
     bl_label = _("Shadows")

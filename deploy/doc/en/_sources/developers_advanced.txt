@@ -3,6 +3,44 @@ For Engine Developers
 *********************
 
 
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* For Engine Developers
+
+  * Coding Style
+
+    * Examples
+
+  * Building the Engine
+
+  * Building the Addon
+
+  * Dependencies
+
+  * Naming Functions and Variables
+
+  * Debugging
+
+  * Shader Compilation
+
+    * Validation
+
+    * Obfuscation
+
+    * Optimization
+
+    * Import/Export Directives
+
+    * Recommendations and Limitations
+
+    * WebGL Extensions
+
+    * Compilation Errors
+
+  * Updating Add-on Translations
+
+
 Coding Style
 ============
 

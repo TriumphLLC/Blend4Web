@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -191,6 +191,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb, json_rev
             url: elem.url,
             request: elem.request ? elem.request : "GET",
             post_type: elem.post_type ? elem.post_type : null,
+            overwrite_header: elem.overwrite_header ? elem.overwrite_header : null,
             post_data: elem.post_data ? elem.post_data : null,
             param: elem.param ? elem.param : null,
 
@@ -285,19 +286,32 @@ function request_arraybuffer(asset, response_type) {
     else
         var req = new XMLHttpRequest();
 
+    var content_type = null;
     if (asset.request == "GET") {
         req.open("GET", asset.url, true);
     } else if (asset.request == "POST") {
         req.open("POST", asset.url, true);
         switch (asset.post_type) {
         case exports.APT_TEXT:
-            req.setRequestHeader('Content-type', 'text/plain');
+            content_type = 'text/plain';
             break;
         case exports.APT_JSON:
-            req.setRequestHeader('Content-type', 'application/json');
+            content_type = 'application/json';
             break;
         }
     }
+
+    if (asset.overwrite_header) {
+        for (var key in asset.overwrite_header) {
+            if (key == "Content-Type")
+                content_type = asset.overwrite_header[key];
+            else
+                req.setRequestHeader(key, asset.overwrite_header[key]);
+        }
+    }
+
+    if (content_type)
+        req.setRequestHeader("Content-Type", content_type);
 
     if (response_type == "text") {
         // to prevent "not well formed" error (GLSL)

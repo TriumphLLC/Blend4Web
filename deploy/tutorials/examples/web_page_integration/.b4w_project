@@ -2,6 +2,7 @@
 author = Blend4Web
 name = web_page_integration
 title = Balloons
+icon = web_page_integration.png
 
 [paths]
 assets_dirs = deploy/tutorials/examples/web_page_integration/;

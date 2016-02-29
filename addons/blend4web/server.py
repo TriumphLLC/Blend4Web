@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -119,6 +119,10 @@ class B4WLocalServer():
             cls.server_status = WAIT_RESPONSE
             cls.server_process = threading.Thread(target=create_server)
             cls.server_process.daemon = True
+
+            #for converting resources on MACOS
+            if sys.platform == "darwin" and not ":/usr/local/bin" in os.environ["PATH"]:
+                os.environ["PATH"] = os.environ["PATH"] + ":/usr/local/bin"
 
             try:
                 cls.server_process.start()
@@ -313,9 +317,14 @@ def create_server():
         (r"/project/sort/down/?$", ProjectSortDownHandler),
         (r"/project/show_b4w/?$", ProjectShowHandler),
         (r"/project/hide_b4w/?$", ProjectHideHandler),
-        (r"/project/import/?$", UploadFile),
+        (r"/project/import/?$", UploadProjectFile),
+        (r"/project/upload_icon/?$", UploadIconFile),
+        (r"/project/info/.+$", ProjectInfoHandler),
         (r"/project/.+$", ProjectRequestHandler),
         (r"/create/?$", ProjectCreateHandler),
+        (r"/export/?$", ProjectExportHandler),
+        (r"/export/show_b4w/?$", ExportShowHandler),
+        (r"/export/hide_b4w/?$", ExportHideHandler),
         (r"/run_blender/(.*)$", RunBlenderHandler),
         (r"/tests/send_req_post/?$", TestSendReqPost),
         (r"/(.*)$", StaticFileHandlerNoCache,
@@ -344,6 +353,9 @@ def create_server():
         B4WLocalServer.server_status = SUB_THREAD_OTHER_EXC
         B4WLocalServer.error_message = str(ex)
 
+def get_sdk_root():
+    return bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
 class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
     def set_extra_headers(self, path):
         # Disable cache
@@ -354,7 +366,7 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         self.set_header("Last-Modified", exp)
         self.add_header("B4W.LocalServer", "1")
 
-class UploadFile(tornado.web.RequestHandler):
+class UploadProjectFile(tornado.web.RequestHandler):
     def post(self):
         if not "zip_file" in self.request.files:
             return self.send_error(status_code=400)
@@ -366,225 +378,103 @@ class UploadFile(tornado.web.RequestHandler):
 
         self.redirect("/project/import/" + quote(temp_file.name, safe=""))
 
+class UploadIconFile(tornado.web.RequestHandler):
+    def post(self):
+        files = self.request.files
+
+        if not "proj_icon" in files:
+            return self.send_error(status_code=400)
+
+        proj_path = self.get_argument("proj_path");
+        proj_icon = files["proj_icon"][0];
+
+        root = get_sdk_root()
+        proj_util = get_proj_util_mod(root)
+            
+        proj_cfg = proj_util.get_proj_cfg(join(root, proj_path))
+
+        icon = proj_util.proj_cfg_value(proj_cfg, "info", "icon")
+
+        if icon:
+            icon_name = (os.path.splitext(icon)[0] +
+                    os.path.splitext(proj_icon["filename"])[1])
+        else:
+            icon_name = ".b4w_icon" + os.path.splitext(proj_icon["filename"])[1]
+
+        img_path = join(root, proj_path, icon_name)
+
+        # NOTE: do not override image which has the same name and may be used
+        # for some other purposes
+        if not icon and exists(img_path):
+            self.redirect("/project/")
+
+        # update project config
+        if icon != icon_name:
+            proj_cfg["info"]["icon"] = icon_name
+            with open(join(root, proj_path, ".b4w_project"), "w") as configfile:
+                proj_cfg.write(configfile)
+
+
+        with open(img_path, "wb") as img_file:
+            img_file.write(proj_icon["body"])
+
+        self.redirect("/project/")
+
 class TestSendReqPost(tornado.web.RequestHandler):
     def post(self):
         req = json.loads(self.request.body.decode("utf-8"))
         if req["field1"] == 1 and req["field2"] == "2":
-            resp = {"resp":2}
+            resp = {"resp": 2}
         else:
             resp = {}
         self.write(resp)
 
-class ProjectRootHandler(tornado.web.RequestHandler):
-    def get(self):
-        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-        scripts_path = join(root, "scripts")
+class ProjectManagerCli():
+    """Abstraction layer to project manager cli"""
+
+    def get_proj_list(self, root, sort_reverse=False):
+        proj_util = get_proj_util_mod(root)
         python_path = bpy.app.binary_path_python
 
         # temporary fix
         if sys.platform == "darwin" and python_path == "/usr/bin/python":
             if not shutil.which("/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"):
-                self.write("Python3 not found")
-                return
+                print("Python3 not found", file=sys.stderr)
+                return []
 
             python_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
 
         cmd = [python_path, join(root, "apps_dev", "project.py"),
                 "--no-colorama"]
 
-        tpl_html_file = open(join(root, "index_assets", "templates", "projects.tmpl"), "r")
-        tpl_html_str = tpl_html_file.read()
-        tpl_html_file.close()
-
         cmd.append("list")
 
         out = self.exec_proc_sync(cmd, root)
 
         if out[0]:
-            self.write("Project list error")
-            return
+            print("Project list internal error", file=sys.stderr)
+            return []
 
         proj_strs = out[1].splitlines()
-        proj_strs.sort()
 
-        table_insert = ""
-
-        sort_type = "up"
-        sort_link = "down"
-        hide_b4w = False
-        show_hide_link = "/project/hide_b4w/"
-        show_hide_text = "Hide"
-
-        if self.get_cookie("hide_b4w") == "hide":
-            hide_b4w = True
-            show_hide_link = "/project/show_b4w/"
-            show_hide_text = "Show"
-
-        if self.get_cookie("sort") == "down":
-            sort_type = "down"
-            sort_link = "up"
-
-        if sort_type == "down":
+        if sort_reverse:
+            proj_strs.sort()
             proj_strs.reverse()
         else:
             proj_strs.sort()
+
+        proj_list = []
 
         for s in proj_strs:
             name = s.split("->")[0].strip(" ")
             path = s.split("->")[1].strip(" ")
 
-            pmod = imp.find_module("project_cli",
-                    [join(scripts_path, "lib")])
-            proj = imp.load_module("project_cli", pmod[0], pmod[1], pmod[2])
-
             path_abs = normpath(join(root, path))
-            proj_cfg = proj.get_proj_cfg(path_abs)
+            proj_cfg = proj_util.get_proj_cfg(path_abs)
 
-            author = proj.proj_cfg_value(proj_cfg, "info", "author")
+            proj_list.append({"name": name, "path": path, "config": proj_cfg})
 
-            if author == "Blend4Web" and hide_b4w:
-                continue
-
-            build_dir = normpath(proj.proj_cfg_value(proj_cfg, "paths",
-                    "build_dir", ""))
-
-            table_insert += "<tr>"
-            table_insert += '<td>'
-            table_insert += name
-
-            # TODO: specify apps config syntax (including dev-build separation)
-            apps = proj.proj_cfg_value(proj_cfg, "compile", "apps", [])
-
-            if not len(apps):
-                dev_app = join(path, name + "_dev.html")
-
-                if exists(normpath(join(root, dev_app))):
-                    apps.append(proj.unix_path(dev_app))
-
-                build_app = join(build_dir, name + ".html")
-
-                if exists(normpath(join(root, build_app))):
-                    apps.append(proj.unix_path(build_app))
-
-                engine_type = proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None)
-
-                if engine_type == "webplayer_html":
-                    apps.extend([join(i, name + ".html")
-                        for i in proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs")
-                            if exists(join(i, name + ".html"))])
-
-                if engine_type == "webplayer_json":
-                    apps.extend([proj.unix_path(join("apps_dev", "webplayer", "webplayer_dev.html?load=", i, name + ".json"))
-                        for i in proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs")
-                            if exists(join(root, i, name + ".json"))])
-
-            else:
-                dev_apps = [proj.unix_path(join(path, app))
-                        for app in apps if exists(join(root, path, app))]
-                build_apps = [proj.unix_path(join(build_dir, app))
-                        for app in apps if exists(join(root, build_dir, app))]
-
-                apps = []
-
-                apps.extend(dev_apps)
-                apps.extend(build_apps)
-
-            for app in apps:
-                table_insert += self.app_link(app)
-
-            table_insert += '</td>'
-
-            table_insert += '<td>'
-
-            path_insert = proj.unix_path(path)
-            table_insert += self.shorten(path_insert, 50)
-
-            build_dir_insert = proj.unix_path(normpath(build_dir))
-
-            if build_dir_insert != path_insert and build_dir_insert != '.':
-                table_insert +=  '<br>'
-                table_insert += self.shorten(build_dir_insert, 50)
-
-            table_insert += '</td>'
-
-
-            blend_dirs = proj.proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
-
-            table_insert += '<td>'
-
-            for blend_dir in blend_dirs:
-                blend_dir_obj = pathlib.Path(normpath(join(root, blend_dir)))
-                blend_files = list(blend_dir_obj.rglob('*.blend'))
-                blend_files.sort()
-
-                content = ""
-
-                for file in blend_files:
-                    link = proj.unix_path(relpath(str(file), root))
-                    content += self.blend_link(link) + "<br>"
-
-                table_insert += self.file_group(table_insert, root, blend_dir,
-                        content);
-
-            table_insert += '</td>'
-
-            assets_dirs = proj.proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
-
-            table_insert += '<td>'
-            for assets_dir in assets_dirs:
-                assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
-                json_files = list(assets_dir_obj.rglob('*.json'))
-                json_files.sort()
-
-                content = ""
-                for file in json_files:
-                    link = proj.unix_path(relpath(str(file), root))
-                    content += self.json_link(link) + "<br>"
-
-                table_insert += self.file_group(table_insert, root,
-                        assets_dir, content);
-            table_insert += '</td>'
-
-            table_insert += '<td>'
-
-            if (proj.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
-                    ["external", "copy", "compile", "update"]):
-                table_insert += ('<a href=/project/-p/' +
-                        quote(normpath(path), safe="") +
-                        '/compile/>compile project</a><br>')
-
-            table_insert += ('<a href=/project/-p/' +
-                    quote(normpath(path), safe="") +
-                    '/reexport/-b/' +
-                    quote(bpy.app.binary_path, safe="") +
-                    '/>re-export scenes</a><br>')
-
-            table_insert += ('<a href=/project/-p/' +
-                    quote(normpath(path), safe="") +
-                    '/convert_resources/>convert resources</a><br>')
-
-            table_insert += ('<a href=/project/export/' +
-                             quote(normpath(basename(path)), safe="") + '/' +
-                             quote(normpath(join("tmp", "downloads", name + ".zip")), safe="") +
-                             '>export project archive</a><br>')
-
-            table_insert += ('<a onclick="show_confirm_window(this);return false;" href=/project/-p/' +
-                    quote(normpath(path), safe="") +
-                    '/remove/>remove project</a>')
-
-            table_insert += '</td>'
-
-            table_insert += "</tr>"
-
-        html_insertions = dict(table_insert=table_insert,
-                               sort=sort_type,
-                               show_hide_text=show_hide_text,
-                               show_hide_link=show_hide_link,
-                               link="/project/sort/" + sort_link + "/")
-
-        out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
-
-        self.write(out_html_str)
+        return proj_list
 
     def exec_proc_sync(self, cmd, root):
         cwd = os.getcwd()
@@ -602,121 +492,6 @@ class ProjectRootHandler(tornado.web.RequestHandler):
         os.chdir(cwd)
 
         return out
-
-    def app_link(self, link):
-        return ('<br><a class="spoiler" href="/' + link + '">' +
-                basename(link) + '</a>')
-
-    def blend_link(self, link):
-        return ('<a class="spoiler" href="/run_blender/' + link + '">' +
-                self.shorten(link) + '</a>')
-
-    def html_link(self, link):
-        return ('<a class="spoiler" href="/' + link + '">' +
-                self.shorten(link) + '</a>')
-
-    def json_link(self, link):
-        return ('<a class="spoiler" ' + 
-                'href="/apps_dev/viewer/viewer_dev.html?load=../../' + link +
-                '">' + self.shorten(link) + '</a>')
-
-    def shorten(self, s, maxlen=60):
-        if len(s) > maxlen:
-            return "..." + s[-(maxlen-3):]
-        else:
-            return s
-
-    def file_group(self, s, root, dir, content):
-        if not len(content):
-            return ""
-
-        tpl_html_file = open(join(root, "index_assets", "templates", "spoiler.tmpl"), "r")
-        tpl_html_str = tpl_html_file.read()
-        tpl_html_file.close()
-
-        id = hashlib.md5((dir+content).encode()).hexdigest()
-
-        header = self.shorten(dir.strip("/ ") + "/*", 50)
-
-        html_insertions = dict(id=id, header=header, content=content)
-
-        return string.Template(tpl_html_str).substitute(html_insertions)
-
-class ProjectSortUpHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.set_cookie("sort", "up")
-        self.redirect("/project/")
-
-class ProjectSortDownHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.set_cookie("sort", "down")
-        self.redirect("/project/")
-
-class ProjectShowHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.set_cookie("hide_b4w", "show")
-        self.redirect("/project/")
-
-class ProjectHideHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.set_cookie("hide_b4w", "hide")
-        self.redirect("/project/")
-
-class ProjectRequestHandler(tornado.web.RequestHandler):
-    def get(self):
-        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-
-        if not ConsoleHandler.console_proc:
-            req = self.request.uri.replace("/project/", "").strip("/? ")
-
-            scripts_path = join(root, "scripts")
-
-            python_path = bpy.app.binary_path_python
-
-            # temporary fix
-            if sys.platform == "darwin" and python_path == "/usr/bin/python":
-                if not shutil.which("/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"):
-                    self.write("python3 not found")
-                    return
-
-                python_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
-
-            cmd = [python_path, join(root, "apps_dev", "project.py"),
-                    "--no-colorama"]
-
-            is_export = False
-
-            for part in req.split("/"):
-                if part == "export":
-                    is_export = True
-
-                cmd.append(unquote(part))
-
-            if is_export:
-                file_dir = join(root, os.path.dirname(cmd[-1]))
-                os.makedirs(file_dir,  exist_ok=True)
-                port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-
-                pmod = imp.find_module("project_cli",
-                        [join(scripts_path, "lib")])
-                proj = imp.load_module("project_cli", pmod[0], pmod[1], pmod[2])
-
-                ConsoleHandler.export_link = "/" + proj.unix_path(cmd[-1])
-
-            ConsoleHandler.console_proc = self.exec_proc_async_pipe(cmd, root)
-
-            html_file = open(join(root, "index_assets", "templates", "request.tmpl"), "r")
-        else:
-            html_file = open(join(root, "index_assets", "templates", "request_busy.tmpl"), "r")
-
-        html_str = html_file.read()
-        html_file.close()
-
-        html_insertions = dict(export_link=ConsoleHandler.export_link)
-
-        out_html_str = string.Template(html_str).substitute(html_insertions)
-
-        self.write(out_html_str)
 
     def exec_proc_async_pipe(self, cmd, root):
         cwd = os.getcwd()
@@ -746,6 +521,379 @@ class ProjectRequestHandler(tornado.web.RequestHandler):
         out.close()
 
 
+
+class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
+    def get(self):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        tpl_html_file = open(join(root, "index_assets", "templates", "projects.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        tpl_elem_file = open(join(root, "index_assets", "templates",
+                "projects_elem.tmpl"), "r")
+        tpl_elem_str = tpl_elem_file.read()
+        tpl_elem_file.close()
+
+        table_insert = ""
+
+        sort_type = "up"
+        sort_link = "down"
+        hide_b4w = False
+        show_hide_link = "/project/hide_b4w/"
+        show_hide_text = "Hide"
+
+        if self.get_cookie("hide_b4w") == "hide":
+            hide_b4w = True
+            show_hide_link = "/project/show_b4w/"
+            show_hide_text = "Show"
+
+        if self.get_cookie("sort") == "down":
+            sort_type = "down"
+            sort_link = "up"
+
+        proj_util = get_proj_util_mod(root)
+
+        if sort_type == "down":
+            projects = self.get_proj_list(root, True)
+        else:
+            projects = self.get_proj_list(root, False)
+
+        for p in projects:
+            name = p["name"]
+            path = p["path"]
+            proj_cfg = p["config"]
+
+            icon = proj_util.proj_cfg_value(proj_cfg, "info", "icon")
+            author = proj_util.proj_cfg_value(proj_cfg, "info", "author")
+
+            if author == "Blend4Web" and hide_b4w:
+                continue
+
+            build_dir = normpath(proj_util.proj_cfg_value(proj_cfg, "paths",
+                    "build_dir", ""))
+
+            assets_dirs = proj_util.proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+
+            elem_ins = {}
+
+            if icon:
+                elem_ins["icon"] = '/' + proj_util.unix_path(join(path, icon))
+            else:
+                elem_ins["icon"] = '/scripts/templates/project.png'
+
+            elem_ins["name"] = name
+
+            elem_ins["info_url"] = '/project/info/' + quote(path, safe="")
+
+            # TODO: specify apps config syntax (including dev-build separation)
+            apps = proj_util.proj_cfg_value(proj_cfg, "compile", "apps", [])
+            engine_type = proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None)
+
+            dev_apps = []
+            build_apps = []
+            player_apps = []
+
+            if len(apps):
+                if engine_type in ["webplayer_html", "webplayer_json"]:
+                    for app in apps:
+                        for assets_dir in assets_dirs:
+                            if exists(join(root, assets_dir, app)):
+                                player_apps.append(proj_util.unix_path(join(assets_dir, app)))
+                else:
+                    for app in apps:
+                        if exists(join(root, path, app)):
+                            dev_apps.append(proj_util.unix_path(join(path, app)))
+
+                    if engine_type != "update":
+                        for app in apps:
+                            if exists(join(root, build_dir, app)):
+                                build_apps.append(proj_util.unix_path(join(build_dir, app)))
+
+            else:
+                # fallback app search - search only inside project-specific directories
+
+                if engine_type == "webplayer_html":
+                    for assets_dir in assets_dirs:
+                        apps = [basename(str(p)) for p in pathlib.Path(join(root,
+                                assets_dir)).glob("*.html")]
+                        for app in apps:
+                            player_apps.append(proj_util.unix_path(join(assets_dir,
+                                    app)))
+
+                elif engine_type == "webplayer_json":
+                    for assets_dir in assets_dirs:
+                        apps = [basename(str(p)) for p in pathlib.Path(join(root,
+                                assets_dir)).glob("*.json")]
+                        for app in apps:
+                            player_apps.append(proj_util.unix_path(join(assets_dir,
+                                    app)))
+                else:
+
+                    apps = [basename(str(p)) for p in pathlib.Path(join(root,
+                            path)).glob("*.html")]
+                    for app in apps:
+                        dev_apps.append(proj_util.unix_path(join(path, app)))
+
+                    if engine_type != "update":
+                        apps = [basename(str(p)) for p in pathlib.Path(join(root,
+                                build_dir)).glob("*.html")]
+                        for app in apps:
+                            build_apps.append(proj_util.unix_path(join(build_dir, app)))
+
+            elem_ins["apps"] = ""
+
+            for app in player_apps:
+                if engine_type == "webplayer_json":
+                    player = proj_util.unix_path(join("apps_dev", "webplayer",
+                            "webplayer.html"))
+                    link = player + "?load=" + proj_util.unix_path(join("..", "..", app))
+                else:
+                    link = app
+
+                if "url_params" in proj_cfg:
+                    d = proj_util.dict_to_csv_str(proj_cfg["url_params"])
+                    d = d.replace(",", "&")
+
+                    if engine_type == "webplayer_json":
+                        link += "&" + d;
+                    elif engine_type == "webplayer_html":
+                        link += "?" + d;
+
+                elem_ins["apps"] += self.app_link(basename(app), link, "player")
+
+            for app in dev_apps:
+                link = app
+
+                if "url_params" in proj_cfg:
+                    d = proj_util.dict_to_csv_str(proj_cfg["url_params"])
+                    link += "?" + d.replace(",", "&")
+
+                elem_ins["apps"] += self.app_link(basename(app), link, "dev")
+
+            for app in build_apps:
+                link = app
+
+                if "url_params" in proj_cfg:
+                    d = proj_util.dict_to_csv_str(proj_cfg["url_params"])
+                    link += "?" + d.replace(",", "&")
+
+                elem_ins["apps"] += self.app_link(basename(app), link, "build")
+
+
+            path_insert = proj_util.unix_path(path)
+            elem_ins["path"] = path_insert
+            elem_ins["proj"] = self.shorten(path_insert, 50)
+
+            build_dir_insert = proj_util.unix_path(normpath(build_dir))
+
+            if build_dir_insert != path_insert and build_dir_insert != '.':
+                elem_ins["proj"] += "<br>" + self.shorten(build_dir_insert, 50)
+
+            elem_ins["blend_files"] = ""
+
+            blend_dirs = proj_util.proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
+
+            for blend_dir in blend_dirs:
+                blend_dir_obj = pathlib.Path(normpath(join(root, blend_dir)))
+                blend_files = list(blend_dir_obj.rglob('*.blend'))
+                blend_files.sort()
+
+                content = ""
+
+                for file in blend_files:
+                    link = proj_util.unix_path(relpath(str(file), root))
+                    content += self.blend_link(link);
+
+                elem_ins["blend_files"] += self.file_group(elem_ins["blend_files"],
+                        root, blend_dir, content);
+
+            elem_ins["json_files"] = ""
+
+            for assets_dir in assets_dirs:
+                assets_dir_obj = pathlib.Path(normpath(join(root, assets_dir)))
+                json_files = list(assets_dir_obj.rglob('*.json'))
+                json_files.sort()
+
+                content = ""
+                for file in json_files:
+                    link = proj_util.unix_path(relpath(str(file), root))
+                    content += self.json_link(link);
+
+                elem_ins["json_files"] += self.file_group(elem_ins["json_files"], root,
+                        assets_dir, content);
+
+            elem_ins["ops"] = ""
+
+            if (proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
+                    ["external", "copy", "compile", "update"]):
+                elem_ins["ops"] += ('<a href=/project/-p/' +
+                        quote(normpath(path), safe="") +
+                        '/compile/ title="Compile project app(s)">compile project</a><br>')
+
+            elem_ins["ops"] += ('<a href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/reexport/-b/' +
+                    quote(bpy.app.binary_path, safe="") +
+                    '/ title="Re-export all scene files">re-export scenes</a><br>')
+
+            elem_ins["ops"] += ('<a href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/convert_resources/ ' + 
+                    'title="Convert project resources to alternative formats">' + 
+                    'convert resources</a><br>')
+
+            elem_ins["ops"] += ('<a href=/project/-p/' + 
+                    quote(normpath(path), safe="") +
+                    '/deploy/' +
+                    quote(join("tmp", "downloads", name + ".zip"), safe="") +
+                    ' title="Generate archive with deployed project">deploy project</a><br>')
+
+            elem_ins["ops"] += ('<a onclick="show_confirm_window(this);return false;" href=/project/-p/' +
+                    quote(normpath(path), safe="") +
+                    '/remove/ title="Remove project">remove project</a>')
+
+            table_insert += string.Template(tpl_elem_str).substitute(elem_ins)
+
+
+        html_insertions = dict(table_insert=table_insert,
+                               sort=sort_type,
+                               show_hide_text=show_hide_text,
+                               show_hide_link=show_hide_link,
+                               link="/project/sort/" + sort_link + "/")
+
+        out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+        self.write(out_html_str)
+
+    def app_link(self, name, link, prefix):
+        return ('<div><a class="spoiler_item" href="/' + link +
+                '" title="Run app">' + prefix + ": " + name + '</a></div>')
+
+    def blend_link(self, link):
+        return ('<div><a class="spoiler_item" href="/run_blender/' + link + '" ' + 
+                'title="Open in Blender">' + self.shorten(link) + '</a></div>')
+
+    def json_link(self, link):
+        return ('<div><a class="spoiler_item" ' + 
+                'href="/apps_dev/viewer/viewer.html?load=../../' + link + '" ' + 
+                'title="Open in Viewer">' + self.shorten(link) + '</a></div>')
+
+    def shorten(self, s, maxlen=60):
+        if len(s) > maxlen:
+            return "..." + s[-(maxlen-3):]
+        else:
+            return s
+
+    def file_group(self, s, root, dir, content):
+        if not len(content):
+            return ""
+
+        tpl_html_file = open(join(root, "index_assets", "templates", "spoiler.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        id = hashlib.md5((dir+content).encode()).hexdigest()
+
+        header = self.shorten(dir.strip("/ ") + "/", 50)
+
+        html_insertions = dict(id=id, header=header, content=content)
+
+        return string.Template(tpl_html_str).substitute(html_insertions)
+
+def get_proj_util_mod(root):
+    scripts_path = join(root, "scripts")
+
+    pmod = imp.find_module("project_util",
+            [join(scripts_path, "lib")])
+    proj_util = imp.load_module("project_util", pmod[0], pmod[1], pmod[2])
+
+    return proj_util
+
+class ProjectSortUpHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("sort", "up")
+        self.redirect("/project/")
+
+class ProjectSortDownHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("sort", "down")
+        self.redirect("/project/")
+
+class ProjectShowHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "show")
+        self.redirect("/project/")
+
+class ProjectHideHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "hide")
+        self.redirect("/project/")
+
+class ExportShowHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "show")
+        self.redirect("/export/")
+
+class ExportHideHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_cookie("hide_b4w", "hide")
+        self.redirect("/export/")
+
+class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
+    def get(self):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        if not ConsoleHandler.console_proc:
+            req = self.request.uri.replace("/project/", "").strip("/? ")
+
+            python_path = bpy.app.binary_path_python
+
+            # temporary fix
+            if sys.platform == "darwin" and python_path == "/usr/bin/python":
+                if not shutil.which("/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"):
+                    self.write("python3 not found")
+                    return
+
+                python_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+
+            cmd = [python_path, join(root, "apps_dev", "project.py"),
+                    "--no-colorama"]
+
+            show_download_link = False
+
+            for part in req.split("/"):
+                if part == "export" or part == "deploy":
+                    show_download_link = True
+
+                cmd.append(unquote(part))
+
+            if show_download_link:
+                file_dir = join(root, os.path.dirname(cmd[-1]))
+                os.makedirs(file_dir,  exist_ok=True)
+                port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+
+                proj_util = get_proj_util_mod(root)
+
+                ConsoleHandler.download_link = "/" + proj_util.unix_path(cmd[-1])
+
+            ConsoleHandler.console_proc = self.exec_proc_async_pipe(cmd, root)
+
+            html_file = open(join(root, "index_assets", "templates", "request.tmpl"), "r")
+        else:
+            html_file = open(join(root, "index_assets", "templates", "request_busy.tmpl"), "r")
+
+        html_str = html_file.read()
+        html_file.close()
+
+        html_insertions = dict(download_link=ConsoleHandler.download_link)
+
+        out_html_str = string.Template(html_str).substitute(html_insertions)
+
+        self.write(out_html_str)
+
+
+
 class ProjectCreateHandler(tornado.web.RequestHandler):
     def get(self):
         root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
@@ -756,6 +904,142 @@ class ProjectCreateHandler(tornado.web.RequestHandler):
 
         html_insertions = dict(blender_exec=quote(bpy.app.binary_path, safe=""))
 
+        html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+        self.write(html_str)
+
+
+class ProjectInfoHandler(tornado.web.RequestHandler):
+    def get(self):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+        tpl_html_file = open(join(root, "index_assets", "templates",
+                "project_info.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        path = self.request.uri.replace("/project/info/", "").strip("/? ")
+        path = unquote(path)
+
+        proj_util = get_proj_util_mod(root)
+        proj_cfg = proj_util.get_proj_cfg(join(root, path))
+        name = proj_util.proj_cfg_value(proj_cfg, "info", "name", "")
+        title = proj_util.proj_cfg_value(proj_cfg, "info", "title", "")
+        author = proj_util.proj_cfg_value(proj_cfg, "info", "author", "")
+        icon = proj_util.proj_cfg_value(proj_cfg, "info", "icon", "")
+        build_dir = proj_util.proj_cfg_value(proj_cfg, "paths", "build_dir", "")
+        assets_dirs = proj_util.proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+        blend_dirs = proj_util.proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
+        engine_type = proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", "")
+        optimization = proj_util.proj_cfg_value(proj_cfg, "compile", "optimization", "")
+        js_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "js_ignore", "")
+        css_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "css_ignore", "")
+        assets_path_prefix = proj_util.proj_cfg_value(proj_cfg, "deploy", "assets_path_prefix", "")
+
+        # size of all project directories
+        dirs = [path]
+        if build_dir:
+            dirs.append(build_dir)
+        dirs.extend(blend_dirs)
+        dirs.extend(assets_dirs)
+        size = proj_util.calc_proj_size(dirs, root)
+
+        if "url_params" in proj_cfg:
+            url_params = proj_util.dict_to_csv_str(proj_cfg["url_params"])
+            url_params = url_params.replace(",", "<br>")
+        else:
+            url_params = ""
+
+        apps = proj_util.proj_cfg_value(proj_cfg, "compile", "apps", [])
+        if len(apps):
+            apps = "<br>".join(apps)
+        else:
+            apps = "[detected automatically]"
+
+        engine_type_replacer = {
+            "webplayer_html": "WebPlayer HTML",
+            "webplayer_json": "WebPlayer JSON",
+            "update": "Update",
+            "copy": "Copy",
+            "compile": "Compile",
+            "external": "External"
+        }
+
+        html_insertions = {
+            "name": name,
+            "title": title,
+            "author": author,
+            "icon": icon,
+            "apps": apps,
+            "engine_type": engine_type_replacer[engine_type],
+            "size": round(size / 1024 / 1024),
+            "path": path,
+            "build_dir": build_dir,
+            "blend_dirs": "<br>".join(blend_dirs),
+            "assets_dirs": "<br>".join(assets_dirs),
+            "config_path": proj_util.unix_path(join(path, ".b4w_project")),
+            "url_params": url_params,
+            "optimization": optimization,
+            "js_ignore": "<br>".join(js_ignore),
+            "css_ignore": "<br>".join(css_ignore),
+            "assets_path_prefix": assets_path_prefix
+        }
+
+        html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+        self.write(html_str)
+
+class ProjectExportHandler(tornado.web.RequestHandler, ProjectManagerCli):
+    def get(self):
+        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        proj_util = get_proj_util_mod(root)
+
+        tpl_html_file = open(join(root, "index_assets", "templates", "export_form.tmpl"), "r")
+        tpl_html_str = tpl_html_file.read()
+        tpl_html_file.close()
+
+        tpl_elem_file = open(join(root, "index_assets", "templates",
+                "export_form_elem.tmpl"), "r")
+        tpl_elem_str = tpl_elem_file.read()
+        tpl_elem_file.close()
+
+        hide_b4w = False
+        show_hide_link = "/export/hide_b4w/"
+        show_hide_text = "Hide"
+
+        if self.get_cookie("hide_b4w") == "hide":
+            hide_b4w = True
+            show_hide_link = "/export/show_b4w/"
+            show_hide_text = "Show"
+
+        projects = self.get_proj_list(root)
+    
+        content = ""
+
+        for p in projects:
+            name = p["name"]
+            path = p["path"]
+            proj_cfg = p["config"]
+
+            author = proj_util.proj_cfg_value(proj_cfg, "info", "author")
+            if author == "Blend4Web" and hide_b4w:
+                continue
+
+            author = proj_util.proj_cfg_value(proj_cfg, "info", "author", "")
+            title = proj_util.proj_cfg_value(proj_cfg, "info", "title", "")
+
+            elem_ins = dict(id=name, name=name, author=author, title=title)
+            elem_str = string.Template(tpl_elem_str).substitute(elem_ins)
+
+            content += elem_str
+
+        # must end with slash to mantain cross-platform behavior
+        export_dir = quote(join("tmp", "downloads", ""), safe="")
+
+        html_insertions = dict(content=content,
+                               export_dir=export_dir,
+                               show_hide_text=show_hide_text,
+                               show_hide_link=show_hide_link)
         html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
         self.write(html_str)
@@ -779,7 +1063,7 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
     websocket_conn = None
     console_proc = None
     console_queue = None
-    export_link = ""
+    download_link = ""
 
     def open(self, *args):
         self.__class__.websocket_conn = self
@@ -807,7 +1091,7 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
         if cls.console_proc.poll() != None:
             cls.console_proc = None
             cls.websocket_conn.close()
-            cls.export_link = ""
+            cls.download_link = ""
             cls.websocket_conn = None
 
     @classmethod

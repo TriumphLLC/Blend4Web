@@ -477,7 +477,8 @@ msgstr "Audio playback"
 
 #: ../animation.rst:243
 msgid "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
-msgstr "Particles emission (in the form of a connection with the global timeline)"
+msgstr ""
+"Particles emission (in the form of a connection with the global timeline)"
 
 #: ../animation.rst:251
 msgid "Использование"

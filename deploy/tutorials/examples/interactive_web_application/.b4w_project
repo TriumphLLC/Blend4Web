@@ -2,6 +2,7 @@
 author = Blend4Web
 name = interactive_web_application
 title = Interactive Web Application
+icon = interactive_web_application.png
 
 [paths]
 assets_dirs = deploy/tutorials/examples/interactive_web_application/;

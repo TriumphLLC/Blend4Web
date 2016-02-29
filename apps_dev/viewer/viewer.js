@@ -430,9 +430,9 @@ function init_ui() {
     bind_control(set_ssao_params, "ssao_white", "bool");
 
     // fog
-    bind_control(set_fog_params, "fog_density", "number");
-    bind_control(set_fog_params, "fog_density1000", "number");
-    bind_colpick(set_fog_params, "fog_color");
+    //bind_control(set_fog_params, "fog_density", "number");
+    //bind_control(set_fog_params, "fog_density1000", "number");
+    //bind_colpick(set_fog_params, "fog_color");
 
     // dof
     bind_control(set_dof_params, "dof_distance", "number");
@@ -867,7 +867,7 @@ function prepare_scenes(global_settings) {
 
     get_shadow_params();
     get_ssao_params();
-    get_fog_params();
+    //get_fog_params();
     get_dof_params();
     get_god_rays_params();
     get_color_correction_params();
@@ -1793,14 +1793,11 @@ function get_ambient_params() {
 }
 
 function set_ambient_params(value) {
-    if ("environment_energy" in value)
-        m_scenes.set_environment_colors(value.environment_energy, null, null);
-
-    if ("horizon_color" in value)
-        m_scenes.set_environment_colors(null, value.horizon_color, null);
-
-    if ("zenith_color" in value)
-        m_scenes.set_environment_colors(null, null, value.zenith_color);
+    if ("environment_energy" in value || "horizon_color" in value || "zenith_color" in value)
+        m_scenes.set_environment_colors(
+            value.environment_energy,
+            value.horizon_color,
+            value.zenith_color);
 }
 
 function set_debug_params(value) {
@@ -2164,8 +2161,8 @@ function get_lighting_params(light_obj) {
         var pre_light_energy = lparams["light_energy"] - Math.floor(lparams["light_energy"]);
         var rude_light_energy = Math.floor(lparams["light_energy"]);
         set_color_picker("light_color", lparams["light_color"]);
-        set_slider("pre_light_energy", pre_light_energy);
         set_slider("rude_light_energy", rude_light_energy);
+        set_slider("pre_light_energy", pre_light_energy);
         set_label("light_energy", rude_light_energy + pre_light_energy);
         set_label("light_type", lparams["light_type"]);
         if (lparams["light_type"] == "SPOT") {
@@ -2603,18 +2600,16 @@ function set_wind_params(value) {
     if ("wind_dir" in value) {
         wind_params["wind_dir"] = value.wind_dir;
     }
-
     if ("wind_strength" in value) {
         wind_params["wind_strength"] = value.wind_strength;
     }
-
     m_scenes.set_wind_params(wind_params);
 }
 
 function set_slider(id, val) {
-    $("#" + id).val(val);
-    $("#" + id).slider("refresh");
-    $("#" + id).trigger("change");
+    var slider = $("#" + id);
+    slider.val(val);
+    slider.slider("refresh");
 }
 
 function get_slider_value(id) {

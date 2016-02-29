@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,6 +179,8 @@ function set_sun_params(sun_params) {
 
             // set amplitude lighting params
             var def_env_color = scene["world"]["light_settings"]["environment_energy"];
+            var def_horizon_color = scene["world"]["horizon_color"];
+            var def_zenith_color = scene["world"]["zenith_color"];
 
             // change sun intensity dependent to its position
             var energy     = Math.cos(Math.abs(angle_vert));
@@ -186,7 +188,8 @@ function set_sun_params(sun_params) {
             var env_energy = Math.max(energy, 0.1) * def_env_color;
 
             m_lights.set_light_energy(sun_light, sun_energy);
-            m_scenes.set_environment_colors(scene, env_energy, null, null);
+
+            m_scenes.set_environment_colors(scene, env_energy, def_horizon_color, def_zenith_color);
         }
         m_scenes.update_lamp_scene(sun, scene);
     }

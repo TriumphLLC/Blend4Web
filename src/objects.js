@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -363,6 +363,26 @@ exports.update_object = function(bpy_obj, obj) {
     objects_storage_add(obj);
 }
 
+/**
+ * Update world: updates b4w world object from bpy world.
+ */
+exports.update_world = function(bpy_world, world) {
+    world.uuid = bpy_world["uuid"];
+    world.bpy_origin = true;
+
+    prepare_default_actions(bpy_world, world);
+    bpy_world._is_dynamic = world.is_dynamic = calc_is_dynamic(bpy_world, world);
+    bpy_world._is_updated = true;
+
+    var render_type = world.type;
+    var render = world.render = m_obj_util.create_render(render_type);
+
+    world.use_default_animation = bpy_world["b4w_use_default_animation"];
+    world.anim_behavior_def = m_anim.anim_behavior_bpy_b4w(bpy_world["b4w_anim_behavior"]);
+
+    objects_storage_add(world);
+}
+
 exports.update_object_relations = function(bpy_obj, obj) {
     var render = obj.render;
 
@@ -375,7 +395,14 @@ exports.update_object_relations = function(bpy_obj, obj) {
                 obj.parent.physics_settings.use_collision_compound)
             obj.use_obj_physics = false;
 
-        if (has_dynamic_physics(obj)) {
+        var scenes_have_phy = false;
+        for (var i = 0; i < obj.scenes_data.length; i++)
+            if (obj.scenes_data[i].scene._physics) {
+                var scenes_have_phy = true;
+                break;
+            }
+
+        if (scenes_have_phy && has_dynamic_physics(obj)) {
             if (obj.parent_is_dupli)
                 var offset = m_tsr.copy(render.world_tsr, m_tsr.create());
             else
@@ -1172,14 +1199,15 @@ function prepare_physics_settings(bpy_obj, obj) {
 
 function prepare_default_actions(bpy_obj, obj) {
     var obj_anim_data = bpy_obj["animation_data"];
-    var data_anim_data = bpy_obj["data"]["animation_data"];
+    var data_anim_data = bpy_obj["data"] ? bpy_obj["data"]["animation_data"] : null;
 
     if (obj_anim_data && obj_anim_data["action"]) {
         var action = obj_anim_data["action"];
 
         if (action._render.type == m_anim.AT_OBJECT || 
                 action._render.type == m_anim.AT_ARMATURE && obj.type == "ARMATURE" ||
-                action._render.type == m_anim.AT_LIGHT && obj.type == "LAMP")
+                action._render.type == m_anim.AT_LIGHT && obj.type == "LAMP" ||
+                action._render.type == m_anim.AT_ENVIRONMENT && obj.type == "WORLD")
             obj.actions.push(action);
     }
 
@@ -1217,12 +1245,9 @@ function prepare_parenting_props(bpy_obj, obj) {
                    bpy_obj["parent"]["type"] == "ARMATURE")
             obj.parent_bone = bpy_obj["parent_bone"];
 
-        if(bpy_obj["pinverse_tsr"]) {
+        if (bpy_obj["pinverse_tsr"]) {
             obj.pinverse_tsr = m_tsr.create();
             m_tsr.copy(bpy_obj["pinverse_tsr"], obj.pinverse_tsr);
-        }
-        else {
-            obj.pinverse_tsr = undefined;
         }
     } else if (bpy_obj["dg_parent"]) {
         obj.parent = bpy_obj["dg_parent"]._object;
@@ -1762,26 +1787,21 @@ exports.set_wind_params = function(scene, wind_params) {
 
     if (typeof wind_params.wind_dir == "number") {
         var angle =  (wind_params.wind_dir) / 180 * Math.PI;
-
-        // New rotation
-        m_vec3.set(-Math.PI / 2, angle, 0, _vec3_tmp);
-        m_util.euler_to_quat(_vec3_tmp, _quat4_tmp);
+        m_vec3.set(Math.sin(angle), 0, Math.cos(angle), _vec3_tmp);
+        m_util.dir_to_quat(_vec3_tmp, m_util.AXIS_Y, _quat4_tmp);
 
         m_trans.set_rotation(wind_obj, _quat4_tmp);
-        update_force(wind_obj);
     }
 
     if (typeof wind_params.wind_strength == "number") {
         wind_obj.field.strength = wind_params.wind_strength;
-        update_force(wind_obj);
     }
-    m_scenes.update_scene_permanent_uniforms(scene);
+    update_force(wind_obj);
 }
 
 exports.remove_object = function(obj) {
     if (m_cons.check_constraint(obj))
         m_cons.remove(obj);
-
     objects_storage_remove(obj);
 }
 

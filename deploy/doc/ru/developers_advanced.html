@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html"/>
         <link rel="prev" title="Разработчикам приложений" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -111,13 +113,13 @@
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам движка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Стиль оформления кода</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Примеры</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Примеры</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Сборка движка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Сборка аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Сборка движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Сборка аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Зависимости</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Названия функций и переменных</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Отладка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Компиляция шейдеров</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#index-1">Валидация</a></li>
@@ -129,7 +131,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#index-7">Ошибки компилятора</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id16">Обновление переводов аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">Обновление переводов аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
@@ -154,6 +156,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -172,9 +178,37 @@
            <div itemprop="articleBody">
             
   <div class="section" id="developers-advanced">
-<span id="id1"></span><h1>Разработчикам движка<a class="headerlink" href="#developers-advanced" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id18">Разработчикам движка</a><a class="headerlink" href="#developers-advanced" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#developers-advanced" id="id18">Разработчикам движка</a><ul>
+<li><a class="reference internal" href="#coding-style" id="id19">Стиль оформления кода</a><ul>
+<li><a class="reference internal" href="#id4" id="id20">Примеры</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5" id="id21">Сборка движка</a></li>
+<li><a class="reference internal" href="#id6" id="id22">Сборка аддона</a></li>
+<li><a class="reference internal" href="#dependencies" id="id23">Зависимости</a></li>
+<li><a class="reference internal" href="#id8" id="id24">Названия функций и переменных</a></li>
+<li><a class="reference internal" href="#debugging" id="id25">Отладка</a></li>
+<li><a class="reference internal" href="#index-0" id="id26">Компиляция шейдеров</a><ul>
+<li><a class="reference internal" href="#index-1" id="id27">Валидация</a></li>
+<li><a class="reference internal" href="#index-2" id="id28">Обфускация</a></li>
+<li><a class="reference internal" href="#index-3" id="id29">Оптимизация</a></li>
+<li><a class="reference internal" href="#import-export" id="id30">Директивы import/export</a></li>
+<li><a class="reference internal" href="#index-5" id="id31">Рекомендации и ограничения</a></li>
+<li><a class="reference internal" href="#webgl" id="id32">Поддержка расширений WebGL</a></li>
+<li><a class="reference internal" href="#index-7" id="id33">Ошибки компилятора</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id17" id="id34">Обновление переводов аддона</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="coding-style">
-<span id="id2"></span><h2>Стиль оформления кода<a class="headerlink" href="#coding-style" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id19">Стиль оформления кода</a><a class="headerlink" href="#coding-style" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В движке применяется структурное программирование. Код организуется в модули. Подходы ООП не используются, классы не определяются, наследование не осуществляется и т.п.</p>
 <p>Используется <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R стиль</a>, за исключением того, что открывающая скобка для составного оператора ставится на той же строке, например:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
@@ -187,8 +221,8 @@
 </pre></div>
 </div>
 <p>Для выравнивания используются 4 пробела (табуляция запрещена).</p>
-<div class="section" id="id3">
-<h3>Примеры<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id20">Примеры</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В именах переменных и функций используется знак подчеркивания:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
@@ -231,8 +265,8 @@
 <p>Комментарии только на английском языке. Стиль комментирования - JSDoc.</p>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>Сборка движка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id21">Сборка движка</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые
 зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><span>таблицей</span></a>.</p>
 <p>Для компиляции движка и входящих в SDK приложений достаточно выполнить команду
@@ -254,8 +288,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Сборка аддона<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id22">Сборка аддона</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: Linux x32/64, OS X x64, Windows x32/64.
 В то же время пользователи имеют возможность произвести сборку самостоятельно.</p>
 <p>Для этого необходимо наличие Python 3.x (желательно, чтобы версия была эквивалентна используемой в Blender) и компилятора языка C (в Linux достаточно установить пакеты python3-dev и build-essential).</p>
@@ -276,7 +310,7 @@
 <p>размещенный в каталоге с аддоном. Пример: <code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>. После этого аддон станет готовым к использованию на данной платформе.</p>
 </div>
 <div class="section" id="dependencies">
-<span id="id6"></span><h2>Зависимости<a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id7"></span><h2><a class="toc-backref" href="#id23">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для ведения эффективной разработки движка и приложений, необходим ряд сторонних
 программ (зависимостей). Большинство этих зависимостей находится в составе
 современных дистрибутивов GNU/Linux, таких как Ubuntu. В других Unix-подобных
@@ -375,8 +409,8 @@ texlive-lang-cyrillic</td>
 </tbody>
 </table>
 </div>
-<div class="section" id="id7">
-<h2>Названия функций и переменных<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id24">Названия функций и переменных</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Рекомендуется при создании новых функций и переменных использовать следующие префиксы и суффиксы.</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
@@ -402,7 +436,7 @@ texlive-lang-cyrillic</td>
 </dl>
 </div>
 <div class="section" id="debugging">
-<span id="id8"></span><h2>Отладка<a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id9"></span><h2><a class="toc-backref" href="#id25">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Отладка движка производится с помощью методов модуля <code class="docutils literal"><span class="pre">debug.js</span></code>.</p>
 <p>Структура текущего рендер-графа может быть сохранена в формате DOT с помощью
 вызова <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code>, например, в консоли браузера. После
@@ -415,7 +449,7 @@ texlive-lang-cyrillic</td>
 <p>где <code class="docutils literal"><span class="pre">graph.gv</span></code> имя файла с сохранённым графом.</p>
 <span class="target" id="shaders"></span></div>
 <div class="section" id="index-0">
-<span id="id9"></span><h2>Компиляция шейдеров<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id10"></span><h2><a class="toc-backref" href="#id26">Компиляция шейдеров</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Используемые в движке шейдеры подвергаются обработке компилятором. Kомпилятор выполняет 3 основных процедуры:</p>
 <ul class="simple">
 <li>валидацию кода шейдеров,</li>
@@ -440,7 +474,7 @@ texlive-lang-cyrillic</td>
 <li>парсер - glsl_utils/compiler/glsl_parser.js</li>
 </ul>
 <div class="section" id="index-1">
-<span id="id11"></span><h3>Валидация<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id12"></span><h3><a class="toc-backref" href="#id27">Валидация</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Компилятор шейдеров выполняет следующие процедуры, связанные с проверкой кода:</p>
 <ul class="simple">
 <li>вывод сообщений о неиспользуемых переменных и функциях (dead code),</li>
@@ -450,7 +484,7 @@ texlive-lang-cyrillic</td>
 </ul>
 </div>
 <div class="section" id="index-2">
-<span id="id12"></span><h3>Обфускация<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id13"></span><h3><a class="toc-backref" href="#id28">Обфускация</a><a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Обфускация служит для сокращения объема и затруднения понимания
 GLSL-кода. На данный момент в нем реализована следующая процедура:</p>
 <ul class="simple">
@@ -458,7 +492,7 @@ GLSL-кода. На данный момент в нем реализована �
 </ul>
 </div>
 <div class="section" id="index-3">
-<span id="id13"></span><h3>Оптимизация<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id14"></span><h3><a class="toc-backref" href="#id29">Оптимизация</a><a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Оптимизация заключается в выполнении следующих процедур:</p>
 <ul class="simple">
 <li>удаление фигурных скобок, которые не несут функциональной нагрузки, но порождают новые области видимости (данный функционал полезен при обработке директив node/lamp),</li>
@@ -503,7 +537,7 @@ GLSL-кода. На данный момент в нем реализована �
 </div>
 </div>
 <div class="section" id="import-export">
-<span id="index-4"></span><h3>Директивы import/export<a class="headerlink" href="#import-export" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-4"></span><h3><a class="toc-backref" href="#id30">Директивы import/export</a><a class="headerlink" href="#import-export" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В целях упорядочивания, структурирования и повышения удобочитаемости кода шейдеров в include-файлах используются директивы import и export.
 Они указываются в начале файла и должны выглядеть примерно следующим образом:</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
@@ -518,7 +552,7 @@ GLSL-кода. На данный момент в нем реализована �
 <p>Идентификаторами могут быть как имена переменных, так и имена функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними.</p>
 </div>
 <div class="section" id="index-5">
-<span id="id14"></span><h3>Рекомендации и ограничения<a class="headerlink" href="#index-5" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id15"></span><h3><a class="toc-backref" href="#id31">Рекомендации и ограничения</a><a class="headerlink" href="#index-5" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации компилятора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:</p>
 <ol class="arabic simple">
 <li>Обязательное использование специальной директивы <code class="docutils literal"><span class="pre">#var</span></code> для описания констант, определяемых движком в момент запуска. Например:</li>
@@ -566,7 +600,7 @@ GLSL-кода. На данный момент в нем реализована �
 </ol>
 </div>
 <div class="section" id="webgl">
-<span id="index-6"></span><h3>Поддержка расширений WebGL<a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-6"></span><h3><a class="toc-backref" href="#id32">Поддержка расширений WebGL</a><a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Работа обфускатора может зависеть от используемых WebGL-расширений, если они каким-либо образом влияют на шейдерный язык.
 На данный момент поддерживаются следующие расширения:</p>
 <blockquote>
@@ -576,7 +610,7 @@ GLSL-кода. На данный момент в нем реализована �
 </div></blockquote>
 </div>
 <div class="section" id="index-7">
-<span id="id15"></span><h3>Ошибки компилятора<a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id16"></span><h3><a class="toc-backref" href="#id33">Ошибки компилятора</a><a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае ошибки компилятор выведет соответствующее сообщение в консоли.</p>
 <p>Перечень возможных ошибок:</p>
 <table border="1" class="docutils">
@@ -726,8 +760,8 @@ NAME, которая нигде не используется.</td>
 </table>
 </div>
 </div>
-<div class="section" id="id16">
-<h2>Обновление переводов аддона<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id17">
+<h2><a class="toc-backref" href="#id34">Обновление переводов аддона</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При необходимости обновить все существующие .po файлы, запустите скрипт
 <em>translator.py</em> из директории SDK/scripts без параметра:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
@@ -766,8 +800,8 @@ NAME, которая нигде не используется.</td>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -789,7 +823,7 @@ NAME, которая нигде не используется.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -813,6 +847,22 @@ NAME, которая нигде не используется.</td>
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

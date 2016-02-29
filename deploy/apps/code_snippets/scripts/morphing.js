@@ -15,7 +15,8 @@ exports.init = function() {
         canvas_container_id: "canvas_cont",
         callback: init_cb,
         show_fps: true,
-        autoresize: true
+        autoresize: true,
+        console_verbose: true
     });
 }
 

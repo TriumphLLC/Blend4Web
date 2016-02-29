@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ var m_util  = require("util");
 var m_vec3  = require("vec3");
 var m_quat  = require("quat");
 
-var PI = Math.PI;
 var ROTATION_OFFSET = 0.2;
 var ROTATION_LIMITS_EPS = 1E-6;
 var DEFAULT_CAM_LIN_SPEED = 1;
@@ -288,27 +287,34 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
 function init_limited_rotation_ratio(obj, limits, auto_rotate_ratio) {
     var phi = m_cam.get_camera_angles(obj, _vec2_tmp)[0];
 
-    var delts = get_delta_to_limits(phi, limits.left, limits.right, _vec2_tmp2);
+    var delts = get_delta_to_limits(obj, phi, limits.left, limits.right, _vec2_tmp2);
 
     return auto_rotate_ratio * Math.min(1, delts[0] / ROTATION_OFFSET,
             delts[1] / ROTATION_OFFSET);
 }
 
-function get_delta_to_limits(angle, limit_from, limit_to, dest) {
+function get_delta_to_limits(obj, angle, limit_left, limit_right, dest) {
     // accurate delta calculation
-    var delta_to_min = m_util.angle_wrap_0_2pi(angle - limit_from);
-    var delta_to_max = m_util.angle_wrap_0_2pi(limit_to - angle);
+    var diff_left = m_util.angle_wrap_0_2pi(angle - limit_left);
+    var delta_to_left = Math.min(diff_left, 2 * Math.PI - diff_left);
+    var diff_right = m_util.angle_wrap_0_2pi(limit_right - angle);
+    var delta_to_right = Math.min(diff_right, 2 * Math.PI - diff_right);
 
     // some precision errors could be near the limits
-    if (Math.abs(delta_to_min) < ROTATION_LIMITS_EPS 
-            || 2 * Math.PI - Math.abs(delta_to_min) < ROTATION_LIMITS_EPS)
-        delta_to_min = 0;
-    if (Math.abs(delta_to_max) < ROTATION_LIMITS_EPS 
-            || 2 * Math.PI - Math.abs(delta_to_max) < ROTATION_LIMITS_EPS)
-        delta_to_max = 0;
+    if (Math.abs(delta_to_left) < ROTATION_LIMITS_EPS 
+            || 2 * Math.PI - Math.abs(delta_to_left) < ROTATION_LIMITS_EPS)
+        delta_to_left = 0;
+    if (Math.abs(delta_to_right) < ROTATION_LIMITS_EPS 
+            || 2 * Math.PI - Math.abs(delta_to_right) < ROTATION_LIMITS_EPS)
+        delta_to_right = 0;
 
-    dest[0] = delta_to_min;
-    dest[1] = delta_to_max;
+    if (m_cam.is_eye_camera(obj)) {
+        dest[0] = delta_to_right; // to min angle
+        dest[1] = delta_to_left; // to max angle
+    } else {
+        dest[0] = delta_to_left; // to min angle
+        dest[1] = delta_to_right; // to max angle
+    }
 
     return dest;
 }
@@ -384,7 +390,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_whe
         var value = m_ctl.get_sensor_value(obj, id, 0);
 
         var phi = m_cam.get_camera_angles(obj, _vec2_tmp)[0];
-        var delts = get_delta_to_limits(phi, angle_limits.left, angle_limits.right,
+        var delts = get_delta_to_limits(obj, phi, angle_limits.left, angle_limits.right,
                 _vec2_tmp2);
 
         if (delts[1] > rot_offset 
@@ -477,7 +483,7 @@ exports.check_auto_rotate = function() {
  */
 
 /**
- * Smoothly move the camera to the target point.
+ * Smoothly move the camera to the target point. Intended for STATIC cameras only.
  * @param {(Object3D|tsr)} cam_obj Camera object 3D
  * @param {(Object3D|tsr)} point_obj Target point object 3D
  * @param {Number} cam_lin_speed Camera linear speed, meters per second
@@ -567,7 +573,7 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
  */
 
 /**
- * Smoothly rotate the camera.
+ * Smoothly rotate the camera. Intended for non-STATIC cameras.
  * @param {Object3D} cam_obj Camera object 3D
  * @param {Number} angle_phi Horisontal rotation angle
  * @param {Number} angle_theta Vertical rotation angle
@@ -575,6 +581,11 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
  * @param {RotateCameraCallback} [cb] Finishing callback
  */
 exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
+    if (m_cam.get_move_style(cam_obj) == m_cam.MS_STATIC) {
+        m_print.error("rotate_camera(): not supported for STATIC cameras");
+        return;
+    }
+
     if (_is_camera_rotating)
         return;
 

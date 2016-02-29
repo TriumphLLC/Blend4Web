@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Textures &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
-        <link rel="prev" title="Stereo rendering" href="stereo_rendering.html"/> 
+        <link rel="prev" title="Stereo Rendering" href="stereo_rendering.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,66 +88,68 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Texture Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#main-conf">Generic Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">Diffuse Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-5">Specular Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-6">Normal Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Height Map. Parallax Mapping</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-8">Stencil Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Additional Settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Limitations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#video-texture">Video Textures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Supported formats (containers):</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Setting up the Texture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Specifics of Mobile Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Supported formats (containers):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Setting up the Texture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Specifics of Mobile Devices</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Environment Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Making Environment Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Making Environment Maps</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mirror-map">Mirror Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id28">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#skydome">Skydome</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-12">Special Texture Types</a><ul>
@@ -160,7 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -188,6 +190,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -206,11 +212,73 @@
            <div itemprop="articleBody">
             
   <span class="target" id="textures"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Textures<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id34">Textures</a><a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id34">Textures</a><ul>
+<li><a class="reference internal" href="#index-1" id="id35">Texture Types</a></li>
+<li><a class="reference internal" href="#main-conf" id="id36">Generic Settings</a></li>
+<li><a class="reference internal" href="#index-4" id="id37">Diffuse Map</a><ul>
+<li><a class="reference internal" href="#id6" id="id38">Activation</a></li>
+<li><a class="reference internal" href="#id7" id="id39">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-5" id="id40">Specular Map</a><ul>
+<li><a class="reference internal" href="#id9" id="id41">Activation</a></li>
+<li><a class="reference internal" href="#id10" id="id42">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-6" id="id43">Normal Map</a><ul>
+<li><a class="reference internal" href="#id12" id="id44">Activation</a></li>
+<li><a class="reference internal" href="#id13" id="id45">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#height-map-parallax-mapping" id="id46">Height Map. Parallax Mapping</a><ul>
+<li><a class="reference internal" href="#id14" id="id47">Activation</a></li>
+<li><a class="reference internal" href="#id15" id="id48">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-8" id="id49">Stencil Map</a><ul>
+<li><a class="reference internal" href="#id17" id="id50">Activation</a></li>
+<li><a class="reference internal" href="#id18" id="id51">Additional Settings</a></li>
+<li><a class="reference internal" href="#id19" id="id52">Limitations</a></li>
+<li><a class="reference internal" href="#id20" id="id53">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video-texture" id="id54">Video Textures</a><ul>
+<li><a class="reference internal" href="#id22" id="id55">Supported formats (containers):</a></li>
+<li><a class="reference internal" href="#id23" id="id56">Setting up the Texture</a></li>
+<li><a class="reference internal" href="#id24" id="id57">Specifics of Mobile Devices</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-9" id="id58">Environment Map</a><ul>
+<li><a class="reference internal" href="#id26" id="id59">Making Environment Maps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mirror-map" id="id60">Mirror Map</a><ul>
+<li><a class="reference internal" href="#id28" id="id61">Activation</a></li>
+<li><a class="reference internal" href="#id29" id="id62">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#skydome" id="id63">Skydome</a><ul>
+<li><a class="reference internal" href="#id30" id="id64">Activation</a></li>
+<li><a class="reference internal" href="#id31" id="id65">Additional Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-12" id="id66">Special Texture Types</a><ul>
+<li><a class="reference internal" href="#d-a" id="id67">3D scene</a></li>
+<li><a class="reference internal" href="#canvas" id="id68">Canvas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <p>Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they sometimes are referred to as maps.</p>
 <p>Usually the textures are placed into <a class="reference internal" href="materials.html#materials"><span>material</span></a> texture slots. They can be also used for <a class="reference internal" href="particles.html#particles-textures"><span>particle systems</span></a> parametrization and for creating the <a class="reference internal" href="#skydome-texture"><span>skydome</span></a>.</p>
 <div class="section" id="index-1">
-<span id="id2"></span><h2>Texture Types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id35">Texture Types</a><a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Type</span></code> drop-down menu (for selecting texture type) is located under the <code class="docutils literal"><span class="pre">Textures</span></code> tab. The engine supports the following texture types:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
@@ -266,7 +334,7 @@
 </ol>
 </div>
 <div class="section" id="main-conf">
-<span id="index-2"></span><span id="id3"></span><h2>Generic Settings<a class="headerlink" href="#main-conf" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><span id="id4"></span><h2><a class="toc-backref" href="#id36">Generic Settings</a><a class="headerlink" href="#main-conf" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><em>Dimensions</em></dt>
 <dd><p class="first last">Bitmap dimensions for image textures (image width and height in pixels) should be a 2<sup>N</sup> number, i.e. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 px. Using textures with other dimensions (so-called NPOT) is supported but is not recommended. Dimensions should be at least 4 pixels for the correct texture compression. Normally square images are used (e.g. 512 x 512 px), however rectangular ones can be used too (e.g. 4 x 128 px). Using images bigger than 2048 px is not recommended.</p>
@@ -306,14 +374,14 @@
 </div>
 <span class="target" id="diffuse-map"></span></div>
 <div class="section" id="index-4">
-<span id="id4"></span><h2>Diffuse Map<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2><a class="toc-backref" href="#id37">Diffuse Map</a><a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
 <p>A diffuse map is used for specifying scattered light distribution (the Lambert model).</p>
-<div class="section" id="id5">
-<h3>Activation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id38">Activation</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
-<div class="section" id="id6">
-<h3>Additional Settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id39">Additional Settings</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Diffuse &gt; Color</em></dt>
 <dd><p class="first last">Influence of the texture on the diffuse color. The default value is 1.0.</p>
@@ -325,14 +393,14 @@
 <span class="target" id="specular-map"></span></div>
 </div>
 <div class="section" id="index-5">
-<span id="id7"></span><h2>Specular Map<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h2>
+<span id="id8"></span><h2><a class="toc-backref" href="#id40">Specular Map</a><a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h2>
 <p>The specular map is used for specifying the reflected light color distribution (the Phong model).</p>
-<div class="section" id="id8">
-<h3>Activation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id41">Activation</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
-<div class="section" id="id9">
-<h3>Additional Settings<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id42">Additional Settings</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Specular &gt; Color</em></dt>
 <dd><p class="first last">The influence of the texture on the reflected light color. The default value is 1.0.</p>
@@ -345,14 +413,14 @@
 <span class="target" id="normal-map"></span></div>
 </div>
 <div class="section" id="index-6">
-<span id="id10"></span><h2>Normal Map<a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h2>
+<span id="id11"></span><h2><a class="toc-backref" href="#id43">Normal Map</a><a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h2>
 <p>A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.</p>
-<div class="section" id="id11">
-<h3>Activation<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id44">Activation</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
-<div class="section" id="id12">
-<h3>Additional Settings<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id45">Additional Settings</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Geometry &gt; Normal</em></dt>
 <dd><p class="first last">Normal map influence on the resulting normals calculation. The default value is 1.0.</p>
@@ -361,15 +429,15 @@
 <span class="target" id="parallax-mapping"></span></div>
 </div>
 <div class="section" id="height-map-parallax-mapping">
-<span id="index-7"></span><h2>Height Map. Parallax Mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
+<span id="index-7"></span><h2><a class="toc-backref" href="#id46">Height Map. Parallax Mapping</a><a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
 <p>A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.</p>
 <a class="reference internal image-reference" href="_images/textures_height_map.png"><img alt="_images/textures_height_map.png" class="align-center" src="_images/textures_height_map.png" style="width: 100%;" /></a>
-<div class="section" id="id13">
-<h3>Activation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3><a class="toc-backref" href="#id47">Activation</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>For the normal map enable the <code class="docutils literal"><span class="pre">Parallax</span></code> panel in addition to the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox.</p>
 </div>
-<div class="section" id="id14">
-<h3>Additional Settings<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3><a class="toc-backref" href="#id48">Additional Settings</a><a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Parallax &gt; Parallax Scale</em></dt>
 <dd><p class="first last">Influence factor for the relief surface effect. The default value is 0.03.</p>
@@ -388,10 +456,10 @@
 <span class="target" id="stencil-map"></span></div>
 </div>
 <div class="section" id="index-8">
-<span id="id15"></span><h2>Stencil Map<a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h2>
+<span id="id16"></span><h2><a class="toc-backref" href="#id49">Stencil Map</a><a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h2>
 <p>The special purpose texture (colorful or grayscale) contains information about the distribution of other texture surfaces.</p>
-<div class="section" id="id16">
-<h3>Activation<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id50">Activation</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p class="first">In case of node materials a stencil map should be used in the corresponding node structure.</p>
 </li>
@@ -399,16 +467,16 @@
 </li>
 </ol>
 </div>
-<div class="section" id="id17">
-<h3>Additional Settings<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3><a class="toc-backref" href="#id51">Additional Settings</a><a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>In the case of generic materials one of the mixed diffuse textures can have the <code class="docutils literal"><span class="pre">Normal</span></code> (&#8220;matcap&#8221;) texture coordinates type.</p>
 </div>
-<div class="section" id="id18">
-<h3>Limitations<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3><a class="toc-backref" href="#id52">Limitations</a><a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>In case of generic materials the engine only interprets the red channel of a stencil map. Specular maps or normal maps (if any) are not being mixed. The <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> setting is extracted from the first texture and is applied to all remaining textures.</p>
 </div>
-<div class="section" id="id19">
-<h3>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3><a class="toc-backref" href="#id53">Example</a><a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>The apple model material has the following textures: a normal map, a diffuse texture with a specular map in its alpha channel, a stencil map, a diffuse &#8220;matcap&#8221; map, an environment map.</p>
 <a class="reference internal image-reference" href="_images/textures_stencil_apple.png"><img alt="_images/textures_stencil_apple.png" class="align-center" src="_images/textures_stencil_apple.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -421,14 +489,14 @@
 </div>
 </div>
 <div class="section" id="video-texture">
-<span id="id20"></span><h2>Video Textures<a class="headerlink" href="#video-texture" title="Permalink to this headline">¶</a></h2>
+<span id="id21"></span><h2><a class="toc-backref" href="#id54">Video Textures</a><a class="headerlink" href="#video-texture" title="Permalink to this headline">¶</a></h2>
 <p>A video file can be used as a texture if <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> texture type is selected.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Video textures support playing back just video tracks. Audio tracks should be played back by using a <code class="docutils literal"><span class="pre">SPEAKER</span></code> object.</p>
 </div>
-<div class="section" id="id21">
-<h3>Supported formats (containers):<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3><a class="toc-backref" href="#id55">Supported formats (containers):</a><a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first">webm, VP8 codec (Chrome, Firefox)</p>
 </li>
@@ -444,8 +512,8 @@
 </div>
 <p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><span>corresponding section</span></a>.</p>
 </div>
-<div class="section" id="id22">
-<h3>Setting up the Texture<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3><a class="toc-backref" href="#id56">Setting up the Texture</a><a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>The following settings are available for video textures on the <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></code> panel:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Frames</em></dt>
@@ -484,8 +552,8 @@
 <p class="last">When video textures are used together with NLA, the video playback can be not corresponding with Blender settings. Namely, there can be observed some lagging withing 5-6 frames due to starting/pausing delay of the &lt;video&gt; HTML element.</p>
 </div>
 </div>
-<div class="section" id="id23">
-<h3>Specifics of Mobile Devices<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3><a class="toc-backref" href="#id57">Specifics of Mobile Devices</a><a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>The peculiarities for mobile devices are as follows:</p>
 <ol class="arabic simple">
 <li><p class="first">Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special <code class="docutils literal"><span class="pre">.seq</span></code> format by using our <a class="reference internal" href="developers.html#converter"><span>converter</span></a>.</p>
@@ -502,13 +570,13 @@
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
-<span id="id24"></span><h2>Environment Map<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
+<span id="id25"></span><h2><a class="toc-backref" href="#id58">Environment Map</a><a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
 <p>An environment map can be used as a <a class="reference internal" href="#mirror-map"><span>mirror map</span></a>, as a static <a class="reference internal" href="#skydome-texture"><span>sky texture (skydome)</span></a> and also for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> method.</p>
 <p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
-<div class="section" id="id25">
-<h3>Making Environment Maps<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3><a class="toc-backref" href="#id59">Making Environment Maps</a><a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>Blender has an option for baking a scene into an environment map. To do this:</p>
 <ol class="arabic simple">
 <li><p class="first">Create a scene for baking.</p>
@@ -532,14 +600,14 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-10"></span><span id="id26"></span><h2>Mirror Map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-10"></span><span id="id27"></span><h2><a class="toc-backref" href="#id60">Mirror Map</a><a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
 <p>A mirror map is used to visualize the surface reflection. This is an <a class="reference internal" href="#environment-map"><span>environment map</span></a>.</p>
-<div class="section" id="id27">
-<h3>Activation<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3><a class="toc-backref" href="#id61">Activation</a><a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>Select the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> texture type (<code class="docutils literal"><span class="pre">Type</span></code>). Enable the <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
-<div class="section" id="id28">
-<h3>Additional Settings<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3><a class="toc-backref" href="#id62">Additional Settings</a><a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
 <dd><p class="first last">The degree to which the mirror map affects the reflection. The default value is 1.0.</p>
@@ -552,11 +620,11 @@
 </div>
 </div>
 <div class="section" id="skydome">
-<span id="skydome-texture"></span><span id="index-11"></span><h2>Skydome<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
+<span id="skydome-texture"></span><span id="index-11"></span><h2><a class="toc-backref" href="#id63">Skydome</a><a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
 <p>A skydome is used to visualize an infinitely far environment (for example the sky). This is an <a class="reference internal" href="#environment-map"><span>environment map</span></a>.</p>
 <p>Can be also used to implement one of the <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> methods.</p>
-<div class="section" id="id29">
-<h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3><a class="toc-backref" href="#id64">Activation</a><a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <p>Create a world texture of <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> type. Select the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></code> option. Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under the <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -569,8 +637,8 @@
 </div>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id30">
-<h3>Additional Settings<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3><a class="toc-backref" href="#id65">Additional Settings</a><a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>The engine also supports parameters from the world texture&#8217;s <code class="docutils literal"><span class="pre">Influence</span></code> panel which are used for sky rendering. Mixing of the world texture with color depends on the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> parameters, as well as on the <code class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></code>, <code class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></code> and <code class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></code> options. All mixing options are supported (<code class="docutils literal"><span class="pre">Mix</span></code>, <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Multiply</span></code> etc).</p>
 </div></blockquote>
@@ -585,7 +653,7 @@
 </div>
 </div>
 <div class="section" id="index-12">
-<span id="id31"></span><h2>Special Texture Types<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<span id="id32"></span><h2><a class="toc-backref" href="#id66">Special Texture Types</a><a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
 <p>In order to use such textures, select <code class="docutils literal"><span class="pre">None</span></code> type under the <code class="docutils literal"><span class="pre">Textures</span></code> tab.</p>
 <img alt="_images/type_none.png" class="align-center" src="_images/type_none.png" />
 <div class="line-block">
@@ -611,7 +679,7 @@
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
 <div class="section" id="d-a">
-<span id="render-to-texture-scene"></span><h3>3D scene<a class="headerlink" href="#d-a" title="Permalink to this headline">¶</a></h3>
+<span id="render-to-texture-scene"></span><h3><a class="toc-backref" href="#id67">3D scene</a><a class="headerlink" href="#d-a" title="Permalink to this headline">¶</a></h3>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
 <ol class="arabic simple">
 <li><p class="first">Create an additional source scene, rename it for convenience, create a <code class="docutils literal"><span class="pre">World</span></code>, add the objects wanted, setup the camera view.</p>
@@ -632,7 +700,7 @@
 </div></blockquote>
 </div>
 <div class="section" id="canvas">
-<span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
+<span id="render-to-texture-canvas"></span><h3><a class="toc-backref" href="#id68">Canvas</a><a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
 <p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via API.</p>
 <p>Set the <code class="docutils literal"><span class="pre">None</span></code> type for the texture of the target object on the main scene, and select the <code class="docutils literal"><span class="pre">Canvas</span></code> type in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu. Set the texture size in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</p>
 <p>Use the <code class="docutils literal"><span class="pre">textures</span></code> module to handle such textures. See the example below.</p>
@@ -650,7 +718,7 @@
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use <a class="reference internal" href="objects.html#copy-obj"><span>deep copy</span></a> after engine startup.</p>
+<p class="last">If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use <a class="reference internal" href="meshes.html#mesh-copy"><span>deep copy</span></a> after engine startup.</p>
 </div>
 </div></blockquote>
 </div>
@@ -667,7 +735,7 @@
         <a href="particles.html" class="btn btn-neutral float-right" title="Particle System. Fluids" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="stereo_rendering.html" class="btn btn-neutral" title="Stereo rendering" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="stereo_rendering.html" class="btn btn-neutral" title="Stereo Rendering" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -676,8 +744,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -699,7 +767,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -722,6 +790,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

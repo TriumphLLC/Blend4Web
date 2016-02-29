@@ -3,6 +3,58 @@ Team Work. Using Git
 ********************
 
 
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Team Work. Using Git
+
+  * Overview
+
+  * Typical Workflow
+
+  * Individual Settings
+
+  * Checking the Status
+
+  * Before the Commit
+
+    * Checking changes (of the text files)
+
+    * Rolling back files
+
+    * Unwanted files
+
+  * Preparing for Commit
+
+    * Adding files
+
+    * Removing files
+
+  * Commit
+
+  * Syncing Between Repositories
+
+    * From the remote - to the local
+
+    * From the local - to the remote
+
+  * Resolving Conflicts
+
+    * Overview
+
+    * The steps to be taken
+
+    * Binary files
+
+    * Text files
+
+    * Correcting commit
+
+  * Tags
+
+  * Other Useful Commands
+
+
 Overview
 ========
 

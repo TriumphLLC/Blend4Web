@@ -5,9 +5,20 @@ b4w.register("game_config", function(exports, require) {
 
 exports.DEFAULT_POS = new Float32Array([0, -4, 0]);
 
+exports.LEVEL_LOAD_DELAY = 1.5;
+
+// gems
 exports.GEM_OFFSET = new Float32Array([0, 1, 0]);
 exports.GEM_ROT_OFFSET = new Float32Array([0, 0, 0, 1]);
 exports.GEM_SCALE_OFFSET = 0.6;
+
+// gems state
+exports.GM_SPARE = 0;
+exports.GM_CARRIED = 1;
+exports.GM_LAYING = 2;
+
+exports.SHUTTER_EMITTER_EMPTY = "shutter_glass";
+exports.SHUTTER_EMITTER_NAME = "glass_shutter_emitter";
 
 // colors
 exports.CL_BLUE = 0;
@@ -18,9 +29,18 @@ exports.CL_YELLOW = 4;
 exports.CL_MULTI = 5;
 
 // character
-exports.ROT_SPEED = 2;
+exports.CHAR_EMPTY = "petigor";
+exports.CHAR_ARMAT = "petigor_armature";
+exports.CHAR_MODEL = "petigor_model";
+exports.CHAR_PICKER = "petigor_picker";
+exports.CHAR_LIGHT = "sword_light";
+exports.CHAR_SPHERE = "lava_shield_prot";
+exports.CHAR_SWORD_SWITCHER = "flaming_sword_switcher";
+
+exports.MOUSE_ROT_MULT = 2;
+exports.TOUCH_ROT_MULT = 0.01;
 exports.CAM_SOFTNESS = 0.2;
-exports.CAM_OFFSET = new Float32Array([0, 6, -16]);
+exports.CAM_OFFSET = new Float32Array([0, 8, -15]);
 exports.CHAR_RAY_LENGTH = 1.2;
 
 exports.MAX_CHAR_HP = 100;
@@ -32,9 +52,11 @@ exports.CHAR_ATTACK_ANIM_FRAME = 12;
 exports.CH_STILL = 0;
 exports.CH_RUN = 1;
 exports.CH_ATTACK = 2;
+exports.CH_JUMP = 3;
+exports.CH_VICTORY = 4;
 
 // lava
-exports.LAVA_DAMAGE_INTERVAL = 0.01;
+exports.LAVA_DAMAGE_INTERVAL = 0.02;
 
 // bonuses
 exports.BONUS_SPAWN_CHANCE = 0.5;
@@ -43,10 +65,28 @@ exports.BONUS_HP_INCR = 30;
 exports.BONUS_SHIELD_TIME = 10;
 exports.BONUS_SHIELD_EFFECT = 0.33;
 exports.BONUS_LAVA_PROT_TIME = 15;
-exports.BONUS_LIFETIME = 10;
+exports.BONUS_LIFETIME = 15;
 exports.BONUS_FLASH_SPEED = 3;
 
+// bonus types
+exports.BTYPE_HP = 0;
+exports.BTYPE_LAVA = 1;
+exports.BTYPE_SHIELD = 2;
+
 // animations
+exports.CHAR_IDLE_ANIM = "petigor_idle_combat";
+exports.CHAR_RUN_ANIM = "petigor_run";
+exports.CHAR_STRAFE = "petigor_strafe";
+exports.CHAR_JUMP_ANIM = "petigor_jump";
+exports.CHAR_DEATH_ANIMS = ["petigor_death_01", "petigor_death_02"];
+exports.CHAR_ATTACK_ANIMS = ["petigor_atack_01", "petigor_atack_02",
+                            "petigor_atack_03"];
+exports.CHAR_VICTORY_ANIM = "petigor_victory";
+
+exports.CHAR_HEAL_PICK_ANIM = "heal_pick";
+exports.CHAR_LAVA_PROT_ANIM = "lava_prot_pick";
+exports.CHAR_SHIELD_PICK_ANIM = "shield_pick";
+
 exports.SHIELD_FLASH_LENGTH = 0.9;
 exports.LAVA_FALL_LENGTH = 1.0;
 
@@ -74,43 +114,37 @@ exports.GT_POINT = 0;
 exports.GT_CHAR = 1;
 exports.GT_OBELISK = 2;
 
+exports.GOLEM_LAVA_DEATH_EMPTY = ["golem_lava_death"];
+exports.GOLEM_DEATH_RIG   = ["golem_death_armature"];
+exports.GOLEM_DEATH_BLOW  = ["golem_death_blow"];
+exports.STONE_GOLEM_EMITTER_EMPTY = "golem_stone_getout";
+exports.STONE_GOLEM_EMITTER = ["golem_stone_getout", "golem_stone_getout_emitter"];
+
 // objects
 exports.HP_BONUSES_EMPTIES = ["potion_hp", "potion_hp.001", "potion_hp.002"];
 exports.SHIELD_BONUSES_EMPTIES = ["potion_def"];
 exports.LAVA_BONUSES_EMPTIES = ["potion_lava"];
 
-exports.GOLEM_LAVA_DEATH_EMPTY = ["golem_lava_death"];
-exports.GOLEM_DEATH_RIG   = ["golem_death_armature"];
-exports.GOLEM_DEATH_BLOW  = ["golem_death_blow"];
-
-// gems state
-exports.GM_SPARE = 0;
-exports.GM_CARRIED = 1;
-exports.GM_LAYING = 2;
-
-exports.SHUTTER_EMITTER_EMPTY = "shutter_glass";
-exports.SHUTTER_EMITTER_NAME = "glass_shutter_emitter";
-
 // sounds
-exports.CHAR_RUN_SPEAKER = "character_run";
-exports.CHAR_ATTACK_SPEAKER = "sword_miss";
-exports.CHAR_ATTACK_VOICE_SPKS = ["character_voice_atack_01",
-                                 "character_voice_atack_02",
-                                 "character_voice_atack_03"];
-exports.CHAR_HURT_SPKS = ["character_voice_hurt_01",
-                          "character_voice_hurt_02"];
-exports.CHAR_JUMP_SPKS = ["character_voice_jump_01",
-                          "character_voice_jump_02"];
+exports.CHAR_RUN_SPEAKER = "speaker_petigor_run";
+exports.CHAR_ATTACK_SPEAKER = "speaker_petigor_sword_miss";
+exports.CHAR_ATTACK_VOICE_SPKS = ["speaker_petigor_voice_atack_01",
+                                 "speaker_petigor_voice_atack_02",
+                                 "speaker_petigor_voice_atack_03"];
+exports.CHAR_HURT_SPKS = ["speaker_petigor_voice_hurt_01",
+                          "speaker_petigor_voice_hurt_02"];
+exports.CHAR_JUMP_SPKS = ["speaker_petigor_voice_jump_01",
+                          "speaker_petigor_voice_jump_02"];
 
-exports.CHAR_SWORD_SPEAKER = "sword_hit";
-exports.CHAR_DEATH_SPEAKER = "character_voice_death_01";
-exports.CHAR_LANDING_SPEAKER = "character_jump_ends";
-exports.GEM_PICKUP_SPEAKER = "gem_pickup";
-exports.GEM_MOUNT_SPEAKER = "gem_mount";
+exports.CHAR_SWORD_SPEAKER = "speaker_petigor_sword_hit";
+exports.CHAR_DEATH_SPEAKER = "speaker_petigor_voice_death_01";
+exports.CHAR_LANDING_SPEAKER = "speaker_petigor_jump_ends";
+exports.GEM_PICKUP_SPEAKER = "speaker_petigor_gem_pickup";
+exports.GEM_MOUNT_SPEAKER = "speaker_petigor_gem_mount";
 
-exports.CHAR_HEAL_SPEAKER = "bonus_heal";
-exports.CHAR_LAVA_SPEAKER = "bonus_lava";
-exports.CHAR_SHIELD_SPEAKER = "bonus_shield";
+exports.CHAR_HEAL_SPEAKER = "speaker_petigor_bonus_heal";
+exports.CHAR_LAVA_SPEAKER = "speaker_petigor_bonus_lava";
+exports.CHAR_SHIELD_SPEAKER = "speaker_petigor_bonus_shield";
 
 exports.GOLEM_WALK_SPEAKER = "golem_walk";
 exports.GOLEM_ATTACK_SPEAKER = "golem_atack_miss";
@@ -120,7 +154,4 @@ exports.GOLEM_GETOUT_SPEAKER = "golem_getout";
 exports.GEM_DESTR_SPEAKER = "gem_destroy";
 exports.WIN_SPEAKER = "final_win";
 
-exports.BTYPE_HP = 0;
-exports.BTYPE_LAVA = 1;
-exports.BTYPE_SHIELD = 2;
 })

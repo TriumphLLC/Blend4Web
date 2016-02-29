@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-24 18:48+0300\n"
+"POT-Creation-Date: 2016-02-20 16:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,353 +17,1195 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "New"
+msgid "Child Node:"
 msgstr ""
 
-msgid "Settings used for fluid"
+msgid "Dupli Child:"
 msgstr ""
 
-msgid "Type"
+msgid "PLAY"
 msgstr ""
 
-msgid "Settings:"
+msgid "Play Animation"
 msgstr ""
 
-msgid "Type:"
+msgid "STOP"
 msgstr ""
 
-#, python-format
-msgid "%d fluid particles for this frame"
+msgid "Stop Animation"
 msgstr ""
 
-msgid "Free Edit"
+msgid "INTENSITY"
 msgstr ""
 
-msgid "Enable emission with Object->Animation->Apply default animation."
+msgid "Intensity"
 msgstr ""
 
-msgid "Emission"
+msgid "GET"
 msgstr ""
 
-msgid "Emit From:"
+msgid "GET Request"
 msgstr ""
 
-msgid "Particles/Face"
+msgid "POST"
 msgstr ""
 
-msgid "Jittering Amount"
+msgid "POST Request"
 msgstr ""
 
-msgid "Particle emission from 'Volume' is not supported."
+msgid "Number"
 msgstr ""
 
-msgid "Cyclic Emission"
+msgid "Numeric variable"
 msgstr ""
 
-msgid "Allow NLA"
+msgid "String"
 msgstr ""
 
-msgid "Random Delay"
+msgid "String variable"
 msgstr ""
 
-msgid "Velocity"
+msgid "World"
 msgstr ""
 
-msgid "Emitter Geometry:"
+msgid "World space"
 msgstr ""
 
-msgid "Emitter Object:"
+msgid "Parent"
 msgstr ""
 
-msgid "Other:"
+msgid "Parent space"
 msgstr ""
 
-msgid "Rotation"
+msgid "Local"
 msgstr ""
 
-msgid "Initial Orientation:"
+msgid "Local space"
+msgstr ""
+
+msgid "Noop"
+msgstr ""
+
+msgid "No operation"
+msgstr ""
+
+msgid "Page Param"
+msgstr ""
+
+msgid "Store numeric page parameter to a register"
+msgstr ""
+
+msgid "Hide Object"
+msgstr ""
+
+msgid "Show Object"
+msgstr ""
+
+msgid "Page Redirect"
+msgstr ""
+
+msgid "Redirect current page to given URL"
+msgstr ""
+
+msgid "Math Operation"
+msgstr ""
+
+msgid "Perform a math operation"
+msgstr ""
+
+msgid "Variable Store"
+msgstr ""
+
+msgid "Store a value to a variable"
+msgstr ""
+
+msgid "Conditional Jump"
+msgstr ""
+
+msgid "Conditional jump"
+msgstr ""
+
+msgid "Jump"
+msgstr ""
+
+msgid "Jump to the slot by label"
+msgstr ""
+
+msgid "Select & Play Timeline (Deprecated)"
+msgstr ""
+
+msgid "Select an object then play timeline"
+msgstr ""
+
+msgid "Select (Deprecated)"
+msgstr ""
+
+msgid "Select an object"
+msgstr ""
+
+msgid "Play Timeline"
+msgstr ""
+
+msgid "Play NLA animation"
+msgstr ""
+
+msgid "Entry Point"
+msgstr ""
+
+msgid "Play Object Animation"
+msgstr ""
+
+msgid "Send Request"
+msgstr ""
+
+msgid "Inherit Material"
+msgstr ""
+
+msgid "Set Shader Node Param"
+msgstr ""
+
+msgid "Delay"
+msgstr ""
+
+msgid "Set Delay Before Next Node Processing"
+msgstr ""
+
+msgid "Apply Shape Key"
+msgstr ""
+
+msgid "Set the value of the shape key"
+msgstr ""
+
+msgid "Outline"
+msgstr ""
+
+msgid "Play or stop outline animation"
+msgstr ""
+
+msgid "Select & Play Animation (Deprecated)"
+msgstr ""
+
+msgid "Select an object then play Object Animation"
+msgstr ""
+
+msgid "Move Camera"
+msgstr ""
+
+msgid "Set camera Translation and pivot"
+msgstr ""
+
+msgid "Set Camera Move Style"
+msgstr ""
+
+msgid "Set camera move style"
+msgstr ""
+
+msgid "Play Sound"
+msgstr ""
+
+msgid "Switch Select"
+msgstr ""
+
+msgid "Switch select"
+msgstr ""
+
+msgid "Stop Object Animation"
+msgstr ""
+
+msgid "Stop Sound"
+msgstr ""
+
+msgid "Stop Timeline"
+msgstr ""
+
+msgid "Move To"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
+
+msgid "Console Print"
+msgstr ""
+
+msgid "Transform Object"
+msgstr ""
+
+msgid "String Operation"
+msgstr ""
+
+msgid "Perform a string operation"
+msgstr ""
+
+msgid "Divide"
+msgstr ""
+
+msgid "Subtract"
+msgstr ""
+
+msgid "Multiply"
+msgstr ""
+
+msgid "Add"
 msgstr ""
 
 msgid "Random"
 msgstr ""
 
-msgid "Angular Velocity:"
+msgid "Join"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Replace"
+msgstr ""
+
+msgid "Split"
+msgstr ""
+
+msgid "Compare"
+msgstr ""
+
+msgid "Greater Than or Equal (>=)"
+msgstr ""
+
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Less Than or Equal (<=)"
+msgstr ""
+
+msgid "Less than or equal"
+msgstr ""
+
+msgid "Greater Than (>)"
+msgstr ""
+
+msgid "Greater than"
+msgstr ""
+
+msgid "Less Than (<)"
+msgstr ""
+
+msgid "Less than"
+msgstr ""
+
+msgid "Not Equal (!=)"
+msgstr ""
+
+msgid "Not equal"
+msgstr ""
+
+msgid "Equal (=)"
+msgstr ""
+
+msgid "Equal"
+msgstr ""
+
+msgid "No var source"
+msgstr ""
+
+msgid "Bad object field!"
+msgstr ""
+
+msgid "Page param field is empty!"
+msgstr ""
+
+msgid "Url field is empty!"
+msgstr ""
+
+msgid "New var. field is empty!"
+msgstr ""
+
+msgid "Destination field is empty!"
+msgstr ""
+
+msgid "Operand 1 field is empty!"
+msgstr ""
+
+msgid "Operand 2 field is empty!"
+msgstr ""
+
+msgid "Material field is not correct!"
+msgstr ""
+
+msgid "Object field is not correct!"
+msgstr ""
+
+msgid "Please select node material!"
+msgstr ""
+
+msgid "Node field is not correct!"
+msgstr ""
+
+msgid "Selected node is not supported!"
+msgstr ""
+
+msgid "Bad speaker field!"
 msgstr ""
 
 #, python-format
-msgid "'%s' angular velocity mode isn't supported."
+msgid "%s occurs more than one time"
+msgstr ""
+
+#, python-format
+msgid "Bad object field: '%s'"
+msgstr ""
+
+msgid "Bad Message field!"
+msgstr ""
+
+msgid "Bad variable field!"
+msgstr ""
+
+msgid "Node is not supported."
+msgstr ""
+
+msgid "It could be outdated or created"
+msgstr ""
+
+msgid "in a newer version of Blend4Web"
+msgstr ""
+
+msgid "can't find a node"
+msgstr ""
+
+msgid "Blend4Web logic"
+msgstr ""
+
+msgid "Blend4Web logic nodes"
+msgstr ""
+
+msgid "SlotJumpSocketOutput"
+msgstr ""
+
+msgid "Target"
+msgstr ""
+
+msgid "LogicOperator Node Socket"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "False"
+msgstr ""
+
+msgid "True"
+msgstr ""
+
+msgid "Miss"
+msgstr ""
+
+msgid "Hit"
+msgstr ""
+
+msgid " Hit"
+msgstr ""
+
+msgid "Add Socket"
+msgstr ""
+
+msgid "Start Marker"
+msgstr ""
+
+msgid "First marker of the playback"
+msgstr ""
+
+msgid "End Marker"
+msgstr ""
+
+msgid "Final marker of the playback"
+msgstr ""
+
+msgid "Target Slot"
+msgstr ""
+
+msgid "Name of the target slot"
+msgstr ""
+
+msgid "Var 1"
+msgstr ""
+
+msgid "Variable name"
+msgstr ""
+
+msgid "Var 2"
+msgstr ""
+
+msgid "Destination Var"
+msgstr ""
+
+msgid "Define Var"
+msgstr ""
+
+msgid "Num"
+msgstr ""
+
+msgid "First numeric operand"
+msgstr ""
+
+msgid "Second numeric operand"
+msgstr ""
+
+msgid "Str"
+msgstr ""
+
+msgid "First string operand"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "First variable operand"
+msgstr ""
+
+msgid "Second variable operand"
+msgstr ""
+
+msgid "Operation"
+msgstr ""
+
+msgid "Operation to perform on input operands"
+msgstr ""
+
+msgid "Operation to control outline animation"
+msgstr ""
+
+msgid "Camera movement style"
+msgstr ""
+
+msgid "B4W: animation behavior"
+msgstr ""
+
+msgid "The behavior of finished animation: stop, repeat or reset"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "Request method"
+msgstr ""
+
+msgid "Condition"
+msgstr ""
+
+msgid "Conditonal operator"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Target URL"
+msgstr ""
+
+msgid "Param Name"
+msgstr ""
+
+msgid "Param name"
+msgstr ""
+
+msgid "label2"
+msgstr ""
+
+msgid "Error messages"
+msgstr ""
+
+msgid "Anim. Name"
+msgstr ""
+
+msgid "Animation Name"
+msgstr ""
+
+msgid "B4W: Variables"
+msgstr ""
+
+msgid "Variables for current thread"
+msgstr ""
+
+msgid "B4W: Objects Paths"
+msgstr ""
+
+msgid "Contain a pointer to target object"
+msgstr ""
+
+msgid "B4W: Nodes Paths"
+msgstr ""
+
+msgid "Contain a pointer to target node"
+msgstr ""
+
+msgid "B4W: Materials names"
+msgstr ""
+
+msgid "Contain a materials names"
+msgstr ""
+
+msgid "B4W: float array"
+msgstr ""
+
+msgid "Contain floats"
+msgstr ""
+
+msgid "B4W: duration array"
+msgstr ""
+
+msgid "Contain durations"
+msgstr ""
+
+msgid "B4W: angle array"
+msgstr ""
+
+msgid "Contain angles"
+msgstr ""
+
+msgid "B4W: bools array"
+msgstr ""
+
+msgid "Contain bools"
+msgstr ""
+
+msgid "B4W: variables array"
+msgstr ""
+
+msgid "Contain variables"
+msgstr ""
+
+msgid "B4W: common usage names"
+msgstr ""
+
+msgid "Contain common usage name storage"
+msgstr ""
+
+msgid "Variable type"
+msgstr ""
+
+msgid "String operation"
+msgstr ""
+
+msgid "String operation to perform on input operands"
+msgstr ""
+
+msgid "B4W: string array"
+msgstr ""
+
+msgid "Contain strings"
+msgstr ""
+
+msgid "Space type"
+msgstr ""
+
+msgid "Child"
+msgstr ""
+
+msgid "Dupli Child"
+msgstr ""
+
+msgid "Child Node"
+msgstr ""
+
+msgid "Not node material"
+msgstr ""
+
+msgid "Wrong Material field"
+msgstr ""
+
+msgid "Material:"
+msgstr ""
+
+msgid "Object is not selected"
+msgstr ""
+
+msgid "No child elements"
+msgstr ""
+
+msgid "Do Not Wait"
+msgstr ""
+
+msgid "Select Object:"
+msgstr ""
+
+msgid "Animate Object:"
+msgstr ""
+
+msgid "Object:"
+msgstr ""
+
+msgid "Shape Key"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "No shape key source"
+msgstr ""
+
+msgid "Operand1:"
+msgstr ""
+
+msgid "Operand2:"
+msgstr ""
+
+msgid "New variable"
+msgstr ""
+
+msgid "New var."
+msgstr ""
+
+msgid "Var. name"
+msgstr ""
+
+msgid "Var. type"
+msgstr ""
+
+msgid "Destination:"
+msgstr ""
+
+msgid "Url:"
+msgstr ""
+
+msgid "Response Params:"
+msgstr ""
+
+msgid "Content-Type:"
+msgstr ""
+
+msgid "Parse JSON"
+msgstr ""
+
+msgid "Request Params:"
+msgstr ""
+
+msgid "Encode JSON"
+msgstr ""
+
+msgid "Node:"
+msgstr ""
+
+msgid "Parameters:"
+msgstr ""
+
+msgid "RGB:"
+msgstr ""
+
+msgid "Value:"
+msgstr ""
+
+msgid "No editable parameters available"
+msgstr ""
+
+msgid "Param Name:"
+msgstr ""
+
+msgid "Camera:"
+msgstr ""
+
+msgid "Look at:"
+msgstr ""
+
+msgid "Duration:"
+msgstr ""
+
+msgid "Space"
+msgstr ""
+
+msgid "Location:"
+msgstr ""
+
+msgid "x"
+msgstr ""
+
+msgid "y"
+msgstr ""
+
+msgid "z"
+msgstr ""
+
+msgid "Rotation:"
+msgstr ""
+
+msgid "Scale:"
+msgstr ""
+
+msgid "Camera Style:"
+msgstr ""
+
+msgid "Speaker:"
+msgstr ""
+
+msgid "Logic Node"
+msgstr ""
+
+msgid "Control Flow"
+msgstr ""
+
+msgid "Animation"
+msgstr ""
+
+msgid "Camera"
+msgstr ""
+
+msgid "Object"
+msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+msgid "Sound"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Deprecated"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Entry Point node is not found!"
+msgstr ""
+
+msgid "Node tree is empty!"
+msgstr ""
+
+msgid "Input is not connected!"
+msgstr ""
+
+msgid "No path from Entry point!"
+msgstr ""
+
+msgid "Subtrees overlapping is not allowed!"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Toggle Node Mute"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Parse response list add item"
+msgstr ""
+
+msgid "Node tree"
+msgstr ""
+
+msgid "Node name"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove dynamic jump socket"
+msgstr ""
+
+msgid "Socket name"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add new variable"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove variable"
+msgstr ""
+
+msgid "var id"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add dynamic jump socket"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Parse response list remove item"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Edit object item level"
+msgstr ""
+
+msgid "Item name"
+msgstr ""
+
+msgid "Item type"
+msgstr ""
+
+msgid "reverse"
+msgstr ""
+
+msgid "Delete dir if true"
+msgstr ""
+
+msgid "Override Bounding Volumes"
+msgstr ""
+
+msgid "Show Boundings:"
+msgstr ""
+
+msgid "Boxes"
+msgstr ""
+
+msgid "Spheres"
+msgstr ""
+
+msgid "Ellipsoids"
+msgstr ""
+
+msgid "Override Mesh Boundings"
+msgstr ""
+
+msgid "Min X"
+msgstr ""
+
+msgid "Max X"
+msgstr ""
+
+msgid "Min Y"
+msgstr ""
+
+msgid "Max Y"
+msgstr ""
+
+msgid "Min Z"
+msgstr ""
+
+msgid "Max Z"
+msgstr ""
+
+msgid "B4W: draw bounding box"
+msgstr ""
+
+msgid "B4W: draw bounding sphere"
+msgstr ""
+
+msgid "B4W: draw bounding ellipsoid"
+msgstr ""
+
+msgid "Bake Shore Distance Map"
+msgstr ""
+
+msgid "Texture Size"
+msgstr ""
+
+msgid "Maximum Distance"
+msgstr ""
+
+msgid "Bake"
+msgstr ""
+
+msgid "B4W: shoremap max distance"
+msgstr ""
+
+msgid "B4W: shoremap texture size"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Shore Distance Baker"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Bake Error Dialog"
+msgstr ""
+
+msgid "=== BLEND4WEB: SHORE BAKE ERROR ==="
+msgstr ""
+
+msgid "COMPONENT: "
+msgstr ""
+
+msgid "NAME: "
+msgstr ""
+
+msgid "ERROR: "
+msgstr ""
+
+msgid "No objects selected"
+msgstr ""
+
+msgid "Source object is not selected."
+msgstr ""
+
+msgid " doesn't have a material."
+msgstr ""
+
+msgid "Source object is not \"Mesh\"."
+msgstr ""
+
+msgid "ShoreDistance"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Bake Skeletal Animation"
+msgstr ""
+
+msgid "Not an armature object"
+msgstr ""
+
+msgid "No animation data"
+msgstr ""
+
+msgid "Armature object is linked"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Constraints Mute"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Constraints UnMute"
+msgstr ""
+
+msgid "Bake Skeletal Animation"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Optimize Keyframes"
+msgstr ""
+
+msgid "Use Blender's Native Baker"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add animation"
+msgstr ""
+
+msgid "Add animation"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove animation"
+msgstr ""
+
+msgid "Remove animation"
+msgstr ""
+
+msgid "B4W: animation"
+msgstr ""
+
+msgid "B4W: animation index"
+msgstr ""
+
+msgid "B4W: use bpy anim baker"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Export HTML"
+msgstr ""
+
+msgid "Autosave blend File"
+msgstr ""
+
+msgid "Automatically save the blend file after export"
+msgstr ""
+
+msgid "Strict Mode"
+msgstr ""
+
+msgid "Block export if there are any errors or warnings"
+msgstr ""
+
+msgid "Filepath"
+msgstr ""
+
+msgid "Required for running in command line mode"
+msgstr ""
+
+msgid "Save export path"
+msgstr ""
+
+msgid "Save export path in blend file"
+msgstr ""
+
+msgid "Export Converted Media"
+msgstr ""
+
+msgid "Save alternative media formats in the HTML file"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Get Export HTML Path"
+msgstr ""
+
+msgid "Blend4Web (.html)"
 msgstr ""
 
 msgid "Physics"
 msgstr ""
 
-msgid "Forces:"
+msgid "Object Physics"
 msgstr ""
 
-msgid "Integration:"
+msgid "Collision ID"
 msgstr ""
 
-msgid "Threshold"
+msgid "Unsupported physics type"
 msgstr ""
 
-msgid "Fluid properties:"
+msgid "Attributes:"
 msgstr ""
 
-msgid "Stiffness"
+msgid "Velocity:"
 msgstr ""
 
-msgid "Viscosity"
+msgid "Minimum"
 msgstr ""
 
-msgid "Buoyancy"
+msgid "Maximum"
 msgstr ""
 
-msgid "Advanced:"
+msgid "Damping:"
 msgstr ""
 
-#, python-format
-msgid "Spacing: %g"
+msgid "Translation"
 msgstr ""
 
-msgid "Springs:"
+msgid "Rotation"
 msgstr ""
 
-msgid "Force"
+msgid "Collision Bounds"
 msgstr ""
 
-msgid "Frames"
+msgid "Bounds"
 msgstr ""
 
-msgid "Loops"
+msgid "This collision bounds type is not supported"
 msgstr ""
 
-msgid "Use Timing"
+msgid "Margin"
 msgstr ""
 
-msgid "Keys:"
+msgid "Compound"
 msgstr ""
 
-msgid "Battle:"
+msgid "Bounding Box Correction"
 msgstr ""
 
-msgid "Misc:"
+msgid "Floater"
 msgstr ""
 
-msgid "Relations:"
+msgid "Floater Name"
 msgstr ""
 
-msgid "Fluid interaction:"
+msgid "Part"
 msgstr ""
 
-msgid "System"
+msgid "Floating Factor"
 msgstr ""
 
-msgid "Render"
+msgid "Water Linear Damping"
 msgstr ""
 
-msgid "The 'Hair' Particle System requires 'Object' or 'Group' render type."
+msgid "Water Rotation Damping"
 msgstr ""
 
-msgid "Randomize Location And Size"
+msgid "Vehicle"
 msgstr ""
 
-msgid "Randomize Initial Rotation"
+msgid "Vehicle Name"
 msgstr ""
 
-msgid "Rotation Type"
+msgid "Suspension Rest Length"
 msgstr ""
 
-msgid "Rotation Strength"
+msgid "Force Max"
 msgstr ""
 
-msgid "Billboard"
+msgid "Brake Max"
 msgstr ""
 
-msgid "Billboard Type"
+msgid "Suspension Compression"
 msgstr ""
 
-msgid "Jitter Amplitude"
+msgid "Suspension Stiffness"
 msgstr ""
 
-msgid "Jitter Frequency"
+msgid "Suspension Damping"
 msgstr ""
 
-msgid "Billboard Geometry:"
+msgid "Wheel Friction"
 msgstr ""
 
-msgid "The 'Emitter' Particle System requires 'Halo' or 'Billboard' render type."
+msgid "Roll Influence"
 msgstr ""
 
-msgid "Billboard Align"
+msgid "Max Suspension Travel Cm"
 msgstr ""
 
-msgid "Dissolve Intervals:"
+msgid "Synchronize Bob Position"
 msgstr ""
 
-msgid "Fade-In"
+msgid "Steering Ratio"
 msgstr ""
 
-msgid "Fade-Out"
+msgid "Steering Max"
 msgstr ""
 
-msgid "Coordinate System"
+msgid "Inverse Control"
 msgstr ""
 
-msgid "Soft Particles"
+msgid "Delta Tach Angle"
 msgstr ""
 
-msgid "Particle Softness"
+msgid "Max Speed Angle"
 msgstr ""
 
-msgid "Field Weights"
+msgid "Speed Ratio"
 msgstr ""
 
-msgid "Vertex Groups"
+msgid "Character"
 msgstr ""
 
-msgid "Density"
+msgid "Character settings:"
 msgstr ""
 
-msgid "Length"
+msgid "Walk Speed"
 msgstr ""
 
-msgid "Cache"
+msgid "Run Speed"
 msgstr ""
 
-msgid "Display"
+msgid "Step Height"
 msgstr ""
 
-msgid "Display percentage makes dynamics inaccurate without baking!"
+msgid "Jump Strength"
 msgstr ""
 
-msgid "Color:"
+msgid "Waterline"
 msgstr ""
 
-msgid "Max"
+msgid "Force Fields"
 msgstr ""
 
-msgid "Export Options"
+msgid "Type:"
 msgstr ""
 
-msgid "Do Not Export"
+msgid "This field type is not supported"
 msgstr ""
 
-msgid "Dynamic Grass"
+msgid "Clumping:"
 msgstr ""
 
-msgid "Scale Threshold"
+msgid "Domain Object:"
 msgstr ""
 
-msgid "Properties Inheritance"
-msgstr ""
-
-msgid "Inherit Properties From:"
-msgstr ""
-
-msgid "Wind Bending:"
-msgstr ""
-
-msgid "Shadows:"
-msgstr ""
-
-msgid "Reflection:"
-msgstr ""
-
-msgid "Vertex Color:"
-msgstr ""
-
-msgid "From"
-msgstr ""
-
-msgid "To"
-msgstr ""
-
-msgid "Reexport Path"
-msgstr ""
-
-msgid "Directory with Exported Files (*.json or *.html)"
-msgstr ""
-
-msgid "Blend4Web SDK Directory"
-msgstr ""
-
-msgid "Path to SDK"
-msgstr ""
-
-msgid "Server Port"
-msgstr ""
-
-msgid "Server port number"
-msgstr ""
-
-msgid "Run development server automatically"
-msgstr ""
-
-msgid "Run on Startup"
-msgstr ""
-
-msgid "Check for updates"
-msgstr ""
-
-msgid "Check for new addon version"
-msgstr ""
-
-msgid "Enable External Requests"
-msgstr ""
-
-msgid "Enable external requests to the server"
-msgstr ""
-
-msgid "Check For Updates on Startup"
-msgstr ""
-
-#, python-format
-msgid "Update is available: %s"
-msgstr ""
-
-msgid "Development Server:"
-msgstr ""
-
-msgid "Mass Reexporter"
-msgstr ""
-
-msgid "Blend4Web SDK was not found."
-msgstr ""
-
-msgid "Please download and configure it before using Mass Reexporter."
-msgstr ""
-
-msgid "Check info window for export results."
-msgstr ""
-
-msgid "Exported Directory"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Reexport"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Reexport Append"
-msgstr ""
-
-msgid "Append exported directory"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Reexport Remove"
-msgstr ""
-
-msgid "Remove exported directory"
-msgstr ""
-
-msgid "Perform mass reexport. Depending on amount of work this may take some time"
+msgid "Linear"
 msgstr ""
 
 msgid "Normal"
 msgstr ""
 
-msgctxt "Operator"
 msgid "Normal Editor"
 msgstr ""
 
@@ -536,6 +1378,9 @@ msgstr ""
 msgid "B4W: custom vertex normal 2"
 msgstr ""
 
+msgid "Copy from vertices"
+msgstr ""
+
 msgid "Matched Vertices"
 msgstr ""
 
@@ -548,1020 +1393,245 @@ msgstr ""
 msgid "Copy normals from nearest vertices of the source mesh"
 msgstr ""
 
+msgid "PosNor"
+msgstr ""
+
+msgid "Vertices"
+msgstr ""
+
+msgid "Frames"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "First frame of vertex animation"
+msgstr ""
+
+msgid "End"
+msgstr ""
+
+msgid "End frame of vertex animation"
+msgstr ""
+
+msgid "Averaging"
+msgstr ""
+
+msgid "Perform vertex animation averaging: mix end "
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid "Averaging interval"
+msgstr ""
+
+msgid "Allow NLA"
+msgstr ""
+
+msgid "Allow animation to be controlled by the NLA"
+msgstr ""
+
+msgid "Bake Vertex Animation"
+msgstr ""
+
+msgid "Status: "
+msgstr ""
+
+msgid " frames recorded"
+msgstr ""
+
+msgid "Status: Empty"
+msgstr ""
+
 msgctxt "Operator"
-msgid "B4W Camera Target Copy"
+msgid "Add vertex animation"
 msgstr ""
 
-msgid "Vertex groups"
+msgid "Add new vertex animation"
 msgstr ""
 
-msgid "Clean Unused Vertex Groups"
+msgid "New Anim"
 msgstr ""
 
 msgctxt "Operator"
-msgid "B4W Remove Unused VGroups"
+msgid "Remove vertex animation"
 msgstr ""
 
-msgctxt "Context"
-msgid "Message"
+msgid "Remove existing vertex animation"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Bake vertex animation"
+msgstr ""
+
+msgid "Bake vertex animation"
+msgstr ""
+
+msgid "Bake start"
+msgstr ""
+
+msgid "Bake finish"
+msgstr ""
+
+msgid "Bake error"
+msgstr ""
+
+msgid "B4W: vertex animation"
+msgstr ""
+
+msgid "B4W: vertex animation index"
+msgstr ""
+
+msgid "Reexport Path"
+msgstr ""
+
+msgid "Directory with Exported Files (*.json or *.html)"
+msgstr ""
+
+msgid "Blend4Web SDK Directory"
+msgstr ""
+
+msgid "Path to SDK"
+msgstr ""
+
+msgid "Server Port"
+msgstr ""
+
+msgid "Server port number"
+msgstr ""
+
+msgid "Run development server automatically"
+msgstr ""
+
+msgid "Run on Startup"
+msgstr ""
+
+msgid "Check for updates"
+msgstr ""
+
+msgid "Check for new addon version"
+msgstr ""
+
+msgid "Enable External Requests"
+msgstr ""
+
+msgid "Enable external requests to the server"
+msgstr ""
+
+msgid "Check For Updates on Startup"
 msgstr ""
 
 #, python-format
-msgid "New version of Blend4Web is available: %s"
+msgid "Update is available: %s"
 msgstr ""
 
-msgid "Download"
+msgid "Development Server:"
 msgstr ""
 
-msgid "Object Physics"
+msgid "Render Layers"
 msgstr ""
 
-msgid "Collision ID"
+msgid "Not available in Blend4Web"
 msgstr ""
 
-msgid "Unsupported physics type"
+msgid "Static"
 msgstr ""
 
-msgid "Attributes:"
+msgid "Static camera"
 msgstr ""
 
-msgid "Velocity:"
+msgid "Move target"
 msgstr ""
 
-msgid "Minimum"
+msgid "Eye"
 msgstr ""
 
-msgid "Maximum"
+msgid "Move eye"
 msgstr ""
 
-msgid "Damping:"
+msgid "Hover"
 msgstr ""
 
-msgid "Translation"
+msgid "Hover mode"
 msgstr ""
 
-msgid "Collision Bounds"
+msgid "Loop"
 msgstr ""
 
-msgid "Bounds"
+msgid "Behavior: cyclically repeat the finished animation"
 msgstr ""
 
-msgid "This collision bounds type is not supported"
+msgid "Finish Reset"
 msgstr ""
 
-msgid "Margin"
+msgid "Behavior: reset the finished animation"
 msgstr ""
 
-msgid "Compound"
+msgid "Finish Stop"
 msgstr ""
 
-msgid "Bounding Box Correction"
-msgstr ""
-
-msgid "Floater"
-msgstr ""
-
-msgid "Floater Name"
-msgstr ""
-
-msgid "Part"
-msgstr ""
-
-msgid "Floating Factor"
-msgstr ""
-
-msgid "Water Linear Damping"
-msgstr ""
-
-msgid "Water Rotation Damping"
-msgstr ""
-
-msgid "Vehicle"
-msgstr ""
-
-msgid "Vehicle Name"
-msgstr ""
-
-msgid "Suspension Rest Length"
-msgstr ""
-
-msgid "Force Max"
-msgstr ""
-
-msgid "Brake Max"
-msgstr ""
-
-msgid "Suspension Compression"
-msgstr ""
-
-msgid "Suspension Stiffness"
-msgstr ""
-
-msgid "Suspension Damping"
-msgstr ""
-
-msgid "Wheel Friction"
-msgstr ""
-
-msgid "Roll Influence"
-msgstr ""
-
-msgid "Max Suspension Travel Cm"
-msgstr ""
-
-msgid "Synchronize Bob Position"
-msgstr ""
-
-msgid "Steering Ratio"
-msgstr ""
-
-msgid "Steering Max"
-msgstr ""
-
-msgid "Inverse Control"
-msgstr ""
-
-msgid "Delta Tach Angle"
-msgstr ""
-
-msgid "Max Speed Angle"
-msgstr ""
-
-msgid "Speed Ratio"
-msgstr ""
-
-msgid "Character"
-msgstr ""
-
-msgid "Character settings:"
-msgstr ""
-
-msgid "Walk Speed"
-msgstr ""
-
-msgid "Run Speed"
-msgstr ""
-
-msgid "Step Height"
-msgstr ""
-
-msgid "Jump Strength"
-msgstr ""
-
-msgid "Waterline"
-msgstr ""
-
-msgid "Force Fields"
-msgstr ""
-
-msgid "This field type is not supported"
-msgstr ""
-
-msgid "Clumping:"
-msgstr ""
-
-msgid "Domain Object:"
-msgstr ""
-
-msgid "Linear"
-msgstr ""
-
-msgid "Bake Shore Distance Map"
-msgstr ""
-
-msgid "Texture Size"
-msgstr ""
-
-msgid "Maximum Distance"
-msgstr ""
-
-msgid "Bake"
-msgstr ""
-
-msgid "B4W: shoremap max distance"
-msgstr ""
-
-msgid "B4W: shoremap texture size"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Shore Distance Baker"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Bake Error Dialog"
-msgstr ""
-
-msgid "=== BLEND4WEB: SHORE BAKE ERROR ==="
-msgstr ""
-
-msgid "COMPONENT: "
-msgstr ""
-
-msgid "NAME: "
-msgstr ""
-
-msgid "ERROR: "
-msgstr ""
-
-msgid "No objects selected"
-msgstr ""
-
-msgid "Source object is not selected."
-msgstr ""
-
-msgid " doesn't have material."
-msgstr ""
-
-msgid "ShoreDistance"
-msgstr ""
-
-msgid "Scene"
-msgstr ""
-
-msgid "Background"
-msgstr ""
-
-msgid "Units"
-msgstr ""
-
-msgid "Scale"
-msgstr ""
-
-msgid "Simplify"
-msgstr ""
-
-msgid "Viewport:"
-msgstr ""
-
-msgid "Subdivision"
-msgstr ""
-
-msgid "Child Particles"
-msgstr ""
-
-msgid "Render:"
-msgstr ""
-
-msgid "Shadow Samples"
-msgstr ""
-
-msgid "AO and SSS"
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-msgid "Dynamic Compressor"
-msgstr ""
-
-msgid "Compressor settings:"
-msgstr ""
-
-msgid "Knee"
-msgstr ""
-
-msgid "Ratio"
-msgstr ""
-
-msgid "Attack"
-msgstr ""
-
-msgid "Release"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Refresh"
-msgstr ""
-
-msgid "Refresh list of available Trees"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Add"
-msgstr ""
-
-msgid "Add new logic node tree"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Remove"
-msgstr ""
-
-msgid "Remove logic node tree"
-msgstr ""
-
-msgid "Logic Editor"
-msgstr ""
-
-msgid "Active Node Tree:"
-msgstr ""
-
-msgid "NLA"
-msgstr ""
-
-msgid "Cyclic NLA"
-msgstr ""
-
-msgid "Meta Tags"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Description Source:"
-msgstr ""
-
-msgid "Source"
-msgstr ""
-
-msgid "Enable Physics"
-msgstr ""
-
-msgid "Batching"
-msgstr ""
-
-msgid "Batch Grid Size"
-msgstr ""
-
-msgid "Objects Selection"
-msgstr ""
-
-msgid "Enable"
-msgstr ""
-
-msgid "Anchors"
-msgstr ""
-
-msgid "Detect Anchor Visibility"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Export HTML"
-msgstr ""
-
-msgid "Autosave blend File"
-msgstr ""
-
-msgid "Automatically save the blend file after export"
-msgstr ""
-
-msgid "Strict Mode"
-msgstr ""
-
-msgid "Block export if there are any errors or warnings"
-msgstr ""
-
-msgid "Filepath"
-msgstr ""
-
-msgid "Required for running in command line mode"
-msgstr ""
-
-msgid "Save export path"
-msgstr ""
-
-msgid "Save export path in blend file"
-msgstr ""
-
-msgid "Export Converted Media"
-msgstr ""
-
-msgid "Save alternative media formats in the HTML file"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Get Export HTML Path"
-msgstr ""
-
-msgid "Blend4Web (.html)"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Export Error Dialog"
-msgstr ""
-
-msgid "=== BLEND4WEB: EXPORT ERROR ==="
-msgstr ""
-
-msgctxt "Operator"
-msgid "Export Messages Dialog"
-msgstr ""
-
-msgid "=== BLEND4WEB: EXPORT MESSAGES ==="
-msgstr ""
-
-msgid "ERRORS:"
-msgstr ""
-
-msgid "WARNINGS:"
-msgstr ""
-
-msgctxt "Operator"
-msgid "File Error Dialog"
-msgstr ""
-
-msgid "=== BLEND4WEB: FILE ERROR ==="
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Export JSON"
-msgstr ""
-
-msgid "Run in Viewer"
-msgstr ""
-
-msgid "Open the exported scene in the Viewer using the default browser"
-msgstr ""
-
-msgid "Required for running in command line"
-msgstr ""
-
-msgid "Is HTML export"
-msgstr ""
-
-msgid "Is html export"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Get Export Path"
-msgstr ""
-
-msgid "Clamp"
-msgstr ""
-
-msgid "Linear to SRGB"
-msgstr ""
-
-msgid "SRGB to Linear"
-msgstr ""
-
-msgid "Vector View"
-msgstr ""
-
-msgid "Normal View"
-msgstr ""
-
-msgid "Reflect"
-msgstr ""
-
-msgid "Refraction"
-msgstr ""
-
-msgid "Parallax"
-msgstr ""
-
-msgid "Translucency"
-msgstr ""
-
-msgid "Time"
-msgstr ""
-
-msgid "Smoothstep"
-msgstr ""
-
-msgid "Glow Output"
-msgstr ""
-
-msgid "Replace"
-msgstr ""
-
-msgid "Levels of Quality"
-msgstr ""
-
-msgid "Override Bounding Volumes"
-msgstr ""
-
-msgid "Show Boundings:"
-msgstr ""
-
-msgid "Boxes"
-msgstr ""
-
-msgid "Spheres"
-msgstr ""
-
-msgid "Ellipsoids"
-msgstr ""
-
-msgid "Override Mesh Boundings"
-msgstr ""
-
-msgid "Min X"
-msgstr ""
-
-msgid "Max X"
-msgstr ""
-
-msgid "Min Y"
-msgstr ""
-
-msgid "Max Y"
-msgstr ""
-
-msgid "Min Z"
-msgstr ""
-
-msgid "Max Z"
-msgstr ""
-
-msgid "B4W: draw bounding box"
-msgstr ""
-
-msgid "B4W: draw bounding sphere"
-msgstr ""
-
-msgid "B4W: draw bounding ellipsoid"
-msgstr ""
-
-msgid "Levels of Detail"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Lod Transition Ratio"
-msgstr ""
-
-msgid "Animation"
-msgstr ""
-
-msgid "Apply Default Animation"
-msgstr ""
-
-msgid "Behavior"
-msgstr ""
-
-msgid "Animation Blending"
-msgstr ""
-
-msgid "Proxy:"
-msgstr ""
-
-msgid "Inherit Animation"
-msgstr ""
-
-msgid "Apply Modifiers"
-msgstr ""
-
-msgid "Apply Scale And Modifiers"
-msgstr ""
-
-msgid "Export Shape Keys"
-msgstr ""
-
-msgid "Export Vertex Animation"
-msgstr ""
-
-msgid "Rendering Properties"
-msgstr ""
-
-msgid "Do Not Render"
-msgstr ""
-
-msgid "Force Dynamic Object"
-msgstr ""
-
-msgid "Disable Frustum Culling"
-msgstr ""
-
-msgid "Dynamic Geometry"
-msgstr ""
-
-msgid "Shadows"
-msgstr ""
-
-msgid "Cast Shadows "
-msgstr ""
-
-msgid "Receive Shadows "
-msgstr ""
-
-msgid "Cast Only "
-msgstr ""
-
-msgid "Preserve Global Rotation and Scale"
-msgstr ""
-
-msgid "Reflections"
-msgstr ""
-
-msgid "Reflective"
-msgstr ""
-
-msgid "Reflection Plane:"
-msgstr ""
-
-msgid "Reflexible"
-msgstr ""
-
-msgid "Reflexible Only"
-msgstr ""
-
-msgid "Selection and Outlining"
-msgstr ""
-
-msgid "Selectable"
-msgstr ""
-
-msgid "Enable Outlining"
-msgstr ""
-
-msgid "Outline on Select"
-msgstr ""
-
-msgid "Duration"
-msgstr ""
-
-msgid "Period"
-msgstr ""
-
-msgid "Relapses"
-msgstr ""
-
-msgid "Enable Anchor"
-msgstr ""
-
-msgid "HTML Element ID"
-msgstr ""
-
-msgid "Detect Visibility"
-msgstr ""
-
-msgid "Category"
-msgstr ""
-
-msgid "Duplication"
-msgstr ""
-
-msgid "Group"
-msgstr ""
-
-msgid "Wrong Dupli Type. Only Group type is supported."
-msgstr ""
-
-msgid "Wind Bending"
-msgstr ""
-
-msgid "Detail Bending:"
-msgstr ""
-
-msgid "Amplitude"
-msgstr ""
-
-msgid "Branch Amplitude"
-msgstr ""
-
-msgid "Bending Frequency"
-msgstr ""
-
-msgid "Leaves Stiffness (R)"
-msgstr ""
-
-msgid "Leaves Phase (G)"
-msgstr ""
-
-msgid "Overall Stiffness (B)"
-msgstr ""
-
-msgid "Main Bending:"
-msgstr ""
-
-msgid "Angle"
-msgstr ""
-
-msgid "Frequency"
-msgstr ""
-
-msgid "Main Stiffness (A)"
-msgstr ""
-
-msgid "Special Effects"
-msgstr ""
-
-msgid "Disable Fogging"
-msgstr ""
-
-msgid "Caustics"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Vertex Groups To Materials"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "This texture type is not supported."
-msgstr ""
-
-msgid "Mapping"
-msgstr ""
-
-msgid "Coordinates:"
-msgstr ""
-
-msgid "Map:"
-msgstr ""
-
-msgid "This coordinates type is not supported."
-msgstr ""
-
-msgid "Environment Map"
-msgstr ""
-
-msgid "This environment map type is not supported"
-msgstr ""
-
-msgid "Colors"
-msgstr ""
-
-msgid "Ramp"
-msgstr ""
-
-msgid "Image Sampling"
-msgstr ""
-
-msgid "Use Alpha"
-msgstr ""
-
-msgid "Disable Compression"
-msgstr ""
-
-msgid "Enable Anisotropic Filtering"
-msgstr ""
-
-msgid "Anisotropic Filtering"
-msgstr ""
-
-msgid "Shore Distance Map"
-msgstr ""
-
-msgid "Source Type"
-msgstr ""
-
-msgid "Source ID"
-msgstr ""
-
-msgid "Source Size"
-msgstr ""
-
-msgid "Extension"
-msgstr ""
-
-msgid "Enable Mipmapping"
-msgstr ""
-
-msgid "Sky Texture Usage"
-msgstr ""
-
-msgid "Water Foam"
-msgstr ""
-
-msgid "UV Frequency"
-msgstr ""
-
-msgid "UV Magnitude"
-msgstr ""
-
-msgid "Influence"
-msgstr ""
-
-msgid "Diffuse:"
-msgstr ""
-
-msgid "Specular:"
-msgstr ""
-
-msgid "Shading:"
-msgstr ""
-
-msgid "Geometry:"
-msgstr ""
-
-msgid "General:"
-msgstr ""
-
-msgid "Blend"
-msgstr ""
-
-msgid "Negative"
-msgstr ""
-
-msgid "DVar"
-msgstr ""
-
-msgid "Image Mapping"
-msgstr ""
-
-msgid "Image"
-msgstr ""
-
-msgid "Steps"
-msgstr ""
-
-msgid "Lod Distance"
-msgstr ""
-
-msgid "Diffuse"
-msgstr ""
-
-msgid "Intensity"
-msgstr ""
-
-msgid "Smooth"
-msgstr ""
-
-msgid "Fresnel"
-msgstr ""
-
-msgid "Factor"
-msgstr ""
-
-msgid "Specular"
-msgstr ""
-
-msgid "Hardness"
-msgstr ""
-
-msgid "IOR"
-msgstr ""
-
-msgid "Slope"
-msgstr ""
-
-msgid "Shading"
-msgstr ""
-
-msgid "Double-Sided Lighting"
-msgstr ""
-
-msgid "Transparency"
-msgstr ""
-
-msgid "Show Transparency"
-msgstr ""
-
-msgid "Mirror"
-msgstr ""
-
-msgid "Show Reflectivity"
-msgstr ""
-
-msgid "Halo"
-msgstr ""
-
-msgid "Options:"
-msgstr ""
-
-msgid "Rings"
-msgstr ""
-
-msgid "Lines"
-msgstr ""
-
-msgid "Star Tips"
-msgstr ""
-
-msgid "Special: Stars"
-msgstr ""
-
-msgid "Blending Height"
-msgstr ""
-
-msgid "Minimum Height"
-msgstr ""
-
-msgid "Rendering Options"
-msgstr ""
-
-msgid "Render Above All"
-msgstr ""
-
-msgid "Wettable"
-msgstr ""
-
-msgid "Refractive"
-msgstr ""
-
-msgid "Refraction Bump"
-msgstr ""
-
-msgid "Terrain Dynamic Grass"
-msgstr ""
-
-msgid "Grass Size (R)"
-msgstr ""
-
-msgid "Grass Color (RGB)"
-msgstr ""
-
-msgid "Special: Collision"
-msgstr ""
-
-msgid "Ghost"
-msgstr ""
-
-msgid "Collision Group"
-msgstr ""
-
-msgid "Collision Mask"
-msgstr ""
-
-msgid "Water"
-msgstr ""
-
-msgid "Shore Smoothing"
-msgstr ""
-
-msgid "Absorb Factor"
-msgstr ""
-
-msgid "Foam:"
-msgstr ""
-
-msgid "Shallow water:"
-msgstr ""
-
-msgid "Underwater fog:"
-msgstr ""
-
-msgid "Shore water:"
-msgstr ""
-
-msgid "Sub Surface Scattering"
-msgstr ""
-
-msgid "Strength"
-msgstr ""
-
-msgid "Width"
-msgstr ""
-
-msgid "Ripples (NormalMap)"
-msgstr ""
-
-msgid "Waves"
-msgstr ""
-
-msgid "Wave Height"
-msgstr ""
-
-msgid "Wave Length"
-msgstr ""
-
-msgid "Noise Dist Scale 0"
-msgstr ""
-
-msgid "Noise Dist Scale 1"
-msgstr ""
-
-msgid "Noise Dist Freq 0"
-msgstr ""
-
-msgid "Noise Dist Freq 1"
-msgstr ""
-
-msgid "Min Dir Shore Fac"
-msgstr ""
-
-msgid "Dir Frequency"
-msgstr ""
-
-msgid "Noise Dir Scale"
-msgstr ""
-
-msgid "Noise Dir Freq"
-msgstr ""
-
-msgid "Min Dir Noise Fac"
-msgstr ""
-
-msgid "Min Dist Fac"
-msgstr ""
-
-msgid "Horizontal Factor"
-msgstr ""
-
-msgid "Generate Mesh"
-msgstr ""
-
-msgid "Cascades Number"
-msgstr ""
-
-msgid "Subdivisions"
-msgstr ""
-
-msgid "Detailed Distance"
-msgstr ""
-
-msgid "Number of vertices "
-msgstr ""
-
-msgid "Brightness"
+msgid "Behavior: stop the finished animation"
 msgstr ""
 
 msgid "name"
+msgstr ""
+
+msgid "Alignment"
+msgstr ""
+
+msgid "Bottom-Right"
+msgstr ""
+
+msgid "Bottom-right corner"
+msgstr ""
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Bottom edge"
+msgstr ""
+
+msgid "Bottom-Left"
+msgstr ""
+
+msgid "Bottom-left corner"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "Right edge"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Left edge"
+msgstr ""
+
+msgid "Top-Right"
+msgstr ""
+
+msgid "Top-right corner"
+msgstr ""
+
+msgid "Top"
+msgstr ""
+
+msgid "Top edge"
+msgstr ""
+
+msgid "Top-Left"
+msgstr ""
+
+msgid "Top-left corner"
+msgstr ""
+
+msgid "Distance"
 msgstr ""
 
 msgid "B4W: leaves stiffness color"
@@ -1571,6 +1641,9 @@ msgid "Vertex color used for leaves stiffness"
 msgstr ""
 
 msgid "B4W: leaves phase color"
+msgstr ""
+
+msgid "Vertex color used for leaves phase"
 msgstr ""
 
 msgid "B4W: overall stiffness color"
@@ -1619,6 +1692,9 @@ msgid "Synchronize position"
 msgstr ""
 
 msgid "Synchronize bob position"
+msgstr ""
+
+msgid "Title"
 msgstr ""
 
 msgid "Description"
@@ -2209,6 +2285,9 @@ msgstr ""
 msgid "Create an HTML element with annotation from meta tags"
 msgstr ""
 
+msgid "Detect Visibility"
+msgstr ""
+
 msgid "Detect visibility of anchor object (slow)"
 msgstr ""
 
@@ -2269,30 +2348,6 @@ msgstr ""
 msgid "Default camera movement style"
 msgstr ""
 
-msgid "Static"
-msgstr ""
-
-msgid "Static camera"
-msgstr ""
-
-msgid "Target"
-msgstr ""
-
-msgid "Move target"
-msgstr ""
-
-msgid "Eye"
-msgstr ""
-
-msgid "Move eye"
-msgstr ""
-
-msgid "Hover"
-msgstr ""
-
-msgid "Hover mode"
-msgstr ""
-
 msgid "B4W: zero level"
 msgstr ""
 
@@ -2323,10 +2378,22 @@ msgstr ""
 msgid "Camera target location for 'TARGET' camera"
 msgstr ""
 
+msgid "B4W: display limits in viewport"
+msgstr ""
+
+msgid "Display limits for the current camera model in viewport"
+msgstr ""
+
 msgid "B4W: use distance limits"
 msgstr ""
 
 msgid "Check if you wish to set distance limits"
+msgstr ""
+
+msgid "B4W: use zooming"
+msgstr ""
+
+msgid "Enable various limits to set up camera zooming behaviour."
 msgstr ""
 
 msgid "B4W: Minimum distance to target"
@@ -2431,6 +2498,24 @@ msgstr ""
 msgid "Enable panning mode"
 msgstr ""
 
+msgid "B4W: enable pivot limits"
+msgstr ""
+
+msgid "Enable pivot limits"
+msgstr ""
+
+msgid "B4W: Minimum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "Minimum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "B4W: Maximum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "Maximum Z coordinate for the camera pivot point"
+msgstr ""
+
 msgid "B4W: Rotation down limit"
 msgstr ""
 
@@ -2471,6 +2556,9 @@ msgid "B4W: generate shadows"
 msgstr ""
 
 msgid "Whether the lamp generates shadows"
+msgstr ""
+
+msgid "B4W: use shadow"
 msgstr ""
 
 msgid "B4W: dynamic intensity"
@@ -2650,10 +2738,13 @@ msgstr ""
 msgid "B4W: color correction settings"
 msgstr ""
 
-msgid "B4W: enable antialiasing"
+msgid "B4W: antialiasing quality"
 msgstr ""
 
-msgid "Enable antialiasing"
+msgid "antialiasing quality"
+msgstr ""
+
+msgid "NONE"
 msgstr ""
 
 msgid "B4W: enable tags"
@@ -2693,6 +2784,12 @@ msgid "B4W: enable anchors visibility"
 msgstr ""
 
 msgid "Enable anchors visibility detection"
+msgstr ""
+
+msgid "B4W: use default animation"
+msgstr ""
+
+msgid "The world will be animated if possible"
 msgstr ""
 
 msgid "B4W: assets load"
@@ -2800,34 +2897,7 @@ msgstr ""
 msgid "The object will receive caustics from water"
 msgstr ""
 
-msgid "B4W: use default animation"
-msgstr ""
-
 msgid "The object will be animated if possible"
-msgstr ""
-
-msgid "B4W: animation behavior"
-msgstr ""
-
-msgid "The behavior of finished animation: stop, repeat or reset"
-msgstr ""
-
-msgid "Loop"
-msgstr ""
-
-msgid "Behavior: cyclically repeat the finished animation"
-msgstr ""
-
-msgid "Finish Reset"
-msgstr ""
-
-msgid "Behavior: reset the finished animation"
-msgstr ""
-
-msgid "Finish Stop"
-msgstr ""
-
-msgid "Behavior: stop the finished animation"
 msgstr ""
 
 msgid "B4W: animation mixing"
@@ -2974,6 +3044,15 @@ msgstr ""
 msgid "B4W: character settings"
 msgstr ""
 
+msgid "B4W: enable viewport alignment"
+msgstr ""
+
+msgid "Enable viewport alignment"
+msgstr ""
+
+msgid "B4W: Viewport Alignment"
+msgstr ""
+
 msgid "B4W: animation clean keys"
 msgstr ""
 
@@ -3032,6 +3111,12 @@ msgid "Make an object anchor one"
 msgstr ""
 
 msgid "B4W: anchor settings"
+msgstr ""
+
+msgid "B4W: line renderer"
+msgstr ""
+
+msgid "Use object for line rendering"
 msgstr ""
 
 msgid "B4W: speaker behavior"
@@ -3454,10 +3539,16 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+msgid "Scene"
+msgstr ""
+
 msgid "Canvas"
 msgstr ""
 
 msgid "B4W: scene"
+msgstr ""
+
+msgid "Source ID"
 msgstr ""
 
 msgid "B4W: source size"
@@ -3610,13 +3701,7 @@ msgstr ""
 msgid "Particles coordinate system"
 msgstr ""
 
-msgid "World"
-msgstr ""
-
 msgid "World coordinate system"
-msgstr ""
-
-msgid "Local"
 msgstr ""
 
 msgid "Emitter's coordinate system"
@@ -3721,9 +3806,6 @@ msgstr ""
 msgid "Wind bending inheritance"
 msgstr ""
 
-msgid "Parent"
-msgstr ""
-
 msgid "inherit from parent"
 msgstr ""
 
@@ -3769,854 +3851,62 @@ msgstr ""
 msgid "How soft should the particles be"
 msgstr ""
 
-msgid "Render Layers"
+msgctxt "Operator"
+msgid "Warning: Server error."
 msgstr ""
 
-msgid "Not available in Blend4Web"
+msgid "Message string"
+msgstr ""
+
+msgid "Server starting error: "
+msgstr ""
+
+msgid "Could not start the server: "
+msgstr ""
+
+msgid "Server stopping error: "
 msgstr ""
 
 msgctxt "Operator"
-msgid "Bake Skeletal Animation"
+msgid "B4W Stop Server"
 msgstr ""
 
-msgid "Not an armature object"
-msgstr ""
-
-msgid "No animation data"
-msgstr ""
-
-msgid "Armature object is linked"
+msgid "Stop server"
 msgstr ""
 
 msgctxt "Operator"
-msgid "B4W Constraints Mute"
+msgid "B4W Start Server"
+msgstr ""
+
+msgid "Start server"
 msgstr ""
 
 msgctxt "Operator"
-msgid "B4W Constraints UnMute"
+msgid "B4W Open SDK"
 msgstr ""
 
-msgid "Bake Skeletal Animation"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Optimize Keyframes"
-msgstr ""
-
-msgid "Use Blender's Native Baker"
+msgid "Open Blend4Web SDK"
 msgstr ""
 
 msgctxt "Operator"
-msgid "Add animation"
+msgid "B4W Open Project Manager"
 msgstr ""
 
-msgid "Add animation"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Remove animation"
-msgstr ""
-
-msgid "Remove animation"
-msgstr ""
-
-msgid "B4W: animation"
-msgstr ""
-
-msgid "B4W: animation index"
-msgstr ""
-
-msgid "B4W: use bpy anim baker"
-msgstr ""
-
-msgid "PosNor"
-msgstr ""
-
-msgid "Vertices"
-msgstr ""
-
-msgid "Start"
-msgstr ""
-
-msgid "First frame of vertex animation"
-msgstr ""
-
-msgid "End"
-msgstr ""
-
-msgid "End frame of vertex animation"
-msgstr ""
-
-msgid "Averaging"
-msgstr ""
-
-msgid "Perform vertex animation averaging: mix end "
-msgstr ""
-
-msgid "Interval"
-msgstr ""
-
-msgid "Averaging interval"
-msgstr ""
-
-msgid "Allow animation to be controlled by the NLA"
-msgstr ""
-
-msgid "Bake Vertex Animation"
-msgstr ""
-
-msgid "Status: "
-msgstr ""
-
-msgid " frames recorded"
-msgstr ""
-
-msgid "Status: Empty"
+msgid "Open Project Manager"
 msgstr ""
 
 msgctxt "Operator"
-msgid "Add vertex animation"
+msgid "B4W Preview"
 msgstr ""
 
-msgid "Add vertex animation"
+msgid "Preview the current scene in the Viewer"
 msgstr ""
 
-msgid "New Anim"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Remove vertex animation"
-msgstr ""
-
-msgid "Remove vertex animation"
+msgid "Could not open browser: "
 msgstr ""
 
 msgctxt "Operator"
-msgid "Bake vertex animation"
-msgstr ""
-
-msgid "Bake vertex animation"
-msgstr ""
-
-msgid "Bake start"
-msgstr ""
-
-msgid "Bake finish"
-msgstr ""
-
-msgid "Bake error"
-msgstr ""
-
-msgid "B4W: vertex animation"
-msgstr ""
-
-msgid "B4W: vertex animation index"
-msgstr ""
-
-msgid "Child Node:"
-msgstr ""
-
-msgid "Dupli Child:"
-msgstr ""
-
-msgid "PLAY"
-msgstr ""
-
-msgid "Play Animation"
-msgstr ""
-
-msgid "STOP"
-msgstr ""
-
-msgid "Stop Animation"
-msgstr ""
-
-msgid "INTENSITY"
-msgstr ""
-
-msgid "Noop"
-msgstr ""
-
-msgid "No operation"
-msgstr ""
-
-msgid "Page Param"
-msgstr ""
-
-msgid "Store numeric page parameter to a register"
-msgstr ""
-
-msgid "Hide Object"
-msgstr ""
-
-msgid "Show Object"
-msgstr ""
-
-msgid "Page Redirect"
-msgstr ""
-
-msgid "Redirect current page to given URL"
-msgstr ""
-
-msgid "Math Operation"
-msgstr ""
-
-msgid "Perform a math operation"
-msgstr ""
-
-msgid "Variable Store"
-msgstr ""
-
-msgid "Store a value to a variable"
-msgstr ""
-
-msgid "Conditional Jump"
-msgstr ""
-
-msgid "Conditional jump"
-msgstr ""
-
-msgid "Jump"
-msgstr ""
-
-msgid "Jump to the slot by label"
-msgstr ""
-
-msgid "Select & Play Timeline"
-msgstr ""
-
-msgid "Select an object then play timeline"
-msgstr ""
-
-msgid "Select"
-msgstr ""
-
-msgid "Select an object"
-msgstr ""
-
-msgid "Play Timeline"
-msgstr ""
-
-msgid "Play NLA animation"
-msgstr ""
-
-msgid "Entry Point"
-msgstr ""
-
-msgid "Play Object Animation"
-msgstr ""
-
-msgid "Send Request"
-msgstr ""
-
-msgid "Inherit Material"
-msgstr ""
-
-msgid "Set Shader Node Param"
-msgstr ""
-
-msgid "Delay"
-msgstr ""
-
-msgid "Set Delay Before Next Node Processing"
-msgstr ""
-
-msgid "Apply Shape Key"
-msgstr ""
-
-msgid "Set the value of the shape key"
-msgstr ""
-
-msgid "Outline"
-msgstr ""
-
-msgid "Play or stop outline animation"
-msgstr ""
-
-msgid "Select & Play Animation"
-msgstr ""
-
-msgid "Select an object then play Object Animation"
-msgstr ""
-
-msgid "Divide"
-msgstr ""
-
-msgid "Subtract"
-msgstr ""
-
-msgid "Multiply"
-msgstr ""
-
-msgid "Greater Than or Equal (>=)"
-msgstr ""
-
-msgid "Greater than or equal"
-msgstr ""
-
-msgid "Less Than or Equal (<=)"
-msgstr ""
-
-msgid "Less than or equal"
-msgstr ""
-
-msgid "Greater Than (>)"
-msgstr ""
-
-msgid "Greater than"
-msgstr ""
-
-msgid "Less Than (<)"
-msgstr ""
-
-msgid "Less than"
-msgstr ""
-
-msgid "Not Equal (!=)"
-msgstr ""
-
-msgid "Not equal"
-msgstr ""
-
-msgid "Equal (=)"
-msgstr ""
-
-msgid "Equal"
-msgstr ""
-
-msgid "No var source"
-msgstr ""
-
-msgid "Bad object field!"
-msgstr ""
-
-msgid "Start marker field is empty!"
-msgstr ""
-
-msgid "Page param field is empty!"
-msgstr ""
-
-msgid "Url field is empty!"
-msgstr ""
-
-msgid "New var. field is empty!"
-msgstr ""
-
-msgid "Destination field is empty!"
-msgstr ""
-
-msgid "Operand 1 field is empty!"
-msgstr ""
-
-msgid "Operand 2 field is empty!"
-msgstr ""
-
-msgid "Material field is not correct!"
-msgstr ""
-
-msgid "Object field is not correct!"
-msgstr ""
-
-msgid "Please select node material!"
-msgstr ""
-
-msgid "Node field is not correct!"
-msgstr ""
-
-msgid "Selected node is not supported!"
-msgstr ""
-
-#, python-format
-msgid "can't find a node: %s:%s"
-msgstr ""
-
-msgid "Blend4Web logic"
-msgstr ""
-
-msgid "Blend4Web logic nodes"
-msgstr ""
-
-msgid "SlotJumpSocketOutput"
-msgstr ""
-
-msgid "LogicOperator Node Socket"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "Previous"
-msgstr ""
-
-msgid "False"
-msgstr ""
-
-msgid "True"
-msgstr ""
-
-msgid "Miss"
-msgstr ""
-
-msgid "Hit"
-msgstr ""
-
-msgid "Start Marker"
-msgstr ""
-
-msgid "First marker of the playback"
-msgstr ""
-
-msgid "End Marker"
-msgstr ""
-
-msgid "Final marker of the playback"
-msgstr ""
-
-msgid "Target Slot"
-msgstr ""
-
-msgid "Name of the target slot"
-msgstr ""
-
-msgid "Var 1"
-msgstr ""
-
-msgid "Variable name"
-msgstr ""
-
-msgid "Var 2"
-msgstr ""
-
-msgid "Destination Var"
-msgstr ""
-
-msgid "Define Var"
-msgstr ""
-
-msgid "Num"
-msgstr ""
-
-msgid "First numeric operand"
-msgstr ""
-
-msgid "Second numeric operand"
-msgstr ""
-
-msgid "Variable"
-msgstr ""
-
-msgid "First variable operand"
-msgstr ""
-
-msgid "Second variable operand"
-msgstr ""
-
-msgid "Operation"
-msgstr ""
-
-msgid "Operation to perform on input operands"
-msgstr ""
-
-msgid "Operation to control outline animation"
-msgstr ""
-
-msgid "Condition"
-msgstr ""
-
-msgid "Conditonal operator"
-msgstr ""
-
-msgid "URL"
-msgstr ""
-
-msgid "Target URL"
-msgstr ""
-
-msgid "Param Name"
-msgstr ""
-
-msgid "Param name"
-msgstr ""
-
-msgid "label2"
-msgstr ""
-
-msgid "Error messages"
-msgstr ""
-
-msgid "Anim. Name"
-msgstr ""
-
-msgid "Animation Name"
-msgstr ""
-
-msgid "B4W: Variables"
-msgstr ""
-
-msgid "Variables for current thread"
-msgstr ""
-
-msgid "B4W: Objects Paths"
-msgstr ""
-
-msgid "Contain a pointer to target object"
-msgstr ""
-
-msgid "B4W: Nodes Paths"
-msgstr ""
-
-msgid "Contain a pointer to target node"
-msgstr ""
-
-msgid "B4W: Materials names"
-msgstr ""
-
-msgid "Contain a materials names"
-msgstr ""
-
-msgid "B4W: float array"
-msgstr ""
-
-msgid "Contain floats"
-msgstr ""
-
-msgid "B4W: bools array"
-msgstr ""
-
-msgid "Contain bools"
-msgstr ""
-
-msgid "B4W: variables array"
-msgstr ""
-
-msgid "Contain variables"
-msgstr ""
-
-msgid "B4W: common usage names"
-msgstr ""
-
-msgid "Contain common usage name storage"
-msgstr ""
-
-msgid "Child"
-msgstr ""
-
-msgid "Dupli Child"
-msgstr ""
-
-msgid "Child Node"
-msgstr ""
-
-msgid "Not node material"
-msgstr ""
-
-msgid "Wrong Material field"
-msgstr ""
-
-msgid "Material:"
-msgstr ""
-
-msgid "Object is not selected"
-msgstr ""
-
-msgid "No child elements"
-msgstr ""
-
-msgid "Do Not Wait"
-msgstr ""
-
-msgid "Select Object:"
-msgstr ""
-
-msgid "Animate Object:"
-msgstr ""
-
-msgid "Object:"
-msgstr ""
-
-msgid "Shape Key"
-msgstr ""
-
-msgid "Value"
-msgstr ""
-
-msgid "No shape key source"
-msgstr ""
-
-msgid "Operand1:"
-msgstr ""
-
-msgid "Operand2:"
-msgstr ""
-
-msgid "New variable"
-msgstr ""
-
-msgid "New var."
-msgstr ""
-
-msgid "Var. name"
-msgstr ""
-
-msgid "Destination:"
-msgstr ""
-
-msgid "Url:"
-msgstr ""
-
-msgid "Parse response arguments:"
-msgstr ""
-
-msgid "Node:"
-msgstr ""
-
-msgid "Parameters:"
-msgstr ""
-
-msgid "RGB:"
-msgstr ""
-
-msgid "Value:"
-msgstr ""
-
-msgid "No editable parameters available"
-msgstr ""
-
-msgid "Param Name:"
-msgstr ""
-
-msgid "Logic Node"
-msgstr ""
-
-msgid "Logic Nodes"
-msgstr ""
-
-msgid "Layout"
-msgstr ""
-
-msgid "Entry Point node is not found!"
-msgstr ""
-
-msgid "Node tree is empty!"
-msgstr ""
-
-msgid "Input is not connected!"
-msgstr ""
-
-msgid "No path from Entry point!"
-msgstr ""
-
-msgid "Subtrees overlapping is not allowed!"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Toggle Node Mute"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Parse response list add item"
-msgstr ""
-
-msgid "Node tree"
-msgstr ""
-
-msgid "Node name"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Parse response list remove item"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Edit object item level"
-msgstr ""
-
-msgid "Item name"
-msgstr ""
-
-msgid "Item type"
-msgstr ""
-
-msgid "reverse"
-msgstr ""
-
-msgid "Delete dir if true"
-msgstr ""
-
-msgid "Depth of Field"
-msgstr ""
-
-msgid "Focus:"
-msgstr ""
-
-msgid "Distance"
-msgstr ""
-
-msgid "Front"
-msgstr ""
-
-msgid "Rear"
-msgstr ""
-
-msgid "Power"
-msgstr ""
-
-msgid "Camera"
-msgstr ""
-
-msgid "Sensor:"
-msgstr ""
-
-msgid "Height"
-msgstr ""
-
-msgid "Unsupported sensor type."
-msgstr ""
-
-msgid "Sound"
-msgstr ""
-
-msgid "Random Volume"
-msgstr ""
-
-msgid "Random Pitch"
-msgstr ""
-
-msgid "Disable Doppler"
-msgstr ""
-
-msgid "Cyclic Play"
-msgstr ""
-
-msgid "Volume:"
-msgstr ""
-
-msgid "Distance:"
-msgstr ""
-
-msgid "Reference"
-msgstr ""
-
-msgid "Cone"
-msgstr ""
-
-msgid "Angle:"
-msgstr ""
-
-msgid "Outer"
-msgstr ""
-
-msgid "Inner"
-msgstr ""
-
-msgid "Normals"
-msgstr ""
-
-msgid "Lamp"
-msgstr ""
-
-msgid "Area type is not supported"
-msgstr ""
-
-msgid "Falloff:"
-msgstr ""
-
-msgid "Dynamic Intensity"
-msgstr ""
-
-msgid "Generate Shadows"
-msgstr ""
-
-msgid "Spot Shape"
-msgstr ""
-
-msgid "Camera Move Style"
-msgstr ""
-
-msgid "Move Style"
-msgstr ""
-
-msgid "Target Location"
-msgstr ""
-
-msgid "Copy Cursor Location"
-msgstr ""
-
-msgid "Camera Velocities:"
-msgstr ""
-
-msgid "Translation Velocity"
-msgstr ""
-
-msgid "Rotation Velocity"
-msgstr ""
-
-msgid "Zoom Velocity"
-msgstr ""
-
-msgid "Camera Limits:"
-msgstr ""
-
-msgid "Use Horizontal Translation Limits"
-msgstr ""
-
-msgid "MinX"
-msgstr ""
-
-msgid "MaxX"
-msgstr ""
-
-msgid "Use Vertical Translation Limits"
-msgstr ""
-
-msgid "MinY"
-msgstr ""
-
-msgid "MaxY"
-msgstr ""
-
-msgid "Use Distance Limits"
-msgstr ""
-
-msgid "Min"
-msgstr ""
-
-msgid "Hover Angle Limits:"
-msgstr ""
-
-msgid "Down Angle"
-msgstr ""
-
-msgid "Up Angle"
-msgstr ""
-
-msgid "Zero Level"
-msgstr ""
-
-msgid "Use Horizontal Rotation"
-msgstr ""
-
-msgid "Use Horizontal Rotation Clamping"
-msgstr ""
-
-msgid "Left Angle"
-msgstr ""
-
-msgid "Right Angle"
-msgstr ""
-
-msgid "Use Vertical Rotation Clamping"
-msgstr ""
-
-msgid "Use Panning Mode"
-msgstr ""
-
-msgid "Speaker Behavior"
-msgstr ""
-
-msgid "LOCKED_TRACK constraint reserved for "
+msgid "B4W Camera Target Copy"
 msgstr ""
 
 msgid "Render Sky"
@@ -4638,6 +3928,9 @@ msgid "Mist"
 msgstr ""
 
 msgid "Depth"
+msgstr ""
+
+msgid "Height"
 msgstr ""
 
 msgid "Fall off"
@@ -4682,55 +3975,147 @@ msgstr ""
 msgid "Mie Distribution"
 msgstr ""
 
-msgctxt "Operator"
-msgid "Warning: Server error."
+msgid "Apply Default Animation"
 msgstr ""
 
-msgid "Message string"
+msgid "Behavior"
 msgstr ""
 
-msgid "Server starting error: "
+msgid "Export Options"
 msgstr ""
 
-msgid "Could not start the server: "
-msgstr ""
-
-msgid "Server stopping error: "
+msgid "Do Not Export"
 msgstr ""
 
 msgctxt "Operator"
-msgid "B4W Stop Server"
+msgid "Fast Preview"
 msgstr ""
 
-msgid "Stop server"
+msgid "Preview"
+msgstr ""
+
+msgid "This texture type is not supported."
+msgstr ""
+
+msgid "Mapping"
+msgstr ""
+
+msgid "Coordinates:"
+msgstr ""
+
+msgid "Map:"
+msgstr ""
+
+msgid "This coordinates type is not supported."
+msgstr ""
+
+msgid "Environment Map"
+msgstr ""
+
+msgid "This environment map type is not supported"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Ramp"
+msgstr ""
+
+msgid "Image Sampling"
+msgstr ""
+
+msgid "Use Alpha"
+msgstr ""
+
+msgid "Disable Compression"
+msgstr ""
+
+msgid "Enable Anisotropic Filtering"
+msgstr ""
+
+msgid "Anisotropic Filtering"
+msgstr ""
+
+msgid "Shore Distance Map"
+msgstr ""
+
+msgid "Source Type"
+msgstr ""
+
+msgid "Source Size"
+msgstr ""
+
+msgid "Extension"
+msgstr ""
+
+msgid "Enable Mipmapping"
+msgstr ""
+
+msgid "Sky Texture Usage"
+msgstr ""
+
+msgid "Water Foam"
+msgstr ""
+
+msgid "UV Frequency"
+msgstr ""
+
+msgid "UV Magnitude"
+msgstr ""
+
+msgid "Influence"
+msgstr ""
+
+msgid "Diffuse:"
+msgstr ""
+
+msgid "Specular:"
+msgstr ""
+
+msgid "Shading:"
+msgstr ""
+
+msgid "Geometry:"
+msgstr ""
+
+msgid "General:"
+msgstr ""
+
+msgid "Blend"
+msgstr ""
+
+msgid "Negative"
+msgstr ""
+
+msgid "DVar"
+msgstr ""
+
+msgid "Image Mapping"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Parallax"
+msgstr ""
+
+msgid "Scale"
+msgstr ""
+
+msgid "Steps"
+msgstr ""
+
+msgid "Lod Distance"
 msgstr ""
 
 msgctxt "Operator"
-msgid "B4W Start Server"
-msgstr ""
-
-msgid "Start server"
-msgstr ""
-
-msgctxt "Operator"
-msgid "B4W Open SDK"
-msgstr ""
-
-msgid "Open SDK"
-msgstr ""
-
-msgid "Could not open browser: "
-msgstr ""
-
-msgctxt "Operator"
-msgid "Blend4Web initialization error!"
-msgstr ""
-
-msgctxt "Operator"
-msgid "Warning: Blender version mismatch."
+msgid "B4W Vertex Groups To Materials"
 msgstr ""
 
 msgid "Reflections and Refractions"
+msgstr ""
+
+msgid "Reflections"
 msgstr ""
 
 msgid "Quality"
@@ -4740,6 +4125,9 @@ msgid "Refractions"
 msgstr ""
 
 msgid "Motion Blur"
+msgstr ""
+
+msgid "Factor"
 msgstr ""
 
 msgid "Decay Threshold"
@@ -4760,6 +4148,9 @@ msgstr ""
 msgid "Color Correction"
 msgstr ""
 
+msgid "Brightness"
+msgstr ""
+
 msgid "Contrast"
 msgstr ""
 
@@ -4772,7 +4163,13 @@ msgstr ""
 msgid "Glow Materials"
 msgstr ""
 
+msgid "Enable"
+msgstr ""
+
 msgid "Small Mask:"
+msgstr ""
+
+msgid "Width"
 msgstr ""
 
 msgid "Large Mask:"
@@ -4811,10 +4208,13 @@ msgstr ""
 msgid "Steps per Pass"
 msgstr ""
 
-msgid "Antialiasing"
+msgid "Anti-Aliasing"
 msgstr ""
 
-msgid "Enable Antialiasing"
+msgid "AA Quality"
+msgstr ""
+
+msgid "Shadows"
 msgstr ""
 
 msgid "Render Shadows"
@@ -4866,18 +4266,25 @@ msgid "Development server is down."
 msgstr ""
 
 msgctxt "Operator"
-msgid "Stop"
+msgid "Stop Server"
 msgstr ""
 
 msgctxt "Operator"
-msgid "Start"
+msgid "Start Server"
 msgstr ""
 
 msgid "Server actions are available in the other Blender instance."
 msgstr ""
 
 msgctxt "Operator"
-msgid "Open SDK"
+msgid "SDK Index"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Project Manager"
+msgstr ""
+
+msgid "Blend4Web SDK was not found."
 msgstr ""
 
 msgid "Timeline"
@@ -4887,4 +4294,1000 @@ msgid "Frame Range:"
 msgstr ""
 
 msgid "Frame Rate:"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Fit to Camera"
+msgstr ""
+
+msgid "Wrong object"
+msgstr ""
+
+msgid "Unsupported camera type"
+msgstr ""
+
+msgid "Vertex groups"
+msgstr ""
+
+msgid "Clean Unused Vertex Groups"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Remove Unused VGroups"
+msgstr ""
+
+msgid "Background"
+msgstr ""
+
+msgid "Units"
+msgstr ""
+
+msgid "Simplify"
+msgstr ""
+
+msgid "Viewport:"
+msgstr ""
+
+msgid "Subdivision"
+msgstr ""
+
+msgid "Child Particles"
+msgstr ""
+
+msgid "Render:"
+msgstr ""
+
+msgid "Shadow Samples"
+msgstr ""
+
+msgid "AO and SSS"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Dynamic Compressor"
+msgstr ""
+
+msgid "Compressor settings:"
+msgstr ""
+
+msgid "Threshold"
+msgstr ""
+
+msgid "Knee"
+msgstr ""
+
+msgid "Ratio"
+msgstr ""
+
+msgid "Attack"
+msgstr ""
+
+msgid "Release"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Refresh"
+msgstr ""
+
+msgid "Refresh list of available Trees"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add"
+msgstr ""
+
+msgid "Add new logic node tree"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove"
+msgstr ""
+
+msgid "Remove logic node tree"
+msgstr ""
+
+msgid "Logic Editor"
+msgstr ""
+
+msgid "Active Node Tree:"
+msgstr ""
+
+msgid "NLA"
+msgstr ""
+
+msgid "Cyclic NLA"
+msgstr ""
+
+msgid "Meta Tags"
+msgstr ""
+
+msgid "Description Source:"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Enable Physics"
+msgstr ""
+
+msgid "Batching"
+msgstr ""
+
+msgid "Batch Grid Size"
+msgstr ""
+
+msgid "Objects Selection"
+msgstr ""
+
+msgid "Anchors"
+msgstr ""
+
+msgid "Detect Anchor Visibility"
+msgstr ""
+
+msgid "Diffuse"
+msgstr ""
+
+msgid "Smooth"
+msgstr ""
+
+msgid "Fresnel"
+msgstr ""
+
+msgid "Specular"
+msgstr ""
+
+msgid "Hardness"
+msgstr ""
+
+msgid "IOR"
+msgstr ""
+
+msgid "Slope"
+msgstr ""
+
+msgid "Shading"
+msgstr ""
+
+msgid "Double-Sided Lighting"
+msgstr ""
+
+msgid "Transparency"
+msgstr ""
+
+msgid "Show Transparency"
+msgstr ""
+
+msgid "Mirror"
+msgstr ""
+
+msgid "Show Reflectivity"
+msgstr ""
+
+msgid "Halo"
+msgstr ""
+
+msgid "Options:"
+msgstr ""
+
+msgid "Rings"
+msgstr ""
+
+msgid "Lines"
+msgstr ""
+
+msgid "Star Tips"
+msgstr ""
+
+msgid "Special: Stars"
+msgstr ""
+
+msgid "Blending Height"
+msgstr ""
+
+msgid "Minimum Height"
+msgstr ""
+
+msgid "Rendering Options"
+msgstr ""
+
+msgid "Do Not Render"
+msgstr ""
+
+msgid "Render Above All"
+msgstr ""
+
+msgid "Wettable"
+msgstr ""
+
+msgid "Refractive"
+msgstr ""
+
+msgid "Refraction Bump"
+msgstr ""
+
+msgid "Terrain Dynamic Grass"
+msgstr ""
+
+msgid "Grass Size (R)"
+msgstr ""
+
+msgid "Grass Color (RGB)"
+msgstr ""
+
+msgid "Special: Collision"
+msgstr ""
+
+msgid "Ghost"
+msgstr ""
+
+msgid "Collision Group"
+msgstr ""
+
+msgid "Collision Mask"
+msgstr ""
+
+msgid "Water"
+msgstr ""
+
+msgid "Shore Smoothing"
+msgstr ""
+
+msgid "Absorb Factor"
+msgstr ""
+
+msgid "Foam:"
+msgstr ""
+
+msgid "Shallow water:"
+msgstr ""
+
+msgid "Underwater fog:"
+msgstr ""
+
+msgid "Density"
+msgstr ""
+
+msgid "Shore water:"
+msgstr ""
+
+msgid "Sub Surface Scattering"
+msgstr ""
+
+msgid "Strength"
+msgstr ""
+
+msgid "Ripples (NormalMap)"
+msgstr ""
+
+msgid "Velocity"
+msgstr ""
+
+msgid "Waves"
+msgstr ""
+
+msgid "Wave Height"
+msgstr ""
+
+msgid "Wave Length"
+msgstr ""
+
+msgid "Noise Dist Scale 0"
+msgstr ""
+
+msgid "Noise Dist Scale 1"
+msgstr ""
+
+msgid "Noise Dist Freq 0"
+msgstr ""
+
+msgid "Noise Dist Freq 1"
+msgstr ""
+
+msgid "Min Dir Shore Fac"
+msgstr ""
+
+msgid "Dir Frequency"
+msgstr ""
+
+msgid "Noise Dir Scale"
+msgstr ""
+
+msgid "Noise Dir Freq"
+msgstr ""
+
+msgid "Min Dir Noise Fac"
+msgstr ""
+
+msgid "Min Dist Fac"
+msgstr ""
+
+msgid "Horizontal Factor"
+msgstr ""
+
+msgid "Generate Mesh"
+msgstr ""
+
+msgid "Cascades Number"
+msgstr ""
+
+msgid "Subdivisions"
+msgstr ""
+
+msgid "Detailed Distance"
+msgstr ""
+
+msgid "Number of vertices "
+msgstr ""
+
+msgid "Caustics"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Export Error Dialog"
+msgstr ""
+
+msgid "=== BLEND4WEB: EXPORT ERROR ==="
+msgstr ""
+
+msgctxt "Operator"
+msgid "Export Messages Dialog"
+msgstr ""
+
+msgid "=== BLEND4WEB: EXPORT MESSAGES ==="
+msgstr ""
+
+msgid "ERRORS:"
+msgstr ""
+
+msgid "WARNINGS:"
+msgstr ""
+
+msgctxt "Operator"
+msgid "File Error Dialog"
+msgstr ""
+
+msgid "=== BLEND4WEB: FILE ERROR ==="
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Export JSON"
+msgstr ""
+
+msgid "Run in Viewer"
+msgstr ""
+
+msgid "Open the exported scene in the Viewer using the default browser"
+msgstr ""
+
+msgid "Required for running in command line"
+msgstr ""
+
+msgid "Is HTML export"
+msgstr ""
+
+msgid "Is html export"
+msgstr ""
+
+msgctxt "Operator"
+msgid "B4W Get Export Path"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Blend4Web initialization error!"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Warning: Blender version mismatch."
+msgstr ""
+
+msgctxt "Operator"
+msgid "Warning: Deprecated path to scripts."
+msgstr ""
+
+msgid "Clamp"
+msgstr ""
+
+msgid "Linear to SRGB"
+msgstr ""
+
+msgid "SRGB to Linear"
+msgstr ""
+
+msgid "Vector View"
+msgstr ""
+
+msgid "Normal View"
+msgstr ""
+
+msgid "Reflect"
+msgstr ""
+
+msgid "Refraction"
+msgstr ""
+
+msgid "Translucency"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Smoothstep"
+msgstr ""
+
+msgid "Glow Output"
+msgstr ""
+
+msgid "Levels of Quality"
+msgstr ""
+
+msgid "Depth of Field"
+msgstr ""
+
+msgid "Focus:"
+msgstr ""
+
+msgid "Front"
+msgstr ""
+
+msgid "Rear"
+msgstr ""
+
+msgid "Power"
+msgstr ""
+
+msgid "Sensor:"
+msgstr ""
+
+msgid "Unsupported sensor type."
+msgstr ""
+
+msgid "Random Volume"
+msgstr ""
+
+msgid "Random Pitch"
+msgstr ""
+
+msgid "Fade-In"
+msgstr ""
+
+msgid "Fade-Out"
+msgstr ""
+
+msgid "Disable Doppler"
+msgstr ""
+
+msgid "Cyclic Play"
+msgstr ""
+
+msgid "Random Delay"
+msgstr ""
+
+msgid "Volume:"
+msgstr ""
+
+msgid "Distance:"
+msgstr ""
+
+msgid "Reference"
+msgstr ""
+
+msgid "Cone"
+msgstr ""
+
+msgid "Angle:"
+msgstr ""
+
+msgid "Outer"
+msgstr ""
+
+msgid "Inner"
+msgstr ""
+
+msgid "Normals"
+msgstr ""
+
+msgid "Angle"
+msgstr ""
+
+msgid "Lamp"
+msgstr ""
+
+msgid "Area type is not supported"
+msgstr ""
+
+msgid "Falloff:"
+msgstr ""
+
+msgid "Dynamic Intensity"
+msgstr ""
+
+msgid "Shadow"
+msgstr ""
+
+msgid "Spot Shape"
+msgstr ""
+
+msgid "Camera Move Style"
+msgstr ""
+
+msgid "Move Style"
+msgstr ""
+
+msgid "Target Location"
+msgstr ""
+
+msgid "Look At Cursor"
+msgstr ""
+
+msgid "Camera Velocities:"
+msgstr ""
+
+msgid "Translation Velocity"
+msgstr ""
+
+msgid "Rotation Velocity"
+msgstr ""
+
+msgid "Zoom Velocity"
+msgstr ""
+
+msgid "Camera Limits"
+msgstr ""
+
+msgid "Display Limits in Viewport"
+msgstr ""
+
+msgid "Horizontal Translation Limits"
+msgstr ""
+
+msgid "MinX"
+msgstr ""
+
+msgid "MaxX"
+msgstr ""
+
+msgid "Vertical Translation Limits"
+msgstr ""
+
+msgid "MinY"
+msgstr ""
+
+msgid "MaxY"
+msgstr ""
+
+msgid "Distance Limits"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Use Zooming"
+msgstr ""
+
+msgid "Down"
+msgstr ""
+
+msgid "Up"
+msgstr ""
+
+msgid "Zero Level"
+msgstr ""
+
+msgid "Use Horizontal Rotation"
+msgstr ""
+
+msgid "Horizontal Rotation Limits"
+msgstr ""
+
+msgid "Left Angle"
+msgstr ""
+
+msgid "Right Angle"
+msgstr ""
+
+msgid "Vertical Rotation Limits"
+msgstr ""
+
+msgid "Down Angle"
+msgstr ""
+
+msgid "Up Angle"
+msgstr ""
+
+msgid "Pivot Translation Limits"
+msgstr ""
+
+msgid "MinZ"
+msgstr ""
+
+msgid "MaxZ"
+msgstr ""
+
+msgid "Use Panning Mode"
+msgstr ""
+
+msgid "Speaker Behavior"
+msgstr ""
+
+msgid "Levels of Detail"
+msgstr ""
+
+msgid "Lod Transition Ratio"
+msgstr ""
+
+msgid "Animation Blending"
+msgstr ""
+
+msgid "Proxy:"
+msgstr ""
+
+msgid "Inherit Animation"
+msgstr ""
+
+msgid "Apply Modifiers"
+msgstr ""
+
+msgid "Apply Scale And Modifiers"
+msgstr ""
+
+msgid "Export Shape Keys"
+msgstr ""
+
+msgid "Export Vertex Animation"
+msgstr ""
+
+msgid "Rendering Properties"
+msgstr ""
+
+msgid "Force Dynamic Object"
+msgstr ""
+
+msgid "Disable Frustum Culling"
+msgstr ""
+
+msgid "Dynamic Geometry"
+msgstr ""
+
+msgid "Line Renderer"
+msgstr ""
+
+msgid "Cast Shadows "
+msgstr ""
+
+msgid "Receive Shadows "
+msgstr ""
+
+msgid "Cast Only "
+msgstr ""
+
+msgid "Billboard"
+msgstr ""
+
+msgid "Preserve Global Rotation and Scale"
+msgstr ""
+
+msgid "Reflective"
+msgstr ""
+
+msgid "Reflection Plane:"
+msgstr ""
+
+msgid "Reflexible"
+msgstr ""
+
+msgid "Reflexible Only"
+msgstr ""
+
+msgid "Selection and Outlining"
+msgstr ""
+
+msgid "Selectable"
+msgstr ""
+
+msgid "Enable Outlining"
+msgstr ""
+
+msgid "Outline on Select"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Period"
+msgstr ""
+
+msgid "Relapses"
+msgstr ""
+
+msgid "Enable Anchor"
+msgstr ""
+
+msgid "HTML Element ID"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Relations"
+msgstr ""
+
+msgid "Viewport Alignment"
+msgstr ""
+
+msgid "Duplication"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Wrong Dupli Type. Only Group type is supported."
+msgstr ""
+
+msgid "Wind Bending"
+msgstr ""
+
+msgid "Detail Bending:"
+msgstr ""
+
+msgid "Amplitude"
+msgstr ""
+
+msgid "Branch Amplitude"
+msgstr ""
+
+msgid "Bending Frequency"
+msgstr ""
+
+msgid "Leaves Stiffness (R)"
+msgstr ""
+
+msgid "Leaves Phase (G)"
+msgstr ""
+
+msgid "Overall Stiffness (B)"
+msgstr ""
+
+msgid "Main Bending:"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "Main Stiffness (A)"
+msgstr ""
+
+msgid "Special Effects"
+msgstr ""
+
+msgid "Disable Fogging"
+msgstr ""
+
+msgid "LOCKED_TRACK constraint reserved for "
+msgstr ""
+
+msgctxt "Context"
+msgid "Message"
+msgstr ""
+
+#, python-format
+msgid "New version of Blend4Web is available: %s"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Settings used for fluid"
+msgstr ""
+
+msgid "Settings:"
+msgstr ""
+
+#, python-format
+msgid "%d fluid particles for this frame"
+msgstr ""
+
+msgid "Free Edit"
+msgstr ""
+
+msgid "Enable emission with Object->Animation->Apply default animation."
+msgstr ""
+
+msgid "Emission"
+msgstr ""
+
+msgid "Emit From:"
+msgstr ""
+
+msgid "Particles/Face"
+msgstr ""
+
+msgid "Jittering Amount"
+msgstr ""
+
+msgid "Particle emission from 'Volume' is not supported."
+msgstr ""
+
+msgid "Cyclic Emission"
+msgstr ""
+
+msgid "Emitter Geometry:"
+msgstr ""
+
+msgid "Emitter Object:"
+msgstr ""
+
+msgid "Other:"
+msgstr ""
+
+msgid "Initial Orientation:"
+msgstr ""
+
+msgid "Angular Velocity:"
+msgstr ""
+
+#, python-format
+msgid "'%s' angular velocity mode isn't supported."
+msgstr ""
+
+msgid "Forces:"
+msgstr ""
+
+msgid "Integration:"
+msgstr ""
+
+msgid "Fluid properties:"
+msgstr ""
+
+msgid "Stiffness"
+msgstr ""
+
+msgid "Viscosity"
+msgstr ""
+
+msgid "Buoyancy"
+msgstr ""
+
+msgid "Advanced:"
+msgstr ""
+
+#, python-format
+msgid "Spacing: %g"
+msgstr ""
+
+msgid "Springs:"
+msgstr ""
+
+msgid "Force"
+msgstr ""
+
+msgid "Loops"
+msgstr ""
+
+msgid "Use Timing"
+msgstr ""
+
+msgid "Keys:"
+msgstr ""
+
+msgid "Battle:"
+msgstr ""
+
+msgid "Misc:"
+msgstr ""
+
+msgid "Relations:"
+msgstr ""
+
+msgid "Fluid interaction:"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Render"
+msgstr ""
+
+msgid "The 'Hair' Particle System requires 'Object' or 'Group' render type."
+msgstr ""
+
+msgid "Randomize Location And Size"
+msgstr ""
+
+msgid "Randomize Initial Rotation"
+msgstr ""
+
+msgid "Rotation Type"
+msgstr ""
+
+msgid "Rotation Strength"
+msgstr ""
+
+msgid "Billboard Type"
+msgstr ""
+
+msgid "Jitter Amplitude"
+msgstr ""
+
+msgid "Jitter Frequency"
+msgstr ""
+
+msgid "Billboard Geometry:"
+msgstr ""
+
+msgid "The 'Emitter' Particle System requires 'Halo' or 'Billboard' render type."
+msgstr ""
+
+msgid "Billboard Align"
+msgstr ""
+
+msgid "Dissolve Intervals:"
+msgstr ""
+
+msgid "Coordinate System"
+msgstr ""
+
+msgid "Soft Particles"
+msgstr ""
+
+msgid "Particle Softness"
+msgstr ""
+
+msgid "Field Weights"
+msgstr ""
+
+msgid "Vertex Groups"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "Cache"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display percentage makes dynamics inaccurate without baking!"
+msgstr ""
+
+msgid "Color:"
+msgstr ""
+
+msgid "Dynamic Grass"
+msgstr ""
+
+msgid "Scale Threshold"
+msgstr ""
+
+msgid "Properties Inheritance"
+msgstr ""
+
+msgid "Inherit Properties From:"
+msgstr ""
+
+msgid "Wind Bending:"
+msgstr ""
+
+msgid "Shadows:"
+msgstr ""
+
+msgid "Reflection:"
+msgstr ""
+
+msgid "Vertex Color:"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
 msgstr ""

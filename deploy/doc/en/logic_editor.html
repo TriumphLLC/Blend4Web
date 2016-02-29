@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Nodes &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Logic Nodes &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -209,7 +211,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#math">Math</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operations">Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id52">Input parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id53">Output parameters</a></li>
@@ -245,7 +247,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#web">Web</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id67">Input parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id68">Output parameters</a></li>
@@ -284,12 +286,12 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -317,6 +319,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -341,63 +347,16 @@
 <ul class="simple">
 <li><a class="reference internal" href="#logic-editor" id="id80">Logic Nodes</a><ul>
 <li><a class="reference internal" href="#id3" id="id81">Basics</a></li>
-<li><a class="reference internal" href="#control-flow" id="id82">Control Flow</a><ul>
-<li><a class="reference internal" href="#entry-point" id="id83">Entry Point</a></li>
-<li><a class="reference internal" href="#switch-select" id="id84">Switch Select</a></li>
-<li><a class="reference internal" href="#delay" id="id85">Delay</a></li>
-<li><a class="reference internal" href="#conditional-jump" id="id86">Conditional Jump</a></li>
-<li><a class="reference internal" href="#select-deprecated" id="id87">Select (Deprecated)</a></li>
-<li><a class="reference internal" href="#select-play-timeline-deprecated" id="id88">Select &amp; Play Timeline (Deprecated)</a></li>
-<li><a class="reference internal" href="#select-play-animation-deprecated" id="id89">Select &amp; Play Animation (Deprecated)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#animation" id="id90">Animation</a><ul>
-<li><a class="reference internal" href="#play-timeline-stop-timeline" id="id91">Play Timeline and Stop Timeline</a></li>
-<li><a class="reference internal" href="#play-animation" id="id92">Play Animation</a></li>
-<li><a class="reference internal" href="#stop-animation" id="id93">Stop Animation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#camera" id="id94">Camera</a><ul>
-<li><a class="reference internal" href="#move-camera" id="id95">Move Camera</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#object" id="id96">Object</a><ul>
-<li><a class="reference internal" href="#show-object" id="id97">Show Object</a></li>
-<li><a class="reference internal" href="#hide-object" id="id98">Hide Object</a></li>
-<li><a class="reference internal" href="#transform-object" id="id99">Transform Object</a></li>
-<li><a class="reference internal" href="#move-to" id="id100">Move To</a></li>
-<li><a class="reference internal" href="#apply-shape-key" id="id101">Apply Shape Key</a></li>
-<li><a class="reference internal" href="#outline" id="id102">Outline</a></li>
-<li><a class="reference internal" href="#set-shader-node-param" id="id103">Set Shader Node Param</a></li>
-<li><a class="reference internal" href="#inherit-material" id="id104">Inherit Material</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#math" id="id105">Math</a><ul>
-<li><a class="reference internal" href="#variable-store" id="id106">Variable Store</a></li>
-<li><a class="reference internal" href="#math-operation" id="id107">Math Operation</a></li>
-<li><a class="reference internal" href="#string-operation" id="id108">String Operation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#sound" id="id109">Sound</a><ul>
-<li><a class="reference internal" href="#play-sound" id="id110">Play Sound</a></li>
-<li><a class="reference internal" href="#stop-sound" id="id111">Stop Sound</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#web" id="id112">Web</a><ul>
-<li><a class="reference internal" href="#send-request" id="id113">Send Request</a></li>
-<li><a class="reference internal" href="#page-param" id="id114">Page Param</a></li>
-<li><a class="reference internal" href="#page-redirect" id="id115">Page Redirect</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#debug" id="id116">Debug</a><ul>
-<li><a class="reference internal" href="#console-print" id="id117">Console Print</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#layout" id="id118">Layout</a><ul>
-<li><a class="reference internal" href="#reroute" id="id119">Reroute</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#nla-debug" id="id120">Debugging</a></li>
+<li><a class="reference internal" href="#control-flow" id="id82">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id83">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id84">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id85">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id86">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id87">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id88">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id89">Debug</a></li>
+<li><a class="reference internal" href="#layout" id="id90">Layout</a></li>
+<li><a class="reference internal" href="#nla-debug" id="id91">Debugging</a></li>
 </ul>
 </li>
 </ul>
@@ -425,7 +384,7 @@
 <div class="section" id="control-flow">
 <h2><a class="toc-backref" href="#id82">Control Flow</a><a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="entry-point">
-<span id="nla-entry"></span><h3><a class="toc-backref" href="#id83">Entry Point</a><a class="headerlink" href="#entry-point" title="Permalink to this headline">¶</a></h3>
+<span id="nla-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="Permalink to this headline">¶</a></h3>
 <p>This is where the script starts. By using multple entry points you can create multi-threaded applications.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_entry.png"><img alt="_images/logic_editor_entry.png" class="align-center" src="_images/logic_editor_entry.png" style="width: 100%;" /></a>
 <div class="section" id="id4">
@@ -446,7 +405,7 @@
 </div>
 </div>
 <div class="section" id="switch-select">
-<span id="nla-switch-select"></span><h3><a class="toc-backref" href="#id84">Switch Select</a><a class="headerlink" href="#switch-select" title="Permalink to this headline">¶</a></h3>
+<span id="nla-switch-select"></span><h3>Switch Select<a class="headerlink" href="#switch-select" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to trace the selection of any object from the object list.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_switch_select.png"><img alt="_images/logic_editor_switch_select.png" class="align-center" src="_images/logic_editor_switch_select.png" style="width: 100%;" /></a>
 <div class="section" id="id7">
@@ -478,7 +437,7 @@
 </div>
 </div>
 <div class="section" id="delay">
-<span id="nla-delay"></span><h3><a class="toc-backref" href="#id85">Delay</a><a class="headerlink" href="#delay" title="Permalink to this headline">¶</a></h3>
+<span id="nla-delay"></span><h3>Delay<a class="headerlink" href="#delay" title="Permalink to this headline">¶</a></h3>
 <p>Make a delay before going to the next node.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
 <div class="section" id="id10">
@@ -507,7 +466,7 @@
 </div>
 </div>
 <div class="section" id="conditional-jump">
-<span id="nla-jump"></span><h3><a class="toc-backref" href="#id86">Conditional Jump</a><a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
+<span id="nla-jump"></span><h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
 <p>Go to the specified node if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
 <div class="section" id="id13">
@@ -559,7 +518,7 @@
 </div>
 </div>
 <div class="section" id="select-deprecated">
-<h3><a class="toc-backref" href="#id87">Select (Deprecated)</a><a class="headerlink" href="#select-deprecated" title="Permalink to this headline">¶</a></h3>
+<h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node is recommended.</p>
@@ -567,7 +526,7 @@
 <p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
 </div>
 <div class="section" id="select-play-timeline-deprecated">
-<h3><a class="toc-backref" href="#id88">Select &amp; Play Timeline (Deprecated)</a><a class="headerlink" href="#select-play-timeline-deprecated" title="Permalink to this headline">¶</a></h3>
+<h3>Select &amp; Play Timeline (Deprecated)<a class="headerlink" href="#select-play-timeline-deprecated" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
@@ -575,7 +534,7 @@
 <p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
 </div>
 <div class="section" id="select-play-animation-deprecated">
-<h3><a class="toc-backref" href="#id89">Select &amp; Play Animation (Deprecated)</a><a class="headerlink" href="#select-play-animation-deprecated" title="Permalink to this headline">¶</a></h3>
+<h3>Select &amp; Play Animation (Deprecated)<a class="headerlink" href="#select-play-animation-deprecated" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Deprecated! Isn&#8217;t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
@@ -584,9 +543,9 @@
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id90">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id83">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="play-timeline-stop-timeline">
-<span id="nla-play-timeline"></span><h3><a class="toc-backref" href="#id91">Play Timeline and Stop Timeline</a><a class="headerlink" href="#play-timeline-stop-timeline" title="Permalink to this headline">¶</a></h3>
+<span id="nla-play-timeline"></span><h3>Play Timeline and Stop Timeline<a class="headerlink" href="#play-timeline-stop-timeline" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to control NLA animations. The <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encounterd, or to the end of the scene&#8217;s timeline. After that, control passes on to the next node. The <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node stops the playback.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_timeline.png"><img alt="_images/logic_editor_timeline.png" class="align-center" src="_images/logic_editor_timeline.png" style="width: 100%;" /></a>
 <div class="section" id="id16">
@@ -618,7 +577,7 @@
 </div>
 </div>
 <div class="section" id="play-animation">
-<span id="nla-select-play"></span><h3><a class="toc-backref" href="#id92">Play Animation</a><a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to play object&#8217;s animation. An animation can be one of the following types:</p>
 <p>Regular Action:</p>
 <a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
@@ -669,7 +628,7 @@
 </div>
 </div>
 <div class="section" id="stop-animation">
-<span id="nla-stop-anim"></span><h3><a class="toc-backref" href="#id93">Stop Animation</a><a class="headerlink" href="#stop-animation" title="Permalink to this headline">¶</a></h3>
+<span id="nla-stop-anim"></span><h3>Stop Animation<a class="headerlink" href="#stop-animation" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to stop an object&#8217;s animation.</p>
 <div class="section" id="id22">
 <h4>Input parameters<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
@@ -698,9 +657,9 @@
 </div>
 </div>
 <div class="section" id="camera">
-<h2><a class="toc-backref" href="#id94">Camera</a><a class="headerlink" href="#camera" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id84">Camera</a><a class="headerlink" href="#camera" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="move-camera">
-<span id="nla-move-camera"></span><h3><a class="toc-backref" href="#id95">Move Camera</a><a class="headerlink" href="#move-camera" title="Permalink to this headline">¶</a></h3>
+<span id="nla-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to move the camera, including smooth interpolation of its position.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
 <div class="section" id="id25">
@@ -739,9 +698,9 @@
 </div>
 </div>
 <div class="section" id="object">
-<h2><a class="toc-backref" href="#id96">Object</a><a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id85">Object</a><a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="show-object">
-<span id="nla-show-object"></span><h3><a class="toc-backref" href="#id97">Show Object</a><a class="headerlink" href="#show-object" title="Permalink to this headline">¶</a></h3>
+<span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to show 3D objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
 <div class="section" id="id28">
@@ -770,7 +729,7 @@
 </div>
 </div>
 <div class="section" id="hide-object">
-<span id="nla-hide-object"></span><h3><a class="toc-backref" href="#id98">Hide Object</a><a class="headerlink" href="#hide-object" title="Permalink to this headline">¶</a></h3>
+<span id="nla-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to hide 3d objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
 <div class="section" id="id31">
@@ -799,7 +758,7 @@
 </div>
 </div>
 <div class="section" id="transform-object">
-<h3><a class="toc-backref" href="#id99">Transform Object</a><a class="headerlink" href="#transform-object" title="Permalink to this headline">¶</a></h3>
+<h3>Transform Object<a class="headerlink" href="#transform-object" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to transform object&#8217;s location, size and rotation angles.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
 <div class="section" id="id34">
@@ -843,7 +802,7 @@
 </div>
 </div>
 <div class="section" id="move-to">
-<span id="nla-move-to"></span><h3><a class="toc-backref" href="#id100">Move To</a><a class="headerlink" href="#move-to" title="Permalink to this headline">¶</a></h3>
+<span id="nla-move-to"></span><h3>Move To<a class="headerlink" href="#move-to" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to move objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
 <div class="section" id="id37">
@@ -878,7 +837,7 @@
 </div>
 </div>
 <div class="section" id="apply-shape-key">
-<span id="nla-shape-key"></span><h3><a class="toc-backref" href="#id101">Apply Shape Key</a><a class="headerlink" href="#apply-shape-key" title="Permalink to this headline">¶</a></h3>
+<span id="nla-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Permalink to this headline">¶</a></h3>
 <p>Set the Shape Key factor.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
 <div class="section" id="id40">
@@ -913,7 +872,7 @@
 </div>
 </div>
 <div class="section" id="outline">
-<span id="nla-outline"></span><h3><a class="toc-backref" href="#id102">Outline</a><a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
+<span id="nla-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
 <p>Controls object outlining effect.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id43">
@@ -956,7 +915,7 @@
 </div>
 </div>
 <div class="section" id="set-shader-node-param">
-<span id="nla-shader-node"></span><h3><a class="toc-backref" href="#id103">Set Shader Node Param</a><a class="headerlink" href="#set-shader-node-param" title="Permalink to this headline">¶</a></h3>
+<span id="nla-shader-node"></span><h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to set the value for the shader node. Currently, only <code class="docutils literal"><span class="pre">Value</span></code>  and <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
 <div class="section" id="id46">
@@ -994,7 +953,7 @@
 </div>
 </div>
 <div class="section" id="inherit-material">
-<span id="nla-inherit-material"></span><h3><a class="toc-backref" href="#id104">Inherit Material</a><a class="headerlink" href="#inherit-material" title="Permalink to this headline">¶</a></h3>
+<span id="nla-inherit-material"></span><h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Permalink to this headline">¶</a></h3>
 <p>Copy attributes from one material to another.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
 <div class="section" id="id49">
@@ -1032,11 +991,11 @@
 </div>
 </div>
 </div>
-<div class="section" id="math">
-<h2><a class="toc-backref" href="#id105">Math</a><a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="operations">
+<h2><a class="toc-backref" href="#id86">Operations</a><a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="variable-store">
-<span id="nla-var-store"></span><h3><a class="toc-backref" href="#id106">Variable Store</a><a class="headerlink" href="#variable-store" title="Permalink to this headline">¶</a></h3>
-<p>Save a numeric value in a variable.</p>
+<span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Permalink to this headline">¶</a></h3>
+<p>Saves numerical or string value to a variable.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
 <div class="section" id="id52">
 <h4>Input parameters<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
@@ -1057,20 +1016,23 @@
 <div class="section" id="id54">
 <h4>Internal parameters<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><em>Var. n.</em></dt>
+<dt><em>Var. name.</em></dt>
 <dd><p class="first last">Name of the variable. Can be selected from the list of eight registers or specified manually (if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> parameter is enabled).</p>
 </dd>
-<dt><em>New variable</em></dt>
+<dt><em>Var. type</em></dt>
+<dd><p class="first last">Variable&#8217;s type. This parameter can have one of two values: <code class="docutils literal"><span class="pre">Number</span></code> (for numerical variables) and <code class="docutils literal"><span class="pre">String</span></code> (for string variables).</p>
+</dd>
+<dt><em>New Variable</em></dt>
 <dd><p class="first last">If this parameter is enabled, you can manually input a variable&#8217;s name and not just select one of the registers. This can be used to transfer the data between the application and the server.</p>
 </dd>
-<dt><em>Num.</em></dt>
-<dd><p class="first last">Numeric value of the variable. Set to zero by default.</p>
+<dt><em>Num./Str.</em></dt>
+<dd><p class="first last">Numeric or string (depending on the <code class="docutils literal"><span class="pre">VAr.</span> <span class="pre">type</span></code> parameter value) value of the variable.</p>
 </dd>
 </dl>
 </div>
 </div>
 <div class="section" id="math-operation">
-<span id="nla-math"></span><h3><a class="toc-backref" href="#id107">Math Operation</a><a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
+<span id="nla-math"></span><h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
 <p>Perform a math operation and save the result in the register. Any of parameters (operands) can be either a numeric value or a register.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
 <div class="section" id="id55">
@@ -1120,7 +1082,7 @@
 </div>
 </div>
 <div class="section" id="string-operation">
-<span id="nla-string"></span><h3><a class="toc-backref" href="#id108">String Operation</a><a class="headerlink" href="#string-operation" title="Permalink to this headline">¶</a></h3>
+<span id="nla-string"></span><h3>String Operation<a class="headerlink" href="#string-operation" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to perform an operation with two strings and save the result to a register.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
 <div class="section" id="id58">
@@ -1180,9 +1142,9 @@
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id109">Sound</a><a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id87">Sound</a><a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="play-sound">
-<span id="nla-play-sound"></span><h3><a class="toc-backref" href="#id110">Play Sound</a><a class="headerlink" href="#play-sound" title="Permalink to this headline">¶</a></h3>
+<span id="nla-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to play speaker&#8217;s sound.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id61">
@@ -1214,7 +1176,7 @@
 </div>
 </div>
 <div class="section" id="stop-sound">
-<span id="nla-stop-sound"></span><h3><a class="toc-backref" href="#id111">Stop Sound</a><a class="headerlink" href="#stop-sound" title="Permalink to this headline">¶</a></h3>
+<span id="nla-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to stop speaker&#8217;s sound.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id64">
@@ -1243,10 +1205,10 @@
 </div>
 </div>
 </div>
-<div class="section" id="web">
-<h2><a class="toc-backref" href="#id112">Web</a><a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id88">Network</a><a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="send-request">
-<span id="nla-send-request"></span><h3><a class="toc-backref" href="#id113">Send Request</a><a class="headerlink" href="#send-request" title="Permalink to this headline">¶</a></h3>
+<span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Permalink to this headline">¶</a></h3>
 <p>Send an HTTP GET request to the specified URL and save the respond&#8217;s fields to variables.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
 <div class="section" id="id67">
@@ -1281,6 +1243,9 @@
 <dt><em>Url</em></dt>
 <dd><p class="first last">A web adress to send request to. Set to &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221; by default.</p>
 </dd>
+<dt><em>Content-Type</em></dt>
+<dd><p class="first last">Indicates the media type of the message content. Consists of a type and a subtype, for example: <code class="docutils literal"><span class="pre">text/plain</span></code>. Set to <code class="docutils literal"><span class="pre">Auto</span></code> by default. Can be used to reassign the title of the HTTP request.</p>
+</dd>
 <dt><em>Parse JSON</em></dt>
 <dd><p class="first">If this parameter is enabled, the data recieved from the server will be saved to a number of variables specified by the <code class="docutils literal"><span class="pre">Response</span> <span class="pre">Params</span></code> parameter. If it isn&#8217;t, the data will be saved to the register specified by the same parameter. Enabled by default.</p>
 <a class="last reference internal image-reference" href="_images/logic_editor_parse_json.png"><img alt="_images/logic_editor_parse_json.png" class="align-center" src="_images/logic_editor_parse_json.png" style="width: 100%;" /></a>
@@ -1312,7 +1277,7 @@
 </div>
 </div>
 <div class="section" id="page-param">
-<span id="nla-page-param"></span><h3><a class="toc-backref" href="#id114">Page Param</a><a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
+<span id="nla-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
 <p>Allows to store any web page parameter in a given register.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
 <div class="section" id="id70">
@@ -1344,7 +1309,7 @@
 </div>
 </div>
 <div class="section" id="page-redirect">
-<span id="nla-page-redirect"></span><h3><a class="toc-backref" href="#id115">Page Redirect</a><a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
+<span id="nla-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to redirect the browser to another page. This node always marks the end of the node tree and doest&#8217;t have any output parameters.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
 <div class="section" id="id73">
@@ -1370,9 +1335,9 @@
 </div>
 </div>
 <div class="section" id="debug">
-<h2><a class="toc-backref" href="#id116">Debug</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id89">Debug</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="console-print">
-<span id="nla-console-print"></span><h3><a class="toc-backref" href="#id117">Console Print</a><a class="headerlink" href="#console-print" title="Permalink to this headline">¶</a></h3>
+<span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Permalink to this headline">¶</a></h3>
 <p>This node prints variables&#8217;s values and additional text to the web browser console. It can be used for debug purposes.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
 <div class="section" id="id76">
@@ -1405,9 +1370,9 @@
 </div>
 </div>
 <div class="section" id="layout">
-<h2><a class="toc-backref" href="#id118">Layout</a><a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id90">Layout</a><a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="reroute">
-<span id="nla-reroute"></span><h3><a class="toc-backref" href="#id119">Reroute</a><a class="headerlink" href="#reroute" title="Permalink to this headline">¶</a></h3>
+<span id="nla-reroute"></span><h3>Reroute<a class="headerlink" href="#reroute" title="Permalink to this headline">¶</a></h3>
 <p>Logic Editor also has <code class="docutils literal"><span class="pre">Reroute</span></code> elements, the nodes that don&#8217;t do anything aside from passing the control to the next node or to the next <code class="docutils literal"><span class="pre">Reroute</span></code> element. Such elements can be used to create cyclic structures or to make the node tree easier to read and understand.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_reroute.png"><img alt="_images/logic_editor_reroute.png" class="align-center" src="_images/logic_editor_reroute.png" style="width: 100%;" /></a>
 <div class="admonition note">
@@ -1417,7 +1382,7 @@
 </div>
 </div>
 <div class="section" id="nla-debug">
-<span id="id79"></span><h2><a class="toc-backref" href="#id120">Debugging</a><a class="headerlink" href="#nla-debug" title="Permalink to this headline">¶</a></h2>
+<span id="id79"></span><h2><a class="toc-backref" href="#id91">Debugging</a><a class="headerlink" href="#nla-debug" title="Permalink to this headline">¶</a></h2>
 <p>For debugging purposes some nodes inside logic tree can be muted.To do that select the required node and press the <code class="docutils literal"><span class="pre">M</span></code> key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
 </div>
 </div>
@@ -1441,8 +1406,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -1464,7 +1429,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -1487,6 +1452,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

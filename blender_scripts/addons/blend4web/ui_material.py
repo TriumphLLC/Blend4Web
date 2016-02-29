@@ -78,14 +78,14 @@ class B4W_MATERIAL_PT_diffuse(MaterialButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "diffuse_color", text=_(""))
+        col.prop(mat, "diffuse_color", text="")
         sub = col.column()
         sub.active = (not mat.use_shadeless)
         sub.prop(mat, "diffuse_intensity", text=_("Intensity"))
 
         col = split.column()
         col.active = (not mat.use_shadeless)
-        col.prop(mat, "diffuse_shader", text=_(""))
+        col.prop(mat, "diffuse_shader", text="")
 
         col = layout.column()
         col.active = (not mat.use_shadeless)
@@ -121,11 +121,11 @@ class B4W_MATERIAL_PT_specular(MaterialButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column()
-        col.prop(mat, "specular_color", text=_(""))
+        col.prop(mat, "specular_color", text="")
         col.prop(mat, "specular_intensity", text=_("Intensity"))
 
         col = split.column()
-        col.prop(mat, "specular_shader", text=_(""))
+        col.prop(mat, "specular_shader", text="")
 
         col = layout.column()
         if mat.specular_shader in {'COOKTORR', 'PHONG'}:
@@ -242,18 +242,18 @@ class B4W_MATERIAL_PT_halo(MaterialButtonsPanel, Panel):
 
         def number_but(layout, toggle, number, name, color):
             row = layout.row(align=True)
-            row.prop(halo, toggle, text=_(""))
+            row.prop(halo, toggle, text="")
             sub = row.column(align=True)
             sub.active = getattr(halo, toggle)
             sub.prop(halo, number, text=name, translate=False)
             if not color == "":
-                sub.prop(mat, color, text=_(""))
+                sub.prop(mat, color, text="")
 
         split = layout.split()
 
         col = split.column()
         col.prop(mat, "alpha")
-        col.prop(mat, "diffuse_color", text=_(""))
+        col.prop(mat, "diffuse_color", text="")
 
         col = split.column()
         col.prop(halo, "size")
@@ -341,7 +341,7 @@ class B4W_TerrainDynGrass(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_terrain", text=_(""))
+        self.layout.prop(mat, "b4w_terrain", text="")
 
     def draw(self, context):
         mat = context.material
@@ -386,7 +386,7 @@ class B4W_CollisionMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_collision", text=_(""))
+        self.layout.prop(mat, "b4w_collision", text="")
 
     def draw(self, context):
         mat = context.material
@@ -429,7 +429,7 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
     def draw_header(self, context):
         mat = context.material
-        self.layout.prop(mat, "b4w_water", text=_(""))
+        self.layout.prop(mat, "b4w_water", text="")
 
     def draw(self, context):
         mat = context.material
@@ -454,16 +454,16 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
         split = layout.split()
         col = split.column()
         col.label(text = _("Shallow water:"))
-        col.prop(mat, "b4w_shallow_water_col", text=_(""))
+        col.prop(mat, "b4w_shallow_water_col", text="")
         col.prop(mat, "b4w_shallow_water_col_fac", text=_("Factor"))
 
         col.label(text = _("Underwater fog:"))
-        col.prop(mat, "b4w_water_fog_color", text=_(""))
+        col.prop(mat, "b4w_water_fog_color", text="")
         col.prop(mat, "b4w_water_fog_density", text=_("Density"))
 
         col = split.column()
         col.label(text = _("Shore water:"))
-        col.prop(mat, "b4w_shore_water_col", text=_(""))
+        col.prop(mat, "b4w_shore_water_col", text="")
         col.prop(mat, "b4w_shore_water_col_fac", text=_("Factor"))
 
         layout.separator()

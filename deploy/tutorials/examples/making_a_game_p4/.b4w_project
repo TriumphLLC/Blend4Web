@@ -2,6 +2,7 @@
 author = Blend4Web
 name = making_a_game_p4
 title = Pyatigor's Tale Part 4
+icon = game_example.png
 
 [paths]
 assets_dirs = deploy/tutorials/examples/making_a_game_p4/;

@@ -2,6 +2,22 @@
 Installing the SDK
 ******************
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Installing the SDK
+
+  * Unpacking the Archive
+
+  * Setting up the Add-on
+
+  * Blend4Web Mode
+
+  * Local Development Server
+
+  * Running Viewer and Demos
+
 Setting up the development environment suits 3D application
 developers. To familiarize yourself with the Blend4Web addon quick
 install can be a better option.

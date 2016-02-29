@@ -83,6 +83,10 @@ uniform float u_alpha_factor;
 uniform vec3 u_color_id;
 #endif
 
+#if USE_NODE_CURVE_VEC || USE_NODE_CURVE_RGB || USE_NODE_VALTORGB
+uniform sampler2D u_nodes_texture;
+#endif
+
 /*============================================================================
                                    UNIFORMS
 ============================================================================*/

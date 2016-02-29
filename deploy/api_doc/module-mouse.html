@@ -166,11 +166,11 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
         
             
-<li> <a href="#.get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_coords_x">get_coords_x<span class="signature">(event, target_touches<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_coords_y">get_coords_y<span class="signature">(event, target_touches<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -780,7 +780,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
 
-    <h4 class="name" id=".get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_coords_x">get_coords_x<span class="signature">(event, target_touches<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -812,7 +812,11 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -840,10 +844,62 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Mouse/touch event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target_touches</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Use only those touches that were 
+started on the event target element (the targetTouches property).</td>
         </tr>
 
     
@@ -940,7 +996,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
 
-    <h4 class="name" id=".get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_coords_y">get_coords_y<span class="signature">(event, target_touches<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -972,7 +1028,11 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1000,10 +1060,62 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Mouse/touch event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target_touches</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Use only those touches that were 
+started on the event target element (the targetTouches property).</td>
         </tr>
 
     
@@ -1078,7 +1190,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line360">line 360</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -1186,7 +1298,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line393">line 393</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line403">line 403</a>
     </li></ul></dd>
     
 
@@ -1843,7 +1955,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line384">line 384</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line394">line 394</a>
     </li></ul></dd>
     
 
@@ -2458,7 +2570,7 @@ is controlled by mouse module or not.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 28 2016 11:21:44 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 26 2016 15:16:12 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

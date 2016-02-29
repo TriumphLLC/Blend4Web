@@ -9,6 +9,7 @@ var m_anim = require("animation");
 var m_sfx = require("sfx");
 var m_trans = require("transform");
 var m_obj = require("objects");
+var m_cons = require("constraints");
 
 var m_conf = require("game_config");
 var m_char = require("character");
@@ -46,9 +47,10 @@ exports.init = function(elapsed_sensor, level_conf) {
         }
     }
 
-    if (_level_conf.LEVEL_NAME == "volcano")
+    if (_level_conf.ISLES_SHIELD_DUPLI_NAME_LIST)
         stop_islands_anim();
-    else if (_level_conf.LEVEL_NAME == "dungeon") {
+
+    if (_level_conf.FLOOR_MAGIC_NAME) {
         var floor_magic = m_scs.get_object_by_dupli_name("level_02_enviroment",
                                                  _level_conf.FLOOR_MAGIC_NAME);
         var floor_magic_cb = function(obj, id, pulse, obelisk_wrapper) {
@@ -78,16 +80,24 @@ exports.init = function(elapsed_sensor, level_conf) {
         var coll_sens_char = m_ctl.create_collision_sensor(obelisk, "CHARACTER");
         m_ctl.create_sensor_manifold(obelisk_wrapper, "FILL_OBELISK_" + gem_name,
                             m_ctl.CT_TRIGGER, [coll_sens_char], null, obelisk_cb);
-        _obelisk_wrappers.push(obelisk_wrapper);
 
-        if (_level_conf.LEVEL_NAME == "dungeon") {
+        if (_level_conf.FLOOR_MAGIC_NAME) {
             m_obj.set_nodemat_value(floor_magic, ["floor_magic_0"+(i+1), "Value"], 0.0);
             m_ctl.create_sensor_manifold(floor_magic, "FLOOR_MAGIC"+i, m_ctl.CT_CONTINUOUS,
                 [elapsed_sensor], null, floor_magic_cb, obelisk_wrapper);
         }
+
+        if (_level_conf.OBELISK_SHINE) {
+            var shine_obj = m_scs.get_object_by_dupli_name(obelisk_name,
+                                           _level_conf.OBELISK_SHINE + "_0" + (i + 1))
+            obelisk_wrapper.shine_obj = shine_obj;
+            m_anim.apply_def(shine_obj);
+        }
+
+        _obelisk_wrappers.push(obelisk_wrapper);
     }
 
-    _gem_mount_spk = m_scs.get_object_by_dupli_name("character",
+    _gem_mount_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.GEM_MOUNT_SPEAKER);
     reset();
 }
@@ -98,7 +108,8 @@ function init_obelisk_wrapper(color, id) {
         gem_health: 0,
         color: color,
         id: id,
-        magic_val: 0
+        magic_val: 0,
+        shine_obj: null
     }
 }
 
@@ -165,7 +176,10 @@ function try_to_capture(id) {
 }
 
 function capture_obelisk(id) {
-    if (_level_conf.LEVEL_NAME == "volcano") {
+
+    var obelisk_wrapper = _obelisk_wrappers[id];
+
+    if (_level_conf.ISLES_SHIELD_DUPLI_NAME_LIST) {
         var isl_dupli_names = _level_conf.ISLES_SHIELD_DUPLI_NAME_LIST;
         isl_dupli_names[2] = "island_shield_" + id;
         var isl_shield = m_scs.get_object_by_dupli_name_list(isl_dupli_names);
@@ -174,6 +188,11 @@ function capture_obelisk(id) {
         var isl_spk = m_scs.get_object_by_dupli_name("obelisk_" + id,
                                                      _level_conf.ISLAND_SPEAKER);
         m_sfx.play_def(isl_spk);
+    }
+
+    if (obelisk_wrapper.shine_obj) {
+        m_anim.set_behavior(obelisk_wrapper.shine_obj, m_anim.AB_FINISH_STOP);
+        m_anim.play(obelisk_wrapper.shine_obj);
     }
 
     if (check_victory())
@@ -204,34 +223,58 @@ function check_victory() {
 }
 
 function perform_victory() {
-    m_char.disable_controls();
-    m_env.disable_environment();
-    m_sfx.clear_playlist();
 
     // music
     var win_spk = m_scs.get_object_by_name(m_conf.WIN_SPEAKER);
     m_sfx.play_def(win_spk);
 
     var char_wrapper = m_char.get_wrapper();
-    m_anim.apply(char_wrapper.rig, "character_idle_01");
+    m_anim.apply(char_wrapper.rig, m_conf.CHAR_VICTORY_ANIM);
     m_anim.set_behavior(char_wrapper.rig, m_anim.AB_CYCLIC);
     m_anim.play(char_wrapper.rig);
+    char_wrapper.state = m_conf.CH_VICTORY;
+
+    m_char.disable_controls();
+    m_sfx.clear_playlist();
 
     update_victory_interface();
+
+    if (_level_conf.LEVEL_NAME == "volcano") {
+        var stairs_obj = m_scs.get_object_by_name(_level_conf.STAIRS_OBJ,
+                                                  _level_conf.STAIRS_OBJ);
+        var stairs_emitter = m_scs.get_object_by_dupli_name(_level_conf.STAIRS_OBJ,
+                                                            _level_conf.STAIRS_EMITTER);
+        var door_obj = m_scs.get_object_by_dupli_name_list(_level_conf.ISLANDS_DOOR);
+
+        m_scs.show_object(stairs_emitter);
+        m_anim.apply(stairs_emitter, "dust");
+        m_anim.play(stairs_emitter);
+
+        setTimeout(function() {
+                        m_scs.show_object(stairs_obj);
+                        m_scs.hide_object(door_obj);
+                   },
+                   1000);
+    } else if (_level_conf.LEVEL_NAME == "dungeon") {
+        var lava_death_ctrl = m_scs.get_object_by_dupli_name("lava_death_controller",
+                                                             "lava_death_controller");
+        m_anim.set_behavior(lava_death_ctrl, m_anim.AB_FINISH_STOP);
+        m_anim.play(lava_death_ctrl);
+    }
+    m_char.run_camera_victory_rotation();
 }
 
 function update_victory_interface() {
     m_interface.show_victory_element(1);
+    //function interface_cb(obj, id, pulse){
+    //    m_interface.hide_victory_element(1);
+    //    m_interface.show_replay_button(1);
+    //}
 
-    function interface_cb(obj, id, pulse){
-        m_interface.hide_victory_element(1);
-        m_interface.show_replay_button(1);
-    }
-
-    if (m_ctl.check_sensor_manifold(null, "UPDATE_VIC_INTERFACE"))
-        m_ctl.remove_sensor_manifold(null, "UPDATE_VIC_INTERFACE");
-    m_ctl.create_sensor_manifold(null, "UPDATE_VIC_INTERFACE", m_ctl.CT_SHOT,
-        [m_ctl.create_timer_sensor(3)], null, interface_cb);
+    //if (m_ctl.check_sensor_manifold(null, "UPDATE_VIC_INTERFACE"))
+    //    m_ctl.remove_sensor_manifold(null, "UPDATE_VIC_INTERFACE");
+    //m_ctl.create_sensor_manifold(null, "UPDATE_VIC_INTERFACE", m_ctl.CT_SHOT,
+    //    [m_ctl.create_timer_sensor(3)], null, interface_cb);
 }
 
 exports.is_filled = is_filled;
@@ -263,10 +306,18 @@ function reset() {
 
         switch (_level_conf.LEVEL_NAME) {
         case "volcano":
+
             var isl_dupli_names = _level_conf.ISLES_SHIELD_DUPLI_NAME_LIST;
             isl_dupli_names[2] = "island_shield_" + i;
             var isl_shield = m_scs.get_object_by_dupli_name_list(isl_dupli_names);
             m_anim.set_frame(isl_shield, 0);
+
+            var stairs_empty = m_scs.get_object_by_name(_level_conf.STAIRS_OBJ);
+            var door_obj = m_scs.get_object_by_dupli_name_list(_level_conf.ISLANDS_DOOR);
+
+            m_scs.show_object(door_obj);
+            m_scs.hide_object(stairs_empty);
+
             break;
         case "dungeon":
             var floor_magic = m_scs.get_object_by_dupli_name("level_02_enviroment",
@@ -275,6 +326,7 @@ function reset() {
             break;
         }
     }
+
 }
 
 exports.get_id_by_color = get_id_by_color;

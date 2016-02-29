@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ b4w.module["__curve"] = function(exports, require) {
 
 var m_print = require("__print");
 var m_util  = require("__util");
+var m_vec3  = require("__vec3");
 
 var SPLINE_POINTS = 1000;
 
@@ -506,6 +507,167 @@ exports.spline_len_to_t = function(spline, len) {
 
     var t = max_t * index_float / SPLINE_POINTS;
     return t;
+}
+
+exports.linear_interpolation = function(y1, x1, y0, x0, x) {
+    return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+}
+
+exports.linear = function(x, v1, v4) {
+    var x1 = v1[0], y1 = v1[1],
+        x2 = v4[0], y2 = v4[1];
+    var k = (y2 - y1) / (x2 - x1);
+    var b = y1 - k * x1;
+    return k * x + b;
+}
+
+
+exports.bezier = function(x, v1, v2, v3, v4, precision) {
+
+    // first find parameter t corresponding to x
+    var t = bezier_find_root(0, 1, x, v1[0], v2[0], v3[0], v4[0], precision);
+
+    // then calc y from t
+    var y = bezier_parametric(t, v1[1], v2[1], v3[1], v4[1]);
+
+    return y;
+}
+
+function bezier_find_root(t0_so_far, t1_so_far, x_needed, x0, x1, x2, x3, precision) {
+
+    // split the interval
+    var t = t0_so_far + (t1_so_far - t0_so_far) / 2;
+
+    var x = bezier_parametric(t, x0, x1, x2, x3);
+
+    var dx = x - x_needed;
+
+    var precision = precision? precision : 0.01;
+
+    if (Math.abs(dx) < precision)
+        return t;
+
+    if (dx > 0)
+        return bezier_find_root(t0_so_far, t, x_needed, x0, x1, x2, x3, precision);
+    else
+        return bezier_find_root(t, t1_so_far, x_needed, x0, x1, x2, x3, precision);
+}
+
+function bezier_parametric(t, p0, p1, p2, p3) {
+    var t1 = 1 - t;
+
+    return p0 * t1 * t1 * t1 +
+       3 * p1 * t1 * t1 * t +
+       3 * p2 * t1 * t  * t +
+           p3 * t  * t  * t;
+}
+
+exports.calchandle_curvemap = function(bezt, prev, next, h1, h2) {
+
+    var p1 = new Float32Array(3);
+    var p2 = new Float32Array(3);
+    var p3 = new Float32Array(3);
+
+    var dvec_a = new Float32Array(3);
+    var dvec_b = new Float32Array(3);
+
+    var tvec = new Float32Array(3);
+
+    m_vec3.copy(bezt[1], p2);
+
+    if (prev == null) {
+        m_vec3.copy(next[1], p3);
+        p1[0] = 2.0 * p2[0] - p3[0];
+        p1[1] = 2.0 * p2[1] - p3[1];
+    } else
+        m_vec3.copy(prev[1], p1);
+
+    if (next == null) {
+        m_vec3.copy(prev[1], p1);
+        p3[0] = 2.0 * p2[0] - p1[0];
+        p3[1] = 2.0 * p2[1] - p1[1];
+    } else
+        m_vec3.copy(next[1], p3);
+
+    m_vec3.subtract(p2, p1, dvec_a);
+    m_vec3.subtract(p3, p2, dvec_b);
+
+    var len_a = m_vec3.length(dvec_a);
+    var len_b = m_vec3.length(dvec_b);
+
+    if (len_a == 0.0)
+        len_a = 1.0;
+    if (len_b == 0.0)
+        len_b = 1.0;
+
+    if (h1 == "AUTO" || h2 == "AUTO") {
+        tvec[0] = dvec_b[0] / len_b + dvec_a[0] / len_a;
+        tvec[1] = dvec_b[1] / len_b + dvec_a[1] / len_a;
+
+        var len = m_vec3.length(tvec) * 2.5614;
+
+        if (len != 0) {
+
+            if (h1 == "AUTO") {
+                len_a /= len;
+                m_vec3.scaleAndAdd(p2, tvec, -len_a, bezt[0]);
+            }
+
+            if (h2 == "AUTO") {
+                len_b /= len;
+                m_vec3.scaleAndAdd(p2, tvec, len_b, bezt[2]);
+            }
+        }
+    }
+
+    if (h1 == "VECTOR")
+        m_vec3.scaleAndAdd(p2, dvec_a, -1.0 / 3.0, bezt[0]);
+
+    if (h2 == "VECTOR")
+        m_vec3.scaleAndAdd(p2, dvec_b, 1.0 / 3.0, bezt[2]);
+}
+
+/**
+ * The total length of the handles is not allowed to be more
+ * than the horizontal distance between (v1-v4).
+ * (prevent curve loops)
+ */
+exports.correct_bezpart = function(v1, v2, v3, v4) {
+
+    var h1 = [];
+    var h2 = [];
+    var len1, len2, len, fac;
+
+    // calc handle deltas
+    h1[0] = v1[0] - v2[0];
+    h1[1] = v1[1] - v2[1];
+
+    h2[0] = v4[0] - v3[0];
+    h2[1] = v4[1] - v3[1];
+
+    // calculate distances:
+    // len- span of time between keyframes
+    // len1 - length of handle of start key
+    // len2 - length of handle of end key
+    len = v4[0]- v1[0];
+    len1 = Math.abs(h1[0]);
+    len2 = Math.abs(h2[0]);
+
+    // if the handles have no length, no need to do any corrections
+    if ((len1 + len2) == 0)
+        return;
+
+    // the two handles cross over each other, so force them
+    // apart using the proportion they overlap
+    if (len1 + len2 > len) {
+        fac = len / (len1 + len2);
+
+        v2[0] = v1[0] - fac * h1[0];
+        v2[1] = v1[1] - fac * h1[1];
+
+        v3[0] = v4[0] - fac * h2[0];
+        v3[1] = v4[1] - fac * h2[1];
+    }
 }
 
 }

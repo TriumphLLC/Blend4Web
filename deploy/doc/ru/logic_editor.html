@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Логические ноды &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Логические ноды &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -209,7 +211,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#math">Math</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operations">Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id52">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id53">Выходные параметры</a></li>
@@ -245,7 +247,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#web">Web</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id67">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id68">Выходные параметры</a></li>
@@ -317,6 +319,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -341,63 +347,16 @@
 <ul class="simple">
 <li><a class="reference internal" href="#logic-editor" id="id80">Логические ноды</a><ul>
 <li><a class="reference internal" href="#id3" id="id81">Основы</a></li>
-<li><a class="reference internal" href="#control-flow" id="id82">Control Flow</a><ul>
-<li><a class="reference internal" href="#entry-point" id="id83">Entry Point</a></li>
-<li><a class="reference internal" href="#switch-select" id="id84">Switch Select</a></li>
-<li><a class="reference internal" href="#delay" id="id85">Delay</a></li>
-<li><a class="reference internal" href="#conditional-jump" id="id86">Conditional Jump</a></li>
-<li><a class="reference internal" href="#select-deprecated" id="id87">Select (Deprecated)</a></li>
-<li><a class="reference internal" href="#select-play-timeline-deprecated" id="id88">Select &amp; Play Timeline (Deprecated)</a></li>
-<li><a class="reference internal" href="#select-play-animation-deprecated" id="id89">Select &amp; Play Animation (Deprecated)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#animation" id="id90">Animation</a><ul>
-<li><a class="reference internal" href="#play-timeline-stop-timeline" id="id91">Play Timeline и Stop Timeline</a></li>
-<li><a class="reference internal" href="#play-animation" id="id92">Play Animation</a></li>
-<li><a class="reference internal" href="#stop-animation" id="id93">Stop Animation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#camera" id="id94">Camera</a><ul>
-<li><a class="reference internal" href="#move-camera" id="id95">Move Camera</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#object" id="id96">Object</a><ul>
-<li><a class="reference internal" href="#show-object" id="id97">Show Object</a></li>
-<li><a class="reference internal" href="#hide-object" id="id98">Hide Object</a></li>
-<li><a class="reference internal" href="#transform-object" id="id99">Transform Object</a></li>
-<li><a class="reference internal" href="#move-to" id="id100">Move To</a></li>
-<li><a class="reference internal" href="#apply-shape-key" id="id101">Apply Shape Key</a></li>
-<li><a class="reference internal" href="#outline" id="id102">Outline</a></li>
-<li><a class="reference internal" href="#set-shader-node-param" id="id103">Set Shader Node Param</a></li>
-<li><a class="reference internal" href="#inherit-material" id="id104">Inherit Material</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#math" id="id105">Math</a><ul>
-<li><a class="reference internal" href="#variable-store" id="id106">Variable Store</a></li>
-<li><a class="reference internal" href="#math-operation" id="id107">Math Operation</a></li>
-<li><a class="reference internal" href="#string-operation" id="id108">String Operation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#sound" id="id109">Sound</a><ul>
-<li><a class="reference internal" href="#play-sound" id="id110">Play Sound</a></li>
-<li><a class="reference internal" href="#stop-sound" id="id111">Stop Sound</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#web" id="id112">Web</a><ul>
-<li><a class="reference internal" href="#send-request" id="id113">Send Request</a></li>
-<li><a class="reference internal" href="#page-param" id="id114">Page Param</a></li>
-<li><a class="reference internal" href="#page-redirect" id="id115">Page Redirect</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#debug" id="id116">Debug</a><ul>
-<li><a class="reference internal" href="#console-print" id="id117">Console Print</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#layout" id="id118">Layout</a><ul>
-<li><a class="reference internal" href="#reroute" id="id119">Reroute</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#nla-debug" id="id120">Отладка</a></li>
+<li><a class="reference internal" href="#control-flow" id="id82">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id83">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id84">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id85">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id86">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id87">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id88">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id89">Debug</a></li>
+<li><a class="reference internal" href="#layout" id="id90">Layout</a></li>
+<li><a class="reference internal" href="#nla-debug" id="id91">Отладка</a></li>
 </ul>
 </li>
 </ul>
@@ -441,7 +400,7 @@ Blender необходимо установить галочку <code class="do
 <div class="section" id="control-flow">
 <h2><a class="toc-backref" href="#id82">Control Flow</a><a class="headerlink" href="#control-flow" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="entry-point">
-<span id="nla-entry"></span><h3><a class="toc-backref" href="#id83">Entry Point</a><a class="headerlink" href="#entry-point" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Является точкой начала выполнения скрипта. Использование нескольких точек входа
 позволяет эмулировать многопоточное выполнение.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_entry.png"><img alt="_images/logic_editor_entry.png" class="align-center" src="_images/logic_editor_entry.png" style="width: 100%;" /></a>
@@ -462,7 +421,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="switch-select">
-<span id="nla-switch-select"></span><h3><a class="toc-backref" href="#id84">Switch Select</a><a class="headerlink" href="#switch-select" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-switch-select"></span><h3>Switch Select<a class="headerlink" href="#switch-select" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет отследить событие выбора какого-либо объекта из списка объектов.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_switch_select.png"><img alt="_images/logic_editor_switch_select.png" class="align-center" src="_images/logic_editor_switch_select.png" style="width: 100%;" /></a>
 <div class="section" id="id7">
@@ -490,7 +449,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="delay">
-<span id="nla-delay"></span><h3><a class="toc-backref" href="#id85">Delay</a><a class="headerlink" href="#delay" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-delay"></span><h3>Delay<a class="headerlink" href="#delay" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет установить задержку перед выполнением следующей ноды.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
 <div class="section" id="id10">
@@ -516,7 +475,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="conditional-jump">
-<span id="nla-jump"></span><h3><a class="toc-backref" href="#id86">Conditional Jump</a><a class="headerlink" href="#conditional-jump" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-jump"></span><h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Перейти к указанной ноде в случае выполнения выбранного условия. В качестве
 параметров условия (операндов) могут выступать также регистры, которые
 активируются с помощью соответствующих переключателей.</p>
@@ -559,7 +518,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="select-deprecated">
-<h3><a class="toc-backref" href="#id87">Select (Deprecated)</a><a class="headerlink" href="#select-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Устарел! Не рекомендуется использовать!
@@ -571,7 +530,7 @@ Blender необходимо установить галочку <code class="do
 пользователя.</p>
 </div>
 <div class="section" id="select-play-timeline-deprecated">
-<h3><a class="toc-backref" href="#id88">Select &amp; Play Timeline (Deprecated)</a><a class="headerlink" href="#select-play-timeline-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Select &amp; Play Timeline (Deprecated)<a class="headerlink" href="#select-play-timeline-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Устарел! Не рекомендуется использовать!
@@ -584,7 +543,7 @@ Blender необходимо установить галочку <code class="do
 следующей ноде.</p>
 </div>
 <div class="section" id="select-play-animation-deprecated">
-<h3><a class="toc-backref" href="#id89">Select &amp; Play Animation (Deprecated)</a><a class="headerlink" href="#select-play-animation-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Select &amp; Play Animation (Deprecated)<a class="headerlink" href="#select-play-animation-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Устарел! Не рекомендуется использовать!
@@ -598,9 +557,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id90">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id83">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-timeline-stop-timeline">
-<span id="nla-play-timeline"></span><h3><a class="toc-backref" href="#id91">Play Timeline и Stop Timeline</a><a class="headerlink" href="#play-timeline-stop-timeline" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-play-timeline"></span><h3>Play Timeline и Stop Timeline<a class="headerlink" href="#play-timeline-stop-timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяют управлять NLA анимацией. <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> проигрывать участок NLA,
 начиная с кадра, на который указывает маркер.
 Анимация воспроизводится до следующего маркера, либо до конца шкалы времени
@@ -632,7 +591,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="play-animation">
-<span id="nla-select-play"></span><h3><a class="toc-backref" href="#id92">Play Animation</a><a class="headerlink" href="#play-animation" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для воспроизведения анимации объекта. Проигрываемая анимация может иметь один из трёх типов:</p>
 <p>Обычный Action:</p>
 <a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
@@ -675,7 +634,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="stop-animation">
-<span id="nla-stop-anim"></span><h3><a class="toc-backref" href="#id93">Stop Animation</a><a class="headerlink" href="#stop-animation" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-stop-anim"></span><h3>Stop Animation<a class="headerlink" href="#stop-animation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для остановки анимации объекта.</p>
 <div class="section" id="id22">
 <h4>Входные параметры<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h4>
@@ -701,9 +660,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="camera">
-<h2><a class="toc-backref" href="#id94">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id84">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="move-camera">
-<span id="nla-move-camera"></span><h3><a class="toc-backref" href="#id95">Move Camera</a><a class="headerlink" href="#move-camera" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет перемещать камеру, в том числе с плавной интерполяцией положения.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
 <div class="section" id="id25">
@@ -736,9 +695,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="object">
-<h2><a class="toc-backref" href="#id96">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id85">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="show-object">
-<span id="nla-show-object"></span><h3><a class="toc-backref" href="#id97">Show Object</a><a class="headerlink" href="#show-object" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для отображения объектов.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
 <div class="section" id="id28">
@@ -764,7 +723,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="hide-object">
-<span id="nla-hide-object"></span><h3><a class="toc-backref" href="#id98">Hide Object</a><a class="headerlink" href="#hide-object" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для скрытия объекта.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
 <div class="section" id="id31">
@@ -790,7 +749,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="transform-object">
-<h3><a class="toc-backref" href="#id99">Transform Object</a><a class="headerlink" href="#transform-object" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Transform Object<a class="headerlink" href="#transform-object" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для изменения координат, размеров и углов поворота объекта.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
 <div class="section" id="id34">
@@ -826,7 +785,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="move-to">
-<span id="nla-move-to"></span><h3><a class="toc-backref" href="#id100">Move To</a><a class="headerlink" href="#move-to" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-move-to"></span><h3>Move To<a class="headerlink" href="#move-to" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет перемещать объекты.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
 <div class="section" id="id37">
@@ -856,7 +815,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="apply-shape-key">
-<span id="nla-shape-key"></span><h3><a class="toc-backref" href="#id101">Apply Shape Key</a><a class="headerlink" href="#apply-shape-key" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет задать значение параметра Shape Key.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
 <div class="section" id="id40">
@@ -886,7 +845,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="outline">
-<span id="nla-outline"></span><h3><a class="toc-backref" href="#id102">Outline</a><a class="headerlink" href="#outline" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет управлять эффектом обводки объекта.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id43">
@@ -922,7 +881,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="set-shader-node-param">
-<span id="nla-shader-node"></span><h3><a class="toc-backref" href="#id103">Set Shader Node Param</a><a class="headerlink" href="#set-shader-node-param" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-shader-node"></span><h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет установить значение одного или нескольких параметров шейдерной ноды. В данный момент поддерживаются ноды <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code>.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
 <div class="section" id="id46">
@@ -954,7 +913,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="inherit-material">
-<span id="nla-inherit-material"></span><h3><a class="toc-backref" href="#id104">Inherit Material</a><a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-inherit-material"></span><h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет скопировать атрибуты одного материала на другой.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
 <div class="section" id="id49">
@@ -986,11 +945,11 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 </div>
-<div class="section" id="math">
-<h2><a class="toc-backref" href="#id105">Math</a><a class="headerlink" href="#math" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="operations">
+<h2><a class="toc-backref" href="#id86">Operations</a><a class="headerlink" href="#operations" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="variable-store">
-<span id="nla-var-store"></span><h3><a class="toc-backref" href="#id106">Variable Store</a><a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Записать числовое значение в переменную.</p>
+<span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Сохраняет числовое или строковое значение в переменную.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
 <div class="section" id="id52">
 <h4>Входные параметры<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h4>
@@ -1009,17 +968,19 @@ Blender необходимо установить галочку <code class="do
 <div class="section" id="id54">
 <h4>Внутренние параметры<a class="headerlink" href="#id54" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
-<dt><em>Var. n.</em></dt>
+<dt><em>Var. name.</em></dt>
 <dd>Имя переменной. Может быть выбрано из списка восьми регистров либо задано самостоятельно (если включен параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code>).</dd>
-<dt><em>New variable</em></dt>
+<dt><em>Var. type</em></dt>
+<dd>Тип переменной. Может иметь значения <code class="docutils literal"><span class="pre">Number</span></code> (численная переменная) и <code class="docutils literal"><span class="pre">String</span></code> (строковая переменная).</dd>
+<dt><em>New Variable</em></dt>
 <dd>Если этот параметр активирован, имя переменной может быть задано самостоятельно (а не выбрано из списка регистров). Может применяться для обмена данными с сервером.</dd>
-<dt><em>Num.</em></dt>
-<dd>Численное значение, присваиваемое переменной. По умолчанию равно нулю.</dd>
+<dt><em>Num./Str.</em></dt>
+<dd>Численное либо строковое (в зависимости от значения параметра <code class="docutils literal"><span class="pre">Var.</span> <span class="pre">type</span></code>) значение, присваиваемое переменной.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="math-operation">
-<span id="nla-math"></span><h3><a class="toc-backref" href="#id107">Math Operation</a><a class="headerlink" href="#math-operation" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-math"></span><h3>Math Operation<a class="headerlink" href="#math-operation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выполнить математическую операцию и сохранить результат в регистр. Любой из
 параметров (операндов) может быть либо числовым значением, либо регистром.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
@@ -1060,7 +1021,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="string-operation">
-<span id="nla-string"></span><h3><a class="toc-backref" href="#id108">String Operation</a><a class="headerlink" href="#string-operation" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-string"></span><h3>String Operation<a class="headerlink" href="#string-operation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выполнить операцию над строковыми переменными и сохранить результат в регистр.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
 <div class="section" id="id58">
@@ -1107,9 +1068,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id109">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id87">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-sound">
-<span id="nla-play-sound"></span><h3><a class="toc-backref" href="#id110">Play Sound</a><a class="headerlink" href="#play-sound" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет воспроизводить звук спикера.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id61">
@@ -1137,7 +1098,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="stop-sound">
-<span id="nla-stop-sound"></span><h3><a class="toc-backref" href="#id111">Stop Sound</a><a class="headerlink" href="#stop-sound" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет останавливать звук спикера.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id64">
@@ -1163,10 +1124,10 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 </div>
-<div class="section" id="web">
-<h2><a class="toc-backref" href="#id112">Web</a><a class="headerlink" href="#web" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id88">Network</a><a class="headerlink" href="#network" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="send-request">
-<span id="nla-send-request"></span><h3><a class="toc-backref" href="#id113">Send Request</a><a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей
 ответа в переменные.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
@@ -1197,6 +1158,8 @@ Blender необходимо установить галочку <code class="do
 </dd>
 <dt><em>Url</em></dt>
 <dd>Адрес, на который следует отправить запрос. По умолчанию имеет значение &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221;.</dd>
+<dt><em>Content-Type</em></dt>
+<dd>Определяет формат запроса. Состоит из типа и подтипа, например: <code class="docutils literal"><span class="pre">text/plain</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Auto</span></code>. Используется для переназначения заголовка HTTP-запроса.</dd>
 <dt><em>Parse JSON</em></dt>
 <dd><p class="first">Если этот параметр активирован, данные полученные от сервера, будут сохранены в переменные, перечисленные в параметре <code class="docutils literal"><span class="pre">Response</span> <span class="pre">Params</span></code>. В противном случае данные будут сохранены в регистр, указанный в том же параметре. По умолчанию включен.</p>
 <a class="last reference internal image-reference" href="_images/logic_editor_parse_json.png"><img alt="_images/logic_editor_parse_json.png" class="align-center" src="_images/logic_editor_parse_json.png" style="width: 100%;" /></a>
@@ -1226,7 +1189,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="page-param">
-<span id="nla-page-param"></span><h3><a class="toc-backref" href="#id114">Page Param</a><a class="headerlink" href="#page-param" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет сохранить произвольный параметр веб-страницы в выбранном регистре.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
 <div class="section" id="id70">
@@ -1254,7 +1217,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="page-redirect">
-<span id="nla-page-redirect"></span><h3><a class="toc-backref" href="#id115">Page Redirect</a><a class="headerlink" href="#page-redirect" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Служит для перенаправления на другие веб-страницы. По этой причине нода всегда находится в конце логической цепочки и не имеет выходных параметров.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
 <div class="section" id="id73">
@@ -1278,9 +1241,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="debug">
-<h2><a class="toc-backref" href="#id116">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id89">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="console-print">
-<span id="nla-console-print"></span><h3><a class="toc-backref" href="#id117">Console Print</a><a class="headerlink" href="#console-print" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет выводить значения переменных и дополнительную информацию в консоли браузе. Может использоваться для отладки логики.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
 <div class="section" id="id76">
@@ -1309,9 +1272,9 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="layout">
-<h2><a class="toc-backref" href="#id118">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id90">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="reroute">
-<span id="nla-reroute"></span><h3><a class="toc-backref" href="#id119">Reroute</a><a class="headerlink" href="#reroute" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="nla-reroute"></span><h3>Reroute<a class="headerlink" href="#reroute" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В редакторе логики также присутствуют элементы <code class="docutils literal"><span class="pre">Reroute</span></code> - специальные ноды, который не выполняют никаких операций, а только передают управление следующей ноде (или следующему элементу <code class="docutils literal"><span class="pre">Reroute</span></code>). Они могут применяться для создания циклических структур или для того, чтобы сделать логическую цепочку более понятной и лёгкой для восприятия.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_reroute.png"><img alt="_images/logic_editor_reroute.png" class="align-center" src="_images/logic_editor_reroute.png" style="width: 100%;" /></a>
 <div class="admonition note">
@@ -1322,7 +1285,7 @@ Blender необходимо установить галочку <code class="do
 </div>
 </div>
 <div class="section" id="nla-debug">
-<span id="id79"></span><h2><a class="toc-backref" href="#id120">Отладка</a><a class="headerlink" href="#nla-debug" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id79"></span><h2><a class="toc-backref" href="#id91">Отладка</a><a class="headerlink" href="#nla-debug" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для отладки имеется возможность отключения (muting) нод. Для этого необходимо
 выделить ноду и нажать горячую клавишу <code class="docutils literal"><span class="pre">M</span></code>. Отключенная нода не выполняется,
 но при этом передает управление следующей ноде. Если у отключенной ноды имеется
@@ -1350,8 +1313,8 @@ Blender необходимо установить галочку <code class="do
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -1373,7 +1336,7 @@ Blender необходимо установить галочку <code class="do
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -1397,6 +1360,22 @@ Blender необходимо установить галочку <code class="do
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

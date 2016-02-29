@@ -2,6 +2,7 @@
 author = Blend4Web
 name = cartoon_interior
 title = Cartoon Interior
+icon = cartoon_interior.png
 
 [paths]
 assets_dirs = deploy/tutorials/examples/cartoon_interior/blend_data/;

@@ -92,6 +92,18 @@ Table of contents
 
   * Application Development
 
+* Project Manager
+
+  * Project Manager
+
+  * Project Creation Wizard
+
+  * Project Information
+
+  * Project Import
+
+  * Project Export
+
 * Scene Viewer
 
   * Navigation
@@ -116,6 +128,8 @@ Table of contents
 
 * The Add-on
 
+  * Export Formats
+
   * Export Options
 
   * Initialization Errors
@@ -130,13 +144,13 @@ Table of contents
 
   * Add-on Translations
 
-* Scene settings
+* Scene Settings
 
-  * The Render panel.
+  * Render Panel
 
-  * The Scene panel
+  * Scene Panel
 
-  * The World panel
+  * World Panel
 
 * Objects
 
@@ -156,6 +170,12 @@ Table of contents
 
   * Moving via TSR Vectors
 
+* Meshes
+
+  * Static and Dynamic Objects
+
+  * Settings
+
   * Copying Objects (Instancing)
 
   * Object Selection
@@ -165,8 +185,6 @@ Table of contents
 * Camera
 
   * Move Styles and General Settings
-
-  * Camera Movement Velocity
 
   * Limiting the Camera Movement
 
@@ -204,11 +222,11 @@ Table of contents
 
   * Object
 
-  * Math
+  * Operations
 
   * Sound
 
-  * Web
+  * Network
 
   * Debug
 
@@ -248,11 +266,11 @@ Table of contents
 
   * Anti-Aliasing
 
-* Stereo rendering
+* Stereo Rendering
 
   * Activation
 
-  * Additional settings
+  * Additional Settings
 
 * Textures
 
@@ -314,7 +332,7 @@ Table of contents
 
   * Animation of Value and RGB Nodes
 
-* Outdoor effects
+* Outdoor Effects
 
   * Water
 
@@ -362,7 +380,7 @@ Table of contents
 
 * For Application Developers
 
-  * Project management
+  * Project Management
 
   * Advanced Project Management
 
@@ -430,7 +448,11 @@ Table of contents
 
   * WebGL Failed to Init
 
+  * Known Issues
+
 * Release Notes
+
+  * v16.02
 
   * v16.01
 

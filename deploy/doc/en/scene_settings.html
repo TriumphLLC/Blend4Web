@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene settings &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Scene Settings &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="The Add-on" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Scene settings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#render">The Render panel.</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Scene Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#render">Render Panel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#reflections-and-refractions">Reflections and Refractions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bloom">Bloom</a></li>
@@ -107,7 +108,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#timeline">Timeline</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#scene">The Scene panel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scene">Scene Panel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#scene-scene">Scene</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#units">Units</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#audio">Audio</a></li>
@@ -121,7 +122,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#export-options">Export Options</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#world">The World panel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#world">World Panel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#preview">Preview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#world-world">World</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#environment-lighting">Environment Lighting</a></li>
@@ -133,18 +134,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -172,12 +174,16 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Scene settings</li>
+    <li>Scene Settings</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -190,12 +196,12 @@
            <div itemprop="articleBody">
             
   <div class="section" id="scene-settings">
-<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id7">Scene settings</a><a class="headerlink" href="#scene-settings" title="Permalink to this headline">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id7">Scene Settings</a><a class="headerlink" href="#scene-settings" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="id2">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#scene-settings" id="id7">Scene settings</a><ul>
-<li><a class="reference internal" href="#render" id="id8">The Render panel.</a><ul>
+<li><a class="reference internal" href="#scene-settings" id="id7">Scene Settings</a><ul>
+<li><a class="reference internal" href="#render" id="id8">Render Panel</a><ul>
 <li><a class="reference internal" href="#reflections-and-refractions" id="id9">Reflections and Refractions</a></li>
 <li><a class="reference internal" href="#motion-blur" id="id10">Motion Blur</a></li>
 <li><a class="reference internal" href="#bloom" id="id11">Bloom</a></li>
@@ -210,7 +216,7 @@
 <li><a class="reference internal" href="#timeline" id="id20">Timeline</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scene" id="id21">The Scene panel</a><ul>
+<li><a class="reference internal" href="#scene" id="id21">Scene Panel</a><ul>
 <li><a class="reference internal" href="#scene-scene" id="id22">Scene</a></li>
 <li><a class="reference internal" href="#units" id="id23">Units</a></li>
 <li><a class="reference internal" href="#audio" id="id24">Audio</a></li>
@@ -224,7 +230,7 @@
 <li><a class="reference internal" href="#export-options" id="id32">Export Options</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#world" id="id33">The World panel</a><ul>
+<li><a class="reference internal" href="#world" id="id33">World Panel</a><ul>
 <li><a class="reference internal" href="#preview" id="id34">Preview</a></li>
 <li><a class="reference internal" href="#world-world" id="id35">World</a></li>
 <li><a class="reference internal" href="#environment-lighting" id="id36">Environment Lighting</a></li>
@@ -239,7 +245,7 @@
 </div>
 <p>All the parameters that define the look and behavior of the whole scene (and not just a single object) are found on the three panels: the <code class="docutils literal"><span class="pre">Render</span></code> panel, the <code class="docutils literal"><span class="pre">Scene</span></code> panel and the <code class="docutils literal"><span class="pre">World</span></code> panel.</p>
 <div class="section" id="render">
-<span id="render-settings"></span><h2><a class="toc-backref" href="#id8">The Render panel.</a><a class="headerlink" href="#render" title="Permalink to this headline">¶</a></h2>
+<span id="render-settings"></span><h2><a class="toc-backref" href="#id8">Render Panel</a><a class="headerlink" href="#render" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/render.png"><img alt="_images/render.png" class="align-center" src="_images/render.png" style="width: 100%;" /></a>
 <p>All scene parameters that concern the image rendering are found on this panel.</p>
 <div class="section" id="reflections-and-refractions">
@@ -326,7 +332,7 @@
 </div>
 </div>
 <div class="section" id="scene">
-<span id="id3"></span><h2><a class="toc-backref" href="#id21">The Scene panel</a><a class="headerlink" href="#scene" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id21">Scene Panel</a><a class="headerlink" href="#scene" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/scene.png"><img alt="_images/scene.png" class="align-center" src="_images/scene.png" style="width: 100%;" /></a>
 <p>The settings that concern scene behavior, including audio, physics and animation settings, are found on this panel.</p>
 <div class="section" id="scene-scene">
@@ -461,7 +467,7 @@
 </div>
 </div>
 <div class="section" id="world">
-<span id="world-settings"></span><h2><a class="toc-backref" href="#id33">The World panel</a><a class="headerlink" href="#world" title="Permalink to this headline">¶</a></h2>
+<span id="world-settings"></span><h2><a class="toc-backref" href="#id33">World Panel</a><a class="headerlink" href="#world" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/world.png"><img alt="_images/world.png" class="align-center" src="_images/world.png" style="width: 100%;" /></a>
 <p>Environment settings such as settings for sky, mist and such are found on this panel.</p>
 <div class="section" id="preview">
@@ -525,13 +531,13 @@
 <dt><em>Height</em></dt>
 <dd><p class="first last">This parameter specifies how fast mist intensity decreases as the the camera&#8217;s altitude increases. Set to 0 by default.</p>
 </dd>
-<dt><em>Fall out</em></dt>
+<dt><em>Fall Out</em></dt>
 <dd><p class="first last">This parameter specifies the rule, according to which the density of the mist changes between the borders (specified by the <code class="docutils literal"><span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Depth</span></code> parameters). Can have one of the following values: <code class="docutils literal"><span class="pre">Quadratic</span></code>, <code class="docutils literal"><span class="pre">Linear</span></code>,  <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code>. Set to <code class="docutils literal"><span class="pre">Quadratic</span></code> by default.</p>
 </dd>
-<dt><em>Use custom colors</em></dt>
+<dt><em>Use Custom Colors</em></dt>
 <dd><p class="first last">Can be used to set the color of the mist. Enabled by default. If this parameter is disabled, standard (0.5, 0.5, 0.5) color will be used.</p>
 </dd>
-<dt><em>Fog color</em></dt>
+<dt><em>Fog Color</em></dt>
 <dd><p class="first last">The color of the mist. Can be changed, if the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code> parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by default.</p>
 </dd>
 </dl>
@@ -575,8 +581,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -598,7 +604,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -621,6 +627,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -749,7 +749,7 @@ exports.clear_collision_impulse_test = function(obj) {
 /**
  * Append a new async ray test.
  * @method module:physics.append_ray_test
- * @param {?Object3D} obj_src Source object, pass a non-null value to perform ray casting
+ * @param {?Object3D} [obj_src] Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
@@ -761,7 +761,9 @@ exports.clear_collision_impulse_test = function(obj) {
 exports.append_ray_test = function(obj_src, from, to, collision_id, callback, 
         autoremove) {
 
-    if (!m_phy.obj_has_physics(obj_src)) {
+    obj_src = obj_src || null;
+
+    if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
         m_print.error("No physics for object " + obj_src.name);
         return;
     }
@@ -779,7 +781,7 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
 /**
  * Append a new async ray test (extended version).
  * @method module:physics.append_ray_test_ext
- * @param {?Object3D} obj_src Source object, pass a non-null value to perform ray casting
+ * @param {?Object3D} [obj_src] Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
@@ -796,7 +798,9 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
 exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback, 
         autoremove, calc_all_hits, calc_pos_norm, ign_src_rot) {
 
-    if (!m_phy.obj_has_physics(obj_src)) {
+    obj_src = obj_src || null;
+
+    if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
         m_print.error("No physics for object " + obj_src.name);
         return;
     }

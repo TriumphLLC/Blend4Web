@@ -17,12 +17,16 @@
 var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
 
 window.addEventListener("load", function() {
-    var msg = document.getElementById("support_message");
+
+    var msg = document.getElementById("webgl_support_status");
 
     if (!window.WebGLRenderingContext) {
+
         msg.innerHTML = "not supported";
         msg.className = "red";
+
     } else {
+
         var canvas = document.createElement("canvas");
 
         var ctx = null;
@@ -44,11 +48,42 @@ window.addEventListener("load", function() {
             msg.innerHTML = "available";
             msg.className = "green";
         } else {
-            msg.innerHTML = "unable to initialize";
+            msg.innerHTML = "cannot initialize context";
             msg.className = "red";
         }
     }
+
+
+    var dev_server_status = document.getElementById("dev_server_status");
+    var dev_server_hint = document.getElementById("dev_server_hint");
+    check_dev_server();
+
 }, false)
+
+function check_dev_server() {
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4) 
+            display_server_status(request.status == 200);
+    };
+    request.open('GET', '/', true);
+    request.send(null);  
+}
+
+function display_server_status(result) {
+
+    if (result) {
+        dev_server_status.innerHTML = "available";
+        dev_server_status.className = "green";
+        dev_server_hint.style.display = "none";
+    } else {
+        dev_server_status.innerHTML = "not available";
+        dev_server_status.className = "red";
+        dev_server_hint.style.display = "";
+    }
+}
+
 </script>
 
 </head>
@@ -58,13 +93,14 @@ window.addEventListener("load", function() {
         <h2>Blend4Web SDK
             
             <!--blend4web_sdk_pro-->Free<!--blend4web_sdk_pro-->
-            16.01
+            16.02
         </h2>
     </header>
 
     <div class="row">
-        <p>WebGL: <span id="support_message"></span></p>
-        <p>Please ensure that you are accessing this web page by using the <a href="deploy/doc/en/setup.html#local-development-server">development server</a>.</p>
+        <p><b>WebGL:</b> <span id="webgl_support_status">checking...</span></p>
+        <p><b>Development Server:</b> <span id="dev_server_status">checking...</span></p>
+        <p id="dev_server_hint" style="display:none">Please make sure that you are accessing this web page using the development server (runs automatically upon Blender startup).</p>
 
         <table>
             <thead>
@@ -77,671 +113,59 @@ window.addEventListener("load", function() {
             <tbody class="doc">
                 <tr>
                     <td style="width: 50%;"><a href="/project/">Project Manager</a></td>
+                    <td style="width: 50%;"><a href="/apps_dev/viewer/viewer.html">Scene Viewer</a></td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;"><a href="/apps_dev/code_snippets/code_snippets.html">Code Snippets</a></td>
                     <td style="width: 50%;"><a href="deploy/webglreport/index.html">WebGL Report</a></td>
                 </tr>
             </tbody>
         </table>
-
         <table>
             <thead>
                 <tr>
-                    <th colspan="4">
+                    <th colspan="3">
                         <h3>Helpful Resources</h3>
                     </th>
                 </tr>
                 <tr class="doc">
-                    <th colspan="2"></th>
+                    <th></th>
                     <th>English</th>
                     <th>Русский</th>
                 </tr>
             </thead>
             <tbody class="doc">
                 <tr>
-                    <td colspan="2">User Manual, HTML</td>
+                    <td>User Manual, HTML</td>
                     <td><a href="deploy/doc/en/index.html">read</a></td>
                     <td><a href="deploy/doc/ru/index.html">читать</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2">User Manual, PDF</td>
+                    <td>User Manual, PDF</td>
                     <td><a href="deploy/pub/b4w_manual_en.pdf">read</a></td>
                     <td><a href="deploy/pub/b4w_manual_ru.pdf">читать</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2">API Reference</td>
+                    <td>API Reference</td>
                     <td colspan="2"><a href="deploy/api_doc/index.html">read</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Community Support Forums</td>
+                    <td>Tutorials</td>
+                    <td><a target="_blank" href="https://www.blend4web.com/en/category/8/1/">go</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/ru/category/3/1/">перейти</a></td>
+                </tr>
+                <tr>
+                    <td>FAQ</td>
+                    <td><a target="_blank" href="https://www.blend4web.com/en/faq/">go</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/ru/faq/">перейти</a></td>
+                </tr>
+                <tr>
+                    <td>Community Support Forums</td>
                     <td><a target="_blank" href="https://www.blend4web.com/en/forums/">go</a></td>
                     <td><a target="_blank" href="https://www.blend4web.com/ru/forums/">перейти</a></td>
                 </tr>
                 
         
-            </tbody>
-            <thead>
-                <tr><th colspan="4">
-                    <h3 >Applications</h3>
-                </th></tr>
-                <tr>
-                    <th colspan="2">Links</th>
-                    <th colspan="2">Main Blender file (relative to blender/ directory)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/viewer.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/viewer/viewer_dev.html">Scene Viewer</a>
-                        [<a href="deploy/apps/viewer/viewer.html">build</a>]
-                    </td>
-                    <td colspan="2">
-                        misc/logo.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/petigors_tale.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a
-                        href="apps_dev/petigors_tale/petigors_tale_dev.html">Petigor's Tale</a>
-                        [<a href="deploy/apps/petigors_tale/petigors_tale.html">build</a>]
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        petigors_tale/main_scene_intro.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/dairy_plant.png">
-                    </td>
-                    <td>
-                        
-
-                        <!--blend4web_sdk_pro-->
-                        Dairy Plant
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/planetarium.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a href="apps_dev/webplayer/webplayer_dev.html?load=../../deploy/assets/interactivity/solar_system/solar_system_en.json&show_fps">Planetarium (en)</a>
-                        [<a href="deploy/apps/webplayer/webplayer.html?load=../../assets/interactivity/solar_system/solar_system_en.json&show_fps&compressed_textures">build</a>]
-                        </p>
-                        <p>
-                        <a href="apps_dev/webplayer/webplayer_dev.html?load=../../deploy/assets/interactivity/solar_system/solar_system_ru.json&show_fps">Planetarium (ru)</a>
-                        [<a href="deploy/apps/webplayer/webplayer.html?load=../../assets/interactivity/solar_system/solar_system_ru.json&show_fps&compressed_textures">build</a>]
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        <p>
-                        <div>interactivity/solar_system/solar_system_en.blend</div>
-                        </p>
-                        <p>
-                        <div>interactivity/solar_system/solar_system_ru.blend</div>
-                        </p>
-                    </td>
-                </tr>
-                <!--blend4web_sdk_pro-->
-                
-                <!--blend4web_sdk_pro-->
-                <tr>
-                    <td>
-                        <img src="index_assets/img/coin_flipper.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/webplayer/webplayer_dev.html?load=../../deploy/assets/interactivity/coin_flip/coin_flip.json&show_fps">Coin Flipping</a>
-                        [<a href="deploy/apps/webplayer/webplayer.html?load=../../assets/interactivity/coin_flip/coin_flip.json&show_fps">build</a>]
-                    </td>
-                    <td colspan="2">
-                        interactivity/coin_flip/coin_flip.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/helicopter.png">
-                    </td>
-                    <td>
-                        <!--blend4web_sdk_pro-->
-                        Mi-34 Hermit
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/azure_grotto.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        Azure Grotto
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/fountain.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        The Fountain
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/watch.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        The Watch
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/car.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        Sports Car
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/naturemorte.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        Nature Morte
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/farm.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        The Farm
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/fashion.png">
-                    </td>
-                    <td>
-                        
-                        <!--blend4web_sdk_pro-->
-                        Fashion Show
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                    <td colspan="2">
-                        
-                        <!--blend4web_sdk_pro-->
-                        Available in the <a href="https://www.blend4web.com/services/" target="_blank">SDK Pro</a>
-                        <!--blend4web_sdk_pro-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/island.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/flight/flight_dev.html">The Island</a>
-                        [<a href="deploy/apps/flight/flight.html">build</a>]
-                    </td>
-                    <td colspan="2">
-                        flight_over_island/flight_over_island.blend
-                    </td>
-                </tr>
-            </tbody>
-            <thead>
-                <tr>
-                    <th colspan="4">
-                        <h3>Tutorials</h3>
-                    </th>
-                </tr>
-                <tr>
-                    <th colspan="2">Links</th>
-                    <th colspan="2">Main Blender file</th>
-                </tr>
-            </thead>
-            <tbody class="tut">
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_jungle_outpost.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/examples/firstperson/example.html">Jungle Outpost</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/examples/firstperson/blend/firstperson.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_sunglasses.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/sunglasses/sunglasses_packed.html?autorotate">Sunglasses</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/sunglasses/sunglasses_packed.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_pyatigors_tale.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/examples/making_a_game_p1-3/game_example.html">Pyatigor's Tale Parts 1-3</a>
-                        <a href="deploy/tutorials/examples/making_a_game_p4/game_example.html">Pyatigor's Tale Part 4</a>
-                        <a href="deploy/tutorials/examples/making_a_game_p5-6/game_example.html">Pyatigor's Tale Parts 5-6</a>
-                        <a href="deploy/tutorials/examples/making_a_game_p7-12/game_example.html">Pyatigor's Tale Parts 7-12</a>
-                    </td>
-                    <td colspan="2">
-                        <div>deploy/tutorials/examples/making_a_game_p1-3/blend/main_scene.blend</div>
-                        <div>deploy/tutorials/examples/making_a_game_p4/blend/main_scene.blend</div>
-                        <div>deploy/tutorials/examples/making_a_game_p5-6/blend/main_scene.blend</div>
-                        <div>deploy/tutorials/examples/making_a_game_p7-12/blend/main_scene.blend</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_playroom.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/examples/cartoon_interior/cartoon_interior.html">Cartoon Interior</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/examples/cartoon_interior/blend/environment.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_balloons.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/examples/web_page_integration/example.html">Balloons</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/examples/web_page_integration/blend/flying_letters.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_cloth_workflow.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/flag/flag_caches_mix.html?autorotate">Cloth Simulation</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/flag/flag_caches_mix.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_tortoise.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a href="deploy/tutorials/mediterranean_tortoise_1/mediterranean_tortoise.html?autorotate">Tortoise Part 1</a>
-                        </p>
-                        <p>
-                        <a href="deploy/tutorials/mediterranean_tortoise_2/mediterranean_tortoise_2.html?autorotate">Tortoise Part 2</a>
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        <p>
-                        <div>deploy/tutorials/mediterranean_tortoise_1/mediterranean_tortoise.blend</div>
-                        </p>
-                        <p>
-                        <div>deploy/tutorials/mediterranean_tortoise_2/mediterranean_tortoise_demo.blend</div>
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_grass.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/grass/grass.html?autorotate">Grass</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/grass/grass.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_simple_webapp.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/examples/interactive_web_application/simple_app.html">Interactive Web Application</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/examples/interactive_web_application/simple_app.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_machinima.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/pirate_vs_alien/pirate_vs_alien.html">Machinima</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/pirate_vs_alien/pirate_vs_alien.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_soffit.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/soffit/soffit.html">Soffit</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/soffit/soffit.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_beach_umbrella.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/beach_umbrella_demo/beach_umbrella_demo.html?autorotate">Beach Umbrella</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/beach_umbrella_demo/beach_umbrella_demo.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/tut_striped_shader.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a href="deploy/tutorials/striped_shader_1/striped_shader_1.html">Striped Shader Part 1</a>
-                        </p>
-                        <p>
-                        <a href="deploy/tutorials/striped_shader_2/striped_shader_2.html">Striped Shader Part 2</a>
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        <p>
-                        <div>deploy/tutorials/striped_shader_1/striped_shader_1.blend</div>
-                        </p>
-                        <p>
-                        <div>deploy/tutorials/striped_shader_2/striped_shader_2.blend</div>
-                        </p>
-                    </td>
-                </tr>
-            </tbody>
-            <thead>
-                <tr><th colspan="4">
-                    <h3>Code Snippets</h3>
-                </th></tr>
-                <tr>
-                    <th colspan="2">Links</th>
-                    <th colspan="2">Main Blender file</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/bone_api.jpg">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=bone_api">Bone API</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/bone_api/bone_api.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/camera_animation.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=camera_animation">Camera Animation</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/camera_animation/camera_animation.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/camera_move_styles.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=camera_move_styles">Camera Move Styles</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/camera_move_styles/camera_move_styles.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/canvas_texture.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=canvas_texture">Canvas Texture</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/canvas_texture/canvas_texture.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/custom_anchors.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=custom_anchors_main">Custom Anchors</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/custom_anchors/custom_anchors.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/dynamic_geometry.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=dynamic_geometry">Dynamic Geometry</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/dynamic_geometry/dynamic_geometry.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/gyro.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=gyro">Gyro (Mobile Only)</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/gyro/gyro.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/instancing.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=instancing">Instancing</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/instancing/instancing.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/lines.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=lines">Lines</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/lines/lines.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/material_api.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=material_api">Material API</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/material_api/material_api.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/morphing.png">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=morphing">Morphing</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/morphing/morph.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/raytest.jpg">
-                    </td>
-                    <td>
-                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=raytest">Ray Test</a>
-                    </td>
-                    <td colspan="2">
-                        blender/code_snippets/raytest/raytest.blend
-                    </td>
-                </tr>
-            </tbody>
-            <thead>
-                <tr><th colspan="4">
-                    <h3 >Greeting Cards</h3>
-                </th></tr>
-                <tr>
-                    <th colspan="2">Links</th>
-                    <th colspan="2">Main Blender file</th>
-                </tr>
-            </thead>
-            <tbody>
-                 <tr>
-                    <td>
-                        <img src="index_assets/img/greetcard_victory_day_2015.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a href="apps_dev/victory_day_2015/victory_day_2015_dev.html?lang=en">Victory Day 2015 (en)</a>
-                        [<a href="deploy/apps/victory_day_2015/victory_day_2015.html?lang=en">build</a>]
-                        </p>
-                        <p>
-                        <a href="apps_dev/victory_day_2015/victory_day_2015_dev.html?lang=ru">Victory Day 2015 (ru)</a>
-                        [<a href="deploy/apps/victory_day_2015/victory_day_2015.html?lang=ru">build</a>]
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        blender/victory_day_2015/main_scene.blend
-                    </td>
-                </tr>
-                 <tr>
-                    <td>
-                        <img src="index_assets/img/greetcard_happy_new_year_2015.png">
-                    </td>
-                    <td>
-                        <p>
-                        <a href="apps_dev/new_year/new_year_dev.html?lang=en">Happy New Year 2015! (en)</a>
-                        [<a href="deploy/apps/new_year/new_year.html?lang=en">build</a>]
-                        </p>
-                        <p>
-                        <a href="apps_dev/new_year/new_year_dev.html?lang=ru">Happy New Year 2015! (ru)</a>
-                        [<a href="deploy/apps/new_year/new_year.html?lang=ru">build</a>]
-                        </p>
-                    </td>
-                    <td colspan="2">
-                        blender/new_year/main_scene.blend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="index_assets/img/greetcard_victory_day_2014.png">
-                    </td>
-                    <td>
-                        <a href="deploy/tutorials/victory_day/victory_day.html?autorotate">Victory Day 2014</a>
-                    </td>
-                    <td colspan="2">
-                        deploy/tutorials/victory_day/victory_day.blend
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>

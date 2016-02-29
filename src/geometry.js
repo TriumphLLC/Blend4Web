@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1300,6 +1300,7 @@ exports.extract_halo_submesh = function(submesh) {
     var pos_arr      = new Float32Array(12 * base_length);
     var bb_vert_arr  = new Float32Array(8 * base_length);
     var indices_out  = new Uint32Array (4 * submesh.indices.length);
+    var random_vals = new Float32Array (4 * base_length);
 
     for (var i = 0; i < base_length; i++) {
         // generate positions
@@ -1336,6 +1337,12 @@ exports.extract_halo_submesh = function(submesh) {
         indices_out[6 * i + 3]   =  4 * i + 2;
         indices_out[6 * i + 4]   =  4 * i;
         indices_out[6 * i + 5]   =  4 * i + 3;
+
+        var random_val = Math.random();
+        random_vals[4 * i] = random_val;
+        random_vals[4 * i + 1] = random_val;
+        random_vals[4 * i + 2] = random_val;
+        random_vals[4 * i + 3] = random_val;
     }
 
     var halo_submesh = m_util.create_empty_submesh("HALO");
@@ -1345,8 +1352,8 @@ exports.extract_halo_submesh = function(submesh) {
     halo_submesh.base_length = 4 * base_length;
     halo_submesh.va_frames[0]["a_position"]    = pos_arr;
     halo_submesh.va_common["a_halo_bb_vertex"] = bb_vert_arr;
+    halo_submesh.va_common["a_random_vals"] = random_vals;
     halo_submesh.indices                       = indices_out;
-
     return halo_submesh;
 }
 

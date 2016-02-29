@@ -6,371 +6,1266 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 15.6.0 (0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-28 15:54+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: __POT__\n"
+"POT-Creation-Date: 2016-02-20 16:39+0300\n"
+"PO-Revision-Date: 2016-02-26 11:36+0300\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.4\n"
 
 #, fuzzy
-msgid "New"
-msgstr "Создать"
-
-msgid "Settings used for fluid"
-msgstr "Параметры, используемые для жидкостей"
-
-msgid "Type"
-msgstr "Тип"
-
-msgid "Settings:"
-msgstr "Настройки:"
-
-msgid "Type:"
-msgstr "Тип:"
-
-#, python-format
-msgid "%d fluid particles for this frame"
-msgstr "%d частиц жидкости на этот кадр"
+msgid "Child Node:"
+msgstr "Дочерний узел"
 
 #, fuzzy
-msgid "Free Edit"
-msgstr "Свободное редактирование"
+msgid "Dupli Child:"
+msgstr "Дочерний объект"
 
-msgid "Enable emission with Object->Animation->Apply default animation."
+msgid "PLAY"
+msgstr "ИГРАТЬ"
+
+#, fuzzy
+msgid "Play Animation"
+msgstr "Проиграть анимацию"
+
+msgid "STOP"
+msgstr "СТОП"
+
+#, fuzzy
+msgid "Stop Animation"
+msgstr "Остановить анимацию"
+
+msgid "INTENSITY"
+msgstr "ИНТЕНСИВНОСТЬ"
+
+msgid "Intensity"
+msgstr "Интенсивность"
+
+msgid "GET"
 msgstr ""
-"Включить испускание с Объект->Анимация->Использовать анимацию по умолчанию"
+
+msgid "GET Request"
+msgstr ""
+
+msgid "POST"
+msgstr ""
+
+msgid "POST Request"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Numeric variable"
+msgstr ""
+
+msgid "String"
+msgstr ""
+
+msgid "String variable"
+msgstr ""
+
+msgid "World"
+msgstr "Мир"
+
+msgid "World space"
+msgstr ""
+
+msgid "Parent"
+msgstr "Родитель"
+
+msgid "Parent space"
+msgstr ""
+
+msgid "Local"
+msgstr "Локальный"
+
+msgid "Local space"
+msgstr ""
+
+msgid "Noop"
+msgstr "Без оп."
+
+msgid "No operation"
+msgstr "Не производить никаких операций"
+
+msgid "Page Param"
+msgstr "Параметры страницы"
+
+msgid "Store numeric page parameter to a register"
+msgstr "Записать численный параметр страницы в регистр"
+
+msgid "Hide Object"
+msgstr "Спрятать объект"
+
+msgid "Show Object"
+msgstr "Показать объект"
+
+msgid "Page Redirect"
+msgstr "Перенаправление страницы"
+
+msgid "Redirect current page to given URL"
+msgstr "Перенаправить с текущей страницы на указанный адрес"
+
+msgid "Math Operation"
+msgstr "Математическая операция"
+
+msgid "Perform a math operation"
+msgstr "Произвести математическую операцию"
+
+msgid "Variable Store"
+msgstr "Поместить значение в переменную"
+
+msgid "Store a value to a variable"
+msgstr "Поместить значение в переменную"
+
+msgid "Conditional Jump"
+msgstr "Условный переход"
+
+msgid "Conditional jump"
+msgstr "Условный переход"
+
+msgid "Jump"
+msgstr "Прыжок"
+
+msgid "Jump to the slot by label"
+msgstr "Перейти к указанному слоту"
+
+msgid "Select & Play Timeline (Deprecated)"
+msgstr ""
 
 #, fuzzy
-msgid "Emission"
-msgstr "Циклическая эмиссия"
+msgid "Select an object then play timeline"
+msgstr "Проиграть анимацию при выделении указанного объекта"
 
-msgid "Emit From:"
-msgstr "Источник частиц:"
+msgid "Select (Deprecated)"
+msgstr ""
 
-msgid "Particles/Face"
-msgstr "Частиц на грань"
+#, fuzzy
+msgid "Select an object"
+msgstr "Выбрать объект"
 
-msgid "Jittering Amount"
-msgstr "Величина дрожания"
+#, fuzzy
+msgid "Play Timeline"
+msgstr "Время"
 
-msgid "Particle emission from 'Volume' is not supported."
-msgstr "Испускание частиц по типу 'Volume' не поддерживается."
+#, fuzzy
+msgid "Play NLA animation"
+msgstr "Проиграть нелинейную анимацию"
 
-msgid "Cyclic Emission"
-msgstr "Циклическая эмиссия"
+msgid "Entry Point"
+msgstr "Точка входа"
 
-msgid "Allow NLA"
-msgstr "Задействовать NLA"
+#, fuzzy
+msgid "Play Object Animation"
+msgstr "Проиграть нелинейную анимацию"
 
-msgid "Random Delay"
-msgstr "Случайная задержка"
+msgid "Send Request"
+msgstr "Послать запрос"
 
-msgid "Velocity"
-msgstr "Скорость"
+#, fuzzy
+msgid "Inherit Material"
+msgstr "Наследовать анимацию"
 
-msgid "Emitter Geometry:"
-msgstr "Геометрия источника:"
+msgid "Set Shader Node Param"
+msgstr "Установить параметр шейдерной ноды"
 
-msgid "Emitter Object:"
-msgstr "Объект-источник:"
+msgid "Delay"
+msgstr "Задержка"
 
-msgid "Other:"
-msgstr "Другое:"
+msgid "Set Delay Before Next Node Processing"
+msgstr "Установить задержку перед обработкой следующей ноды"
 
-msgid "Rotation"
-msgstr "Вращение"
+#, fuzzy
+msgid "Apply Shape Key"
+msgstr "Экспортировать ключи формы"
 
-msgid "Initial Orientation:"
-msgstr "Начальная ориентация:"
+msgid "Set the value of the shape key"
+msgstr "Установить значение ключа деформации"
+
+#, fuzzy
+msgid "Outline"
+msgstr "Период повторения анимации подсветки, сек"
+
+#, fuzzy
+msgid "Play or stop outline animation"
+msgstr "Поведение: остановить анимацию после окончания"
+
+msgid "Select & Play Animation (Deprecated)"
+msgstr ""
+
+#, fuzzy
+msgid "Select an object then play Object Animation"
+msgstr "Проиграть анимацию при выделении указанного объекта"
+
+msgid "Move Camera"
+msgstr ""
+
+msgid "Set camera Translation and pivot"
+msgstr ""
+
+msgid "Set Camera Move Style"
+msgstr ""
+
+msgid "Set camera move style"
+msgstr ""
+
+msgid "Play Sound"
+msgstr ""
+
+msgid "Switch Select"
+msgstr ""
+
+msgid "Switch select"
+msgstr ""
+
+msgid "Stop Object Animation"
+msgstr ""
+
+msgid "Stop Sound"
+msgstr ""
+
+msgid "Stop Timeline"
+msgstr ""
+
+msgid "Move To"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
+
+msgid "Console Print"
+msgstr ""
+
+msgid "Transform Object"
+msgstr ""
+
+msgid "String Operation"
+msgstr ""
+
+msgid "Perform a string operation"
+msgstr ""
+
+msgid "Divide"
+msgstr "Разделить"
+
+msgid "Subtract"
+msgstr "Вычесть"
+
+msgid "Multiply"
+msgstr "Умножить"
+
+#, fuzzy
+msgid "Add"
+msgstr "Добавить"
 
 msgid "Random"
 msgstr "Случайно"
 
-msgid "Angular Velocity:"
-msgstr "Угловая скорость:"
+msgid "Join"
+msgstr "Объединить"
 
-#, fuzzy, python-format
-msgid "'%s' angular velocity mode isn't supported."
-msgstr "'%s' режим угловой скорости не поддерживается."
+msgid "Find"
+msgstr "Найти"
+
+msgid "Replace"
+msgstr "Заменить"
+
+msgid "Split"
+msgstr "Разделить"
+
+msgid "Compare"
+msgstr "Сравнить"
+
+msgid "Greater Than or Equal (>=)"
+msgstr "Больше или равно (>=)"
+
+msgid "Greater than or equal"
+msgstr "Больше или равно"
+
+msgid "Less Than or Equal (<=)"
+msgstr "Меньше или равно (<=)"
+
+msgid "Less than or equal"
+msgstr "Меньше или равно"
+
+msgid "Greater Than (>)"
+msgstr "Больше, чем (>)"
+
+msgid "Greater than"
+msgstr "Больше, чем"
+
+msgid "Less Than (<)"
+msgstr "Меньше, чем (<)"
+
+msgid "Less than"
+msgstr "Меньше, чем"
+
+msgid "Not Equal (!=)"
+msgstr "Не равно (!=)"
+
+msgid "Not equal"
+msgstr "Не равно"
+
+msgid "Equal (=)"
+msgstr "Равно (=)"
+
+#, fuzzy
+msgid "Equal"
+msgstr "Равно (=)"
+
+#, fuzzy
+msgid "No var source"
+msgstr "Нету источника перем."
+
+#, fuzzy
+msgid "Bad object field!"
+msgstr "Неправильное поле объекта"
+
+msgid "Page param field is empty!"
+msgstr "Параметр страницы пуст!"
+
+msgid "Url field is empty!"
+msgstr "Url поле пусто!"
+
+msgid "New var. field is empty!"
+msgstr "Поле новой переменной пусто!"
+
+msgid "Destination field is empty!"
+msgstr "Поле приемника пусто!"
+
+msgid "Operand 1 field is empty!"
+msgstr "Полу операнда 1 пусто!"
+
+msgid "Operand 2 field is empty!"
+msgstr "Поле операнда 2 пусто!"
+
+msgid "Material field is not correct!"
+msgstr "Поле материала пусто!"
+
+#, fuzzy
+msgid "Object field is not correct!"
+msgstr "Объект не будет отображаться"
+
+#, fuzzy
+msgid "Please select node material!"
+msgstr "Пожалуйста, выделите 2 меша"
+
+msgid "Node field is not correct!"
+msgstr "Поле ноды некорректо!"
+
+#, fuzzy
+msgid "Selected node is not supported!"
+msgstr "Тип \"Область\" не поддерживается "
+
+msgid "Bad speaker field!"
+msgstr ""
+
+#, python-format
+msgid "%s occurs more than one time"
+msgstr "%s встречается более одного раза"
+
+#, python-format
+msgid "Bad object field: '%s'"
+msgstr ""
+
+msgid "Bad Message field!"
+msgstr ""
+
+msgid "Bad variable field!"
+msgstr ""
+
+msgid "Node is not supported."
+msgstr "Нода не поддерживается."
+
+msgid "It could be outdated or created"
+msgstr ""
+
+msgid "in a newer version of Blend4Web"
+msgstr ""
+
+msgid "can't find a node"
+msgstr ""
+
+msgid "Blend4Web logic"
+msgstr "Blend4Web логика"
+
+msgid "Blend4Web logic nodes"
+msgstr "Blend4Web логические ноды"
+
+msgid "SlotJumpSocketOutput"
+msgstr "СлотПрыгатьСоединениеВыход"
+
+msgid "Target"
+msgstr "Цель"
+
+msgid "LogicOperator Node Socket"
+msgstr "Логический оператор Нодовое соединение"
+
+msgid "Label"
+msgstr ""
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Next"
+msgstr "След."
+
+#, fuzzy
+msgid "Previous"
+msgstr "Предыдущий"
+
+msgid "False"
+msgstr "Ложь"
+
+msgid "True"
+msgstr "Истинно"
+
+msgid "Miss"
+msgstr "Промах"
+
+msgid "Hit"
+msgstr "Попадание"
+
+msgid " Hit"
+msgstr ""
+
+msgid "Add Socket"
+msgstr ""
+
+msgid "Start Marker"
+msgstr "Начальный маркер"
+
+msgid "First marker of the playback"
+msgstr "Маркер, с которого начинается проигрывание"
+
+msgid "End Marker"
+msgstr "Маркер конца"
+
+msgid "Final marker of the playback"
+msgstr "Маркер окончания проигрывания"
+
+msgid "Target Slot"
+msgstr "Целевой слот"
+
+msgid "Name of the target slot"
+msgstr "Название целевого слота"
+
+msgid "Var 1"
+msgstr "Переменная один"
+
+msgid "Variable name"
+msgstr "Имя переменной"
+
+msgid "Var 2"
+msgstr "Переменная 2"
+
+msgid "Destination Var"
+msgstr "Переменная-приемник"
+
+msgid "Define Var"
+msgstr "Определить переменную"
+
+msgid "Num"
+msgstr "Чис"
+
+msgid "First numeric operand"
+msgstr "Первый численный перанд"
+
+msgid "Second numeric operand"
+msgstr "Второй числовой операнд"
+
+msgid "Str"
+msgstr ""
+
+msgid "First string operand"
+msgstr ""
+
+msgid "Variable"
+msgstr "Переменная"
+
+msgid "First variable operand"
+msgstr "Первый операнд"
+
+msgid "Second variable operand"
+msgstr "Второй операнд"
+
+#, fuzzy
+msgid "Operation"
+msgstr "Математическая операция"
+
+msgid "Operation to perform on input operands"
+msgstr "Математическая операция, выполняемая над операндами"
+
+#, fuzzy
+msgid "Operation to control outline animation"
+msgstr "Поведение: остановить анимацию после окончания"
+
+msgid "Camera movement style"
+msgstr ""
+
+msgid "B4W: animation behavior"
+msgstr "B4W: Поведение анимации"
+
+msgid "The behavior of finished animation: stop, repeat or reset"
+msgstr ""
+"Поведение анимации после ее окончания: остановиться, повторить или сбросить "
+"в начало"
+
+msgid "Method"
+msgstr ""
+
+msgid "Request method"
+msgstr ""
+
+msgid "Condition"
+msgstr "Условие"
+
+msgid "Conditonal operator"
+msgstr "Условный оператор"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Target URL"
+msgstr "Адрес"
+
+msgid "Param Name"
+msgstr "Название параметра"
+
+msgid "Param name"
+msgstr "Название параметра"
+
+msgid "label2"
+msgstr "Лэйбл2"
+
+msgid "Error messages"
+msgstr "Сообщения об ошибках"
+
+#, fuzzy
+msgid "Anim. Name"
+msgstr "Имя анимации"
+
+msgid "Animation Name"
+msgstr "Имя анимации"
+
+msgid "B4W: Variables"
+msgstr "B4W: Переменные"
+
+msgid "Variables for current thread"
+msgstr "Переменные для текущей нити"
+
+msgid "B4W: Objects Paths"
+msgstr "B4W: Пути к объектам"
+
+msgid "Contain a pointer to target object"
+msgstr "Содержит указатель на целевой объект"
+
+msgid "B4W: Nodes Paths"
+msgstr "B4W: Пути к нодам"
+
+msgid "Contain a pointer to target node"
+msgstr "Содержит указатель на целевую ноду"
+
+msgid "B4W: Materials names"
+msgstr "B4W: Имена материалов"
+
+msgid "Contain a materials names"
+msgstr "Содержит имена материалов"
+
+msgid "B4W: float array"
+msgstr "B4W: Массив float"
+
+msgid "Contain floats"
+msgstr "Содержит float"
+
+msgid "B4W: duration array"
+msgstr ""
+
+msgid "Contain durations"
+msgstr ""
+
+msgid "B4W: angle array"
+msgstr ""
+
+msgid "Contain angles"
+msgstr ""
+
+msgid "B4W: bools array"
+msgstr "B4W: булев массив"
+
+msgid "Contain bools"
+msgstr "Содержит булевы значения"
+
+msgid "B4W: variables array"
+msgstr "B4W: массив переменных"
+
+msgid "Contain variables"
+msgstr "Содержит переменные"
+
+#, fuzzy
+msgid "B4W: common usage names"
+msgstr "Вертексный цвет в"
+
+msgid "Contain common usage name storage"
+msgstr "Содержит контейнеры переменных общего назначения"
+
+msgid "Variable type"
+msgstr "Тип переменной"
+
+msgid "String operation"
+msgstr "Операция над строками"
+
+msgid "String operation to perform on input operands"
+msgstr ""
+
+msgid "B4W: string array"
+msgstr ""
+
+msgid "Contain strings"
+msgstr ""
+
+msgid "Space type"
+msgstr ""
+
+msgid "Child"
+msgstr "Дочерний объект"
+
+msgid "Dupli Child"
+msgstr "Дупли дочерний объект"
+
+#, fuzzy
+msgid "Child Node"
+msgstr "Логические Узлы"
+
+#, fuzzy
+msgid "Not node material"
+msgstr "Не рендерить"
+
+#, fuzzy
+msgid "Wrong Material field"
+msgstr "B4W: Имена материалов"
+
+#, fuzzy
+msgid "Material:"
+msgstr "Рассеяное свечение"
+
+#, fuzzy
+msgid "Object is not selected"
+msgstr "Исходный объект не доступен для выбора"
+
+msgid "No child elements"
+msgstr "Нету дочерних элементов"
+
+#, fuzzy
+msgid "Do Not Wait"
+msgstr "Не экспортировать"
+
+#, fuzzy
+msgid "Select Object:"
+msgstr "Выбрать объект"
+
+#, fuzzy
+msgid "Animate Object:"
+msgstr "Объект-источник:"
+
+#, fuzzy
+msgid "Object:"
+msgstr "Объект домена:"
+
+#, fuzzy
+msgid "Shape Key"
+msgstr "Экспортировать ключи формы"
+
+msgid "Value"
+msgstr "Значение"
+
+#, fuzzy
+msgid "No shape key source"
+msgstr "Экспортировать ключи деформации"
+
+msgid "Operand1:"
+msgstr "Операнд1"
+
+msgid "Operand2:"
+msgstr "Операнд2"
+
+#, fuzzy
+msgid "New variable"
+msgstr "Переменная"
+
+msgid "New var."
+msgstr "Новая переменная"
+
+#, fuzzy
+msgid "Var. name"
+msgstr "Название параметра"
+
+msgid "Var. type"
+msgstr ""
+
+msgid "Destination:"
+msgstr "Назначение:"
+
+msgid "Url:"
+msgstr "Url"
+
+msgid "Response Params:"
+msgstr ""
+
+msgid "Content-Type:"
+msgstr ""
+
+msgid "Parse JSON"
+msgstr ""
+
+msgid "Request Params:"
+msgstr ""
+
+msgid "Encode JSON"
+msgstr ""
+
+msgid "Node:"
+msgstr "Нода:"
+
+#, fuzzy
+msgid "Parameters:"
+msgstr "Имя парам.:"
+
+msgid "RGB:"
+msgstr "RGB:"
+
+msgid "Value:"
+msgstr "Значение:"
+
+msgid "No editable parameters available"
+msgstr "Нет доступных редактирукмых параметров"
+
+msgid "Param Name:"
+msgstr "Имя парам.:"
+
+msgid "Camera:"
+msgstr ""
+
+msgid "Look at:"
+msgstr ""
+
+msgid "Duration:"
+msgstr ""
+
+msgid "Space"
+msgstr ""
+
+msgid "Location:"
+msgstr ""
+
+msgid "x"
+msgstr ""
+
+msgid "y"
+msgstr ""
+
+msgid "z"
+msgstr ""
+
+msgid "Rotation:"
+msgstr ""
+
+msgid "Scale:"
+msgstr ""
+
+msgid "Camera Style:"
+msgstr ""
+
+msgid "Speaker:"
+msgstr ""
+
+#, fuzzy
+msgid "Logic Node"
+msgstr "Логические Узлы"
+
+msgid "Control Flow"
+msgstr ""
+
+#, fuzzy
+msgid "Animation"
+msgstr "Добавить анимацию"
+
+#, fuzzy
+msgid "Camera"
+msgstr "Пространство камеры"
+
+msgid "Object"
+msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+#, fuzzy
+msgid "Sound"
+msgstr "Границы"
+
+msgid "Network"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Deprecated"
+msgstr ""
+
+msgid "Layout"
+msgstr "Разметка"
+
+msgid "Entry Point node is not found!"
+msgstr "Входная нода не обнаружена!"
+
+#, fuzzy
+msgid "Node tree is empty!"
+msgstr "Нодовое дерево"
+
+msgid "Input is not connected!"
+msgstr "Некорректный вход!"
+
+msgid "No path from Entry point!"
+msgstr "Нету пути из входной точки!"
+
+msgid "Subtrees overlapping is not allowed!"
+msgstr "Повторение поддеревьев недоступно!"
+
+msgctxt "Operator"
+msgid "Toggle Node Mute"
+msgstr "Выключатель нод"
+
+#, fuzzy
+msgctxt "Operator"
+msgid "Parse response list add item"
+msgstr "B4W: Разобрать индекс списка ответов"
+
+msgid "Node tree"
+msgstr "Нодовое дерево"
+
+msgid "Node name"
+msgstr "Имя ноды"
+
+msgctxt "Operator"
+msgid "Remove dynamic jump socket"
+msgstr ""
+
+msgid "Socket name"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add new variable"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove variable"
+msgstr ""
+
+msgid "var id"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Add dynamic jump socket"
+msgstr ""
+
+#, fuzzy
+msgctxt "Operator"
+msgid "Parse response list remove item"
+msgstr "B4W: Разобрать индекс списка ответов"
+
+msgctxt "Operator"
+msgid "Edit object item level"
+msgstr "Редактировать дупли уровень объекта"
+
+msgid "Item name"
+msgstr "Имя уровня"
+
+msgid "Item type"
+msgstr "Тип уровня"
+
+msgid "reverse"
+msgstr "Обратно"
+
+msgid "Delete dir if true"
+msgstr "Удалить уровень если верно"
+
+msgid "Override Bounding Volumes"
+msgstr "Переопределить граничные объемы"
+
+msgid "Show Boundings:"
+msgstr "Показывать границы отрисовки"
+
+msgid "Boxes"
+msgstr "Прямоугольники"
+
+msgid "Spheres"
+msgstr "Сферы"
+
+msgid "Ellipsoids"
+msgstr "Эллипсоиды"
+
+msgid "Override Mesh Boundings"
+msgstr "Переопределить границы"
+
+msgid "Min X"
+msgstr "Минимум, Х"
+
+msgid "Max X"
+msgstr "Максимум, Х"
+
+msgid "Min Y"
+msgstr "Минимум, Y"
+
+msgid "Max Y"
+msgstr "Максимум, Y"
+
+msgid "Min Z"
+msgstr "Минимум, Z"
+
+msgid "Max Z"
+msgstr "Максимум, Z"
+
+#, fuzzy
+msgid "B4W: draw bounding box"
+msgstr "B4W: Исправить ограничивающий параллелепипед"
+
+#, fuzzy
+msgid "B4W: draw bounding sphere"
+msgstr "B4W: Ограничивающий параллелепипед"
+
+#, fuzzy
+msgid "B4W: draw bounding ellipsoid"
+msgstr "B4W: Ограничивающий параллелепипед"
+
+msgid "Bake Shore Distance Map"
+msgstr "Запечь карту расстояния до берега"
+
+msgid "Texture Size"
+msgstr "Размер текстуры"
+
+msgid "Maximum Distance"
+msgstr "Макс. расстояние"
+
+#, fuzzy
+msgid "Bake"
+msgstr "Запечь"
+
+#, fuzzy
+msgid "B4W: shoremap max distance"
+msgstr "B4W: Карта расстояний берега"
+
+#, fuzzy
+msgid "B4W: shoremap texture size"
+msgstr "B4W: Размер текстуры"
+
+msgctxt "Operator"
+msgid "B4W Shore Distance Baker"
+msgstr "B4W Запекатель расстояния до береговой линии"
+
+msgctxt "Operator"
+msgid "Bake Error Dialog"
+msgstr "Окно ошибки запекания"
+
+msgid "=== BLEND4WEB: SHORE BAKE ERROR ==="
+msgstr "=== BLEND4WEB: ОШИБКА ЗАПЕКАТЕЛЯ ==="
+
+msgid "COMPONENT: "
+msgstr "КОМПОНЕНТ: "
+
+msgid "NAME: "
+msgstr "НАЗВАНИЕ: "
+
+msgid "ERROR: "
+msgstr "ОШИБКА: "
+
+#, fuzzy
+msgid "No objects selected"
+msgstr "Объекты должны быть доступны для выбора"
+
+#, fuzzy
+msgid "Source object is not selected."
+msgstr "Исходный объект не доступен для выбора"
+
+msgid " doesn't have a material."
+msgstr ""
+
+msgid "Source object is not \"Mesh\"."
+msgstr ""
+
+#, fuzzy
+msgid "ShoreDistance"
+msgstr "Карта дистанций до берега"
+
+msgctxt "Operator"
+msgid "Bake Skeletal Animation"
+msgstr "Запечь скелетную анимацию"
+
+msgid "Not an armature object"
+msgstr "Объект не является арматурой"
+
+msgid "No animation data"
+msgstr "Отсутствуют анимация"
+
+msgid "Armature object is linked"
+msgstr "Объект арматуры является ссылкой"
+
+msgctxt "Operator"
+msgid "B4W Constraints Mute"
+msgstr "B4W Отключить ограничение"
+
+msgctxt "Operator"
+msgid "B4W Constraints UnMute"
+msgstr "B4W Разрешить Ограничения"
+
+msgid "Bake Skeletal Animation"
+msgstr "Запечь скелетную анимацию"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Optimize Keyframes"
+msgstr "Оптимизировать ключевые кадры"
+
+msgid "Use Blender's Native Baker"
+msgstr "Использовать запекатель Blender'a"
+
+msgctxt "Operator"
+msgid "Add animation"
+msgstr "Добавить анимацию"
+
+msgid "Add animation"
+msgstr "Добавить анимацию"
+
+msgctxt "Operator"
+msgid "Remove animation"
+msgstr "Убрать анимацию"
+
+msgid "Remove animation"
+msgstr "Убрать анимацию"
+
+#, fuzzy
+msgid "B4W: animation"
+msgstr "B4W: Смешать анимацию"
+
+#, fuzzy
+msgid "B4W: animation index"
+msgstr "B4W: Смешать анимацию"
+
+#, fuzzy
+msgid "B4W: use bpy anim baker"
+msgstr "B4W: Использовать анимацию по умолчанию"
+
+msgctxt "Operator"
+msgid "B4W Export HTML"
+msgstr "B4W Экспортировать HTML"
+
+msgid "Autosave blend File"
+msgstr "Автосохранение .blend-файла"
+
+msgid "Automatically save the blend file after export"
+msgstr "Автоматически сохранять blend файл после экспорта"
+
+msgid "Strict Mode"
+msgstr "Строгий режим экспорта"
+
+msgid "Block export if there are any errors or warnings"
+msgstr "Запрещать экспорт если есть ошибки или предупреждения"
+
+msgid "Filepath"
+msgstr "Путь к файлу"
+
+msgid "Required for running in command line mode"
+msgstr "Требуется для запуска в командной строке"
+
+msgid "Save export path"
+msgstr "Сохранить путь экспорта"
+
+msgid "Save export path in blend file"
+msgstr "Сохранить путь экспорта в blend-файл"
+
+msgid "Export Converted Media"
+msgstr "Экспортировать альтернативные форматы"
+
+msgid "Save alternative media formats in the HTML file"
+msgstr "Сохранять альтернативные медиаданные в HTML файле"
+
+msgctxt "Operator"
+msgid "B4W Get Export HTML Path"
+msgstr "B4W Получить путь экспотируемого HTML"
+
+msgid "Blend4Web (.html)"
+msgstr "Blend4Web (.html)"
 
 #, fuzzy
 msgid "Physics"
 msgstr "Физика объекта"
 
-msgid "Forces:"
+msgid "Object Physics"
+msgstr "Физика объекта"
+
+msgid "Collision ID"
+msgstr "Индентификатор коллизии"
+
+msgid "Unsupported physics type"
+msgstr "Неподдерживаемый тип физики"
+
+msgid "Attributes:"
+msgstr "Атрибуты:"
+
+msgid "Velocity:"
+msgstr "Скорость:"
+
+msgid "Minimum"
+msgstr "Минимум"
+
+msgid "Maximum"
+msgstr "Максимум"
+
+msgid "Damping:"
+msgstr "Затухание:"
+
+msgid "Translation"
+msgstr "Перемещение"
+
+msgid "Rotation"
+msgstr "Вращение"
+
+#, fuzzy
+msgid "Collision Bounds"
+msgstr "Группа столкновения"
+
+msgid "Bounds"
+msgstr "Границы"
+
+msgid "This collision bounds type is not supported"
+msgstr "Этот тип физических границ не поддерживается"
+
+msgid "Margin"
+msgstr "Отступ"
+
+msgid "Compound"
+msgstr "Часть целого"
+
+msgid "Bounding Box Correction"
+msgstr "Корректировать граничный объем"
+
+msgid "Floater"
+msgstr "Плавучий объект"
+
+msgid "Floater Name"
+msgstr "Има плавучего объекта"
+
+msgid "Part"
+msgstr "Часть"
+
+msgid "Floating Factor"
+msgstr "Коэффициент плавучести"
+
+msgid "Water Linear Damping"
+msgstr "Амортизация движения под водой"
+
+msgid "Water Rotation Damping"
+msgstr "Амортизация вращения под водой"
+
+msgid "Vehicle"
+msgstr "Транспорт"
+
+msgid "Vehicle Name"
+msgstr "Имя транспортного средства"
+
+msgid "Suspension Rest Length"
+msgstr "Высота подвески"
+
+msgid "Force Max"
+msgstr "Максимальная тяга"
+
+msgid "Brake Max"
+msgstr "Максимальная тормозная сила"
+
+msgid "Suspension Compression"
+msgstr "Сжатие подвески"
+
+msgid "Suspension Stiffness"
+msgstr "Жесткость подвески"
+
+msgid "Suspension Damping"
+msgstr "Демпфирование подвески"
+
+msgid "Wheel Friction"
+msgstr "Трение колеса"
+
+msgid "Roll Influence"
+msgstr "Влияние вращения"
+
+msgid "Max Suspension Travel Cm"
+msgstr "Максимальный ход подвески (см.)"
+
+msgid "Synchronize Bob Position"
+msgstr "Синхронизировать позиции поплавков"
+
+msgid "Steering Ratio"
+msgstr "Отношение поворота"
+
+msgid "Steering Max"
+msgstr "Максимальный поворот"
+
+msgid "Inverse Control"
+msgstr "Инвертировать управление"
+
+msgid "Delta Tach Angle"
+msgstr "Угловой ход тахометра"
+
+msgid "Max Speed Angle"
+msgstr "Угол для максимальной скорости"
+
+msgid "Speed Ratio"
+msgstr "Коэффициент скорости"
+
+#, fuzzy
+msgid "Character"
+msgstr "Скорость бега"
+
+msgid "Character settings:"
+msgstr "Настройки персонажа:"
+
+msgid "Walk Speed"
+msgstr "Скорость ходьбы"
+
+msgid "Run Speed"
+msgstr "Скорость бега"
+
+msgid "Step Height"
+msgstr "Высота шага"
+
+msgid "Jump Strength"
+msgstr "Сила прыжка"
+
+msgid "Waterline"
+msgstr "Ватерлиния"
+
+#, fuzzy
+msgid "Force Fields"
 msgstr "Силы:"
 
-msgid "Integration:"
-msgstr "Интегрирование:"
+msgid "Type:"
+msgstr "Тип:"
 
-msgid "Threshold"
-msgstr "Порог"
+msgid "This field type is not supported"
+msgstr "Этот тип поля не поддерживается"
 
-msgid "Fluid properties:"
-msgstr "Свойства жидкости:"
+msgid "Clumping:"
+msgstr "Скопление:"
 
-msgid "Stiffness"
-msgstr "Жёсткость"
+msgid "Domain Object:"
+msgstr "Объект домена:"
 
-msgid "Viscosity"
-msgstr "Вязкость"
-
-msgid "Buoyancy"
-msgstr "Выталкивание"
-
-msgid "Advanced:"
-msgstr "Дополнительно:"
-
-#, python-format
-msgid "Spacing: %g"
-msgstr "Интервал: %g"
-
-msgid "Springs:"
-msgstr "Пружины:"
-
-msgid "Force"
-msgstr "Сила"
-
-msgid "Frames"
-msgstr "Кадры"
-
-msgid "Loops"
-msgstr "Циклы"
-
-msgid "Use Timing"
-msgstr "Указать время"
-
-msgid "Keys:"
-msgstr "Ключи:"
-
-msgid "Battle:"
-msgstr "Сражение:"
-
-msgid "Misc:"
-msgstr "Прочее:"
-
-msgid "Relations:"
-msgstr "Отношения:"
-
-msgid "Fluid interaction:"
-msgstr "Взаимодействие жидкости:"
-
-msgid "System"
-msgstr "Система"
-
-#, fuzzy
-msgid "Render"
-msgstr "Визуализация:"
-
-msgid "The 'Hair' Particle System requires 'Object' or 'Group' render type."
-msgstr ""
-"Системы частиц типа 'Hair' поддерживают типы рендера 'Object' и 'Group'."
-
-msgid "Randomize Location And Size"
-msgstr "Случайные позиция и размер"
-
-msgid "Randomize Initial Rotation"
-msgstr "Случайный начальный поворот"
-
-msgid "Rotation Type"
-msgstr "Тип вращения"
-
-msgid "Rotation Strength"
-msgstr "Сила поворота"
-
-msgid "Billboard"
-msgstr "Билборд"
-
-msgid "Billboard Type"
-msgstr "Тип биллборда"
-
-msgid "Jitter Amplitude"
-msgstr "Амплитуда джиттера"
-
-msgid "Jitter Frequency"
-msgstr "Частота джиттера"
-
-msgid "Billboard Geometry:"
-msgstr "Геометрия биллборда:"
-
-msgid ""
-"The 'Emitter' Particle System requires 'Halo' or 'Billboard' render type."
-msgstr ""
-"Системы частиц типа 'Emitter' поддерживают типы рендера 'Halo' и 'Billboard'."
-
-msgid "Billboard Align"
-msgstr "Выравнивание биллбордов"
-
-msgid "Dissolve Intervals:"
-msgstr "Интервалы затухания"
-
-msgid "Fade-In"
-msgstr "Проявление"
-
-msgid "Fade-Out"
-msgstr "Угасание"
-
-msgid "Coordinate System"
-msgstr "Система координат"
-
-msgid "Soft Particles"
-msgstr "Мягкие частицы"
-
-msgid "Particle Softness"
-msgstr "Мягкость частиц"
-
-msgid "Field Weights"
-msgstr "Веса поля"
-
-#, fuzzy
-msgid "Vertex Groups"
-msgstr "Очистить неисп. группы вершин"
-
-msgid "Density"
-msgstr "Плотность"
-
-msgid "Length"
-msgstr "Длина"
-
-msgid "Cache"
-msgstr "Кэш"
-
-msgid "Display"
-msgstr "Отображение"
-
-msgid "Display percentage makes dynamics inaccurate without baking!"
-msgstr ""
-"Отображение процентной завершённости без запекания ухудшает качество "
-"динамики!"
-
-msgid "Color:"
-msgstr "Цвет:"
-
-msgid "Max"
-msgstr "Макс."
-
-msgid "Export Options"
-msgstr "Настройки экспорта"
-
-msgid "Do Not Export"
-msgstr "Не экспортировать"
-
-msgid "Dynamic Grass"
-msgstr "Динамическая трава"
-
-msgid "Scale Threshold"
-msgstr "Порог размера"
-
-msgid "Properties Inheritance"
-msgstr "Наследование свойств"
-
-msgid "Inherit Properties From:"
-msgstr "Наследовать свойства с:"
-
-msgid "Wind Bending:"
-msgstr "Эффект ветра:"
-
-msgid "Shadows:"
-msgstr "Тени:"
-
-msgid "Reflection:"
-msgstr "Отражение:"
-
-msgid "Vertex Color:"
-msgstr "Вертексный цвет:"
-
-msgid "From"
-msgstr "От"
-
-msgid "To"
-msgstr "Кому"
-
-msgid "Reexport Path"
-msgstr "Переэкспортировать пути"
-
-msgid "Directory with Exported Files (*.json or *.html)"
-msgstr "Директория с экспортируемыми файлами(*.json or *.html)"
-
-msgid "Blend4Web SDK Directory"
-msgstr "Путь к SDK Blend4Web"
-
-msgid "Path to SDK"
-msgstr "Путь до SDK"
-
-msgid "Server Port"
-msgstr "Номер порта сервера"
-
-msgid "Server port number"
-msgstr "Номер порта сервера"
-
-msgid "Run development server automatically"
-msgstr "Автоматически запускать сервер разработки"
-
-msgid "Run on Startup"
-msgstr "Запускать при старте"
-
-msgid "Check for updates"
-msgstr "Проверить наличие новой версии аддона"
-
-msgid "Check for new addon version"
-msgstr "Проверить наличие новой версии аддона"
-
-msgid "Enable External Requests"
-msgstr "Разрешить внешние запросы"
-
-msgid "Enable external requests to the server"
-msgstr "Разрешить внешние запросы к серверу"
-
-msgid "Check For Updates on Startup"
-msgstr "Проверять на наличие обновлений при запуске"
-
-#, fuzzy, python-format
-msgid "Update is available: %s"
-msgstr "Доступно обновление: %s"
-
-msgid "Development Server:"
-msgstr "Сервер разработки"
-
-msgid "Mass Reexporter"
-msgstr "Массовый реэкспорт"
-
-msgid "Blend4Web SDK was not found."
-msgstr "SDK Blend4Web не найден"
-
-msgid "Please download and configure it before using Mass Reexporter."
-msgstr ""
-"Просьба скачать и настроить его перед использованием массового реэкспорта"
-
-msgid "Check info window for export results."
-msgstr "См. окно информации с результатами экспорта"
-
-msgid "Exported Directory"
-msgstr "Экспортная директория"
-
-msgctxt "Operator"
-msgid "Reexport"
-msgstr "Реэкспорт"
-
-msgctxt "Operator"
-msgid "Reexport Append"
-msgstr "Добавить к реэкспорту"
-
-msgid "Append exported directory"
-msgstr "Добавить директорию к реэкспорту"
-
-msgctxt "Operator"
-msgid "Reexport Remove"
-msgstr "Удалить из реэкспорта"
-
-msgid "Remove exported directory"
-msgstr "Удалить директорию из реэкспорта"
-
-msgid ""
-"Perform mass reexport. Depending on amount of work this may take some time"
-msgstr "Выполнить массовый реэкспорт. Может занять время."
+msgid "Linear"
+msgstr "Линейно"
 
 #, fuzzy
 msgid "Normal"
@@ -606,1050 +1501,257 @@ msgstr "Вертексы"
 msgid "Copy normals from nearest vertices of the source mesh"
 msgstr "Скопировать нормали с ближайших вершин исходной полисетки"
 
-msgctxt "Operator"
-msgid "B4W Camera Target Copy"
-msgstr "B4W копировать цель для камеры"
+msgid "PosNor"
+msgstr "ПосНор"
+
+msgid "Vertices"
+msgstr "Вертексы"
+
+msgid "Frames"
+msgstr "Кадры"
+
+msgid "Start"
+msgstr "Начало"
+
+msgid "First frame of vertex animation"
+msgstr "Первый кадр вертексной анимации"
+
+msgid "End"
+msgstr "Конец"
+
+msgid "End frame of vertex animation"
+msgstr "Конечный кадр вертексной анимации"
+
+msgid "Averaging"
+msgstr "Усреднение"
 
 #, fuzzy
-msgid "Vertex groups"
-msgstr "Удалить вертексные группы"
-
-msgid "Clean Unused Vertex Groups"
-msgstr "Очистить неисп. группы вершин"
-
-msgctxt "Operator"
-msgid "B4W Remove Unused VGroups"
-msgstr "B4W Удалить неиспользуемые группы вершин"
+msgid "Perform vertex animation averaging: mix end "
+msgstr ""
+"Произвести усреднение вертексной анимации: смешивать конечные кадры с "
+"начальными"
 
 #, fuzzy
-msgctxt "Context"
-msgid "Message"
-msgstr "Сообщение"
+msgid "Interval"
+msgstr "Интегрирование:"
 
-#, python-format
-msgid "New version of Blend4Web is available: %s"
-msgstr "Доступна новая версия Blend4Web: %s"
+msgid "Averaging interval"
+msgstr "Интервал усреднения"
 
-#, fuzzy
-msgid "Download"
-msgstr "Скачать"
+msgid "Allow NLA"
+msgstr "Задействовать NLA"
 
-msgid "Object Physics"
-msgstr "Физика объекта"
+msgid "Allow animation to be controlled by the NLA"
+msgstr "Задействовать NLA для контроля анимациии"
 
-msgid "Collision ID"
-msgstr "Индентификатор коллизии"
+msgid "Bake Vertex Animation"
+msgstr "Запечь вертексную анимацию"
 
-msgid "Unsupported physics type"
-msgstr "Неподдерживаемый тип физики"
-
-msgid "Attributes:"
-msgstr "Атрибуты:"
-
-msgid "Velocity:"
-msgstr "Скорость:"
-
-msgid "Minimum"
-msgstr "Минимум"
-
-msgid "Maximum"
-msgstr "Максимум"
-
-msgid "Damping:"
-msgstr "Затухание:"
-
-msgid "Translation"
-msgstr "Перемещение"
+msgid "Status: "
+msgstr "Статус: "
 
 #, fuzzy
-msgid "Collision Bounds"
-msgstr "Группа столкновения"
+msgid " frames recorded"
+msgstr " кадров записано"
 
-msgid "Bounds"
-msgstr "Границы"
-
-msgid "This collision bounds type is not supported"
-msgstr "Этот тип физических границ не поддерживается"
-
-msgid "Margin"
-msgstr "Отступ"
-
-msgid "Compound"
-msgstr "Часть целого"
-
-msgid "Bounding Box Correction"
-msgstr "Корректировать граничный объем"
-
-msgid "Floater"
-msgstr "Плавучий объект"
-
-msgid "Floater Name"
-msgstr "Има плавучего объекта"
-
-msgid "Part"
-msgstr "Часть"
-
-msgid "Floating Factor"
-msgstr "Коэффициент плавучести"
-
-msgid "Water Linear Damping"
-msgstr "Амортизация движения под водой"
-
-msgid "Water Rotation Damping"
-msgstr "Амортизация вращения под водой"
-
-msgid "Vehicle"
-msgstr "Транспорт"
-
-msgid "Vehicle Name"
-msgstr "Имя транспортного средства"
-
-msgid "Suspension Rest Length"
-msgstr "Высота подвески"
-
-msgid "Force Max"
-msgstr "Максимальная тяга"
-
-msgid "Brake Max"
-msgstr "Максимальная тормозная сила"
-
-msgid "Suspension Compression"
-msgstr "Сжатие подвески"
-
-msgid "Suspension Stiffness"
-msgstr "Жесткость подвески"
-
-msgid "Suspension Damping"
-msgstr "Демпфирование подвески"
-
-msgid "Wheel Friction"
-msgstr "Трение колеса"
-
-msgid "Roll Influence"
-msgstr "Влияние вращения"
-
-msgid "Max Suspension Travel Cm"
-msgstr "Максимальный ход подвески (см.)"
-
-msgid "Synchronize Bob Position"
-msgstr "Синхронизировать позиции поплавков"
-
-msgid "Steering Ratio"
-msgstr "Отношение поворота"
-
-msgid "Steering Max"
-msgstr "Максимальный поворот"
-
-msgid "Inverse Control"
-msgstr "Инвертировать управление"
-
-msgid "Delta Tach Angle"
-msgstr "Угловой ход тахометра"
-
-msgid "Max Speed Angle"
-msgstr "Угол для максимальной скорости"
-
-msgid "Speed Ratio"
-msgstr "Коэффициент скорости"
-
-#, fuzzy
-msgid "Character"
-msgstr "Скорость бега"
-
-msgid "Character settings:"
-msgstr "Настройки персонажа:"
-
-msgid "Walk Speed"
-msgstr "Скорость ходьбы"
-
-msgid "Run Speed"
-msgstr "Скорость бега"
-
-msgid "Step Height"
-msgstr "Высота шага"
-
-msgid "Jump Strength"
-msgstr "Сила прыжка"
-
-msgid "Waterline"
-msgstr "Ватерлиния"
-
-#, fuzzy
-msgid "Force Fields"
-msgstr "Силы:"
-
-msgid "This field type is not supported"
-msgstr "Этот тип поля не поддерживается"
-
-msgid "Clumping:"
-msgstr "Скопление:"
-
-msgid "Domain Object:"
-msgstr "Объект домена:"
-
-msgid "Linear"
-msgstr "Линейно"
-
-msgid "Bake Shore Distance Map"
-msgstr "Запечь карту расстояния до берега"
-
-msgid "Texture Size"
-msgstr "Размер текстуры"
-
-msgid "Maximum Distance"
-msgstr "Макс. расстояние"
-
-#, fuzzy
-msgid "Bake"
-msgstr "Запечь"
-
-#, fuzzy
-msgid "B4W: shoremap max distance"
-msgstr "B4W: Карта расстояний берега"
-
-#, fuzzy
-msgid "B4W: shoremap texture size"
-msgstr "B4W: Размер текстуры"
+msgid "Status: Empty"
+msgstr "Статус: Пусто"
 
 msgctxt "Operator"
-msgid "B4W Shore Distance Baker"
-msgstr "B4W Запекатель расстояния до береговой линии"
+msgid "Add vertex animation"
+msgstr "Добавить вертексную анимацию"
+
+msgid "Add new vertex animation"
+msgstr "Добавить вертексную анимацию"
+
+msgid "New Anim"
+msgstr "Новая анимация"
 
 msgctxt "Operator"
-msgid "Bake Error Dialog"
-msgstr "Окно ошибки запекания"
+msgid "Remove vertex animation"
+msgstr "Удалить вертексную анимацию"
 
-msgid "=== BLEND4WEB: SHORE BAKE ERROR ==="
-msgstr "=== BLEND4WEB: ОШИБКА ЗАПЕКАТЕЛЯ ==="
-
-msgid "COMPONENT: "
-msgstr "КОМПОНЕНТ: "
-
-msgid "NAME: "
-msgstr "НАЗВАНИЕ: "
-
-msgid "ERROR: "
-msgstr "ОШИБКА: "
-
-#, fuzzy
-msgid "No objects selected"
-msgstr "Объекты должны быть доступны для выбора"
-
-#, fuzzy
-msgid "Source object is not selected."
-msgstr "Исходный объект не доступен для выбора"
-
-#, fuzzy
-msgid " doesn't have material."
-msgstr " не имеет материал"
-
-#, fuzzy
-msgid "ShoreDistance"
-msgstr "Карта дистанций до берега"
-
-msgid "Scene"
-msgstr "Сцена"
-
-msgid "Background"
-msgstr "Фон"
-
-msgid "Units"
-msgstr "Единицы"
-
-msgid "Scale"
-msgstr "Масштаб"
-
-msgid "Simplify"
-msgstr "Упростить"
-
-msgid "Viewport:"
-msgstr "Область просмотра:"
-
-msgid "Subdivision"
-msgstr "Подразделения"
-
-msgid "Child Particles"
-msgstr "Частицы-потомки"
-
-msgid "Render:"
-msgstr "Визуализация:"
-
-msgid "Shadow Samples"
-msgstr "Сэмплы теней"
-
-msgid "AO and SSS"
-msgstr "АО и SSS"
-
-msgid "Audio"
-msgstr "Аудио"
-
-msgid "Dynamic Compressor"
-msgstr "Динамический компрессор"
-
-msgid "Compressor settings:"
-msgstr "Настройки компрессора:"
-
-msgid "Knee"
-msgstr "Колено"
-
-msgid "Ratio"
-msgstr "Соотношение"
-
-msgid "Attack"
-msgstr "Атака"
-
-msgid "Release"
-msgstr "Восстановление"
+msgid "Remove existing vertex animation"
+msgstr "Удалить вертексную анимацию"
 
 msgctxt "Operator"
-msgid "Refresh"
-msgstr "Обновить"
+msgid "Bake vertex animation"
+msgstr "Запечь вертексную анимацию"
 
-msgid "Refresh list of available Trees"
-msgstr "Обновить список доступных деревьев"
+msgid "Bake vertex animation"
+msgstr "Запечь вертексную анимацию"
 
-msgctxt "Operator"
-msgid "Add"
-msgstr "Добавить"
+msgid "Bake start"
+msgstr "Начало запекания"
 
-msgid "Add new logic node tree"
-msgstr "Добавить новое логическое дерево"
+msgid "Bake finish"
+msgstr "Конец запекания"
 
-msgctxt "Operator"
-msgid "Remove"
-msgstr "Удалить"
-
-msgid "Remove logic node tree"
-msgstr "Удалить логическое дерево"
+msgid "Bake error"
+msgstr "Ошибка запекателя"
 
 #, fuzzy
-msgid "Logic Editor"
-msgstr "Редактор нормалей"
-
-msgid "Active Node Tree:"
-msgstr "Активное узловое дерево:"
-
-msgid "NLA"
-msgstr "Нелинейная анимация"
-
-msgid "Cyclic NLA"
-msgstr "Зациклить NLA"
-
-msgid "Meta Tags"
-msgstr "Мета тэги"
-
-msgid "Title"
-msgstr "Заголовок"
-
-msgid "Description Source:"
-msgstr "Источник описания"
-
-msgid "Source"
-msgstr "Источник"
-
-msgid "Enable Physics"
-msgstr "Включить физику"
-
-msgid "Batching"
-msgstr "Батчинг"
-
-msgid "Batch Grid Size"
-msgstr "Размер ячейки батчинга"
-
-msgid "Objects Selection"
-msgstr "Выделение объектов"
-
-msgid "Enable"
-msgstr "Включить"
-
-msgid "Anchors"
-msgstr "Якоря"
-
-msgid "Detect Anchor Visibility"
-msgstr "Определять видимость якорей"
-
-msgctxt "Operator"
-msgid "B4W Export HTML"
-msgstr "B4W Экспортировать HTML"
-
-msgid "Autosave blend File"
-msgstr "Автосохранение .blend-файла"
-
-msgid "Automatically save the blend file after export"
-msgstr "Автоматически сохранять blend файл после экспорта"
-
-msgid "Strict Mode"
-msgstr "Строгий режим экспорта"
-
-msgid "Block export if there are any errors or warnings"
-msgstr "Запрещать экспорт если есть ошибки или предупреждения"
-
-msgid "Filepath"
-msgstr "Путь к файлу"
-
-msgid "Required for running in command line mode"
-msgstr "Требуется для запуска в командной строке"
-
-msgid "Save export path"
-msgstr "Сохранить путь экспорта"
-
-msgid "Save export path in blend file"
-msgstr "Сохранить путь экспорта в blend-файл"
-
-msgid "Export Converted Media"
-msgstr "Экспортировать альтернативные форматы"
-
-msgid "Save alternative media formats in the HTML file"
-msgstr "Сохранять альтернативные медиаданные в HTML файле"
-
-msgctxt "Operator"
-msgid "B4W Get Export HTML Path"
-msgstr "B4W Получить путь экспотируемого HTML"
-
-msgid "Blend4Web (.html)"
-msgstr "Blend4Web (.html)"
-
-msgctxt "Operator"
-msgid "Export Error Dialog"
-msgstr "Окно ошибки экспорта"
-
-msgid "=== BLEND4WEB: EXPORT ERROR ==="
-msgstr "===BLEND4WEB: ОШИБКА ЭКСПОРТА ==="
-
-msgctxt "Operator"
-msgid "Export Messages Dialog"
-msgstr "Окно сообщений экспорта"
-
-msgid "=== BLEND4WEB: EXPORT MESSAGES ==="
-msgstr "=== BLEND4WEB: СООБЩЕНИЯ ЭКСПОРТА ==="
-
-msgid "ERRORS:"
-msgstr "ОШИБКИ: "
-
-msgid "WARNINGS:"
-msgstr "ПРЕДУПРЕЖДЕНИЯ: "
-
-msgctxt "Operator"
-msgid "File Error Dialog"
-msgstr "Окно ошибки файла"
-
-msgid "=== BLEND4WEB: FILE ERROR ==="
-msgstr "=== BLEND4WEB: ОШИБКИ ФАЙЛА ==="
-
-msgctxt "Operator"
-msgid "B4W Export JSON"
-msgstr "B4W Экспортировать JSON"
-
-msgid "Run in Viewer"
-msgstr "Запустить в просмотрщике сцен"
-
-msgid "Open the exported scene in the Viewer using the default browser"
-msgstr "Открыть сцену в приложении Viewer после экспорта"
-
-msgid "Required for running in command line"
-msgstr "Предназначен для запуска в командной строке"
-
-msgid "Is HTML export"
-msgstr "Это HTML экспорт"
-
-msgid "Is html export"
-msgstr "Это HTML экспорт"
-
-msgctxt "Operator"
-msgid "B4W Get Export Path"
-msgstr "B4W Получить путь"
-
-msgid "Clamp"
-msgstr "Ограничить"
-
-msgid "Linear to SRGB"
-msgstr "Линейность в SRGB"
-
-msgid "SRGB to Linear"
-msgstr "SRGB в линейность"
-
-msgid "Vector View"
-msgstr "Вид вектора"
-
-msgid "Normal View"
-msgstr "Вид нормали"
-
-msgid "Reflect"
-msgstr "Отражение"
-
-msgid "Refraction"
-msgstr "Преломление"
-
-msgid "Parallax"
-msgstr "Параллакс"
-
-msgid "Translucency"
-msgstr "Полупрозрачност"
-
-msgid "Time"
-msgstr "Время"
-
-msgid "Smoothstep"
-msgstr "Сглаживание"
-
-msgid "Glow Output"
-msgstr "Светящиеся материалы"
-
-msgid "Replace"
-msgstr "Заменить"
-
-msgid "Levels of Quality"
-msgstr "Уровень качества"
-
-msgid "Override Bounding Volumes"
-msgstr "Переопределить граничные объемы"
-
-msgid "Show Boundings:"
-msgstr "Показывать границы отрисовки"
-
-msgid "Boxes"
-msgstr "Прямоугольники"
-
-msgid "Spheres"
-msgstr "Сферы"
-
-msgid "Ellipsoids"
-msgstr "Эллипсоиды"
-
-msgid "Override Mesh Boundings"
-msgstr "Переопределить границы"
-
-msgid "Min X"
-msgstr "Минимум, Х"
-
-msgid "Max X"
-msgstr "Максимум, Х"
-
-msgid "Min Y"
-msgstr "Минимум, Y"
-
-msgid "Max Y"
-msgstr "Максимум, Y"
-
-msgid "Min Z"
-msgstr "Минимум, Z"
-
-msgid "Max Z"
-msgstr "Максимум, Z"
+msgid "B4W: vertex animation"
+msgstr "B4W: Экпортировать вертексную анимацию"
 
 #, fuzzy
-msgid "B4W: draw bounding box"
-msgstr "B4W: Исправить ограничивающий параллелепипед"
+msgid "B4W: vertex animation index"
+msgstr "B4W: Экпортировать вертексную анимацию"
+
+msgid "Reexport Path"
+msgstr "Переэкспортировать пути"
+
+msgid "Directory with Exported Files (*.json or *.html)"
+msgstr "Директория с экспортируемыми файлами(*.json or *.html)"
+
+msgid "Blend4Web SDK Directory"
+msgstr "Путь к SDK Blend4Web"
+
+msgid "Path to SDK"
+msgstr "Путь до SDK"
+
+msgid "Server Port"
+msgstr "Номер порта сервера"
+
+msgid "Server port number"
+msgstr "Номер порта сервера"
+
+msgid "Run development server automatically"
+msgstr "Автоматически запускать сервер разработки"
+
+msgid "Run on Startup"
+msgstr "Запускать при старте"
+
+msgid "Check for updates"
+msgstr "Проверить наличие новой версии аддона"
+
+msgid "Check for new addon version"
+msgstr "Проверить наличие новой версии аддона"
+
+msgid "Enable External Requests"
+msgstr "Разрешить внешние запросы"
+
+msgid "Enable external requests to the server"
+msgstr "Разрешить внешние запросы к серверу"
+
+msgid "Check For Updates on Startup"
+msgstr "Проверять на наличие обновлений при запуске"
+
+#, fuzzy, python-format
+msgid "Update is available: %s"
+msgstr "Доступно обновление: %s"
+
+msgid "Development Server:"
+msgstr "Сервер разработки"
 
 #, fuzzy
-msgid "B4W: draw bounding sphere"
-msgstr "B4W: Ограничивающий параллелепипед"
+msgid "Render Layers"
+msgstr "Рендерить небо"
+
+msgid "Not available in Blend4Web"
+msgstr "Не поддерживается Blend4Web"
 
 #, fuzzy
-msgid "B4W: draw bounding ellipsoid"
-msgstr "B4W: Ограничивающий параллелепипед"
+msgid "Static"
+msgstr "Статический тип камеры"
 
-#, fuzzy
-msgid "Levels of Detail"
-msgstr "Уровень качества"
+msgid "Static camera"
+msgstr "Статический тип камеры"
 
-#, fuzzy
-msgid "Add"
-msgstr "Добавить"
+msgid "Move target"
+msgstr "Тип камеры, при котором камера смотрит на целевую точку"
 
-msgid "Lod Transition Ratio"
-msgstr "Коэффициент замещения лодов"
+msgid "Eye"
+msgstr "Камера от первого лица"
 
-#, fuzzy
-msgid "Animation"
-msgstr "Добавить анимацию"
+msgid "Move eye"
+msgstr "Камера от первого лица позволяет осуществлять вращение и перемещение"
 
-msgid "Apply Default Animation"
-msgstr "Использовать анимацию по умолчанию"
+msgid "Hover"
+msgstr "Стратегический тип камеры"
 
-msgid "Behavior"
-msgstr "Поведение"
+msgid "Hover mode"
+msgstr ""
+"В режиме нависания камера движется параллельно горизонтальной опорной "
+"плоскости"
 
-msgid "Animation Blending"
-msgstr "Смешивание анимации"
+msgid "Loop"
+msgstr "Цикл"
 
-msgid "Proxy:"
-msgstr "Прокси:"
+msgid "Behavior: cyclically repeat the finished animation"
+msgstr "Поведение: циклически проигрывать анимацию"
 
-msgid "Inherit Animation"
-msgstr "Наследовать анимацию"
+msgid "Finish Reset"
+msgstr "Сбросить в начало после окончания"
 
-msgid "Apply Modifiers"
-msgstr "Применить модификаторы"
+msgid "Behavior: reset the finished animation"
+msgstr "Поведение: сбросить в начало после окончания"
 
-msgid "Apply Scale And Modifiers"
-msgstr "Применить масштаб и модификаторы"
+msgid "Finish Stop"
+msgstr "Остановиться после окончания"
 
-msgid "Export Shape Keys"
-msgstr "Экспортировать ключи формы"
-
-msgid "Export Vertex Animation"
-msgstr "Экспортировать вертексную анимацию"
-
-msgid "Rendering Properties"
-msgstr "Опции рендеринга"
-
-msgid "Do Not Render"
-msgstr "Не рендерить"
-
-msgid "Force Dynamic Object"
-msgstr "Форсировать динамический объект"
-
-msgid "Disable Frustum Culling"
-msgstr "Отключить отсечение по плоскостям камеры"
-
-msgid "Dynamic Geometry"
-msgstr "Динамическая геометрия"
-
-#, fuzzy
-msgid "Shadows"
-msgstr "Тени:"
-
-msgid "Cast Shadows "
-msgstr "Отбрасывать тень"
-
-msgid "Receive Shadows "
-msgstr "Принимать тень"
-
-msgid "Cast Only "
-msgstr "Только отбрасывать тень"
-
-msgid "Preserve Global Rotation and Scale"
-msgstr "Сохранить поворот и масштаб в глобальной системе координат"
-
-msgid "Reflections"
-msgstr "Отражения"
-
-msgid "Reflective"
-msgstr "Отражающий"
-
-msgid "Reflection Plane:"
-msgstr "Плоскость отражения:"
-
-msgid "Reflexible"
-msgstr "Отражаемый"
-
-msgid "Reflexible Only"
-msgstr "Только отражение"
-
-msgid "Selection and Outlining"
-msgstr "Выделение и подсветка"
-
-msgid "Selectable"
-msgstr "Доступна для выбора"
-
-msgid "Enable Outlining"
-msgstr "Включить Подсветку"
-
-msgid "Outline on Select"
-msgstr "Подсвечивать при выделении"
-
-msgid "Duration"
-msgstr "Продолжительность"
-
-msgid "Period"
-msgstr "Период"
-
-msgid "Relapses"
-msgstr "Итерации"
-
-msgid "Enable Anchor"
-msgstr "Включить якоря"
-
-msgid "HTML Element ID"
-msgstr "ID HTML Элемента"
-
-msgid "Detect Visibility"
-msgstr "Определять видимость"
-
-msgid "Category"
-msgstr "Категория"
-
-#, fuzzy
-msgid "Duplication"
-msgstr "Продолжительность"
-
-msgid "Group"
-msgstr "Группа"
-
-msgid "Wrong Dupli Type. Only Group type is supported."
-msgstr "Неверный тип дуплицирования. Поддерживается только тип Группа"
-
-msgid "Wind Bending"
-msgstr "Эффект ветра"
-
-msgid "Detail Bending:"
-msgstr "Изгиб деталей"
-
-msgid "Amplitude"
-msgstr "Амплитуда"
-
-msgid "Branch Amplitude"
-msgstr "Амплитуда ветвей"
-
-msgid "Bending Frequency"
-msgstr "Частота наклонов"
-
-msgid "Leaves Stiffness (R)"
-msgstr "Жесткость Листвы (R)"
-
-msgid "Leaves Phase (G)"
-msgstr "Фаза листвы (G)"
-
-msgid "Overall Stiffness (B)"
-msgstr "Общая жесткость (B)"
-
-msgid "Main Bending:"
-msgstr "Основной наклон:"
-
-msgid "Angle"
-msgstr "Угол"
-
-msgid "Frequency"
-msgstr "Частота"
-
-msgid "Main Stiffness (A)"
-msgstr "Основная жесткость (А)"
-
-msgid "Special Effects"
-msgstr "Спецэффекты"
-
-msgid "Disable Fogging"
-msgstr "Отключить туман"
-
-msgid "Caustics"
-msgstr "Каустика"
-
-msgctxt "Operator"
-msgid "B4W Vertex Groups To Materials"
-msgstr "B4W Вертексная группа к материалам"
-
-#, fuzzy
-msgid "Preview"
-msgstr "Предыдущий"
-
-msgid "This texture type is not supported."
-msgstr "Этот тип текстур не поддерживается"
-
-#, fuzzy
-msgid "Mapping"
-msgstr "Затухание:"
-
-msgid "Coordinates:"
-msgstr "Координаты:"
-
-msgid "Map:"
-msgstr "Карта:"
-
-msgid "This coordinates type is not supported."
-msgstr "Этот тип координат не поддерживается"
-
-msgid "Environment Map"
-msgstr "Карта окружения"
-
-msgid "This environment map type is not supported"
-msgstr "Этот тип карт окружения не поддерживается"
-
-#, fuzzy
-msgid "Colors"
-msgstr "Цвет:"
-
-msgid "Ramp"
-msgstr "Градиентная карта"
-
-msgid "Image Sampling"
-msgstr "Дискретизация изобажения"
-
-msgid "Use Alpha"
-msgstr "С альфа-каналом"
-
-msgid "Disable Compression"
-msgstr "Выключить компрессию"
-
-msgid "Enable Anisotropic Filtering"
-msgstr "Включить Анизотропную фильтрацию"
-
-msgid "Anisotropic Filtering"
-msgstr "Анизотропная фильтрация"
-
-msgid "Shore Distance Map"
-msgstr "Карта дистанций до берега"
-
-msgid "Source Type"
-msgstr "Тип источника"
-
-msgid "Source ID"
-msgstr "ID источника"
-
-msgid "Source Size"
-msgstr "Размер источника"
-
-msgid "Extension"
-msgstr "Расширение"
-
-msgid "Enable Mipmapping"
-msgstr "Включить мипмаппинг"
-
-msgid "Sky Texture Usage"
-msgstr "Использование текстуры неба"
-
-msgid "Water Foam"
-msgstr "Морская пена"
-
-msgid "UV Frequency"
-msgstr "Частота UV"
-
-msgid "UV Magnitude"
-msgstr "Амплитуда UV"
-
-msgid "Influence"
-msgstr "Влияние"
-
-msgid "Diffuse:"
-msgstr "Цвет:"
-
-msgid "Specular:"
-msgstr "Блик:"
-
-msgid "Shading:"
-msgstr "Затенение:"
-
-msgid "Geometry:"
-msgstr "Форма:"
-
-msgid "General:"
-msgstr "Общие:"
-
-msgid "Blend"
-msgstr "Смешение"
-
-msgid "Negative"
-msgstr "Инвертировать"
-
-msgid "DVar"
-msgstr "DVar"
-
-#, fuzzy
-msgid "Image Mapping"
-msgstr "Включить мипмаппинг"
-
-msgid "Image"
-msgstr "Изображение"
-
-msgid "Steps"
-msgstr "Шаги"
-
-msgid "Lod Distance"
-msgstr "Расстояние Lod"
-
-#, fuzzy
-msgid "Diffuse"
-msgstr "Цвет:"
-
-msgid "Intensity"
-msgstr "Интенсивность"
-
-msgid "Smooth"
-msgstr "Гладко"
-
-msgid "Fresnel"
-msgstr "Френель"
-
-msgid "Factor"
-msgstr "Множитель"
-
-msgid "Specular"
-msgstr "Блик"
-
-msgid "Hardness"
-msgstr "Жёсткость"
-
-msgid "IOR"
-msgstr "Показатель преломления"
-
-msgid "Slope"
-msgstr "Уклон"
-
-#, fuzzy
-msgid "Shading"
-msgstr "Затенение:"
-
-msgid "Double-Sided Lighting"
-msgstr "Двустороннее освещение"
-
-#, fuzzy
-msgid "Transparency"
-msgstr "Показать прозрачность"
-
-msgid "Show Transparency"
-msgstr "Показать прозрачность"
-
-msgid "Mirror"
-msgstr "Зеркало"
-
-msgid "Show Reflectivity"
-msgstr "Показать отражения"
-
-msgid "Halo"
-msgstr "Гало"
-
-msgid "Options:"
-msgstr "Опции:"
-
-msgid "Rings"
-msgstr "Кольца"
-
-msgid "Lines"
-msgstr "Линии"
-
-msgid "Star Tips"
-msgstr "Углы звезды"
-
-msgid "Special: Stars"
-msgstr "Особое: Звезды"
-
-msgid "Blending Height"
-msgstr "Высота сглаживания"
-
-msgid "Minimum Height"
-msgstr "Минимальная высота"
-
-msgid "Rendering Options"
-msgstr "Опции рендеринга"
-
-msgid "Render Above All"
-msgstr "Рендерить поверх всего"
-
-msgid "Wettable"
-msgstr "Смачиваемый"
-
-msgid "Refractive"
-msgstr "Рефрактирующий"
-
-msgid "Refraction Bump"
-msgstr "Сила преломления"
-
-msgid "Terrain Dynamic Grass"
-msgstr "Динамический травяной покров"
-
-msgid "Grass Size (R)"
-msgstr "Размер травы (Красный)"
-
-msgid "Grass Color (RGB)"
-msgstr "Цвет травы (RGB)"
-
-msgid "Special: Collision"
-msgstr "Особое: Коллизия"
-
-msgid "Ghost"
-msgstr "Призрак"
-
-msgid "Collision Group"
-msgstr "Группа столкновения"
-
-msgid "Collision Mask"
-msgstr "Маска коллизий"
-
-msgid "Water"
-msgstr "Вода"
-
-msgid "Shore Smoothing"
-msgstr "Сглаживание у береговой линии"
-
-msgid "Absorb Factor"
-msgstr "Коэффициент поглощения света"
-
-msgid "Foam:"
-msgstr "Пена:"
-
-msgid "Shallow water:"
-msgstr "На мелководье:"
-
-msgid "Underwater fog:"
-msgstr "Подводный туман"
-
-msgid "Shore water:"
-msgstr "У побережья:"
-
-msgid "Sub Surface Scattering"
-msgstr "Подповерхностное рассеивание"
-
-msgid "Strength"
-msgstr "Сила"
-
-msgid "Width"
-msgstr "Ширина"
-
-msgid "Ripples (NormalMap)"
-msgstr "Рябь (карты нормалей)"
-
-msgid "Waves"
-msgstr "Волны"
-
-msgid "Wave Height"
-msgstr "Высота волн"
-
-msgid "Wave Length"
-msgstr "Длина волн"
-
-msgid "Noise Dist Scale 0"
-msgstr "Частота удал шума 0"
-
-msgid "Noise Dist Scale 1"
-msgstr "Частота удал шума 1"
-
-msgid "Noise Dist Freq 0"
-msgstr "Частота набег шума 0"
-
-msgid "Noise Dist Freq 1"
-msgstr "Частота набег шума 1"
-
-msgid "Min Dir Shore Fac"
-msgstr "Мин берег. фак набег волн"
-
-msgid "Dir Frequency"
-msgstr "Частота набег волн"
-
-msgid "Noise Dir Scale"
-msgstr "Размер набег шума"
-
-msgid "Noise Dir Freq"
-msgstr "Частота набег шума"
-
-msgid "Min Dir Noise Fac"
-msgstr "Мин фактор набег шума"
-
-msgid "Min Dist Fac"
-msgstr "Мин Удал фак"
-
-msgid "Horizontal Factor"
-msgstr "Горизонтальный фак"
-
-msgid "Generate Mesh"
-msgstr "Сгенерировать полисетку"
-
-msgid "Cascades Number"
-msgstr "Количество каскадов"
-
-msgid "Subdivisions"
-msgstr "Разбиения"
-
-msgid "Detailed Distance"
-msgstr "Детализованная дальность"
-
-msgid "Number of vertices "
-msgstr "Количество вершин"
-
-msgid "Brightness"
-msgstr "Яркость"
+msgid "Behavior: stop the finished animation"
+msgstr "Поведение: остановить анимацию после окончания"
 
 msgid "name"
 msgstr "имя"
+
+msgid "Alignment"
+msgstr "Выравнивание"
+
+msgid "Bottom-Right"
+msgstr "Нижний правый угол"
+
+msgid "Bottom-right corner"
+msgstr "Нижний правый угол"
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Bottom edge"
+msgstr "Нижняя граница"
+
+msgid "Bottom-Left"
+msgstr "Нижний левый угол"
+
+msgid "Bottom-left corner"
+msgstr "Нижний левый угол"
+
+msgid "Right"
+msgstr ""
+
+msgid "Right edge"
+msgstr "Правая граница"
+
+msgid "Center"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Left edge"
+msgstr "Левая граница"
+
+msgid "Top-Right"
+msgstr "Верхний правый угол"
+
+msgid "Top-right corner"
+msgstr "Верхний правый угол"
+
+msgid "Top"
+msgstr ""
+
+msgid "Top edge"
+msgstr "Верхняя граница"
+
+msgid "Top-Left"
+msgstr "Верхний левый угол"
+
+msgid "Top-left corner"
+msgstr "Верхний левый угол"
+
+msgid "Distance"
+msgstr "Расстояние"
 
 msgid "B4W: leaves stiffness color"
 msgstr "B4W: цвет жесткости листьев"
@@ -1659,6 +1761,9 @@ msgstr "Вертексный цвет, используемый для указ�
 
 msgid "B4W: leaves phase color"
 msgstr "B4W: цвет фазы листьев"
+
+msgid "Vertex color used for leaves phase"
+msgstr ""
 
 msgid "B4W: overall stiffness color"
 msgstr "B4W: общая жесткость цвета"
@@ -1707,6 +1812,9 @@ msgstr "Синхронизировать позиции"
 
 msgid "Synchronize bob position"
 msgstr "Cинхронизировать позиции поплавков с позицией корпуса"
+
+msgid "Title"
+msgstr "Заголовок"
 
 #, fuzzy
 msgid "Description"
@@ -2343,6 +2451,9 @@ msgstr "Аннотация"
 msgid "Create an HTML element with annotation from meta tags"
 msgstr "Создать HTML элемент с аннотацией из мета-тэгов"
 
+msgid "Detect Visibility"
+msgstr "Определять видимость"
+
 msgid "Detect visibility of anchor object (slow)"
 msgstr "Определять видимость объекта-якоря (медленно)"
 
@@ -2407,33 +2518,6 @@ msgstr "B4W: Тип камеры"
 msgid "Default camera movement style"
 msgstr "Стиль движения камеры по умолчанию"
 
-#, fuzzy
-msgid "Static"
-msgstr "Статический тип камеры"
-
-msgid "Static camera"
-msgstr "Статический тип камеры"
-
-msgid "Target"
-msgstr "Цель"
-
-msgid "Move target"
-msgstr "Тип камеры, при котором камера смотрит на целевую точку"
-
-msgid "Eye"
-msgstr "Камера от первого лица"
-
-msgid "Move eye"
-msgstr "Камера от первого лица позволяет осуществлять вращение и перемещение"
-
-msgid "Hover"
-msgstr "Стратегический тип камеры"
-
-msgid "Hover mode"
-msgstr ""
-"В режиме нависания камера движется параллельно горизонтальной опорной "
-"плоскости"
-
 msgid "B4W: zero level"
 msgstr "B4W: Начальная высота камеры"
 
@@ -2467,11 +2551,23 @@ msgstr "B4W: Целевая точка"
 msgid "Camera target location for 'TARGET' camera"
 msgstr "Положение целевой точки для камеры типа 'Цель'"
 
+msgid "B4W: display limits in viewport"
+msgstr ""
+
+msgid "Display limits for the current camera model in viewport"
+msgstr "Отображать ограничители текущей камеры во вьюпорте"
+
 msgid "B4W: use distance limits"
 msgstr "B4W: Использовать ограничения по расстоянию"
 
 msgid "Check if you wish to set distance limits"
 msgstr "Использовать ограничения по расстоянию"
+
+msgid "B4W: use zooming"
+msgstr ""
+
+msgid "Enable various limits to set up camera zooming behaviour."
+msgstr ""
 
 msgid "B4W: Minimum distance to target"
 msgstr "B4W: Минимальная дистанция до целевой точки"
@@ -2576,6 +2672,24 @@ msgstr "B4W: Разрешить панорамное перемещение ка
 msgid "Enable panning mode"
 msgstr "Разрешить панорамное перемещение камеры"
 
+msgid "B4W: enable pivot limits"
+msgstr ""
+
+msgid "Enable pivot limits"
+msgstr ""
+
+msgid "B4W: Minimum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "Minimum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "B4W: Maximum Z coordinate for the camera pivot point"
+msgstr ""
+
+msgid "Maximum Z coordinate for the camera pivot point"
+msgstr ""
+
 msgid "B4W: Rotation down limit"
 msgstr "B4W: Ограничения поворота вниз"
 
@@ -2618,6 +2732,9 @@ msgstr "B4W: Отображать тени"
 
 msgid "Whether the lamp generates shadows"
 msgstr "Генерировать тени лампой"
+
+msgid "B4W: use shadow"
+msgstr ""
 
 #, fuzzy
 msgid "B4W: dynamic intensity"
@@ -2814,11 +2931,14 @@ msgstr "Включить цветокую коррекцию"
 msgid "B4W: color correction settings"
 msgstr "B4W: Настройки цветовой коррекции"
 
-msgid "B4W: enable antialiasing"
-msgstr "B4W: Включить антиалиасинг"
+msgid "B4W: antialiasing quality"
+msgstr ""
 
-msgid "Enable antialiasing"
-msgstr "Включить антиалиасинг"
+msgid "antialiasing quality"
+msgstr ""
+
+msgid "NONE"
+msgstr ""
 
 msgid "B4W: enable tags"
 msgstr "B4W: Включить тэги"
@@ -2858,6 +2978,12 @@ msgstr "B4W: Включить видимость якорей"
 
 msgid "Enable anchors visibility detection"
 msgstr "Включить определение видимости якорей"
+
+msgid "B4W: use default animation"
+msgstr "B4W: Использовать анимацию по умолчанию"
+
+msgid "The world will be animated if possible"
+msgstr ""
 
 msgid "B4W: assets load"
 msgstr "B4W: Загрузка данных"
@@ -2970,37 +3096,8 @@ msgstr "B4W: Каустика"
 msgid "The object will receive caustics from water"
 msgstr "Объект будет принимать каустику от воды"
 
-msgid "B4W: use default animation"
-msgstr "B4W: Использовать анимацию по умолчанию"
-
 msgid "The object will be animated if possible"
 msgstr "Анимация будет проигрываться, если это возможно"
-
-msgid "B4W: animation behavior"
-msgstr "B4W: Поведение анимации"
-
-msgid "The behavior of finished animation: stop, repeat or reset"
-msgstr ""
-"Поведение анимации после ее окончания: остановиться, повторить или сбросить "
-"в начало"
-
-msgid "Loop"
-msgstr "Цикл"
-
-msgid "Behavior: cyclically repeat the finished animation"
-msgstr "Поведение: циклически проигрывать анимацию"
-
-msgid "Finish Reset"
-msgstr "Сбросить в начало после окончания"
-
-msgid "Behavior: reset the finished animation"
-msgstr "Поведение: сбросить в начало после окончания"
-
-msgid "Finish Stop"
-msgstr "Остановиться после окончания"
-
-msgid "Behavior: stop the finished animation"
-msgstr "Поведение: остановить анимацию после окончания"
 
 msgid "B4W: animation mixing"
 msgstr "B4W: Смешать анимацию"
@@ -3148,6 +3245,15 @@ msgstr "Объект будет контролироваться пользов�
 msgid "B4W: character settings"
 msgstr "B4W: Настройки персонажа"
 
+msgid "B4W: enable viewport alignment"
+msgstr ""
+
+msgid "Enable viewport alignment"
+msgstr ""
+
+msgid "B4W: Viewport Alignment"
+msgstr ""
+
 msgid "B4W: animation clean keys"
 msgstr "B4W: Очистить ключи анимации"
 
@@ -3207,6 +3313,12 @@ msgstr "Создать якорь дял объекта"
 
 msgid "B4W: anchor settings"
 msgstr "B4W: Настройки якоря"
+
+msgid "B4W: line renderer"
+msgstr ""
+
+msgid "Use object for line rendering"
+msgstr ""
 
 msgid "B4W: speaker behavior"
 msgstr "B4W: Поведение спикеров"
@@ -3643,11 +3755,17 @@ msgstr "Тип текстуры"
 msgid "None"
 msgstr "Нуль"
 
+msgid "Scene"
+msgstr "Сцена"
+
 msgid "Canvas"
 msgstr "Канвас"
 
 msgid "B4W: scene"
 msgstr "Сцена"
+
+msgid "Source ID"
+msgstr "ID источника"
 
 msgid "B4W: source size"
 msgstr "B4W: Размер текстуры"
@@ -3802,14 +3920,8 @@ msgstr "B4W: Система координат"
 msgid "Particles coordinate system"
 msgstr "Система координат частиц"
 
-msgid "World"
-msgstr "Мир"
-
 msgid "World coordinate system"
 msgstr "Мировая система координат"
-
-msgid "Local"
-msgstr "Локальный"
 
 msgid "Emitter's coordinate system"
 msgstr "Система координат эмиттера"
@@ -3913,9 +4025,6 @@ msgstr "B4W: Наследование покачивания под действ
 msgid "Wind bending inheritance"
 msgstr "Наследование покачивания под действием ветра"
 
-msgid "Parent"
-msgstr "Родитель"
-
 msgid "inherit from parent"
 msgstr "Наследовать от родителя"
 
@@ -3963,922 +4072,64 @@ msgstr "B4W: Мягкость частиц"
 msgid "How soft should the particles be"
 msgstr "Насколько мягкой частице следует быть"
 
-#, fuzzy
-msgid "Render Layers"
-msgstr "Рендерить небо"
-
-msgid "Not available in Blend4Web"
-msgstr "Не поддерживается Blend4Web"
-
 msgctxt "Operator"
-msgid "Bake Skeletal Animation"
-msgstr "Запечь скелетную анимацию"
-
-msgid "Not an armature object"
-msgstr "Объект не является арматурой"
-
-msgid "No animation data"
-msgstr "Отсутствуют анимация"
-
-msgid "Armature object is linked"
-msgstr "Объект арматуры является ссылкой"
-
-msgctxt "Operator"
-msgid "B4W Constraints Mute"
-msgstr "B4W Отключить ограничение"
-
-msgctxt "Operator"
-msgid "B4W Constraints UnMute"
-msgstr "B4W Разрешить Ограничения"
-
-msgid "Bake Skeletal Animation"
-msgstr "Запечь скелетную анимацию"
-
-msgid "Name"
-msgstr "Имя"
-
-msgid "Optimize Keyframes"
-msgstr "Оптимизировать ключевые кадры"
-
-msgid "Use Blender's Native Baker"
-msgstr "Использовать запекатель Blender'a"
-
-msgctxt "Operator"
-msgid "Add animation"
-msgstr "Добавить анимацию"
-
-msgid "Add animation"
-msgstr "Добавить анимацию"
-
-msgctxt "Operator"
-msgid "Remove animation"
-msgstr "Убрать анимацию"
-
-msgid "Remove animation"
-msgstr "Убрать анимацию"
+msgid "Warning: Server error."
+msgstr "Предупредение: ошибка сервера"
 
 #, fuzzy
-msgid "B4W: animation"
-msgstr "B4W: Смешать анимацию"
+msgid "Message string"
+msgstr "Сообщение"
 
-#, fuzzy
-msgid "B4W: animation index"
-msgstr "B4W: Смешать анимацию"
+msgid "Server starting error: "
+msgstr "Ошибка запуска сервера: "
 
-#, fuzzy
-msgid "B4W: use bpy anim baker"
-msgstr "B4W: Использовать анимацию по умолчанию"
+msgid "Could not start the server: "
+msgstr "Не получается запустить сервер: "
 
-msgid "PosNor"
-msgstr "ПосНор"
+msgid "Server stopping error: "
+msgstr "Ошибка остановки сервера: "
 
-msgid "Vertices"
-msgstr "Вертексы"
+msgctxt "Operator"
+msgid "B4W Stop Server"
+msgstr "B4W Остановить сервер"
 
-msgid "Start"
-msgstr "Начало"
+msgid "Stop server"
+msgstr "Остановить сервер"
 
-msgid "First frame of vertex animation"
-msgstr "Первый кадр вертексной анимации"
+msgctxt "Operator"
+msgid "B4W Start Server"
+msgstr "B4W Запустить сервер"
 
-msgid "End"
-msgstr "Конец"
+msgid "Start server"
+msgstr "Запустить сервер"
 
-msgid "End frame of vertex animation"
-msgstr "Конечный кадр вертексной анимации"
+msgctxt "Operator"
+msgid "B4W Open SDK"
+msgstr "B4W Открыть SDK"
 
-msgid "Averaging"
-msgstr "Усреднение"
+msgid "Open Blend4Web SDK"
+msgstr "Открыть Blend4Web SDK в веб-обозревателе"
 
-#, fuzzy
-msgid "Perform vertex animation averaging: mix end "
+msgctxt "Operator"
+msgid "B4W Open Project Manager"
 msgstr ""
-"Произвести усреднение вертексной анимации: смешивать конечные кадры с "
-"начальными"
 
-#, fuzzy
-msgid "Interval"
-msgstr "Интегрирование:"
-
-msgid "Averaging interval"
-msgstr "Интервал усреднения"
-
-msgid "Allow animation to be controlled by the NLA"
-msgstr "Задействовать NLA для контроля анимациии"
-
-msgid "Bake Vertex Animation"
-msgstr "Запечь вертексную анимацию"
-
-msgid "Status: "
-msgstr "Статус: "
-
-#, fuzzy
-msgid " frames recorded"
-msgstr " кадров записано"
-
-msgid "Status: Empty"
-msgstr "Статус: Пусто"
+msgid "Open Project Manager"
+msgstr ""
 
 msgctxt "Operator"
-msgid "Add vertex animation"
-msgstr "Добавить вертексную анимацию"
+msgid "B4W Preview"
+msgstr ""
 
-msgid "Add new vertex animation"
-msgstr "Добавить вертексную анимацию"
+msgid "Preview the current scene in the Viewer"
+msgstr ""
 
-msgid "New Anim"
-msgstr "Новая анимация"
-
-msgctxt "Operator"
-msgid "Remove vertex animation"
-msgstr "Удалить вертексную анимацию"
-
-msgid "Remove existing vertex animation"
-msgstr "Удалить вертексную анимацию"
+msgid "Could not open browser: "
+msgstr "Не получилось открыть браузер: "
 
 msgctxt "Operator"
-msgid "Bake vertex animation"
-msgstr "Запечь вертексную анимацию"
-
-msgid "Bake vertex animation"
-msgstr "Запечь вертексную анимацию"
-
-msgid "Bake start"
-msgstr "Начало запекания"
-
-msgid "Bake finish"
-msgstr "Конец запекания"
-
-msgid "Bake error"
-msgstr "Ошибка запекателя"
-
-#, fuzzy
-msgid "B4W: vertex animation"
-msgstr "B4W: Экпортировать вертексную анимацию"
-
-#, fuzzy
-msgid "B4W: vertex animation index"
-msgstr "B4W: Экпортировать вертексную анимацию"
-
-#, fuzzy
-msgid "Child Node:"
-msgstr "Дочерний узел"
-
-#, fuzzy
-msgid "Dupli Child:"
-msgstr "Дочерний объект"
-
-msgid "PLAY"
-msgstr "ИГРАТЬ"
-
-#, fuzzy
-msgid "Play Animation"
-msgstr "Проиграть анимацию"
-
-msgid "STOP"
-msgstr "СТОП"
-
-#, fuzzy
-msgid "Stop Animation"
-msgstr "Остановить анимацию"
-
-msgid "INTENSITY"
-msgstr "ИНТЕНСИВНОСТЬ"
-
-msgid "Noop"
-msgstr "Без оп."
-
-msgid "No operation"
-msgstr "Не производить никаких операций"
-
-msgid "Page Param"
-msgstr "Параметры страницы"
-
-msgid "Store numeric page parameter to a register"
-msgstr "Записать численный параметр страницы в регистр"
-
-msgid "Hide Object"
-msgstr "Спрятать объект"
-
-msgid "Show Object"
-msgstr "Показать объект"
-
-msgid "Page Redirect"
-msgstr "Перенаправление страницы"
-
-msgid "Redirect current page to given URL"
-msgstr "Перенаправить с текущей страницы на указанный адрес"
-
-msgid "Math Operation"
-msgstr "Математическая операция"
-
-msgid "Perform a math operation"
-msgstr "Произвести математическую операцию"
-
-msgid "Variable Store"
-msgstr "Поместить значение в переменную"
-
-msgid "Store a value to a variable"
-msgstr "Поместить значение в переменную"
-
-msgid "Conditional Jump"
-msgstr "Условный переход"
-
-msgid "Conditional jump"
-msgstr "Условный переход"
-
-msgid "Jump"
-msgstr "Прыжок"
-
-msgid "Jump to the slot by label"
-msgstr "Перейти к указанному слоту"
-
-#, fuzzy
-msgid "Select & Play Timeline"
-msgstr "Выбрать и проиграть"
-
-#, fuzzy
-msgid "Select an object then play timeline"
-msgstr "Проиграть анимацию при выделении указанного объекта"
-
-#, fuzzy
-msgid "Select"
-msgstr "Отражение"
-
-#, fuzzy
-msgid "Select an object"
-msgstr "Выбрать объект"
-
-#, fuzzy
-msgid "Play Timeline"
-msgstr "Время"
-
-#, fuzzy
-msgid "Play NLA animation"
-msgstr "Проиграть нелинейную анимацию"
-
-msgid "Entry Point"
-msgstr "Точка входа"
-
-#, fuzzy
-msgid "Play Object Animation"
-msgstr "Проиграть нелинейную анимацию"
-
-msgid "Send Request"
-msgstr "Послать запрос"
-
-#, fuzzy
-msgid "Inherit Material"
-msgstr "Наследовать анимацию"
-
-msgid "Set Shader Node Param"
-msgstr "Установить параметр шейдерной ноды"
-
-msgid "Delay"
-msgstr "Задержка"
-
-msgid "Set Delay Before Next Node Processing"
-msgstr "Установить задержку перед обработкой следующей ноды"
-
-#, fuzzy
-msgid "Apply Shape Key"
-msgstr "Экспортировать ключи формы"
-
-msgid "Set the value of the shape key"
-msgstr "Установить значение ключа деформации"
-
-#, fuzzy
-msgid "Outline"
-msgstr "Период повторения анимации подсветки, сек"
-
-#, fuzzy
-msgid "Play or stop outline animation"
-msgstr "Поведение: остановить анимацию после окончания"
-
-#, fuzzy
-msgid "Select & Play Animation"
-msgstr "Выбрать и проиграть"
-
-#, fuzzy
-msgid "Select an object then play Object Animation"
-msgstr "Проиграть анимацию при выделении указанного объекта"
-
-msgid "Divide"
-msgstr "Разделить"
-
-msgid "Subtract"
-msgstr "Вычесть"
-
-msgid "Multiply"
-msgstr "Умножить"
-
-msgid "Greater Than or Equal (>=)"
-msgstr "Больше или равно (>=)"
-
-msgid "Greater than or equal"
-msgstr "Больше или равно"
-
-msgid "Less Than or Equal (<=)"
-msgstr "Меньше или равно (<=)"
-
-msgid "Less than or equal"
-msgstr "Меньше или равно"
-
-msgid "Greater Than (>)"
-msgstr "Больше, чем (>)"
-
-msgid "Greater than"
-msgstr "Больше, чем"
-
-msgid "Less Than (<)"
-msgstr "Меньше, чем (<)"
-
-msgid "Less than"
-msgstr "Меньше, чем"
-
-msgid "Not Equal (!=)"
-msgstr "Не равно (!=)"
-
-msgid "Not equal"
-msgstr "Не равно"
-
-msgid "Equal (=)"
-msgstr "Равно (=)"
-
-#, fuzzy
-msgid "Equal"
-msgstr "Равно (=)"
-
-#, fuzzy
-msgid "No var source"
-msgstr "Нету источника перем."
-
-#, fuzzy
-msgid "Bad object field!"
-msgstr "Неправильное поле объекта"
-
-msgid "Start marker field is empty!"
-msgstr "Маркер начала пуст!"
-
-msgid "Page param field is empty!"
-msgstr "Параметр страницы пуст!"
-
-msgid "Url field is empty!"
-msgstr "Url поле пусто!"
-
-msgid "New var. field is empty!"
-msgstr "Поле новой переменной пусто!"
-
-msgid "Destination field is empty!"
-msgstr "Поле приемника пусто!"
-
-msgid "Operand 1 field is empty!"
-msgstr "Полу операнда 1 пусто!"
-
-msgid "Operand 2 field is empty!"
-msgstr "Поле операнда 2 пусто!"
-
-msgid "Material field is not correct!"
-msgstr "Поле материала пусто!"
-
-#, fuzzy
-msgid "Object field is not correct!"
-msgstr "Объект не будет отображаться"
-
-#, fuzzy
-msgid "Please select node material!"
-msgstr "Пожалуйста, выделите 2 меша"
-
-msgid "Node field is not correct!"
-msgstr "Поле ноды некорректо!"
-
-#, fuzzy
-msgid "Selected node is not supported!"
-msgstr "Тип \"Область\" не поддерживается "
-
-#, python-format
-msgid "can't find a node: %s:%s"
-msgstr "надо не нашлась: %s:%s"
-
-msgid "Blend4Web logic"
-msgstr "Blend4Web логика"
-
-msgid "Blend4Web logic nodes"
-msgstr "Blend4Web логические ноды"
-
-msgid "SlotJumpSocketOutput"
-msgstr "СлотПрыгатьСоединениеВыход"
-
-msgid "LogicOperator Node Socket"
-msgstr "Логический оператор Нодовое соединение"
-
-msgid "Next"
-msgstr "След."
-
-#, fuzzy
-msgid "Previous"
-msgstr "Предыдущий"
-
-msgid "False"
-msgstr "Ложь"
-
-msgid "True"
-msgstr "Истинно"
-
-msgid "Miss"
-msgstr "Промах"
-
-msgid "Hit"
-msgstr "Попадание"
-
-msgid "Start Marker"
-msgstr "Начальный маркер"
-
-msgid "First marker of the playback"
-msgstr "Маркер, с которого начинается проигрывание"
-
-msgid "End Marker"
-msgstr "Маркер конца"
-
-msgid "Final marker of the playback"
-msgstr "Маркер окончания проигрывания"
-
-msgid "Target Slot"
-msgstr "Целевой слот"
-
-msgid "Name of the target slot"
-msgstr "Название целевого слота"
-
-msgid "Var 1"
-msgstr "Переменная один"
-
-msgid "Variable name"
-msgstr "Имя переменной"
-
-msgid "Var 2"
-msgstr "Переменная 2"
-
-msgid "Destination Var"
-msgstr "Переменная-приемник"
-
-msgid "Define Var"
-msgstr "Определить переменную"
-
-msgid "Num"
-msgstr "Чис"
-
-msgid "First numeric operand"
-msgstr "Первый численный перанд"
-
-msgid "Second numeric operand"
-msgstr "Второй числовой операнд"
-
-msgid "Variable"
-msgstr "Переменная"
-
-msgid "First variable operand"
-msgstr "Первый операнд"
-
-msgid "Second variable operand"
-msgstr "Второй операнд"
-
-#, fuzzy
-msgid "Operation"
-msgstr "Математическая операция"
-
-msgid "Operation to perform on input operands"
-msgstr "Математическая операция, выполняемая над операндами"
-
-#, fuzzy
-msgid "Operation to control outline animation"
-msgstr "Поведение: остановить анимацию после окончания"
-
-msgid "Condition"
-msgstr "Условие"
-
-msgid "Conditonal operator"
-msgstr "Условный оператор"
-
-msgid "URL"
-msgstr "URL"
-
-msgid "Target URL"
-msgstr "Адрес"
-
-msgid "Param Name"
-msgstr "Название параметра"
-
-msgid "Param name"
-msgstr "Название параметра"
-
-msgid "label2"
-msgstr "Лэйбл2"
-
-msgid "Error messages"
-msgstr "Сообщения об ошибках"
-
-#, fuzzy
-msgid "Anim. Name"
-msgstr "Имя анимации"
-
-msgid "Animation Name"
-msgstr "Имя анимации"
-
-msgid "B4W: Variables"
-msgstr "B4W: Переменные"
-
-msgid "Variables for current thread"
-msgstr "Переменные для текущей нити"
-
-msgid "B4W: Objects Paths"
-msgstr "B4W: Пути к объектам"
-
-msgid "Contain a pointer to target object"
-msgstr "Содержит указатель на целевой объект"
-
-msgid "B4W: Nodes Paths"
-msgstr "B4W: Пути к нодам"
-
-msgid "Contain a pointer to target node"
-msgstr "Содержит указатель на целевую ноду"
-
-msgid "B4W: Materials names"
-msgstr "B4W: Имена материалов"
-
-msgid "Contain a materials names"
-msgstr "Содержит имена материалов"
-
-msgid "B4W: float array"
-msgstr "B4W: Массив float"
-
-msgid "Contain floats"
-msgstr "Содержит float"
-
-msgid "B4W: bools array"
-msgstr "B4W: булев массив"
-
-msgid "Contain bools"
-msgstr "Содержит булевы значения"
-
-msgid "B4W: variables array"
-msgstr "B4W: массив переменных"
-
-msgid "Contain variables"
-msgstr "Содержит переменные"
-
-#, fuzzy
-msgid "B4W: common usage names"
-msgstr "Вертексный цвет в"
-
-msgid "Contain common usage name storage"
-msgstr "Содержит контейнеры переменных общего назначения"
-
-msgid "Child"
-msgstr "Дочерний объект"
-
-msgid "Dupli Child"
-msgstr "Дупли дочерний объект"
-
-#, fuzzy
-msgid "Child Node"
-msgstr "Логические Узлы"
-
-#, fuzzy
-msgid "Not node material"
-msgstr "Не рендерить"
-
-#, fuzzy
-msgid "Wrong Material field"
-msgstr "B4W: Имена материалов"
-
-#, fuzzy
-msgid "Material:"
-msgstr "Рассеяное свечение"
-
-#, fuzzy
-msgid "Object is not selected"
-msgstr "Исходный объект не доступен для выбора"
-
-msgid "No child elements"
-msgstr "Нету дочерних элементов"
-
-#, fuzzy
-msgid "Do Not Wait"
-msgstr "Не экспортировать"
-
-#, fuzzy
-msgid "Select Object:"
-msgstr "Выбрать объект"
-
-#, fuzzy
-msgid "Animate Object:"
-msgstr "Объект-источник:"
-
-#, fuzzy
-msgid "Object:"
-msgstr "Объект домена:"
-
-#, fuzzy
-msgid "Shape Key"
-msgstr "Экспортировать ключи формы"
-
-msgid "Value"
-msgstr "Значение"
-
-#, fuzzy
-msgid "No shape key source"
-msgstr "Экспортировать ключи деформации"
-
-msgid "Operand1:"
-msgstr "Операнд1"
-
-msgid "Operand2:"
-msgstr "Операнд2"
-
-#, fuzzy
-msgid "New variable"
-msgstr "Переменная"
-
-msgid "New var."
-msgstr "Новая переменная"
-
-#, fuzzy
-msgid "Var. name"
-msgstr "Название параметра"
-
-msgid "Destination:"
-msgstr "Назначение:"
-
-msgid "Url:"
-msgstr "Url"
-
-#, fuzzy
-msgid "Parse response arguments:"
-msgstr "B4W: список значений разобранного ответа"
-
-msgid "Node:"
-msgstr "Нода:"
-
-#, fuzzy
-msgid "Parameters:"
-msgstr "Имя парам.:"
-
-msgid "RGB:"
-msgstr "RGB:"
-
-msgid "Value:"
-msgstr "Значение:"
-
-msgid "No editable parameters available"
-msgstr "Нет доступных редактирукмых параметров"
-
-msgid "Param Name:"
-msgstr "Имя парам.:"
-
-#, fuzzy
-msgid "Logic Node"
-msgstr "Логические Узлы"
-
-msgid "Logic Nodes"
-msgstr "Логические Узлы"
-
-msgid "Layout"
-msgstr "Разметка"
-
-msgid "Entry Point node is not found!"
-msgstr "Входная нода не обнаружена!"
-
-#, fuzzy
-msgid "Node tree is empty!"
-msgstr "Нодовое дерево"
-
-msgid "Input is not connected!"
-msgstr "Некорректный вход!"
-
-msgid "No path from Entry point!"
-msgstr "Нету пути из входной точки!"
-
-msgid "Subtrees overlapping is not allowed!"
-msgstr "Повторение поддеревьев недоступно!"
-
-msgctxt "Operator"
-msgid "Toggle Node Mute"
-msgstr "Выключатель нод"
-
-#, fuzzy
-msgctxt "Operator"
-msgid "Parse response list add item"
-msgstr "B4W: Разобрать индекс списка ответов"
-
-msgid "Node tree"
-msgstr "Нодовое дерево"
-
-msgid "Node name"
-msgstr "Имя ноды"
-
-#, fuzzy
-msgctxt "Operator"
-msgid "Parse response list remove item"
-msgstr "B4W: Разобрать индекс списка ответов"
-
-msgctxt "Operator"
-msgid "Edit object item level"
-msgstr "Редактировать дупли уровень объекта"
-
-msgid "Item name"
-msgstr "Имя уровня"
-
-msgid "Item type"
-msgstr "Тип уровня"
-
-msgid "reverse"
-msgstr "Обратно"
-
-msgid "Delete dir if true"
-msgstr "Удалить уровень если верно"
-
-msgid "Depth of Field"
-msgstr "Глубина поля"
-
-msgid "Focus:"
-msgstr "Фокус:"
-
-msgid "Distance"
-msgstr "Расстояние"
-
-msgid "Front"
-msgstr "Спереди"
-
-msgid "Rear"
-msgstr "Сзади"
-
-msgid "Power"
-msgstr "Степень"
-
-#, fuzzy
-msgid "Camera"
-msgstr "Пространство камеры"
-
-msgid "Sensor:"
-msgstr "Сенсор:"
-
-msgid "Height"
-msgstr "Высота"
-
-msgid "Unsupported sensor type."
-msgstr "Неподдерживаемый тип сенсора"
-
-#, fuzzy
-msgid "Sound"
-msgstr "Границы"
-
-msgid "Random Volume"
-msgstr "Случайная громкость"
-
-msgid "Random Pitch"
-msgstr "Случайная высота"
-
-msgid "Disable Doppler"
-msgstr "Отключить эффект Доплера"
-
-msgid "Cyclic Play"
-msgstr "Проигрывать циклично"
-
-msgid "Volume:"
-msgstr "Объём:"
-
-msgid "Distance:"
-msgstr "Расстояние:"
-
-msgid "Reference"
-msgstr "Эталон"
-
-msgid "Cone"
-msgstr "Конус"
-
-msgid "Angle:"
-msgstr "Угол:"
-
-msgid "Outer"
-msgstr "Снаружи"
-
-msgid "Inner"
-msgstr "Изнутри"
-
-#, fuzzy
-msgid "Normals"
-msgstr "Отображать нормали"
-
-msgid "Lamp"
-msgstr "Лампа"
-
-msgid "Area type is not supported"
-msgstr "Тип \"Область\" не поддерживается "
-
-msgid "Falloff:"
-msgstr "Затухание:"
-
-msgid "Dynamic Intensity"
-msgstr "Динамическая интенсивность"
-
-msgid "Generate Shadows"
-msgstr "Генерировать тени"
-
-#, fuzzy
-msgid "Spot Shape"
-msgstr "Экспортировать ключи формы"
-
-msgid "Camera Move Style"
-msgstr "Поведение камеры"
-
-msgid "Move Style"
-msgstr "Тип поведения"
-
-msgid "Target Location"
-msgstr "Положение цели"
-
-#, fuzzy
-msgid "Copy Cursor Location"
-msgstr "Скопировать положение курсора"
-
-msgid "Camera Velocities:"
-msgstr "Скорость движения камеры"
-
-msgid "Translation Velocity"
-msgstr "Скорость перемещения"
-
-msgid "Rotation Velocity"
-msgstr "Скорость вращения"
-
-msgid "Zoom Velocity"
-msgstr "Скорость приближения"
-
-msgid "Camera Limits:"
-msgstr "Ограничения камеры"
-
-msgid "Use Horizontal Translation Limits"
-msgstr "Ограничить по горизонтали"
-
-#, fuzzy
-msgid "MinX"
-msgstr "Мин."
-
-#, fuzzy
-msgid "MaxX"
-msgstr "Макс."
-
-msgid "Use Vertical Translation Limits"
-msgstr "Ограничить по вертикали"
-
-#, fuzzy
-msgid "MinY"
-msgstr "Мин."
-
-#, fuzzy
-msgid "MaxY"
-msgstr "Макс."
-
-msgid "Use Distance Limits"
-msgstr "Ограничить по расстоянию"
-
-msgid "Min"
-msgstr "Мин."
-
-msgid "Hover Angle Limits:"
-msgstr "Углы подъема Hover-камеры"
-
-msgid "Down Angle"
-msgstr "Нижний угол"
-
-msgid "Up Angle"
-msgstr "Верхний угол"
-
-msgid "Zero Level"
-msgstr "Нулевой уровень"
-
-msgid "Use Horizontal Rotation"
-msgstr "Вращать по горизонтали"
-
-msgid "Use Horizontal Rotation Clamping"
-msgstr "Ограничить по горизонтали"
-
-msgid "Left Angle"
-msgstr "Влево"
-
-msgid "Right Angle"
-msgstr "Вправо"
-
-msgid "Use Vertical Rotation Clamping"
-msgstr "Ограничить по вертикали"
-
-msgid "Use Panning Mode"
-msgstr "Режим прокрутки"
-
-msgid "Speaker Behavior"
-msgstr "Тип источника звука"
-
-msgid "LOCKED_TRACK constraint reserved for "
-msgstr "Ограничение СЛЕЖЕНИЕ С ФИКСАЦИЕЙ зарезервировано для"
+msgid "B4W Camera Target Copy"
+msgstr "B4W копировать цель для камеры"
 
 msgid "Render Sky"
 msgstr "Визуализировать небо"
@@ -4901,6 +4152,9 @@ msgstr "Туман"
 
 msgid "Depth"
 msgstr "Глубина"
+
+msgid "Height"
+msgstr "Высота"
 
 msgid "Fall off"
 msgstr "Упасть"
@@ -4944,58 +4198,152 @@ msgstr "Степень рассеяния Ми"
 msgid "Mie Distribution"
 msgstr "Распределение рассеяния Ми"
 
+msgid "Apply Default Animation"
+msgstr "Использовать анимацию по умолчанию"
+
+msgid "Behavior"
+msgstr "Поведение"
+
+msgid "Export Options"
+msgstr "Настройки экспорта"
+
+msgid "Do Not Export"
+msgstr "Не экспортировать"
+
 msgctxt "Operator"
-msgid "Warning: Server error."
-msgstr "Предупредение: ошибка сервера"
+msgid "Fast Preview"
+msgstr ""
 
 #, fuzzy
-msgid "Message string"
-msgstr "Сообщение"
+msgid "Preview"
+msgstr "Предыдущий"
 
-msgid "Server starting error: "
-msgstr "Ошибка запуска сервера: "
-
-msgid "Could not start the server: "
-msgstr "Не получается запустить сервер: "
-
-msgid "Server stopping error: "
-msgstr "Ошибка остановки сервера: "
-
-msgctxt "Operator"
-msgid "B4W Stop Server"
-msgstr "B4W Остановить сервер"
-
-msgid "Stop server"
-msgstr "Остановить сервер"
-
-msgctxt "Operator"
-msgid "B4W Start Server"
-msgstr "B4W Запустить сервер"
-
-msgid "Start server"
-msgstr "Запустить сервер"
-
-msgctxt "Operator"
-msgid "B4W Open SDK"
-msgstr "B4W Открыть SDK"
-
-msgid "Open Blend4Web SDK"
-msgstr "Открыть Blend4Web SDK в веб-обозревателе"
-
-msgid "Could not open browser: "
-msgstr "Не получилось открыть браузер: "
-
-msgctxt "Operator"
-msgid "Blend4Web initialization error!"
-msgstr "Ошибка инициализации Blend4Web!"
+msgid "This texture type is not supported."
+msgstr "Этот тип текстур не поддерживается"
 
 #, fuzzy
+msgid "Mapping"
+msgstr "Затухание:"
+
+msgid "Coordinates:"
+msgstr "Координаты:"
+
+msgid "Map:"
+msgstr "Карта:"
+
+msgid "This coordinates type is not supported."
+msgstr "Этот тип координат не поддерживается"
+
+msgid "Environment Map"
+msgstr "Карта окружения"
+
+msgid "This environment map type is not supported"
+msgstr "Этот тип карт окружения не поддерживается"
+
+#, fuzzy
+msgid "Colors"
+msgstr "Цвет:"
+
+msgid "Ramp"
+msgstr "Градиентная карта"
+
+msgid "Image Sampling"
+msgstr "Дискретизация изобажения"
+
+msgid "Use Alpha"
+msgstr "С альфа-каналом"
+
+msgid "Disable Compression"
+msgstr "Выключить компрессию"
+
+msgid "Enable Anisotropic Filtering"
+msgstr "Включить Анизотропную фильтрацию"
+
+msgid "Anisotropic Filtering"
+msgstr "Анизотропная фильтрация"
+
+msgid "Shore Distance Map"
+msgstr "Карта дистанций до берега"
+
+msgid "Source Type"
+msgstr "Тип источника"
+
+msgid "Source Size"
+msgstr "Размер источника"
+
+msgid "Extension"
+msgstr "Расширение"
+
+msgid "Enable Mipmapping"
+msgstr "Включить мипмаппинг"
+
+msgid "Sky Texture Usage"
+msgstr "Использование текстуры неба"
+
+msgid "Water Foam"
+msgstr "Морская пена"
+
+msgid "UV Frequency"
+msgstr "Частота UV"
+
+msgid "UV Magnitude"
+msgstr "Амплитуда UV"
+
+msgid "Influence"
+msgstr "Влияние"
+
+msgid "Diffuse:"
+msgstr "Цвет:"
+
+msgid "Specular:"
+msgstr "Блик:"
+
+msgid "Shading:"
+msgstr "Затенение:"
+
+msgid "Geometry:"
+msgstr "Форма:"
+
+msgid "General:"
+msgstr "Общие:"
+
+msgid "Blend"
+msgstr "Смешение"
+
+msgid "Negative"
+msgstr "Инвертировать"
+
+msgid "DVar"
+msgstr "DVar"
+
+#, fuzzy
+msgid "Image Mapping"
+msgstr "Включить мипмаппинг"
+
+msgid "Image"
+msgstr "Изображение"
+
+msgid "Parallax"
+msgstr "Параллакс"
+
+msgid "Scale"
+msgstr "Масштаб"
+
+msgid "Steps"
+msgstr "Шаги"
+
+msgid "Lod Distance"
+msgstr "Расстояние Lod"
+
 msgctxt "Operator"
-msgid "Warning: Blender version mismatch."
-msgstr "Предупредение: ошибка сервера"
+msgid "B4W Vertex Groups To Materials"
+msgstr "B4W Вертексная группа к материалам"
 
 msgid "Reflections and Refractions"
 msgstr "Отражения и преломления"
+
+msgid "Reflections"
+msgstr "Отражения"
 
 msgid "Quality"
 msgstr "Качество"
@@ -5006,6 +4354,9 @@ msgstr "Преломления"
 #, fuzzy
 msgid "Motion Blur"
 msgstr "Включить размытие при движении"
+
+msgid "Factor"
+msgstr "Множитель"
 
 msgid "Decay Threshold"
 msgstr "Порог затухания"
@@ -5026,6 +4377,9 @@ msgstr "Граничная светимость"
 msgid "Color Correction"
 msgstr "Включить цветокую коррекцию"
 
+msgid "Brightness"
+msgstr "Яркость"
+
 msgid "Contrast"
 msgstr "Контраст"
 
@@ -5038,8 +4392,14 @@ msgstr "Насыщенность"
 msgid "Glow Materials"
 msgstr "Рассеяное свечение (Glow)"
 
+msgid "Enable"
+msgstr "Включить"
+
 msgid "Small Mask:"
 msgstr "Малая маска"
+
+msgid "Width"
+msgstr "Ширина"
 
 msgid "Large Mask:"
 msgstr "Большая маска:"
@@ -5077,11 +4437,15 @@ msgstr "Максимальная длина луча"
 msgid "Steps per Pass"
 msgstr "Шагов в итерации"
 
-msgid "Antialiasing"
-msgstr "Антиалиасинг"
+msgid "Anti-Aliasing"
+msgstr ""
 
-msgid "Enable Antialiasing"
-msgstr "Включить Антиалиазинг"
+msgid "AA Quality"
+msgstr ""
+
+#, fuzzy
+msgid "Shadows"
+msgstr "Тени:"
 
 msgid "Render Shadows"
 msgstr "Просчет теней"
@@ -5131,22 +4495,27 @@ msgstr "Сервер останавливается..."
 msgid "Development server is down."
 msgstr "Сервер разработки не запущен."
 
-#, fuzzy
 msgctxt "Operator"
-msgid "Stop"
-msgstr "Стоп"
+msgid "Stop Server"
+msgstr ""
 
 msgctxt "Operator"
-msgid "Start"
-msgstr "Запустить"
+msgid "Start Server"
+msgstr ""
 
 msgid "Server actions are available in the other Blender instance."
 msgstr "Действия сервера доступны в других запущенных Blender'ах"
 
-#, fuzzy
 msgctxt "Operator"
-msgid "Open SDK"
-msgstr "Открыть SDK"
+msgid "SDK Index"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Project Manager"
+msgstr ""
+
+msgid "Blend4Web SDK was not found."
+msgstr "SDK Blend4Web не найден"
 
 #, fuzzy
 msgid "Timeline"
@@ -5157,6 +4526,1147 @@ msgstr "Диапазон кадров:"
 
 msgid "Frame Rate:"
 msgstr "Частота кадров:"
+
+msgctxt "Operator"
+msgid "Fit to Camera"
+msgstr ""
+
+msgid "Wrong object"
+msgstr ""
+
+msgid "Unsupported camera type"
+msgstr ""
+
+#, fuzzy
+msgid "Vertex groups"
+msgstr "Удалить вертексные группы"
+
+msgid "Clean Unused Vertex Groups"
+msgstr "Очистить неисп. группы вершин"
+
+msgctxt "Operator"
+msgid "B4W Remove Unused VGroups"
+msgstr "B4W Удалить неиспользуемые группы вершин"
+
+msgid "Background"
+msgstr "Фон"
+
+msgid "Units"
+msgstr "Единицы"
+
+msgid "Simplify"
+msgstr "Упростить"
+
+msgid "Viewport:"
+msgstr "Область просмотра:"
+
+msgid "Subdivision"
+msgstr "Подразделения"
+
+msgid "Child Particles"
+msgstr "Частицы-потомки"
+
+msgid "Render:"
+msgstr "Визуализация:"
+
+msgid "Shadow Samples"
+msgstr "Сэмплы теней"
+
+msgid "AO and SSS"
+msgstr "АО и SSS"
+
+msgid "Audio"
+msgstr "Аудио"
+
+msgid "Dynamic Compressor"
+msgstr "Динамический компрессор"
+
+msgid "Compressor settings:"
+msgstr "Настройки компрессора:"
+
+msgid "Threshold"
+msgstr "Порог"
+
+msgid "Knee"
+msgstr "Колено"
+
+msgid "Ratio"
+msgstr "Соотношение"
+
+msgid "Attack"
+msgstr "Атака"
+
+msgid "Release"
+msgstr "Восстановление"
+
+msgctxt "Operator"
+msgid "Refresh"
+msgstr "Обновить"
+
+msgid "Refresh list of available Trees"
+msgstr "Обновить список доступных деревьев"
+
+msgctxt "Operator"
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Add new logic node tree"
+msgstr "Добавить новое логическое дерево"
+
+msgctxt "Operator"
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Remove logic node tree"
+msgstr "Удалить логическое дерево"
+
+#, fuzzy
+msgid "Logic Editor"
+msgstr "Редактор нормалей"
+
+msgid "Active Node Tree:"
+msgstr "Активное узловое дерево:"
+
+msgid "NLA"
+msgstr "Нелинейная анимация"
+
+msgid "Cyclic NLA"
+msgstr "Зациклить NLA"
+
+msgid "Meta Tags"
+msgstr "Мета тэги"
+
+msgid "Description Source:"
+msgstr "Источник описания"
+
+msgid "Source"
+msgstr "Источник"
+
+msgid "Enable Physics"
+msgstr "Включить физику"
+
+msgid "Batching"
+msgstr "Батчинг"
+
+msgid "Batch Grid Size"
+msgstr "Размер ячейки батчинга"
+
+msgid "Objects Selection"
+msgstr "Выделение объектов"
+
+msgid "Anchors"
+msgstr "Якоря"
+
+msgid "Detect Anchor Visibility"
+msgstr "Определять видимость якорей"
+
+#, fuzzy
+msgid "Diffuse"
+msgstr "Цвет:"
+
+msgid "Smooth"
+msgstr "Гладко"
+
+msgid "Fresnel"
+msgstr "Френель"
+
+msgid "Specular"
+msgstr "Блик"
+
+msgid "Hardness"
+msgstr "Жёсткость"
+
+msgid "IOR"
+msgstr "Показатель преломления"
+
+msgid "Slope"
+msgstr "Уклон"
+
+#, fuzzy
+msgid "Shading"
+msgstr "Затенение:"
+
+msgid "Double-Sided Lighting"
+msgstr "Двустороннее освещение"
+
+#, fuzzy
+msgid "Transparency"
+msgstr "Показать прозрачность"
+
+msgid "Show Transparency"
+msgstr "Показать прозрачность"
+
+msgid "Mirror"
+msgstr "Зеркало"
+
+msgid "Show Reflectivity"
+msgstr "Показать отражения"
+
+msgid "Halo"
+msgstr "Гало"
+
+msgid "Options:"
+msgstr "Опции:"
+
+msgid "Rings"
+msgstr "Кольца"
+
+msgid "Lines"
+msgstr "Линии"
+
+msgid "Star Tips"
+msgstr "Углы звезды"
+
+msgid "Special: Stars"
+msgstr "Особое: Звезды"
+
+msgid "Blending Height"
+msgstr "Высота сглаживания"
+
+msgid "Minimum Height"
+msgstr "Минимальная высота"
+
+msgid "Rendering Options"
+msgstr "Опции рендеринга"
+
+msgid "Do Not Render"
+msgstr "Не рендерить"
+
+msgid "Render Above All"
+msgstr "Рендерить поверх всего"
+
+msgid "Wettable"
+msgstr "Смачиваемый"
+
+msgid "Refractive"
+msgstr "Рефрактирующий"
+
+msgid "Refraction Bump"
+msgstr "Сила преломления"
+
+msgid "Terrain Dynamic Grass"
+msgstr "Динамический травяной покров"
+
+msgid "Grass Size (R)"
+msgstr "Размер травы (Красный)"
+
+msgid "Grass Color (RGB)"
+msgstr "Цвет травы (RGB)"
+
+msgid "Special: Collision"
+msgstr "Особое: Коллизия"
+
+msgid "Ghost"
+msgstr "Призрак"
+
+msgid "Collision Group"
+msgstr "Группа столкновения"
+
+msgid "Collision Mask"
+msgstr "Маска коллизий"
+
+msgid "Water"
+msgstr "Вода"
+
+msgid "Shore Smoothing"
+msgstr "Сглаживание у береговой линии"
+
+msgid "Absorb Factor"
+msgstr "Коэффициент поглощения света"
+
+msgid "Foam:"
+msgstr "Пена:"
+
+msgid "Shallow water:"
+msgstr "На мелководье:"
+
+msgid "Underwater fog:"
+msgstr "Подводный туман"
+
+msgid "Density"
+msgstr "Плотность"
+
+msgid "Shore water:"
+msgstr "У побережья:"
+
+msgid "Sub Surface Scattering"
+msgstr "Подповерхностное рассеивание"
+
+msgid "Strength"
+msgstr "Сила"
+
+msgid "Ripples (NormalMap)"
+msgstr "Рябь (карты нормалей)"
+
+msgid "Velocity"
+msgstr "Скорость"
+
+msgid "Waves"
+msgstr "Волны"
+
+msgid "Wave Height"
+msgstr "Высота волн"
+
+msgid "Wave Length"
+msgstr "Длина волн"
+
+msgid "Noise Dist Scale 0"
+msgstr "Частота удал шума 0"
+
+msgid "Noise Dist Scale 1"
+msgstr "Частота удал шума 1"
+
+msgid "Noise Dist Freq 0"
+msgstr "Частота набег шума 0"
+
+msgid "Noise Dist Freq 1"
+msgstr "Частота набег шума 1"
+
+msgid "Min Dir Shore Fac"
+msgstr "Мин берег. фак набег волн"
+
+msgid "Dir Frequency"
+msgstr "Частота набег волн"
+
+msgid "Noise Dir Scale"
+msgstr "Размер набег шума"
+
+msgid "Noise Dir Freq"
+msgstr "Частота набег шума"
+
+msgid "Min Dir Noise Fac"
+msgstr "Мин фактор набег шума"
+
+msgid "Min Dist Fac"
+msgstr "Мин Удал фак"
+
+msgid "Horizontal Factor"
+msgstr "Горизонтальный фак"
+
+msgid "Generate Mesh"
+msgstr "Сгенерировать полисетку"
+
+msgid "Cascades Number"
+msgstr "Количество каскадов"
+
+msgid "Subdivisions"
+msgstr "Разбиения"
+
+msgid "Detailed Distance"
+msgstr "Детализованная дальность"
+
+msgid "Number of vertices "
+msgstr "Количество вершин"
+
+msgid "Caustics"
+msgstr "Каустика"
+
+msgctxt "Operator"
+msgid "Export Error Dialog"
+msgstr "Окно ошибки экспорта"
+
+msgid "=== BLEND4WEB: EXPORT ERROR ==="
+msgstr "===BLEND4WEB: ОШИБКА ЭКСПОРТА ==="
+
+msgctxt "Operator"
+msgid "Export Messages Dialog"
+msgstr "Окно сообщений экспорта"
+
+msgid "=== BLEND4WEB: EXPORT MESSAGES ==="
+msgstr "=== BLEND4WEB: СООБЩЕНИЯ ЭКСПОРТА ==="
+
+msgid "ERRORS:"
+msgstr "ОШИБКИ: "
+
+msgid "WARNINGS:"
+msgstr "ПРЕДУПРЕЖДЕНИЯ: "
+
+msgctxt "Operator"
+msgid "File Error Dialog"
+msgstr "Окно ошибки файла"
+
+msgid "=== BLEND4WEB: FILE ERROR ==="
+msgstr "=== BLEND4WEB: ОШИБКИ ФАЙЛА ==="
+
+msgctxt "Operator"
+msgid "B4W Export JSON"
+msgstr "B4W Экспортировать JSON"
+
+msgid "Run in Viewer"
+msgstr "Запустить в просмотрщике сцен"
+
+msgid "Open the exported scene in the Viewer using the default browser"
+msgstr "Открыть сцену в приложении Viewer после экспорта"
+
+msgid "Required for running in command line"
+msgstr "Предназначен для запуска в командной строке"
+
+msgid "Is HTML export"
+msgstr "Это HTML экспорт"
+
+msgid "Is html export"
+msgstr "Это HTML экспорт"
+
+msgctxt "Operator"
+msgid "B4W Get Export Path"
+msgstr "B4W Получить путь"
+
+msgctxt "Operator"
+msgid "Blend4Web initialization error!"
+msgstr "Ошибка инициализации Blend4Web!"
+
+#, fuzzy
+msgctxt "Operator"
+msgid "Warning: Blender version mismatch."
+msgstr "Предупредение: ошибка сервера"
+
+msgctxt "Operator"
+msgid "Warning: Deprecated path to scripts."
+msgstr ""
+
+msgid "Clamp"
+msgstr "Ограничить"
+
+msgid "Linear to SRGB"
+msgstr "Линейность в SRGB"
+
+msgid "SRGB to Linear"
+msgstr "SRGB в линейность"
+
+msgid "Vector View"
+msgstr "Вид вектора"
+
+msgid "Normal View"
+msgstr "Вид нормали"
+
+msgid "Reflect"
+msgstr "Отражение"
+
+msgid "Refraction"
+msgstr "Преломление"
+
+msgid "Translucency"
+msgstr "Полупрозрачност"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Smoothstep"
+msgstr "Сглаживание"
+
+msgid "Glow Output"
+msgstr "Светящиеся материалы"
+
+msgid "Levels of Quality"
+msgstr "Уровень качества"
+
+msgid "Depth of Field"
+msgstr "Глубина поля"
+
+msgid "Focus:"
+msgstr "Фокус:"
+
+msgid "Front"
+msgstr "Спереди"
+
+msgid "Rear"
+msgstr "Сзади"
+
+msgid "Power"
+msgstr "Степень"
+
+msgid "Sensor:"
+msgstr "Сенсор:"
+
+msgid "Unsupported sensor type."
+msgstr "Неподдерживаемый тип сенсора"
+
+msgid "Random Volume"
+msgstr "Случайная громкость"
+
+msgid "Random Pitch"
+msgstr "Случайная высота"
+
+msgid "Fade-In"
+msgstr "Проявление"
+
+msgid "Fade-Out"
+msgstr "Угасание"
+
+msgid "Disable Doppler"
+msgstr "Отключить эффект Доплера"
+
+msgid "Cyclic Play"
+msgstr "Проигрывать циклично"
+
+msgid "Random Delay"
+msgstr "Случайная задержка"
+
+msgid "Volume:"
+msgstr "Объём:"
+
+msgid "Distance:"
+msgstr "Расстояние:"
+
+msgid "Reference"
+msgstr "Эталон"
+
+msgid "Cone"
+msgstr "Конус"
+
+msgid "Angle:"
+msgstr "Угол:"
+
+msgid "Outer"
+msgstr "Снаружи"
+
+msgid "Inner"
+msgstr "Изнутри"
+
+#, fuzzy
+msgid "Normals"
+msgstr "Отображать нормали"
+
+msgid "Angle"
+msgstr "Угол"
+
+msgid "Lamp"
+msgstr "Лампа"
+
+msgid "Area type is not supported"
+msgstr "Тип \"Область\" не поддерживается "
+
+msgid "Falloff:"
+msgstr "Затухание:"
+
+msgid "Dynamic Intensity"
+msgstr "Динамическая интенсивность"
+
+msgid "Shadow"
+msgstr "Тень"
+
+#, fuzzy
+msgid "Spot Shape"
+msgstr "Экспортировать ключи формы"
+
+msgid "Camera Move Style"
+msgstr "Поведение камеры"
+
+msgid "Move Style"
+msgstr "Тип поведения"
+
+msgid "Target Location"
+msgstr "Положение цели"
+
+msgid "Look At Cursor"
+msgstr ""
+
+msgid "Camera Velocities:"
+msgstr "Скорость движения камеры"
+
+msgid "Translation Velocity"
+msgstr "Скорость перемещения"
+
+msgid "Rotation Velocity"
+msgstr "Скорость вращения"
+
+msgid "Zoom Velocity"
+msgstr "Скорость приближения"
+
+msgid "Camera Limits"
+msgstr "Ограничители движения камеры"
+
+msgid "Display Limits in Viewport"
+msgstr "Отображать ограничители во вьюпорте"
+
+msgid "Horizontal Translation Limits"
+msgstr "Ограничители перемещения по горизонтали"
+
+#, fuzzy
+msgid "MinX"
+msgstr "Мин."
+
+#, fuzzy
+msgid "MaxX"
+msgstr "Макс."
+
+msgid "Vertical Translation Limits"
+msgstr "Ограничители перемещения по вертикали"
+
+#, fuzzy
+msgid "MinY"
+msgstr "Мин."
+
+#, fuzzy
+msgid "MaxY"
+msgstr "Макс."
+
+msgid "Distance Limits"
+msgstr "Ограничители расстояния"
+
+msgid "Min"
+msgstr "Мин."
+
+msgid "Max"
+msgstr "Макс."
+
+msgid "Use Zooming"
+msgstr "Использовать приближение"
+
+msgid "Down"
+msgstr ""
+
+msgid "Up"
+msgstr ""
+
+msgid "Zero Level"
+msgstr "Нулевой уровень"
+
+msgid "Use Horizontal Rotation"
+msgstr "Вращать по горизонтали"
+
+msgid "Horizontal Rotation Limits"
+msgstr "Ограничитель вращения в гориз. плоскости"
+
+msgid "Left Angle"
+msgstr "Влево"
+
+msgid "Right Angle"
+msgstr "Вправо"
+
+msgid "Vertical Rotation Limits"
+msgstr "Ограничитель вращения в верт. плоскости"
+
+msgid "Down Angle"
+msgstr "Нижний угол"
+
+msgid "Up Angle"
+msgstr "Верхний угол"
+
+msgid "Pivot Translation Limits"
+msgstr "Ограничитель перемещения точки привязки"
+
+msgid "MinZ"
+msgstr ""
+
+msgid "MaxZ"
+msgstr ""
+
+msgid "Use Panning Mode"
+msgstr "Режим прокрутки"
+
+msgid "Speaker Behavior"
+msgstr "Тип источника звука"
+
+#, fuzzy
+msgid "Levels of Detail"
+msgstr "Уровень качества"
+
+msgid "Lod Transition Ratio"
+msgstr "Коэффициент замещения лодов"
+
+msgid "Animation Blending"
+msgstr "Смешивание анимации"
+
+msgid "Proxy:"
+msgstr "Прокси:"
+
+msgid "Inherit Animation"
+msgstr "Наследовать анимацию"
+
+msgid "Apply Modifiers"
+msgstr "Применить модификаторы"
+
+msgid "Apply Scale And Modifiers"
+msgstr "Применить масштаб и модификаторы"
+
+msgid "Export Shape Keys"
+msgstr "Экспортировать ключи формы"
+
+msgid "Export Vertex Animation"
+msgstr "Экспортировать вертексную анимацию"
+
+msgid "Rendering Properties"
+msgstr "Опции рендеринга"
+
+msgid "Force Dynamic Object"
+msgstr "Форсировать динамический объект"
+
+msgid "Disable Frustum Culling"
+msgstr "Отключить отсечение по плоскостям камеры"
+
+msgid "Dynamic Geometry"
+msgstr "Динамическая геометрия"
+
+msgid "Line Renderer"
+msgstr ""
+
+msgid "Cast Shadows "
+msgstr "Отбрасывать тень"
+
+msgid "Receive Shadows "
+msgstr "Принимать тень"
+
+msgid "Cast Only "
+msgstr "Только отбрасывать тень"
+
+msgid "Billboard"
+msgstr "Билборд"
+
+msgid "Preserve Global Rotation and Scale"
+msgstr "Сохранить поворот и масштаб в глобальной системе координат"
+
+msgid "Reflective"
+msgstr "Отражающий"
+
+msgid "Reflection Plane:"
+msgstr "Плоскость отражения:"
+
+msgid "Reflexible"
+msgstr "Отражаемый"
+
+msgid "Reflexible Only"
+msgstr "Только отражение"
+
+msgid "Selection and Outlining"
+msgstr "Выделение и подсветка"
+
+msgid "Selectable"
+msgstr "Доступна для выбора"
+
+msgid "Enable Outlining"
+msgstr "Включить Подсветку"
+
+msgid "Outline on Select"
+msgstr "Подсвечивать при выделении"
+
+msgid "Duration"
+msgstr "Продолжительность"
+
+msgid "Period"
+msgstr "Период"
+
+msgid "Relapses"
+msgstr "Итерации"
+
+msgid "Enable Anchor"
+msgstr "Включить якоря"
+
+msgid "HTML Element ID"
+msgstr "ID HTML Элемента"
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "Relations"
+msgstr ""
+
+msgid "Viewport Alignment"
+msgstr "Привязка к вьюпорту"
+
+#, fuzzy
+msgid "Duplication"
+msgstr "Продолжительность"
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "Wrong Dupli Type. Only Group type is supported."
+msgstr "Неверный тип дуплицирования. Поддерживается только тип Группа"
+
+msgid "Wind Bending"
+msgstr "Эффект ветра"
+
+msgid "Detail Bending:"
+msgstr "Изгиб деталей"
+
+msgid "Amplitude"
+msgstr "Амплитуда"
+
+msgid "Branch Amplitude"
+msgstr "Амплитуда ветвей"
+
+msgid "Bending Frequency"
+msgstr "Частота наклонов"
+
+msgid "Leaves Stiffness (R)"
+msgstr "Жесткость Листвы (R)"
+
+msgid "Leaves Phase (G)"
+msgstr "Фаза листвы (G)"
+
+msgid "Overall Stiffness (B)"
+msgstr "Общая жесткость (B)"
+
+msgid "Main Bending:"
+msgstr "Основной наклон:"
+
+msgid "Frequency"
+msgstr "Частота"
+
+msgid "Main Stiffness (A)"
+msgstr "Основная жесткость (А)"
+
+msgid "Special Effects"
+msgstr "Спецэффекты"
+
+msgid "Disable Fogging"
+msgstr "Отключить туман"
+
+msgid "LOCKED_TRACK constraint reserved for "
+msgstr "Ограничение СЛЕЖЕНИЕ С ФИКСАЦИЕЙ зарезервировано для"
+
+#, fuzzy
+msgctxt "Context"
+msgid "Message"
+msgstr "Сообщение"
+
+#, python-format
+msgid "New version of Blend4Web is available: %s"
+msgstr "Доступна новая версия Blend4Web: %s"
+
+#, fuzzy
+msgid "Download"
+msgstr "Скачать"
+
+#, fuzzy
+msgid "New"
+msgstr "Создать"
+
+msgid "Settings used for fluid"
+msgstr "Параметры, используемые для жидкостей"
+
+msgid "Settings:"
+msgstr "Настройки:"
+
+#, python-format
+msgid "%d fluid particles for this frame"
+msgstr "%d частиц жидкости на этот кадр"
+
+#, fuzzy
+msgid "Free Edit"
+msgstr "Свободное редактирование"
+
+msgid "Enable emission with Object->Animation->Apply default animation."
+msgstr ""
+"Включить испускание с Объект->Анимация->Использовать анимацию по умолчанию"
+
+#, fuzzy
+msgid "Emission"
+msgstr "Циклическая эмиссия"
+
+msgid "Emit From:"
+msgstr "Источник частиц:"
+
+msgid "Particles/Face"
+msgstr "Частиц на грань"
+
+msgid "Jittering Amount"
+msgstr "Величина дрожания"
+
+msgid "Particle emission from 'Volume' is not supported."
+msgstr "Испускание частиц по типу 'Volume' не поддерживается."
+
+msgid "Cyclic Emission"
+msgstr "Циклическая эмиссия"
+
+msgid "Emitter Geometry:"
+msgstr "Геометрия источника:"
+
+msgid "Emitter Object:"
+msgstr "Объект-источник:"
+
+msgid "Other:"
+msgstr "Другое:"
+
+msgid "Initial Orientation:"
+msgstr "Начальная ориентация:"
+
+msgid "Angular Velocity:"
+msgstr "Угловая скорость:"
+
+#, fuzzy, python-format
+msgid "'%s' angular velocity mode isn't supported."
+msgstr "'%s' режим угловой скорости не поддерживается."
+
+msgid "Forces:"
+msgstr "Силы:"
+
+msgid "Integration:"
+msgstr "Интегрирование:"
+
+msgid "Fluid properties:"
+msgstr "Свойства жидкости:"
+
+msgid "Stiffness"
+msgstr "Жёсткость"
+
+msgid "Viscosity"
+msgstr "Вязкость"
+
+msgid "Buoyancy"
+msgstr "Выталкивание"
+
+msgid "Advanced:"
+msgstr "Дополнительно:"
+
+#, python-format
+msgid "Spacing: %g"
+msgstr "Интервал: %g"
+
+msgid "Springs:"
+msgstr "Пружины:"
+
+msgid "Force"
+msgstr "Сила"
+
+msgid "Loops"
+msgstr "Циклы"
+
+msgid "Use Timing"
+msgstr "Указать время"
+
+msgid "Keys:"
+msgstr "Ключи:"
+
+msgid "Battle:"
+msgstr "Сражение:"
+
+msgid "Misc:"
+msgstr "Прочее:"
+
+msgid "Relations:"
+msgstr "Отношения:"
+
+msgid "Fluid interaction:"
+msgstr "Взаимодействие жидкости:"
+
+msgid "System"
+msgstr "Система"
+
+#, fuzzy
+msgid "Render"
+msgstr "Визуализация:"
+
+msgid "The 'Hair' Particle System requires 'Object' or 'Group' render type."
+msgstr ""
+"Системы частиц типа 'Hair' поддерживают типы рендера 'Object' и 'Group'."
+
+msgid "Randomize Location And Size"
+msgstr "Случайные позиция и размер"
+
+msgid "Randomize Initial Rotation"
+msgstr "Случайный начальный поворот"
+
+msgid "Rotation Type"
+msgstr "Тип вращения"
+
+msgid "Rotation Strength"
+msgstr "Сила поворота"
+
+msgid "Billboard Type"
+msgstr "Тип биллборда"
+
+msgid "Jitter Amplitude"
+msgstr "Амплитуда джиттера"
+
+msgid "Jitter Frequency"
+msgstr "Частота джиттера"
+
+msgid "Billboard Geometry:"
+msgstr "Геометрия биллборда:"
+
+msgid ""
+"The 'Emitter' Particle System requires 'Halo' or 'Billboard' render type."
+msgstr ""
+"Системы частиц типа 'Emitter' поддерживают типы рендера 'Halo' и 'Billboard'."
+
+msgid "Billboard Align"
+msgstr "Выравнивание биллбордов"
+
+msgid "Dissolve Intervals:"
+msgstr "Интервалы затухания"
+
+msgid "Coordinate System"
+msgstr "Система координат"
+
+msgid "Soft Particles"
+msgstr "Мягкие частицы"
+
+msgid "Particle Softness"
+msgstr "Мягкость частиц"
+
+msgid "Field Weights"
+msgstr "Веса поля"
+
+#, fuzzy
+msgid "Vertex Groups"
+msgstr "Очистить неисп. группы вершин"
+
+msgid "Length"
+msgstr "Длина"
+
+msgid "Cache"
+msgstr "Кэш"
+
+msgid "Display"
+msgstr "Отображение"
+
+msgid "Display percentage makes dynamics inaccurate without baking!"
+msgstr ""
+"Отображение процентной завершённости без запекания ухудшает качество "
+"динамики!"
+
+msgid "Color:"
+msgstr "Цвет:"
+
+msgid "Dynamic Grass"
+msgstr "Динамическая трава"
+
+msgid "Scale Threshold"
+msgstr "Порог размера"
+
+msgid "Properties Inheritance"
+msgstr "Наследование свойств"
+
+msgid "Inherit Properties From:"
+msgstr "Наследовать свойства с:"
+
+msgid "Wind Bending:"
+msgstr "Эффект ветра:"
+
+msgid "Shadows:"
+msgstr "Тени:"
+
+msgid "Reflection:"
+msgstr "Отражение:"
+
+msgid "Vertex Color:"
+msgstr "Вертексный цвет:"
+
+msgid "From"
+msgstr "От"
+
+msgid "To"
+msgstr "Кому"
+
+#~ msgid "Mass Reexporter"
+#~ msgstr "Массовый реэкспорт"
+
+#~ msgid "Please download and configure it before using Mass Reexporter."
+#~ msgstr ""
+#~ "Просьба скачать и настроить его перед использованием массового реэкспорта"
+
+#~ msgid "Check info window for export results."
+#~ msgstr "См. окно информации с результатами экспорта"
+
+#~ msgid "Exported Directory"
+#~ msgstr "Экспортная директория"
+
+#~ msgctxt "Operator"
+#~ msgid "Reexport"
+#~ msgstr "Реэкспорт"
+
+#~ msgctxt "Operator"
+#~ msgid "Reexport Append"
+#~ msgstr "Добавить к реэкспорту"
+
+#~ msgid "Append exported directory"
+#~ msgstr "Добавить директорию к реэкспорту"
+
+#~ msgctxt "Operator"
+#~ msgid "Reexport Remove"
+#~ msgstr "Удалить из реэкспорта"
+
+#~ msgid "Remove exported directory"
+#~ msgstr "Удалить директорию из реэкспорта"
+
+#~ msgid ""
+#~ "Perform mass reexport. Depending on amount of work this may take some time"
+#~ msgstr "Выполнить массовый реэкспорт. Может занять время."
+
+#, fuzzy
+#~ msgid " doesn't have material."
+#~ msgstr " не имеет материал"
+
+#~ msgid "B4W: enable antialiasing"
+#~ msgstr "B4W: Включить антиалиасинг"
+
+#~ msgid "Enable antialiasing"
+#~ msgstr "Включить антиалиасинг"
+
+#, fuzzy
+#~ msgid "Select & Play Timeline"
+#~ msgstr "Выбрать и проиграть"
+
+#, fuzzy
+#~ msgid "Select"
+#~ msgstr "Отражение"
+
+#, fuzzy
+#~ msgid "Select & Play Animation"
+#~ msgstr "Выбрать и проиграть"
+
+#~ msgid "Start marker field is empty!"
+#~ msgstr "Маркер начала пуст!"
+
+#~ msgid "can't find a node: %s:%s"
+#~ msgstr "надо не нашлась: %s:%s"
+
+#, fuzzy
+#~ msgid "Parse response arguments:"
+#~ msgstr "B4W: список значений разобранного ответа"
+
+#~ msgid "Logic Nodes"
+#~ msgstr "Логические Узлы"
+
+#~ msgid "Generate Shadows"
+#~ msgstr "Генерировать тени"
+
+#, fuzzy
+#~ msgid "Copy Cursor Location"
+#~ msgstr "Скопировать положение курсора"
+
+#~ msgid "Camera Limits:"
+#~ msgstr "Ограничения камеры"
+
+#~ msgid "Use Horizontal Translation Limits"
+#~ msgstr "Ограничить по горизонтали"
+
+#~ msgid "Use Vertical Translation Limits"
+#~ msgstr "Ограничить по вертикали"
+
+#~ msgid "Use Distance Limits"
+#~ msgstr "Ограничить по расстоянию"
+
+#~ msgid "Hover Angle Limits:"
+#~ msgstr "Углы подъема Hover-камеры"
+
+#~ msgid "Use Horizontal Rotation Clamping"
+#~ msgstr "Ограничить по горизонтали"
+
+#~ msgid "Use Vertical Rotation Clamping"
+#~ msgstr "Ограничить по вертикали"
+
+#~ msgid "Antialiasing"
+#~ msgstr "Антиалиасинг"
+
+#~ msgid "Enable Antialiasing"
+#~ msgstr "Включить Антиалиазинг"
+
+#, fuzzy
+#~ msgctxt "Operator"
+#~ msgid "Stop"
+#~ msgstr "Стоп"
+
+#~ msgctxt "Operator"
+#~ msgid "Start"
+#~ msgstr "Запустить"
+
+#, fuzzy
+#~ msgctxt "Operator"
+#~ msgid "Open SDK"
+#~ msgstr "Открыть SDK"
 
 #, fuzzy
 #~ msgid "Reexport"

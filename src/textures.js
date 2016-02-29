@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ var m_time      = require("__time");
 var m_util      = require("__util");
 var m_ren       = require("__renderer");
 var m_obj_util  = require("__obj_util");
+var m_curve     = require("__curve");
+var m_vec3      = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 var cfg_sfx = m_cfg.sfx;
@@ -65,6 +67,10 @@ exports.TT_RB_DEPTH    = 70;
 exports.TT_RB_RGBA_MS  = 80;
 exports.TT_RB_DEPTH_MS = 90;
 
+exports.CURVE_NODES_TEXT_SIZE = 128;
+exports.COLORRAMP_TEXT_SIZE = 128;
+exports.PART_COLORRAMP_TEXT_SIZE = 128;
+
 var _canvas_textures_cache = {};
 var _video_textures_cache = {};
 
@@ -74,7 +80,8 @@ var _gl = null;
 
 // texture quality
 var LEVELS;
-
+var BEZIER_ROOT_PRECISION = 0.001;
+var FLT_EPSILON = 0.00000001;
 /**
  * Setup WebGL context
  * @param gl WebGL context
@@ -155,7 +162,7 @@ function init_texture() {
         seq_last_discrete_mark: -1,
 
         video_was_stopped: false,
-       
+
         use_auto_refresh: false,
         use_cyclic : false,
         use_nla: false,
@@ -395,7 +402,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
 
             if (texture.frame_offset != 0)
                 m_print.warn("Frame offset for texture \"" + bpy_texture["name"] +
-                        "\" has a nonzero value. Can lead to undefined behaviour" + 
+                        "\" has a nonzero value. Can lead to undefined behaviour" +
                         " for mobile devices.");
         }
         break;
@@ -441,6 +448,12 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
 
     case "BLEND":
         return null;
+    case "NODE_TEX":
+        var w_texture = _gl.createTexture();
+        var w_target = _gl.TEXTURE_2D;
+        _gl.bindTexture(w_target, w_texture);
+        _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
+        break;
 
     default:
         m_print.error("texture \"" + bpy_texture["name"] +
@@ -448,9 +461,10 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
         return null;
     }
 
-    if (tex_type == "NONE" && !(bpy_texture["b4w_enable_canvas_mipmapping"] && 
+    if (tex_type == "NONE" && !(bpy_texture["b4w_enable_canvas_mipmapping"] &&
             bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D"
-            || tex_type == "IMAGE" && bpy_texture["image"]["source"] == "MOVIE")
+            || tex_type == "IMAGE" && bpy_texture["image"]["source"] == "MOVIE"
+            || tex_type == "NODE_TEX")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
@@ -671,7 +685,7 @@ function setup_resized_tex_data(w_target) {
 
     _gl.bindTexture(w_target, null);
 
-    if (!_w_texture_tmp) 
+    if (!_w_texture_tmp)
         _w_texture_tmp = _gl.createTexture();
     _gl.bindTexture(w_target, _w_texture_tmp);
     prepare_npot_texture(w_target);
@@ -715,9 +729,9 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                     || m_util.check_npot(dds_wh.height);
 
             if(check_texture_size(dds_wh.width, dds_wh.height)) {
-                m_print.error("Texture \"" + filepath 
-                        + "\" has unsupported size: " + dds_wh.width + "x" 
-                        + dds_wh.height + ". Max available: " 
+                m_print.error("Texture \"" + filepath
+                        + "\" has unsupported size: " + dds_wh.width + "x"
+                        + dds_wh.height + ". Max available: "
                         + cfg_def.max_texture_size + "x"
                         + cfg_def.max_texture_size + ".")
                 return;
@@ -765,9 +779,9 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             texture.height = height;
 
             if (check_texture_size(width, width)) {
-                m_print.warn("Texture \"" + filepath 
-                        + "\" has unsupported size: " + width + "x" 
-                        + height + ". Max available: " 
+                m_print.warn("Texture \"" + filepath
+                        + "\" has unsupported size: " + width + "x"
+                        + height + ". Max available: "
                         + cfg_def.max_texture_size + "x"
                         + cfg_def.max_texture_size +
                         ". Reduced image size will be used.");
@@ -783,17 +797,17 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                     _video_textures_cache[thread_id][texture.name] = texture;
 
                     texture.video_file = image_data;
-                    // NOTE: looping needed to prevent a cycle video from 
+                    // NOTE: looping needed to prevent a cycle video from
                     // stopping accidentally due to frame/timeline errors
                     texture.video_file.loop = texture.use_cyclic;
                     // NOTE: image_data.duration can't be available?
-                    texture.fps = image_data.duration ? 
-                            texture.movie_length / image_data.duration : 
+                    texture.fps = image_data.duration ?
+                            texture.movie_length / image_data.duration :
                             m_time.get_framerate();
 
                     if (!cfg_sfx.disable_playback_rate_hack) {
                         image_data.playbackRate = m_time.get_framerate() / texture.fps;
-                        if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate > 
+                        if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate >
                                     PLAYBACK_RATE)
                             image_data.playbackRate = PLAYBACK_RATE;
                     }
@@ -902,7 +916,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             texture.height = 2 * tex_dim;
             _gl.generateMipmap(w_target);
         }
-    } else if (tex_type == "DATA_TEX2D") {
+    } else if (tex_type == "DATA_TEX2D" || tex_type == "NODE_TEX") {
         _gl.texImage2D(w_target, 0, _gl.RGBA, image_data.width, image_data.height, 0,
                        _gl.RGBA, _gl.UNSIGNED_BYTE, image_data.data);
         texture.width = image_data.width;
@@ -914,8 +928,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
 
 function create_oncanplay_handler(tex) {
     tex.video_file.oncanplay = function() {
-        // NOTE: setting new frame for an HTML5 video texture forces it 
-        // to seek at this point which requires some time, so it can be 
+        // NOTE: setting new frame for an HTML5 video texture forces it
+        // to seek at this point which requires some time, so it can be
         // updated only on the next frame after this operation.
         update_video_texture(tex);
     }
@@ -1103,7 +1117,7 @@ function check_cube_map_size(size) {
     return size > cfg_def.max_cube_map_size;
 }
 
-exports.generate_texture = function(type, subs) {
+exports.generate_texture = function(type, subs, name) {
     var texture = null;
     switch (type) {
     case "SSAO_TEXTURE":
@@ -1111,6 +1125,16 @@ exports.generate_texture = function(type, subs) {
             "name": "special_ssao_texture",
             "type": "DATA_TEX2D",
             "extension": "REPEAT",
+            "b4w_anisotropic_filtering": "OFF"
+        };
+        create_texture_bpy(texture, null, subs, 0);
+        texture["image"] = { "filepath": null };
+        break;
+    case "NODE_TEX":
+        texture = {
+            "name": name,
+            "type": "NODE_TEX",
+            "extension": "CLIP",
             "b4w_anisotropic_filtering": "OFF"
         };
         create_texture_bpy(texture, null, subs, 0);
@@ -1152,7 +1176,7 @@ exports.reset = function() {
         for (var vtex_name in _video_textures_cache[data_id]) {
             reset_video(vtex_name, data_id);
             _video_textures_cache[data_id][vtex_name].video_was_stopped = false;
-        } 
+        }
 }
 
 exports.play = function(resume_stopped_only) {
@@ -1281,7 +1305,7 @@ exports.video_get_end_frame = function(vtex) {
     if (!vtex.video_file && !vtex.seq_video)
         return 0;
 
-    var duration = Math.min(vtex.frame_duration, vtex.movie_length 
+    var duration = Math.min(vtex.frame_duration, vtex.movie_length
             - vtex.frame_offset);
     if (vtex.video_file)
         return vtex.frame_offset + duration;
@@ -1337,7 +1361,7 @@ function get_texture_by_name(object, texture_name) {
             var texture = find_texture_by_name(objects[i], texture_name);
             if (texture)
                 return texture;
-        } 
+        }
     }
     return null;
 }
@@ -1425,6 +1449,235 @@ function draw_canvas_to_canvas(new_tex, old_tex) {
     new_ctx.drawImage(old_ctx.canvas, 0, 0);
     update_texture_canvas(new_tex);
 
+}
+
+exports.create_color_ramp_texture = function(nodes, points_num) {
+
+    var texture = [];
+
+    for (var j = 0; j < nodes.length; j++) {
+        var bpy_node = nodes[j].data.value;
+        calc_color_ramp_data(bpy_node["color_ramp"], points_num, texture);
+    }
+
+        return new Uint8Array(texture.map(function(val) {return m_util.clamp(val * 255,
+            0, 255)}));
+}
+
+exports.calc_color_ramp_data = calc_color_ramp_data;
+function calc_color_ramp_data(color_ramp, points_num, texture) {
+    var elements = color_ramp["elements"];
+    var type = color_ramp["interpolation"];
+    for (var i = 0; i < points_num; i++) {
+
+        var curr_position = i / (points_num - 1);
+
+        var left_elem = find_left_elem(elements, curr_position, true);
+        var right_elem = find_right_elem(elements, curr_position, true);
+
+        if (left_elem && right_elem)
+            if (type == "CONSTANT")
+                texture.push.apply(texture, left_elem.color);
+            else
+                create_linear_middle(texture, left_elem, right_elem, curr_position);
+
+        if (right_elem && !left_elem)
+            texture.push.apply(texture, right_elem.color);
+
+        if (left_elem && !right_elem)
+            texture.push.apply(texture, left_elem.color);
+    }
+}
+
+function create_linear_middle(texture, left_elem, right_elem, curr_position) {
+    if (left_elem == right_elem)
+        texture.push.apply(texture, left_elem["color"]);
+    else {
+        var r = m_curve.linear_interpolation(right_elem["color"][0], right_elem["position"],
+                left_elem["color"][0], left_elem["position"], curr_position);
+        texture.push(r);
+        var g = m_curve.linear_interpolation(right_elem["color"][1], right_elem["position"],
+                left_elem["color"][1], left_elem["position"], curr_position);
+        texture.push(g);
+        var b = m_curve.linear_interpolation(right_elem["color"][2], right_elem["position"],
+                left_elem["color"][2], left_elem["position"], curr_position);
+        texture.push(b);
+        var a = m_curve.linear_interpolation(right_elem["color"][3], right_elem["position"],
+                left_elem["color"][3], left_elem["position"], curr_position);
+        texture.push(a);
+    }
+}
+
+function find_left_elem(elements, curr_pos, is_color_ramp) {
+    var left_elem = null;
+    for (var i = 0; i < elements.length; i++) {
+        if (is_color_ramp)
+            var dist = curr_pos - elements[i]["position"];
+        else
+            var dist = curr_pos - elements[i][1][0];
+        if (dist >= 0)
+            if (left_elem) {
+                if (is_color_ramp)
+                    var cur_dist = curr_pos - left_elem["position"];
+                else
+                    var cur_dist = curr_pos - elements[i][1][0];
+                if (dist <= cur_dist)
+                    left_elem = elements[i];
+            } else
+                left_elem = elements[i];
+    }
+    return left_elem;
+}
+
+function find_right_elem(elements, curr_pos, is_color_ramp) {
+    var right_elem = null;
+    for (var i = 0; i < elements.length; i++) {
+        if (is_color_ramp)
+            var dist = elements[i]["position"] - curr_pos;
+        else
+            var dist = elements[i][1][0] - curr_pos;
+        if (dist >= 0)
+            if (right_elem) {
+                if (is_color_ramp)
+                    var cur_dist = right_elem["position"] - curr_pos;
+                else
+                    var cur_dist = right_elem[1][0] - curr_pos;
+                if (dist <= cur_dist)
+                    right_elem = elements[i];
+            } else
+                right_elem = elements[i];
+    }
+    return right_elem;
+}
+
+exports.create_vec_curve_texture = function(nodes, points_num) {
+
+    var _vec3_tmp = new Float32Array(3);
+    var vec = new Float32Array(3);
+
+    var textures = [];
+
+    for (var q = 0; q < nodes.length; q++) {
+
+        var bpy_node = nodes[q].data.value;
+        var channels = [];
+        var curves = bpy_node["curve_mapping"]["curves_data"];
+        var points_ext_types = bpy_node["curve_mapping"]["curve_extend"];
+        var curves_handle_types = bpy_node["curve_mapping"]["curves_handle_types"];
+
+        for (var i = 0; i < curves.length; i++) {
+            var type = points_ext_types[i];
+            var curve = curves[i];
+            var bezts = [];
+            var curve_handle_types = curves_handle_types[i];
+            for (var j = 0; j < curve.length; j++)
+                bezts.push([
+                    new Float32Array(3),
+                    new Float32Array(curve[j].concat(0)),
+                    new Float32Array(3)
+                    ]);
+
+            m_curve.calchandle_curvemap(bezts[0], null, bezts[1], curve_handle_types[0],
+                    curve_handle_types[0]);
+            for (var j = 1; j < bezts.length - 1; j++)
+                m_curve.calchandle_curvemap(bezts[j], bezts[j - 1], bezts[j + 1], curve_handle_types[j],
+                        curve_handle_types[j]);
+            m_curve.calchandle_curvemap(bezts[bezts.length - 1], bezts[bezts.length - 2], null,
+                    curve_handle_types[bezts.length - 1], curve_handle_types[bezts.length - 1]);
+
+            if (bezts.length > 2) {
+                if (curve_handle_types[0] == "AUTO") {
+                    m_vec3.subtract(bezts[0][2], bezts[0][1], _vec3_tmp);
+                    var hlen = m_vec3.length(_vec3_tmp);
+
+                    m_vec3.copy(bezts[1][0], vec);
+                    if (vec[0] < bezts[0][1][0])
+                        vec[0] = bezts[0][1][0];
+                    m_vec3.subtract(vec, bezts[0][1], vec);
+                    var nlen = m_vec3.length(vec);
+                    if (nlen > FLT_EPSILON) {
+                        m_vec3.scale(vec, hlen / nlen, vec);
+                        m_vec3.add(bezts[0][1], vec, bezts[0][2]);
+                        m_vec3.subtract(bezts[0][1], vec, bezts[0][0]);
+                    }
+                }
+
+                var a = bezts.length - 1;
+                if (curve_handle_types[0] == "AUTO") {
+                    m_vec3.subtract(bezts[a][0], bezts[a][1], _vec3_tmp);
+                    var hlen = m_vec3.length(_vec3_tmp);
+
+                    m_vec3.copy(bezts[a - 1][2], vec);
+                    if (vec[0] > bezts[a][1][0])
+                        vec[0] = bezts[a][1][0];
+
+                    m_vec3.subtract(vec, bezts[a][1], vec);
+                    var nlen = m_vec3.length(vec);
+
+                    if (nlen > FLT_EPSILON) {
+                        m_vec3.scale(vec, hlen / nlen, vec);
+                        m_vec3.add(bezts[a][1], vec, bezts[a][0]);
+                        m_vec3.subtract(bezts[a][1], vec, bezts[a][2]);
+                    }
+                }
+            }
+
+            for (var a = 0; a < bezts.length - 1; a++)
+                m_curve.correct_bezpart(bezts[a][1], bezts[a][2], bezts[a + 1][0], bezts[a + 1][1]);
+
+            var texture = [];
+            if (curves.length <= 3) {
+                var start = Math.round(- points_num/ 2);
+                var end = Math.round(points_num / 2);
+            } else {
+                var start = 0;
+                var end = points_num;
+            }
+            for (var j = start; j < end; j++) {
+
+                var curr_position = j / (end - 1);
+
+                var left_elem = find_left_elem(bezts, curr_position, false);
+                var right_elem = find_right_elem(bezts, curr_position, false);
+
+                if (left_elem && right_elem)
+                    texture.push(m_curve.bezier(curr_position, left_elem[1], left_elem[2],
+                            right_elem[0], right_elem[1], BEZIER_ROOT_PRECISION));
+                else if (right_elem && !left_elem)
+                        if (type == "EXTRAPOLATED")
+                            texture.push(m_curve.linear(curr_position, right_elem[1], right_elem[2]));
+                        else
+                            texture.push(right_elem[1][1]);
+                    else if (left_elem && !right_elem)
+                        if (type == "EXTRAPOLATED")
+                            texture.push(m_curve.linear(curr_position, left_elem[0], left_elem[1]));
+                        else
+                            texture.push(left_elem[1][1]);
+            }
+            channels.push(texture);
+        }
+        textures.push(channels);
+    }
+
+    var tex = [];
+    for (var j = 0; j < textures.length; j++) {
+        var channels = textures[j];
+        for (var i = 0; i < channels[0].length; i++) {
+            if (channels.length <= 3) {
+                var r = m_util.clamp((channels[0][i] + 1) * 127.5, 0, 255);
+                var g = m_util.clamp((channels[1][i] + 1) * 127.5, 0, 255);
+                var b = m_util.clamp((channels[2][i] + 1) * 127.5, 0, 255);
+                var a = 255;
+            } else {
+                var r = m_util.clamp(channels[0][i] * 255, 0, 255);
+                var g = m_util.clamp(channels[1][i] * 255, 0, 255);
+                var b = m_util.clamp(channels[2][i] * 255, 0, 255);
+                var a = m_util.clamp(channels[3][i] * 255, 0, 255);
+            }
+            tex.push(r, g, b, a);
+        }
+    }
+    return new Uint8Array(tex);
 }
 
 }

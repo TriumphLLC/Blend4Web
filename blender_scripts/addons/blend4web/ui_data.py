@@ -66,7 +66,7 @@ class B4W_DATA_PT_camera_dof(CameraButtonsPanel, Panel):
 
         split = layout.split()
         col = split.column()
-        col.prop(cam, "dof_object", text=_(""))
+        col.prop(cam, "dof_object", text="")
 
         col = split.column()
         sub = col.column()
@@ -97,7 +97,7 @@ class B4W_DATA_PT_camera(CameraButtonsPanel, Panel):
             col.label(text=_("Unsupported sensor type."), icon="ERROR")
 
         col = split.column(align=True)
-        col.prop(cam, "sensor_fit", text=_(""))
+        col.prop(cam, "sensor_fit", text="")
 
 class B4W_DATA_PT_speaker(SpeakerPanel, Panel):
     bl_label = _("Sound")
@@ -236,7 +236,7 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
             split = layout.split()
             col = split.column()
             sub = col.column()
-            sub.prop(lamp, "color", text=_(""))
+            sub.prop(lamp, "color", text="")
             sub.prop(lamp, "energy")
 
             if lamp.type in {'POINT', 'SPOT'}:
@@ -256,14 +256,14 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
             row.prop(lamp, "b4w_dynamic_intensity", text=_("Dynamic Intensity"))
 
 class B4W_DataLampShadows(LampPanel, Panel):
-    bl_label = _("Shadows")
+    bl_label = _("Shadow")
     bl_idname = "B4W_DATA_PT_b4w_lamp_shadows"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
         layout = self.layout
         lmp = context.lamp
-        layout.prop(lmp, "b4w_generate_shadows", text=_("Generate Shadows"))
+        layout.prop(lmp, "use_shadow", text=_("Shadow"))
 
 class B4W_DATA_PT_spot(LampPanel, Panel):
     bl_label = _("Spot Shape")
@@ -413,7 +413,7 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
                 row.prop(cam, "b4w_rotation_left_limit", text=_("Left Angle"))
                 row.prop(cam, "b4w_rotation_right_limit", text=_("Right Angle"))
-                row.prop(cam, "b4w_horizontal_clamping_type", text=_(""))
+                row.prop(cam, "b4w_horizontal_clamping_type", text="")
 
                 row = col.row()
                 row.prop(cam, "b4w_use_vertical_clamping", 
@@ -423,11 +423,20 @@ class B4W_CameraMovePanel(CameraButtonsPanel, Panel):
                 row.active = getattr(cam, "b4w_use_vertical_clamping")
                 row.prop(cam, "b4w_rotation_down_limit", text=_("Down Angle"))
                 row.prop(cam, "b4w_rotation_up_limit", text=_("Up Angle"))
-                row.prop(cam, "b4w_vertical_clamping_type", text=_(""))
+                row.prop(cam, "b4w_vertical_clamping_type", text="")
 
             if cam.b4w_move_style == "TARGET":
                 row = col.row()
-                row.prop(cam, "b4w_use_panning", text=_("Use Panning Mode"));
+                row.prop(cam, "b4w_use_pivot_limits", text=_("Pivot Translation Limits"))
+                row = col.split(0.5, align=True)
+                row.active = getattr(cam, "b4w_use_pivot_limits")
+                row.alert = (getattr(cam, "b4w_pivot_z_min") 
+                        > getattr(cam, "b4w_pivot_z_max"))  
+                row.prop(cam, "b4w_pivot_z_min", text=_("MinZ"))
+                row.prop(cam, "b4w_pivot_z_max", text=_("MaxZ"))
+
+                row = col.row()
+                row.prop(cam, "b4w_use_panning", text=_("Use Panning Mode"))
 
 class B4W_DataSpeakerTypePanel(SpeakerPanel, Panel):
     bl_label = _("Speaker behavior")

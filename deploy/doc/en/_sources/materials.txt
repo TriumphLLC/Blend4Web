@@ -2,6 +2,38 @@
 Materials
 *********
 
+
+Table of Contents
+^^^^^^^^^^^^^^^^^
+
+* Materials
+
+  * Lighting Parameters
+
+  * Transparency
+
+    * Types
+
+    * Additional Settings
+
+  * Reflection
+
+    * Static Reflection
+
+    * Dynamic Reflection
+
+    * Fresnel effect for reflection
+
+  * Rendering Properties
+
+  * Engine Specific Parameters
+
+  * Halo Materials
+
+    * Activation
+
+    * Additional Settings
+
 Materials describe the object surface's response to light and also
 contain information about its transparency, reflectivity, physical
 parameters and so on.
@@ -54,7 +86,7 @@ Lighting Parameters
    When enabled, a material doesn't react to light. Disabled by
    default.
 
-*Shading > Double-sided Lighting*
+*Shading > Double-Sided Lighting*
    Enables the double-sided lighting mode. This option is useful for
    non-transparent objects with a single-layered mesh.
 
@@ -105,7 +137,7 @@ The engine supports the following transparency implementation types
 [image]
 
 
-Additional settings
+Additional Settings
 -------------------
 
 *Transparency > Show Transparency*
@@ -132,7 +164,7 @@ Reflection
 [image]
 
 
-Static reflection
+Static Reflection
 -----------------
 
 A surface reflects the same image no matter how the environment
@@ -141,7 +173,7 @@ changes. For activation simply use the mirror map.
 See also: Fresnel effect for reflection
 
 
-Dynamic reflection
+Dynamic Reflection
 ------------------
 
 A surface reflects the selected objects in their current position. The
@@ -261,7 +293,7 @@ Rendering Properties
 
    See also: Water
 
-*Material > Rendering Options > Render above all*
+*Material > Rendering Options > Render Above All*
    Material is rendered on top of all scene objects. Transparency type
    with a gradient is requred ("Add", "Alpha Blend" or "Alpha Sort").
 
@@ -293,7 +325,7 @@ Engine Specific Parameters
 *Material > Water*
    Special material for water rendering.
 
-*Material > Terrain dynamic grass*
+*Material > Terrain Dynamic Grass*
    Material is used for grass rendering.
 
 *Material > Collision*
@@ -322,7 +354,7 @@ recommended to select the transparency type with a gradient ("Add",
 [image]
 
 
-Additional settings
+Additional Settings
 -------------------
 
 *Halo > Alpha*

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Спецэффекты" href="postprocessing_effects.html"/>
         <link rel="prev" title="Логические ноды" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -100,11 +102,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Освещение, тени и фон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Типы затенения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-2">Редактор нормалей</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Основные особенности редактора нормалей:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Интерфейс редактора вертексных нормалей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Основные особенности редактора нормалей:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Интерфейс редактора вертексных нормалей</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#activate">Activate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#show-normals">Show Normals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Вращение</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Вращение</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#split-normals">Split Normals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#average-split">Average Split</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#restore">Restore</a></li>
@@ -114,21 +116,21 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-3">Освещение от источников света</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Типы источников света</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Настройка источников света</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Типы источников света</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Настройка источников света</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#environment-lighting">Освещение от окружающей среды</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Настройка</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Использование карты окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Настройка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Использование карты окружения</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#shadows">Тени</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Настройка</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Стандартная модель</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id18">Каскады теней</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Настройка</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Стандартная модель</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Каскады теней</a></li>
 </ul>
 </li>
 </ul>
@@ -170,6 +172,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -188,9 +194,49 @@
            <div itemprop="articleBody">
             
   <span class="target" id="lighting"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Освещение, тени и фон<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id21">Освещение, тени и фон</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id21">Освещение, тени и фон</a><ul>
+<li><a class="reference internal" href="#index-1" id="id22">Типы затенения</a></li>
+<li><a class="reference internal" href="#index-2" id="id23">Редактор нормалей</a><ul>
+<li><a class="reference internal" href="#id5" id="id24">Основные особенности редактора нормалей:</a></li>
+<li><a class="reference internal" href="#id6" id="id25">Интерфейс редактора вертексных нормалей</a></li>
+<li><a class="reference internal" href="#activate" id="id26">Activate</a></li>
+<li><a class="reference internal" href="#show-normals" id="id27">Show Normals</a></li>
+<li><a class="reference internal" href="#id7" id="id28">Вращение</a></li>
+<li><a class="reference internal" href="#split-normals" id="id29">Split Normals</a></li>
+<li><a class="reference internal" href="#average-split" id="id30">Average Split</a></li>
+<li><a class="reference internal" href="#restore" id="id31">Restore</a></li>
+<li><a class="reference internal" href="#tree-foliage-face" id="id32">Tree, Foliage и Face</a></li>
+<li><a class="reference internal" href="#copy-paste" id="id33">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh" id="id34">Copy From Mesh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-3" id="id35">Освещение от источников света</a><ul>
+<li><a class="reference internal" href="#id9" id="id36">Типы источников света</a></li>
+<li><a class="reference internal" href="#id10" id="id37">Настройка источников света</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-lighting" id="id38">Освещение от окружающей среды</a><ul>
+<li><a class="reference internal" href="#id12" id="id39">Активация</a></li>
+<li><a class="reference internal" href="#id13" id="id40">Настройка</a></li>
+<li><a class="reference internal" href="#id14" id="id41">Использование карты окружения</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shadows" id="id42">Тени</a><ul>
+<li><a class="reference internal" href="#id16" id="id43">Активация</a></li>
+<li><a class="reference internal" href="#id17" id="id44">Настройка</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4" id="id45">Цвет фона</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="index-1">
-<span id="id2"></span><h2>Типы затенения<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id22">Типы затенения</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Результат расчета освещения (затенения) зависит от направления векторов нормалей. Поддерживаются стандартные типы затенения, использующиеся в Blender, <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></code> (используются нормали граней) и <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> (используются интерполированные нормали вершин), а также их комбинации.</p>
 <a class="reference internal image-reference" href="_images/flat_smooth_shading.png"><img alt="_images/flat_smooth_shading.png" class="align-center" src="_images/flat_smooth_shading.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -207,7 +253,7 @@
 </ol>
 <span class="target" id="normals-editor"></span></div>
 <div class="section" id="index-2">
-<span id="id3"></span><h2>Редактор нормалей<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id23">Редактор нормалей</a><a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Редактирование нормалей - достаточно простой и эффективный способ изменить собственное затенение трехмерной модели, не усложняя ее геометрию.</p>
 <p>С помощью редактора нормалей, в некоторых случаях, можно достичь результатов, аналогичных применению <a class="reference internal" href="textures.html#normal-map"><span>карт нормалей</span></a>. При этом метод редактирования нормалей является более предпочтительным с точки зрения потребления вычислительных ресурсов и видео-памяти.</p>
 <p>Пример работы редактора нормалей:</p>
@@ -227,8 +273,8 @@
 <div><a class="reference internal image-reference" href="_images/vnt_img04.jpg"><img alt="_images/vnt_img04.jpg" class="align-center" src="_images/vnt_img04.jpg" style="width: 100%;" /></a>
 </div></blockquote>
 <p>Слева - очки с обычным затенением, справа - затенение геометрии с редактированными нормалями.</p>
-<div class="section" id="id4">
-<h3>Основные особенности редактора нормалей:<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id24">Основные особенности редактора нормалей:</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
 <li>для хранилища массива данных с направлениями вертексных нормалей используется &#8220;родной&#8221; блок данных Blender (появился в версии 2.74);</li>
 <li>редактирование нормалей и отображение затенения теперь происходит в режиме редактирования (<code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>);</li>
@@ -237,28 +283,28 @@
 <li>редактированные нормали экспортируются автоматически.</li>
 </ol>
 </div>
-<div class="section" id="id5">
-<h3>Интерфейс редактора вертексных нормалей<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id25">Интерфейс редактора вертексных нормалей</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Интерфейс редактора нормалей располагается на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Normal</span> <span class="pre">Editor</span></code>. Перед началом работы редактора для объекта необходимо включить режим затенения <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> и нажать кнопку <code class="docutils literal"><span class="pre">Activate</span></code> на панели редактора нормалей или выставить галочку <code class="docutils literal"><span class="pre">Auto</span> <span class="pre">Smooth</span></code> в настройках меша.</p>
 <a class="reference internal image-reference" href="_images/vnt_img05.jpg"><img alt="_images/vnt_img05.jpg" class="align-center" src="_images/vnt_img05.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="activate">
-<h3>Activate<a class="headerlink" href="#activate" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Activate</a><a class="headerlink" href="#activate" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Новая кнопка <code class="docutils literal"><span class="pre">Activate</span></code> включает режим редактирования вертекных нормалей.</p>
 <p><em>Использование</em></p>
 <p>Достаточно в режиме <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> нажать кнопу <code class="docutils literal"><span class="pre">Activate</span></code>, и можно приступать к редактированию вертексных нормалей. Пока она остаётся в активном режиме, затенение объекта и его экспорт будут осуществляться с учетом редактированных вертексных нормалей. Другими словами, после внесения изменений, для их отображения во Viewport&#8217;е Blender и в движке Blend4Web кнопка должна быть оставлена активной.</p>
 </div>
 <div class="section" id="show-normals">
-<h3>Show Normals<a class="headerlink" href="#show-normals" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">Show Normals</a><a class="headerlink" href="#show-normals" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Для удобства в панель продублирована оригинальная кнопка Blender, включающая отображение маркеров вертексных нормалей во Viewport&#8217;е, а так же настройка их длины.</p>
 <p><em>Использование</em></p>
 <p>Достаточно просто включить кнопку <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Normals</span></code> прямо на панели редактора вертексных нормалей Blend4Web или в правой панели Blender в разделе <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">Display</span></code> и настроить комфортную длину маркера в поле <code class="docutils literal"><span class="pre">Size</span></code>.</p>
 <a class="reference internal image-reference" href="_images/vnt_img07.gif"><img alt="_images/vnt_img07.gif" class="align-center" src="_images/vnt_img07.gif" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id6">
-<h3>Вращение<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id28">Вращение</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>При помощи этого инструментария можно вращать нормаль каждого вертекса индивидуально.</p>
 <p>Кнопка <code class="docutils literal"><span class="pre">Rotate</span></code> (горячие клавиши <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code>) позволяет вращать вертексные нормали в привычном для пользователя Blender режиме.</p>
@@ -268,7 +314,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img08.gif"><img alt="_images/vnt_img08.gif" class="align-center" src="_images/vnt_img08.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="split-normals">
-<h3>Split Normals<a class="headerlink" href="#split-normals" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">Split Normals</a><a class="headerlink" href="#split-normals" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Режим <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> позволяет редактировать вертексные нормали индивидуально для каждой грани (<code class="docutils literal"><span class="pre">Face</span></code> в Blender), образующей редактируемую вершину (<code class="docutils literal"><span class="pre">Vertex</span></code> в Blender). Переключатель вертексных индексов позволяет перемещаться между нормалями разделенного вертекса.</p>
 <p>Использование</p>
@@ -276,7 +322,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img09.gif"><img alt="_images/vnt_img09.gif" class="align-center" src="_images/vnt_img09.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="average-split">
-<h3>Average Split<a class="headerlink" href="#average-split" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">Average Split</a><a class="headerlink" href="#average-split" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p><code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> усредняет направление вертексной нормали, исходя из направлений нормалей, разделенных функцией <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code>.</p>
 <p><em>Использование</em></p>
@@ -284,7 +330,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img10.gif"><img alt="_images/vnt_img10.gif" class="align-center" src="_images/vnt_img10.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="restore">
-<h3>Restore<a class="headerlink" href="#restore" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id31">Restore</a><a class="headerlink" href="#restore" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Кнопка <code class="docutils literal"><span class="pre">Restore</span></code> восстанавливает исходное направление нормалей выделенных вертексов.</p>
 <p><em>Использование</em></p>
@@ -292,7 +338,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img11.gif"><img alt="_images/vnt_img11.gif" class="align-center" src="_images/vnt_img11.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="tree-foliage-face">
-<h3>Tree, Foliage и Face<a class="headerlink" href="#tree-foliage-face" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id32">Tree, Foliage и Face</a><a class="headerlink" href="#tree-foliage-face" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Функция <code class="docutils literal"><span class="pre">Tree</span></code> направляет нормали выделенных вертексов в сторону от 3D-курсора. <code class="docutils literal"><span class="pre">Foliage</span></code> направляет нормали вертекcов строго вверх по глобальной оси <code class="docutils literal"><span class="pre">Z</span></code>. <code class="docutils literal"><span class="pre">Face</span></code> направляет нормали вертексов выделенного полигона параллельно нормали этого полигона.</p>
 <p>Использование</p>
@@ -302,7 +348,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img12.gif"><img alt="_images/vnt_img12.gif" class="align-center" src="_images/vnt_img12.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="copy-paste">
-<h3>Copy/Paste<a class="headerlink" href="#copy-paste" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id33">Copy/Paste</a><a class="headerlink" href="#copy-paste" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Копирует направление нормали с одного вертекса на другой.</p>
 <p><em>Использование</em></p>
@@ -310,7 +356,7 @@
 <a class="reference internal image-reference" href="_images/vnt_img13.gif"><img alt="_images/vnt_img13.gif" class="align-center" src="_images/vnt_img13.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="copy-from-mesh">
-<h3>Copy From Mesh<a class="headerlink" href="#copy-from-mesh" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id34">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Описание</em></p>
 <p>Эта функция позволяет копировать направление вертексных нормалей с одной геометрии на другую. Существует два режима копирования, <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> и <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
 <p>В режиме <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> копируются направления нормалей с вертекса одной модели на вертекс другой, если у них одинаковые координаты; прочие вертексы игнорируются. В режиме <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> копируются нормали с ближайших вертексов другой модели.</p>
@@ -320,10 +366,10 @@
 </div>
 </div>
 <div class="section" id="index-3">
-<span id="id7"></span><h2>Освещение от источников света<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id8"></span><h2><a class="toc-backref" href="#id35">Освещение от источников света</a><a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На сцене может быть несколько (но не менее одного) источников света разного типа.</p>
-<div class="section" id="id8">
-<h3>Типы источников света<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id36">Типы источников света</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поддерживаются источники света следующих типов:</p>
 <dl class="docutils">
 <dt><em>Point</em></dt>
@@ -336,8 +382,8 @@
 <dd>Полусфера. Свет распространяется из бесконечной полусферы, без затухания.</dd>
 </dl>
 </div>
-<div class="section" id="id9">
-<h3>Настройка источников света<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id37">Настройка источников света</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Производится во вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> при выборе объекта-лампы.</p>
 <a class="reference internal image-reference" href="_images/lighting_setup.jpg"><img alt="_images/lighting_setup.jpg" class="align-center" src="_images/lighting_setup.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -362,26 +408,26 @@
 <dd>Параметр смягчения края светового пятна. Применяется для источников света типа <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 0.15.</dd>
 <dt><em>Dynamic Intesity</em></dt>
 <dd>Источник света используется для расчета изменения времени суток. Применяется для источников света типа &#8220;Солнце&#8221;. По умолчанию отключено.</dd>
-<dt><em>Shadows &gt; Generate shadows</em></dt>
+<dt><em>Shadow &gt; Shadow</em></dt>
 <dd>Источник света используется для расчета падающих теней. Применяется в случае наличия нескольких источников света. По умолчанию отключено.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="environment-lighting">
-<span id="id10"></span><h2>Освещение от окружающей среды<a class="headerlink" href="#environment-lighting" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id11"></span><h2><a class="toc-backref" href="#id38">Освещение от окружающей среды</a><a class="headerlink" href="#environment-lighting" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Движок поддерживает 3 метода симуляции рассеянного освещения от окружающих объектов.</p>
 <ol class="arabic simple">
 <li>&#8220;Плоское&#8221; освещение белым цветом.</li>
 <li>Полусферическая модель освещения, в которой задается цвет горизонта и цвет зенита, в результате чего объекты заливаются градиентом между этими цветами в зависимости от направления нормалей.</li>
 <li>Освещение с помощью <a class="reference internal" href="textures.html#environment-map"><span>карты окружения</span></a> - т.н. методика image-based lighting.</li>
 </ol>
-<div class="section" id="id11">
-<h3>Активация<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id39">Активация</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Включить опцию <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> во вкладке <code class="docutils literal"><span class="pre">World</span></code>.</p>
 <a class="reference internal image-reference" href="_images/lighting_environment.jpg"><img alt="_images/lighting_environment.jpg" class="align-center" src="_images/lighting_environment.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id12">
-<h3>Настройка<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id40">Настройка</a><a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
 <dd>Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0.</dd>
@@ -391,8 +437,8 @@
 <dd>Если выбрана полусферическая модель рассеянного освещения <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>, цвет горизонта и цвет зенита задаются цветоподборщиками <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> (цвет горизонта) и <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> (цвет зенита). При выборе цвета рекомендуется активировать опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="id13">
-<h3>Использование карты окружения<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id14">
+<h3><a class="toc-backref" href="#id41">Использование карты окружения</a><a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для того, чтобы использовать карту окружения в целях реализации освещения от окружающей среды, необходимо:</p>
 <ol class="arabic simple">
 <li>Включить опцию <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> во вкладке <code class="docutils literal"><span class="pre">World</span></code>.</li>
@@ -408,13 +454,13 @@
 </div>
 </div>
 <div class="section" id="shadows">
-<span id="id14"></span><h2>Тени<a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id15"></span><h2><a class="toc-backref" href="#id42">Тени</a><a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Тени - один из важнейших элементов при рендеринге конечного изображения. Они предоставляют зрителю не только информацию о силуэте объектов, но и об их высоте и взаимном расположении, положении источника света и т.д.</p>
 <p>Платформой Blend4Web реализуются такие техники, как каскадные карты теней (CSM) и смягченные тени (PCF).</p>
-<p>Генерировать тени могут не более четырёх (или трёх, если включен SSAO) источников света одновременно. Если источников света больше (и у всех включён параметр Generate Shadows), будут видны тени только от четырёх из них.</p>
+<p>Генерировать тени могут не более четырёх (или трёх, если включен SSAO) источников света одновременно. Если источников света больше (и у всех включён параметр Shadow), будут видны тени только от четырёх из них.</p>
 <a class="reference internal image-reference" href="_images/lighting_multiple_shadows.png"><img alt="_images/lighting_multiple_shadows.png" class="align-center" src="_images/lighting_multiple_shadows.png" style="width: 100%;" /></a>
-<div class="section" id="id15">
-<h3>Активация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id43">Активация</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
 <li>На объектах, <strong>отбрасывающих</strong> тени, включить опцию <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Cast</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span></code>.</li>
 <li>На объектах, <strong>получающих</strong> тени, включить опцию <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Receive</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span></code>.</li>
@@ -429,11 +475,11 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="id16">
-<h3>Настройка<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id44">Настройка</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Направление</em></dt>
-<dd>В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">Shadows</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> при выборе объекта-лампы.</dd>
+<dd>В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию <code class="docutils literal"><span class="pre">Shadow</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> при выборе объекта-лампы.</dd>
 <dt><em>Цвет</em></dt>
 <dd>Цвет тени определяется настройками <a class="reference internal" href="#environment-lighting"><span>освещения от окружающей среды</span></a>.</dd>
 </dl>
@@ -460,7 +506,7 @@
 </div>
 <dl class="docutils">
 <dt><em>Enable CSM</em></dt>
-<dd>Включение каскадной модели теней; открывает доступ к расширенным настройкам. Отключено по умолчанию. Не работает, если опция <code class="docutils literal"><span class="pre">Generate</span> <span class="pre">Shadows</span></code> включена более чем для одного источника света. Для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code> поддерживается только один каскад теней.</dd>
+<dd>Включение каскадной модели теней; открывает доступ к расширенным настройкам. Отключено по умолчанию. Не работает, если опция <code class="docutils literal"><span class="pre">Shadow</span></code> включена более чем для одного источника света. Для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code> поддерживается только один каскад теней.</dd>
 </dl>
 <p>Эта опция позволяет выбрать один из следующих вариантов наложения теней:</p>
 <ul class="simple">
@@ -468,7 +514,7 @@
 <li>Каскады теней (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> включена).</li>
 </ul>
 <dl class="docutils">
-<dt><em>Blur radius</em></dt>
+<dt><em>Blur Radius</em></dt>
 <dd>Коэффициент размытия теней, позволяющий настроить cмягченные тени. Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/blur_radius.png"><img alt="_images/blur_radius.png" class="align-center" src="_images/blur_radius.png" style="width: 100%;" /></a>
@@ -476,12 +522,12 @@
 <div class="line"><br /></div>
 </div>
 <p>Смягченные тени могут повысить качество и реалистичность изображения. Они скрывают неизбежную при использовании основанных на изображениях техник зубчатость краев, особенно сильно проявляющуюся для карт теней низкого разрешения. Использование смягченных теней часто позволяет снизить разрешение без существенной потери качества.</p>
-<div class="section" id="id17">
-<h4>Стандартная модель<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id18">
+<h4>Стандартная модель<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Этот вариант больше подходит для маленьких сцен, состоящих из небольшого числа объектов. Благодаря оптимизации на таких сценах можно добиться более высокого качества теней по сравнению с каскадной моделью. Данный вариант проще и быстрее настроить, а использование всего лишь одной карты теней положительно сказывается на производительности.</p>
 </div>
-<div class="section" id="id18">
-<h4>Каскады теней<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id19">
+<h4>Каскады теней<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Данные настройки поддерживаются только для источников освещения типа <code class="docutils literal"><span class="pre">Sun</span></code>. Для других источников каскады автоматически отключаются.</p>
@@ -535,7 +581,7 @@
 </div>
 </div>
 <div class="section" id="index-4">
-<span id="id19"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id20"></span><h2><a class="toc-backref" href="#id45">Цвет фона</a><a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Цвет фона можно задать несколькими способами:</p>
 <ol class="arabic simple">
 <li>Установить параметры <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> и <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender, предварительно выставив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>.</li>
@@ -602,8 +648,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -625,7 +671,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -649,6 +695,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

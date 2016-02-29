@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Физика &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Физика &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Разработчикам приложений" href="developers.html"/>
         <link rel="prev" title="Звук" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,11 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -108,23 +110,23 @@
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Физика</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Подготовка к использованию</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Статический тип физики</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Динамический тип физики</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Подготовка к использованию</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Статический тип физики</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Динамический тип физики</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constraints">Ограничители (Constraints)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Колесные транспортные средства</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Параметры настройки для шасси</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Колесные транспортные средства</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Параметры настройки для шасси</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Плавающие объекты</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Параметры настройки плавающего объекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Плавающие объекты</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Параметры настройки плавающего объекта</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">Плавающие транспортные средства</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Параметры настройки плавающего транспортного средства</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">Плавающие транспортные средства</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Параметры настройки плавающего транспортного средства</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">Особенности использования в приложениях</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Особенности использования в приложениях</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
@@ -151,6 +153,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -169,17 +175,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="physics">
-<span id="id1"></span><h1>Физика<a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="id2">
-<h2>Подготовка к использованию<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id1"></span><h1><a class="toc-backref" href="#id13">Физика</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#physics" id="id13">Физика</a><ul>
+<li><a class="reference internal" href="#id3" id="id14">Подготовка к использованию</a></li>
+<li><a class="reference internal" href="#id4" id="id15">Статический тип физики</a></li>
+<li><a class="reference internal" href="#id5" id="id16">Динамический тип физики</a></li>
+<li><a class="reference internal" href="#constraints" id="id17">Ограничители (Constraints)</a></li>
+<li><a class="reference internal" href="#id6" id="id18">Колесные транспортные средства</a><ul>
+<li><a class="reference internal" href="#id7" id="id19">Параметры настройки для шасси</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8" id="id20">Плавающие объекты</a><ul>
+<li><a class="reference internal" href="#id9" id="id21">Параметры настройки плавающего объекта</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id22">Плавающие транспортные средства</a><ul>
+<li><a class="reference internal" href="#id11" id="id23">Параметры настройки плавающего транспортного средства</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12" id="id24">Особенности использования в приложениях</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id14">Подготовка к использованию</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для задействования физики на сцене необходимо установить флаг <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> в панели <code class="docutils literal"><span class="pre">Physics</span></code> на сцене.</p>
 <a class="reference internal image-reference" href="_images/scene_interface_phys_enable.png"><img alt="_images/scene_interface_phys_enable.png" class="align-center" src="_images/scene_interface_phys_enable.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>Статический тип физики<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id15">Статический тип физики</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Может использоваться как ограничитель движения других объектов, например, для определения столкновений с ландшафтом, стенами и т.д. В настройках физики такого объекта для опции <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> должно быть выбрано значение <code class="docutils literal"><span class="pre">Static</span></code> (значение по умолчанию).</p>
 <a class="reference internal image-reference" href="_images/physics_panel_static.png"><img alt="_images/physics_panel_static.png" class="align-center" src="_images/physics_panel_static.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -201,8 +232,8 @@
 <p>Поле <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Group</span></code> отвечает за физическую группу, к которой относится материал.
 Поле <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Mask</span></code> определяет все физические группы, с которыми будет взаимодействовать данный материал.</p>
 </div>
-<div class="section" id="id4">
-<h2>Динамический тип физики<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id16">Динамический тип физики</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Предназначен для симуляции движения жесткого тела.</p>
 <a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="_images/physics_dynamic.jpg" class="align-center" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -220,7 +251,7 @@
 <p>Для объекта-камеры должна использоваться настройка <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> = <code class="docutils literal"><span class="pre">Dynamic</span></code>, должен быть установлен флаг <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code>.</p>
 </div>
 <div class="section" id="constraints">
-<h2>Ограничители (Constraints)<a class="headerlink" href="#constraints" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Ограничители (Constraints)</a><a class="headerlink" href="#constraints" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физические ограничители используются для уменьшения числа степеней свободы объектов.</p>
 <a class="reference internal image-reference" href="_images/physics_constraints.jpg"><img alt="_images/physics_constraints.jpg" class="align-center" src="_images/physics_constraints.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -232,8 +263,8 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Колесные транспортные средства<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id18">Колесные транспортные средства</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.</p>
 <a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.jpg"><img alt="_images/physics_vehicle_wheeled.jpg" class="align-center" src="_images/physics_vehicle_wheeled.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -241,8 +272,8 @@
 </div>
 <p>На всех 6 объектах нужно выставить <code class="docutils literal"><span class="pre">Part</span></code>, указать один и тот же идентификатор в поле <code class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">Name</span></code>, выбрать соответствующий тип объекта - <code class="docutils literal"><span class="pre">Chassis</span></code>, <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code>, <code class="docutils literal"><span class="pre">Back</span> <span class="pre">Right</span> <span class="pre">Wheel</span></code> и т.д. Для колес имеется также настройка компенсирующего хода подвески <code class="docutils literal"><span class="pre">Suspension</span> <span class="pre">Rest</span> <span class="pre">Length</span></code>.</p>
 <p>Для шасси необходимо указать реалистичную массу (т.к. значение по умолчанию 1 кг). Для этого перейти в настройки физики, для опции <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> выбрать значение <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>, и выставить нужное значение (например, 1000 кг) в поле <code class="docutils literal"><span class="pre">Mass</span></code>.</p>
-<div class="section" id="id6">
-<h3>Параметры настройки для шасси<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id19">Параметры настройки для шасси</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd>Максимальная движущая сила транспортного средства.</dd>
@@ -270,16 +301,16 @@
 <p>Настройка трения и эластичности физического материала дорожного покрытия не влияют на поведение ТС.</p>
 </div>
 </div>
-<div class="section" id="id7">
-<h2>Плавающие объекты<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id20">Плавающие объекты</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_floater.jpg"><img alt="_images/physics_floater.jpg" class="align-center" src="_images/physics_floater.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Для того, чтобы объект мог плавать на поверхности воды (объекта с материалом <code class="docutils literal"><span class="pre">Water</span></code>), необходимо активировать панель <code class="docutils literal"><span class="pre">Floater</span></code>. Существует два типа частей плавающего объекта: <code class="docutils literal"><span class="pre">Main</span> <span class="pre">Body</span></code> - непосредственно сам плавающий объект и <code class="docutils literal"><span class="pre">Bob</span></code> - вспомогательный объект-поплавок, на который будет действовать выталкивающая из воды сила. Плавающий объект может иметь неограниченное количество объектов типа <code class="docutils literal"><span class="pre">Bob</span></code>. В качестве поплавков могут использоваться как меши, так и объекты типа <code class="docutils literal"><span class="pre">Empty</span></code>.</p>
 <p>Всем объектам, входящим в состав одного плавающего объекта необходимо выставить одинаковое имя в поле <code class="docutils literal"><span class="pre">Floater</span> <span class="pre">Name</span></code></p>
-<div class="section" id="id8">
-<h3>Параметры настройки плавающего объекта<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id21">Параметры настройки плавающего объекта</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Floating Factor</em></dt>
 <dd>Коэффициент выталкивания объекта из воды.</dd>
@@ -290,15 +321,15 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>Плавающие транспортные средства<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id22">Плавающие транспортные средства</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_boat.jpg"><img alt="_images/physics_boat.jpg" class="align-center" src="_images/physics_boat.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Плавающие транспортные средства используют часть параметров из настроек колесных транспортных средств <code class="docutils literal"><span class="pre">Vehicle</span></code> и все настройки как у объектов типа <code class="docutils literal"><span class="pre">Floater</span></code>. На основном объекте необходимо выставить <cite>Part`</cite>, типа <code class="docutils literal"><span class="pre">Hull</span></code>. Так же как и плавающий объект плавающее транспортное средство требует наличия вспомогательных объектов типа <code class="docutils literal"><span class="pre">Bob</span></code>.</p>
-<div class="section" id="id10">
-<h3>Параметры настройки плавающего транспортного средства<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id23">Параметры настройки плавающего транспортного средства</a><a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd>Максимальная движущая сила транспортного средства.</dd>
@@ -313,8 +344,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="id11">
-<h2>Особенности использования в приложениях<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id12">
+<h2><a class="toc-backref" href="#id24">Особенности использования в приложениях</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физическая подсистема реализована в модуле <strong>uranium.js</strong> и загружается отдельно от основного кода движка. Модуль <strong>uranium.js</strong> представляет собой модификацию физического движка <a class="reference external" href="http://bulletphysics.org/">Bullet</a>, портированную для работы в браузерах. Быстрое подключение физической подсистемы можно осуществить, разместив файлы <strong>uranium.js</strong> и <strong>uranium.js.mem</strong> в той же директории, где расположен исходный код движка, используемого в приложении.</p>
 <p>В противном случае необходимо указать путь к модулю, используя конструкцию вида:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -322,7 +353,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">При разработке приложения <a class="reference internal" href="developers.html#project-management"><span>в составе SDK</span></a> путь к физическому движку определяется автоматически.</p>
+<p class="last">При разработке приложения <a class="reference internal" href="project_manager.html#project-management"><span>в составе SDK</span></a> путь к физическому движку определяется автоматически.</p>
 </div>
 <p>Если использование физики не требуется, рекомендуется отключить флаг <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> в панели <code class="docutils literal"><span class="pre">Physics</span></code> на вкладкe сцены в Blender&#8217;е. Также можно принудительно отключить загрузку модуля <strong>uranium.js</strong>, если до начала инициализации движка вызывать следующий метод:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
@@ -350,8 +381,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -373,7 +404,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -397,6 +428,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

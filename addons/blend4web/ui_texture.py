@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Triumph LLC
+# Copyright (C) 2014-2016 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
             col = split.column()
             col.label(text=_("Coordinates:"))
             col = split.column()
-            col.prop(tex, "texture_coords", text=_(""))
+            col.prop(tex, "texture_coords", text="")
             texcoord = tex.texture_coords
 
             if texcoord == 'ORCO':
@@ -175,16 +175,16 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
                 if ob and ob.type == 'MESH':
                     split = layout.split(percentage=0.3)
                     split.label(text=_("Mesh:"))
-                    split.prop(ob.data, "texco_mesh", text=_(""))
+                    split.prop(ob.data, "texco_mesh", text="")
                 """
             elif texcoord == 'UV':
                 split = layout.split(percentage=0.3)
                 split.label(text=_("Map:"))
                 ob = context.object
                 if ob and ob.type == 'MESH':
-                    split.prop_search(tex, "uv_layer", ob.data, "uv_textures", text=_(""))
+                    split.prop_search(tex, "uv_layer", ob.data, "uv_textures", text="")
                 else:
-                    split.prop(tex, "uv_layer", text=_(""))
+                    split.prop(tex, "uv_layer", text="")
 
             elif texcoord not in {'GLOBAL','NORMAL','STRAND','VIEW'}:
                 layout.label(text=_("This coordinates type is not supported."), icon="ERROR")
@@ -204,7 +204,7 @@ class B4W_TEXTURE_PT_envmap(TextureTypePanel, Panel):
 
         row = layout.row()
         row.prop(env, "source", expand=True)
-        row.menu("TEXTURE_MT_envmap_specials", icon='DOWNARROW_HLT', text=_(""))
+        row.menu("TEXTURE_MT_envmap_specials", icon='DOWNARROW_HLT', text="")
 
         if env.source == 'IMAGE_FILE':
             layout.template_ID(tex, "image", open="image.open")
@@ -330,7 +330,7 @@ class B4W_TextureWaterFoam(TextureTypePanel, Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw_header(self, context):
-        self.layout.prop(context.texture, "b4w_water_foam", text=_(""))
+        self.layout.prop(context.texture, "b4w_water_foam", text="")
 
     def draw(self, context):
         tex = context.texture
@@ -367,7 +367,7 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
 
         def factor_but(layout, toggle, factor, name, active=True):
             row = layout.row(align=True)
-            row.prop(tex, toggle, text=_(""))
+            row.prop(tex, toggle, text="")
             row.active = active
             sub = row.row(align=True)
             sub.active = getattr(tex, toggle) and active
@@ -432,7 +432,7 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
             col.prop(tex, "blend_type", text=_("Blend"))
             col.prop(tex, "use_rgb_to_intensity")
             # color is used on gray-scale textures even when use_rgb_to_intensity is disabled.
-            col.prop(tex, "color", text=_(""))
+            col.prop(tex, "color", text="")
 
             col = split.column()
             col.prop(tex, "invert", text=_("Negative"))
@@ -474,7 +474,7 @@ class B4W_ParallaxPanel(TextureTypePanel, Panel):
     tex_type = 'IMAGE'
 
     def draw_header(self, context):
-        self.layout.prop(context.texture, "b4w_use_map_parallax", text=_(""))
+        self.layout.prop(context.texture, "b4w_use_map_parallax", text="")
 
     def draw(self, context):
         tex = context.texture

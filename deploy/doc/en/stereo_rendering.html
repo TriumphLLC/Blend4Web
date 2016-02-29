@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stereo rendering &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Stereo Rendering &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Textures" href="textures.html"/>
         <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,27 +88,29 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Stereo rendering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Activation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Additional settings</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Stereo Rendering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
@@ -136,12 +138,16 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Stereo rendering</li>
+    <li>Stereo Rendering</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -154,7 +160,17 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stereo">
-<span id="index-0"></span><span id="id1"></span><h1>Stereo rendering<a class="headerlink" href="#stereo" title="Permalink to this headline">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id7">Stereo Rendering</a><a class="headerlink" href="#stereo" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">TAble of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#stereo" id="id7">Stereo Rendering</a><ul>
+<li><a class="reference internal" href="#id3" id="id8">Activation</a></li>
+<li><a class="reference internal" href="#id6" id="id9">Additional Settings</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
 <p>Blend4Web supports two techniques of the stereo image rendering - anagliph image and the HMD (head-mounted display).</p>
 <p>Anaglyph:</p>
@@ -162,8 +178,8 @@
 <p>HMD:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD is an experimental feature, for now it works only with the <code class="docutils literal"><span class="pre">Eye</span></code> type cameras.</p>
-<div class="section" id="id2">
-<h2>Activation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id8">Activation</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>To use HMD stereo rendering, you need to install Oculus&#8217;s <a class="reference external" href="https://developer.oculus.com/downloads/">runtime utility</a>. Windows and MacOS versions can be found on the Oculus web site in binary format, while Linux version should be compiled from the source code.</p>
 <p>For now, the HMD is supported by the <a class="reference external" href="http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html">Chromium experimental builds</a> and in the <a class="reference external" href="https://nightly.mozilla.org/">Firefox nightly builds</a>.</p>
 <p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Chromium settings.</a></p>
@@ -172,8 +188,8 @@
 <a class="reference internal image-reference" href="_images/postprocessing_effects_hmd.png"><img alt="_images/postprocessing_effects_hmd.png" class="align-center" src="_images/postprocessing_effects_hmd.png" style="width: 100%;" /></a>
 <p>For stereo rendering to work correctly, switching to the full screen mode is recommended.</p>
 </div>
-<div class="section" id="id5">
-<h2>Additional settings<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id9">Additional Settings</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>None.</p>
 </div>
 </div>
@@ -197,8 +213,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -220,7 +236,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -243,6 +259,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

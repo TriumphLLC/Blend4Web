@@ -5,18 +5,14 @@ if (b4w.module_check("game_main"))
 b4w.register("game_main", function(exports, require) {
 
 var m_app   = require("app");
-var m_main  = require("main");
 var m_ctl   = require("controls");
-var m_cons  = require("constraints");
 var m_scs   = require("scenes");
-var m_cfg   = require("config");
 var m_print = require("print");
 var m_sfx   = require("sfx");
-var m_trans = require("transform");
-var m_phy   = require("physics");
-
-var m_vec3  = require("vec3");
+var m_cont  = require("container");
 var m_quat  = require("quat");
+var m_phy   = require("physics");
+var m_trans = require("transform");
 
 var m_conf = require("game_config");
 var m_char = require("character");
@@ -30,8 +26,6 @@ var m_env = require("environment");
 
 var _level_conf = null; // specified during initialization
 
-var _char_wrapper = null;
-
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
 var _vec3_tmp_3 = new Float32Array(3);
@@ -39,26 +33,88 @@ var _vec3_tmp_4 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
 
-exports.level_load_cb = function(data_id, level_name, preloader_cb, intro_load_cb) {
-
-    _level_conf = require(level_name + "_config");
-    m_char.init_wrapper(_level_conf, level_name)
+exports.level_load_cb = function(data_id, level_name, preloader_cb,
+                                 intro_load_cb, load_level) {
 
     var elapsed_sensor = m_ctl.create_elapsed_sensor();
 
-    m_bonuses.init(elapsed_sensor, _level_conf);
-    m_enemies.init(elapsed_sensor, _level_conf);
-    m_obelisks.init(elapsed_sensor, _level_conf);
-    m_gems.init(_level_conf);
+    if (level_name != "under_construction") {
 
-    m_env.init(elapsed_sensor, _level_conf);
+        if (level_name == "level_01" || level_name == "level_02")
+            _level_conf = require(level_name + "_config");
 
-    setup_music();
+        if (level_name != "level_02") {
+            var sword_light = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, m_conf.CHAR_LIGHT);
+            m_scs.hide_object(sword_light);
+        }
 
-    m_char.setup_controls(elapsed_sensor);
-    setup_camera(elapsed_sensor);
+        if (level_name == "training") {
+            setup_physics_constraints(); 
+        }
+    
+        m_char.init_wrapper(_level_conf, level_name)
+        m_char.setup_controls(elapsed_sensor);
 
-    m_interface.init(cleanup_game, elapsed_sensor, intro_load_cb, preloader_cb);
+        if (_level_conf) {
+            m_bonuses.init(elapsed_sensor, _level_conf);
+            m_enemies.init(elapsed_sensor, _level_conf);
+            m_gems.init(_level_conf);
+            m_env.init(elapsed_sensor, _level_conf);
+            m_obelisks.init(elapsed_sensor, _level_conf);
+            setup_music();
+        }
+    } else {
+        m_app.enable_camera_controls();
+    }
+
+    setTimeout(function(){
+            var canvas_cont = m_cont.get_container();
+            canvas_cont.style.opacity = 1;
+        }, 1000);
+
+    m_interface.init(cleanup_game, elapsed_sensor, intro_load_cb, preloader_cb,
+                     m_char.pointerlock_cb, level_name, load_level);
+}
+
+function setup_physics_constraints() {
+    var dummy_body = m_scs.get_object_by_dupli_name_list(["training_scene",
+                                                          "training_dummy",
+                                                          "training_dummy"]);
+    var ground = m_scs.get_object_by_dupli_name_list(["training_scene",
+                                                      "Circle"]);
+
+    var limits = {};
+    limits["use_limit_x"] = true;
+    limits["use_limit_y"] = true;
+    limits["use_limit_z"] = true;
+
+    limits["use_angular_limit_x"] = true;
+    limits["use_angular_limit_y"] = true;
+    limits["use_angular_limit_z"] = false;
+
+    limits["limit_max_x"] = 0;
+    limits["limit_min_x"] = 0;
+    limits["limit_max_y"] = 0;
+    limits["limit_min_y"] = 0;
+    limits["limit_max_z"] = 0;
+    limits["limit_min_z"] = 0;
+
+    limits["limit_angle_max_x"] = 0.5;
+    limits["limit_angle_min_x"] = -0.5;
+    limits["limit_angle_max_y"] = 0.5;
+    limits["limit_angle_min_y"] = -0.5;
+    limits["limit_angle_max_z"] = 0.5;
+    limits["limit_angle_min_z"] = -0.5;
+
+    var trans_a = [0,-1.05, 0];
+    var quat_a = m_quat.create();
+
+    var trans_b = [-3.5, 0.1, -1.6];
+    var quat_b = m_quat.create();
+
+    m_phy.apply_constraint("GENERIC_6_DOF_SPRING", dummy_body, trans_a, quat_a,
+            ground, trans_b, quat_b, limits, [0, 0, 0, 200, 200, 200],
+                                             [2, 2, 2, 0.01, 0.01, 0.01]);
 }
 
 function cleanup_game(elapsed_sensor) {
@@ -66,11 +122,13 @@ function cleanup_game(elapsed_sensor) {
     m_ctl.remove_sensor_manifold(null, "PLAYLIST");
 
     m_char.reset();
-    m_gems.reset();
-    m_bonuses.reset();
-    m_enemies.reset();
-    m_obelisks.reset();
-    m_env.reset();
+    if (_level_conf) {
+        m_gems.reset();
+        m_bonuses.reset();
+        m_enemies.reset();
+        m_obelisks.reset();
+        m_env.reset(elapsed_sensor);
+    }
 
     m_char.setup_controls(elapsed_sensor);
 
@@ -79,33 +137,9 @@ function cleanup_game(elapsed_sensor) {
     setup_music();
 }
 
-function setup_camera(elapsed_sensor) {
-    var camera = m_scs.get_active_camera();
-    var target = m_scs.get_object_by_dupli_name("character", "camera_target");
-
-    var cam_cb = function(obj, id, pulse){
-        m_cons.remove(camera);
-        if (pulse == 1)
-            m_cons.append_semi_soft_cam(camera, target, [0, 12, -9], m_conf.CAM_SOFTNESS);
-        else
-            m_cons.append_semi_soft_cam(camera, target, m_conf.CAM_OFFSET, m_conf.CAM_SOFTNESS);
-    }
-
-    m_cons.append_semi_soft_cam(camera, target, m_conf.CAM_OFFSET, m_conf.CAM_SOFTNESS);
-
-    var is_bin_value = true;
-    var calc_pos_norm = true;
-    var ign_src_rot = false;
-
-    var wall_ray = m_ctl.create_ray_sensor(target, m_conf.CAM_OFFSET, [0, 0, 0],
-                      "VISUAL_BLOCKER", is_bin_value, calc_pos_norm, ign_src_rot);
-    m_ctl.create_sensor_manifold(target, "CAM_ADJUSTMENT", m_ctl.CT_TRIGGER,
-            [wall_ray], null, cam_cb);
-}
-
 function setup_music() {
 
-    if (!_level_conf.MUSIC_SPEAKERS)
+    if (!_level_conf || !_level_conf.MUSIC_SPEAKERS)
         return;
 
     var intro_spk = m_scs.get_object_by_dupli_name("enviroment",

@@ -12,79 +12,21 @@ Table of Content
 
   * Control Flow
 
-    * Entry Point
-
-    * Switch Select
-
-    * Delay
-
-    * Conditional Jump
-
-    * Select (Deprecated)
-
-    * Select & Play Timeline (Deprecated)
-
-    * Select & Play Animation (Deprecated)
-
   * Animation
-
-    * Play Timeline and Stop Timeline
-
-    * Play Animation
-
-    * Stop Animation
 
   * Camera
 
-    * Move Camera
-
   * Object
 
-    * Show Object
-
-    * Hide Object
-
-    * Transform Object
-
-    * Move To
-
-    * Apply Shape Key
-
-    * Outline
-
-    * Set Shader Node Param
-
-    * Inherit Material
-
-  * Math
-
-    * Variable Store
-
-    * Math Operation
-
-    * String Operation
+  * Operations
 
   * Sound
 
-    * Play Sound
-
-    * Stop Sound
-
-  * Web
-
-    * Send Request
-
-    * Page Param
-
-    * Page Redirect
+  * Network
 
   * Debug
 
-    * Console Print
-
   * Layout
-
-    * Reroute
 
   * Debugging
 
@@ -838,14 +780,14 @@ Internal parameters
    The material that will be replaced by the inherited one.
 
 
-Math
-====
+Operations
+==========
 
 
 Variable Store
 --------------
 
-Save a numeric value in a variable.
+Saves numerical or string value to a variable.
 
 [image]
 
@@ -867,18 +809,24 @@ Output parameters
 Internal parameters
 ~~~~~~~~~~~~~~~~~~~
 
-*Var. n.*
+*Var. name.*
    Name of the variable. Can be selected from the list of eight
    registers or specified manually (if the "New variable" parameter is
    enabled).
 
-*New variable*
+*Var. type*
+   Variable's type. This parameter can have one of two values:
+   "Number" (for numerical variables) and "String" (for string
+   variables).
+
+*New Variable*
    If this parameter is enabled, you can manually input a variable's
    name and not just select one of the registers. This can be used to
    transfer the data between the application and the server.
 
-*Num.*
-   Numeric value of the variable. Set to zero by default.
+*Num./Str.*
+   Numeric or string (depending on the "VAr. type" parameter value)
+   value of the variable.
 
 
 Math Operation
@@ -1076,8 +1024,8 @@ Internal parameters
    A speaker that will be turned off.
 
 
-Web
-===
+Network
+=======
 
 
 Send Request
@@ -1118,6 +1066,11 @@ Internal parameters
 *Url*
    A web adress to send request to. Set to "https://www.blend4web.com"
    by default.
+
+*Content-Type*
+   Indicates the media type of the message content. Consists of a type
+   and a subtype, for example: "text/plain". Set to "Auto" by default.
+   Can be used to reassign the title of the HTTP request.
 
 *Parse JSON*
    If this parameter is enabled, the data recieved from the server

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web vv16.01</title>
+  <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Логические ноды" href="logic_editor.html"/>
         <link rel="prev" title="Материалы" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,71 +88,73 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Нодовые материалы</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#generic-node-materials">Стандартные ноды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Дополнительные ноды</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated">Linear to SRGB и SRGB to Linear (Deprecated)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#replace-b4w-replace">Replace (B4W_REPLACE)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id5">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">Clamp (B4W_CLAMP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id7">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id8">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#time-b4w-time">Time (B4W_TIME)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id9">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#vector-view-b4w-vector-view">Vector View (B4W_VECTOR_VIEW)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#parallax-b4w-parallax">Parallax (B4W_PARALLAX)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#translucency-b4w-translucency">Translucency (B4W_TRANSLUCENCY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id15">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id16">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#refraction-b4w-refraction">Refraction (B4W_REFRACTION)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id18">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id19">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#smoothstep-b4w-smoothstep">Smoothstep (B4W_SMOOTHSTEP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id21">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id22">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">Выходные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#glow-output-b4w-glow-output">Glow Output (B4W_GLOW_OUTPUT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id23">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">Входные параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#reflect-b4w-reflect">Reflect (B4W_REFLECT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id24">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id25">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">Выходные параметры</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated">Linear to SRGB и SRGB to Linear (Deprecated)</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +195,10 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
@@ -211,14 +217,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="node-materials">
-<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id26">Нодовые материалы</a><a class="headerlink" href="#node-materials" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id27">Нодовые материалы</a><a class="headerlink" href="#node-materials" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="id2">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#node-materials" id="id26">Нодовые материалы</a><ul>
-<li><a class="reference internal" href="#generic-node-materials" id="id27">Стандартные ноды</a></li>
-<li><a class="reference internal" href="#custom-node-materials" id="id28">Дополнительные ноды</a><ul>
-<li><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated" id="id29">Linear to SRGB и SRGB to Linear (Deprecated)</a></li>
+<li><a class="reference internal" href="#node-materials" id="id27">Нодовые материалы</a><ul>
+<li><a class="reference internal" href="#generic-node-materials" id="id28">Стандартные ноды</a></li>
+<li><a class="reference internal" href="#custom-node-materials" id="id29">Дополнительные ноды</a><ul>
 <li><a class="reference internal" href="#replace-b4w-replace" id="id30">Replace (B4W_REPLACE)</a></li>
 <li><a class="reference internal" href="#clamp-b4w-clamp" id="id31">Clamp (B4W_CLAMP)</a></li>
 <li><a class="reference internal" href="#time-b4w-time" id="id32">Time (B4W_TIME)</a></li>
@@ -230,6 +235,7 @@
 <li><a class="reference internal" href="#smoothstep-b4w-smoothstep" id="id38">Smoothstep (B4W_SMOOTHSTEP)</a></li>
 <li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id39">Glow Output (B4W_GLOW_OUTPUT)</a></li>
 <li><a class="reference internal" href="#reflect-b4w-reflect" id="id40">Reflect (B4W_REFLECT)</a></li>
+<li><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated" id="id41">Linear to SRGB и SRGB to Linear (Deprecated)</a></li>
 </ul>
 </li>
 </ul>
@@ -239,43 +245,249 @@
 <p>Шейдерные ноды (Shader Nodes) существенно расширяют возможности стандартных материалов Blender, позволяя представить освещение как серию базовых преобразований.</p>
 <a class="reference internal image-reference" href="_images/node_materials_title.png"><img alt="_images/node_materials_title.png" class="align-center" src="_images/node_materials_title.png" style="width: 100%;" /></a>
 <div class="section" id="generic-node-materials">
-<span id="id3"></span><h2><a class="toc-backref" href="#id27">Стандартные ноды</a><a class="headerlink" href="#generic-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
-<p id="index-1">Полностью поддерживаются все возможности Blender, за исключением следующих случаев:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">Geometry</span></code> - не поддерживается выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">data</span></code> - не поддерживается выход <code class="docutils literal"><span class="pre">Shadow</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">Material</span></code>, <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> - допускается не больше одной ноды на материал,
-не поддерживаются входы <code class="docutils literal"><span class="pre">Refl</span></code>, <code class="docutils literal"><span class="pre">Ambient</span></code>, <code class="docutils literal"><span class="pre">SpecTra</span></code> и выход <code class="docutils literal"><span class="pre">AO</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">ColorRamp</span></code> и Cycles-ноды поддерживаются ограниченно.</li>
-</ul>
-<p>Кроме того, в контексте рендеринга в реальном времени, следует учитывать низкую производительность некоторых нод. Не рекомендуется к использованию:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">Hue/Saturation</span></code></li>
-<li><code class="docutils literal"><span class="pre">MixRGB</span></code> типы <code class="docutils literal"><span class="pre">Burn</span></code>, <code class="docutils literal"><span class="pre">Dodge</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, <code class="docutils literal"><span class="pre">Saturation</span></code>, <code class="docutils literal"><span class="pre">Hue</span></code>, <code class="docutils literal"><span class="pre">Color</span></code></li>
-</ul>
-<p>Не рекомендуется создавать сложные материалы, особенно использующие большое
+<span id="id3"></span><h2><a class="toc-backref" href="#id28">Стандартные ноды</a><a class="headerlink" href="#generic-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
+<p id="index-1">Blend4Web поддерживает все стандартные ноды Blender, однако некоторые из них работают недостаточно быстро и не рекомендуются к использованию в приложениях реального времени. Не рекомендуется создавать сложные материалы, особенно использующие большое
 количество нод <code class="docutils literal"><span class="pre">Geometry</span></code> и <code class="docutils literal"><span class="pre">Texture</span></code>.</p>
+<p>Ноды Cycles поддерживаются ограниченно: в большинстве случаев  они не будут работать в Blend4Web так же, как они работают в Blender, могут не работать вообще или даже приводить к некорректной работе материала, в котором используются. Однако использование нод Cycles не вызовет нестабильности в работе приложения.</p>
+<p id="node-performance">Производительность и степень поддержки движком стандартных нод описаны в таблице.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="27%" />
+<col width="30%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Название ноды</th>
+<th class="head">Функция</th>
+<th class="head">Поддержка</th>
+<th class="head">Производительность</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Camera Data</td>
+<td>Используется для
+получения информации
+от активной камеры</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>ColorRamp</td>
+<td>Используется для
+генерации
+градиента</td>
+<td>Типы интерполяции
+<code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code>
+и <code class="docutils literal"><span class="pre">Ease</span></code> не
+поддерживаются</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-even"><td>Combine HSV</td>
+<td>Собирает цвет из
+заданных значений тона,
+насыщенности и яркости</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>Combine RGB</td>
+<td>Собирает цвет из
+заданных значений
+красного, зелёного и
+синего каналов</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-even"><td>Extended Material</td>
+<td>Подключает стандартный
+материал. Обладает
+большим количеством
+настроек по сравнению с
+нодой <code class="docutils literal"><span class="pre">Material</span></code></td>
+<td>Входы <code class="docutils literal"><span class="pre">Ambient</span></code>
+и <code class="docutils literal"><span class="pre">SpecTra</span></code>
+не поддерживаются.
+Выход <code class="docutils literal"><span class="pre">AO</span></code> не
+поддерживается.</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>Gamma</td>
+<td>Регулирует гамму
+заданного цвета</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-even"><td>Geometry</td>
+<td>Используется для
+получения информации о
+геометрии объекта</td>
+<td>Выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code>
+не поддерживается</td>
+<td>Не рекомендуется
+использовать большое
+количество этих нод</td>
+</tr>
+<tr class="row-odd"><td>Hue/Saturation</td>
+<td>Регулирует оттенок и
+насыщенность заданного
+цвета</td>
+<td>Поддерживается</td>
+<td>Низкая</td>
+</tr>
+<tr class="row-even"><td>Invert</td>
+<td>Инвертирует заданный
+цвет</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-odd"><td>Lamp Data</td>
+<td>Используется для
+получения информации
+о заданном источнике
+света</td>
+<td>Выход <code class="docutils literal"><span class="pre">Shadow</span></code>
+не поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-even"><td>Mapping</td>
+<td>Преобразует текстурные
+координаты</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>Material</td>
+<td>Используется для
+подключения
+стандартного материала</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-even"><td>Math</td>
+<td>Производит
+математические операции
+с заданными значениями</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-odd"><td>MixRGB</td>
+<td>Микширует два заданных
+цвета</td>
+<td>Поддерживается</td>
+<td>Низкая в режимах
+<code class="docutils literal"><span class="pre">Burn</span></code>,
+<code class="docutils literal"><span class="pre">Dodge</span></code>,
+<code class="docutils literal"><span class="pre">Value</span></code>,
+<code class="docutils literal"><span class="pre">Saturation</span></code>,
+<code class="docutils literal"><span class="pre">Hue</span></code>
+и <code class="docutils literal"><span class="pre">Color</span></code>,
+высокая в остальных
+режимах</td>
+</tr>
+<tr class="row-even"><td>Normal</td>
+<td>Генерирует нормальный
+вектор</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-odd"><td>Output</td>
+<td>Выводит результат
+работы нодовго
+материала</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-even"><td>Particle Info</td>
+<td>Используется для
+получения информации о
+системе частиц</td>
+<td>В материалах систем частиц
+типа <code class="docutils literal"><span class="pre">Emitter</span></code></td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>RGB</td>
+<td>Генерирует цвет в
+формате RGB</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-even"><td>RGB Curves</td>
+<td>Определяет кривую, по
+которой изменяется
+заданный цвет</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>RGB to BW</td>
+<td>Преобразует заданный
+цвет в формате RGB из
+цветного в чёрно-белый</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-even"><td>Separate HSV</td>
+<td>Разделяет заданный цвет
+на тон, насыщенность и
+яркость</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-odd"><td>Separave RGB</td>
+<td>Разделяет заданный цвет
+на красный, зелёный и
+синий каналы</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-even"><td>Squeeze Value</td>
+<td>Сжимает заданное
+значение</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-odd"><td>Texture</td>
+<td>Задаёт текстуру</td>
+<td>Поддерживется</td>
+<td>Не рекомендуется
+использовать большое
+количество этих нод</td>
+</tr>
+<tr class="row-even"><td>Value</td>
+<td>Генерирует численное
+значение</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+<tr class="row-odd"><td>Vector Curves</td>
+<td>Определяет кривую, по
+которой изменяется
+заданный вектор</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
+</tr>
+<tr class="row-even"><td>Vector Math</td>
+<td>Производит
+математические
+операции над двумя
+заданными векторами</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="custom-node-materials">
-<span id="id4"></span><h2><a class="toc-backref" href="#id28">Дополнительные ноды</a><a class="headerlink" href="#custom-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id5"></span><h2><a class="toc-backref" href="#id29">Дополнительные ноды</a><a class="headerlink" href="#custom-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
 <p id="index-2">Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">Groups</span></code> или <code class="docutils literal"><span class="pre">Node</span> <span class="pre">Tree</span></code>) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды добавляются в blend-файл при его открытии.</p>
 <img alt="_images/node_materials_nodes.png" class="align-center" src="_images/node_materials_nodes.png" />
-<div class="section" id="linear-to-srgb-srgb-to-linear-deprecated">
-<span id="node-gamma"></span><h3><a class="toc-backref" href="#id29">Linear to SRGB и SRGB to Linear (Deprecated)</a><a class="headerlink" href="#linear-to-srgb-srgb-to-linear-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот. Функционал объявлен устаревшим с версии 15.04. В более новых версиях для преобразования цвета из sRGB в линейное пространство следует использовать нативную ноду <code class="docutils literal"><span class="pre">Gamma</span></code> со значением 2.200, а для преобразования из линейного пространства в sRGB - ту же ноду со значением 0.455.</p>
-<img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
-<div class="admonition seealso">
-<p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>Коррекция в нодовых материалах</span></a></p>
-</div>
-</div>
 <div class="section" id="replace-b4w-replace">
 <span id="node-replace"></span><h3><a class="toc-backref" href="#id30">Replace (B4W_REPLACE)</a><a class="headerlink" href="#replace-b4w-replace" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender&#8217;а или движок) в данный момент работает текущая сцена. При работе в Blender вход <code class="docutils literal"><span class="pre">Color1</span></code> подключается к выходу <code class="docutils literal"><span class="pre">Color</span></code>, вход <code class="docutils literal"><span class="pre">Color2</span></code> игнорируется. При работе в движке входы меняются местами (<code class="docutils literal"><span class="pre">Color1</span></code> игнорируется, <code class="docutils literal"><span class="pre">Color2</span></code> подключается к выходу). Нода предназначена для отображения во viewport&#8217;e одной конструкции нодов, а в движке - другой.</p>
 <a class="reference internal image-reference" href="_images/node_materials_replace.png"><img alt="_images/node_materials_replace.png" class="align-center" src="_images/node_materials_replace.png" style="width: 100%;" /></a>
 <p>Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender&#8217;а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport&#8217;e - их подключение внутри нод <code class="docutils literal"><span class="pre">Material</span></code>.</p>
-<div class="section" id="id5">
-<h4>Входные параметры<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id6">
+<h4>Входные параметры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color1</em></dt>
 <dd>Конструкция нод, видимая во вьюпорте Blender&#8217;а</dd>
@@ -283,8 +495,8 @@
 <dd>Конструкция нод, видимая объекта в движке Blend4Web.</dd>
 </dl>
 </div>
-<div class="section" id="id6">
-<h4>Выходные параметры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id7">
+<h4>Выходные параметры<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
 <dd>Следует подключать к выходу <code class="docutils literal"><span class="pre">Color</span></code> ноды <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</dd>
@@ -296,15 +508,15 @@
 <p>Осуществить операцию ограничения над входом. В результате, все элементы вектора на выходе
 получают значения от 0 до 1 включительно.</p>
 <a class="reference internal image-reference" href="_images/node_materials_clamp.png"><img alt="_images/node_materials_clamp.png" class="align-center" src="_images/node_materials_clamp.png" style="width: 100%;" /></a>
-<div class="section" id="id7">
-<h4>Входные параметры<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id8">
+<h4>Входные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
 <dd>Заданный вектор.</dd>
 </dl>
 </div>
-<div class="section" id="id8">
-<h4>Выходные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id9">
+<h4>Выходные параметры<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
 <dd>Вектор после ограничения.</dd>
@@ -315,12 +527,12 @@
 <span id="node-time"></span><h3><a class="toc-backref" href="#id32">Time (B4W_TIME)</a><a class="headerlink" href="#time-b4w-time" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах - UV-координат, факторов смешивания, прозрачности и т.п.</p>
 <img alt="_images/node_time.png" class="align-center" src="_images/node_time.png" />
-<div class="section" id="id9">
-<h4>Входные параметры<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id10">
+<h4>Входные параметры<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Отсутствуют.</p>
 </div>
-<div class="section" id="id10">
-<h4>Выходные параметры<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id11">
+<h4>Выходные параметры<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
 <dd>Время (в секундах), прошедшее с момента старта движка.</dd>
@@ -335,15 +547,15 @@
 <span id="node-vector-view"></span><h3><a class="toc-backref" href="#id33">Vector View (B4W_VECTOR_VIEW)</a><a class="headerlink" href="#vector-view-b4w-vector-view" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществить преобразование вектора в пространство камеры. Преобразование необходимо, поскольку при работе в движке большинство векторов определены в мировой системе координат (например нормали, направления источников освещения и т.д). Преобразованный таким образом вектор нормали используется только для различных эффектов и не должен подключаться к входу ноды <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</p>
 <a class="reference internal image-reference" href="_images/node_materials_vector_view.png"><img alt="_images/node_materials_vector_view.png" class="align-center" src="_images/node_materials_vector_view.png" style="width: 100%;" /></a>
-<div class="section" id="id11">
-<h4>Входные параметры<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id12">
+<h4>Входные параметры<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
 <dd>Вектор в мировой системе координат.</dd>
 </dl>
 </div>
-<div class="section" id="id12">
-<h4>Выходные параметры<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id13">
+<h4>Выходные параметры<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
 <dd>Вектор в системе координат камеры.</dd>
@@ -354,8 +566,8 @@
 <span id="node-parallax"></span><h3><a class="toc-backref" href="#id34">Parallax (B4W_PARALLAX)</a><a class="headerlink" href="#parallax-b4w-parallax" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует смещение текстурных координат в соответствии с картой высот.</p>
 <a class="reference internal image-reference" href="_images/node_materials_parallax.png"><img alt="_images/node_materials_parallax.png" class="align-center" src="_images/node_materials_parallax.png" style="width: 100%;" /></a>
-<div class="section" id="id13">
-<h4>Входные параметры<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id14">
+<h4>Входные параметры<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
 <dd>Исходные текстурные координаты.</dd>
@@ -369,8 +581,8 @@
 <dd>Максимальное расстояние от камеры, на котором виден эффект.</dd>
 </dl>
 </div>
-<div class="section" id="id14">
-<h4>Выходные параметры<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id15">
+<h4>Выходные параметры<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
 <dd>Измененные текстурные координаты, которые используются как вход для текстурных нод.</dd>
@@ -381,8 +593,8 @@
 <span id="node-translucency"></span><h3><a class="toc-backref" href="#id35">Translucency (B4W_TRANSLUCENCY)</a><a class="headerlink" href="#translucency-b4w-translucency" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует эффект полупрозрачности (только по отношению к источникам света) для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из двух частей: засвечивание обратной по отношению к источнику стороны объекта и появление светового пятна непосредственно в том месте, где должен был находится источник.</p>
 <a class="reference internal image-reference" href="_images/node_materials_translucency.png"><img alt="_images/node_materials_translucency.png" class="align-center" src="_images/node_materials_translucency.png" style="width: 100%;" /></a>
-<div class="section" id="id15">
-<h4>Входные параметры<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id16">
+<h4>Входные параметры<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
 <dd>Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый.</dd>
@@ -411,8 +623,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id16">
-<h4>Выходные параметры<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id17">
+<h4>Выходные параметры<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Translucency</em></dt>
 <dd>Выход должен быть подключен ко входу <code class="docutils literal"><span class="pre">Translucency</span></code> ноды <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</dd>
@@ -427,19 +639,19 @@
 <span id="node-refraction"></span><h3><a class="toc-backref" href="#id36">Refraction (B4W_REFRACTION)</a><a class="headerlink" href="#refraction-b4w-refraction" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует эффект преломления. Этот эффект виден только в движке Blend4Web, но не в Blender.</p>
 <a class="reference internal image-reference" href="_images/node_materials_refraction.png"><img alt="_images/node_materials_refraction.png" class="align-center" src="_images/node_materials_refraction.png" style="width: 100%;" /></a>
-<div class="section" id="id17">
-<h4>Входные параметры<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id18">
+<h4>Входные параметры<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Normal</em></dt>
 <dd>Карта нормалей, по которой происходит возмущение (сдвиг).</dd>
-<dt><em>Refraction bump</em></dt>
+<dt><em>Refraction Bump</em></dt>
 <dd><p class="first">Коэффицент возмущения (сдвига) текстуры сцены позади объекта.</p>
 <p class="last">Значение по умолчанию: 0.001.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id18">
-<h4>Выходные параметры<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id19">
+<h4>Выходные параметры<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
 <dd>Текстура сцены позади объекта с внесённым возмущением.</dd>
@@ -462,8 +674,8 @@
 <p class="first admonition-title">См.также</p>
 <p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Профили качества изображения</span></a></p>
 </div>
-<div class="section" id="id19">
-<h4>Входные параметры<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id20">
+<h4>Входные параметры<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>HIGH</em></dt>
 <dd>Значение, которое будет подано в выходной параметр <code class="docutils literal"><span class="pre">Color</span></code> при высоком и максимальном качестве изображения.</dd>
@@ -473,8 +685,8 @@
 <dd>Значение, определяющее, какое из значений (<code class="docutils literal"><span class="pre">HIGH</span></code> или <code class="docutils literal"><span class="pre">LOW</span></code>) будет отображаться в Blender. Может принимать значения от 0 до 1. При значении параметра менее 0.5 будет виден вариант <code class="docutils literal"><span class="pre">HIGH</span></code>, при значении 0.5 и выше будет виден вариант <code class="docutils literal"><span class="pre">LOW</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="id20">
-<h4>Выходные параметры<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id21">
+<h4>Выходные параметры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
 <dd>Значение выходного цвета.</dd>
@@ -485,8 +697,8 @@
 <span id="node-smoothstep"></span><h3><a class="toc-backref" href="#id38">Smoothstep (B4W_SMOOTHSTEP)</a><a class="headerlink" href="#smoothstep-b4w-smoothstep" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществить мягкую интерполяцию двух значений, исходя из первого значения.</p>
 <a class="reference internal image-reference" href="_images/node_materials_smoothstep.png"><img alt="_images/node_materials_smoothstep.png" class="align-center" src="_images/node_materials_smoothstep.png" style="width: 100%;" /></a>
-<div class="section" id="id21">
-<h4>Входные параметры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id22">
+<h4>Входные параметры<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
 <dd>Значение, на основе которого осуществляется интерполяция.</dd>
@@ -496,8 +708,8 @@
 <dd>Второе значениe для интерполяции.</dd>
 </dl>
 </div>
-<div class="section" id="id22">
-<h4>Выходные параметры<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id23">
+<h4>Выходные параметры<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
 <dd>Сглаженное значение.</dd>
@@ -512,8 +724,8 @@
 <span id="glow-output"></span><h3><a class="toc-backref" href="#id39">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Применяет <a class="reference internal" href="postprocessing_effects.html#glow"><span>эффект свечения (Glow)</span></a> к нодовому материалу. Помимо ноды <em>B4W_GLOW_OUTPUT</em> в нодовом материале должна присутствовать нода <em>Output</em>.</p>
 <a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
-<div class="section" id="id23">
-<h4>Входные параметры<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id24">
+<h4>Входные параметры<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Glow Color</em></dt>
 <dd>Цвет свечения.</dd>
@@ -525,14 +737,18 @@
 </ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Настройки материала <code class="docutils literal"><span class="pre">Transparency-&gt;Type</span></code> не влияют на поведение glow-эффекта. Он всегда будет соответствовать прозрачному не <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> материалу.</p>
+</div>
 </div>
 </div>
 <div class="section" id="reflect-b4w-reflect">
 <span id="node-reflect"></span><h3><a class="toc-backref" href="#id40">Reflect (B4W_REFLECT)</a><a class="headerlink" href="#reflect-b4w-reflect" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Вычисляет отражение заданного вектора относительно заданной нормали. Может применяться для наложения кубической карты (cubemap) на объект.</p>
 <a class="reference internal image-reference" href="_images/node_materials_reflect.png"><img alt="_images/node_materials_reflect.png" class="align-center" src="_images/node_materials_reflect.png" style="width: 100%;" /></a>
-<div class="section" id="id24">
-<h4>Входные параметры<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id25">
+<h4>Входные параметры<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
 <dd>Заданный вектор. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">View</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</dd>
@@ -540,12 +756,21 @@
 <dd>Заданная нормаль. Для получения желаемого результата, вектор должен быть нормирован. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">Normal</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="id25">
-<h4>Выходные параметры<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id26">
+<h4>Выходные параметры<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
 <dd>Отражённый вектор. Следует подключать к входному параметру <code class="docutils literal"><span class="pre">Vector</span></code> ноды <code class="docutils literal"><span class="pre">Texture</span></code>, содержащего кубическую карту.</dd>
 </dl>
+</div>
+</div>
+<div class="section" id="linear-to-srgb-srgb-to-linear-deprecated">
+<span id="node-gamma"></span><h3><a class="toc-backref" href="#id41">Linear to SRGB и SRGB to Linear (Deprecated)</a><a class="headerlink" href="#linear-to-srgb-srgb-to-linear-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот. Функционал объявлен устаревшим с версии 15.04. В более новых версиях для преобразования цвета из sRGB в линейное пространство следует использовать нативную ноду <code class="docutils literal"><span class="pre">Gamma</span></code> со значением 2.200, а для преобразования из линейного пространства в sRGB - ту же ноду со значением 0.455.</p>
+<img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>Коррекция в нодовых материалах</span></a></p>
 </div>
 </div>
 </div>
@@ -570,8 +795,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2016-01-28.
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-02-26.
 
     </p>
   </div>
@@ -593,7 +818,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -617,6 +842,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    

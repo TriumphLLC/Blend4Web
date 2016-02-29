@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
 var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_PLANE_REFLECT",
-        "MAIN_CUBE_REFLECT", "MAIN_GLOW", "SHADOW_CAST", "DEPTH", "OUTLINE_MASK",
+        "MAIN_CUBE_REFLECT", "MAIN_GLOW", "SHADOW_CAST", "SHADOW_RECEIVE", "OUTLINE_MASK",
         "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY", "COLOR_PICKING_XRAY"];
 
 var _vec3_tmp = new Float32Array(3);
@@ -72,7 +72,7 @@ exports.prerender_subs = function(subs) {
             break;
         default:
             // prevent rare bugs when blend is only one rendered
-            if (subs.type === "MAIN_OPAQUE" || subs.type === "DEPTH" 
+            if (subs.type === "MAIN_OPAQUE" || subs.type === "SHADOW_RECEIVE" 
                     || subs.type === "MAIN_GLOW" || has_render_bundles)
                 subs.do_render = true;
             else {

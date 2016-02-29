@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Blend4Web. User Manual'
-copyright = u'2015, Triumph LLC'
+copyright = u'2014-2016, Triumph'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

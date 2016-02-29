@@ -18,12 +18,6 @@ mat4 billboard_spherical(vec3 center_pos, mat4 view_matrix) {
 
     y = cross(z, x);
 
-    // NOTE: we use only rotation component in billboarding, so the 
-    // normalization doesn't break anything; also, fix iPad depth jittering bug
-    x = normalize(x);
-    y = normalize(y);
-    z = normalize(z);
-
     return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(z, 0.0),
             vec4(center_pos, 1.0));
 }
@@ -32,15 +26,10 @@ mat4 billboard_cylindrical(vec3 camera_eye, vec3 center_pos) {
 
     vec3 center_to_cam = camera_eye - center_pos;
     center_to_cam.y = 0.0;
-
-    vec3 x = cross(UP, center_to_cam);
-    vec3 y = cross(center_to_cam, x);
-
-    // NOTE: we use only rotation component in billboarding, so the 
-    // normalization doesn't break anything; also, fix iPad depth jittering bug
-    x = normalize(x);
-    y = normalize(y);
     center_to_cam = normalize(center_to_cam);
+
+    vec3 x = normalize(cross(UP, center_to_cam));
+    vec3 y = normalize(cross(center_to_cam, x));
 
     return mat4(vec4(x, 0.0), vec4(y, 0.0), vec4(center_to_cam, 0.0),
             vec4(center_pos, 1.0));

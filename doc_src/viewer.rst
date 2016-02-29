@@ -6,6 +6,10 @@
 Просмотрщик сцен
 ****************
 
+.. contents:: Содержание
+    :depth: 3
+    :backlinks: entry
+
 :ref:`Запуск просмотрщика сцен <getting_started_launching_viewer>`.
 
 Навигация

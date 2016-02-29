@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ function create_render(type) {
 
         color_id: null,
         outline_intensity: 0,
-        // correct only for TARGET camera
+        // used only for TARGET camera
         target_cam_upside_down: false,
         vertical_axis: m_vec3.create(),
 
@@ -86,8 +86,10 @@ function create_render(type) {
         hover_vert_trans_limits: null,
         hover_horiz_trans_limits: null,
 
+        // currently only for TARGET camera
+        pivot_limits: null,
+
         enable_hover_hor_rotation: true,
-        hover_zero_level: 0,
         cameras: null,
         shadow_cameras: null,
         
@@ -253,6 +255,7 @@ function create_object(name, type, origin_name) {
         parent_is_dupli: false,
         parent_bone: "",
         viewport_alignment: null,
+        pinverse_tsr: null,
 
         use_obj_physics: false,
         collision_id: "",
@@ -554,6 +557,10 @@ exports.is_empty = function(obj) {
 
 exports.is_line = function(obj) {
     return obj.type === "LINE";
+}
+
+exports.is_world = function(obj) {
+    return obj.type === "WORLD";
 }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,8 +45,6 @@ exports.defaults = {
     alpha_sort                 : true,
 
     alpha_sort_threshold       : 0.1,
-
-    alpha_clip_filtering_hack  : false,
 
     min_format_version         : [5, 7],
 
@@ -180,8 +178,6 @@ exports.defaults = {
 
     ie11_edge_touchscreen_hack : false,
 
-    ios_depth_hack             : false,
-
     macos_tex_reuse_hack       : false,
 
     loaded_data_version        : [0, 0],
@@ -201,8 +197,6 @@ exports.defaults = {
     safari_canvas_alpha_hack   : false,
 
     resize_cubemap_canvas_hack : false,
-
-    clear_depth_hack           : false,
 
     media_auto_activation      : true,
 
@@ -302,7 +296,7 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : "DEPTH",
+    subs_type   : "COPY",
     subs_number : 0,
     slink_type  : "COLOR"
 }
@@ -663,6 +657,8 @@ exports.get = function(prop) {
         return exports.defaults.do_not_load_resources;
     case "gyro_use":
         return exports.defaults.gyro_use;
+    case "is_mobile_device":
+        return exports.defaults.is_mobile_device;
     case "stereo":
         return exports.defaults.stereo;
     case "use_browser_distortion_cor":

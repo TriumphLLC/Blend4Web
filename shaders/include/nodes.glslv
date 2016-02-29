@@ -1,10 +1,9 @@
 /*============================================================================
                                    EXPORTS
 ============================================================================*/
-
 #export nodes_main
 
-#if USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
+#if (USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE) && !PARTICLE_BATCH
 attribute vec3 a_orco_tex_coord;
 varying vec3 v_orco_tex_coord;
 #endif
@@ -40,30 +39,34 @@ varying vec3 v_orco_tex_coord;
 #node GEOMETRY_VC
     #node_param attribute vec3 a_vertex_color
     #node_param varying vec3 v_vertex_color
+
     v_vertex_color = a_vertex_color;
 #endnode
 
 #node GEOMETRY_VC1
     #node_param attribute float a_vertex_color
     #node_param varying float v_vertex_color
+
     v_vertex_color = a_vertex_color;
 #endnode
 
 #node GEOMETRY_VC2
     #node_param attribute vec2 a_vertex_color
     #node_param varying vec2 v_vertex_color
+
     v_vertex_color = a_vertex_color;
 #endnode
 
 #node GEOMETRY_VC3
     #node_param attribute vec3 a_vertex_color
     #node_param varying vec3 v_vertex_color
+
     v_vertex_color = a_vertex_color;
 #endnode
 
 #nodes_global
 
-void nodes_main(void) {
+void nodes_main() {
 #if USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
     v_orco_tex_coord = a_orco_tex_coord;
 #endif

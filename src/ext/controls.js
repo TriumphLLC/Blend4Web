@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2015 Triumph LLC
+ * Copyright (C) 2014-2016 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -771,16 +771,25 @@ exports.create_vertical_velocity_sensor = m_ctl.create_vertical_velocity_sensor;
  * Create a gyroscope angle sensor.
  * The sensor's payload stores the Euler angles of orientation
  * of a mobile device.
- * @method module:controls.create_gyroscope_angles_sensor
+ * @method module:controls.create_gyro_angles_sensor
  * @returns {Sensor} Sensor object
  */
 exports.create_gyro_angles_sensor = m_ctl.create_gyro_angles_sensor;
 
 /**
+ * Create a gyroscope quaternion sensor.
+ * The sensor's payload stores the quaternion of orientation
+ * of a mobile device.
+ * @method module:controls.create_gyro_quat_sensor
+ * @returns {Sensor} Sensor object
+ */
+exports.create_gyro_quat_sensor = m_ctl.create_gyro_quat_sensor;
+
+/**
  * Create a gyroscope delta sensor.
  * The sensor's payload stores the differences between Euler angles of the
  * current orientation and the previous orientation of a mobile device.
- * @method module:controls.create_gyroscope_angles_sensor
+ * @method module:controls.create_gyro_delta_sensor
  * @returns {Sensor} Sensor object
  */
 exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;

@@ -5,6 +5,7 @@
 
 attribute vec3 a_position;
 attribute vec2 a_halo_bb_vertex;
+attribute float a_random_vals;
 
 uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
@@ -40,7 +41,7 @@ void main(void) {
     v_texcoord = a_halo_bb_vertex * 2.0;
 
     //random value for every halo (0..1)
-    v_vertex_random = fract(position.x + position.y + position.z);
+    v_vertex_random = a_random_vals;
 
 #if SKY_STARS
     mat4 bb_matrix = billboard_spherical(position, view_matrix);

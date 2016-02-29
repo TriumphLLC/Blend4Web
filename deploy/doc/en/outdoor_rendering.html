@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Outdoor effects &mdash; User Manual: Blend4Web vv16.01</title>
+  <title>Outdoor Effects &mdash; User Manual: Blend4Web vv16.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.01" href="index.html"/>
+    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
         <link rel="next" title="Color Management" href="colors.html"/>
         <link rel="prev" title="Animation" href="animation.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.01
+              v16.02
             </div>
           
         
@@ -88,23 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor effects</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">Water</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Basic Settings</a></li>
@@ -182,12 +184,16 @@
 
       
       <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+        </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Outdoor effects</li>
+    <li>Outdoor Effects</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -200,11 +206,11 @@
            <div itemprop="articleBody">
             
   <div class="section" id="outdoor-rendering">
-<span id="id1"></span><h1><a class="toc-backref" href="#id35">Outdoor effects</a><a class="headerlink" href="#outdoor-rendering" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id35">Outdoor Effects</a><a class="headerlink" href="#outdoor-rendering" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="id2">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#outdoor-rendering" id="id35">Outdoor effects</a><ul>
+<li><a class="reference internal" href="#outdoor-rendering" id="id35">Outdoor Effects</a><ul>
 <li><a class="reference internal" href="#water" id="id36">Water</a><ul>
 <li><a class="reference internal" href="#id4" id="id37">Activation</a></li>
 <li><a class="reference internal" href="#id5" id="id38">Basic Settings</a></li>
@@ -286,16 +292,16 @@
 <h3><a class="toc-backref" href="#id43">Color Gradient</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>For color gradient the water material must have a texture with the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> option enabled. This texture can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><span>baking shoreline parameters</span></a></p>
 <dl class="docutils">
-<dt><em>Shallow water &gt; Color</em></dt>
+<dt><em>Shallow Water &gt; Color</em></dt>
 <dd><p class="first last">Shallow water color.</p>
 </dd>
-<dt><em>Shallow water &gt; Factor</em></dt>
+<dt><em>Shallow Water &gt; Factor</em></dt>
 <dd><p class="first last">Shallow water color mixing factor.</p>
 </dd>
-<dt><em>Shore water &gt; Color</em></dt>
+<dt><em>Shore Water &gt; Color</em></dt>
 <dd><p class="first last">Water color just at the shore line.</p>
 </dd>
-<dt><em>Shore water &gt; Factor</em></dt>
+<dt><em>Shore Water &gt; Factor</em></dt>
 <dd><p class="first last">Factor for mixing water color just near the shoreline.</p>
 </dd>
 </dl>
@@ -496,7 +502,7 @@
 <h3><a class="toc-backref" href="#id52">Fog</a><a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>The engine supports standard parameters located on the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code> panel. Besides this, overriding fog color is possible.</p>
 <dl class="docutils">
-<dt><em>Mist &gt; Use custom color</em></dt>
+<dt><em>Mist &gt; Use Custom Color</em></dt>
 <dd><p class="first last">Apply the user-defined fog color instead of <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span></code> color. Enabled by default.</p>
 </dd>
 <dt><em>Mist &gt; Color</em></dt>
@@ -561,31 +567,31 @@
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Main bending &gt; Angle</em></dt>
+<dt><em>Main Bending &gt; Angle</em></dt>
 <dd><p class="first last">Angle amplitude of the &#8220;main&#8221; deviation under the influence of wind (in degrees). The default value is 10.0.</p>
 </dd>
-<dt><em>Main bending &gt; Frequency</em></dt>
+<dt><em>Main Bending &gt; Frequency</em></dt>
 <dd><p class="first last">Frequency of the &#8220;main&#8221; deviation under the influence of wind. The default value is 0.25.</p>
 </dd>
-<dt><em>Main bending &gt; Main Stiffness (A)</em></dt>
+<dt><em>Main Bending &gt; Main Stiffness (A)</em></dt>
 <dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the stiffness of the &#8220;main&#8221; deviation. Can be left empty.</p>
 </dd>
-<dt><em>Detail bending &gt; Amplitude</em></dt>
+<dt><em>Detail Bending &gt; Amplitude</em></dt>
 <dd><p class="first last">Angle amplitude of the &#8220;detail&#8221; deviation caused by the influence of wind (in degrees). The default value is 0.1.</p>
 </dd>
-<dt><em>Detail bending &gt; Branch Amplitude</em></dt>
+<dt><em>Detail Bending &gt; Branch Amplitude</em></dt>
 <dd><p class="first last">Angle amplitude of the branch deviation caused by the influence of wind (in degrees). The default value is 0.3.</p>
 </dd>
-<dt><em>Detail bending &gt; Bending Frequency</em></dt>
+<dt><em>Detail Bending &gt; Bending Frequency</em></dt>
 <dd><p class="first last">Detail bendind frequency. The default value is 1.0.</p>
 </dd>
-<dt><em>Detail bending &gt; Leaves Stiffness (R)</em></dt>
+<dt><em>Detail Bending &gt; Leaves Stiffness (R)</em></dt>
 <dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the stiffness of leaves. Can be left empty.</p>
 </dd>
-<dt><em>Detail bending &gt; Leaves Phase (G)</em></dt>
+<dt><em>Detail Bending &gt; Leaves Phase (G)</em></dt>
 <dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the phase of leaves deviation. Can be left empty.</p>
 </dd>
-<dt><em>Detail bending &gt; Overall Stiffness (B)</em></dt>
+<dt><em>Detail Bending &gt; Overall Stiffness (B)</em></dt>
 <dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the overall stiffness of leaves. Can be left empty.</p>
 </dd>
 </dl>
@@ -615,8 +621,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2016-01-28.
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-02-26.
 
     </p>
   </div>
@@ -638,7 +644,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.01',
+            VERSION:'v16.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -661,6 +667,22 @@
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+
+          var loc = document.location.href;
+
+          var href_ru = loc.replace("/en/", "/ru/");
+          var href_en = loc.replace("/ru/", "/en/");
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+
+          lang_cont.css("display", "inline-block")
       });
   </script>
    
