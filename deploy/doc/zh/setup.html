@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>安装和更新 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="工作流程" href="workflow.html"/>
+        <link rel="prev" title="功能" href="features.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">安装和更新</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation-order">安装顺序</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-blender">安装Blender</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unpacking-the-archive">解压缩文件归档</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdk-installation-order">SDK 安装顺序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blend4web-mode">Blend4Web模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-development-server">本地开发服务器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-viewer-and-demos">运行浏览器和演示</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#updating">更新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">更新 SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-and-viewing-scenes">导出和查看场景</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>安装和更新</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-and-updating">
+<span id="setup"></span><h1><a class="toc-backref" href="#id2">安装和更新</a><a class="headerlink" href="#installing-and-updating" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#installing-and-updating" id="id2">安装和更新</a><ul>
+<li><a class="reference internal" href="#installation-order" id="id3">安装顺序</a><ul>
+<li><a class="reference internal" href="#installing-blender" id="id4">安装Blender</a></li>
+<li><a class="reference internal" href="#unpacking-the-archive" id="id5">解压缩文件归档</a></li>
+<li><a class="reference internal" href="#sdk-installation-order" id="id6">SDK 安装顺序</a></li>
+<li><a class="reference internal" href="#blend4web-mode" id="id7">Blend4Web模式</a></li>
+<li><a class="reference internal" href="#local-development-server" id="id8">本地开发服务器</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id9">运行浏览器和演示</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#updating" id="id10">更新</a><ul>
+<li><a class="reference internal" href="#updating-the-sdk" id="id11">更新 SDK</a></li>
+<li><a class="reference internal" href="#exporting-and-viewing-scenes" id="id12">导出和查看场景</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>安装之前，请下载并安装兼容的Blender版本，根据此 <a class="reference external" href="https://www.blend4web.com/downloads/">表</a>.</p>
+<div class="section" id="installation-order">
+<h2><a class="toc-backref" href="#id3">安装顺序</a><a class="headerlink" href="#installation-order" title="永久链接至标题">¶</a></h2>
+<div class="section" id="installing-blender">
+<span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id4">安装Blender</a><a class="headerlink" href="#installing-blender" title="永久链接至标题">¶</a></h3>
+<p>直接在 <a class="reference external" href="http://en.wikipedia.org/wiki/Blender_(software)">Blender</a> 中创作 3D 场景，这是开放源码软件和免费分发软件。</p>
+<p>应使用当前的稳定版本的Blender。它可以从 <a class="reference external" href="http://www.blender.org/download">官方网站</a> 下载 。</p>
+<a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="unpacking-the-archive">
+<h3><a class="toc-backref" href="#id5">解压缩文件归档</a><a class="headerlink" href="#unpacking-the-archive" title="永久链接至标题">¶</a></h3>
+<p>稳定版作为压缩包发布 (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; 免费 SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211; 商业 SDK). 只要在某处解开这个压缩包。</p>
+</div>
+<div class="section" id="sdk-installation-order">
+<h3><a class="toc-backref" href="#id6">SDK 安装顺序</a><a class="headerlink" href="#sdk-installation-order" title="永久链接至标题">¶</a></h3>
+<ol class="arabic simple">
+<li><p class="first">打开Blender。</p>
+</li>
+<li><p class="first">打开用户首选项面板  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
+</li>
+<li><p class="first">打开 <code class="file docutils literal"><span class="pre">File</span></code> 选项卡。</p>
+</li>
+<li><p class="first">在 <code class="file docutils literal"><span class="pre">Scripts</span></code> 中设置 SDK 目录的路径。</p>
+</li>
+<li><p class="first">单击 <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</p>
+</li>
+<li><p class="first">重新启动Blender。</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/user_preferences_sdk_path.png"><img alt="_images/user_preferences_sdk_path.png" class="align-center" src="_images/user_preferences_sdk_path.png" style="width: 100%;" /></a>
+<p><em>验证是否工作:</em></p>
+<p>在 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> 菜单 <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> 和 <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> 选项应该出现。</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>如果您打算使用只用法线编辑器，你可以考虑安装  <a class="reference internal" href="addon.html#addon"><span>Blend4Web 插件</span></a> 而不是 SDK。</p>
+<p>插件只能导出场景到  <a class="reference internal" href="workflow.html#export-scene"><span>HTML格式</span></a> 和有限功能 (例如，它没有  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理</span></a>，示例场景，用户手册，等等)，但它仍然拥有一切让你可以创建一个简单的应用程序。</p>
+<p class="last">它可以和其他  <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on">Blender插件</a>  的安装方式相同。</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="blend4web-mode">
+<h3><a class="toc-backref" href="#id7">Blend4Web模式</a><a class="headerlink" href="#blend4web-mode" title="永久链接至标题">¶</a></h3>
+<p>为了查看该引擎设置，从顶部面板菜单中选择Blend4Web：</p>
+<a class="reference internal image-reference" href="_images/first_steps_selecting_engine.png"><img alt="_images/first_steps_selecting_engine.png" class="align-center" src="_images/first_steps_selecting_engine.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="local-development-server">
+<span id="id1"></span><h3><a class="toc-backref" href="#id8">本地开发服务器</a><a class="headerlink" href="#local-development-server" title="永久链接至标题">¶</a></h3>
+<p>设置本地开发服务器可以在 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (热键 <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>)中找到。 在这里，您可以更改端口号被用于运行开发服务器（6687默认情况下），也使其在Blender启动时启动。要做到这一点，能够有 <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> 的附加 ​​设置选项。</p>
+<a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>改变了的本地开发服务器设置后需要重新启动Blender。</p>
+<p>它有可能为本地服务器来处理外部请求。要做到这一点启用该选项 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">External</span> <span class="pre">Requests</span></code>.</p>
+<p>如果你选择不自动启动服务器，您可以随时手动做到这一点：转到  <code class="docutils literal"><span class="pre">渲染</span></code> 选项卡，并按  <code class="docutils literal"><span class="pre">开发服务器</span></code> 面板上的 <code class="docutils literal"><span class="pre">启动服务器</span></code> 按钮 ︰</p>
+<a class="reference internal image-reference" href="_images/server_start.png"><img alt="_images/server_start.png" class="align-center" src="_images/server_start.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>如果不指定 Blend4Web SDK 的路径，不能启动本地开发服务器。在这种情况下会显示相应的消息，覆盖到 <code class="docutils literal"><span class="pre">启动服务器</span></code> 按钮。</p>
+<p>如果服务器无法运行，会显示一条错误消息来说明原因：</p>
+<img alt="_images/error.png" class="align-center" src="_images/error.png" />
+<p class="last">如果已经被一些其他的应用程序的占用掉了服务器端口，可能会出现这样的错误。</p>
+</div>
+<p>按  <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> 按钮在浏览器中打开 Blend4Web SDK 的索引 web 页。此页面在 <a class="reference external" href="http://localhost:6687">http://localhost:6687</a> 。</p>
+<a class="reference internal image-reference" href="_images/server_open.png"><img alt="_images/server_open.png" class="align-center" src="_images/server_open.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>结果是，在您的操作系统的默认浏览器将启动。</p>
+<p><code class="docutils literal"><span class="pre">项目管理</span></code> 按钮可用于打开  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮加载当前在Blender当中打开的场景到 <a class="reference internal" href="viewer.html#viewer"><span>viewer</span></a> 中。</p>
+<p>按下 <code class="docutils literal"><span class="pre">停止服务器</span></code>  按钮可以停止服务器。Blender关闭时，它也会停止。</p>
+</div>
+<div class="section" id="running-viewer-and-demos">
+<span id="getting-started-launching-viewer"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id9">运行浏览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h3>
+<p>索引页面中包含指向发动现场观众和演示应用。一个 <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-capable browser</span></a> 才能运行这些应用程序。</p>
+<a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">如果不能正确显示的SDK应用程序，或错误消息显示，按照 <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>启动时的问题</span></a> 中的说明部分。</p>
+</div>
+</div>
+</div>
+<div class="section" id="updating">
+<h2><a class="toc-backref" href="#id10">更新</a><a class="headerlink" href="#updating" title="永久链接至标题">¶</a></h2>
+<div class="section" id="updating-the-sdk">
+<h3><a class="toc-backref" href="#id11">更新 SDK</a><a class="headerlink" href="#updating-the-sdk" title="永久链接至标题">¶</a></h3>
+<p>在更新之前，我们建议您使用 <a class="reference internal" href="project_manager.html#export-projects"><span>project export</span></a> 工具备份的所有开发中的项目.</p>
+<p>有两种方法来更新 SDK。</p>
+<p>首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在Blender设置，就像你第一次安装 SDK一样。</p>
+<p>第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 &#8220;纯净&#8221;，但在大多数情况下，它不应导致任何问题。</p>
+<p>完成更新后，您可以使用 <a class="reference internal" href="project_manager.html#import-projects"><span>项目导入</span></a> 工具导入所有已保存的项目。</p>
+</div>
+<div class="section" id="exporting-and-viewing-scenes">
+<span id="getting-started-export-viewer"></span><span id="index-1"></span><h3><a class="toc-backref" href="#id12">导出和查看场景</a><a class="headerlink" href="#exporting-and-viewing-scenes" title="永久链接至标题">¶</a></h3>
+<p>创建的场景可以以 HTML 格式导出。使用 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> 或者 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> 菜单选项，然后选择导出文件的路径。场景导出完全描述在 <a class="reference internal" href="addon.html#addon"><span>自己章节</span></a>. 可以用任何支持 WebGL的浏览器打开生成的 HTML 文件。</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL的浏览器支持</span></a></p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="workflow.html" class="btn btn-neutral float-right" title="工作流程" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="features.html" class="btn btn-neutral" title="功能" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

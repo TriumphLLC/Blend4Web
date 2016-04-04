@@ -33,6 +33,8 @@ var m_tex   = require("__textures");
 var m_time  = require("__time");
 var m_util  = require("__util");
 var m_graph = require("__graph");
+var m_scenes = require("__scenes");
+var m_render = require("__renderer");
 
 var cfg_def = m_cfg.defaults;
 

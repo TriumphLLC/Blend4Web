@@ -99,7 +99,7 @@ uniform mat3 u_view_tsr;
 #endif
 
 uniform mat4 u_proj_matrix;
-#if !NODES || BILLBOARD
+#if !NODES || BILLBOARD || DYNAMIC_GRASS
 uniform vec3 u_camera_eye;
 #endif
 

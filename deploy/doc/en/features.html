@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Features &mdash; User Manual: Blend4Web vv16.02</title>
+  <title>Features &mdash; Blend4Web 16.03 User Manual</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
-        <link rel="next" title="Quick Install" href="first_steps.html"/>
+    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
+        <link rel="next" title="Installing and Updating" href="setup.html"/>
         <link rel="prev" title="Overview" href="about.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,30 +85,29 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">General</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Texturing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Materials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Lighting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Shadows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Particle System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">External Scenes Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">Postprocessing Effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">Animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">Audio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">Physics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">Event-Driven Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id15">Visual Programming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id16">Other</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#texturing">Texturing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#materials">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lighting">Lighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shadows">Shadows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#particle-system">Particle System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-scenes-rendering">External Scenes Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postprocessing-effects">Postprocessing Effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#animation">Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimization">Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio">Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physics">Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-driven-model">Event-Driven Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visual-programming">Visual Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other">Other</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -154,6 +153,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -174,243 +174,161 @@
             
   <div class="section" id="features">
 <span id="id1"></span><h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>General<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">effective rendering of 3D scenes of any complexity and size</p>
-</li>
-<li><p class="first">data format designed to fit WebGL specifics and optimized for loading</p>
-</li>
-<li><p class="first">convenient environment for authoring 3D content, provided by the Blender add-on</p>
-</li>
+<li>effective rendering of 3D scenes of any complexity and size</li>
+<li>data format designed to fit WebGL specifics and optimized for loading</li>
+<li>convenient environment for authoring 3D content, provided by the Blender add-on</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>Texturing<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="texturing">
+<h2>Texturing<a class="headerlink" href="#texturing" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">texture mapping i.e. applying of a flat image to a 3D object surface</p>
-</li>
-<li><p class="first">multitexturing i.e. using multiple textures for an object</p>
-</li>
-<li><p class="first">render-to-texture, RTT for displaying one scene in another and for postprocessing effects</p>
-</li>
-<li><p class="first">anisotropic filtering, AF for enhancing the quality of surfaces at oblique viewing angles (standard WebGL extension is used)</p>
-</li>
-<li><p class="first">texture compression support (S3TC/DXT format)</p>
-</li>
-<li><p class="first">video textures - video can be loaded and played back, being layered as a texture</p>
-</li>
-<li><p class="first">canvas textures - 2D Canvas API can be used to draw on textures</p>
-</li>
+<li>texture mapping i.e. applying of a flat image to a 3D object surface</li>
+<li>multitexturing i.e. using multiple textures for an object</li>
+<li>render-to-texture, RTT for displaying one scene in another and for postprocessing effects</li>
+<li>anisotropic filtering, AF for enhancing the quality of surfaces at oblique viewing angles (standard WebGL extension is used)</li>
+<li>texture compression support (S3TC/DXT format)</li>
+<li>video textures - video can be loaded and played back, being layered as a texture</li>
+<li>canvas textures - 2D Canvas API can be used to draw on textures</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>Materials<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="materials">
+<h2>Materials<a class="headerlink" href="#materials" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">materials transparency, sorting by depth if required (z-sorting)</p>
-</li>
-<li><p class="first">enhanced detailing of relief surfaces with textures (parallax offset mapping method is used)</p>
-</li>
-<li><p class="first">Fresnel effect - dependency of reflectivity on viewing angles</p>
-</li>
-<li><p class="first">dynamic reflection</p>
-</li>
-<li><p class="first">node materials support</p>
-</li>
-<li><p class="first">halo material for rendering light sources and stars</p>
-</li>
+<li>materials transparency, sorting by depth if required (z-sorting)</li>
+<li>enhanced detailing of relief surfaces with textures (parallax offset mapping method is used)</li>
+<li>Fresnel effect - dependency of reflectivity on viewing angles</li>
+<li>dynamic reflection</li>
+<li>node materials support</li>
+<li>halo material for rendering light sources and stars</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>Lighting<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="lighting">
+<h2>Lighting<a class="headerlink" href="#lighting" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">multiple light sources</p>
-</li>
-<li><p class="first">light source types - directional, hemisphere, point, spot</p>
-</li>
-<li><p class="first">diffuse lighting</p>
-</li>
-<li><p class="first">ambient lighting aka environment lighting</p>
-</li>
-<li><p class="first">specular lighting - light reflection from surface</p>
-</li>
-<li><p class="first">environment mapping - surface reflects the environment</p>
-</li>
-<li><p class="first">normal mapping - additional surface detailing by textures</p>
-</li>
+<li>multiple light sources</li>
+<li>light source types - directional, hemisphere, point, spot</li>
+<li>diffuse lighting</li>
+<li>ambient lighting aka environment lighting</li>
+<li>specular lighting - light reflection from surface</li>
+<li>environment mapping - surface reflects the environment</li>
+<li>normal mapping - additional surface detailing by textures</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>Shadows<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shadows">
+<h2>Shadows<a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">static shadow mapping (light mapping)</p>
-</li>
-<li><p class="first">dynamic shadow mapping</p>
-</li>
-<li><p class="first">self-shadowing - objects cast shadows on themselves</p>
-</li>
-<li><p class="first">cascaded shadow mapping, CSM for large scenes</p>
-</li>
-<li><p class="first">soft shadows</p>
-</li>
+<li>static shadow mapping (light mapping)</li>
+<li>dynamic shadow mapping</li>
+<li>self-shadowing - objects cast shadows on themselves</li>
+<li>cascaded shadow mapping, CSM for large scenes</li>
+<li>soft shadows</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2>Particle System<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="particle-system">
+<h2>Particle System<a class="headerlink" href="#particle-system" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">particle system for implementing effects such as fire, smoke, splashes etc</p>
-</li>
-<li><p class="first">particle system for instancing similar objects: grass, stones, tree leaves etc</p>
-</li>
+<li>particle system for implementing effects such as fire, smoke, splashes etc</li>
+<li>particle system for instancing similar objects: grass, stones, tree leaves etc</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h2>External Scenes Rendering<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="external-scenes-rendering">
+<h2>External Scenes Rendering<a class="headerlink" href="#external-scenes-rendering" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">fog</p>
-</li>
-<li><p class="first">skydome for skies or environment</p>
-</li>
-<li><p class="first">lens flares effect</p>
-</li>
-<li><p class="first">water rendering</p>
-</li>
+<li>fog</li>
+<li>skydome for skies or environment</li>
+<li>lens flares effect</li>
+<li>water rendering</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h2>Postprocessing Effects<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="postprocessing-effects">
+<h2>Postprocessing Effects<a class="headerlink" href="#postprocessing-effects" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">motion blur</p>
-</li>
-<li><p class="first">anti-aliasing - image edges enhancement (fast approximate anti-aliasing, FXAA method is used)</p>
-</li>
-<li><p class="first">stereo (anaglyph method, 3D glasses required)</p>
-</li>
-<li><p class="first">ambient occlusion (SSAO method is used)</p>
-</li>
-<li><p class="first">depth of field, DOF</p>
-</li>
-<li><p class="first">crepuscular rays (god rays)</p>
-</li>
-<li><p class="first">bloom - bright light effect</p>
-</li>
-<li><p class="first">object outlining</p>
-</li>
+<li>motion blur</li>
+<li>anti-aliasing - image edges enhancement (fast approximate anti-aliasing, FXAA method is used)</li>
+<li>stereo (anaglyph method, 3D glasses required)</li>
+<li>ambient occlusion (SSAO method is used)</li>
+<li>depth of field, DOF</li>
+<li>crepuscular rays (god rays)</li>
+<li>bloom - bright light effect</li>
+<li>object outlining</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h2>Animation<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="animation">
+<h2>Animation<a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">skinning - object deformation with a system of bones</p>
-</li>
-<li><p class="first">animating location, rotation and scale of objects, cameras and light sources</p>
-</li>
-<li><p class="first">skeletal animation (e.g. for a character&#8217;s body)</p>
-</li>
-<li><p class="first">vertex animation (e.g. for cloth simulation)</p>
-</li>
-<li><p class="first">procedural animation (e.g. foliage wind bending)</p>
-</li>
-<li><p class="first">texture coordinates animation (e.g. for visualizing water waves)</p>
-</li>
+<li>skinning - object deformation with a system of bones</li>
+<li>animating location, rotation and scale of objects, cameras and light sources</li>
+<li>skeletal animation (e.g. for a character&#8217;s body)</li>
+<li>vertex animation (e.g. for cloth simulation)</li>
+<li>procedural animation (e.g. foliage wind bending)</li>
+<li>texture coordinates animation (e.g. for visualizing water waves)</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h2>Optimization<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="optimization">
+<h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">frustum culling - invisible objects are not rendered</p>
-</li>
-<li><p class="first">batching, texture atlases - WebGL calls number are reduced</p>
-</li>
-<li><p class="first">level of detail, LOD - far objects are less detailed</p>
-</li>
+<li>frustum culling - invisible objects are not rendered</li>
+<li>batching, texture atlases - WebGL calls number are reduced</li>
+<li>level of detail, LOD - far objects are less detailed</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h2>Audio<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="audio">
+<h2>Audio<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">audio engine based on the Web Audio API</p>
-</li>
-<li><p class="first">various file formats support depending on browsers</p>
-</li>
-<li><p class="first">flexible playback control, sound pause/resume</p>
-</li>
-<li><p class="first">positioning sources in a three-dimensional space</p>
-</li>
-<li><p class="first">Doppler effect for moving objects with a possibility to turn it off and with space jump compensation</p>
-</li>
-<li><p class="first">flexible control of playback volume, speed and latency</p>
-</li>
-<li><p class="first">fade-in, fade-out, duck</p>
-</li>
-<li><p class="first">high quality sound looping</p>
-</li>
-<li><p class="first">randomizing sound parameters to improve loop percepetion</p>
-</li>
-<li><p class="first">cross-fader sound animation support</p>
-</li>
-<li><p class="first">dynamic compressor</p>
-</li>
-<li><p class="first">efficient long soundtrack storage and playback</p>
-</li>
-<li><p class="first">tools for real-time mixing</p>
-</li>
+<li>audio engine based on the Web Audio API</li>
+<li>various file formats support depending on browsers</li>
+<li>flexible playback control, sound pause/resume</li>
+<li>positioning sources in a three-dimensional space</li>
+<li>Doppler effect for moving objects with a possibility to turn it off and with space jump compensation</li>
+<li>flexible control of playback volume, speed and latency</li>
+<li>fade-in, fade-out, duck</li>
+<li>high quality sound looping</li>
+<li>randomizing sound parameters to improve loop percepetion</li>
+<li>cross-fader sound animation support</li>
+<li>dynamic compressor</li>
+<li>efficient long soundtrack storage and playback</li>
+<li>tools for real-time mixing</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h2>Physics<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="physics">
+<h2>Physics<a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">rigid body physics - collision detection, realistic movement, gravity, height detection, torsion</p>
-</li>
-<li><p class="first">various constraints types - rigid, hinges, springs, pivots, sliding etc</p>
-</li>
-<li><p class="first">ray tracing</p>
-</li>
-<li><p class="first">floating and underwater movement physics</p>
-</li>
-<li><p class="first">wheeled vehicles simulation</p>
-</li>
-<li><p class="first">watercraft simulation</p>
-</li>
+<li>rigid body physics - collision detection, realistic movement, gravity, height detection, torsion</li>
+<li>various constraints types - rigid, hinges, springs, pivots, sliding etc</li>
+<li>ray tracing</li>
+<li>floating and underwater movement physics</li>
+<li>wheeled vehicles simulation</li>
+<li>watercraft simulation</li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h2>Event-Driven Model<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="event-driven-model">
+<h2>Event-Driven Model<a class="headerlink" href="#event-driven-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">asynchronous framework for application logic authoring</p>
-</li>
-<li><p class="first">animation control and artificial intelligence of characters and animals</p>
-</li>
+<li>asynchronous framework for application logic authoring</li>
+<li>animation control and artificial intelligence of characters and animals</li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h2>Visual Programming<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="visual-programming">
+<h2>Visual Programming<a class="headerlink" href="#visual-programming" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">the NLA Script tool allows to create interactive apps by constructing the logic chains from basic blocks</p>
-</li>
+<li>the Logic Editor tool allows to create interactive apps by constructing the logic chains from basic blocks</li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h2>Other<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p class="first">math curves support for modeling long objects (roads, wires, rivers)</p>
-</li>
-<li><p class="first">picking objects on the 3D scene with the mouse</p>
-</li>
-<li><p class="first">code minification and obfuscation for commercial use of the engine</p>
-</li>
-<li><p class="first">module structure of source code</p>
-</li>
-<li><p class="first">powerful shader preprocessor with modules and functional blocks (nodes) support</p>
-</li>
-<li><p class="first">convenient system to deploy new 3D applications quickly</p>
-</li>
-<li><p class="first">support options for a broad range of equipment</p>
-</li>
-<li><p class="first">user manual and API documentation</p>
-</li>
-<li><p class="first">user interaction - camera, character, actions control</p>
-</li>
+<li>math curves support for modeling long objects (roads, wires, rivers)</li>
+<li>picking objects on the 3D scene with the mouse</li>
+<li>code minification and obfuscation for commercial use of the engine</li>
+<li>module structure of source code</li>
+<li>powerful shader preprocessor with modules and functional blocks (nodes) support</li>
+<li>convenient system to deploy new 3D applications quickly</li>
+<li>support options for a broad range of equipment</li>
+<li>user manual and API documentation</li>
+<li>user interaction - camera, character, actions control</li>
 </ul>
 </div>
 </div>
@@ -422,7 +340,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="first_steps.html" class="btn btn-neutral float-right" title="Quick Install" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="setup.html" class="btn btn-neutral float-right" title="Installing and Updating" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="about.html" class="btn btn-neutral" title="Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -435,11 +353,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-02-26.
+      Last updated on 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -457,7 +376,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -486,14 +405,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

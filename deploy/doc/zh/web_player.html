@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>网络播放器 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="插件" href="addon.html"/>
+        <link rel="prev" title="场景预览器" href="viewer.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">网络播放器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">用法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control-panel">控制面板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#attributes">属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scene-name-as-title">场景名称为标题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scene-errors">场景错误</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>网络播放器</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="web-player">
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id2">网络播放器</a><a class="headerlink" href="#web-player" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#web-player" id="id2">网络播放器</a><ul>
+<li><a class="reference internal" href="#usage" id="id3">用法</a></li>
+<li><a class="reference internal" href="#navigation" id="id4">导航</a></li>
+<li><a class="reference internal" href="#control-panel" id="id5">控制面板</a></li>
+<li><a class="reference internal" href="#attributes" id="id6">属性</a></li>
+<li><a class="reference internal" href="#scene-name-as-title" id="id7">场景名称为标题</a></li>
+<li><a class="reference internal" href="#scene-errors" id="id8">场景错误</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>网络播放器是演示模式的特殊应用可以渲染模型和场景。</p>
+<p>桌面版本：</p>
+<a class="reference internal image-reference" href="_images/web_player_example.jpg"><img alt="_images/web_player_example.jpg" class="align-center" src="_images/web_player_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>手机版：</p>
+<a class="reference internal image-reference" href="_images/web_player_example_mobile.jpg"><img alt="_images/web_player_example_mobile.jpg" class="align-center" src="_images/web_player_example_mobile.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#id3">用法</a><a class="headerlink" href="#usage" title="永久链接至标题">¶</a></h2>
+<p>您可以复制包含网络播放文件的目录，即 <code class="docutils literal"><span class="pre">deploy/apps/webplayer</span></code>, ，从Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文件在您的网站和指定的路径给他们（绝对或相对）与 <code class="docutils literal"><span class="pre">load</span></code> 网络播放器的参数。</p>
+<p>当您导出成一个HTML文件的Web播放器界面会自动集成到它。</p>
+</div>
+<div class="section" id="navigation">
+<h2><a class="toc-backref" href="#id4">导航</a><a class="headerlink" href="#navigation" title="永久链接至标题">¶</a></h2>
+<p>相机（在 <code class="docutils literal"><span class="pre">Target</span></code> 和 <code class="docutils literal"><span class="pre">Eye</span></code> 模式）由鼠标控制，它的按钮按下或键： <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> (向前，左，后，右，上，下).  <code class="docutils literal"><span class="pre">numpad</span></code> 键也支持。</p>
+</div>
+<div class="section" id="control-panel">
+<h2><a class="toc-backref" href="#id5">控制面板</a><a class="headerlink" href="#control-panel" title="永久链接至标题">¶</a></h2>
+<p>网络播放器的控制面板如下图所示。</p>
+<a class="reference internal image-reference" href="_images/web_player_interface.jpg"><img alt="_images/web_player_interface.jpg" class="align-center" src="_images/web_player_interface.jpg" style="width: 100%;" /></a>
+<ol class="arabic simple">
+<li><p class="first">显示/隐藏控制面板;</p>
+</li>
+<li><p class="first">开/关全屏模式;</p>
+</li>
+<li><p class="first">设置场景的质量;</p>
+</li>
+<li><p class="first">声音开/关;</p>
+</li>
+<li><p class="first">开启/关闭相机自动旋转模式;</p>
+</li>
+<li><p class="first">运行/停止引擎;</p>
+</li>
+<li><p class="first">打开帮助窗口;</p>
+</li>
+<li><p class="first">通过推特分享;</p>
+</li>
+<li><p class="first">通过Facebook分享;</p>
+</li>
+<li><p class="first">通过Google+分享;</p>
+</li>
+<li><p class="first">通过VK分享。</p>
+</li>
+</ol>
+</div>
+<div class="section" id="attributes">
+<span id="webplayer-attributes"></span><h2><a class="toc-backref" href="#id6">属性</a><a class="headerlink" href="#attributes" title="永久链接至标题">¶</a></h2>
+<p>网络播放器接收来自浏览器地址栏中的属性：</p>
+<a class="reference internal image-reference" href="_images/player_params.jpg"><img alt="_images/player_params.jpg" class="align-center" src="_images/player_params.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple">
+<li><p class="first">特殊的属性 <code class="docutils literal"><span class="pre">load</span></code> 用于加载场景，这个属性包含相对路径JSON文件。</p>
+</li>
+<li><p class="first">在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_image</span></code> 属性用于设置的背景图像，而不是3D内容。</p>
+</li>
+<li><p class="first">在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_video</span></code> 属性用于设置背景视频，而不是3D内容。可用于多次添加更多的视频格式。</p>
+</li>
+<li><p class="first">可选 <code class="docutils literal"><span class="pre">show_fps</span></code> 属性是用来显示在玩家的右上角的FPS计数器。</p>
+</li>
+<li><p class="first">可选参数 <code class="docutils literal"><span class="pre">autorotate</span></code> 时，使用了场景加载后使自动相机旋转。</p>
+</li>
+<li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。</p>
+</li>
+<li><p class="first">可选 <code class="docutils literal"><span class="pre">alpha</span></code> 参数用于启用对描画区域的透明度。</p>
+</li>
+<li><p class="first">可选的 <code class="docutils literal"><span class="pre">no_social</span></code> 属性用于在控制面板上禁用社交网络按钮。</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">如果同时 <code class="docutils literal"><span class="pre">fallback_image</span></code> 和 <code class="docutils literal"><span class="pre">fallback_video</span></code> 参数指定 <code class="docutils literal"><span class="pre">fallback_image</span></code> 参数被使用。</p>
+</div>
+</div>
+<div class="section" id="scene-name-as-title">
+<span id="wp-title"></span><h2><a class="toc-backref" href="#id7">场景名称为标题</a><a class="headerlink" href="#scene-name-as-title" title="永久链接至标题">¶</a></h2>
+<p>默认情况下，网络播放器具有 <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></code> 称号。在Blender的场景中分配的meta标签 <code class="docutils literal"><span class="pre">title</span></code> ，您可以更改该值为别的东西。</p>
+<a class="reference internal image-reference" href="_images/title.jpg"><img alt="_images/title.jpg" class="align-center" src="_images/title.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="scene-errors">
+<h2><a class="toc-backref" href="#id8">场景错误</a><a class="headerlink" href="#scene-errors" title="永久链接至标题">¶</a></h2>
+<p>如果播放器使用不当，它会显示相应的错误。</p>
+<ol class="arabic simple">
+<li><p class="first">在 <code class="docutils literal"><span class="pre">load</span></code> 属性指定一个错误的路径JSON文件或文件已损坏;</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p class="first">在 <code class="docutils literal"><span class="pre">load</span></code> 属性未找到或无效的;</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p class="first">WebGL的初始化错误。</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/error_webgl.jpg"><img alt="_images/error_webgl.jpg" class="align-center" src="_images/error_webgl.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="addon.html" class="btn btn-neutral float-right" title="插件" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viewer.html" class="btn btn-neutral" title="场景预览器" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -477,6 +477,7 @@ div#hor_button_section {
     position: relative;
     min-width: 500px;
     margin-top: -45px;
+    display: none;
 }
 
 div#vert_section_button {

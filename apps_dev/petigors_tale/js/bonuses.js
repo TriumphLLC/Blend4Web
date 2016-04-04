@@ -32,7 +32,7 @@ exports.init = function(elapsed_sensor, level_config) {
                                                     m_conf.CHAR_LAVA_SPEAKER);
     _char_shield_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                       m_conf.CHAR_SHIELD_SPEAKER);
-
+    _bonus_wrappers.length = 0;
     process_bonuses(m_conf.HP_BONUSES_EMPTIES, m_conf.BTYPE_HP,
                     "potion_HP");
     process_bonuses(m_conf.LAVA_BONUSES_EMPTIES, m_conf.BTYPE_LAVA,
@@ -58,6 +58,17 @@ exports.init = function(elapsed_sensor, level_config) {
     }
     m_ctl.create_sensor_manifold(null, "BONUS_TIMER", m_ctl.CT_CONTINUOUS,
                                  [elapsed_sensor], null, bonus_timer_cb);
+}
+
+function init_bonus_wrapper(empty_name, type, bonus_name) {
+    var bonus_wrapper = {
+        empty: m_scs.get_object_by_name(empty_name),
+        body: m_scs.get_object_by_dupli_name(empty_name, bonus_name),
+        lifetime: m_conf.BONUS_LIFETIME,
+        type: type,
+        is_spawned: false
+    }
+    return bonus_wrapper;
 }
 
 function init_bonus_cb(elapsed_sensor) {
@@ -132,21 +143,6 @@ function process_bonuses(bonus_array, type, name) {
     }
 }
 
-function init_bonus_wrapper(empty_name, type, bonus_name) {
-    var empty = m_scs.get_object_by_name(empty_name);
-    var body = m_scs.get_object_by_dupli_name(empty_name, bonus_name);
-    if (!empty || !body)
-        return null;
-    var bonus_wrapper = {
-        empty: empty,
-        body: body,
-        lifetime: m_conf.BONUS_LIFETIME,
-        type: type,
-        is_spawned: false
-    }
-    return bonus_wrapper;
-}
-
 exports.spawn = function(position) {
 
     var bonus_type = Math.floor(3 * Math.random());
@@ -166,16 +162,9 @@ exports.spawn = function(position) {
 }
 
 exports.reset = function() {
-    function reset_pos(bonus_array) {
-        for (var i = 0; i < bonus_array.length; i++) {
-            var empty_name = bonus_array[i];
-            var empty_obj = m_scs.get_object_by_name(empty_name);
-            m_trans.set_translation_v(empty_obj, m_conf.DEFAULT_POS);
-        }
+    for (var i = 0; i < _bonus_wrappers.length; i++) {
+        m_trans.set_translation_v(_bonus_wrappers[i].empty, m_conf.DEFAULT_POS);
     }
-    reset_pos(m_conf.HP_BONUSES_EMPTIES);
-    reset_pos(m_conf.SHIELD_BONUSES_EMPTIES);
-    reset_pos(m_conf.LAVA_BONUSES_EMPTIES);
 }
 
 exports.set_shield_time = function(val) {

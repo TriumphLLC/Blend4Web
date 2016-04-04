@@ -1,0 +1,455 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2016-03-25 14:56+0300\n"
+"PO-Revision-Date: 2016-03-26 15:23+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.7\n"
+
+#: ../viewer.rst:0
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../viewer.rst:1
+msgid "viewer"
+msgstr "预览"
+
+#: ../viewer.rst:7
+msgid "Scene Viewer"
+msgstr "场景预览器"
+
+#: ../viewer.rst:13
+msgid ":ref:`Running The Scenes Viewer <getting_started_launching_viewer>`."
+msgstr ":ref:`运行场景预览器 <getting_started_launching_viewer>`."
+
+#: ../viewer.rst:16
+msgid "Navigation"
+msgstr "导航"
+
+#: ../viewer.rst:18
+msgid ""
+"To control the camera hold down a mouse button and move the mouse. Control "
+"can also be performed using the ``W``, ``A``, ``S``, ``D``, ``R``, ``F`` "
+"keys: forward, left, back, right, up, down. Arrows and ``numpad`` keys can "
+"be used as well. In the ``Target`` camera mode it's possible to focus on the "
+"selected object using the ``Z`` or ``.(dot)`` keys."
+msgstr ""
+"为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 ``W``, ``A``, "
+"``S``, ``D``, ``R``, ``F`` 键：前进，左，后，右，上，下。 箭头和 ``numpad`` "
+"键也可以使用。在 ``Target`` 相机模式有可能集中使用所选对象 ``Z`` 或 ``."
+"(dot)`` 键."
+
+#: ../viewer.rst:21
+msgid "The Side Panel"
+msgstr "侧面板"
+
+#: ../viewer.rst:23
+msgid ""
+"The side panel consists of three areas: the information board, basic control "
+"buttons and the list of drop-down panels with additional control elements "
+"differentiated by functionality."
+msgstr ""
+"侧面板由三个区域组成：信息板，基本控制按钮和下拉面板与功能区分额外的控制元素"
+"列表。"
+
+#: ../viewer.rst:33
+msgid "Control elements list in top-to-bottom order"
+msgstr "控制元件列表中上到下依次"
+
+#: ../viewer.rst:36
+msgid "**Build**"
+msgstr "**建立**"
+
+#: ../viewer.rst:36
+msgid ""
+"The engine build date and time. In the developer version this shows the page "
+"load time."
+msgstr "引擎建立日期和时间。在开发者版本显示的页面加载时间。"
+
+#: ../viewer.rst:39
+msgid "**Scene**"
+msgstr "**场景**"
+
+#: ../viewer.rst:39
+msgid ""
+"Loaded scene name from the ``assets.json`` file. Path to the file pops-up on "
+"mouse hover."
+msgstr "从 ``assets.json`` 文件加载场景名称. 文件路径可以由鼠标悬停弹出。"
+
+#: ../viewer.rst:42
+msgid "**Loaded**"
+msgstr "**加载**"
+
+#: ../viewer.rst:42
+msgid "Loading progress and time."
+msgstr "加载进度和时间。"
+
+#: ../viewer.rst:45
+msgid "**Reset**"
+msgstr "**重置**"
+
+#: ../viewer.rst:45
+msgid ""
+"This button deletes the saved name of the last viewed scene and reloads the "
+"page back to display the default scene."
+msgstr "此按钮删除上次查看现场的保存名称和重新加载页面回显示默认场景。"
+
+#: ../viewer.rst:48
+msgid "Drop-down menu for choosing the performance profile of the engine."
+msgstr "下拉菜单中选择了引擎的显示质量配置方式。"
+
+#: ../viewer.rst:50
+msgid "**LOW Q - HIGH Q - ULTRA Q**"
+msgstr "**LOW Q - HIGH Q - ULTRA Q**"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:50
+msgid ":ref:`quality_settings`"
+msgstr ":ref:`quality_settings`"
+
+#: ../viewer.rst:53
+msgid "**Pause**"
+msgstr "**暂停**"
+
+#: ../viewer.rst:53
+msgid "Pause rendering."
+msgstr "暂停渲染。"
+
+#: ../viewer.rst:56
+msgid "**Resume**"
+msgstr "**恢复**"
+
+#: ../viewer.rst:56
+msgid "Resume rendering."
+msgstr "恢复渲染。"
+
+#: ../viewer.rst:59
+msgid "**Auto View**"
+msgstr "**自动视图**"
+
+#: ../viewer.rst:59
+msgid ""
+"Activate the automatic scene switching mode; the delay between views is 1 "
+"second."
+msgstr "激活自动场景切换模式;视图之间的延迟时间为1秒。"
+
+#: ../viewer.rst:62
+msgid "**Scenes**"
+msgstr "**场景**"
+
+#: ../viewer.rst:62
+msgid ""
+"A double-level list of the categories and scenes from the ``assets.json`` "
+"file."
+msgstr "在 ``assets.json`` 文件中的分类和场景的双级列表."
+
+#: ../viewer.rst:65
+msgid "**Animation**"
+msgstr "**动画**"
+
+#: ../viewer.rst:65
+msgid ""
+"Animation controls. When viewing animated models, you can select an object "
+"and switch its animation with a drop-down menu, switch cyclic animation "
+"mode, stop and resume animation, set the required frame (the animation "
+"should be stopped to do this)."
+msgstr ""
+"动画控件。当观看动画模型时可以：选择一个对象，并使用下拉菜单切换的动画，循环"
+"切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:68
+msgid "**NLA**"
+msgstr "**NLA**"
+
+#: ../viewer.rst:68
+msgid ""
+"A tool to control Non-Linear Animation (if it is present in the scene). For "
+"this panel to work, NLA option should be enabled in the scene's settings."
+msgstr ""
+"控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景"
+"的设置中启用。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:71
+msgid "**Shape Keys**"
+msgstr "**形键**"
+
+#: ../viewer.rst:71
+msgid ""
+"Shape Keys control. When viewing models that has shape keys, you can select "
+"an object, one of its shape keys and the infuence that the key has on the "
+"object."
+msgstr ""
+"形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物"
+"体的影响。"
+
+#: ../viewer.rst:74
+msgid "**Materials**"
+msgstr "**材质**"
+
+#: ../viewer.rst:74
+msgid ""
+"Material properties setup. A material can be selected using the drop-down "
+"menu. For now, only a limited number of properties is supported."
+msgstr "材质特性设置。材质可以使用下拉菜单中选择。此刻仅支持属性的有限范围。"
+
+#: ../viewer.rst:77
+msgid "**Lighting**"
+msgstr "**灯光**"
+
+#: ../viewer.rst:77
+msgid ""
+"Direct lighting parameters setup. A light source can be selected using the "
+"drop-down menu. Changing color and intensity is supported. Daytime and sun "
+"lighting parameters can also be tweaked on this panel."
+msgstr ""
+"直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和"
+"阳光照明参数也可以调整该面板上。"
+
+#: ../viewer.rst:80
+msgid "**Ambient**"
+msgstr "**环境**"
+
+#: ../viewer.rst:80
+msgid ""
+"Ambient lighting parameters setup. Changing the colors and intensity of a "
+"hemispheric ambient model is supported."
+msgstr "环境照明的参数设置。改变颜色和半球环境模型的强度支持。"
+
+#: ../viewer.rst:83
+msgid "**Shadows**"
+msgstr "**阴影**"
+
+#: ../viewer.rst:83
+msgid ""
+"Shadow parameters setup, including shadow cascades and shadow edges "
+"softening parameters."
+msgstr "阴影参数设置，包括影子瀑布和阴影边缘软化参数。"
+
+#: ../viewer.rst:86
+msgid "**Sky**"
+msgstr "**天空**"
+
+#: ../viewer.rst:86
+msgid ""
+"Dynamic sky parameters setup such as color, sun light scattering parameters "
+"etc."
+msgstr "动态天空参数设置，如颜色，太阳的光散射参数等。"
+
+#: ../viewer.rst:89
+msgid "**Sea**"
+msgstr "**海**"
+
+#: ../viewer.rst:89
+msgid ""
+"Water rendering parameters setup, including color transitions by depth and "
+"by shore distance, foam and subsurface scattering parameters, waves dynamics "
+"etc."
+msgstr ""
+"水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学"
+"等。"
+
+#: ../viewer.rst:92
+msgid "**Wind**"
+msgstr "**风**"
+
+#: ../viewer.rst:92
+msgid "Wind parameters setup, including direction and strength."
+msgstr "风参数设置，包括方向和强度。"
+
+#: ../viewer.rst:95
+msgid "**Screen Space Amb Occlus**"
+msgstr "**屏幕空间环境遮蔽**"
+
+#: ../viewer.rst:95
+msgid "Ambient occlusion parameters setup."
+msgstr "环境闭塞参数设置。"
+
+#: ../viewer.rst:98
+msgid "**God Rays**"
+msgstr "**神光芒**"
+
+#: ../viewer.rst:98
+msgid "Crepuscular rays effect parameters setup."
+msgstr "曙暮辉效果参数设置。"
+
+#: ../viewer.rst:101
+msgid "**Bloom**"
+msgstr "**盛开**"
+
+#: ../viewer.rst:101
+msgid "Bright light effect parameters setup."
+msgstr "明亮的光线效果参数设置。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:104
+msgid "**Motion Blur**"
+msgstr "**运动模糊**"
+
+#: ../viewer.rst:104
+msgid "Motion blur effect settings."
+msgstr "运动模糊效果设置。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:107
+msgid "**Glow Materials**"
+msgstr "**晕光材质**"
+
+#: ../viewer.rst:107
+msgid "Glow Materials effect settings."
+msgstr "晕光材质效果设置。"
+
+#: ../viewer.rst:110
+msgid "**Depth of Field**"
+msgstr "**景深**"
+
+#: ../viewer.rst:110
+msgid "Depth of field effect parameters setup."
+msgstr "景深效果的参数设置。"
+
+#: ../viewer.rst:113
+msgid "**Color correction**"
+msgstr "**色彩校正**"
+
+#: ../viewer.rst:113
+msgid ""
+"Color correction parameters setup, including brightness, contrast, exposure "
+"and saturation."
+msgstr "颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。"
+
+#: ../viewer.rst:116
+msgid "**Audio**"
+msgstr "**音频**"
+
+#: ../viewer.rst:116
+msgid ""
+"There is a mixing mode switch on the panel. After it is enabled the mixer "
+"interface becomes visible (only for scenes with sound sources)."
+msgstr ""
+"有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有"
+"声源的场景）。"
+
+#: ../viewer.rst:119
+msgid "**Stereo View**"
+msgstr "**立体视图**"
+
+#: ../viewer.rst:119
+msgid "There is a stereoscopy mode switch on the panel."
+msgstr "有在面板上的立体模式的切换。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:122
+msgid "**Gyroscope**"
+msgstr "**陀螺仪**"
+
+#: ../viewer.rst:122
+msgid ""
+"Gyroscope settings for mobile devices can be controlled from this panel."
+msgstr "用于移动设备的陀螺仪设置可以从这个面板来控制。"
+
+#: ../viewer.rst:125
+msgid ""
+"This panel contains a range of debugging tools, including the wireframe mode "
+"and the postprocessing stages viewer switches."
+msgstr "此面板包含了一系列的调试工具，包括线框模式和后处理阶段查看器开关。"
+
+#. No translation found in viewer.po
+#: ../viewer.rst:126
+msgid "**Tools & Debug**"
+msgstr "**工具和调试**"
+
+#: ../viewer.rst:129
+msgid "Indicators"
+msgstr "指标"
+
+#: ../viewer.rst:132
+msgid "**Frames per second counter**"
+msgstr "**每秒计数帧**"
+
+#: ../viewer.rst:132
+msgid ""
+"This is located in the top right corner. It displays the averaged and "
+"rounded value for the last 1.5 seconds."
+msgstr "这是位于右上角。这显示最后1.5秒的平均和四舍五入的值。"
+
+#: ../viewer.rst:135
+msgid "**Viewport dimensions**"
+msgstr "**视维**"
+
+#: ../viewer.rst:135
+msgid ""
+"This is located in the top left corner. It displays the viewport dimensions "
+"in pixels."
+msgstr "这是位于左上角。它显示像素视口的尺寸。"
+
+#: ../viewer.rst:138
+msgid "**Selected object and controlled object**"
+msgstr "**选定的物体和控制物体**"
+
+#: ../viewer.rst:138
+msgid ""
+"This is located in the left bottom corner. It displays the names of selected "
+"and controlled objects. Object selection can be performed with the mouse. To "
+"control the object directly (normally for physics debugging) press the ``Q`` "
+"key and click on the object. The object movement is performed with the "
+"``W``, ``A``, ``S``, ``D`` keys. To exit the control mode press the ``Q`` "
+"key and click on an empty space. The indicator also displays the distance to "
+"the selected object in Blender units (meters equivalent)."
+msgstr ""
+"这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来执行。要直接"
+"控制的对象（通常为物理调试）按 ``Q`` 键并单击对象。物体的移动是与执行 ``W``, "
+"``A``, ``S``, ``D`` 键。要退出控制模式下，按 ``Q`` 键并单击一个空的空间。该指"
+"标也显示在Blender单位（米当量）所选对象的距离。"
+
+#: ../viewer.rst:141
+msgid "**Scene complexity indicator**"
+msgstr "**场景复杂度指标**"
+
+#: ../viewer.rst:141
+msgid ""
+"Is located in the top right corner of the rendering area. It displays the "
+"number of vertices, triangles and WebGL calls on the main rendering scene (i."
+"e. shadow rendering calls are not included, for example)."
+msgstr ""
+"位于渲染区域的右上角。它显示的顶点，三角形的数目和主渲染场景的WebGL调用（比"
+"如，阴影渲染调用未包括）。"
+
+#: ../viewer.rst:144
+msgid ""
+"Is located in the bottom right corner of the rendering area. It displays the "
+"amount of video memory used by geometry, textures, render targets, and also "
+"the total memory usage."
+msgstr ""
+"位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，"
+"并且还总的内存使用情况。"
+
+#: ../viewer.rst:144
+msgid "**Video memory indicator**"
+msgstr "**显存指标**"
+
+#: ../viewer.rst:147
+msgid "**Scene load errors indicator**"
+msgstr "**场景加载错误指示器**"
+
+#: ../viewer.rst:147
+msgid ""
+"Is located under the FPS counter. Shows errors and warnings which occurred "
+"during scene load. Red light means errors, yellow - warnings and green means "
+"that the scene was loaded successfully."
+msgstr ""
+"位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - "
+"警告，绿色表示该场景加载成功。"

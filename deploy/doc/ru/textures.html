@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Текстуры &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
         <link rel="prev" title="Стереоизображение" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,13 +85,12 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -103,57 +102,57 @@
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Текстуры</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Типы текстур</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#main-conf">Общие настройки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#texture-types">Типы текстур</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generic-settings">Общие настройки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">Диффузная текстура (diffuse map)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activation">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-settings">Дополнительные настройки</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-5">Карта бликов (specular map)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Дополнительные настройки</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#index-6">Карта нормалей (normal map)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Дополнительные настройки</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Карта высот (height map). Parallax mapping</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id10">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#index-6">Карта нормалей (normal map)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#index-8">Карта смешивания (stencil map)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id12">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id13">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limitations">Ограничения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Пример</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Карта высот (height map). Parallax mapping</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id14">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Дополнительные настройки</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#index-8">Карта смешивания (stencil map)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Дополнительные настройки</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Ограничения</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Пример</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#video-texture">Видео-текстуры</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Поддерживаемые форматы (контейнеры):</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Настройка текстуры</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Особенности работы на мобильных устройствах</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-textures">Видео-текстуры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-formats-containers">Поддерживаемые форматы (контейнеры):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-texture">Настройка текстуры</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifics-of-mobile-devices">Особенности работы на мобильных устройствах</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Карта окружения (environment map)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Создание карты окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-environment-maps">Создание карты окружения</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mirror-map">Карта зеркального отражения (mirror map)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id28">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Дополнительные настройки</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#skydome">Текстура неба (skydome)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Активация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">Дополнительные настройки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Активация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#index-12">Особые типы текстур</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#d-a">3D сценa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#special-texture-types">Особые типы текстур</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#d-scene">3D сценa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvas">Canvas</a></li>
 </ul>
 </li>
@@ -193,6 +192,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -212,63 +212,63 @@
            <div itemprop="articleBody">
             
   <span class="target" id="textures"></span><div class="section" id="index-0">
-<span id="id1"></span><h1><a class="toc-backref" href="#id34">Текстуры</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="id1"></span><h1><a class="toc-backref" href="#id20">Текстуры</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#index-0" id="id34">Текстуры</a><ul>
-<li><a class="reference internal" href="#index-1" id="id35">Типы текстур</a></li>
-<li><a class="reference internal" href="#main-conf" id="id36">Общие настройки</a></li>
-<li><a class="reference internal" href="#index-4" id="id37">Диффузная текстура (diffuse map)</a><ul>
-<li><a class="reference internal" href="#id6" id="id38">Активация</a></li>
-<li><a class="reference internal" href="#id7" id="id39">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#index-0" id="id20">Текстуры</a><ul>
+<li><a class="reference internal" href="#texture-types" id="id21">Типы текстур</a></li>
+<li><a class="reference internal" href="#generic-settings" id="id22">Общие настройки</a></li>
+<li><a class="reference internal" href="#index-4" id="id23">Диффузная текстура (diffuse map)</a><ul>
+<li><a class="reference internal" href="#activation" id="id24">Активация</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id25">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-5" id="id40">Карта бликов (specular map)</a><ul>
-<li><a class="reference internal" href="#id9" id="id41">Активация</a></li>
-<li><a class="reference internal" href="#id10" id="id42">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#index-5" id="id26">Карта бликов (specular map)</a><ul>
+<li><a class="reference internal" href="#id4" id="id27">Активация</a></li>
+<li><a class="reference internal" href="#id5" id="id28">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-6" id="id43">Карта нормалей (normal map)</a><ul>
-<li><a class="reference internal" href="#id12" id="id44">Активация</a></li>
-<li><a class="reference internal" href="#id13" id="id45">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#index-6" id="id29">Карта нормалей (normal map)</a><ul>
+<li><a class="reference internal" href="#id7" id="id30">Активация</a></li>
+<li><a class="reference internal" href="#id8" id="id31">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#height-map-parallax-mapping" id="id46">Карта высот (height map). Parallax mapping</a><ul>
-<li><a class="reference internal" href="#id14" id="id47">Активация</a></li>
-<li><a class="reference internal" href="#id15" id="id48">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#height-map-parallax-mapping" id="id32">Карта высот (height map). Parallax mapping</a><ul>
+<li><a class="reference internal" href="#id9" id="id33">Активация</a></li>
+<li><a class="reference internal" href="#id10" id="id34">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-8" id="id49">Карта смешивания (stencil map)</a><ul>
-<li><a class="reference internal" href="#id17" id="id50">Активация</a></li>
-<li><a class="reference internal" href="#id18" id="id51">Дополнительные настройки</a></li>
-<li><a class="reference internal" href="#id19" id="id52">Ограничения</a></li>
-<li><a class="reference internal" href="#id20" id="id53">Пример</a></li>
+<li><a class="reference internal" href="#index-8" id="id35">Карта смешивания (stencil map)</a><ul>
+<li><a class="reference internal" href="#id12" id="id36">Активация</a></li>
+<li><a class="reference internal" href="#id13" id="id37">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#limitations" id="id38">Ограничения</a></li>
+<li><a class="reference internal" href="#example" id="id39">Пример</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#video-texture" id="id54">Видео-текстуры</a><ul>
-<li><a class="reference internal" href="#id22" id="id55">Поддерживаемые форматы (контейнеры):</a></li>
-<li><a class="reference internal" href="#id23" id="id56">Настройка текстуры</a></li>
-<li><a class="reference internal" href="#id24" id="id57">Особенности работы на мобильных устройствах</a></li>
+<li><a class="reference internal" href="#video-textures" id="id40">Видео-текстуры</a><ul>
+<li><a class="reference internal" href="#supported-formats-containers" id="id41">Поддерживаемые форматы (контейнеры):</a></li>
+<li><a class="reference internal" href="#setting-up-the-texture" id="id42">Настройка текстуры</a></li>
+<li><a class="reference internal" href="#specifics-of-mobile-devices" id="id43">Особенности работы на мобильных устройствах</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-9" id="id58">Карта окружения (environment map)</a><ul>
-<li><a class="reference internal" href="#id26" id="id59">Создание карты окружения</a></li>
+<li><a class="reference internal" href="#index-9" id="id44">Карта окружения (environment map)</a><ul>
+<li><a class="reference internal" href="#making-environment-maps" id="id45">Создание карты окружения</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mirror-map" id="id60">Карта зеркального отражения (mirror map)</a><ul>
-<li><a class="reference internal" href="#id28" id="id61">Активация</a></li>
-<li><a class="reference internal" href="#id29" id="id62">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#mirror-map" id="id46">Карта зеркального отражения (mirror map)</a><ul>
+<li><a class="reference internal" href="#id16" id="id47">Активация</a></li>
+<li><a class="reference internal" href="#id17" id="id48">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#skydome" id="id63">Текстура неба (skydome)</a><ul>
-<li><a class="reference internal" href="#id30" id="id64">Активация</a></li>
-<li><a class="reference internal" href="#id31" id="id65">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#skydome" id="id49">Текстура неба (skydome)</a><ul>
+<li><a class="reference internal" href="#id18" id="id50">Активация</a></li>
+<li><a class="reference internal" href="#id19" id="id51">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-12" id="id66">Особые типы текстур</a><ul>
-<li><a class="reference internal" href="#d-a" id="id67">3D сценa</a></li>
-<li><a class="reference internal" href="#canvas" id="id68">Canvas</a></li>
+<li><a class="reference internal" href="#special-texture-types" id="id52">Особые типы текстур</a><ul>
+<li><a class="reference internal" href="#d-scene" id="id53">3D сценa</a></li>
+<li><a class="reference internal" href="#canvas" id="id54">Canvas</a></li>
 </ul>
 </li>
 </ul>
@@ -277,19 +277,25 @@
 </div>
 <p>Текстуры - подготовленные вручную или процедурно сгенерированные изображения, накладываемые на поверхность моделей с целью их детализации. Для соотнесения точек 3D поверхности и пикселей плоского изображения, как правило, используются текстурные развертки. По этой причине текстуры иногда называют картами.</p>
 <p>Текстуры обычно помещаются в текстурные слоты <a class="reference internal" href="materials.html#materials"><span>материалов</span></a>, также возможно их использование для параметризации <a class="reference internal" href="particles.html#particles-textures"><span>систем частиц</span></a> и визуализации <a class="reference internal" href="#skydome-texture"><span>небесного свода</span></a>.</p>
-<div class="section" id="index-1">
-<span id="id3"></span><h2><a class="toc-backref" href="#id35">Типы текстур</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="texture-types">
+<span id="index-1"></span><h2><a class="toc-backref" href="#id21">Типы текстур</a><a class="headerlink" href="#texture-types" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Опция выбора типа текстуры <code class="docutils literal"><span class="pre">Type</span></code> расположена во вкладке <code class="docutils literal"><span class="pre">Textures</span></code>. Движком поддерживаются текстуры следующих типов:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>, изображение или фильм</dt>
 <dd><ul class="first last simple">
-<li><a class="reference internal" href="#diffuse-map"><span>диффузная (diffuse map)</span></a></li>
-<li><a class="reference internal" href="#specular-map"><span>карта бликов (specular map)</span></a>, может также содержаться в альфа-канале диффузной текстуры</li>
-<li><a class="reference internal" href="#normal-map"><span>карта нормалей (normal map)</span></a></li>
-<li>карта высот (height map), может содержаться только в альфа-канале карты нормалей, используется для <a class="reference internal" href="#parallax-mapping"><span>реализации рельефной поверхности (parallax mapping)</span></a></li>
-<li><a class="reference internal" href="#stencil-map"><span>карта смешивания (stencil map)</span></a></li>
-<li><a class="reference internal" href="#video-texture"><span>видеотекстура</span></a></li>
+<li><p class="first"><a class="reference internal" href="#diffuse-map"><span>диффузная (diffuse map)</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#specular-map"><span>карта бликов (specular map)</span></a>, может также содержаться в альфа-канале диффузной текстуры</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#normal-map"><span>карта нормалей (normal map)</span></a></p>
+</li>
+<li><p class="first">карта высот (height map), может содержаться только в альфа-канале карты нормалей, используется для <a class="reference internal" href="#parallax-mapping"><span>реализации рельефной поверхности (parallax mapping)</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#stencil-map"><span>карта смешивания (stencil map)</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#video-texture"><span>видеотекстура</span></a></p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -297,9 +303,12 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code>, карта окружения</dt>
 <dd><ul class="first last simple">
-<li><a class="reference internal" href="#mirror-map"><span>карта зеркального отражения (mirror map)</span></a></li>
-<li><a class="reference internal" href="#skydome-texture"><span>текстура неба (skydome)</span></a></li>
-<li>используется для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><span>освещения от окружающей среды</span></a></li>
+<li><p class="first"><a class="reference internal" href="#mirror-map"><span>карта зеркального отражения (mirror map)</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#skydome-texture"><span>текстура неба (skydome)</span></a></p>
+</li>
+<li><p class="first">используется для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><span>освещения от окружающей среды</span></a></p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -307,7 +316,8 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">None</span></code>, пустая</dt>
 <dd><ul class="first last simple">
-<li>применена на кубе в стартовой сцене Blender&#8217;a. Также используется для <a class="reference internal" href="#render-to-texture-scene"><span>рендеринга сцены в текстуру</span></a>, а также для <a class="reference internal" href="#render-to-texture-canvas"><span>рендеринга canvas-текстуры</span></a>.</li>
+<li><p class="first">применена на кубе в стартовой сцене Blender&#8217;a. Также используется для <a class="reference internal" href="#render-to-texture-scene"><span>рендеринга сцены в текстуру</span></a>, а также для <a class="reference internal" href="#render-to-texture-canvas"><span>рендеринга canvas-текстуры</span></a>.</p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -315,38 +325,48 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">Blend</span></code>, градиент</dt>
 <dd><ul class="first last simple">
-<li>используется в <a class="reference internal" href="particles.html#particles-textures"><span>системах частиц</span></a></li>
+<li><p class="first">используется в <a class="reference internal" href="particles.html#particles-textures"><span>системах частиц</span></a></p>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 </ol>
 </div>
-<div class="section" id="main-conf">
-<span id="index-2"></span><span id="id4"></span><h2><a class="toc-backref" href="#id36">Общие настройки</a><a class="headerlink" href="#main-conf" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="generic-settings">
+<span id="main-conf"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id22">Общие настройки</a><a class="headerlink" href="#generic-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt><em>Размер</em></dt>
-<dd>Размер растров для текстур-изображений (длина и ширина изображения в пикселах) должен быть числом 2<sup>N</sup>, т.е. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 пикселов. Использование текстур других размеров (т.н. NPOT) поддерживается, но не рекомендуется. Для корректной работы компрессии текстур размер должен составлять не менее 4 пикселов. Как правило, используются изображения квадратной формы (например, 512 x 512 px), однако могут использоваться и прямоугольные (например, 4 x 128 px). Использование изображений размером более 2048 пикселов не рекомендуется.</dd>
+<dd><p class="first last">Размер растров для текстур-изображений (длина и ширина изображения в пикселах) должен быть числом 2<sup>N</sup>, т.е. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 пикселов. Использование текстур других размеров (т.н. NPOT) поддерживается, но не рекомендуется. Для корректной работы компрессии текстур размер должен составлять не менее 4 пикселов. Как правило, используются изображения квадратной формы (например, 512 x 512 px), однако могут использоваться и прямоугольные (например, 4 x 128 px). Использование изображений размером более 2048 пикселов не рекомендуется.</p>
+</dd>
 </dl>
 <dl class="docutils" id="texture-extension">
 <dt><em>Image Mapping &gt; Extension</em></dt>
-<dd>Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для текстур типа <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>. В случае значения <code class="docutils literal"><span class="pre">Repeat</span></code> движок устанавливает для текстуры режим <code class="docutils literal"><span class="pre">REPEAT</span></code>. При этом целочисленная часть текстурных координат игнорируется, используется только дробная часть. Во всех остальных случаях (например, <code class="docutils literal"><span class="pre">Extend</span></code>) движок устанавливает <code class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></code>. При этом происходит ограничение текстурных координат отрезком [0, 1]. Значение по умолчанию <code class="docutils literal"><span class="pre">Repeat</span></code>.</dd>
+<dd><p class="first last">Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для текстур типа <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>. В случае значения <code class="docutils literal"><span class="pre">Repeat</span></code> движок устанавливает для текстуры режим <code class="docutils literal"><span class="pre">REPEAT</span></code>. При этом целочисленная часть текстурных координат игнорируется, используется только дробная часть. Во всех остальных случаях (например, <code class="docutils literal"><span class="pre">Extend</span></code>) движок устанавливает <code class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></code>. При этом происходит ограничение текстурных координат отрезком [0, 1]. Значение по умолчанию <code class="docutils literal"><span class="pre">Repeat</span></code>.</p>
+</dd>
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>Mapping &gt; Coordinates</em></dt>
-<dd>Тип текстурных координат. Поддерживаются <code class="docutils literal"><span class="pre">UV</span></code> (использовать развертку), <code class="docutils literal"><span class="pre">Normal</span></code> (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле <strong>material capture</strong>, <strong>matcap</strong>) и <code class="docutils literal"><span class="pre">Generated</span></code> (исходные недеформированные координаты объекта). Значение по умолчанию <code class="docutils literal"><span class="pre">Generated</span></code>.</dd>
+<dd><p class="first last">Тип текстурных координат. Поддерживаются <code class="docutils literal"><span class="pre">UV</span></code> (использовать развертку), <code class="docutils literal"><span class="pre">Normal</span></code> (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле <strong>material capture</strong>, <strong>matcap</strong>) и <code class="docutils literal"><span class="pre">Generated</span></code> (исходные недеформированные координаты объекта). Значение по умолчанию <code class="docutils literal"><span class="pre">Generated</span></code>.</p>
+</dd>
 <dt><em>Mapping &gt; Size</em></dt>
-<dd>Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.</dd>
+<dd><p class="first last">Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.</p>
+</dd>
 <dt><em>Export Options &gt; Do Not Export</em></dt>
-<dd>Не экспортировать текстуру.</dd>
+<dd><p class="first last">Не экспортировать текстуру.</p>
+</dd>
 <dt><em>Export Options &gt; Disable Compression</em></dt>
-<dd>Отключить использование текстурной компрессии для данной текстуры. Применяется в случае, когда компрессия приводит к ухудшению качества изображения. В частности, рекомендуется отключать для текстур-масок, использующихся для смешивания различных характеристик материалов.</dd>
+<dd><p class="first last">Отключить использование текстурной компрессии для данной текстуры. Применяется в случае, когда компрессия приводит к ухудшению качества изображения. В частности, рекомендуется отключать для текстур-масок, использующихся для смешивания различных характеристик материалов.</p>
+</dd>
 <dt><em>Export Options &gt; Shore Distance Map</em></dt>
-<dd>Используется в <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>рендеринге наружных сцен</span></a>.</dd>
+<dd><p class="first last">Используется в <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>рендеринге наружных сцен</span></a>.</p>
+</dd>
 <dt><em>Export Options &gt; Anisotropic Filtering</em></dt>
-<dd>Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию <code class="docutils literal"><span class="pre">DEFAULT</span></code> (т.е. использовать настройки сцены).</dd>
+<dd><p class="first last">Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию <code class="docutils literal"><span class="pre">DEFAULT</span></code> (т.е. использовать настройки сцены).</p>
+</dd>
 <dt><em>Water Foam</em></dt>
-<dd>Текстура пены. Используется материалом для рендеринга воды.</dd>
+<dd><p class="first last">Текстура пены. Используется материалом для рендеринга воды.</p>
+</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -354,72 +374,80 @@
 </div>
 <span class="target" id="diffuse-map"></span></div>
 <div class="section" id="index-4">
-<span id="id5"></span><h2><a class="toc-backref" href="#id37">Диффузная текстура (diffuse map)</a><a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id23">Диффузная текстура (diffuse map)</a><a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Диффузная текстура применяется для указания распределения цвета рассеянного света (модель Ламберта).</p>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id38">Активация</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="activation">
+<h3><a class="toc-backref" href="#id24">Активация</a><a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить опцию <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id39">Дополнительные настройки</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="additional-settings">
+<h3><a class="toc-backref" href="#id25">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Diffuse &gt; Color</em></dt>
-<dd>Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0.</p>
+</dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd>Тип взаимодействия с цветом материала (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>), или с вертексным цветом, если включена опция <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code>. Поддерживаются <code class="docutils literal"><span class="pre">Mix</span></code> (смешивается с цветом), <code class="docutils literal"><span class="pre">Multiply</span></code> (умножается на цвет). Значение по умолчанию <code class="docutils literal"><span class="pre">Mix</span></code>.</dd>
+<dd><p class="first last">Тип взаимодействия с цветом материала (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>), или с вертексным цветом, если включена опция <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code>. Поддерживаются <code class="docutils literal"><span class="pre">Mix</span></code> (смешивается с цветом), <code class="docutils literal"><span class="pre">Multiply</span></code> (умножается на цвет). Значение по умолчанию <code class="docutils literal"><span class="pre">Mix</span></code>.</p>
+</dd>
 </dl>
 <span class="target" id="specular-map"></span></div>
 </div>
 <div class="section" id="index-5">
-<span id="id8"></span><h2><a class="toc-backref" href="#id40">Карта бликов (specular map)</a><a class="headerlink" href="#index-5" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id26">Карта бликов (specular map)</a><a class="headerlink" href="#index-5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Карта бликов применяется для указания распределения цвета отраженного света (модель Фонга).</p>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id41">Активация</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id27">Активация</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить опцию <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
 </div>
-<div class="section" id="id10">
-<h3><a class="toc-backref" href="#id42">Дополнительные настройки</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id28">Дополнительные настройки</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Specular &gt; Color</em></dt>
-<dd>Степень влияния текстуры на цвет отраженного света. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Степень влияния текстуры на цвет отраженного света. Значение по умолчанию 1.0.</p>
+</dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd>Тип взаимодействия с цветом отраженного света материала (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>). Поддерживается только <code class="docutils literal"><span class="pre">Mix</span></code> (смешивается с цветом). Значение по умолчанию <code class="docutils literal"><span class="pre">Mix</span></code>.</dd>
+<dd><p class="first last">Тип взаимодействия с цветом отраженного света материала (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>). Поддерживается только <code class="docutils literal"><span class="pre">Mix</span></code> (смешивается с цветом). Значение по умолчанию <code class="docutils literal"><span class="pre">Mix</span></code>.</p>
+</dd>
 </dl>
 <p>Карта бликов может быть упакована в альфа-канал диффузной текстуры в целях оптимизации. В этом случае для текстуры необходимо одновременно выставить опции <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> и <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>. Цветовой диапазон ограничен оттенками серого цвета.</p>
 <span class="target" id="normal-map"></span></div>
 </div>
 <div class="section" id="index-6">
-<span id="id11"></span><h2><a class="toc-backref" href="#id43">Карта нормалей (normal map)</a><a class="headerlink" href="#index-6" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id29">Карта нормалей (normal map)</a><a class="headerlink" href="#index-6" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Карта нормалей применяется для указания распределения нормалей (перпендикуляров) к поверхности с целью увеличения уровня детализации ее рельефа. Информация о нормалях должна храниться в текстурном пространстве координат. Карты нормалей в объектном пространстве не поддерживаются.</p>
-<div class="section" id="id12">
-<h3><a class="toc-backref" href="#id44">Активация</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id30">Активация</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить опцию <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
 </div>
-<div class="section" id="id13">
-<h3><a class="toc-backref" href="#id45">Дополнительные настройки</a><a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id31">Дополнительные настройки</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Geometry &gt; Normal</em></dt>
-<dd>Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0.</p>
+</dd>
 </dl>
 <span class="target" id="parallax-mapping"></span></div>
 </div>
 <div class="section" id="height-map-parallax-mapping">
-<span id="index-7"></span><h2><a class="toc-backref" href="#id46">Карта высот (height map). Parallax mapping</a><a class="headerlink" href="#height-map-parallax-mapping" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-7"></span><h2><a class="toc-backref" href="#id32">Карта высот (height map). Parallax mapping</a><a class="headerlink" href="#height-map-parallax-mapping" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Карта высот содержит информацию о распределении относительных высот рельефа. Более высокий уровень поверхности обозначается более светлым цветом. Карта высот в сочетании с картой нормалей требуются в качестве входящих данных для реализации рельефной поверхности (parallax mapping). Карта высот должна содержатся в альфа-канале карты нормалей.</p>
 <a class="reference internal image-reference" href="_images/textures_height_map.png"><img alt="_images/textures_height_map.png" class="align-center" src="_images/textures_height_map.png" style="width: 100%;" /></a>
-<div class="section" id="id14">
-<h3><a class="toc-backref" href="#id47">Активация</a><a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id33">Активация</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для карты нормалей дополнительно к опции <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> активировать панель <code class="docutils literal"><span class="pre">Parallax</span></code>.</p>
 </div>
-<div class="section" id="id15">
-<h3><a class="toc-backref" href="#id48">Дополнительные настройки</a><a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id34">Дополнительные настройки</a><a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Parallax &gt; Parallax Scale</em></dt>
-<dd>Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03.</dd>
+<dd><p class="first last">Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03.</p>
+</dd>
 <dt><em>Parallax &gt; Parallax Steps</em></dt>
-<dd>Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10.</dd>
+<dd><p class="first last">Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10.</p>
+</dd>
 <dt><em>Parallax &gt; Parallax LOD distance</em></dt>
-<dd>Расстояние на котором виден эффект параллакса.</dd>
+<dd><p class="first last">Расстояние на котором виден эффект параллакса.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/textures_parallax.png"><img alt="_images/textures_parallax.png" class="align-center" src="_images/textures_parallax.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -428,25 +456,27 @@
 <span class="target" id="stencil-map"></span></div>
 </div>
 <div class="section" id="index-8">
-<span id="id16"></span><h2><a class="toc-backref" href="#id49">Карта смешивания (stencil map)</a><a class="headerlink" href="#index-8" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id11"></span><h2><a class="toc-backref" href="#id35">Карта смешивания (stencil map)</a><a class="headerlink" href="#index-8" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Специальная текстура (цветная или оттенков серого), содержащая информацию о распределении других текстур по поверхности.</p>
-<div class="section" id="id17">
-<h3><a class="toc-backref" href="#id50">Активация</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id36">Активация</a><a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
-<li>В случае нодовых материалов карта смешивания должна использоваться соответствующим образом в нодовой структуре.</li>
-<li>В случае обычных материалов карта смешивания должна располагаться в текстурном слоте между двумя смешиваемыми диффузными текстурами. Для текстуры смешивания необходимо одновременно выставить опции <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></code> и <code class="docutils literal"><span class="pre">Stencil</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</li>
+<li><p class="first">В случае нодовых материалов карта смешивания должна использоваться соответствующим образом в нодовой структуре.</p>
+</li>
+<li><p class="first">В случае обычных материалов карта смешивания должна располагаться в текстурном слоте между двумя смешиваемыми диффузными текстурами. Для текстуры смешивания необходимо одновременно выставить опции <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></code> и <code class="docutils literal"><span class="pre">Stencil</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
+</li>
 </ol>
 </div>
-<div class="section" id="id18">
-<h3><a class="toc-backref" href="#id51">Дополнительные настройки</a><a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id37">Дополнительные настройки</a><a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае обычных материалов для одной из смешиваемых диффузных текстур поддерживается тип текстурных координат <code class="docutils literal"><span class="pre">Normal</span></code> (&#8220;matcap&#8221;).</p>
 </div>
-<div class="section" id="id19">
-<h3><a class="toc-backref" href="#id52">Ограничения</a><a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="limitations">
+<h3><a class="toc-backref" href="#id38">Ограничения</a><a class="headerlink" href="#limitations" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае обычных материалов движком интерпретируется только красный канал текстуры смешивания. Карта бликов или карта нормалей при их наличии смешиванию не подвергаются. Настройка масштабирования <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> извлекается из первой текстуры и применяется ко всем остальным текстурам.</p>
 </div>
-<div class="section" id="id20">
-<h3><a class="toc-backref" href="#id53">Пример</a><a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="example">
+<h3><a class="toc-backref" href="#id39">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту &#8220;matcap&#8221;, карту зеркального отражения.</p>
 <a class="reference internal image-reference" href="_images/textures_stencil_apple.png"><img alt="_images/textures_stencil_apple.png" class="align-center" src="_images/textures_stencil_apple.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -458,19 +488,22 @@
 </div>
 </div>
 </div>
-<div class="section" id="video-texture">
-<span id="id21"></span><h2><a class="toc-backref" href="#id54">Видео-текстуры</a><a class="headerlink" href="#video-texture" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="video-textures">
+<span id="video-texture"></span><h2><a class="toc-backref" href="#id40">Видео-текстуры</a><a class="headerlink" href="#video-textures" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В качестве текстуры может применяться видеозапись. Для этого должен быть выбран тип текстуры <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое сопровождение следует накладывать, используя объект типа <code class="docutils literal"><span class="pre">SPEAKER</span></code>.</p>
 </div>
-<div class="section" id="id22">
-<h3><a class="toc-backref" href="#id55">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="supported-formats-containers">
+<h3><a class="toc-backref" href="#id41">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#supported-formats-containers" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
-<li>webm, кодек VP8 (Chrome, Firefox)</li>
-<li>m4v, кодек H.264 (Chrome, Safari, IE)</li>
-<li>ogv, кодек Theora (Chrome, Firefox)</li>
+<li><p class="first">webm, кодек VP8 (Chrome, Firefox)</p>
+</li>
+<li><p class="first">m4v, кодек H.264 (Chrome, Safari, IE)</p>
+</li>
+<li><p class="first">ogv, кодек Theora (Chrome, Firefox)</p>
+</li>
 </ul>
 <p>В качестве базового формата рекомендуется использовать <em>WebM</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество изображения.</p>
 <div class="admonition note">
@@ -479,28 +512,34 @@
 </div>
 <p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><span>соответствующем разделе</span></a>.</p>
 </div>
-<div class="section" id="id23">
-<h3><a class="toc-backref" href="#id56">Настройка текстуры</a><a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="setting-up-the-texture">
+<h3><a class="toc-backref" href="#id42">Настройка текстуры</a><a class="headerlink" href="#setting-up-the-texture" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании видео-текстуры можно настроить следующие опции на панели <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></code>:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Frames</em></dt>
-<dd>Длина воспроизводимого фрагмента видеозаписи в кадрах.</dd>
+<dd><p class="first last">Длина воспроизводимого фрагмента видеозаписи в кадрах.</p>
+</dd>
 <dt><em>Image &gt; Offset</em></dt>
-<dd>Номер кадра, с которого будет начинаться воспроизведение видеозаписи.</dd>
+<dd><p class="first last">Номер кадра, с которого будет начинаться воспроизведение видеозаписи.</p>
+</dd>
 <dt><em>Image &gt; Cyclic</em></dt>
-<dd>Начинать воспроизводить видеозапись заново каждый раз после ее завершения.</dd>
+<dd><p class="first last">Начинать воспроизводить видеозапись заново каждый раз после ее завершения.</p>
+</dd>
 <dt><em>Image &gt; Allow NLA</em></dt>
-<dd>Воспроизводить текстуру в рамках NLA-сценария. Необходимо также включить NLA глобально на сцене, активировав панель <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code>. По умолчанию включено.</dd>
+<dd><p class="first last">Воспроизводить текстуру в рамках NLA-сценария. Необходимо также включить NLA глобально на сцене, активировав панель <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code>. По умолчанию включено.</p>
+</dd>
 </dl>
 <p>Для текстур, управляемых через NLA будет актуальна следующая опция:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Start</em></dt>
-<dd>Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации.</dd>
+<dd><p class="first last">Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации.</p>
+</dd>
 </dl>
 <p>Для текстур, управляемых не через NLA будет актуальна следующая опция:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Auto Refresh</em></dt>
-<dd>Воспроизводить видеозапись сразу после загрузки сцены.</dd>
+<dd><p class="first last">Воспроизводить видеозапись сразу после загрузки сцены.</p>
+</dd>
 </dl>
 <img alt="_images/video_tex.png" class="align-center" src="_images/video_tex.png" />
 <div class="line-block">
@@ -513,34 +552,45 @@
 <p class="last">При использовании видео-текстур совместно с NLA кадры видео могут воспроизводиться не в точном соответствии со сделанными в Blender&#8217;е настройками. Возможно отставание видео в пределах 5-6 кадров, связанное с небольшой задержкой при старте/паузе тега &lt;video&gt;.</p>
 </div>
 </div>
-<div class="section" id="id24">
-<h3><a class="toc-backref" href="#id57">Особенности работы на мобильных устройствах</a><a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="specifics-of-mobile-devices">
+<h3><a class="toc-backref" href="#id43">Особенности работы на мобильных устройствах</a><a class="headerlink" href="#specifics-of-mobile-devices" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Присутствуют следующие особенности реализации на мобильных устройствах:</p>
 <ol class="arabic simple">
-<li>на iPhone используется специально разработанный видеоформат <code class="docutils literal"><span class="pre">.seq</span></code>, потому что данное устройство открывает все стандартные видеозаписи через свой видеопроигрыватель. Видео надо сконвертировать заранее, используя <a class="reference internal" href="developers.html#converter"><span>наш конвертер</span></a>.</li>
-<li>на некоторых мобильных устройствах имеется поддержка воспроизведения только одного видеофайла.</li>
-<li>не гарантируется стабильная работа при выставлении опции <code class="docutils literal"><span class="pre">Offset</span></code> в ненулевое значение.</li>
-<li>не на всех устройствах поддерживается ускореное воспроизведение видео.</li>
-<li>на iPad и iPhone отсутствует возможность управления громкостью звука видеофайла, поэтому следует убрать аудио дорожку из видео перед добавлением файла в Blender.</li>
+<li><p class="first">на iPhone используется специально разработанный видеоформат <code class="docutils literal"><span class="pre">.seq</span></code>, потому что данное устройство открывает все стандартные видеозаписи через свой видеопроигрыватель. Видео надо сконвертировать заранее, используя <a class="reference internal" href="developers.html#converter"><span>наш конвертер</span></a>.</p>
+</li>
+<li><p class="first">на некоторых мобильных устройствах имеется поддержка воспроизведения только одного видеофайла.</p>
+</li>
+<li><p class="first">не гарантируется стабильная работа при выставлении опции <code class="docutils literal"><span class="pre">Offset</span></code> в ненулевое значение.</p>
+</li>
+<li><p class="first">не на всех устройствах поддерживается ускореное воспроизведение видео.</p>
+</li>
+<li><p class="first">на iPad и iPhone отсутствует возможность управления громкостью звука видеофайла, поэтому следует убрать аудио дорожку из видео перед добавлением файла в Blender.</p>
+</li>
 </ol>
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
-<span id="id25"></span><h2><a class="toc-backref" href="#id58">Карта окружения (environment map)</a><a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id14"></span><h2><a class="toc-backref" href="#id44">Карта окружения (environment map)</a><a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется в качестве <a class="reference internal" href="#mirror-map"><span>карты зеркального отражения (mirror map)</span></a>, в качестве статической <a class="reference internal" href="#skydome-texture"><span>текстуры неба (skydome)</span></a>, а также для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><span>освещения от окружающей среды</span></a>.</p>
 <p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
 <p>Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
-<div class="section" id="id26">
-<h3><a class="toc-backref" href="#id59">Создание карты окружения</a><a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Blender позволяет запекать сцену в карту окружения. Для этого:</p>
+<div class="section" id="making-environment-maps">
+<h3><a class="toc-backref" href="#id45">Создание карты окружения</a><a class="headerlink" href="#making-environment-maps" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Blender has an option for baking a scene into an environment map. To do this:</p>
 <ol class="arabic simple">
-<li>Создать сцену для запекания.</li>
-<li>Добавить пустой объект в предполагаемом центре обзора (<code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></code>).</li>
-<li>Перейти во вкладку <code class="docutils literal"><span class="pre">World</span></code>, затем перейти во вкладку <code class="docutils literal"><span class="pre">Textures</span></code>, создать новую текстуру, выбрать тип <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code>.</li>
-<li>На панели <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> выбрать источник <code class="docutils literal"><span class="pre">Static</span></code>, выбрать созданный пустой объект в поле <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></code>, установить разрешение 2<sup>N</sup> (512, 1024 и т.п.).</li>
-<li>Выполнить рендеринг сцены <code class="docutils literal"><span class="pre">F12</span></code> (требуется наличие камеры).</li>
-<li>Сохранить карту окружения в файл.</li>
+<li><p class="first">Создать сцену для запекания.</p>
+</li>
+<li><p class="first">Добавить пустой объект в предполагаемом центре обзора (<code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></code>).</p>
+</li>
+<li><p class="first">Перейти во вкладку <code class="docutils literal"><span class="pre">World</span></code>, затем перейти во вкладку <code class="docutils literal"><span class="pre">Textures</span></code>, создать новую текстуру, выбрать тип <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code>.</p>
+</li>
+<li><p class="first">На панели <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> выбрать источник <code class="docutils literal"><span class="pre">Static</span></code>, выбрать созданный пустой объект в поле <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></code>, установить разрешение 2<sup>N</sup> (512, 1024 и т.п.).</p>
+</li>
+<li><p class="first">Выполнить рендеринг сцены <code class="docutils literal"><span class="pre">F12</span></code> (требуется наличие камеры).</p>
+</li>
+<li><p class="first">Сохранить карту окружения в файл.</p>
+</li>
 </ol>
 <a class="reference internal image-reference" href="_images/textures_environment_map_baking_scene.png"><img alt="_images/textures_environment_map_baking_scene.png" class="align-center" src="_images/textures_environment_map_baking_scene.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -550,17 +600,18 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-10"></span><span id="id27"></span><h2><a class="toc-backref" href="#id60">Карта зеркального отражения (mirror map)</a><a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-10"></span><span id="id15"></span><h2><a class="toc-backref" href="#id46">Карта зеркального отражения (mirror map)</a><a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации отражающей способности поверхности. Представляет собой <a class="reference internal" href="#environment-map"><span>карту окружения</span></a>.</p>
-<div class="section" id="id28">
-<h3><a class="toc-backref" href="#id61">Активация</a><a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id47">Активация</a><a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выбрать тип текстуры (<code class="docutils literal"><span class="pre">Type</span></code>) <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code>. Выставить опцию <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
 </div>
-<div class="section" id="id29">
-<h3><a class="toc-backref" href="#id62">Дополнительные настройки</a><a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id48">Дополнительные настройки</a><a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
-<dd>Степень влияния карты зеркального отражения. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Степень влияния карты зеркального отражения. Значение по умолчанию 1.0.</p>
+</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
@@ -569,11 +620,11 @@
 </div>
 </div>
 <div class="section" id="skydome">
-<span id="skydome-texture"></span><span id="index-11"></span><h2><a class="toc-backref" href="#id63">Текстура неба (skydome)</a><a class="headerlink" href="#skydome" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="skydome-texture"></span><span id="index-11"></span><h2><a class="toc-backref" href="#id49">Текстура неба (skydome)</a><a class="headerlink" href="#skydome" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации бесконечно удаленного окружения (например, небесного свода). Представляет собой <a class="reference internal" href="#environment-map"><span>карту окружения</span></a>.</p>
 <p>Также может применяться для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><span>освещения от окружающей среды</span></a>.</p>
-<div class="section" id="id30">
-<h3><a class="toc-backref" href="#id64">Активация</a><a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id18">
+<h3><a class="toc-backref" href="#id50">Активация</a><a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Создать текстуру мира (world texture) с типом &#8220;Environment Map&#8221;. Выбрать опцию <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></code>, предварительно выставив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -586,12 +637,9 @@
 </div>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id31">
-<h3><a class="toc-backref" href="#id65">Дополнительные настройки</a><a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h3>
-<blockquote>
-<div>Движком поддерживаются параметры вкладки <code class="docutils literal"><span class="pre">Influence</span></code> для настройки отображения неба.
-Смешивание текстуры с цветом производится в зависимости от параметров <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> (цвет горизонта) и <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> (цвет зенита), а также флагов <code class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></code>, <code class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></code> и <code class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></code>.
-Поддерживаются все типы смешивания (<code class="docutils literal"><span class="pre">Mix</span></code>, <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Multiply</span></code> и т.д.).</div></blockquote>
+<div class="section" id="id19">
+<h3><a class="toc-backref" href="#id51">Дополнительные настройки</a><a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Движком поддерживаются параметры вкладки <code class="docutils literal"><span class="pre">Influence</span></code> для настройки отображения неба. Смешивание текстуры с цветом производится в зависимости от параметров <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> (цвет горизонта) и <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> (цвет зенита), а также флагов <code class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></code>, <code class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></code> и <code class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></code>. Поддерживаются все типы смешивания (<code class="docutils literal"><span class="pre">Mix</span></code>, <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Multiply</span></code> и т.д.).</p>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -602,8 +650,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="index-12">
-<span id="id32"></span><h2><a class="toc-backref" href="#id66">Особые типы текстур</a><a class="headerlink" href="#index-12" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="special-texture-types">
+<span id="index-12"></span><h2><a class="toc-backref" href="#id52">Особые типы текстур</a><a class="headerlink" href="#special-texture-types" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для использования особых типов текстур необходимо выставить тип текстуры <code class="docutils literal"><span class="pre">None</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span></code>.</p>
 <img alt="_images/type_none.png" class="align-center" src="_images/type_none.png" />
 <div class="line-block">
@@ -612,23 +660,46 @@
 <p>В меню <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">Options</span></code> имеется возможность задать основные свойства для данного типа текстуры:</p>
 <dl class="docutils">
 <dt><em>Export Options &gt; Source Type</em></dt>
-<dd>Выбор особого типа текстуры: <code class="docutils literal"><span class="pre">Scene</span></code> - для рендеринга 3D сцены в текстуру, <code class="docutils literal"><span class="pre">Canvas</span></code> - использование HTML-элемента &lt;canvas&gt; и <code class="docutils literal"><span class="pre">None</span></code> - отсутствие текстуры.</dd>
+<dd><p class="first last">Выбор особого типа текстуры: <code class="docutils literal"><span class="pre">Scene</span></code> - для рендеринга 3D сцены в текстуру, <code class="docutils literal"><span class="pre">Canvas</span></code> - использование HTML-элемента &lt;canvas&gt; и <code class="docutils literal"><span class="pre">None</span></code> - отсутствие текстуры.</p>
+</dd>
 <dt><em>Export Options &gt; Source ID</em></dt>
-<dd>Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо идентификатор HTML-элемента &lt;canvas&gt; в случае Canvas-текстуры.</dd>
+<dd><p class="first last">Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо идентификатор HTML-элемента &lt;canvas&gt; в случае Canvas-текстуры.</p>
+</dd>
 <dt><em>Export Options &gt; Source Size</em></dt>
-<dd>Разрешение текстуры.</dd>
+<dd><p class="first last">Разрешение текстуры.</p>
+</dd>
 <dt><em>Export Options &gt; Extension</em></dt>
-<dd><a class="reference internal" href="#texture-extension"><span>Режим интерпретации текстурных координат</span></a>. Значение по умолчанию <code class="docutils literal"><span class="pre">Repeat</span></code>.</dd>
+<dd><p class="first last"><a class="reference internal" href="#texture-extension"><span>Режим интерпретации текстурных координат</span></a>. Значение по умолчанию <code class="docutils literal"><span class="pre">Repeat</span></code>.</p>
+</dd>
 <dt><em>Export Options &gt; Enable Mipmapping</em></dt>
-<dd>Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено.</dd>
+<dd><p class="first last">Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено.</p>
+</dd>
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
-<div class="section" id="d-a">
-<span id="render-to-texture-scene"></span><h3><a class="toc-backref" href="#id67">3D сценa</a><a class="headerlink" href="#d-a" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="d-scene">
+<span id="render-to-texture-scene"></span><h3><a class="toc-backref" href="#id53">3D сценa</a><a class="headerlink" href="#d-scene" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены.</p>
 <ol class="arabic simple">
-<li>Создать дополнительную сцену-источник, переименовать для удобства, создать <code class="docutils literal"><span class="pre">World</span></code>, добавить нужные объекты, настроить вид из камеры.</li>
-<li>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Scene</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> указать название сцены-источника. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</li>
+<li><p class="first">Создать дополнительную сцену-источник.</p>
+</li>
+<li><p class="first">Переименовать для удобства.</p>
+</li>
+<li><p class="first">Создать <code class="docutils literal"><span class="pre">World</span></code>.</p>
+</li>
+<li><p class="first">Добавить нужные объекты.</p>
+</li>
+<li><p class="first">Настроить вид из камеры.</p>
+</li>
+<li><p class="first">В главной сцене создать UV-развёртку целевого объекта.</p>
+</li>
+<li><p class="first">Для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</li>
+<li><p class="first">В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Scene</span></code>.</p>
+</li>
+<li><p class="first">В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> указать название сцены-источника.</p>
+</li>
+<li><p class="first">В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</p>
+</li>
 </ol>
 <a class="reference internal image-reference" href="_images/textures_render_to_texture.png"><img alt="_images/textures_render_to_texture.png" class="align-center" src="_images/textures_render_to_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -643,11 +714,11 @@
 </div></blockquote>
 </div>
 <div class="section" id="canvas">
-<span id="render-to-texture-canvas"></span><h3><a class="toc-backref" href="#id68">Canvas</a><a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-to-texture-canvas"></span><h3><a class="toc-backref" href="#id54">Canvas</a><a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В качестве текстуры используется HTML-элемент &lt;canvas&gt;. Его редактирование осуществляется при помощи API.</p>
 <p>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Canvas</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</p>
 <p>Для работы с этими текстурами используется модуль <code class="docutils literal"><span class="pre">textures</span></code>. Пример работы с ним описан ниже.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -661,8 +732,7 @@
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если в Blender на разных объектах была назначена одна и та же текстура типа Canvas, то и после загрузки в движке будет одна общая текстура, а не несколько уникальных.
-Результат работы с ней будет заметен на всех использующих её объектах. Это может быть полезно с точки зрения оптимизации. Если же требуется противоположное поведение, то следует назначить разные текстуры ещё в Blender, либо использовать <a class="reference internal" href="meshes.html#mesh-copy"><span>глубокое копирование</span></a> уже непосредственно в приложении.</p>
+<p class="last">Если в Blender на разных объектах была назначена одна и та же текстура типа Canvas, то и после загрузки в движке будет одна общая текстура, а не несколько уникальных. Результат работы с ней будет заметен на всех использующих её объектах. Это может быть полезно с точки зрения оптимизации. Если же требуется противоположное поведение, то следует назначить разные текстуры ещё в Blender, либо использовать <a class="reference internal" href="meshes.html#mesh-copy"><span>глубокое копирование</span></a> уже непосредственно в приложении.</p>
 </div>
 </div></blockquote>
 </div>
@@ -689,11 +759,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -711,7 +782,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -741,14 +812,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

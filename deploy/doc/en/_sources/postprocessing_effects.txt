@@ -1,371 +1,291 @@
+.. _postprocessing_effects:
 
+**********************
 Postprocessing Effects
 **********************
 
+.. contents:: Table of Contents
+    :depth: 3
+    :backlinks: entry
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+.. index:: motion blur
 
-* Postprocessing Effects
-
-  * Motion Blur
-
-    * Activation
-
-    * Additional settings
-
-  * Depth of Field
-
-    * Activation
-
-    * Additional settings
-
-  * Screen-Space Ambient Occlusion
-
-    * Activation
-
-    * Additional settings
-
-  * God Rays
-
-    * Activation
-
-    * Additional settings
-
-  * Bloom
-
-    * Activation
-
-    * Additional settings
-
-  * Outlining
-
-    * Activation
-
-    * Additional settings
-
-  * Glow
-
-    * Activation
-
-    * Additional settings
-
-  * Anti-Aliasing
-
-    * Activation
-
-    * Additional settings
-
+.. _motion_blur:
 
 Motion Blur
 ===========
 
-The motion blur effect can be used to improve the realism of an
-interactive scene. It is displayed as picture blurring when the camera
-or objects move.
+The motion blur effect can be used to improve the realism of an interactive scene. It is displayed as picture blurring when the camera or objects move. 
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_motion_blur.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-Activate the "Motion Blur" panel on the "Render" tab.
-
+Activate the ``Motion Blur`` panel on the ``Render`` tab.
 
 Additional settings
 -------------------
 
 *Factor*
-   Effect appearance ratio. The higher this value is the stronger is
-   the motion blur.
+    Effect appearance ratio. The higher this value is the stronger is the motion blur.
 
 *Decay Threshold*
-   Blur fade-out ratio. The higher this value is the more distinct is
-   the effect. The default value is 0.01.
+    Blur fade-out ratio. The higher this value is the more distinct is the effect. The default value is 0.01.
 
+
+.. index:: depth of field, DOF
+
+.. _dof:
 
 Depth of Field
 ==============
 
-The depth of field effect (DOF) can be used to accentuate a part of a
-scene. It is displayed as picture blurring nearer and further from the
-camera focus.
+The depth of field effect (DOF) can be used to accentuate a part of a scene. It is displayed as picture blurring nearer and further from the camera focus.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_dof.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-1. Select an active camera and go to its settings panel "Camera"
-   ("Object Data").
-
+1. Select an active camera and go to its settings panel ``Camera`` (``Object Data``).
 2. Then two options are available:
 
-      * Select an object to use as the camera's focus in the "Focus"
-        option of the "Depth of Field" panel. In this case moving away
-        or approaching this object will cause a corresponding
-        correction of the camera focus.
-
-      * Set a non-zero value for the "Distance" on the same panel
-        (in Blender units = meters). In this case the camera focus
-        will be located at this distance from the camera and will move
-        together with it.
-
+    - Select an object to use as the camera's focus in the ``Focus`` option of the ``Depth of Field`` panel. In this case moving away or approaching this object will cause a corresponding correction of the camera focus.
+    
+    - Set a non-zero value for the ``Distance`` on the same panel (in Blender units = meters). In this case the camera focus will be located at this distance from the camera and will move together with it. 
 
 Additional settings
 -------------------
 
 *Front*
-   The distance from the focus to the nearest plane (relative to the
-   camera) behind which full blurring occurs (in meters). The default
-   value is 1.0.
+    The distance from the focus to the nearest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
 
 *Rear*
-   The distance from the focus to the furthest plane (relative to the
-   camera) behind which full blurring occurs (in meters). The default
-   value is 1.0.
+    The distance from the focus to the furthest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
 
 *Power*
-   Blurring ratio. The default value is 3.0.
+    Blurring ratio. The default value is 3.0.
 
+
+.. index:: screen-space ambient occlusion, SSAO
+
+.. _ssao:
 
 Screen-Space Ambient Occlusion
 ==============================
 
-The screen-space ambient occlusion (SSAO) effect can be used to fake
-complex light reflections from objects. The basis of this effect is
-that the space between close objects is less accessible for diffused
-light and hence is darker.
+The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_ssao.png
+   :align: center
+   :width: 50%
 
 Activation
 ----------
 
-Activate the "Ambient Occlusion SSAO" panel under the "Render" tab and
-set the "Render Shadows" parameter to "AUTO" or "ON"  on the "Rander >
-Shadows" panel.
-
+Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the ``Rander > Shadows`` panel.
 
 Additional settings
 -------------------
 
 *Radius Increase*
-   The spherical sampling radius multiply factor when transfering from
-   the internal sampling ring to the external one. The default value
-   is 3.0.
+    The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 3.0.
 
 *Use Hemisphere*
-   Use a hemispherical sampling for shading instead of a spherical.
-   Besides it uses different shading law.
+    Use a hemispherical sampling for shading instead of a spherical. Besides it uses different shading law.
 
 *Use Blur Depth Test*
-   Use edge-preserving blur to SSAO if flag will be turned on.
-   Otherwise it uses blur which averages a 4x4 rectangle around each
-   pixel.
+    Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it uses blur which averages a 4x4 rectangle around each pixel.
 
 *Blur Depth Test Discard Value*
-   Influence of depth difference between samples on blur weight. It
-   uses with "Use Blur Depth Test" activated flag. The default value
-   is 1.0.
+    Influence of depth difference between samples on blur weight. It uses with ``Use Blur Depth Test`` activated flag. The default value is 1.0.
 
 *Influence*
-   SSAO appearance factor. The default value is 0.7.
+    SSAO appearance factor. The default value is 0.7.
 
 *Distance Factor*
-   Factor of SSAO decay with distance. The default value is 0.0 (i.e.
-   no decay).
+    Factor of SSAO decay with distance. The default value is 0.0 (i.e. no decay).
 
 *Samples*
-   Number of samples (the more samples there are the better is the
-   quality but the poorer is the performance). The default value is
-   16.
+    Number of samples (the more samples there are the better is the quality but the poorer is the performance). The default value is 16.
 
+
+.. index:: crepuscular rays, god rays
+
+.. _god_rays:
 
 God Rays
 ========
 
-The god rays effect (aka crepuscular rays) simulates well-known
-natural phenomenon - the shining of illuminated air parts.
+The god rays effect (aka crepuscular rays) simulates well-known natural phenomenon - the shining of illuminated air parts.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_god_rays.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-Activate the "God Rays" panel under the "Render" tab.
-
+Activate the ``God Rays`` panel under the ``Render`` tab.
 
 Additional settings
 -------------------
 
 *Intensity*
-   The effect appearance factor. The default value is 0.7.
+    The effect appearance factor. The default value is 0.7.
 
 *Maximum Ray Length*
-   Rays length factor. Defines the step between samples of radial
-   blurring. The default value is 1.0.
+    Rays length factor. Defines the step between samples of radial blurring. The default value is 1.0.
 
 *Steps Per Pass*
-   Number of steps per single sample. The default value is 10.0.
+    Number of steps per single sample. The default value is 10.0.
 
+
+.. _bloom:
 
 Bloom
 =====
 
-Bloom appears when a picture has elements with a very different
-brightness. A glowing halo is created around the bright details.
+Bloom appears when a picture has elements with a very different brightness. A glowing halo is created around the bright details.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_bloom.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-Activate the "Bloom" panel under the "Render" tab.
-
+Activate the ``Bloom`` panel under the ``Render`` tab.
 
 Additional settings
 -------------------
 
 *Key*
-   Bloom intensity.
+    Bloom intensity.
 
 *Blur*
-   Bloom blurriness factor.
+    Bloom blurriness factor.
 
 *Edge Luminance*
-   The boundary value of an element's relative brightness above which
-   the bloom effect appears.
+    The boundary value of an element's relative brightness above which the bloom effect appears.
 
+
+.. index:: outline glow
+
+.. _outline:
 
 Outlining
 =========
 
-As a result of the outline glow effect, a luminous colored halo will
-be displayed around the object.
+As a result of the outline glow effect, a luminous colored halo will be displayed around the object.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_outline.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-The outlining is activated programmatically via API. Different
-animation models can be applied such as constant glow, fading out
-glow, pulsatory glow and any other. In order to enable the outlining
-effect on a certain object, make sure that the "Render > Object
-Outlining" panel's "Enable" property is set to "ON" or "AUTO".
-
+The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the ``Render > Object Outlining`` panel's ``Enable`` property is set to ``ON`` or ``AUTO``.
 
 Additional settings
 -------------------
 
-On the "Object > Selection and Outlining" panel:
+On the ``Object > Selection and Outlining`` panel:
 
 *Enable Outlining*
-   Permit using the outline glow effect on this object.
+    Permit using the outline glow effect on this object.
 
 *Duration*
-   Duration of glow animation, seconds. The default value is 1.
+    Duration of glow animation, seconds. The default value is 1.
 
 *Period*
-   Repeat period of glow animation, seconds. The default value is 1.
+    Repeat period of glow animation, seconds. The default value is 1.
 
 *Relapses*
-   The number of iterations of glow animation. If zero, animation is
-   repeated forever. The default value is 0.
+    The number of iterations of glow animation. If zero, animation is repeated forever. The default value is 0.
 
 *Outline on Select*
-   Activate glow animation upon selecting the object. In this case the
-   "Selectable" option must be enabled. In case of a user-defined glow
-   animation model, this option must be disabled in order to avoid
-   conflict.
+    Activate glow animation upon selecting the object. In this case the ``Selectable`` option must be enabled. In case of a user-defined glow animation model, this option must be disabled in order to avoid conflict.
 
-On the "Render > Object Outlining" panel:
+
+On the ``Render > Object Outlining`` panel:	
 
 *Factor*
-   When this parameter decreases so does the thickness and the
-   brightness of the halo around the object. The default value is 1.
+    When this parameter decreases so does the thickness and the brightness of the halo around the object. The default value is 1.
 
-The "Render > Object Outlining" settings are taken as default when the
-glow effect is initiated via API.
+The ``Render > Object Outlining`` settings are taken as default when the glow effect is initiated via API.
 
+
+.. _glow:
 
 Glow
 ====
 
-Effect of halo which is observed around emissive objects due to light
-scattering in the atmosphere and inside the human eye.
+Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_glow.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-Add a B4W_GLOW_OUTPUT node to a node material. The "Enable Glow
-Materials" option on the "Render > Glow Materials" panel should be set
-to "ON" or "AUTO".
-
+Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The ``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel should be set to ``ON`` or ``AUTO``.
 
 Additional settings
 -------------------
 
 *Small Mask: Intensity*
-   Intensity of glow obtained through the smaller mask. The default
-   value is 2.0.
+    Intensity of glow obtained through the smaller mask. The default value is 2.0.
 
 *Small Mask: Width*
-   Width of glow obtained through the smaller mask. The default value
-   is 2.0.
+    Width of glow obtained through the smaller mask. The default value is 2.0.
 
 *Large Mask: Intensity*
-   Intensity of glow obtained through the larger mask. The default
-   value is 2.0.
+    Intensity of glow obtained through the larger mask. The default value is 2.0.
+
 
 *Large Mask: Width*
-   Width of glow obtained through the larger mask. The default value
-   is 6.0.
+    Width of glow obtained through the larger mask. The default value is 6.0.
 
 *Render Glow Over Transparent Objects*
-   Render the glow effect over transparent objects.
+    Render the glow effect over transparent objects.
 
+
+.. index:: anti-aliasing
+
+.. _antialiasing:
 
 Anti-Aliasing
 =============
 
-Anti-aliasing is used to reduce undesirable rendering artefacts (poor
-pixelization).
+Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization). 
 
-[image]
-
+.. image:: src_images/postprocessing_effects/effects_antialiasing.png
+   :align: center
+   :width: 100%
 
 Activation
 ----------
 
-Select quality profile using "AA Quality" menu located on the "Render
-> Anti-Aliasing" panel.
+Select quality profile using ``AA Quality`` menu located on the ``Render > Anti-Aliasing`` panel.
 
-   * *None* - disable anti-aliasing,
-
-   * *Low*, *Medium*, *High* - enable anti-aliasing with the given
-     quality profile.
+    * *None* - disable anti-aliasing,
+    * *Low*, *Medium*, *High* - enable anti-aliasing with the given quality profile.
 
 *Medium* profile is used by default.
-
 
 Additional settings
 -------------------
 
-The anti-aliasing method is assigned simultaneously with the selection
-of the engine performance profile:
+The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile:
 
-   * *low quality* - no anti-aliasing,
+    * *low quality* - no anti-aliasing,
+    * *high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast Approximate Anti-Aliasing by Nvidia).
 
-   * *high quality* and *ultra quality* - use the FXAA 3.11
-     algorithm (Fast Approximate Anti-Aliasing by Nvidia).

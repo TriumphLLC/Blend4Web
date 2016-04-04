@@ -328,6 +328,10 @@
             {
                 "name": "UI Snap Align",
                 "load_file": "interactivity/snap_align_camera.json"
+            },
+            {
+                "name": "World Animation",
+                "load_file": "interactivity/world_animation.json"
             }
         ]
     },
@@ -498,6 +502,10 @@
     {
         "name": "Material Library",
         "items": [
+            {
+                "name": "All Materials",
+                "load_file": "material_library/material_library.json"
+            },
             {
                 "name": "Promo",
                 "load_file": "material_library/promo/promo.json"

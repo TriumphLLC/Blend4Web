@@ -1,56 +1,54 @@
 .. _problems_and_solutions:
 
-******************
-Проблемы и решения
-******************
+**********************
+Problems and Solutions
+**********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
 .. _renderer_not_working:
 
-Проблемы при запуске движка
-===========================
+Problems Upon Startup
+=====================
 
-*1. Появляется сообщение "Browser could not initialize WebGL."*
+*1. The "Browser could not initialize WebGL" message is shown*.
 
 .. image:: src_images/problems_and_solutions/no_webgl.png
    :align: center
    :width: 100%
 
-Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`. 
+Follow the instructions listed in the :ref:`webgl_not_working` section.
 
-*2. Видны элементы интерфейса или пустой экран, но сцена не отображается. При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения работают корректно.*
+*2. The user interface or background is shown but the default scene is not rendered. At the same time the* http://get.webgl.org/ *site and other WebGL applications are working correctly.*
 
-    Вероятные причины:
+    Possible causes:
 
-    * Не используется локальный веб-сервер или браузер не настроен для работы с локальными ресурсами. См. раздел :ref:`browser_for_local_loading`.
+    * A local web server is not used or the browser is not set up for loading local resources. See the :ref:`browser_for_local_loading` section.
 
-    * Файлы ресурсов, которые пытается загрузить движок, были перемещены или удалены.
+    * The engine tries to load resource files which were moved or deleted.
 
-    * Используются старые версии драйверов.
+    * You are using the old versions of video drivers.
 
-    * Используются открытые драйвера, не обеспечивающие поддержку WebGL.
+    * You are using open source drivers which do not fully support WebGL.
 
-        Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах
-        с открытым кодом в настоящий момент рекомендуется
-        использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.
+        For Linux users - due to incomplete OpenGL implementation in open source drivers at the moment it is recommended to use current versions of proprietary drivers for Nvidia and AMD video cards.
 
-    * Используется устаревшая операционная система, такая как Windows XP.
+    * You are using an outdated operating system, such as Windows XP.
 
 
 .. _webgl_not_working:
 
-Ошибка инициализации WebGL
-==========================
+WebGL Failed to Init
+====================
 
-Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать? 
+The http://get.webgl.org/ page tells about problems when viewing it in recent Chrome or Firefox. What can I do?
 
 
-1. Установить доступные обновления для системы (для Windows см. `инструкцию <http://support.microsoft.com/kb/311047/ru>`_). В случае Windows установить последнюю версию `DirectX <http://www.microsoft.com/ru-ru/download/details.aspx?id=35>`_. Перезагрузить систему.
+1. Install the latest updates for your system (for MS Windows see `the guide <http://support.microsoft.com/kb/311047>`_). In case of MS Windows install the latest `DirectX runtime <http://www.microsoft.com/en-us/download/details.aspx?id=35>`_. Reboot.
 
-2. Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu** (или **chrome://gpu**) в адресную строку браузера Chrome...
+2. It is recommended to timely update video card drivers. To detect your video card and its vendor please type **about:gpu** (or **chrome://gpu**) to the address bar of Chrome browser...
 
 .. image:: src_images/problems_and_solutions/chrome_gpu.png
    :align: center
@@ -58,7 +56,7 @@
 
 |
 
-или Firefox...
+or Firefox...
 
 .. image:: src_images/problems_and_solutions/firefox_gpu.png
    :align: center
@@ -66,7 +64,7 @@
 
 |
 
-Для операционных систем семейства Windows можно воспользоваться средством диагностики DirectX **dxdiag**.
+For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**.
 
 .. image:: src_images/problems_and_solutions/dxdiag.png
    :align: center
@@ -75,13 +73,13 @@
 |
 
 
-Необходимо загрузить драйверы с соответствующего центра поддержки (например, `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI <http://support.amd.com/ru-ru/download>`_). После установки драйверов перезагрузить систему.
+Download the drivers from the corresponding support center (for example `Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI <http://support.amd.com/en-us/download>`_). Reboot the system after the drivers are installed.
 
-3. Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера. 
+3. If the measures described above did not help to initialize rendering (or there is no possibility to update the system) try to change the browser settings.
 
-*В Chrome*:
+*For Chrome*:
 
-Ввести **about:flags** (или **chrome://flags**) в адресную строку браузера, нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение списка программного рендеринга` (:file:`Override software rendering list`) и перезапустить браузер.
+Enter **about:flags** (or **chrome://flags**) into the browser's address bar, click :file:`Enable` under the :file:`Override software rendering list` option and restart the browser.
 
 |
 
@@ -91,9 +89,9 @@
 
 |
 
-*В Firefox*: 
+*For Firefox*:
 
-Ввести **about:config** в адресную строку браузера, найти параметр ``webgl.force-enabled`` и переключить его двойным щелчком мыши из ``false`` в ``true``. 
+Enter **about:config** into the browser's address bar, search for the ``webgl.force-enabled`` parameter and double-click on it to switch from ``false`` to ``true``.
 
 
 .. image:: src_images/problems_and_solutions/about_config_force_webgl.png
@@ -102,25 +100,29 @@
 
 .. _known_problems:
 
-Известные проблемы
-==================
+Known Issues
+============
 
-* Проблемы с обновлением старых версий аддона.
+* Problems with updating of the add-on.
 
-    Рекомендуется перезагрузка Blender после обновления аддона.
+    It’s strongly adviced to restart Blender after installing a newer version of Addon/SDK.
 
-* Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам WebGL.
+* NVIDIA 331 driver in Linux can cause WebGL errors.
 
-* Изменение фильтрации текстур на некоторых устройствах.
+* Changed texture filtering on some platforms.
 
-    При использовании *iPad* или браузера *Internet Explorer* отключена некорректная фильтрация текстур, которые используются материалами с типом прозрачности *Alpha Clip*.
+    An incorrect texture filtering was disabled on iPad and Internet Explorer for materials with Alpha Clip type of transparency.
 
-* Некоторые устройства, использующие GPU Mali, требуют принудительного включения WebGL в настройках браузера.
+* Some devices with Mail GPU require manual WebGL activation in browser settings.
 
-* На системах Apple OS X и Blender 2.76 для работы локального сервера разработки может потребоваться установка `Python 3.4 <https://www.python.org/downloads/release/python-343/>`_. Это связано с ошибкой Blender https://developer.blender.org/T46623. В Blender 2.76b эта проблема устранена, поэтому рекомендуем обновиться.
+* For the local developement server to work on Apple OS X and Blender 2.76, you may need to install `Python 3.4 <https://www.python.org/downloads/release/python-343/>`. This is due to a bug in Blender https://developer.blender.org/T46623. This bug has been fixed in Blender 2.76b, so updating it is advised.
 
-* При использовании драйверов Nouveau скелетная анимация может работать некорректно.
+* Skeletal animation may work incorrectly while using Nouveau drivers.
 
-* В браузерах IE11 и Microsoft Edge, а также на iPad могут некорректно рендериться текстуры с прозрачностью. 
+* Transparent textures may not render correctly in the IE11 and Microsoft Edge web browsers and on iPad.
 
-    Проблема актуальна для :ref:`прозрачных материалов <alpha_blend>`. Артефакты заметны на тех участках, где значение альфа-канала равно нулю или отличается от него незначительно. Для исправления рекомендуется поднимать значение альфа-канала пока артефакты не исчезнут (как правило, бывает достаточно величин в диапазоне от 0.01 до 0.05). 
+    The problem is relevant for the :ref:`transparent materials <alpha_blend>`. Image artifacts are visible in the areas where alpha channel value is close or equal to zero. To fix this issue, it is recommended to increase the value of the alpha channel until artifact are no longer visible (increasing it by value from 0.01 to 0.05 should be enough in the most cases).
+
+* WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs with drivers later than 355.
+    
+    This issue is caused by incompatibility of Chromium sandbox and NVIDIA's latest drivers. The solution is to downgrade drivers to the 340xx version.

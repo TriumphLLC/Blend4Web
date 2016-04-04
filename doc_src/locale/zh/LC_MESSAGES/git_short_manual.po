@@ -1,0 +1,637 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../git_short_manual.rst:7
+msgid "Team Work. Using Git"
+msgstr ""
+
+#: ../git_short_manual.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../git_short_manual.rst:16 ../git_short_manual.rst:421
+msgid "Overview"
+msgstr ""
+
+#: ../git_short_manual.rst:18
+msgid ""
+"In order to organize team work a Git version control system can be used. "
+"Using Git has a number of benifits as compared with other ways to "
+"collaborate:"
+msgstr ""
+
+#: ../git_short_manual.rst:20
+msgid ""
+"saving the history of changes with the possibility to roll back to "
+"prevoius versions"
+msgstr ""
+
+#: ../git_short_manual.rst:21
+msgid "syncronizing changes between users and automatic merging of changes"
+msgstr ""
+
+#: ../git_short_manual.rst:22
+msgid "working with large binary files is possible"
+msgstr ""
+
+#: ../git_short_manual.rst:24
+msgid ""
+"Git is a distributed system and every developer or designer has his own "
+"local repository (storage). Syncing between the local repositories can be"
+" performed via the central (\"shared\") storage, which can be located on "
+"a dedicated machine (server). Access to the server can be organized "
+"through SSH protocol."
+msgstr ""
+
+#: ../git_short_manual.rst:26
+msgid ""
+"Although there are many GUIs for Git beginners, here the work with the "
+"``git`` standard console utility is explained."
+msgstr ""
+
+#: ../git_short_manual.rst:32
+msgid "Typical Workflow"
+msgstr ""
+
+#: ../git_short_manual.rst:34
+msgid ""
+"Files can be created, added or deleted during the work process in the "
+"local repositories."
+msgstr ""
+
+#: ../git_short_manual.rst:35
+msgid ""
+"After a certain logical period of work is finished it is necessary to fix"
+" (commit) the changes and/or syncronize with your team mates."
+msgstr ""
+
+#: ../git_short_manual.rst:36
+msgid ""
+"Files are prepared for commit i.e. the accounting of changed, new and "
+"deleted files and also the resetting of changes."
+msgstr ""
+
+#: ../git_short_manual.rst:37
+msgid "Commit is performed."
+msgstr ""
+
+#: ../git_short_manual.rst:38
+msgid ""
+"Local changes are uploaded into the shared storage and become available "
+"for the collegues."
+msgstr ""
+
+#: ../git_short_manual.rst:40
+msgid ""
+"A limited set of Git commands recommended for authoring applications and "
+"their graphical resources is described below."
+msgstr ""
+
+#: ../git_short_manual.rst:42
+msgid ""
+"It's necessary to switch to the repository before executing the commands,"
+" e.g.:"
+msgstr ""
+
+#: ../git_short_manual.rst:55
+msgid "Individual Settings"
+msgstr ""
+
+#: ../git_short_manual.rst:57
+msgid "A new user can set up his name and email using the commands:"
+msgstr ""
+
+#: ../git_short_manual.rst:65
+msgid "The set up data will be used in the changelog."
+msgstr ""
+
+#: ../git_short_manual.rst:73
+msgid "Checking the Status"
+msgstr ""
+
+#: ../git_short_manual.rst:75
+msgid ""
+"It's recommended to check the state of the repository before, in progress"
+" and after performing all the operations."
+msgstr ""
+
+#: ../git_short_manual.rst:77
+msgid "Use this command to check the status:"
+msgstr ""
+
+#: ../git_short_manual.rst:84
+msgid ""
+"The result of the ``git status`` command if all the commits were "
+"performed and there are no new files:"
+msgstr ""
+
+#: ../git_short_manual.rst:93
+msgid ""
+"Possible result of ``git status`` if there are changes. For example the "
+":file:`apps_dev/firstperson/firstperson.js` and "
+":file:`doc_src/git_short_manual.rst` files are changed and a new file "
+":file:`123.txt` is created:"
+msgstr ""
+
+#: ../git_short_manual.rst:117
+msgid "Before the Commit"
+msgstr ""
+
+#: ../git_short_manual.rst:120
+msgid "Checking changes (of the text files)"
+msgstr ""
+
+#: ../git_short_manual.rst:122
+msgid ""
+"In case of text files it is recommended to view the introduced changes "
+"before performing the commit."
+msgstr ""
+
+#: ../git_short_manual.rst:124
+msgid "Check what was changed in the whole directory:"
+msgstr ""
+
+#: ../git_short_manual.rst:130
+msgid "or in a specific file only:"
+msgstr ""
+
+#: ../git_short_manual.rst:136
+msgid "A possible result of the ``git diff`` command for a text file:"
+msgstr ""
+
+#: ../git_short_manual.rst:155
+msgid "Rolling back files"
+msgstr ""
+
+#: ../git_short_manual.rst:157
+msgid ""
+"If the file was changed or deleted but it is necessary to recover it (to "
+"the latest commited state) use the command:"
+msgstr ""
+
+#: ../git_short_manual.rst:164
+msgid ""
+"The introduced changes will be cancelled - this is why this command "
+"should be performed with caution."
+msgstr ""
+
+#: ../git_short_manual.rst:168
+msgid "Unwanted files"
+msgstr ""
+
+#: ../git_short_manual.rst:170
+msgid ""
+"If a file is listed in the ``Untracked files`` (``git status``), but "
+"version control is not needed for it, it should be deleted or moved "
+"beyond the working directory."
+msgstr ""
+
+#: ../git_short_manual.rst:180
+msgid "Preparing for Commit"
+msgstr ""
+
+#: ../git_short_manual.rst:183
+msgid "Adding files"
+msgstr ""
+
+#: ../git_short_manual.rst:185
+msgid ""
+"If you are happy with the changes, add the needed changed and/or new "
+"files for commit."
+msgstr ""
+
+#: ../git_short_manual.rst:192
+msgid "Check the status again:"
+msgstr ""
+
+#: ../git_short_manual.rst:198
+msgid ""
+"Possible result of the ``git status`` command after adding some files "
+"with the ``git add`` command:"
+msgstr ""
+
+#: ../git_short_manual.rst:216
+msgid ""
+"You can see that the :file:`apps_dev/firstperson/firstperson.js` and "
+":file:`123.txt` files were added for commit and the "
+":file:`doc_src/git_short_manual.rst` file was not added. To make things "
+"easier it is recommended to either add such files for commit or cancel "
+"their changes with the ``git checkout`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:219
+msgid "Removing files"
+msgstr ""
+
+#: ../git_short_manual.rst:221
+msgid ""
+"Some files can be marked as deleted from Git after performing the ``git "
+"status`` command, for example:"
+msgstr ""
+
+#: ../git_short_manual.rst:236
+msgid ""
+"In this case if deleting the file should be recorded (i.e. enter the "
+"commit), perform the ``git rm`` command, for example:"
+msgstr ""
+
+#: ../git_short_manual.rst:242
+msgid ""
+"If the file was deleted by accident and its necessary to recover it, use "
+"the ``git checkout`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:250
+msgid "Commit"
+msgstr ""
+
+#: ../git_short_manual.rst:252
+msgid "Perform commit with the command:"
+msgstr ""
+
+#: ../git_short_manual.rst:258
+msgid ""
+"A text editor window will show up (for example, **nano** or **vim**), in "
+"which it's nesessary to enter the commit comment in English."
+msgstr ""
+
+#: ../git_short_manual.rst:284
+msgid ""
+"Save the changes and quit the editor (in **nano** Ctrl+O, then Ctrl+X; in"
+" **vim** ZZ, or ESC :wq)."
+msgstr ""
+
+#: ../git_short_manual.rst:286
+msgid ""
+"After commit it's recommended to recheck the status. Commit is performed "
+"correctly if the ``git status`` command returns ``nothing to commit, "
+"working directory clean``."
+msgstr ""
+
+#: ../git_short_manual.rst:295
+msgid "Syncing Between Repositories"
+msgstr ""
+
+#: ../git_short_manual.rst:298
+msgid "From the remote - to the local"
+msgstr ""
+
+#: ../git_short_manual.rst:300
+msgid ""
+"After all the commits are performed it's nesessary to load the changes "
+"from the remote (\"shared\") repository to the local one:"
+msgstr ""
+
+#: ../git_short_manual.rst:306
+msgid ""
+"Result of the ``git pull`` command if there are no changes in the remote "
+"repository:"
+msgstr ""
+
+#: ../git_short_manual.rst:312
+msgid ""
+"Result of the ``git pull`` command if the remote repository contains "
+"changes and syncing was successful:"
+msgstr ""
+
+#: ../git_short_manual.rst:334
+msgid ""
+"If you wish it's possible to look up the changes made by your collegues "
+"using the following command:"
+msgstr ""
+
+#: ../git_short_manual.rst:340
+msgid ""
+"The parameter of this command - in this case dbf3877..9f9700c - shows "
+"between which commits exactly the changes were made. This parameter can "
+"be conveniently selected in the console in the ``git pull`` results and "
+"pasted with a mouse click (middle button) where you need."
+msgstr ""
+
+#: ../git_short_manual.rst:343
+msgid "You can also view the changelog:"
+msgstr ""
+
+#: ../git_short_manual.rst:350
+msgid ""
+"The ``git pull`` command does not always lead to a successful "
+"synchronization. The result of ``git pull`` when there are conflicts:"
+msgstr ""
+
+#: ../git_short_manual.rst:367
+msgid "The steps to be taken at conflicts are described below."
+msgstr ""
+
+#: ../git_short_manual.rst:372
+msgid "From the local - to the remote"
+msgstr ""
+
+#: ../git_short_manual.rst:374
+msgid ""
+"After that the changes should be uploaded from the local repository to "
+"the remote (\"shared\") one to make the changes available for team mates."
+msgstr ""
+
+#: ../git_short_manual.rst:380
+msgid ""
+"The result of the ``git push`` command if the remote repository already "
+"contains all the local changes:"
+msgstr ""
+
+#: ../git_short_manual.rst:386
+msgid "The result of the ``git push`` command if synchronization was successful:"
+msgstr ""
+
+#: ../git_short_manual.rst:398
+msgid ""
+"The result of the ``git push`` command if synchronization was not "
+"successful because the ``git pull`` command was not executed first:"
+msgstr ""
+
+#: ../git_short_manual.rst:409
+msgid "You should execute the ``git pull`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:411
+msgid ""
+"The changes uploaded into the central repository can be received by other"
+" developers with the ``git pull`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:418
+msgid "Resolving Conflicts"
+msgstr ""
+
+#: ../git_short_manual.rst:423
+msgid "Synchronization conflicts occur if both conditions are met"
+msgstr ""
+
+#: ../git_short_manual.rst:425
+msgid "the same file was changed both in the local and remote repositories, and"
+msgstr ""
+
+#: ../git_short_manual.rst:426
+msgid ""
+"automatic merging of the changes didn't occur because the changes are in "
+"the same place of the file."
+msgstr ""
+
+#: ../git_short_manual.rst:428
+msgid "Typical cases:"
+msgstr ""
+
+#: ../git_short_manual.rst:430
+msgid ""
+"a binary file (texture, blend file) was independently changed by two "
+"developers"
+msgstr ""
+
+#: ../git_short_manual.rst:431
+msgid "different changes were introduced to the same line of the same text file"
+msgstr ""
+
+#: ../git_short_manual.rst:432
+msgid "one developer has changed the file while the other has moved it and so on."
+msgstr ""
+
+#: ../git_short_manual.rst:434
+msgid ""
+"Although synchronization conflicts are normal, if they happen too often "
+"it slows down the work. It is recommended to notify your team mates about"
+" start of working with the shared binary files, and also to perform "
+"synchronization more often. It is nesessary to effectively distribute the"
+" work between developers to reduce the number of such shared files. This "
+"can be achieved particularly through linking of all the scene's resources"
+" from the separate blend files into the master file."
+msgstr ""
+
+#: ../git_short_manual.rst:438
+msgid "The steps to be taken"
+msgstr ""
+
+#: ../git_short_manual.rst:440
+msgid ""
+"It's not recommended to perform any files operations (modifying, "
+"deleting) while the repository is in a conflict state."
+msgstr ""
+
+#: ../git_short_manual.rst:442
+msgid "The first thing to do is to perform the ``git status`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:457
+msgid ""
+"A list of conflicting files can be found in the ``Unmerged paths`` "
+"section."
+msgstr ""
+
+#: ../git_short_manual.rst:459
+msgid "The order of the following steps is different for binary and text files."
+msgstr ""
+
+#: ../git_short_manual.rst:462
+msgid "Binary files"
+msgstr ""
+
+#: ../git_short_manual.rst:464
+msgid ""
+"At this stage the conflicting binary files are in the same state as they "
+"were in the local repository before the synchronization attempt. The "
+"files are fully functional (for example they can be opened by graphics "
+"editors)."
+msgstr ""
+
+#: ../git_short_manual.rst:466
+msgid ""
+"In case of conflicting binary files it's necessary to sort out (with the "
+"team mates or by yourself) which of the files should be left and which "
+"should be discarded. Selecting can be performed with the ``git checkout``"
+" command."
+msgstr ""
+
+#: ../git_short_manual.rst:468
+msgid ""
+"Select the local version of the file (**- -ours**). To make sure that "
+"it's local you can open it."
+msgstr ""
+
+#: ../git_short_manual.rst:474
+msgid ""
+"Select the remote version of the file (**- -theirs**). To make sure that "
+"it's remote you can open it."
+msgstr ""
+
+#: ../git_short_manual.rst:480
+msgid "Select the local version of the file again (**- -ours**)."
+msgstr ""
+
+#: ../git_short_manual.rst:486
+msgid ""
+"Eventually you have to stick to the right version of the file. In case "
+"there is a threat of loosing the work you may save the discarded file "
+"outside the repository."
+msgstr ""
+
+#: ../git_short_manual.rst:490
+msgid "Text files"
+msgstr ""
+
+#: ../git_short_manual.rst:492
+msgid ""
+"At this stage Git introduces both local and remote changes to the "
+"conflicting text files, in a special format. Such text files are not "
+"workable as a rule"
+msgstr ""
+
+#: ../git_short_manual.rst:494
+msgid ""
+"Example. One developer changed the scene name from \"Blue Lizard\" to "
+"\"Green Lizard\" in the application file and uploaded the changes into "
+"the central repository. Another developer changed \"Blue Lizard\" to "
+"\"Red Lizard\" in the same line, performed commit and executed the ``git "
+"pull`` command. As a result this very developer will be responsible for "
+"resolving the conflict. The following lines will be present in his "
+"version of the application file:"
+msgstr ""
+
+#: ../git_short_manual.rst:504
+msgid ""
+"In case of conflicting text files the following steps can be taken. Files"
+" with source code should be edited with or without respect to the changes"
+" introduced by both parties. On the other hand, it is easier to reexport "
+"the exported scene text files (ending with **.json**)."
+msgstr ""
+
+#: ../git_short_manual.rst:508
+msgid "Correcting commit"
+msgstr ""
+
+#: ../git_short_manual.rst:510
+msgid ""
+"After selecting the required files or editing the changes, add them for "
+"commit:"
+msgstr ""
+
+#: ../git_short_manual.rst:517
+msgid ""
+"Possible result of ``git status`` command after adding the conflicting "
+"files for commit:"
+msgstr ""
+
+#: ../git_short_manual.rst:527
+msgid "Perform commit. It is recommended to leave the default comment:"
+msgstr ""
+
+#: ../git_short_manual.rst:541
+msgid ""
+"Conflicts are resolved, the changes from the remote repository are "
+"successfully applied in the local repository. Now the changes in the "
+"local repository - including the just resolved conflict - can be uploaded"
+" to the remote repository with the ``git push`` command."
+msgstr ""
+
+#: ../git_short_manual.rst:550
+msgid "Tags"
+msgstr ""
+
+#: ../git_short_manual.rst:552
+msgid ""
+"Tags are intended for pointing at a certain commit, for example, to "
+"specify a stable product version."
+msgstr ""
+
+#: ../git_short_manual.rst:554
+msgid "View the list of tags:"
+msgstr ""
+
+#: ../git_short_manual.rst:561
+msgid ""
+"Create a tag for the release from June 3, 2013, pointing to the commit "
+"with a stable product version:"
+msgstr ""
+
+#: ../git_short_manual.rst:568
+msgid "Check the commit tag information:"
+msgstr ""
+
+#: ../git_short_manual.rst:575
+msgid "Roll back to the tag..."
+msgstr ""
+
+#: ../git_short_manual.rst:582
+msgid "...and return:"
+msgstr ""
+
+#: ../git_short_manual.rst:589
+msgid "Synchronize the tags with the remote repository:"
+msgstr ""
+
+#: ../git_short_manual.rst:596
+msgid "Delete the tag (if created by mistake):"
+msgstr ""
+
+#: ../git_short_manual.rst:604
+msgid "Other Useful Commands"
+msgstr ""
+
+#: ../git_short_manual.rst:606
+msgid "Check the log for January, 2012, show file names without merging commits:"
+msgstr ""
+
+#: ../git_short_manual.rst:1 ../git_short_manual.rst:50
+#: ../git_short_manual.rst:68 ../git_short_manual.rst:112
+#: ../git_short_manual.rst:175 ../git_short_manual.rst:245
+#: ../git_short_manual.rst:290 ../git_short_manual.rst:415
+#: ../git_short_manual.rst:545
+msgid "git"
+msgstr ""
+
+#: ../git_short_manual.rst:50
+msgid "individual settings"
+msgstr ""
+
+#: ../git_short_manual.rst:68
+msgid "checking the status"
+msgstr ""
+
+#: ../git_short_manual.rst:112
+msgid "preparing for commit"
+msgstr ""
+
+#: ../git_short_manual.rst:175
+msgid "adding and removing files"
+msgstr ""
+
+#: ../git_short_manual.rst:245
+msgid "commit"
+msgstr ""
+
+#: ../git_short_manual.rst:290
+msgid "synchronization between repositories"
+msgstr ""
+
+#: ../git_short_manual.rst:415
+msgid "resolving conflicts"
+msgstr ""
+
+#: ../git_short_manual.rst:545
+msgid "tags"
+msgstr ""
+

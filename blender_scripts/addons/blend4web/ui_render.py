@@ -204,6 +204,17 @@ class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
         layout.prop(god_rays, "max_ray_length", text=_("Maximum Ray Length"))
         layout.prop(god_rays, "steps_per_pass", text=_("Steps per Pass"))
 
+class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
+    bl_label = _("Dynamic Grass")
+    bl_idname = "RENDER_PT_b4w_DynGrass"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        scene = context.scene
+
+        layout = self.layout
+        layout.prop(scene, "b4w_render_dynamic_grass", text=_("Enable"))
+
 class B4W_RenderAntialiasing(RenderButtonsPanel, bpy.types.Panel):
     bl_label = _("Anti-Aliasing")
     bl_idname = "RENDER_PT_b4w_antialiasing"

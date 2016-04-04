@@ -5,11 +5,13 @@ import time
 import shutil
 import tempfile
 import blend4web
+import bpy
 
-b4w_modules = ["b4w_bin_suffix"]
+b4w_modules = ["b4w_bin_suffix", "translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
+from blend4web.translator import _, p_
 from .b4w_bin_suffix import get_platform_suffix
 
 def ensure_dir(dirname):
@@ -43,11 +45,34 @@ def get_binary_module_desc():
     path = os.path.dirname(os.path.abspath(init_script_path))
     binary_path = os.path.join(path, libname + ".so")
 
-    # For windows move the binary into 'temp' dir and link it from that path
+    # Move the binary into 'temp' dir and link it from that path
     filename = libname + ".so"
     if libname.find("Windows") >= 0:
         filename = libname + ".pyd"
-    filepath = os.path.join(path,filename)
+    v1 = bpy.app.version[0]
+    v2 = bpy.app.version[1]
+    lower = False
+    higher = False
+    filepath = ""
+    while True:
+        filepath = os.path.join(path, "bin", str(v1) + "_" + str(v2), filename)
+        if not os.path.exists(filepath):
+            # at least 2.76 version is always present
+            if v1 < 2 or (v1 == 2 and v2 < 76):
+                higher = True
+                v1 = 2
+                v2 = 76
+            else:
+                lower = True
+                v2 -= 1
+        else:
+            break
+
+    if lower:
+        blend4web.init_mess.append(_("Using low version of Blend4Web binary module. Blend4Web update is recommended!"))
+    if higher:
+        blend4web.init_mess.append(_("Using high version of Blend4Web binary module. Blender update is recommended!"))
+
     tempdir = tempfile.gettempdir()
     if tempdir is None:
         tempdir = os.path.join(path, "..", "temp")

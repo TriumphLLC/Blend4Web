@@ -155,10 +155,6 @@ exports.set_hardware_defaults = function(gl) {
         cfg_phy.use_workers = false;
     }
 
-    if (check_user_agent("Firefox") && cfg_def.stereo == "HMD") {
-        m_print.warn("Firefox detected, using custom distortion correction.");
-        cfg_def.use_browser_distortion_cor = false;
-    }
     // NOTE: check compatibility for particular device
     var rinfo = m_ext.get_renderer_info();
     if (rinfo) {

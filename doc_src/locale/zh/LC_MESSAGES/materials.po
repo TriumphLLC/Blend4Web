@@ -1,0 +1,727 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../materials.rst:7
+msgid "Materials"
+msgstr ""
+
+#: ../materials.rst
+msgid "Table of Content"
+msgstr ""
+
+#: ../materials.rst:13
+msgid ""
+"Materials describe the object surface’s response to light and also "
+"contain information about its transparency, reflectivity, physical "
+"parameters and so on."
+msgstr ""
+
+#: ../materials.rst:15
+msgid ""
+"Meshes can have one or more materials. In case of multiple materials they"
+" can be assigned to different polygons in the ``Edit Mode``. To do this "
+"select the needed polygons, select the needed material from the list and "
+"click the ``Assign`` button."
+msgstr ""
+
+#: ../materials.rst:17
+msgid "The following material types are supported: ``Surface``, ``Halo``."
+msgstr ""
+
+#: ../materials.rst:24
+msgid "Lighting Parameters"
+msgstr ""
+
+#: ../materials.rst:31
+msgid "*Diffuse > Color*"
+msgstr ""
+
+#: ../materials.rst:31
+msgid ""
+"Diffuse light color. The default value is (0.8, 0.8, 0.8). It may "
+"interact with the diffuse map color."
+msgstr ""
+
+#: ../materials.rst:34
+msgid "*Diffuse > Intensity*"
+msgstr ""
+
+#: ../materials.rst:34
+msgid "Diffuse light intensity. The default value is 0.8."
+msgstr ""
+
+#: ../materials.rst:37
+msgid "*Diffuse > Shader*"
+msgstr ""
+
+#: ../materials.rst:37
+msgid "Diffuse shading algorithm. The default value is ``Lambert``."
+msgstr ""
+
+#: ../materials.rst:40
+msgid "*Specular > Color*"
+msgstr ""
+
+#: ../materials.rst:40
+msgid ""
+"Specular light color. The default value is (1.0, 1.0, 1.0). It may "
+"interact with the specular map color."
+msgstr ""
+
+#: ../materials.rst:43
+msgid "*Specular > Intensity*"
+msgstr ""
+
+#: ../materials.rst:43
+msgid "Specular light intensity. The default value is 0.5."
+msgstr ""
+
+#: ../materials.rst:46
+msgid "*Specular > Hardness*"
+msgstr ""
+
+#: ../materials.rst:46
+msgid ""
+"Exponent in the specular shading calculation formula. The default value "
+"is 50. Note that the formula used in the engine differs slightly from the"
+" Blender’s one."
+msgstr ""
+
+#: ../materials.rst:49
+msgid "*Specular > Shader*"
+msgstr ""
+
+#: ../materials.rst:49
+msgid "Specular shading algorithm. The default value is ``CookTorr``."
+msgstr ""
+
+#: ../materials.rst:52
+msgid "*Shading > Emit*"
+msgstr ""
+
+#: ../materials.rst:52
+msgid "Emission intensity. The default value is 0.0."
+msgstr ""
+
+#: ../materials.rst:55
+msgid "*Shading > Ambient*"
+msgstr ""
+
+#: ../materials.rst:55
+msgid "Ambient influence factor on material. The default value is 1.0."
+msgstr ""
+
+#: ../materials.rst:58
+msgid "*Shading > Shadeless*"
+msgstr ""
+
+#: ../materials.rst:58
+msgid "When enabled, a material doesn’t react to light. Disabled by default."
+msgstr ""
+
+#: ../materials.rst:62
+msgid "*Shading > Double-Sided Lighting*"
+msgstr ""
+
+#: ../materials.rst:61
+msgid ""
+"Enables the double-sided lighting mode. This option is useful for non-"
+"transparent objects with a single-layered mesh."
+msgstr ""
+
+#: ../materials.rst:69
+msgid "Transparency"
+msgstr ""
+
+#: ../materials.rst:78
+msgid "Types"
+msgstr ""
+
+#: ../materials.rst:80
+msgid ""
+"Transparency implementation type can be selected in the ``Transparency`` "
+"menu on the ``Properties > Material`` panel."
+msgstr ""
+
+#: ../materials.rst:82
+msgid ""
+"The engine supports the following transparency implementation types "
+"(sorted in the ascending order by performance):"
+msgstr ""
+
+#: ../materials.rst:85
+msgid "*Alpha Sort*"
+msgstr ""
+
+#: ../materials.rst:85
+msgid ""
+"Transparent with a gradient. The engine sorts the triangles by camera "
+"distance in order to render overlapping transparent surfaces correctly. "
+"This operation is computationally expensive. It is recommended to use "
+"this feature for closed transparent geometry (bottle, car glass etc)."
+msgstr ""
+
+#: ../materials.rst:88
+msgid "*Alpha Blend*"
+msgstr ""
+
+#: ../materials.rst:88
+msgid ""
+"Transparent with a gradient. The sorting of triangles is not performed. "
+"It is recommended to use this feature for unclosed transparent geometry "
+"(water surface, decals)."
+msgstr ""
+
+#: ../materials.rst:91
+msgid "*Add*"
+msgstr ""
+
+#: ../materials.rst:91
+msgid ""
+"Transparent with a gradient. The sorting of triangles is not performed. "
+"The engine disables writing to the depth buffer which causes transparent "
+"surfaces to be rendered in arbitrary order. It is recommended to use this"
+" feature for effects (particle systems, glowing beams)."
+msgstr ""
+
+#: ../materials.rst:94
+msgid "*Alpha Clip*"
+msgstr ""
+
+#: ../materials.rst:94
+msgid ""
+"Transparent without a gradient. The engine discards pixels if their alpha"
+" is less than 0.5. The sorting of triangles is not performed. It is "
+"recommended to use this feature with a mask texture to visualize smaller "
+"details (tree leaves, grass)."
+msgstr ""
+
+#: ../materials.rst:97
+msgid "*Opaque*"
+msgstr ""
+
+#: ../materials.rst:97
+msgid "Non-transparent. Alpha is ignored. This is the default value."
+msgstr ""
+
+#: ../materials.rst:107 ../materials.rst:318
+msgid "Additional Settings"
+msgstr ""
+
+#: ../materials.rst:110
+msgid "*Transparency > Show Transparency*"
+msgstr ""
+
+#: ../materials.rst:110
+msgid ""
+"Enabling the transparency checkbox is required for viewing transparent "
+"objects in Blender. The engine ignores this option - the ``Alpha Blend`` "
+"option is used instead."
+msgstr ""
+
+#: ../materials.rst:113
+msgid "*Transparency > Alpha*"
+msgstr ""
+
+#: ../materials.rst:113
+msgid ""
+"Material transparency level. The engine ignores this parameter (in "
+"contrast to Blender) if there is a diffuse texture - the alpha channel "
+"values of a texture are used instead."
+msgstr ""
+
+#: ../materials.rst:117
+msgid "*Transparency > Z Offset*"
+msgstr ""
+
+#: ../materials.rst:116
+msgid ""
+"This option explicitly specifies relative positioning order of objects "
+"with **different** materials with the purpose of depth sorting. The "
+"option can take both negative and positive values. The more distant the "
+"object is the lesser parameter value should be to provide correct "
+"rendering. The default value is 0.0."
+msgstr ""
+
+#: ../materials.rst:124
+msgid "Reflection"
+msgstr ""
+
+#: ../materials.rst:135
+msgid "Static Reflection"
+msgstr ""
+
+#: ../materials.rst:137
+msgid ""
+"A surface reflects the same image no matter how the environment changes. "
+"For activation simply use the :ref:`mirror map <mirror_map>`."
+msgstr ""
+
+#: ../materials.rst:139 ../materials.rst:174
+msgid ":ref:`fresnel`"
+msgstr ""
+
+#: ../materials.rst:144
+msgid "Dynamic Reflection"
+msgstr ""
+
+#: ../materials.rst:146
+msgid ""
+"A surface reflects the selected objects in their current position. The "
+"engine supports planar and spherical reflections."
+msgstr ""
+
+#: ../materials.rst:149 ../materials.rst:308
+msgid "Activation"
+msgstr ""
+
+#: ../materials.rst:151
+msgid ""
+"Check ``Reflections`` setting on the ``Render > Reflections`` and "
+"Refractions panel."
+msgstr ""
+
+#: ../materials.rst:152
+msgid ""
+"For *reflective* objects enable the ``Reflective`` option on the ``Object"
+" > Reflections`` panel."
+msgstr ""
+
+#: ../materials.rst:154
+msgid ""
+"For planar reflections, set the ``Object > Reflections > Type`` property "
+"to ``Plane``. After that, add an empty object to be used as a reflection "
+"plane by executing for example ``Add > Empty > Single Arrow``. Rename it "
+"for convenience and specify its name in the ``Reflection plane`` field of"
+" the reflective object."
+msgstr ""
+
+#: ../materials.rst:155
+msgid ""
+"For cube-mapped reflections, set the ``Object > Reflections > Type`` "
+"property to ``Cube``."
+msgstr ""
+
+#: ../materials.rst:157
+msgid ""
+"For the needed materials of the *reflective* objects, set the ``Material "
+"> Mirror > Reflectivity`` value."
+msgstr ""
+
+#: ../materials.rst:159
+msgid ""
+"``Mirror > Reflectivity > Show Reflectivity`` is required for displaying "
+"reflections on objects in Blender. The engine ignores this option."
+msgstr ""
+
+#: ../materials.rst:161
+msgid ""
+"For the *reflexible* objects, enable the ``Reflexible`` checkbox on the "
+"``Object > Reflections`` panel."
+msgstr ""
+
+#: ../materials.rst:165
+msgid ""
+"It is also recommended to enable the ``World > Environment Lighting`` "
+"checkbox."
+msgstr ""
+
+#: ../materials.rst:169
+msgid "Limitations"
+msgstr ""
+
+#: ../materials.rst:171
+msgid ""
+"Normal maps and shadows are ignored in the reflected image for "
+"optimization purposes."
+msgstr ""
+
+#: ../materials.rst:182
+msgid "Fresnel effect for reflection"
+msgstr ""
+
+#: ../materials.rst:184
+msgid ""
+"The Fresnel effect manifests itself as the dependency of the intencity of"
+" passing and reflected light on the incidence angle. If the angle of "
+"incidence is close to zero (i.e. light falls almost at right angle to the"
+" surface) the passing light portion is large and the reflected light "
+"portion is small. On the contrary if the angle of incidence is close to "
+"90 degrees (i.e. light falls almost parallel to the surface) almost all "
+"light is reflected."
+msgstr ""
+
+#: ../materials.rst:186
+msgid "The engine uses the approximate Schlick’s formula:"
+msgstr ""
+
+#: ../materials.rst:188
+msgid "R = R\\ :sub:`0` + (1 − R\\ :sub:`0`)(1 - cos θ)\\ :sup:`N`, where"
+msgstr ""
+
+#: ../materials.rst:190
+msgid "R - reflection coefficient,"
+msgstr ""
+
+#: ../materials.rst:192
+msgid ""
+"R\\ :sub:`0` - reflection coefficient in case of viewing at a right angle"
+" to the surface (i.e. when θ = 0),"
+msgstr ""
+
+#: ../materials.rst:194
+msgid ""
+"θ - angle of incidence (which is equal to the angle of reflection under "
+"which light enters the camera), it is calculated by the engine in real-"
+"time,"
+msgstr ""
+
+#: ../materials.rst:196
+msgid "N - exponent."
+msgstr ""
+
+#: ../materials.rst:200
+msgid "Settings"
+msgstr ""
+
+#: ../materials.rst:202
+msgid "Fresnel effect can be set up both for static and dynamic reflection."
+msgstr ""
+
+#: ../materials.rst:204
+msgid ""
+"*Material > Mirror > Fresnel* Fresnel power for reflection. This is the N"
+" exponent in the Schlick’s formula. In Blender it is limited to values "
+"from 0 to 5. If this parameter is equal to zero the Fresnel effect is not"
+" observed and the *full* reflection at all angles occurs. If this "
+"parameter is greater than zero, the material is less reflective when "
+"viewing surfaces at angles which are close to the right angle. The bigger"
+" this parameter is the bigger is the angle deviation from the right angle"
+" for which the Fresnel effect is observed."
+msgstr ""
+
+#: ../materials.rst:208
+msgid "*Material > Mirror > Blend*"
+msgstr ""
+
+#: ../materials.rst:208
+msgid ""
+"Fresnel factor for reflection. It is reduced to R\\ :sub:`0` in the "
+"Schlick’s formula by the following expression: R\\ :sub:`0` = 1 - "
+"``Blend`` / 5. In Blender it is limited to values from 0 to 5. This "
+"parameter defines the Fresnel effect intensity: the bigger the ``Blend`` "
+"factor is, the more is the Fresnel effect influence. If it is equal to "
+"zero the Fresnel effect is not observed."
+msgstr ""
+
+#: ../materials.rst:220
+msgid "Rendering Properties"
+msgstr ""
+
+#: ../materials.rst:227
+msgid "*Material > Rendering Options > Do not Render*"
+msgstr ""
+
+#: ../materials.rst:227
+msgid "Disable rendering of this object."
+msgstr ""
+
+#: ../materials.rst:230
+msgid "*Material > Rendering Options > Backface Culling*"
+msgstr ""
+
+#: ../materials.rst:230
+msgid ""
+"When enabled, poligons’ back faces are not rendered by the engine. "
+"Enabled by default."
+msgstr ""
+
+#: ../materials.rst:235
+msgid "*Material > Rendering Options > Wettable*"
+msgstr ""
+
+#: ../materials.rst:233
+msgid "Water wetting effect is activated for the material."
+msgstr ""
+
+#: ../materials.rst:235
+msgid ":ref:`water`"
+msgstr ""
+
+#: ../materials.rst:238
+msgid "*Material > Rendering Options > Render Above All*"
+msgstr ""
+
+#: ../materials.rst:238
+msgid ""
+"Material is rendered on top of all scene objects. Transparency type with "
+"a gradient is requred (``Add``, Alpha Blend`` or ``Alpha Sort``)."
+msgstr ""
+
+#: ../materials.rst:241
+msgid "*Material > Rendering Options > Vertex Color Paint*"
+msgstr ""
+
+#: ../materials.rst:241
+msgid ""
+"Mesh vertex color is used instead of the material diffuse color when the "
+"checkbox is enabled."
+msgstr ""
+
+#: ../materials.rst:250
+msgid "*Material > Rendering Options > Refractive*"
+msgstr ""
+
+#: ../materials.rst:244
+msgid ""
+"Make object refractive. Perturbation factor can be set with the option "
+"``Refraction Bump`` on the ``Refraction Settings`` panel. The default "
+"value is 0.001."
+msgstr ""
+
+#: ../materials.rst:248
+msgid ""
+"In order to use this effect, select ``ON`` or ``AUTO`` on the ``Render > "
+"Reflections and Refractions > Refractions`` panel. The object must have "
+"``Alpha Blend`` transparency type."
+msgstr ""
+
+#: ../materials.rst:250
+msgid ":ref:`alpha_blend`"
+msgstr ""
+
+#: ../materials.rst:257
+msgid "Viewport Properties"
+msgstr ""
+
+#: ../materials.rst:259
+msgid "The ``Viewport`` section can be found on the ``Blend4Web`` panel."
+msgstr ""
+
+#: ../materials.rst:265
+msgid "*Update Material Animation*"
+msgstr ""
+
+#: ../materials.rst:267
+msgid "Update animated shader in Blender Viewport."
+msgstr ""
+
+#: ../materials.rst:274
+msgid "Engine Specific Parameters"
+msgstr ""
+
+#: ../materials.rst:284
+msgid "*Material > Water*"
+msgstr ""
+
+#: ../materials.rst:284
+msgid "Special material for :ref:`water rendering <water>`."
+msgstr ""
+
+#: ../materials.rst:287
+msgid "*Material > Terrain Dynamic Grass*"
+msgstr ""
+
+#: ../materials.rst:287
+msgid "Material is used for :ref:`grass rendering <particles_grass>`."
+msgstr ""
+
+#: ../materials.rst:292
+msgid "*Material > Collision*"
+msgstr ""
+
+#: ../materials.rst:290
+msgid "A special material for collision geometry."
+msgstr ""
+
+#: ../materials.rst:292
+msgid ":ref:`physics`"
+msgstr ""
+
+#: ../materials.rst:295
+msgid "*Material > Export Options > Do Not Export*"
+msgstr ""
+
+#: ../materials.rst:295
+msgid "Material is not to be exported."
+msgstr ""
+
+#: ../materials.rst:302
+msgid "Halo Materials"
+msgstr ""
+
+#: ../materials.rst:304
+msgid ""
+"Halo materials are used in particle systems and in static meshes. Using "
+"the halo in static meshes is described below."
+msgstr ""
+
+#: ../materials.rst:310
+msgid ""
+"Select the ``Halo`` type under the ``Materials`` tab. It’s also "
+"recommended to select the transparency type with a gradient (``Add``, "
+"``Alpha Blend`` or ``Alpha Sort``)."
+msgstr ""
+
+#: ../materials.rst:321
+msgid "*Halo > Alpha*"
+msgstr ""
+
+#: ../materials.rst:321
+msgid "Material transparency factor. The default value is 1.0 (non-transparent)."
+msgstr ""
+
+#: ../materials.rst:324
+msgid "*Halo > Color*"
+msgstr ""
+
+#: ../materials.rst:324
+msgid "Material color. The default value is (0.8, 0.8, 0.8) (almost white)."
+msgstr ""
+
+#: ../materials.rst:327
+msgid "*Halo > Size*"
+msgstr ""
+
+#: ../materials.rst:327
+msgid "Particle size. The default value is 0.5."
+msgstr ""
+
+#: ../materials.rst:330
+msgid "*Halo > Hardness*"
+msgstr ""
+
+#: ../materials.rst:330
+msgid ""
+"Exponent for computing the gradient. Affects visible dimensions of "
+"particles. The default value is 50."
+msgstr ""
+
+#: ../materials.rst:333
+msgid "*Halo > Rings*"
+msgstr ""
+
+#: ../materials.rst:333
+msgid "Use rings. Relative quantity and color can be set up."
+msgstr ""
+
+#: ../materials.rst:336
+msgid "*Halo > Lines*"
+msgstr ""
+
+#: ../materials.rst:336
+msgid "Use lines. Relative quantity and color can be set up."
+msgstr ""
+
+#: ../materials.rst:339
+msgid "*Halo > Star Tips*"
+msgstr ""
+
+#: ../materials.rst:339
+msgid "Use stars. The quantity of edges can be set up."
+msgstr ""
+
+#: ../materials.rst:342
+msgid "*Halo > Special: Stars*"
+msgstr ""
+
+#: ../materials.rst:342
+msgid ""
+"Enables the starry sky rendering mode. The mesh is fixed relative to the "
+"camera. For the ``Sun`` lamp it is also required to enable the ``Lamp > "
+"Dynamic Intensity`` checkbox. Applications should set up the hours of "
+"darkness via API."
+msgstr ""
+
+#: ../materials.rst:345
+msgid "*Halo > Blending Height*"
+msgstr ""
+
+#: ../materials.rst:345
+msgid "Height range for the fading of stars."
+msgstr ""
+
+#: ../materials.rst:347
+msgid "*Halo > Minimum Height*"
+msgstr ""
+
+#: ../materials.rst:348
+msgid "Minimum height in the object’s local space at which stars are visible."
+msgstr ""
+
+#: ../materials.rst:3 ../materials.rst:19 ../materials.rst:64
+#: ../materials.rst:119 ../materials.rst:217 ../materials.rst:254
+#: ../materials.rst:271 ../materials.rst:297
+msgid "materials"
+msgstr ""
+
+#: ../materials.rst:19
+msgid "lighting parameters"
+msgstr ""
+
+#: ../materials.rst:64
+msgid "transparency"
+msgstr ""
+
+#: ../materials.rst:75 ../materials.rst:104
+msgid "transparancy"
+msgstr ""
+
+#: ../materials.rst:75
+msgid "types"
+msgstr ""
+
+#: ../materials.rst:104
+msgid "settings"
+msgstr ""
+
+#: ../materials.rst:119 ../materials.rst:130 ../materials.rst:141
+#: ../materials.rst:177
+msgid "reflection"
+msgstr ""
+
+#: ../materials.rst:130
+msgid "static"
+msgstr ""
+
+#: ../materials.rst:141
+msgid "dynamic"
+msgstr ""
+
+#: ../materials.rst:177
+msgid "fresnel effect"
+msgstr ""
+
+#: ../materials.rst:217
+msgid "rendering properties"
+msgstr ""
+
+#: ../materials.rst:254
+msgid "viewport properties"
+msgstr ""
+
+#: ../materials.rst:271
+msgid "specific parameters"
+msgstr ""
+
+#: ../materials.rst:297
+msgid "halo"
+msgstr ""
+

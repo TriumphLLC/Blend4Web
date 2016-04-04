@@ -6,7 +6,7 @@ SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
 
 # exec "VERPREFIX=_new_prefix make -e" to override
-VERPREFIX=_rc
+VERPREFIX=
 VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all
@@ -48,6 +48,7 @@ compile_apps:
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/victory_day_2015 compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/viewer compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/webplayer compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/debugger compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/petigors_tale compile -v $(VERSION)
 
@@ -60,7 +61,6 @@ build_tutorials:
 	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p4/ compile -t update
 	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p5-6/ compile -t update
 	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p7-12/ compile -t update
-	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/making_a_game_p8/ compile -t update
 	@$(SH) ./$(APPDIR)/project.py -p $(TUTORIALS_DIR)/examples/web_page_integration/ compile -t update
 
 .PHONY: convert_resources

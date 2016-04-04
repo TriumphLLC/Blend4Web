@@ -1,61 +1,61 @@
 .. _developers:
 
-************************
-Разработчикам приложений
-************************
+**************************
+For Application Developers
+**************************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
 .. _app_building:
 
-Управление проектами
-====================
+Project Management
+==================
 
-Управлять проектами возможно двумя способами: с помощью консольной утилиты *project.py*, имеющей простой формат вызова и подробную справку, либо в графической форме с помощью веб-приложения, выполняющегося на локальном сервере разработчика. Сервер не требует каких-либо дополнительных настроек и запускается автоматически при старте Blender. Главная страница приложения Project Manager открывается с помощью кнопки ``Project Manager`` в Blender.
+You can manage your projects in two ways: by using *project.py*, which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the Project Manager can be opened by clicking on the ``Project Manager`` button in Blender.
 
-Работе с менеджером проектов посвящён :ref:`отдельный раздел <project_management>`.
+Working with the Project Manager is described in a :ref:`dedicated chapter <project_management>`.
 
 .. _advanced_project_management:
 
-Расширенное управление проектами
-================================
+Advanced Project Management
+===========================
 
-Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возвожность втоматизировать все рабочие процессы, связанные с разработкой приложений.
+Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.
 
-Для расширенного управления проектами следует использовать скрипт *project.py* и ручное редактирование конфигурационных файлов *.b4w_project*.
+For advanced project management use the *project.py* script and manually edit *.b4w_project* config files.
 
-Зависимости
------------
+Dependencies
+------------
 
-Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:
+The project managment system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:
 
 .. code-block:: bash
 
     ./project.py check_deps
 
-Для пользователей ОС Windows:
+For MS Windows users:
 
 .. code-block:: console
 
     python project.py check_deps
 
 
-Список проектов
----------------
+Projects List
+-------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject list
 
-Выводит список проектов, находящихся в SDK.
+Prints list of projects in the SDK.
 
 
-Структура проекта
+Project Structure
 -----------------
 
-Типовое приложение, разрабатываемая с помощью системы управления проектами имеет вид:
+A typical app developed using the project manager looks as follows:
 
 ::
 
@@ -82,20 +82,20 @@
                     myproject.bin
 
 
-Как видно, это приложение состоит из 4 различных директорий:
+This app consists of 4 different directories.
 
-#. apps_dev/myproject. Содержит исходные файлы приложений проекта.
-#. blender/myproject. Содержит исходные файлы сцен проекта.
-#. deploy/assets/myproject. Содержит экспортированные файлы сцен проекта.
-#. deploy/apps/myproject. Содержит экспортированные файлы сцен проекта.
+#. apps_dev/myproject. Contains source files of project's apps.
+#. blender/myproject. Contains source files of project's scenes.
+#. deploy/assets/myproject. Contains exported files of project's scenes.
+#. deploy/apps/myproject. Contains exported files of project's scenes.
 
-Кроме того, операция развёртывания (deploy) может создавать ещё одну директорию, однако она обычно располагается за пределами SDK и её название и расположение зависит от структуры директорий на конечном сервере.
+Additionally, the deploy command can create yet another directory, but it usually is placed outside of the SDK and its name and path depend on directory structure on the target server.
 
 
-Конфигурационный файл ``.b4w_project``
---------------------------------------
+``.b4w_project`` Config File
+----------------------------
 
-Если при запуске скрипта *project.py* не были заданы параметры проекта, то они берутся из конфигурационного файла.
+If you did not use any arguments upon executing the *project.py* script, then they will be taken from the config file.
 
 ::
 
@@ -126,39 +126,35 @@
  remove_exist_ext_dir = 
 
 
-Низкоуровневое создание проекта
--------------------------------
+Advanced Project Management
+---------------------------
 
 .. code-block:: bash
 
     ./project.py init myproject
 
-Команда создает проект с указанной именем в текущей директории. По умолчанию в директории проекта будет находиться только конфигурационный файл.
+This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.
 
-Доступные опции:
+Available parameters:
 
-* ``-A | --copy-app-templates`` (необязательная) создает в директории проекта стандартные шаблоны 
-  приложения (*<имя проекта>_dev.html*, *<имя проекта>.js*, *<имя проекта>.css*).
-* ``-B | --bundle`` (необязательная) все файлы проекта будут размещены в одной директории.
-* ``-C | --author`` (необязательная) записывает в конфигурационный файл имя автора или компании.
-* ``-o | --optimization`` (необязательная) записывает в конфигурационный файл тип оптимизации скриптов.
-* ``-P | --copy-project-script`` (необязательная) создает скрипт *project.py* в директории проекта.
-* ``-S | --copy-scene-templates`` (необязательная) создает в директориях ``deploy/assets/<имя проекта>`` 
-  и ``blender/<имя проекта>`` (необязательная) стандартные шаблоны сцены (*<имя проекта>.json/.bin* и *<имя проекта>.blend* соответственно).
-* ``-T | --title"`` (необязательная) записывает в конфигурационный файл заголовок проекта.
-  При сборке он будет добавлен в html-тэг ``<title>``.
-* ``-t | --engine-type`` (необязательная) записывает в конфигурационный файл тип собираемого приложения.
+* ``-A | --copy-app-templates`` (optional) create standard app templates in the project directory  (*<my_project_name>_dev.html*, *<my_project_name>.js*, *<my_project_name>.css*).
+* ``-B | --bundle`` (optional) all project files will be placed in a single directory.
+* ``-C | --author`` (optional) write an author's or a company's name in the config file.
+* ``-o | --optimization`` (optional) write the script optimization level in the config file.
+* ``-P | --copy-project-script`` (optional) create a copy of the *project.py* script in the project directory.
+* ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``deploy/assets/<my_project_name>`` and ``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and *<my_project_name>.blend* correspondingly).
+* ``-T | --title"`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
+* ``-t | --engine-type`` (optional) write an engine type in the config file.
 
-Пример:
+Example:
 
 .. code-block:: bash
 
     ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
 
-Данная команда создаст директорию *myproject*, в которой будут находиться файлы: 
-*myproject.js*, *myproject.css*, *myproject_dev.html* и *.b4w_project*.
+This command will create a directory named *myproject*, inside which the following files will be placed: *myproject.js*, *myproject.css*, *myproject_dev.html* and *.b4w_project*.
 
-Файл .b4w_project будет выглядеть следущим образом::
+The .b4w_project file will look like::
 
  [info]
  author = Blend4Web
@@ -187,10 +183,10 @@
  remove_exist_ext_dir = 
 
 
-Разработка нескольких приложений в составе проекта
---------------------------------------------------
+Developing multiple apps inside a project
+-----------------------------------------
 
-В проекте может содержаться несколько приложений. Для этого необходимо в конфигурационном файле указать соответствующие HTML-файлы через точку с запятой::
+A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon::
 
  ...
  [compile]
@@ -198,113 +194,109 @@
  ...
 
 
-Сборка проекта
---------------
+Building Projects
+-----------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject compile
 
-Собирает проект в директории ``deploy/apps/myproject``.
+Builds a project in the ``deploy/apps/myproject`` directory.
 
 .. note::
 
-    Для работы скрипта необходимо установить java и `записать ее в переменную среды PATH <https://www.java.com/ru/download/help/path.xml>`_
+   For script operation it's required to install java and  `set the PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
 
 
-Доступные опции:
+Available parameters:
 
-* ``"-a | --app"`` (необязательная) указывает на HTML-файл, относительно которого будет собираться приложение для проекта.
-* ``"-c | --css-ignore"`` (необязательная) добавляет в исключения стили, которые не будут скомпилированы.
-* ``"-j | --js-ignore"`` (необязательная) добавляет в исключения скрипты, которые не будут скомпилированы.
-* ``"-o | --optimization"`` (необязательная) используется для указания метода оптимизации js-файлов.
-  Доступные варианты: ``whitespace``, ``simple`` (по умолчанию) и ``advanced``.
-* ``"-t | --engine-type"`` (необязательная) определяет тип компилируемого приложения. Доступны четыре варианта:
-  *external* (по умолчанию), *copy*, *compile*, *update*.
-* ``"-v | --version"`` добавляет версию к адресам скриптов и стилей.
+* ``"-a | --app"`` (optional) specify an HTML file, relative to which the project app will be built.
+* ``"-c | --css-ignore"`` (optional) add CSS styles to exceptions in order to not compile them.
+* ``"-j | --js-ignore"`` (optional) add scripts to exceptions in order to not compile them.
+* ``"-o | --optimization"`` (optional) specify the optimization level for JavaScript files: ``whitespace``, ``simple`` (by default) or ``advanced``.
+* ``"-t | --engine-type"`` (optional) define a compilation type for an app. Four variants are available: *external* (by default), *copy*, *compile*, *update*.
+* ``"-v | --version"`` add version to paths of scripts and styles.
 
-Требования, накладываемые компилятором:
+Compiler Requirements
 
-* В корне директории должен находится единственный html-файл, если не указана опция ``-a``.
-* Скрипты и стили могут находиться как в корне проекта (приложения), так и
-  во вложенных папках.
+* In the root of the directory the single html file must be stored if ``-a`` option is disabled
+* Scripts and styles can be stored in the app's root and in the subfolders
 
 
-Автоматический экспорт ресурсов
--------------------------------
+Automatic Re-export
+-------------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject reexport
 
-Повторно экспортирует blend-файлы в форматах JSON и HTML.
+This command will re-export blend files in JSON and HTML formats.
 
-Доступные опции:
+Available parameters:
 
-* ``"-b | --blender_exec"`` путь к исполняемому файлу blender.
-* ``"-s | --assets"`` определяет директорию с ресурсами сцены.
+* ``"-b | --blender_exec"`` path to the blender executable.
+* ``"-s | --assets"`` specify directory with scene assets.
 
 
-Конвертация ресурсов
---------------------
+Resource Conversion
+-------------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject convert_resources
 
-Конвертирует внешние ресурсы (текстуры, звуковые и видео-файлы) проекта
-в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности.
+Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.
 
-Доступные опции:
+Available parameters:
 
-* ``"-s | --assets"`` определяет директорию с ресурсами сцены.
+* ``"-s | --assets"`` specify directory with scene assets.
 
-Более подробно о процессе конвертации ресурсов сказано в :ref:`соответствующем разделе <converter>`.
+Converting of resources is described in detail in the :ref:`corresponding section <converter>`.
 
 
-Развертывание проекта
----------------------
+Deploying Projects
+------------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject deploy
 
-Сохраняет проект во внешнюю директорию со всеми необходимыми зависимостями.
+Save a project to an external directory together with all dependencies.
 
-Доступные опции:
+Available parameters:
 
-* ``"-d | --dir"`` директория для развертывания проекта.
-* ``"-e | --assets-path"`` путь к файлам ресурсов.
-* ``"-o | --override"`` (необязательная) удаляет директорию, если она существует.
-* ``"-s | --assets"`` определяет директорию с ресурсами сцены.
-* ``"-t | --engine-type"`` (необязательная) определяет тип развертываемого приложения.
+* ``"-d | --dir"`` directory for deploying the project.
+* ``"-e | --assets-path"`` path to asset files.
+* ``"-o | --override"`` remove directory if it exists.
+* ``"-s | --assets"`` specify directory with scene assets.
+* ``"-t | --engine-type"`` (optional) determine a type of the deployed application.
 
 
-Удаление проекта
-----------------
+Remove Project
+--------------
 
 .. code-block:: bash
 
     python3 project.py -p myproject remove
 
-Удаляет проект. Удаляемые директории берутся из конфигурационного файла.
+Removes a project. Removed directories are retrieved from project configuration file.
 
 
-Обновление приложений на новые версии SDK
------------------------------------------
+Upgrading Apps for New SDK Versions
+-----------------------------------
 
-В процессе обновления на новые версии движка чаще всего возникает две проблемы:
+While upgrading for new SDK versions often two problems arise:
 
-#. Несоответствие модулей новой и старой версии движка.
-#. Несоответствие старых и новых API движка.
+#. Modules of the new and old versions of the engine do not match.
+#. Old and new engine API do not match.
 
-Для того, чтобы обновить список модулей, подключаемых в необфусцированной версии приложений, необходимо перейти в директорию с исходными файлами приложений ``apps_dev/my_project``. Затем необходимо вызвать скрипт, генерирующий пути к файлам движка:
+In order to update the list of modules imported in developer version of application go to project source directory ``apps_dev/my_project`` and execute module list generator script:
 
 .. code-block:: bash
 
     python3 ../../scripts/mod_list.py
 
-Для пользователей ОС Windows:
+For MS Windows users:
 
 .. code-block:: console
 
@@ -312,9 +304,9 @@
 
 .. note::
 
-    Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор языка Python версии 3.x
+    To run the scripts the Python 3.x needs to be installed in your system.
 
-В консоли появится список модулей, которые необходимо скопировать и вставить в главный HTML-файл:
+The console will print the list of modules - copy them and paste into the main HTML file:
 
 .. code-block:: html
 
@@ -332,28 +324,28 @@
     </head>
 
 
-Несоответствие API решается рефакторингом кода приложения. Все изменения подробно описываются в :ref:`замечаниях к релизам <release_notes>`.
+To eliminate API incompatibilities you may require refactoring of your app.All changes are described in :ref:`release notes <release_notes>`.
 
 
-Пути к загружаемым ресурсам приложения
---------------------------------------
+Path to Loaded Application Assets
+---------------------------------
 
-При загрузке .json-файлов необходимо использовать функцию ``get_std_assets_path()`` из модуля *config.js*:
+To load .json-files you should use ``get_std_assets_path()`` method frome the *config.js* module:
 
 .. code-block:: javascript
 
     m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
 
-После сборки готового приложения путь к данным изменится, а использование функции ``get_std_assets_path()`` позволит избежать возникновения проблемы с неверным путем.
+After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` wil allow you to avoid problems with incorrect paths.
 
 
-Написание логики приложений
-===========================
+Application Programming
+=======================
 
-Приложение Hello world!
------------------------
+"Hello World!" application
+--------------------------
 
-Простейшее приложение на основе Blend4Web может иметь вид:
+The simplest Blend4Web app may look like this:
 
 .. code-block:: html
 
@@ -374,23 +366,20 @@
     </html>
 
 
-Приложение выводит сообщение и текущую версию движка в окне браузера. Рассмотрим представленный пример. Базовый код движка подключается с помощью тега ``<script src="...">``. Далее, приложение ожидает окончания загрузки страницы и выводит сообщение в окне браузера. В данном примере используется единственный модуль ``version``, в котором находится одноимённая функция ``version()``. Подробную информацию о предназначении модулей и функций движка можно найти в `документации по API <https://www.blend4web.com/api_doc/index.html>`_.
+This app prints a message and the engine's version in the browser window. Let's look at this example in detail. The engine library is embedded with the ``<script src="...">`` element. Then, the app waits for the page to load and prints the current version in the browser window. In this example, ``version`` is the only used module which has a function with the same name - ``version()``. A more detailed info about the usage of engine's modules and functions can be found in the `API documentation <https://www.blend4web.com/api_doc/index.html>`_.
 
-Файл ``b4w.min.js`` со скомпилированным кодом движка необходимо скопировать из директории SDK ``deploy/apps/common``  и разместить в той же директории, что и представленный HTML-файл.
+The compiled engine file ``b4w.min.js`` can be copied from the SDK's ``deploy/apps/common`` directory and placed in the same directory as the HTML file.
 
-Загрузка сцены в приложение
----------------------------
+Loading Scenes in Apps
+----------------------
 
-Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую
-последовательность действий:
+To load a 3D scene you need:
 
-#. Разместить на странице элемент ``<canvas>``, на котором будет производиться
-   рендеринг.
+#. Place a ``<canvas>`` element on a page for rendering.
 
-#. После загрузки страницы, для инициализации контекста WebGL, вызвать функцию
-   ``m_main.init()`` с идентификатором созданного элемента.
+#. Call the ``m_main.init()`` function with the created element id to init the WebGL context after the page is loaded.
 
-#. Вызвать функцию ``m_data.load()`` для загрузки трёхмерной сцены.
+#. Call the ``m_data.load()`` function to load a 3D scene.
 
 .. code-block:: html
 
@@ -416,23 +405,17 @@
 
 .. note::
 
-    Следует отметить, что реальное приложение должно включать в себя проверку ошибок, настройку движка перед инициализацией, а также базовую систему взаимодействия с пользователем.
+    Note that a real app should include error checking, setting up the engine before initializing and also a basic system for interacting with the user.
 
 
-Система модулей
----------------
+Module System
+-------------
 
-Несмотря на то, что движок предоставляет прикладному программисту API в объёме
-десятков модулей, в процессе работы он занимает в глобальном пространстве имён
-единственный объект ``b4w``. При необходимости обращения к модулю, последний
-импортируется с помощью вызова функции ``b4w.require()``.
+While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single ``b4w`` namespace. To call a module’s method import it first with the ``b4w.require()`` function.
 
-Допустима регистрация сторонних модулей, если их имена не пересекаются с
-имеющимися. Регистрация происходит посредством вызова ``b4w.register()``.
-Проверка наличия модуля с некоторым именем может быть осуществлена с помощью
-``b4w.module_check()``.
+It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a ``b4w.register()`` call. Check if a module with some name already exists with a ``b4w.module_check()`` call.
 
-Пример:
+Example:
 
 .. code-block:: javascript
 
@@ -461,10 +444,10 @@
 
 
 
-Быстрое создание приложений
----------------------------
+Creating Apps Quickly
+---------------------
 
-Поскольку создание приложения с нуля может быть достаточно сложной операцей, особенно для начинающих пользователей, в движке существует специальное дополнение ``app``:
+Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called ``app``:
 
 .. code-block:: html
 
@@ -487,7 +470,6 @@
     }
 
     function loaded_cb() {
-        m_app.enable_controls();
         m_app.enable_camera_controls();
     }
 
@@ -500,35 +482,29 @@
 
     </html>
 
-В данном случае модуль ``app`` создаст элемент ``<canvas>`` внутри контейнера с
-указанным идентификатором ``container_id``, осуществит инициализацию движка при
-загрузке страницы и сообщит о её окончании с помощью обработчика ``load_cb()``.
+In this case the ``app`` module will create a ``<canvas>`` element inside the container with the specified ``container_id`` id. Then it will initialize the engine after the page is loaded and will finally execute the ``load_cb()`` callback.
 
-Далее загружается сцена some_scene.json, аналогично предыдущему примеру, с тем лишь отличием, что по окончании загрузки этой сцены инициализируется подсистема управления и активируются средства для перемещения камеры с помощью клавиатуры и мыши (сенсорного экрана для мобильных устройств).
+Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.
 
-При использовании модуля ``app`` необходимо явно задавать размеры контейнерного элемента, поскольку в противном случае создаваемый элемент ``<canvas>`` будет иметь нулевые размеры.
+In case when the ``app`` module is used, it is necessary to explicitely specify dimensions of the container element. Otherwise the created ``<canvas>`` element will have zero dimensions.
 
 
 .. _converter:
 
-Конвертация ресурсов
-====================
+Resource Conversion
+===================
 
-Существующие браузеры не полностью поддерживают основные форматы медиаданных, 
-поэтому для создания кроссбраузерных приложений, а также с целью оптимизации, 
-необходимо использовать конвертер ресурсов.
+Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.
 
-В состав дистрибутива включен Python скрипт (scripts/converter.py) для
-конвертации исходных файлов в другие форматы с целью расширения спектра
-поддерживаемых платформ, а также для уменьшения размера ресурсов.
+To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution.
 
-Данный скрипт может вызываться автоматически, используя систему управления проектами, либо вручную:
+This script can be run automatically using the project mangment system, or manually:
 
 .. code-block:: bash
 
     > python3 <path_to_sdk>/scripts/converter.py [options] resize_textures | convert_dds | convert_media
 
-Для пользователей ОС Windows:
+For MS Windows users:
 
 .. code-block:: console
     
@@ -537,40 +513,35 @@
 
 .. note::
 
-    Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор языка Python версии 3.x
+    To run the scripts the Python 3.x needs to be installed in your system.
 
-С помощью опции -d можно указать путь к директории,
-в которой будет производится конвертация.
+With the -d parameter you can specify the path to a directory in which converting will take place.
 
-При необходимости исключить некоторую директорию при конвертации, достаточно
-разместить в ней файл с именем ``.b4w_no_conv``. На конвертацию во вложенных
-директориях это не повлияет.
+To exclude some directory from resource conversion, it is enough to put a file named ``.b4w_no_conv`` in it. This will not affect conversion in nested directories.
 
-Аргумент **resize_textures** используется для изменения размера
-текстур в режиме **LOW**.
+The **resize_textures** argument is used for decreasing texture resolution for the **LOW** mode.
 
 
-Зависимости
------------
+Dependencies
+------------
 
-Убедитесь, что у вас установлены все необходимые для конвертации программы. Это 
-можно сделать следующей командой:
+Please make sure that you have all converter dependencies installed. You can do it with the following command:
 
 .. code-block:: bash
 
     > python3 <path_to_sdk>/scripts/converter.py check_dependencies
 
-Если какая-либо программа отсутствует, то будет выведено сообщения вида:
+If some program is not installed, the following message will be displayed:
 
 *Couldn't find PROGRAM_NAME.*
 
 **Linux**
 
-Список необходимых программ можно посмотреть в таблице:
+The list of dependencies is listed in the following table:
 
 +-------------------------------+-------------------------------+
-| Название                      | Пакет в дистрибутиве Ubuntu   |
-|                               | 15.04                         |
+| Name                          | Ubuntu 15.04 package          |
+|                               |                               |
 +===============================+===============================+
 | ImageMagick                   | imagemagick                   |
 +-------------------------------+-------------------------------+
@@ -583,37 +554,37 @@
 
 .. note::
 
-    Пользователи Linux могут дополнительно установить пакет qt-faststart, служащий для оптимизации загрузки медиаданных.
+    Linux users can additionally install the package qt-faststart which is used to optimize loading media files.
 
 **Windows**
 
-Для пользователей ОС Windows нет необходимости устанавливать эти пакеты, так как они уже находятся в составе SDK.
+For MS Windows users it is not necessary to install these packages since they are already present in the SDK.
 
 **Mac OS**
 
-Пользователи Mac OS могут установить менеджер пакетов `brew <http://www.brew.sh/>`_, а затем с его помощью установить некоторые недостающие пакеты.
+Mac OS users can install the `brew <http://www.brew.sh/>`_ package manager first and then install any missing packages.
 
-Перед началом установки пакетов произведите установку библиотек libpng и libjpeg, выполнив следующие команды в консоле:
+Before installing packages, install the libpng and libjpeg libraries using these commands:
 
 .. code-block:: bash
 
     > brew install libpng
     > brew install libjpeg
 
-Теперь можно приступать к установке необходимых зависимостей:
+Now you can proceed with installing required dependencies:
 
 .. code-block:: bash
 
     > brew install imagemagick
     > brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
 
-Для установки NVIDIA Texture Tools необходимо склонировать репозиторий, выполнив следующую команду:
+In order to install NVIDIA Texture Tools, clone the repository with the following command:
 
 .. code-block:: bash
 
     > git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
 
-Теперь можно произвести сборку и установку пакета:
+Now you can build and install the package:
 
 .. code-block:: bash
 
@@ -622,19 +593,19 @@
     > make
     > make install
 
-Формат данных
--------------
+Data Format
+-----------
 
-Преобразование происходит по схеме:
+The conversion is performed as follows:
 
-для аудио (convert_media):
+for audio (convert_media):
     * ogg -> mp4
     * mp3 -> ogg
     * mp4 -> ogg
 
-Рекомендуется использовать в качестве базового формата ``ogg``, в этом случае для обеспечения кросс-браузерной совместимости потребуется только преобразование из ``ogg`` в ``mp4``. Пример файла на входе: ``file_name.ogg``, пример файла на выходе: ``file_name.altconv.mp4``.
+We recommend to use ``ogg`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``ogg`` to ``mp4``. Example of an input file: ``file_name.ogg``, example of an output file: ``file_name.altconv.mp4``.
 
-для видео (convert_media):
+for video (convert_media):
     * webm -> m4v
     * m4v -> webm
     * ogv -> webm
@@ -642,16 +613,15 @@
     * m4v -> seq
     * ogv -> seq
 
-Рекомендуется использовать в качестве базового формата ``WebM``, в этом случае для обеспечения кросс-браузерной совместимости потребуется только преобразование из ``webm`` в ``m4v`` (из ``webm`` в ``seq`` для iPhone). Пример файла на входе: ``file_name.webm``, пример файла на выходе: ``file_name.altconv.m4v``.
+We recommend to use ``WebM`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``webm`` to ``m4v`` (``webm`` to ``seq`` for iPhone). Example of an input file: ``file_name.webm``, example of an output file: ``file_name.altconv.m4v``.
 
-для изображений (convert_dds):
+for images (convert_dds):
     * png -> dds
     * jpg -> dds
 
-Пример файла на входе: ``file_name.jpg``, пример файла на выходе: ``file_name.jpg.dds``.
+Example of an input file: ``file_name.jpg``, example of an output file: ``file_name.altconv.jpg.dds``.
 
-В целях оптимизации работы приложения существует возможность использования ``min50`` (уменьшенных вдвое) и ``DDS`` текстур.
-Для этого при инициализации приложения необходимо передать следующие параметры:
+For the purpose of optimizing application performance it's possible to use ``min50`` (halved) and ``DDS`` textures. In order to do this, we need to pass the following parameters during initialization of the application:
 
 .. code-block:: javascript
 
@@ -667,86 +637,72 @@
 
 .. _seq:
 
-Файл формата ``.seq`` представляет собой раскадрированное видео. Применяется на 
-IE 11 и iPhone, поскольку на них возникают трудности при использовании видео 
-стандартного формата в качестве текстуры. Использование dds-формата для 
-изображений является более оптимальным по сравнению с другими форматами.
+The ``.seq`` file format is used for sequential video. This is applied for IE 11 and iPhone because they are currently missing support for standard video formats for textures. Using dds format for images is more optimal compared to other formats.
 
-Движком могут использоваться файлы, созданные пользователем вручную и имеющие 
-следующие наименования: ``file_name.altconv.m4v``, ``file_name.altconv.mp3`` 
-и т.д. Такие файлы необходимо размещать в одной директории с медиафайлом, 
-используемым в Blender'e.
+The engine can use files which are manually created by a user if they have the following names: ``file_name.altconv.m4v``, ``file_name.altconv.mp3`` and so on. Such files should be placed in the same directory as the mediafiles used in Blender.
 
-Вы также можете использовать бесплатную кроссплатформенную программу 
-`Miro Video Converter <http://www.mirovideoconverter.com/>`_ для конвертации медиаданных.
+You can also use the free and cross-platform application `Miro Video Converter <http://www.mirovideoconverter.com/>`_ to convert mediafiles.
 
 
 
 .. _code_snippets:
 
-Примеры кода
-============
+Code Examples
+=============
 
-В составе SDK присутствует приложение Code Snippets, демонстрирующее примеры использования функционала движка.
+The SDK includes the Code Snippets application which demonstrates how to use the engine's functionality.
 
-На данный момент приложение включает в себя следующие примеры:
+Currently, this application contains the following examples:
 
-    * Bone API - пример управления положением отдельных костей скелета
-    * Camera Animation - создание процедурной анимации камеры
-    * Camera Move Styles - переключение режимов управления камерой
-    * Canvas Texture - пример работы с canvas-текстурой
-    * Custom Anchors - процедурное создание аннотаций
-    * Dynamic Geometry - процедурное изменение геометрии
-    * Gyro (Mobile Only) - пример работы с гироскопом мобильных устройств
-    * Instancing - копирование объектов сцены
-    * Material API - изменение свойств материалов и замена материалов объекта
-    * Morphing - использование ключей деформации объекта
-    * Ray Test - использование функционала испускания лучей для определения препятствий
+    * Bone API - an example of individual bones position control
+    * Camera Animation - procedural camera animation
+    * Camera Move Styles - changing control modes for the camera
+    * Canvas Texture - working with canvas textures
+    * Custom Anchors - creating custom annotations
+    * Dynamic Geometry - procedural geometry modification
+    * Gyro (Mobile Only) - working with mobile devices' gyroscopes
+    * Instancing - copying scene objects in runtime
+    * Material API - tweaking material properties and replacing objects' materials
+    * Morphing - using shape keys
+    * Ray Test - the usage of raycasting for obstacles detection
 
-Приложение Code Snippets доступно по пути ``SDK/apps_dev/code_snippets/code_snippets_dev.html``. Также оно доступно по ссылке из файла ``index.html`` в корне SDK.
+The Code Snippets application is available at ``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by using a link in the ``index.html`` file located in the SDK root.
 
 .. _event_model:
 
-Событийная модель
-=================
+Event-Driven Model
+==================
 
-Событийная модель предоставляет унифицированный интерфейс для описания
-изменения состояний 3D сцены, упрощая обработку событий физики и действий 
-пользователя.
+The event-driven model provides a universal interface for describing the 3D scene's change of state. It simpifies the processing of physics events and user actions.
 
-.. index:: сенсор, sensor
+.. index:: sensor
 
-Сенсоры
+Sensors
 -------
 
-Основным блоком событийной модели является сенсор (sensor). Сенсор является программной сущностью, которая выдаёт на выходе единственное числовое значение, в большинстве случаев это либо 1 (единица), либо 0 (ноль). Некоторые сенсоры также несут полезную нагрузку (payload), которую можно получить в фунции-обработчике множества с помощью соответствующего API. Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную длину луча пересечения.
+The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload which can be received in the manifold's callback function with corresponding API. For example, the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.
 
-.. index:: сенсор; множество, sensor; manifold
+.. index:: sensor; manifold
 
-Опрос значений сенсоров не доступен пользователю в виде API. Вместо этого, каждый сенсор должен присутствовать в одном или нескольких множествах (sensor manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене. Оно генерирует ответ на определенный набор событий сенсоров в виде вызова функции-обработчика. Для определения множества необходимо иметь
-следующую информацию (см. также описание функции :b4wref:`controls.create_sensor_manifold` в документации по API):
+Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the ``controls.create_sensor_manifold`` function):
 
-* Объект-носитель множества (например, бросаемый объект).
-* Уникальный идентификатор множества (например, "IMPACT").
-* Тип вызова функции-обработчика (варианты: ``CT_POSITIVE`` - положительный результат логической функции, ``CT_CONTINUOUS`` - каждый кадр при положительном результате логической функции и один раз при нулевом, ``CT_LEVEL`` - любое изменение значения результата логической функции, ``CT_SHOT`` - одномоментный скачок результата логической функции, ``CT_TRIGGER`` - переключение результата логической функции, ``CT_CHANGE`` - любое изменение любого из сенсоров).
-* Массив сенсоров.
-* Логическая функция, определяющая при какой комбинации состояний сенсоров вызывается функция-обработчик.
-* Функция-обработчик.
-* Необязательный параметр, который может быть передан в функцию-обработчик.
+* An object to carry the manifold (e.g. a thrown object).
+* An unique id of the manifold (e.g. "IMPACT").
+* Callback execution mode (the options are: ``CT_POSITIVE`` - logic function positive result, ``CT_CONTINUOUS`` - every frame with a positive logic function result and once with a zero result, ``CT_LEVEL`` - any logic, function result change, ``CT_SHOT`` - one-stage logic function result change, ``CT_TRIGGER`` - logic function result switch, ``CT_CHANGE`` - any sensor value change).
+* An array of sensors.
+* A logic function to define the combination of the sensor states for which the callback function is executed.
+* A callback function.
+* An optional parameter to pass into the callback function.
 
-Более подробно об API, используемых в событийной модели движка, описано в документации модуля :b4wmod:`controls`.
+You can read more about engine API in the :b4wmod:`controls` module documentation.
 
-Пример
-------
+Example
+-------
 
-Поставлена задача озвучить удар бросаемого камня так, чтобы
-при ударе о различные среды (например, земля и стена) выводился характерный звук. 
-На сцене в Blender'е имеются ограничивающие меши с физическими материалами, их идентификаторы "TERRAIN" и "WALL". 
-На сцене также присутствует бросаемый физический объект с названием "Stone".
+Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are "TERRAIN" and "WALL". There is also a physical object being thrown in the scene, the object is named "Stone".
 
 
-Определим по одному сенсору соударения (Collision Sensor) для каждой среды, 
-по типу издаваемого звука. 
+Lets define a collision sensor for each medium, by the type of the sound produced.
 
 
 .. code-block:: javascript
@@ -764,7 +720,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 
 
-Добавим сенсоры в массив. В качестве логической функции используем логическое ``ИЛИ``. В обработчике напишем код для воспроизведения звука. Создадим множество сенсоров с идентификатором "IMPACT" и типом ``CT_SHOT`` (одномоментный). 
+Add the sensors into an array. Use the ``OR`` logic in the logic function. Place the sound processing code in the callback function. Create the sensor manifold with the "IMPACT" id and the ``CT_SHOT`` type.
 
 
 .. code-block:: javascript
@@ -796,232 +752,216 @@ IE 11 и iPhone, поскольку на них возникают трудно�
         impact_sens_array, impact_sens_logic, impact_cb);
 
 
-При столкновении объекта "Stone" с любым из физических материалов 
-"TERRAIN" или "WALL" происходит вызов функции-обработчика. 
-Внутри этой функции получим значения обоих сенсоров по их индексу в массиве сенсоров (0 - "TERRAIN", 1 - "WALL").
-Значение сенсора = 1 (активный) означает, что произошло столкновение с соответствующим физическим материалом. 
-В результате воспроизводится соответствующий звук (код не показан).
+When the "Stone" object collides with any physical material of "TERRAIN" or "WALL", the callback function is executed. Inside this function we get the values of both sensors by their indices in the sensor array (0 - "TERRAIN", 1 - "WALL"). The sensor value = 1 (active) means that the collision happened with the corresponding physical material. As a result the corresponding sound is produced (the code is not shown).
 
 
 .. _repo_file_structure:
 
-Файловая структура SDK
-======================
+SDK File Structure
+==================
 
 **apps_dev**
-    исходный код приложений
+    source code of the applications
 
     **code_snippets**
-        исходные файлы приложения для демонстрации примеров использования API Blend4Web
+        source files of the Blend4Web API usage demonstration application
 
         **scripts**
-            исходные файлы самих примеров использования API Blend4Web
+            Blend4Web API usage examples' source files
 
     **dairy_plant**
-        исходные файлы приложения "Молочный завод" (доступно только в SDK Pro)
+        source files of the Dairy Plant demo (available only in SDK Pro)
 
     **fashion**
-        исходные файлы приложения "Показ мод" (доступно только в SDK Pro)
+        source files of the Fashion Show demo (available only in SDK Pro)
 
     **firstperson**
-        исходные файлы приложения "Ферма" (доступно только в SDK Pro)
+        source files of the Farm demo (available only in SDK Pro)
 
     **flight**
-        исходные файлы приложения "Остров"
+        source files of the Island demo
 
     **new_year**
-        исходные файлы открытки "С новым годом 2015"
+        source files of the New Year 2015 greeting card
 
     **project.py**
-        скрипт для разработчиков приложений
+        script for application developers
 
     **victory_day_2015**
-        исходные файлы открытки "День победы 70"
+        source files of the V-Day 70 greeting card
 
     **viewer**
-        исходные файлы приложения для просмотра сцен Viewer
+        the sources files of the Viewer application
 
         **assets.json**
-            метаданные с информацией о сценах, загружаемых просмотрщиком сцен
-            Viewer
+            meta data with information about scenes loaded by the Viewer
 
     **webplayer**
-        исходные файлы веб-плеера
+        source files of the Web Player app
 
     **website**
-        исходные файлы приложений, размещаемых на официальном сайте Blend4Web
+        source files of applications from the Blend4Web official website
 
 **blender**
-    исходные файлы сцен в формате Blender
+    source files of the Blender scenes
 
 **blender_scripts**
-    экспортер и вспомогательные скрипты для Blender'а
+    exporter and utility scripts for Blender
 
 **csrc**
-    исходный код бинарной части экспортера движка и других утилит на языке C 
+    source code (in C) of the binary part of the engine exporter and of the other utilities
 
 **deploy**
-    директория с ресурсами для размещения на сервере (исходные файлы сцен,
-    скомпилированные приложения и документация)
+    the resource directory for deploying on the server (scene source files, compiled applications and documentation)
 
     **api_doc**
-        документация API движка для разработчиков
-        (собирается автоматически, на основе исходного кода движка)
+        API documentation for developers (built automatically, based on the engine's source code)
 
     **apps** 
-        3D-приложения, предназначенные для развертывания, директория
-        дублирует *apps_dev*
+        3D applications intended for deploying; the directory duplicates *apps_dev*
 
         **common**
-            Файлы скомпилированного движка. Используются приложениями из состава
-            SDK (отсюда и название).
+            Compiled engine files. Shared by all applications from SDK (hence the name).
 
     **assets** 
-        загружаемые ресурсы: сцены, текстуры, звуковые файлы
+        downloadable resources: scenes, textures and sounds
 
     **doc**
-        настоящее руководство пользователя в формате HTML, собирается
-        автоматически из *doc_src*
+        the current user manual in HTML format, built autamatically from *doc_src*
 
     **globals_detect**
-        вспомогательный код для определения глобальных переменных
+        utility code for detecting global variables
 
     **tutorials**
-        исходные файлы обучающих примеров
+        source files for the tutorials
 
 **doc_src**
-    исходный код настоящего руководства пользователя на языке разметки reST
+    source files of the current manual written in reST
 
-**index.html** и **index_assets** 
-    файлы главной веб-страницы SDK
+**index.html** and **index_assets** 
+    main SDK webpage files
 
 **license**
-    файлы с текстами лицензионных соглашений
+    files with license texts
 
 **Makefile**
-    файл сборки для компиляции движка, приложений, документации, развертывания
-    на удаленном сервере (недоступен в бесплатной версии)
+    makefile for building the engine, the applications, the documentation and for deploying on a remote server (not available as a free version)
 
 **README.rst**
-    файл README
+    README file
 
 **scripts**
-    скрипты
+    scripts
 
-    **blend4web.lst**, **blend4web_sdk_free.lst** и **blend4web_sdk_pro.lst** (опционально)
-        списки файлов для сборки дистрибутивов
+    **blend4web.lst**, **blend4web_sdk_free.lst** and **blend4web_sdk_pro.lst** (optional)
+        lists of the files for building distributions
 
     **check_resources.py**
-        скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и
-        звуки, на которые ссылаются экспотируемые файлы)
+        script for checking of and reporting about unused resources (images and sounds referenced by the exported files)
 
     **compile_b4w.py**
-        скрипт для сборки кода движка и приложений
+        script for building engine code and applications
 
     **converter.py**
-        скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg
+        script which halves the texture dimensions, compresses the textures into the DDS format, converts sound files into mp4 and ogg formats
 
     **custom_json_encoder.py**
-        форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке
+        fork of the json Python module, sorts the keys in reverse order
 
     **gen_glmatrix.sh**
-        скрипт для генерации математического модуля на основе исходных файлов из
-        репозитория glMatrix 2
+        script for generating the math module based on the source code of glMatrix 2
 
     **graph.sh**
-        генератор текущего графа сцены в формате svg, используется для отладки
-        рендеринга
+        SVG generator for the current scene graph, used for debugging rendering
 
     **make_dist.py**
-        сборщик дистрибутивов
+        distributions builder script
 
     **memory.sh**
-        скрипт для проверки обычной (RAM) и видео-памяти (VRAM)
+        script for checking memory (RAM) and video memory (VRAM)
 
     **mod_list.py**
-        скрипт для генерации списка модулей, используемых в приложениях
+        script for generating the list of modules to use in new applications
 
     **plot.sh**
-        построитель графиков отладочной информации
+        debugging information graph builder
 
     **process_blend.py**
-        скрипт для автоматического переэкспорта всех сцен из состава SDK
+        script for automatic reexport of all scenes from the SDK
 
     **remove_alpha_channel.sh**
-        скрипт для удаления альфа-канала изображения
+        script for removing the images alpha channel
 
     **screencast.sh**
-        скрипт для записи видео с экрана
+        script for screen video recording
 
     **shader_analyzer.py**
-        скрипт, запускающий локальный веб-сервер, который осуществляет подсчет
-        сложности шейдеров
+        script starting the local web server which calculates complexity of the shaders
 
     **translator.py**
-        скрипт для сборки файлов с переводами аддона
+        script for building addon translations
 
 **shaders**
-    GLSL-шейдеры движка
+    GLSL shaders of the engine
 
 **src**
-    основной исходный код ядра движка
+    main source code of the engine's kernel
 
     **addons** 
-        исходный код дополнений движка
+        source code of engine addons
 
     **ext**
-        исходный код внешних объявлений, формирующих API движка
+        source code of the external declarations that form the engine's API
 
     **libs**
-        исходный код библиотек
+        source code of the libraries
 
 **tools**
-    Различные инструменты для сборки движка, приложений и конвертации ресурсов
+    Various tools for building the engine, apps or convert resources
 
     **converter_utils**
-        сборки утилит для конвертации ресурсов
+        binary builds of the tools for resource conversion
 
     **closure-compiler**
-        компилятор Google Closure, файлы исключений к нему, генераторы файлов исключений
+        Google Closure compiler, its externs and their generators
 
     **glsl**
         **compiler**
-            компилятор GLSL-шейдеров движка
+            compiler for the engine's GLSL shaders
 
         **pegjs**
-            грамматики парсер-генератора PEG.js для реализации препроцессора GLSL,
-            а также скрипт для генерации модулей парсеров из этих грамматик
+            grammars of the PEG.js parser generator for implementing the GLSL preprocessor, and also the script for generating the parser modules from these grammars
 
     **yuicompressor**
-        утилита для сжатия файлов CSS 
+        utility for compressing CSS files
 
 **uranium**
-    исходный код и скрипты сборки физического движка Uranium (форк Bullet)
+    source code and building scripts of the Uranium physics engine (the fork of Bullet)
 
 **VERSION**
-    содержит текущую версию движка
+    contains the current version of the engine
 
 
 .. _browser_for_local_loading:
 
-Загрузка локальных ресурсов
-===========================
+Loading Local Resources
+=======================
 
-Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется `правилу ограничения домена <http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, запрещающему, в частности, загрузку из локальной директории.
+The engine's renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the `same-origin policy <http://en.wikipedia.org/wiki/Same-origin_policy>`_ rule. In particular this rule forbids loading from a local directory.
 
-Начиная с версии 15.02, в состав Blend4Web SDK входит :ref:`сервер разработки <local_development_server>`, решающий проблему загрузки локальных ресурсов.
+Since version 15.02, the Blend4Web SDK includes the :ref:`development server <local_development_server>` to solve the problem of loading local resources.
 
 
 .. _quality_settings:
 
-Профили качества изображения
-============================
+Quality Profiles
+================
 
-Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:
+Several quality profiles are implemented in order to support platforms with different functionality.
 
-    * *низкое качество* (``P_LOW``) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен
-    * *высокое качество* (``P_HIGH``) - используются все запрошенные сценой функции, метод антиалиасинга FXAA
-    * *максимальное качество* (``P_ULTRA``) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA
+    * *low quality* (``P_LOW``) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing), the size of textures is halved when using a release version, anti-aliasing is disabled
+    * *high quality* (``P_HIGH``) - all features requested by the scene are used, the anti-aliasing method is FXAA
+    * *maximum quality* (``P_ULTRA``) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is SMAA
 
 
 .. image:: src_images/developers/developers_quality.png
@@ -1030,7 +970,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 |
 
-Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию ``P_HIGH``.
+Switching the quality profiles can be performed in runtime before initialization of the WebGL context. The default profile is ``P_HIGH``.
 
 .. code-block:: javascript
 
@@ -1041,7 +981,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
     m_main.init(...);
 
 
-Разработчики приложений могут также установить параметр **quality** при инициализации движка с использованием дополнения ``app.js``:
+Application developers can also set the **quality** parameter upon engine initialization using the ``app.js`` add-on:
 
 .. code-block:: javascript
 
@@ -1056,14 +996,14 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 .. _canvas_nonfullscreen_coords:
 
-Специфика неполноэкранных приложений
-====================================
+Non-FullScreen Web Apps
+=======================
 
-Элемент Canvas, на котором осуществляется рендеринг, может изменять своё местоположение относительно окна браузера. Это может происходить в результате манипуляций, проводимых над DOM-деревом, либо в результате скроллинга страницы, что особенно актуально для неполноэкранных приложений.
+The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.
 
-В большинстве случаев это не будет никак сказываться на работе приложения. Однако для событий, связанных с положением курсора мыши или позицией касания на touch-устройстве, возможно получение некорректных результатов. Это происходит, потому что координаты, получаемые из соответствующих событий, принадлежат системе отсчета относительно окна браузера, а движок работает с координатами в системе отсчета именно Canvas элемента (верхний левый угол элемента).
+In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).
 
-1) Если верхний левый угол Canvas'а совпадает с верхним левым углом окна браузера, и его местоположение не будет изменяться, то достаточно использовать координаты event.clientX и event.clientY соответствующего события либо функции API :b4wref:`mouse.get_coords_x()` и :b4wref:`mouse.get_coords_y()`:
+1) If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in it's position (non-movable) then it's sufficient to use event.clientX and event.clientY coordinates of the input events or :b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods.
 
 .. code-block:: javascript
 
@@ -1077,7 +1017,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
     var y = m_mouse.get_coords_y(event);
     // . . .
 
-2) Если на странице присутствует только скроллинг окна браузера, то достаточно использовать координаты event.pageX и event.pageY:
+2) In the case of the scrolled browser window, you have to use event.pageX and event.pageY coordinates.
 
 .. code-block:: javascript
 
@@ -1086,7 +1026,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
     var y = event.pageY;
     // . . .
 
-3) В случае более сложных манипуляций с положением элемента Canvas (скроллинг отдельных элементов страницы, смещение относительно левого верхнего угла окна браузера, манипуляции с DOM-деревом) требуется корректный пересчет координат. Чтобы получить координаты, подходящие для использования в движке, можно провести преобразование при помощи метода :b4wref:`container.client_to_canvas_coords()`:
+3) In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) you need to perform correct coordinate conversions. In order to obtain coordinates suitable for use in the engine, you can covert them by using the ``client_to_canvas_coords()`` method of the ``container`` module:
 
 .. code-block:: javascript
 
@@ -1098,7 +1038,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 |
 
-    Для получения координат в системе отсчета Canvas элемента, движок должен знать его положение относительно окна браузера. Однако, если оно будет меняться во время работы приложения (тот же скроллинг), то необходимо будет как-то пересчитывать позицию Canvas'а. Для того, чтобы это происходило автоматически, нужно выставить настройку ``track_container_position`` при инициализации приложения:
+    In order to obtain coordinates in the Canvas space, the engine should know its position relative to the browser window. However, if this position is subjected to changes during the work of the app (due to scrolling for example), the Canvas position should be recalculated. To do this automatically, you can set the ``track_container_position`` property upon app initialization:
 
 .. code-block:: javascript
 
@@ -1113,8 +1053,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 |
 
-    При её использовании в некоторых браузерах (например, Firefox) возможно незначительное снижение производительности вследствие частого обращения к DOM-дереву. 
-    Если этот момент критичен, то вместо флага ``track_container_position`` можно пользоваться методами :b4wref:`container.force_offsets_updating()`, :b4wref:`container.update_canvas_offsets()` или более низкоуровневым :b4wref:`container.set_canvas_offsets()` для обновления положения элемента Canvas вручную, когда это действительно необходимо:
+    Please note, that this setting can lead to performance degradation in some browsers (such as Firefox) due to frequent DOM tree accesses. If the performance is critical, you can update the Canvas position manually when it is really necessary. To do this, use the ``force_offsets_updating()`` and ``update_canvas_offsets()`` methods instead of the ``track_container_position`` setting, or even the lower-level ``set_canvas_offsets()`` method from the ``container`` module:
 
 .. code-block:: javascript
 
@@ -1129,7 +1068,7 @@ IE 11 и iPhone, поскольку на них возникают трудно�
 
 |
 
-4) Возможность масштабирования всей веб-страницы на мобильных устройствах также может приводить к смещению элемента Canvas. Описанные выше решения годятся и для этого случая, однако, в качестве альтернативы можно запретить масштабирование вовсе и избежать подобных проблем. Для этого достаточно в заголовке страницы добавить следующий мета-тег:
+4) The possibility to scale the whole webpage can lead to Canvas element displacement on mobile devices. The described decisions are suitable in this case. However, you can lock scaling at all and thus avoid such problems. It is enough to add the following meta-tag to the page's header:
 
 .. code-block:: html
 

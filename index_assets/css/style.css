@@ -64,7 +64,7 @@ table.create {
 table .doc th,
 table .doc td {
     height: 50px;
-    width: 30%;
+    width: 25%;
 }
 
 table .projects th,

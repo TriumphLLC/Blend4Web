@@ -1,17 +1,17 @@
-.. index:: материалы; ноды
+.. index:: materials; nodes
 
 .. _node_materials:
 
-*****************
-Нодовые материалы
-*****************
+**************
+Node Materials
+**************
 
-.. contents:: Содержание
+.. contents:: Table of Content
     :depth: 3
     :backlinks: entry
 
 
-Шейдерные ноды (Shader Nodes) существенно расширяют возможности стандартных материалов Blender, позволяя представить освещение как серию базовых преобразований.
+Shader nodes extend significantly the potential of Blender’s standard materials by means of presenting shading as a batch of basic transformations.
 
 .. image:: src_images/node_materials/node_materials_title.png
    :align: center
@@ -20,156 +20,144 @@
 
 .. _generic_node_materials:
 
-Стандартные ноды
-================
+Standard Nodes
+==============
 
-.. index:: материалы; ноды
+.. index:: materials; nodes
 
-Blend4Web поддерживает все стандартные ноды Blender, однако некоторые из них работают недостаточно быстро и не рекомендуются к использованию в приложениях реального времени. Не рекомендуется создавать сложные материалы, особенно использующие большое
-количество нод ``Geometry`` и ``Texture``.
+Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of ``Geometry`` and ``Texture`` nodes, is also not recommended.
 
-Ноды Cycles поддерживаются ограниченно: в большинстве случаев  они не будут работать в Blend4Web так же, как они работают в Blender, могут не работать вообще или даже приводить к некорректной работе материала, в котором используются. Однако использование нод Cycles не вызовет нестабильности в работе приложения.
+Cycles nodes are only partially supported: in most cases they will not work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using Cycles nodes will not cause instabilities in the application workflow.
 
 .. _node_performance:
 
 .. only:: html or gettext
 
-    Производительность и степень поддержки движком стандартных нод описаны в таблице.
+    Standard node performance and degree of support is described in the table.
 
     +-------------------+-------------------------+----------------------------+----------------------+
-    | Название ноды     | Функция                 | Поддержка                  | Производительность   |
+    | Node's Name       | Function                | Support                    | Performance          |
     +===================+=========================+============================+======================+
-    | Camera Data       | Используется для        | Поддерживается             | Средняя              |
-    |                   | получения информации    |                            |                      |
-    |                   | от активной камеры      |                            |                      |
+    | Camera Data       | Used to obtain data     | Full                       | Average              |
+    |                   | from an active camera   |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
-    | ColorRamp         | Используется для        | Типы интерполяции          | Средняя              |
-    |                   | генерации               | ``B-Spline``, ``Cardinal`` |                      |
-    |                   | градиента               | и ``Ease`` не              |                      |
-    |                   |                         | поддерживаются             |                      |
+    | ColorRamp         | Used to generate        |                            | Average              |
+    |                   | gradient                | ``B-Spline``, ``Cardinal`` |                      |
+    |                   |                         | and ``Ease`` interpolation |                      |
+    |                   |                         | modes are not supported    |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
-    | Combine HSV       | Собирает цвет из        | Поддерживается             | Средняя              |
-    |                   | заданных значений тона, |                            |                      |
-    |                   | насыщенности и яркости  |                            |                      |
+    | Combine HSV       | Combines a color from   | Full                       | Average              |
+    |                   | the given Hue, Value    |                            |                      |
+    |                   | and Saturation          |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Combine RGB       | Собирает цвет из        | Поддерживается             | Высокая              |
-    |                   | заданных значений       |                            |                      |
-    |                   | красного, зелёного и    |                            |                      |
-    |                   | синего каналов          |                            |                      |
+    | Combine RGB       | Combines a color from   | Full                       | High                 |
+    |                   | the given red, green    |                            |                      |
+    |                   | and blue channel        |                            |                      |
+    |                   | values                  |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Extended Material | Подключает стандартный  |                            | Средняя              |
-    |                   | материал. Обладает      |                            |                      |
-    |                   | большим количеством     | Входы ``Ambient``          |                      |
-    |                   | настроек по сравнению с | и ``SpecTra``              |                      |
-    |                   | нодой ``Material``      | не поддерживаются.         |                      |
-    |                   |                         | Выход ``AO`` не            |                      |
-    |                   |                         | поддерживается.            |                      |
+    | Extended Material | Used to add a material  |                            | Average              |
+    |                   | to the node program.    |                            |                      |
+    |                   | Has more input and      | ``Ambient`` and ``SpecTra``|                      |
+    |                   | output channels than    | inputs are not supported.  |                      |
+    |                   | the basic ``Material``  | ``AO`` output is not       |                      |
+    |                   | node                    | supported.                 |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Gamma             | Регулирует гамму        | Поддерживается             | Высокая              |
-    |                   | заданного цвета         |                            |                      |
+    | Gamma             | Used to set gamma       | Full                       | High                 |
+    |                   | of a given color        |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Geometry          | Используется для        | Выход ``Vertex Alpha``     | Не рекомендуется     |
-    |                   | получения информации о  | не поддерживается          | использовать большое |
-    |                   | геометрии объекта       |                            | количество этих нод  |
+    | Geometry          | Used to obtain          | ``Vertex Alpha`` output    | Using large numbers  |
+    |                   | information about       | is not supported           | of these nodes is    |
+    |                   | object's geometry       |                            | not recommended      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Hue/Saturation    | Регулирует оттенок и    | Поддерживается             | Низкая               |
-    |                   | насыщенность заданного  |                            |                      |
-    |                   | цвета                   |                            |                      |
+    | Hue/Saturation    | Used to control Hue and | Full                       | Low                  |
+    |                   | Saturation of a given   |                            |                      |
+    |                   | color                   |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Invert            | Инвертирует заданный    | Поддерживается             | Высокая              |
-    |                   | цвет                    |                            |                      |
+    | Invert            | Inverts a given color   | Full                       | High                 |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Lamp Data         | Используется для        | Выход ``Shadow``           | Средняя              |
-    |                   | получения информации    | не поддерживается          |                      |
-    |                   | о заданном источнике    |                            |                      |
-    |                   | света                   |                            |                      |
+    | Lamp Data         | Used to obtain          | ``Shadow`` output          | Average              |
+    |                   | information from a      | is not supported           |                      |
+    |                   | given light source      |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Mapping           | Преобразует текстурные  | Поддерживается             | Средняя              |
-    |                   | координаты              |                            |                      |
+    | Mapping           | Used to transform       | Full                       | Average              |
+    |                   | texture coordinates     |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
-    | Material          | Используется для        | Поддерживается             | Средняя              |
-    |                   | подключения             |                            |                      |
-    |                   | стандартного материала  |                            |                      |
+    | Material          | Used to add a standard  | Full                       | Average              |
+    |                   | material to the         |                            |                      |
+    |                   | node program            |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Math              | Производит              | Поддерживается             | Высокая              |
-    |                   | математические операции |                            |                      |
-    |                   | с заданными значениями  |                            |                      |
+    | Math              | Used to perform         | Full                       | High                 |
+    |                   | mathematical operations |                            |                      |
+    |                   | with given values       |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | MixRGB            | Микширует два заданных  | Поддерживается             | Низкая в режимах     |
-    |                   | цвета                   |                            | ``Burn``,            |
+    | MixRGB            | Mixes two given colors  | Full                       | Low in the           |
+    |                   |                         |                            | ``Burn``,            |
     |                   |                         |                            | ``Dodge``,           |
     |                   |                         |                            | ``Value``,           |
     |                   |                         |                            | ``Saturation``,      |
     |                   |                         |                            | ``Hue``              |
-    |                   |                         |                            | и ``Color``,         |
-    |                   |                         |                            | высокая в остальных  |
-    |                   |                         |                            | режимах              |
+    |                   |                         |                            | and ``Color`` modes, |
+    |                   |                         |                            | high in the rest     |
+    |                   |                         |                            | of the modes         |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Normal            | Генерирует нормальный   | Поддерживается             | Высокая              |
-    |                   | вектор                  |                            |                      |
+    | Normal            | Used to generate a      | Full                       | High                 |
+    |                   | normal vector           |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Output            | Выводит результат       | Поддерживается             | Средняя              |
-    |                   | работы нодовго          |                            |                      |
-    |                   | материала               |                            |                      |
+    | Output            | Outputs the result      | Full                       | Average              |
+    |                   | of the node program     |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Particle Info     | Используется для        | В материалах систем частиц | Средняя              |
-    |                   | получения информации о  | типа ``Emitter``           |                      |
-    |                   | системе частиц          |                            |                      |
+    | Particle Info     | Used to obtain          | In the materials of the    | Average              |
+    |                   | information about       | ``Emitter`` type           |                      |
+    |                   | particle system         | particle systems           |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB               | Generates an RGB color  | Full                       | High                 |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB Curves        | Sets a curve to modify  | Full                       | Average              |
+    |                   | a given color           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB to BW         | Desaturates a given     | Full                       | High                 |
+    |                   | RGB color               |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Separate HSV      | Separates a given color | Full                       | High                 |
+    |                   | into Hue, Saturation    |                            |                      |
+    |                   | and Value               |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Separave RGB      | Separates a given color | Full                       | High                 |
+    |                   | into red, green and     |                            |                      |
+    |                   | blue channels           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Squeeze Value     | Squeezes given value    | Full                       | High                 |
     |                   |                         |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | RGB               | Генерирует цвет в       | Поддерживается             | Высокая              |
-    |                   | формате RGB             |                            |                      |
+    | Texture           | Sets a texture          | Full                       | Using large numbers  |
+    |                   |                         |                            | of these nodes is    |
+    |                   |                         |                            | not recommended      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | RGB Curves        | Определяет кривую, по   | Поддерживается             | Средняя              |
-    |                   | которой изменяется      |                            |                      |
-    |                   | заданный цвет           |                            |                      |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | RGB to BW         | Преобразует заданный    | Поддерживается             | Высокая              |
-    |                   | цвет в формате RGB из   |                            |                      |
-    |                   | цветного в чёрно-белый  |                            |                      |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Separate HSV      | Разделяет заданный цвет | Поддерживается             | Средняя              |
-    |                   | на тон, насыщенность и  |                            |                      |
-    |                   | яркость                 |                            |                      |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Separave RGB      | Разделяет заданный цвет | Поддерживается             | Высокая              |
-    |                   | на красный, зелёный и   |                            |                      |
-    |                   | синий каналы            |                            |                      |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Squeeze Value     | Сжимает заданное        | Поддерживается             | Высокая              |
-    |                   | значение                |                            |                      |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Texture           | Задаёт текстуру         | Поддерживется              | Не рекомендуется     |
-    |                   |                         |                            | использовать большое |
-    |                   |                         |                            | количество этих нод  |
-    +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Value             | Генерирует численное    | Поддерживается             | Высокая              |
-    |                   | значение                |                            |                      |
+    | Value             | Generates a numeric     | Full                       | High                 |
+    |                   | value                   |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
-    | Vector Curves     | Определяет кривую, по   | Поддерживается             | Средняя              |
-    |                   | которой изменяется      |                            |                      |
-    |                   | заданный вектор         |                            |                      |
+    | Vector Curves     | Sets a curve to modify  | Full                       | Average              |
+    |                   | a given vector          |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Vector Math       | Производит              | Поддерживается             | Высокая              |
-    |                   | математические          |                            |                      |
-    |                   | операции над двумя      |                            |                      |
-    |                   | заданными векторами     |                            |                      |
+    | Vector Math       | Used to perform         | Full                       | High                 |
+    |                   | mathematical operations |                            |                      |
+    |                   | with two given vectors  |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+   
 
 |
 
 .. only:: latex or gettext
 
-    Производительность и степень поддержки движком стандартных нод описаны в `таблице <https://www.blend4web.com/doc/ru/node_materials.html#node-performance>`_.
+    Standard node performance and degree of support is described in the `table <https://www.blend4web.com/doc/ru/node_materials.html#node-performance>`_.
 
 .. _custom_node_materials:
 
-Дополнительные ноды
-===================
+Engine Specific Nodes
+=====================
 
-.. index:: материалы; ноды
+.. index:: materials; nodes
 
-Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (``Node Groups`` или ``Node Tree``) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды добавляются в blend-файл при его открытии.
+Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (``Node Groups`` or ``Node Tree``) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.
 
 .. image:: src_images/node_materials/node_materials_nodes.png
    :align: center
@@ -180,52 +168,51 @@ Blend4Web поддерживает все стандартные ноды Blende
 Replace (B4W_REPLACE)
 ---------------------
 
-Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender'а или движок) в данный момент работает текущая сцена. При работе в Blender вход ``Color1`` подключается к выходу ``Color``, вход ``Color2`` игнорируется. При работе в движке входы меняются местами (``Color1`` игнорируется, ``Color2`` подключается к выходу). Нода предназначена для отображения во viewport'e одной конструкции нодов, а в движке - другой.
+The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the ``Color1`` input is connected to the ``Color`` output and the ``Color2`` input is ignored. On the contrary when working in the engine the inputs are interchanged (the ``Color1`` one is ignored and the ``Color2`` one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.
 
 .. image:: src_images/node_materials/node_materials_replace.png
    :align: center
    :width: 100%
 
-Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender'а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport'e - их подключение внутри нод ``Material``.
+As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
 
-Входные параметры
-.................
+Input Parameters
+................
 
 *Color1*
-    Конструкция нод, видимая во вьюпорте Blender'а
+    Node setup that will be visible in the Blender viewport.
 
 *Color2*
-    Конструкция нод, видимая объекта в движке Blend4Web.
+    Node setup that will be visible in the Blend4Web engine.
 
-Выходные параметры
-..................
+Output Parameters
+.................
 
 *Color*
-    Следует подключать к выходу ``Color`` ноды ``Material`` или ``Extended Material``.
+    Should be connected to the ``Color`` socket of the ``Material`` or ``Extended Material`` node.
 
 .. _node_clamp:
 
 Clamp (B4W_CLAMP)
 -----------------
 
-Осуществить операцию ограничения над входом. В результате, все элементы вектора на выходе
-получают значения от 0 до 1 включительно.
+The node limits the output value. As a result all the output vector components take values from 0 to 1 inclusive.
 
 .. image:: src_images/node_materials/node_materials_clamp.png
    :align: center
    :width: 100%
 
-Входные параметры
+Input Parameters
+................
+
+*Image*
+    Incident vector.
+
+Output Parameters
 .................
 
 *Image*
-    Заданный вектор.
-
-Выходные параметры
-..................
-
-*Image*
-    Вектор после ограничения.
+    Clamped vector.
 
 
 .. _node_time:
@@ -233,21 +220,21 @@ Clamp (B4W_CLAMP)
 Time (B4W_TIME)
 ---------------
 
-Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах - UV-координат, факторов смешивания, прозрачности и т.п.
+Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.
 
 .. image:: src_images/node_materials/node_time.png
    :align: center
 
-Входные параметры
+Input Parameters
+................
+
+None.
+
+Output Parameters
 .................
 
-Отсутствуют.
-
-Выходные параметры
-..................
-
 *Value*
-    Время (в секундах), прошедшее с момента старта движка.
+    Time (in seconds) elapsed from the engine startup.
 
 .. seealso:: :ref:`node_anim`
 
@@ -256,137 +243,140 @@ Time (B4W_TIME)
 Vector View (B4W_VECTOR_VIEW)
 -----------------------------
 
-Осуществить преобразование вектора в пространство камеры. Преобразование необходимо, поскольку при работе в движке большинство векторов определены в мировой системе координат (например нормали, направления источников освещения и т.д). Преобразованный таким образом вектор нормали используется только для различных эффектов и не должен подключаться к входу ноды ``Material`` или ``Extended Material``.
+The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
 
 .. image:: src_images/node_materials/node_materials_vector_view.png
    :align: center
    :width: 100%
 
-Входные параметры
+Input Parameters
+................
+
+*Vector*
+    Vector coordinates in the world-space.
+
+Output Parameters
 .................
 
 *Vector*
-    Вектор в мировой системе координат.
-
-Выходные параметры
-..................
-
-*Vector*
-    Вектор в системе координат камеры.
+    Vector coordinates in the camera-space.
 
 .. _node_parallax:
 
 Parallax (B4W_PARALLAX)
 -----------------------
 
-Реализует смещение текстурных координат в соответствии с картой высот.
+The node implements the texture coordinates offset using a height map.
 
 .. image:: src_images/node_materials/node_materials_parallax.png
    :align: center
    :width: 100%
 
-Входные параметры
+Input Parameters
+................
+
+*UV*
+   Source texture coordinates.
+
+*Height Map*
+   RGBA texture with a height map packed into the alpha channel.
+
+*Scale*
+   Texture coordinates offset factor.
+
+*Steps*
+   The number of steps for iterative generation of texture coordinates offset. The bigger this value is the better is the final quality.
+
+*Lod Distance*
+   Maximum distance from camera at which the effect is observed.
+
+Output Parameters
 .................
 
 *UV*
-   Исходные текстурные координаты.
-
-*Height Map*
-   RGBA текстура с картой высот в альфа канале.
-
-*Scale*
-   Коэффициент смещения текстурных координат.
-
-*Steps*
-   Количество шагов при генерации смещенных текстурных координат. Чем больше данное значение, тем выше качество получаемой текстуры.
-
-*Lod Distance*
-   Максимальное расстояние от камеры, на котором виден эффект.
-
-Выходные параметры
-..................
-
-*UV*
-   Измененные текстурные координаты, которые используются как вход для текстурных нод.
+   Resulting texture coordinates which are used as input for the texture nodes.
 
 .. _node_translucency:
 
 Translucency (B4W_TRANSLUCENCY)
 -------------------------------
 
-Реализует эффект полупрозрачности (только по отношению к источникам света) для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из двух частей: засвечивание обратной по отношению к источнику стороны объекта и появление светового пятна непосредственно в том месте, где должен был находится источник.
+The node implements a translucency effect (with respect to light sources only) for thin objects such as cloth, leaves, paper etc. The effect consists of two parts: 1) brightening of the object side which is opposite to the light source and 2) appearance of a light spot right in the light source place.
 
 .. image:: src_images/node_materials/node_materials_translucency.png
    :align: center
    :width: 100%
 
-Входные параметры
-.................
+Input Parameters
+................
 
 *Color*
-    Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый.
+    One-channel texture which defines material heterogeneity - the white color denotes maximum translucency effect while the black color denotes its absence. White color is used by default.
+
 *Backside Factor*
-    Коэффицент коррекции цвета материала на обратной от источника света стороне. Основан на визуальном эффекте большей насыщенности цвета при просвечивании.
+    Material color correction coefficient for the side which is opposite to the light source. It describes the color richness effect for the translucent areas.
 
-    * *Backside Factor < 1* - коррекция в сторону осветления
-    * *Backside Factor = 1* - без коррекции
-    * *Backside Factor > 1* - коррекция в сторону затемнения
+    * *Backside Factor < 1* - brightening
+    * *Backside Factor = 1* - no correction
+    * *Backside Factor > 1* - darkening
 
-    Значение по умолчанию: 1.
+    The default value is 1.
+
 *Spot Hardness*
-    Коэффициент размытия светового пятна. При увеличении размеры пятна уменьшаются, края становятся более резкими.
-    Значение по умолчанию: 1000.
+    Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.
+
 *Spot Intensity*
-    Интенсивность светового пятна. При увеличении становится более ярким.
-    Значение по умолчанию: 1.
+    Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.
+
 *Spot Diffuse Factor*
-    Коэффициент влияния диффузного цвета материала на цвет светового пятна.
+    Material diffuse color influence on the light spot color.
 
-    * *Spot Diffuse Factor = 0* - световое пятно имеет диффузный цвет
-    * *Spot Diffuse Factor = 1* - световое пятно имеет белый цвет
+    * *Spot Diffuse Factor = 0* - the light spot has the diffuse color
+    * *Spot Diffuse Factor = 1* - the light spot color is white
 
-    Значение по умолчанию: 1.
+    The default value is 1.
 
-Выходные параметры
-..................
+Output Parameters
+.................
 
 *Translucency*
-	Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended Material``.
+        The output should be connected to the ``Translucency`` input of the ``Extended Material`` node.
 
 .. note::
 
-  Возможно некорректное поведение ноды, если используются :ref:`отредактированные нормали <normals_editor>`.
+  This node can work incorrectly, if the :ref:`mesh normals were edited <normals_editor>`.
 
 .. _node_refraction:
 
 Refraction (B4W_REFRACTION)
 ---------------------------
 
-Реализует эффект преломления. Этот эффект виден только в движке Blend4Web, но не в Blender.
+Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.
 
 .. image:: src_images/node_materials/node_materials_refraction.png
    :align: center
    :width: 100%
 
-Входные параметры
-.................
+Input Parameters
+................
 
 *Normal*
-    Карта нормалей, по которой происходит возмущение (сдвиг).
+    Normal map for adding perturbations.
+
 *Refraction Bump*
-    Коэффицент возмущения (сдвига) текстуры сцены позади объекта.
+    Value of perturbation strength.
 
-    Значение по умолчанию: 0.001.
+    The default value is 0.001.
 
-Выходные параметры
-..................
+Output Parameters
+.................
 
 *Color*
-    Текстура сцены позади объекта с внесённым возмущением.
+    Rendered texture behind object with perturbations.
 
 .. note::
 
-    Для отображения эффекта необходимо переключить опцию ``Refractions`` на панели ``Render > Reflections and Refractions`` в состояние ``AUTO`` или ``ON``. Объект должен быть с типом прозрачности Alpha Blend.
+    It’s neccessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
 .. seealso:: :ref:`alpha_blend`
 
 .. _node_quality:
@@ -394,7 +384,7 @@ Refraction (B4W_REFRACTION)
 Levels of Quality (B4W_LEVELS_OF_QUALITY)
 -----------------------------------------
 
-Устанавливает значение выходного цвета в зависимости от установленного профиля качества изображения. Может применяться, например, для автоматической замены сложного материала более простым при запуске приложения на мобильном устройстве.
+Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.
 
 .. image:: src_images/node_materials/node_materials_levels_of_quality.png
    :align: center
@@ -402,23 +392,23 @@ Levels of Quality (B4W_LEVELS_OF_QUALITY)
 
 .. seealso:: :ref:`quality_settings`
 
-Входные параметры
-.................
+Input Parameters
+................
 
 *HIGH*
-    Значение, которое будет подано в выходной параметр ``Color`` при высоком и максимальном качестве изображения.
+    Node links this parameter to ``Color`` parameter in case of high and maximum quality usage.
 
 *LOW*
-    Значение, которое будет подано в выходной параметр ``Color`` при низком качестве изображения.
+    Node links this parameter to ``Color`` parameter in case of low quality usage.
 
 *Fac*
-    Значение, определяющее, какое из значений (``HIGH`` или ``LOW``) будет отображаться в Blender. Может принимать значения от 0 до 1. При значении параметра менее 0.5 будет виден вариант ``HIGH``, при значении 0.5 и выше будет виден вариант ``LOW``.
+    This value specifies what quality setting (``HIGH`` or ``LOW``) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or higher, the ``LOW`` setting will be visible.
 
-Выходные параметры
-..................
+Output Parameters
+.................
 
 *Color*
-    Значение выходного цвета.
+    Output color.
 
 
 .. _node_smoothstep:
@@ -426,30 +416,33 @@ Levels of Quality (B4W_LEVELS_OF_QUALITY)
 Smoothstep (B4W_SMOOTHSTEP)
 ---------------------------
 
-Осуществить мягкую интерполяцию двух значений, исходя из первого значения.
+Performs smooth interpolation between two input values based on first value.
 
 .. image:: src_images/node_materials/node_materials_smoothstep.png
    :align: center
    :width: 100%
 
-Входные параметры
+Input Parameters
+................
+
+*Value*
+    Value which determines interpolation smoothness.
+
+*Edge0*
+    First interpolation value.
+
+*Edge1*
+    Second interpolation value.
+
+
+Output Parameters
 .................
 
 *Value*
-    Значение, на основе которого осуществляется интерполяция.
-*Edge0*
-    Первое значениe для интерполяции.
-*Edge1*
-    Второе значениe для интерполяции.
-
-Выходные параметры
-..................
-
-*Value*
-    Сглаженное значение.
+    Interpolated value.
 
 .. note::
-    Для корректной интерполяции входное значение ``Value`` должно лежать в диапазоне между ``Edge0`` и ``Edge1``.
+    For the correct interpolation input ``Value`` had to be between ``Edge0`` and ``Edge1``.
 
 
 .. _glow_output:
@@ -457,58 +450,60 @@ Smoothstep (B4W_SMOOTHSTEP)
 Glow Output (B4W_GLOW_OUTPUT)
 -----------------------------
 
-Применяет :ref:`эффект свечения (Glow) <glow>` к нодовому материалу. Помимо ноды *B4W_GLOW_OUTPUT* в нодовом материале должна присутствовать нода *Output*.
+Applies the :ref:`Glow effect <glow>` to the node material. Besides the *B4W_GLOW_OUTPUT* node, the node material should have the *Output* node.
 
 .. image:: src_images/node_materials/node_materials_glow_output.png
    :align: center
    :width: 100%
 
-Входные параметры
-.................
+Input Parameters
+................
 
 *Glow Color*
-    Цвет свечения.
-*Factor*
-    Степень свечения. *Factor* :math:`\in [0, 1]`.
+    Glow color.
 
-    * *Factor = 0* - свечение отсутствует.
-    * *Factor* :math:`\in (0, 1]` - свечение цветом *Glow Color*.
+*Factor*
+    Glow ratio. *Factor* :math:`\in [0, 1]`.
+
+    * *Factor = 0* - no glow.
+    * *Factor* :math:`\in (0, 1]` - there is a glow, colored with *Glow Color*.
 
 .. note::
 
-  Настройки материала ``Transparency->Type`` не влияют на поведение glow-эффекта. Он всегда будет соответствовать прозрачному не ``Alpha Clip`` материалу.
+  The ``Transparency->Type`` parameters of the material don’t affect behavior of the glow effect. It always corresponds to the transparent material (not the ``Alpha Clip`` type).
 
 .. _node_reflect:
 
 Reflect (B4W_REFLECT)
 ---------------------
 
-Вычисляет отражение заданного вектора относительно заданной нормали. Может применяться для наложения кубической карты (cubemap) на объект.
+Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.
 
 .. image:: src_images/node_materials/node_materials_reflect.png
    :align: center
    :width: 100%
 
-Входные параметры
+Input Parameters
+................
+
+*Vector*
+    Incident vector. Should be connected to the ``View`` socket of the ``Geometry`` node.
+
+*Vector*
+    Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the ``Normal`` socket of the ``Geometry`` node.
+
+Output Parameters
 .................
 
 *Vector*
-    Заданный вектор. Должен быть подключён ко входу ``View`` ноды ``Geometry``.
-*Vector*
-    Заданная нормаль. Для получения желаемого результата, вектор должен быть нормирован. Должен быть подключён ко входу ``Normal`` ноды ``Geometry``.
-
-Выходные параметры
-..................
-
-*Vector*
-    Отражённый вектор. Следует подключать к входному параметру ``Vector`` ноды ``Texture``, содержащего кубическую карту.
+    Reflected vector. Should be connected to the ``Vector`` socket of the ``Texture`` node that contains the cubemap.
 
 .. _node_gamma:
 
-Linear to SRGB и SRGB to Linear (Deprecated)
---------------------------------------------
+Linear to SRGB and SRGB to Linear (Deprecated)
+----------------------------------------------
 
-Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот. Функционал объявлен устаревшим с версии 15.04. В более новых версиях для преобразования цвета из sRGB в линейное пространство следует использовать нативную ноду ``Gamma`` со значением 2.200, а для преобразования из линейного пространства в sRGB - ту же ноду со значением 0.455.
+Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated sicne the version 15.04. In the newer versions, the native ``Gamma`` node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.
 
 .. image:: src_images/node_materials/node_materials_gamma.png
    :align: center

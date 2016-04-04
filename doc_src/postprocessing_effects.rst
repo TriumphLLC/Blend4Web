@@ -1,291 +1,291 @@
 .. _postprocessing_effects:
 
-***********
-Спецэффекты
-***********
+**********************
+Postprocessing Effects
+**********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-.. index:: размытие при движении (motion blur)
+.. index:: motion blur
 
 .. _motion_blur:
 
-Размытие при движении
-=====================
+Motion Blur
+===========
 
-Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде "смазывания" изображения.
+The motion blur effect can be used to improve the realism of an interactive scene. It is displayed as picture blurring when the camera or objects move. 
 
 .. image:: src_images/postprocessing_effects/effects_motion_blur.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Активировать панель ``Motion Blur`` во вкладке ``Render``.
+Activate the ``Motion Blur`` panel on the ``Render`` tab.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Factor*
-    Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытия. Значение по умолчанию 0.01.
+    Effect appearance ratio. The higher this value is the stronger is the motion blur.
 
 *Decay Threshold*
-    Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.
+    Blur fade-out ratio. The higher this value is the more distinct is the effect. The default value is 0.01.
 
 
-.. index:: глубина резкости камеры (depth of field), DOF
+.. index:: depth of field, DOF
 
 .. _dof:
 
-Глубина резкости камеры
-=======================
+Depth of Field
+==============
 
-Эффект глубины резкости камеры (depth of field, DOF) акцентирует внимание зрителя на части сцены. Проявляется в размытии изображения ближе и дальше от фокуса камеры.
+The depth of field effect (DOF) can be used to accentuate a part of a scene. It is displayed as picture blurring nearer and further from the camera focus.
 
 .. image:: src_images/postprocessing_effects/effects_dof.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-1. Выбрать активную камеру, перейти на панель ее настроек во вкладке ``Camera`` (``Object Data``).
-2. Далее возможны два варианта:
+1. Select an active camera and go to its settings panel ``Camera`` (``Object Data``).
+2. Then two options are available:
 
-    - На панели ``Depth of Field`` в опции ``Focus`` выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.
+    - Select an object to use as the camera's focus in the ``Focus`` option of the ``Depth of Field`` panel. In this case moving away or approaching this object will cause a corresponding correction of the camera focus.
     
-    - На той же панели установить ненулевое значение ``Distance`` (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней. 
+    - Set a non-zero value for the ``Distance`` on the same panel (in Blender units = meters). In this case the camera focus will be located at this distance from the camera and will move together with it. 
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Front*
-    Расстояние от фокуса до ближней к камере плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.
+    The distance from the focus to the nearest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
 
 *Rear*
-    Расстояние от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.
+    The distance from the focus to the furthest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
 
 *Power*
-    Степень размытия. Значение по умолчанию 3.0.
+    Blurring ratio. The default value is 3.0.
 
 
-.. index:: взаимное затенение (screen-space ambient occlusion), SSAO
+.. index:: screen-space ambient occlusion, SSAO
 
 .. _ssao:
 
-Взаимное затенение
-==================
+Screen-Space Ambient Occlusion
+==============================
 
-Эффект взаимного затенения (screen-space ambient occlusion, SSAO) применяется с целью воспроизведения сложного переотражения света от объектов. Пространство между близкими объектами менее доступно для рассеянного света и поэтому затеняется сильнее.
+The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.
 
 .. image:: src_images/postprocessing_effects/effects_ssao.png
    :align: center
    :width: 50%
 
-Активация
----------
+Activation
+----------
 
-Активировать панель ``Ambient Occlusion (SSAO)`` во вкладке ``Render`` и выставить параметр опции ``Render Shadows`` в положение ``AUTO`` или ``ON``  на панели ``Render > Shadows``.
+Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the ``Rander > Shadows`` panel.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Radius Increase*
-    Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.
+    The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 3.0.
 
 *Use Hemisphere*
-    Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.
+    Use a hemispherical sampling for shading instead of a spherical. Besides it uses different shading law.
 
 *Use Blur Depth Test*
-    Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадарту 4х4 по соседним пикселям.
+    Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it uses blur which averages a 4x4 rectangle around each pixel.
 
 *Blur Depth Test Discard Value*
-    Влияние разницы глубины сэмлов на их вес в размытии. Используется при активированном параметре ``Use Blur Depth Test``. Значение по умолчанию 1.0.
+    Influence of depth difference between samples on blur weight. It uses with ``Use Blur Depth Test`` activated flag. The default value is 1.0.
 
 *Influence*
-    Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.
+    SSAO appearance factor. The default value is 0.7.
 
 *Distance Factor*
-    Фактор уменьшения проявленности эффекта взаимного затенения с расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет).
+    Factor of SSAO decay with distance. The default value is 0.0 (i.e. no decay).
 
 *Samples*
-    Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16.
+    Number of samples (the more samples there are the better is the quality but the poorer is the performance). The default value is 16.
 
 
-.. index:: сумеречные лучи (crepuscular rays), god rays
+.. index:: crepuscular rays, god rays
 
 .. _god_rays:
 
-Сумеречные лучи
-===============
+God Rays
+========
 
-Эффект сумеречных лучей (crepuscular rays, "god rays") симулирует известное природное явление - свечение освещенных областей воздуха.  
+The god rays effect (aka crepuscular rays) simulates well-known natural phenomenon - the shining of illuminated air parts.
 
 .. image:: src_images/postprocessing_effects/effects_god_rays.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Активировать панель ``God Rays`` во вкладке ``Render``.
+Activate the ``God Rays`` panel under the ``Render`` tab.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Intensity*
-    Степень проявленности эффекта. Значение по умолчанию 0.7.
+    The effect appearance factor. The default value is 0.7.
 
 *Maximum Ray Length*
-    Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.
+    Rays length factor. Defines the step between samples of radial blurring. The default value is 1.0.
 
 *Steps Per Pass*
-    Количество шагов на один сэмпл. Значение по умолчанию 10.0.
+    Number of steps per single sample. The default value is 10.0.
 
 
 .. _bloom:
 
-Эффект засветки ярких деталей
-=============================
+Bloom
+=====
 
-Эффект засветки (Bloom) проявляется при наличии на экране элементов с большой разницей в яркости. Вокруг ярких деталей создается светящийся ореол.
+Bloom appears when a picture has elements with a very different brightness. A glowing halo is created around the bright details.
 
 .. image:: src_images/postprocessing_effects/effects_bloom.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Активировать панель ``Bloom`` во вкладке ``Render``.
+Activate the ``Bloom`` panel under the ``Render`` tab.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Key*
-    Интенсивность эффекта свечения.
+    Bloom intensity.
 
 *Blur*
-    Степень размытия засветки.
+    Bloom blurriness factor.
 
 *Edge Luminance*
-    Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки.
+    The boundary value of an element's relative brightness above which the bloom effect appears.
 
 
-.. index:: подсветка контура (outline glow)
+.. index:: outline glow
 
 .. _outline:
 
-Подсветка контура (outlining)
-============================= 
+Outlining
+=========
 
-В результате применения эффекта подсветки контура вокруг объекта появляется светящийся ореол произвольного цвета.
+As a result of the outline glow effect, a luminous colored halo will be displayed around the object.
 
 .. image:: src_images/postprocessing_effects/effects_outline.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Эффект подсветки контура активируется программно через API. Может быть реализован как эффект постоянного свечения, так и затухающего, пульсирующего и любой другой модели. Для включения возможности подсветки объектов необходимо убедиться, что в панели ``Render > Object Outlining`` поле ``Enable`` установлено в состояние ``ON`` или ``AUTO``.
+The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the ``Render > Object Outlining`` panel's ``Enable`` property is set to ``ON`` or ``AUTO``.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
-На панели ``Object > Selection and Outlining``:
+On the ``Object > Selection and Outlining`` panel:
 
 *Enable Outlining*
-    Разрешить использование эффекта подсветки контура на конкретном объекте.
+    Permit using the outline glow effect on this object.
 
 *Duration*
-    Длительность анимации подсветки, сек. Значение по умолчанию 1.
+    Duration of glow animation, seconds. The default value is 1.
 
 *Period*
-    Период повторения анимации подсветки, сек. Значение по умолчанию 1.
+    Repeat period of glow animation, seconds. The default value is 1.
 
 *Relapses*
-    Количество итераций анимации подсветки. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0.
+    The number of iterations of glow animation. If zero, animation is repeated forever. The default value is 0.
 
 *Outline on Select*
-    Активация анимации подсветки при выделении объекта. Для данного случая необходимо включить опцию ``Selectable``. При необходимости реализации собственной модели подсветки объекта следует отключить эту опцию во избежание конфликта.
+    Activate glow animation upon selecting the object. In this case the ``Selectable`` option must be enabled. In case of a user-defined glow animation model, this option must be disabled in order to avoid conflict.
 
 
-На панели ``Render > Object Outlining``:
+On the ``Render > Object Outlining`` panel:	
 
 *Factor*
-    Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1.
+    When this parameter decreases so does the thickness and the brightness of the halo around the object. The default value is 1.
 
-При управлении через API настройки на панели ``Render > Object Outlining`` воспринимаются как настройки по умолчанию.
+The ``Render > Object Outlining`` settings are taken as default when the glow effect is initiated via API.
 
 
 .. _glow:
 
-Свечение (glow)
-===============
+Glow
+====
 
-Эффект возникновения ореола вокруг светящихся объектов, возникающий вследствие рассеивания света в атмосфере и внутри человеческого глаза.
+Effect of halo which is observed around emissive objects due to light scattering in the atmosphere and inside the human eye.
 
 .. image:: src_images/postprocessing_effects/effects_glow.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Добавить в нодовый материал ноду :ref:`B4W_GLOW_OUTPUT <glow_output>`. Для включения возможности свечения в панели ``Render > Glow Materials`` опция ``Enable`` должна быть установлена в состояние ``ON`` или ``AUTO``.
+Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The ``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel should be set to ``ON`` or ``AUTO``.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
 *Small Mask: Intensity*
-    Интенсивность свечения по малой маске. Значение по умолчанию 2.0.
+    Intensity of glow obtained through the smaller mask. The default value is 2.0.
 
 *Small Mask: Width*
-    Ширина свечения по малой маске. Значение по умолчанию 2.0.
+    Width of glow obtained through the smaller mask. The default value is 2.0.
 
 *Large Mask: Intensity*
-    Интенсивность свечения по большой маске. Значение по умолчанию 2.0.
+    Intensity of glow obtained through the larger mask. The default value is 2.0.
 
 
 *Large Mask: Width*
-    Ширина свечения по большой маске. Значение по умолчанию 6.0.
+    Width of glow obtained through the larger mask. The default value is 6.0.
 
 *Render Glow Over Transparent Objects*
-    Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.
+    Render the glow effect over transparent objects.
 
 
-.. index:: сглаживание
+.. index:: anti-aliasing
 
 .. _antialiasing:
 
-Сглаживание
-===========
+Anti-Aliasing
+=============
 
-Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга ("зубчатости"). 
+Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization). 
 
 .. image:: src_images/postprocessing_effects/effects_antialiasing.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Выбрать один из профилей качества в поле ``AA Quality`` на панели ``Render > Anti-Aliasing``:
+Select quality profile using ``AA Quality`` menu located on the ``Render > Anti-Aliasing`` panel.
 
-    * *None* - антиалиасинг отключен,
-    * *Low*, *Medium*, *High* - применяется антиалиасинг с низкими, средними и высокими параметрами качества соответственно.
+    * *None* - disable anti-aliasing,
+    * *Low*, *Medium*, *High* - enable anti-aliasing with the given quality profile.
 
-Значение по умолчанию: *Medium*.
+*Medium* profile is used by default.
 
-Дополнительные настройки
-------------------------
+Additional settings
+-------------------
 
-Итоговые настройки сглаживания назначаются копмозицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:
+The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile:
 
-    * *низкое качество* - антиалиасинг отключен,
-    * *высокое качество* и *максимальное качество* - использовать алгоритм FXAA 3.11 (Fast Approximate Anti-Aliasing, Nvidia).
+    * *low quality* - no anti-aliasing,
+    * *high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast Approximate Anti-Aliasing by Nvidia).
 

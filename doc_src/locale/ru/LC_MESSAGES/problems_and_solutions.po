@@ -1,0 +1,291 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-30 17:24+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../problems_and_solutions.rst:5
+msgid "Problems and Solutions"
+msgstr "Проблемы и решения"
+
+#: ../problems_and_solutions.rst
+msgid "Table of Contents"
+msgstr "Содержание"
+
+#: ../problems_and_solutions.rst:14
+msgid "Problems Upon Startup"
+msgstr "Проблемы при запуске движка"
+
+#: ../problems_and_solutions.rst:16
+msgid "*1. The \"Browser could not initialize WebGL\" message is shown*."
+msgstr "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
+
+#: ../problems_and_solutions.rst:22
+msgid "Follow the instructions listed in the :ref:`webgl_not_working` section."
+msgstr "Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
+
+#: ../problems_and_solutions.rst:24
+msgid ""
+"*2. The user interface or background is shown but the default scene is "
+"not rendered. At the same time the* http://get.webgl.org/ *site and other"
+" WebGL applications are working correctly.*"
+msgstr ""
+"*2. Видны элементы интерфейса или пустой экран, но сцена не отображается."
+" При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения"
+" работают корректно.*"
+
+#: ../problems_and_solutions.rst:26
+msgid "Possible causes:"
+msgstr "Вероятные причины:"
+
+#: ../problems_and_solutions.rst:28
+msgid ""
+"A local web server is not used or the browser is not set up for loading "
+"local resources. See the :ref:`browser_for_local_loading` section."
+msgstr ""
+"Не используется локальный веб-сервер или браузер не настроен для работы с"
+" локальными ресурсами. См. раздел :ref:`browser_for_local_loading`."
+
+#: ../problems_and_solutions.rst:30
+msgid "The engine tries to load resource files which were moved or deleted."
+msgstr ""
+"Файлы ресурсов, которые пытается загрузить движок, были перемещены или "
+"удалены."
+
+#: ../problems_and_solutions.rst:32
+msgid "You are using the old versions of video drivers."
+msgstr "Используются старые версии драйверов."
+
+#: ../problems_and_solutions.rst:34
+msgid "You are using open source drivers which do not fully support WebGL."
+msgstr "Используются открытые драйвера, не обеспечивающие поддержку WebGL."
+
+#: ../problems_and_solutions.rst:36
+msgid ""
+"For Linux users - due to incomplete OpenGL implementation in open source "
+"drivers at the moment it is recommended to use current versions of "
+"proprietary drivers for Nvidia and AMD video cards."
+msgstr ""
+"Для пользователей Linux - ввиду неполной реализации OpenGL стека в "
+"драйверах с открытым кодом в настоящий момент рекомендуется использовать "
+"проприетарные драйверы текущей версии для графических процессоров Nvidia "
+"и AMD."
+
+#: ../problems_and_solutions.rst:38
+msgid "You are using an outdated operating system, such as Windows XP."
+msgstr "Используется устаревшая операционная система, такая как Windows XP."
+
+#: ../problems_and_solutions.rst:44
+msgid "WebGL Failed to Init"
+msgstr "Ошибка инициализации WebGL"
+
+#: ../problems_and_solutions.rst:46
+msgid ""
+"The http://get.webgl.org/ page tells about problems when viewing it in "
+"recent Chrome or Firefox. What can I do?"
+msgstr ""
+"Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox "
+"последней версии сообщает о проблемах. Что делать?"
+
+#: ../problems_and_solutions.rst:49
+msgid ""
+"Install the latest updates for your system (for MS Windows see `the guide"
+" <http://support.microsoft.com/kb/311047>`_). In case of MS Windows "
+"install the latest `DirectX runtime <http://www.microsoft.com/en-"
+"us/download/details.aspx?id=35>`_. Reboot."
+msgstr ""
+"Установить доступные обновления для системы (для Windows см. `инструкцию "
+"<http://support.microsoft.com/kb/311047/ru>`_). В случае Windows "
+"установить последнюю версию `DirectX <http://www.microsoft.com/ru-"
+"ru/download/details.aspx?id=35>`_. Перезагрузить систему."
+
+#: ../problems_and_solutions.rst:51
+msgid ""
+"It is recommended to timely update video card drivers. To detect your "
+"video card and its vendor please type **about:gpu** (or **chrome://gpu**)"
+" to the address bar of Chrome browser..."
+msgstr ""
+"Рекомендуется проводить своевременное обновление драйверов для "
+"графических карт. Чтобы определить тип и производителя карты, можно "
+"ввести **about:gpu** (или **chrome://gpu**) в адресную строку браузера "
+"Chrome..."
+
+#: ../problems_and_solutions.rst:59
+msgid "or Firefox..."
+msgstr "или Firefox..."
+
+#: ../problems_and_solutions.rst:67
+msgid "For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**."
+msgstr ""
+"Для операционных систем семейства Windows можно воспользоваться средством"
+" диагностики DirectX **dxdiag**."
+
+#: ../problems_and_solutions.rst:76
+msgid ""
+"Download the drivers from the corresponding support center (for example "
+"`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
+"<http://support.amd.com/en-us/download>`_). Reboot the system after the "
+"drivers are installed."
+msgstr ""
+"Необходимо загрузить драйверы с соответствующего центра поддержки "
+"(например, `Intel "
+"<http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI "
+"<http://support.amd.com/ru-ru/download>`_). После установки драйверов "
+"перезагрузить систему."
+
+#: ../problems_and_solutions.rst:78
+msgid ""
+"If the measures described above did not help to initialize rendering (or "
+"there is no possibility to update the system) try to change the browser "
+"settings."
+msgstr ""
+"Если в результате вышеперечисленных действий инициализировать рендеринг "
+"не удается (или нет возможности обновить систему), можно попробовать "
+"изменить настройки браузера."
+
+#: ../problems_and_solutions.rst:80
+msgid "*For Chrome*:"
+msgstr "*В Chrome*:"
+
+#: ../problems_and_solutions.rst:82
+msgid ""
+"Enter **about:flags** (or **chrome://flags**) into the browser's address "
+"bar, click :file:`Enable` under the :file:`Override software rendering "
+"list` option and restart the browser."
+msgstr ""
+"Ввести **about:flags** (или **chrome://flags**) в адресную строку "
+"браузера, нажать :file:`Включить` (:file:`Enable`) под опцией "
+":file:`Переопределение списка программного рендеринга` (:file:`Override "
+"software rendering list`) и перезапустить браузер."
+
+#: ../problems_and_solutions.rst:92
+msgid "*For Firefox*:"
+msgstr "*В Firefox*:"
+
+#: ../problems_and_solutions.rst:94
+msgid ""
+"Enter **about:config** into the browser's address bar, search for the "
+"``webgl.force-enabled`` parameter and double-click on it to switch from "
+"``false`` to ``true``."
+msgstr ""
+"Ввести **about:config** в адресную строку браузера, найти параметр "
+"``webgl.force-enabled`` и переключить его двойным щелчком мыши из "
+"``false`` в ``true``."
+
+#: ../problems_and_solutions.rst:104
+msgid "Known Issues"
+msgstr "Известные проблемы"
+
+#: ../problems_and_solutions.rst:106
+msgid "Problems with updating of the add-on."
+msgstr "Проблемы с обновлением старых версий аддона."
+
+#: ../problems_and_solutions.rst:108
+msgid ""
+"It’s strongly adviced to restart Blender after installing a newer version"
+" of Addon/SDK."
+msgstr "Рекомендуется перезагрузка Blender после обновления аддона."
+
+#: ../problems_and_solutions.rst:110
+msgid "NVIDIA 331 driver in Linux can cause WebGL errors."
+msgstr ""
+"Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам "
+"WebGL."
+
+#: ../problems_and_solutions.rst:112
+msgid "Changed texture filtering on some platforms."
+msgstr "Изменение фильтрации текстур на некоторых устройствах."
+
+#: ../problems_and_solutions.rst:114
+msgid ""
+"An incorrect texture filtering was disabled on iPad and Internet Explorer"
+" for materials with Alpha Clip type of transparency."
+msgstr ""
+"При использовании *iPad* или браузера *Internet Explorer* отключена "
+"некорректная фильтрация текстур, которые используются материалами с типом"
+" прозрачности *Alpha Clip*."
+
+#: ../problems_and_solutions.rst:116
+msgid ""
+"Some devices with Mail GPU require manual WebGL activation in browser "
+"settings."
+msgstr ""
+"Некоторые устройства, использующие GPU Mali, требуют принудительного "
+"включения WebGL в настройках браузера."
+
+#: ../problems_and_solutions.rst:118
+msgid ""
+"For the local developement server to work on Apple OS X and Blender 2.76,"
+" you may need to install `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`. This is due to a"
+" bug in Blender https://developer.blender.org/T46623. This bug has been "
+"fixed in Blender 2.76b, so updating it is advised."
+msgstr ""
+"На системах Apple OS X и Blender 2.76 для работы локального сервера "
+"разработки может потребоваться установка `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`_. Это связано с "
+"ошибкой Blender https://developer.blender.org/T46623. В Blender 2.76b эта"
+" проблема устранена, поэтому рекомендуем обновиться."
+
+#: ../problems_and_solutions.rst:120
+msgid "Skeletal animation may work incorrectly while using Nouveau drivers."
+msgstr ""
+"При использовании драйверов Nouveau скелетная анимация может работать "
+"некорректно."
+
+#: ../problems_and_solutions.rst:122
+msgid ""
+"Transparent textures may not render correctly in the IE11 and Microsoft "
+"Edge web browsers and on iPad."
+msgstr ""
+"В браузерах IE11 и Microsoft Edge, а также на iPad могут некорректно "
+"рендериться текстуры с прозрачностью."
+
+#: ../problems_and_solutions.rst:124
+msgid ""
+"The problem is relevant for the :ref:`transparent materials "
+"<alpha_blend>`. Image artifacts are visible in the areas where alpha "
+"channel value is close or equal to zero. To fix this issue, it is "
+"recommended to increase the value of the alpha channel until artifact are"
+" no longer visible (increasing it by value from 0.01 to 0.05 should be "
+"enough in the most cases)."
+msgstr ""
+"Проблема актуальна для :ref:`прозрачных материалов <alpha_blend>`. "
+"Артефакты заметны на тех участках, где значение альфа-канала равно нулю "
+"или отличается от него незначительно. Для исправления рекомендуется "
+"поднимать значение альфа-канала пока артефакты не исчезнут (как правило, "
+"бывает достаточно величин в диапазоне от 0.01 до 0.05)."
+
+#: ../problems_and_solutions.rst:126
+msgid ""
+"WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs "
+"with drivers later than 355."
+msgstr ""
+"Сбой работы WebGL в браузере Chromium под Linux на GPU Nvidia GeForce "
+"серий 400/500 с драйверами версии выше 355."
+
+#: ../problems_and_solutions.rst:128
+msgid ""
+"This issue is caused by incompatibility of Chromium sandbox and NVIDIA's "
+"latest drivers. The solution is to downgrade drivers to the 340xx "
+"version."
+msgstr ""
+"Проблема вызвана несовместимостью последних драйверов Nvidia с "
+"сэндбоксом Chromium. В качестве решения рекомендуется понизить версию драйверов "
+"до 340-х."
+

@@ -27,18 +27,13 @@
 b4w.module["hmd"] = function(exports, require) {
 
 var m_cam    = require("camera");
-var m_cfg    = require("config")
 var m_ctl    = require("controls");
-var m_cont   = require("container");
+var m_input  = require("input");
 var m_quat   = require("quat");
-var m_print  = require("print");
 var m_scenes = require("scenes");
 var m_trans  = require("transform");
 var m_util   = require("util");
 var m_vec3   = require("vec3");
-var m_vec4   = require("vec4");
-
-var _hmd_data = null;
 
 var _last_cam_quat = m_quat.create();
 var _yaw_cam_angle = 0;
@@ -46,75 +41,9 @@ var _yaw_cam_angle = 0;
 var _vec3_tmp  = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
 var _vec3_tmp3 = m_vec3.create();
-var _vec4_tmp  = m_vec4.create();
-var _vec4_tmp2 = m_vec4.create();
 var _quat_tmp  = m_quat.create();
 var _quat_tmp2 = m_quat.create();
 var _quat_tmp3 = m_quat.create();
-
-var _hmd_params = {
-    "oculus": {
-        distortion_coefs : [0.22, 0.28],
-        distortion_scale : 0.66,
-        chromatic_aberration_coefs : [-0.015, 0.02, 0.025, 0.02]
-    },
-    "cardboard_1": {
-        fov: 40,
-        inter_lens_dist: 0.060,
-        base_line_dist: 0.035,
-        screen_to_lens_dist: 0.042,
-        distortion_scale : 1.0,
-        distortion_coefs: [0.441, 0.156],
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    },
-    "cardboard_2": {
-        fov: 60,
-        inter_lens_dist: 0.064,
-        base_line_dist: 0.035,
-        screen_to_lens_dist: 0.039,
-        distortion_scale : 1.0,
-        distortion_coefs: [0.34, 0.55],
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    },
-    "default": {
-        distortion_coefs : [0.0, 0.0],
-        distortion_scale : 1.0,
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    }
-}
-
-var _devices_params = {
-    "Nexus6": {
-        expr_user_agent: /Nexus 6 /,
-        width_dist: 0.132,
-        height_dist: 0.074,
-        bevel_dist: 0.004
-    },
-    "GalaxyNote4": {
-        expr_user_agent: /SM-N910C/,
-        width_dist: 0.121,
-        height_dist: 0.071,
-        bevel_dist: 0.004
-    },
-    "YotaPhone2": {
-        expr_user_agent: /YD201/,
-        width_dist: 0.110,
-        height_dist: 0.062,
-        bevel_dist: 0.004
-    },
-    "default": {
-        width_dist: 0.110,
-        height_dist: 0.062,
-        bevel_dist: 0.004
-    }
-}
-
-/**
- * The WebVR API representation a head mounted display.
- * @see https://developer.mozilla.org/en-US/docs/Web/API/HMDVRDevice
- * @typedef HMDVRDevice
- * @type {Object}
- */
 
 /**
  * HMD behavior enum.
@@ -164,317 +93,48 @@ exports.HMD_ALL_AXES_MOUSE_YAW = HMD_ALL_AXES_MOUSE_YAW;
  * @param {HMDBehavior} control_type Camera rotation type.
  */
 exports.enable_hmd = function(control_type) {
-    // NOTE: navigator.getVRDevices return a promise
-    if (navigator.getVRDevices) {
-        navigator.getVRDevices().then(function(devices) {
-            setup_devices(devices);
-            process_hmd(control_type);
-        });
-    }
+    var sensor = null;
+    if (m_input.can_use_device(m_input.DEVICE_GYRO))
+        sensor = m_ctl.create_gyro_quat_sensor();
+    else if (m_input.can_use_device(m_input.DEVICE_HMD))
+        sensor = m_ctl.create_hmd_quat_sensor();
+
+    process_hmd(control_type, sensor);
 }
 
 /**
- * Check if the browser supports WebVR API.
+ * Check if the browser supports WebVR API or it is a mobile version of the browser.
  * @method module:hmd.check_browser_support
  * @return {Boolean} Checking result.
  */
 exports.check_browser_support = function() {
-    return Boolean(navigator.getVRDevices);
-}
-
-function setup_devices(devices) {
-    var webvr_hmd_devices = devices.filter(function(device) {
-        return device instanceof HMDVRDevice;
-    });
-
-    var webvr_hmd_device = null;
-    if (webvr_hmd_devices.length)
-        // get first hmd device
-        webvr_hmd_device = webvr_hmd_devices[0];
-
-    var webvr_sensor_devices = null;
-    if (webvr_hmd_device) {
-        webvr_sensor_devices = devices.filter(function(device) {
-            // NOTE: we tested only Oculus
-            return device.deviceName.toLowerCase().indexOf("oculus") !== -1 &&
-                    device.hardwareUnitId == webvr_hmd_device.hardwareUnitId &&
-                    device instanceof PositionSensorVRDevice;
-        });
-    }
-
-    // set up _hmd_data
-    create_device_data(webvr_hmd_device, webvr_sensor_devices);
-}
-
-function init_device_data() {
-    var hmd_data = {
-        webvr_hmd_device           : null,
-        webvr_sensor_devices       : null,
-
-        // hmd properties
-        viewer_name                : "",
-        distortion_coefs           : new Float32Array(2),
-        distortion_scale           : 1.0,
-        chromatic_aberration_coefs : new Float32Array(4),
-        fov_left                   : new Float32Array(4),
-        fov_right                  : new Float32Array(4),
-        inter_lens_dist            : 0.0,
-        base_line_dist             : 0.0,
-        screen_to_lens_dist        : 0.0,
-
-        // mobile properties
-        device_name                : "",
-        width_dist                 : 0.0,
-        height_dist                : 0.0,
-        bevel_dist                 : 0.0,
-
-        sensor                     : null
-    };
-
-    return hmd_data;
-}
-
-function create_device_data(webvr_hmd_device, webvr_sensor_devices) {
-    if (!webvr_hmd_device && !m_cfg.get("is_mobile_device")) {
-        m_print.warn("Head-mounted display is not found.")
-        return;
-    }
-
-    var hmd_data = _hmd_data = init_device_data();
-
-    var viewer_name = "default";
-    var device_name = "default";
-
-    if (webvr_hmd_device) {
-        hmd_data.webvr_hmd_device = webvr_hmd_device;
-        hmd_data.webvr_sensor_devices = webvr_sensor_devices;
-        if (webvr_hmd_device.deviceName.toLowerCase().indexOf("oculus") !== -1)
-            viewer_name = "oculus";
-    } else {
-        for (var i in _devices_params) {
-            if (navigator.userAgent.match(_devices_params[i].expr_user_agent)) {
-                device_name = i;
-                break;
-            }
-        }
-        var device = _devices_params[device_name];
-        hmd_data.width_dist = device.width_dist;
-        hmd_data.height_dist = device.height_dist;
-        hmd_data.bevel_dist = device.bevel_dist;
-
-        // we tested only cardboard_2
-        viewer_name = "cardboard_2";
-    }
-
-    if (viewer_name) {
-        hmd_data.viewer_name = viewer_name;
-
-        var viewer = _hmd_params[viewer_name];
-
-        hmd_data.distortion_coefs[0] = viewer.distortion_coefs[0],
-        hmd_data.distortion_coefs[1] = viewer.distortion_coefs[1];
-
-        hmd_data.chromatic_aberration_coefs[0] = viewer.chromatic_aberration_coefs[0];
-        hmd_data.chromatic_aberration_coefs[1] = viewer.chromatic_aberration_coefs[1];
-        hmd_data.chromatic_aberration_coefs[2] = viewer.chromatic_aberration_coefs[2];
-        hmd_data.chromatic_aberration_coefs[3] = viewer.chromatic_aberration_coefs[3];
-
-        hmd_data.distortion_scale = viewer.distortion_scale;
-
-        if (!hmd_data.webvr_hmd_device) {
-            var device = _devices_params[device_name];
-            update_fov(hmd_data, viewer, device);
-
-            hmd_data.inter_lens_dist = viewer.inter_lens_dist;
-            hmd_data.base_line_dist = viewer.base_line_dist;
-            hmd_data.screen_to_lens_dist = viewer.screen_to_lens_dist;
-        }
-    }
-}
-
-function get_distort_fact_radius(distortion_coefs, radius) {
-    var rsq = radius * radius;
-    return radius * (1 + distortion_coefs[0] * rsq + distortion_coefs[1] * rsq * rsq);
-}
-
-function deg(x) {
-    return x * 180 / Math.PI;
-}
-
-function update_fov(hmd_data, viewer, device) {
-    var bottom_dist = viewer.base_line_dist - device.bevel_dist;
-    var top_dist    = device.height_dist - bottom_dist;
-    var inner_dist  = viewer.inter_lens_dist / 2;
-    var outer_dist  = device.width_dist / 2 - viewer.inter_lens_dist;
-
-    var distor_coef = hmd_data.distortion_coefs;
-
-    var bottom_tang = get_distort_fact_radius(distor_coef,
-            bottom_dist / viewer.screen_to_lens_dist);
-    var bottom_angle = deg(Math.atan(bottom_tang));
-    var top_tang = get_distort_fact_radius(distor_coef,
-            top_dist / viewer.screen_to_lens_dist);
-    var top_angle = deg(Math.atan(top_tang));
-    var inner_tang = get_distort_fact_radius(distor_coef,
-            top_dist / viewer.screen_to_lens_dist);
-    var inner_angle = deg(Math.atan(inner_tang));
-    var outer_tang = get_distort_fact_radius(distor_coef,
-            top_dist / viewer.screen_to_lens_dist);
-    var outer_angle = deg(Math.atan(outer_tang));
-
-    hmd_data.fov_left[0] = Math.min(top_angle, viewer.fov);
-    hmd_data.fov_left[1] = Math.min(inner_angle, viewer.fov);
-    hmd_data.fov_left[2] = Math.min(bottom_angle, viewer.fov);
-    hmd_data.fov_left[3] = Math.min(outer_angle, viewer.fov);
-
-    hmd_data.fov_right[0] = Math.min(top_angle, viewer.fov);
-    hmd_data.fov_right[1] = Math.min(outer_angle, viewer.fov);
-    hmd_data.fov_right[2] = Math.min(bottom_angle, viewer.fov);
-    hmd_data.fov_right[3] = Math.min(inner_angle, viewer.fov);
+    return Boolean(m_input.can_use_device(m_input.DEVICE_HMD));
 }
 
 /**
  * Get mounted hmd device.
  * @method module:hmd.get_hmd_device
  * @return {HMDVRDevice} HMD object.
+ * @deprecated
  */
-exports.get_hmd_device = get_hmd_device;
-function get_hmd_device() {
-    return _hmd_data && _hmd_data.webvr_hmd_device;
-}
-
-/**
- * Get mounted sensor devices.
- * @method module:hmd.get_sensor_devices
- * @return {HMDVRDevice} HMD object.
- */
-exports.get_sensor_devices = get_sensor_devices;
-function get_sensor_devices() {
-    return _hmd_data && _hmd_data.webvr_sensor_devices;
-}
-
-function get_sensor_orientation(dest) {
-    var sensor_devices = get_sensor_devices();
-    if (sensor_devices) {
-        for (var i = 0; i < sensor_devices.length; i++) {
-            var sensor = sensor_devices[i];
-            var state = sensor.getState();
-            if (state.orientation) {
-                if (!dest)
-                    dest = m_quat.create();
-
-                dest[0] = state.orientation["x"];
-                dest[1] = state.orientation["y"];
-                dest[2] = state.orientation["z"];
-                dest[3] = state.orientation["w"];
-            }
-        }
-    }
-    return dest;
-}
-
-function get_sensor_angular_velocity(dest) {
-    var sensor_devices = get_sensor_devices();
-    if (sensor_devices) {
-        for (var i = 0; i < sensor_devices.length; i++) {
-            var sensor = sensor_devices[i];
-            var state = sensor.getState();
-            if (state.angularVelocity) {
-                if (!dest)
-                    dest = m_quat.create();
-
-                dest[0] = state.angularVelocity["x"];
-                dest[1] = state.angularVelocity["y"];
-                dest[2] = state.angularVelocity["z"];
-                dest[3] = state.angularVelocity["w"];
-            }
-        }
-    }
-    return dest;
-}
-
-function get_sensor_position(dest) {
-    var sensor_devices = get_sensor_devices();
-    if (sensor_devices) {
-        for (var i = 0; i < sensor_devices.length; i++) {
-            var sensor = sensor_devices[i];
-            var state = sensor.getState();
-            if (state.position) {
-                if (!dest)
-                    dest = m_vec3.create();
-
-                dest[0] = state.position["x"];
-                dest[1] = state.position["y"];
-                dest[2] = state.position["z"];
-            }
-        }
-    }
-    return dest;
-}
-
-function get_eye_distance(eye) {
-    var hmd_device = get_hmd_device();
-    if (hmd_device) {
-        var param_left = hmd_device.getEyeParameters("left");
-        var param_right = hmd_device.getEyeParameters("right");
-        return param_right.eyeTranslation["x"] - param_left.eyeTranslation["x"];
-    } else if (_hmd_data) {
-        return _hmd_data.inter_lens_dist;
-    }
-}
-
-function get_fov(eye, dest) {
-    var hmd_device = get_hmd_device();
-    if (hmd_device) {
-        var param = hmd_device.getEyeParameters(eye);
-
-        if (param && param.currentFieldOfView) {
-            if (!dest)
-                dest = m_vec4.create();
-
-            dest[0] = param.currentFieldOfView["upDegrees"];
-            dest[1] = param.currentFieldOfView["rightDegrees"];
-            dest[2] = param.currentFieldOfView["downDegrees"];
-            dest[3] = param.currentFieldOfView["leftDegrees"];
-        }
-    } else if (_hmd_data) {
-        if (eye == "left")
-            var fov = _hmd_data.fov_left;
-        else
-            var fov = _hmd_data.fov_right;
-
-        if (!dest)
-            dest = m_vec4.create();
-
-        m_vec4.copy(fov, dest);
-    }
-    return dest;
+exports.get_hmd_device = function() {
+    return null;
 }
 
 /**
  * Reset the sensors, return position and orientation sensors values to zero.
  * @method module:hmd.reset
+ * @deprecated Use {@link module:input.reset_device} instead
  */
-exports.reset = reset_hmd;
-function reset_hmd() {
-    var sensor_devices = get_sensor_devices();
-    if (sensor_devices) {
-        for (var i = 0; i < sensor_devices.length; i++) {
-            var sensor = sensor_devices[i];
-            sensor.resetSensor();
-        }
-    }
+exports.reset = function() {
+    m_input.reset_device(m_input.DEVICE_HMD);
 }
 
-function process_hmd(control_type) {
-    if (!_hmd_data)
+function process_hmd(control_type, sensor) {
+    if (!sensor)
         return;
 
     var elapsed = m_ctl.create_elapsed_sensor();
-    if (get_hmd_device())
-        var g_q_sensor = m_ctl.create_custom_sensor(1);
-    else
-        var g_q_sensor = m_ctl.create_gyro_quat_sensor();
 
     var updated_eye_data = false;
     var move_cam_cb = function(obj, id, pulse) {
@@ -484,60 +144,15 @@ function process_hmd(control_type) {
 
         if (pulse > 0) {
             // NOTE: init part
-            if (!updated_eye_data) {
-                var hmd_left_fov = get_fov("left", _vec4_tmp);
-                var hmd_right_fov = get_fov("right", _vec4_tmp2);
-                if (hmd_left_fov && hmd_left_fov)
-                    m_cam.set_hmd_fov(cam_obj, hmd_left_fov, hmd_right_fov);
-
-                var eye_distance = get_eye_distance();
-                if (eye_distance)
-                    m_cam.set_eye_distance(cam_obj, eye_distance);
-
-                var hmd_params = {};
-
-                hmd_params.distortion_coefs = [
-                        _hmd_data.distortion_coefs[0],
-                        _hmd_data.distortion_coefs[1]
-                ];
-
-                hmd_params.chromatic_aberration_coefs = [
-                        _hmd_data.chromatic_aberration_coefs[0],
-                        _hmd_data.chromatic_aberration_coefs[1],
-                        _hmd_data.chromatic_aberration_coefs[2],
-                        _hmd_data.chromatic_aberration_coefs[3]
-                ];
-
-                hmd_params.distortion_scale  = _hmd_data.distortion_scale;
-                // TODO: set distortion_offset
-                hmd_params.distortion_offset = 0.0;
-                hmd_params.enable_hmd_stereo = true;
-
-                m_scenes.set_hmd_params(hmd_params);
-
-                var canvas_container_elem = m_cont.get_container();
-                var ccw = canvas_container_elem.clientWidth;
-                var cch = canvas_container_elem.clientHeight;
-                m_cont.resize(ccw, cch, true);
-
-                updated_eye_data = true;
-
+            if (!updated_eye_data && m_input.enable_split_screen(cam_obj)) {
                 _last_cam_quat = m_trans.get_rotation(cam_obj, _last_cam_quat);
-                reset_hmd();
+                updated_eye_data = true;
             }
 
             // NOTE: It is executed every frame.
             // uses _vec3_tmp, _vec3_tmp2, _vec3_tmp3, _quat_tmp, _quat_tmp2
-            if (m_cam.is_eye_camera(cam_obj)) {
-                var hmd_quat;
-                if (!get_hmd_device())
-                    hmd_quat = m_ctl.get_sensor_payload(obj, id, 1);
-                else {
-                    hmd_quat = get_sensor_orientation(_quat_tmp);
-                    var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp2);
-                    hmd_quat = m_quat.multiply(hmd_quat, quat, _quat_tmp);
-                }
-
+            if (updated_eye_data && m_cam.is_eye_camera(cam_obj)) {
+                var hmd_quat = m_ctl.get_sensor_payload(obj, id, 1);
                 if (hmd_quat) {
                     if (control_type == HMD_ALL_AXES_MOUSE_NONE) {
                         var up_axis = m_vec3.transformQuat(m_util.AXIS_Z, hmd_quat, _vec3_tmp);
@@ -610,7 +225,7 @@ function process_hmd(control_type) {
         }
     }
     m_ctl.create_sensor_manifold(null, "HMD_ROTATE_CAMERA", m_ctl.CT_CONTINUOUS,
-            [elapsed, g_q_sensor], null, move_cam_cb);
+            [elapsed, sensor], null, move_cam_cb);
 }
 
 /**
@@ -620,21 +235,11 @@ function process_hmd(control_type) {
 exports.disable_hmd = function() {
     m_ctl.remove_sensor_manifold(null, "HMD_ROTATE_CAMERA");
 
-    // set up non-vr mode
-    var hmd_params = {};
-    hmd_params.enable_hmd_stereo = false;
-    m_scenes.set_hmd_params(hmd_params);
+    m_input.disable_split_screen();
 
-    // resize screen to canvas resolution (non-vr mode)
-    var canvas_container_elem = m_cont.get_container();
-    var ccw = canvas_container_elem.clientWidth;
-    var cch = canvas_container_elem.clientHeight;
-    m_cont.resize(ccw, cch, true);
-
-    // correct up camera (non-vr mode)
     var cam_obj = m_scenes.get_active_camera();
+    // correct up camera (non-vr mode)
     m_cam.set_vertical_axis(cam_obj, m_util.AXIS_Y);
-
     // TODO: update_transform
     var cam_quat = m_trans.get_rotation(cam_obj, _quat_tmp);
     m_trans.set_rotation_v(cam_obj, cam_quat);

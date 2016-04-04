@@ -1,0 +1,1016 @@
+/**
+ * Copyright (C) 2014-2016 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+"use strict";
+
+/**
+ * Input devices internal API.
+ *
+ * @name input
+ * @namespace
+ * @exports exports as input
+ */
+b4w.module["__input"] = function(exports, require) {
+
+var m_cont  = require("__container");
+var m_cfg   = require("__config");
+var m_print = require("__print");
+var m_quat  = require("__quat");
+var m_util  = require("__util");
+var m_vec3  = require("__vec3");
+var m_vec4  = require("__vec4");
+
+var cfg_ctl = m_cfg.controls;
+var cfg_def = m_cfg.defaults;
+var cfg_dvp = m_cfg.devices_params;
+var cfg_hmdp = m_cfg.hmd_params;
+
+var DEVICE_GYRO = 10;
+var DEVICE_HMD = 20;
+var DEVICE_MOUSE = 30;
+var DEVICE_KEYBOARD = 40;
+var DEVICE_TOUCH = 50;
+
+exports.DEVICE_GYRO = DEVICE_GYRO;
+exports.DEVICE_HMD = DEVICE_HMD;
+exports.DEVICE_MOUSE = DEVICE_MOUSE;
+exports.DEVICE_KEYBOARD = DEVICE_KEYBOARD;
+exports.DEVICE_TOUCH = DEVICE_TOUCH;
+
+
+var HMD_ORIENTATION_QUAT = 10;
+var HMD_POSITION = 20;
+var HMD_FOV_LEFT = 21;
+var HMD_FOV_RIGHT = 22;
+var HDM_EYE_DISTANCE = 23;
+var MOUSE_LOCATION = 30;
+var MOUSE_DOWN_WHICH = 40;
+var MOUSE_UP_WHICH = 50;
+var MOUSE_WHEEL = 60;
+var KEYBOARD_UP = 70;
+var KEYBOARD_DOWN = 80;
+var TOUCH_START = 90;
+var TOUCH_MOVE = 100;
+var TOUCH_END = 110;
+var GYRO_ORIENTATION_QUAT = 120;
+var GYRO_ORIENTATION_ANGLES = 130;
+var DEVICE_ORIENTATION = 131;
+
+exports.HMD_ORIENTATION_QUAT = HMD_ORIENTATION_QUAT;
+exports.HMD_POSITION = HMD_POSITION;
+exports.HMD_FOV_LEFT = HMD_FOV_LEFT;
+exports.HMD_FOV_RIGHT = HMD_FOV_RIGHT;
+exports.HDM_EYE_DISTANCE = HDM_EYE_DISTANCE;
+exports.MOUSE_LOCATION = MOUSE_LOCATION;
+exports.MOUSE_DOWN_WHICH = MOUSE_DOWN_WHICH;
+exports.MOUSE_UP_WHICH = MOUSE_UP_WHICH;
+exports.MOUSE_WHEEL = MOUSE_WHEEL;
+exports.KEYBOARD_UP = KEYBOARD_UP;
+exports.KEYBOARD_DOWN = KEYBOARD_DOWN;
+exports.TOUCH_START = TOUCH_START;
+exports.TOUCH_MOVE = TOUCH_MOVE;
+exports.TOUCH_END = TOUCH_END;
+exports.GYRO_ORIENTATION_QUAT = GYRO_ORIENTATION_QUAT;
+exports.GYRO_ORIENTATION_ANGLES = GYRO_ORIENTATION_ANGLES;
+
+var _quat_tmp = m_quat.create();
+var _quat_tmp2 = m_quat.create();
+var _vec3_tmp = m_vec3.create();
+
+// callbacks buffers
+var _location = new Float32Array(2);
+var _trans = m_vec3.create();
+var _angles = m_vec3.create();
+var _quat = m_quat.create();
+
+var _devices = [];
+/**
+ * add:
+ *      "global" variable:
+ *          var TYPE_[device_name] = [freed_number];
+ *          exports.TYPE_[device_name] = TYPE_[device_name];
+ *      into function:
+ *          init_device:
+ *              var device = { ...
+ *                  [need_field]: [init_value]
+ *              ... }
+ *          register_device:
+ *              case TYPE_[device_name]:
+ *                  [register]
+ *          reset_device:
+ *              case TYPE_[device_name]:
+ *                  [semantic reset device state]
+ *      some stuff to functions:
+ *          attach_param_cb
+ *          detach_param_cb
+ *          get_value_param/get_vector_param
+ */
+
+exports.can_use_device = can_use_device;
+function can_use_device(type) {
+    if (type == DEVICE_HMD && !navigator.getVRDevices && !cfg_def.is_mobile_device ||
+            type == DEVICE_GYRO && (!cfg_def.is_mobile_device ||
+                    !window.DeviceOrientationEvent ||
+                    !cfg_def.gyro_use))
+        return false;
+    else
+        return true;
+}
+
+function init_device(type, element) {
+    if (!can_use_device(type))
+        return null;
+
+    var device = {
+        type: type,
+
+        // Is device registered for listening statement changes?
+        registered: false,
+
+        // gyro callbacks
+        orientation_quat_cb_list: [],
+        orientation_angles_cb_list: [],
+
+        // mouse callbacks
+        mouse_down_which_cb_list: [],
+        mouse_location_cb_list: [],
+        mouse_up_which_cb_list: [],
+        mouse_wheel_cb_list: [],
+
+        // keyboard callbacks
+        keyboard_down_cb_list: [],
+        keyboard_up_cb_list: [],
+
+        // touch callbacks
+        touch_start_cb_list: [],
+        touch_move_cb_list: [],
+        touch_end_cb_list: [],
+
+        element: element,
+        prevent_default: true,
+        registered_event_listeners: [],
+
+        mouse_location: new Float32Array(2),
+        mouse_which: 0,
+
+        // HMD properties
+        viewer_name                : "",
+        distortion_coefs           : new Float32Array(2),
+        chromatic_aberration_coefs : new Float32Array(4),
+        // WebVR properties
+        webvr_hmd_device: null,
+        webvr_sensor_devices: null,
+
+        // non-WebVR HMD properties
+        fov_left                   : new Float32Array(4),
+        fov_right                  : new Float32Array(4),
+        inter_lens_dist            : 0.0,
+        base_line_dist             : 0.0,
+        screen_to_lens_dist        : 0.0,
+
+        // mobile properties
+        device_name                : "",
+        width_dist                 : 0.0,
+        height_dist                : 0.0,
+        bevel_dist                 : 0.0,
+    };
+
+    // default value
+    device.fov_left[0] = device.fov_left[1] = device.fov_left[2] = device.fov_left[3] = 45;
+    device.fov_right[0] = device.fov_right[1] = device.fov_right[2] = device.fov_right[3] = 45;
+
+    if (type == DEVICE_MOUSE || type == DEVICE_KEYBOARD || type == DEVICE_TOUCH) {
+        device.registered = Boolean(element);
+        if (type == DEVICE_TOUCH)
+            // HACK: fix touch events issue on some mobile devices
+            document.addEventListener("touchstart", function(){});
+        else if (type == DEVICE_KEYBOARD)
+            device.prevent_default = false;
+    } else if (type == DEVICE_GYRO) {
+        device.registered = true;
+    }
+    return device;
+}
+
+exports.get_device_by_type_element = get_device_by_type_element;
+function get_device_by_type_element(type, element) {
+    if (type == DEVICE_GYRO || type == DEVICE_HMD)
+        element = window;
+    else if (!element)
+        element = m_cont.get_container();
+
+    for (var i = 0; i < _devices.length; i++)
+        if (_devices[i].type == type && _devices[i].element == element)
+            return _devices[i];
+
+    var device = init_device(type, element);
+    if (device)
+        _devices.push(device);
+    return device;
+}
+
+function get_devices_by_element(element) {
+    var devices = [];
+    for (var i = 0; i < _devices.length; i++)
+        if (_devices[i].element == element)
+            devices.push(_devices[i]);
+    return devices;
+}
+
+exports.register_device = register_device;
+function register_device(device) {
+    if (!device.registered) {
+        switch (device.type) {
+        case DEVICE_HMD:
+            if (navigator.getVRDevices) {
+                navigator.getVRDevices().then(function(webvr_devices) {
+                    setup_webvr_devices(device, webvr_devices);
+                    if (webvr_devices.length)
+                        device.registered = true;
+                    else
+                        m_print.error_once("WebVR devices are not found.");
+                });
+            } else {
+                setup_nonwebvr_hmd_device(device);
+                device.registered = true;
+            }
+            break;
+        default:
+            m_print.error("register_device() is undefined for device: ", device.type);
+            return;
+        }
+    }
+}
+
+exports.switch_prevent_default = function(device, prevent_default) {
+    device.prevent_default = prevent_default;
+}
+
+function setup_nonwebvr_hmd_device(device) {
+    var viewer_name = "default";
+    var device_name = "default";
+
+    for (var i in cfg_dvp) {
+        if (navigator.userAgent.match(cfg_dvp[i].expr_user_agent)) {
+            device_name = i;
+            break;
+        }
+    }
+    var device_params = cfg_dvp[device_name];
+    device.device_name = device_name;
+    device.width_dist = device_params.width_dist;
+    device.height_dist = device_params.height_dist;
+    device.bevel_dist = device_params.bevel_dist;
+
+    // we tested only cardboard_2
+    viewer_name = "cardboard_2";
+    device.viewer_name = viewer_name;
+    setup_distortion_coef(device);
+
+    var viewer_params = cfg_hmdp[device.viewer_name];
+    device.inter_lens_dist = viewer_params.inter_lens_dist;
+    device.base_line_dist = viewer_params.base_line_dist;
+    device.screen_to_lens_dist = viewer_params.screen_to_lens_dist;
+
+    update_gyro_fov(device);
+}
+
+function setup_distortion_coef(device) {
+    var viewer_params = cfg_hmdp[device.viewer_name];
+
+    device.distortion_coefs[0] = viewer_params.distortion_coefs[0],
+    device.distortion_coefs[1] = viewer_params.distortion_coefs[1];
+
+    device.chromatic_aberration_coefs[0] = viewer_params.chromatic_aberration_coefs[0];
+    device.chromatic_aberration_coefs[1] = viewer_params.chromatic_aberration_coefs[1];
+    device.chromatic_aberration_coefs[2] = viewer_params.chromatic_aberration_coefs[2];
+    device.chromatic_aberration_coefs[3] = viewer_params.chromatic_aberration_coefs[3];
+}
+
+function get_distort_fact_radius(distortion_coefs, radius) {
+    var rsq = radius * radius;
+    return radius * (1 + distortion_coefs[0] * rsq + distortion_coefs[1] * rsq * rsq);
+}
+
+function update_gyro_fov(device) {
+    var bottom_dist = device.base_line_dist - device.bevel_dist;
+    var top_dist    = device.height_dist - bottom_dist;
+    var inner_dist  = device.inter_lens_dist / 2;
+    var outer_dist  = device.width_dist / 2 - device.inter_lens_dist;
+    var distor_coef = device.distortion_coefs;
+
+    var bottom_tang = get_distort_fact_radius(distor_coef,
+            bottom_dist / device.screen_to_lens_dist);
+    var bottom_angle = m_util.rad_to_deg(Math.atan(bottom_tang));
+    var top_tang = get_distort_fact_radius(distor_coef,
+            top_dist / device.screen_to_lens_dist);
+    var top_angle = m_util.rad_to_deg(Math.atan(top_tang));
+    var inner_tang = get_distort_fact_radius(distor_coef,
+            top_dist / device.screen_to_lens_dist);
+    var inner_angle = m_util.rad_to_deg(Math.atan(inner_tang));
+    var outer_tang = get_distort_fact_radius(distor_coef,
+            top_dist / device.screen_to_lens_dist);
+    var outer_angle = m_util.rad_to_deg(Math.atan(outer_tang));
+
+    // NOTE: 60...I don't know why
+    device.fov_left[0] = Math.min(top_angle, 60);
+    device.fov_left[1] = Math.min(inner_angle, 60);
+    device.fov_left[2] = Math.min(bottom_angle, 60);
+    device.fov_left[3] = Math.min(outer_angle, 60);
+
+    device.fov_right[0] = Math.min(top_angle, 60);
+    device.fov_right[1] = Math.min(outer_angle, 60);
+    device.fov_right[2] = Math.min(bottom_angle, 60);
+    device.fov_right[3] = Math.min(inner_angle, 60);
+}
+
+function setup_webvr_devices(device, webvr_devices) {
+    device.viewer_name = "default";
+    var webvr_hmd_devices = webvr_devices.filter(function(device) {
+        return device instanceof HMDVRDevice;
+    });
+
+    var webvr_hmd_device = null;
+    if (webvr_hmd_devices.length) {
+        // get first hmd device
+        webvr_hmd_device = webvr_hmd_devices[0];
+        if (webvr_hmd_device.deviceName.toLowerCase().indexOf("oculus") !== -1)
+            device.viewer_name = "oculus";
+    }
+
+    var webvr_sensor_devices = null;
+    if (webvr_hmd_device) {
+        webvr_sensor_devices = webvr_devices.filter(function(webvr_device) {
+            return webvr_device.deviceName.toLowerCase().indexOf("oculus") !== -1 &&
+                    webvr_device.hardwareUnitId == webvr_hmd_device.hardwareUnitId &&
+                    webvr_device instanceof PositionSensorVRDevice;
+        });
+    }
+
+    device.webvr_hmd_device = webvr_hmd_device;
+    device.webvr_sensor_devices = webvr_sensor_devices;
+
+    setup_distortion_coef(device);
+}
+
+exports.reset_device = reset_device;
+function reset_device(device) {
+    switch (device.type) {
+    case DEVICE_HMD:
+        if (device.registered && device.webvr_sensor_devices) {
+            for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
+                var webvr_device = device.webvr_sensor_devices[i];
+                webvr_device.resetSensor();
+            }
+        }
+        break;
+    default:
+        m_print.error("reset_device() is undefined for device: ", device.type);
+        return;
+    }
+}
+
+function get_fov(device, eye, dest) {
+    switch (device.type) {
+    case DEVICE_HMD:
+        if (device.webvr_hmd_device) {
+            var param = device.webvr_hmd_device.getEyeParameters(eye);
+            if (param && param.currentFieldOfView) {
+                var distor_coef = device.distortion_coefs;
+                var bottom_tang = get_distort_fact_radius(distor_coef,
+                        Math.tan(m_util.deg_to_rad(param.currentFieldOfView["downDegrees"])));
+                var bottom_angle = m_util.rad_to_deg(Math.atan(bottom_tang));
+                var top_tang = get_distort_fact_radius(distor_coef,
+                        Math.tan(m_util.deg_to_rad(param.currentFieldOfView["upDegrees"])));
+                var top_angle = m_util.rad_to_deg(Math.atan(top_tang));
+                var left_tang = get_distort_fact_radius(distor_coef,
+                        Math.tan(m_util.deg_to_rad(param.currentFieldOfView["leftDegrees"])));
+                var left_angle = m_util.rad_to_deg(Math.atan(left_tang));
+                var right_tang = get_distort_fact_radius(distor_coef,
+                        Math.tan(m_util.deg_to_rad(param.currentFieldOfView["rightDegrees"])));
+                var right_angle = m_util.rad_to_deg(Math.atan(right_tang));
+
+                dest[0] = top_angle;
+                dest[1] = right_angle;
+                dest[2] = bottom_angle;
+                dest[3] = left_angle;
+                return dest;
+            }
+        } else {
+            if (eye == "left")
+                var fov = device.fov_left;
+            else
+                var fov = device.fov_right;
+
+            m_vec4.copy(fov, dest);
+        }
+        break;
+    default:
+        m_print.error("fov is undefined for device: ", device.type);
+        break;
+    }
+
+    return dest;
+}
+
+//==============================================================================
+//                        sync:  get_value_param
+//                               get_vector_param
+//                        async: attach_param_cb
+//                               detach_param_cb
+//==============================================================================
+
+exports.get_vector_param = function(device, param, dest) {
+    switch(param) {
+    case HMD_ORIENTATION_QUAT:
+        return get_orientation_quat(device, dest);
+    case HMD_POSITION:
+        return get_position(device, dest);
+    case HMD_FOV_LEFT:
+        return get_fov(device, "left", dest);
+    case HMD_FOV_RIGHT:
+        return get_fov(device, "right", dest);
+    case MOUSE_LOCATION:
+        dest[0] = device.mouse_location[0];
+        dest[1] = device.mouse_location[1];
+        return dest;
+    }
+}
+
+exports.get_value_param = function(device, param) {
+    switch(param) {
+    case HDM_EYE_DISTANCE:
+        return get_eye_distance(device);
+    }
+}
+
+exports.attach_param_cb = function(device, param, cb) {
+
+    if (!device)
+        return;
+
+    switch(param) {
+    case GYRO_ORIENTATION_QUAT:
+        device.orientation_quat_cb_list.push(cb);
+        param = DEVICE_ORIENTATION;
+        break;
+    case GYRO_ORIENTATION_ANGLES:
+        device.orientation_angles_cb_list.push(cb);
+        param = DEVICE_ORIENTATION;
+        break;
+    case MOUSE_DOWN_WHICH:
+        device.mouse_down_which_cb_list.push(cb);
+        break;
+    case MOUSE_LOCATION:
+        device.mouse_location_cb_list.push(cb);
+        break;
+    case MOUSE_UP_WHICH:
+        device.mouse_up_which_cb_list.push(cb);
+        break;
+    case MOUSE_WHEEL:
+        device.mouse_wheel_cb_list.push(cb);
+        break;
+    case KEYBOARD_DOWN:
+        device.keyboard_down_cb_list.push(cb);
+        break;
+    case KEYBOARD_UP:
+        device.keyboard_up_cb_list.push(cb);
+        break;
+    case TOUCH_START:
+        device.touch_start_cb_list.push(cb);
+        break;
+    case TOUCH_MOVE:
+        device.touch_move_cb_list.push(cb);
+        break;
+    case TOUCH_END:
+        device.touch_end_cb_list.push(cb);
+        break;
+    }
+
+    if (device.registered_event_listeners.indexOf(param) == -1) {
+        device.registered_event_listeners.push(param);
+        if (device.registered)
+            register_event_listener(device, param);
+    }
+}
+
+function replace_cb_with_null(cb_list, cb) {
+    var cb_index = cb_list.indexOf(cb);
+    if (cb_index >= 0)
+        cb_list[cb_index] = null;
+}
+
+function is_null(x) {
+    return x === null;
+}
+
+exports.detach_param_cb = function(device, param, cb) {
+    if (!device)
+        return;
+    unregister_event_listener(device, param, cb, false, false);
+}
+
+
+function unregister_event_listener(device, param, cb, force) {
+    switch(param) {
+    case GYRO_ORIENTATION_QUAT:
+        cb && replace_cb_with_null(device.orientation_quat_cb_list, cb);
+        if (force || (device.orientation_angles_cb_list.every(is_null) &&
+                device.orientation_quat_cb_list.every(is_null))) {
+            device.orientation_quat_cb_list.length = 0;
+            device.orientation_angles_cb_list.length = 0;
+
+            param = DEVICE_ORIENTATION;
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("deviceorientation", device_orientation_cb, false);
+            }
+        }
+        break;
+    case GYRO_ORIENTATION_ANGLES:
+        cb && replace_cb_with_null(device.orientation_angles_cb_list, cb);
+        if (force || (device.orientation_angles_cb_list.every(is_null) &&
+                device.orientation_quat_cb_list.every(is_null))) {
+            device.orientation_quat_cb_list.length = 0;
+            device.orientation_angles_cb_list.length = 0;
+
+            param = DEVICE_ORIENTATION;
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("deviceorientation", device_orientation_cb, false);
+            }
+        }
+        break;
+    case MOUSE_DOWN_WHICH:
+        cb && replace_cb_with_null(device.mouse_down_which_cb_list, cb);
+        if (force || device.mouse_down_which_cb_list.every(is_null)) {
+            device.mouse_down_which_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("mousedown", mouse_down_cb, false);
+            }
+        }
+        break;
+    case MOUSE_LOCATION:
+        cb && replace_cb_with_null(device.mouse_location_cb_list, cb);
+        if (force || device.mouse_location_cb_list.every(is_null)) {
+            device.mouse_location_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("mousemove", mouse_move_cb, false);
+            }
+        }
+        break;
+    case MOUSE_UP_WHICH:
+        cb && replace_cb_with_null(device.mouse_up_which_cb_list, cb);
+        if (force || device.mouse_up_which_cb_list.every(is_null)) {
+            device.mouse_up_which_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("mouseout", mouse_out_cb, false);
+                device.element.removeEventListener("mouseup", mouse_up_cb, false);
+            }
+            break;
+        }
+        break;
+    case MOUSE_WHEEL:
+        cb && replace_cb_with_null(device.mouse_wheel_cb_list, cb);
+        if (force || device.mouse_wheel_cb_list.every(is_null)) {
+            device.mouse_wheel_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("wheel", mouse_wheel_cb, false);
+            }
+        }
+        break;
+    case KEYBOARD_DOWN:
+        cb && replace_cb_with_null(device.keyboard_down_cb_list, cb);
+        if (force || device.keyboard_down_cb_list.every(is_null)) {
+            device.keyboard_down_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("keydown", keyboard_down_cb, false);
+            }
+        }
+        break;
+    case KEYBOARD_UP:
+        cb && replace_cb_with_null(device.keyboard_up_cb_list, cb);
+        if (force || device.keyboard_up_cb_list.every(is_null)) {
+            device.keyboard_up_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("keyup", keyboard_up_cb, false);
+            }
+        }
+        break;
+    case TOUCH_START:
+        cb && replace_cb_with_null(device.touch_start_cb_list, cb);
+        if (force || device.touch_start_cb_list.every(is_null)) {
+            device.touch_start_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("touchstart", touch_start_cb, false);
+            }
+        }
+        break;
+    case TOUCH_MOVE:
+        cb && replace_cb_with_null(device.touch_move_cb_list, cb);
+        if (force || device.touch_move_cb_list.every(is_null)) {
+            device.touch_move_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("touchmove", touch_move_cb, false);
+            }
+        }
+        break;
+    case TOUCH_END:
+        cb && replace_cb_with_null(device.touch_end_cb_list, cb);
+        if (force || device.touch_end_cb_list.every(is_null)) {
+            device.touch_end_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("touchend", touch_end_cb, false);
+            }
+        }
+        break;
+    }
+}
+
+function register_event_listener(device, event_name) {
+    switch (event_name) {
+    case MOUSE_DOWN_WHICH:
+        device.element.addEventListener("mousedown", mouse_down_cb, false);
+        break;
+    case MOUSE_LOCATION:
+        device.element.addEventListener("mousemove", mouse_move_cb, false);
+        break;
+    case MOUSE_UP_WHICH:
+        if (device.element != window)
+            device.element.addEventListener("mouseout", mouse_up_cb, false);
+        device.element.addEventListener("mouseup", mouse_up_cb, false);
+        break;
+    case MOUSE_WHEEL:
+        device.element.addEventListener("wheel", mouse_wheel_cb, false);
+        break;
+    case KEYBOARD_DOWN:
+        device.element.addEventListener("keydown", keyboard_down_cb, false);
+        break;
+    case KEYBOARD_UP:
+        device.element.addEventListener("keyup", keyboard_up_cb, false);
+        break;
+    case TOUCH_START:
+        device.element.addEventListener("touchstart", touch_start_cb, false);
+        break;
+    case TOUCH_MOVE:
+        device.element.addEventListener("touchmove", touch_move_cb, false);
+        break;
+    case TOUCH_END:
+        device.element.addEventListener("touchend", touch_end_cb, false);
+        break;
+    case DEVICE_ORIENTATION:
+        device.element.addEventListener("deviceorientation", device_orientation_cb, false);
+        break;
+    }
+}
+
+function get_eye_distance(device) {
+    switch (device.type) {
+    case DEVICE_HMD:
+        if (device.webvr_hmd_device) {
+            var param_left = device.webvr_hmd_device.getEyeParameters("left");
+            var param_right = device.webvr_hmd_device.getEyeParameters("right");
+            return param_right.eyeTranslation["x"] - param_left.eyeTranslation["x"];
+        } else
+            return device.inter_lens_dist;
+    default:
+        m_print.error("eye_distance is undefined for device: ", device.type);
+        break;
+    }
+}
+
+function get_orientation_quat(device, dest) {
+    switch (device.type) {
+    case DEVICE_HMD:
+        m_vec3.copy(m_util.VEC3_UNIT, dest);
+        if (device.webvr_sensor_devices) {
+            for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
+                var webvr_sensor_device = device.webvr_sensor_devices[i];
+                var webvr_state = webvr_sensor_device.getImmediateState();
+                if (webvr_state.orientation) {
+                    dest[0] = webvr_state.orientation["x"];
+                    dest[1] = webvr_state.orientation["y"];
+                    dest[2] = webvr_state.orientation["z"];
+                    dest[3] = webvr_state.orientation["w"];
+                }
+            }
+        }
+        // NOTE: normalize dest, bcz firefox doesn't do this
+        m_quat.normalize(dest, dest);
+        // NOTE: quaternion to WebGL axis orientation
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp);
+        m_quat.multiply(dest, quat, dest);
+        return dest;
+    default:
+        m_print.error("orientation_quat is undefined for device: ", device.type);
+        return dest;
+    }
+}
+
+function get_position(device, dest) {
+    switch (device.type) {
+    case DEVICE_HMD:
+        if (device.webvr_sensor_devices) {
+            for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
+                var webvr_sensor_device = device.webvr_sensor_devices[i];
+                var webvr_state = device.webvr_sensor_devices.getImmediateState();
+
+                if (webvr_state.position) {
+                    dest[0] = webvr_state.position["x"];
+                    dest[1] = webvr_state.position["y"];
+                    dest[2] = webvr_state.position["z"];
+                }
+            }
+        }
+        return dest;
+    default:
+        m_print.error("position is undefined for device: ", device.type);
+        return dest;
+    }
+}
+
+function device_orientation_cb(event) {
+    var euler_angles = _vec3_tmp;
+    euler_angles[0] = m_util.deg_to_rad(event.alpha);
+    euler_angles[1] = m_util.deg_to_rad(event.beta);
+    euler_angles[2] = m_util.deg_to_rad(event.gamma);
+
+    var device = get_device_by_type_element(DEVICE_GYRO, event.currentTarget);
+    for (var i = 0; i < device.orientation_angles_cb_list.length; i++) {
+        var cb = device.orientation_angles_cb_list[i];
+        if (cb) {
+            m_vec3.copy(euler_angles, _angles);
+            cb(_angles);
+        }
+    }
+
+    if (device.orientation_quat_cb_list.length) {
+        // Angles are changed. Recalculate quaternion.
+        var quaternion = _quat_tmp;
+
+        // NOTE: Euler rotation sequence for deviceorientation event is ZXY
+        // see http://w3c.github.io/deviceorientation/spec-source-orientation.html
+        quaternion = m_util.ordered_angles_to_quat(euler_angles, m_util.ZXY, _quat_tmp);
+
+        var screen_orient = m_util.deg_to_rad(window.orientation);
+        var screen_quat = m_quat.setAxisAngle(m_util.AXIS_Z,
+                -screen_orient, _quat_tmp2);
+        m_quat.multiply(quaternion, screen_quat, quaternion);
+
+        // NOTE: quaternion to WebGL axis orientation
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, -Math.PI / 2, _quat_tmp2);
+        m_quat.multiply(quat, quaternion, quaternion);
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp2);
+        m_quat.multiply(quaternion, quat, quaternion);
+
+        for (var i = 0; i < device.orientation_quat_cb_list.length; i++) {
+            var cb = device.orientation_quat_cb_list[i];
+            if (cb) {
+                m_quat.copy(quaternion, _quat);
+                cb(_quat);
+            }
+        }
+    }
+
+    // remove unused callbacks
+    for (var i = 0; i < device.orientation_quat_cb_list.length; i++)
+        if (!device.orientation_quat_cb_list[i])
+            device.orientation_quat_cb_list.splice(i, 1);
+    for (var i = 0; i < device.orientation_angles_cb_list.length; i++)
+        if (!device.orientation_angles_cb_list[i])
+            device.orientation_angles_cb_list.splice(i, 1);
+}
+
+function update_device(device, event) {
+    switch (device.type) {
+    case DEVICE_MOUSE:
+        device.mouse_location[0] = event.clientX;
+        device.mouse_location[1] = event.clientY;
+        device.mouse_which = event.which;
+        break;
+    }
+}
+
+function mouse_move_cb(event) {
+    var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
+    update_device(device, event);
+
+    for (var i = 0; i < device.mouse_location_cb_list.length; i++) {
+        var cb = device.mouse_location_cb_list[i];
+        if (cb) {
+            _location[0] = event.clientX;
+            _location[1] = event.clientY;
+            cb(_location);
+        }
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.mouse_location_cb_list.length; i++)
+        if (!device.mouse_location_cb_list[i])
+            device.mouse_location_cb_list.splice(i, 1);
+}
+
+function mouse_down_cb(event) {
+    var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
+    update_device(device, event);
+    for (var i = 0; i < device.mouse_down_which_cb_list.length; i++) {
+        var cb = device.mouse_down_which_cb_list[i];
+        if (cb)
+            cb(event.which);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.mouse_down_which_cb_list.length; i++)
+        if (!device.mouse_down_which_cb_list[i])
+            device.mouse_down_which_cb_list.splice(i, 1);
+}
+
+function mouse_out_cb(event) {
+    if (!m_cont.is_child(event.relatedTarget))
+        mouse_up_cb(event);
+}
+
+function mouse_up_cb(event) {
+    var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
+    update_device(device, event);
+
+    for (var i = 0; i < device.mouse_up_which_cb_list.length; i++) {
+        var cb = device.mouse_up_which_cb_list[i];
+        if (cb)
+            cb(event.which);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.mouse_up_which_cb_list.length; i++)
+        if (!device.mouse_up_which_cb_list[i])
+            device.mouse_up_which_cb_list.splice(i, 1);
+}
+
+function mouse_wheel_cb(event) {
+    var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
+    for (var i = 0; i < device.mouse_wheel_cb_list.length; i++) {
+        var cb = device.mouse_wheel_cb_list[i];
+        if (cb)
+            cb(-event.deltaY);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.mouse_wheel_cb_list.length; i++)
+        if (!device.mouse_wheel_cb_list[i])
+            device.mouse_wheel_cb_list.splice(i, 1);
+}
+
+function keyboard_down_cb(event) {
+    var device = get_device_by_type_element(DEVICE_KEYBOARD, event.currentTarget);
+    for (var i = 0; i < device.keyboard_down_cb_list.length; i++) {
+        var cb = device.keyboard_down_cb_list[i];
+        if (cb)
+            cb(event.keyCode);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.keyboard_down_cb_list.length; i++)
+        if (!device.keyboard_down_cb_list[i])
+            device.keyboard_down_cb_list.splice(i, 1);
+}
+
+function keyboard_up_cb(event) {
+    var device = get_device_by_type_element(DEVICE_KEYBOARD, event.currentTarget);
+    for (var i = 0; i < device.keyboard_up_cb_list.length; i++) {
+        var cb = device.keyboard_up_cb_list[i];
+        if (cb)
+            cb(event.keyCode);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.keyboard_up_cb_list.length; i++)
+        if (!device.keyboard_up_cb_list[i])
+            device.keyboard_up_cb_list.splice(i, 1);
+}
+
+function touch_start_cb(event) {
+    var device = get_device_by_type_element(DEVICE_TOUCH, event.currentTarget);
+    for (var i = 0; i < device.touch_start_cb_list.length; i++) {
+        var cb = device.touch_start_cb_list[i];
+        if (cb)
+            cb(event.targetTouches);
+    }
+
+    // if (device.prevent_default)
+    //     event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.touch_start_cb_list.length; i++)
+        if (!device.touch_start_cb_list[i])
+            device.touch_start_cb_list.splice(i, 1);
+}
+
+function touch_move_cb(event) {
+    var device = get_device_by_type_element(DEVICE_TOUCH, event.currentTarget);
+    for (var i = 0; i < device.touch_move_cb_list.length; i++) {
+        var cb = device.touch_move_cb_list[i];
+        if (cb)
+            cb(event.targetTouches);
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.touch_move_cb_list.length; i++)
+        if (!device.touch_move_cb_list[i])
+            device.touch_move_cb_list.splice(i, 1);
+}
+
+function touch_end_cb(event) {
+    var device = get_device_by_type_element(DEVICE_TOUCH, event.currentTarget);
+    for (var i = 0; i < device.touch_end_cb_list.length; i++) {
+        var cb = device.touch_end_cb_list[i];
+        if (cb)
+            cb(event.targetTouches);
+    }
+
+    // if (device.prevent_default)
+    //     event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.touch_end_cb_list.length; i++)
+        if (!device.touch_end_cb_list[i])
+            device.touch_end_cb_list.splice(i, 1);
+}
+
+exports.cleanup = function() {
+    for (var i = 0; i < _devices.length; i++) {
+        var device = _devices[i];
+
+        for (var j = 0; j < device.registered_event_listeners.length; j++) {
+            var param = device.registered_event_listeners[j];
+            unregister_event_listener(device, param, null, true);
+        }
+    }
+
+    _devices.length = 0;
+}
+
+}

@@ -7,6 +7,7 @@ b4w.register("simple_app", function(exports, require) {
 var m_anim      = require("animation");
 var m_app       = require("app");
 var m_data      = require("data");
+var m_mouse     = require("mouse");
 var m_scenes    = require("scenes");
 
 var _previous_selected_obj = null;
@@ -35,6 +36,7 @@ function init_cb(canvas_elem, success) {
     }
 
     canvas_elem.addEventListener("mousedown", main_canvas_click, false);
+    canvas_elem.addEventListener("touchstart", main_canvas_click, false);
 
     load();
 }
@@ -50,7 +52,6 @@ function load() {
  * callback executed when the scene is loaded
  */
 function load_cb(data_id) {
-    m_app.enable_controls();
     m_app.enable_camera_controls();
 
     // place your code here
@@ -61,8 +62,8 @@ function main_canvas_click(e) {
     if (e.preventDefault)
         e.preventDefault();
 
-    var x = e.clientX;
-    var y = e.clientY;
+    var x = m_mouse.get_coords_x(e);
+    var y = m_mouse.get_coords_y(e);
 
     var obj = m_scenes.pick_object(x, y);
 

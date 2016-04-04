@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Project Manager &mdash; User Manual: Blend4Web vv16.02</title>
+  <title>Project Manager &mdash; Blend4Web 16.03 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
         <link rel="next" title="Scene Viewer" href="viewer.html"/>
         <link rel="prev" title="Workflow" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,28 +85,27 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Project Manager</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#project-manager">Project Manager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-new-project">Project Creation Wizard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-info">Project Information</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Commands</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Project Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Project Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-creation-wizard">Project Creation Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-information">Project Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-parameters">Project Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#import-projects">Project Import</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#export-projects">Project Export</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Commands</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Project Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-import">Project Import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-export">Project Export</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Project Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -152,6 +151,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -170,23 +170,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="project-management">
-<span id="id1"></span><h1><a class="toc-backref" href="#id11">Project Manager</a><a class="headerlink" href="#project-management" title="Permalink to this headline">¶</a></h1>
-<div class="contents topic" id="id2">
+  <div class="section" id="project-manager">
+<span id="project-management"></span><h1><a class="toc-backref" href="#id4">Project Manager</a><a class="headerlink" href="#project-manager" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#project-management" id="id11">Project Manager</a><ul>
-<li><a class="reference internal" href="#project-manager" id="id12">Project Manager</a></li>
-<li><a class="reference internal" href="#create-new-project" id="id13">Project Creation Wizard</a></li>
-<li><a class="reference internal" href="#project-info" id="id14">Project Information</a><ul>
-<li><a class="reference internal" href="#id5" id="id15">Commands</a></li>
-<li><a class="reference internal" href="#id6" id="id16">Project Parameters</a></li>
+<li><a class="reference internal" href="#project-manager" id="id4">Project Manager</a><ul>
+<li><a class="reference internal" href="#id1" id="id5">Project Manager</a></li>
+<li><a class="reference internal" href="#project-creation-wizard" id="id6">Project Creation Wizard</a></li>
+<li><a class="reference internal" href="#project-information" id="id7">Project Information</a><ul>
+<li><a class="reference internal" href="#commands" id="id8">Commands</a></li>
+<li><a class="reference internal" href="#project-parameters" id="id9">Project Parameters</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#import-projects" id="id17">Project Import</a></li>
-<li><a class="reference internal" href="#export-projects" id="id18">Project Export</a><ul>
-<li><a class="reference internal" href="#id9" id="id19">Commands</a></li>
-<li><a class="reference internal" href="#id10" id="id20">Project Parameters</a></li>
+<li><a class="reference internal" href="#project-import" id="id10">Project Import</a></li>
+<li><a class="reference internal" href="#project-export" id="id11">Project Export</a><ul>
+<li><a class="reference internal" href="#id2" id="id12">Commands</a></li>
+<li><a class="reference internal" href="#id3" id="id13">Project Parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -196,24 +196,17 @@
 <p>Since version 15.09, the SDK includes a project managment feature, which makes it possible to:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">browse the full list and file structure of the projects;</p>
-</li>
-<li><p class="first">launch apps, run exported scenes in the Viewer, open source blend files in Blender;</p>
-</li>
-<li><p class="first">create and configure new apps, including those based on ready-made templates;</p>
-</li>
-<li><p class="first">build apps and pack them to be conveniently deployed on a remote server;</p>
-</li>
-<li><p class="first">convert app resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance;</p>
-</li>
-<li><p class="first">automatically re-export all scenes of an app, including export to JSON and HTML formats;</p>
-</li>
-<li><p class="first">remove projects.</p>
-</li>
+<li>browse the full list and file structure of the projects;</li>
+<li>launch apps, run exported scenes in the Viewer, open source blend files in Blender;</li>
+<li>create and configure new apps, including those based on ready-made templates;</li>
+<li>build apps and pack them to be conveniently deployed on a remote server;</li>
+<li>convert app resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance;</li>
+<li>automatically re-export all scenes of an app, including export to JSON and HTML formats;</li>
+<li>remove projects.</li>
 </ul>
 </div></blockquote>
-<div class="section" id="project-manager">
-<h2><a class="toc-backref" href="#id12">Project Manager</a><a class="headerlink" href="#project-manager" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id5">Project Manager</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>The <em>Project Manager</em> app can be run from the <em>Tools</em> section of the SDK’s index page. Upon launching, the app outputs a list of all current projects in the SDK.</p>
 <p>The commands for project management are located at the top of the page.</p>
 <blockquote>
@@ -221,39 +214,28 @@
 </div></blockquote>
 <dl class="docutils">
 <dt><em>Back to Index</em></dt>
-<dd><p class="first last">Returns to the Blend4Web SDK index page.</p>
-</dd>
+<dd>Returns to the Blend4Web SDK index page.</dd>
 <dt><em>Create New Project</em></dt>
-<dd><p class="first last">Opens the <a class="reference internal" href="#create-new-project"><span>project creation</span></a> wizard.</p>
-</dd>
+<dd>Opens the <a class="reference internal" href="#create-new-project"><span>project creation</span></a> wizard.</dd>
 <dt><em>Import Project(s)</em></dt>
-<dd><p class="first last">Opens the <a class="reference internal" href="#import-projects"><span>project import</span></a> dialogue.</p>
-</dd>
+<dd>Opens the <a class="reference internal" href="#import-projects"><span>project import</span></a> dialogue.</dd>
 <dt><em>Export Project(s)</em></dt>
-<dd><p class="first last">Opens the <a class="reference internal" href="#export-projects"><span>project export</span></a> page.</p>
-</dd>
+<dd>Opens the <a class="reference internal" href="#export-projects"><span>project export</span></a> page.</dd>
 <dt><em>Hide Stock Projects</em></dt>
-<dd><p class="first last">Can be used to hide stock projects. If such projects are already hidden, this command is replaced with the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Stock</span> <span class="pre">Projects</span></code> command.</p>
-</dd>
+<dd>Can be used to hide stock projects. If such projects are already hidden, this command is replaced with the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Stock</span> <span class="pre">Projects</span></code> command.</dd>
 <dt><em>Help</em></dt>
-<dd><p class="first last">Opens the <a class="reference internal" href="developers.html#app-building"><span>Help file</span></a>.</p>
-</dd>
+<dd>Opens the <a class="reference internal" href="developers.html#app-building"><span>Help file</span></a>.</dd>
 </dl>
 <p>Commands for managing a specific project is located at its right.</p>
 <blockquote>
 <div><img alt="_images/project_manager_commands.png" class="align-center" src="_images/project_manager_commands.png" />
 </div></blockquote>
 <ol class="arabic simple">
-<li><p class="first">Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).</p>
-</li>
-<li><p class="first">Re-export blend files from the project.</p>
-</li>
-<li><p class="first">Convert media resources.</p>
-</li>
-<li><p class="first">Export and download a project archive.</p>
-</li>
-<li><p class="first">Remove the project.</p>
-</li>
+<li>Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).</li>
+<li>Re-export blend files from the project.</li>
+<li>Convert media resources.</li>
+<li>Export and download a project archive.</li>
+<li>Remove the project.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -262,18 +244,15 @@
 <p>Beside the project&#8217;s name, a link to the <a class="reference internal" href="#project-info"><span>project information page</span></a> is located. The application type is also specified there. An application can have one of the following types:</p>
 <dl class="docutils">
 <dt><em>Player</em></dt>
-<dd><p class="first last">The application can be played using the Web Player.</p>
-</dd>
+<dd>The application can be played using the Web Player.</dd>
 <dt><em>Dev</em></dt>
-<dd><p class="first last">Application for development.</p>
-</dd>
+<dd>Application for development.</dd>
 <dt><em>Build</em></dt>
-<dd><p class="first last">Compiled application.</p>
-</dd>
+<dd>Compiled application.</dd>
 </dl>
 </div>
-<div class="section" id="create-new-project">
-<span id="id3"></span><h2><a class="toc-backref" href="#id13">Project Creation Wizard</a><a class="headerlink" href="#create-new-project" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-creation-wizard">
+<span id="create-new-project"></span><h2><a class="toc-backref" href="#id6">Project Creation Wizard</a><a class="headerlink" href="#project-creation-wizard" title="Permalink to this headline">¶</a></h2>
 <p>The tool for creating new projects is included in the Project Management app and executed by the <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> button on the main page of this app.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_create_project.png"><img alt="_images/project_manager_create_project.png" class="align-center" src="_images/project_manager_create_project.png" style="width: 100%;" /></a>
@@ -297,152 +276,116 @@
 <li><p class="first">Project’s type. Several options are available:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;External&#8221; - engine will be taken from the &#8220;deploy/apps/common/&#8221; directory. Only application files will be compiled;</p>
-</li>
-<li><p class="first">&#8220;Copy&#8221; - engine is copied into the compiled application directory. Only application files are compiled;</p>
-</li>
-<li><p class="first">&#8220;Compile&#8221; - engine sources are compiled with application scripts;</p>
-</li>
-<li><p class="first">&#8220;Update&#8221; - engine inside the project directory will be replaced;</p>
-</li>
-<li><p class="first">&#8220;Webplayer JSON&#8221; - json-file placed inside the project is run with the help of web-player inside SDK;</p>
-</li>
-<li><p class="first">&#8220;Webplayer HTML&#8221; - project is packed into single html-file, containing all required resources.</p>
-</li>
+<li>&#8220;External&#8221; - engine will be taken from the &#8220;deploy/apps/common/&#8221; directory. Only application files will be compiled;</li>
+<li>&#8220;Copy&#8221; - engine is copied into the compiled application directory. Only application files are compiled;</li>
+<li>&#8220;Compile&#8221; - engine sources are compiled with application scripts;</li>
+<li>&#8220;Update&#8221; - engine inside the project directory will be replaced;</li>
+<li>&#8220;Webplayer JSON&#8221; - json-file placed inside the project is run with the help of web-player inside SDK;</li>
+<li>&#8220;Webplayer HTML&#8221; - project is packed into single html-file, containing all required resources.</li>
 </ul>
 </div></blockquote>
 </li>
 <li><p class="first">Javascript optimization level.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;Simple&#8221; - variable names are replaced in the code;</p>
-</li>
-<li><p class="first">&#8220;Advanced&#8221; - code optimization is performed;</p>
-</li>
-<li><p class="first">&#8220;Whitespace Only&#8221; - only whitespaces are removed from the code.</p>
-</li>
+<li>&#8220;Simple&#8221; - variable names are replaced in the code;</li>
+<li>&#8220;Advanced&#8221; - code optimization is performed;</li>
+<li>&#8220;Whitespace Only&#8221; - only whitespaces are removed from the code.</li>
 </ul>
 </div></blockquote>
 </li>
 </ol>
 </div>
-<div class="section" id="project-info">
-<span id="id4"></span><h2><a class="toc-backref" href="#id14">Project Information</a><a class="headerlink" href="#project-info" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-information">
+<span id="project-info"></span><h2><a class="toc-backref" href="#id7">Project Information</a><a class="headerlink" href="#project-information" title="Permalink to this headline">¶</a></h2>
 <p>This page contains information regarding the selected project and can be viewed by the <code class="docutils literal"><span class="pre">[info]</span></code> link beside the project&#8217;s title.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_info.png"><img alt="_images/project_manager_info.png" class="align-center" src="_images/project_manager_info.png" style="width: 100%;" /></a>
 </div></blockquote>
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id15">Commands</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="commands">
+<h3><a class="toc-backref" href="#id8">Commands</a><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
-<dd><p class="first last">Returns to the Project Manager&#8217;s main page.</p>
-</dd>
+<dd>Returns to the Project Manager&#8217;s main page.</dd>
 <dt><em>Help</em></dt>
-<dd><p class="first last">Opens the <a class="reference internal" href="#project-info"><span>Help file</span></a>.</p>
-</dd>
+<dd>Opens the <a class="reference internal" href="#project-info"><span>Help file</span></a>.</dd>
 </dl>
 </div>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id16">Project Parameters</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="project-parameters">
+<h3><a class="toc-backref" href="#id9">Project Parameters</a><a class="headerlink" href="#project-parameters" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Project Name</em></dt>
-<dd><p class="first last">The name of the project.</p>
-</dd>
+<dd>The name of the project.</dd>
 <dt><em>Project Title</em></dt>
-<dd><p class="first last">Project title as shown in the browser.</p>
-</dd>
+<dd>Project title as shown in the browser.</dd>
 <dt><em>Project Author / Company</em></dt>
-<dd><p class="first last">The name of the project&#8217;s author or the title of the developer company.</p>
-</dd>
+<dd>The name of the project&#8217;s author or the title of the developer company.</dd>
 <dt><em>Project Icon</em></dt>
-<dd><p class="first last">The icon of the project.</p>
-</dd>
+<dd>The icon of the project.</dd>
 <dt><em>Application</em></dt>
-<dd><p class="first last">Application&#8217;s main JSON file.</p>
-</dd>
+<dd>Application&#8217;s main JSON file.</dd>
 <dt><em>Engine Binding Type</em></dt>
-<dd><p class="first last">The type of the project.</p>
-</dd>
+<dd>The type of the project.</dd>
 <dt><em>Project Path (Development Directory)</em></dt>
-<dd><p class="first last">Project&#8217;s directory.</p>
-</dd>
+<dd>Project&#8217;s directory.</dd>
 <dt><em>Project Config</em></dt>
-<dd><p class="first last">Project&#8217;s config file.</p>
-</dd>
+<dd>Project&#8217;s config file.</dd>
 <dt><em>Build Directory</em></dt>
-<dd><p class="first last">Project build folder.</p>
-</dd>
+<dd>Project build folder.</dd>
 <dt><em>Blend Directory(s)</em></dt>
-<dd><p class="first last">Directories where project&#8217;s blend files are located.</p>
-</dd>
+<dd>Directories where project&#8217;s blend files are located.</dd>
 <dt><em>Assets Directory(s)</em></dt>
-<dd><p class="first last">Directories where project&#8217;s media assets are located.</p>
-</dd>
+<dd>Directories where project&#8217;s media assets are located.</dd>
 <dt><em>URL Params</em></dt>
-<dd><p class="first last">The list of <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL parameters</span></a> used to start the application.</p>
-</dd>
+<dd>The list of <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL parameters</span></a> used to start the application.</dd>
 <dt><em>JavaScript Obfuscation Level</em></dt>
-<dd><p class="first last">JavaScript optimization level.</p>
-</dd>
+<dd>JavaScript optimization level.</dd>
 <dt><em>JavaScript Compilation Ignore List</em></dt>
-<dd><p class="first last">The list of exceptions for the project&#8217;s script compilation.</p>
-</dd>
+<dd>The list of exceptions for the project&#8217;s script compilation.</dd>
 <dt><em>CSS Compilation Ignore List</em></dt>
-<dd><p class="first last">The list of exceptions for the projects style sheets compilation.</p>
-</dd>
+<dd>The list of exceptions for the projects style sheets compilation.</dd>
 <dt><em>Deployment Directory Assets Prefix</em></dt>
-<dd><p class="first last">The scene resource folder in the deployed application.</p>
-</dd>
+<dd>The scene resource folder in the deployed application.</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="import-projects">
-<span id="id7"></span><h2><a class="toc-backref" href="#id17">Project Import</a><a class="headerlink" href="#import-projects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-import">
+<span id="import-projects"></span><h2><a class="toc-backref" href="#id10">Project Import</a><a class="headerlink" href="#project-import" title="Permalink to this headline">¶</a></h2>
 <p>Tools for importing projects are avalible by the <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project(s)]</span></code> link.</p>
 <p>Clicking this link opens standard Open File dialog where you can select the project you need to import.</p>
 </div>
-<div class="section" id="export-projects">
-<span id="id8"></span><h2><a class="toc-backref" href="#id18">Project Export</a><a class="headerlink" href="#export-projects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-export">
+<span id="export-projects"></span><h2><a class="toc-backref" href="#id11">Project Export</a><a class="headerlink" href="#project-export" title="Permalink to this headline">¶</a></h2>
 <p>Project exporting window can be accessed by the <code class="docutils literal"><span class="pre">[Export</span> <span class="pre">Project(s)]</span></code> link.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_export.png"><img alt="_images/project_manager_export.png" class="align-center" src="_images/project_manager_export.png" style="width: 100%;" /></a>
 </div></blockquote>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id19">Commands</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id12">Commands</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
-<dd><p class="first last">Returns to the Project Manager&#8217;s main page.</p>
-</dd>
+<dd>Returns to the Project Manager’s main page.</dd>
 <dt><em>Hide Stock Projects</em></dt>
-<dd><p class="first last">Hides stock projects. If such projects are already hidden, this command is replaced with the <code class="docutils literal"><span class="pre">[Show</span> <span class="pre">Stock</span> <span class="pre">Projects]</span></code> command.</p>
-</dd>
+<dd>Hides stock projects. If such projects are already hidden, this command is replaced with the <code class="docutils literal"><span class="pre">[Show</span> <span class="pre">Stock</span> <span class="pre">Projects]</span></code> command.</dd>
 <dt><em>Help</em></dt>
-<dd><p class="first last">Shows the Help page.</p>
-</dd>
+<dd>Shows the Help page.</dd>
 <dt><em>Export Project(s)</em></dt>
-<dd><p class="first last">Can be used to export selected projects.</p>
-</dd>
+<dd>Can be used to export selected projects.</dd>
 </dl>
 </div>
-<div class="section" id="id10">
-<h3><a class="toc-backref" href="#id20">Project Parameters</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id13">Project Parameters</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Select</em></dt>
-<dd><p class="first last">Shows if the project is selected for export.</p>
-</dd>
+<dd>Shows if the project is selected for export.</dd>
 <dt><em>Name</em></dt>
-<dd><p class="first last">The name of the project&#8217;s directory.</p>
-</dd>
+<dd>The name of the project&#8217;s directory.</dd>
 <dt><em>Title</em></dt>
-<dd><p class="first last">Project&#8217;s title.</p>
-</dd>
+<dd>Project&#8217;s title.</dd>
 <dt><em>Author</em></dt>
-<dd><p class="first last">Project author’s name.</p>
-</dd>
+<dd>Project author’s name.</dd>
 <dt><em>Archive Name</em></dt>
-<dd><p class="first last">The name of an archive to which exported projects are packed.</p>
-</dd>
+<dd>The name of an archive to which exported projects are packed.</dd>
 </dl>
 </div>
 </div>
@@ -468,11 +411,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-02-26.
+      Last updated on 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -490,7 +434,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -519,14 +463,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

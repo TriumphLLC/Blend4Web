@@ -727,6 +727,11 @@ exports.check_bpy_data = function(bpy_data) {
             else
                 scene["b4w_render_refractions"] = "OFF";
 
+        if(!("b4w_render_dynamic_grass" in scene)) {
+            report("scene", scene, "b4w_render_dynamic_grass");
+            scene["b4w_render_dynamic_grass"] = "AUTO";
+        }
+
         if (scene["b4w_nla_script"]) {
             report_deprecated("scene", scene, "b4w_nla_script");
         }
@@ -2580,6 +2585,24 @@ function mesh_transform_locations(mesh, matrix) {
  */
 exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scene) {
 
+    function set_bpy_objs_props(objects_paths, props) {
+        for (var id in objects_paths) {
+            var path = objects_paths[id];
+            var name = path[0];
+            if (path.length > 1)
+                for (var k = 1; k < path.length; k++)
+                    name += "*" + path[k];
+            for (var k = 0; k < bpy_objects.length; k++) {
+                var bpy_obj = bpy_objects[k];
+                if (bpy_obj["name"] == name) {
+                    for (var key in props) {
+                        bpy_obj[key] = props[key];
+                    }
+                }
+            }
+        }
+    }
+
     var script = scene["b4w_logic_nodes"];
     for (var i = 0; i < script.length; i++) {
         var subtree = script[i];
@@ -2593,6 +2616,19 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
             for (var key in rename) {
                 if (key in snode)
                     snode[rename[key]] = snode[key]
+            }
+            // add scope for variables
+            for (var v in snode["variables"]) {
+                if (typeof(snode["variables"][v][0]) != "boolean")
+                    snode["variables"][v] = [false, snode["variables"][v]]
+            }
+            if (["MATH", "CONDJUMP", "PAGEPARAM", "REGSTORE"].indexOf(snode["type"]) >= 0) {
+                if ("variable1" in snode)
+                    snode["variables"]["v1"] = [false, snode["variable1"]];
+                if ("variable2" in snode)
+                    snode["variables"]["v2"] = [false, snode["variable2"]];
+                if ("variabled" in snode)
+                    snode["variables"]["vd"] = [false, snode["variabled"]];
             }
             switch (snode["type"]) {
             case "SELECT":
@@ -2608,19 +2644,7 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 report_raw("Logic nodes type \"SELECT\" is deprecated");
                 break;
             case "SWITCH_SELECT":
-                for (var id in snode["objects_paths"]) {
-                    var path = snode["objects_paths"][id];
-                    var name = path[0];
-                    if (path.length > 1)
-                        for (var k = 1; k < path.length; k++)
-                            name += "*" + path[k];
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == name) {
-                            bpy_obj["b4w_selectable"] = true;
-                        }
-                    }
-                }
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_selectable": true});
                 if (snode["links"] instanceof Array) {
                     report_raw("Format of a \"SWITCH_SELECT\" node is outdated. " +
                     "It is recommended to reexport the scene \"" + scene.name+"\"");
@@ -2643,55 +2667,21 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 break;    
             case "SHOW":
             case "HIDE":
-            case "PLAY_ANIM":
             case "SET_SHADER_NODE_PARAM":
             case "INHERIT_MAT":
-                for (var id in snode["objects_paths"]) {
-                    var path = snode["objects_paths"][id];
-                    var name = path[0];
-                    if (path.length > 1)
-                        for (var k = 1; k < path.length; k++)
-                            name += "*" + path[k];
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == name) {
-                            bpy_obj["b4w_do_not_batch"] = true;
-                        }
-                    }
-                }
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
                 break;
             case "PLAY":
                 scene["b4w_use_nla"] = true;
                 break;
             case "MOVE_TO":
-                for (var id in snode["objects_paths"]) {
-                    var path = snode["objects_paths"][id];
-                    var name = path[0];
-                    if (path.length > 1)
-                        for (var k = 1; k < path.length; k++)
-                            name += "*" + path[k];
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == name) {
-                            bpy_obj["b4w_do_not_batch"] = true;
-                        }
-                    }
-                }
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
                 break;
             case "TRANSFORM_OBJECT":
-                for (var id in snode["objects_paths"]) {
-                    var path = snode["objects_paths"][id];
-                    var name = path[0];
-                    if (path.length > 1)
-                        for (var k = 1; k < path.length; k++)
-                            name += "*" + path[k];
-                    for (var k = 0; k < bpy_objects.length; k++) {
-                        var bpy_obj = bpy_objects[k];
-                        if (bpy_obj["name"] == name) {
-                            bpy_obj["b4w_do_not_batch"] = true;
-                        }
-                    }
-                } 
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
+                break;
+            case "OUTLINE":
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_outlining": true});
                 break;
             case "CONDJUMP":
                 if (snode["condition"]) {
@@ -2728,11 +2718,6 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
             case "SEND_REQ":
                 if (!snode["bools"])
                     snode["bools"] = {};
-
-                if (snode["bools"]["prs"] === undefined)
-                    snode["bools"]["prs"] = true;
-                if (snode["bools"]["enc"] === undefined) 
-                    snode["bools"]["enc"] = true;
                 if (snode["bools"]["ct"] === undefined)
                     snode["bools"]["ct"] = false;
                 break;
@@ -2748,10 +2733,29 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 if (snode["number2"] != undefined)
                     snode["input2"] = snode["number2"];
                 break;
-            case "REGSTORE":
-                if (snode["number1"] != undefined)
-                    snode["input1"] = snode["number1"];
+            case "PAGEPARAM":
+                if (!snode["bools"])
+                    snode["bools"] = {};
+                if (snode["bools"]["hsh"] === undefined)
+                    snode["bools"]["hsh"] = false;
+
+                if (!snode["floats"])
+                    snode["floats"] = {};
+                if (snode["floats"]["ptp"] === undefined)
+                    snode["floats"]["ptp"] = 0;
                 break;
+            case "PLAY_ANIM":
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
+                if (!snode["bools"])
+                    snode["bools"] = {};
+                if (snode["bools"]["env"] === undefined)
+                    snode["bools"]["env"] = false;
+                break;
+            case "STOP_ANIM":
+                if (!snode["bools"])
+                    snode["bools"] = {};
+                if (snode["bools"]["env"] === undefined)
+                    snode["bools"]["env"] = false;
             }
         }
     }

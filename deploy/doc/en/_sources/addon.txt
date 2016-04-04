@@ -1,696 +1,686 @@
+.. _addon:
 
-The Add-on
-**********
+.. index:: add-on
 
+*****
+Addon
+*****
 
-Table of Content
-^^^^^^^^^^^^^^^^
+.. contents:: Table of Content
+    :depth: 3
+    :backlinks: entry
 
-* The Add-on
-
-  * Export Formats
-
-    * JSON
-
-    * HTML
-
-  * Export Options
-
-  * Initialization Errors
-
-  * Compatibility Errors
-
-  * Critical Export Errors
-
-  * Non-Critical Export Errors
-
-  * Other Messages
-
-  * Add-on Translations
-
+.. _export_formats:
 
 Export Formats
 ==============
 
-After the scene is finished, you need to convert it into a format
-supported by the Blend4Web engine.
+After the scene is finished, you need to convert it into a format supported by the Blend4Web engine.
 
 For now, two formats are supported: JSON and HTML.
-
 
 JSON
 ----
 
-Exporting the scene to this format creates a ".json" (JavaScript
-Object Notation) file that contains all exported data structures and
-links to external resources (images, sounds and such), and also a
-".bin" file that contains model data arrays in binary format.
+Exporting the scene to this format creates a ``.json`` (JavaScript Object Notation) file that contains all exported data structures and links to external resources (images, sounds and such), and also a ``.bin`` file that contains model data arrays in binary format.
 
-If media resources are packed into the .blend file, they will be
-unpacked during the export and placed to the hidden "../tmp/" folder
-in the project's directory (inside the SDK directory). It should be
-noted that the names of such files will be automatically changed,
-which can complicate working with them.
+If media resources are `packed into the .blend file <https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data>`_, they will be unpacked during the export and placed to the hidden ``../tmp/`` folder in the project's directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.
 
-It is recommended to store all the resources in a dedicated folder
-inside the SDK directory, it can be called
-"deploy/assets/project_name" for example.
+It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called ``deploy/assets/project_name`` for example.
 
-Note: In accordance with the security measures, the development
-  server can only access the SDK folder. If media data is placed in
-  another folder, the server won't be able to deploy it during the
-  export (even if it is working correctly in Blender itself).
+.. note::
+    In accordance with the security measures, the development server can only access the SDK folder. If media data is placed in another folder, the server won't be able to deploy it during the export (even if it is working correctly in Blender itself).
 
-Paths to the external resources should be relative. If this is not the
-case,  execute the "File > External Data > Make All Paths Relative"
-command, or  else problems with opening the file on other computers
-may occur.
+Paths to the external resources should be relative. If this is not the case,  execute the ``File > External Data > Make All Paths Relative`` command, or  else problems with opening the file on other computers may occur.
 
-This is the main format for complex projects that include multiple
-scenes and require JavaScript programming. Project development is
-further described in the  corresponding section.
-
+This is the main format for complex projects that include multiple scenes and require JavaScript programming. Project development is further described in the  :ref:`corresponding section <developers>`.
 
 HTML
 ----
 
-Exporting the scene to this format pack all scene resources into one
-file with the HTML extension. This HTML file contains not only the
-scene itself, but also textures, sounds, Blend4Web engine and standard
-web player. A file like this can be executed on any computer and any
-mobile device that have a web browser with WebGL support.
+Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard :ref:`web player <web_player>`. A file like this can be executed on any computer and any mobile device that have a web browser with WebGL support.
 
-You can't use HTML files for further development, but you also don't
-need any additional actions to run them. This format is useful for
-developing relatively simple applications of moderate size (?).
+You can't use HTML files for further development, but you also don't need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size (?).
 
+.. _export_opts:
 
 Export Options
 ==============
 
 *Autosave blend File*
-   Autosaving the file from which export occurs. **Enabled by
-   default**. Autosaving is performed right after the export to
-   guarantee conformity between the current blend file and the
-   exported file contents. In addition, the relative path to the
-   exported file is saved for convenience.
+    Autosaving the file from which export occurs. **Enabled by default**. Autosaving is performed right after the export to guarantee conformity between the current blend file and the exported file contents. In addition, the relative path to the exported file is saved for convenience.
 
-[image]
+.. image:: src_images/addon/addon_save_mode.png
+   :align: center
+   :width: 100%
 
-
+|
 
 *Strict Mode*
-   This mode prevents export if there are any errors or messages for
-   users' attention. This mode is enabled with the "Strict Mode"
-   setting in the export menu:
+    This mode prevents export if there are any errors or messages for users' attention. This mode is enabled with the ``Strict Mode`` setting in the export menu:
 
-[image]
+.. image:: src_images/addon/addon_strict_mode.png
+   :align: center
+   :width: 100%
 
+|
 
+    If there are any non-critical errors or messages for users' attention, a dialog window will be show like this:
 
-   If there are any non-critical errors or messages for users'
-   attention, a dialog window will be show like this:
+.. image:: src_images/addon/addon_messages.png
+   :align: center
+   :width: 100%
 
-[image]
-
-
+|
 
 *Export Converted Media*
-   This option is available for HTML export. When this option is
-   enabled, the converted mediafiles of different formats are written
-   in the HTML file. Using different mediafiles is essential to create
-   cross-browser and cross-platform applications while using HTML
-   export. These files can be created by the converter.
+    This option is available for HTML export. When this option is enabled, the converted mediafiles of different formats are written in the HTML file. Using different mediafiles is essential to create cross-browser and cross-platform applications while using HTML export. These files can be created by the :ref:`converter <converter>`.
 
-[image]
+.. image:: src_images/addon/addon_media_data.png
+   :align: center
+   :width: 100%
 
+|
 
+.. _run_in_viewer:
 
 *Run in Viewer*
-   Automatically launch the Scene Viewer and add the exported scene to
-   it.
+    Automatically launch the Scene Viewer and add the exported scene to it.
 
-   When using the local development server, there is a possibility to
-   open the exported ".json" scene in the Scene Viewer. To do this,
-   select any path inside the Blend4Web SDK file structure upon
-   export.
+    When using the :ref:`local development server <local_development_server>`, there is a possibility to open the exported ``.json`` scene in the Scene Viewer. To do this, select any path inside the Blend4Web SDK file structure upon export.
+    
+    A directory inside the SDK should be used for export. If not, this option will not be displayed in the menu. Also it will not be displayed if the local development server is down.
 
-   A directory inside the SDK should be used for export. If not, this
-   option will not be displayed in the menu. Also it will not be
-   displayed if the local development server is down.
+.. image:: src_images/addon/addon_run_in_viewer.png
+   :align: center
+   :width: 100%
 
-[image]
+|
 
 
+.. _initialization_errors:
 
+.. index:: addon; initialization errors
 
 Initialization Errors
 =====================
 
-Initialization errors can arise upon installation of the add-on or
-when a scene is opened in Blender. In this case a dialog window with
-the error description is showed.
+Initialization errors can arise upon installation of the add-on or when a scene is opened in Blender. In this case a dialog window with the error description is showed.
 
-[image]
+.. image:: src_images/addon/addon_init_error_message.png
+   :align: center
+   :width: 100%
 
+|
 
++-------------------------------------+-------------------------------------------+
+| Error message                       | Cause                                     |
++=====================================+===========================================+
+| Blend4Web initialization error!     | The Blend4Web add-on is not compatible    |
+| Addon is not compatible with        | with the PLATFORM platform.               |
+| the PLATFORM platform.              |                                           |
++-------------------------------------+-------------------------------------------+
+| Warning: Blender version mismatch.  | Warning about possible incompatibility    |
+| Blender VER_REQUIRED is recommended | with the current Blender version.         |
+| for the Blend4Web addon.            | It is recommended to use VER_REQUIRED     |
+| Current version is VER_CURRENT.     | Blender version. The current version is   |
+|                                     | VER_CURRENT.                              |
++-------------------------------------+-------------------------------------------+
 
-+---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
-+=======================================+=============================================+
-| Blend4Web initialization error! Addon | The Blend4Web add-on is not compatible with |
-| is not compatible with the PLATFORM   | the PLATFORM platform.                      |
-| platform.                             |                                             |
-+---------------------------------------+---------------------------------------------+
-| Warning: Blender version mismatch.    | Warning about possible incompatibility with |
-| Blender VER_REQUIRED is recommended   | the current Blender version. It is          |
-| for the Blend4Web addon. Current      | recommended to use VER_REQUIRED Blender     |
-| version is VER_CURRENT.               | version. The current version is             |
-|                                       | VER_CURRENT.                                |
-+---------------------------------------+---------------------------------------------+
+.. index:: version; errors
 
+.. _version_errors:
 
 Compatibility Errors
 ====================
 
-Compatibility errors may arize when trying to view a scene in a
-browser, in the following cases: if version of the add-on used to
-export the scene differs from version of the Blend4Web engine which
-tries to load the scene, or if .bin file does not correspond to the
-.json file.
+Compatibility errors may arize when trying to view a scene in a browser, in the following cases: if version of the add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if .bin file does not correspond to the .json file.
 
-+---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
-+=======================================+=============================================+
-| JSON version is too old relative to   | Version of the add-on, with which the scene |
-| B4W engine: VER_OLD, required:        | was exported, is too old: VER_OLD. The      |
-| VER_NEW. Reexport scene with the      | engine requires: VER_NEW. The scene will    |
-| latest B4W addon to fix it.           | not be loaded. We recommend you to reexport |
-|                                       | the scene using the latest version of the   |
-|                                       | add-on. We also recommend to use the latest |
-|                                       | version of the engine.                      |
-+---------------------------------------+---------------------------------------------+
-| JSON version is a bit old relative to | Version of the add-on, with which the scene |
-| B4W engine: VER_OLD, required:        | was exported, is a bit old: VER_OLD. The    |
-| VER_NEW. Some compatibility issues    | engine requires: VER_NEW. The scene will be |
-| can occur. Reexport scene with the    | loaded as usual, however some errors may    |
-| latest B4W addon to fix it.           | occur. We recommend you to reexport the     |
-|                                       | scene using the latest version of the add-  |
-|                                       | on. We also recommend to use the latest     |
-|                                       | version of the engine.                      |
-+---------------------------------------+---------------------------------------------+
-| B4W engine version is too old         | Engine version is too old as compared to    |
-| relative to JSON. Can't load the      | version of the add-on with which the scene  |
-| scene. Update your engine version to  | was exported. The scene will not be loaded. |
-| fix it.                               | We recommend you to use the latest versions |
-|                                       | of the engine and the add-on.               |
-+---------------------------------------+---------------------------------------------+
-| B4W engine version is a bit old       | Engine version is a bit old as compared to  |
-| relative to JSON. Some compatibility  | version of the add-on with which the scene  |
-| issues can occur. Update your engine  | was exported. The scene will be loaded as   |
-| version to fix it.                    | usual, however some errors may occur. We    |
-|                                       | recommend you to use the latest versions of |
-|                                       | the engine and the add-on.                  |
-+---------------------------------------+---------------------------------------------+
-| BIN version does not match to JSON    | Version of the .bin file is too old         |
-| version: VER_BIN, required: VER_JSON. | relative to .json file: VER_BIN, .json file |
-| Couldn't load the scene. Reexport     | version is VER_JSON. The scene will not be  |
-| scene to fix it.                      | loaded. We recommend you to reexport yor    |
-|                                       | scene.                                      |
-+---------------------------------------+---------------------------------------------+
-| BIN version does not match to JSON    | Version of the .bin file is a bit old       |
-| version: VER_BIN, required: VER_JSON. | relative to .json file: VER_BIN, .json file |
-| Some compatibility issues can occur.  | version is VER_JSON. Some incompatibility   |
-| Reexport scene to fix it.             | errors can arise. We recommend you to       |
-|                                       | reexport yor scene.                         |
-+---------------------------------------+---------------------------------------------+
 
+
+
+
+
+
+Engine version is too old as compared to version of the add-on with which the scene was exported. The scene will not be loaded. We recommend you to use the latest versions of the engine and the add-on.
+
+
+
+
++-------------------------------------+-------------------------------------------+
+| Error message                       | Cause                                     |
++=====================================+===========================================+
+| JSON version is too old relative to | Version of the add-on, with which the     |
+| B4W engine: VER_OLD, required:      | scene was exported, is too old: VER_OLD.  |
+| VER_NEW. Reexport scene with the    | The engine requires: VER_NEW.             |
+| latest B4W addon to fix it.         | The scene will not be loaded. We          |
+|                                     | recommend you to reexport the scene using |
+|                                     | the latest version of the add-on. We also |
+|                                     | recommend to use the latest version of    |
+|                                     | the engine.                               |
++-------------------------------------+-------------------------------------------+
+| JSON version is a bit old relative  | Version of the add-on, with which the     |
+| to B4W engine: VER_OLD, required:   | scene was exported, is a bit old:         |
+| VER_NEW. Some compatibility issues  | VER_OLD. The engine requires: VER_NEW.    |
+| can occur. Reexport scene with the  | The scene will be loaded as usual,        |
+| latest B4W addon to fix it.         | however some errors may occur. We         |
+|                                     | recommend you to reexport the scene using |
+|                                     | the latest version of the add-on. We also |
+|                                     | recommend to use the latest version of    |
+|                                     | the engine.                               | 
++-------------------------------------+-------------------------------------------+
+| B4W engine version is too old       | Engine version is too old as compared to  |
+| relative to JSON. Can't load the    | version of the add-on with which the scene|
+| scene. Update your engine version   | was exported. The scene will not be       |
+| to fix it.                          | loaded. We recommend you to use the       |
+|                                     | latest versions of the engine and the     |
+|                                     | add-on.                                   |
++-------------------------------------+-------------------------------------------+
+| B4W engine version is a bit old     | Engine version is a bit old as compared   |
+| relative to JSON. Some              | to version of the add-on with which the   |
+| compatibility issues can occur.     | scene was exported. The scene will be     |
+| Update your engine version to fix   | loaded as usual, however some errors may  |
+| it.                                 | occur. We recommend you to use the latest |
+|                                     | versions of the engine and the add-on.    |
++-------------------------------------+-------------------------------------------+
+| BIN version does not match to       | Version of the .bin file is too old       |
+| JSON version: VER_BIN, required:    | relative to .json file: VER_BIN, .json    |
+| VER_JSON. Couldn't load the scene.  | file version is VER_JSON. The scene will  |
+| Reexport scene to fix it.           | not be loaded. We recommend you to        |
+|                                     | reexport yor scene.                       |
++-------------------------------------+-------------------------------------------+
+| BIN version does not match to       | Version of the .bin file is a bit old     |
+| JSON version: VER_BIN, required:    | relative to .json file: VER_BIN, .json    |
+| VER_JSON. Some compatibility issues | file version is VER_JSON. Some            |
+| can occur. Reexport scene to fix it.| incompatibility errors can arise. We      |
+|                                     | recommend you to reexport yor scene.      |
++-------------------------------------+-------------------------------------------+
+
+
+.. index:: export; errors
+
+.. _export_errors:
 
 Critical Export Errors
 ======================
 
-In case of export errors a "BLEND4WEB EXPORT ERROR" dialog box
-describing of the problem appears:
+In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box describing of the problem appears:
 
-   "COMPONENT" - type of component (object, mesh, material, texture
-   etc) that has caused the export error.
+    ``COMPONENT`` - type of component (object, mesh, material, texture etc) that has caused the export error.
 
-   "NAME" - component name.
+    ``NAME`` - component name.
 
-   "ERROR" - short description of the occured problem.
+    ``ERROR`` - short description of the occured problem.
 
-[image]
+.. image:: src_images/addon/addon_error_message.png
+   :align: center
+   :width: 100%
+
+|
+
++-------------------------------------+-------------------------------------------+
+| Error message                       | Cause                                     |
++=====================================+===========================================+
+| Dupli group error; Objects from     | None of the objects in the GROUP_NAME     |
+| the GROUP_NAME dupli group on       | group which were selected for duplication |
+| the OBJECT_NAME object cannot be    | on the OBJECT_NAME object can be          |
+| exported                            | exported. Permission to export at least   |
+|                                     | one object of the group, or to remove the |
+|                                     | duplication of the group is required.     |
++-------------------------------------+-------------------------------------------+
+| Export to different disk is         | Export to a directory located on a        |
+| forbidden                           | different disk is forbidden               |
++-------------------------------------+-------------------------------------------+
+| Incompatible objects with           | Incompatible objects with a shared mesh.  |
+| a shared mesh; The OBJECT_NAME      | Export of an object with both a shared    |
+| object has both vertex groups and   | mesh and vertex groups is not allowed.    |
+| a shared mesh                       | Exceptions: export is possible if an      |
+|                                     | object has the                            |
+|                                     | ``Apply modifiers``,                      |
+|                                     | ``Export vertex animation``,              |
+|                                     | ``Export edited normals``,                |
+|                                     | ``Apply scale``                           |
+|                                     | options turned on (because in these cases |
+|                                     | a full copying of meshes occurs).         |
++-------------------------------------+-------------------------------------------+
+| Incomplete mesh; Material slot is   | Material slot is empty.                   |
+| empty                               |                                           |
++-------------------------------------+-------------------------------------------+
+| Incomplete vehicle. The NAME        | The modelled NAME vehicle is not complete |
+| vehicle doesn't have any chassis    | as it should contain a ``Chassis`` or a   |
+| or hull                             | ``Hull`` element.                         |
+|                                     |                                           |
++-------------------------------------+-------------------------------------------+
+| Incomplete vehicle. The NAME        | The modelled NAME vehicle is not          |
+| vehicle requires at least one bob   | complete as it should contain at least    |
+|                                     | one ``Bob`` element.                      |
++-------------------------------------+-------------------------------------------+
+| Incomplete vehicle. The NAME        | The modelled NAME vehicle is not          |
+| vehicle requires at least one wheel | complete as it should contain at least    |
+|                                     | one ``Wheel`` element.                    |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | The mesh has vertices assigned to the     |
+| Wrong group indices                 | non-existing vertex group.                |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect vertex          |
+| Wrong vertice positions             | coordinate value.                         |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect normal value.   |
+| Wrong normals                       |                                           |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect tangent value.  |
+| Wrong tangents                      |                                           |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect texture         |
+| Wrong texture coordinates           | coordinate value.                         |
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect vertex group    |
+| Wrong vertex group weights          | weight value.                             |
++-------------------------------------+-------------------------------------------+
+
++-------------------------------------+-------------------------------------------+
+| Incorrect mesh; Corrupted file:     | Corrupted file: incorrect vertex color    |
+| Wrong vertex color values           | value.                                    |
++-------------------------------------+-------------------------------------------+
+| Incorrect vertex animation; Object  | The object's vertex animation export      |
+| has no vertex animation             | option is on, but there is no vertex      |
+|                                     | animation.                                |
++-------------------------------------+-------------------------------------------+
+| Incorrect vertex animation; Unbaked | Vertex animation export is turned on for  |
+| "ANIM_NAME" vertex animation        | the mesh, but the ANIM_NAME animation     |
+|                                     | doesn't have any frames.                  |
++-------------------------------------+-------------------------------------------+
+| Loading of resources from different | Loading of resources from different disk  |
+| disk is forbidden                   | is forbidden.                             |
++-------------------------------------+-------------------------------------------+
+| The material has a normal map but   | The node material uses ``Normal Mapping``,|
+| doesn't have any material nodes     | but has no ``Material`` node.             |
++-------------------------------------+-------------------------------------------+
+| The mesh has a UV map but has no    | The mesh has a UV map layer but has no    |
+| exported material                   | material for export.                      |
++-------------------------------------+-------------------------------------------+
+| The mesh has a vertex color layer   | The mesh has a vertex color layer but has |
+| but has no exported material        | no material for export.                   |
++-------------------------------------+-------------------------------------------+
+| No such file or directory           | The file or directory does not exist.     |
++-------------------------------------+-------------------------------------------+
+| Object constraint has no target     | The ``Target Object`` property for the    |
+|                                     | object constraint (on the                 |
+|                                     | ``Object Constraints`` tab) was not set.  |
++-------------------------------------+-------------------------------------------+
+| Particle system error; Dupli group  | Particle system error: no group is        |
+| isn't specified                     | selected as a particle..                  |
++-------------------------------------+-------------------------------------------+
+| Particle system error; Dupli object | Particle system error: no object is       |
+| isn't specified                     | selected as a particle.                   |
++-------------------------------------+-------------------------------------------+
+
++-------------------------------------+-------------------------------------------+
+| Particle system error; Dupli object | The OBJECT_NAME object which is selected  |
+| OBJECT_NAME doesn't export          | as a particle can not be exported (the    |
+|                                     | ``Do not export`` checkbox is set).       |
++-------------------------------------+-------------------------------------------+
+| Particle system error; The          | The GROUP_NAME dupli group which is       |
+| GROUP_NAME dupli group contains no  | selected as a particle contains no valid  |
+| valid object for export             | object for export. Either such objects    |
+|                                     | have the ``Do not export`` checkbox       |
+|                                     | enabled or the types of the objects are   |
+|                                     | unsuitable. Supported object types:       |
+|                                     | ``MESH``.                                 |
++-------------------------------------+-------------------------------------------+
+| Particle system error. Unsupported  | Particle system error. Unsupported        |
+| render type TYPE for the            | render type TYPE for the EMITTER/HAIR     |
+| EMITTER/HAIR particles PSYS_NAME on | particles PSYS_NAME on object NAME. The   |
+| object NAME. Particle system        | particle system has removed.              |
+| removed.                            |                                           |
++-------------------------------------+-------------------------------------------+
+| Particle system error; Wrong dupli  | An object of unsuitable type is selected  |
+| object type TYPE_NAME               | for the particle. Supported types:        |
+|                                     | ``MESH``.                                 |
++-------------------------------------+-------------------------------------------+
+| Permission denied                   | No access rights to the current directory.|
++-------------------------------------+-------------------------------------------+
+| Wrong edited normals count; It      | The number of edited normals does not     |
+| doesn't match with the mesh         | match the number of the mesh vertices.    |
+| vertices count                      | Execute ``Clean Up`` or ``Save`` in the   |
+|                                     | ``B4W Vertex Normals Editor`` panel.      |
++-------------------------------------+-------------------------------------------+
+| Wrong overridden bounding box;      | Wrong dimensions are specified when       |
+| Check the mesh's bounding box       | overriding the mesh's ``BoundingBox``:    |
+| values                              | minimum value is greater than maximum     |
+|                                     | value for at least one of the dimensions. |
++-------------------------------------+-------------------------------------------+
+| Wrong vertex animation vertices     | Vertex animation export is enabled but    |
+| count; It doesn't match with the    | the number of vertices in the baked       |
+| mesh vertices count for "ANIM_NAME" | ANIM_NAME animation frames does not match |
+|                                     | the mesh vertices number. Possible        |
+|                                     | solution is to "re-bake" the animation.   |
++-------------------------------------+-------------------------------------------+
 
 
+.. _export_errors_warnings:
 
-+---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
-+=======================================+=============================================+
-| Dupli group error; Objects from the   | None of the objects in the GROUP_NAME group |
-| GROUP_NAME dupli group on the         | which were selected for duplication on the  |
-| OBJECT_NAME object cannot be exported | OBJECT_NAME object can be exported.         |
-|                                       | Permission to export at least one object of |
-|                                       | the group, or to remove the duplication of  |
-|                                       | the group is required.                      |
-+---------------------------------------+---------------------------------------------+
-| Export to different disk is forbidden | Export to a directory located on a          |
-|                                       | different disk is forbidden                 |
-+---------------------------------------+---------------------------------------------+
-| Incompatible objects with a shared    | Incompatible objects with a shared mesh.    |
-| mesh; The OBJECT_NAME object has both | Export of an object with both a shared mesh |
-| vertex groups and a shared mesh       | and vertex groups is not allowed.           |
-|                                       | Exceptions: export is possible if an object |
-|                                       | has the "Apply modifiers", "Export vertex   |
-|                                       | animation", "Export edited normals", "Apply |
-|                                       | scale" options turned on (because in these  |
-|                                       | cases a full copying of meshes occurs).     |
-+---------------------------------------+---------------------------------------------+
-| Incomplete mesh; Material slot is     | Material slot is empty.                     |
-| empty                                 |                                             |
-+---------------------------------------+---------------------------------------------+
-| Incomplete vehicle. The NAME vehicle  | The modelled NAME vehicle is not complete   |
-| doesn't have any chassis or hull      | as it should contain a "Chassis" or a       |
-|                                       | "Hull" element.                             |
-+---------------------------------------+---------------------------------------------+
-| Incomplete vehicle. The NAME vehicle  | The modelled NAME vehicle is not complete   |
-| requires at least one bob             | as it should contain at least one "Bob"     |
-|                                       | element.                                    |
-+---------------------------------------+---------------------------------------------+
-| Incomplete vehicle. The NAME vehicle  | The modelled NAME vehicle is not complete   |
-| requires at least one wheel           | as it should contain at least one "Wheel"   |
-|                                       | element.                                    |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | The mesh has vertices assigned to the non-  |
-| group indices                         | existing vertex group.                      |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex coordinate |
-| vertice positions                     | value.                                      |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect normal value.     |
-| normals                               |                                             |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect tangent value.    |
-| tangents                              |                                             |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect texture           |
-| texture coordinates                   | coordinate value.                           |
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex group      |
-| vertex group weights                  | weight value.                               |
-+---------------------------------------+---------------------------------------------+
-
-+---------------------------------------+---------------------------------------------+
-| Incorrect mesh; Corrupted file: Wrong | Corrupted file: incorrect vertex color      |
-| vertex color values                   | value.                                      |
-+---------------------------------------+---------------------------------------------+
-| Incorrect vertex animation; Object    | The object's vertex animation export option |
-| has no vertex animation               | is on, but there is no vertex animation.    |
-+---------------------------------------+---------------------------------------------+
-| Incorrect vertex animation; Unbaked   | Vertex animation export is turned on for    |
-| "ANIM_NAME" vertex animation          | the mesh, but the ANIM_NAME animation       |
-|                                       | doesn't have any frames.                    |
-+---------------------------------------+---------------------------------------------+
-| Loading of resources from different   | Loading of resources from different disk is |
-| disk is forbidden                     | forbidden.                                  |
-+---------------------------------------+---------------------------------------------+
-| The material has a normal map but     | The node material uses "Normal Mapping",    |
-| doesn't have any material nodes       | but has no "Material" node.                 |
-+---------------------------------------+---------------------------------------------+
-| The mesh has a UV map but has no      | The mesh has a UV map layer but has no      |
-| exported material                     | material for export.                        |
-+---------------------------------------+---------------------------------------------+
-| The mesh has a vertex color layer but | The mesh has a vertex color layer but has   |
-| has no exported material              | no material for export.                     |
-+---------------------------------------+---------------------------------------------+
-| No such file or directory             | The file or directory does not exist.       |
-+---------------------------------------+---------------------------------------------+
-| Object constraint has no target       | The "Target Object" property for the object |
-|                                       | constraint (on the "Object Constraints"     |
-|                                       | tab) was not set.                           |
-+---------------------------------------+---------------------------------------------+
-| Particle system error; Dupli group    | Particle system error: no group is selected |
-| isn't specified                       | as a particle.                              |
-+---------------------------------------+---------------------------------------------+
-| Particle system error; Dupli object   | Particle system error: no object is         |
-| isn't specified                       | selected as a particle.                     |
-+---------------------------------------+---------------------------------------------+
-
-+---------------------------------------+---------------------------------------------+
-| Particle system error; Dupli object   | The OBJECT_NAME object which is selected as |
-| OBJECT_NAME doesn't export            | a particle can not be exported (the "Do not |
-|                                       | export" checkbox is set).                   |
-+---------------------------------------+---------------------------------------------+
-| Particle system error; The GROUP_NAME | The GROUP_NAME dupli group which is         |
-| dupli group contains no valid object  | selected as a particle contains no valid    |
-| for export                            | object for export. Either such objects have |
-|                                       | the "Do not export" checkbox enabled or the |
-|                                       | types of the objects are unsuitable.        |
-|                                       | Supported object types: "MESH".             |
-+---------------------------------------+---------------------------------------------+
-| Particle system error. Unsupported    | Particle system error. Unsupported render   |
-| render type TYPE for the EMITTER/HAIR | type TYPE for the EMITTER/HAIR particles    |
-| particles PSYS_NAME on object NAME.   | PSYS_NAME on object NAME. The particle      |
-| Particle system removed.              | system has removed.                         |
-+---------------------------------------+---------------------------------------------+
-| Particle system error; Wrong dupli    | An object of unsuitable type is selected    |
-| object type TYPE_NAME                 | for the particle. Supported types: "MESH".  |
-+---------------------------------------+---------------------------------------------+
-| Permission denied                     | No access rights to the current directory.  |
-+---------------------------------------+---------------------------------------------+
-| Wrong edited normals count; It        | The number of edited normals does not match |
-| doesn't match with the mesh vertices  | the number of the mesh vertices. Execute    |
-| count                                 | "Clean Up" or "Save" in the "B4W Vertex     |
-|                                       | Normals Editor" panel.                      |
-+---------------------------------------+---------------------------------------------+
-| Wrong overridden bounding box; Check  | Wrong dimensions are specified when         |
-| the mesh's bounding box values        | overriding the mesh's "BoundingBox":        |
-|                                       | minimum value is greater than maximum value |
-|                                       | for at least one of the dimensions.         |
-+---------------------------------------+---------------------------------------------+
-| Wrong vertex animation vertices       | Vertex animation export is enabled but the  |
-| count; It doesn't match with the mesh | number of vertices in the baked ANIM_NAME   |
-| vertices count for "ANIM_NAME"        | animation frames does not match the mesh    |
-|                                       | vertices number. Possible solution is to    |
-|                                       | "re-bake" the animation.                    |
-+---------------------------------------+---------------------------------------------+
-
+.. index:: export; warnings about export errors
 
 Non-Critical Export Errors
 ==========================
 
-In contrast to the above-listed critical export errors, these errors
-do not prohibit the export, but can make scenes displayed incorrectly.
-These messages can be viewed in the browser console (opens with "F12")
-when a scene is loaded. The message looks like this:
+In contrast to the above-listed critical export errors, these errors do not prohibit the export, but can make scenes displayed incorrectly. These messages can be viewed in the browser console (opens with ``F12``) when a scene is loaded. The message looks like this:
 
-   "B4W EXPORT ERROR: Error message"
+    ``B4W EXPORT ERROR: Error message``
 
-[image]
+.. image:: src_images/addon/addon_export_error_message.png
+   :align: center
+   :width: 100%
 
+|
 
++-------------------------------------+-------------------------------------------+
+| Error message                       | Cause                                     |
++=====================================+===========================================+
+| Canvas texture ID NAME already      | This ``Canvas`` ID already exists.        |
+| exists. Texture NAME.               |                                           |
++-------------------------------------+-------------------------------------------+
+| Empty canvas texture ID for texture | ``Canvas`` ID is empty.                   |
+| NAME.                               |                                           |
++-------------------------------------+-------------------------------------------+
+| Empty material slot in node         | Empty material slot in \"NAME\" node.     |
+| \"NAME\". Material: \"NAME\".       |                                           |
++-------------------------------------+-------------------------------------------+
+| Environment map in the \"NAME\"     | Environment map can not be presented with |
+| world texture slot cannot be        | a video file.                             |
+| a movie.                            |                                           |
++-------------------------------------+-------------------------------------------+
+| Ignoring LODs after empty LOD for   | All LOD objects that follow the empty     |
+| the NAME object.                    | slot were ignored (in the LOD objects     | 
+|                                     | list forthe NAME object).                 |
++-------------------------------------+-------------------------------------------+
+| Incomplete mesh NAME; Dynamic grass | The ``Dynamic grass size`` and/or         |
+| vertex colors required              | ``Dynamic grass color`` options are used  |
+| by material settings                | by the special terrain material but the   |
+|                                     | mesh has no vertex colors with such       |
+|                                     | names.                                    |
++-------------------------------------+-------------------------------------------+
+| Incomplete mesh; Material settings  | The ``Vertex Color Paint`` option is      |
+| require vertex colors               | enabled for the mesh material, but the    |
+|                                     | mesh has no vertex color layers.          |
++-------------------------------------+-------------------------------------------+
+| Incorrect NLA script, falling back  | Incorrect NLA script, falling back to     |
+| to simple sequential NLA.           | simple sequential NLA.                    |
++-------------------------------------+-------------------------------------------+
+| Invalid link found in node          | The \"NAME\" node material contains an    |
+| material. Material: \"NAME"\.       | incorrect link between nodes.             |
++-------------------------------------+-------------------------------------------+
+| No image in the NAME texture.       | The texture has no image.                 |
+| [Material: NAME.]                   |                                           |
++-------------------------------------+-------------------------------------------+
+| No texture for the NAME particle    | No texture in the particle settings'      |
+| settings texture slot.              | texture slot.                             |
++-------------------------------------+-------------------------------------------+
+| No texture in the NAME world        | No texture in the NAME world's texture    |
+| texture slot.                       | slot.                                     |
++-------------------------------------+-------------------------------------------+
+| No texture in the texture slot.     | There is no texture in the material       |
+| Material: NAME.                     | texture slot.                             |
++-------------------------------------+-------------------------------------------+
+| Node material invalid: \"NAME\".    | Node material error: the input and output |
+| Check sockets compatibility:        | types of the link between the             |
+| \"FROM_NODE\" with \"TO_NODE\".     | ``FROM_NODE`` and ``TO_NODE`` nodes       |
+|                                     | should match.                             |
++-------------------------------------+-------------------------------------------+
+| Object \"NAME\" hasn't renderable   | An object named \"NAME\" is degenerate,   |
+| data. Converted to EMPTY.           | e.g. has no polygons. The object's type   |
+|                                     | has been changed to EMPTY.                |
++-------------------------------------+-------------------------------------------+
 
-+---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
-+=======================================+=============================================+
-| Canvas texture ID NAME already        | This "Canvas" ID already exists.            |
-| exists. Texture NAME.                 |                                             |
-+---------------------------------------+---------------------------------------------+
-| Empty canvas texture ID for texture   | "Canvas" ID is empty.                       |
-| NAME.                                 |                                             |
-+---------------------------------------+---------------------------------------------+
-| Empty material slot in node "NAME".   | Empty material slot in "NAME" node.         |
-| Material: "NAME".                     |                                             |
-+---------------------------------------+---------------------------------------------+
-| Environment map in the "NAME" world   | Environment map can not be presented with a |
-| texture slot cannot be a movie.       | video file.                                 |
-+---------------------------------------+---------------------------------------------+
-| Ignoring LODs after empty LOD for the | All LOD objects that follow the empty slot  |
-| NAME object.                          | were ignored (in the LOD objects list for   |
-|                                       | the NAME object).                           |
-+---------------------------------------+---------------------------------------------+
-| Incomplete mesh NAME; Dynamic grass   | The "Dynamic grass size" and/or "Dynamic    |
-| vertex colors required by material    | grass color" options are used by the        |
-| settings                              | special terrain material but the mesh has   |
-|                                       | no vertex colors with such names.           |
-+---------------------------------------+---------------------------------------------+
-| Incomplete mesh; Material settings    | The "Vertex Color Paint" option is enabled  |
-| require vertex colors                 | for the mesh material, but the mesh has no  |
-|                                       | vertex color layers.                        |
-+---------------------------------------+---------------------------------------------+
-| Incorrect NLA script, falling back to | Incorrect NLA script, falling back to       |
-| simple sequential NLA.                | simple sequential NLA.                      |
-+---------------------------------------+---------------------------------------------+
-| Invalid link found in node material.  | The "NAME" node material contains an        |
-| Material: "NAME".                     | incorrect link between nodes.               |
-+---------------------------------------+---------------------------------------------+
-| No image in the NAME texture.         | The texture has no image.                   |
-| [Material: NAME.]                     |                                             |
-+---------------------------------------+---------------------------------------------+
-| No texture for the NAME particle      | No texture in the particle settings'        |
-| settings texture slot.                | texture slot.                               |
-+---------------------------------------+---------------------------------------------+
-| No texture in the NAME world texture  | No texture in the NAME world's texture slot |
-| slot.                                 |                                             |
-+---------------------------------------+---------------------------------------------+
-| No texture in the texture slot.       | There is no texture in the material texture |
-| Material: NAME.                       | slot.                                       |
-+---------------------------------------+---------------------------------------------+
-| Node material invalid: "NAME". Check  | Node material error: the input and output   |
-| sockets compatibility: "FROM_NODE"    | types of the link between the "FROM_NODE"   |
-| with "TO_NODE".                       | and "TO_NODE" nodes should match.           |
-+---------------------------------------+---------------------------------------------+
-| Object "NAME" hasn't renderable data. | An object named "NAME" is degenerate, e.g.  |
-| Converted to EMPTY.                   | has no polygons. The object's type has been |
-|                                       | changed to EMPTY.                           |
-+---------------------------------------+---------------------------------------------+
++-------------------------------------+-------------------------------------------+
+| Object \"NAME\" has the mesh with   | An object named \"NAME\" has a mesh with  |
+| shape keys. The property            | shape keys. This mesh has the             |
+| \"Relative\" of mesh has been       | \"Relative\" property enabled which is    |
+| enabled.                            | forbidden.                                |
++-------------------------------------+-------------------------------------------+
+| Only 2 UV textures are allowed for  | The engine supports up to 2 UV texture    |
+| a mesh; The mesh has N UVs.         | layers for each mesh. The number of UV    |
+|                                     | layers for this mesh is N.                |
++-------------------------------------+-------------------------------------------+
+| Packed media \"FILE_NAME\" has not  | The packed media file \"FILE_NAME\"       |
+| been exported to                    | cannot be converted to                    |
+| \"CONVERTED_FILE_PATH\"             | \"CONVERTED_FILE_PATH\". Please unpack    |
+|                                     | this file and convert it.                 |
++-------------------------------------+-------------------------------------------+
+| Particle system error for \"NAME\"; | The NAME vertex color is specified in     |
+| The \"NAME\" vertex color specified | the ``from`` field but it not present     |
+| in the ``from`` field is missing in | in the OBJECT_NAME emitter.               |
+| the last of the \"OBJECT_NAME\"     |                                           |
+| object's vertex colors              |                                           |
++-------------------------------------+-------------------------------------------+
+| Particle system error for \"NAME\"; | The NAME vertex color is specified in the |
+| The \"NAME\" vertex color specified | ``to`` field but it is not present in the |
+| in the ``to`` field is missing in   | OBJECT_NAME object which is selected as a |
+| the list of the \"OBJECT_NAME\"     | particle.                                 |
+| object's vertex colors              |                                           |
++-------------------------------------+-------------------------------------------+
+| Particle system error for \"NAME\"; | The NAME vertex color is specified in the |
+| The \"NAME\" vertex color specified | ``to`` field but it is not present in     |
+| in the "``to`` field is missing in  | the OBJECT_NAME object of the GROUP_NAME  |
+| the \"OBJECT_NAME\" object          | group which is selected as a particle.    |
+| (\"GROUP_NAME\" dupli group)        |                                           |
++-------------------------------------+-------------------------------------------+
+| Particle system error for object    | Particle system error for the object      |
+| \"NAME\". Invalid dupli object      | NAME. Invalid dupli-object OBJECT_NAME.   |
+| \"OBJECT_NAME\".                    |                                           |
++-------------------------------------+-------------------------------------------+
+| Sound file is missing in the        | The speaker has no sound attached. The    |
+| SPEAKER object \"NAME\". Converted  | object's type has been changed to EMPTY.  |
+| to EMPTY.                           |                                           |
++-------------------------------------+-------------------------------------------+
+| The main scene NAME can not be      | The main scene NAME can not be rendered   |
+| rendered by another scene. Material | by another scene. The material NAME has   |
+| NAME has been removed.              | been deleted.                             |
++-------------------------------------+-------------------------------------------+
+| The NAME action has decimal frames. | The NAME action has decimal frames.       |
+| Converted to integer.               | Converted to integer.                     |
++-------------------------------------+-------------------------------------------+
+| The NAME armature modifier has a    | An armature modifier has a proxy object   |
+| proxy object as an armature.        | as an armature.                           |
+| Modifier removed.                   |                                           |
++-------------------------------------+-------------------------------------------+
+| The NAME armature modifier has no   | The NAME ``Armature`` modifier has no     |
+| armature object or it is not        | armature object or it is not exported.    |
+| exported. Modifier removed.         | Modifier removed.                         |
++-------------------------------------+-------------------------------------------+
 
-+---------------------------------------+---------------------------------------------+
-| Object "NAME" has the mesh with shape | An object named "NAME" has a mesh with      |
-| keys. The property "Relative" of mesh | shape keys. This mesh has the "Relative"    |
-| has been enabled.                     | property enabled which is forbidden.        |
-+---------------------------------------+---------------------------------------------+
-| Only 2 UV textures are allowed for a  | The engine supports up to 2 UV texture      |
-| mesh; The mesh has N UVs.             | layers for each mesh. The number of UV      |
-|                                       | layers for this mesh is N.                  |
-+---------------------------------------+---------------------------------------------+
-| Packed media "FILE_NAME" has not been | The packed media file "FILE_NAME" cannot be |
-| exported to "CONVERTED_FILE_PATH"     | converted to "CONVERTED_FILE_PATH". Please  |
-|                                       | unpack this file and convert it.            |
-+---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | The NAME vertex color is specified in the   |
-| "NAME" vertex color specified in the  | "from" field but it not present in the      |
-| "from" field is missing in the last   | OBJECT_NAME emitter.                        |
-| of the "OBJECT_NAME" object's vertex  |                                             |
-| colors                                |                                             |
-+---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | The NAME vertex color is specified in the   |
-| "NAME" vertex color specified in the  | "to" field but it is not present in the     |
-| "to" field is missing in the list of  | OBJECT_NAME object which is selected as a   |
-| the "OBJECT_NAME" object's vertex     | particle.                                   |
-| colors                                |                                             |
-+---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | The NAME vertex color is specified in the   |
-| "NAME" vertex color specified in the  | "to" field but it is not present in the     |
-| ""to" field is missing in the         | OBJECT_NAME object of the GROUP_NAME group  |
-| "OBJECT_NAME" object ("GROUP_NAME"    | which is selected as a particle.            |
-| dupli group)                          |                                             |
-+---------------------------------------+---------------------------------------------+
-| Particle system error for object      | Particle system error for the object NAME.  |
-| "NAME". Invalid dupli object          | Invalid dupli-object OBJECT_NAME.           |
-| "OBJECT_NAME".                        |                                             |
-+---------------------------------------+---------------------------------------------+
-| Sound file is missing in the SPEAKER  | The speaker has no sound attached. The      |
-| object "NAME". Converted to EMPTY.    | object's type has been changed to EMPTY.    |
-+---------------------------------------+---------------------------------------------+
-| The main scene NAME can not be        | The main scene NAME can not be rendered by  |
-| rendered by another scene. Material   | another scene. The material NAME has been   |
-| NAME has been removed.                | deleted.                                    |
-+---------------------------------------+---------------------------------------------+
-| The main scene NAME can not be        | The main scene NAME can not be rendered by  |
-| rendered by another scene. Texture    | another scene. The texture NAME has been    |
-| NAME has been removed.                | deleted.                                    |
-+---------------------------------------+---------------------------------------------+
-| The NAME action has decimal frames.   | The NAME action has decimal frames.         |
-| Converted to integer.                 | Converted to integer.                       |
-+---------------------------------------+---------------------------------------------+
-| The NAME armature modifier has a      | An armature modifier has a proxy object as  |
-| proxy object as an armature. Modifier | an armature.                                |
-| removed.                              |                                             |
-+---------------------------------------+---------------------------------------------+
-| The NAME armature modifier has no     | The NAME "Armature" modifier has no         |
-| armature object or it is not          | armature object or it is not exported.      |
-| exported. Modifier removed.           | Modifier removed.                           |
-+---------------------------------------+---------------------------------------------+
++-------------------------------------+-------------------------------------------+
+| The NAME curve modifier has no curve| The NAME curve modifier has no object.    |
+| object. Modifier removed.           | Modifier removed.                         |
++-------------------------------------+-------------------------------------------+
+| The NAME curve modifier has         | The NAME curve modifier has unsupported   |
+| unsupported curve object. Modifier  | object. Modifier removed.                 |
+| removed.                            |                                           |
++-------------------------------------+-------------------------------------------+
+| The NAME object has the NAME        | The NAME object has both vertex animation |
+| armature modifier and a vertex      | and an armature modifier which is not     |
+| animation. Modifier removed.        | supported. As a result, the modifier has  |
+|                                     | been removed.                             |
++-------------------------------------+-------------------------------------------+
+| The NAME LAMP node has no lamp      | Wrong object specified in the NAME        |
+| object. Material: NAME.             | ``LAMP`` node.                            |
++-------------------------------------+-------------------------------------------+
+| The NAME node is not supported.     | The engine does not support the node with |
+| The NAME material will be rendered  | the this name, and so the node material   |
+| without nodes. Material: NAME.      | will be turned off. Often this happens    |
+|                                     | when Cycles nodes are used.               |
++-------------------------------------+-------------------------------------------+
+| The NAME object has NAME armature   | An object should be in the same group as  |
+| modifier which references the wrong | an armature, or both these objects should |
+| group. Modifier removed.            | be explicitly present in the scene.       |
++-------------------------------------+-------------------------------------------+
+| TEXTURE_TYPE isn't supported,       | TEXTURE_TYPE texture type isn't supported |
+| WORLD_NAME                          | for world WORLD_NAME                      |
++-------------------------------------+-------------------------------------------+
+| Using B4W_REFRACTION node NODE_NAME | A node material with incorrect Alpha      |
+| with incorrect type of Alpha Blend. | Blend property is used. ``Alpha sort``,   |
+| Material: NAME.                     | ``Alpha blend`` and ``Add`` are allowed   |
+|                                     | when using a "REFRACTION" node.           |
++-------------------------------------+-------------------------------------------+
+| Wind bending: not all               | Wind bending parameters setup: all        |
+| vertex colors exist for \"NAME\".   | specified vertex color layers should      |
+| Properties were set to default      | exist.                                    |
+| values.                             |                                           |
++-------------------------------------+-------------------------------------------+
+| Wind bending: vertex colors weren't | Wind bending parameters setup: it's       |
+| properly assigned for \"NAME\".     | required to specify the names of either   |
+| Properties were set to default      | all vertex color layers                   |
+| values.                             | (``Main stiffness (A)``,                  |
+|                                     | ``Leaves stiffness (R)``,                 |
+|                                     | ``Leaves phase (G)``,                     |
+|                                     | ``Overall stiffness (B)``),               |
+|                                     | or of the main one only                   |
+|                                     | (``Main stiffness (A)``),                 |
+|                                     | or of none of them.                       |
++-------------------------------------+-------------------------------------------+
+| Wrong "Height Map" input for the    | Wrong data were passed to the "Height     |
+| "NAME" B4W_PARALLAX node. Only link | Map" input of the NAME ``B4W_PARALLAX``   |
+| from the TEXTURE node with a        | node. Only the output from a non-empty    |
+| non-empty texture is allowed.       | ``TEXTURE`` node is allowed.              |
++-------------------------------------+-------------------------------------------+
+| Wrong texture coordinates type      | The following coordinate types are        |
+| in texture NAME. [Material: NAME.]  | supported for image textures: ``UV``,     |
+|                                     | ``Normal`` and ``Generated``.             |
++-------------------------------------+-------------------------------------------+
 
-+---------------------------------------+---------------------------------------------+
-| The NAME curve modifier has no curve  | The NAME curve modifier has no object.      |
-| object. Modifier removed.             | Modifier removed.                           |
-+---------------------------------------+---------------------------------------------+
-| The NAME curve modifier has           | The NAME curve modifier has unsupported     |
-| unsupported curve object. Modifier    | object. Modifier removed.                   |
-| removed.                              |                                             |
-+---------------------------------------+---------------------------------------------+
-| The NAME object has the NAME armature | The NAME object has both vertex animation   |
-| modifier and a vertex animation.      | and an armature modifier which is not       |
-| Modifier removed.                     | supported. As a result, the modifier has    |
-|                                       | been removed.                               |
-+---------------------------------------+---------------------------------------------+
-| The NAME LAMP node has no lamp        | Wrong object specified in the NAME "LAMP"   |
-| object. Material: NAME.               | node.                                       |
-+---------------------------------------+---------------------------------------------+
-| The NAME node is not supported. The   | The engine does not support the node with   |
-| NAME material will be rendered        | the this name, and so the node material     |
-| without nodes. Material: NAME.        | will be turned off. Often this happens when |
-|                                       | Cycles nodes are used.                      |
-+---------------------------------------+---------------------------------------------+
-| The NAME object has NAME armature     | An object should be in the same group as an |
-| modifier which references the wrong   | armature, or both these objects should be   |
-| group. Modifier removed.              | explicitly present in the scene.            |
-+---------------------------------------+---------------------------------------------+
-| TEXTURE_TYPE isn't supported,         | TEXTURE_TYPE texture type isn't supported   |
-| WORLD_NAME                            | for world WORLD_NAME                        |
-+---------------------------------------+---------------------------------------------+
-| Using B4W_REFRACTION node NODE_NAME   | A node material with incorrect Alpha Blend  |
-| with incorrect type of Alpha Blend.   | property is used. "Alpha sort", "Alpha      |
-| Material: NAME.                       | blend" and "Add" are allowed when using a   |
-|                                       | "REFRACTION" node.                          |
-+---------------------------------------+---------------------------------------------+
-| Wind bending: not all vertex colors   | Wind bending parameters setup: all          |
-| exist for "NAME". Properties were set | specified vertex color layers should exist. |
-| to default values.                    |                                             |
-+---------------------------------------+---------------------------------------------+
-| Wind bending: vertex colors weren't   | Wind bending parameters setup: it's         |
-| properly assigned for "NAME".         | required to specify the names of either all |
-| Properties were set to default        | vertex color layers ("Main stiffness (A)",  |
-| values.                               | "Leaves stiffness (R)", "Leaves phase (G)", |
-|                                       | "Overall stiffness (B)"), or of the main    |
-|                                       | one only ("Main stiffness (A)"), or of none |
-|                                       | of them.                                    |
-+---------------------------------------+---------------------------------------------+
-| Wrong "Height Map" input for the      | Wrong data were passed to the "Height Map"  |
-| "NAME" B4W_PARALLAX node. Only link   | input of the NAME "B4W_PARALLAX" node. Only |
-| from the TEXTURE node with a non-     | the output from a non-empty "TEXTURE" node  |
-| empty texture is allowed.             | is allowed.                                 |
-+---------------------------------------+---------------------------------------------+
-| Wrong texture coordinates type in     | The following coordinate types are          |
-| texture NAME. [Material: NAME.]       | supported for image textures: "UV",         |
-|                                       | "Normal" and "Generated".                   |
-+---------------------------------------+---------------------------------------------+
-
+.. _export_errors_other:
 
 Other Messages
 ==============
 
-These messages can be viewed in the browser console (opens with "F12")
-when a scene is loaded. The message looks like this:
+These messages can be viewed in the browser console (opens with ``F12``) when a scene is loaded. The message looks like this:
 
-   "B4W EXPORT WARNING: Export message which requires the user's
-   attention"
+        ``B4W EXPORT WARNING: Export message which requires the user's attention``
 
-[image]
+.. image:: src_images/addon/addon_export_warning_message.png
+   :align: center
+   :width: 100%
 
+|
 
++-------------------------------------+-------------------------------------------+
+| Error Message                       | Cause                                     |
++=====================================+===========================================+
+| Missing active camera or wrong      | There is no active camera on the scene    |
+| active camera object                | (``Camera`` property on the ``Scene``     |
+|                                     | tab).                                     |
++-------------------------------------+-------------------------------------------+
+| Missing world or wrong active world | There should be at least one world        |
+| object                              | datablock in the scene.                   |
++-------------------------------------+-------------------------------------------+
+| NAME particle settings has the NAME | The particle settings datablock NAME      |
+| texture rendering a scene. It has   | contains the texture NAME being used for  |
+| been replaced by the default        | rendering a scene into. This texture has  |
+| texture.                            | been replaced by a default texture.       |
++-------------------------------------+-------------------------------------------+
+| The action NAME has no fcurves.     | The action NAME has no fcurves.           |
++-------------------------------------+-------------------------------------------+
+| The \"NAME\" camera has unsupported | Panoramic cameras are not supported.      |
+| PANORAMIC type. Changed to          | Perspective mode is used instead.         |
+| PERSPECTIVE type."                  |                                           |
++-------------------------------------+-------------------------------------------+
 
-+---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
-+=======================================+=============================================+
-| Missing active camera or wrong active | There is no active camera on the scene      |
-| camera object                         | ("Camera" property on the "Scene" tab).     |
-+---------------------------------------+---------------------------------------------+
-| Missing world or wrong active world   | There should be at least one world          |
-| object                                | datablock in the scene.                     |
-+---------------------------------------+---------------------------------------------+
-| NAME particle settings has the NAME   | The particle settings datablock NAME        |
-| texture rendering a scene. It has     | contains the texture NAME being used for    |
-| been replaced by the default texture. | rendering a scene into. This texture has    |
-|                                       | been replaced by a default texture.         |
-+---------------------------------------+---------------------------------------------+
-| The action NAME has no fcurves.       | The action NAME has no fcurves.             |
-+---------------------------------------+---------------------------------------------+
-| The "NAME" camera has unsupported     | Panoramic cameras are not supported.        |
-| PANORAMIC type. Changed to            | Perspective mode is used instead.           |
-| PERSPECTIVE type."                    |                                             |
-+---------------------------------------+---------------------------------------------+
-
-
+.. _translator:
+    
 Add-on Translations
 ===================
 
-There is the possibility to translate the add-on to a language
-supported by Blender. In order to do this, rename the file "empty.po",
-which located in the directory
-SDK/blender_scripts/addons/blend4web/locales, to one of the names in
-the following table:
+There is the possibility to translate the add-on to a language supported by Blender. In order to do this, rename the file "empty.po", which located in the directory SDK/blender_scripts/addons/blend4web/locales, to one of the names in the following table:
 
+|
 
-
-+-----------------------+-----------------------+
-| File name             | Language              |
-+=======================+=======================+
-| ru_RU.po              | Russian               |
-+-----------------------+-----------------------+
-| ja_JP.po              | Japanese              |
-+-----------------------+-----------------------+
-| en_US.po              | English               |
-+-----------------------+-----------------------+
-| nl_NL.po              | Dutch                 |
-+-----------------------+-----------------------+
-| it_IT.po              | Italian               |
-+-----------------------+-----------------------+
-| de_DE.po              | German                |
-+-----------------------+-----------------------+
-| fi_FI.po              | Finnish               |
-+-----------------------+-----------------------+
-| sv_SE.po              | Swedish               |
-+-----------------------+-----------------------+
-| fr_FR.po              | French                |
-+-----------------------+-----------------------+
-| es.po                 | Spanish               |
-+-----------------------+-----------------------+
-| ca_AD.po              | Catalan               |
-+-----------------------+-----------------------+
-| cs_CZ.po              | Czech                 |
-+-----------------------+-----------------------+
-| pt_PT.po              | Portuguese            |
-+-----------------------+-----------------------+
-| zh_CN.po              | Simplified Chinese    |
-+-----------------------+-----------------------+
-| zh_TW.po              | Traditional Chinese   |
-+-----------------------+-----------------------+
-| hr_HR.po              | Croatian              |
-+-----------------------+-----------------------+
-| sr_RS.po              | Serbian               |
-+-----------------------+-----------------------+
-| uk_UA.po              | Ukrainian             |
-+-----------------------+-----------------------+
-| pl_PL.po              | Polish                |
-+-----------------------+-----------------------+
-| ro_RO.po              | Romanian              |
-+-----------------------+-----------------------+
-| ar_EG.po              | Arabic                |
-+-----------------------+-----------------------+
-| bg_BG.po              | Bulgarian             |
-+-----------------------+-----------------------+
-| el_GR.po              | Greek                 |
-+-----------------------+-----------------------+
-| ko_KR.po              | Korean                |
-+-----------------------+-----------------------+
-| ne_NP.po              | Nepali                |
-+-----------------------+-----------------------+
-| fa_IR.po              | Persian               |
-+-----------------------+-----------------------+
-| id_ID.po              | Indonesian            |
-+-----------------------+-----------------------+
-| sr_RS@latin.po        | Serbian Latin         |
-+-----------------------+-----------------------+
-| ky_KG.po              | Kyrgyz                |
-+-----------------------+-----------------------+
-| tr_TR.po              | Turkish               |
-+-----------------------+-----------------------+
-| hu_HU.po              | Hungarian             |
-+-----------------------+-----------------------+
-| pt_BR.po              | Brazilian Portuguese  |
-+-----------------------+-----------------------+
-| he_IL.po              | Hebrew                |
-+-----------------------+-----------------------+
-| et_EE.po              | Estonian              |
-+-----------------------+-----------------------+
-| eo.po                 | Esperanto             |
-+-----------------------+-----------------------+
-| es_ES.po              | Spanish from Spain    |
-+-----------------------+-----------------------+
-| am_ET.po              | Amharic               |
-+-----------------------+-----------------------+
-| uz_UZ.po              | Uzbek                 |
-+-----------------------+-----------------------+
-| uz_UZ@cyrillic.po     | Uzbek Cyrillic        |
-+-----------------------+-----------------------+
-| hi_IN.po              | Hindi                 |
-+-----------------------+-----------------------+
-| vi_VN.po              | Vietnamese            |
-+-----------------------+-----------------------+
++---------------------+---------------------+
+| File name           | Language            |
++=====================+=====================+   
+| ru_RU.po            | Russian             |
++---------------------+---------------------+
+| ja_JP.po            | Japanese            |
++---------------------+---------------------+
+| en_US.po            | English             |
++---------------------+---------------------+
+| nl_NL.po            | Dutch               |
++---------------------+---------------------+
+| it_IT.po            | Italian             |
++---------------------+---------------------+
+| de_DE.po            | German              |
++---------------------+---------------------+
+| fi_FI.po            | Finnish             |
++---------------------+---------------------+
+| sv_SE.po            | Swedish             |
++---------------------+---------------------+
+| fr_FR.po            | French              |
++---------------------+---------------------+
+| es.po               | Spanish             |
++---------------------+---------------------+
+| ca_AD.po            | Catalan             |
++---------------------+---------------------+
+| cs_CZ.po            | Czech               |
++---------------------+---------------------+
+| pt_PT.po            | Portuguese          |
++---------------------+---------------------+
+| zh_CN.po            | Simplified Chinese  |
++---------------------+---------------------+
+| zh_TW.po            | Traditional Chinese |
++---------------------+---------------------+
+| hr_HR.po            | Croatian            |
++---------------------+---------------------+
+| sr_RS.po            | Serbian             |
++---------------------+---------------------+
+| uk_UA.po            | Ukrainian           |
++---------------------+---------------------+
+| pl_PL.po            | Polish              |
++---------------------+---------------------+
+| ro_RO.po            | Romanian            |
++---------------------+---------------------+
+| ar_EG.po            | Arabic              |
++---------------------+---------------------+
+| bg_BG.po            | Bulgarian           |
++---------------------+---------------------+
+| el_GR.po            | Greek               |
++---------------------+---------------------+
+| ko_KR.po            | Korean              |
++---------------------+---------------------+
+| ne_NP.po            | Nepali              |
++---------------------+---------------------+
+| fa_IR.po            | Persian             |
++---------------------+---------------------+
+| id_ID.po            | Indonesian          |
++---------------------+---------------------+
+| sr_RS\@latin.po     | Serbian Latin       |
++---------------------+---------------------+
+| ky_KG.po            | Kyrgyz              |
++---------------------+---------------------+
+| tr_TR.po            | Turkish             |
++---------------------+---------------------+
+| hu_HU.po            | Hungarian           |
++---------------------+---------------------+
+| pt_BR.po            | Brazilian Portuguese|
++---------------------+---------------------+
+| he_IL.po            | Hebrew              |
++---------------------+---------------------+
+| et_EE.po            | Estonian            |
++---------------------+---------------------+
+| eo.po               | Esperanto           |
++---------------------+---------------------+
+| es_ES.po            | Spanish from Spain  |
++---------------------+---------------------+
+| am_ET.po            | Amharic             |
++---------------------+---------------------+
+| uz_UZ.po            | Uzbek               |
++---------------------+---------------------+
+| uz_UZ\@cyrillic.po  | Uzbek Cyrillic      |
++---------------------+---------------------+
+| hi_IN.po            | Hindi               |
++---------------------+---------------------+
+| vi_VN.po            | Vietnamese          |
++---------------------+---------------------+
 
 Then open this file and edit/translate it.
 
-When translations are ready, you may contact us to include them as
-part of the add-on.
+When translations are ready, you may contact us to include them as part of the add-on.

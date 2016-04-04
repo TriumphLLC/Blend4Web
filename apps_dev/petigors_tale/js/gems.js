@@ -5,7 +5,6 @@ b4w.register("gems", function(exports, require) {
 
 var m_ctl = require("controls");
 var m_scs = require("scenes");
-var m_anim = require("animation");
 var m_sfx = require("sfx");
 var m_trans = require("transform");
 var m_util  = require("util");
@@ -16,11 +15,12 @@ var m_conf = require("game_config");
 var m_obelisks = require("obelisks");
 var m_char = require("character");
 
-var _gem_wrappers = [];
+var _gem_wrappers = null;
 var _level_conf = null;
 
 exports.init = function(level_conf) {
     _level_conf = level_conf;
+    _gem_wrappers = [];
     var gem_cb = function(gem, id, pulse, gem_wrapper) {
         if (pulse == 1) {
             m_char.add_gem(gem_wrapper);

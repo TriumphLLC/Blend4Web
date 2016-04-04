@@ -17,6 +17,12 @@ var m_cont  = require("container");
 
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
 
+var _touch_start_cb = null;
+var _touch_jump_cb = null;
+var _touch_attack_cb = null;
+var _touch_move_cb = null;
+var _touch_end_cb = null;
+
 exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
                         preloader_cb, plock_cb, level_name,
                         load_level) {
@@ -37,6 +43,9 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
     var victory_elem = document.getElementById("victory");
 
     var credits_panel  = document.getElementById("credits_panel");
+    var authors_panel  = document.getElementById("authors_list");
+    var authors_list_exit  = document.getElementById("authors_list_exit");
+    var authors_click_area = document.getElementById("authors_click_area");
     var help_panel  = document.getElementById("help_panel");
     var preloader_cont = document.getElementById("preloader_cont");
 
@@ -54,6 +63,12 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
     }
     function credits_cb() {
         show_elem(credits_panel);
+    }
+    function authors_cb(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        show_elem(authors_panel);
     }
     function help_cb() {
         show_elem(help_panel);
@@ -123,10 +138,12 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
         menu_help.addEventListener("touchstart", help_cb, false);
         menu_exit.addEventListener("touchstart", menu_exit_cb, false);
         menu_credits.addEventListener("touchstart", credits_cb, false);
+        authors_click_area.addEventListener("touchstart", authors_cb, false);
         menu_restart.addEventListener("touchstart", menu_restart_cb, false);
         replay_button.addEventListener("touchstart", replay_btn_cb, false);
         victory_elem.addEventListener("touchstart", replay_btn_cb, false);
         credits_panel.addEventListener("touchstart", function(){hide_elem(credits_panel)}, false);
+        authors_list_exit.addEventListener("touchstart", function(){hide_elem(authors_panel)}, false);
         help_panel.addEventListener("touchstart", function(){hide_elem(help_panel)}, false);
         next_level.addEventListener("touchstart", next_level_cb, false);
         help_panel.setAttribute("mobile", "1");
@@ -138,10 +155,12 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
         menu_help.addEventListener("click", help_cb, false);
         menu_exit.addEventListener("click", menu_exit_cb, false);
         menu_credits.addEventListener("click", credits_cb, false);
+        authors_click_area.addEventListener("click", authors_cb, false);
         menu_restart.addEventListener("click", menu_restart_cb, false);
         replay_button.addEventListener("click", replay_btn_cb, false);
         victory_elem.addEventListener("click", replay_btn_cb, false);
         credits_panel.addEventListener("click", function(){hide_elem(credits_panel)}, false);
+        authors_list_exit.addEventListener("click", function(){hide_elem(authors_panel)}, false);
         help_panel.addEventListener("click", function(){hide_elem(help_panel)}, false);
         next_level.addEventListener("click", next_level_cb, false);
         help_panel.setAttribute("mobile", "0");
@@ -162,18 +181,11 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
 
         var key_esc = m_ctl.KEY_ESC;
         m_ctl.create_kb_sensor_manifold(null, "SHOW_MENU", m_ctl.CT_SHOT, key_esc, show_menu_cb);
+        exports.update_hp_bar();
     }
 }
 
-function remove_touch_controls() {
-    document.getElementById("canvas3d").removeEventListener("touchstart", touch_start_cb);
-    document.getElementById("control_jump").removeEventListener("touchstart", touch_jump_cb);
-    document.getElementById("control_attack").removeEventListener("touchstart", touch_attack_cb);
-    document.getElementById("canvas3d").removeEventListener("touchmove", touch_move_cb);
-    document.getElementById("canvas3d").removeEventListener("touchend", touch_end_cb);
-}
-
-exports.update_hp_bar = function(hp) {
+exports.update_hp_bar = function() {
 
     var hp = m_char.get_wrapper().hp
 
@@ -187,6 +199,14 @@ exports.update_hp_bar = function(hp) {
 
     green_elem.style.width =  green_width + "%";
     red_elem.style.width =  red_width + "%";
+}
+
+function remove_touch_controls() {
+    document.getElementById("canvas3d").removeEventListener("touchstart", _touch_start_cb);
+    document.getElementById("control_jump").removeEventListener("touchstart", _touch_jump_cb);
+    document.getElementById("control_attack").removeEventListener("touchstart", _touch_attack_cb);
+    document.getElementById("canvas3d").removeEventListener("touchmove", _touch_move_cb);
+    document.getElementById("canvas3d").removeEventListener("touchend", _touch_end_cb);
 }
 
 exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
@@ -283,8 +303,8 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
             var y = touch.clientY;
 
             if (x > w / 2 && touch.identifier == rot_touch_idx) { // right side of the screen
-                var d_x = x - rot_prev_touch[0];
-                var d_y = y - rot_prev_touch[1];
+                var d_x = rot_prev_touch[0] - x;
+                var d_y = rot_prev_touch[1] - y;
                 rot_prev_touch[0] = x;
                 rot_prev_touch[1] = y;
                 rotation_cb(m_conf.TOUCH_ROT_MULT * d_x, m_conf.TOUCH_ROT_MULT * d_y);
@@ -358,6 +378,12 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
 
     controls_elem.addEventListener("touchend", touch_end_cb, false);
     show_elem(controls_elem);
+
+    _touch_start_cb = touch_start_cb;
+    _touch_jump_cb = touch_jump_cb;
+    _touch_attack_cb = touch_attack_cb;
+    _touch_move_cb = touch_move_cb;
+    _touch_end_cb = touch_end_cb;
 }
 
 exports.show_replay_button = function(period) {

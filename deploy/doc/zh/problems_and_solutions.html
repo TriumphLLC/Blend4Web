@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>存在的问题及解决方案 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="Release Notes" href="release_notes.html"/>
+        <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">存在的问题及解决方案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">启动时的问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-init">WebGL的无法初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#known-issues">已知问题</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>存在的问题及解决方案</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="problems-and-solutions">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">存在的问题及解决方案</a><a class="headerlink" href="#problems-and-solutions" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#problems-and-solutions" id="id2">存在的问题及解决方案</a><ul>
+<li><a class="reference internal" href="#problems-upon-startup" id="id3">启动时的问题</a></li>
+<li><a class="reference internal" href="#webgl-failed-to-init" id="id4">WebGL的无法初始化</a></li>
+<li><a class="reference internal" href="#known-issues" id="id5">已知问题</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="problems-upon-startup">
+<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id3">启动时的问题</a><a class="headerlink" href="#problems-upon-startup" title="永久链接至标题">¶</a></h2>
+<p><em>1. &#8220;浏览器无法初始化 WebGL&#8221; 消息显示</em>.</p>
+<a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
+<p>请按照 <a class="reference internal" href="#webgl-not-working"><span>WebGL的无法初始化</span></a> 章节列出的说明.</p>
+<p><em>2. 用户界面和背景显示但是默认场景没有渲染出来。同时 * http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.</em></p>
+<blockquote>
+<div><p>可能的原因：</p>
+<ul>
+<li><p class="first">本地Web服务器未使用或浏览器没有设置加载本地资源。请参阅  <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a>  部分。</p>
+</li>
+<li><p class="first">该引擎尝试加载移动或删除的资源文件。</p>
+</li>
+<li><p class="first">您正在使用旧版本的视频驱动程序。</p>
+</li>
+<li><p class="first">您正在使用不完全支持WebGL的开源驱动。</p>
+<blockquote>
+<div><p>对于Linux用户 - 由于目前的开源驱动程序不完整的OpenGL实现，建议使用Nvidia和AMD显卡的专用的驱动程序最新版本。</p>
+</div></blockquote>
+</li>
+<li><p class="first">您正在使用过时的操作系统，如Windows XP。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="webgl-failed-to-init">
+<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id4">WebGL的无法初始化</a><a class="headerlink" href="#webgl-failed-to-init" title="永久链接至标题">¶</a></h2>
+<p>使用最近的Chrome或Firefox浏览 <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> 页时出现的问题。我能做什么？</p>
+<ol class="arabic simple">
+<li><p class="first">安装适用于您的系统的最新更新（用于MS Windows见 <a class="reference external" href="http://support.microsoft.com/kb/311047">指南</a>). 在微软Windows下安装最新的  <a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=35">DirectX 运行时</a> 。重新启动。</p>
+</li>
+<li><p class="first">建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 <strong>about:gpu</strong> (或 <strong>chrome://gpu</strong>) ，在Chrome浏览器的地址栏中...</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>或Firefox ...</p>
+<a class="reference internal image-reference" href="_images/firefox_gpu.png"><img alt="_images/firefox_gpu.png" class="align-center" src="_images/firefox_gpu.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>对于Windows，您可以运行DirectX诊断工具叫  <strong>dxdiag</strong>.</p>
+<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>下载驱动程序从相应的支持中心（例如  <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx">Nvidia</a>, <a class="reference external" href="http://support.amd.com/en-us/download">AMD/ATI</a>）。安装驱动程序后，重新启动系统。</p>
+<ol class="arabic simple" start="3">
+<li><p class="first">如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览器设置。</p>
+</li>
+</ol>
+<p><em>对于Chrome</em>：</p>
+<p>输入  <strong>about:flags</strong> （或者 <strong>chrome://flags</strong>）到浏览器的地址栏中，单击 <code class="file docutils literal"><span class="pre">Enable</span></code> 下 <code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code> 选项，并重启浏览器。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/about_flags_force_webgl.png"><img alt="_images/about_flags_force_webgl.png" class="align-center" src="_images/about_flags_force_webgl.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>对于Firefox</em>：</p>
+<p>输入 <strong>about:config</strong>  到浏览器的地址栏，搜索 <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> 参数，并在其上双击从 <code class="docutils literal"><span class="pre">false</span></code> 切换到值为 <code class="docutils literal"><span class="pre">True</span></code> 。</p>
+<a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="known-issues">
+<span id="known-problems"></span><h2><a class="toc-backref" href="#id5">已知问题</a><a class="headerlink" href="#known-issues" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">更新插件时候的问题。</p>
+<blockquote>
+<div><p>强烈地建议安装插件/ SDK的更新版本后重新启动Blender。</p>
+</div></blockquote>
+</li>
+<li><p class="first">NVIDIA驱动程序331在Linux中可引起WebGL的错误。</p>
+</li>
+<li><p class="first">在一些平台上的改变纹理过滤。</p>
+<blockquote>
+<div><p>在ipad和IE浏览器上屏蔽了一个不正确的纹理滤镜，为了让材质带alpha clip类型的透明类型。</p>
+</div></blockquote>
+</li>
+<li><p class="first">使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。</p>
+</li>
+<li><p class="first">对于本地开发服务器在苹果OS X和Blender2.76时，您可能需要安装   <cite>Python 3.4 &lt;https://www.python.org/downloads/release/python-343/&gt;</cite>.  这是由于在Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a> 的错误。此错误已在Blender2.76b修复，所以建议更新Blender。</p>
+</li>
+<li><p class="first">使用Nouveau 驱动时骨骼动画可能工作不正确。</p>
+</li>
+<li><p class="first">透明纹理可能不能够在IE11和微软Edge Web浏览器和iPad上正确显示。</p>
+<blockquote>
+<div><p>问题是关于 <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials</span></a>.  图像错误在alpha通道值接近或等于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01增加它0.05应足以在大多数情况下）。</p>
+</div></blockquote>
+</li>
+<li><p class="first">WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs with drivers later than 355.</p>
+<blockquote>
+<div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA&#8217;s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="release_notes.html" class="btn btn-neutral float-right" title="Release Notes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="git_short_manual.html" class="btn btn-neutral" title="Team Work. Using Git" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

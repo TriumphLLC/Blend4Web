@@ -2,56 +2,56 @@
 .. _objects:
 
 *******
-Объекты
+Objects
 *******
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Объекты служат целям размещения компонентов различного типа (мешей, камер, ламп и т.д.) в пространстве 3D сцены.
+Objects are intended to position components of different types (meshes, cameras, lamps etc) in a 3D scene space.
 
-Типы
-====
+Types
+=====
 
-Движком поддерживаются объекты следующих типов:
+The engine supports objects of the following types:
 
-    - :ref:`меш (mesh) <meshes>`
-    - камера (camera)
-    - лампа (lamp)
-    - пустой (empty)
-    - скелет (armature)
-    - источник звука (speaker)
-    - кривая (curve)
-    - текст (text)
-    - метасфера (metaball)
-    - поверхность (surface)
+    - :ref:`meshes (mesh) <meshes>`
+    - camera
+    - lamp
+    - empty
+    - armature
+    - speaker
+    - curve
+    - text
+    - metaball
+    - surface
 
 
 .. _static_dynamic_objects:
 
-Статические и динамические объекты
-==================================
+Static and Dynamic Objects
+==========================
 
-**Статические объекты** - объекты, которые могут быть объединены друг с другом, если они имеют одинаковый материал.
+**Static objects** are objects which can be merged together if they have the same material.
 
-**Динамические объекты** - объекты, которые не могут быть скомбинированы друг с другом.
+**Dynamic objects** are objects which cannot be combined with each other.
 
-К динамическим могут относиться объекты типа ``MESH``, ``CAMERA`` и ``ARMATURE``. Остальные - статические.
+Only ``MESH``, ``CAMERA`` and ``ARMATURE`` type objects can be dynamic. All other object types are static.
 
-Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.
+The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.
 
-Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию ``Force Dynamic Object``.
+Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate ``Force Dynamic Object`` option in its settings.
 
 .. _object_settings:
 
-Настройка
-=========
+Settings
+========
 
-Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.
+The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web’s special properties.
 
-Вкладка Object
---------------
+Object Tab
+----------
 
 .. image:: src_images/objects/object_setup.png
    :align: center
@@ -60,27 +60,27 @@
 |
 
 *Transform > Location*
-    Координаты местоположения.
+    Position coordinates.
 
 *Transform > Rotation*
-    Углы вращения. При повороте объекта доступны все режимы ``Rotation Mode``, но при создании :ref:`объектной анимации <whole_object_anim>` поддерживаются только ``Quaternion (WXYZ)`` и ``XYZ Euler``.
+    Rotation angles. For the object rotation all available modes can be used (``Rotation Mode``). However only ``Quaternion (WXYZ)`` and ``XYZ Euler`` are supported for :ref:`object animation <whole_object_anim>`.
 
 *Transform > Scale*
-    Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.
+    Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.
 
 *Relations > Parent*
-    Указатель на родительский объект.
+    Reference to the parent object.
 
-    Если в качестве родительского объекта выбрана камера, становятся доступными настройки ``Viewport Alignment``.
+    If the parent object is a camera, ``Viewport Alignment`` settings will be avalible.
 
     .. image:: src_images/objects/objects_viewport_alignment.png
        :align: center
        :width: 100%
 
-    Параметр ``Alignment`` определяет, с какой стороны от камеры будет находиться привязанный к ней объект (по умолчанию ``Center``). Параметр ``Distance`` задаёт расстояние объекта до камеры (по умолчанию 10). Чтобы привязанный объект отображался в Blender так же, как и в движке, нужно нажать кнопку ``Fit to Camera``.
+    The ``Alignment`` parameter specifies to what side of the viewport an object will be aligned (``Center`` by default). The ``Distance`` parameter specifies the distance between the aligned object and the camera (10 by default). The ``Fit to Camera`` button can be used to make the aligned object look in the Blender viewport same way it will look in the engine.
 
 *Groups*
-    Группы объектов, которым принадлежит данный объект.
+    Objects’ groups to which this object belongs.
 
 
 .. image:: src_images/objects/object_setup_end.png
@@ -89,139 +89,133 @@
 |
 
 *Levels of Detail > LOD Transition Ratio*
-    Параметр для сглаживания переключения между LOD объектами. Определяет, на
-    каком дополнительном расстоянии LOD объекты будут видны до замены
-    последующими LOD объектами. Назначается для главного объекта. Измеряется в
-    долях от радиуса охватывающей сферы объекта.
+    Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object’s bounding sphere radius.
 
 *Special Effects > Disable Fogging*
-    Отключить туман для объекта.
+    Disable fog for the object.
 
 *Special Effects > Caustics*
-    На объекте будут видны эффекты от прилегающей к нему воды (каустика).
+    The object will render caustics effects from the adjacent water.
 
 *Export Options > Do Not Export*
-    Не экспортировать.
+    Do not export this object.
 
 .. _apply_modifiers:
 
 *Export Options > Apply Modifiers*
-    Применить модификаторы объекта при экспорте. При наличии модификатора ``SKIN`` рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.
+    Apply the object’s modifiers upon export. If the ``SKIN`` modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.
 
 *Export Options > Apply Scale and Modifiers*
-    Применить масштабирование и модификаторы объекта при экспорте.
+    Upon export, apply scale and modifiers for the object.
 
 *Export Options > Export Vertex Animation*
-    Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа ``MESH``.
+    Export previously created and saved vertex animation. Applicable for ``MESH`` type objects only.
 
 *Export Options > Export Shape Keys*
-    Экспортировать ключи деформации. Актуально только для объектов типа ``MESH``.
+    Export shape keys. Applicable to ``MESH`` type objects only.
 
 .. note::
 
-    Свойства *Apply Modifiers*, *Apply Scale And Modifiers*, *Export Vertex Animation*, и *Export Shape Keys* взаимоисключают друг друга.
+    The following properties are mutually exclusive: *Apply Modifiers*, *Apply Scale and Modifiers*, *Export Vertex Animation* and *Export Shape Keys*.
 
 *Animation > Apply Default Animation*
-    Начать воспроизведение в движке связанной с объектом анимации.
+    Upon loading into the engine start playback of the animation assigned to the object.
 
 *Animation > Animation Blending*
-    Только для арматурных объектов. Разрешить плавный переход от одной скелетной
-    анимации к другой.
+    Only for armature objects. Allows blending between skeletal animations.
 
 *Animation > Behavior*
-    Поведение анимации при достижении последнего кадра: ``Finish Stop`` -
-    остановить, ``Finish Reset`` - остановить и сбросить в нулевой кадр,
-    ``Loop`` - циклически повторять.
+    Animation behavior when the last frame is reached: ``Finish Stop`` - stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat forever.
 
 *Rendering Properties > Do Not Render*
-    Отключить рендеринг объекта (например, вспомогательный объект физики).
+    Disable object rendering (for example useful for a physics object).
 
 *Rendering Properties > Disable Frustum Culling*
-    Отключить оптимизацию отсечением по зоне видимости.
+    Disable frustum culling optimization.
 
 *Rendering Properties > Force Dynamic Object*
-    Принудительно сделать объект :ref:`динамическим <static_dynamic_objects>`.
+    Force the object to become a :ref:`dynamic object <static_dynamic_objects>`.
 
 .. _dynamic_geom:
 
 *Rendering Properties > Dynamic Geometry*
-    Разрешить изменение геометрии объекта через API Blend4Web.
+    Allow overriding of the object’s geometry through Blend4Web API.
 
 *Shadows > Cast*
-    Объект будет отбрасывать тени.
+    The object will cast shadows.
 
 *Shadows> Cast Only*
-    Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения ``Shadows > Cast``.
+    The object will cast shadows but will remain invisible itself. Becomes available after enabling ``Shadows > Cast``.
 
 *Shadows > Receive*
-    Разрешить затенение от прилегающих объектов (получение теней) на объекте.
+    The object will receive shadows from other adjacent objects.
 
 *Reflections > Reflexible*
-    При включении объект будет отражаться от зеркальных поверхностей.
+    When enabled the object is reflected in the dynamic mirror surfaces.
 
 *Reflections > Reflexible Only*
-    При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения ``Reflections > Reflexible``.
+    The object will be reflected but will remain invisible itself. Becomes available after enabling ``Reflections > Reflexible``.
 
 *Reflections > Reflective*
-    При включении объект будет отражать своей поверхностью другие объекты.
+    When enabled the object surface reflects other objects.
 
 *Reflections > Reflection Plane*
-    Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения ``Reflections > Reflective``.
+    Text field for name of an empty object which defines the reflection plane. Becomes available after enabling ``Reflections > Reflective``.
 
 *Selection and Outlining > Selectable*
-    Разрешить :ref:`выделение объекта <mesh_selection>` с помощью мыши или другого устройства ввода.
+    Enable :ref:`object selection <mesh_selection>` with the mouse or another input device.
 
 *Selection and Outlining > Enable Outlining*
-    Разрешить подсвечивание объекта (:ref:`эффект Outline <outline>`).
+    Enable :ref:`outline glow <outline>` for the object.
 
 *Meta Tags*
-    Интерфейс добавления мета-тегов на объект:
+    Interface for adding meta tags to the object:
 
     *Meta Tags > Title*
-        Заголовок объекта.
+        Object's title.
 
     *Meta Tags > Category*
-        Категория объекта.
+        Object's category.
 
     *Meta Tags > Description*
-        Описание объекта. В зависимости от значения  опции ``Description Source`` в это поле заносится либо текст описания непосредственно, либо имя файла, в котором содержится описание.
+        Description for the object. Depending on ``Description Source``, this field accepts either description text itself, or the name of a file where this description is contained.
 
     *Meta Tags > Description Source*
-        Тип (источник) описания объекта: текст либо файл с текстом.
+        Source type for the description: text or text file.
 
 .. _objects_anchors:
 
 *Anchors > Enable Anchor*
-    Опция доступна только для объектов типа ``EMPTY``. Интерфейс добавления графических меток (якорей) к объектам:
+    Available for ``EMPTY`` objects only. Interface for adding anchors (2D tags) to objects:
 
     *Anchors > Type*
-        Тип якоря. Аннотация (``Annotation``) - информация из мета-тегов объектов отображается в раскрывающихся информационных окнах стандартного дизайна. Элемент (``Custom Element``) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы. Общий (``Generic``) - якорь, положение которого можно определить с помощью API модуля *anchors*.
+        Anchor type. ``Annotation`` - the content is obtained from the meta tags assigned to the object and displayed in a collapsible window of standard design. ``Custom Element`` - arbitrary HTML element from the current web page is used as anchor. ``Generic`` - anchor’s position can be detected using ``anchors`` API module.
 
     *Anchors > Detect Visibility*
-        Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря другими объектами. Активация опции приводит к падению производельности рендеринга и должна рассматриваться только в случае реальной необходимости.
+        Detect whether the anchor object is overlapped by other objects. Turning this option on decreases performance and should be used only when necessary.
 
     *Anchors > Max Width*
-        Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).
+        Applicable to annotation anchors. This limits the expanding info window by a predefined value (measured in CSS pixels).
 
 *Wind Bending*
-    Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном :ref:`рендерингу наружных сцен <wind_bending>`.
+    Enables wind bending procedural animation. Thoroughly described at the :ref:`outdoor rendering <wind_bending>` page.
 
 .. _objects_billboarding_properties:
 
 *Billboard*
-    Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).
+    Use the object as a billboard (i.e. automatically orient relative to the camera).
 
 .. _billboarding_preserve:
 
 *Billboard > Preserve Global Orientation and Scale*
-    Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender'а. Становится доступным после включения ``Billboard``.
+    Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the ``Billboard`` checkbox.
 
 *Billboard > Billboard Type*
-    Способ ориентирования билборда. ``Spherical`` (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, ``Cylindrical`` - аналогично ``Spherical``, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения ``Billboard``.
+    Billboard orientation mode. ``Spherical`` (by default) - the object is always oriented with one side toward the camera, regardless of view angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard
 
 
-Вкладка Physics
----------------
+Physics Tab
+-----------
 
 .. image:: src_images/objects/object_setup_phys.png
    :align: center
@@ -230,94 +224,86 @@
 |
 
 *Detect Collisions*
-    Активировать связанную с объектом физику.
+    Activate the object’s physics.
 
 *Floating*
-    Сделать объект плавучим. Подробное описание настроек плавучих объектов можно
-    найти в разделе :ref:`физика <physics>`.
+    Make the object floating. The settings for floating objects are described in detail in the :ref:`physics <physics>` section.
 
 *Vehicle*
-    Активировать использование объекта в качестве составной части транспортного
-    средства. Подробное описание настроек транспортных средств можно найти в
-    разделе :ref:`физика <physics>`.
+    Use the object as part of a vehicle. The vehicle settings are described in detail in the :ref:`physics <physics>` section.
 
 *Character*
-    Активировать использование объекта в качестве физического каркаса игрового
-    персонажа. Подробное описание настроек персонажа можно найти в разделе
-    :ref:`физика <physics>`.
+    Use the object for character physics. The character settings are described in detail in the :ref:`physics <physics>` section.
 
 
-.. index:: Управление перемещением объектов
+.. index:: Object Transform API
 
-Управление перемещением объектов
-================================
+Object Transform API
+====================
 
 .. note::
 
-    Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был :ref:`динамическим <static_dynamic_objects>`.
+    Make sure that the object you are trying to transform is a :ref:`dynamic object <static_dynamic_objects>`.
 
-Для управления перемещением объектов в движке предусмотрены следующие базовые функции модуля :b4wmod:`transform`:
+Use the following methods of the :b4wmod:`transform` module to move objects in the engine:
 
 :b4wref:`transform.get_translation()`
-    Получить координаты центра объекта в мировой системе коориднат. Вариант с одним параметром возвращает новый вектор (неоптимизированный вариант), вариант с двумя требует отдельного вектора для записи результата.
+    Get the coordinates of the object’s center in world space. The method with a single argument returns a new vector (i.e. this is a non-optimized option) while the method with two arguments requires an additional vector to write the result down.
 
 :b4wref:`transform.get_translation_rel()`
-    Аналогично методу ``get_translation()``, однако если у данного объекта имеется родительский объект, координаты берутся в относительной системе координат, связанной с этим родительским объектом.
+    Similar to the ``get_translation()`` method, but if this object has a parent, the obtained coordinates are measured in the parent’s space.
 
 :b4wref:`transform.set_translation()`, :b4wref:`transform.set_translation_v()`
-    Переместить центр объекта в указанное место. Первая функция принимает в качестве параметров отдельные координаты, вторая - трёхмерный вектор (``Array`` или ``Float32Array``).
+    Move the object’s center into the specified location. The first method takes separate coordinates as arguments while the second one takes a three-component vector (``Array`` or ``Float32Array``).
 
 :b4wref:`transform.set_translation_rel()`, :b4wref:`transform.set_translation_rel_v()`
-    Аналогично методам ``set_translation()`` и ``set_translation_v()``, однако если у данного объекта имеется родительский объект, координаты задаются в относительной системе координат, связанной с этим родительским объектом.
+    Similar to ``set_translation()`` and ``set_translation_v()``, but if this object has a parent, the set coordinates are measured in the parent’s space.
 
 :b4wref:`transform.get_rotation()`
-    Получить кватернион поворота объекта в мировой системе координат. По аналогии с ``get_translation()`` имеется два варианта вызова функции.
+    Get the object’s rotation quaternion in world space. Similar to ``get_translation()``, there are two options for calling this function.
 
 :b4wref:`transform.get_rotation_rel()`
-    Получить кватернион поворота объекта в системе координат, связанной с родительским объектом. По аналогии с ``get_translation_rel()`` имеется два варианта вызова функции.
+    Get the object’s rotation quaternion measured in its parent’s space. Similar to ``get_translation_rel()``, there are two options for calling this function.
 
 :b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`
-    Установить кватернион поворота объекта в мировой системе координат. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (``Array`` или ``Float32Array``).
+    Set the object’s rotation quaternion in world space. The first function takes separate coordinates as arguments while the second one takes a four-component vector (``Array`` or ``Float32Array``).
 
 :b4wref:`transform.set_rotation_rel()`, :b4wref:`transform.set_rotation_rel_v()`
-    Установить кватернион поворота объекта в системе координат, связанной с родительским объектом. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (``Array`` или ``Float32Array``).
+    Set the object’s rotation quaternion measured in its parent’s space. The first function takes separate coordinates as arguments while the second one takes a four-component vector (``Array`` or ``Float32Array``).
 
 :b4wref:`transform.get_scale()`
-    Получить значение коэффициента увеличения объекта в мировой системе координат.
+    Get the object’s scale in world space.
 
 :b4wref:`transform.get_scale_rel()`
-    Получить значение коэффициента увеличения объекта в системе координат, связанной с родительским объектом.
+    Get the object’s scale in its parent’s space.
 
 :b4wref:`transform.set_scale()`
-    Установить коэффициент увеличения объекта в мировой системе координат. Единица соответствует исходному состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть увеличены. В частности, увеличение невозможно для физических объектов.
+    Set the object’s scale in world space. Unity corresponds to the original scale of the object. Values less than unity mean scaling down, bigger than unity - scaling up. Note that not all objects can be scaled. Particularly, scaling is not allowed for physics objects.
 
 :b4wref:`transform.set_scale_rel()`
-    Установить коэффициент увеличения объекта в системе координат, связанной с родительским объектом.
+    Set the object’s scale in its parent’s space.
 
 :b4wref:`transform.set_rotation_euler()`, :b4wref:`transform.set_rotation_euler_v()`
-    Установить поворот объекта с помощью углов Эйлера. Используется
-    **внутренняя** (intrinsic) система поворота YZX (то есть углы следуют в
-    последовательности YZX, сама система отсчёта при этом вращается и занимает
-    каждый раз новое положение).
+    Set the object’s rotation using Euler angles. An **intrinsic** YZX rotation system is used (that means the angles follow in the YZX order and the origin of coordinates rotates and takes up a new position for every angle).
 
 :b4wref:`transform.set_rotation_euler_rel()`, :b4wref:`transform.set_rotation_euler_rel_v()`
-    Установить поворот объекта с помощью углов Эйлера в системе координат, связанной с родительским объектом.
+    Set the object’s rotation using Euler angles measured in its parent’s space.
 
 :b4wref:`transform.move_local()`
-    Переместить объект относительно своего первоначального положения (в локальной системе координат).
+    Move the object relative to its original position (in local space).
 
 :b4wref:`transform.rotate_x_local()`, :b4wref:`transform.rotate_y_local()`, :b4wref:`transform.rotate_z_local()`
-    Повернуть объект относительно своего первоначального положения (в локальной системе координат).
+    Rotate the object relative to its original position (in local space).
 
-.. index:: выделение объектов
+.. index:: get object
 
-Выбор объектов
+Get object API
 ==============
 
-Для того, чтобы производить какие-либо манипуляции с трёхмерным объектом, необходимо получить ссылку на него. Для этого используется ряд функций API. Ссылка на объект имеет тип ``Object3D``.
+To perform any operation with an object, you first need to get it (i.e. recieve the link to it). There are several API functions for doing this. A link to an object has ``Object3D`` type.
 
 :b4wref:`scenes.get_object_by_name()`
-    Получить ссылку на объект, основываясь на известном имени объекта.
+    Get object by name.
 
     .. code-block:: javascript
 
@@ -326,7 +312,7 @@
         // ...
 
 :b4wref:`scenes.get_object_by_dupli_name()`
-    Получить ссылку на скопированный объект, используя имя скопированного объекта и имя объекта типа ``EMPTY``, который использовался для копирования.
+    Get the duplicated object by empty name and dupli name.
 
     .. code-block:: javascript
 
@@ -335,7 +321,7 @@
         // ...
 
 :b4wref:`scenes.get_object_by_dupli_name_list()`
-    Получить ссылку на скопированный объект, используя списки (массивы элементов типа ``String``) имён скопированных объектов и объектов типа ``EMPTY``, использованных для копирования.
+    Get the duplicated object by empty name and dupli name list (an array of ``String`` type elements).
 
     .. code-block:: javascript
 
@@ -344,7 +330,7 @@
         // ...
 
 :b4wref:`scenes.get_object_name_hierarchy()`
-    Возвращает список (массив) имён предков заданного объекта, начиная от старшего предка и заканчивая самим объектом.
+    Returns the object names hierarchy array (from the highest parent to the object itself) for a given object.
 
     .. code-block:: javascript
 
@@ -354,7 +340,7 @@
 
 
 :b4wref:`scenes.check_object_by_name()`
-    Проверить, существует ли в сцене объект с указанным именем.
+    Check if object with given name is present on scene.
 
     .. code-block:: javascript
 
@@ -363,7 +349,7 @@
         // ...
 
 :b4wref:`scenes.check_object_by_dupli_name()`
-    Проверить, существует ли в сцене скопированный объект с заданным именем и заданным именем объекта типа ``EMPTY``, который использовался для копирования.
+    Check if duplicated object is present on scene by empty name and dupli name.
 
     .. code-block:: javascript
 
@@ -372,7 +358,7 @@
         // ...
 
 :b4wref:`scenes.check_object_by_dupli_name_list()`
-    Проверить, существует ли в сцене скопированный объект, используя списки (массивы элементов типа ``String``) имён скопированных объектов и объектов типа ``EMPTY``, использованных для копирования.
+    Check if duplicated object is present on scene by empty name and dupli name list (an array of ``String`` type elements).
 
     .. code-block:: javascript
 
@@ -381,7 +367,7 @@
         // ...
 
 :b4wref:`scenes.get_object_name()`
-    Получить имя объекта, основываясь на известной ссылке на этот объект.
+    Get the object’s name.
 
     .. code-block:: javascript
 
@@ -389,42 +375,42 @@
         var object_name = m_scenes.get_object_name(obj);
         // ...
 
-.. index:: кватернион
+.. index:: quaternion
 
-Кватернионы
+Quaternions
 ===========
 
-Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:
+Quaternion is a four-component vector used to perform rotating. Quaternions have a number of advantages over other rotation methods such as:
 
-    - Не имеет неоднозначности и зависимости от порядка применения поворотов, которые имеют место в случае использования углов Эйлера.
-    - Более эффективное использование памяти (от 2-х до 4-х раз меньше в зависимости от типа используемой матрицы).
-    - Высокая эффективность вычисления серии поворотов, чем при использовании матриц.
-    - Нейтрализация ошибок умножения, возникающих вследствие неточности чисел с плавающей запятой.
-    - Удобный метод интерполяции.
+    - A quaternion isn’t ambiguant and doesn’t depend on the rotation order as the Euler angles.
+    - Quaternion’s memory usage is more effective (2-4 times less depending on the matrix used).
+    - Better computing efficiency than for matrices in case of a series of rotations.
+    - Numeric stability - compensation for multiplication errors arising from float number inaccuracy.
+    - Convenient interpolation method.
 
-Кватернионы имеют ряд недостатков:
-    - Поворот вектора с помощью кватерниона более сложная в вычислительном плане операция чем поворот с использованием матрицы.
-    - Использование кватернионов для представления отличных от поворота преобразований (перспективная или ортогональная проекция) затруднено.
+Quaternions have some drawbacks:
+    - Rotating a vector with a quaternion is more computationally expensive than rotating with a matrix.
+    - It is difficult to use quaternions for non-rotation transformations (such as perspective or orthogonal projection).
 
-Для удобства работы с кватернионами в движке имеется ряд функций:
+The engine has a number of functions to make it more convenient to work with quaternions:
 
 *quat.multiply*
-    Умножение кватернионов. Умножение кватерниона А на кватернион Б слева A*Б является поворотом на A. То есть у объекта уже имеется некий поворот Б, который мы дополняем новым поворотом на A.
+    Quaternion multiplication. Note that left-multiplying A quaternion by B quaternion A*B is a rotation by A. I.e. the object already has some rotation B which we supplement with a new rotation by A.
 
 *quat.setAxisAngle*
-    Кватернион представляет собой иную форму записи поворота относительно произвольной оси (вектора) на произвольный угол. Положительное направление поворота отсчитывается против часовой стрелки, если смотреть с конца вектора. Например вызов :code:`quat.setAxisAngle([1,0,0], Math.PI/3, quat)` сформирует кватернион, который может быть использован для осуществления поворота относительно оси X на 60 градусов (против часовой стрелки, если смотреть с конца оси X).
+    A quaternion is an alternative presentation of rotation by an arbitrary angle relative to the arbitrary axis (vector). Positive direction of rotation is defined as anticlockwise when viewing from the vector’s end. For example the :code`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)` call forms a quaternion which can be used for rotating the object by 90 degrees (anticlockwise if viewing from the X axis’ end) relative to the X axis.
 
 *quat.slerp*
-    Сферическая интерполяция кватернионов. Используется для осуществления плавного разворота объектов и анимации.
+    Spherical interpolation of quaternions. Used for smoothing the object’s rotation and animation.
 
 *util.euler_to_quat, util.quat_to_euler*.
-    Преобразование из углов Эйлера и наоборот.
+    Conversion from Euler angles and back.
 
 
-Пример работы с кватернионами
------------------------------
+Quaternion Example
+------------------
 
-Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием "Cessna".
+We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named “Cessna” in Blender.
 
 .. image:: src_images/objects/objects_aircraft.png
    :align: center
@@ -432,20 +418,20 @@
 
 |
 
-Сохраним ссылку на объект в движке в переменной **aircraft**:
+Lets save a reference to the object in the **aircraft** variable:
 
 .. code-block:: javascript
 
     var aircraft = m_scenes.get_object_by_name("Cessna");
 
 
-Осуществим поворот:
+Lets rotate it:
 
-    * Расположение координатных осей в Blender'е и в движке различается, и при экспорте произойдет преобразование: [X Y Z] (Blender) -> [X -Z Y] (движок). Поэтому поворот нужно осуществлять относительно оси Y, а не Z.
-    * Повороту вправо соответствует поворот по часовой стрелке, т.е. в отрицательном направлении.
-    * 60 градусов = :math:`\pi/3` радиан.
+    * The orientation of coordinate axes is different in Blender and in the engine. Upon export there will be a transformation [X Y Z] (Blender) -> [X -Z Y] (the engine). Therefore we need to rotate the object relative to the Y axis and not the Z axis.
+    * A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).
+    * 60 degrees = :math:`\pi/3` radians.
 
-В итоге получаем:
+As a result we get:
 
 .. code-block:: javascript
 
@@ -462,7 +448,7 @@
     m_transform.set_rotation_v(aircraft, quat_new);
 
 
-Оптимизированный вариант, не приводящий к созданию новых объектов:
+The optimized version which does not create new objects:
 
 .. code-block:: javascript
 
@@ -480,28 +466,28 @@
 
 .. _b4w_blender_coordinates:
 
-Отличия систем координат Blender'а и Blend4Web
-==============================================
+Differences Between Coordinate Systems of Blender and Blend4Web
+===============================================================
 
-В системе координат Blender'а вектор ``UP``, указывающий направление вверх, сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в OpenGL, это направление совпадает с направлением оси Y. Таким образом система координат движка оказывается повернутой относительно системы координат Blender'а на 90 градусов вокруг оси X. 
+In Blender’s coordinate system the ``UP`` vector, which points upwards, is co-directional with the Z axis. Blend4Web uses Y axis for this purpose, as it is customary in OpenGL. Thus the engine’s coordinates are rotated by 90° around the X axis relative to Blender. 
 
 .. image:: src_images/objects/axes.png
    :align: center
 
 |
+ 
+API methods use the engine’s coordinates, so they can work differently in comparison with setting Blender’s parameters.
 
-Методы API используют именно систему координат движка, поэтому работа с API может отличаться от работы с настройками непосредственно в Blender'е. 
 
+Moving via TSR Vectors
+======================
 
-Перемещение с помощью векторов TSR
-==================================
-
-Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:
+It is sometimes convenient to move objects using vectors of the following format:
 
     :math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`
 
-Здесь :math:`T_x, T_y, T_z` - компоненты вектора перемещения, :math:`S` - масштаб, :math:`R_x, R_y, R_z, R_w` - компоненты кватерниона поворота. Отсюда следует название вектора: TSR или TSR-8.
+Here :math:`T_x, T_y, T_z` - the components of the translation vector, :math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of the quaternion vector. Hence the name of this vector: TSR or TSR-8.
 
-Для работы с данными векторами существует специальный модуль `tsr`, а также методы `set_tsr()`/`get_tsr()` модуля `transform`.
+This vector can be operated via `tsr` module, as well as via `set_tsr()`/`get_tsr()` methods of the `transform` module.
 
 

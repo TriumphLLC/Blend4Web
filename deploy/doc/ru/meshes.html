@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Меши &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Меши &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Камера" href="camera.html"/>
         <link rel="prev" title="Объекты" href="objects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,29 +85,28 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Меши</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#static-dynamic-meshes">Статические и динамические объекты</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-settings">Настройка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Статические и динамические объекты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Настройка</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#override-bounding-volumes">Override Bounding Volumes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-copy">Копирование объектов (инстансинг)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Простое копирование</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Глубокое копирование</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Удаление объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copying-objects-instancing">Копирование объектов (инстансинг)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-simple-copy">Простое копирование</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-deep-copy">Глубокое копирование</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removing-objects">Удаление объектов</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-selection">Выделение объектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-morphing">Морфинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-selection">Выделение объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#morphing">Морфинг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
@@ -152,6 +151,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -171,30 +171,30 @@
            <div itemprop="articleBody">
             
   <div class="section" id="meshes">
-<span id="id1"></span><h1><a class="toc-backref" href="#id12">Меши</a><a class="headerlink" href="#meshes" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">Меши</a><a class="headerlink" href="#meshes" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-content">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#meshes" id="id12">Меши</a><ul>
-<li><a class="reference internal" href="#static-dynamic-meshes" id="id13">Статические и динамические объекты</a></li>
-<li><a class="reference internal" href="#mesh-settings" id="id14">Настройка</a><ul>
-<li><a class="reference internal" href="#override-bounding-volumes" id="id15">Override Bounding Volumes</a></li>
+<li><a class="reference internal" href="#meshes" id="id3">Меши</a><ul>
+<li><a class="reference internal" href="#static-and-dynamic-objects" id="id4">Статические и динамические объекты</a></li>
+<li><a class="reference internal" href="#settings" id="id5">Настройка</a><ul>
+<li><a class="reference internal" href="#override-bounding-volumes" id="id6">Override Bounding Volumes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mesh-copy" id="id16">Копирование объектов (инстансинг)</a><ul>
-<li><a class="reference internal" href="#id7" id="id17">Простое копирование</a></li>
-<li><a class="reference internal" href="#id8" id="id18">Глубокое копирование</a></li>
-<li><a class="reference internal" href="#id9" id="id19">Удаление объектов</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id7">Копирование объектов (инстансинг)</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id8">Простое копирование</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id9">Глубокое копирование</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id10">Удаление объектов</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mesh-selection" id="id20">Выделение объектов</a></li>
-<li><a class="reference internal" href="#mesh-morphing" id="id21">Морфинг</a></li>
+<li><a class="reference internal" href="#object-selection" id="id11">Выделение объектов</a></li>
+<li><a class="reference internal" href="#morphing" id="id12">Морфинг</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="static-dynamic-meshes">
-<span id="id3"></span><h2><a class="toc-backref" href="#id13">Статические и динамические объекты</a><a class="headerlink" href="#static-dynamic-meshes" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="static-and-dynamic-objects">
+<span id="static-dynamic-meshes"></span><h2><a class="toc-backref" href="#id4">Статические и динамические объекты</a><a class="headerlink" href="#static-and-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Все объекты типа <code class="docutils literal"><span class="pre">MESH</span></code> можно разделить на статические и динамические.</p>
 <p><strong>Статические объекты</strong> - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
 <p><strong>Динамические объекты</strong> - объекты, меши которых не могут быть скомбинированы друг с другом.</p>
@@ -202,11 +202,11 @@
 <p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
 <p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>.</p>
 </div>
-<div class="section" id="mesh-settings">
-<span id="id4"></span><h2><a class="toc-backref" href="#id14">Настройка</a><a class="headerlink" href="#mesh-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="settings">
+<span id="mesh-settings"></span><h2><a class="toc-backref" href="#id5">Настройка</a><a class="headerlink" href="#settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Меши обладают всеми параметрами <a class="reference internal" href="objects.html#object-settings"><span>объектов</span></a>, а также некоторыми дополнительными параметрами.</p>
 <div class="section" id="override-bounding-volumes">
-<span id="id5"></span><h3><a class="toc-backref" href="#id15">Override Bounding Volumes</a><a class="headerlink" href="#override-bounding-volumes" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id6">Override Bounding Volumes</a><a class="headerlink" href="#override-bounding-volumes" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Эта вкладка используется для настройки ограничивающих объёмов. Такие объёмы используются при определении видимости объекта, для рассчёта столкновений и физических взаимодействий. Манипулируя ими, можно добиться различных эффектов.</p>
 <a class="reference internal image-reference" href="_images/objects_override_bounding_volumes.png"><img alt="_images/objects_override_bounding_volumes.png" class="align-center" src="_images/objects_override_bounding_volumes.png" style="width: 100%;" /></a>
 <p>Раздел <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> расположен на панели иструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code> (рядом с <a class="reference internal" href="lighting.html#normals-editor"><span>редактором нормалей</span></a>).</p>
@@ -228,40 +228,43 @@
 <p>Эта кнопка включает использование нестандартного ограничивающего объёма. Ограничивающий объём имеет форму параллелпипеда, центр которого совпадает с точкой привязки объекта.</p>
 </div></blockquote>
 <dl class="docutils">
-<dt><em>MinX и MaxX</em></dt>
-<dd>Размеры ограничивающего объёма по оси X. По умолчанию <em>MinX</em> = -1, <em>MaxX</em> = 1.</dd>
-<dt><em>MinY и MaxY</em></dt>
-<dd>Размеры ограничивающего объёма по оси Y. По умолчанию <em>MinY</em> = -1, <em>MaxY</em> = 1.</dd>
-<dt><em>MinZ и MaxZ</em></dt>
-<dd>Размеры ограничивающего объёма по оси Z. По умолчанию <em>MinZ</em> = -1, <em>MaxZ</em> = 1.</dd>
+<dt><em>MinX и  MaxX</em></dt>
+<dd><p class="first last">Размеры ограничивающего объёма по оси Z. По умолчанию <em>MinZ</em> = -1, <em>MaxZ</em> = 1.</p>
+</dd>
+<dt><em>MinY и  MaxY</em></dt>
+<dd><p class="first last">Размеры ограничивающего объёма по оси Y. По умолчанию <em>MinY</em> = -1, <em>MaxY</em> = 1.</p>
+</dd>
+<dt><em>MinZ и  MaxZ</em></dt>
+<dd><p class="first last">Размеры ограничивающего объёма по оси Z. По умолчанию <em>MinZ</em> = -1, <em>MaxZ</em> = 1.</p>
+</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="mesh-copy">
-<span id="id6"></span><h2><a class="toc-backref" href="#id16">Копирование объектов (инстансинг)</a><a class="headerlink" href="#mesh-copy" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="copying-objects-instancing">
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id7">Копирование объектов (инстансинг)</a><a class="headerlink" href="#copying-objects-instancing" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Часто возникает необходимость копирования объектов (инстансинг) во время работы приложения.</p>
 <dl class="docutils">
 <dt>Существует ряд ограничений на копируемые объекты:</dt>
 <dd><ul class="first last simple">
-<li>тип объекта должен быть <code class="docutils literal"><span class="pre">MESH</span></code></li>
-<li>объект должен быть <a class="reference internal" href="objects.html#static-dynamic-objects"><span>динамическим</span></a> (включить настройку <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
-<li>объект должен принадлежать активной сцене</li>
+<li><p class="first">тип объекта должен быть <code class="docutils literal"><span class="pre">MESH</span></code></p>
+</li>
+<li><p class="first">объект должен быть <a class="reference internal" href="objects.html#static-dynamic-objects"><span>динамическим</span></a> (включить настройку <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</p>
+</li>
+<li><p class="first">объект должен принадлежать активной сцене</p>
+</li>
 </ul>
 </dd>
 </dl>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id17">Простое копирование</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="making-a-simple-copy">
+<h3><a class="toc-backref" href="#id8">Простое копирование</a><a class="headerlink" href="#making-a-simple-copy" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае простого копирования для объекта-копии будет использоваться геометрия объекта, с которого осуществлялось копирование. При изменении геометрии на исходном объекте, геометрия изменится и на объекте-копии.</p>
 </div>
-<div class="section" id="id8">
-<h3><a class="toc-backref" href="#id18">Глубокое копирование</a><a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="making-a-deep-copy">
+<h3><a class="toc-backref" href="#id9">Глубокое копирование</a><a class="headerlink" href="#making-a-deep-copy" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Также при глубоком копировании canvas-текстуры на копиях - именно разные текстуры, в то время как при простом копировании - одна и та же. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="objects.html#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a>.</p>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <p>Для копирования объектов в модуле <code class="docutils literal"><span class="pre">objects.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">copy</span></code>, в которую надо передать идентификатор копируемого объекта, уникальное имя нового объекта и булеву переменную, определяющую тип копирования: <code class="docutils literal"><span class="pre">true</span></code>- глубокое, <code class="docutils literal"><span class="pre">false</span></code> - простое. По умолчанию будет осуществлено простое копирование.</p>
 <p>Созданный при копировании объект необходимо добавить на сцену. Для этого в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> существует функция <code class="docutils literal"><span class="pre">append_object</span></code>, куда нужно передать объект, полученный копированием.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
@@ -269,25 +272,25 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id19">Удаление объектов</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="removing-objects">
+<h3><a class="toc-backref" href="#id10">Удаление объектов</a><a class="headerlink" href="#removing-objects" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для удаления объектов, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">remove_object</span></code>, куда надо передать объект. Возможно удаление динамических mesh- и empty-объектов.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="mesh-selection">
-<span id="id10"></span><h2><a class="toc-backref" href="#id20">Выделение объектов</a><a class="headerlink" href="#mesh-selection" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="object-selection">
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id11">Выделение объектов</a><a class="headerlink" href="#object-selection" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <code class="docutils literal"><span class="pre">Selectable</span></code> в панели <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Следует убедится в том, что в панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> установлено состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <p>Выделение объекта возможно программно через API, например, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> имеется функция <code class="docutils literal"><span class="pre">pick_object</span></code>, которая по координатам в canvas&#8217;е выделяет объект,</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
 
@@ -298,8 +301,8 @@
 <p>или с использованием <a class="reference internal" href="logic_editor.html#nla-select-play"><span>NLA-скрипта</span></a>.</p>
 <p>Если для выделяемого объекта в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> установлены флаги <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> и <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code>, то вызов функции <code class="docutils literal"><span class="pre">pick_object</span></code> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><span>Outline-анимации</span></a>.</p>
 </div>
-<div class="section" id="mesh-morphing">
-<span id="id11"></span><h2><a class="toc-backref" href="#id21">Морфинг</a><a class="headerlink" href="#mesh-morphing" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="morphing">
+<span id="mesh-morphing"></span><h2><a class="toc-backref" href="#id12">Морфинг</a><a class="headerlink" href="#morphing" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для создания ключей деформации (опорных фигур) перейдите во вкладку <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></code>.</p>
 <img alt="_images/morphing.png" class="align-center" src="_images/morphing.png" />
 <div class="line-block">
@@ -311,7 +314,7 @@
 <p class="first admonition-title">Примечание</p>
 <p class="last">На объекте должно стоять свойство <em>Export Shape Keys</em>.</p>
 </div>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
 <span class="c1">// ...</span>
@@ -340,11 +343,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -362,7 +366,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -392,14 +396,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

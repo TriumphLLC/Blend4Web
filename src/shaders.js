@@ -1234,6 +1234,7 @@ function init_shader(gl, vshader_text, fshader_text,
         permanent_uniform_setters : [],
         // speeds up access by uniform name
         permanent_uniform_setters_table : {},
+        need_uniforms_update: true,
         no_permanent_uniforms: false,
 
         transient_uniform_setters : [],

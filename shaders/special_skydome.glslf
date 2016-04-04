@@ -96,8 +96,6 @@ uniform vec3 u_zenith_color;
 
 #if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS
 uniform vec3 u_camera_eye_frag;
-uniform vec3 u_sun_intensity;
-uniform float u_environment_energy;
 uniform vec4 u_underwater_fog_color_density;
 #endif
 

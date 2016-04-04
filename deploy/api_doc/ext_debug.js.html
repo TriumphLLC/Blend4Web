@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ext/debug.js</title>
+    <title>Source: ext/debug.js | Blend4Web API Reference</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -34,12 +34,16 @@
  * @local DebugWireframeMode
  * @local StageloadCallback
  * @local LoadedCallback
+ * @local CodeTestCallback
+ * @local EqualsFunction
+ * @local OkFunction
  */
 b4w.module["debug"] = function(exports, require) {
 
 var m_batch    = require("__batch");
 var m_cfg      = require("__config");
 var m_ctl      = require("__controls");
+var m_cont     = require("__container");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
 var m_load     = require("__loader");
@@ -54,12 +58,17 @@ var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
 var m_textures = require("__textures");
 var m_util     = require("__util");
-var m_vec3     = require("vec3");
+var m_vec3     = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 
 var PERF_NUM_CALLS = 10;
+var EPS = 0.000001;
 
+var _called_funcs = [];
+var _tested_func_name = "";
+var _test_result = true;
+var _vec2_tmp = new Float32Array(2);
 /**
  * Debug wireframe mode.
  * @typedef DebugWireframeMode
@@ -76,6 +85,27 @@ var PERF_NUM_CALLS = 10;
  * @callback StageloadCallback
  * @param {Number} percentage Loading progress (0-100).
  */
+
+/**
+ * Code test callback.
+ * @callback CodeTestCallback
+ * @param {EqualsFunction} equals Сomparison function.
+ * @param {OkFunction} ok Code test function.
+ */
+
+/**
+ * Return the comparison result of entrace params.
+ * @callback EqualsFunction
+ * @param {*} result Real function result.
+ * @param {*} exp_result Expected result.
+ */
+
+ /**
+ * Check code crash.
+ * @callback OkFunction
+ * @param {*} result Real function result.
+ */
+
 
 /**
  * Debug wireframe mode: turn off wireframe view.
@@ -1030,6 +1060,111 @@ exports.test_performance = function(callback) {
     }, 100);
 }
 
+function call(func, name) {
+    var decor_func = function() {
+        _called_funcs.push(decor_func);
+        _tested_func_name = name;
+        return func.apply(func, arguments);
+
+    }
+    return decor_func;
+}
+
+exports.start_debug = function(module_name) {
+    _called_funcs = [];
+    _test_result = true;
+    var module = require(module_name);
+    for (var name in module)
+        if (typeof module[name] === "function")
+            module[name] = call(module[name], name);
+}
+exports.check_debug_result = function() {
+    return _test_result;
+}
+/**
+ * Test code.
+ * @method module:debug.test
+ * @param {String} test_name Test name
+ * @param {CodeTestCallback} callback Callback
+ */
+exports.test = function(test_name, callback) {
+    try {
+        callback();
+        return true;
+    } catch(e) {
+        _test_result = false;
+        console.error(test_name + " test was failed. ", e);
+        return false;
+    }
+}
+
+exports.pix = function(color_data, subs_type) {
+    var scene = m_scenes.get_active();
+    var subs = m_scenes.get_subs(scene, subs_type);
+
+    var canvas_w = m_cont.get_viewport_width();
+    var canvas_h = m_cont.get_viewport_height();
+
+    var canvas_x = canvas_w / 2;
+    var canvas_y = canvas_h / 2;
+
+    m_cont.resize(canvas_w, canvas_h, false);
+
+    if (subs) {
+        var cam = subs.camera;
+        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
+                _vec2_tmp, subs.camera);
+
+        viewport_xy[1] = cam.height - viewport_xy[1];
+        var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
+                viewport_xy[1]);
+        eqv(color_data, color);
+    } else
+        throw "Couldn't find subscene \"" + subs_type + "\".";
+}
+
+exports.eqs = function(result, exp_result) {
+    if (JSON.stringify(result) != JSON.stringify(exp_result))
+        throw "Wrong result. Function: " + _tested_func_name;
+}
+
+exports.eqv = eqv;
+function eqv(result, exp_result, eps) {
+    if (typeof exp_result != typeof result)
+        throw "Wrong expected data type.";
+    if (result.length != exp_result.length)
+        throw "Wrong expected vector length.";
+    var eps = eps ? eps : EPS;
+    for (var i = 0; i &lt; result.length; i++)
+        if (exp_result[i] > result[i] + eps || exp_result[i] &lt; result[i] - eps)
+            throw "Wrong result.";
+}
+
+exports.eqf = function(result, exp_result, eps) {
+    if (typeof exp_result != "number")
+        throw "Wrong expected data type.";
+    var eps = eps ? eps : EPS;
+    if (exp_result > result + eps || exp_result &lt; result - eps)
+        throw "Wrong result.";
+}
+
+exports.eq = function(result, exp_result) {
+    if (result !== exp_result)
+        throw "Wrong result.";
+}
+
+exports.stat = function(module_name) {
+    var module = require(module_name);
+    for (var name in module)
+        if (_called_funcs.indexOf(module[name]) == -1)
+            console.warn(name + " function wasn't called.");
+}
+
+exports.ok = function(exp) {
+    if (!Boolean(exp))
+        throw "Wrong result. Function: " + _tested_func_name;
+}
+
 }
 </code></pre>
         </article>
@@ -1041,13 +1176,14 @@ exports.test_performance = function(callback) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 26 2016 15:16:12 GMT+0300 (MSK)
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Mar 31 2016 11:41:54 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
 </footer>
 
 <script> prettyPrint(); </script>

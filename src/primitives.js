@@ -122,6 +122,8 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
 
     var indices      = [];
     var positions    = [];
+    var tangents     = [];
+    var normals      = [];
 
     var prev_x = 0;
     var prev_z = 0;
@@ -191,6 +193,8 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                             } else
                                 var cascad_step = delta_x;
                             positions.push(x, cascad_step, z);
+                            normals.push(0,1,0);
+                            tangents.push(1,0,0);
                             last_added_ind++; 
                         }
                         indices_in_row.push(idx0);
@@ -327,12 +331,18 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                      idx0 + 7, idx0 + 3, idx0 + 1,
                      idx0 + 5, idx0 + 4, idx0 + 7,
                      idx0 + 7, idx0 + 4, idx0 + 6);
+        for (var i = 0; i < 8; i++) {
+            normals.push(0,1,0);
+            tangents.push(1,0,0);
+        }
     }
 
     // construct submesh
     var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
+    va_frame["a_tangent"] = new Float32Array(tangents);
+    va_frame["a_normal"] = new Float32Array(normals);
 
     var submesh = m_util.create_empty_submesh("multigrid_plane");
 

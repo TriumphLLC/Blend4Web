@@ -39,6 +39,8 @@ exports.ISLES_SHIELD_DUPLI_NAME_LIST = ["enviroment", "islands", "island_shield_
 exports.ISLANDS_DOOR = ["enviroment", "islands", "islands_door"];
 exports.STAIRS_OBJ = "second_level_enter_stairs";
 exports.STAIRS_EMITTER = "second_level_stairs_emitter";
+exports.STAIRS_MAGIC = "second_level_enter_stairs_magic";
+
 
 exports.GOLEMS_EMPTIES = ["golem_lava", "golem_lava.001", "golem_lava.002"];
 
@@ -56,12 +58,12 @@ exports.GOLEM_PATROL_POINTS = ["lava_golem_spawn",     "golem_patrol",     "gole
 
 exports.ISLAND_SPEAKER = "island_shield_grow";
 
-exports.MUSIC_INTRO_SPEAKER = "level_01_bm_intro";
-exports.MUSIC_END_SPEAKER = "level_01_bm_end";
+exports.MUSIC_INTRO_SPEAKER = ["enviroment", "level_01_bm_intro"];
+exports.MUSIC_END_SPEAKER = ["enviroment", "level_01_bm_end"];
 
-exports.MUSIC_SPEAKERS = ["level_01_bm_loop_A",
-                          "level_01_bm_loop_B",
-                          "level_01_bm_loop_C",
-                          "level_01_bm_loop_D",
-                          "level_01_bm_percussive"];
+exports.MUSIC_SPEAKERS = [["enviroment", "level_01_bm_loop_A"],
+                          ["enviroment", "level_01_bm_loop_B"],
+                          ["enviroment", "level_01_bm_loop_C"],
+                          ["enviroment", "level_01_bm_loop_D"],
+                          ["enviroment", "level_01_bm_percussive"]];
 })

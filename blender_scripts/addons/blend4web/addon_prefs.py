@@ -82,5 +82,8 @@ class B4WPreferences(AddonPreferences):
         row.prop(self, "b4w_server_auto_start", text=_("Run on Startup"))
         row.prop(self, "b4w_port_number")
         row.prop(self, "b4w_enable_ext_requests")
+        for m in blend4web.init_mess:
+            row = layout.row()
+            row.label(m, icon="ERROR")
 
 

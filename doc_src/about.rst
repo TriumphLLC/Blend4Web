@@ -1,76 +1,76 @@
 .. _about:
 
 **************
-Общие сведения
+Overview
 **************
 
 .. index:: Blend4Web
 
 .. _about_product:
 
-Что такое Blend4Web
+What's Blend4Web
 ===================
 
-Blend4Web - это программная среда для подготовки и интерактивного отображения трехмерного аудиовизуального контента в браузерах, т.е. трехмерный «движок» (жаргонизм от англ. «engine»). 
+Blend4Web is a web-oriented 3D engine - a software framework for authoring and interactive rendering of three-dimensional graphics and audio in "browsers.
 
-Платформа предназначена для создания визуализаций, презентаций, интернет-магазинов, игр и других "насыщенных" web-приложений.
+The platform is intended for visualizations, presentations, online-shops, games and other rich internet applications.
 
-Фреймворк Blend4Web имеет тесную интеграцию с пакетом 3D моделирования и анимации Blender (отсюда название). Отображение контента осуществляется средствами WebGL и других браузерных технологий, без использования плагинов.
+The Blend4Web framework is integrated tightly with Blender - a 3D modeling and animation tool (hence the name). The content is rendered by means of WebGL and other browser technologies, without the use of plugins.
 
-Технически Blend4Web представляет собой программную библиотеку, подключаемую в web-странице, аддон (дополнение) к программе Blender, а также инструменты для отладки и оптимизации.
+Technically Blend4Web is a library for web pages, a Blender addon and some tools for debugging and optimization.
 
-3D движок Blend4Web разрабатывается сотрудниками ООО «Триумф» с 2010 г. Первый релиз движка состоялся 28 марта 2014 г.
+The Blend4Web 3D engine has been developed by Triumph LLC employees since 2010. The engine was first released on March 28 2014.
 
 
-.. index:: движок
+.. index:: engine
 
 .. _about_engine:
 
-"Движок"
-========
+"About Engines"
+===============
 
-Движок - это обособленная часть программного кода, используемая внешними приложениями для реализации нужного им функционала. 
+An engine is a separate part of software code which is used by external applications for implementing the required functionality.
 
-Типы движков: сайтовый движок, блоговый движок, движок интернет-магазина, wiki-движок, поисковый движок, игровой движок и т.д. Экономический смысл существования программных движков заключается в многократном использовании одного и того же функционала. Например, используя тот или иной движок, разработчики могут относительно дешево создавать интернет-магазины или игры.
+Engine examples are: site engine, blog engine, online shop engine, wiki engine, search egine, game engine etc. The economical reason for the existance of software engines is multiple usage of the same functionality. For example developers may create relatively cheap online shops or games using one or another engine.
 
 
-.. index:: графический движок, трехмерный движок
+.. index:: graphics engine, three-dimensional engine
 
 .. _about_graphics_engine:
 
-Графический движок, трехмерный движок
-=====================================
+Graphics Engine, Game Engine
+============================
 
-Графический движок выполняет специализированные функции по отображению графики. Он является промежуточным звеном между:
+A graphics engine performs special functions in displaying graphics. It is an intermediary between:
 
-    - высокоуровневой прикладной частью (игровой логикой, бизнес-логикой) и 
-    - низкоуровневой системной частью (например, графической библиотекой :ref:`WebGL <about_webgl>` и нижлежащими :ref:`драйверами <about_drivers_video_cards>`).
+    - high-level application part (game logic, business logic) and 
+    - low-level system part (for example, the graphics library :ref:`WebGL <about_webgl>` and underlying :ref:`drivers <about_drivers_video_cards>`).
 
-Графический движок может объединяться со звуковой системой, физическим движком, системой, реализующей искусственный интеллект, сетевой системой, а также редактором сцен и логики, образуя интегрированный инструментарий для создания 3D приложений - **трехмерный движок**.
+A graphics engine may be combined with the sound system, the physics engine, the artificial intelligence system, the networking system and the scene and logic editors producing a **three-dimensional engine** - an integrated environment for authoring 3D applications.
 
 
 .. index:: WebGL
 
 .. _about_webgl:
 
-Что такое WebGL
+What's WebGL
 ===============
 
-WebGL (Web Graphics Library, т.е. графическая библиотека для использования в веб-приложениях) - одна из современных браузерных технологий, позволяющая создавать трехмерные графические веб-приложения. Другими словами WebGL - это "3D в браузере".
+WebGL (Web Graphics Library) is one of the modern browser technologies which allows authoring 3D graphics applications. In other words WebGL is "3D in a browser".
 
 
-.. index:: WebGL; поддержка в браузерах
+.. index:: WebGL; browser support
 
 .. _browser_webgl_support:
 
-Поддержка WebGL в браузерах
+WebGL Browsers Support
 ===========================
 
-В настоящий момент технология WebGL в той или иной степени поддерживается во всех браузерах.
+At the moment WebGL is supported in to a varying degree by all browsers.
 
 
-Полная поддержка
-----------------
+Full Support
+------------
 
 * `Chrome <http://www.google.com/chrome>`_
 * `Yandex Browser <http://browser.yandex.ru/>`_ 
@@ -78,15 +78,15 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 * `Opera <http://www.opera.com/browser>`_
 * `Safari <http://www.apple.com/safari/>`_ 8+
 
-Экспериментальная поддержка
----------------------------
+Experimental Support
+--------------------
 
 * `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11
 * `Microsoft Edge <https://www.microsoft.com/en-us/windows/microsoft-edge>`_
 
 
-Мобильные платформы
--------------------
+Mobile Platforms
+----------------
 
 * Android
 * BlackBerry
@@ -96,119 +96,119 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 * Tizen
 * Ubuntu Touch
 
-.. index:: WebGL; преимущества
+.. index:: WebGL; advantages
 
 .. _about_webgl_benefits:
 
-Преимущества WebGL
-==================
+Advantages of WebGL
+===================
 
-* работает в браузерах без установки дополнительных программ (плагинов)
-* кроссплатформенный, предназначен для работы во всех стационарных и мобильных системах
-* является `открытым стандартом <http://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82>`_, не требует лицензионных отчислений
-* поддерживается ведущими участниками рынка IT (Google, Apple, Microsoft, Nvidia, Samsung, Adobe и др.)
-* основан на знакомой разработчикам технологии OpenGL
-* интегрируется с другими :ref:`браузерными технологиями <about_browser_tech>`
+* works in browsers without installing additional software (plugins)
+* crossplatform, intended for all desktop and embedded systems
+* `open standard <http://en.wikipedia.org/wiki/Open_standard>`_, does not require licensing fees
+* supported by the leading participants of the IT market (Google, Apple, Microsoft, Nvidia, Samsung, Adobe and others)
+* based on OpenGL which is familiar to developers
+* can be integrated with other :ref:`browser technologies <about_browser_tech>`
 
 
 .. index:: Blender
 
 .. _about_blender:
 
-Что такое Blender
-=================
+What's Blender
+==============
 
-Blender - это популярная программа для создания 3D-моделей и анимации, бесплатная и с открытым кодом. Подготовленные в программе модели и сцены могут быть отображены, например, с помощью :ref:`трехмерного движка <about_graphics_engine>` на странице веб-сайта. 
+Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models and scenes which are created in this software can be displayed, for example, by means of a :ref:`three-dimensional engine <about_graphics_engine>` on a web page.
 
 
-.. index:: 3D моделирование
+.. index:: 3D Modeling
 
 .. _about_modelling:
 
-3D моделирование
-================
+3D Modeling
+===========
 
-Создание графических ресурсов требует наличия подготовленных специалистов - 3D-художников. 
+Authoring graphics resources requires trained specialists - 3D artists.
 
-Типичный рабочий процесс может состоять из следующих этапов:
+A typical workflow may include the following stages:
 
-* подбор фотографий и/или создание концепта и скетчей ("спереди"-"сбоку"-"сверху") будущей модели или сцены 
-* моделирование - создается трехмерная модель, состоящая из многоугольников (полигонов)
-* текстурная развертка - на модели создается разметка для последующего наложения текстур (плоских изображений)
-* текстурирование - на 3D-модель накладываются текстуры
-* подбор материалов - назначение различным частям модели материалов и их настройка (например, деревянная дверь с металлической ручкой)
-* риггинг (от англ. rigging, т.е. "оснастка") - к модели прикрепляются управляющие элементы ("кости" "скелета") с целью дальнейшей анимации
-* анимация - модель приводится в движение с целью визуализации действий (например, персонажей)
-* экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее конечном виде, например, на веб-странице
+* choosing photos and/or creating concepts and sketches (views from the front - from the side - from the above) of the future model or scene
+* modeling - a 3D model consisting of polygons is created
+* UV mapping - the model is unwrapped for further overlaying of textures (flat images) 
+* texturing - textures are overlayed on the 3D model
+* materials setup - materials are assigned for different parts of the model and tuned (for example, a wooden door with a metal handle)
+* rigging - the controlling elements ("skeletal bones") are attached to the model to animate it
+* animation - the model is set in motion to visualize actions for example - of characters
+* export - can be performed on any stage to display the 3D model in its final form, for example, on a web page
 
-Кроме того, в процессе создания 3D-моделей часто используются техники повышения реализма, требующие отдельных этапов:
+In addition, realism improving techniques are often used in the process of creating 3D models which require additional stages:
 
-* создание высокополигональной модели - создается детализированная версия модели
-* "запекание" карты нормалей - детали из высокополигональной модели переносятся на основную модель в виде специальной текстуры (карты нормалей)
-* создание карты отражения - различным частям модели назначается различный цвет и степень отражения света
-* запекание карт окружения - производится с целью реализации эффекта отражения окружающей среды на поверхности модели
-* настройка камеры и источников света на сцене
-* настройка параметров физической симуляции - частицы, ткань
+* creating a high-poly model - a detailed version of the model is created
+* "baking" of a normal map - details from the high-poly model are transferred to the main model in the form of a special texture (normal map)
+* creating a specular map - different reflection color and ratio are assigned to different model parts
+* baking environment maps - is performed to visualize the surrounding environment reflection on the model surface
+* setting up the camera and the light sources on the scene
+* physical simulation parameters setup - particles, cloth
 
-Затраты времени при изготовлении 3D-моделей и анимации зависят от их сложности и требуемого качества, и могут изменяться от 1-2 дней (например, игровой предмет) до 1-2 недель (например, детализованная модель самолета) и даже нескольких месяцев (реалистичные персонажи с наборами одежды, волос, лиц, с анимацией и настройкой пропорций фигуры).
+The time required to author 3D models and animation depends on their complexity and required quality and may vary from 1-2 days (for example a game item) to 1-2 weeks (for example a detailed aircraft model) and even to several months (realistic characters with clothing, hair, face sets, with animation and figure parameters setup).
 
 
-.. index:: браузерные технологии, браузер
+.. index:: browser technologies, browser
 
 .. _about_browser_tech:
 
-Браузерные технологии
+Browser Technologies
 =====================
 
-Браузер (от англ. "browser", т.е. "просмотрщик") - программа для воспроизведения содержимого сети Интернет. На заре развития интернет-технологий роль браузера сводилась к просмотру текстовых страниц с включениями статических изображений ("гипер-текст"). Современные браузеры представляют собой полнофункциональные платформы для создания мультимедийных веб-приложений. 
+Browser is a program for viewing Internet content. At the dawn of Internet technologies the browser's role was to view text pages with the inclusion of static images ("hyper-text"). Modern browsers are full-scale platforms for multimedia web applications.
 
-Среди реализованных и перспективных возможностей браузеров, используемых в :ref:`Blend4Web <about_product>`, можно отметить следующие технологии:
+Among the already implemented and promising browser features which are used in :ref:`Blend4Web <about_product>` the following technologies can be noted:
 
-* трехмерная графика, `WebGL <https://www.khronos.org/registry/webgl/specs/latest/>`_
-* типизированные массивы, `Typed Array <https://www.khronos.org/registry/typedarray/specs/latest/>`_
-* временной контроль анимации (requestAnimationFrame), `Timing control for script-based animations <http://www.w3.org/TR/animation-timing/>`_
-* двухмерная графика, `HTML Canvas 2D Context <http://www.w3.org/TR/2dcontext/>`_
-* обработка звука, `Web Audio API <http://www.w3.org/TR/webaudio/>`_
-* загрузка бинарных данных, `XMLHttpRequest Level 2 <http://www.w3.org/TR/XMLHttpRequest/>`_
-* полноэкранный режим, `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_
-* захват курсора мыши, `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_
-* многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_
-* ориентация и перемещение мобильных устройств, `Device Orientation <http://www.w3.org/TR/orientation-event/>`_
+* three-dimensional graphics, `WebGL <https://www.khronos.org/registry/webgl/specs/latest/>`_
+* `Typed Array <https://www.khronos.org/registry/typedarray/specs/latest/>`_
+* `Timing control for script-based animations <http://www.w3.org/TR/animation-timing/>`_ (requestAnimationFrame)
+* two-dimensional graphics, `HTML Canvas 2D Context <http://www.w3.org/TR/2dcontext/>`_
+* sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_
+* binary data loading, `XMLHttpRequest Level 2 <http://www.w3.org/TR/XMLHttpRequest/>`_
+* `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_
+* `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_
+* multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_
+* `Device Orientation <http://www.w3.org/TR/orientation-event/>`_
 
-Другие перспективные технологии:
+Other promising technologies:
 
-* векторная графика, `Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_
-* безопасный доступ к файлам, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_
-* потоковое соединение между браузерами, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_
-* постоянное сетевое подключение, `The WebSocket API <http://www.w3.org/TR/websockets/>`_
-* игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html>`_
+* `Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_
+* safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_
+* real-time communication between browsers, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_
+* persistent network connection, `The WebSocket API <http://www.w3.org/TR/websockets/>`_
+* `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html>`_
 
 
-.. index:: интерактивная графика
+.. index:: interactive graphics
 
 .. _about_interactive_graphics:
 
-Интерактивная графика
-=====================
+Interactive Graphics
+====================
 
-Термин "интерактивный" в приложении к компьютерной графике означает, что пользователь имеет возможность взаимодействовать с постоянно меняющимся изображением. Например, пользователь может изменять направление взгляда в 3D сцене, перемещать объекты, инициировать анимацию и выполнять другие действия, обычно ассоциирующиеся с компьютерными играми. 
+Applied to computer graphics the term "interactive" means that the user can interact with a constantly changing image. For example the user can change the view direction in a 3D scene, move the objects, trigger animation and carry out other actions normally associated with computer games.
 
-Интерактивность графики достигается за счет частой смены изображений, так что действие пользователя (например, движение курсора или нажатие кнопки) в промежутках между кадрами приводит к изменению изображения в следующем кадре. Изображения должны сменять друг друга так часто, чтобы человеческий глаз не был способен распознать их по отдельности (быстрее 30 кадров в секунду). 
+Graphics interactivity is achieved by utilizing a frequent change of images, so the user action (for example a mouse movement or the pressing of a key) between frames leads to the image changing in the next frame. Images must replace each other so frequently that the human eye could not recognize them individually (at least 30 frames per second).
 
-Близким по смыслу термином является также "графика реального времени", или "рендеринг реального времени" (от англ. rendering, т.е. "отображение").
+"Real-time graphics" or "real-time rendering" are also similar in meaning to the term.
 
 
-.. index:: видео-карта, драйверы
+.. index:: video card, drivers
 
 .. _about_drivers_video_cards:
 
-Видео-карты и драйверы
-======================
+Video Cards and Drivers
+=======================
 
-Интерактивная графика реализуется специализированной аппаратной частью современных компьютеров, называемой графическим процессором, который может быть выполнен в виде отдельного устройства (видео-карты) или как часть центрального процессора. 
+Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemeted as a discrete device (video card) or as a part of the central processing unit.
 
-Основные производители графических процессоров (в скобках указаны их торговые марки), для настольных компьютеров - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), для мобильных устройств - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno).
+Main graphics processors vendors for desktop computers are:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).
 
-Доступ программ к ресурсам графического процессора осуществляется через программу-посредника, называемого драйвером. Важным условием для корректной работы интерактивных графических программ является наличие в системе драйверов последней версии. Драйверы можно установить (или обновить), загрузив их с соответствующих сайтов производителей графических процессоров. Подробнее в разделе :ref:`webgl_not_working`.
+Program access to graphics processor resources is carried out via an intermediate program called driver. It's important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section :ref:`webgl_not_working`.
 
 

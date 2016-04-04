@@ -38,13 +38,18 @@ var m_util   = require("__util");
 
 var cfg_def = require("__config").defaults;
 
-var _is_paused = false;
-var _anchors = [];
+var _anchors      = [];
+var _is_paused    = false;
+var _clicked_elem = null;
+var _in_use       = false;
+
 var _anchor_batch_pos = new Float32Array(0);
-var _pixels = new Uint8Array(16);
+var _pixels           = new Uint8Array(16);
 
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
+
+var anchor_descr_cache = {}
 
 
 exports.append = function(obj) {
@@ -97,6 +102,89 @@ exports.append = function(obj) {
 
     _anchors.push(anchor);
     resize_anchor_batch_pos();
+
+    if (!_in_use)
+        add_click_listener();
+}
+
+function add_click_listener() {
+    _in_use = true;
+
+    var canvas_cont = m_cont.get_container();
+
+    canvas_cont.addEventListener("mouseup", function(e) {
+        if (_is_paused)
+            return;
+
+        var anchor_cont  = _clicked_elem;
+
+        if (!anchor_cont)
+            return;
+
+        if (anchor_cont.style.visibility == "hidden") {
+            close_descr();
+
+            _clicked_elem = null;
+
+            return;
+        }
+
+        if (anchor_cont.style.opacity != 1.0)
+            return;
+
+        var anchor_descr = anchor_cont.querySelector("div");
+        var descr_body   = anchor_descr.querySelector("span");
+        var body_text    = descr_body.innerHTML;
+
+        anchor_cont.style.visibility  = "hidden";
+        anchor_descr.style.visibility = "visible";
+
+        var descr_width  = Math.min(parseInt(anchor_descr.style.width) || 200, str_width(body_text) - 24)
+        var descr_height = str_height(body_text, descr_width);
+
+        var width_anim  = false;
+        var height_anim = false;
+
+        var parent_width  = anchor_cont.offsetWidth - 24;
+        var parent_height = anchor_cont.offsetHeight - 16;
+
+        if (descr_height == parent_height)
+            anchor_descr.style.height = descr_height + "px";
+
+        if (descr_width != parent_width)
+            m_time.animate(parent_width, descr_width, 200, function(e) {
+                if (e == descr_width) {
+                    width_anim = false;
+
+                    if (is_anim)
+                        descr_body.style.visibility = "visible";
+                }
+
+                anchor_descr.style.width = e + "px";
+            });
+        else
+            width_anim = false;
+
+        if (descr_height != parent_height)
+            m_time.animate(parent_height, descr_height, 200, function(e) {
+                if (e == descr_height) {
+                    height_anim = false;
+
+                    if (is_anim)
+                        descr_body.style.visibility = "visible";
+                }
+
+                anchor_descr.style.height = e + "px";
+            });
+        else
+            height_anim = false;
+
+        function is_anim() {
+            return anchor_descr.style.visibility == "visible" &&
+                   !width_anim &&
+                   !height_anim;
+        }
+    })
 }
 
 function has_anchor_obj(obj) {
@@ -107,223 +195,169 @@ function has_anchor_obj(obj) {
     return false;
 }
 
+function close_descr() {
+    _clicked_elem.querySelector("div").style.visibility = "hidden";
+    _clicked_elem.querySelector("div").querySelector("span").style.visibility = "hidden";
+    _clicked_elem.style.visibility = "visible";
+}
+
 function create_annotation(obj, max_width) {
-    var div = document.createElement("div");
-    var div_style = div.style;
+    var anchor_cont       = document.createElement("div");
+    var anchor_title_elem = document.createElement("span");
+    var anchor_desc       = "";
+    var anchor_title      = obj.name;
+    var canvas_cont       = m_cont.get_container();
+    var meta_tags         = m_obj.get_meta_tags(obj);
 
-    div_style.position = "absolute";
-    div_style.backgroundColor = "black";
-    div_style.borderRadius = "20px 20px 20px 0px";
-    div_style.boxShadow = "0px 0px 10px rgb(180, 180, 200)";
-    div_style.opacity = 1.0;
-    div_style.padding = "8px 12px";
-    div_style.lineHeight = "15px";
-    div_style.visibility = "hidden";
-    div_style.fontSize = "12px";
+    add_cont_style(anchor_cont);
 
-    var canvas_cont = m_cont.get_container();
+    anchor_cont.style.visibility = "hidden";
 
-    canvas_cont.appendChild(div);
-
-    var meta_tags = m_obj.get_meta_tags(obj);
+    canvas_cont.appendChild(anchor_cont);
 
     if (meta_tags) {
-        var title = meta_tags.title || obj.name;
-        var desc = meta_tags.description;
-    } else {
-        var title = obj.name;
-        var desc = "";
+        anchor_desc  = meta_tags.description || anchor_desc;
+        anchor_title = meta_tags.title || anchor_title;
     }
 
-    var title_span = document.createElement("span");
-    var title_span_style = title_span.style;
+    anchor_title_elem.innerHTML = anchor_title;
 
-    title_span.innerHTML = title;
-    title_span_style.fontWeight = "bold";
-    title_span_style.fontSize = "12px";
-    title_span_style.lineHeight = "15px";
-    title_span_style.color = "#fff";
-    title_span_style.fontFamily = "Arial";
+    add_noselect_style(anchor_title_elem);
+    add_inner_style(anchor_title_elem);
 
-    add_noselect_style(title_span);
-    div.appendChild(title_span);
+    anchor_cont.appendChild(anchor_title_elem);
 
-    if (desc) {
-        var desc_div = document.createElement("div");
-        var desc_div_style = desc_div.style;
+    if (anchor_desc)
+        create_anchor_descr_elem(anchor_desc, anchor_cont, max_width);
 
-        desc_div_style.position = "absolute";
-        desc_div_style.bottom = "0px";
-        desc_div_style.left = "0px";
-        desc_div_style.backgroundColor = "#000";
-        desc_div_style.borderRadius = "20px 20px 20px 0px";
-        desc_div_style.boxShadow = "0px 0px 10px rgb(180, 180, 200)";
-        desc_div_style.visibility = "hidden";
-        desc_div_style.padding = "8px 12px";
-        desc_div_style.overflow = "hidden";
-        desc_div_style.lineHeight = "15px";
-        desc_div_style.fontSize = "12px";
-
-        // NOTE:
-        desc_div_style.zIndex = "2";
-        div.appendChild(desc_div);
-
-        var desc_span = document.createElement("span");
-        var desc_span_style = desc_span.style;
-
-        desc_span.innerHTML = desc;
-        desc_span_style.fontSize = "12px";
-        desc_span_style.fontFamily = "Arial";
-        desc_span_style.fontWeight = "bold";
-        desc_span_style.lineHeight = "15px";
-        desc_span_style.color = "#fff";
-        desc_span_style.visibility = "hidden";
-
-        desc_div.appendChild(desc_span);
-
-        var width_anim = false;
-        var height_anim = false;
-
-        canvas_cont.addEventListener("mousedown", function(e) {
-            if (width_anim || height_anim || _is_paused)
-                return;
-
-            if ((e.target == title_span || e.target == div) &&
-                    desc_div_style.visibility == "hidden" &&
-                    div_style.opacity == 1.0) {
-                div_style.visibility = "hidden";
-                title_span_style.visibility = "hidden";
-
-                desc_div_style.visibility = "visible";
-
-                width_anim = height_anim = true;
-
-                var parent_width = div.offsetWidth - 24;
-                var parent_height = div.offsetHeight - 16;
-
-                var descr_width  = Math.min(max_width, str_width(desc, "12px"))
-                var descr_height = str_height(desc, "12px", descr_width);
-
-                if (descr_height == parent_height)
-                    desc_div_style.height = descr_height + "px";
-
-                if (descr_width != parent_width)
-                    m_time.animate(parent_width, descr_width, 200, function(e) {
-                        if (e == descr_width) {
-                            // NOTE: do not make visible then anchor is suddenly out
-                            if (desc_div_style.visibility == "visible")
-                                desc_span_style.visibility = "visible";
-                            width_anim = false;
-                        }
-
-                        desc_div_style.width = e + "px";
-                    });
-                else
-                    width_anim = false;
-
-                if (descr_height != parent_height)
-                    m_time.animate(parent_height, descr_height, 200, function(e) {
-                        if (e == descr_height) {
-                            // NOTE: do not make visible then anchor is suddenly out
-                            if (desc_div_style.visibility == "visible")
-                                desc_span_style.visibility = "visible";
-                            height_anim = false;
-                        }
-
-                        desc_div_style.height = e + "px";
-                    });
-                else
-                    height_anim = false;
-
-                if (!height_anim && !width_anim)
-                    desc_span_style.visibility = "visible";
-
-            } else if (desc_div_style.visibility == "visible") {
-                div_style.visibility = "visible";
-                title_span_style.visibility = "visible";
-
-                desc_div_style.visibility = "hidden";
-                desc_span_style.visibility = "hidden";
-            }
-        }, false);
-    }
-
-    return div;
+    return anchor_cont;
 }
 
-function str_width(str, font_size, max_width) {
-    var div = document.createElement("div");
-    var span = document.createElement("span");
-
-    var div_style = div.style;
-
-    span.innerHTML = str;
-
-    span.style.fontSize   = font_size;
-    span.style.fontFamily = "Arial";
-    span.style.fontWeight = "bold";
-    span.style.color      = "#fff";
-    span.style.visibility = "hidden";
-    div_style.lineHeight  = "15px";
-
-    div.appendChild(span);
-
-    div_style.position   = "absolute";
-    div_style.visibility = "hidden";
-    div_style.fontSize   = font_size;
-    div_style.display    = "inline-block";
-    div_style.lineHeight = "15px";
-
-    document.body.appendChild(div);
-    var w = div.offsetWidth + 1;
-    document.body.removeChild(div);
-
-    return w;
+function add_cont_style(elem) {
+    elem.style.cssText +=
+        "background-color:   #000;" +
+        "border-radius:      20px 20px 20px 0px;" +
+        "box-shadow:         0px 0px 10px rgb(180, 180, 200);" +
+        "-webkit-box-shadow: 0px 0px 10px rgb(180, 180, 200);" +
+        "font-size:          12px;" +
+        "line-height:        15px;"+
+        "opacity:            1.0;" +
+        "padding:            8px 12px;" +
+        "position:           absolute;";
 }
 
-function str_height(str, font_size, max_width) {
-    var div = document.createElement("div");
-    var span = document.createElement("span");
+function add_inner_style(elem) {
+    elem.style.cssText +=
+        "color:       #fff;" +
+        "font-family: Arial;"+
+        "font-size:   12px;" +
+        "font-weight: bold;" +
+        "line-height: 15px;";
+}
 
-    var div_style = div.style;
-
-    span.innerHTML = str;
-
-    span.style.fontSize = font_size;
-    span.style.fontFamily = "Arial";
-    span.style.fontWeight = "bold";
-    span.style.color = "#fff";
-    span.style.visibility = "hidden";
-    div_style.lineHeight  = "15px";
-
-    div.appendChild(span);
-
-    div_style.position = "absolute";
-    div_style.visibility = "hidden";
-    div_style.fontSize = font_size;
-    div_style.display = "inline-block";
-    div_style.width = max_width + "px";
-    div_style.lineHeight = "15px";
-
-    document.body.appendChild(div);
-    var h = div.offsetHeight;
-    document.body.removeChild(div);
-
-    return h;
+function add_descr_style(elem) {
+    elem.style.cssText +=
+        "background-color:   #000;" +
+        "border-radius:      20px 20px 20px 0px;" +
+        "bottom:             0;" +
+        "box-shadow:         0px 0px 10px rgb(180, 180, 200);" +
+        "-webkit-box-shadow: 0px 0px 10px rgb(180, 180, 200);" +
+        "font-size:          12px;" +
+        "left:               0;"+
+        "line-height:        15px;"+
+        "opacity:            1.0;" +
+        "overflow:           hidden;" +
+        "padding:            8px 12px;" +
+        "position:           absolute;" +
+        "z-index:            2;";
 }
 
 function add_noselect_style(elem) {
-    elem.style["-webkit-touch-callout"] = "none";
-    elem.style["-webkit-user-select"] = "none";
-    elem.style["-khtml-user-select"] = "none";
-    elem.style["-moz-user-select"] = "none";
-    elem.style["-ms-user-select"] = "none";
-    elem.style["user-select"] = "none";
-    elem.style["cursor"] = "default";
+    elem.style.cssText +=
+        "-webkit-touch-callout: none;" +
+        "-webkit-user-select:   none;" +
+        "-khtml-user-select:    none;" +
+        "-moz-user-select:      none;" +
+        "-ms-user-select:       none;" +
+        "user-select:           none;" +
+        "cursor:                default;";
+}
+
+function create_anchor_descr_elem(anchor_desc, anchor_cont, max_width) {
+    var desc_elem      = document.createElement("div");
+    var desc_body_elem = document.createElement("span");
+
+    if (max_width)
+        desc_elem.style.width = max_width + "px";
+
+    add_descr_style(desc_elem);
+    add_inner_style(desc_body_elem);
+
+    desc_body_elem.innerHTML = anchor_desc;
+
+    desc_elem.style.visibility      = "hidden";
+    desc_body_elem.style.visibility = "hidden";
+
+    desc_elem.appendChild(desc_body_elem);
+    anchor_cont.appendChild(desc_elem);
+
+    anchor_cont.addEventListener("mousedown", function(e) {
+        if (anchor_cont == _clicked_elem)
+            return;
+
+        if (anchor_cont.style.opacity != 1.0)
+            return;
+
+        if (_is_paused)
+            return;
+
+        if (_clicked_elem && _clicked_elem.style.visibility == "hidden")
+            close_descr();
+
+        _clicked_elem = anchor_cont;
+    });
+}
+
+function str_width(str) {
+    var descr      = document.createElement("div");
+    var descr_body = document.createElement("span");
+
+    descr_body.innerHTML = str;
+
+    add_inner_style(descr_body);
+    add_descr_style(descr);
+
+    descr.appendChild(descr_body);
+
+    document.body.appendChild(descr);
+    var width = descr.offsetWidth + 1;
+    document.body.removeChild(descr);
+
+    return width;
+}
+
+function str_height(str, width) {
+    var descr      = document.createElement("div");
+    var descr_body = document.createElement("span");
+
+    descr_body.innerHTML = str;
+
+    add_inner_style(descr_body);
+    add_descr_style(descr);
+
+    descr.style.width = width + "px";
+    descr.style.display = "inline-block";
+
+    descr.appendChild(descr_body);
+
+    document.body.appendChild(descr);
+    var height = descr.offsetHeight - 16;
+    document.body.removeChild(descr);
+
+    return height;
 }
 
 function resize_anchor_batch_pos() {
-
     var num = 0;
 
     for (var i = 0; i < _anchors.length; i++)
@@ -332,7 +366,6 @@ function resize_anchor_batch_pos() {
 
     _anchor_batch_pos = new Float32Array(3 * num);
 }
-
 
 exports.remove = function(obj) {
     for (var i = 0; i < _anchors.length; i++) {
@@ -423,6 +456,7 @@ function anchor_project(anchor, dest) {
     var camobj = m_scenes.get_camera(m_scenes.get_main());
     var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
     var dest = m_cam.project_point(camobj, trans, dest);
+
     return dest;
 }
 
@@ -448,6 +482,7 @@ exports.update_visibility = function() {
             appearance = pick_anchor_visibility(anchor);
 
         // optimization
+
         if (appearance == anchor.appearance)
             continue;
 
@@ -513,7 +548,6 @@ exports.update_visibility = function() {
 }
 
 function pick_anchor_visibility(anchor) {
-
     // NOTE: slow
     var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY");
     var anchor_cam = subs_anchor.camera;
@@ -589,7 +623,7 @@ exports.resume = function() {
 exports.pick_anchor = function(x, y) {
     var index = -1;
     for (var i = 0; i < _anchors.length; i++)
-        if (_anchors[i].appearance = "visible" && check_anchor_coords(_anchors[i], x, y)) {
+        if (_anchors[i].appearance == "visible" && check_anchor_coords(_anchors[i], x, y)) {
             if (index < 0) {
                 var min_dist = _anchors[i].depth;
                 index = i;
@@ -611,6 +645,7 @@ function check_anchor_coords(anchor, x, y) {
     var height = Math.round(anchor.annotation_height);
     var a_x = anchor.x;
     var a_y = anchor.y;
+
     if (x >= a_x && x <= (a_x + width) && y < a_y && y >= (a_y - height))
         return true;
     else

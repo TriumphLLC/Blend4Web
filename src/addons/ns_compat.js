@@ -26,8 +26,8 @@ if (!window["b4w"])
  * @module ns_compat
  *
  * @cc_externs animation armature assets camera config controls constraints container
- * @cc_externs data debug geometry hud lights main material particles physics
- * @cc_externs rgb rgba scenes sfx textures transform util version nla
+ * @cc_externs data debug geometry hud lights main material math particles physics
+ * @cc_externs rgb rgba scenes sfx textures transform util version nla input
  *
  * @cc_externs vec3 vec4 quat mat3 mat4
  *

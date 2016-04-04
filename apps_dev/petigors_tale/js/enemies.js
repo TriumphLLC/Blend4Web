@@ -40,6 +40,7 @@ var ZERO_VEC = new Float32Array(3);
 exports.init = function(elapsed_sensor, level_conf) {
     _level_conf = level_conf;
     _golems_spawn_timer = m_conf.GOLEMS_SPAWN_INTERVAL;
+    _enemies_wrappers.length = 0;
 
     function char_ray_cb(golem_wrapper, id, pulse) {
         var value = m_ctl.get_sensor_value(golem_wrapper, "CHAR_RAY", 0);
@@ -383,6 +384,11 @@ function attack_target(golem_wrapper, target, elapsed) {
         translate(golem_wrapper, elapsed);
     else if (Math.abs(angle_to_targ) < 0.05 * Math.PI)
         perform_attack(golem_wrapper);
+
+    if (golem_wrapper.type == m_conf.EN_TYPE_GOLEM_STONE) {
+        m_anim.set_speed(golem_wrapper.rig, m_conf.STONE_GOLEMS_SP_MULT);
+        golem_wrapper.speed = m_conf.GOLEM_SPEED * m_conf.STONE_GOLEMS_SP_MULT;
+    }
 }
 
 function perform_attack(golem_wrapper) {
@@ -392,7 +398,6 @@ function perform_attack(golem_wrapper) {
     var trans       = _vec3_tmp;
     var cur_dir     = _vec3_tmp_2;
 
-    m_anim.set_speed(golem_wrapper.rig, 2)
     golem_wrapper.attack_done = false;
     set_state(golem_wrapper, m_conf.GS_ATTACKING)
 
@@ -408,6 +413,7 @@ function perform_attack(golem_wrapper) {
 
 function patrol(golem_wrapper, elapsed) {
     m_anim.set_speed(golem_wrapper.rig, 1)
+    golem_wrapper.speed = m_conf.GOLEM_SPEED;
     set_dest_point(golem_wrapper);
     var ang_to_dest = rotate_to_dest(golem_wrapper, elapsed);
     if (Math.abs(ang_to_dest) < Math.PI / 6)

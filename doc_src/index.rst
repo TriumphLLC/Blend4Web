@@ -3,15 +3,14 @@
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Содержание
-==========
+Table of Contents
+=================
 
 .. toctree::
     :maxdepth: 2
 
     about.rst
     features.rst
-    first_steps.rst
     setup.rst
     workflow.rst
     project_manager.rst

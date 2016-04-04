@@ -164,7 +164,7 @@ function find_scene_data_for_nla(obj) {
 
 exports.update_scene = function(scene, is_cyclic, data_id) {
 
-    if (!scene._nla)
+    if (!scene._nla) {
         scene._nla = {
             frame_start: scene["frame_start"],
             frame_end: scene["frame_end"],
@@ -183,6 +183,8 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
             force_update: false,
             rewinded_to_start: true
         }
+        _nla_arr.push(scene._nla);
+    }
     
     var nla = scene._nla;
 
@@ -225,8 +227,6 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
             nla.textures.push(texture);
         }
     }
-
-    _nla_arr.push(nla);
 }
 
 function remove_inconsistent_nla(nla_events, nla, name) {

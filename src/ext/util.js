@@ -29,6 +29,7 @@ var m_quat     = require("__quat");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
+var _pline_tmp = new Float32Array(6);
 /**
  * X-axis vector.
  * @const {Vec3} module:util.AXIS_X
@@ -175,12 +176,12 @@ exports.matrix_to_quat = function(matrix) {
 }
 
 /**
- * Convert euler rotation in the YZX intrinsic system to rotation quaternion.
+ * Convert euler angles in the YZX intrinsic system to quaternion.
  * @method module:util.euler_to_quat
  * @param {Euler} euler Euler angles. The angles order: an angle of the rotation around the x axis,
  * an angle of the rotation around the y axis, an angle of the rotation around the z axis.
- * @param {Quat} quat Destination quaternion vector
- * @returns {Quat} Quaternion vector
+ * @param {Quat} quat Destination quaternion vector.
+ * @returns {Quat} Quaternion vector.
  */
 exports.euler_to_quat = function(euler, quat) {
     if (!quat)
@@ -190,19 +191,35 @@ exports.euler_to_quat = function(euler, quat) {
 }
 
 /**
- * Convert euler rotation in the ordered intrinsic system to quaternion rotation.
+ * Convert Euler angles in the ordered intrinsic system to quaternion.
  * @method module:util.ordered_angles_to_quat
- * @param {Euler} euler Ordered Euler angles. Euler angles have the same order as
- * the intrinsic rotation sequence
- * @param {RotationSequence} order Intrinsic rotation sequence
- * @param {Quat} quat Destination quaternion vector
- * @returns {Quat} Quaternion vector
+ * @param {Euler} angles Ordered Euler angles. Euler angles have the same order as
+ * the intrinsic rotation sequence.
+ * @param {RotationSequence} order Intrinsic rotation sequence.
+ * @param {Quat} quat Destination quaternion vector.
+ * @returns {Quat} Quaternion vector.
  */
 exports.ordered_angles_to_quat = function(angles, order, quat) {
     if (!quat)
         quat = m_quat.create();
 
     return m_util.ordered_angles_to_quat(angles, order, quat);
+}
+
+/**
+ * Convert quaternion to Euler angles in the ordered intrinsic system.
+ * @method module:util.quat_to_ordered_angles
+ * @param {Quat} quat Quaternion vector.
+ * @param {RotationSequence} order Intrinsic rotation sequence.
+ * @param {Euler} euler Destination Euler angles vector. Euler angles have the same order as
+ * the intrinsic rotation sequence.
+ * @returns {Euler} Euler angles vector.
+ */
+exports.quat_to_ordered_angles = function(quat, order, angles) {
+    if (!angles)
+        angles = m_vec3.create();
+
+    return m_util.quat_to_ordered_angles(quat, order, angles);
 }
 
 /**
@@ -351,8 +368,19 @@ exports.xz_direction = m_util.xz_direction;
  * @param {Vec3} l_dir Line direction.
  * @param {Vec3} dest Destination vector.
  * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
+ * @deprecated use {@link module:math.line_plane_intersect|math.line_plane_intersect} instead.
  */
-exports.line_plane_intersect = m_util.line_plane_intersect;
+exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
+    m_print.error_deprecated("util.line_plane_intersect", "math.line_plane_intersect");
+    _pline_tmp[0] = lp[0];
+    _pline_tmp[1] = lp[1];
+    _pline_tmp[2] = lp[2];
+
+    _pline_tmp[3] = l_dir[0];
+    _pline_tmp[4] = l_dir[1];
+    _pline_tmp[5] = l_dir[2];
+    return m_util.line_plane_intersect(pn, p_dist, _pline_tmp, dest);
+}
 
 /**
  * Check if object is of type MESH
@@ -415,5 +443,21 @@ exports.smooth_step = m_util.smooth_step;
  * @returns {Number} Result value.
  */
 exports.lerp = m_util.lerp;
+
+/**
+ * Convert degrees to radians.
+ * @method module:util.deg_to_rad
+ * @param {Number} degrees Angle in degrees.
+ * @returns {Number} Angle in radians.
+ */
+exports.deg_to_rad = m_util.deg_to_rad;
+
+/**
+ * Convert radians to degrees.
+ * @method module:util.rad_to_deg
+ * @param {Number} radians Angle in radians.
+ * @returns {Number} Angle in degrees.
+ */
+exports.rad_to_deg = m_util.rad_to_deg;
 
 }

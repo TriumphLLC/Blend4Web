@@ -2787,7 +2787,6 @@ function append_nmat_edge(graph, id1, id2, attr1, attr2, bpy_link) {
     return true;
 }
 
-
 /**
  * Compose node elements for use in shader
  */

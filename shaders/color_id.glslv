@@ -89,7 +89,7 @@ uniform mat3 u_model_tsr;
 
 uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
-#if BILLBOARD
+#if BILLBOARD || DYNAMIC_GRASS
 uniform vec3 u_camera_eye;
 #endif
 

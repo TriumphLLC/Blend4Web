@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Звук &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Звук &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Физика" href="physics.html"/>
         <link rel="prev" title="Работа с цветом" href="colors.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,13 +85,12 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -109,9 +108,9 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Звук</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Настройка звуковых источников</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#encoding">Обработка и кодирование</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Поддерживаемые форматы (контейнеры):</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">Настройка звуковых источников</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#processing-and-decoding">Обработка и кодирование</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-formats-containers">Поддерживаемые форматы (контейнеры):</a></li>
 </ul>
 </li>
 </ul>
@@ -144,6 +143,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -163,14 +163,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="audio">
-<span id="id1"></span><h1><a class="toc-backref" href="#id6">Звук</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">Звук</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#audio" id="id6">Звук</a><ul>
-<li><a class="reference internal" href="#id3" id="id7">Настройка звуковых источников</a></li>
-<li><a class="reference internal" href="#encoding" id="id8">Обработка и кодирование</a><ul>
-<li><a class="reference internal" href="#id5" id="id9">Поддерживаемые форматы (контейнеры):</a></li>
+<li><a class="reference internal" href="#audio" id="id2">Звук</a><ul>
+<li><a class="reference internal" href="#audio-source-settings" id="id3">Настройка звуковых источников</a></li>
+<li><a class="reference internal" href="#processing-and-decoding" id="id4">Обработка и кодирование</a><ul>
+<li><a class="reference internal" href="#supported-formats-containers" id="id5">Поддерживаемые форматы (контейнеры):</a></li>
 </ul>
 </li>
 </ul>
@@ -182,81 +182,79 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="id3">
-<h2><a class="toc-backref" href="#id7">Настройка звуковых источников</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="audio-source-settings">
+<h2><a class="toc-backref" href="#id3">Настройка звуковых источников</a><a class="headerlink" href="#audio-source-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки спикера выставляются в панели <code class="docutils literal"><span class="pre">Properties</span></code> на вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>.</p>
 <p>Движком поддерживаются все стандартные для Blender параметры звука и некоторые специфические для движка опции.</p>
 <p><em>Speaker Behavior</em>:</p>
 <blockquote>
 <div><p>Поведение звукового источника.</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; высококачественный звук, допускающий позиционирование и
-имеющий направленность (конусность). Для рендеринга используется Web Audio
-API. Воспроизведение подобных звуков обладает наименьшей производительностью,
-поэтому их использовать целесообразно только для коротких сэмплов.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; высококачественный всенаправленный звук без возможности
-позиционирования в пространстве. Для рендеринга используется Web Audio API.
-Более производителен, однако нецелесообразен для музыки.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; используется для воспроизведения музыки. Максимальная
-производительность вследствие использования тега Audio, минимальная гибкость.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; высококачественный звук, допускающий позиционирование и имеющий направленность (конусность). Для рендеринга используется Web Audio API. Воспроизведение подобных звуков обладает наименьшей производительностью, поэтому их использовать целесообразно только для коротких сэмплов.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; высококачественный всенаправленный звук без возможности позиционирования в пространстве. Для рендеринга используется Web Audio API. Более производителен, однако нецелесообразен для музыки.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; используется для воспроизведения музыки. Максимальная производительность вследствие использования тега Audio, минимальная гибкость.</p>
 </div></blockquote>
 <p>На панели <code class="docutils literal"><span class="pre">Sound</span></code> доступны следующие настройки:</p>
 <p><em>Volume</em></p>
 <blockquote>
-<div>Громкость источника.</div></blockquote>
+<div><p>Громкость источника.</p>
+</div></blockquote>
 <p><em>Random Volume</em></p>
 <blockquote>
-<div>Дополнительная рандомизация громкости. Результирующее значение определяется
-аналогично задержке.</div></blockquote>
+<div><p>Дополнительная рандомизация громкости. Результирующее значение определяется аналогично задержке.</p>
+</div></blockquote>
 <p><em>Pitch</em></p>
 <blockquote>
-<div>Скорость проигрывания (высота) звука.</div></blockquote>
+<div><p>Скорость проигрывания (высота) звука.</p>
+</div></blockquote>
 <p><em>Random Pitch</em></p>
 <blockquote>
-<div>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
-аналогично задержке.</div></blockquote>
+<div><p>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется аналогично задержке.</p>
+</div></blockquote>
 <p><em>Fade-In</em></p>
 <blockquote>
-<div>Интервал плавного включения звука.</div></blockquote>
+<div><p>Интервал плавного включения звука.</p>
+</div></blockquote>
 <p><em>Fade-Out</em></p>
 <blockquote>
-<div>Интервал плавного выключения звука.</div></blockquote>
+<div><p>Интервал плавного выключения звука.</p>
+</div></blockquote>
 <p><em>Disable Doppler</em></p>
 <blockquote>
-<div>Игнорировать смещение частоты источника при его перемещении.</div></blockquote>
+<div><p>Игнорировать смещение частоты источника при его перемещении.</p>
+</div></blockquote>
 <p><em>Cyclic Play</em></p>
 <blockquote>
-<div>Зацикливать воспроизведение звука.</div></blockquote>
+<div><p>Зацикливать воспроизведение звука.</p>
+</div></blockquote>
 <p><em>Delay</em></p>
 <blockquote>
-<div>Задержка в секундах перед началом проигрывания звука.</div></blockquote>
+<div><p>Задержка в секундах перед началом проигрывания звука.</p>
+</div></blockquote>
 <p><em>Random Delay</em></p>
 <blockquote>
-<div>Дополнительная рандомизация задержки, результирующее значение определяется
-по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
+<div><p>Дополнительная рандомизация задержки, результирующее значение определяется по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
+</div></blockquote>
 <p><em>Loop</em></p>
 <blockquote>
-<div>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>,
-тем, что способен обеспечить нулевую задержку при повторении. Опция доступна
-только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span>
-<span class="pre">Sound</span></code>.</div></blockquote>
+<div><p>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>, тем, что способен обеспечить нулевую задержку при повторении. Опция доступна только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code>.</p>
+</div></blockquote>
 <a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="encoding">
-<span id="id4"></span><h2><a class="toc-backref" href="#id8">Обработка и кодирование</a><a class="headerlink" href="#encoding" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id9">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="processing-and-decoding">
+<span id="encoding"></span><h2><a class="toc-backref" href="#id4">Обработка и кодирование</a><a class="headerlink" href="#processing-and-decoding" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="supported-formats-containers">
+<h3><a class="toc-backref" href="#id5">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#supported-formats-containers" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
-<li>ogg, кодек Vorbis (Chrome, Firefox)</li>
+<li><p class="first">ogg, кодек Vorbis (Chrome, Firefox)</p>
+</li>
 <li>mp3 (Chrome, Safari)</li>
-<li>mp4, кодек AAC (Chrome, Safari)</li>
+<li><p class="first">mp4, кодек AAC (Chrome, Safari)</p>
+</li>
 </ul>
-<p>Рекомендуется использовать <em>Ogg</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и
-совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется
-для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального
-сопровождения.</p>
+<p>Рекомендуется использовать <em>Ogg</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального сопровождения.</p>
 <p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><span>соответствующем разделе</span></a>.</p>
 </div>
 </div>
@@ -282,11 +280,12 @@ API. Воспроизведение подобных звуков обладае
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -304,7 +303,7 @@ API. Воспроизведение подобных звуков обладае
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -334,14 +333,28 @@ API. Воспроизведение подобных звуков обладае
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

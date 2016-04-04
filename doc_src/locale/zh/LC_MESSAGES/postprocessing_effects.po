@@ -1,0 +1,535 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../postprocessing_effects.rst:5
+msgid "Postprocessing Effects"
+msgstr ""
+
+#: ../postprocessing_effects.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../postprocessing_effects.rst:16
+msgid "Motion Blur"
+msgstr ""
+
+#: ../postprocessing_effects.rst:18
+msgid ""
+"The motion blur effect can be used to improve the realism of an "
+"interactive scene. It is displayed as picture blurring when the camera or"
+" objects move."
+msgstr ""
+
+#: ../postprocessing_effects.rst:25 ../postprocessing_effects.rst:53
+#: ../postprocessing_effects.rst:89 ../postprocessing_effects.rst:132
+#: ../postprocessing_effects.rst:161 ../postprocessing_effects.rst:192
+#: ../postprocessing_effects.rst:237 ../postprocessing_effects.rst:275
+msgid "Activation"
+msgstr ""
+
+#: ../postprocessing_effects.rst:27
+msgid "Activate the ``Motion Blur`` panel on the ``Render`` tab."
+msgstr ""
+
+#: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:63
+#: ../postprocessing_effects.rst:94 ../postprocessing_effects.rst:137
+#: ../postprocessing_effects.rst:166 ../postprocessing_effects.rst:197
+#: ../postprocessing_effects.rst:242 ../postprocessing_effects.rst:285
+msgid "Additional settings"
+msgstr ""
+
+#: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:220
+msgid "*Factor*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:33
+msgid ""
+"Effect appearance ratio. The higher this value is the stronger is the "
+"motion blur."
+msgstr ""
+
+#: ../postprocessing_effects.rst:37
+msgid "*Decay Threshold*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:36
+msgid ""
+"Blur fade-out ratio. The higher this value is the more distinct is the "
+"effect. The default value is 0.01."
+msgstr ""
+
+#: ../postprocessing_effects.rst:44
+msgid "Depth of Field"
+msgstr ""
+
+#: ../postprocessing_effects.rst:46
+msgid ""
+"The depth of field effect (DOF) can be used to accentuate a part of a "
+"scene. It is displayed as picture blurring nearer and further from the "
+"camera focus."
+msgstr ""
+
+#: ../postprocessing_effects.rst:55
+msgid ""
+"Select an active camera and go to its settings panel ``Camera`` (``Object"
+" Data``)."
+msgstr ""
+
+#: ../postprocessing_effects.rst:56
+msgid "Then two options are available:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:58
+msgid ""
+"Select an object to use as the camera's focus in the ``Focus`` option of "
+"the ``Depth of Field`` panel. In this case moving away or approaching "
+"this object will cause a corresponding correction of the camera focus."
+msgstr ""
+
+#: ../postprocessing_effects.rst:60
+msgid ""
+"Set a non-zero value for the ``Distance`` on the same panel (in Blender "
+"units = meters). In this case the camera focus will be located at this "
+"distance from the camera and will move together with it."
+msgstr ""
+
+#: ../postprocessing_effects.rst:66
+msgid "*Front*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:66
+msgid ""
+"The distance from the focus to the nearest plane (relative to the camera)"
+" behind which full blurring occurs (in meters). The default value is 1.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:69
+msgid "*Rear*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:69
+msgid ""
+"The distance from the focus to the furthest plane (relative to the "
+"camera) behind which full blurring occurs (in meters). The default value "
+"is 1.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:73
+msgid "*Power*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:72
+msgid "Blurring ratio. The default value is 3.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:80
+msgid "Screen-Space Ambient Occlusion"
+msgstr ""
+
+#: ../postprocessing_effects.rst:82
+msgid ""
+"The screen-space ambient occlusion (SSAO) effect can be used to fake "
+"complex light reflections from objects. The basis of this effect is that "
+"the space between close objects is less accessible for diffused light and"
+" hence is darker."
+msgstr ""
+
+#: ../postprocessing_effects.rst:91
+msgid ""
+"Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab "
+"and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the "
+"``Rander > Shadows`` panel."
+msgstr ""
+
+#: ../postprocessing_effects.rst:97
+msgid "*Radius Increase*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:97
+msgid ""
+"The spherical sampling radius multiply factor when transfering from the "
+"internal sampling ring to the external one. The default value is 3.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:100
+msgid "*Use Hemisphere*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:100
+msgid ""
+"Use a hemispherical sampling for shading instead of a spherical. Besides "
+"it uses different shading law."
+msgstr ""
+
+#: ../postprocessing_effects.rst:103
+msgid "*Use Blur Depth Test*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:103
+msgid ""
+"Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it "
+"uses blur which averages a 4x4 rectangle around each pixel."
+msgstr ""
+
+#: ../postprocessing_effects.rst:106
+msgid "*Blur Depth Test Discard Value*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:106
+msgid ""
+"Influence of depth difference between samples on blur weight. It uses "
+"with ``Use Blur Depth Test`` activated flag. The default value is 1.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:109
+msgid "*Influence*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:109
+msgid "SSAO appearance factor. The default value is 0.7."
+msgstr ""
+
+#: ../postprocessing_effects.rst:112
+msgid "*Distance Factor*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:112
+msgid ""
+"Factor of SSAO decay with distance. The default value is 0.0 (i.e. no "
+"decay)."
+msgstr ""
+
+#: ../postprocessing_effects.rst:116
+msgid "*Samples*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:115
+msgid ""
+"Number of samples (the more samples there are the better is the quality "
+"but the poorer is the performance). The default value is 16."
+msgstr ""
+
+#: ../postprocessing_effects.rst:123
+msgid "God Rays"
+msgstr ""
+
+#: ../postprocessing_effects.rst:125
+msgid ""
+"The god rays effect (aka crepuscular rays) simulates well-known natural "
+"phenomenon - the shining of illuminated air parts."
+msgstr ""
+
+#: ../postprocessing_effects.rst:134
+msgid "Activate the ``God Rays`` panel under the ``Render`` tab."
+msgstr ""
+
+#: ../postprocessing_effects.rst:140
+msgid "*Intensity*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:140
+msgid "The effect appearance factor. The default value is 0.7."
+msgstr ""
+
+#: ../postprocessing_effects.rst:143
+msgid "*Maximum Ray Length*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:143
+msgid ""
+"Rays length factor. Defines the step between samples of radial blurring. "
+"The default value is 1.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:147
+msgid "*Steps Per Pass*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:146
+msgid "Number of steps per single sample. The default value is 10.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:152
+msgid "Bloom"
+msgstr ""
+
+#: ../postprocessing_effects.rst:154
+msgid ""
+"Bloom appears when a picture has elements with a very different "
+"brightness. A glowing halo is created around the bright details."
+msgstr ""
+
+#: ../postprocessing_effects.rst:163
+msgid "Activate the ``Bloom`` panel under the ``Render`` tab."
+msgstr ""
+
+#: ../postprocessing_effects.rst:169
+msgid "*Key*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:169
+msgid "Bloom intensity."
+msgstr ""
+
+#: ../postprocessing_effects.rst:172
+msgid "*Blur*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:172
+msgid "Bloom blurriness factor."
+msgstr ""
+
+#: ../postprocessing_effects.rst:176
+msgid "*Edge Luminance*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:175
+msgid ""
+"The boundary value of an element's relative brightness above which the "
+"bloom effect appears."
+msgstr ""
+
+#: ../postprocessing_effects.rst:183
+msgid "Outlining"
+msgstr ""
+
+#: ../postprocessing_effects.rst:185
+msgid ""
+"As a result of the outline glow effect, a luminous colored halo will be "
+"displayed around the object."
+msgstr ""
+
+#: ../postprocessing_effects.rst:194
+msgid ""
+"The outlining is activated programmatically via API. Different animation "
+"models can be applied such as constant glow, fading out glow, pulsatory "
+"glow and any other. In order to enable the outlining effect on a certain "
+"object, make sure that the ``Render > Object Outlining`` panel's "
+"``Enable`` property is set to ``ON`` or ``AUTO``."
+msgstr ""
+
+#: ../postprocessing_effects.rst:199
+msgid "On the ``Object > Selection and Outlining`` panel:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:202
+msgid "*Enable Outlining*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:202
+msgid "Permit using the outline glow effect on this object."
+msgstr ""
+
+#: ../postprocessing_effects.rst:205
+msgid "*Duration*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:205
+msgid "Duration of glow animation, seconds. The default value is 1."
+msgstr ""
+
+#: ../postprocessing_effects.rst:208
+msgid "*Period*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:208
+msgid "Repeat period of glow animation, seconds. The default value is 1."
+msgstr ""
+
+#: ../postprocessing_effects.rst:211
+msgid "*Relapses*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:211
+msgid ""
+"The number of iterations of glow animation. If zero, animation is "
+"repeated forever. The default value is 0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:215
+msgid "*Outline on Select*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:214
+msgid ""
+"Activate glow animation upon selecting the object. In this case the "
+"``Selectable`` option must be enabled. In case of a user-defined glow "
+"animation model, this option must be disabled in order to avoid conflict."
+msgstr ""
+
+#: ../postprocessing_effects.rst:217
+msgid "On the ``Render > Object Outlining`` panel:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:220
+msgid ""
+"When this parameter decreases so does the thickness and the brightness of"
+" the halo around the object. The default value is 1."
+msgstr ""
+
+#: ../postprocessing_effects.rst:222
+msgid ""
+"The ``Render > Object Outlining`` settings are taken as default when the "
+"glow effect is initiated via API."
+msgstr ""
+
+#: ../postprocessing_effects.rst:228
+msgid "Glow"
+msgstr ""
+
+#: ../postprocessing_effects.rst:230
+msgid ""
+"Effect of halo which is observed around emissive objects due to light "
+"scattering in the atmosphere and inside the human eye."
+msgstr ""
+
+#: ../postprocessing_effects.rst:239
+msgid ""
+"Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The "
+"``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel"
+" should be set to ``ON`` or ``AUTO``."
+msgstr ""
+
+#: ../postprocessing_effects.rst:245
+msgid "*Small Mask: Intensity*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:245
+msgid ""
+"Intensity of glow obtained through the smaller mask. The default value is"
+" 2.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:248
+msgid "*Small Mask: Width*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:248
+msgid "Width of glow obtained through the smaller mask. The default value is 2.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:252
+msgid "*Large Mask: Intensity*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:251
+msgid ""
+"Intensity of glow obtained through the larger mask. The default value is "
+"2.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:255
+msgid "*Large Mask: Width*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:255
+msgid "Width of glow obtained through the larger mask. The default value is 6.0."
+msgstr ""
+
+#: ../postprocessing_effects.rst:259
+msgid "*Render Glow Over Transparent Objects*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:258
+msgid "Render the glow effect over transparent objects."
+msgstr ""
+
+#: ../postprocessing_effects.rst:266
+msgid "Anti-Aliasing"
+msgstr ""
+
+#: ../postprocessing_effects.rst:268
+msgid ""
+"Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
+"pixelization)."
+msgstr ""
+
+#: ../postprocessing_effects.rst:277
+msgid ""
+"Select quality profile using ``AA Quality`` menu located on the ``Render "
+"> Anti-Aliasing`` panel."
+msgstr ""
+
+#: ../postprocessing_effects.rst:279
+msgid "*None* - disable anti-aliasing,"
+msgstr ""
+
+#: ../postprocessing_effects.rst:280
+msgid ""
+"*Low*, *Medium*, *High* - enable anti-aliasing with the given quality "
+"profile."
+msgstr ""
+
+#: ../postprocessing_effects.rst:282
+msgid "*Medium* profile is used by default."
+msgstr ""
+
+#: ../postprocessing_effects.rst:287
+msgid ""
+"The anti-aliasing method is assigned simultaneously with the selection of"
+" the engine performance profile:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:289
+msgid "*low quality* - no anti-aliasing,"
+msgstr ""
+
+#: ../postprocessing_effects.rst:290
+msgid ""
+"*high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast "
+"Approximate Anti-Aliasing by Nvidia)."
+msgstr ""
+
+#: ../postprocessing_effects.rst:11
+msgid "motion blur"
+msgstr ""
+
+#: ../postprocessing_effects.rst:39
+msgid "depth of field"
+msgstr ""
+
+#: ../postprocessing_effects.rst:39
+msgid "DOF"
+msgstr ""
+
+#: ../postprocessing_effects.rst:75
+msgid "screen-space ambient occlusion"
+msgstr ""
+
+#: ../postprocessing_effects.rst:75
+msgid "SSAO"
+msgstr ""
+
+#: ../postprocessing_effects.rst:118
+msgid "crepuscular rays"
+msgstr ""
+
+#: ../postprocessing_effects.rst:118
+msgid "god rays"
+msgstr ""
+
+#: ../postprocessing_effects.rst:178
+msgid "outline glow"
+msgstr ""
+
+#: ../postprocessing_effects.rst:261
+msgid "anti-aliasing"
+msgstr ""
+

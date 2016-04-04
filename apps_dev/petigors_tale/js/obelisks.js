@@ -30,6 +30,7 @@ exports.init = function(elapsed_sensor, level_conf) {
     _level_conf = level_conf;
 
     var char_wrapper = m_char.get_wrapper();
+    _obelisk_wrappers.length = 0;
 
     var obelisk_cb = function(ob_wrapper, id, pulse) {
         if (pulse != 1 || !char_wrapper.gem_slot)
@@ -227,28 +228,27 @@ function perform_victory() {
     // music
     var win_spk = m_scs.get_object_by_name(m_conf.WIN_SPEAKER);
     m_sfx.play_def(win_spk);
-
-    var char_wrapper = m_char.get_wrapper();
-    m_anim.apply(char_wrapper.rig, m_conf.CHAR_VICTORY_ANIM);
-    m_anim.set_behavior(char_wrapper.rig, m_anim.AB_CYCLIC);
-    m_anim.play(char_wrapper.rig);
-    char_wrapper.state = m_conf.CH_VICTORY;
-
-    m_char.disable_controls();
     m_sfx.clear_playlist();
 
     update_victory_interface();
 
-    if (_level_conf.LEVEL_NAME == "volcano") {
+    if (_level_conf.STAIRS_OBJ) {
         var stairs_obj = m_scs.get_object_by_name(_level_conf.STAIRS_OBJ,
                                                   _level_conf.STAIRS_OBJ);
         var stairs_emitter = m_scs.get_object_by_dupli_name(_level_conf.STAIRS_OBJ,
                                                             _level_conf.STAIRS_EMITTER);
+        var stairs_magic = m_scs.get_object_by_dupli_name(_level_conf.STAIRS_OBJ,
+                                                            _level_conf.STAIRS_MAGIC);
         var door_obj = m_scs.get_object_by_dupli_name_list(_level_conf.ISLANDS_DOOR);
 
         m_scs.show_object(stairs_emitter);
         m_anim.apply(stairs_emitter, "dust");
         m_anim.play(stairs_emitter);
+
+        m_scs.show_object(stairs_magic);
+        m_anim.apply_def(stairs_magic);
+        m_anim.set_behavior(stairs_magic, m_anim.AB_FINISH_STOP);
+        m_anim.play(stairs_magic);
 
         setTimeout(function() {
                         m_scs.show_object(stairs_obj);
@@ -261,20 +261,11 @@ function perform_victory() {
         m_anim.set_behavior(lava_death_ctrl, m_anim.AB_FINISH_STOP);
         m_anim.play(lava_death_ctrl);
     }
-    m_char.run_camera_victory_rotation();
+    m_char.run_victory();
 }
 
 function update_victory_interface() {
     m_interface.show_victory_element(1);
-    //function interface_cb(obj, id, pulse){
-    //    m_interface.hide_victory_element(1);
-    //    m_interface.show_replay_button(1);
-    //}
-
-    //if (m_ctl.check_sensor_manifold(null, "UPDATE_VIC_INTERFACE"))
-    //    m_ctl.remove_sensor_manifold(null, "UPDATE_VIC_INTERFACE");
-    //m_ctl.create_sensor_manifold(null, "UPDATE_VIC_INTERFACE", m_ctl.CT_SHOT,
-    //    [m_ctl.create_timer_sensor(3)], null, interface_cb);
 }
 
 exports.is_filled = is_filled;

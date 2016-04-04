@@ -294,7 +294,9 @@ function init_anim(obj, slot_num) {
         node_value_inds: [],
 
         nodemat_rgbs: [],
-        node_rgb_inds: []
+        node_rgb_inds: [],
+
+        node_batches: null
     };
 
     if (!obj.anim_slots.length)
@@ -396,7 +398,6 @@ exports.apply_def = function(obj) {
         do_after_apply(obj, slot_num);
         obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
         slot_num++
-
     }
 }
 
@@ -808,6 +809,8 @@ function apply_action(obj, action, slot_num) {
             anim_slot.nodemat_values = nodemat_anim_data.values;
             anim_slot.node_rgb_inds = nodemat_anim_data.rgb_inds;
             anim_slot.nodemat_rgbs = nodemat_anim_data.rgbs;
+
+            anim_slot.node_batches = nodemat_anim_data.node_batches;
         }
         break;
 
@@ -1014,32 +1017,54 @@ function calc_nodemat_anim_data(obj, action) {
     var values = [];
     var rgb_inds = [];
     var rgbs = [];
+    var node_batches = [];
 
     var act_render = action._render;
-    var val_ind_pairs = obj.render.mats_anim_inds;
-    var rgb_ind_pairs = obj.render.mats_rgb_anim_inds;
+
+    var animated_mat_names = [];
 
     for (var node_name in act_render.params) {
         var act_node_name = action["name"] + "%join%" + node_name;
-        calc_node_act(node_name, act_node_name, act_render, values, val_inds,
-                      val_ind_pairs);
-        calc_node_act(node_name, act_node_name, act_render, rgbs, rgb_inds,
-                      rgb_ind_pairs);
+        for (var i = 0; i < obj.scenes_data.length; i++) {
+            var batches = obj.scenes_data[i].batches;
+
+            for (var j = 0; j < batches.length; j++) {
+                var batch = batches[j];
+                var val_ind_pairs = batch.node_anim_inds;
+                var rgb_ind_pairs = batch.node_rgb_anim_inds;
+                if (val_ind_pairs) {
+                    var found_values =
+                        calc_node_act(node_name, act_node_name, act_render,
+                                      values, val_inds, val_ind_pairs);
+                    var found_rgbs =
+                        calc_node_act(node_name, act_node_name, act_render,
+                                      rgbs, rgb_inds, rgb_ind_pairs);
+
+                    if (found_values || found_rgbs)
+                        node_batches.push(batch);
+                }
+            }
+        }
     }
+
     return {val_inds: val_inds, values: values,
-            rgb_inds: rgb_inds, rgbs: rgbs};
+            rgb_inds: rgb_inds, rgbs: rgbs,
+            node_batches: node_batches};
 }
 
 function calc_node_act(node_name, act_node_name, act_render, values, inds,
                        val_ind_pairs) {
+    var found_vals = false;
     for (var i = 0; i < val_ind_pairs.length; i+=2) {
         var name = val_ind_pairs[i];
         if (act_node_name == name) {
             var ind = val_ind_pairs[i+1];
             inds.push(ind);
             values.push(new Float32Array(act_render.params[node_name]));
+            found_vals = true;
         }
     }
+    return found_vals;
 }
 
 
@@ -1229,13 +1254,15 @@ function animate(obj, elapsed, slot_num, force_update) {
 
         var rgbs = anim_slot.nodemat_rgbs;
         var rgb_indices = anim_slot.node_rgb_inds;
+        var node_batches = anim_slot.node_batches;
 
         for (var i = 0; i < val_indices.length; i++) {
             var vals = values[i];
             var ind = val_indices[i];
 
             var nodemat_value = (1-ff) * vals[fc] + ff * vals[fn];
-            obj.render.mats_values[ind] = nodemat_value;
+            for (var j = 0; j < node_batches.length; j++)
+                node_batches[j].node_values[ind] = nodemat_value;
         }
         for (var i = 0; i < rgb_indices.length; i++) {
             var rgb = rgbs[i];
@@ -1244,9 +1271,11 @@ function animate(obj, elapsed, slot_num, force_update) {
             var prev = rgb.subarray(fc*3, fc*3 + 3);
             var next = rgb.subarray(fn*3, fn*3 + 3);
             var curr = m_vec3.lerp(prev, next, ff, _vec3_tmp);
-            obj.render.mats_rgbs[3 * ind] = curr[0];
-            obj.render.mats_rgbs[3 * ind + 1] = curr[1];
-            obj.render.mats_rgbs[3 * ind + 2] = curr[2];
+            for (var j = 0; j < node_batches.length; j++) {
+                node_batches[j].node_rgbs[3 * ind] = curr[0];
+                node_batches[j].node_rgbs[3 * ind + 1] = curr[1];
+                node_batches[j].node_rgbs[3 * ind + 2] = curr[2];
+            }
         }
         break;
 

@@ -28,12 +28,25 @@ b4w.module["__boundings"] = function(exports, require) {
 var m_tsr  = require("__tsr");
 var m_util = require("__util");
 var m_vec3 = require("__vec3");
+var m_math = require("__math");
+var m_mat3 = require("__mat3");
+var m_quat = require("__quat");
 
 
 var _bb_corners_cache = new Float32Array(3 * 8);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
+var _vec3_tmp4 = new Float32Array(3);
+
+var _mat3_tmp = new Float32Array(9);
+var _mat3_tmp2 = new Float32Array(9);
+var _mat3_tmp3 = new Float32Array(9);
+var _mat3_tmp4 = new Float32Array(9);
+
+var ELL_EPS = 0.000000001;
+var MATRIX_PRES = 0.0005;
+var MIN_SEMIAXIS_LEN = 0.00002;
 
 exports.copy_bb = function(bb_from, bb_to) {
     bb_to.min_x = bb_from.min_x;
@@ -305,15 +318,17 @@ function zero_bounding_ellipsoid() {
         axis_x: new Float32Array(3),
         axis_y: new Float32Array(3),
         axis_z: new Float32Array(3),
+        quat: new Float32Array([0, 0, 0, 1]),
         center: new Float32Array([0, 0, 0])
     };
 }
-
-exports.create_bounding_ellipsoid = function(axis_x, axis_y, axis_z, center) {
+exports.create_bounding_ellipsoid = create_bounding_ellipsoid;
+function create_bounding_ellipsoid(axis_x, axis_y, axis_z, center, quat) {
     return {
         axis_x: new Float32Array(axis_x),
         axis_y: new Float32Array(axis_y),
         axis_z: new Float32Array(axis_z),
+        quat: new Float32Array(quat),
         center: new Float32Array([center[0], center[1], center[2]])
     };
 }
@@ -361,6 +376,185 @@ exports.expand_bounding_sphere = function(bs, bs_exp) {
     bs.center = m_vec3.scale(m_vec3.add(min, max, m_vec3.create()), 0.5,
             m_vec3.create());
     bs.radius = m_vec3.length(m_vec3.subtract(max, min, m_vec3.create())) / 2;
+}
+
+exports.create_bounding_ellipsoid_by_bb = function(points) {
+
+    var center = m_math.calk_average_position(points, _vec3_tmp4);
+    var cov_matrix = m_math.calc_covariance_matrix(points, center, _mat3_tmp2);
+
+    var t_mat = m_math.find_eigenvectors(cov_matrix, MATRIX_PRES, _mat3_tmp);
+
+    m_vec3.copy(points, _vec3_tmp);
+    m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+
+    var max_dot_x = _vec3_tmp[0];
+    var min_dot_x = max_dot_x;
+    var max_dot_y = _vec3_tmp[1];
+    var min_dot_y = max_dot_y;
+    var max_dot_z = _vec3_tmp[2];
+    var min_dot_z = max_dot_z;
+
+    var max_x = 0;
+    var min_x = 0;
+    var max_y = 0;
+    var min_y = 0;
+    var max_z = 0;
+    var min_z = 0;
+
+    for (var i = 3; i < points.length; i = i + 3) {
+
+        _vec3_tmp[0] = points[i];
+        _vec3_tmp[1] = points[i + 1];
+        _vec3_tmp[2] = points[i + 2];
+        m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+
+        var dot_x = _vec3_tmp[0];
+        var dot_y = _vec3_tmp[1];
+        var dot_z = _vec3_tmp[2];
+
+        if (dot_x > max_dot_x) {
+            max_dot_x = dot_x;
+            max_x = i;
+        }
+        if (dot_x < min_dot_x) {
+            min_dot_x = dot_x;
+            min_x = i;
+        }
+
+        if (dot_y > max_dot_y) {
+            max_dot_y = dot_y;
+            max_y = i;
+        }
+        if (dot_y < min_dot_y) {
+            min_dot_y = dot_y;
+            min_y = i;
+        }
+
+        if (dot_z > max_dot_z) {
+            max_dot_z = dot_z;
+            max_z = i;
+        }
+        if (dot_z < min_dot_z) {
+            min_dot_z = dot_z;
+            min_z = i;
+        }
+    }
+
+    var a = max_dot_x - min_dot_x;
+    var b = max_dot_y - min_dot_y;
+    var c = max_dot_z - min_dot_z;
+
+    a = Math.max(a, ELL_EPS);
+    b = Math.max(b, ELL_EPS);
+    c = Math.max(c, ELL_EPS);
+
+    var max_semi_axis = Math.max(a, b, c);
+    if (max_semi_axis == a) {
+        var max_lm = max_x;
+        var min_lm = min_x;
+    } else if (max_semi_axis == b) {
+        var max_lm = max_y;
+        var min_lm = min_y;
+    } else {
+        var max_lm = max_z;
+        var min_lm = min_z;
+    }
+
+    var scale_mat = m_mat3.identity(_mat3_tmp2);
+    scale_mat[0] = a > MIN_SEMIAXIS_LEN ? 1 / a : 0;
+    scale_mat[4] = b > MIN_SEMIAXIS_LEN ? 1 / b : 0;
+    scale_mat[8] = c > MIN_SEMIAXIS_LEN ? 1 / c : 0;
+    m_mat3.transpose(t_mat, _mat3_tmp3);
+    // transform vertex set into cube
+
+    _vec3_tmp[0] = points[max_lm];
+    _vec3_tmp[1] = points[max_lm + 1];
+    _vec3_tmp[2] = points[max_lm + 2];
+
+    m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
+    m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
+    m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+
+    _vec3_tmp2[0] = points[min_lm];
+    _vec3_tmp2[1] = points[min_lm + 1];
+    _vec3_tmp2[2] = points[min_lm + 2];
+
+    m_vec3.transformMat3(_vec3_tmp2, _mat3_tmp3, _vec3_tmp2);
+    m_vec3.transformMat3(_vec3_tmp2, scale_mat, _vec3_tmp2);
+    m_vec3.transformMat3(_vec3_tmp2, t_mat, _vec3_tmp2);
+    // find sphere center in scaled space
+
+    m_vec3.add(_vec3_tmp, _vec3_tmp2, _vec3_tmp3);
+    m_vec3.scale(_vec3_tmp3, 0.5, _vec3_tmp3);
+    var s_center = _vec3_tmp3;
+
+    m_vec3.transformMat3(center, _mat3_tmp3, center);
+    m_vec3.transformMat3(center, scale_mat, center);
+    m_vec3.transformMat3(center, t_mat, center);
+
+    if (max_dot_x + min_dot_x == 0 || max_dot_z + min_dot_z == 0)
+        s_center[1] = center[1];
+    if (max_dot_y + min_dot_y == 0 || max_dot_z + min_dot_z == 0)
+        s_center[0] = center[0];
+    if (max_dot_x + min_dot_x == 0 || max_dot_y + min_dot_y == 0)
+        s_center[2] = center[2];
+
+    m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp);
+    var r = m_vec3.length(_vec3_tmp);
+
+    for (var i = 0; i < points.length; i = i + 3) {
+
+        if (i == min_lm || i == max_lm)
+            continue;
+
+        _vec3_tmp[0] = points[i];
+        _vec3_tmp[1] = points[i + 1];
+        _vec3_tmp[2] = points[i + 2];
+        m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
+        m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
+        m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+        m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp2);
+        var r1 = m_vec3.length(_vec3_tmp2);
+        if (r1 > r) {
+            m_vec3.scale(_vec3_tmp2, r / r1, _vec3_tmp2);
+            m_vec3.subtract(s_center, _vec3_tmp2, _vec3_tmp2);
+            m_vec3.add(_vec3_tmp2, _vec3_tmp, s_center);
+            m_vec3.scale(s_center, 0.5, s_center);
+            m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp);
+            r = m_vec3.length(_vec3_tmp);
+        }
+    }
+
+    var scale_mat = m_mat3.identity(_mat3_tmp2);
+    scale_mat[0] = a;
+    scale_mat[4] = b;
+    scale_mat[8] = c;
+
+    m_vec3.transformMat3(s_center, _mat3_tmp3, s_center);
+    m_vec3.transformMat3(s_center, scale_mat, s_center);
+    m_vec3.transformMat3(s_center, t_mat, s_center);
+
+    var axis_x = [t_mat[0], t_mat[3], t_mat[6]];
+    var axis_y = [t_mat[1], t_mat[4], t_mat[7]];
+    var axis_z = [t_mat[2], t_mat[5], t_mat[8]];
+    m_vec3.scale(axis_x, a * r, axis_x);
+    m_vec3.scale(axis_y, b * r, axis_y);
+    m_vec3.scale(axis_z, c * r, axis_z);
+
+    var quat = [0, 0, 0, 1];
+    m_quat.fromMat3(t_mat, quat);
+
+    return create_bounding_ellipsoid(axis_x, axis_y, axis_z, s_center, quat);
+}
+
+exports.update_be_local = function(render) {
+    var be_local = m_util.clone_object_r(render.be_world);
+
+    var trans = m_tsr.get_trans_value(render.world_tsr, _vec3_tmp4);
+    m_vec3.subtract(be_local.center, trans, be_local.center);
+
+    render.be_local = be_local;
 }
 
 /**

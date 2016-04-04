@@ -1,27 +1,26 @@
-.. index:: просмотрщик
+.. index:: viewer
 
 .. _viewer:
 
-****************
-Просмотрщик сцен
-****************
+************
+Scene Viewer
+************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-:ref:`Запуск просмотрщика сцен <getting_started_launching_viewer>`.
+:ref:`Running The Scenes Viewer <getting_started_launching_viewer>`.
 
-Навигация
----------
+Navigation
+----------
 
-Управление камерой осуществляется мышью с нажатой кнопкой, а также клавишами ``W``, ``A``, ``S``, ``D``, ``R``, ``F``: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши ``numpad``. В режиме камеры ``Target`` возможно фокусирование на выделенный объект посредством нажатия клавишей ``Z`` или ``.(точка)``.
+To control the camera hold down a mouse button and move the mouse. Control can also be performed using the ``W``, ``A``, ``S``, ``D``, ``R``, ``F`` keys: forward, left, back, right, up, down. Arrows and ``numpad`` keys can be used as well. In the ``Target`` camera mode it's possible to focus on the selected object using the ``Z`` or ``.(dot)`` keys.
 
-Боковая панель
+The Side Panel
 --------------
 
-Боковая панель содержит в себе три области: информационное табло, базовые кнопки
-управления и список выпадающих панелей, содержащий дополнительные элементы управления, разделённые по функциональному признаку.
+The side panel consists of three areas: the information board, basic control buttons and the list of drop-down panels with additional control elements differentiated by functionality.
 
 .. image:: src_images/viewer/scene_viewer.png
    :align: center
@@ -29,123 +28,123 @@
 
 |
 
-Список элементов управления сверху вниз
-.......................................
+Control elements list in top-to-bottom order
+............................................
 
 **Build**
-    Дата и время сборки движка. В версии для разработки показывает время загрузки страницы. 
+    The engine build date and time. In the developer version this shows the page load time.
 
 **Scene**
-    Название загруженной сцены, взятое из файла ``assets.json``. При наведении курсора мыши всплывает путь к файлу.
+    Loaded scene name from the ``assets.json`` file. Path to the file pops-up on mouse hover.
 
 **Loaded**
-    Процент и время загрузки.
+    Loading progress and time.
 
 **Reset**
-    Кнопка удаляет сохраненное название последней просмотренной сцены и перезагружает страницу, возвращая к сцене по умолчанию.
+    This button deletes the saved name of the last viewed scene and reloads the page back to display the default scene.
 
 **LOW Q - HIGH Q - ULTRA Q**
-    Выпадающее меню выбора профиля работы движка.
+    Drop-down menu for choosing the performance profile of the engine.
 
     .. seealso:: :ref:`quality_settings`
 
 **Pause**
-    Приостановка рендеринга.
+    Pause rendering.
 
 **Resume**
-    Возобновление рендеринга.
+    Resume rendering.
 
 **Auto View**
-    Активация режима автоматического переключения сцен по списку, пауза между просмотрами 1 секунда.
+    Activate the automatic scene switching mode; the delay between views is 1 second.
 
 **Scenes**
-    Двухуровневый список категорий и сцен из файла ``assets.json``.
+    A double-level list of the categories and scenes from the ``assets.json`` file.
 
 **Animation**
-    Управление анимацией. При просмотре анимированных моделей можно выбирать объект и переключать для него анимацию с помощью выпадающего меню, включать режим циклической анимации, останавливать и возобновлять анимацию, выставлять нужный кадр (при этом анимация должна быть остановлена).
+    Animation controls. When viewing animated models, you can select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped to do this).
 
 **NLA**
-    Управление NLA-анимацией (если таковая присутствует в сцене). Для работы этой вкладки должна быть включена опция NLA в настройках сцены.
+    A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene's settings.
 
 **Shape Keys**
-    Управление доступными ключами формы. При просмотре моделей, обладающих ключами формы, можно выбрать объект, один из ключей и степень влияния ключа на объект.
+    Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the infuence that the key has on the object.
 
 **Materials**
-    Настройка свойств материалов. Материал выбирается с помощью выпадающего меню. В настоящий момент поддерживается изменение ограниченного ряда свойств.
+    Material properties setup. A material can be selected using the drop-down menu. For now, only a limited number of properties is supported.
 
 **Lighting**
-    Настройка параметров прямого освещения. Источник света выбирается с помощью выпадающего меню. Поддерживается изменение цвета и интенсивности. Также на этой панели осуществляется настройка параметров времени суток и солнечного освещения.
+    Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.
 
 **Ambient**
-    Настройка параметров освещения от окружающей среды. Поддерживается изменение цветов в полусферической модели освещения и интенсивности. 
-    
+    Ambient lighting parameters setup. Changing the colors and intensity of a hemispheric ambient model is supported.
+
 **Shadows**
-    Настройка параметров падающих теней, включая параметры каскадов теней и параметры смягчения краев теней.
-    
+    Shadow parameters setup, including shadow cascades and shadow edges softening parameters.
+
 **Sky**
-    Настройка параметров динамического неба, таких как цвет, параметры рассеивания солнечного света и т.д.
+    Dynamic sky parameters setup such as color, sun light scattering parameters etc.
 
 **Sea**
-    Настройка параметров рендеринга воды, включая переходы цвета по глубине и удаленности от берега, параметры пены, подповерхностного рассеивания, динамики волн и т.д.
+    Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.
 
 **Wind**
-    Настройка параметров ветра, включая направление и силу.
+    Wind parameters setup, including direction and strength.
 
 **Screen Space Amb Occlus**
-    Настройка параметров взаимного затенения.
+    Ambient occlusion parameters setup.
 
 **God Rays**
-    Настройка параметров эффекта сумеречных лучей.
+    Crepuscular rays effect parameters setup.
 
 **Bloom**
-    Настройка параметров эффекта засветки ярким светом.
+    Bright light effect parameters setup.
 
 **Motion Blur**
-    Настройка эффекта размытия изображения при движении.
+    Motion blur effect settings.
 
 **Glow Materials**
-    Настройка эффекта свечения материалов.
+    Glow Materials effect settings.
 
 **Depth of Field**
-    Настройка параметров эффекта глубины резкости камеры.
+    Depth of field effect parameters setup.
 
 **Color correction**
-    Настройка параметров цветовой коррекции, включая яркость, контрастность, экспозицию и насыщенность.
+    Color correction parameters setup, including brightness, contrast, exposure and saturation.
 
 **Audio** 
-    На панели находится переключатель режима микширования. После включения на сценах со звуковыми источниками появляется интерфейс микшера.
+    There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).
 
 **Stereo View**
-    На панели находится переключатель режима стерео-изображения.
+    There is a stereoscopy mode switch on the panel.
 
 **Gyroscope**
-    На этой панели расположен переключатель режима использования гироскопа для мобильных устройств.
+    Gyroscope settings for mobile devices can be controlled from this panel.
 
 **Tools & Debug**
-    На панели находится ряд инструментов отладки сцен, в частности переключатель режима просмотра сетки, переключатель режима просмотра постпроцессинговых стадий.
+    This panel contains a range of debugging tools, including the wireframe mode and the postprocessing stages viewer switches.
 
 
-Индикаторы
+Indicators
 ----------
 
-**Счетчик количества кадров в секунду**
-    Находится в правом верхнем углу. Выводит усредненное и округленное значение за последние 1,5 секунды.
+**Frames per second counter**
+    This is located in the top right corner. It displays the averaged and rounded value for the last 1.5 seconds.
 
-**Размер области рендеринга**
-    Находится в левом верхнем углу. Выводит размер области рендеринга в пикселах. 
-    
-**Выбранный объект и контролируемый объект**
-    Находится в левом нижнем углу. Выводит название выбранного объекта и контролируемого объекта. Выбор объекта осуществляется мышью. Для получения прямого контроля над объектом (обычно в целях проверки физики) нужно нажать ``Q`` и выбрать объект. Движение объекта осуществляется клавишами ``W``, ``A``, ``S``, ``D``. Для выхода из режима контроля нужно нажать ``Q`` и "кликнуть" на пустом пространстве. Индикатор также показывает расстояние до выбранного объекта в единицах Blender'a (эквивалент метра).
+**Viewport dimensions**
+    This is located in the top left corner. It displays the viewport dimensions in pixels.
 
-**Индикатор сложности сцены**
-    Находится в правом верхнем углу области рендеринга. Выводит количество вершин, треугольников и WebGL вызовов на основной рендер-сцене (т.е. не учитываются, например, вызовы по отрисовке динамических теней).
-      
-**Индикатор видео-памяти**
-    Находится в правом нижнем углу области рендеринга. Выводит количество видео-памяти, занимаемой геометрией, текстурами, буферами с результатами рендеринга (render targets), а также суммарное количество занимаемой памяти.
-      
-**Индикатор ошибок при загрузке сцены**
-    Находится под счетчиком количества кадров. Выводит ошибки и предупреждения при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, зеленый - загрузка сцены прошла успешно.
-      
+**Selected object and controlled object**
+    This is located in the left bottom corner. It displays the names of selected and controlled objects. Object selection can be performed with the mouse. To control the object directly (normally for physics debugging) press the ``Q`` key and click on the object. The object movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control mode press the ``Q`` key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).
+
+**Scene complexity indicator**
+    Is located in the top right corner of the rendering area. It displays the number of vertices, triangles and WebGL calls on the main rendering scene (i.e. shadow rendering calls are not included, for example).
+
+**Video memory indicator**
+    Is located in the bottom right corner of the rendering area. It displays the amount of video memory used by geometry, textures, render targets, and also the total memory usage.
+
+**Scene load errors indicator**
+    Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.
+
 .. image:: src_images/viewer/viewer_indicators.png
    :align: center
    :width: 100%

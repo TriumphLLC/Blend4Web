@@ -1,19 +1,16 @@
 .. _particles_instancing:
 
-.. index:: система частиц; инстансинг
+.. index:: particle system; instancing
 
-**************************
-Система частиц. Инстансинг
-**************************
+***************************
+Particle System. Instancing
+***************************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Система частиц может использоваться для создания множественных копий объектов
-(инстансинга). Кроме сокращения времени на создание сцены, инстансинг позволяет
-сэкономить на времени загрузки и сократить потребление памяти сценой, нежели при
-использовании отдельных объектов.
+A particle system can be used to create multiple object copies (so called instancing). This technique simplifies scene authoring and also reduces loading time and memory consumption as compared to the using of single objects.
 
 .. image:: src_images/particles_instancing/particles_instancing_example.jpg
    :align: center
@@ -21,18 +18,17 @@
 
 |
 
-Использование системы частиц для инстансинга имеет ограничения:
+Using particle systems for instancing has some limitations though:
 
-* Невозможно осуществлять движение и анимацию объектов внутри системы частиц.
+* Movement and animation of objects inside a particle system is not allowed.
 
-* Не допускается создавать иерархические сущности среди объектов внутри системы
-  частиц за исключением дуплицирования групп.
+* Parenting is not possible among the objects inside a particle system, except for dupli-groups.
 
-* Не допускается инстансинг отличных от объектов-мешей сущностей.
+* Instancing of non-mesh objects is not possible.
 
 
-Настройки системы частиц
-========================
+Particle System Setup
+=====================
 
 .. only:: html
 
@@ -50,17 +46,17 @@
        :align: center
        :width: 100%
 
-Активация
----------
+Activation
+----------
 
-#. На эмиттере создать систему частиц типа ``Hair``.
-#. В панели ``Render`` выбрать тип отображения ``Object`` (или ``Group``).
-#. В поле ``Dupli Object`` (или ``Dupli Group``) выбрать объект (или группу объектов) для инстансинга. Поддерживаются как локальные, так и подключенные по ссылке объекты (или группы).
+#. Create a particle system of the ``Hair`` type on the emitter.
+#. On the ``Render`` panel select the ``Object`` (or the ``Group``) rendering type.
+#. In the ``Dupli Object`` field (or in the ``Dupli Group`` field) select the object (or the object group) for instancing. Both local and linked objects (or groups) are supported.
 
 
-**Рекомендуемые дополнительные настройки**
+**Recommended Additional Settings**
 
-#. Для корректного отображения размера установить значение 1.0 для параметров ``Emission > Hair Length`` и ``Render > Size``.
+#. In order to display correct sizes in the viewport, set the ``Emission > Hair Length`` and ``Render > Size`` parameters to 1.0.
 
 .. image:: src_images/particles_instancing/particles_instancing_setup.jpg
    :align: center
@@ -68,129 +64,129 @@
 
 |
 
-Настройки отображения
----------------------
+Display settings
+----------------
 
 *Render > Use Count*
 
-    Опция доступна для групп объектов-частиц. При включении появляется интерфейс установки относительного количества входящих в группу объектов. Движок не воспроизводит точное местонахождение объектов заданных типов.
+    The option is available for groups of particle objects. When enabled, the interface for setting the relative number of objects in a group becomes visible. The engine does not reproduce the exact positions of objects of certain types.
 
 *Render > Randomize Location and Size*
 
-    Опция устанавливает случайный характер расположения и размеров объектов. Если опция включена, движок генерирует случайные координаты и размер (в пределах ±25%) объектов-частиц. Если опция выключена, производится экспорт и использование текущих координат и размеров объектов-частиц.
+    The option enables randomization for the location and the size of the objects. If enabled, the engine generates random coordinates and size (limited to the ±25% range) for the particle objects. If disabled, the exact coordinates and sizes of the particle objects are exported and used.
 
 *Render > Randomize Initial Rotation*
 
-    Опция устанавливает случайный характер вращения объектов относительно оси определяемой параметром ``Rotation Type``. Если опция включена, движок генерирует случайные углы вращения объектов-частиц. Если опция выключена, применяется ориентация согласно панели ``Rotation``.
+    This option randomizes rotation of the objects relative to the axis defined by ``Rotation Type``. If enabled, the engine generates random rotation angles for the particle objects. If disabled, the rotation is taken from the ``Rotation`` panel.
 
 *Render > Rotation Type*
 
-    Ось случайного поворота объекта (опция доступна при включении ``Render > Randomize Initial Rotation``). Возможны два варианта:
+    An Axis of random object rotation (the property is available when ``Render > Randomize Initial Rotation`` is enabled). There are two options:
 
-        - ``Z axis`` - случайный поворот будет осуществлен относительно вертикальной оси Z
-        - ``Random axis`` - случайный поворот будет осуществлен относительно случайной оси
+        - ``Z axis`` - the objects are turned randomly around the vertical Z axis
+        - ``Random axis`` - the objects are turned randomly around a random axis
 
-    Значение по умолчанию ``Z axis``.
+    The default is ``Z axis``
 
 *Render > Rotation Strength*
 
-    Коэффициент, определяющий диапазон случайных углов поворота, отсчитываемых от направления на камеру (опция доступна при включении ``Render > Randomize Initial Rotation``). Например:
+    Coefficient which defines the range of random rotation angles - counting from the direction towards the camera. Available when the ``Render > Randomize Initial Rotation`` checkbox is enabled. Examples:
 
-        - ``Rotation Strength = 1`` - углы будут лежать в пределах :math:`[-\pi, \pi]`
-        - ``Rotation Strength = 0.5`` - углы будут лежать в пределах :math:`[-0.5 \cdot \pi, 0.5 \cdot \pi]`
-        - ``Rotation Strength = 0.1`` - углы будут лежать в пределах :math:`[-0.1 \cdot \pi, 0.1 \cdot \pi]`
+        - ``Rotation Strength = 1`` - the angles will lie within the :math:`[-\pi, \pi]` range
+        - ``Rotation Strength = 0.5`` - the angles will lie within the :math:`[-0.5 \cdot \pi, 0.5 \cdot \pi]` range
+        - ``Rotation Strength = 0.1`` - the angles will lie within the :math:`[-0.1 \cdot \pi, 0.1 \cdot \pi]` range
 
-    Значение по умолчанию 1.
+    The default value is 1.
 
 *Render > Billboard*
 
-    Включение биллбординга для частиц. По умолчанию выключено.
+    Enables billboarding for particles. Disabled by default.
 
 *Render > Billboard Type*
 
-    Тип биллбординга (опция доступна при включении ``Render > Billboard``). Доступны три типа:
+    Billboarding type. The option is available when the ``Render > Billboard`` option is enabled. Three types are available:
 
-        - ``Basic`` - простой односторонний биллбординг: частицы всегда будут повернуты лицевой стороной
-        - ``Random`` - случайный двусторонний биллбординг: частицы чаще всего будут повернуты лицевой, либо обратной стороной, реже - боком; присутствует небольшой случайный поворот; модель создана специально для инстансинга травы
-        - ``Jittered`` - односторонний биллбординг с колебанием частиц в плоскости, обращенной к наблюдателю; модель создана специально для инстансинга листвы деревьев
+        - ``Basic`` - simple one-sided billboarding: particles will be turned with their front to the observer
+        - ``Random`` -``Random`` - random two-sided billboarding: particles will be more often turned with their front or rear to the observer and less often with their side; also there will be a small random turn; this model is designed specially for grass instancing
+        - ``Jittered`` - ``Jittered`` - one-sided billboarding with particles wavering along the plane which is turned to the observer; this model is designed specially for instancing of tree leaves
 
-    Значение по умолчанию ``Basic``.
+    The default is ``Basic``.
 
 *Render > Jitter Amplitude*
 
-    Коэффициент амплитуды колебаний частиц (опция доступна при выборе типа ``Jittered`` в  ``Render > Billboard Type``). При увеличении параметра амплитуда растет. Значение по умолчанию 0.
+    Coefficient which defines the particle oscillation amplitude. Available when the ``Jittered`` type is selected from the ``Render > Billboard Type`` menu. The bigger this parameter is, the bigger is the oscillation amplitude. The default value is 0.
 
 *Render > Jitter Frequency*
 
-    Частота колебаний частиц, Гц (опция доступна при выборе типа ``Jittered`` в  ``Render > Billboard Type``). Значение по умолчанию 0.
+    Particle oscillation frequency in hertz. Available when the ``Jittered`` type is selected from the ``Render > Billboard Type`` menu. The default value is 0.
 
 *Render > Billboard Geometry*
 
-    Тип вращения биллбордов (опция доступна при включении ``Render > Billboard``). Доступны два типа:
+    Billboard rotation type (the option is available when the ``Render > Billboard`` checkbox is set). Two types are available:
 
-        - ``Spherical`` - сферический биллбординг, полная ориентация частиц по отношению к наблюдателю, вращение ничем не ограничено;
-        - ``Cylindrical`` - цилиндрический биллбординг, вращение частиц только относительно оси Z
+        - ``Spherical`` - spherical billboarding i.e. particles are fully oriented to the observer and their rotation is unlimited;
+        - ``Cylindrical`` - cylindrical billboarding i.e. particles are rotating only around the vertical Z axis;
 
-    Значение по умолчанию ``Spherical``.
+    The default is ``Spherical``.
 
 
-Настройки динамической травы
-----------------------------
+Dynamic grass setup
+-------------------
 
 *Dynamic Grass*
 
-    Опция включает режим динамического рендеринга травяного покрова. По умолчанию отключено.
+    The option enables the dynamic grass rendering mode. Disabled by default.
 
 *Dynamic Grass > Scale Threshold*
 
-    Минимальный размер частиц динамической травы. Частицы меньшего размера не отображаются. Опция доступна при включении ``Dynamic Grass``.
+    Minimum size for dynamic grass particles. Smaller particles will not be rendered. The option is available if ``Dynamic Grass`` is enabled.
 
-Настройки наследования
-----------------------
+Inheritance settings
+--------------------
 
 *Properties Inheritance > Wind Bending*
 
-    Наследование частицами настроек ``Wind Bending``:
+    Inheriting the ``Wind Bending`` settings by the particles:
 
-        - ``Parent`` - наследование с эмиттера
-        - ``Instance`` - наследование с объекта самой частицы
+        - ``Parent`` - inherited from the emitter
+        - ``Instance`` - inherited from the particle object itself
 
-    Значение по умолчанию ``Parent``.
+    The default is ``Parent``.
 
 *Properties Inheritance > Shadows*
 
-    Наследование частицами настроек теней:
+    Inheriting the shadow settings by particles:
 
-        - ``Parent`` - наследование с эмиттера
-        - ``Instance`` - наследование с объекта самой частицы
+        - ``Parent`` - inherited from the emitter
+        - ``Instance`` - inherited from the particle object itself
 
-    Значение по умолчанию ``Parent``.
+    The default is ``Parent``.
 
 *Properties Inheritance > Reflection*
 
-    Наследование частицами настроек отражений:
+    Inheriting the reflection settings by particles:
 
-        - ``Parent`` - наследование с эмиттера
-        - ``Instance`` - наследование с объекта самой частицы
+        - ``Parent`` - inherited from the emitter
+        - ``Instance`` - inherited from the particle object itself
 
-    Значение по умолчанию ``Parent``.
+    The default is ``Parent``.
 
 *Properties Inheritance > Vertex Color*
 
-    Наследование частицами вертексного цвета с эмиттера. Содержит два поля:
+    Inheriting the vertex color from the emitter. Contains two fields:
 
-        - ``From`` - имя существующего у эмиттера вертексного цвета
-        - ``To`` - имя существующего у частицы вертексного цвета
+        - ``From`` - the emitter's existing vertex color name
+        - ``To`` - the particle's existing vertex color name
 
-    По умолчанию наследования не происходит.
+    There is no inheritance by default.
 
 
 .. _particles_grass:
 
-Травяной покров
-===============
+Grass
+=====
 
-Инстансинг объектов может использоваться для визуализации травяного покрова на обширных площадях. При этом происходит отрисовка травы вблизи камеры по мере ее движения по ландшафту.
+Instancing of objects can be used for visualizing vast grass. In this case grass is rendered near the camera when it moves through the landscape.
 
 .. image:: src_images/particles_instancing/dynamic_grass.jpg
    :align: center
@@ -198,26 +194,26 @@
 
 |
 
-**Активация**
+**Activation**
 
-#. На отдельном объекте-плоскости создать систему частиц для инстансинга объектов. Включить опцию ``Dynamic Grass``.
-#. На предполагаемом материале ландшафта включить опцию ``Terrain Dynamic Grass``.
+#. On a separate plane object create a particle system for object instancing. Enable the ``Dynamic Grass`` option.
+#. Enable the ``Terrain Dynamic Grass`` option for the supposed landscape material.
 
-**Настройка**
+**Setup**
 
-Рекомендуется создать несколько плоскостей (например, 3) с размерами, соответствующими желаемому размеру каскада травяного покрова (например, 100, 150 и 250 м).
+It is recommended to create a few planes (for example 3) with sizes corresponding to the desired grass cascades (e.g. 100, 150 and 250 meters).
 
-На **материале** ландшафта при включении опции ``Terrain Dynamic Grass`` становятся активными текстовые поля:
+For the landscape's **material**, the following text fields become active when the ``Terrain Dynamic Grass`` option is enabled:
 
 *Dynamic Grass Size (R)*
-    Название слоя вертексного цвета меша ландшафта, предназначенного для модифицирования размера травяного покрова. Размер ("высота") травяного покрова задается оттенками серого - чем светлее, тем больше.
+    Vertex color layer name of the landscape mesh which is intended for modifying the grass size. The size (i.e. height) of the grass is defined by gray tints - the brighter color the is the higher is the grass.
 
 *Dynamic Grass Color (RGB)*
-    Название слоя вертексного цвета меша ландшафта, предназначенного для подкраски травяного покрова. Вертексный цвет умножается на цвет материала травы. Параметр ``Influence > Blend`` диффузной текстуры материала травы должен иметь значение ``Multiply``.
+    Name of the landscape mesh's vertex color layer which is intended for grass tinting. The vertex color is multiplied by the grass material color. The ``Influence > Blend`` parameter for the grass material's diffuse texture should have the ``Multiply`` value.
 
-Слои вертексного цвета с такими названиями должны существовать в меше ландшафта.
+Vertex color layers with such names should exist in the landscape mesh.
 
-Рекомендуется также отключить отображение эмиттера (опция ``Render > Emitter``).
+It is also recommended to disable rendering of the emitter (the ``Render > Emitter`` option).
 
 .. image:: src_images/particles_instancing/dynamic_grass_setup.jpg
    :align: center
@@ -226,10 +222,10 @@
 
 .. _particles_leaves:
 
-Листва деревьев
-===============
+Tree Leaves
+===========
 
-Инстансинг хорошо подходит для отображения листвы на деревьях, и позволяет добиться более высокого уровня детализации.
+Instancing suits the rendering of tree leaves well and allows to get a better level of detail.
 
 .. image:: src_images/particles_instancing/tree_leaves.jpg
    :align: center
@@ -237,47 +233,47 @@
 
 |
 
-**Активация**
+**Activation**
 
-Осуществляется как описано выше в разделе ``Настройки системы частиц -> Активация``. Здесь соответственно эмиттером будет выступать дерево, а частицами - ветки, листья и т.д.
+Performed as described in the ``Particle system setup -> Activation`` section (see above). In this case the tree is the emitter and the leaves and the small branches are the particles.
 
-Для эмиттера дополнительно можно сделать следующее:
+Additionally, the following operations can be performed for the emitter:
 
-    - создать вертексную группу, включающую вершины, на которых будут располагаться частицы
-    - создать слой вертексного цвета для настройки Wind Bending дерева и листвы
-    - создать слой вертексного цвета для наследования его частицами (можно использовать, например, для подкраски частиц)
+    - create a vertex group which includes vertices on which the particles will be placed
+    - create a vertex color layer for the wind bending parameters of the tree and the leaves
+    - create a vertex color layer to be inherited by the particles (for example it can be used for tinting the particles)
 
-**Настройка**
+**Setup**
 
-1. *Настройки случайного поворота*
+1. *Random rotation settings*
 
-Если включена опция ``Render > Randomize Initial Rotation``, то рекомендуется выставить вертикальную ось случайного поворота - ``Z axis`` (опция ``Render > Rotation Type``). Опция ``Render > Rotation Strength`` - на свое усмотрение.
+If the ``Initial Random Rotation`` checkbox is enabled, it is recommended to select the vertical axis for random rotation - ``Z axis`` (by using the ``Rotation Type`` menu). The ``Rotation Strength`` value can be set at will.
 
-2. *Настройки биллбординга*
+2. *Billboarding settings*
 
-Рекомендуется включить биллбординг, выставить тип ``Jittered`` (опция ``Render > Billboard Type``) и сделать его сферическим - ``Spherical`` (опция ``Render > Billboard Geometry``). Настройки ``Render > Jitter Amplitude`` и ``Render > Jitter Frequency`` - на свое усмотрение.
+It is recommended to enable billboarding, to set its type as ``Jittered`` (by using the ``Render > Billboard Type`` menu) and to make it spherical - ``Spherical`` (by using the ``Render > Billboard Geometry`` menu). The ``Render > Jitter Amplitude`` and ``Render > Jitter Frequency`` values can be set at will.
 
-3. *Настройки расположения частиц*
+3. *Particle position settings*
 
-Рекомендуется выставить опцию ``Emission > Emit From`` в значение ``Verts``, а в ``Vertex Group > Density`` выбрать вертексную группу эмиттера с вершинами для расположения частиц. Также нужно отключить опцию ``Render > Randomize Location and Size``.
+It is recommended to select the ``Verts`` value from the ``Emission > Emit From`` menu, and to select the emitter's vertex group (in the ``Vertex Group > Density`` field) which defines the positions of particles. Note, that the ``Render > Randomize Location and Size`` checkbox should be disabled.
 
-4. *Настройки эффекта ветра*
+4. *Wind effect settings*
 
-Рекомендуется включить наследование настроек из эмиттера - выставить ``Parent`` в опции ``Properties Inheritance > Wind Bending``. Затем у эмиттера в панели ``Object`` выбрать опцию ``Wind Bending`` и настроить параметры бендинга. Для дерева достаточно указать параметры ``Wind Bending > Main Bending > Angle`` и ``Wind Bending > Main Bending > Frequency``, а также вертексный цвет для бендинга - ``Wind Bending > Main Bending > Main Stiffness``.
+It is recommended to enable inheritance settings from the emitter - select the ``Parent`` in the ``Properties Inheritance > Wind Bending`` menu. Then for the emitter on the ``Object`` panel enable the ``Wind Bending`` checkbox and set up the bending parameters. For a tree, it is enough to specify the ``Wind Bending > Main Bending > Angle`` and ``Wind Bending > Main Bending > Frequency`` parameters and also a vertex color name for bending in the ``Wind Bending > Main Bending > Main Stiffness`` field.
 
 .. _particles_inheritance:
 
-5. *Настройки наследования вертексного цвета*
+5. *Vertex color inheritance settings*
 
-Для наследования частицами вертексного цвета эмиттера нужно указать имя цвета эмиттера и имя цвета частицы соответственно в полях ``Properties Inheritance > Vertex Color > From`` и ``Properties Inheritance > Vertex Color > To``. При наследовании цвет ближайшей к частице вершины эмиттера из ``From`` будет скопирован и размножен в цвет ``To`` частицы.
+For the emitter's vertex color to be inherited by the particles, it is required to specify both the emitter's vertex color name and the particle's vertex color name in the ``Properties Inheritance > Vertex Color > From`` and ``Properties Inheritance > Vertex Color > To`` fields respectively. As a result, the color of the emitter's vertex that is closest to the particle (specified in the ``From`` field) will be copied and propagated into the particle's ``To`` vertex color layer.
 
-Полученный таким образом вертексный цвет с именем ``Properties Inheritance > Vertex Color > To`` можно будет использовать в нодовом материале частицы для ее подкрашивания либо каких-то других эффектов.
+The resulting vertex color layer with the name specified in the ``Properties Inheritance > Vertex Color > To`` field can be used in the particle's node material for its tinting and for any other effects.
 
-6. *Настройки размеров частиц в зависимости от весовых коэффициентов вертексной группы*
+6. *Setting up the size of particles via vertex group weights*
 
-Для создания зависимости между размером частиц и весовым коэффициентом вертекса из вертексной группы укажите на панели ``Vertex groups > Length`` имя вертексной группы.
+In order to create dependency between the size of particles and vertex group weights, select the name of the desired vertex group in the ``Vertex groups > Length`` field.
 
-Для управления эффектом необходимо задать весовые коэффициенты в выбранной вертексной группе.
+The influence can be tweaked by setting weights in the selected vertex group.
 
 .. image:: src_images/particles_instancing/particle_settings.jpg
    :align: center

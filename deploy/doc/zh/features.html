@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>功能 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="安装和更新" href="setup.html"/>
+        <link rel="prev" title="概述" href="about.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">功能</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general">通用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#texturing">纹理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#materials">材质</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lighting">照明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shadows">阴影</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#particle-system">粒子系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-scenes-rendering">额外场景渲染</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postprocessing-effects">后处理效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#animation">动画</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimization">优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio">音频</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physics">物理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-driven-model">事件驱动模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visual-programming">可视化编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other">其他</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>功能</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="features">
+<span id="id1"></span><h1>功能<a class="headerlink" href="#features" title="永久链接至标题">¶</a></h1>
+<div class="section" id="general">
+<h2>通用<a class="headerlink" href="#general" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">对任何复杂和尺寸的3D场景渲染效果</p>
+</li>
+<li><p class="first">数据格式设计，以适应WebGL规格和装载优化</p>
+</li>
+<li><p class="first">便捷的制作3D内容环境，通过Blender的插件来完成</p>
+</li>
+</ul>
+</div>
+<div class="section" id="texturing">
+<h2>纹理<a class="headerlink" href="#texturing" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">纹理贴图 如：应用一张图像到3D物体的表面</p>
+</li>
+<li><p class="first">多纹理 即：一个物体采用多重纹理</p>
+</li>
+<li><p class="first">渲染到纹理，RTT显示一个场景在另一个场景中和后处理效果</p>
+</li>
+<li><p class="first">各向异性过滤，AF是为提升在倾斜视角时看表面的质量，（要用到标准WebGL扩展）</p>
+</li>
+<li><p class="first">纹理压缩支持（S3TC / DXT格式）</p>
+</li>
+<li><p class="first">视频贴图 - 视频可以加载和播放，作为纹理层</p>
+</li>
+<li><p class="first">画布纹理 - 二维画布API可用于绘制的纹理</p>
+</li>
+</ul>
+</div>
+<div class="section" id="materials">
+<h2>材质<a class="headerlink" href="#materials" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">材质的透明性，如果需要的话通过深度排序（Z分级）</p>
+</li>
+<li><p class="first">增强立体表面细节的纹理（视差偏移映射方法）</p>
+</li>
+<li><p class="first">菲涅尔效应 - 反射对观看角度的依赖性</p>
+</li>
+<li><p class="first">动态反射</p>
+</li>
+<li><p class="first">支持材质节点</p>
+</li>
+<li><p class="first">光晕材质用来渲染光源和星星</p>
+</li>
+</ul>
+</div>
+<div class="section" id="lighting">
+<h2>照明<a class="headerlink" href="#lighting" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">多个光源</p>
+</li>
+<li><p class="first">光源类型 - 定向，半球，点，聚光</p>
+</li>
+<li><p class="first">漫射照明</p>
+</li>
+<li><p class="first">环境照明</p>
+</li>
+<li><p class="first">高光 - 从表面光反射</p>
+</li>
+<li><p class="first">环境贴图 - 从表面光反射</p>
+</li>
+<li><p class="first">法线贴图 - 附加表面细节的纹理</p>
+</li>
+</ul>
+</div>
+<div class="section" id="shadows">
+<h2>阴影<a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">静态阴影贴图（光照贴图）</p>
+</li>
+<li><p class="first">动态阴影映射</p>
+</li>
+<li><p class="first">自阴影 - 物体投射阴影在自己身上</p>
+</li>
+<li><p class="first">级联阴影贴图，CSM为大场景准备</p>
+</li>
+<li><p class="first">柔和阴影</p>
+</li>
+</ul>
+</div>
+<div class="section" id="particle-system">
+<h2>粒子系统<a class="headerlink" href="#particle-system" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">粒子系统实现效果，比如火，烟，飞溅等</p>
+</li>
+<li><p class="first">粒子系统的实例存储相似的物体：草，石头，树叶等</p>
+</li>
+</ul>
+</div>
+<div class="section" id="external-scenes-rendering">
+<h2>额外场景渲染<a class="headerlink" href="#external-scenes-rendering" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">雾</p>
+</li>
+<li><p class="first">天空和环境的天空盒</p>
+</li>
+<li><p class="first">镜头眩光效果</p>
+</li>
+<li><p class="first">水渲染</p>
+</li>
+</ul>
+</div>
+<div class="section" id="postprocessing-effects">
+<h2>后处理效果<a class="headerlink" href="#postprocessing-effects" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">运动模糊</p>
+</li>
+<li><p class="first">抗锯齿 - 图像边缘增强（快速近似抗锯齿，使用FXAA法）</p>
+</li>
+<li><p class="first">立体（视差图像法，需要3D眼镜）</p>
+</li>
+<li><p class="first">环境光遮蔽（SSAO方法时）</p>
+</li>
+<li><p class="first">景深，DOF</p>
+</li>
+<li><p class="first">曙暮辉（上帝射线）</p>
+</li>
+<li><p class="first">绽放 - 明亮的光线效果</p>
+</li>
+<li><p class="first">物体外轮廓</p>
+</li>
+</ul>
+</div>
+<div class="section" id="animation">
+<h2>动画<a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">蒙皮 - 与骨骼系统物体变形</p>
+</li>
+<li><p class="first">动画物体，照相机和光源的位置，旋转和缩放</p>
+</li>
+<li><p class="first">骨骼动画（如角色的身体）</p>
+</li>
+<li><p class="first">顶点动画（如布料模拟）</p>
+</li>
+<li><p class="first">程序动画（如树叶风吹弯）</p>
+</li>
+<li><p class="first">纹理坐标动画（如可视化水波）</p>
+</li>
+</ul>
+</div>
+<div class="section" id="optimization">
+<h2>优化<a class="headerlink" href="#optimization" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">四椎体剔除 - 不可见的物体不渲染</p>
+</li>
+<li><p class="first">批处理，纹理地图 - WebGL的加载次数减少</p>
+</li>
+<li><p class="first">细节，LOD的水平 - 远的物体都那么详细</p>
+</li>
+</ul>
+</div>
+<div class="section" id="audio">
+<h2>音频<a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">基于Web的音频API的音频引擎</p>
+</li>
+<li><p class="first">根据浏览器的各种文件格式的支持</p>
+</li>
+<li><p class="first">灵活的播放控制，声音暂停/恢复</p>
+</li>
+<li><p class="first">在三维空间中定位声源</p>
+</li>
+<li><p class="first">移动物体来关闭多普勒效应并用空间跳跃补偿</p>
+</li>
+<li><p class="first">灵活控制播放音量，速度和延迟</p>
+</li>
+<li><p class="first">淡入，淡出，静音</p>
+</li>
+<li><p class="first">高品质的声音循环</p>
+</li>
+<li><p class="first">随机声音参数，以提高循环感知</p>
+</li>
+<li><p class="first">交叉推杆有声动画的支持</p>
+</li>
+<li><p class="first">动态压缩</p>
+</li>
+<li><p class="first">高效的长时间音轨存储和回放</p>
+</li>
+<li><p class="first">实时混音工具</p>
+</li>
+</ul>
+</div>
+<div class="section" id="physics">
+<h2>物理<a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">刚体物理 - 碰撞检测，真实移动，重力，高度检测，扭转</p>
+</li>
+<li><p class="first">各种约束类型 - 刚性，铰链，弹簧，枢轴，滑动等</p>
+</li>
+<li><p class="first">光线追踪</p>
+</li>
+<li><p class="first">浮动和水下运动物理学</p>
+</li>
+<li><p class="first">轮式车辆模拟</p>
+</li>
+<li><p class="first">船舶模拟</p>
+</li>
+</ul>
+</div>
+<div class="section" id="event-driven-model">
+<h2>事件驱动模型<a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">对于应用程序逻辑编写异步架构</p>
+</li>
+<li><p class="first">人物和动物的动画控制与人工智能</p>
+</li>
+</ul>
+</div>
+<div class="section" id="visual-programming">
+<h2>可视化编程<a class="headerlink" href="#visual-programming" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>the Logic Editor tool allows to create interactive apps by constructing the logic chains from basic blocks</li>
+</ul>
+</div>
+<div class="section" id="other">
+<h2>其他<a class="headerlink" href="#other" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p class="first">数学曲线造型很长的物体（道路，电线，河）</p>
+</li>
+<li><p class="first">用鼠标在三维场景中拾取物体</p>
+</li>
+<li><p class="first">用于商业用途引擎的代码缩减和混淆处理</p>
+</li>
+<li><p class="first">模块结构的源代码</p>
+</li>
+<li><p class="first">强大的着色器预处理器的模块和功能模块（节点）支持</p>
+</li>
+<li><p class="first">方便的快速部署新的3D应用的系统</p>
+</li>
+<li><p class="first">范围广泛的设备支持选项</p>
+</li>
+<li><p class="first">用户手册和API文档</p>
+</li>
+<li><p class="first">用户交互 - 摄像头，角色，行为控制</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="setup.html" class="btn btn-neutral float-right" title="安装和更新" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="概述" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

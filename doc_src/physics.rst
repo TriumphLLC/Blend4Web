@@ -1,17 +1,17 @@
 .. _physics:
 
-******
-Физика
-******
+*******
+Physics
+*******
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Подготовка к использованию
-==========================
+Preparing for Use
+=================
 
-Для задействования физики на сцене необходимо установить флаг ``Enable Physics`` в панели ``Physics`` на сцене.
+In order to enable physics on the scene, please use the ``Enable Physics`` checkbox in the ``Physics`` panel under the scene tab in Blender.
 
 .. image:: src_images/physics/scene_interface_phys_enable.png
    :align: center
@@ -19,10 +19,10 @@
 
 |
 
-Статический тип физики
-======================
+Static Physics Type
+===================
 
-Может использоваться как ограничитель движения других объектов, например, для определения столкновений с ландшафтом, стенами и т.д. В настройках физики такого объекта для опции ``Physics Type`` должно быть выбрано значение ``Static`` (значение по умолчанию).
+Can be used to limit the movement of other objects, for example to detect collisions with a landscape, walls and so on. In the physics settings of such an object the ``Static`` value (set by default) should be selected for the ``Physics Type`` option.
 
 .. image:: src_images/physics/physics_panel_static.png
    :align: center
@@ -30,7 +30,7 @@
 
 |
 
-Меш может быть покрыт одним или несколькими физическими материалами. Во вкладке ``Material`` должна быть активирована панель ``Special: Collision``.
+One or multiple physics materials can be assigned to a mesh. Under the ``Material`` tab the ``Special: Collision`` panel must be activated.
 
 .. image:: src_images/physics/material_panel_physics.png
    :align: center
@@ -38,7 +38,7 @@
    
 |
 
-Опция ``Ghost`` исключает материал из физических взаимодействий, но сообщает приложению о контакте с ним. Пример - определение, что игровой персонаж находится на вертикальной лестнице.
+The ``Ghost`` option excludes the material from physical interactions but still notifies the application about the contact with it. An example - detecting that the character is located on a vertical ladder.
 
 .. image:: src_images/physics/water_tower.jpg
    :align: center
@@ -46,19 +46,18 @@
 
 |
 
-Поле ``Collision ID`` предназначено для определения столкновения со специфическим материалом, и может быть оставлено пустым. Пример использования ``Collision ID`` - определение нахождения игрового персонажа на разных типах покрытия ландшафта - трава, песок, деревянное покрытие и т.д.
+The ``Collision ID`` field is intended for detecting collisions with specific materials and can be left empty. An example of ``Collision ID`` usage is detecting the landscape surface a character is located on - grass, sand, wooden coating and so on.
 
-Поле ``Margin`` позволяет настроить ширину зоны, в которой происходит соударения с сеткой данного объекта. Данная настройка позволяет улучшить стабильность симуляций столкновений объектов.
+The ``Margin`` field allows to customize the width of the zone where mesh reacts on collisions. This option improves physical collisions simulation stability.
 
-Также в этой панели располагаются физические настройки материала. Поддерживаются следующие настройки: трение (``Friction``), упругость (``Elasticity``).
+Also, there are material physics settings in this panel. The following settings are supported: ``Friction``, ``Elasticity``.
 
-Поле ``Collision Group`` отвечает за физическую группу, к которой относится материал.
-Поле ``Collision Mask`` определяет все физические группы, с которыми будет взаимодействовать данный материал.
+The ``Collision Group`` field corresponds to the physics group which the material belongs to. The ``Collision Mask`` field defines all physics groups with which this material will interact.
 
-Динамический тип физики
-=======================
+Dynamic Physics Type
+====================
 
-Предназначен для симуляции движения жесткого тела. 
+Intended for rigid body movement simulation.
 
 .. image:: src_images/physics/physics_dynamic.jpg
    :align: center
@@ -66,13 +65,13 @@
 
 |
 
-В настройках панели ``Physics`` такого объекта должен быть установлен флаг ``Object Physics``. Поле ``Collision ID`` предназначено для определения столкновения со специфическим объектом (например, прикрепленный к камере объект для определения близости FPS персонажа к предметам), и может быть оставлено пустым. 
+The ``Object Physics`` checkbox must be enabled under the object's ``Physics`` panel. The ``Collision ID`` field is intended for detecting collisions with a specific object (for example, for detecting proximity of a FPS character to different items) and can be left empty.
 
-Опция ``Physics Type`` может иметь значения: ``Rigid Body`` (с вращениями) или ``Dynamic`` (без вращений). В настройках ``Collision Bounds`` может быть выбран тип коллайдера. Поддерживаются: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``, ``Cone``. Так же можно настроить: массy (``Mass``), демпфирование (``Damping``) - для перемещения (``Translation``) и вращения (``Rotation``). 
+In the physics settings of such an object the ``Rigid Body`` (with rotations) or ``Dynamic`` (without rotations) values can be selected for the ``Physics Type`` option. In the ``Collision Bounds`` settings the collider type can be selected - the supported types are: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``, ``Cone``. Also, the following physics parameters can be set: ``Mass``, ``Damping`` - for ``Translation`` and ``Rotation``.
 
-Поле ``Collision Group`` отвечает за физическую группу, к которой относится объект.
+The ``Collision Group`` field corresponds to the physics group which the object belongs to.
 
-Поле ``Collision Mask`` определяет все физические группы, с которыми будет взаимодействовать данный объект.
+The ``Collision Mask`` field defines all physics groups with which this object will interact.
 
 .. image:: src_images/physics/physics_panel_dynamic.png
    :align: center
@@ -80,15 +79,14 @@
    
 |
 
-Для материала такого объекта поддерживаются: трение (``Friction``), упругость (``Elasticity``). В случае использования на одном меше нескольких материалов физические настройки считываются с первого из них.
+``Friction`` and ``Elasticity`` are supported for the material of such an object. When multiple materials are used on a single mesh, the physics parameters are taken from the first of them.
 
-Для объекта-камеры должна использоваться настройка ``Physics Type`` = ``Dynamic``, должен быть установлен флаг ``Object Physics``.
+For the camera object the ``Physics Type`` = ``Dynamic`` parameter must be used, and the ``Object Physics`` checkbox must be enabled.
 
+Constraints
+===========
 
-Ограничители (Constraints)
-==========================
-
-Физические ограничители используются для уменьшения числа степеней свободы объектов.
+Physical constraints are used for limiting the objects' degrees of freedom.
 
 .. image:: src_images/physics/physics_constraints.jpg
    :align: center
@@ -96,7 +94,7 @@
    
 |
 
-Установка физического ограничителя (``Rigid Body Joint``) на объект происходит в панели ``Object Constraints``. Поддерживаемые типы (``Pivot Type``): ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. Физический ограничитель можно установить на один из двух взаимодействующих объектов, при этом другой выступает в качестве цели (``Target``). Оба объекта могут быть со статическим и/или динамическим типом физики. В ограничителях (кроме ``Ball``) могут настраиваться пределы перемещения и вращения.
+Adding a physical constraint (``Rigid Body Joint``) to the object can be performed on the ``Object Constraints`` panel. The supported types (``Pivot Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. A physical constraint can be added to one of the two interacting objects, while the other object acts as a ``Target``. Both objects can have a static and/or dynamic physics type. In constraints (except ``Ball``) the translation and rotation limits can be set up.
 
 .. image:: src_images/physics/physics_constraints_panel.png
    :align: center
@@ -105,10 +103,10 @@
 |
 
 
-Колесные транспортные средства
-==============================
+Wheeled Vehicles
+================
 
-Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.
+The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis' mesh center should correspond to the mass center. The centers of the wheels' and the steering wheel's meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.
 
 .. image:: src_images/physics/physics_vehicle_wheeled.jpg
    :align: center
@@ -116,51 +114,48 @@
 
 |
 
-На всех 6 объектах нужно выставить ``Part``, указать один и тот же идентификатор в поле ``Vehicle Name``, выбрать соответствующий тип объекта - ``Chassis``, ``Steering Wheel``, ``Back Right Wheel`` и т.д. Для колес имеется также настройка компенсирующего хода подвески ``Suspension Rest Length``.
+For all 6 objects: select the ``Part``, specify the same id in the ``Vehicle Name`` field, select the right object type - ``Chassis``, ``Steering Wheel``, ``Back Right Wheel`` and so on. The ``Suspension Rest Length`` setting is also available for the wheels.
 
-Для шасси необходимо указать реалистичную массу (т.к. значение по умолчанию 1 кг). Для этого перейти в настройки физики, для опции ``Physics Type`` выбрать значение ``Rigid Body``, и выставить нужное значение (например, 1000 кг) в поле ``Mass``.
+It is neccessary to specify a realistic mass for the chassis (because the default value is only 1 kg). To do this go to the physics settings, choose the ``Rigid Body`` value for the ``Physics Type`` option and specify the required value (for example, 1000 kg) in the ``Mass`` field.
 
-Параметры настройки для шасси
------------------------------
+Chassis Settings
+----------------
 
 *Force Max*
-    Максимальная движущая сила транспортного средства.
+    Maximum driving force of the vehicle.
 
 *Brake Max*
-    Максимальный коэффициент торможения.
+    Maximum braking coefficient.
 
 *Suspension Compression*
-    Коэффициент демпфирования при растяжении подвески.
+    Damping coefficient for suspension stretching.
 
 *Suspension Stiffness*
-    Коэффициент жесткости подвески.
+    Suspension stiffness coefficient.
 
 *Suspension Damping*
-    Коэффициент амортизации подвески.
+    Suspension damping coefficient.
 
 *Wheel Friction*
-    Константа трения колес о поверхность. Для реалистичных Т.С. должен быть в районе 0.8. Но может быть значительно увеличен, для улучшения управляемости (1000 и более)
+    Friction constant between the wheels and the surface. It should be around 0.8 for realistic vehicles. But it can be increased significantly to achieve a better control (1000 and more).
 
 *Roll Influence*
-    Снижает вращающий момент от колес, уменьшая вероятность переворота транспортного средства (0 - нет вращающего момента, 1 - реальное физическое поведение).
+    Decreases the wheels' torque decreasing the probability of the vehicle overturning (0 - no torque, 1 - real physics behavior).
 
 *Max Suspension Travel Cm*
-    Максимальный ход подвески в сантиметрах.
+    Maximum suspension travel in centimeters.
 
-Для рулевого колеса(``Steering Wheel``) необходимо указать максимальный угол поворота(``Steering Max``) и передаточное отношение угла поворота руля к 
-передним колесам (``Steering Ratio``). Максимальное значение угла поворота указывается в оборотах. Один оборот равен 360 градусам. Таким образом,
-поставив ``Steering Max`` равным единице, а ``Steering Ratio`` равным 10, максимальный поворот руля получится равным 360 градусам, а максимальный
-поворот передних колес 36 градусов.
+For the ``Steering Wheel`` it is necessary to specify the maximum steering angle (``Steering Max``) and the ratio between the turn of the steering wheel and the turn of the wheels  (``Steering Ratio``). The maximum steering angle value is specified in revolutions. A single revolution equals to 360 degrees. Therefore if ``Steering Max`` is equal to one and ``Steering Ratio`` is equal to 10, the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels will be 36 degrees.
 
-На этом этапе можно произвести экспорт и загрузить сцену в движок. Рекомендуется создать дорожную поверхность с физическим материалом. В просмотрщике нажать клавишу ``Q`` для выбора контролируемого объекта, и выбрать шасси. Использовать ``W``, ``A``, ``S``, ``D`` для управления.
+On this stage you can export and load the scene into the engine. We recommend to create a road surface with a physics material. To choose the controlled object press the ``Q`` key in the Viewer and select the chassis. Use the ``W``, ``A``, ``S``, ``D`` keys as controls.
 
-Дополнительно можно настроить демпфирование ``Damping`` перемещения (``Translation``) и вращения (``Rotation``). Свойство влияет на скорость перемещения и инерционность ТС.
+We can additionally tweak the ``Damping`` of ``Translation`` and ``Rotation``. This will influence the speed and inertion of the vehicle.
 
-Настройка трения и эластичности физического материала дорожного покрытия не влияют на поведение ТС.
+The friction and elasticity of the road surface material do not influence the vehicle's behavior.
 
 
-Плавающие объекты
-=================
+Floating Objects
+================
 
 .. image:: src_images/physics/physics_floater.jpg
    :align: center
@@ -168,24 +163,24 @@
 
 |
 
-Для того, чтобы объект мог плавать на поверхности воды (объекта с материалом ``Water``), необходимо активировать панель ``Floater``. Существует два типа частей плавающего объекта: ``Main Body`` - непосредственно сам плавающий объект и ``Bob`` - вспомогательный объект-поплавок, на который будет действовать выталкивающая из воды сила. Плавающий объект может иметь неограниченное количество объектов типа ``Bob``. В качестве поплавков могут использоваться как меши, так и объекты типа ``Empty``.
+In order for the object to float on the water surface (an object with the ``Water`` material), it is neccessary to enable the ``Floater`` panel. There are two types of floating objects: ``Main Body`` - the floating object itself and ``Bob`` - an auxiallary bob-object onto which the buoyancy will be acting. A floating object can have an unlimited number of ``Bob`` objects. This can be both meshes or ``Empty`` objects.
 
-Всем объектам, входящим в состав одного плавающего объекта необходимо выставить одинаковое имя в поле ``Floater Name``
+All objects that are part of the same floating object must have the same name in the ``Floater Name`` field.
 
-Параметры настройки плавающего объекта
---------------------------------------
+Floating Object Settings
+------------------------
 
 *Floating Factor*
-    Коэффициент выталкивания объекта из воды.
+    Buoyancy coefficient.
 
 *Water Linear Damping*
-    Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.
+    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
 
 *Water Rotation Damping*
-    Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.
+    Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
 
-Плавающие транспортные средства
-===============================
+Floating Vehicles aka Watercrafts
+=================================
 
 .. image:: src_images/physics/physics_boat.jpg
    :align: center
@@ -193,32 +188,32 @@
 
 |
 
-Плавающие транспортные средства используют часть параметров из настроек колесных транспортных средств ``Vehicle`` и все настройки как у объектов типа ``Floater``. На основном объекте необходимо выставить `Part``, типа ``Hull``. Так же как и плавающий объект плавающее транспортное средство требует наличия вспомогательных объектов типа ``Bob``.
+Watercrafts use some parameters from the ``Vehicle`` settings and all the settings which are similar to ``Floater`` setting. It is neccessary to set the ``Part`` type ``Hull`` on the main object. Similar to a floating object a watercraft requires auxillary ``Bob`` objects.
 
-Параметры настройки плавающего транспортного средства
------------------------------------------------------
+Watercraft Settings
+-------------------
 
 *Force Max*
-    Максимальная движущая сила транспортного средства.
+    Maximum driving force of the vehicle.
 
 *Brake Max*
-    Максимальный коэффициент торможения.
+    Maximum braking coefficient.
 
 *Floating Factor*
-    Коэффициент выталкивания объекта из воды.
+    Buoyancy coefficient.
 
 *Water Linear Damping*
-    Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.
+    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
 
 *Water Rotation Damping*
-    Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.
+    Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
 
-Особенности использования в приложениях
-=======================================
+Use in Applications
+===================
 
-Физическая подсистема реализована в модуле **uranium.js** и загружается отдельно от основного кода движка. Модуль **uranium.js** представляет собой модификацию физического движка `Bullet <http://bulletphysics.org/>`_, портированную для работы в браузерах. Быстрое подключение физической подсистемы можно осуществить, разместив файлы **uranium.js** и **uranium.js.mem** в той же директории, где расположен исходный код движка, используемого в приложении.
+The physics system is implemented in the **uranium.js** module and loaded separately from the engine's main code. The **uranium.js** module itself is a modification of the `Bullet <http://bulletphysics.org/>`_ physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the **uranium.js** and **uranium.js.mem** files in the same directory as the source code of the application.
 
-В противном случае необходимо указать путь к модулю, используя конструкцию вида:
+Another way is to explicitly specify the loading path of the **uranium.js** module by using the following API method:
 
 .. code-block:: javascript
 
@@ -226,9 +221,9 @@
 
 .. note::
 
-    При разработке приложения :ref:`в составе SDK <project_management>` путь к физическому движку определяется автоматически.
+    When applications are developed :ref:`within the SDK <project_management>`, the path to the physics engine is detected automatically.
 
-Если использование физики не требуется, рекомендуется отключить флаг ``Enable Physics`` в панели ``Physics`` на вкладкe сцены в Blender'е. Также можно принудительно отключить загрузку модуля **uranium.js**, если до начала инициализации движка вызывать следующий метод:
+If your application does not use physics, we recommend you to turn off the ``Enable Physics`` flag in the ``Physics`` panel under the scene tab in Blender. It is also possible to forcibly disable loading of the **uranium.js** module by calling the following method before initialization of the engine:
 
 .. code-block:: javascript
 

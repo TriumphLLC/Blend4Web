@@ -37,6 +37,7 @@ exports.level_load_cb = function(data_id, level_name, preloader_cb,
                                  intro_load_cb, load_level) {
 
     var elapsed_sensor = m_ctl.create_elapsed_sensor();
+    _level_conf = null;
 
     if (level_name != "under_construction") {
 
@@ -131,9 +132,7 @@ function cleanup_game(elapsed_sensor) {
     }
 
     m_char.setup_controls(elapsed_sensor);
-
     m_interface.update_hp_bar();
-
     setup_music();
 }
 
@@ -142,10 +141,10 @@ function setup_music() {
     if (!_level_conf || !_level_conf.MUSIC_SPEAKERS)
         return;
 
-    var intro_spk = m_scs.get_object_by_dupli_name("enviroment",
-                                                   _level_conf.MUSIC_INTRO_SPEAKER);
-    var end_spk = m_scs.get_object_by_dupli_name("enviroment",
-                                                 _level_conf.MUSIC_END_SPEAKER);
+    var intro_spk = m_scs.get_object_by_dupli_name_list(
+                            _level_conf.MUSIC_INTRO_SPEAKER);
+    var end_spk = m_scs.get_object_by_dupli_name_list(
+                            _level_conf.MUSIC_END_SPEAKER);
 
     if (intro_spk && end_spk) {
         m_sfx.play_def(intro_spk);
@@ -163,7 +162,7 @@ function setup_music() {
         var speakers = _level_conf.MUSIC_SPEAKERS;
         for (var i = 0; i < speakers.length; i++) {
             var spk_name = speakers[i];
-            var spk = m_scs.get_object_by_dupli_name("enviroment", spk_name);
+            var spk = m_scs.get_object_by_dupli_name_list(spk_name);
             playlist_objs.push(spk);
         }
         m_sfx.apply_playlist(playlist_objs, 0, true);

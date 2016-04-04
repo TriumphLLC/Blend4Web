@@ -156,6 +156,9 @@ typedef struct ParticleThreadContext {
 	float *vg_length, *vg_clump, *vg_kink;
 	float *vg_rough1, *vg_rough2, *vg_roughe;
 	float *vg_effector;
+
+	struct CurveMapping *clumpcurve;
+	struct CurveMapping *roughcurve;
 } ParticleThreadContext;
 
 typedef struct ParticleTask {
@@ -378,6 +381,11 @@ void psys_get_birth_coords(struct ParticleSimulationData *sim, struct ParticleDa
 
 void particle_system_update(struct Scene *scene, struct Object *ob, struct ParticleSystem *psys);
 
+/* Callback format for performing operations on ID-pointers for particle systems */
+typedef void (*ParticleSystemIDFunc)(struct ParticleSystem *psys, struct ID **idpoin, void *userdata, int cd_flag);
+
+void BKE_particlesystem_id_loop(struct ParticleSystem *psys, ParticleSystemIDFunc func, void *userdata);
+
 /* ----------- functions needed only inside particlesystem ------------ */
 /* particle.c */
 void psys_disable_all(struct Object *ob);
@@ -408,15 +416,15 @@ void psys_get_from_key(struct ParticleKey *key, float loc[3], float vel[3], floa
 
 /* BLI_bvhtree_ray_cast callback */
 void BKE_psys_collision_neartest_cb(void *userdata, int index, const struct BVHTreeRay *ray, struct BVHTreeRayHit *hit);
-void psys_particle_on_dm(struct DerivedMesh *dm, int from, int index, int index_dmcache,
+void psys_particle_on_dm(struct DerivedMesh *dm_final, int from, int index, int index_dmcache,
                          const float fw[4], float foffset, float vec[3], float nor[3], float utan[3], float vtan[3],
                          float orco[3], float ornor[3]);
 
 /* particle_system.c */
 void distribute_particles(struct ParticleSimulationData *sim, int from);
 void initialize_particle(struct ParticleSimulationData *sim, struct ParticleData *pa);
-void psys_calc_dmcache(struct Object *ob, struct DerivedMesh *dm, struct ParticleSystem *psys);
-int psys_particle_dm_face_lookup(struct Object *ob, struct DerivedMesh *dm, int index, const float fw[4], struct LinkNode *node);
+void psys_calc_dmcache(struct Object *ob, struct DerivedMesh *dm_final, struct DerivedMesh *dm_deformed, struct ParticleSystem *psys);
+int psys_particle_dm_face_lookup(struct DerivedMesh *dm_final, struct DerivedMesh *dm_deformed, int findex, const float fw[4], struct LinkNode **poly_nodes);
 
 void reset_particle(struct ParticleSimulationData *sim, struct ParticleData *pa, float dtime, float cfra);
 

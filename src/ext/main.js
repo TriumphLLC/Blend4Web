@@ -41,33 +41,34 @@ b4w.module["main"] = function(exports, require) {
  * @param {Number} timeline Timeline
  */
 
-var m_anchors  = require("__anchors");
-var m_anim     = require("__animation");
-var m_assets   = require("__assets");
-var m_cfg      = require("__config");
-var m_compat   = require("__compat");
-var m_cont     = require("__container");
-var m_ctl      = require("__controls");
-var m_data     = require("__data");
-var m_debug    = require("__debug");
-var m_ext      = require("__extensions");
-var m_geom     = require("__geometry");
-var m_hud      = require("__hud");
-var m_nla      = require("__nla");
-var m_lnodes   = require("__logic_nodes")
-var m_obj      = require("__objects");
-var m_phy      = require("__physics");
-var m_print    = require("__print");
-var m_render   = require("__renderer");
-var m_scenes   = require("__scenes");
-var m_sfx      = require("__sfx");
-var m_shaders  = require("__shaders");
-var m_textures = require("__textures");
-var m_time     = require("__time");
-var m_trans    = require("__transform");
-var m_armat    = require("__armature");
-var m_util     = require("__util");
-var m_version  = require("__version");
+var m_anchors   = require("__anchors");
+var m_anim      = require("__animation");
+var m_assets    = require("__assets");
+var m_cfg       = require("__config");
+var m_compat    = require("__compat");
+var m_cont      = require("__container");
+var m_ctl       = require("__controls");
+var m_data      = require("__data");
+var m_debug     = require("__debug");
+var m_ext       = require("__extensions");
+var m_geom      = require("__geometry");
+var m_hud       = require("__hud");
+var m_nla       = require("__nla");
+var m_lnodes    = require("__logic_nodes")
+var m_obj       = require("__objects");
+var m_phy       = require("__physics");
+var m_print     = require("__print");
+var m_render    = require("__renderer");
+var m_scenes    = require("__scenes");
+var m_sfx       = require("__sfx");
+var m_shaders   = require("__shaders");
+var m_textures  = require("__textures");
+var m_time      = require("__time");
+var m_trans     = require("__transform");
+var m_armat     = require("__armature");
+var m_util      = require("__util");
+var m_version   = require("__version");
+var m_particles = require("__particles");
 
 var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
@@ -473,6 +474,9 @@ function frame(timeline, delta) {
 
     // objects
     m_obj.update(timeline, delta);
+
+    // particles
+    m_particles.update();
 
     // user callback
     _render_callback(delta, timeline);

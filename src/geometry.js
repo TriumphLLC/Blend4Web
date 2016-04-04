@@ -32,7 +32,6 @@ var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
-
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
@@ -924,12 +923,12 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
     // TODO: implement caching
     // TODO: handle cases when submesh can't provide requested attribute name
 
-    var submesh = m_util.create_empty_submesh("SUBMESH_" + mesh["name"] + "_" +
-            material_index);
-
     var bsub = mesh["submeshes"][material_index];
     var base_length = bsub["base_length"];
     var mat = mesh["materials"][material_index];
+
+    var submesh = m_util.create_empty_submesh("SUBMESH_" + mesh["name"] + "_" +
+            mat["name"]);
 
     submesh.base_length = base_length;
 

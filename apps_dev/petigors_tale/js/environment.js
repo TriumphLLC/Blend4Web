@@ -71,7 +71,7 @@ function setup_random_bonus_spawn(level_conf) {
 
 function setup_falling_rocks(elapsed_sensor, level_conf) {
 
-    function rock_fall_cb(obj, id, pulse) {
+    function rock_fall_cb(obj, id, pulse, rock_height_sens) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
         var rock_name = m_scs.get_object_name(obj);
         falling_time[rock_name] += elapsed;
@@ -83,6 +83,10 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
         m_trans.get_translation(obj, rock_pos);
         rock_pos[1] -= _level_conf.ROCK_SPEED * elapsed;
         m_trans.set_translation_v(obj, rock_pos);
+        if (rock_pos[1] < -5)
+            m_ctl.set_custom_sensor(rock_height_sens, 1);
+        else
+            m_ctl.set_custom_sensor(rock_height_sens, 0);
     }
 
     function rock_crush_cb(obj, id, pulse, params) {
@@ -161,6 +165,7 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
 
             var coll_sens_lava = m_ctl.create_collision_sensor(rock, "LAVA", true);
             var coll_sens_island = m_ctl.create_collision_sensor(rock, "GROUND", true);
+            var rock_height_sens = m_ctl.create_custom_sensor(0);
 
             var ray_sens_island = m_ctl.create_ray_sensor(rock, [0, 0, 0],
                                         [0, -_level_conf.ROCK_RAY_LENGTH, 0], "GROUND", true);
@@ -168,11 +173,11 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
                                         [0, -_level_conf.ROCK_RAY_LENGTH, 0], "LAVA", true);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
-                                         [elapsed_sensor], null, rock_fall_cb);
+                                     [elapsed_sensor], null, rock_fall_cb, rock_height_sens);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_CRASH", m_ctl.CT_SHOT,
-                                         [coll_sens_island, coll_sens_lava],
-                    function(s){return s[0] || s[1]}, rock_crush_cb, [burst, speaker]);
+                                         [coll_sens_island, coll_sens_lava, rock_height_sens],
+                    function(s){return s[0] || s[1] || s[2]}, rock_crush_cb, [burst, speaker]);
 
             m_ctl.create_sensor_manifold(rock, "MARK_POS", m_ctl.CT_CONTINUOUS,
                                         [ray_sens_island, ray_sens_lava],

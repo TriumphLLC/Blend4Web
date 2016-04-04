@@ -38,10 +38,10 @@ var _curr_angles = new Float32Array(3);
 
 var _vec3_tmp = m_vec3.create();
 
-var VERTICAL_BETA_ANGLE_THRESHOLD_UP = Math.PI * 110 / 180;
-var VERTICAL_BETA_ANGLE_THRESHOLD_DOWN = Math.PI * 70 / 180;
-var VERTICAL_GAMMA_ANGLE_THRESHOLD_UP = Math.PI * 70 / 180;
-var VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN = - Math.PI * 70 / 180;
+var VERTICAL_BETA_ANGLE_THRESHOLD_UP = m_util.deg_to_rad(110);
+var VERTICAL_BETA_ANGLE_THRESHOLD_DOWN = m_util.deg_to_rad(70);
+var VERTICAL_GAMMA_ANGLE_THRESHOLD_UP = m_util.deg_to_rad(70);
+var VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN = - m_util.deg_to_rad(70);
 
 /**
  * Enable camera rotation according to orientation of mobile device.

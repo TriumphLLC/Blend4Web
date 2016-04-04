@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Объекты &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Меши" href="meshes.html"/>
         <link rel="prev" title="Параметры сцены" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,30 +85,29 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Объекты</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Типы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#static-dynamic-objects">Статические и динамические объекты</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#object-settings">Настройка</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#object">Вкладка Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#physics">Вкладка Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#types">Типы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Статические и динамические объекты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Настройка</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#object-tab">Вкладка Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physics-tab">Вкладка Physics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#index-0">Управление перемещением объектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Выбор объектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Кватернионы</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Пример работы с кватернионами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-transform-api">Управление перемещением объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-object-api">Выбор объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quaternions">Кватернионы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quaternion-example">Пример работы с кватернионами</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#blender-blend4web">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tsr">Перемещение с помощью векторов TSR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">Перемещение с помощью векторов TSR</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -154,6 +153,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -173,73 +173,86 @@
            <div itemprop="articleBody">
             
   <div class="section" id="objects">
-<span id="id1"></span><h1><a class="toc-backref" href="#id10">Объекты</a><a class="headerlink" href="#objects" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">Объекты</a><a class="headerlink" href="#objects" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#objects" id="id10">Объекты</a><ul>
-<li><a class="reference internal" href="#id3" id="id11">Типы</a></li>
-<li><a class="reference internal" href="#static-dynamic-objects" id="id12">Статические и динамические объекты</a></li>
-<li><a class="reference internal" href="#object-settings" id="id13">Настройка</a><ul>
-<li><a class="reference internal" href="#object" id="id14">Вкладка Object</a></li>
-<li><a class="reference internal" href="#physics" id="id15">Вкладка Physics</a></li>
+<li><a class="reference internal" href="#objects" id="id2">Объекты</a><ul>
+<li><a class="reference internal" href="#types" id="id3">Типы</a></li>
+<li><a class="reference internal" href="#static-and-dynamic-objects" id="id4">Статические и динамические объекты</a></li>
+<li><a class="reference internal" href="#settings" id="id5">Настройка</a><ul>
+<li><a class="reference internal" href="#object-tab" id="id6">Вкладка Object</a></li>
+<li><a class="reference internal" href="#physics-tab" id="id7">Вкладка Physics</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#index-0" id="id16">Управление перемещением объектов</a></li>
-<li><a class="reference internal" href="#index-1" id="id17">Выбор объектов</a></li>
-<li><a class="reference internal" href="#index-2" id="id18">Кватернионы</a><ul>
-<li><a class="reference internal" href="#id9" id="id19">Пример работы с кватернионами</a></li>
+<li><a class="reference internal" href="#object-transform-api" id="id8">Управление перемещением объектов</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id9">Выбор объектов</a></li>
+<li><a class="reference internal" href="#quaternions" id="id10">Кватернионы</a><ul>
+<li><a class="reference internal" href="#quaternion-example" id="id11">Пример работы с кватернионами</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#blender-blend4web" id="id20">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
-<li><a class="reference internal" href="#tsr" id="id21">Перемещение с помощью векторов TSR</a></li>
+<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id12">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id13">Перемещение с помощью векторов TSR</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <p>Объекты служат целям размещения компонентов различного типа (мешей, камер, ламп и т.д.) в пространстве 3D сцены.</p>
-<div class="section" id="id3">
-<h2><a class="toc-backref" href="#id11">Типы</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="types">
+<h2><a class="toc-backref" href="#id3">Типы</a><a class="headerlink" href="#types" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Движком поддерживаются объекты следующих типов:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="meshes.html#meshes"><span>меш (mesh)</span></a></li>
-<li>камера (camera)</li>
-<li>лампа (lamp)</li>
-<li>пустой (empty)</li>
-<li>скелет (armature)</li>
-<li>источник звука (speaker)</li>
-<li>кривая (curve)</li>
-<li>текст (text)</li>
-<li>метасфера (metaball)</li>
-<li>поверхность (surface)</li>
+<li><p class="first"><a class="reference internal" href="meshes.html#meshes"><span>меш (mesh)</span></a></p>
+</li>
+<li><p class="first">камера (camera)</p>
+</li>
+<li><p class="first">лампа (lamp)</p>
+</li>
+<li><p class="first">пустой (empty)</p>
+</li>
+<li><p class="first">скелет (armature)</p>
+</li>
+<li><p class="first">источник звука (speaker)</p>
+</li>
+<li><p class="first">кривая (curve)</p>
+</li>
+<li><p class="first">текст (text)</p>
+</li>
+<li><p class="first">метасфера (metaball)</p>
+</li>
+<li><p class="first">поверхность (surface)</p>
+</li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="static-dynamic-objects">
-<span id="id4"></span><h2><a class="toc-backref" href="#id12">Статические и динамические объекты</a><a class="headerlink" href="#static-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="static-and-dynamic-objects">
+<span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id4">Статические и динамические объекты</a><a class="headerlink" href="#static-and-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
 <p><strong>Статические объекты</strong> - объекты, которые могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
 <p><strong>Динамические объекты</strong> - объекты, которые не могут быть скомбинированы друг с другом.</p>
 <p>К динамическим могут относиться объекты типа <code class="docutils literal"><span class="pre">MESH</span></code>, <code class="docutils literal"><span class="pre">CAMERA</span></code> и <code class="docutils literal"><span class="pre">ARMATURE</span></code>. Остальные - статические.</p>
 <p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
 <p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>.</p>
 </div>
-<div class="section" id="object-settings">
-<span id="id5"></span><h2><a class="toc-backref" href="#id13">Настройка</a><a class="headerlink" href="#object-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="settings">
+<span id="object-settings"></span><h2><a class="toc-backref" href="#id5">Настройка</a><a class="headerlink" href="#settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.</p>
-<div class="section" id="object">
-<h3><a class="toc-backref" href="#id14">Вкладка Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="object-tab">
+<h3><a class="toc-backref" href="#id6">Вкладка Object</a><a class="headerlink" href="#object-tab" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>Transform &gt; Location</em></dt>
-<dd>Координаты местоположения.</dd>
+<dd><p class="first last">Координаты местоположения.</p>
+</dd>
 <dt><em>Transform &gt; Rotation</em></dt>
-<dd>Углы вращения. При повороте объекта доступны все режимы <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>, но при создании <a class="reference internal" href="animation.html#whole-object-anim"><span>объектной анимации</span></a> поддерживаются только <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> и <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</dd>
+<dd><p class="first last">Углы вращения. При повороте объекта доступны все режимы <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>, но при создании <a class="reference internal" href="animation.html#whole-object-anim"><span>объектной анимации</span></a> поддерживаются только <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> и <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</p>
+</dd>
 <dt><em>Transform &gt; Scale</em></dt>
-<dd>Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
+<dd><p class="first last">Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</p>
+</dd>
 <dt><em>Relations &gt; Parent</em></dt>
 <dd><p class="first">Указатель на родительский объект.</p>
 <p>Если в качестве родительского объекта выбрана камера, становятся доступными настройки <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code>.</p>
@@ -247,7 +260,8 @@
 <p class="last">Параметр <code class="docutils literal"><span class="pre">Alignment</span></code> определяет, с какой стороны от камеры будет находиться привязанный к ней объект (по умолчанию <code class="docutils literal"><span class="pre">Center</span></code>). Параметр <code class="docutils literal"><span class="pre">Distance</span></code> задаёт расстояние объекта до камеры (по умолчанию 10). Чтобы привязанный объект отображался в Blender так же, как и в движке, нужно нажать кнопку <code class="docutils literal"><span class="pre">Fit</span> <span class="pre">to</span> <span class="pre">Camera</span></code>.</p>
 </dd>
 <dt><em>Groups</em></dt>
-<dd>Группы объектов, которым принадлежит данный объект.</dd>
+<dd><p class="first last">Группы объектов, которым принадлежит данный объект.</p>
+</dd>
 </dl>
 <img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
 <div class="line-block">
@@ -255,26 +269,31 @@
 </div>
 <dl class="docutils">
 <dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
-<dd>Параметр для сглаживания переключения между LOD объектами. Определяет, на
-каком дополнительном расстоянии LOD объекты будут видны до замены
-последующими LOD объектами. Назначается для главного объекта. Измеряется в
-долях от радиуса охватывающей сферы объекта.</dd>
+<dd><p class="first last">Параметр для сглаживания переключения между LOD объектами. Определяет, на каком дополнительном расстоянии LOD объекты будут видны до замены последующими LOD объектами. Назначается для главного объекта. Измеряется в долях от радиуса охватывающей сферы объекта.</p>
+</dd>
 <dt><em>Special Effects &gt; Disable Fogging</em></dt>
-<dd>Отключить туман для объекта.</dd>
+<dd><p class="first last">Отключить туман для объекта.</p>
+</dd>
 <dt><em>Special Effects &gt; Caustics</em></dt>
-<dd>На объекте будут видны эффекты от прилегающей к нему воды (каустика).</dd>
+<dd><p class="first last">На объекте будут видны эффекты от прилегающей к нему воды (каустика).</p>
+</dd>
 <dt><em>Export Options &gt; Do Not Export</em></dt>
-<dd>Не экспортировать.</dd>
+<dd><p class="first last">Не экспортировать.</p>
+</dd>
 </dl>
 <dl class="docutils" id="apply-modifiers">
 <dt><em>Export Options &gt; Apply Modifiers</em></dt>
-<dd>Применить модификаторы объекта при экспорте. При наличии модификатора <code class="docutils literal"><span class="pre">SKIN</span></code> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
+<dd><p class="first last">Применить модификаторы объекта при экспорте. При наличии модификатора <code class="docutils literal"><span class="pre">SKIN</span></code> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</p>
+</dd>
 <dt><em>Export Options &gt; Apply Scale and Modifiers</em></dt>
-<dd>Применить масштабирование и модификаторы объекта при экспорте.</dd>
+<dd><p class="first last">Применить масштабирование и модификаторы объекта при экспорте.</p>
+</dd>
 <dt><em>Export Options &gt; Export Vertex Animation</em></dt>
-<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
+<dd><p class="first last">Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</p>
+</dd>
 <dt><em>Export Options &gt; Export Shape Keys</em></dt>
-<dd>Экспортировать ключи деформации. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
+<dd><p class="first last">Экспортировать ключи деформации. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</p>
+</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -282,53 +301,70 @@
 </div>
 <dl class="docutils">
 <dt><em>Animation &gt; Apply Default Animation</em></dt>
-<dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
+<dd><p class="first last">Начать воспроизведение в движке связанной с объектом анимации.</p>
+</dd>
 <dt><em>Animation &gt; Animation Blending</em></dt>
-<dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
-анимации к другой.</dd>
+<dd><p class="first last">Только для арматурных объектов. Разрешить плавный переход от одной скелетной анимации к другой.</p>
+</dd>
 <dt><em>Animation &gt; Behavior</em></dt>
-<dd>Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> -
-остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр,
-<code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</dd>
+<dd><p class="first last">Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр, <code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</p>
+</dd>
 <dt><em>Rendering Properties &gt; Do Not Render</em></dt>
-<dd>Отключить рендеринг объекта (например, вспомогательный объект физики).</dd>
+<dd><p class="first last">Отключить рендеринг объекта (например, вспомогательный объект физики).</p>
+</dd>
 <dt><em>Rendering Properties &gt; Disable Frustum Culling</em></dt>
-<dd>Отключить оптимизацию отсечением по зоне видимости.</dd>
+<dd><p class="first last">Отключить оптимизацию отсечением по зоне видимости.</p>
+</dd>
 <dt><em>Rendering Properties &gt; Force Dynamic Object</em></dt>
-<dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</dd>
+<dd><p class="first last">Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</p>
+</dd>
 </dl>
 <dl class="docutils" id="dynamic-geom">
 <dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
-<dd>Разрешить изменение геометрии объекта через API Blend4Web.</dd>
+<dd><p class="first last">Разрешить изменение геометрии объекта через API Blend4Web.</p>
+</dd>
 <dt><em>Shadows &gt; Cast</em></dt>
-<dd>Объект будет отбрасывать тени.</dd>
+<dd><p class="first last">Объект будет отбрасывать тени.</p>
+</dd>
 <dt><em>Shadows&gt; Cast Only</em></dt>
-<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</dd>
+<dd><p class="first last">Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</p>
+</dd>
 <dt><em>Shadows &gt; Receive</em></dt>
-<dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
+<dd><p class="first last">Разрешить затенение от прилегающих объектов (получение теней) на объекте.</p>
+</dd>
 <dt><em>Reflections &gt; Reflexible</em></dt>
-<dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
+<dd><p class="first last">При включении объект будет отражаться от зеркальных поверхностей.</p>
+</dd>
 <dt><em>Reflections &gt; Reflexible Only</em></dt>
-<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</dd>
+<dd><p class="first last">При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
+</dd>
 <dt><em>Reflections &gt; Reflective</em></dt>
-<dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
+<dd><p class="first last">При включении объект будет отражать своей поверхностью другие объекты.</p>
+</dd>
 <dt><em>Reflections &gt; Reflection Plane</em></dt>
-<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</dd>
+<dd><p class="first last">Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</p>
+</dd>
 <dt><em>Selection and Outlining &gt; Selectable</em></dt>
-<dd>Разрешить <a class="reference internal" href="meshes.html#mesh-selection"><span>выделение объекта</span></a> с помощью мыши или другого устройства ввода.</dd>
+<dd><p class="first last">Разрешить <a class="reference internal" href="meshes.html#mesh-selection"><span>выделение объекта</span></a> с помощью мыши или другого устройства ввода.</p>
+</dd>
 <dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
-<dd>Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><span>эффект Outline</span></a>).</dd>
+<dd><p class="first last">Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><span>эффект Outline</span></a>).</p>
+</dd>
 <dt><em>Meta Tags</em></dt>
 <dd><p class="first">Интерфейс добавления мета-тегов на объект:</p>
 <dl class="last docutils">
 <dt><em>Meta Tags &gt; Title</em></dt>
-<dd>Заголовок объекта.</dd>
+<dd><p class="first last">Заголовок объекта.</p>
+</dd>
 <dt><em>Meta Tags &gt; Category</em></dt>
-<dd>Категория объекта.</dd>
+<dd><p class="first last">Категория объекта.</p>
+</dd>
 <dt><em>Meta Tags &gt; Description</em></dt>
-<dd>Описание объекта. В зависимости от значения  опции <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> в это поле заносится либо текст описания непосредственно, либо имя файла, в котором содержится описание.</dd>
+<dd><p class="first last">Описание объекта. В зависимости от значения  опции <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> в это поле заносится либо текст описания непосредственно, либо имя файла, в котором содержится описание.</p>
+</dd>
 <dt><em>Meta Tags &gt; Description Source</em></dt>
-<dd>Тип (источник) описания объекта: текст либо файл с текстом.</dd>
+<dd><p class="first last">Тип (источник) описания объекта: текст либо файл с текстом.</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -337,52 +373,58 @@
 <dd><p class="first">Опция доступна только для объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>. Интерфейс добавления графических меток (якорей) к объектам:</p>
 <dl class="last docutils">
 <dt><em>Anchors &gt; Type</em></dt>
-<dd>Тип якоря. Аннотация (<code class="docutils literal"><span class="pre">Annotation</span></code>) - информация из мета-тегов объектов отображается в раскрывающихся информационных окнах стандартного дизайна. Элемент (<code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы. Общий (<code class="docutils literal"><span class="pre">Generic</span></code>) - якорь, положение которого можно определить с помощью API модуля <em>anchors</em>.</dd>
+<dd><p class="first last">Тип якоря. Аннотация (<code class="docutils literal"><span class="pre">Annotation</span></code>) - информация из мета-тегов объектов отображается в раскрывающихся информационных окнах стандартного дизайна. Элемент (<code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы. Общий (<code class="docutils literal"><span class="pre">Generic</span></code>) - якорь, положение которого можно определить с помощью API модуля <em>anchors</em>.</p>
+</dd>
 <dt><em>Anchors &gt; Detect Visibility</em></dt>
-<dd>Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря другими объектами. Активация опции приводит к падению производельности рендеринга и должна рассматриваться только в случае реальной необходимости.</dd>
+<dd><p class="first last">Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря другими объектами. Активация опции приводит к падению производельности рендеринга и должна рассматриваться только в случае реальной необходимости.</p>
+</dd>
 <dt><em>Anchors &gt; Max Width</em></dt>
-<dd>Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).</dd>
+<dd><p class="first last">Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).</p>
+</dd>
 </dl>
 </dd>
 <dt><em>Wind Bending</em></dt>
-<dd>Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>рендерингу наружных сцен</span></a>.</dd>
+<dd><p class="first last">Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>рендерингу наружных сцен</span></a>.</p>
+</dd>
 </dl>
 <dl class="docutils" id="objects-billboarding-properties">
 <dt><em>Billboard</em></dt>
-<dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
+<dd><p class="first last">Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</p>
+</dd>
 </dl>
 <dl class="docutils" id="billboarding-preserve">
 <dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
-<dd>Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</dd>
+<dd><p class="first last">Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
 <dt><em>Billboard &gt; Billboard Type</em></dt>
-<dd>Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</dd>
+<dd><p class="first last">Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
 </dl>
 </div>
-<div class="section" id="physics">
-<h3><a class="toc-backref" href="#id15">Вкладка Physics</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="physics-tab">
+<h3><a class="toc-backref" href="#id7">Вкладка Physics</a><a class="headerlink" href="#physics-tab" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>Detect Collisions</em></dt>
-<dd>Активировать связанную с объектом физику.</dd>
+<dd><p class="first last">Активировать связанную с объектом физику.</p>
+</dd>
 <dt><em>Floating</em></dt>
-<dd>Сделать объект плавучим. Подробное описание настроек плавучих объектов можно
-найти в разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
+<dd><p class="first last">Сделать объект плавучим. Подробное описание настроек плавучих объектов можно найти в разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</p>
+</dd>
 <dt><em>Vehicle</em></dt>
-<dd>Активировать использование объекта в качестве составной части транспортного
-средства. Подробное описание настроек транспортных средств можно найти в
-разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
+<dd><p class="first last">Активировать использование объекта в качестве составной части транспортного средства. Подробное описание настроек транспортных средств можно найти в разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</p>
+</dd>
 <dt><em>Character</em></dt>
-<dd>Активировать использование объекта в качестве физического каркаса игрового
-персонажа. Подробное описание настроек персонажа можно найти в разделе
-<a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
+<dd><p class="first last">Активировать использование объекта в качестве физического каркаса игрового персонажа. Подробное описание настроек персонажа можно найти в разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</p>
+</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="index-0">
-<span id="id6"></span><h2><a class="toc-backref" href="#id16">Управление перемещением объектов</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="object-transform-api">
+<span id="index-0"></span><h2><a class="toc-backref" href="#id8">Управление перемещением объектов</a><a class="headerlink" href="#object-transform-api" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</p>
@@ -390,49 +432,62 @@
 <p>Для управления перемещением объектов в движке предусмотрены следующие базовые функции модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a>:</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_translation">get_translation()</a></dt>
-<dd>Получить координаты центра объекта в мировой системе коориднат. Вариант с одним параметром возвращает новый вектор (неоптимизированный вариант), вариант с двумя требует отдельного вектора для записи результата.</dd>
+<dd><p class="first last">Получить координаты центра объекта в мировой системе коориднат. Вариант с одним параметром возвращает новый вектор (неоптимизированный вариант), вариант с двумя требует отдельного вектора для записи результата.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_translation_rel">get_translation_rel()</a></dt>
-<dd>Аналогично методу <code class="docutils literal"><span class="pre">get_translation()</span></code>, однако если у данного объекта имеется родительский объект, координаты берутся в относительной системе координат, связанной с этим родительским объектом.</dd>
+<dd><p class="first last">Аналогично методу <code class="docutils literal"><span class="pre">get_translation()</span></code>, однако если у данного объекта имеется родительский объект, координаты берутся в относительной системе координат, связанной с этим родительским объектом.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation">set_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_v">set_translation_v()</a></dt>
-<dd>Переместить центр объекта в указанное место. Первая функция принимает в качестве параметров отдельные координаты, вторая - трёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</dd>
+<dd><p class="first last">Переместить центр объекта в указанное место. Первая функция принимает в качестве параметров отдельные координаты, вторая - трёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_rel">set_translation_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_rel_v">set_translation_rel_v()</a></dt>
-<dd>Аналогично методам <code class="docutils literal"><span class="pre">set_translation()</span></code> и <code class="docutils literal"><span class="pre">set_translation_v()</span></code>, однако если у данного объекта имеется родительский объект, координаты задаются в относительной системе координат, связанной с этим родительским объектом.</dd>
+<dd><p class="first last">Аналогично методам <code class="docutils literal"><span class="pre">set_translation()</span></code> и <code class="docutils literal"><span class="pre">set_translation_v()</span></code>, однако если у данного объекта имеется родительский объект, координаты задаются в относительной системе координат, связанной с этим родительским объектом.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_rotation">get_rotation()</a></dt>
-<dd>Получить кватернион поворота объекта в мировой системе координат. По аналогии с <code class="docutils literal"><span class="pre">get_translation()</span></code> имеется два варианта вызова функции.</dd>
+<dd><p class="first last">Получить кватернион поворота объекта в мировой системе координат. По аналогии с <code class="docutils literal"><span class="pre">get_translation()</span></code> имеется два варианта вызова функции.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_rotation_rel">get_rotation_rel()</a></dt>
-<dd>Получить кватернион поворота объекта в системе координат, связанной с родительским объектом. По аналогии с <code class="docutils literal"><span class="pre">get_translation_rel()</span></code> имеется два варианта вызова функции.</dd>
+<dd><p class="first last">Получить кватернион поворота объекта в системе координат, связанной с родительским объектом. По аналогии с <code class="docutils literal"><span class="pre">get_translation_rel()</span></code> имеется два варианта вызова функции.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation">set_rotation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_v">set_rotation_v()</a></dt>
-<dd>Установить кватернион поворота объекта в мировой системе координат. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</dd>
+<dd><p class="first last">Установить кватернион поворота объекта в мировой системе координат. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_rel">set_rotation_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_rel_v">set_rotation_rel_v()</a></dt>
-<dd>Установить кватернион поворота объекта в системе координат, связанной с родительским объектом. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</dd>
+<dd><p class="first last">Установить кватернион поворота объекта в системе координат, связанной с родительским объектом. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (<code class="docutils literal"><span class="pre">Array</span></code> или <code class="docutils literal"><span class="pre">Float32Array</span></code>).</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_scale">get_scale()</a></dt>
-<dd>Получить значение коэффициента увеличения объекта в мировой системе координат.</dd>
+<dd><p class="first last">Получить значение коэффициента увеличения объекта в мировой системе координат.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_scale_rel">get_scale_rel()</a></dt>
-<dd>Получить значение коэффициента увеличения объекта в системе координат, связанной с родительским объектом.</dd>
+<dd><p class="first last">Установить коэффициент увеличения объекта в системе координат, связанной с родительским объектом.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_scale">set_scale()</a></dt>
-<dd>Установить коэффициент увеличения объекта в мировой системе координат. Единица соответствует исходному состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть увеличены. В частности, увеличение невозможно для физических объектов.</dd>
+<dd><p class="first last">Установить коэффициент увеличения объекта в мировой системе координат. Единица соответствует исходному состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть увеличены. В частности, увеличение невозможно для физических объектов.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_scale_rel">set_scale_rel()</a></dt>
-<dd>Установить коэффициент увеличения объекта в системе координат, связанной с родительским объектом.</dd>
+<dd><p class="first last">Установить коэффициент увеличения объекта в системе координат, связанной с родительским объектом.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler">set_rotation_euler()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_v">set_rotation_euler_v()</a></dt>
-<dd>Установить поворот объекта с помощью углов Эйлера. Используется
-<strong>внутренняя</strong> (intrinsic) система поворота YZX (то есть углы следуют в
-последовательности YZX, сама система отсчёта при этом вращается и занимает
-каждый раз новое положение).</dd>
+<dd><p class="first last">Установить поворот объекта с помощью углов Эйлера. Используется <strong>внутренняя</strong> (intrinsic) система поворота YZX (то есть углы следуют в последовательности YZX, сама система отсчёта при этом вращается и занимает каждый раз новое положение).</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_rel">set_rotation_euler_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_rel_v">set_rotation_euler_rel_v()</a></dt>
-<dd>Установить поворот объекта с помощью углов Эйлера в системе координат, связанной с родительским объектом.</dd>
+<dd><p class="first last">Установить поворот объекта с помощью углов Эйлера в системе координат, связанной с родительским объектом.</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.move_local">move_local()</a></dt>
-<dd>Переместить объект относительно своего первоначального положения (в локальной системе координат).</dd>
+<dd><p class="first last">Переместить объект относительно своего первоначального положения (в локальной системе координат).</p>
+</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_x_local">rotate_x_local()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_y_local">rotate_y_local()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_z_local">rotate_z_local()</a></dt>
-<dd>Повернуть объект относительно своего первоначального положения (в локальной системе координат).</dd>
+<dd><p class="first last">Повернуть объект относительно своего первоначального положения (в локальной системе координат).</p>
+</dd>
 </dl>
 </div>
-<div class="section" id="index-1">
-<span id="id7"></span><h2><a class="toc-backref" href="#id17">Выбор объектов</a><a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="get-object-api">
+<span id="index-1"></span><h2><a class="toc-backref" href="#id9">Выбор объектов</a><a class="headerlink" href="#get-object-api" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для того, чтобы производить какие-либо манипуляции с трёхмерным объектом, необходимо получить ссылку на него. Для этого используется ряд функций API. Ссылка на объект имеет тип <code class="docutils literal"><span class="pre">Object3D</span></code>.</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
 <dd><p class="first">Получить ссылку на объект, основываясь на известном имени объекта.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -440,7 +495,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
 <dd><p class="first">Получить ссылку на скопированный объект, используя имя скопированного объекта и имя объекта типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, который использовался для копирования.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -448,7 +503,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">Получить ссылку на скопированный объект, используя списки (массивы элементов типа <code class="docutils literal"><span class="pre">String</span></code>) имён скопированных объектов и объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, использованных для копирования.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -456,7 +511,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
 <dd><p class="first">Возвращает список (массив) имён предков заданного объекта, начиная от старшего предка и заканчивая самим объектом.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -464,7 +519,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
 <dd><p class="first">Проверить, существует ли в сцене объект с указанным именем.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -472,7 +527,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
 <dd><p class="first">Проверить, существует ли в сцене скопированный объект с заданным именем и заданным именем объекта типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, который использовался для копирования.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -480,7 +535,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">Проверить, существует ли в сцене скопированный объект, используя списки (массивы элементов типа <code class="docutils literal"><span class="pre">String</span></code>) имён скопированных объектов и объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>, использованных для копирования.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -488,7 +543,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
 <dd><p class="first">Получить имя объекта, основываясь на известной ссылке на этот объект.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -496,58 +551,71 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="index-2">
-<span id="id8"></span><h2><a class="toc-backref" href="#id18">Кватернионы</a><a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="quaternions">
+<span id="index-2"></span><h2><a class="toc-backref" href="#id10">Кватернионы</a><a class="headerlink" href="#quaternions" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Не имеет неоднозначности и зависимости от порядка применения поворотов, которые имеют место в случае использования углов Эйлера.</li>
-<li>Более эффективное использование памяти (от 2-х до 4-х раз меньше в зависимости от типа используемой матрицы).</li>
-<li>Высокая эффективность вычисления серии поворотов, чем при использовании матриц.</li>
-<li>Нейтрализация ошибок умножения, возникающих вследствие неточности чисел с плавающей запятой.</li>
-<li>Удобный метод интерполяции.</li>
+<li><p class="first">Не имеет неоднозначности и зависимости от порядка применения поворотов, которые имеют место в случае использования углов Эйлера.</p>
+</li>
+<li><p class="first">Более эффективное использование памяти (от 2-х до 4-х раз меньше в зависимости от типа используемой матрицы).</p>
+</li>
+<li><p class="first">Высокая эффективность вычисления серии поворотов, чем при использовании матриц.</p>
+</li>
+<li>Numeric stability - compensation for multiplication errors arising from float number inaccuracy.</li>
+<li><p class="first">Удобный метод интерполяции.</p>
+</li>
 </ul>
 </div></blockquote>
 <dl class="docutils">
 <dt>Кватернионы имеют ряд недостатков:</dt>
 <dd><ul class="first last simple">
-<li>Поворот вектора с помощью кватерниона более сложная в вычислительном плане операция чем поворот с использованием матрицы.</li>
-<li>Использование кватернионов для представления отличных от поворота преобразований (перспективная или ортогональная проекция) затруднено.</li>
+<li><p class="first">Поворот вектора с помощью кватерниона более сложная в вычислительном плане операция чем поворот с использованием матрицы.</p>
+</li>
+<li><p class="first">Использование кватернионов для представления отличных от поворота преобразований (перспективная или ортогональная проекция) затруднено.</p>
+</li>
 </ul>
 </dd>
 </dl>
 <p>Для удобства работы с кватернионами в движке имеется ряд функций:</p>
 <dl class="docutils">
 <dt><em>quat.multiply</em></dt>
-<dd>Умножение кватернионов. Умножение кватерниона А на кватернион Б слева A*Б является поворотом на A. То есть у объекта уже имеется некий поворот Б, который мы дополняем новым поворотом на A.</dd>
+<dd><p class="first last">Умножение кватернионов. Умножение кватерниона А на кватернион Б слева A*Б является поворотом на A. То есть у объекта уже имеется некий поворот Б, который мы дополняем новым поворотом на A.</p>
+</dd>
 <dt><em>quat.setAxisAngle</em></dt>
-<dd>Кватернион представляет собой иную форму записи поворота относительно произвольной оси (вектора) на произвольный угол. Положительное направление поворота отсчитывается против часовой стрелки, если смотреть с конца вектора. Например вызов <code class="code docutils literal"><span class="pre">quat.setAxisAngle([1,0,0],</span> <span class="pre">Math.PI/3,</span> <span class="pre">quat)</span></code> сформирует кватернион, который может быть использован для осуществления поворота относительно оси X на 60 градусов (против часовой стрелки, если смотреть с конца оси X).</dd>
+<dd><p class="first last">Кватернион представляет собой иную форму записи поворота относительно произвольной оси (вектора) на произвольный угол. Положительное направление поворота отсчитывается против часовой стрелки, если смотреть с конца вектора. Например вызов <code class="code docutils literal"><span class="pre">quat.setAxisAngle([1,0,0],</span> <span class="pre">Math.PI/3,</span> <span class="pre">quat)</span></code> сформирует кватернион, который может быть использован для осуществления поворота относительно оси X на 60 градусов (против часовой стрелки, если смотреть с конца оси X).</p>
+</dd>
 <dt><em>quat.slerp</em></dt>
-<dd>Сферическая интерполяция кватернионов. Используется для осуществления плавного разворота объектов и анимации.</dd>
+<dd><p class="first last">Сферическая интерполяция кватернионов. Используется для осуществления плавного разворота объектов и анимации.</p>
+</dd>
 <dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
-<dd>Преобразование из углов Эйлера и наоборот.</dd>
+<dd><p class="first last">Преобразование из углов Эйлера и наоборот.</p>
+</dd>
 </dl>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id19">Пример работы с кватернионами</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="quaternion-example">
+<h3><a class="toc-backref" href="#id11">Пример работы с кватернионами</a><a class="headerlink" href="#quaternion-example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием &#8220;Cessna&#8221;.</p>
 <a class="reference internal image-reference" href="_images/objects_aircraft.png"><img alt="_images/objects_aircraft.png" class="align-center" src="_images/objects_aircraft.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Сохраним ссылку на объект в движке в переменной <strong>aircraft</strong>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Осуществим поворот:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Расположение координатных осей в Blender&#8217;е и в движке различается, и при экспорте произойдет преобразование: [X Y Z] (Blender) -&gt; [X -Z Y] (движок). Поэтому поворот нужно осуществлять относительно оси Y, а не Z.</li>
-<li>Повороту вправо соответствует поворот по часовой стрелке, т.е. в отрицательном направлении.</li>
-<li>60 градусов = <span class="math">\(\pi/3\)</span> радиан.</li>
+<li><p class="first">Расположение координатных осей в Blender&#8217;е и в движке различается, и при экспорте произойдет преобразование: [X Y Z] (Blender) -&gt; [X -Z Y] (движок). Поэтому поворот нужно осуществлять относительно оси Y, а не Z.</p>
+</li>
+<li><p class="first">Повороту вправо соответствует поворот по часовой стрелке, т.е. в отрицательном направлении.</p>
+</li>
+<li><p class="first">60 градусов = <span class="math">\(\pi/3\)</span> радиан.</p>
+</li>
 </ul>
 </div></blockquote>
 <p>В итоге получаем:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
 <span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
@@ -561,7 +629,7 @@
 </pre></div>
 </div>
 <p>Оптимизированный вариант, не приводящий к созданию новых объектов:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
 <span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -575,8 +643,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="blender-blend4web">
-<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id20">Отличия систем координат Blender&#8217;а и Blend4Web</a><a class="headerlink" href="#blender-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="differences-between-coordinate-systems-of-blender-and-blend4web">
+<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id12">Отличия систем координат Blender&#8217;а и Blend4Web</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В системе координат Blender&#8217;а вектор <code class="docutils literal"><span class="pre">UP</span></code>, указывающий направление вверх, сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в OpenGL, это направление совпадает с направлением оси Y. Таким образом система координат движка оказывается повернутой относительно системы координат Blender&#8217;а на 90 градусов вокруг оси X.</p>
 <img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
 <div class="line-block">
@@ -584,8 +652,8 @@
 </div>
 <p>Методы API используют именно систему координат движка, поэтому работа с API может отличаться от работы с настройками непосредственно в Blender&#8217;е.</p>
 </div>
-<div class="section" id="tsr">
-<h2><a class="toc-backref" href="#id21">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#tsr" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="moving-via-tsr-vectors">
+<h2><a class="toc-backref" href="#id13">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -614,11 +682,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -636,7 +705,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -666,14 +735,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

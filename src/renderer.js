@@ -235,11 +235,6 @@ function prepare_subscene(subscene) {
     else
         _gl.disable(_gl.DEPTH_TEST);
 
-    if (subscene.need_perm_uniforms_update) {
-        update_subs_permanent_uniforms(subscene);
-        subscene.need_perm_uniforms_update = false;
-    }
-
     // prevent self-shadow issues
     switch (subscene.type) {
     case "SHADOW_CAST":
@@ -341,6 +336,7 @@ function draw_bundle(subscene, camera, obj_render, batch) {
 
     // retrieve buffers
     var bufs_data = batch.bufs_data;
+
     var attribute_setters = batch.attribute_setters;
 
     // setup uniforms that are common for all objects
@@ -350,6 +346,19 @@ function draw_bundle(subscene, camera, obj_render, batch) {
     while (i--) {
         var setter = transient_uniform_setters[i];
         setter.fun(_gl, setter.loc, subscene, obj_render, batch, camera);
+    }
+
+    if (shader.need_uniforms_update && !shader.no_permanent_uniforms) {
+        if (!shader.permanent_uniform_setters.length)
+            assign_uniform_setters(shader);
+
+        var permanent_uniform_setters = shader.permanent_uniform_setters;
+        var i = permanent_uniform_setters.length;
+        while (i--) {
+            var setter = permanent_uniform_setters[i];
+            setter.fun(_gl, setter.loc, subscene, obj_render, batch, camera);
+        }
+        shader.need_uniforms_update = false;
     }
 
     // disable color mask if requested
@@ -413,6 +422,7 @@ function update_subs_sky_fog(subscene, cubemap_side_ind) {
     if (cfg_def.clear_procedural_sky_hack)
         col.set(SKY_HACK_COLOR);
     else {
+        // TODO: Avoid read pixels here. Better to recalculate it manually
         _gl.readPixels(191, 191, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
         if (col[0] == 255 || col[1] == 255 || col[2] == 255) {
             _gl.readPixels(191, 220, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
@@ -918,13 +928,13 @@ function assign_uniform_setters(shader) {
             break;
         case "u_node_values":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1fv(loc, obj_render.mats_values);
+                gl.uniform1fv(loc, batch.node_values);
             }
             transient_uni = true;
             break;
         case "u_node_rgbs":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, obj_render.mats_rgbs);
+                gl.uniform3fv(loc, batch.node_rgbs);
             }
             transient_uni = true;
             break;
@@ -1645,39 +1655,6 @@ function read_pixels(framebuffer, x, y, width, height, storage) {
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
     return storage;
-}
-
-function update_subs_permanent_uniforms(subscene) {
-
-    var camera = subscene.camera;
-    var bundles = subscene.bundles;
-
-    for (var i = 0; i < bundles.length; i++) {
-        var bundle = bundles[i];
-
-        var batch = bundle.batch;
-        var shader = batch.shader;
-
-        if (shader.no_permanent_uniforms)
-            continue;
-
-        _gl.useProgram(shader.program);
-
-        var obj_render = bundle.obj_render;
-
-        var uniforms = shader.uniforms;
-
-        if (!shader.permanent_uniform_setters.length)
-            assign_uniform_setters(shader);
-
-        var permanent_uniform_setters = shader.permanent_uniform_setters;
-        var j = permanent_uniform_setters.length;
-
-        while (j--) {
-            var setter = permanent_uniform_setters[j];
-            setter.fun(_gl, setter.loc, subscene, obj_render, batch, camera);
-        }
-    }
 }
 
 exports.update_batch_permanent_uniform = function(batch, uni_name) {

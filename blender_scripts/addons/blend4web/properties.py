@@ -1660,6 +1660,7 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_render_reflections
     del bpy.types.Scene.b4w_reflection_quality
     del bpy.types.Scene.b4w_render_refractions
+    del bpy.types.Scene.b4w_render_dynamic_grass
     del bpy.types.Scene.b4w_enable_god_rays
     del bpy.types.Scene.b4w_god_rays_settings
     del bpy.types.Scene.b4w_enable_glow_materials
@@ -1964,6 +1965,18 @@ def add_scene_properties():
         default = "AUTO"
     )
     scene_type.b4w_render_refractions = b4w_render_refractions
+
+    b4w_render_dynamic_grass = bpy.props.EnumProperty(
+        name = _("B4W: render dynamic grass"),
+        description = _("Render dynamic grass for the scene objects"),
+        items = [
+            ("OFF", "OFF", "OFF", 0),
+            ("ON",  "ON",  "ON", 1),
+            ("AUTO",  "AUTO",  "AUTO", 2),
+        ],
+        default = "AUTO"
+    )
+    scene_type.b4w_render_dynamic_grass = b4w_render_dynamic_grass
 
     b4w_enable_god_rays = bpy.props.BoolProperty(
         name = _("B4W: enable god rays"),

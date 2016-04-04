@@ -118,9 +118,11 @@ varying vec2 v_texcoord;
 
 varying vec3 v_pos_world;
 
-#if !HALO_PARTICLES && !NODES
-varying vec3 v_color;
+#if !NODES
+# if !HALO_PARTICLES
 varying float v_alpha;
+# endif
+varying vec3 v_color;
 #endif
 
 #if !PARTICLES_SHADELESS || !DISABLE_FOG
@@ -166,7 +168,7 @@ void main(void) {
 
 # if HALO_PARTICLES
     vec4 frag_color = halo_color();
-    vec3 color = frag_color.rgb;
+    vec3 color = frag_color.rgb * v_color;
 
     float diam = 0.9 * length(v_texcoord);
     float transp = smoothstep(u_p_alpha_start, u_p_alpha_end, diam);

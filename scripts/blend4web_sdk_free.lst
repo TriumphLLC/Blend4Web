@@ -104,6 +104,7 @@ scripts/memory.sh
 scripts/mod_list.py
 scripts/plot.sh
 scripts/process_blend.py
+scripts/project_server.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
 scripts/shader_analyzer.py

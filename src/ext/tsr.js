@@ -118,7 +118,7 @@ exports.set_scale = m_tsr.set_scale;
 /**
  * Set TSR translation and scale from vec4.
  * @method module:tsr.set_transcale
- * @param {vec4} transcale Translation+Scale vector
+ * @param {Vec4} transcale Translation+Scale vector
  * @param {TSR} dest Destination TSR vector
  */
 exports.set_transcale = m_tsr.set_transcale ;

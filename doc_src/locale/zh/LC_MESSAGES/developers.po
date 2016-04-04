@@ -1,0 +1,1625 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../developers.rst:5
+msgid "For Application Developers"
+msgstr ""
+
+#: ../developers.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../developers.rst:14
+msgid "Project Management"
+msgstr ""
+
+#: ../developers.rst:16
+msgid ""
+"You can manage your projects in two ways: by using *project.py*, which is"
+" a simple-to-use and well documented CLI utility, or by using a dedicated"
+" web application with GUI working on the local development server. The "
+"server does not require any additional setup and starts automatically "
+"with Blender. The index page of the Project Manager can be opened by "
+"clicking on the ``Project Manager`` button in Blender."
+msgstr ""
+
+#: ../developers.rst:18
+msgid ""
+"Working with the Project Manager is described in a :ref:`dedicated "
+"chapter <project_management>`."
+msgstr ""
+
+#: ../developers.rst:23 ../developers.rst:130
+msgid "Advanced Project Management"
+msgstr ""
+
+#: ../developers.rst:25
+msgid ""
+"Advanced project management is used by experienced developers which "
+"require more flexibility and need to automate process of project "
+"development."
+msgstr ""
+
+#: ../developers.rst:27
+msgid ""
+"For advanced project management use the *project.py* script and manually "
+"edit *.b4w_project* config files."
+msgstr ""
+
+#: ../developers.rst:30 ../developers.rst:526
+msgid "Dependencies"
+msgstr ""
+
+#: ../developers.rst:32
+msgid ""
+"The project managment system works in all operating systems. However, "
+"some operations can require installing additional dependencies. In order "
+"to check whether all dependencies are met, use the following command:"
+msgstr ""
+
+#: ../developers.rst:38 ../developers.rst:299 ../developers.rst:507
+msgid "For MS Windows users:"
+msgstr ""
+
+#: ../developers.rst:46
+msgid "Projects List"
+msgstr ""
+
+#: ../developers.rst:52
+msgid "Prints list of projects in the SDK."
+msgstr ""
+
+#: ../developers.rst:56
+msgid "Project Structure"
+msgstr ""
+
+#: ../developers.rst:58
+msgid "A typical app developed using the project manager looks as follows:"
+msgstr ""
+
+#: ../developers.rst:85
+msgid "This app consists of 4 different directories."
+msgstr ""
+
+#: ../developers.rst:87
+msgid "apps_dev/myproject. Contains source files of project's apps."
+msgstr ""
+
+#: ../developers.rst:88
+msgid "blender/myproject. Contains source files of project's scenes."
+msgstr ""
+
+#: ../developers.rst:89
+msgid "deploy/assets/myproject. Contains exported files of project's scenes."
+msgstr ""
+
+#: ../developers.rst:90
+msgid "deploy/apps/myproject. Contains exported files of project's scenes."
+msgstr ""
+
+#: ../developers.rst:92
+msgid ""
+"Additionally, the deploy command can create yet another directory, but it"
+" usually is placed outside of the SDK and its name and path depend on "
+"directory structure on the target server."
+msgstr ""
+
+#: ../developers.rst:96
+msgid "``.b4w_project`` Config File"
+msgstr ""
+
+#: ../developers.rst:98
+msgid ""
+"If you did not use any arguments upon executing the *project.py* script, "
+"then they will be taken from the config file."
+msgstr ""
+
+#: ../developers.rst:136
+msgid ""
+"This command will create a project with the specified name in the current"
+" directory. By default the project directory will only contain a config "
+"file."
+msgstr ""
+
+#: ../developers.rst:138 ../developers.rst:211 ../developers.rst:235
+#: ../developers.rst:250 ../developers.rst:266
+msgid "Available parameters:"
+msgstr ""
+
+#: ../developers.rst:140
+msgid ""
+"``-A | --copy-app-templates`` (optional) create standard app templates in"
+" the project directory  (*<my_project_name>_dev.html*, "
+"*<my_project_name>.js*, *<my_project_name>.css*)."
+msgstr ""
+
+#: ../developers.rst:141
+msgid ""
+"``-B | --bundle`` (optional) all project files will be placed in a single"
+" directory."
+msgstr ""
+
+#: ../developers.rst:142
+msgid ""
+"``-C | --author`` (optional) write an author's or a company's name in the"
+" config file."
+msgstr ""
+
+#: ../developers.rst:143
+msgid ""
+"``-o | --optimization`` (optional) write the script optimization level in"
+" the config file."
+msgstr ""
+
+#: ../developers.rst:144
+msgid ""
+"``-P | --copy-project-script`` (optional) create a copy of the "
+"*project.py* script in the project directory."
+msgstr ""
+
+#: ../developers.rst:145
+msgid ""
+"``-S | --copy-scene-templates`` (optional) create standard scene "
+"templates in the directories ``deploy/assets/<my_project_name>`` and "
+"``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and "
+"*<my_project_name>.blend* correspondingly)."
+msgstr ""
+
+#: ../developers.rst:146
+msgid ""
+"``-T | --title\"`` (optional) write a title in the config file. Upon "
+"building, it will be used inside the ``<title>`` HTML element."
+msgstr ""
+
+#: ../developers.rst:147
+msgid "``-t | --engine-type`` (optional) write an engine type in the config file."
+msgstr ""
+
+#: ../developers.rst:149 ../developers.rst:418
+msgid "Example:"
+msgstr ""
+
+#: ../developers.rst:155
+msgid ""
+"This command will create a directory named *myproject*, inside which the "
+"following files will be placed: *myproject.js*, *myproject.css*, "
+"*myproject_dev.html* and *.b4w_project*."
+msgstr ""
+
+#: ../developers.rst:157
+msgid "The .b4w_project file will look like::"
+msgstr ""
+
+#: ../developers.rst:187
+msgid "Developing multiple apps inside a project"
+msgstr ""
+
+#: ../developers.rst:189
+msgid ""
+"A project can contain multiple apps. This can be provided by listing the "
+"corresponding HTML files in the config file separated with semicolon::"
+msgstr ""
+
+#: ../developers.rst:198
+msgid "Building Projects"
+msgstr ""
+
+#: ../developers.rst:204
+msgid "Builds a project in the ``deploy/apps/myproject`` directory."
+msgstr ""
+
+#: ../developers.rst:208
+msgid ""
+"For script operation it's required to install java and  `set the PATH "
+"system variable <https://www.java.com/en/download/help/path.xml>`_."
+msgstr ""
+
+#: ../developers.rst:213
+msgid ""
+"``\"-a | --app\"`` (optional) specify an HTML file, relative to which the"
+" project app will be built."
+msgstr ""
+
+#: ../developers.rst:214
+msgid ""
+"``\"-c | --css-ignore\"`` (optional) add CSS styles to exceptions in "
+"order to not compile them."
+msgstr ""
+
+#: ../developers.rst:215
+msgid ""
+"``\"-j | --js-ignore\"`` (optional) add scripts to exceptions in order to"
+" not compile them."
+msgstr ""
+
+#: ../developers.rst:216
+msgid ""
+"``\"-o | --optimization\"`` (optional) specify the optimization level for"
+" JavaScript files: ``whitespace``, ``simple`` (by default) or "
+"``advanced``."
+msgstr ""
+
+#: ../developers.rst:217
+msgid ""
+"``\"-t | --engine-type\"`` (optional) define a compilation type for an "
+"app. Four variants are available: *external* (by default), *copy*, "
+"*compile*, *update*."
+msgstr ""
+
+#: ../developers.rst:218
+msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
+msgstr ""
+
+#: ../developers.rst:220
+msgid "Compiler Requirements"
+msgstr ""
+
+#: ../developers.rst:222
+msgid ""
+"In the root of the directory the single html file must be stored if "
+"``-a`` option is disabled"
+msgstr ""
+
+#: ../developers.rst:223
+msgid "Scripts and styles can be stored in the app's root and in the subfolders"
+msgstr ""
+
+#: ../developers.rst:227
+msgid "Automatic Re-export"
+msgstr ""
+
+#: ../developers.rst:233
+msgid "This command will re-export blend files in JSON and HTML formats."
+msgstr ""
+
+#: ../developers.rst:237
+msgid "``\"-b | --blender_exec\"`` path to the blender executable."
+msgstr ""
+
+#: ../developers.rst:238 ../developers.rst:252 ../developers.rst:271
+msgid "``\"-s | --assets\"`` specify directory with scene assets."
+msgstr ""
+
+#: ../developers.rst:242 ../developers.rst:495
+msgid "Resource Conversion"
+msgstr ""
+
+#: ../developers.rst:248
+msgid ""
+"Converts external resources (textures, audio and video files) into "
+"alternative formats to ensure cross-browser and cross-platform "
+"performance."
+msgstr ""
+
+#: ../developers.rst:254
+msgid ""
+"Converting of resources is described in detail in the :ref:`corresponding"
+" section <converter>`."
+msgstr ""
+
+#: ../developers.rst:258
+msgid "Deploying Projects"
+msgstr ""
+
+#: ../developers.rst:264
+msgid "Save a project to an external directory together with all dependencies."
+msgstr ""
+
+#: ../developers.rst:268
+msgid "``\"-d | --dir\"`` directory for deploying the project."
+msgstr ""
+
+#: ../developers.rst:269
+msgid "``\"-e | --assets-path\"`` path to asset files."
+msgstr ""
+
+#: ../developers.rst:270
+msgid "``\"-o | --override\"`` remove directory if it exists."
+msgstr ""
+
+#: ../developers.rst:272
+msgid ""
+"``\"-t | --engine-type\"`` (optional) determine a type of the deployed "
+"application."
+msgstr ""
+
+#: ../developers.rst:276
+msgid "Remove Project"
+msgstr ""
+
+#: ../developers.rst:282
+msgid ""
+"Removes a project. Removed directories are retrieved from project "
+"configuration file."
+msgstr ""
+
+#: ../developers.rst:286
+msgid "Upgrading Apps for New SDK Versions"
+msgstr ""
+
+#: ../developers.rst:288
+msgid "While upgrading for new SDK versions often two problems arise:"
+msgstr ""
+
+#: ../developers.rst:290
+msgid "Modules of the new and old versions of the engine do not match."
+msgstr ""
+
+#: ../developers.rst:291
+msgid "Old and new engine API do not match."
+msgstr ""
+
+#: ../developers.rst:293
+msgid ""
+"In order to update the list of modules imported in developer version of "
+"application go to project source directory ``apps_dev/my_project`` and "
+"execute module list generator script:"
+msgstr ""
+
+#: ../developers.rst:307 ../developers.rst:516
+msgid "To run the scripts the Python 3.x needs to be installed in your system."
+msgstr ""
+
+#: ../developers.rst:309
+msgid ""
+"The console will print the list of modules - copy them and paste into the"
+" main HTML file:"
+msgstr ""
+
+#: ../developers.rst:327
+msgid ""
+"To eliminate API incompatibilities you may require refactoring of your "
+"app.All changes are described in :ref:`release notes <release_notes>`."
+msgstr ""
+
+#: ../developers.rst:331
+msgid "Path to Loaded Application Assets"
+msgstr ""
+
+#: ../developers.rst:333
+msgid ""
+"To load .json-files you should use ``get_std_assets_path()`` method frome"
+" the *config.js* module:"
+msgstr ""
+
+#: ../developers.rst:339
+msgid ""
+"After building the finished app, the paths to assets will change. Thus, "
+"using ``get_std_assets_path()`` wil allow you to avoid problems with "
+"incorrect paths."
+msgstr ""
+
+#: ../developers.rst:343
+msgid "Application Programming"
+msgstr ""
+
+#: ../developers.rst:346
+msgid "\"Hello World!\" application"
+msgstr ""
+
+#: ../developers.rst:348
+msgid "The simplest Blend4Web app may look like this:"
+msgstr ""
+
+#: ../developers.rst:369
+msgid ""
+"This app prints a message and the engine's version in the browser window."
+" Let's look at this example in detail. The engine library is embedded "
+"with the ``<script src=\"...\">`` element. Then, the app waits for the "
+"page to load and prints the current version in the browser window. In "
+"this example, ``version`` is the only used module which has a function "
+"with the same name - ``version()``. A more detailed info about the usage "
+"of engine's modules and functions can be found in the `API documentation "
+"<https://www.blend4web.com/api_doc/index.html>`_."
+msgstr ""
+
+#: ../developers.rst:371
+msgid ""
+"The compiled engine file ``b4w.min.js`` can be copied from the SDK's "
+"``deploy/apps/common`` directory and placed in the same directory as the "
+"HTML file."
+msgstr ""
+
+#: ../developers.rst:374
+msgid "Loading Scenes in Apps"
+msgstr ""
+
+#: ../developers.rst:376
+msgid "To load a 3D scene you need:"
+msgstr ""
+
+#: ../developers.rst:378
+msgid "Place a ``<canvas>`` element on a page for rendering."
+msgstr ""
+
+#: ../developers.rst:380
+msgid ""
+"Call the ``m_main.init()`` function with the created element id to init "
+"the WebGL context after the page is loaded."
+msgstr ""
+
+#: ../developers.rst:382
+msgid "Call the ``m_data.load()`` function to load a 3D scene."
+msgstr ""
+
+#: ../developers.rst:408
+msgid ""
+"Note that a real app should include error checking, setting up the engine"
+" before initializing and also a basic system for interacting with the "
+"user."
+msgstr ""
+
+#: ../developers.rst:412
+msgid "Module System"
+msgstr ""
+
+#: ../developers.rst:414
+msgid ""
+"While the engine gives an app programmer an API in the scale of dozens of"
+" modules, it occupies a single ``b4w`` namespace. To call a module’s "
+"method import it first with the ``b4w.require()`` function."
+msgstr ""
+
+#: ../developers.rst:416
+msgid ""
+"It is possible to register external modules if their names do not collide"
+" with already existing modules. A module can be registered with a "
+"``b4w.register()`` call. Check if a module with some name already exists "
+"with a ``b4w.module_check()`` call."
+msgstr ""
+
+#: ../developers.rst:448
+msgid "Creating Apps Quickly"
+msgstr ""
+
+#: ../developers.rst:450
+msgid ""
+"Creating an app from scratch can be a tedious task, especially for "
+"beginners. To address this there is a special add-on for the engine "
+"called ``app``:"
+msgstr ""
+
+#: ../developers.rst:485
+msgid ""
+"In this case the ``app`` module will create a ``<canvas>`` element inside"
+" the container with the specified ``container_id`` id. Then it will "
+"initialize the engine after the page is loaded and will finally execute "
+"the ``load_cb()`` callback."
+msgstr ""
+
+#: ../developers.rst:487
+msgid ""
+"Then the some_scene.json scene is loaded similar to the previous example."
+" The only difference is that after the scene is loaded, the control "
+"system is initialized and camera movement with keyboard and mouse (or "
+"sensor screen) becomes possible."
+msgstr ""
+
+#: ../developers.rst:489
+msgid ""
+"In case when the ``app`` module is used, it is necessary to explicitely "
+"specify dimensions of the container element. Otherwise the created "
+"``<canvas>`` element will have zero dimensions."
+msgstr ""
+
+#: ../developers.rst:497
+msgid ""
+"Currently, browsers do not fully support all possible media formats, so "
+"in order to create cross-browser applications (and also for optimization "
+"purposes) we recommend you to use the resource converter."
+msgstr ""
+
+#: ../developers.rst:499
+msgid ""
+"To support a wider range of platforms, a Python script "
+"(scripts/converter.py) for converting the source files into other formats"
+" is included into the distribution."
+msgstr ""
+
+#: ../developers.rst:501
+msgid ""
+"This script can be run automatically using the project mangment system, "
+"or manually:"
+msgstr ""
+
+#: ../developers.rst:518
+msgid ""
+"With the -d parameter you can specify the path to a directory in which "
+"converting will take place."
+msgstr ""
+
+#: ../developers.rst:520
+msgid ""
+"To exclude some directory from resource conversion, it is enough to put a"
+" file named ``.b4w_no_conv`` in it. This will not affect conversion in "
+"nested directories."
+msgstr ""
+
+#: ../developers.rst:522
+msgid ""
+"The **resize_textures** argument is used for decreasing texture "
+"resolution for the **LOW** mode."
+msgstr ""
+
+#: ../developers.rst:528
+msgid ""
+"Please make sure that you have all converter dependencies installed. You "
+"can do it with the following command:"
+msgstr ""
+
+#: ../developers.rst:534
+msgid "If some program is not installed, the following message will be displayed:"
+msgstr ""
+
+#: ../developers.rst:536
+msgid "*Couldn't find PROGRAM_NAME.*"
+msgstr ""
+
+#: ../developers.rst:538
+msgid "**Linux**"
+msgstr ""
+
+#: ../developers.rst:540
+msgid "The list of dependencies is listed in the following table:"
+msgstr ""
+
+#: ../developers.rst:543
+msgid "Name"
+msgstr ""
+
+#: ../developers.rst:543
+msgid "Ubuntu 15.04 package"
+msgstr ""
+
+#: ../developers.rst:546
+msgid "ImageMagick"
+msgstr ""
+
+#: ../developers.rst:546
+msgid "imagemagick"
+msgstr ""
+
+#: ../developers.rst:548
+msgid "NVIDIA Texture Tools"
+msgstr ""
+
+#: ../developers.rst:548
+msgid "libnvtt-bin"
+msgstr ""
+
+#: ../developers.rst:550
+msgid "Libav"
+msgstr ""
+
+#: ../developers.rst:550
+msgid "libav-tools"
+msgstr ""
+
+#: ../developers.rst:552
+msgid "FFmpeg"
+msgstr ""
+
+#: ../developers.rst:552
+msgid "ffmpeg"
+msgstr ""
+
+#: ../developers.rst:557
+msgid ""
+"Linux users can additionally install the package qt-faststart which is "
+"used to optimize loading media files."
+msgstr ""
+
+#: ../developers.rst:559
+msgid "**Windows**"
+msgstr ""
+
+#: ../developers.rst:561
+msgid ""
+"For MS Windows users it is not necessary to install these packages since "
+"they are already present in the SDK."
+msgstr ""
+
+#: ../developers.rst:563
+msgid "**Mac OS**"
+msgstr ""
+
+#: ../developers.rst:565
+msgid ""
+"Mac OS users can install the `brew <http://www.brew.sh/>`_ package "
+"manager first and then install any missing packages."
+msgstr ""
+
+#: ../developers.rst:567
+msgid ""
+"Before installing packages, install the libpng and libjpeg libraries "
+"using these commands:"
+msgstr ""
+
+#: ../developers.rst:574
+msgid "Now you can proceed with installing required dependencies:"
+msgstr ""
+
+#: ../developers.rst:581
+msgid ""
+"In order to install NVIDIA Texture Tools, clone the repository with the "
+"following command:"
+msgstr ""
+
+#: ../developers.rst:587
+msgid "Now you can build and install the package:"
+msgstr ""
+
+#: ../developers.rst:597
+msgid "Data Format"
+msgstr ""
+
+#: ../developers.rst:599
+msgid "The conversion is performed as follows:"
+msgstr ""
+
+#: ../developers.rst:604
+msgid "for audio (convert_media):"
+msgstr ""
+
+#: ../developers.rst:602
+msgid "ogg -> mp4"
+msgstr ""
+
+#: ../developers.rst:603
+msgid "mp3 -> ogg"
+msgstr ""
+
+#: ../developers.rst:604
+msgid "mp4 -> ogg"
+msgstr ""
+
+#: ../developers.rst:606
+msgid ""
+"We recommend to use ``ogg`` as a base format. In this case the only "
+"conversion required for cross-browser compatibility will be ``ogg`` to "
+"``mp4``. Example of an input file: ``file_name.ogg``, example of an "
+"output file: ``file_name.altconv.mp4``."
+msgstr ""
+
+#: ../developers.rst:614
+msgid "for video (convert_media):"
+msgstr ""
+
+#: ../developers.rst:609
+msgid "webm -> m4v"
+msgstr ""
+
+#: ../developers.rst:610
+msgid "m4v -> webm"
+msgstr ""
+
+#: ../developers.rst:611
+msgid "ogv -> webm"
+msgstr ""
+
+#: ../developers.rst:612
+msgid "webm -> seq"
+msgstr ""
+
+#: ../developers.rst:613
+msgid "m4v -> seq"
+msgstr ""
+
+#: ../developers.rst:614
+msgid "ogv -> seq"
+msgstr ""
+
+#: ../developers.rst:616
+msgid ""
+"We recommend to use ``WebM`` as a base format. In this case the only "
+"conversion required for cross-browser compatibility will be ``webm`` to "
+"``m4v`` (``webm`` to ``seq`` for iPhone). Example of an input file: "
+"``file_name.webm``, example of an output file: ``file_name.altconv.m4v``."
+msgstr ""
+
+#: ../developers.rst:620
+msgid "for images (convert_dds):"
+msgstr ""
+
+#: ../developers.rst:619
+msgid "png -> dds"
+msgstr ""
+
+#: ../developers.rst:620
+msgid "jpg -> dds"
+msgstr ""
+
+#: ../developers.rst:622
+msgid ""
+"Example of an input file: ``file_name.jpg``, example of an output file: "
+"``file_name.altconv.jpg.dds``."
+msgstr ""
+
+#: ../developers.rst:624
+msgid ""
+"For the purpose of optimizing application performance it's possible to "
+"use ``min50`` (halved) and ``DDS`` textures. In order to do this, we need"
+" to pass the following parameters during initialization of the "
+"application:"
+msgstr ""
+
+#: ../developers.rst:640
+msgid ""
+"The ``.seq`` file format is used for sequential video. This is applied "
+"for IE 11 and iPhone because they are currently missing support for "
+"standard video formats for textures. Using dds format for images is more "
+"optimal compared to other formats."
+msgstr ""
+
+#: ../developers.rst:642
+msgid ""
+"The engine can use files which are manually created by a user if they "
+"have the following names: ``file_name.altconv.m4v``, "
+"``file_name.altconv.mp3`` and so on. Such files should be placed in the "
+"same directory as the mediafiles used in Blender."
+msgstr ""
+
+#: ../developers.rst:644
+msgid ""
+"You can also use the free and cross-platform application `Miro Video "
+"Converter <http://www.mirovideoconverter.com/>`_ to convert mediafiles."
+msgstr ""
+
+#: ../developers.rst:651
+msgid "Code Examples"
+msgstr ""
+
+#: ../developers.rst:653
+msgid ""
+"The SDK includes the Code Snippets application which demonstrates how to "
+"use the engine's functionality."
+msgstr ""
+
+#: ../developers.rst:655
+msgid "Currently, this application contains the following examples:"
+msgstr ""
+
+#: ../developers.rst:657
+msgid "Bone API - an example of individual bones position control"
+msgstr ""
+
+#: ../developers.rst:658
+msgid "Camera Animation - procedural camera animation"
+msgstr ""
+
+#: ../developers.rst:659
+msgid "Camera Move Styles - changing control modes for the camera"
+msgstr ""
+
+#: ../developers.rst:660
+msgid "Canvas Texture - working with canvas textures"
+msgstr ""
+
+#: ../developers.rst:661
+msgid "Custom Anchors - creating custom annotations"
+msgstr ""
+
+#: ../developers.rst:662
+msgid "Dynamic Geometry - procedural geometry modification"
+msgstr ""
+
+#: ../developers.rst:663
+msgid "Gyro (Mobile Only) - working with mobile devices' gyroscopes"
+msgstr ""
+
+#: ../developers.rst:664
+msgid "Instancing - copying scene objects in runtime"
+msgstr ""
+
+#: ../developers.rst:665
+msgid ""
+"Material API - tweaking material properties and replacing objects' "
+"materials"
+msgstr ""
+
+#: ../developers.rst:666
+msgid "Morphing - using shape keys"
+msgstr ""
+
+#: ../developers.rst:667
+msgid "Ray Test - the usage of raycasting for obstacles detection"
+msgstr ""
+
+#: ../developers.rst:669
+msgid ""
+"The Code Snippets application is available at "
+"``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run"
+" by using a link in the ``index.html`` file located in the SDK root."
+msgstr ""
+
+#: ../developers.rst:674
+msgid "Event-Driven Model"
+msgstr ""
+
+#: ../developers.rst:676
+msgid ""
+"The event-driven model provides a universal interface for describing the "
+"3D scene's change of state. It simpifies the processing of physics events"
+" and user actions."
+msgstr ""
+
+#: ../developers.rst:681
+msgid "Sensors"
+msgstr ""
+
+#: ../developers.rst:683
+msgid ""
+"The basic unit of the event-driven model is a sensor. A sensor is a "
+"programming entity and can only be active (1, one) or inactive (0, zero)."
+" Some sensors may carry a payload which can be received in the manifold's"
+" callback function with corresponding API. For example, the ray-tracing "
+"sensor (Ray Sensor) provides the relative length of the intersection ray."
+msgstr ""
+
+#: ../developers.rst:687
+msgid ""
+"Users cannot directly control sensors via the external API. Instead all "
+"sensors must be present in one or multiple collections - so called sensor"
+" manifolds. A manifold is a logic container associated with a scene "
+"object. It generates a response to a defined set of sensor events by "
+"executing a callback function. To define the manifold it is required to "
+"have the following information (see also the API documenation for "
+"decription of the ``controls.create_sensor_manifold`` function):"
+msgstr ""
+
+#: ../developers.rst:689
+msgid "An object to carry the manifold (e.g. a thrown object)."
+msgstr ""
+
+#: ../developers.rst:690
+msgid "An unique id of the manifold (e.g. \"IMPACT\")."
+msgstr ""
+
+#: ../developers.rst:691
+msgid ""
+"Callback execution mode (the options are: ``CT_POSITIVE`` - logic "
+"function positive result, ``CT_CONTINUOUS`` - every frame with a positive"
+" logic function result and once with a zero result, ``CT_LEVEL`` - any "
+"logic, function result change, ``CT_SHOT`` - one-stage logic function "
+"result change, ``CT_TRIGGER`` - logic function result switch, "
+"``CT_CHANGE`` - any sensor value change)."
+msgstr ""
+
+#: ../developers.rst:692
+msgid "An array of sensors."
+msgstr ""
+
+#: ../developers.rst:693
+msgid ""
+"A logic function to define the combination of the sensor states for which"
+" the callback function is executed."
+msgstr ""
+
+#: ../developers.rst:694
+msgid "A callback function."
+msgstr ""
+
+#: ../developers.rst:695
+msgid "An optional parameter to pass into the callback function."
+msgstr ""
+
+#: ../developers.rst:697
+msgid ""
+"You can read more about engine API in the :b4wmod:`controls` module "
+"documentation."
+msgstr ""
+
+#: ../developers.rst:700
+msgid "Example"
+msgstr ""
+
+#: ../developers.rst:702
+msgid ""
+"Lets consider the task to insonify the impact of a thrown stone. A "
+"distinctive sound should be produced for impacting different media (for "
+"example terrain and wall). There are collision meshes with physical "
+"materials in the Blender scene, material ids are \"TERRAIN\" and "
+"\"WALL\". There is also a physical object being thrown in the scene, the "
+"object is named \"Stone\"."
+msgstr ""
+
+#: ../developers.rst:705
+msgid ""
+"Lets define a collision sensor for each medium, by the type of the sound "
+"produced."
+msgstr ""
+
+#: ../developers.rst:723
+msgid ""
+"Add the sensors into an array. Use the ``OR`` logic in the logic "
+"function. Place the sound processing code in the callback function. "
+"Create the sensor manifold with the \"IMPACT\" id and the ``CT_SHOT`` "
+"type."
+msgstr ""
+
+#: ../developers.rst:755
+msgid ""
+"When the \"Stone\" object collides with any physical material of "
+"\"TERRAIN\" or \"WALL\", the callback function is executed. Inside this "
+"function we get the values of both sensors by their indices in the sensor"
+" array (0 - \"TERRAIN\", 1 - \"WALL\"). The sensor value = 1 (active) "
+"means that the collision happened with the corresponding physical "
+"material. As a result the corresponding sound is produced (the code is "
+"not shown)."
+msgstr ""
+
+#: ../developers.rst:761
+msgid "SDK File Structure"
+msgstr ""
+
+#: ../developers.rst:803
+msgid "**apps_dev**"
+msgstr ""
+
+#: ../developers.rst:764
+msgid "source code of the applications"
+msgstr ""
+
+#: ../developers.rst:770
+msgid "**code_snippets**"
+msgstr ""
+
+#: ../developers.rst:767
+msgid "source files of the Blend4Web API usage demonstration application"
+msgstr ""
+
+#: ../developers.rst:770 ../developers.rst:902
+msgid "**scripts**"
+msgstr ""
+
+#: ../developers.rst:770
+msgid "Blend4Web API usage examples' source files"
+msgstr ""
+
+#: ../developers.rst:773
+msgid "**dairy_plant**"
+msgstr ""
+
+#: ../developers.rst:773
+msgid "source files of the Dairy Plant demo (available only in SDK Pro)"
+msgstr ""
+
+#: ../developers.rst:776
+msgid "**fashion**"
+msgstr ""
+
+#: ../developers.rst:776
+msgid "source files of the Fashion Show demo (available only in SDK Pro)"
+msgstr ""
+
+#: ../developers.rst:779
+msgid "**firstperson**"
+msgstr ""
+
+#: ../developers.rst:779
+msgid "source files of the Farm demo (available only in SDK Pro)"
+msgstr ""
+
+#: ../developers.rst:782
+msgid "**flight**"
+msgstr ""
+
+#: ../developers.rst:782
+msgid "source files of the Island demo"
+msgstr ""
+
+#: ../developers.rst:785
+msgid "**new_year**"
+msgstr ""
+
+#: ../developers.rst:785
+msgid "source files of the New Year 2015 greeting card"
+msgstr ""
+
+#: ../developers.rst:788
+msgid "**project.py**"
+msgstr ""
+
+#: ../developers.rst:788
+msgid "script for application developers"
+msgstr ""
+
+#: ../developers.rst:791
+msgid "**victory_day_2015**"
+msgstr ""
+
+#: ../developers.rst:791
+msgid "source files of the V-Day 70 greeting card"
+msgstr ""
+
+#: ../developers.rst:797
+msgid "**viewer**"
+msgstr ""
+
+#: ../developers.rst:794
+msgid "the sources files of the Viewer application"
+msgstr ""
+
+#: ../developers.rst:797
+msgid "**assets.json**"
+msgstr ""
+
+#: ../developers.rst:797
+msgid "meta data with information about scenes loaded by the Viewer"
+msgstr ""
+
+#: ../developers.rst:800
+msgid "**webplayer**"
+msgstr ""
+
+#: ../developers.rst:800
+msgid "source files of the Web Player app"
+msgstr ""
+
+#: ../developers.rst:803
+msgid "**website**"
+msgstr ""
+
+#: ../developers.rst:803
+msgid "source files of applications from the Blend4Web official website"
+msgstr ""
+
+#: ../developers.rst:806
+msgid "**blender**"
+msgstr ""
+
+#: ../developers.rst:806
+msgid "source files of the Blender scenes"
+msgstr ""
+
+#: ../developers.rst:809
+msgid "**blender_scripts**"
+msgstr ""
+
+#: ../developers.rst:809
+msgid "exporter and utility scripts for Blender"
+msgstr ""
+
+#: ../developers.rst:812
+msgid "**csrc**"
+msgstr ""
+
+#: ../developers.rst:812
+msgid ""
+"source code (in C) of the binary part of the engine exporter and of the "
+"other utilities"
+msgstr ""
+
+#: ../developers.rst:836
+msgid "**deploy**"
+msgstr ""
+
+#: ../developers.rst:815
+msgid ""
+"the resource directory for deploying on the server (scene source files, "
+"compiled applications and documentation)"
+msgstr ""
+
+#: ../developers.rst:818
+msgid "**api_doc**"
+msgstr ""
+
+#: ../developers.rst:818
+msgid ""
+"API documentation for developers (built automatically, based on the "
+"engine's source code)"
+msgstr ""
+
+#: ../developers.rst:824
+msgid "**apps**"
+msgstr ""
+
+#: ../developers.rst:821
+msgid ""
+"3D applications intended for deploying; the directory duplicates "
+"*apps_dev*"
+msgstr ""
+
+#: ../developers.rst:824
+msgid "**common**"
+msgstr ""
+
+#: ../developers.rst:824
+msgid ""
+"Compiled engine files. Shared by all applications from SDK (hence the "
+"name)."
+msgstr ""
+
+#: ../developers.rst:827
+msgid "**assets**"
+msgstr ""
+
+#: ../developers.rst:827
+msgid "downloadable resources: scenes, textures and sounds"
+msgstr ""
+
+#: ../developers.rst:830
+msgid "**doc**"
+msgstr ""
+
+#: ../developers.rst:830
+msgid "the current user manual in HTML format, built autamatically from *doc_src*"
+msgstr ""
+
+#: ../developers.rst:833
+msgid "**globals_detect**"
+msgstr ""
+
+#: ../developers.rst:833
+msgid "utility code for detecting global variables"
+msgstr ""
+
+#: ../developers.rst:836
+msgid "**tutorials**"
+msgstr ""
+
+#: ../developers.rst:836
+msgid "source files for the tutorials"
+msgstr ""
+
+#: ../developers.rst:839
+msgid "**doc_src**"
+msgstr ""
+
+#: ../developers.rst:839
+msgid "source files of the current manual written in reST"
+msgstr ""
+
+#: ../developers.rst:842
+msgid "**index.html** and **index_assets**"
+msgstr ""
+
+#: ../developers.rst:842
+msgid "main SDK webpage files"
+msgstr ""
+
+#: ../developers.rst:845
+msgid "**license**"
+msgstr ""
+
+#: ../developers.rst:845
+msgid "files with license texts"
+msgstr ""
+
+#: ../developers.rst:848
+msgid "**Makefile**"
+msgstr ""
+
+#: ../developers.rst:848
+msgid ""
+"makefile for building the engine, the applications, the documentation and"
+" for deploying on a remote server (not available as a free version)"
+msgstr ""
+
+#: ../developers.rst:851
+msgid "**README.rst**"
+msgstr ""
+
+#: ../developers.rst:851
+msgid "README file"
+msgstr ""
+
+#: ../developers.rst:854
+msgid "scripts"
+msgstr ""
+
+#: ../developers.rst:857
+msgid ""
+"**blend4web.lst**, **blend4web_sdk_free.lst** and "
+"**blend4web_sdk_pro.lst** (optional)"
+msgstr ""
+
+#: ../developers.rst:857
+msgid "lists of the files for building distributions"
+msgstr ""
+
+#: ../developers.rst:860
+msgid "**check_resources.py**"
+msgstr ""
+
+#: ../developers.rst:860
+msgid ""
+"script for checking of and reporting about unused resources (images and "
+"sounds referenced by the exported files)"
+msgstr ""
+
+#: ../developers.rst:863
+msgid "**compile_b4w.py**"
+msgstr ""
+
+#: ../developers.rst:863
+msgid "script for building engine code and applications"
+msgstr ""
+
+#: ../developers.rst:866
+msgid "**converter.py**"
+msgstr ""
+
+#: ../developers.rst:866
+msgid ""
+"script which halves the texture dimensions, compresses the textures into "
+"the DDS format, converts sound files into mp4 and ogg formats"
+msgstr ""
+
+#: ../developers.rst:869
+msgid "**custom_json_encoder.py**"
+msgstr ""
+
+#: ../developers.rst:869
+msgid "fork of the json Python module, sorts the keys in reverse order"
+msgstr ""
+
+#: ../developers.rst:872
+msgid "**gen_glmatrix.sh**"
+msgstr ""
+
+#: ../developers.rst:872
+msgid ""
+"script for generating the math module based on the source code of "
+"glMatrix 2"
+msgstr ""
+
+#: ../developers.rst:875
+msgid "**graph.sh**"
+msgstr ""
+
+#: ../developers.rst:875
+msgid "SVG generator for the current scene graph, used for debugging rendering"
+msgstr ""
+
+#: ../developers.rst:878
+msgid "**make_dist.py**"
+msgstr ""
+
+#: ../developers.rst:878
+msgid "distributions builder script"
+msgstr ""
+
+#: ../developers.rst:881
+msgid "**memory.sh**"
+msgstr ""
+
+#: ../developers.rst:881
+msgid "script for checking memory (RAM) and video memory (VRAM)"
+msgstr ""
+
+#: ../developers.rst:884
+msgid "**mod_list.py**"
+msgstr ""
+
+#: ../developers.rst:884
+msgid "script for generating the list of modules to use in new applications"
+msgstr ""
+
+#: ../developers.rst:887
+msgid "**plot.sh**"
+msgstr ""
+
+#: ../developers.rst:887
+msgid "debugging information graph builder"
+msgstr ""
+
+#: ../developers.rst:890
+msgid "**process_blend.py**"
+msgstr ""
+
+#: ../developers.rst:890
+msgid "script for automatic reexport of all scenes from the SDK"
+msgstr ""
+
+#: ../developers.rst:893
+msgid "**remove_alpha_channel.sh**"
+msgstr ""
+
+#: ../developers.rst:893
+msgid "script for removing the images alpha channel"
+msgstr ""
+
+#: ../developers.rst:896
+msgid "**screencast.sh**"
+msgstr ""
+
+#: ../developers.rst:896
+msgid "script for screen video recording"
+msgstr ""
+
+#: ../developers.rst:899
+msgid "**shader_analyzer.py**"
+msgstr ""
+
+#: ../developers.rst:899
+msgid ""
+"script starting the local web server which calculates complexity of the "
+"shaders"
+msgstr ""
+
+#: ../developers.rst:902
+msgid "**translator.py**"
+msgstr ""
+
+#: ../developers.rst:902
+msgid "script for building addon translations"
+msgstr ""
+
+#: ../developers.rst:905
+msgid "**shaders**"
+msgstr ""
+
+#: ../developers.rst:905
+msgid "GLSL shaders of the engine"
+msgstr ""
+
+#: ../developers.rst:917
+msgid "**src**"
+msgstr ""
+
+#: ../developers.rst:908
+msgid "main source code of the engine's kernel"
+msgstr ""
+
+#: ../developers.rst:911
+msgid "**addons**"
+msgstr ""
+
+#: ../developers.rst:911
+msgid "source code of engine addons"
+msgstr ""
+
+#: ../developers.rst:914
+msgid "**ext**"
+msgstr ""
+
+#: ../developers.rst:914
+msgid "source code of the external declarations that form the engine's API"
+msgstr ""
+
+#: ../developers.rst:917
+msgid "**libs**"
+msgstr ""
+
+#: ../developers.rst:917
+msgid "source code of the libraries"
+msgstr ""
+
+#: ../developers.rst:936
+msgid "**tools**"
+msgstr ""
+
+#: ../developers.rst:920
+msgid "Various tools for building the engine, apps or convert resources"
+msgstr ""
+
+#: ../developers.rst:923
+msgid "**converter_utils**"
+msgstr ""
+
+#: ../developers.rst:923
+msgid "binary builds of the tools for resource conversion"
+msgstr ""
+
+#: ../developers.rst:926
+msgid "**closure-compiler**"
+msgstr ""
+
+#: ../developers.rst:926
+msgid "Google Closure compiler, its externs and their generators"
+msgstr ""
+
+#: ../developers.rst:933
+msgid "**glsl**"
+msgstr ""
+
+#: ../developers.rst:930
+msgid "**compiler**"
+msgstr ""
+
+#: ../developers.rst:930
+msgid "compiler for the engine's GLSL shaders"
+msgstr ""
+
+#: ../developers.rst:933
+msgid "**pegjs**"
+msgstr ""
+
+#: ../developers.rst:933
+msgid ""
+"grammars of the PEG.js parser generator for implementing the GLSL "
+"preprocessor, and also the script for generating the parser modules from "
+"these grammars"
+msgstr ""
+
+#: ../developers.rst:936
+msgid "**yuicompressor**"
+msgstr ""
+
+#: ../developers.rst:936
+msgid "utility for compressing CSS files"
+msgstr ""
+
+#: ../developers.rst:939
+msgid "**uranium**"
+msgstr ""
+
+#: ../developers.rst:939
+msgid ""
+"source code and building scripts of the Uranium physics engine (the fork "
+"of Bullet)"
+msgstr ""
+
+#: ../developers.rst:943
+msgid "**VERSION**"
+msgstr ""
+
+#: ../developers.rst:942
+msgid "contains the current version of the engine"
+msgstr ""
+
+#: ../developers.rst:948
+msgid "Loading Local Resources"
+msgstr ""
+
+#: ../developers.rst:950
+msgid ""
+"The engine's renderer is a web application and it works when you view an "
+"HTML file in a browser. After initialization the resources (scenes, "
+"textures) are loaded. This process is subject to the `same-origin policy "
+"<http://en.wikipedia.org/wiki/Same-origin_policy>`_ rule. In particular "
+"this rule forbids loading from a local directory."
+msgstr ""
+
+#: ../developers.rst:952
+msgid ""
+"Since version 15.02, the Blend4Web SDK includes the :ref:`development "
+"server <local_development_server>` to solve the problem of loading local "
+"resources."
+msgstr ""
+
+#: ../developers.rst:958
+msgid "Quality Profiles"
+msgstr ""
+
+#: ../developers.rst:960
+msgid ""
+"Several quality profiles are implemented in order to support platforms "
+"with different functionality."
+msgstr ""
+
+#: ../developers.rst:962
+msgid ""
+"*low quality* (``P_LOW``) - a range of functions is turned off (such as "
+"shadows, dynamic reflection, postprocessing), the size of textures is "
+"halved when using a release version, anti-aliasing is disabled"
+msgstr ""
+
+#: ../developers.rst:963
+msgid ""
+"*high quality* (``P_HIGH``) - all features requested by the scene are "
+"used, the anti-aliasing method is FXAA"
+msgstr ""
+
+#: ../developers.rst:964
+msgid ""
+"*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
+"resolution of shadow maps is increased, the anti-aliasing method is SMAA"
+msgstr ""
+
+#: ../developers.rst:973
+msgid ""
+"Switching the quality profiles can be performed in runtime before "
+"initialization of the WebGL context. The default profile is ``P_HIGH``."
+msgstr ""
+
+#: ../developers.rst:984
+msgid ""
+"Application developers can also set the **quality** parameter upon engine"
+" initialization using the ``app.js`` add-on:"
+msgstr ""
+
+#: ../developers.rst:1000
+msgid "Non-FullScreen Web Apps"
+msgstr ""
+
+#: ../developers.rst:1002
+msgid ""
+"The Canvas element, to which the rendering is performed, can change its "
+"position relative to the browser window. This can occur due to some "
+"manipulations over the DOM tree, or as a result of page scrolling which "
+"is especially relevant for non-fullscreen web applications."
+msgstr ""
+
+#: ../developers.rst:1004
+msgid ""
+"In most cases this will not affect the performance of the app by any "
+"means. However, some DOM events related to mouse cursor or touch position"
+" may carry incorrect information. This occurs because the coordinates "
+"obtained from the corresponding events are measured relative to the "
+"origin of the browser window, while the engine works with the coordinate "
+"space of the Canvas element itself (its origin is located in the top left"
+" corner)."
+msgstr ""
+
+#: ../developers.rst:1006
+msgid ""
+"If the top left corner of the Canvas element matches the top left corner "
+"of the browser window and is fixed in it's position (non-movable) then "
+"it's sufficient to use event.clientX and event.clientY coordinates of the"
+" input events or "
+":b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods."
+msgstr ""
+
+#: ../developers.rst:1020
+msgid ""
+"In the case of the scrolled browser window, you have to use event.pageX "
+"and event.pageY coordinates."
+msgstr ""
+
+#: ../developers.rst:1029
+msgid ""
+"In the case of more sophisticated manipulations with the Canvas element "
+"(scrolling of the page elements, displacement from the top level corner "
+"of the browser window, changes in the DOM-tree) you need to perform "
+"correct coordinate conversions. In order to obtain coordinates suitable "
+"for use in the engine, you can covert them by using the "
+"``client_to_canvas_coords()`` method of the ``container`` module:"
+msgstr ""
+
+#: ../developers.rst:1041
+msgid ""
+"In order to obtain coordinates in the Canvas space, the engine should "
+"know its position relative to the browser window. However, if this "
+"position is subjected to changes during the work of the app (due to "
+"scrolling for example), the Canvas position should be recalculated. To do"
+" this automatically, you can set the ``track_container_position`` "
+"property upon app initialization:"
+msgstr ""
+
+#: ../developers.rst:1056
+msgid ""
+"Please note, that this setting can lead to performance degradation in "
+"some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
+" performance is critical, you can update the Canvas position manually "
+"when it is really necessary. To do this, use the "
+"``force_offsets_updating()`` and ``update_canvas_offsets()`` methods "
+"instead of the ``track_container_position`` setting, or even the lower-"
+"level ``set_canvas_offsets()`` method from the ``container`` module:"
+msgstr ""
+
+#: ../developers.rst:1071
+msgid ""
+"The possibility to scale the whole webpage can lead to Canvas element "
+"displacement on mobile devices. The described decisions are suitable in "
+"this case. However, you can lock scaling at all and thus avoid such "
+"problems. It is enough to add the following meta-tag to the page's "
+"header:"
+msgstr ""
+
+#: ../developers.rst:678 ../developers.rst:685
+msgid "sensor"
+msgstr ""
+
+#: ../developers.rst:685
+msgid "manifold"
+msgstr ""
+

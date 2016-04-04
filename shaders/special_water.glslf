@@ -539,13 +539,21 @@ void main(void) {
     premultiply_alpha(color, alpha);
 #endif
 
-#if DEBUG_WIREFRAME
+#if DEBUG_WIREFRAME == 1
 	#extension GL_OES_standard_derivatives: enable
 	vec3 derivatives = fwidth(v_barycentric);
 	vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
 	float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);
 	edge_factor = clamp(edge_factor, 0.0, 1.0);
 
+    color = mix(u_wireframe_edge_color, color, edge_factor);
+    alpha = mix(1.0, alpha, edge_factor);
+#elif DEBUG_WIREFRAME == 2
+    // extension is unsupported
+	vec3 dist = sign(v_barycentric - vec3(0.02 * WIREFRAME_WIDTH));
+    float edge_factor = 1.0;
+    if (dist.x < 0.0 || dist.y < 0.0 || dist.z < 0.0)
+        edge_factor = 0.0;
     color = mix(u_wireframe_edge_color, color, edge_factor);
     alpha = mix(1.0, alpha, edge_factor);
 #endif

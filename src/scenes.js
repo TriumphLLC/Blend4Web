@@ -340,14 +340,13 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.ssao_params       = extract_ssao_params(bpy_scene);
 
     var materials_params     = get_material_params(bpy_mesh_objs)
-    render.materials_params  = materials_params;
     render.refractions       = check_refraction(bpy_scene, materials_params);
     render.shadow_params     = extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs);
     render.water_params      = get_water_params(bpy_mesh_objs);
     render.xray              = check_xray_materials(bpy_mesh_objs);
     render.soft_particles    = check_soft_particles(bpy_mesh_objs);
     render.shore_smoothing   = check_shore_smoothing(bpy_mesh_objs);
-    render.dynamic_grass     = check_dynamic_grass(bpy_mesh_objs);
+    render.dynamic_grass     = check_dynamic_grass(bpy_scene, bpy_mesh_objs);
     render.color_picking     = check_selectable_objects(bpy_scene, bpy_mesh_objs);
     render.outline           = check_outlining_objects(bpy_scene, bpy_mesh_objs);
     render.glow_materials    = check_glow_materials(bpy_scene, bpy_mesh_objs);
@@ -439,7 +438,7 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
         m_obj_util.scene_data_set_active(scene_objects[i], true, bpy_scene);
 
     var canvas_container_elem = m_cont.get_container();
-    m_cont.resize(canvas_container_elem.clientWidth, 
+    m_cont.resize(canvas_container_elem.clientWidth,
             canvas_container_elem.clientHeight, true);
 }
 
@@ -1028,9 +1027,19 @@ function get_world_fog_set(world) {
  * at least one terrain material
  * at least one HAIR particle system (settings) with dynamic grass enabled
  */
-function check_dynamic_grass(bpy_objects) {
+function check_dynamic_grass(bpy_scene, bpy_objects) {
+
     if (!cfg_def.dynamic_grass)
         return false;
+
+    switch (bpy_scene["b4w_render_dynamic_grass"]) {
+    case "OFF":
+        return false;
+    case "ON":
+        return true;
+    case "AUTO":
+        // process objects
+    }
 
     var has_terrain = false;
     var has_dyn_grass = false;
@@ -1211,7 +1220,7 @@ exports.generate_auxiliary_batches = function(graph) {
 
         case "GOD_RAYS_COMBINE":
 
-            var subs_input = m_scgraph.find_input(graph, subs, "RESOLVE") || 
+            var subs_input = m_scgraph.find_input(graph, subs, "RESOLVE") ||
                              m_scgraph.find_input(graph, subs, "WIREFRAME") ||
                              m_scgraph.find_input(graph, subs, "MAIN_BLEND");
 
@@ -1557,7 +1566,7 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
         connect_textures(graph, subs, batch);
         check_batch_textures_number(batch);
     }
-    
+
     // first sort by blend then by offset_z
     var sort_fun = function(a, b) {
         if (a == b) return 0;
@@ -1565,7 +1574,7 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
     }
     var sort_fun_double = function(a, b) {
         if (a.batch && b.batch)
-            return -sort_fun(a.batch.blend, b.batch.blend) || 
+            return -sort_fun(a.batch.blend, b.batch.blend) ||
                    -sort_fun(a.batch.alpha_clip, b.batch.alpha_clip) ||
                    sort_fun(a.batch.offset_z, b.batch.offset_z);
         else
@@ -1647,7 +1656,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             var sun_num = 0;
             for (var i = 0; i < ltypes.length; i++)
                 if (ltypes[i] == "SUN")
-                    sun_num = i;    
+                    sun_num = i;
 
             m_shaders.set_directive(shaders_info, "SUN_NUM", sun_num);
         }
@@ -1758,9 +1767,9 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     }
 
     if (batch.type == "PARTICLES") {
-        m_shaders.set_directive(shaders_info, "SIZE_RAMP_LENGTH", 
+        m_shaders.set_directive(shaders_info, "SIZE_RAMP_LENGTH",
                 batch.particles_data.size_ramp_length);
-        m_shaders.set_directive(shaders_info, "COLOR_RAMP_LENGTH", 
+        m_shaders.set_directive(shaders_info, "COLOR_RAMP_LENGTH",
                 batch.particles_data.color_ramp_length);
     }
 
@@ -1952,7 +1961,7 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
             var num_lfac = num_lights % 2 == 0 ? num_lights / 2:
                                                  Math.floor(num_lights / 2) + 1;
             m_batch.set_batch_directive(batch, "NUM_LFACTORS", num_lfac);
-            
+
             m_shaders.set_directive(batch.shaders_info, "SHADOW_USAGE", "SHADOW_CASTING");
 
             if (batch.dynamic_grass && subs_grass_map)
@@ -2082,7 +2091,7 @@ exports.update_shadow_billboard_view = function(cam, graph) {
             var eye = m_tsr.get_trans_view(cam_main.world_tsr);
             m_tsr.set_trans(eye, subs.camera.world_tsr);
             // NOTE: inherit view_tsr from main camera
-            m_tsr.copy(cam_main.view_tsr, 
+            m_tsr.copy(cam_main.view_tsr,
                     subs.camera.shadow_cast_billboard_view_tsr);
         }
     });
@@ -2153,7 +2162,7 @@ function update_subs_shadow(subs, scene, cam_main, cast_bundles, sh_params,
                 m_tsr.from_mat4(cam.view_matrix, cam.view_tsr);
             }
             bb_view = correct_bb_proportions(bb_view);
-            
+
             // NOTE: it's not optimal method to update shadow cam quat
             // on shadow receive subs
             update_shadow_receive_subs(subs, scene._render.graph);
@@ -2440,7 +2449,8 @@ function change_visibility_rec(obj, hide) {
 
     for (var i = 0; i < obj.scenes_data.length; i++) {
 
-        var scene_objects = m_obj.get_scene_objs(obj.scenes_data[i].scene, "ALL", -1);
+        var scene_objects = m_obj.get_scene_objs(obj.scenes_data[i].scene,
+                                                 "ALL", m_obj.DATA_ID_ALL);
         for (var j = 0; j < scene_objects.length; j++)
             if (scene_objects[j].parent == obj)
                 change_visibility_rec(scene_objects[j], hide);
@@ -2720,7 +2730,7 @@ exports.make_frustum_shot = function(cam, subscene, color) {
     var radius = render.bs_world.radius;
     render.be_world = render.be_local = m_bounds.create_bounding_ellipsoid(
             [radius, 0, 0], [0, radius, 0], [0, 0, radius],
-            render.bs_world.center)
+            render.bs_world.center, [0, 0, 0, 1])
 
     var batch = m_batch.create_shadeless_batch(submesh, color, 0.5);
 
@@ -3460,7 +3470,7 @@ exports.get_wind_params = function(scene) {
     if (length == 0)
         return null;
 
-    var angle = Math.atan2(wind[0], wind[2]) * 180 / Math.PI;
+    var angle = m_util.rad_to_deg(Math.atan2(wind[0], wind[2]));
 
     var wind_params = {};
     wind_params.wind_dir = angle;
@@ -3733,12 +3743,12 @@ exports.update = function(timeline, elapsed) {
                 start_frame -= FRAME_EPS;
             var end_frame = m_tex.video_get_end_frame(vtex);
 
-            // NOTE: if frame_duration + frame_offset is bigger than the actual 
-            // video length, cycled non-NLA video won't consider frames at 
+            // NOTE: if frame_duration + frame_offset is bigger than the actual
+            // video length, cycled non-NLA video won't consider frames at
             // the end of the cycle
 
             // loop and initial reset
-            if (current_frame >= end_frame && vtex.use_cyclic 
+            if (current_frame >= end_frame && vtex.use_cyclic
                     || current_frame < start_frame) {
                 m_tex.reset_video(vtex.name, vtex.vtex_data_id);
                 if (seq_video)
@@ -3758,7 +3768,7 @@ exports.update = function(timeline, elapsed) {
                 if (video)
                     m_tex.update_video_texture(vtex);
                 else {
-                    var mark = m_tex.seq_video_get_discrete_timemark(vtex, 
+                    var mark = m_tex.seq_video_get_discrete_timemark(vtex,
                             timeline);
                     if (mark != vtex.seq_last_discrete_mark) {
                         m_tex.update_seq_video_texture(vtex);
@@ -4161,7 +4171,7 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
     for (var i = 0; i < scene_objs.length; i++) {
         var obj = scene_objs[i];
         var sc_data = m_obj_util.get_scene_data(obj, scene);
-        
+
         if (reflection_params)
             if (obj.render.plane_reflection_id != null) {
                 var plane_refl_subs = reflection_params.plane_refl_subs;
@@ -4215,6 +4225,42 @@ function get_cube_refl_id_by_subs(scene, subs) {
 
 exports.marker_frame = function(scene, name) {
     return scene["timeline_markers"][name];
+}
+
+exports.set_hmd_params = function(hmd_params) {
+    var active_scene = get_active();
+    var subs_stereo = get_subs(active_scene, "STEREO");
+
+    if (!subs_stereo)
+        return;
+
+    if (hmd_params.distortion_coefs) {
+        subs_stereo.distortion_params[0] = hmd_params.distortion_coefs[0];
+        subs_stereo.distortion_params[1] = hmd_params.distortion_coefs[1];
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params.chromatic_aberration_coefs) {
+        subs_stereo.chromatic_aberration_coefs[0] = hmd_params.chromatic_aberration_coefs[0];
+        subs_stereo.chromatic_aberration_coefs[1] = hmd_params.chromatic_aberration_coefs[1];
+        subs_stereo.chromatic_aberration_coefs[2] = hmd_params.chromatic_aberration_coefs[2];
+        subs_stereo.chromatic_aberration_coefs[3] = hmd_params.chromatic_aberration_coefs[3];
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params.base_line_factor) {
+        subs_stereo.distortion_params[2] = hmd_params.base_line_factor;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+    if (hmd_params.inter_lens_factor) {
+        subs_stereo.distortion_params[3] = hmd_params.inter_lens_factor;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
+
+    if (hmd_params.enable_hmd_stereo) {
+        subs_stereo.enable_hmd_stereo = hmd_params.enable_hmd_stereo;
+        subs_stereo.need_perm_uniforms_update = true;
+    }
 }
 
 }

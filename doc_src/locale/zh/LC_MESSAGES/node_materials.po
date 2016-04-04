@@ -1,0 +1,909 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../node_materials.rst:7
+msgid "Node Materials"
+msgstr ""
+
+#: ../node_materials.rst
+msgid "Table of Content"
+msgstr ""
+
+#: ../node_materials.rst:14
+msgid ""
+"Shader nodes extend significantly the potential of Blender’s standard "
+"materials by means of presenting shading as a batch of basic "
+"transformations."
+msgstr ""
+
+#: ../node_materials.rst:24
+msgid "Standard Nodes"
+msgstr ""
+
+#: ../node_materials.rst:28
+msgid ""
+"Blend4Web supports all standard Blender nodes, but some of them do not "
+"work fast enough and are not recommended to use in real time "
+"applications. Creating very complex materials, especially using large "
+"numbers of ``Geometry`` and ``Texture`` nodes, is also not recommended."
+msgstr ""
+
+#: ../node_materials.rst:30
+msgid ""
+"Cycles nodes are only partially supported: in most cases they will not "
+"work in Blend4Web the same way they do in Blender. They also might not "
+"work at all or even cause material in which they are used to work "
+"incorrectly. However, using Cycles nodes will not cause instabilities in "
+"the application workflow."
+msgstr ""
+
+#: ../node_materials.rst:36
+msgid "Standard node performance and degree of support is described in the table."
+msgstr ""
+
+#: ../node_materials.rst:39
+msgid "Node's Name"
+msgstr ""
+
+#: ../node_materials.rst:39
+msgid "Function"
+msgstr ""
+
+#: ../node_materials.rst:39
+msgid "Support"
+msgstr ""
+
+#: ../node_materials.rst:39
+msgid "Performance"
+msgstr ""
+
+#: ../node_materials.rst:41
+msgid "Camera Data"
+msgstr ""
+
+#: ../node_materials.rst:41
+msgid "Used to obtain data from an active camera"
+msgstr ""
+
+#: ../node_materials.rst:41 ../node_materials.rst:49 ../node_materials.rst:53
+#: ../node_materials.rst:65 ../node_materials.rst:72 ../node_materials.rst:76
+#: ../node_materials.rst:82 ../node_materials.rst:85 ../node_materials.rst:89
+#: ../node_materials.rst:93 ../node_materials.rst:103 ../node_materials.rst:106
+#: ../node_materials.rst:113 ../node_materials.rst:115
+#: ../node_materials.rst:118 ../node_materials.rst:121
+#: ../node_materials.rst:125 ../node_materials.rst:129
+#: ../node_materials.rst:132 ../node_materials.rst:136
+#: ../node_materials.rst:139 ../node_materials.rst:142
+msgid "Full"
+msgstr ""
+
+#: ../node_materials.rst:41 ../node_materials.rst:44 ../node_materials.rst:49
+#: ../node_materials.rst:58 ../node_materials.rst:78 ../node_materials.rst:82
+#: ../node_materials.rst:85 ../node_materials.rst:106 ../node_materials.rst:109
+#: ../node_materials.rst:115 ../node_materials.rst:139
+msgid "Average"
+msgstr ""
+
+#: ../node_materials.rst:44
+msgid "ColorRamp"
+msgstr ""
+
+#: ../node_materials.rst:44
+msgid "Used to generate gradient"
+msgstr ""
+
+#: ../node_materials.rst:45
+msgid ""
+"``B-Spline``, ``Cardinal`` and ``Ease`` interpolation modes are not "
+"supported"
+msgstr ""
+
+#: ../node_materials.rst:49
+msgid "Combine HSV"
+msgstr ""
+
+#: ../node_materials.rst:49
+msgid "Combines a color from the given Hue, Value and Saturation"
+msgstr ""
+
+#: ../node_materials.rst:53
+msgid "Combine RGB"
+msgstr ""
+
+#: ../node_materials.rst:53
+msgid "Combines a color from the given red, green and blue channel values"
+msgstr ""
+
+#: ../node_materials.rst:53 ../node_materials.rst:65 ../node_materials.rst:76
+#: ../node_materials.rst:89 ../node_materials.rst:103 ../node_materials.rst:113
+#: ../node_materials.rst:118 ../node_materials.rst:121
+#: ../node_materials.rst:125 ../node_materials.rst:129
+#: ../node_materials.rst:136 ../node_materials.rst:142
+msgid "High"
+msgstr ""
+
+#: ../node_materials.rst:58
+msgid "Extended Material"
+msgstr ""
+
+#: ../node_materials.rst:58
+msgid ""
+"Used to add a material to the node program. Has more input and output "
+"channels than the basic ``Material`` node"
+msgstr ""
+
+#: ../node_materials.rst:60
+msgid ""
+"``Ambient`` and ``SpecTra`` inputs are not supported. ``AO`` output is "
+"not supported."
+msgstr ""
+
+#: ../node_materials.rst:65
+msgid "Gamma"
+msgstr ""
+
+#: ../node_materials.rst:65
+msgid "Used to set gamma of a given color"
+msgstr ""
+
+#: ../node_materials.rst:68
+msgid "Geometry"
+msgstr ""
+
+#: ../node_materials.rst:68
+msgid "Used to obtain information about object's geometry"
+msgstr ""
+
+#: ../node_materials.rst:68
+msgid "``Vertex Alpha`` output is not supported"
+msgstr ""
+
+#: ../node_materials.rst:68 ../node_materials.rst:132
+msgid "Using large numbers of these nodes is not recommended"
+msgstr ""
+
+#: ../node_materials.rst:72
+msgid "Hue/Saturation"
+msgstr ""
+
+#: ../node_materials.rst:72
+msgid "Used to control Hue and Saturation of a given color"
+msgstr ""
+
+#: ../node_materials.rst:72
+msgid "Low"
+msgstr ""
+
+#: ../node_materials.rst:76
+msgid "Invert"
+msgstr ""
+
+#: ../node_materials.rst:76
+msgid "Inverts a given color"
+msgstr ""
+
+#: ../node_materials.rst:78
+msgid "Lamp Data"
+msgstr ""
+
+#: ../node_materials.rst:78
+msgid "Used to obtain information from a given light source"
+msgstr ""
+
+#: ../node_materials.rst:78
+msgid "``Shadow`` output is not supported"
+msgstr ""
+
+#: ../node_materials.rst:82
+msgid "Mapping"
+msgstr ""
+
+#: ../node_materials.rst:82
+msgid "Used to transform texture coordinates"
+msgstr ""
+
+#: ../node_materials.rst:85
+msgid "Material"
+msgstr ""
+
+#: ../node_materials.rst:85
+msgid "Used to add a standard material to the node program"
+msgstr ""
+
+#: ../node_materials.rst:89
+msgid "Math"
+msgstr ""
+
+#: ../node_materials.rst:89
+msgid "Used to perform mathematical operations with given values"
+msgstr ""
+
+#: ../node_materials.rst:93
+msgid "MixRGB"
+msgstr ""
+
+#: ../node_materials.rst:93
+msgid "Mixes two given colors"
+msgstr ""
+
+#: ../node_materials.rst:93
+msgid ""
+"Low in the ``Burn``, ``Dodge``, ``Value``, ``Saturation``, ``Hue`` and "
+"``Color`` modes, high in the rest of the modes"
+msgstr ""
+
+#: ../node_materials.rst:103
+msgid "Normal"
+msgstr ""
+
+#: ../node_materials.rst:103
+msgid "Used to generate a normal vector"
+msgstr ""
+
+#: ../node_materials.rst:106
+msgid "Output"
+msgstr ""
+
+#: ../node_materials.rst:106
+msgid "Outputs the result of the node program"
+msgstr ""
+
+#: ../node_materials.rst:109
+msgid "Particle Info"
+msgstr ""
+
+#: ../node_materials.rst:109
+msgid "Used to obtain information about particle system"
+msgstr ""
+
+#: ../node_materials.rst:109
+msgid "In the materials of the ``Emitter`` type particle systems"
+msgstr ""
+
+#: ../node_materials.rst:113
+msgid "RGB"
+msgstr ""
+
+#: ../node_materials.rst:113
+msgid "Generates an RGB color"
+msgstr ""
+
+#: ../node_materials.rst:115
+msgid "RGB Curves"
+msgstr ""
+
+#: ../node_materials.rst:115
+msgid "Sets a curve to modify a given color"
+msgstr ""
+
+#: ../node_materials.rst:118
+msgid "RGB to BW"
+msgstr ""
+
+#: ../node_materials.rst:118
+msgid "Desaturates a given RGB color"
+msgstr ""
+
+#: ../node_materials.rst:121
+msgid "Separate HSV"
+msgstr ""
+
+#: ../node_materials.rst:121
+msgid "Separates a given color into Hue, Saturation and Value"
+msgstr ""
+
+#: ../node_materials.rst:125
+msgid "Separave RGB"
+msgstr ""
+
+#: ../node_materials.rst:125
+msgid "Separates a given color into red, green and blue channels"
+msgstr ""
+
+#: ../node_materials.rst:129
+msgid "Squeeze Value"
+msgstr ""
+
+#: ../node_materials.rst:129
+msgid "Squeezes given value"
+msgstr ""
+
+#: ../node_materials.rst:132
+msgid "Texture"
+msgstr ""
+
+#: ../node_materials.rst:132
+msgid "Sets a texture"
+msgstr ""
+
+#: ../node_materials.rst:136
+msgid "Value"
+msgstr ""
+
+#: ../node_materials.rst:136
+msgid "Generates a numeric value"
+msgstr ""
+
+#: ../node_materials.rst:139
+msgid "Vector Curves"
+msgstr ""
+
+#: ../node_materials.rst:139
+msgid "Sets a curve to modify a given vector"
+msgstr ""
+
+#: ../node_materials.rst:142
+msgid "Vector Math"
+msgstr ""
+
+#: ../node_materials.rst:142
+msgid "Used to perform mathematical operations with two given vectors"
+msgstr ""
+
+#: ../node_materials.rst:151
+msgid ""
+"Standard node performance and degree of support is described in the "
+"`table <https://www.blend4web.com/doc/ru/node_materials.html#node-"
+"performance>`_."
+msgstr ""
+
+#: ../node_materials.rst:156
+msgid "Engine Specific Nodes"
+msgstr ""
+
+#: ../node_materials.rst:160
+msgid ""
+"Engine-specific nodes extend functionality of the standard nodes to "
+"support extra features. These nodes are created as node groups (``Node "
+"Groups`` or ``Node Tree``) with specially determined names and input "
+"formats. For convenience, all special nodes are added to a blend file "
+"when it is opened."
+msgstr ""
+
+#: ../node_materials.rst:169
+msgid "Replace (B4W_REPLACE)"
+msgstr ""
+
+#: ../node_materials.rst:171
+msgid ""
+"The node replaces the inputs depending on the working environment (i.e. "
+"Blender viewport or Blend4Web). When working in Blender the ``Color1`` "
+"input is connected to the ``Color`` output and the ``Color2`` input is "
+"ignored. On the contrary when working in the engine the inputs are "
+"interchanged (the ``Color1`` one is ignored and the ``Color2`` one is "
+"connected to the output). The node is intended to display one node "
+"structure in the viewport and another - in the engine."
+msgstr ""
+
+#: ../node_materials.rst:177
+msgid ""
+"As a rule it is used for normal mapping. Blender’s node materials do not "
+"support a tangent space of coordinates. Therefore the only possible "
+"method to display normal maps in the viewport correctly is their usage "
+"inside the ``Material`` nodes."
+msgstr ""
+
+#: ../node_materials.rst:180 ../node_materials.rst:206
+#: ../node_materials.rst:229 ../node_materials.rst:253
+#: ../node_materials.rst:276 ../node_materials.rst:311
+#: ../node_materials.rst:361 ../node_materials.rst:396
+#: ../node_materials.rst:426 ../node_materials.rst:460
+#: ../node_materials.rst:487
+msgid "Input Parameters"
+msgstr ""
+
+#: ../node_materials.rst:183
+msgid "*Color1*"
+msgstr ""
+
+#: ../node_materials.rst:183
+msgid "Node setup that will be visible in the Blender viewport."
+msgstr ""
+
+#: ../node_materials.rst:186
+msgid "*Color2*"
+msgstr ""
+
+#: ../node_materials.rst:186
+msgid "Node setup that will be visible in the Blend4Web engine."
+msgstr ""
+
+#: ../node_materials.rst:189 ../node_materials.rst:212
+#: ../node_materials.rst:234 ../node_materials.rst:259
+#: ../node_materials.rst:294 ../node_materials.rst:340
+#: ../node_materials.rst:372 ../node_materials.rst:408
+#: ../node_materials.rst:439 ../node_materials.rst:496
+msgid "Output Parameters"
+msgstr ""
+
+#: ../node_materials.rst:192 ../node_materials.rst:314
+#: ../node_materials.rst:375 ../node_materials.rst:412
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:192
+msgid ""
+"Should be connected to the ``Color`` socket of the ``Material`` or "
+"``Extended Material`` node."
+msgstr ""
+
+#: ../node_materials.rst:197
+msgid "Clamp (B4W_CLAMP)"
+msgstr ""
+
+#: ../node_materials.rst:199
+msgid ""
+"The node limits the output value. As a result all the output vector "
+"components take values from 0 to 1 inclusive."
+msgstr ""
+
+#: ../node_materials.rst:209 ../node_materials.rst:216
+msgid "*Image*"
+msgstr ""
+
+#: ../node_materials.rst:209
+msgid "Incident vector."
+msgstr ""
+
+#: ../node_materials.rst:215
+msgid "Clamped vector."
+msgstr ""
+
+#: ../node_materials.rst:221
+msgid "Time (B4W_TIME)"
+msgstr ""
+
+#: ../node_materials.rst:223
+msgid ""
+"Provides the timeline counting from the engine start (in seconds). Can be"
+" used for animating any parameters in node materials, such as UV "
+"coordinates, mixing factors, transparency etc."
+msgstr ""
+
+#: ../node_materials.rst:231
+msgid "None."
+msgstr ""
+
+#: ../node_materials.rst:237 ../node_materials.rst:429
+#: ../node_materials.rst:442
+msgid "*Value*"
+msgstr ""
+
+#: ../node_materials.rst:237
+msgid "Time (in seconds) elapsed from the engine startup."
+msgstr ""
+
+#: ../node_materials.rst:239
+msgid ":ref:`node_anim`"
+msgstr ""
+
+#: ../node_materials.rst:244
+msgid "Vector View (B4W_VECTOR_VIEW)"
+msgstr ""
+
+#: ../node_materials.rst:246
+msgid ""
+"The node transforms a vector into the camera’s space of coordinates. "
+"Transformation is necessary because the engine defines most of vectors in"
+" the world space of coordinates. If normal vector is being transformed by"
+" this node it should be used only for effects and not for connecting to "
+"the output of the ``Material`` or ``Extended Material`` nodes."
+msgstr ""
+
+#: ../node_materials.rst:256 ../node_materials.rst:262
+#: ../node_materials.rst:490 ../node_materials.rst:493
+#: ../node_materials.rst:499
+msgid "*Vector*"
+msgstr ""
+
+#: ../node_materials.rst:256
+msgid "Vector coordinates in the world-space."
+msgstr ""
+
+#: ../node_materials.rst:262
+msgid "Vector coordinates in the camera-space."
+msgstr ""
+
+#: ../node_materials.rst:267
+msgid "Parallax (B4W_PARALLAX)"
+msgstr ""
+
+#: ../node_materials.rst:269
+msgid "The node implements the texture coordinates offset using a height map."
+msgstr ""
+
+#: ../node_materials.rst:279 ../node_materials.rst:297
+msgid "*UV*"
+msgstr ""
+
+#: ../node_materials.rst:279
+msgid "Source texture coordinates."
+msgstr ""
+
+#: ../node_materials.rst:282
+msgid "*Height Map*"
+msgstr ""
+
+#: ../node_materials.rst:282
+msgid "RGBA texture with a height map packed into the alpha channel."
+msgstr ""
+
+#: ../node_materials.rst:285
+msgid "*Scale*"
+msgstr ""
+
+#: ../node_materials.rst:285
+msgid "Texture coordinates offset factor."
+msgstr ""
+
+#: ../node_materials.rst:288
+msgid "*Steps*"
+msgstr ""
+
+#: ../node_materials.rst:288
+msgid ""
+"The number of steps for iterative generation of texture coordinates "
+"offset. The bigger this value is the better is the final quality."
+msgstr ""
+
+#: ../node_materials.rst:291
+msgid "*Lod Distance*"
+msgstr ""
+
+#: ../node_materials.rst:291
+msgid "Maximum distance from camera at which the effect is observed."
+msgstr ""
+
+#: ../node_materials.rst:297
+msgid ""
+"Resulting texture coordinates which are used as input for the texture "
+"nodes."
+msgstr ""
+
+#: ../node_materials.rst:302
+msgid "Translucency (B4W_TRANSLUCENCY)"
+msgstr ""
+
+#: ../node_materials.rst:304
+msgid ""
+"The node implements a translucency effect (with respect to light sources "
+"only) for thin objects such as cloth, leaves, paper etc. The effect "
+"consists of two parts: 1) brightening of the object side which is "
+"opposite to the light source and 2) appearance of a light spot right in "
+"the light source place."
+msgstr ""
+
+#: ../node_materials.rst:314
+msgid ""
+"One-channel texture which defines material heterogeneity - the white "
+"color denotes maximum translucency effect while the black color denotes "
+"its absence. White color is used by default."
+msgstr ""
+
+#: ../node_materials.rst:323
+msgid "*Backside Factor*"
+msgstr ""
+
+#: ../node_materials.rst:317
+msgid ""
+"Material color correction coefficient for the side which is opposite to "
+"the light source. It describes the color richness effect for the "
+"translucent areas."
+msgstr ""
+
+#: ../node_materials.rst:319
+msgid "*Backside Factor < 1* - brightening"
+msgstr ""
+
+#: ../node_materials.rst:320
+msgid "*Backside Factor = 1* - no correction"
+msgstr ""
+
+#: ../node_materials.rst:321
+msgid "*Backside Factor > 1* - darkening"
+msgstr ""
+
+#: ../node_materials.rst:323 ../node_materials.rst:337
+msgid "The default value is 1."
+msgstr ""
+
+#: ../node_materials.rst:326
+msgid "*Spot Hardness*"
+msgstr ""
+
+#: ../node_materials.rst:326
+msgid ""
+"Light spot blurring factor. The bigger this value is the smaller is the "
+"spot and the sharper are the spot edges. The default value is 1000."
+msgstr ""
+
+#: ../node_materials.rst:329
+msgid "*Spot Intensity*"
+msgstr ""
+
+#: ../node_materials.rst:329
+msgid ""
+"Light spot intesity. The bigger this value is the brighter is the light "
+"spot. The default value is 1."
+msgstr ""
+
+#: ../node_materials.rst:337
+msgid "*Spot Diffuse Factor*"
+msgstr ""
+
+#: ../node_materials.rst:332
+msgid "Material diffuse color influence on the light spot color."
+msgstr ""
+
+#: ../node_materials.rst:334
+msgid "*Spot Diffuse Factor = 0* - the light spot has the diffuse color"
+msgstr ""
+
+#: ../node_materials.rst:335
+msgid "*Spot Diffuse Factor = 1* - the light spot color is white"
+msgstr ""
+
+#: ../node_materials.rst:343
+msgid "*Translucency*"
+msgstr ""
+
+#: ../node_materials.rst:343
+msgid ""
+"The output should be connected to the ``Translucency`` input of the "
+"``Extended Material`` node."
+msgstr ""
+
+#: ../node_materials.rst:347
+msgid ""
+"This node can work incorrectly, if the :ref:`mesh normals were edited "
+"<normals_editor>`."
+msgstr ""
+
+#: ../node_materials.rst:352
+msgid "Refraction (B4W_REFRACTION)"
+msgstr ""
+
+#: ../node_materials.rst:354
+msgid ""
+"Applies refraction effect to an object. This effect works only in the "
+"Blend4Web engine and not in the Blender’s viewport."
+msgstr ""
+
+#: ../node_materials.rst:364
+msgid "*Normal*"
+msgstr ""
+
+#: ../node_materials.rst:364
+msgid "Normal map for adding perturbations."
+msgstr ""
+
+#: ../node_materials.rst:369
+msgid "*Refraction Bump*"
+msgstr ""
+
+#: ../node_materials.rst:367
+msgid "Value of perturbation strength."
+msgstr ""
+
+#: ../node_materials.rst:369
+msgid "The default value is 0.001."
+msgstr ""
+
+#: ../node_materials.rst:375
+msgid "Rendered texture behind object with perturbations."
+msgstr ""
+
+#: ../node_materials.rst:379
+msgid ""
+"It’s neccessary to set the ``Refractions`` option from the ``Render > "
+"Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The "
+"object’s transparency type must be set to ``Alpha Blend``."
+msgstr ""
+
+#: ../node_materials.rst:380
+msgid ":ref:`alpha_blend`"
+msgstr ""
+
+#: ../node_materials.rst:385
+msgid "Levels of Quality (B4W_LEVELS_OF_QUALITY)"
+msgstr ""
+
+#: ../node_materials.rst:387
+msgid ""
+"Sets up the output color based on the current image quality settings. Can"
+" be used to, for example, replace complex material with more simple one "
+"if the application is running on a mobile device."
+msgstr ""
+
+#: ../node_materials.rst:393
+msgid ":ref:`quality_settings`"
+msgstr ""
+
+#: ../node_materials.rst:399
+msgid "*HIGH*"
+msgstr ""
+
+#: ../node_materials.rst:399
+msgid ""
+"Node links this parameter to ``Color`` parameter in case of high and "
+"maximum quality usage."
+msgstr ""
+
+#: ../node_materials.rst:402
+msgid "*LOW*"
+msgstr ""
+
+#: ../node_materials.rst:402
+msgid ""
+"Node links this parameter to ``Color`` parameter in case of low quality "
+"usage."
+msgstr ""
+
+#: ../node_materials.rst:405
+msgid "*Fac*"
+msgstr ""
+
+#: ../node_materials.rst:405
+msgid ""
+"This value specifies what quality setting (``HIGH`` or ``LOW``) will be "
+"visible in the Blender viewport. Can change from 0 to 1. If the value is "
+"lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or "
+"higher, the ``LOW`` setting will be visible."
+msgstr ""
+
+#: ../node_materials.rst:411
+msgid "Output color."
+msgstr ""
+
+#: ../node_materials.rst:417
+msgid "Smoothstep (B4W_SMOOTHSTEP)"
+msgstr ""
+
+#: ../node_materials.rst:419
+msgid ""
+"Performs smooth interpolation between two input values based on first "
+"value."
+msgstr ""
+
+#: ../node_materials.rst:429
+msgid "Value which determines interpolation smoothness."
+msgstr ""
+
+#: ../node_materials.rst:432
+msgid "*Edge0*"
+msgstr ""
+
+#: ../node_materials.rst:432
+msgid "First interpolation value."
+msgstr ""
+
+#: ../node_materials.rst:436
+msgid "*Edge1*"
+msgstr ""
+
+#: ../node_materials.rst:435
+msgid "Second interpolation value."
+msgstr ""
+
+#: ../node_materials.rst:442
+msgid "Interpolated value."
+msgstr ""
+
+#: ../node_materials.rst:445
+msgid ""
+"For the correct interpolation input ``Value`` had to be between ``Edge0``"
+" and ``Edge1``."
+msgstr ""
+
+#: ../node_materials.rst:451
+msgid "Glow Output (B4W_GLOW_OUTPUT)"
+msgstr ""
+
+#: ../node_materials.rst:453
+msgid ""
+"Applies the :ref:`Glow effect <glow>` to the node material. Besides the "
+"*B4W_GLOW_OUTPUT* node, the node material should have the *Output* node."
+msgstr ""
+
+#: ../node_materials.rst:463
+msgid "*Glow Color*"
+msgstr ""
+
+#: ../node_materials.rst:463
+msgid "Glow color."
+msgstr ""
+
+#: ../node_materials.rst:469
+msgid "*Factor*"
+msgstr ""
+
+#: ../node_materials.rst:466
+msgid "Glow ratio. *Factor* :math:`\\in [0, 1]`."
+msgstr ""
+
+#: ../node_materials.rst:468
+msgid "*Factor = 0* - no glow."
+msgstr ""
+
+#: ../node_materials.rst:469
+msgid "*Factor* :math:`\\in (0, 1]` - there is a glow, colored with *Glow Color*."
+msgstr ""
+
+#: ../node_materials.rst:473
+msgid ""
+"The ``Transparency->Type`` parameters of the material don’t affect "
+"behavior of the glow effect. It always corresponds to the transparent "
+"material (not the ``Alpha Clip`` type)."
+msgstr ""
+
+#: ../node_materials.rst:478
+msgid "Reflect (B4W_REFLECT)"
+msgstr ""
+
+#: ../node_materials.rst:480
+msgid ""
+"Calculates the reflection direction for an incident vector and a normal "
+"vector. Can be used to apply a cubemap to an object."
+msgstr ""
+
+#: ../node_materials.rst:490
+msgid ""
+"Incident vector. Should be connected to the ``View`` socket of the "
+"``Geometry`` node."
+msgstr ""
+
+#: ../node_materials.rst:493
+msgid ""
+"Normal vector. Should be normalized in order to achieve the desired "
+"result. Should be connected to the ``Normal`` socket of the ``Geometry`` "
+"node."
+msgstr ""
+
+#: ../node_materials.rst:499
+msgid ""
+"Reflected vector. Should be connected to the ``Vector`` socket of the "
+"``Texture`` node that contains the cubemap."
+msgstr ""
+
+#: ../node_materials.rst:504
+msgid "Linear to SRGB and SRGB to Linear (Deprecated)"
+msgstr ""
+
+#: ../node_materials.rst:506
+msgid ""
+"Converts colors from linear space to sRGB or vice versa. This function "
+"has been declared deprecated sicne the version 15.04. In the newer "
+"versions, the native ``Gamma`` node with the value of 2.200 should be "
+"used to convert color from sRGB to linear space, and the same node with "
+"the value of 0.455 to convert color from linear space to sRGB."
+msgstr ""
+
+#: ../node_materials.rst:512
+msgid ":ref:`gamma_node_materials`"
+msgstr ""
+
+#: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:158
+msgid "materials"
+msgstr ""
+
+#: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:158
+msgid "nodes"
+msgstr ""
+

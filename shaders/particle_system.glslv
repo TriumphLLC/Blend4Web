@@ -68,8 +68,10 @@ uniform sampler2D u_color_ramp_tex;
                                    VARYINGS
 ============================================================================*/
 
-#if !HALO_PARTICLES && !NODES
+#if !NODES
+# if !HALO_PARTICLES
 varying float v_alpha;
+# endif
 varying vec3 v_color;
 #endif
 
@@ -170,23 +172,21 @@ void main(void) {
 
 #if NODES
 
-vec3 normal = a_normal;
-
 # if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
     vec3 tangent = vec3(a_tangent);
-    vec3 binormal = a_tangent[3] * cross(normal, tangent);
+    vec3 binormal = a_tangent[3] * cross(a_normal, tangent);
 # else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
 # endif
 
-    vertex world = to_world(vec3(0.0), vec3(0.0), tangent, binormal, normal,
+    vertex world = to_world(vec3(0.0), vec3(0.0), tangent, binormal, vec3(0.0),
             bb_matrix * rotation_z(rotation_angle));
 
 
 # if TEXTURE_NORM_CO || CALC_TBN_SPACE
     // calculate handedness as described in Math for 3D GP and CG, page 185
-    float m = (dot(cross(world.normal, world.tangent),
+    float m = (dot(cross(a_normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
 
     v_tangent = vec4(world.tangent, m);
@@ -194,7 +194,7 @@ vec3 normal = a_normal;
 
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
-    v_normal = world.normal;
+    v_normal = a_normal;
 # endif
 
     nodes_main(pp.position, pp.velocity, pp.ang_velocity, pp.age, pp.size,
@@ -210,9 +210,8 @@ vec3 normal = a_normal;
     v_texcoord = a_p_bb_vertex * 2.0;
 # else
     v_alpha = pp.alpha;
-    v_color = pp.color;
 # endif
-
+    v_color = pp.color;
 #endif //NODES
 
 #if SOFT_PARTICLES

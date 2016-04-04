@@ -53,4 +53,11 @@ exports.GOLEM_PATROL_MAP = [[1, 7, 11], [0, 2, 3], [1, 4], [1, 8],
                             [23, 25, 27], [24, 26, 27], [22, 25, 30], [24, 25, 28],
                             [27, 29], [28, 30, 31], [7, 26, 29], [29, 5]
                             ];
+exports.MUSIC_INTRO_SPEAKER = ["level_02_enviroment", "level_02_bm_intro"];
+exports.MUSIC_END_SPEAKER = ["level_02_enviroment", "level_02_bm_end"];
+
+exports.MUSIC_SPEAKERS = [["level_02_enviroment", "level_02_bm_loop_A"],
+                          ["level_02_enviroment", "level_02_bm_loop_B"],
+                          ["level_02_enviroment", "level_02_bm_loop_F"]];
+
 })

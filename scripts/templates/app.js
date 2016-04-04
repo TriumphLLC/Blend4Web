@@ -58,7 +58,6 @@ function load_cb(data_id, success) {
         return;
     }
 
-    m_app.enable_controls();
     m_app.enable_camera_controls();
 
     // place your code here

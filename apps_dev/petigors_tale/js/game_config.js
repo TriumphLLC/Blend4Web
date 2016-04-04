@@ -38,7 +38,7 @@ exports.CHAR_SPHERE = "lava_shield_prot";
 exports.CHAR_SWORD_SWITCHER = "flaming_sword_switcher";
 
 exports.MOUSE_ROT_MULT = 2;
-exports.TOUCH_ROT_MULT = 0.01;
+exports.TOUCH_ROT_MULT = 0.007;
 exports.CAM_SOFTNESS = 0.2;
 exports.CAM_OFFSET = new Float32Array([0, 8, -15]);
 exports.CHAR_RAY_LENGTH = 1.2;
@@ -98,6 +98,7 @@ exports.GOLEM_ATTACK_STRENGTH = 20;
 exports.GOLEM_ATTACK_ANIM_FRAME = 30;
 exports.GOLEMS_SPAWN_INTERVAL = 3;
 exports.GOLEM_HP = 100;
+exports.STONE_GOLEMS_SP_MULT = 1.5;
 
 // golem state
 exports.GS_WALKING = 0;
@@ -124,9 +125,12 @@ exports.STONE_GOLEM_EMITTER = ["golem_stone_getout", "golem_stone_getout_emitter
 exports.HP_BONUSES_EMPTIES = ["potion_hp", "potion_hp.001", "potion_hp.002"];
 exports.SHIELD_BONUSES_EMPTIES = ["potion_def"];
 exports.LAVA_BONUSES_EMPTIES = ["potion_lava"];
+exports.CAMERA_INDICTAOR = ["camera_indicator", "camera_indicator"];
+exports.CAM_INDICATOR_VAL = "mask_switcher";
 
 // sounds
 exports.CHAR_RUN_SPEAKER = "speaker_petigor_run";
+exports.CHAR_WIN_SPEAKER = "character_win_voice";
 exports.CHAR_ATTACK_SPEAKER = "speaker_petigor_sword_miss";
 exports.CHAR_ATTACK_VOICE_SPKS = ["speaker_petigor_voice_atack_01",
                                  "speaker_petigor_voice_atack_02",

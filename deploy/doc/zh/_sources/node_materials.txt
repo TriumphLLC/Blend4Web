@@ -1,0 +1,460 @@
+
+Node Materials
+**************
+
+
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* Node Materials
+
+  * Standard Nodes
+
+  * Engine Specific Nodes
+
+    * Replace (B4W_REPLACE)
+
+    * Clamp (B4W_CLAMP)
+
+    * Time (B4W_TIME)
+
+    * Vector View (B4W_VECTOR_VIEW)
+
+    * Parallax (B4W_PARALLAX)
+
+    * Translucency (B4W_TRANSLUCENCY)
+
+    * Refraction (B4W_REFRACTION)
+
+    * Levels of Quality (B4W_LEVELS_OF_QUALITY)
+
+    * Smoothstep (B4W_SMOOTHSTEP)
+
+    * Glow Output (B4W_GLOW_OUTPUT)
+
+    * Reflect (B4W_REFLECT)
+
+    * Linear to SRGB and SRGB to Linear (Deprecated)
+
+Shader nodes extend significantly the potential of Blender’s standard
+materials by means of presenting shading as a batch of basic
+transformations.
+
+[图片]
+
+
+Standard Nodes
+==============
+
+Blend4Web supports all standard Blender nodes, but some of them do not
+work fast enough and are not recommended to use in real time
+applications. Creating very complex materials, especially using large
+numbers of "Geometry" and "Texture" nodes, is also not recommended.
+
+Cycles nodes are only partially supported: in most cases they will not
+work in Blend4Web the same way they do in Blender. They also might not
+work at all or even cause material in which they are used to work
+incorrectly. However, using Cycles nodes will not cause instabilities
+in the application workflow.
+
+
+
+
+Engine Specific Nodes
+=====================
+
+Engine-specific nodes extend functionality of the standard nodes to
+support extra features. These nodes are created as node groups ("Node
+Groups" or "Node Tree") with specially determined names and input
+formats. For convenience, all special nodes are added to a blend file
+when it is opened.
+
+[图片]
+
+
+Replace (B4W_REPLACE)
+---------------------
+
+The node replaces the inputs depending on the working environment
+(i.e. Blender viewport or Blend4Web). When working in Blender the
+"Color1" input is connected to the "Color" output and the "Color2"
+input is ignored. On the contrary when working in the engine the
+inputs are interchanged (the "Color1" one is ignored and the "Color2"
+one is connected to the output). The node is intended to display one
+node structure in the viewport and another - in the engine.
+
+[图片]
+
+As a rule it is used for normal mapping. Blender’s node materials do
+not support a tangent space of coordinates. Therefore the only
+possible method to display normal maps in the viewport correctly is
+their usage inside the "Material" nodes.
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Color1*
+   Node setup that will be visible in the Blender viewport.
+
+*Color2*
+   Node setup that will be visible in the Blend4Web engine.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Color*
+   Should be connected to the "Color" socket of the "Material" or
+   "Extended Material" node.
+
+
+Clamp (B4W_CLAMP)
+-----------------
+
+The node limits the output value. As a result all the output vector
+components take values from 0 to 1 inclusive.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Image*
+   Incident vector.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Image*
+   Clamped vector.
+
+
+Time (B4W_TIME)
+---------------
+
+Provides the timeline counting from the engine start (in seconds). Can
+be used for animating any parameters in node materials, such as UV
+coordinates, mixing factors, transparency etc.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+None.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Value*
+   Time (in seconds) elapsed from the engine startup.
+
+参见: Animation of Value and RGB Nodes
+
+
+Vector View (B4W_VECTOR_VIEW)
+-----------------------------
+
+The node transforms a vector into the camera’s space of coordinates.
+Transformation is necessary because the engine defines most of vectors
+in the world space of coordinates. If normal vector is being
+transformed by this node it should be used only for effects and not
+for connecting to the output of the "Material" or "Extended Material"
+nodes.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Vector*
+   Vector coordinates in the world-space.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Vector*
+   Vector coordinates in the camera-space.
+
+
+Parallax (B4W_PARALLAX)
+-----------------------
+
+The node implements the texture coordinates offset using a height map.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*UV*
+   Source texture coordinates.
+
+*Height Map*
+   RGBA texture with a height map packed into the alpha channel.
+
+*Scale*
+   Texture coordinates offset factor.
+
+*Steps*
+   The number of steps for iterative generation of texture coordinates
+   offset. The bigger this value is the better is the final quality.
+
+*Lod Distance*
+   Maximum distance from camera at which the effect is observed.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*UV*
+   Resulting texture coordinates which are used as input for the
+   texture nodes.
+
+
+Translucency (B4W_TRANSLUCENCY)
+-------------------------------
+
+The node implements a translucency effect (with respect to light
+sources only) for thin objects such as cloth, leaves, paper etc. The
+effect consists of two parts: 1) brightening of the object side which
+is opposite to the light source and 2) appearance of a light spot
+right in the light source place.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Color*
+   One-channel texture which defines material heterogeneity - the
+   white color denotes maximum translucency effect while the black
+   color denotes its absence. White color is used by default.
+
+*Backside Factor*
+   Material color correction coefficient for the side which is
+   opposite to the light source. It describes the color richness
+   effect for the translucent areas.
+
+   * *Backside Factor < 1* - brightening
+
+   * *Backside Factor = 1* - no correction
+
+   * *Backside Factor > 1* - darkening
+
+   The default value is 1.
+
+*Spot Hardness*
+   Light spot blurring factor. The bigger this value is the smaller is
+   the spot and the sharper are the spot edges. The default value is
+   1000.
+
+*Spot Intensity*
+   Light spot intesity. The bigger this value is the brighter is the
+   light spot. The default value is 1.
+
+*Spot Diffuse Factor*
+   Material diffuse color influence on the light spot color.
+
+   * *Spot Diffuse Factor = 0* - the light spot has the diffuse
+     color
+
+   * *Spot Diffuse Factor = 1* - the light spot color is white
+
+   The default value is 1.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Translucency*
+   The output should be connected to the "Translucency" input of the
+   "Extended Material" node.
+
+注解: This node can work incorrectly, if the mesh normals were
+  edited.
+
+
+Refraction (B4W_REFRACTION)
+---------------------------
+
+Applies refraction effect to an object. This effect works only in the
+Blend4Web engine and not in the Blender’s viewport.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Normal*
+   Normal map for adding perturbations.
+
+*Refraction Bump*
+   Value of perturbation strength.
+
+   The default value is 0.001.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Color*
+   Rendered texture behind object with perturbations.
+
+注解: It’s neccessary to set the "Refractions" option from the
+  "Render > Reflections and Refractions" panel to value "AUTO" or
+  "ON". The object’s transparency type must be set to "Alpha Blend".
+
+参见: Transparency
+
+
+Levels of Quality (B4W_LEVELS_OF_QUALITY)
+-----------------------------------------
+
+Sets up the output color based on the current image quality settings.
+Can be used to, for example, replace complex material with more simple
+one if the application is running on a mobile device.
+
+[图片]
+
+参见: Quality Profiles
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*HIGH*
+   Node links this parameter to "Color" parameter in case of high and
+   maximum quality usage.
+
+*LOW*
+   Node links this parameter to "Color" parameter in case of low
+   quality usage.
+
+*Fac*
+   This value specifies what quality setting ("HIGH" or "LOW") will be
+   visible in the Blender viewport. Can change from 0 to 1. If the
+   value is lower than 0.5, the "HIGH" setting will be visible, if it
+   is 0.5 or higher, the "LOW" setting will be visible.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Color*
+   Output color.
+
+
+Smoothstep (B4W_SMOOTHSTEP)
+---------------------------
+
+Performs smooth interpolation between two input values based on first
+value.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Value*
+   Value which determines interpolation smoothness.
+
+*Edge0*
+   First interpolation value.
+
+*Edge1*
+   Second interpolation value.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Value*
+   Interpolated value.
+
+注解: For the correct interpolation input "Value" had to be between
+  "Edge0" and "Edge1".
+
+
+Glow Output (B4W_GLOW_OUTPUT)
+-----------------------------
+
+Applies the Glow effect to the node material. Besides the
+*B4W_GLOW_OUTPUT* node, the node material should have the *Output*
+node.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Glow Color*
+   Glow color.
+
+*Factor*
+   Glow ratio. *Factor* \in [0, 1].
+
+   * *Factor = 0* - no glow.
+
+   * *Factor* \in (0, 1] - there is a glow, colored with *Glow
+     Color*.
+
+注解: The "Transparency->Type" parameters of the material don’t
+  affect behavior of the glow effect. It always corresponds to the
+  transparent material (not the "Alpha Clip" type).
+
+
+Reflect (B4W_REFLECT)
+---------------------
+
+Calculates the reflection direction for an incident vector and a
+normal vector. Can be used to apply a cubemap to an object.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Vector*
+   Incident vector. Should be connected to the "View" socket of the
+   "Geometry" node.
+
+*Vector*
+   Normal vector. Should be normalized in order to achieve the desired
+   result. Should be connected to the "Normal" socket of the
+   "Geometry" node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Vector*
+   Reflected vector. Should be connected to the "Vector" socket of the
+   "Texture" node that contains the cubemap.
+
+
+Linear to SRGB and SRGB to Linear (Deprecated)
+----------------------------------------------
+
+Converts colors from linear space to sRGB or vice versa. This function
+has been declared deprecated sicne the version 15.04. In the newer
+versions, the native "Gamma" node with the value of 2.200 should be
+used to convert color from sRGB to linear space, and the same node
+with the value of 0.455 to convert color from linear space to sRGB.
+
+[图片]
+
+参见: Gamma in Node Materials

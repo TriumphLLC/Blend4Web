@@ -1,0 +1,551 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"PO-Revision-Date: 2016-03-29 11:42+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../project_manager.rst:5 ../project_manager.rst:28
+msgid "Project Manager"
+msgstr "项目管理器"
+
+#: ../project_manager.rst
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../project_manager.rst:11
+msgid ""
+"Since version 15.09, the SDK includes a project managment feature, which "
+"makes it possible to:"
+msgstr "自版本 15.09，SDK 中包含一种项目管理功能，使它成为可能 ︰"
+
+#: ../project_manager.rst:13
+msgid "browse the full list and file structure of the projects;"
+msgstr "浏览完整列表和文件结构的项目;"
+
+#: ../project_manager.rst:15
+msgid ""
+"launch apps, run exported scenes in the Viewer, open source blend files "
+"in Blender;"
+msgstr "启动应用程序，在查看器中运行导出的场景，在Blender中打开blend文件;"
+
+#: ../project_manager.rst:17
+msgid ""
+"create and configure new apps, including those based on ready-made "
+"templates;"
+msgstr "创建和配置新的应用程序，包括那些基于现成的模板;"
+
+#: ../project_manager.rst:19
+msgid "build apps and pack them to be conveniently deployed on a remote server;"
+msgstr "构建应用程序和并打包方便地部署在远程的服务器;"
+
+#: ../project_manager.rst:21
+msgid ""
+"convert app resources (textures, audio and video files) into alternative "
+"formats to ensure cross-browser and cross-platform performance;"
+msgstr "将应用程序资源 （纹理、 音频和视频文件） 转换为其他格式，以确保跨浏览器和跨平台的性能;"
+
+#: ../project_manager.rst:23
+msgid ""
+"automatically re-export all scenes of an app, including export to JSON "
+"and HTML formats;"
+msgstr "自动重新导出应用程序的所有场景，包括导出到 JSON 和 HTML 格式;"
+
+#: ../project_manager.rst:25
+msgid "remove projects."
+msgstr "删除项目。"
+
+#: ../project_manager.rst:30
+msgid ""
+"The *Project Manager* app can be run from the *Tools* section of the "
+"SDK’s index page. Upon launching, the app outputs a list of all current "
+"projects in the SDK."
+msgstr "SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后，该应用程序将输出 SDK 中的所有当前项目列表。"
+
+#: ../project_manager.rst:32
+msgid "The commands for project management are located at the top of the page."
+msgstr "项目管理的命令位于页面的顶部。"
+
+#: ../project_manager.rst:39
+msgid "*Back to Index*"
+msgstr "*返回首页*"
+
+#: ../project_manager.rst:39
+msgid "Returns to the Blend4Web SDK index page."
+msgstr "返回到 Blend4Web SDK 索引页。"
+
+#: ../project_manager.rst:42
+msgid "*Create New Project*"
+msgstr "*新建工程*"
+
+#: ../project_manager.rst:42
+msgid "Opens the :ref:`project creation <create_new_project>` wizard."
+msgstr "打开  :ref:`项目创建 <create_new_project>` 向导。 "
+
+#: ../project_manager.rst:45
+msgid "*Import Project(s)*"
+msgstr "*导入项目*"
+
+#: ../project_manager.rst:45
+msgid "Opens the :ref:`project import <import_projects>` dialogue."
+msgstr "打开  :ref:`project import <import_projects>` 对话。"
+
+#: ../project_manager.rst:48 ../project_manager.rst:223
+msgid "*Export Project(s)*"
+msgstr "*导出项目*"
+
+#: ../project_manager.rst:48
+msgid "Opens the :ref:`project export <export_projects>` page."
+msgstr "打开 :ref:`project export <export_projects>`  页。 "
+
+#: ../project_manager.rst:51 ../project_manager.rst:217
+msgid "*Hide Stock Projects*"
+msgstr "*隐藏项目*"
+
+#: ../project_manager.rst:51
+msgid ""
+"Can be used to hide stock projects. If such projects are already hidden, "
+"this command is replaced with the ``Show Stock Projects`` command."
+msgstr "可以用来隐藏项目。如果已经隐藏了此类项目，则此命令替换 ``显示项目`` 命令。"
+
+#: ../project_manager.rst:55 ../project_manager.rst:137
+#: ../project_manager.rst:220
+msgid "*Help*"
+msgstr "*帮助*"
+
+#: ../project_manager.rst:54
+msgid "Opens the :ref:`Help file <app_building>`."
+msgstr "打开  :ref:`帮助文件 <app_building>`."
+
+#: ../project_manager.rst:57
+msgid "Commands for managing a specific project is located at its right."
+msgstr "用于管理特定项目的命令。"
+
+#: ../project_manager.rst:62
+msgid ""
+"Compile project (not available for WebPlayer JSON and WebPlayer HTML "
+"projects)."
+msgstr "编译项目 （WebPlayer JSON 和 WebPlayer HTML 项目不可用）。"
+
+#: ../project_manager.rst:63
+msgid "Re-export blend files from the project."
+msgstr "从项目重新导出blend文件。"
+
+#: ../project_manager.rst:64
+msgid "Convert media resources."
+msgstr "转换媒体资源。"
+
+#: ../project_manager.rst:65
+msgid "Export and download a project archive."
+msgstr "导出和下载项目档案。"
+
+#: ../project_manager.rst:66
+msgid "Remove the project."
+msgstr "移除项目"
+
+#: ../project_manager.rst:70
+msgid "All project paths are retreived from its .b4w_project file."
+msgstr "项目的所有路径都是从它的.b4w_project 文件中检索。"
+
+#: ../project_manager.rst:72
+msgid ""
+"Beside the project's name, a link to the :ref:`project information page  "
+"<project_info>` is located. The application type is also specified there."
+" An application can have one of the following types:"
+msgstr "该项目的名称旁边，有链接到 :ref:`项目信息页面  <project_info>` 。这里也指定应用程序类型。应用程序可以具有下列类型之一："
+
+#: ../project_manager.rst:75
+msgid "*Player*"
+msgstr "*播放器*"
+
+#: ../project_manager.rst:75
+msgid "The application can be played using the Web Player."
+msgstr "可以使用 Web 播放器播放应用程序。"
+
+#: ../project_manager.rst:78
+msgid "*Dev*"
+msgstr "*开发*"
+
+#: ../project_manager.rst:78
+msgid "Application for development."
+msgstr "开发中的应用。"
+
+#: ../project_manager.rst:82
+msgid "*Build*"
+msgstr "*构建*"
+
+#: ../project_manager.rst:81
+msgid "Compiled application."
+msgstr "编译应用程序。"
+
+#: ../project_manager.rst:87
+msgid "Project Creation Wizard"
+msgstr "项目创建向导"
+
+#: ../project_manager.rst:89
+msgid ""
+"The tool for creating new projects is included in the Project Management "
+"app and executed by the ``[Create New Project]`` button on the main page "
+"of this app."
+msgstr "该工具用于创建新的项目是列入项目管理应用程序中，由主页面上 ``[Create New Project]`` 按钮执行。"
+
+#: ../project_manager.rst:95
+msgid ""
+"The ``[Back to Projects]`` button can be used to return to the Project "
+"Manager's main page, while the ``[Help]`` button can be used to access "
+"the :ref:`Help file <create_new_project>`."
+msgstr ""
+"``[Back to Projects]`` 按钮可以用来返回到项目管理的主页面，而 ``[Help]`` 按钮可以用到访问 :ref:`帮助文件"
+"  <create_new_project>`."
+
+#: ../project_manager.rst:97
+msgid ""
+"Project name is used to name project directories such as "
+"\"apps_dev/project_name\", \"deploy/assets/project_name\", "
+"\"blender/project_name\" and \"deploy/apps/project_name\"."
+msgstr ""
+"项目名称习惯为 \"apps_dev/project_name\", \"deploy/assets/project_name\", "
+"\"blender/project_name\" and \"deploy/apps/project_name\" 等名称的项目目录。"
+
+#: ../project_manager.rst:98 ../project_manager.rst:146
+msgid "Project title as shown in the browser."
+msgstr "在浏览器中所示的项目标题。"
+
+#: ../project_manager.rst:99 ../project_manager.rst:238
+msgid "Project author’s name."
+msgstr "项目作者的名字。"
+
+#: ../project_manager.rst:100
+msgid ""
+"Add application templates. Standard application templates: html file, css"
+" file, js file will be added to the project directory "
+"\"apps_dev/project_name\"."
+msgstr ""
+"添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文件将添加到项目目录  "
+"\"apps_dev/project_name\"."
+
+#: ../project_manager.rst:101
+msgid ""
+"Add scene templates. Standard json file will be added to the "
+"\"deploy/assets/project_name\" directory; blend file will be added to the"
+" \"blender/project_name\" directory."
+msgstr ""
+"添加场景模板。标准的 json 文件将添加到 \"deploy/assets/project_name\" 目录;blend文件将添加到 "
+"\"blender/project_name\" 目录。"
+
+#: ../project_manager.rst:102
+msgid ""
+"Copy project manager script. The project.py script will be copied to the "
+"project directory."
+msgstr "复制项目管理脚本。Project.py 脚本将复制到项目目录。"
+
+#: ../project_manager.rst:103
+msgid ""
+"All project files will be located in the same directory. It is preferable"
+" to use this option in small projects, such as lessons and examples. Only"
+" \"update\" project type is available for this option."
+msgstr "所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课程和范例。只有 \"update\" 项目类型可以用此选项。"
+
+#: ../project_manager.rst:104
+msgid "Project’s type. Several options are available:"
+msgstr "项目的类型。有几个选项 ︰"
+
+#: ../project_manager.rst:106
+msgid ""
+"\"External\" - engine will be taken from the \"deploy/apps/common/\" "
+"directory. Only application files will be compiled;"
+msgstr "\"External\" - 引擎将取自 \"deploy/apps/common/\" 目录。只有应用程序文件将被编译;"
+
+#: ../project_manager.rst:107
+msgid ""
+"\"Copy\" - engine is copied into the compiled application directory. Only"
+" application files are compiled;"
+msgstr "\"Copy\" - 引擎复制到已编译的应用程序目录。只有应用程序文件进行编译;"
+
+#: ../project_manager.rst:108
+msgid "\"Compile\" - engine sources are compiled with application scripts;"
+msgstr "\"Compile\" -引擎源代码应用程序的脚本一同编译;"
+
+#: ../project_manager.rst:109
+msgid "\"Update\" - engine inside the project directory will be replaced;"
+msgstr "\"Update\" - 项目目录的引擎将被取代;"
+
+#: ../project_manager.rst:110
+msgid ""
+"\"Webplayer JSON\" - json-file placed inside the project is run with the "
+"help of web-player inside SDK;"
+msgstr "\"Webplayer JSON\" - 项目下的 json 文件通过SDK里的web播放器播放；"
+
+#: ../project_manager.rst:111
+msgid ""
+"\"Webplayer HTML\" - project is packed into single html-file, containing "
+"all required resources."
+msgstr "\"Webplayer HTML\" - 项目被打包到单独的 html 文件，包含所有所需的资源。"
+
+#: ../project_manager.rst:113
+msgid "Javascript optimization level."
+msgstr "Javascript 优化级别。"
+
+#: ../project_manager.rst:115
+msgid "\"Simple\" - variable names are replaced in the code;"
+msgstr "\"简单\"— — 变量的名称替换代码;"
+
+#: ../project_manager.rst:116
+msgid "\"Advanced\" - code optimization is performed;"
+msgstr "\"先进\"— — 进行了代码优化;"
+
+#: ../project_manager.rst:117
+msgid "\"Whitespace Only\" - only whitespaces are removed from the code."
+msgstr "\"空格\"— — 只有空格从代码中移除。"
+
+#: ../project_manager.rst:122
+msgid "Project Information"
+msgstr "项目信息"
+
+#: ../project_manager.rst:124
+msgid ""
+"This page contains information regarding the selected project and can be "
+"viewed by the ``[info]`` link beside the project's title."
+msgstr "此页包含有关选定项目的信息，可以在该项目的标题旁边的 ``[info]`` 链接查看。"
+
+#: ../project_manager.rst:131 ../project_manager.rst:211
+msgid "Commands"
+msgstr "命令"
+
+#: ../project_manager.rst:134 ../project_manager.rst:214
+msgid "*Back to Projects*"
+msgstr "*回到项目*"
+
+#: ../project_manager.rst:134
+msgid "Returns to the Project Manager's main page."
+msgstr "返回到项目管理的主页面。"
+
+#: ../project_manager.rst:137
+msgid "Opens the :ref:`Help file <project_info>`."
+msgstr "打开  :ref:`帮助文件 <project_info>`."
+
+#: ../project_manager.rst:140 ../project_manager.rst:226
+msgid "Project Parameters"
+msgstr "项目参数"
+
+#: ../project_manager.rst:143
+msgid "*Project Name*"
+msgstr "项目名称"
+
+#: ../project_manager.rst:143
+msgid "The name of the project."
+msgstr "项目名称"
+
+#: ../project_manager.rst:146
+msgid "*Project Title*"
+msgstr "项目的标题。"
+
+#: ../project_manager.rst:149
+msgid "*Project Author / Company*"
+msgstr "*项目作者 / 公司*"
+
+#: ../project_manager.rst:149
+msgid "The name of the project's author or the title of the developer company."
+msgstr "该项目的作者或开发商公司的名称。"
+
+#: ../project_manager.rst:152
+msgid "*Project Icon*"
+msgstr "*项目图标*"
+
+#: ../project_manager.rst:152
+msgid "The icon of the project."
+msgstr "该项目的图标。"
+
+#: ../project_manager.rst:155
+msgid "*Application*"
+msgstr "*应用程序*"
+
+#: ../project_manager.rst:155
+msgid "Application's main JSON file."
+msgstr "应用程序的主 JSON 文件。"
+
+#: ../project_manager.rst:158
+msgid "*Engine Binding Type*"
+msgstr "*引擎绑定类型*"
+
+#: ../project_manager.rst:158
+msgid "The type of the project."
+msgstr "设置项目类型"
+
+#: ../project_manager.rst:161
+msgid "*Project Path (Development Directory)*"
+msgstr "*项目路径 （开发目录）*"
+
+#: ../project_manager.rst:161
+msgid "Project's directory."
+msgstr "项目的目录。"
+
+#: ../project_manager.rst:164
+msgid "*Project Config*"
+msgstr "*项目配置*"
+
+#: ../project_manager.rst:164
+msgid "Project's config file."
+msgstr "项目的配置文件。"
+
+#: ../project_manager.rst:167
+msgid "*Build Directory*"
+msgstr "*构建目录*"
+
+#: ../project_manager.rst:167
+msgid "Project build folder."
+msgstr "项目构建文件夹。"
+
+#: ../project_manager.rst:170
+msgid "*Blend Directory(s)*"
+msgstr "*Blend 目录*"
+
+#: ../project_manager.rst:170
+msgid "Directories where project's blend files are located."
+msgstr "项目的blend文件目录的位置。"
+
+#: ../project_manager.rst:173
+msgid "*Assets Directory(s)*"
+msgstr "*资产目录*"
+
+#: ../project_manager.rst:173
+msgid "Directories where project's media assets are located."
+msgstr "项目的媒体资产所在的位置目录。"
+
+#: ../project_manager.rst:176
+msgid "*URL Params*"
+msgstr "*URL 参数*"
+
+#: ../project_manager.rst:176
+msgid ""
+"The list of :ref:`URL parameters <webplayer_attributes>` used to start "
+"the application."
+msgstr ":ref:`URL 参数 <webplayer_attributes>` 列表用来启动应用程序。"
+
+#: ../project_manager.rst:179
+msgid "*JavaScript Obfuscation Level*"
+msgstr "*JavaScript 混淆级别*"
+
+#: ../project_manager.rst:179
+#, fuzzy
+msgid "JavaScript optimization level."
+msgstr "Javascript 优化级别。"
+
+#: ../project_manager.rst:182
+msgid "*JavaScript Compilation Ignore List*"
+msgstr "*JavaScript 编译忽略列表*"
+
+#: ../project_manager.rst:182
+msgid "The list of exceptions for the project's script compilation."
+msgstr "项目脚本编译中的例外列表。"
+
+#: ../project_manager.rst:185
+msgid "*CSS Compilation Ignore List*"
+msgstr "*CSS 编译忽略列表*"
+
+#: ../project_manager.rst:185
+msgid "The list of exceptions for the projects style sheets compilation."
+msgstr "项目样式表编译中的例外列表。"
+
+#: ../project_manager.rst:188
+msgid "*Deployment Directory Assets Prefix*"
+msgstr "*部署目录资产前缀*"
+
+#: ../project_manager.rst:188
+msgid "The scene resource folder in the deployed application."
+msgstr "在部署的应用程序的场景资源文件夹。"
+
+#: ../project_manager.rst:193
+msgid "Project Import"
+msgstr "项目导入"
+
+#: ../project_manager.rst:195
+msgid ""
+"Tools for importing projects are avalible by the ``[Import Project(s)]`` "
+"link."
+msgstr "导入项目工具是在 ``[Import Project(s)]`` 链接"
+
+#: ../project_manager.rst:197
+msgid ""
+"Clicking this link opens standard Open File dialog where you can select "
+"the project you need to import."
+msgstr "点击该链接会打开标准的文件开启对话框，你可以选择需要导入的项目。"
+
+#: ../project_manager.rst:202
+msgid "Project Export"
+msgstr "项目导出"
+
+#: ../project_manager.rst:204
+msgid ""
+"Project exporting window can be accessed by the ``[Export Project(s)]`` "
+"link."
+msgstr "项目输出窗口可以通过 ``[Export Project(s)]`` 链接访问。"
+
+#: ../project_manager.rst:214
+#, fuzzy
+msgid "Returns to the Project Manager’s main page."
+msgstr "返回到项目管理的主页面。"
+
+#: ../project_manager.rst:217
+msgid ""
+"Hides stock projects. If such projects are already hidden, this command "
+"is replaced with the ``[Show Stock Projects]`` command."
+msgstr "隐藏项目。如果已经隐藏了此类项目，则此命令替换为   ``[显示项目]`` 命令。"
+
+#: ../project_manager.rst:220
+msgid "Shows the Help page."
+msgstr "显示帮助页。"
+
+#: ../project_manager.rst:223
+msgid "Can be used to export selected projects."
+msgstr "可以用来导出所选的项目。"
+
+#: ../project_manager.rst:229
+msgid "*Select*"
+msgstr "*选择*"
+
+#: ../project_manager.rst:229
+msgid "Shows if the project is selected for export."
+msgstr "显示项目是不是选择了要导出。"
+
+#: ../project_manager.rst:232
+msgid "*Name*"
+msgstr "*名字*"
+
+#: ../project_manager.rst:232
+msgid "The name of the project's directory."
+msgstr "该项目的目录的名称。"
+
+#: ../project_manager.rst:235
+msgid "*Title*"
+msgstr "*名称*"
+
+#: ../project_manager.rst:235
+msgid "Project's title."
+msgstr "项目的标题。"
+
+#: ../project_manager.rst:238
+msgid "*Author*"
+msgstr "*作者*"
+
+#: ../project_manager.rst:242
+msgid "*Archive Name*"
+msgstr "*档案名称*"
+
+#: ../project_manager.rst:241
+msgid "The name of an archive to which exported projects are packed."
+msgstr "导出的项目打包的档案名称。"
+
+

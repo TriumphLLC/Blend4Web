@@ -406,9 +406,9 @@ extern "C" {
 	CHECK_TYPE_INLINE(a, float), CHECK_TYPE_INLINE(b, float), \
 	((fabsf((float)((a) - (b))) >= (float) FLT_EPSILON) ? false : true))
 
-#define IS_EQT(a, b, c) ((a > b) ? ((((a) - (b)) <= c) ? 1 : 0) : (((((b) - (a)) <= c) ? 1 : 0)))
-#define IN_RANGE(a, b, c) ((b < c) ? ((b < a && a < c) ? 1 : 0) : ((c < a && a < b) ? 1 : 0))
-#define IN_RANGE_INCL(a, b, c) ((b < c) ? ((b <= a && a <= c) ? 1 : 0) : ((c <= a && a <= b) ? 1 : 0))
+#define IS_EQT(a, b, c)        (((a) > (b)) ? ((((a) - (b)) <= (c))) : (((((b) - (a)) <= (c)))))
+#define IN_RANGE(a, b, c)      (((b) < (c)) ? (((b) <  (a) && (a) <  (c))) : (((c) <  (a) && (a) <  (b))))
+#define IN_RANGE_INCL(a, b, c) (((b) < (c)) ? (((b) <= (a) && (a) <= (c))) : (((c) <= (a) && (a) <= (b))))
 
 /* unpack vector for args */
 #define UNPACK2(a)  ((a)[0]),   ((a)[1])
@@ -513,6 +513,17 @@ extern "C" {
 	       sizeof(*(struct_var)) - OFFSETOF_STRUCT(struct_var, member)); \
 } (void)0
 
+/* defined
+ * in memory_utils.c for now. I do not know where we should put it actually... */
+#ifndef __BLI_MEMORY_UTILS_H__
+extern bool BLI_memory_is_zero(const void *arr, const size_t arr_size);
+#endif
+
+#define MEMCMP_STRUCT_OFS_IS_ZERO(struct_var, member) \
+	(BLI_memory_is_zero( \
+	       (char *)(struct_var)  + OFFSETOF_STRUCT(struct_var, member), \
+	       sizeof(*(struct_var)) - OFFSETOF_STRUCT(struct_var, member)))
+
 /* Warning-free macros for storing ints in pointers. Use these _only_
  * for storing an int in a pointer, not a pointer in an int (64bit)! */
 #define SET_INT_IN_POINTER(i)    ((void *)(intptr_t)(i))
@@ -615,18 +626,6 @@ extern "C" {
 #  define UNUSED_VARS_NDEBUG(...)
 #else
 #  define UNUSED_VARS_NDEBUG UNUSED_VARS
-#endif
-
-/*little macro so inline keyword works*/
-#if defined(_MSC_VER)
-#  define BLI_INLINE static __forceinline
-#else
-#  if (defined(__APPLE__) && defined(__ppc__))
-/* static inline __attribute__ here breaks osx ppc gcc42 build */
-#    define BLI_INLINE static __attribute__((always_inline))
-#  else
-#    define BLI_INLINE static inline __attribute__((always_inline))
-#  endif
 #endif
 
 

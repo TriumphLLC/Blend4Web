@@ -27,6 +27,7 @@ b4w.module["__controls"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_cont  = require("__container");
+var m_input = require("__input");
 var m_obj   = require("__objects");
 var m_print = require("__print");
 var m_phy   = require("__physics");
@@ -44,24 +45,7 @@ var _global_object = {};
 
 var _sensors_cache = [];
 var _manifolds_cache = [];
-
-// for ST_MOUSE_WHEEL sensor
-var _wheel_delta = 0;
-
-// for ST_MOUSE_MOVE sensor
-var _mouse_curr_x = 0;
-var _mouse_curr_y = 0;
-var _mouse_last_x = 0;
-var _mouse_last_y = 0;
-
-// HACK: for touchscreen devices using IE11
-var _is_mouse_downed = false;
-
-// for ST_TOUCH_MOVE sensor; 2 points touch is supported
-var _touches_curr_x = new Float32Array(2);
-var _touches_curr_y = new Float32Array(2);
-var _touches_last_x = new Float32Array(2);
-var _touches_last_y = new Float32Array(2);
+var _accumulators_cache = [];
 
 var _vec2_tmp  = new Float32Array(2);
 var _vec2_tmp2 = new Float32Array(2);
@@ -69,27 +53,9 @@ var _vec2_tmp2 = new Float32Array(2);
 var _vec3_tmp = m_vec3.create();
 var _quat_tmp = m_quat.create();
 
-// for ST_TOUCH_ZOOM sensor
-var _touch_zoom_curr_dist = 0;
-var _touch_zoom_last_dist = 0;
-
-// for ST_TOUCH_ROTATE sensor
-var _touch_start_rot = 0;
-
 // flag and counter to maintain object cache and manifolds consistency
 var _manifolds_updated = false;
 var _update_counter = 0;
-
-var _prev_def_keyboard_events = false;
-var _prev_def_mouse_events = false;
-var _prev_def_wheel_events = false;
-var _prev_def_touch_events = false;
-var _allow_element_mouse_event = false;
-
-var _callback_keyboard_events = null;
-var _callback_mouse_events = null;
-var _callback_wheel_events = null;
-var _callback_touch_events = null;
 
 // sensor types for internal usage
 var ST_CUSTOM            = 10;
@@ -100,19 +66,21 @@ var ST_MOUSE_CLICK       = 50;
 var ST_TOUCH_MOVE        = 60;
 var ST_TOUCH_ZOOM        = 70;
 var ST_TOUCH_ROTATE      = 75;
-var ST_COLLISION         = 80;
-var ST_COLLISION_IMPULSE = 90;
-var ST_RAY               = 100;
-var ST_MOTION            = 110;
-var ST_V_VELOCITY        = 120;
-var ST_TIMER             = 130;
-var ST_ELAPSED           = 140;
-var ST_TIMELINE          = 150;
-var ST_SELECTION         = 160;
-var ST_GYRO_DELTA        = 170;
-var ST_GYRO_ANGLES       = 180;
-var ST_GYRO_QUAT         = 190;
-var ST_CALLBACK          = 200;
+var ST_TOUCH_CLICK       = 80;
+var ST_COLLISION         = 90;
+var ST_COLLISION_IMPULSE = 100;
+var ST_RAY               = 110;
+var ST_MOTION            = 120;
+var ST_V_VELOCITY        = 130;
+var ST_TIMER             = 140;
+var ST_ELAPSED           = 150;
+var ST_TIMELINE          = 160;
+var ST_SELECTION         = 170;
+var ST_GYRO_DELTA        = 180;
+var ST_GYRO_ANGLES       = 190;
+var ST_GYRO_QUAT         = 200;
+var ST_HMD_QUAT          = 210;
+var ST_CALLBACK          = 220;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -176,14 +144,20 @@ exports.update = function(timeline, elapsed) {
         }
     }
 
-    // update sensors global state after ALL callback exec
-    _wheel_delta = 0;
-    _mouse_last_x = _mouse_curr_x;
-    _mouse_last_y = _mouse_curr_y;
-    _touches_last_x.set(_touches_curr_x);
-    _touches_last_y.set(_touches_curr_y);
+    // update sensor accumulators state after ALL callback exec
+    for (var i = 0; i < _accumulators_cache.length; i++) {
+        var accum = _accumulators_cache[i];
 
-    _touch_zoom_last_dist = _touch_zoom_curr_dist;
+        accum.wheel_delta = 0;
+        // accum.selected_obj = null;
+        accum.mouse_last_x = accum.mouse_curr_x;
+        accum.mouse_last_y = accum.mouse_curr_y;
+        accum.downed_keys[0] = false;
+
+        accum.touches_last_x.set(accum.touches_curr_x);
+        accum.touches_last_y.set(accum.touches_curr_y);
+        accum.touch_zoom_last_dist = accum.touch_zoom_curr_dist;
+    }
 
     _update_counter++;
 }
@@ -194,11 +168,15 @@ exports.create_custom_sensor = function(value) {
     return sensor;
 }
 
-function init_sensor(type) {
+function init_sensor(type, element) {
+    if (!element)
+        element = m_cont.get_container();
+
     var sensor = {
         type: type,
         value: 0,
         payload: null,
+        element: element,
 
         do_activation: false,
 
@@ -255,14 +233,6 @@ function init_sensor(type) {
         // for ST_SELECTION
         auto_release: false,
 
-        // for ST_GYRO_DELTA and ST_GYRO_ANGLES sensor
-        gyro_gamma_new : 0.0,
-        gyro_beta_new : 0.0,
-        gyro_alpha_new : 0.0,
-        gyro_gamma_last : 0.0,
-        gyro_beta_last : 0.0,
-        gyro_alpha_last : 0.0,
-
         // for ST_CALLBACK
         callback: function() {}
     };
@@ -270,9 +240,344 @@ function init_sensor(type) {
     return sensor;
 }
 
+function get_accumulator(element) {
+    if (!element)
+        element = m_cont.get_container();
+
+    for (var i = 0; i < _accumulators_cache.length; i++)
+        if (element == _accumulators_cache[i].element)
+            return _accumulators_cache[i];
+
+    var accumulator = {
+        element: element,
+
+        is_mouse_downed: false,
+        is_touch_ended: true,
+        // for ST_MOUSE_MOVE sensor
+        mouse_last_x: 0,
+        mouse_last_y: 0,
+        mouse_curr_x: 0,
+        mouse_curr_y: 0,
+
+        // for ST_TOUCH_MOVE sensor
+        touches_last_x: new Float32Array(2),
+        touches_curr_x: new Float32Array(2),
+        touches_last_y: new Float32Array(2),
+        touches_curr_y: new Float32Array(2),
+        touch_zoom_curr_dist: 0,
+        touch_zoom_last_dist: 0,
+        touch_start_rot: 0,
+
+        // for ST_KEYBOARD sensor
+        downed_keys: {},
+
+        // for ST_MOUSE_WHEEL sensor
+        wheel_delta: 0,
+
+        // for ST_SELECTION sensor
+        selected_obj: null,
+
+        // for ST_GYRO_QUAT sensor
+        gyro_quat: m_quat.create(),
+
+        // for ST_GYRO_ANGLES, ST_GYRO_DELTA sensor
+        gyro_gamma_new : 0.0,
+        gyro_beta_new : 0.0,
+        gyro_alpha_new : 0.0,
+
+        // for ST_GYRO_DELTA sensor
+        gyro_gamma_last : 0.0,
+        gyro_beta_last : 0.0,
+        gyro_alpha_last : -1000,
+
+        // callbacks
+        orientation_quat_cb: null,
+        orientation_angles_cb: null,
+        mouse_wheel_cb: null,
+        mouse_down_which_cb: null,
+        mouse_select_cb: null,
+        touch_select_cb: null,
+        mouse_up_which_cb: null,
+        mouse_location_cb: null,
+        keyboard_downed_keys_cb: null,
+        touch_start_cb: null,
+        touch_move_cb: null,
+        touch_end_cb: null,
+
+        registered_accum_values: {},
+    };
+
+    accumulator.orientation_quat_cb = function(quat) {
+        m_quat.copy(quat, accumulator.gyro_quat);
+    }
+
+    accumulator.orientation_angles_cb = function(quat) {
+        var euler_angles = m_vec3.copy(quat, _vec3_tmp);
+        accumulator.gyro_alpha_new = euler_angles[0];
+        accumulator.gyro_beta_new = euler_angles[1];
+        accumulator.gyro_gamma_new = euler_angles[2];
+
+        if (accumulator.gyro_alpha_last == -1000) {
+            accumulator.gyro_alpha_last = euler_angles[0];
+            accumulator.gyro_beta_last = euler_angles[1];
+            accumulator.gyro_gamma_last = euler_angles[2];
+        }
+    }
+
+    accumulator.mouse_wheel_cb = function(wd) {
+        // accumulated
+        accumulator.wheel_delta += wd * cfg_ctl.mouse_wheel_notch_multiplier;
+    }
+
+    accumulator.mouse_down_which_cb = function(wd) {
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accumulator.element);
+        var loc = m_input.get_vector_param(device, m_input.MOUSE_LOCATION, _vec2_tmp);
+        accumulator.mouse_last_x = loc[0];
+        accumulator.mouse_last_y = loc[1];
+        accumulator.mouse_curr_x = loc[0];
+        accumulator.mouse_curr_y = loc[1];
+        accumulator.is_mouse_downed = true;
+        accumulator.which = wd;
+    }
+
+    accumulator.mouse_select_cb = function(wd) {
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accumulator.element);
+        var loc = m_input.get_vector_param(device, m_input.MOUSE_LOCATION, _vec2_tmp);
+        var canvas_xy = m_cont.client_to_canvas_coords(loc[0], loc[1], _vec2_tmp);
+        accumulator.selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
+    }
+
+    accumulator.touch_select_cb = function(touches) {
+        if (touches.length == 1) {
+            var canvas_xy = m_cont.client_to_canvas_coords(
+                    touches[0].clientX, touches[0].clientY, _vec2_tmp);
+            accumulator.selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
+        }
+    }
+
+    accumulator.mouse_up_which_cb = function(wd) {
+        accumulator.is_mouse_downed = false;
+    }
+
+    accumulator.mouse_location_cb = function(location) {
+        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.is_mouse_downed) {
+            accumulator.mouse_curr_x = location[0];
+            accumulator.mouse_curr_y = location[1];
+        }
+    }
+
+    accumulator.keyboard_down_keys_cb = function(key) {
+        // accumulator.downed_keys[key] = true;
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
+
+            if (sensor.type == ST_KEYBOARD && key == sensor.key)
+                sensor_set_value(sensor, 1);
+        }
+    }
+
+    accumulator.keyboard_up_keys_cb = function(key) {
+        // accumulator.downed_keys[key] = false;
+        for (var i = 0; i < _sensors_cache.length; i++) {
+            var sensor = _sensors_cache[i];
+
+            // NOTE: hack to prevent wrong keyup with chrome/webkit
+            if (sensor.type == ST_KEYBOARD && key == 0 &&
+                    sensor.key == KEY_SHIFT)
+                sensor_set_value(sensor, 0);
+
+            if (sensor.type == ST_KEYBOARD && key == sensor.key)
+                sensor_set_value(sensor, 0);
+        }
+    }
+
+    accumulator.touch_start_cb = function(touches) {
+        accumulator.is_touch_ended = false;
+
+        if (touches.length == 1) {
+            // reset coords from last touch session
+            accumulator.touches_last_x[0] = touches[0].clientX;
+            accumulator.touches_last_x[1] = -1;
+            accumulator.touches_last_y[0] = touches[0].clientY;
+            accumulator.touches_last_y[1] = -1;
+
+        } else if (touches.length > 1) {
+            var zoom_dist = touch_zoom_dist(touches);
+            accumulator.touch_zoom_curr_dist = accumulator.touch_zoom_last_dist = zoom_dist;
+
+            // reset coords from last touch session
+            accumulator.touches_last_x[0] = touches[0].clientX;
+            accumulator.touches_last_x[1] = touches[1].clientX;
+            accumulator.touches_last_y[0] = touches[0].clientY;
+            accumulator.touches_last_y[1] = touches[1].clientY;
+
+            accumulator.touch_start_rot = touch_rotation(touches);
+        }
+
+        // reset coords from last touch session
+        accumulator.touches_curr_x.set(accumulator.touches_last_x);
+        accumulator.touches_curr_y.set(accumulator.touches_last_y);
+    }
+
+    accumulator.touch_move_cb = function(touches) {
+        if (touches.length === 1) { // panning
+            accumulator.touches_curr_x[0] = touches[0].clientX;
+            accumulator.touches_curr_x[1] = -1;
+            accumulator.touches_curr_y[0] = touches[0].clientY;
+            accumulator.touches_curr_y[1] = -1;
+        } else if (touches.length > 1) {
+            accumulator.touches_curr_x[0] = touches[0].clientX;
+            accumulator.touches_curr_x[1] = touches[1].clientX;
+            accumulator.touches_curr_y[0] = touches[0].clientY;
+            accumulator.touches_curr_y[1] = touches[1].clientY;
+
+            var zoom_dist = touch_zoom_dist(touches);
+
+            accumulator.touch_zoom_curr_dist = zoom_dist;
+        }
+    }
+
+    accumulator.touch_end_cb = function(touches) {
+        if (touches.length == 0)
+            accumulator.is_touch_ended = true;
+    }
+
+    _accumulators_cache.push(accumulator);
+    return accumulator;
+}
+
+function register_accum_value(accum, value_name) {
+    if (value_name in accum.registered_accum_values &&
+            accum.registered_accum_values[value_name] > 0) {
+        accum.registered_accum_values[value_name] += 1
+        return;
+    }
+
+    accum.registered_accum_values[value_name] = 1;
+    switch (value_name) {
+    case "orientation_quat":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+        m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, accum.orientation_quat_cb);
+        break;
+    case "orientation_angles":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+        m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, accum.orientation_angles_cb);
+        break;
+    case "mouse_wheel":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.attach_param_cb(device, m_input.MOUSE_WHEEL, accum.mouse_wheel_cb);
+        break;
+    case "mouse_down_which":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_down_which_cb);
+        break;
+    case "mouse_select":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_select_cb);
+        break;
+    case "touch_select":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.attach_param_cb(device, m_input.TOUCH_START, accum.touch_select_cb);
+        break;
+    case "mouse_up_which":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, accum.mouse_up_which_cb);
+        break;
+    case "mouse_location":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, accum.mouse_location_cb);
+        break;
+    case "keyboard_downed_keys":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD, accum.element);
+        m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN, accum.keyboard_down_keys_cb);
+        m_input.attach_param_cb(device, m_input.KEYBOARD_UP, accum.keyboard_up_keys_cb);
+        break;
+    case "touch_start":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.attach_param_cb(device, m_input.TOUCH_START, accum.touch_start_cb);
+        break;
+    case "touch_move":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.attach_param_cb(device, m_input.TOUCH_MOVE, accum.touch_move_cb);
+        break;
+    case "touch_end":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.attach_param_cb(device, m_input.TOUCH_END, accum.touch_end_cb);
+        break;
+    }
+}
+
+function unregister_accum_value(accum, value_name) {
+    if (!value_name in accum.registered_accum_values)
+        return
+    else
+        if (accum.registered_accum_values[value_name] > 0) {
+            accum.registered_accum_values[value_name] -= 1;
+            if (accum.registered_accum_values[value_name])
+                return;
+        } else
+            return;
+
+    switch (value_name) {
+    case "orientation_quat":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+        m_input.detach_param_cb(device, "orientation_quat", accum.orientation_quat_cb);
+        break;
+    case "orientation_angles":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+        m_input.detach_param_cb(device, "orientation_angles", accum.orientation_angles_cb);
+        break;
+    case "mouse_wheel":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.detach_param_cb(device, "mouse_wheel", accum.mouse_wheel_cb);
+        break;
+    case "mouse_down_which":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.detach_param_cb(device, "mouse_down_which", accum.mouse_down_which_cb);
+        break;
+    case "mouse_select":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.detach_param_cb(device, "mouse_down_which", accum.mouse_select_cb);
+        break;
+    case "touch_select":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.detach_param_cb(device, "touch_start", accum.touch_select_cb);
+        break;
+    case "mouse_up_which":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.detach_param_cb(device, "mouse_up_which", accum.mouse_up_which_cb);
+        break;
+    case "mouse_location":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
+        m_input.detach_param_cb(device, "mouse_location", accum.mouse_location_cb);
+        break;
+    case "keyboard_downed_keys":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD, accum.element);
+        m_input.detach_param_cb(device, "keyboard_down", accum.keyboard_down_keys_cb);
+        m_input.detach_param_cb(device, "keyboard_up", accum.keyboard_up_keys_cb);
+        break;
+    case "touch_start":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.detach_param_cb(device, "touch_start", accum.touch_start_cb);
+        break;
+    case "touch_move":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.detach_param_cb(device, "touch_move", accum.touch_move_cb);
+        break;
+    case "touch_end":
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
+        m_input.detach_param_cb(device, "touch_end", accum.touch_end_cb);
+        break;
+    }
+}
+
 exports.create_keyboard_sensor = function(key) {
-    var sensor = init_sensor(ST_KEYBOARD);
+    var element = document;
+    var sensor = init_sensor(ST_KEYBOARD, element);
     sensor.key = key;
+    sensor.do_activation = true;
     return sensor;
 }
 
@@ -301,7 +606,7 @@ exports.create_collision_sensor = function(obj, collision_id,
         var payload = sensor.payload;
 
         payload.coll_obj = coll_obj;
-        
+
         if (sensor.calc_pos_norm) {
             payload.coll_pos.set(coll_pos);
             payload.coll_norm.set(coll_norm);
@@ -329,7 +634,7 @@ exports.create_collision_impulse_sensor = function(obj) {
     return sensor;
 }
 
-exports.create_ray_sensor = function(obj_src, from, to, collision_id, 
+exports.create_ray_sensor = function(obj_src, from, to, collision_id,
         is_binary_value, calc_pos_norm, ign_src_rot) {
 
     var sensor = init_sensor(ST_RAY);
@@ -371,39 +676,52 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
     return sensor;
 }
 
-exports.create_mouse_click_sensor = function() {
-    var sensor = init_sensor(ST_MOUSE_CLICK);
+exports.create_mouse_click_sensor = function(element) {
+    var sensor = init_sensor(ST_MOUSE_CLICK, element);
+    sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_mouse_wheel_sensor = function() {
-    var sensor = init_sensor(ST_MOUSE_WHEEL);
+exports.create_mouse_wheel_sensor = function(element) {
+    var sensor = init_sensor(ST_MOUSE_WHEEL, element);
+    sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_mouse_move_sensor = function(axis) {
-    var sensor = init_sensor(ST_MOUSE_MOVE);
+exports.create_mouse_move_sensor = function(axis, element) {
+    var sensor = init_sensor(ST_MOUSE_MOVE, element);
     sensor.axis = axis || "XY";
     sensor.payload = (sensor.axis == "XY") ? new Float32Array(2) : 0;
+    sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_touch_move_sensor = function(axis) {
-    var sensor = init_sensor(ST_TOUCH_MOVE);
+exports.create_touch_move_sensor = function(axis, element) {
+    var sensor = init_sensor(ST_TOUCH_MOVE, element);
     sensor.axis = axis || "XY";
     sensor.payload = 0;
+    sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_touch_zoom_sensor = function() {
-    var sensor = init_sensor(ST_TOUCH_ZOOM);
+exports.create_touch_zoom_sensor = function(element) {
+    var sensor = init_sensor(ST_TOUCH_ZOOM, element);
     sensor.payload = 0;
+    sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_touch_rotate_sensor = function(axis) {
-    var sensor = init_sensor(ST_TOUCH_ROTATE);
+exports.create_touch_rotate_sensor = function(element) {
+    var sensor = init_sensor(ST_TOUCH_ROTATE, element);
     sensor.payload = 0;
+    sensor.do_activation = true;
+    return sensor;
+}
+
+exports.create_touch_click_sensor = function(element) {
+    var sensor = init_sensor(ST_TOUCH_CLICK, element);
+    sensor.payload = 0;
+    sensor.do_activation = true;
     return sensor;
 }
 
@@ -501,20 +819,50 @@ exports.create_elapsed_sensor = function() {
 }
 
 exports.create_gyro_delta_sensor = function() {
-    var sensor = init_sensor(ST_GYRO_DELTA);
+    var sensor = init_sensor(ST_GYRO_DELTA, window);
     sensor.payload = new Float32Array(3);
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+    if (device)
+        sensor_set_value(sensor, 1);
+    else
+        sensor_set_value(sensor, 0);
+    sensor.do_activation = true;
     return sensor;
 }
 
 exports.create_gyro_angles_sensor = function() {
-    var sensor = init_sensor(ST_GYRO_ANGLES);
+    var sensor = init_sensor(ST_GYRO_ANGLES, window);
     sensor.payload = new Float32Array(3);
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+    if (device)
+        sensor_set_value(sensor, 1);
+    else
+        sensor_set_value(sensor, 0);
+    sensor.do_activation = true;
     return sensor;
 }
 
 exports.create_gyro_quat_sensor = function() {
-    var sensor = init_sensor(ST_GYRO_QUAT);
+    var sensor = init_sensor(ST_GYRO_QUAT, window);
     sensor.payload = m_quat.create();
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+    if (device)
+        sensor_set_value(sensor, 1);
+    else
+        sensor_set_value(sensor, 0);
+    sensor.do_activation = true;
+    return sensor;
+}
+
+exports.create_hmd_quat_sensor = function() {
+    var sensor = init_sensor(ST_HMD_QUAT, window);
+    sensor.payload = m_quat.create();
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (device)
+        sensor_set_value(sensor, 1);
+    else
+        sensor_set_value(sensor, 0);
+    sensor.do_activation = true;
     return sensor;
 }
 
@@ -527,6 +875,7 @@ exports.create_selection_sensor = function(obj, auto_release) {
     var sensor = init_sensor(ST_SELECTION);
     sensor.source_object = obj;
     sensor.auto_release = auto_release;
+    sensor.do_activation = true;
     return sensor;
 }
 
@@ -589,7 +938,6 @@ exports.get_sensor_payload = function(obj, manifold_id, num) {
         m_print.error("get_sensor_payload(): sensor not found");
         return null;
     }
-
     return sensor.payload;
 }
 
@@ -655,7 +1003,7 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_TIMER:
-        if (!sensor.do_activation && sensor.period >= 0 && 
+        if (!sensor.do_activation && sensor.period >= 0 &&
                 (timeline - sensor.time_last) >= sensor.period) {
             sensor_set_value(sensor, 1);
             if (sensor.repeat) {
@@ -680,52 +1028,166 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_GYRO_DELTA:
-        sensor.payload[0] = Math.PI * (sensor.gyro_gamma_new - sensor.gyro_gamma_last) / 180;
-        sensor.payload[1] = Math.PI * (sensor.gyro_beta_new - sensor.gyro_beta_last) / 180;
-        sensor.payload[2] = Math.PI * (sensor.gyro_alpha_new - sensor.gyro_alpha_last) / 180;
+        var accum = get_accumulator(sensor.element);
+        sensor.payload[0] = accum.gyro_gamma_new - accum.gyro_gamma_last;
+        sensor.payload[1] = accum.gyro_beta_new - accum.gyro_beta_last;
+        sensor.payload[2] = accum.gyro_alpha_new - accum.gyro_alpha_last;
 
-        sensor.gyro_gamma_last = sensor.gyro_gamma_new;
-        sensor.gyro_beta_last = sensor.gyro_beta_new;
-        sensor.gyro_alpha_last = sensor.gyro_alpha_new;
+        accum.gyro_gamma_last = accum.gyro_gamma_new;
+        accum.gyro_beta_last = accum.gyro_beta_new;
+        accum.gyro_alpha_last = accum.gyro_alpha_new;
         break;
 
     case ST_GYRO_ANGLES:
-        sensor.payload[0] = Math.PI * sensor.gyro_gamma_new / 180;
-        sensor.payload[1] = Math.PI * sensor.gyro_beta_new / 180;
-        sensor.payload[2] = Math.PI * sensor.gyro_alpha_new / 180;
+        var accum = get_accumulator(sensor.element);
+        sensor.payload[0] = accum.gyro_gamma_new;
+        sensor.payload[1] = accum.gyro_beta_new;
+        sensor.payload[2] = accum.gyro_alpha_new;
         break;
 
     case ST_GYRO_QUAT:
-        if (sensor.gyro_gamma_new == sensor.gyro_gamma_last &&
-            sensor.gyro_beta_new  == sensor.gyro_beta_last &&
-            sensor.gyro_alpha_new == sensor.gyro_alpha_last)
-            break;
-        // Angles has been changed. Recalculate quaternion.
-        var angles = _vec3_tmp;
-        angles[0] = Math.PI * sensor.gyro_alpha_new / 180;
-        angles[1] = Math.PI * sensor.gyro_beta_new / 180;
-        angles[2] = Math.PI * sensor.gyro_gamma_new / 180;
+        var accum = get_accumulator(sensor.element);
+        m_quat.copy(accum.gyro_quat, sensor.payload);
+        break;
 
-        // NOTE: Euler rotation sequince for deviceorientation event is ZXY
-        // see http://w3c.github.io/deviceorientation/spec-source-orientation.html
-        m_util.ordered_angles_to_quat(angles, m_util.ZXY, sensor.payload);
-
-        var screen_orient = Math.PI * window.orientation / 180;
-        var screen_quat = m_quat.setAxisAngle(m_util.AXIS_Z,
-                -screen_orient, _quat_tmp);
-        m_quat.multiply(sensor.payload, screen_quat, sensor.payload);
-
-        // NOTE: quaternion to WebGL axis orientation
-        var quat = m_quat.setAxisAngle(m_util.AXIS_X, -Math.PI / 2, _quat_tmp);
-        m_quat.multiply(quat, sensor.payload, sensor.payload);
-        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp);
-        m_quat.multiply(sensor.payload, quat, sensor.payload);
-        break
+    case ST_HMD_QUAT:
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+        m_input.get_vector_param(device, m_input.HMD_ORIENTATION_QUAT, sensor.payload);
+        break;
 
     case ST_CALLBACK:
         sensor_set_value(sensor, sensor.callback());
         break;
 
+    case ST_MOUSE_WHEEL:
+        var accum = get_accumulator(sensor.element);
+        sensor_set_value(sensor, accum.wheel_delta);
+        break;
+    case ST_MOUSE_MOVE:
+        var accum = get_accumulator(sensor.element);
+        if (!cfg_dft.ie11_edge_touchscreen_hack || accum.is_mouse_downed) {
+            var delta_x = accum.mouse_curr_x - accum.mouse_last_x;
+            var delta_y = accum.mouse_curr_y - accum.mouse_last_y;
+
+            switch (sensor.axis) {
+            case "X":
+                sensor_set_value(sensor, delta_x);
+                sensor.payload = accum.mouse_curr_x;
+                break;
+            case "Y":
+                sensor_set_value(sensor, delta_y);
+                sensor.payload = accum.mouse_curr_y;
+                break;
+            case "XY":
+                var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+                sensor_set_value(sensor, delta);
+                sensor.payload[0] = accum.mouse_curr_x;
+                sensor.payload[1] = accum.mouse_curr_y;
+                break;
+            }
+        }
+        break;
+    case ST_MOUSE_CLICK:
+        var accum = get_accumulator(sensor.element);
+        sensor_set_value(sensor, accum.is_mouse_downed);
+        sensor.payload = accum.which;
+        break;
+    case ST_SELECTION:
+        var accum = get_accumulator(sensor.element);
+        if (sensor.auto_release && !accum.is_mouse_downed && accum.is_touch_ended ||
+                accum.selected_obj != sensor.source_object)
+            sensor_set_value(sensor, 0);
+        else
+            sensor_set_value(sensor, 1);
+        break;
+    case ST_KEYBOARD:
+        // var accum = get_accumulator(sensor.element);
+
+        // // NOTE: accum.downed_keys[0] && sensor.key == KEY_SHIFT --- hack to
+        // // prevent wrong keyup with chrome/webkit
+        // if (accum.downed_keys[sensor.key] ||
+        //         accum.downed_keys[0] && sensor.key == KEY_SHIFT)
+        //     sensor_set_value(sensor, 1);
+        // else
+        //     sensor_set_value(sensor, 0);
+        break;
+    case ST_TOUCH_MOVE:
+        var accum = get_accumulator(sensor.element);
+
+        if (accum.touches_curr_x[1] == -1 && accum.touches_curr_y[1] == -1) {
+            var delta_x = (accum.touches_curr_x[0] - accum.touches_last_x[0]);
+            var delta_y = (accum.touches_curr_y[0] - accum.touches_last_y[0]);
+            var delta = Math.sqrt(delta_x * delta_x + delta_y * delta_y);
+
+            // perform calculations for secondary touch point
+            if (accum.touches_last_x[1] != -1 && accum.touches_last_y[1] != -1) {
+                var delta_second_x = (accum.touches_curr_x[0] - accum.touches_last_x[1]);
+                var delta_second_y = (accum.touches_curr_y[0] - accum.touches_last_y[1]);
+                var delta_second = Math.sqrt(delta_second_x * delta_second_x
+                        + delta_second_y * delta_second_y);
+
+                // use second touch point (from the last touch) if it's closer to
+                // current touch than the first point
+                if (delta_second < delta) {
+                    delta_x = delta_second_x;
+                    delta_y = delta_second_y;
+                    delta = delta_second;
+                }
+            }
+
+            sensor.payload = exports.PL_SINGLE_TOUCH_MOVE;
+        } else {
+            var cur_center = _vec2_tmp;
+            cur_center[0] = (accum.touches_curr_x[0] + accum.touches_curr_x[1]) / 2;
+            cur_center[1] = (accum.touches_curr_y[0] + accum.touches_curr_y[1]) / 2;
+
+            var last_center = _vec2_tmp2;
+            last_center[0] = (accum.touches_last_x[0] + accum.touches_last_x[1]) / 2;
+            last_center[1] = (accum.touches_last_y[0] + accum.touches_last_y[1]) / 2;
+
+            var delta_x = (cur_center[0] - last_center[0]);
+            var delta_y = (cur_center[1] - last_center[1]);
+            var delta = Math.sqrt(delta_x * delta_x + delta_y * delta_y);
+
+            sensor.payload = exports.PL_MULTITOUCH_MOVE_PAN;
+        }
+
+        switch(sensor.axis) {
+        case "X":
+            sensor_set_value(sensor, delta_x);
+            break;
+        case "Y":
+            sensor_set_value(sensor, delta_y);
+            break;
+        case "XY":
+            sensor_set_value(sensor, delta);
+            break;
+        }
+        break;
+    case ST_TOUCH_ZOOM:
+        var accum = get_accumulator(sensor.element);
+        var delta_dist = accum.touch_zoom_curr_dist - accum.touch_zoom_last_dist;
+        sensor.payload = exports.PL_MULTITOUCH_MOVE_ZOOM;
+        sensor_set_value(sensor, delta_dist);
+        break;
+    case ST_TOUCH_ROTATE:
+        var accum = get_accumulator(sensor.element);
+        if (accum.touches_curr_x[1] != -1) { // not panning
+            var x = accum.touches_curr_x[0] - accum.touches_curr_x[1],
+                y = accum.touches_curr_y[0] - accum.touches_curr_y[1];
+
+            var delta_rotation = Math.atan2(y,x);
+            sensor.payload = exports.PL_MULTITOUCH_MOVE_ROTATE;
+            sensor_set_value(sensor, delta_rotation - accum.touch_start_rot);
+        }
+        break;
+    case ST_TOUCH_CLICK:
+        var accum = get_accumulator(sensor.element);
+        if (accum.is_touch_ended)
+            sensor_set_value(sensor, 0);
+        else
+            sensor_set_value(sensor, 1);
+        break;
     default:
         break;
     }
@@ -849,6 +1311,9 @@ function discharge_sensors(sensors) {
         case ST_TOUCH_ROTATE:
             sensor_set_value(sensor, 0);
             break;
+        case ST_TOUCH_CLICK:
+            sensor_set_value(sensor, 0);
+            break;
         case ST_TIMER:
             sensor_set_value(sensor, 0);
             break;
@@ -862,6 +1327,9 @@ function discharge_sensors(sensors) {
 exports.cleanup = function() {
     _objects = [];
     _global_object = {};
+
+    for (var i = 0; i < _sensors_cache.length; i++)
+        deactivate_sensor(_sensors_cache[i]);
     _sensors_cache.length = 0;
     _manifolds_cache.length = 0;
 }
@@ -912,7 +1380,7 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
 
         // for CONTINUOUS, TRIGGER, SHOT control type
         last_pulse: -1,
-        
+
         // for LEVEL control type
         last_logic_result: 0,
 
@@ -932,9 +1400,7 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
 
     for (var i = 0; i < sensors.length; i++) {
         var sensor = sensors[i];
-
         activate_sensor(sensor);
-
         var sens_ind = _sensors_cache.indexOf(sensor);
         if (sens_ind == -1) {
             _sensors_cache.push(sensor);
@@ -995,6 +1461,64 @@ function activate_sensor(sensor) {
             // reset sensor if appended again
             if (sensor.period < 0)
                 sensor.period = -sensor.period;
+            break;
+        case ST_KEYBOARD:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "keyboard_downed_keys");
+            break;
+        case ST_MOUSE_WHEEL:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "mouse_wheel");
+            break;
+        case ST_MOUSE_MOVE:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "mouse_down_which");
+            register_accum_value(accumulator, "mouse_up_which");
+            register_accum_value(accumulator, "mouse_location");
+            break;
+        case ST_MOUSE_CLICK:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "mouse_down_which");
+            register_accum_value(accumulator, "mouse_up_which");
+            break;
+        case ST_TOUCH_MOVE:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "touch_start");
+            register_accum_value(accumulator, "touch_move");
+            register_accum_value(accumulator, "touch_end");
+            break;
+        case ST_TOUCH_ZOOM:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "touch_start");
+            register_accum_value(accumulator, "touch_move");
+            break;
+        case ST_TOUCH_ROTATE:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "touch_start");
+            register_accum_value(accumulator, "touch_move");
+            break;
+        case ST_TOUCH_CLICK:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "touch_start");
+            register_accum_value(accumulator, "touch_end");
+            break;
+        case ST_SELECTION:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "mouse_select");
+            register_accum_value(accumulator, "touch_select");
+            register_accum_value(accumulator, "touch_start");
+            register_accum_value(accumulator, "touch_end");
+            register_accum_value(accumulator, "mouse_down_which");
+            register_accum_value(accumulator, "mouse_up_which");
+            break;
+        case ST_GYRO_DELTA:
+        case ST_GYRO_ANGLES:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "orientation_angles");
+            break;
+        case ST_GYRO_QUAT:
+            var accumulator = get_accumulator(sensor.element);
+            register_accum_value(accumulator, "orientation_quat");
             break;
         }
 
@@ -1101,8 +1625,80 @@ function deactivate_sensor(sensor) {
     case ST_TIMER:
         sensor.do_activation = true;
         break;
+    case ST_KEYBOARD:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "keyboard_downed_keys");
+        sensor.do_activation = true;
+        break;
+    case ST_MOUSE_WHEEL:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "mouse_wheel");
+        sensor.do_activation = true;
+        break;
+    case ST_MOUSE_MOVE:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "mouse_down_which");
+        unregister_accum_value(accumulator, "mouse_up_which");
+        unregister_accum_value(accumulator, "mouse_location");
+        sensor.do_activation = true;
+        break;
+    case ST_MOUSE_CLICK:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "mouse_down_which");
+        unregister_accum_value(accumulator, "mouse_up_which");
+        sensor.do_activation = true;
+        break;
+    case ST_TOUCH_MOVE:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "touch_start");
+        unregister_accum_value(accumulator, "touch_move");
+        unregister_accum_value(accumulator, "touch_end");
+        sensor.do_activation = true;
+        break;
+    case ST_TOUCH_ZOOM:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "touch_start");
+        unregister_accum_value(accumulator, "touch_move");
+        sensor.do_activation = true;
+        break;
+    case ST_TOUCH_ROTATE:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "touch_start");
+        unregister_accum_value(accumulator, "touch_move");
+        sensor.do_activation = true;
+        break;
+    case ST_TOUCH_CLICK:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "touch_start");
+        unregister_accum_value(accumulator, "touch_end");
+        sensor.do_activation = true;
+        break;
+    case ST_SELECTION:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "mouse_select");
+        unregister_accum_value(accumulator, "touch_select");
+        unregister_accum_value(accumulator, "touch_start");
+        unregister_accum_value(accumulator, "touch_end");
+        unregister_accum_value(accumulator, "mouse_down_which");
+        unregister_accum_value(accumulator, "mouse_up_which");
+        sensor.do_activation = true;
+        break;
+    case ST_GYRO_DELTA:
+    case ST_GYRO_ANGLES:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "orientation_angles");
+        sensor.do_activation = true;
+        break;
+    case ST_GYRO_QUAT:
+        var accumulator = get_accumulator(sensor.element);
+        unregister_accum_value(accumulator, "orientation_quat");
+        sensor.do_activation = true;
+        break;
+    case ST_HMD_QUAT:
+        // TODO: unregister HMD device
+        sensor.do_activation = true;
+        break;
     }
-
 }
 
 
@@ -1146,399 +1742,6 @@ exports.debug = function() {
     m_print.log(String(rays.length) + " ray sensors", rays);
 }
 
-function keydown_cb(e) {
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-
-        if (sensor.type == ST_KEYBOARD && e.keyCode == sensor.key)
-            sensor_set_value(sensor, 1);
-    }
-
-    if (_prev_def_keyboard_events)
-        e.preventDefault();
-
-    if (_callback_keyboard_events)
-        _callback_keyboard_events(e);
-}
-
-function keyup_cb(e) {
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-
-        // NOTE: hack to prevent wrong keyup with chrome/webkit
-        if (sensor.type == ST_KEYBOARD && e.keyCode == 0 &&
-                sensor.key == KEY_SHIFT)
-            sensor_set_value(sensor, 0);
-
-        if (sensor.type == ST_KEYBOARD && e.keyCode == sensor.key)
-            sensor_set_value(sensor, 0);
-    }
-
-    if (_prev_def_keyboard_events)
-        e.preventDefault();
-
-    if (_callback_keyboard_events)
-        _callback_keyboard_events(e);
-}
-
-function mouse_down_cb(e) {
-    var pick = false;
-    var selected_obj = null;
-
-    _is_mouse_downed = true;
-    _mouse_last_x = e.clientX;
-    _mouse_last_y = e.clientY;
-    _mouse_curr_x = e.clientX;
-    _mouse_curr_y = e.clientY;
-
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-
-        if (sensor.type == ST_MOUSE_CLICK) {
-            sensor_set_value(sensor, 1);
-            sensor.payload = e.which;
-        }
-
-        // update selection sensors
-        if (sensor.type == ST_SELECTION) {
-            if (!pick) {
-                var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, 
-                        _vec2_tmp);
-                selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
-                pick = true;
-            }
-
-            if (selected_obj == sensor.source_object)
-                sensor.value = 1;
-            else
-                sensor.value = 0;
-        }
-    }
-
-    if (_prev_def_mouse_events)
-        e.preventDefault();
-
-    if (_callback_mouse_events)
-        _callback_mouse_events(e);
-}
-
-function mouse_up_cb(e) {
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-
-        if (sensor.type == ST_MOUSE_CLICK) {
-            sensor_set_value(sensor, 0);
-        }
-
-        if (sensor.type == ST_SELECTION && sensor.auto_release)
-            sensor.value = 0;
-    }
-
-    _is_mouse_downed = false;
-
-    if (_prev_def_mouse_events && !_allow_element_mouse_event)
-        e.preventDefault();
-
-    if (_callback_mouse_events)
-        _callback_mouse_events(e);
-}
-
-function mouse_move_cb(e) {
-
-    var x = e.clientX;
-    var y = e.clientY;
-
-    _mouse_curr_x = x;
-    _mouse_curr_y = y;
-
-    if (!cfg_dft.ie11_edge_touchscreen_hack || _is_mouse_downed) {
-        var delta_x = (x - _mouse_last_x);
-        var delta_y = (y - _mouse_last_y);
-
-        var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
-
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-
-            if (sensor.type === ST_MOUSE_MOVE) {
-                switch (sensor.axis) {
-                case "X":
-                    sensor_set_value(sensor, delta_x);
-                    sensor.payload = x;
-                    break;
-                case "Y":
-                    sensor_set_value(sensor, delta_y);
-                    sensor.payload = y;
-                    break;
-                case "XY":
-                    sensor_set_value(sensor, delta);
-                    sensor.payload[0] = x;
-                    sensor.payload[1] = y;
-                    break;
-                }
-            }
-        }
-    }
-
-    if (_prev_def_mouse_events && !_allow_element_mouse_event)
-        e.preventDefault();
-
-    if (_callback_mouse_events)
-        _callback_mouse_events(e);
-}
-
-function mouse_out_cb(e) {
-
-    // do UP logic of the sensor
-    
-    if (!m_cont.is_child(e.relatedTarget))
-        mouse_up_cb(e);
-}
-
-function mouse_wheel_cb(e) {
-
-    // chrome || firefox (both deprecated)
-    var wd = e.wheelDelta || -40 * e.detail;
-    wd *= cfg_ctl.mouse_wheel_notch_multiplier;
-
-    // accumulated
-    _wheel_delta += wd;
-
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-
-        if (sensor.type === ST_MOUSE_WHEEL)
-            sensor_set_value(sensor, _wheel_delta);
-    }
-
-    if (_prev_def_wheel_events)
-        e.preventDefault();
-
-    if (_callback_wheel_events)
-        _callback_wheel_events(e);
-}
-
-function touch_start_cb(e) {
-
-    var touches = e.targetTouches;
-
-    if (touches.length == 1) {
-        var touch = touches[0];
-
-        var x = touch.clientX;
-        var y = touch.clientY;
-
-        // update selection sensors
-        var pick = false;
-        var selected_obj = null;
-
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-            if (sensor.type == ST_SELECTION) {
-                if (!pick) {
-                    var canvas_xy = m_cont.client_to_canvas_coords(x, y, _vec2_tmp);
-                    selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
-                    pick = true;
-                }
-                sensor.value = (selected_obj == sensor.source_object);
-            }
-        }
-
-        // reset coords from last touch session
-        _touches_last_x[0] = x;
-        _touches_last_x[1] = -1;
-        _touches_last_y[0] = y;
-        _touches_last_y[1] = -1;
-    } else if (touches.length > 1) {
-        var zoom_dist = touch_zoom_dist(touches);
-        _touch_zoom_curr_dist = _touch_zoom_last_dist = zoom_dist;
-
-        // reset coords from last touch session
-        _touches_last_x[0] = touches[0].clientX;
-        _touches_last_x[1] = touches[1].clientX;
-        _touches_last_y[0] = touches[0].clientY;
-        _touches_last_y[1] = touches[1].clientY;
-
-        _touch_start_rot = touch_rotation(touches);
-    }
-
-    // reset coords from last touch session
-    _touches_curr_x.set(_touches_last_x);
-    _touches_curr_y.set(_touches_last_y);
-
-    // NOTE: issues with picking on mobile platforms
-    //if (_prev_def_touch_events)
-    //    e.preventDefault();
-    
-    if (_callback_touch_events)
-        _callback_touch_events(e);
-}
-
-function touch_move_cb(e) {
-
-    var touches = e.targetTouches;
-
-    if (touches.length === 0)
-        return;
-
-    if (touches.length === 1) { // panning
-        _touches_curr_x[0] = touches[0].clientX;
-        _touches_curr_x[1] = -1;
-        _touches_curr_y[0] = touches[0].clientY;
-        _touches_curr_y[1] = -1;
-
-        var delta_x = (_touches_curr_x[0] - _touches_last_x[0]);
-        var delta_y = (_touches_curr_y[0] - _touches_last_y[0]);
-        var delta = Math.sqrt(delta_x * delta_x + delta_y * delta_y);
-
-        // perform calculations for secondary touch point
-        if (_touches_last_x[1] != -1 && _touches_last_y[1] != -1) {
-            var delta_second_x = (_touches_curr_x[0] - _touches_last_x[1]);
-            var delta_second_y = (_touches_curr_y[0] - _touches_last_y[1]);
-            var delta_second = Math.sqrt(delta_second_x * delta_second_x
-                    + delta_second_y * delta_second_y);
-
-            // use second touch point (from the last touch) if it's closer to
-            // current touch than the first point
-            if (delta_second < delta) {
-                delta_x = delta_second_x;
-                delta_y = delta_second_y;
-                delta = delta_second;
-            }
-        }
-
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-
-            if (sensor.type === ST_TOUCH_MOVE) {
-                sensor.payload = exports.PL_SINGLE_TOUCH_MOVE;
-                switch(sensor.axis) {
-                case "X":
-                    sensor_set_value(sensor, delta_x);
-                    break;
-                case "Y":
-                    sensor_set_value(sensor, delta_y);
-                    break;
-                case "XY":
-                    sensor_set_value(sensor, delta);
-                    break;
-                }
-            }
-        }
-
-    } else if (touches.length > 1) {
-        _touches_curr_x[0] = touches[0].clientX;
-        _touches_curr_x[1] = touches[1].clientX;
-        _touches_curr_y[0] = touches[0].clientY;
-        _touches_curr_y[1] = touches[1].clientY;
-
-        var zoom_dist = touch_zoom_dist(touches);
-
-        _touch_zoom_curr_dist = zoom_dist;
-
-        var delta_dist = _touch_zoom_curr_dist - _touch_zoom_last_dist;
-
-        var cur_center = _vec2_tmp;
-        cur_center[0] = (_touches_curr_x[0] + _touches_curr_x[1]) / 2;
-        cur_center[1] = (_touches_curr_y[0] + _touches_curr_y[1]) / 2;
-
-        var last_center = _vec2_tmp2;
-        last_center[0] = (_touches_last_x[0] + _touches_last_x[1]) / 2;
-        last_center[1] = (_touches_last_y[0] + _touches_last_y[1]) / 2;
-        var delta_centers = touch_center_dist(cur_center, last_center);
-
-        // rotation
-        var delta_rotation = touch_rotation(touches);
-
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-
-            switch (sensor.type) {
-            case ST_TOUCH_ZOOM:
-                sensor.payload = exports.PL_MULTITOUCH_MOVE_ZOOM;
-                sensor_set_value(sensor, delta_dist);
-                break;
-            case ST_TOUCH_MOVE:
-                sensor.payload = exports.PL_MULTITOUCH_MOVE_PAN;
-                switch(sensor.axis) {
-                case "X":
-                    var delta_x = cur_center[0] - last_center[0];
-                    sensor_set_value(sensor, delta_x);
-                    break;
-                case "Y":
-                    var delta_y = cur_center[1] - last_center[1];
-                    sensor_set_value(sensor, delta_y);
-                    break;
-                case "XY":
-                    sensor_set_value(sensor, delta_centers);
-                    break;
-                }
-                break;
-            case ST_TOUCH_ROTATE:
-                sensor.payload = exports.PL_MULTITOUCH_MOVE_ROTATE;
-                sensor_set_value(sensor, delta_rotation - _touch_start_rot);
-                break;
-            }
-        }
-    }
-
-    if (_prev_def_touch_events)
-        e.preventDefault();
-
-    if (_callback_touch_events)
-        _callback_touch_events(e);
-}
-
-function touch_end_cb(e) {
-
-    var touches = e.targetTouches;
-
-    if (touches.length == 0) {
-
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-            if (sensor.type == ST_SELECTION && sensor.auto_release)
-                sensor_set_value(sensor, 0);
-        }
-    }
-
-    // NOTE: issues with picking on mobile platforms
-    //if (_prev_def_touch_events)
-    //    e.preventDefault();
-
-    if (_callback_touch_events)
-        _callback_touch_events(e);
-}
-
-function orient_handler_cb(e) {
-
-    for (var i = 0; i < _sensors_cache.length; i++) {
-        var sensor = _sensors_cache[i];
-        if (sensor.type == ST_GYRO_DELTA || sensor.type == ST_GYRO_ANGLES ||
-                sensor.type == ST_GYRO_QUAT) {
-            // gamma is the left-to-right tilt in degrees, where right is positive
-            // beta is the front-to-back tilt in degrees, where front is positive
-            // alpha is the compass direction the device is facing in degrees
-            sensor.gyro_beta_new = e.beta;
-            sensor.gyro_gamma_new = e.gamma;
-            sensor.gyro_alpha_new = e.alpha;
-            if (!sensor.value) {
-                sensor.gyro_gamma_last = e.gamma;
-                sensor.gyro_beta_last = e.beta;
-                sensor.gyro_alpha_last = e.alpha;
-                // NOTE: always 1
-                sensor_set_value(sensor, 1);
-            }
-        }
-    }
-}
-
-function touch_center_dist(first, second) {
-    var x = first[0] - second[0],
-        y = first[1] - second[1];
-    return Math.sqrt(x*x + y*y);
-}
-
 function touch_zoom_dist(touches) {
     var touch1 = touches[0];
     var touch2 = touches[1];
@@ -1557,115 +1760,6 @@ function touch_rotation(touches) {
         y = touch1.clientY - touch2.clientY;
 
     return Math.atan2(y,x);
-}
-
-exports.register_keyboard_events = function(element, prevent_default) {
-    element.addEventListener("keydown", keydown_cb, false);
-    element.addEventListener("keyup", keyup_cb, false);
-
-    _prev_def_keyboard_events = prevent_default;
-}
-
-exports.register_mouse_events = function(element, prevent_default,
-                                         allow_element_exit) {
-
-    if (allow_element_exit)
-        var replace_elem = window;
-    else {
-        var replace_elem = element;
-
-        replace_elem.addEventListener("mouseout", mouse_out_cb, false);
-    }
-
-    element.addEventListener("mousedown", mouse_down_cb, false);
-    replace_elem.addEventListener("mousemove", mouse_move_cb, false);
-    replace_elem.addEventListener("mouseup", mouse_up_cb, false);
-
-    _prev_def_mouse_events = prevent_default;
-    _allow_element_mouse_event = allow_element_exit;
-}
-
-exports.register_wheel_events = function(element, prevent_default) {
-    // NOTE: both deprecated by the new WheelEvent
-    element.addEventListener("mousewheel",     mouse_wheel_cb, false); // chrome
-    element.addEventListener("DOMMouseScroll", mouse_wheel_cb, false); // firefox
-
-    _prev_def_wheel_events = prevent_default;
-}
-
-exports.register_touch_events = function(element, prevent_default) {
-    element.addEventListener("touchstart", touch_start_cb, false);
-    element.addEventListener("touchend", touch_end_cb, false);
-    element.addEventListener("touchmove",  touch_move_cb, false);
-
-    // HACK: fix touch events issue on some mobile devices
-    document.addEventListener("touchstart", function(){});
-
-    _prev_def_touch_events = prevent_default;
-}
-
-exports.register_device_orientation = function() {
-    if (window.DeviceOrientationEvent && cfg_dft.gyro_use)
-        window.addEventListener("deviceorientation", orient_handler_cb, false); 
-}
-
-exports.unregister_keyboard_events = function(element) {
-    element.removeEventListener("keydown", keydown_cb, false);
-    element.removeEventListener("keyup", keyup_cb, false);
-}
-
-exports.unregister_mouse_events = function(element) {
-    element.removeEventListener("mousedown", mouse_down_cb, false);
-    element.removeEventListener("mousemove", mouse_move_cb, false);
-    element.removeEventListener("mouseout", mouse_out_cb, false);
-    element.removeEventListener("mouseup", mouse_up_cb, false);
-}
-
-exports.unregister_wheel_events = function(element) {
-    // NOTE: both deprecated by the new WheelEvent
-    element.removeEventListener("mousewheel",     mouse_wheel_cb, false); // chrome
-    element.removeEventListener("DOMMouseScroll", mouse_wheel_cb, false); // firefox
-}
-
-exports.unregister_touch_events = function(element) {
-    element.removeEventListener("touchstart", touch_start_cb, false);
-    element.removeEventListener("touchmove",  touch_move_cb, false);
-
-    // HACK: fix touch events issue on some mobile devices
-    document.removeEventListener("touchstart", function(){});
-}
-
-exports.unregister_device_orientation = function() {
-    if (window.DeviceOrientationEvent && cfg_dft.gyro_use)
-        window.removeEventListener('deviceorientation', orient_handler_cb, false);
-}
-/**
- * Assign single keyboard callback for internal usage
- * @param {?EventListener} cb Callback
- */
-exports.assign_keyboard_callback = function(cb) {
-    _callback_keyboard_events = cb;
-}
-/**
- * Assign single mouse callback for internal usage
- * @param {?EventListener} cb Callback
- */
-exports.assign_mouse_callback = function(cb) {
-    _callback_mouse_events = cb;
-}
-/**
- * Assign single wheel callback for internal usage
- * @param {?EventListener} cb Callback
- */
-exports.assign_wheel_callback = function(cb) {
-    _callback_wheel_events = cb;
-}
-/**
- * Assign single touch callback for internal usage
- * @param {?EventListener} cb Callback
- */
-exports.assign_touch_callback = function(cb) {
-    _callback_touch_events = cb;
 }
 
 }

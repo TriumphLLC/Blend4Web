@@ -26,6 +26,7 @@ b4w.module["objects"] = function(exports, require) {
 
 var m_geom     = require("__geometry");
 var m_obj      = require("__objects");
+var m_batch    = require("__batch");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
@@ -95,13 +96,32 @@ exports.copy = function(obj, name, deep_copy) {
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
 
-    if (!m_obj_util.is_mesh(obj)) {
+    if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\".");
+            "\" is not \"MESH\" or it is not dynamic.");
         return;
     }
 
-    m_obj.set_nodemat_value(obj, name_list, value)
+    m_batch.set_nodemat_value(obj, name_list, value)
+}
+
+/**
+ * Get value of the Value node in the object's material.
+ * @method module:objects.get_nodemat_value
+ * @param {Object3D} obj Object 3D
+ * @param {String[]} name_list List consisting of the material name, the names of
+ * nested node groups (if any) and the name of the Value node itself
+ * @returns {Number} Value.
+ */
+exports.get_nodemat_value = function(obj, name_list) {
+
+    if (!m_obj_util.is_dynamic_mesh(obj)) {
+        m_print.error("The type of the object \"" + obj.name +
+            "\" is not \"MESH\" or it is not dynamic.");
+        return null;
+    }
+
+    return m_batch.get_nodemat_value(obj, name_list);
 }
 
 /**
@@ -116,14 +136,38 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
-    if (!m_obj_util.is_mesh(obj)) {
+    if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\".");
+            "\" is not \"MESH\" or it is not dynamic.");
         return;
     }
 
-    m_obj.set_nodemat_rgb(obj, name_list, r, g, b)
+    m_batch.set_nodemat_rgb(obj, name_list, r, g, b);
 }
+
+/**
+ * Get color of the RGB node in the object's material.
+ * @method module:objects.get_nodemat_rgb
+ * @param {Object3D} obj Object 3D
+ * @param {String[]} name_list List consisting of the material name, the names of
+ * nested node groups (if any) and the name of the RGB node itself
+ * @param {Vec3} [dest] Destination color
+ * @returns {Vec3} Destination color
+ */
+exports.get_nodemat_rgb = function(obj, name_list, dest) {
+
+    if (!m_obj_util.is_dynamic_mesh(obj)) {
+        m_print.error("The type of the object \"" + obj.name +
+            "\" is not \"MESH\" or it is not dynamic.");
+        return null;
+    }
+
+    if (!dest)
+        dest = new Float32Array(3);
+
+    return m_batch.get_nodemat_rgb(obj, name_list, dest);
+}
+
 /**
  * Update object's boundings (box, cone, cylinder, ellipsoid, sphere, capsule).
  * @method module:objects.update_boundings

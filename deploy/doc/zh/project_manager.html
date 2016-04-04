@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>项目管理器 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="场景预览器" href="viewer.html"/>
+        <link rel="prev" title="工作流程" href="workflow.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">项目管理器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">项目管理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-creation-wizard">项目创建向导</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-information">项目信息</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands">命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-parameters">项目参数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#project-import">项目导入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-export">项目导出</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">项目参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>项目管理器</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="project-manager">
+<span id="project-management"></span><h1><a class="toc-backref" href="#id4">项目管理器</a><a class="headerlink" href="#project-manager" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#project-manager" id="id4">项目管理器</a><ul>
+<li><a class="reference internal" href="#id1" id="id5">项目管理器</a></li>
+<li><a class="reference internal" href="#project-creation-wizard" id="id6">项目创建向导</a></li>
+<li><a class="reference internal" href="#project-information" id="id7">项目信息</a><ul>
+<li><a class="reference internal" href="#commands" id="id8">命令</a></li>
+<li><a class="reference internal" href="#project-parameters" id="id9">项目参数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#project-import" id="id10">项目导入</a></li>
+<li><a class="reference internal" href="#project-export" id="id11">项目导出</a><ul>
+<li><a class="reference internal" href="#id2" id="id12">命令</a></li>
+<li><a class="reference internal" href="#id3" id="id13">项目参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>自版本 15.09，SDK 中包含一种项目管理功能，使它成为可能 ︰</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">浏览完整列表和文件结构的项目;</p>
+</li>
+<li><p class="first">启动应用程序，在查看器中运行导出的场景，在Blender中打开blend文件;</p>
+</li>
+<li><p class="first">创建和配置新的应用程序，包括那些基于现成的模板;</p>
+</li>
+<li><p class="first">构建应用程序和并打包方便地部署在远程的服务器;</p>
+</li>
+<li><p class="first">将应用程序资源 （纹理、 音频和视频文件） 转换为其他格式，以确保跨浏览器和跨平台的性能;</p>
+</li>
+<li><p class="first">自动重新导出应用程序的所有场景，包括导出到 JSON 和 HTML 格式;</p>
+</li>
+<li><p class="first">删除项目。</p>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id5">项目管理器</a><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>SDK的首页的 <em>工具</em> 项中可以运行 <em>项目管理</em> 应用 。启动后，该应用程序将输出 SDK 中的所有当前项目列表。</p>
+<p>项目管理的命令位于页面的顶部。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/project_manager_actions.png"><img alt="_images/project_manager_actions.png" class="align-center" src="_images/project_manager_actions.png" style="width: 100%;" /></a>
+</div></blockquote>
+<dl class="docutils">
+<dt><em>返回首页</em></dt>
+<dd><p class="first last">返回到 Blend4Web SDK 索引页。</p>
+</dd>
+<dt><em>新建工程</em></dt>
+<dd><p class="first last">打开  <a class="reference internal" href="#create-new-project"><span>项目创建</span></a> 向导。</p>
+</dd>
+<dt><em>导入项目</em></dt>
+<dd><p class="first last">打开  <a class="reference internal" href="#import-projects"><span>project import</span></a> 对话。</p>
+</dd>
+<dt><em>导出项目</em></dt>
+<dd><p class="first last">打开 <a class="reference internal" href="#export-projects"><span>project export</span></a>  页。</p>
+</dd>
+<dt><em>隐藏项目</em></dt>
+<dd><p class="first last">可以用来隐藏项目。如果已经隐藏了此类项目，则此命令替换 <code class="docutils literal"><span class="pre">显示项目</span></code> 命令。</p>
+</dd>
+<dt><em>帮助</em></dt>
+<dd><p class="first last">打开  <a class="reference internal" href="developers.html#app-building"><span>帮助文件</span></a>.</p>
+</dd>
+</dl>
+<p>用于管理特定项目的命令。</p>
+<blockquote>
+<div><img alt="_images/project_manager_commands.png" class="align-center" src="_images/project_manager_commands.png" />
+</div></blockquote>
+<ol class="arabic simple">
+<li><p class="first">编译项目 （WebPlayer JSON 和 WebPlayer HTML 项目不可用）。</p>
+</li>
+<li><p class="first">从项目重新导出blend文件。</p>
+</li>
+<li><p class="first">转换媒体资源。</p>
+</li>
+<li><p class="first">导出和下载项目档案。</p>
+</li>
+<li><p class="first">移除项目</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">项目的所有路径都是从它的.b4w_project 文件中检索。</p>
+</div>
+<p>该项目的名称旁边，有链接到 <a class="reference internal" href="#project-info"><span>项目信息页面</span></a> 。这里也指定应用程序类型。应用程序可以具有下列类型之一：</p>
+<dl class="docutils">
+<dt><em>播放器</em></dt>
+<dd><p class="first last">可以使用 Web 播放器播放应用程序。</p>
+</dd>
+<dt><em>开发</em></dt>
+<dd><p class="first last">开发中的应用。</p>
+</dd>
+<dt><em>构建</em></dt>
+<dd><p class="first last">编译应用程序。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="project-creation-wizard">
+<span id="create-new-project"></span><h2><a class="toc-backref" href="#id6">项目创建向导</a><a class="headerlink" href="#project-creation-wizard" title="永久链接至标题">¶</a></h2>
+<p>该工具用于创建新的项目是列入项目管理应用程序中，由主页面上 <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> 按钮执行。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/project_manager_create_project.png"><img alt="_images/project_manager_create_project.png" class="align-center" src="_images/project_manager_create_project.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">[Back</span> <span class="pre">to</span> <span class="pre">Projects]</span></code> 按钮可以用来返回到项目管理的主页面，而 <code class="docutils literal"><span class="pre">[Help]</span></code> 按钮可以用到访问 <a class="reference internal" href="#create-new-project"><span>帮助文件</span></a>.</p>
+<ol class="arabic">
+<li><p class="first">项目名称习惯为 &#8220;apps_dev/project_name&#8221;, &#8220;deploy/assets/project_name&#8221;, &#8220;blender/project_name&#8221; and &#8220;deploy/apps/project_name&#8221; 等名称的项目目录。</p>
+</li>
+<li><p class="first">在浏览器中所示的项目标题。</p>
+</li>
+<li><p class="first">项目作者的名字。</p>
+</li>
+<li><p class="first">添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文件将添加到项目目录  &#8220;apps_dev/project_name&#8221;.</p>
+</li>
+<li><p class="first">添加场景模板。标准的 json 文件将添加到 &#8220;deploy/assets/project_name&#8221; 目录;blend文件将添加到 &#8220;blender/project_name&#8221; 目录。</p>
+</li>
+<li><p class="first">复制项目管理脚本。Project.py 脚本将复制到项目目录。</p>
+</li>
+<li><p class="first">所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课程和范例。只有 &#8220;update&#8221; 项目类型可以用此选项。</p>
+</li>
+<li><p class="first">项目的类型。有几个选项 ︰</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">&#8220;External&#8221; - 引擎将取自 &#8220;deploy/apps/common/&#8221; 目录。只有应用程序文件将被编译;</p>
+</li>
+<li><p class="first">&#8220;Copy&#8221; - 引擎复制到已编译的应用程序目录。只有应用程序文件进行编译;</p>
+</li>
+<li><p class="first">&#8220;Compile&#8221; -引擎源代码应用程序的脚本一同编译;</p>
+</li>
+<li><p class="first">&#8220;Update&#8221; - 项目目录的引擎将被取代;</p>
+</li>
+<li><p class="first">&#8220;Webplayer JSON&#8221; - 项目下的 json 文件通过SDK里的web播放器播放；</p>
+</li>
+<li><p class="first">&#8220;Webplayer HTML&#8221; - 项目被打包到单独的 html 文件，包含所有所需的资源。</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Javascript 优化级别。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">&#8220;简单&#8221;— — 变量的名称替换代码;</p>
+</li>
+<li><p class="first">&#8220;先进&#8221;— — 进行了代码优化;</p>
+</li>
+<li><p class="first">&#8220;空格&#8221;— — 只有空格从代码中移除。</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="project-information">
+<span id="project-info"></span><h2><a class="toc-backref" href="#id7">项目信息</a><a class="headerlink" href="#project-information" title="永久链接至标题">¶</a></h2>
+<p>此页包含有关选定项目的信息，可以在该项目的标题旁边的 <code class="docutils literal"><span class="pre">[info]</span></code> 链接查看。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/project_manager_info.png"><img alt="_images/project_manager_info.png" class="align-center" src="_images/project_manager_info.png" style="width: 100%;" /></a>
+</div></blockquote>
+<div class="section" id="commands">
+<h3><a class="toc-backref" href="#id8">命令</a><a class="headerlink" href="#commands" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><em>回到项目</em></dt>
+<dd><p class="first last">返回到项目管理的主页面。</p>
+</dd>
+<dt><em>帮助</em></dt>
+<dd><p class="first last">打开  <a class="reference internal" href="#project-info"><span>帮助文件</span></a>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="project-parameters">
+<h3><a class="toc-backref" href="#id9">项目参数</a><a class="headerlink" href="#project-parameters" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt>项目名称</dt>
+<dd><p class="first last">项目名称</p>
+</dd>
+<dt>项目的标题。</dt>
+<dd><p class="first last">在浏览器中所示的项目标题。</p>
+</dd>
+<dt><em>项目作者 / 公司</em></dt>
+<dd><p class="first last">该项目的作者或开发商公司的名称。</p>
+</dd>
+<dt><em>项目图标</em></dt>
+<dd><p class="first last">该项目的图标。</p>
+</dd>
+<dt><em>应用程序</em></dt>
+<dd><p class="first last">应用程序的主 JSON 文件。</p>
+</dd>
+<dt><em>引擎绑定类型</em></dt>
+<dd><p class="first last">设置项目类型</p>
+</dd>
+<dt><em>项目路径 （开发目录）</em></dt>
+<dd><p class="first last">项目的目录。</p>
+</dd>
+<dt><em>项目配置</em></dt>
+<dd><p class="first last">项目的配置文件。</p>
+</dd>
+<dt><em>构建目录</em></dt>
+<dd><p class="first last">项目构建文件夹。</p>
+</dd>
+<dt><em>Blend 目录</em></dt>
+<dd><p class="first last">项目的blend文件目录的位置。</p>
+</dd>
+<dt><em>资产目录</em></dt>
+<dd><p class="first last">项目的媒体资产所在的位置目录。</p>
+</dd>
+<dt><em>URL 参数</em></dt>
+<dd><p class="first last"><a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL 参数</span></a> 列表用来启动应用程序。</p>
+</dd>
+<dt><em>JavaScript 混淆级别</em></dt>
+<dd>JavaScript optimization level.</dd>
+<dt><em>JavaScript 编译忽略列表</em></dt>
+<dd><p class="first last">项目脚本编译中的例外列表。</p>
+</dd>
+<dt><em>CSS 编译忽略列表</em></dt>
+<dd><p class="first last">项目样式表编译中的例外列表。</p>
+</dd>
+<dt><em>部署目录资产前缀</em></dt>
+<dd><p class="first last">在部署的应用程序的场景资源文件夹。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="project-import">
+<span id="import-projects"></span><h2><a class="toc-backref" href="#id10">项目导入</a><a class="headerlink" href="#project-import" title="永久链接至标题">¶</a></h2>
+<p>导入项目工具是在 <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project(s)]</span></code> 链接</p>
+<p>点击该链接会打开标准的文件开启对话框，你可以选择需要导入的项目。</p>
+</div>
+<div class="section" id="project-export">
+<span id="export-projects"></span><h2><a class="toc-backref" href="#id11">项目导出</a><a class="headerlink" href="#project-export" title="永久链接至标题">¶</a></h2>
+<p>项目输出窗口可以通过 <code class="docutils literal"><span class="pre">[Export</span> <span class="pre">Project(s)]</span></code> 链接访问。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/project_manager_export.png"><img alt="_images/project_manager_export.png" class="align-center" src="_images/project_manager_export.png" style="width: 100%;" /></a>
+</div></blockquote>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id12">命令</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><em>回到项目</em></dt>
+<dd>Returns to the Project Manager’s main page.</dd>
+<dt><em>隐藏项目</em></dt>
+<dd><p class="first last">隐藏项目。如果已经隐藏了此类项目，则此命令替换为   <code class="docutils literal"><span class="pre">[显示项目]</span></code> 命令。</p>
+</dd>
+<dt><em>帮助</em></dt>
+<dd><p class="first last">显示帮助页。</p>
+</dd>
+<dt><em>导出项目</em></dt>
+<dd><p class="first last">可以用来导出所选的项目。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id13">项目参数</a><a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><em>选择</em></dt>
+<dd><p class="first last">显示项目是不是选择了要导出。</p>
+</dd>
+<dt><em>名字</em></dt>
+<dd><p class="first last">该项目的目录的名称。</p>
+</dd>
+<dt><em>名称</em></dt>
+<dd><p class="first last">项目的标题。</p>
+</dd>
+<dt><em>作者</em></dt>
+<dd><p class="first last">项目作者的名字。</p>
+</dd>
+<dt><em>档案名称</em></dt>
+<dd><p class="first last">导出的项目打包的档案名称。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="viewer.html" class="btn btn-neutral float-right" title="场景预览器" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="workflow.html" class="btn btn-neutral" title="工作流程" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

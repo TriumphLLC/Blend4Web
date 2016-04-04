@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Animation &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="Outdoor Effects" href="outdoor_rendering.html"/>
+        <link rel="prev" title="Particle System. Instancing" href="particles_instancing.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Animation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#animation-control">Animation Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-animation">Object Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#skinning-and-skeletal-animation">Skinning and Skeletal Animation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#baking-parameters">Baking parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vertex-animation">Vertex Animation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Baking parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#default-animation">Default Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-linear-animation">Non-Linear Animation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nla-editor">NLA Editor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-settings">Additional settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#controlling-via-api">Controlling via API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-source-parametrization">Audio Source Parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#animation-of-value-and-rgb-nodes">Animation of Value and RGB Nodes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Animation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="animation"></span><div class="section" id="index-0">
+<span id="id1"></span><h1><a class="toc-backref" href="#id5">Animation</a><a class="headerlink" href="#index-0" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-content">
+<p class="topic-title first">Table of Content</p>
+<ul class="simple">
+<li><a class="reference internal" href="#index-0" id="id5">Animation</a><ul>
+<li><a class="reference internal" href="#animation-control" id="id6">Animation Control</a></li>
+<li><a class="reference internal" href="#object-animation" id="id7">Object Animation</a></li>
+<li><a class="reference internal" href="#skinning-and-skeletal-animation" id="id8">Skinning and Skeletal Animation</a><ul>
+<li><a class="reference internal" href="#baking-parameters" id="id9">Baking parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vertex-animation" id="id10">Vertex Animation</a><ul>
+<li><a class="reference internal" href="#id2" id="id11">Baking parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#default-animation" id="id12">Default Animation</a></li>
+<li><a class="reference internal" href="#non-linear-animation" id="id13">Non-Linear Animation</a><ul>
+<li><a class="reference internal" href="#nla-editor" id="id14">NLA Editor</a></li>
+<li><a class="reference internal" href="#controlling-via-api" id="id15">Controlling via API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#audio-source-parametrization" id="id16">Audio Source Parametrization</a></li>
+<li><a class="reference internal" href="#animation-of-value-and-rgb-nodes" id="id17">Animation of Value and RGB Nodes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
+<ul class="simple">
+<li>Object animation means the transformation of an object as a whole.</li>
+<li>Skeletal Animation, i.e. object deformation using bones. Animation
+of a standalone armature object is also supported (for parenting to bones).</li>
+<li>Vertex animation. An object&#8217;s deformations can be recorded as frames and
+then reproduced in the engine.</li>
+<li>Audio sources parametrization. Speaker&#8217;s <code class="docutils literal"><span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Pitch</span></code> can be
+animated.</li>
+<li>Animation of the <code class="docutils literal"><span class="pre">Value</span></code> node output in node materials.</li>
+<li>Wind bending - a procedural animation. Described <a class="reference internal" href="outdoor_rendering.html#wind"><span>separately</span></a>.</li>
+<li>Particle emission. Described in the <a class="reference internal" href="particles.html#particles"><span>corresponding section</span></a>.</li>
+</ul>
+<div class="section" id="animation-control">
+<h2><a class="toc-backref" href="#id6">Animation Control</a><a class="headerlink" href="#animation-control" title="永久链接至标题">¶</a></h2>
+<p>There are two ways to control animation in the engine:</p>
+<ol class="arabic simple">
+<li>Automatically, activating the <code class="docutils literal"><span class="pre">Animation</span></code> panel and choosing the
+<code class="docutils literal"><span class="pre">Behaviour</span></code> parameter in the object&#8217;s properties. In this case an
+appropriate animation method will be chosen by the engine and the
+object&#8217;s animation playback will start just after a scene is loaded.
+In case of skeletal animation the action which is assigned to the
+object in the <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code> window is played by default.</li>
+<li>In an application via API using the <code class="docutils literal"><span class="pre">animation</span></code> module methods.</li>
+</ol>
+<p>It&#8217;s useful to use the <code class="docutils literal"><span class="pre">Animation</span></code> interface for tweaking animation.
+This is covered in the <a class="reference internal" href="viewer.html#viewer"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="object-animation">
+<span id="whole-object-anim"></span><h2><a class="toc-backref" href="#id7">Object Animation</a><a class="headerlink" href="#object-animation" title="永久链接至标题">¶</a></h2>
+<p>The parameters that can be animated are the center coordinates (<code class="docutils literal"><span class="pre">Location</span></code>), <code class="docutils literal"><span class="pre">Rotation</span></code> and <code class="docutils literal"><span class="pre">Scale</span></code>.</p>
+<a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Animation keyframes can be added for an object motion in Blender and then reproduced in the engine.</p>
+<p>The following keyframe types are supported:</p>
+<ul class="simple">
+<li><em>Location</em></li>
+<li><em>Rotation</em> &#8211; the <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> or <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> mode is required.</li>
+<li><em>Scale</em> &#8211; for correct results the scale factor should be the same along all 3 axes.</li>
+<li><em>LocRot</em> &#8211; a combination of <em>Location</em> and <em>Rotation</em>.</li>
+<li><em>LocScale</em> &#8211; a combination of <em>Location</em> and <em>Scale</em>.</li>
+<li><em>LocRotScale</em> &#8211; a combination of <em>Location</em>, <em>Rotation</em> and <em>Scale</em>.</li>
+<li><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</li>
+</ul>
+<p>If a mesh object is animated it is required to activate the <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option on the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Propetries</span></code> panel under the object properties tab.</p>
+</div>
+<div class="section" id="skinning-and-skeletal-animation">
+<span id="skeletal-animation"></span><h2><a class="toc-backref" href="#id8">Skinning and Skeletal Animation</a><a class="headerlink" href="#skinning-and-skeletal-animation" title="永久链接至标题">¶</a></h2>
+<a class="reference internal image-reference" href="_images/rig.jpg"><img alt="_images/rig.jpg" class="align-center" src="_images/rig.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For skeletal animation both a mesh object and an armature object are needed. The four steps should be carried out:</p>
+<ol class="arabic simple">
+<li>Create the object&#8217;s &#8220;skeleton&#8221; in the armature object.</li>
+<li>Assign vertex groups in the mesh object and link them to the bones. This can be performed by weight painting f   or example.</li>
+<li>Animate the bones in the pose mode of the armature object.
+The same keyframe types can be used as for the object animation.</li>
+<li>When inverse kinematics (IK) or other nontrivial structures are used, an additional
+step is required to bake the animations (<code class="docutils literal"><span class="pre">Action</span></code> datablocks in Blender). Baking
+can be performed using the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code> interface located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code>:</li>
+</ol>
+<a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="baking-parameters">
+<span id="animation-bake"></span><h3><a class="toc-backref" href="#id9">Baking parameters</a><a class="headerlink" href="#baking-parameters" title="永久链接至标题">¶</a></h3>
+<p>Baking is performed with the armature object selected.</p>
+<p>The actors that will be baked are listed in the window with the list of actors.If the list is empty, all avalible actors will be baked.</p>
+<dl class="docutils">
+<dt><em>Name</em></dt>
+<dd>The current action name from the list of actions being baked.</dd>
+<dt><em>Optimize Keyframes</em></dt>
+<dd>Optimize the animation keyframes after baking. In case of incorrect results
+it&#8217;s recommended to turn this option off.</dd>
+<dt><em>Use Blender&#8217;s Native Baker</em></dt>
+<dd>Use Blender&#8217;s animation baker (the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Action</span></code> option) instead of Blend4Web&#8217;s.
+Blender animation baker&#8217;s settings differ from Blend4Web&#8217;s.</dd>
+<dt><em>Bake</em></dt>
+<dd>Perform baking. If the process is completed successfully, actions with names of
+<em>B4W_BAKED_ACTOR_NAME</em> type appear in the scene. These actions can be assigned
+to the armature object and played back in the engine. It&#8217;s worth noting that appropriate
+functioning of such actions in Blender is not garanteed.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>The engine supports up to 4 vertex groups per vertex. If the number of vertex groups
+exceeds 4 the vertex groups with the most influence are selected. When the scene is loaded
+the vertex weights are normalized i.e. their sum is reduced to 1.</p>
+<p>To remove vertex groups which are not used by armature, use button <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code>.</p>
+<a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
+</div>
+<p>Blend4Web also has initial support of the armature constraints. For now, the only supported constraint type is <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transform</span></code>. It can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.</p>
+</div>
+</div>
+<div class="section" id="vertex-animation">
+<h2><a class="toc-backref" href="#id10">Vertex Animation</a><a class="headerlink" href="#vertex-animation" title="永久链接至标题">¶</a></h2>
+<a class="reference internal image-reference" href="_images/flag.jpg"><img alt="_images/flag.jpg" class="align-center" src="_images/flag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
+<p id="ver-anim">A special tool is used for baking vertex animation - <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> - located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tools panel.</p>
+<a class="reference internal image-reference" href="_images/animation_vertex_baker.png"><img alt="_images/animation_vertex_baker.png" class="align-center" src="_images/animation_vertex_baker.png" style="width: 100%;" /></a>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id11">Baking parameters</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><em>Name</em></dt>
+<dd>The name that will be assigned to the baked animation.</dd>
+<dt><em>Start</em></dt>
+<dd>The baking will start from this frame.</dd>
+<dt><em>End</em></dt>
+<dd>The baking will end at this frame.</dd>
+<dt><em>Allow NLA</em></dt>
+<dd>Allows using <a class="reference internal" href="#nla"><span>NLA</span></a> to control the baked animation.</dd>
+<dt><em>Status</em></dt>
+<dd>In this string, the number of frames of the baked animation is shown.
+If the baking hasn&#8217;t been performed yet, the word <code class="docutils literal"><span class="pre">Empty</span></code> is shown instead.</dd>
+<dt><em>Bake</em></dt>
+<dd>The animation baking is performed by pressing this button.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">For vertex animation to work correctly, the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> parameter (<code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> section of the <code class="docutils literal"><span class="pre">Object</span></code> panel) of the selected object should be enabled.</p>
+</div>
+</div>
+</div>
+<div class="section" id="default-animation">
+<span id="id3"></span><h2><a class="toc-backref" href="#id12">Default Animation</a><a class="headerlink" href="#default-animation" title="永久链接至标题">¶</a></h2>
+<p>Blend4Web also has an option to automatically play object&#8217;s animation. To do it, you need to enable the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter in the <code class="docutils literal"><span class="pre">Animation</span></code> section of the <code class="docutils literal"><span class="pre">Object</span></code> panel of an object you want to animate. Skeletal and object animation types are supported.</p>
+<a class="reference internal image-reference" href="_images/animation_apply_default_animation.png"><img alt="_images/animation_apply_default_animation.png" class="align-center" src="_images/animation_apply_default_animation.png" style="width: 100%;" /></a>
+<p>Animation starts to play right after the application startup and plays very similar to the <a class="reference internal" href="logic_editor.html#nla-play-timeline"><span>Play Timeline</span></a> node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the <a class="reference internal" href="logic_editor.html#nla-select-play"><span>Play Animation</span></a> node.</p>
+</div>
+<div class="section" id="non-linear-animation">
+<span id="nla"></span><h2><a class="toc-backref" href="#id13">Non-Linear Animation</a><a class="headerlink" href="#non-linear-animation" title="永久链接至标题">¶</a></h2>
+<div class="section" id="nla-editor">
+<span id="id4"></span><h3><a class="toc-backref" href="#id14">NLA Editor</a><a class="headerlink" href="#nla-editor" title="永久链接至标题">¶</a></h3>
+<p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement simple scenarios. This way coding is not needed for simple scenes and applications.</p>
+<a class="reference internal image-reference" href="_images/simple_machinima.jpg"><img alt="_images/simple_machinima.jpg" class="align-center" src="_images/simple_machinima.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The engine supports controlling the following entities:</p>
+<ul class="simple">
+<li>Any animation the parameters of which can be presented with Actions</li>
+<li>Audio playback</li>
+<li>Particles emission (in the form of a connection with the global timeline)</li>
+</ul>
+<a class="reference internal image-reference" href="_images/nla_editor.jpg"><img alt="_images/nla_editor.jpg" class="align-center" src="_images/nla_editor.jpg" style="width: 100%;" /></a>
+<div class="section" id="usage">
+<h4>Usage<a class="headerlink" href="#usage" title="永久链接至标题">¶</a></h4>
+<ol class="arabic simple">
+<li>Activate the <code class="docutils literal"><span class="pre">NLA</span></code> panel under the <code class="docutils literal"><span class="pre">Scene</span></code> tab.</li>
+<li>In the <code class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></code> set up the required behavior for the scene.</li>
+<li>Choose the animation time interval on the <code class="docutils literal"><span class="pre">Timeline</span></code> panel.</li>
+</ol>
+</div>
+<div class="section" id="additional-settings">
+<h4>Additional settings<a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h4>
+<p>The <em>NLA &gt; Cyclic NLA</em> scene setting activates the cyclic NLA animation mode.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">In order to use vertex animation, enable  &#8220;Allow NLA&#8221; option on the <a class="reference internal" href="#ver-anim"><span>vertex animation panel</span></a>.</p>
+</div>
+</div>
+<div class="section" id="limitations">
+<h4>Limitations<a class="headerlink" href="#limitations" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li>A simultanious playback of differnet types of animation for the same object is not supported.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="controlling-via-api">
+<h3><a class="toc-backref" href="#id15">Controlling via API</a><a class="headerlink" href="#controlling-via-api" title="永久链接至标题">¶</a></h3>
+<p>Non-linear animation playback can be controlled via API methods of the <code class="docutils literal"><span class="pre">nla.js</span></code> module.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">set_frame</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
+<span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">frame</span> <span class="o">=</span> <span class="nx">m_nla</span><span class="p">.</span><span class="nx">get_frame</span><span class="p">();</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>Please note, that if the <a class="reference internal" href="logic_editor.html#logic-editor"><span>Logic Editor</span></a> is used, the <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>, <code class="docutils literal"><span class="pre">stop</span></code> methods are not available.</p>
+</div>
+</div>
+<div class="section" id="audio-source-parametrization">
+<span id="speaker-animation"></span><h2><a class="toc-backref" href="#id16">Audio Source Parametrization</a><a class="headerlink" href="#audio-source-parametrization" title="永久链接至标题">¶</a></h2>
+<p>In addition the following animation key types are supported for the speaker objects:</p>
+<ul class="simple">
+<li><em>Volume</em></li>
+<li><em>Pitch</em></li>
+</ul>
+<p>Audio sources parametering in essence follows object animation.</p>
+</div>
+<div class="section" id="animation-of-value-and-rgb-nodes">
+<span id="node-anim"></span><h2><a class="toc-backref" href="#id17">Animation of Value and RGB Nodes</a><a class="headerlink" href="#animation-of-value-and-rgb-nodes" title="永久链接至标题">¶</a></h2>
+<p>Playback of keyframes inserted on <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes is supported in node materials.</p>
+<img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="_images/node_RGB_anim.png" class="align-center" src="_images/node_RGB_anim.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Animation of numerical and color values on other nodes is not supported.</p>
+</div>
+<p>Can be also used to create tracks in the <a class="reference internal" href="#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>Time (B4W_TIME)</span></a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="outdoor_rendering.html" class="btn btn-neutral float-right" title="Outdoor Effects" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="particles_instancing.html" class="btn btn-neutral" title="Particle System. Instancing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

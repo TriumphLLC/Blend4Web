@@ -23,12 +23,16 @@
  * @local DebugWireframeMode
  * @local StageloadCallback
  * @local LoadedCallback
+ * @local CodeTestCallback
+ * @local EqualsFunction
+ * @local OkFunction
  */
 b4w.module["debug"] = function(exports, require) {
 
 var m_batch    = require("__batch");
 var m_cfg      = require("__config");
 var m_ctl      = require("__controls");
+var m_cont     = require("__container");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
 var m_load     = require("__loader");
@@ -43,12 +47,17 @@ var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
 var m_textures = require("__textures");
 var m_util     = require("__util");
-var m_vec3     = require("vec3");
+var m_vec3     = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 
 var PERF_NUM_CALLS = 10;
+var EPS = 0.000001;
 
+var _called_funcs = [];
+var _tested_func_name = "";
+var _test_result = true;
+var _vec2_tmp = new Float32Array(2);
 /**
  * Debug wireframe mode.
  * @typedef DebugWireframeMode
@@ -65,6 +74,27 @@ var PERF_NUM_CALLS = 10;
  * @callback StageloadCallback
  * @param {Number} percentage Loading progress (0-100).
  */
+
+/**
+ * Code test callback.
+ * @callback CodeTestCallback
+ * @param {EqualsFunction} equals Сomparison function.
+ * @param {OkFunction} ok Code test function.
+ */
+
+/**
+ * Return the comparison result of entrace params.
+ * @callback EqualsFunction
+ * @param {*} result Real function result.
+ * @param {*} exp_result Expected result.
+ */
+
+ /**
+ * Check code crash.
+ * @callback OkFunction
+ * @param {*} result Real function result.
+ */
+
 
 /**
  * Debug wireframe mode: turn off wireframe view.
@@ -1017,6 +1047,111 @@ exports.test_performance = function(callback) {
         m_debug.process_timer_queries(subs);
         callback(subs.debug_render_time);
     }, 100);
+}
+
+function call(func, name) {
+    var decor_func = function() {
+        _called_funcs.push(decor_func);
+        _tested_func_name = name;
+        return func.apply(func, arguments);
+
+    }
+    return decor_func;
+}
+
+exports.start_debug = function(module_name) {
+    _called_funcs = [];
+    _test_result = true;
+    var module = require(module_name);
+    for (var name in module)
+        if (typeof module[name] === "function")
+            module[name] = call(module[name], name);
+}
+exports.check_debug_result = function() {
+    return _test_result;
+}
+/**
+ * Test code.
+ * @method module:debug.test
+ * @param {String} test_name Test name
+ * @param {CodeTestCallback} callback Callback
+ */
+exports.test = function(test_name, callback) {
+    try {
+        callback();
+        return true;
+    } catch(e) {
+        _test_result = false;
+        console.error(test_name + " test was failed. ", e);
+        return false;
+    }
+}
+
+exports.pix = function(color_data, subs_type) {
+    var scene = m_scenes.get_active();
+    var subs = m_scenes.get_subs(scene, subs_type);
+
+    var canvas_w = m_cont.get_viewport_width();
+    var canvas_h = m_cont.get_viewport_height();
+
+    var canvas_x = canvas_w / 2;
+    var canvas_y = canvas_h / 2;
+
+    m_cont.resize(canvas_w, canvas_h, false);
+
+    if (subs) {
+        var cam = subs.camera;
+        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
+                _vec2_tmp, subs.camera);
+
+        viewport_xy[1] = cam.height - viewport_xy[1];
+        var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
+                viewport_xy[1]);
+        eqv(color_data, color);
+    } else
+        throw "Couldn't find subscene \"" + subs_type + "\".";
+}
+
+exports.eqs = function(result, exp_result) {
+    if (JSON.stringify(result) != JSON.stringify(exp_result))
+        throw "Wrong result. Function: " + _tested_func_name;
+}
+
+exports.eqv = eqv;
+function eqv(result, exp_result, eps) {
+    if (typeof exp_result != typeof result)
+        throw "Wrong expected data type.";
+    if (result.length != exp_result.length)
+        throw "Wrong expected vector length.";
+    var eps = eps ? eps : EPS;
+    for (var i = 0; i < result.length; i++)
+        if (exp_result[i] > result[i] + eps || exp_result[i] < result[i] - eps)
+            throw "Wrong result.";
+}
+
+exports.eqf = function(result, exp_result, eps) {
+    if (typeof exp_result != "number")
+        throw "Wrong expected data type.";
+    var eps = eps ? eps : EPS;
+    if (exp_result > result + eps || exp_result < result - eps)
+        throw "Wrong result.";
+}
+
+exports.eq = function(result, exp_result) {
+    if (result !== exp_result)
+        throw "Wrong result.";
+}
+
+exports.stat = function(module_name) {
+    var module = require(module_name);
+    for (var name in module)
+        if (_called_funcs.indexOf(module[name]) == -1)
+            console.warn(name + " function wasn't called.");
+}
+
+exports.ok = function(exp) {
+    if (!Boolean(exp))
+        throw "Wrong result. Function: " + _tested_func_name;
 }
 
 }

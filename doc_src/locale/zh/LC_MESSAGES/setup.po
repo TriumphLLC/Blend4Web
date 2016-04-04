@@ -1,0 +1,348 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2016-03-25 14:44+0300\n"
+"PO-Revision-Date: 2016-03-26 17:33+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.7\n"
+
+#: ../setup.rst:5
+msgid "Installing and Updating"
+msgstr "安装和更新"
+
+#: ../setup.rst
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../setup.rst:11
+msgid ""
+"Before installation, please download and install the compatible Blender "
+"version, according to this `table <https://www.blend4web.com/downloads/>`_."
+msgstr ""
+"安装之前，请下载并安装兼容的Blender版本，根据此 `表  <https://www.blend4web.com/"
+"downloads/>`_."
+
+#: ../setup.rst:14
+msgid "Installation Order"
+msgstr "安装顺序"
+
+#: ../setup.rst:19
+msgid "Installing Blender"
+msgstr "安装Blender"
+
+#: ../setup.rst:21
+msgid ""
+"Authoring 3D scenes is carried out directly in `Blender <http://en.wikipedia."
+"org/wiki/Blender_(software)>`_ which is open source software and is distributed "
+"free of charge."
+msgstr ""
+"直接在 `Blender <http://en.wikipedia.org/wiki/Blender_(software)>`_ 中创作 3D 场"
+"景，这是开放源码软件和免费分发软件。"
+
+#: ../setup.rst:23
+msgid ""
+"A current stable version of Blender should be used. It can be downloaded from "
+"the `official site <http://www.blender.org/download>`_."
+msgstr ""
+"应使用当前的稳定版本的Blender。它可以从 `官方网站 <http://www.blender.org/"
+"download>`_ 下载 。"
+
+#: ../setup.rst:31
+msgid "Unpacking the Archive"
+msgstr "解压缩文件归档"
+
+#: ../setup.rst:33
+msgid ""
+"Stable versions of the distribution are available as an archive "
+"(``blend4web_sdk_free_YY_MM.zip`` -- free SDK, ``blend4web_sdk_pro_YY_MM.zip`` "
+"-- commercial SDK). Simply unpack this archive somewhere."
+msgstr ""
+"稳定版作为压缩包发布 (``blend4web_sdk_free_YY_MM.zip`` -- 免费 SDK, "
+"``blend4web_sdk_pro_YY_MM.zip`` -- 商业 SDK). 只要在某处解开这个压缩包。"
+
+#: ../setup.rst:36
+msgid "SDK Installation Order"
+msgstr "SDK 安装顺序"
+
+#: ../setup.rst:38
+msgid "Open Blender."
+msgstr "打开Blender。"
+
+#: ../setup.rst:40
+msgid "Open the User Preferences panel :file:`File > User Preferences...`."
+msgstr "打开用户首选项面板  :file:`File > User Preferences...`."
+
+#: ../setup.rst:42
+msgid "Open the :file:`File` tab."
+msgstr "打开 :file:`File` 选项卡。"
+
+#: ../setup.rst:44
+msgid "Set the path to the SDK directory in the :file:`Scripts` field."
+msgstr "在 :file:`Scripts` 中设置 SDK 目录的路径。"
+
+#: ../setup.rst:46
+msgid "Click the :file:`Save User Settings` button."
+msgstr "单击 :file:`Save User Settings` 按钮。"
+
+#: ../setup.rst:48
+msgid "Restart Blender."
+msgstr "重新启动Blender。"
+
+#: ../setup.rst:54
+msgid "*To verify it worked:*"
+msgstr "*验证是否工作:*"
+
+#: ../setup.rst:56
+msgid ""
+"In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and :file:"
+"`Blend4Web (.html)` options should appear."
+msgstr ""
+"在 :file:`File > Export` 菜单 :file:`Blend4Web (.json)` 和 :file:`Blend4Web (."
+"html)` 选项应该出现。"
+
+#: ../setup.rst:60
+msgid ""
+"If you are planning to use only the normal editor, you might consider "
+"installing the :ref:`Blend4Web addon <addon>` instead of the SDK."
+msgstr ""
+"如果您打算使用只用法线编辑器，你可以考虑安装  :ref:`Blend4Web 插件 <addon>` 而不"
+"是 SDK。"
+
+#: ../setup.rst:62
+msgid ""
+"The addon can only export scenes to :ref:`HTML format <export_scene>` and has "
+"limited functionality (for example, it doesn't have the :ref:`project manger "
+"<project_management>`, example scenes, user manual and so on), but still it has "
+"everything you might need to create a simple application."
+msgstr ""
+"插件只能导出场景到  :ref:`HTML格式 <export_scene>` 和有限功能 (例如，它没有  :"
+"ref:`项目管理 <project_management>`，示例场景，用户手册，等等)，但它仍然拥有一切"
+"让你可以创建一个简单的应用程序。 "
+
+#: ../setup.rst:64
+msgid ""
+"It can be installed the same way as any other `Blender addon <https://www."
+"blender.org/manual/advanced/scripting/python/add_ons.html?"
+"highlight=addon#installation-of-a-3rd-party-add-on>`_."
+msgstr ""
+"它可以和其他  `Blender插件 <https://www.blender.org/manual/advanced/scripting/"
+"python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on>`_  的安"
+"装方式相同。"
+
+#: ../setup.rst:71
+msgid "Blend4Web Mode"
+msgstr "Blend4Web模式"
+
+#: ../setup.rst:73
+msgid "To reveal the engine settings, select Blend4Web from the upper panel menu:"
+msgstr "为了查看该引擎设置，从顶部面板菜单中选择Blend4Web："
+
+#: ../setup.rst:83
+msgid "Local Development Server"
+msgstr "本地开发服务器"
+
+#: ../setup.rst:85
+msgid ""
+"Settings for the local development server can be found in :file:`File > User "
+"Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port "
+"number to be used to run the development server (6687 by default), and also "
+"enable its launching upon Blender startup. To do this, enable ``Run on "
+"Startup`` option in the add-on settings."
+msgstr ""
+"设置本地开发服务器可以在 :file:`File > User Preferences...` (热键 :file:`Ctrl-"
+"Alt-U`)中找到。 在这里，您可以更改端口号被用于运行开发服务器（6687默认情况下），"
+"也使其在Blender启动时启动。要做到这一点，能够有 ``Run on Startup`` 的附加 ​​设置选"
+"项。"
+
+#: ../setup.rst:93
+msgid ""
+"After changing local development server settings in it required to restart "
+"Blender."
+msgstr "改变了的本地开发服务器设置后需要重新启动Blender。"
+
+#: ../setup.rst:95
+msgid ""
+"It is possible for the local server to process external requests. To do that "
+"enable the option ``Enable External Requests``."
+msgstr ""
+"它有可能为本地服务器来处理外部请求。要做到这一点启用该选项 ``Enable External "
+"Requests``."
+
+#: ../setup.rst:97
+msgid ""
+"If you chose not to start the server automatically, you can always do it "
+"manually: go to the ``Render`` tab and press the ``Start Server`` button on the "
+"``Development Server`` panel:"
+msgstr ""
+"如果你选择不自动启动服务器，您可以随时手动做到这一点：转到  ``渲染`` 选项卡，并"
+"按  ``开发服务器`` 面板上的 ``启动服务器`` 按钮 ︰"
+
+#: ../setup.rst:107
+msgid ""
+"If the path to the Blend4Web SDK is not specified, the local development server "
+"cannot be launched. In this case the corresponding message will be displayed "
+"instead of the ``Start Server`` button."
+msgstr ""
+"如果不指定 Blend4Web SDK 的路径，不能启动本地开发服务器。在这种情况下会显示相应"
+"的消息，覆盖到 ``启动服务器`` 按钮。"
+
+#: ../setup.rst:109
+msgid ""
+"If the server is failed to run, an error message will be shown describing the "
+"reason:"
+msgstr "如果服务器无法运行，会显示一条错误消息来说明原因："
+
+#: ../setup.rst:114
+msgid ""
+"This error can arise if the server port is already used by some other "
+"application."
+msgstr "如果已经被一些其他的应用程序的占用掉了服务器端口，可能会出现这样的错误。"
+
+#: ../setup.rst:116
+msgid ""
+"Press the ``SDK Index`` button to open the index web page of the Blend4Web SDK "
+"in the browser. This page is available at http://localhost:6687."
+msgstr ""
+"按  ``SDK Index`` 按钮在浏览器中打开 Blend4Web SDK 的索引 web 页。此页面在 "
+"http://localhost:6687 。"
+
+#: ../setup.rst:124
+msgid ""
+"As a result, the default browser for your operating system will be launched."
+msgstr "结果是，在您的操作系统的默认浏览器将启动。"
+
+#: ../setup.rst:126
+msgid ""
+"The ``Project Manager`` button can be used to open :ref:`project manager "
+"<project_management>`."
+msgstr "``项目管理`` 按钮可用于打开  :ref:`项目管理 <project_management>`."
+
+#: ../setup.rst:128
+msgid ""
+"The ``Fast Preview`` button loads the scene that is currently open in Blender, "
+"into the :ref:`viewer <viewer>`."
+msgstr ""
+"``Fast Preview`` 按钮加载当前在Blender当中打开的场景到 :ref:`viewer <viewer>` "
+"中。"
+
+#: ../setup.rst:130
+msgid ""
+"The server can be stopped by pressing the ``Stop Server`` button. It also stops "
+"when Blender is closed."
+msgstr "按下 ``停止服务器``  按钮可以停止服务器。Blender关闭时，它也会停止。"
+
+#: ../setup.rst:138
+msgid "Running Viewer and Demos"
+msgstr "运行浏览器和演示"
+
+#: ../setup.rst:140
+msgid ""
+"The index page contains links for launching the scene viewer and the demo "
+"applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
+"required to run these apps."
+msgstr ""
+"索引页面中包含指向发动现场观众和演示应用。一个 :ref:`WebGL-capable browser "
+"<browser_webgl_support>` 才能运行这些应用程序。"
+
+#: ../setup.rst:150
+msgid ""
+"If the SDK apps are not displayed correctly, or error messages are shown, "
+"follow the instructions in the :ref:`renderer_not_working` section."
+msgstr ""
+"如果不能正确显示的SDK应用程序，或错误消息显示，按照 :ref:`renderer_not_working` "
+"中的说明部分。"
+
+#: ../setup.rst:153
+msgid "Updating"
+msgstr "更新"
+
+#: ../setup.rst:156
+msgid "Updating the SDK"
+msgstr "更新 SDK"
+
+#: ../setup.rst:158
+msgid ""
+"Before updating, we recommend to backup all projects in development using the :"
+"ref:`project export <export_projects>` tools."
+msgstr ""
+"在更新之前，我们建议您使用 :ref:`project export <export_projects>` 工具备份的所"
+"有开发中的项目."
+
+#: ../setup.rst:160
+msgid "There are two methods to update the SDK."
+msgstr "有两种方法来更新 SDK。"
+
+#: ../setup.rst:162
+msgid ""
+"Firstly, you can completely delete the SDK folder and, after that, extract the "
+"new version folder and set the path to it in the Blender settings, as if you "
+"were installing the SDK for the first time."
+msgstr ""
+"首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在"
+"Blender设置，就像你第一次安装 SDK一样。"
+
+#: ../setup.rst:164
+msgid ""
+"Secondly, you can simply overwrite the outdated SDK files with the new ones. "
+"This method is considered less \"pure\", but in most cases it should not cause "
+"any problems."
+msgstr ""
+"第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 \"纯净\"，但在"
+"大多数情况下，它不应导致任何问题。"
+
+#: ../setup.rst:166
+msgid ""
+"After updating is complete, you can import all saved projects using the :ref:"
+"`project import <import_projects>` tools."
+msgstr ""
+"完成更新后，您可以使用 :ref:`项目导入 <import_projects>` 工具导入所有已保存的项"
+"目。"
+
+#: ../setup.rst:173
+msgid "Exporting and Viewing Scenes"
+msgstr "导出和查看场景"
+
+#: ../setup.rst:175
+msgid ""
+"The created scenes can be exported in HTML format. To do this use the :file:"
+"`File > Export > Blend4Web (.html)` or :file:`File > Export > Blend4Web (."
+"json)` menu option and choose the export filepath. Scene export is described "
+"thoroughly in :ref:`its own chapter <addon>`. The resulting HTML file can be "
+"opened with any browser with WebGL support."
+msgstr ""
+"创建的场景可以以 HTML 格式导出。使用 :file:`File > Export > Blend4Web (.html)` "
+"或者 :file:`File > Export > Blend4Web (.json)` 菜单选项，然后选择导出文件的路"
+"径。场景导出完全描述在 :ref:`自己章节 <addon>`. 可以用任何支持 WebGL的浏览器打开"
+"生成的 HTML 文件。"
+
+#: ../setup.rst:177
+msgid ":ref:`browser_webgl_support`"
+msgstr ":ref:`browser_webgl_support`"
+
+#: ../setup.rst:133
+msgid "viewer"
+msgstr "预览"
+
+#: ../setup.rst:133
+msgid "launch"
+msgstr "启动"
+
+#: ../setup.rst:168
+msgid "export"
+msgstr "导出"
+
+#~ msgid "*To check:*"
+#~ msgstr "*去检查：*"

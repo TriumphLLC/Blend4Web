@@ -76,32 +76,14 @@ exports.GET_OBJECT_BY_DUPLI_NAME_LIST = 2;
 exports.DATA_ID_ALL = DATA_ID_ALL;
 
 exports.update = function(timeline, elapsed) {
-    var objects = _all_objects["ALL"];
     var armatures = _all_objects["ARMATURE"];
 
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var scenes_data = obj.scenes_data;
-
-        for (var j = 0; j < scenes_data.length; j++) {
-            var sc_data = scenes_data[j];
-            var scene = sc_data.scene;
-            var batches = sc_data.batches;
-            var render = scene._render;
-
-            // render outline animation
-            if (render.outline) {
-                // update outline animation
-                if (_outline_anim_objs.indexOf(obj) != -1)
-                    update_obj_outline_intensity(obj, timeline);
-
-                if (obj.render.outline_intensity)
-                    m_scenes.request_outline(scene);
-            }
-
-            //TODO: need to track every particle independently
-            m_particles.update_emitter_transform(obj, batches);
-        }
+    // update outline objects first (no need for processing among other objs)
+    for (var i = 0; i < _outline_anim_objs.length; i++) {
+        var obj = _outline_anim_objs[i];
+        update_obj_outline_intensity(obj, timeline);
+        if (obj.render.outline_intensity)
+            request_scenes_outline(obj);
     }
 
     if (!armatures)
@@ -114,6 +96,24 @@ exports.update = function(timeline, elapsed) {
             m_trans.update_transform(armobj);
             armobj.need_update_transform = false;
         }
+    }
+}
+
+exports.set_outline_intensity = set_outline_intensity;
+function set_outline_intensity(obj, value) {
+    obj.render.outline_intensity = value;
+    request_scenes_outline(obj);
+}
+
+function request_scenes_outline(obj) {
+    var scenes_data = obj.scenes_data;
+    var obj_render = obj.render;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var sc_data = scenes_data[i];
+        var scene = sc_data.scene;
+        var render = scene._render;
+        if (render.outline && obj_render.outline_intensity)
+            m_scenes.request_outline(scene);
     }
 }
 
@@ -249,8 +249,6 @@ exports.update_object = function(bpy_obj, obj) {
 
         prepare_vertex_anim(bpy_obj, obj);
         prepare_shape_keys(bpy_obj, obj);
-
-        prepare_nodemats_containers(bpy_obj, obj);
 
         render.shadow_cast = bpy_obj["b4w_shadow_cast"];
         render.shadow_receive = bpy_obj["b4w_shadow_receive"];
@@ -796,138 +794,6 @@ function first_mesh_material(bpy_obj) {
     return bpy_obj["data"]["materials"][0];
 }
 
-function prepare_nodemats_containers(bpy_obj, obj) {
-
-    var render = obj.render;
-    var materials = bpy_obj["data"]["materials"];
-
-    var mats_values = [];
-    var mats_value_inds = [];
-    var mats_anim_inds = [];
-    var mats_rgbs = [];
-    var mats_rgb_inds = [];
-    var mats_rgb_anim_inds = [];
-
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-        var node_tree = mat["node_tree"];
-
-        if (!node_tree)
-            continue;
-
-        var anim_data = node_tree["animation_data"];
-
-        process_ntree_r(node_tree, mat["name"], anim_data,
-                           mats_values, mats_value_inds, mats_anim_inds,
-                           mats_rgbs, mats_rgb_inds, mats_rgb_anim_inds);
-    }
-    render.mats_values = mats_values;
-    render.mats_value_inds = mats_value_inds;
-    render.mats_anim_inds = mats_anim_inds;
-    render.mats_rgbs = mats_rgbs;
-    render.mats_rgb_inds = mats_rgb_inds;
-    render.mats_rgb_anim_inds = mats_rgb_anim_inds;
-}
-
-function process_ntree_r(node_tree, names_str, anim_data,
-                         mats_values, value_inds, val_anim_inds,
-                         mats_rgbs, rgb_inds, rgb_anim_inds) {
-
-    // collect all VALUE and RGB nodes
-    for (var i = 0; i < node_tree["nodes"].length; i++) {
-        var node = node_tree["nodes"][i];
-        if (node["type"] == "VALUE") {
-            var param_name = join_name(names_str, node["name"]);
-            mats_values.push(node["outputs"][0]["default_value"]);
-            value_inds.push(param_name, value_inds.length / 2);
-
-        } else if (node["type"] == "RGB") {
-            var param_name = join_name(names_str, node["name"]);
-            var def_value = node["outputs"][0]["default_value"].slice(0,3);
-            mats_rgbs.push(def_value[0], def_value[1], def_value[2]);
-            rgb_inds.push(param_name, rgb_inds.length / 2);
-
-        } else if (node["type"] == "GROUP") {
-            var gr_node_tree = node["node_group"]["node_tree"];
-            var ntree_anim_data = gr_node_tree["animation_data"];
-            var new_names_str = join_name(names_str, node["name"]);
-            process_ntree_r(gr_node_tree, new_names_str, ntree_anim_data,
-                            mats_values, value_inds, val_anim_inds,
-                            mats_rgbs, rgb_inds, rgb_anim_inds);
-        }
-    }
-
-    // process their animation data
-    if (anim_data)
-        process_ntree_anim_data(anim_data, names_str,
-                                val_anim_inds, value_inds,
-                                rgb_inds, rgb_anim_inds);
-}
-
-function process_ntree_anim_data(anim_data, names_str,
-                                 val_anim_inds, value_inds,
-                                 rgb_inds, rgb_anim_inds) {
-
-    var action = anim_data["action"];
-    if (action && action._render.type == m_anim.AT_MATERIAL)
-        extract_nodemat_action_params(action, names_str,
-                                      val_anim_inds, value_inds,
-                                      rgb_anim_inds, rgb_inds);
-
-    var nla_tracks = anim_data["nla_tracks"];
-
-    for (var j = 0; j < nla_tracks.length; j++) {
-        var nla_strips = nla_tracks[j]["strips"];
-        for (var k = 0; k < nla_tracks[j]["strips"].length; k++) {
-            var strip = nla_strips[k];
-            var action = strip["action"];
-            if (action && action._render.type == m_anim.AT_MATERIAL)
-                extract_nodemat_action_params(action, names_str,
-                                              val_anim_inds, value_inds,
-                                              rgb_anim_inds, rgb_inds);
-        }
-    }
-}
-
-function extract_nodemat_action_params(action, names_str,
-                                       val_anim_inds, value_inds,
-                                       rgb_anim_inds, rgb_inds) {
-
-    var params = action._render.params;
-    for (var param in params) {
-        var full_node_path = join_name(names_str, node_name_from_param_name(param));
-        var ind = node_ind_by_full_path(value_inds, full_node_path);
-        if (ind != null) {
-            var param_name = join_name(action["name"], param);
-            val_anim_inds.push(param_name, ind);
-        } else {
-            var ind = node_ind_by_full_path(rgb_inds, full_node_path);
-            if (ind != null) {
-                var param_name = join_name(action["name"], param);
-                rgb_anim_inds.push(param_name, ind);
-            }
-        }
-    }
-}
-
-function join_name(name1, name2) {
-    return name1 + "%join%" + name2;
-}
-
-function node_name_from_param_name(param_name) {
-    // extract text between first "[" and "]" which is exactly a node name
-    return param_name.match(/"(.*?)"/ )[1];
-}
-
-function node_ind_by_full_path(inds, path) {
-    for (var i = 0; i < inds.length; i+=2) {
-        var name = inds[i];
-        if (name == path)
-            return inds[i+1];
-    }
-    return null;
-}
-
 exports.get_meta_tags = function(obj) {
     return m_util.clone_object_r(obj.metatags);
 }
@@ -935,7 +801,7 @@ exports.get_meta_tags = function(obj) {
 exports.cleanup = function() {
     _color_id_counter = 0;
     _cube_refl_counter = 0;
-    _refl_plane_objs = [];
+    _refl_plane_objs.length = 0;
     _outline_anim_objs.length = 0;
     _all_objects = {"ALL":[]};
 }
@@ -1057,26 +923,6 @@ function copy_batches(obj, new_obj, deep_copy) {
         } else
             new_sc_data.batches = m_obj_util.copy_bpy_object_props_by_link(batches);
     }
-}
-
-exports.get_value_node_ind_by_id = get_value_node_ind_by_id;
-function get_value_node_ind_by_id (obj, id) {
-    var value_inds = obj.render.mats_value_inds;
-    for (var i = 0; i < value_inds.length; i+=2) {
-        if (value_inds[i] == id)
-            return value_inds[i+1]
-    }
-    return null;
-}
-
-exports.get_rgb_node_ind_by_id = get_rgb_node_ind_by_id;
-function get_rgb_node_ind_by_id(obj, id) {
-    var rgb_inds = obj.render.mats_rgb_inds;
-    for (var i = 0; i < rgb_inds.length; i+=2) {
-        if (rgb_inds[i] == id)
-            return rgb_inds[i+1]
-    }
-    return null;
 }
 
 function prepare_physics_settings(bpy_obj, obj) {
@@ -1448,7 +1294,8 @@ exports.update_boundings = function(obj) {
 
     // bounding ellipsoid
     var be_local = m_bounds.create_bounding_ellipsoid(
-            [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center);
+            [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center,
+                    [0, 0, 0, 1]);
     render.be_local = be_local;
 
     m_trans.update_transform(obj);
@@ -1686,6 +1533,12 @@ function get_object_by_dupli_name_list(name_list, objects, data_id) {
     return null;
 }
 
+exports.get_world_by_name = function (name, data_id) {
+    var full_name = "%meta_world%" + name;
+    var wrds = _all_objects["WORLD"];
+    return get_object_by_name(full_name, wrds, true, data_id);
+}
+
 function update_obj_outline_intensity(obj, timeline) {
     var outline_intensity = 0;
     var oa = obj.outline_animation;
@@ -1786,7 +1639,7 @@ exports.set_wind_params = function(scene, wind_params) {
     }
 
     if (typeof wind_params.wind_dir == "number") {
-        var angle =  (wind_params.wind_dir) / 180 * Math.PI;
+        var angle =  m_util.deg_to_rad(wind_params.wind_dir);
         m_vec3.set(Math.sin(angle), 0, Math.cos(angle), _vec3_tmp);
         m_util.dir_to_quat(_vec3_tmp, m_util.AXIS_Y, _quat4_tmp);
 
@@ -1839,29 +1692,6 @@ function objects_storage_remove(obj) {
 
 exports.objects_storage_check = function(obj) {
     return _all_objects[obj.type] && _all_objects[obj.type].indexOf(obj) > -1;
-}
-
-exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
-    var node_id = name_list.join("%join%");
-    var ind = get_rgb_node_ind_by_id(obj, node_id);
-    if (ind != null) {
-        obj.render.mats_rgbs[3 * ind]     = r;
-        obj.render.mats_rgbs[3 * ind + 1] = g;
-        obj.render.mats_rgbs[3 * ind + 2] = b;
-    } else {
-        m_print.error("The RGB node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
-    }
-}
-
-exports.set_nodemat_value = function(obj, name_list, value) {
-    var node_id = name_list.join("%join%");
-    var ind = get_value_node_ind_by_id(obj, node_id);
-    if (ind != null)
-        obj.render.mats_values[ind] = value;
-    else
-        m_print.error("The Value node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
 }
 
 }

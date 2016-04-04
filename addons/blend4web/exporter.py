@@ -786,7 +786,7 @@ def process_action(action):
 
     # prefer quaternion rotation
     if has_quat_rotation and has_euler_rotation:
-        for data_path in fc_indices:
+        for data_path in list(fc_indices):
             if data_path.find("rotation_euler") > -1:
                 del fc_indices[data_path]
 
@@ -1021,6 +1021,7 @@ def process_scene(scene):
     scene_data["b4w_render_reflections"] = scene.b4w_render_reflections
     scene_data["b4w_reflection_quality"] = scene.b4w_reflection_quality
     scene_data["b4w_render_refractions"] = scene.b4w_render_refractions
+    scene_data["b4w_render_dynamic_grass"] = scene.b4w_render_dynamic_grass
     scene_data["b4w_enable_god_rays"] = scene.b4w_enable_god_rays
     scene_data["b4w_enable_glow_materials"] = scene.b4w_enable_glow_materials
     scene_data["b4w_enable_ssao"] = scene.b4w_enable_ssao
@@ -1222,17 +1223,14 @@ def process_scene_nla(scene, scene_data):
             slot_data["object"] = None
             slot_data["operation"] = ""
             #slot_data["condition"] = ""
-            # -1 - do not use the register
-            slot_data["variable1"] = -1
-            slot_data["variable2"] = -1
-            slot_data["variabled"] = -1
             slot_data["input1"] = 0
             slot_data["input2"] = 0
             slot_data["url"] = ""
             slot_data["param_name"] = ""
             slot_data["mute"] = slot["mute"]
             slot_data["anim_name"] = slot["param_anim_name"]
-            slot_data["parse_resp_list"] = slot["parse_resp_list"]
+            slot_data["parse_json_vars"] = slot["parse_json_vars"]
+            slot_data["parse_json_paths"] = slot["parse_json_paths"]
             slot_data["objects_paths"] = slot["objects_paths"]
             slot_data["materials_names"] = slot["materials_names"]
             slot_data["nodes_paths"] = slot["nodes_paths"]
@@ -1242,7 +1240,8 @@ def process_scene_nla(scene, scene_data):
             slot_data["strings"] = slot["strings"]
             slot_data["shader_nd_type"] = slot["shader_nd_type"]
             slot_data["common_usage_names"] = slot["common_usage_names"]
-            slot_data["send_req_vars_list"] = slot["send_req_vars_list"]
+            slot_data["encode_json_vars"] = slot["encode_json_vars"]
+            slot_data["encode_json_paths"] = slot["encode_json_paths"]
             slot_data["links"] = {}
 
             if slot['type'] == "PLAY":
@@ -1252,7 +1251,7 @@ def process_scene_nla(scene, scene_data):
                 slot_data["frame_range_mask"] = frame_range_mask
 
             elif slot['type'] == "SELECT":
-                obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
                 if (obj and do_export(obj) and object_is_valid(obj)):
                     slot_data["object"] = slot["objects_paths"]["id0"]
                     if slot['link_jump']:
@@ -1263,7 +1262,7 @@ def process_scene_nla(scene, scene_data):
             elif slot['type'] == "SWITCH_SELECT":
                 ind = 0
                 for k in slot["objects_paths"]:
-                    obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"][k])
+                    obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"][k])
                     if (obj and do_export(obj) and object_is_valid(obj)):
                         idx = -1
                         if k in slot["links"]:
@@ -1275,18 +1274,26 @@ def process_scene_nla(scene, scene_data):
                     ind += 1
 
             elif slot['type'] == "PLAY_ANIM" or slot['type'] == "STOP_ANIM":
-                obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
+                if not slot["bools"]["env"]:
+                    obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
 
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    slot_data["object"] = slot['objects_paths']["id0"]
+                    if (obj and do_export(obj) and object_is_valid(obj)):
+                        slot_data["object"] = slot['objects_paths']["id0"]
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
                 else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
+                    wrld = logic_node_tree.object_by_path(bpy.data.worlds, slot['objects_paths']["id0"])
+
+                    if (wrld and do_export(wrld)):
+                        slot_data["object"] = slot['objects_paths']["id0"]
+                    else:
+                        force_mute_node(slot_data, "World is not selected or not exported.")
 
             elif slot['type'] == "INHERIT_MAT":
-                check_objects_paths(scene, slot, slot_data)
+                check_objects_paths(slot, slot_data)
 
             elif slot['type'] == "SET_SHADER_NODE_PARAM":
-                obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"]["id0"])
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
                 if (obj and do_export(obj) and object_is_valid(obj)):
                     slot_data["object"] = slot['objects_paths']["id0"]
                 else:
@@ -1295,7 +1302,7 @@ def process_scene_nla(scene, scene_data):
                     slot_data['mute'] = True
 
             elif slot['type'] == "APPLY_SHAPE_KEY":
-                obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"]["id0"])
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
                 if (obj and do_export(obj) and object_is_valid(obj)):
                     pass
                 else:
@@ -1320,19 +1327,18 @@ def process_scene_nla(scene, scene_data):
                     elif slot['param_condition'] == "EQUAL":
                         slot_data["floats"]["cnd"] = 5
 
-                    if slot['param_var_flag1']:
-                        slot_data["variable1"] = slot['param_var1']
-                    else:
+                    if not slot['param_var_flag1']:
                         slot_data["input1"] = round_num(slot['param_number1'], 6)
+                        slot_data["variables"]["v1"][1] = -1
 
-                    if slot['param_var_flag2']:
-                        slot_data["variable2"] = slot['param_var2']
-                    else:
+                    if not slot['param_var_flag2']:
                         slot_data["input2"] = round_num(slot['param_number2'], 6)
+                        slot_data["variables"]["v2"][1] = -1
 
             elif slot['type'] == "REGSTORE":
-                slot_data["variabled"] = \
-                slot['param_var_define'] if slot['param_var_flag1'] else slot['param_var_dest']
+                if slot['param_var_flag1']:
+                    slot_data["variables"]["vd"] = slot['param_var_define']
+
                 if slot['param_variable_type'] == "Number":
                     slot_data["input1"] = round_num(slot['param_number1'], 6)
                 else:
@@ -1340,31 +1346,20 @@ def process_scene_nla(scene, scene_data):
 
             elif slot['type'] == "MATH":
                 slot_data["operation"] = slot['param_operation']
-
-                if slot['param_var_flag1']:
-                    slot_data["variable1"] = slot['param_var1']
-                else:
+                if not slot['param_var_flag1']:
+                    slot_data["variables"]["v1"][1] = -1
                     slot_data["input1"] = round_num(slot['param_number1'], 6)
-
-                if slot['param_var_flag2']:
-                    slot_data["variable2"] = slot['param_var2']
-                else:
+                if not slot['param_var_flag2']:
+                    slot_data["variables"]["v2"][1] = -1
                     slot_data["input2"] = round_num(slot['param_number2'], 6)
-
-                slot_data["variabled"] = slot['param_var_dest']
-
             elif slot['type'] == "REDIRECT":
                 if not get_url(slot, slot_data):
                     return
             elif slot['type'] == "SEND_REQ":
                 if not get_url(slot, slot_data):
                     return
-                if slot_data["bools"]["prs"]:
-                    del slot_data["variables"]["dst"]
-                if slot_data["bools"]["enc"]:
-                    del slot_data["variables"]["dst1"]
             elif slot['type'] == "SHOW" or slot['type'] == "HIDE":
-                obj = logic_node_tree.object_by_path(scene.objects, slot['objects_paths']["id0"])
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
                 if obj and do_export(obj) and object_is_valid(obj):
                     slot_data["object"] = slot['objects_paths']["id0"]
                 else:
@@ -1376,16 +1371,19 @@ def process_scene_nla(scene, scene_data):
                 else:
                     force_mute_node(slot_data, "Bad param name")
 
-                slot_data["variabled"] = slot['param_var_dest']
+                if slot['param_variable_type'] == "Number":
+                    slot_data["floats"]["ptp"] = 0
+                else:
+                    slot_data["floats"]["ptp"] = 1
 
             elif slot['type'] == "MOVE_CAMERA":
-                check_objects_paths(scene, slot, slot_data)
+                check_objects_paths(slot, slot_data)
 
             elif slot['type'] == "MOVE_TO":
-                check_objects_paths(scene, slot, slot_data)
+                check_objects_paths(slot, slot_data)
 
             elif slot['type'] == "TRANSFORM_OBJECT":
-                check_objects_paths(scene, slot, slot_data)
+                check_objects_paths(slot, slot_data)
                 #rotate axis if not variables
                 if not (slot_data["bools"]["try"] or slot_data["bools"]["trz"]):
                     slot_data["floats"]["try"], slot_data["floats"]["trz"] = slot_data["floats"]["trz"], -slot_data["floats"]["try"]
@@ -1432,7 +1430,7 @@ def process_scene_nla(scene, scene_data):
                         slot_data["floats"]["cnd"] = 5
 
             elif slot['type'] == "SPEAKER_PLAY" or slot['type'] == "SPEAKER_STOP":
-                check_objects_paths(scene, slot, slot_data)
+                check_objects_paths(slot, slot_data)
 
             elif slot['type'] == "NOOP":
                 pass
@@ -1443,9 +1441,9 @@ def process_scene_nla(scene, scene_data):
     # pprint.pprint(scene_data["b4w_logic_nodes"])
 
 
-def check_objects_paths(scene, slot, slot_data):
+def check_objects_paths(slot, slot_data):
     for o in slot["objects_paths"]:
-        obj = logic_node_tree.object_by_path(scene.objects, slot["objects_paths"][o])
+        obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"][o])
         if (obj and do_export(obj) and object_is_valid(obj)):
             pass
         else:
@@ -5117,8 +5115,22 @@ def check_binaries():
         else:
             globals()["b4w_bin"] = m
 
+def check_version():
+    if (bpy.app.version[0] != blend4web.bl_info["blender"][0]
+            or bpy.app.version[1] != blend4web.bl_info["blender"][1]):
+        message = _("Blender %s is recommended for the Blend4Web addon. Current version is %s") % \
+                  (".".join(map(str, blend4web.bl_info["blender"][:-1])), ".".join(map(str, bpy.app.version[:-1])))
+        blend4web.init_mess.append(message)
+
+def log_warnings():
+    import sys
+    for m in blend4web.init_mess:
+        print("B4W Warning: %s" % m, file=sys.stderr)
+
 def register():
+    check_version()
     check_binaries()
+    log_warnings()
     bpy.types.INFO_MT_file_export.append(b4w_export_menu_func)
 
 def unregister():

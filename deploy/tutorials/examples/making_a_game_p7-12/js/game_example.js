@@ -9,8 +9,10 @@ b4w.register("game_example_main", function(exports, require) {
 var m_app   = require("app");
 var m_main  = require("main");
 var m_data  = require("data");
+var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_cons  = require("constraints");
+var m_input = require("input");
 var m_scs   = require("scenes");
 var m_cfg   = require("config");
 var m_print = require("print");
@@ -66,8 +68,6 @@ function init_cb(canvas_elem, success) {
         m_print.log("b4w init failure");
         return;
     }
-
-    m_app.enable_controls(canvas_elem);
 
     window.addEventListener("resize", on_resize);
 

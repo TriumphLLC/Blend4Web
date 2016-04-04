@@ -1,0 +1,863 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>索引 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+
+<h1 id="index">索引</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#符号"><strong>符号</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="animation.html#index-0">animation</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-5">anti-aliasing</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="lighting.html#index-4">background</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-0">Blend4Web模式</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="about.html#index-6">Blender</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="colors.html#index-0">Color Correction</a>
+  </dt>
+
+      
+  <dt><a href="developers_advanced.html#index-0">compiling shaders</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="developers_advanced.html#index-6">WebGL Extensions</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-7">errors</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-4">import/export directives</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-2">obfuscation</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-3">optimization</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-5">recommendations and limitations</a>
+  </dt>
+
+        
+  <dt><a href="developers_advanced.html#index-1">validation</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-3">crepuscular rays</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-1">depth of field</a>
+  </dt>
+
+      
+  <dt><a href="textures.html#index-4">diffuse map</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-1">DOF</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="objects.html#index-1">get object</a>
+  </dt>
+
+      
+  <dt><a href="git_short_manual.html#index-0">git</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="git_short_manual.html#index-4">adding and removing files</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-2">checking the status</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-5">commit</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-1">individual settings</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-3">preparing for commit</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-7">resolving conflicts</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-6">synchronization between repositories</a>
+  </dt>
+
+        
+  <dt><a href="git_short_manual.html#index-8">tags</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-3">god rays</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="lighting.html#index-3">light sources</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="lighting.html#index-0">lighting</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="textures.html#index-3">matcap</a>
+  </dt>
+
+      
+  <dt><a href="textures.html#index-3">material capture</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="materials.html#index-0">materials</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="materials.html#index-12">halo</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-1">lighting parameters</a>
+  </dt>
+
+        
+  <dt><a href="node_materials.html#index-0">nodes</a>, <a href="node_materials.html#index-1">[1]</a>, <a href="node_materials.html#index-2">[2]</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-5">reflection</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-9">rendering properties</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-11">specific parameters</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-2">transparency</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-10">viewport properties</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="postprocessing_effects.html#index-0">motion blur</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="lighting.html#index-2">normals</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="lighting.html#index-2">editor</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="objects.html#index-0">Object Transform API</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-4">outline glow</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="textures.html#index-7">parallax mapping</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt>
+    particle system
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="particles.html#index-0">fluids</a>
+  </dt>
+
+        
+  <dt><a href="particles_instancing.html#index-0">instancing</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="objects.html#index-2">quaternion</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="materials.html#index-5">reflection</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="materials.html#index-7">dynamic</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-8">fresnel effect</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-6">static</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="release_notes.html#index-0">release notes</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="textures.html#index-12">render-to-texture</a>
+  </dt>
+
+      
+  <dt><a href="textures.html#index-12">RTT</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="postprocessing_effects.html#index-2">screen-space ambient occlusion</a>
+  </dt>
+
+      
+  <dt><a href="developers.html#index-0">sensor</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="developers.html#index-1">manifold</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="lighting.html#index-1">shading</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="lighting.html#index-1">types</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="outdoor_rendering.html#index-0">shoreline</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="outdoor_rendering.html#index-0">shoreline data</a>
+  </dt>
+
+      
+  <dt><a href="textures.html#index-11">skydome</a>
+  </dt>
+
+      
+  <dt><a href="postprocessing_effects.html#index-2">SSAO</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="textures.html#index-0">textures</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="textures.html#index-4">diffuse</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-9">environment map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-7">height map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-10">mirror map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-6">normal map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-12">render to</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-2">settings</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-11">sky</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-5">specular map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-8">stencil map</a>
+  </dt>
+
+        
+  <dt><a href="textures.html#index-1">types</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt>
+    transparancy
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="materials.html#index-4">settings</a>
+  </dt>
+
+        
+  <dt><a href="materials.html#index-3">types</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="materials.html#index-2">transparency</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="about.html#index-3">WebGL</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="about.html#index-5">优势</a>
+  </dt>
+
+        
+  <dt><a href="about.html#index-4">浏览器支持</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="符号">符号</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="about.html#index-7">三维建模</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-2">三维引擎</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-9">交互式图形</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-2">图形引擎</a>
+  </dt>
+
+      
+  <dt><a href="scene_settings.html#index-0">场景</a>
+  </dt>
+
+      
+  <dt><a href="setup.html#index-1">导出</a>, <a href="workflow.html#index-0">[1]</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="addon.html#index-4">导出错误警告</a>
+  </dt>
+
+        
+  <dt><a href="addon.html#index-3">错误</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="about.html#index-1">引擎</a>
+  </dt>
+
+      
+  <dt><a href="addon.html#index-0">插件</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="addon.html#index-1">初始化错误</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="about.html#index-10">显卡</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-8">浏览器</a>
+  </dt>
+
+      
+  <dt><a href="about.html#index-8">浏览器技术</a>
+  </dt>
+
+      
+  <dt>
+    版本
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="addon.html#index-2">错误</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="stereo_rendering.html#index-0">立体影片</a>
+  </dt>
+
+      
+  <dt><a href="web_player.html#index-0">网络播放器</a>
+  </dt>
+
+      
+  <dt><a href="viewer.html#index-0">预览</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="setup.html#index-0">启动</a>
+  </dt>
+
+        
+  <dt><a href="workflow.html#index-1">添加场景</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="about.html#index-10">驱动程序</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

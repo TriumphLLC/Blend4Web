@@ -10,6 +10,7 @@ var m_cont   = require("container");
 var m_cons   = require("constraints");
 var m_ctl    = require("controls");
 var m_data   = require("data");
+var m_math   = require("math");
 var m_obj    = require("objects");
 var m_phy    = require("physics");
 var m_quat   = require("quat");
@@ -38,7 +39,6 @@ function init_cb(canvas_elem, success) {
         console.log("b4w init failure");
         return;
     }
-    m_app.enable_controls();
     load();
 }
 
@@ -54,6 +54,7 @@ function load_cb(data_id) {
 function init_logic() {
     
     var from = new Float32Array(3);
+    var pline = m_math.create_pline();
     var to = new Float32Array(3);
 
     var decal_num = 0;
@@ -91,7 +92,8 @@ function init_logic() {
     var mouse_cb = function(e) {
         var x = e.clientX;
         var y = e.clientY;
-        m_cam.calc_ray(m_scenes.get_active_camera(), x, y, to);
+        m_cam.calc_ray(m_scenes.get_active_camera(), x, y, pline);
+        m_math.get_pline_directional_vec(pline, to);
 
         m_vec3.scale(to, 100, to);
         var obj_src = m_scenes.get_active_camera();

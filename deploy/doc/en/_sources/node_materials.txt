@@ -1,459 +1,513 @@
+.. index:: materials; nodes
 
+.. _node_materials:
+
+**************
 Node Materials
 **************
 
+.. contents:: Table of Content
+    :depth: 3
+    :backlinks: entry
 
-Table of Content
-^^^^^^^^^^^^^^^^
 
-* Node Materials
+Shader nodes extend significantly the potential of Blender’s standard materials by means of presenting shading as a batch of basic transformations.
 
-  * Standard Nodes
+.. image:: src_images/node_materials/node_materials_title.png
+   :align: center
+   :width: 100%
 
-  * Engine Specific Nodes
 
-    * Replace (B4W_REPLACE)
-
-    * Clamp (B4W_CLAMP)
-
-    * Time (B4W_TIME)
-
-    * Vector View (B4W_VECTOR_VIEW)
-
-    * Parallax (B4W_PARALLAX)
-
-    * Translucency (B4W_TRANSLUCENCY)
-
-    * Refraction (B4W_REFRACTION)
-
-    * Levels of Quality (B4W_LEVELS_OF_QUALITY)
-
-    * Smoothstep (B4W_SMOOTHSTEP)
-
-    * Glow Output (B4W_GLOW_OUTPUT)
-
-    * Reflect (B4W_REFLECT)
-
-    * Linear to SRGB and SRGB to Linear (Deprecated)
-
-Shader nodes extend significantly the potential of Blender's standard
-materials by means of presenting shading as a batch of basic
-transformations.
-
-[image]
-
+.. _generic_node_materials:
 
 Standard Nodes
 ==============
 
-Blend4Web supports all standard Blender nodes, but some of them do not
-work fast enough and are not recommended to use in real time
-applications. Creating very complex materials, especially using large
-numbers of "Geometry" and "Texture" nodes, is also not recommended.
+.. index:: materials; nodes
 
-Cycles nodes are only partially supported: in most cases they will not
-work in Blend4Web the same way they do in Blender. They also might not
-work at all or even cause material in which they are used to work
-incorrectly. However, using Cycles nodes will not cause instabilities
-in the application workflow.
+Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of ``Geometry`` and ``Texture`` nodes, is also not recommended.
 
+Cycles nodes are only partially supported: in most cases they will not work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using Cycles nodes will not cause instabilities in the application workflow.
 
+.. _node_performance:
 
+.. only:: html or gettext
+
+    Standard node performance and degree of support is described in the table.
+
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | Node's Name       | Function                | Support                    | Performance          |
+    +===================+=========================+============================+======================+
+    | Camera Data       | Used to obtain data     | Full                       | Average              |
+    |                   | from an active camera   |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | ColorRamp         | Used to generate        |                            | Average              |
+    |                   | gradient                | ``B-Spline``, ``Cardinal`` |                      |
+    |                   |                         | and ``Ease`` interpolation |                      |
+    |                   |                         | modes are not supported    |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | Combine HSV       | Combines a color from   | Full                       | Average              |
+    |                   | the given Hue, Value    |                            |                      |
+    |                   | and Saturation          |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Combine RGB       | Combines a color from   | Full                       | High                 |
+    |                   | the given red, green    |                            |                      |
+    |                   | and blue channel        |                            |                      |
+    |                   | values                  |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Extended Material | Used to add a material  |                            | Average              |
+    |                   | to the node program.    |                            |                      |
+    |                   | Has more input and      | ``Ambient`` and ``SpecTra``|                      |
+    |                   | output channels than    | inputs are not supported.  |                      |
+    |                   | the basic ``Material``  | ``AO`` output is not       |                      |
+    |                   | node                    | supported.                 |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Gamma             | Used to set gamma       | Full                       | High                 |
+    |                   | of a given color        |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Geometry          | Used to obtain          | ``Vertex Alpha`` output    | Using large numbers  |
+    |                   | information about       | is not supported           | of these nodes is    |
+    |                   | object's geometry       |                            | not recommended      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Hue/Saturation    | Used to control Hue and | Full                       | Low                  |
+    |                   | Saturation of a given   |                            |                      |
+    |                   | color                   |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Invert            | Inverts a given color   | Full                       | High                 |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Lamp Data         | Used to obtain          | ``Shadow`` output          | Average              |
+    |                   | information from a      | is not supported           |                      |
+    |                   | given light source      |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Mapping           | Used to transform       | Full                       | Average              |
+    |                   | texture coordinates     |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | Material          | Used to add a standard  | Full                       | Average              |
+    |                   | material to the         |                            |                      |
+    |                   | node program            |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Math              | Used to perform         | Full                       | High                 |
+    |                   | mathematical operations |                            |                      |
+    |                   | with given values       |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | MixRGB            | Mixes two given colors  | Full                       | Low in the           |
+    |                   |                         |                            | ``Burn``,            |
+    |                   |                         |                            | ``Dodge``,           |
+    |                   |                         |                            | ``Value``,           |
+    |                   |                         |                            | ``Saturation``,      |
+    |                   |                         |                            | ``Hue``              |
+    |                   |                         |                            | and ``Color`` modes, |
+    |                   |                         |                            | high in the rest     |
+    |                   |                         |                            | of the modes         |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Normal            | Used to generate a      | Full                       | High                 |
+    |                   | normal vector           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Output            | Outputs the result      | Full                       | Average              |
+    |                   | of the node program     |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Particle Info     | Used to obtain          | In the materials of the    | Average              |
+    |                   | information about       | ``Emitter`` type           |                      |
+    |                   | particle system         | particle systems           |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB               | Generates an RGB color  | Full                       | High                 |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB Curves        | Sets a curve to modify  | Full                       | Average              |
+    |                   | a given color           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | RGB to BW         | Desaturates a given     | Full                       | High                 |
+    |                   | RGB color               |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Separate HSV      | Separates a given color | Full                       | High                 |
+    |                   | into Hue, Saturation    |                            |                      |
+    |                   | and Value               |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Separave RGB      | Separates a given color | Full                       | High                 |
+    |                   | into red, green and     |                            |                      |
+    |                   | blue channels           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Squeeze Value     | Squeezes given value    | Full                       | High                 |
+    |                   |                         |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Texture           | Sets a texture          | Full                       | Using large numbers  |
+    |                   |                         |                            | of these nodes is    |
+    |                   |                         |                            | not recommended      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Value             | Generates a numeric     | Full                       | High                 |
+    |                   | value                   |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | Vector Curves     | Sets a curve to modify  | Full                       | Average              |
+    |                   | a given vector          |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+ 
+    | Vector Math       | Used to perform         | Full                       | High                 |
+    |                   | mathematical operations |                            |                      |
+    |                   | with two given vectors  |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+   
+
+|
+
+.. only:: latex or gettext
+
+    Standard node performance and degree of support is described in the `table <https://www.blend4web.com/doc/ru/node_materials.html#node-performance>`_.
+
+.. _custom_node_materials:
 
 Engine Specific Nodes
 =====================
 
-Engine-specific nodes extend functionality of the standard nodes to
-support extra features. These nodes are created as node groups ("Node
-Groups" or "Node Tree") with specially determined names and input
-formats. For convenience, all special nodes are added to a blend file
-when it is opened.
+.. index:: materials; nodes
 
-[image]
+Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (``Node Groups`` or ``Node Tree``) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.
 
+.. image:: src_images/node_materials/node_materials_nodes.png
+   :align: center
+
+
+.. _node_replace:
 
 Replace (B4W_REPLACE)
 ---------------------
 
-The node replaces the inputs depending on the working environment
-(i.e. Blender viewport or Blend4Web). When working in Blender the
-"Color1" input is connected to the "Color" output and the "Color2"
-input is ignored. On the contrary when working in the engine the
-inputs are interchanged (the "Color1" one is ignored and the "Color2"
-one is connected to the output). The node is intended to display one
-node structure in the viewport and another - in the engine.
+The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the ``Color1`` input is connected to the ``Color`` output and the ``Color2`` input is ignored. On the contrary when working in the engine the inputs are interchanged (the ``Color1`` one is ignored and the ``Color2`` one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.
 
-[image]
+.. image:: src_images/node_materials/node_materials_replace.png
+   :align: center
+   :width: 100%
 
-As a rule it is used for normal mapping. Blender's node materials do
-not support a tangent space of coordinates. Therefore the only
-possible method to display normal maps in the viewport correctly is
-their usage inside the "Material" nodes.
+As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Color1*
-   Node setup that will be visible in the Blender viewport.
+    Node setup that will be visible in the Blender viewport.
 
 *Color2*
-   Node setup that will be visible in the Blend4Web engine.
+    Node setup that will be visible in the Blend4Web engine.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Color*
-   Should be connected to the "Color" socket of the "Material" or
-   "Extended Material" node.
+    Should be connected to the ``Color`` socket of the ``Material`` or ``Extended Material`` node.
 
+.. _node_clamp:
 
 Clamp (B4W_CLAMP)
 -----------------
 
-The node limits the output value. As a result all the output vector
-components take values from 0 to 1 inclusive.
+The node limits the output value. As a result all the output vector components take values from 0 to 1 inclusive.
 
-[image]
+.. image:: src_images/node_materials/node_materials_clamp.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
-
-*Image*
-   Incident vector.
-
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Image*
-   Clamped vector.
+    Incident vector.
 
+Output Parameters
+.................
+
+*Image*
+    Clamped vector.
+
+
+.. _node_time:
 
 Time (B4W_TIME)
 ---------------
 
-Provides the timeline counting from the engine start (in seconds). Can
-be used for animating any parameters in node materials, such as UV
-coordinates, mixing factors, transparency etc.
+Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.
 
-[image]
+.. image:: src_images/node_materials/node_time.png
+   :align: center
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 None.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Value*
-   Time (in seconds) elapsed from the engine startup.
+    Time (in seconds) elapsed from the engine startup.
 
-See also: Animation of Value and RGB Nodes
+.. seealso:: :ref:`node_anim`
 
+.. _node_vector_view:
 
 Vector View (B4W_VECTOR_VIEW)
 -----------------------------
 
-The node transforms a vector into the camera's space of coordinates.
-Transformation is necessary because the engine defines most of vectors
-in the world space of coordinates. If normal vector is being
-transformed by this node it should be used only for effects and not
-for connecting to the output of the "Material" or "Extended Material"
-nodes.
+The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
 
-[image]
+.. image:: src_images/node_materials/node_materials_vector_view.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Vector*
-   Vector coordinates in the world-space.
+    Vector coordinates in the world-space.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Vector*
-   Vector coordinates in the camera-space.
+    Vector coordinates in the camera-space.
 
+.. _node_parallax:
 
 Parallax (B4W_PARALLAX)
 -----------------------
 
 The node implements the texture coordinates offset using a height map.
 
-[image]
+.. image:: src_images/node_materials/node_materials_parallax.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *UV*
-   Source texture coordinates
+   Source texture coordinates.
 
 *Height Map*
    RGBA texture with a height map packed into the alpha channel.
 
 *Scale*
-   Texture coordinates offset factor
+   Texture coordinates offset factor.
 
 *Steps*
-   The number of steps for iterative generation of texture coordinates
-   offset. The bigger this value is the better is the final quality.
+   The number of steps for iterative generation of texture coordinates offset. The bigger this value is the better is the final quality.
 
 *Lod Distance*
    Maximum distance from camera at which the effect is observed.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *UV*
-   Resulting texture coordinates which are used as input for the
-   texture nodes.
+   Resulting texture coordinates which are used as input for the texture nodes.
 
+.. _node_translucency:
 
 Translucency (B4W_TRANSLUCENCY)
 -------------------------------
 
-The node implements a translucency effect (with respect to light
-sources only) for thin objects such as cloth, leaves, paper etc. The
-effect consists of two parts: 1) brightening of the object side which
-is opposite to the light source and 2) appearance of a light spot
-right in the light source place.
+The node implements a translucency effect (with respect to light sources only) for thin objects such as cloth, leaves, paper etc. The effect consists of two parts: 1) brightening of the object side which is opposite to the light source and 2) appearance of a light spot right in the light source place.
 
-[image]
+.. image:: src_images/node_materials/node_materials_translucency.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Color*
-   One-channel texture which defines material heterogeneity - the
-   white color denotes maximum translucency effect while the black
-   color denotes its absence. White color is used by default.
+    One-channel texture which defines material heterogeneity - the white color denotes maximum translucency effect while the black color denotes its absence. White color is used by default.
 
 *Backside Factor*
-   Material color correction coefficient for the side which is
-   opposite to the light source. It describes the color richness
-   effect for the translucent areas.
+    Material color correction coefficient for the side which is opposite to the light source. It describes the color richness effect for the translucent areas.
 
-   * *Backside Factor < 1* - brightening
+    * *Backside Factor < 1* - brightening
+    * *Backside Factor = 1* - no correction
+    * *Backside Factor > 1* - darkening
 
-   * *Backside Factor = 1* - no correction
-
-   * *Backside Factor > 1* - darkening
-
-   The default value is 1.
+    The default value is 1.
 
 *Spot Hardness*
-   Light spot blurring factor. The bigger this value is the smaller is
-   the spot and the sharper are the spot edges. The default value is
-   1000.
+    Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.
 
 *Spot Intensity*
-   Light spot intesity. The bigger this value is the brighter is the
-   light spot. The default value is 1.
+    Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.
 
 *Spot Diffuse Factor*
-   Material diffuse color influence on the light spot color.
+    Material diffuse color influence on the light spot color.
 
-   * *Spot Diffuse Factor = 0* - the light spot has the diffuse
-     color
+    * *Spot Diffuse Factor = 0* - the light spot has the diffuse color
+    * *Spot Diffuse Factor = 1* - the light spot color is white
 
-   * *Spot Diffuse Factor = 1* - the light spot color is white
+    The default value is 1.
 
-   The default value is 1.
-
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Translucency*
-   The output should be connected to the "Translucency" input of the
-   "Extended Material" node.
+        The output should be connected to the ``Translucency`` input of the ``Extended Material`` node.
 
-Note: This node can work incorrectly, if the mesh normals were
-  edited.
+.. note::
 
+  This node can work incorrectly, if the :ref:`mesh normals were edited <normals_editor>`.
+
+.. _node_refraction:
 
 Refraction (B4W_REFRACTION)
 ---------------------------
 
-Applies refraction effect to an object. This effect works only in the
-Blend4Web engine and not in the Blender's viewport.
+Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.
 
-[image]
+.. image:: src_images/node_materials/node_materials_refraction.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Normal*
-   Normal map for adding perturbations.
+    Normal map for adding perturbations.
 
 *Refraction Bump*
-   Value of perturbation strength.
+    Value of perturbation strength.
 
-   The default value is 0.001.
+    The default value is 0.001.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Color*
-   Rendered texture behind object with perturbations.
+    Rendered texture behind object with perturbations.
 
-Note: It's neccessary to set the "Refractions" option from the
-  "Render > Reflections and Refractions" panel to value "AUTO" or
-  "ON".  The object's transparency type must be set to "Alpha Blend".
+.. note::
 
-See also: Transparency
+    It’s neccessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
+.. seealso:: :ref:`alpha_blend`
 
+.. _node_quality:
 
 Levels of Quality (B4W_LEVELS_OF_QUALITY)
 -----------------------------------------
 
-Sets up the output color based on the current image quality settings.
-Can be used to, for example, replace complex material with more simple
-one if the application is running on a mobile device.
+Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.
 
-[image]
+.. image:: src_images/node_materials/node_materials_levels_of_quality.png
+   :align: center
+   :width: 100%
 
-See also: Quality Profiles
+.. seealso:: :ref:`quality_settings`
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *HIGH*
-   Node links this parameter to "Color" parameter in case of high and
-   maximum quality usage.
+    Node links this parameter to ``Color`` parameter in case of high and maximum quality usage.
 
 *LOW*
-   Node links this parameter to "Color" parameter in case of low
-   quality usage.
+    Node links this parameter to ``Color`` parameter in case of low quality usage.
 
 *Fac*
-   This value specifies what quality setting ("HIGH" or "LOW") will be
-   visible in the Blender viewport. Can change from 0 to 1. If the
-   value is lower than 0.5, the "HIGH" setting will be visible, if it
-   is 0.5 or higher, the "LOW" setting will be visible.
+    This value specifies what quality setting (``HIGH`` or ``LOW``) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or higher, the ``LOW`` setting will be visible.
 
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Color*
-   Output color.
+    Output color.
 
+
+.. _node_smoothstep:
 
 Smoothstep (B4W_SMOOTHSTEP)
 ---------------------------
 
-Performs smooth interpolation between two input values based on first
-value.
+Performs smooth interpolation between two input values based on first value.
 
-[image]
+.. image:: src_images/node_materials/node_materials_smoothstep.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Value*
-   Value which determines interpolation smoothness.
+    Value which determines interpolation smoothness.
 
 *Edge0*
-   First interpolation value.
+    First interpolation value.
 
 *Edge1*
-   Second interpolation value.
+    Second interpolation value.
 
 
-Output parameters
-~~~~~~~~~~~~~~~~~
+Output Parameters
+.................
 
 *Value*
-   Interpolated value.
+    Interpolated value.
 
-Note: For the correct interpolation input "Value" had to be between
-  "Edge0" and "Edge1".
+.. note::
+    For the correct interpolation input ``Value`` had to be between ``Edge0`` and ``Edge1``.
 
+
+.. _glow_output:
 
 Glow Output (B4W_GLOW_OUTPUT)
 -----------------------------
 
-Applies the Glow effect to the node material. Besides the
-*B4W_GLOW_OUTPUT* node, the node material should have the *Output*.
+Applies the :ref:`Glow effect <glow>` to the node material. Besides the *B4W_GLOW_OUTPUT* node, the node material should have the *Output* node.
 
-[image]
+.. image:: src_images/node_materials/node_materials_glow_output.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
+Input Parameters
+................
 
 *Glow Color*
-   Glow color.
+    Glow color.
 
 *Factor*
-   Glow ratio. *Factor* \in [0, 1].
+    Glow ratio. *Factor* :math:`\in [0, 1]`.
 
-   * *Factor = 0* - no glow.
+    * *Factor = 0* - no glow.
+    * *Factor* :math:`\in (0, 1]` - there is a glow, colored with *Glow Color*.
 
-   * *Factor* \in (0, 1] - there is a glow, colored with *Glow
-     Color*.
+.. note::
 
-Note: The "Transparency->Type" parameters of the material don't
-  affect behavior of the glow effect. It always corresponds to the
-  transparent material (not the "Alpha Clip" type).
+  The ``Transparency->Type`` parameters of the material don’t affect behavior of the glow effect. It always corresponds to the transparent material (not the ``Alpha Clip`` type).
 
+.. _node_reflect:
 
 Reflect (B4W_REFLECT)
 ---------------------
 
-Calculates the reflection direction for an incident vector and a
-normal vector. Can be used to apply a cubemap to an object.
+Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.
 
-[image]
+.. image:: src_images/node_materials/node_materials_reflect.png
+   :align: center
+   :width: 100%
 
-
-Input parameters
-~~~~~~~~~~~~~~~~
-
-*Vector*
-   Incident vector. Should be connected to the "View" socket of the
-   "Geometry" node.
+Input Parameters
+................
 
 *Vector*
-   Normal vector. Should be normalized in order to achieve the desired
-   result. Should be connected to the "Normal" socket of the
-   *Geometry* node.
-
-
-Output parameters
-~~~~~~~~~~~~~~~~~
+    Incident vector. Should be connected to the ``View`` socket of the ``Geometry`` node.
 
 *Vector*
-   Reflected vector. Should be connected to the "Vector" socket of the
-   "Texture" node that contains the cubemap.
+    Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the ``Normal`` socket of the ``Geometry`` node.
 
+Output Parameters
+.................
+
+*Vector*
+    Reflected vector. Should be connected to the ``Vector`` socket of the ``Texture`` node that contains the cubemap.
+
+.. _node_gamma:
 
 Linear to SRGB and SRGB to Linear (Deprecated)
 ----------------------------------------------
 
-Converts colors from linear space to sRGB or vice versa. This function
-has been declared deprecated sicne the version 15.04. In the newer
-versions, the native "Gamma" node with the value of 2.200 should be
-used to convert color from sRGB to linear space, and the same node
-with the value of 0.455 to convert color from linear space to sRGB.
+Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated sicne the version 15.04. In the newer versions, the native ``Gamma`` node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.
 
-[image]
+.. image:: src_images/node_materials/node_materials_gamma.png
+   :align: center
 
-See also: Gamma in Node Materials
+
+.. seealso:: :ref:`gamma_node_materials`
+

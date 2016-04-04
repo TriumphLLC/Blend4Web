@@ -1,185 +1,185 @@
 .. _textures:
 
-.. index:: текстуры
+.. index:: textures
 
 ********
-Текстуры
+Textures
 ********
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Текстуры - подготовленные вручную или процедурно сгенерированные изображения, накладываемые на поверхность моделей с целью их детализации. Для соотнесения точек 3D поверхности и пикселей плоского изображения, как правило, используются текстурные развертки. По этой причине текстуры иногда называют картами.
+Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they sometimes are referred to as maps.
 
-Текстуры обычно помещаются в текстурные слоты :ref:`материалов <materials>`, также возможно их использование для параметризации :ref:`систем частиц <particles_textures>` и визуализации :ref:`небесного свода <skydome_texture>`.
+Usually the textures are placed into :ref:`material <materials>` texture slots. They can be also used for :ref:`particle systems <particles_textures>` parametrization and for creating the :ref:`skydome <skydome_texture>`.
 
-.. index:: текстуры; типы
+.. index:: textures; types
 
-Типы текстур
-============
+Texture Types
+=============
 
-Опция выбора типа текстуры ``Type`` расположена во вкладке ``Textures``. Движком поддерживаются текстуры следующих типов:
+The ``Type`` drop-down menu (for selecting texture type) is located under the ``Textures`` tab. The engine supports the following texture types:
 
-#. ``Image or Movie``, изображение или фильм
-    - :ref:`диффузная (diffuse map) <diffuse_map>`
-    - :ref:`карта бликов (specular map) <specular_map>`, может также содержаться в альфа-канале диффузной текстуры
-    - :ref:`карта нормалей (normal map) <normal_map>`
-    - карта высот (height map), может содержаться только в альфа-канале карты нормалей, используется для :ref:`реализации рельефной поверхности (parallax mapping) <parallax_mapping>`
-    - :ref:`карта смешивания (stencil map) <stencil_map>`
-    - :ref:`видеотекстура <video_texture>`
-#. ``Environment Map``, карта окружения
-    - :ref:`карта зеркального отражения (mirror map) <mirror_map>`
-    - :ref:`текстура неба (skydome) <skydome_texture>`
-    - используется для реализации одной из методик :ref:`освещения от окружающей среды <environment_lighting>`
-#. ``None``, пустая
-    - применена на кубе в стартовой сцене Blender'a. Также используется для :ref:`рендеринга сцены в текстуру <render_to_texture_scene>`, а также для :ref:`рендеринга canvas-текстуры <render_to_texture_canvas>`.
-#. ``Blend``, градиент
-    - используется в :ref:`системах частиц <particles_textures>`
+#. ``Image or Movie``
+    - :ref:`diffuse map <diffuse_map>`
+    - :ref:`specular map <specular_map>`, this can also be packed into the alpha channel of a diffuse texture
+    - :ref:`normal map <normal_map>`
+    - height map; this must be packed into the alpha channel of a normal map; it is used for visualization of relief surfaces (:ref:`parallax mapping <parallax_mapping>`).
+    - :ref:`stencil map <stencil_map>`
+    - :ref:`video texture <video_texture>`
+#. ``Environment Map``
+    - :ref:`mirror map <mirror_map>`
+    - :ref:`skydome texture <skydome_texture>`
+    - used for implementation of an :ref:`environment lighting <environment_lighting>` method
+#. ``None``
+    - applied to the Blender's default scene cube. It is also used for :ref:`rendering a scene to texture <render_to_texture_scene>` and for :ref:`rendering canvas textures <render_to_texture_canvas>`.
+#. ``Blend``, gradient
+    - is used in :ref:`particle systems <particles_textures>`
 
-.. index:: текстуры; настройки
+.. index:: textures; settings
 
 .. _main_conf:
 
-Общие настройки
-===============
+Generic Settings
+================
 
-*Размер*
-    Размер растров для текстур-изображений (длина и ширина изображения в пикселах) должен быть числом 2\ :sup:`N`, т.е. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 пикселов. Использование текстур других размеров (т.н. NPOT) поддерживается, но не рекомендуется. Для корректной работы компрессии текстур размер должен составлять не менее 4 пикселов. Как правило, используются изображения квадратной формы (например, 512 x 512 px), однако могут использоваться и прямоугольные (например, 4 x 128 px). Использование изображений размером более 2048 пикселов не рекомендуется.
+*Dimensions*
+    Bitmap dimensions for image textures (image width and height in pixels) should be a 2\ :sup:`N` number, i.e. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 px. Using textures with other dimensions (so-called NPOT) is supported but is not recommended. Dimensions should be at least 4 pixels for the correct texture compression. Normally square images are used (e.g. 512 x 512 px), however rectangular ones can be used too (e.g. 4 x 128 px). Using images bigger than 2048 px is not recommended.
 
 .. _texture_extension:
 
 *Image Mapping > Extension*
-    Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для текстур типа ``Image or Movie``. В случае значения ``Repeat`` движок устанавливает для текстуры режим ``REPEAT``. При этом целочисленная часть текстурных координат игнорируется, используется только дробная часть. Во всех остальных случаях (например, ``Extend``) движок устанавливает ``CLAMP_TO_EDGE``. При этом происходит ограничение текстурных координат отрезком [0, 1]. Значение по умолчанию ``Repeat``.
+    Texture coordinates interpretation mode (Wrap Mode in WebGL). This is available for ``Image or Movie`` texture type. In case of ``Repeat`` value the engine sets the ``REPEAT`` mode for the texture. In this case the integer part of the texture coordinates is ignored and the fractional part is used. In all other cases (for example ``Extend``) the engine sets the ``CLAMP_TO_EDGE`` mode. In this case the texture coordinates are limited by the [0, 1] segment. The default value is ``Repeat``.
 
 .. index:: material capture, matcap
 
 *Mapping > Coordinates*
-    Тип текстурных координат. Поддерживаются ``UV`` (использовать развертку), ``Normal`` (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле **material capture**, **matcap**) и ``Generated`` (исходные недеформированные координаты объекта). Значение по умолчанию ``Generated``.
+    Texture coordinates type. Supported types are ``UV`` (use UV map), ``Normal`` (use direction at the camera; available only for diffuse maps; used for the creation of **material capture**, **matcap**) and ``Generated``. The default value is ``Generated``.
 
 *Mapping > Size*
-    Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.
+    Scaling the UV map along respective axes. The default values are 1.0.
 
 *Export Options > Do Not Export*
-    Не экспортировать текстуру.
+    Do not export the texture.
 
 *Export Options > Disable Compression*
-    Отключить использование текстурной компрессии для данной текстуры. Применяется в случае, когда компрессия приводит к ухудшению качества изображения. В частности, рекомендуется отключать для текстур-масок, использующихся для смешивания различных характеристик материалов.
+    Disable texture compression for this texture. Used in cases when texture compression deteriorates the image quality.For example it's recommended to disable compression for mask textures used to mix different parts of materials.
 
 *Export Options > Shore Distance Map*
-    Используется в :ref:`рендеринге наружных сцен <outdoor_rendering>`.
+    Used in :ref:`outdoor rendering <outdoor_rendering>`.
 
 *Export Options > Anisotropic Filtering*
-    Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию ``DEFAULT`` (т.е. использовать настройки сцены).
+    Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is ``DEFAULT`` (i.e. use the scene settings).
 
 *Water Foam*
-    Текстура пены. Используется материалом для рендеринга воды.
+    The foam texture. Used by the water rendering material.
 
 .. note::
 
-    Для карт нормалей текстурная компрессия не применяется.
+    Texture compression is disabled for textures used as normal maps.
 
 
 .. _diffuse_map:
 
-.. index:: текстуры; диффузная, diffuse map
+.. index:: textures; diffuse, diffuse map
 
-Диффузная текстура (diffuse map)
-================================
+Diffuse Map
+===========
 
-Диффузная текстура применяется для указания распределения цвета рассеянного света (модель Ламберта).
+A diffuse map is used for specifying scattered light distribution (the Lambert model).
 
-Активация
----------
+Activation
+----------
 
-Выставить опцию ``Diffuse > Color`` на панели ``Textures > Influence``.
+Enable the ``Diffuse > Color`` checkbox on the ``Textures > Influence`` panel.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
 *Influence > Diffuse > Color*
-    Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0.
+    Influence of the texture on the diffuse color. The default value is 1.0.
 
 *Influence > Blend*
-    Тип взаимодействия с цветом материала (``Material > Diffuse > Color``), или с вертексным цветом, если включена опция ``Vertex Color Paint``. Поддерживаются ``Mix`` (смешивается с цветом), ``Multiply`` (умножается на цвет). Значение по умолчанию ``Mix``.
+    The type of the interaction with the material color (``Material > Diffuse > Color``), or with the vertex color if the ``Vertex Color Paint`` checkbox is enabled. The following types are supported: ``Mix`` (mixes with the color), ``Multiply`` (multiplies by the color). The default value is ``Mix``.
 
 
 .. _specular_map:
 
-.. index:: текстуры; карта бликов, specular map
+.. index:: textures; specular map
 
-Карта бликов (specular map)
-===========================
+Specular Map
+============
 
-Карта бликов применяется для указания распределения цвета отраженного света (модель Фонга).
+The specular map is used for specifying the reflected light color distribution (the Phong model).
 
-Активация
----------
+Activation
+----------
 
-Выставить опцию ``Specular > Color`` на панели ``Textures > Influence``.
+Enable the ``Specular > Color`` checkbox on the ``Textures > Influence`` panel.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
 *Influence > Specular > Color*
-    Степень влияния текстуры на цвет отраженного света. Значение по умолчанию 1.0.
+    The influence of the texture on the reflected light color. The default value is 1.0.
 
 *Influence > Blend*
-    Тип взаимодействия с цветом отраженного света материала (``Material > Specular > Color``). Поддерживается только ``Mix`` (смешивается с цветом). Значение по умолчанию ``Mix``.
+    The type of interaction with the reflected light color of the material (``Material > Specular > Color``). ``Mix`` (mixes with the color) is the only supported type. The default value is ``Mix``.
 
-Карта бликов может быть упакована в альфа-канал диффузной текстуры в целях оптимизации. В этом случае для текстуры необходимо одновременно выставить опции ``Diffuse > Color`` и ``Specular > Color``. Цветовой диапазон ограничен оттенками серого цвета.
+The specular map can be packed to the alpha channel of a diffuse texture for optimization purposes. In such case it is required for the texture to enable the ``Diffuse > Color`` and ``Specular > Color`` checkboxes simultaneously. The color range is limited by gray tints.
 
 
 .. _normal_map:
 
-.. index:: текстуры; карта нормалей, normal map
+.. index:: textures; normal map
 
-Карта нормалей (normal map)
-===========================
+Normal Map
+==========
 
-Карта нормалей применяется для указания распределения нормалей (перпендикуляров) к поверхности с целью увеличения уровня детализации ее рельефа. Информация о нормалях должна храниться в текстурном пространстве координат. Карты нормалей в объектном пространстве не поддерживаются.
+A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.
 
-Активация
----------
+Activation
+----------
 
-Выставить опцию ``Geometry > Normal`` на панели ``Textures > Influence``.
+Enable the ``Geometry > Normal`` checkbox on the ``Textures > Influence`` panel.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
 *Influence > Geometry > Normal*
-    Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0.
+    Normal map influence on the resulting normals calculation. The default value is 1.0.
 
 
 .. _parallax_mapping:
 
-.. index:: текстуры; карта высот, height map, parallax mapping
+.. index:: textures; height map, parallax mapping
 
-Карта высот (height map). Parallax mapping
-==========================================
+Height Map. Parallax Mapping
+============================
 
-Карта высот содержит информацию о распределении относительных высот рельефа. Более высокий уровень поверхности обозначается более светлым цветом. Карта высот в сочетании с картой нормалей требуются в качестве входящих данных для реализации рельефной поверхности (parallax mapping). Карта высот должна содержатся в альфа-канале карты нормалей.
+A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.
 
 .. image:: src_images/textures/textures_height_map.png
    :align: center
    :width: 100%
 
-Активация
----------
+Activation
+----------
 
-Для карты нормалей дополнительно к опции ``Geometry > Normal`` активировать панель ``Parallax``.
+For the normal map enable the ``Parallax`` panel in addition to the ``Geometry > Normal`` checkbox.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
 *Parallax > Parallax Scale*
-    Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03.
+    Influence factor for the relief surface effect. The default value is 0.03.
 
 *Parallax > Parallax Steps*
-    Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10.
+    The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationaly expensive.
 
 *Parallax > Parallax LOD distance*
-    Расстояние на котором виден эффект параллакса.
+    Distance at which the parallax effect is observed.
 
 .. image:: src_images/textures/textures_parallax.png
    :align: center
@@ -190,33 +190,33 @@
 
 .. _stencil_map:
 
-.. index:: текстуры; карта смешивания, stencil map
+.. index:: textures; stencil map
 
-Карта смешивания (stencil map)
-==============================
+Stencil Map
+===========
 
-Специальная текстура (цветная или оттенков серого), содержащая информацию о распределении других текстур по поверхности.
+The special purpose texture (colorful or grayscale) contains information about the distribution of other texture surfaces.
 
-Активация
----------
+Activation
+----------
 
-1. В случае нодовых материалов карта смешивания должна использоваться соответствующим образом в нодовой структуре.
-2. В случае обычных материалов карта смешивания должна располагаться в текстурном слоте между двумя смешиваемыми диффузными текстурами. Для текстуры смешивания необходимо одновременно выставить опции ``RGB to Intensity`` и ``Stencil`` на панели ``Textures > Influence``.
+1. In case of node materials a stencil map should be used in the corresponding node structure.
+2. In case of generic materials a stencil map should be located in a texture slot between two mixed diffuse textures. A stencil map requires to set both the ``RGB to Intensity`` and the ``Stencil`` checkboxes on the ``Textures > Influence`` panel.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
-В случае обычных материалов для одной из смешиваемых диффузных текстур поддерживается тип текстурных координат ``Normal`` ("matcap").
+In the case of generic materials one of the mixed diffuse textures can have the ``Normal`` ("matcap") texture coordinates type.
 
-Ограничения
+Limitations
 -----------
 
-В случае обычных материалов движком интерпретируется только красный канал текстуры смешивания. Карта бликов или карта нормалей при их наличии смешиванию не подвергаются. Настройка масштабирования ``Mapping > Size`` извлекается из первой текстуры и применяется ко всем остальным текстурам.
+In case of generic materials the engine only interprets the red channel of a stencil map. Specular maps or normal maps (if any) are not being mixed. The ``Mapping > Size`` setting is extracted from the first texture and is applied to all remaining textures.
 
-Пример
-------
+Example
+-------
 
-Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту "matcap", карту зеркального отражения.
+The apple model material has the following textures: a normal map, a diffuse texture with a specular map in its alpha channel, a stencil map, a diffuse "matcap" map, an environment map.
 
 .. image:: src_images/textures/textures_stencil_apple.png
    :align: center
@@ -233,111 +233,111 @@
 
 .. _video_texture:
 
-Видео-текстуры
+Video Textures
 ==============
 
-В качестве текстуры может применяться видеозапись. Для этого должен быть выбран тип текстуры ``Image or Movie``. 
+A video file can be used as a texture if ``Image or Movie`` texture type is selected.
 
 .. note::
 
-    Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое сопровождение следует накладывать, используя объект типа ``SPEAKER``.
+    Video textures support playing back just video tracks. Audio tracks should be played back by using a ``SPEAKER`` object.
 
-Поддерживаемые форматы (контейнеры):
-------------------------------------
+Supported formats (containers):
+-------------------------------
 
-* webm, кодек VP8 (Chrome, Firefox)
-* m4v, кодек H.264 (Chrome, Safari, IE)
-* ogv, кодек Theora (Chrome, Firefox)
+* webm, VP8 codec (Chrome, Firefox)
+* m4v, H.264 codec (Chrome, Safari, IE)
+* ogv, Theora codec (Chrome, Firefox)
 
-В качестве базового формата рекомендуется использовать *WebM*, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество изображения.
+We recommend to use *WebM* as a basic format. It is an open standard supported by the majority of browsers and offers good picture quality.
 
 .. note::
 
-    Файлы в форматах mp4 и ogg имеют различное расширение для звуковой и видео-информации: расширения *.mp4* и *.ogg* используются для звуков, *.m4v* и *.ogv* - для видео.
+    Files saved in mp4 and ogg formats have different extensions for audio and video data: *.mp4* and *.ogg* extensions are used for sounds, *.m4v* and *.ogv* - for video.
 
-Конвертация ресурсов в различные форматы описывается в :ref:`соответствующем разделе <converter>`.
+Converting resources between different formats is described in the :ref:`corresponding section <converter>`.
 
-Настройка текстуры
-------------------
+Setting up the Texture
+----------------------
 
-При использовании видео-текстуры можно настроить следующие опции на панели ``Texture > Image``:
+The following settings are available for video textures on the ``Texture > Image`` panel:
 
 *Image > Frames*
-    Длина воспроизводимого фрагмента видеозаписи в кадрах.
+    Length of the played fragment in frames.
 
 *Image > Offset*
-    Номер кадра, с которого будет начинаться воспроизведение видеозаписи.
+    The number of the frame from which the video playback starts.
 
 *Image > Cyclic*
-    Начинать воспроизводить видеозапись заново каждый раз после ее завершения.
+    Start video playback afresh each time it finishes.
 
 *Image > Allow NLA*
-    Воспроизводить текстуру в рамках NLA-сценария. Необходимо также включить NLA глобально на сцене, активировав панель ``Scene > NLA``. По умолчанию включено.
+    Play back the texture as part of an NLA track. Additionally, enable NLA in the global scene settings through activating ``Scene > NLA``. Enabled by default.
 
-Для текстур, управляемых через NLA будет актуальна следующая опция:
+For NLA-controlled textures the following option is also applicable:
 
 *Image > Start*
-    Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации.
+    Video playback delay (in frames) when using non-linear animation.
 
-Для текстур, управляемых не через NLA будет актуальна следующая опция:
+For non-NLA-controlled textures the following option is also applicable:
 
 *Image > Auto Refresh*
-    Воспроизводить видеозапись сразу после загрузки сцены.
+    Play back the video immediately after the scene is loaded.
 
 .. image:: src_images/textures/video_tex.png
    :align: center
 
 |
 
-Существует возможность ускоренного воспроизведения видеозаписей. Для этого необходимо задать значение свойства ``Scene > Dimensions > Frame rate`` отличным от значения fps (кадров в секунду) для видеозаписи. При этом скорость воспроизведения видеозаписи расчитывается как отношение Frame rate сцены к fps видеозаписи.
+The video playback rate can be increased. To do this set ``Scene > Dimensions > Frame rate`` to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of the scene's FPS and the video's FPS.
 
 .. image:: src_images/textures/fps.png
    :align: center
 
 .. note::
 
-    При использовании видео-текстур совместно с NLA кадры видео могут воспроизводиться не в точном соответствии со сделанными в Blender'е настройками. Возможно отставание видео в пределах 5-6 кадров, связанное с небольшой задержкой при старте/паузе тега <video>.
+    When video textures are used together with NLA, the video playback can be not corresponding with Blender settings. Namely, there can be observed some lagging withing 5-6 frames due to starting/pausing delay of the <video> HTML element.
 
-Особенности работы на мобильных устройствах
--------------------------------------------
+Specifics of Mobile Devices
+---------------------------
 
-Присутствуют следующие особенности реализации на мобильных устройствах:
+The peculiarities for mobile devices are as follows:
 
-#. на iPhone используется специально разработанный видеоформат ``.seq``, потому что данное устройство открывает все стандартные видеозаписи через свой видеопроигрыватель. Видео надо сконвертировать заранее, используя :ref:`наш конвертер <converter>`.
-#. на некоторых мобильных устройствах имеется поддержка воспроизведения только одного видеофайла.
-#. не гарантируется стабильная работа при выставлении опции ``Offset`` в ненулевое значение.
-#. не на всех устройствах поддерживается ускореное воспроизведение видео.
-#. на iPad и iPhone отсутствует возможность управления громкостью звука видеофайла, поэтому следует убрать аудио дорожку из видео перед добавлением файла в Blender.
+#. Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special ``.seq`` format by using our :ref:`converter <converter>`.
+#. some devices only support playing back only one video file.
+#. stable operation is not garanteed if the ``Offset`` value is not zero.
+#. not all devices support changing the video playback rate.
+#. iPad and iPhone do not provide the possibility to control the audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.
 
 .. _environment_map:
 
-.. index:: текстуры; карта окружения, environment map
+.. index:: textures; environment map
 
-Карта окружения (environment map)
-=================================
+Environment Map
+===============
 
-Применяется в качестве :ref:`карты зеркального отражения (mirror map) <mirror_map>`, в качестве статической :ref:`текстуры неба (skydome) <skydome_texture>`, а также для реализации одной из методик :ref:`освещения от окружающей среды <environment_lighting>`.
+An environment map can be used as a :ref:`mirror map <mirror_map>`, as a static :ref:`sky texture (skydome) <skydome_texture>` and also for implementation of an :ref:`environment lighting <environment_lighting>` method.
 
-В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender'e). Размер растров для каждого из изображений должен подчиняться правилу 2\ :sup:`N` (512, 1024 и т.п.).
+The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2\ :sup:`N` rule (512, 1024 etc).
 
-Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).
+It is recommended to use the lossless format (PNG) in order to avoid seams.
 
 .. image:: src_images/textures/environment_map.png
    :align: center
    :width: 100%
 
 
-Создание карты окружения
-------------------------
+Making Environment Maps
+-----------------------
 
-Blender позволяет запекать сцену в карту окружения. Для этого:
+Blender has an option for baking a scene into an environment map. To do this:
 
-#. Создать сцену для запекания.
-#. Добавить пустой объект в предполагаемом центре обзора (``Add > Empty``).
-#. Перейти во вкладку ``World``, затем перейти во вкладку ``Textures``, создать новую текстуру, выбрать тип ``Environment Map``.
-#. На панели ``Environment Map`` выбрать источник ``Static``, выбрать созданный пустой объект в поле ``Viewport Object``, установить разрешение 2\ :sup:`N` (512, 1024 и т.п.).
-#. Выполнить рендеринг сцены ``F12`` (требуется наличие камеры).
-#. Сохранить карту окружения в файл.
+#. Create a scene for baking.
+#. Add an empty object in the supposed point of view (``Add > Empty``).
+#. Go to the ``World`` tab then to the ``Textures`` tab and create a new texture with the ``Environment Map`` type.
+#. On the ``Environment Map`` panel select the ``Static`` source, then select the empty object in the ``Viewport Object`` field, then set the 2\ :sup:`N` dimension (512, 1024 etc).
+#. Render the scene by pressing ``F12`` (a camera is required).
+#. Save the environment map into a file.
 
 .. image:: src_images/textures/textures_environment_map_baking_scene.png
    :align: center
@@ -349,120 +349,126 @@ Blender позволяет запекать сцену в карту окруж�
    :align: center
    :width: 100%
 
-.. index:: текстуры; карта зеркального отражения, mirror map
+.. index:: textures; mirror map
 
 .. _mirror_map:
 
-Карта зеркального отражения (mirror map)
-========================================
+Mirror Map
+==========
 
-Применяется для визуализации отражающей способности поверхности. Представляет собой :ref:`карту окружения <environment_map>`.
+A mirror map is used to visualize the surface reflection. This is an :ref:`environment map <environment_map>`.
 
-Активация
----------
+Activation
+----------
 
-Выбрать тип текстуры (``Type``) ``Environment Map``. Выставить опцию ``Shading > Mirror`` на панели ``Textures > Influence``.
+Select the ``Environment Map`` texture type (``Type``). Enable the ``Shading > Mirror`` checkbox on the ``Textures > Influence`` panel.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
 *Influence > Shading > Mirror*
-    Степень влияния карты зеркального отражения. Значение по умолчанию 1.0.
+    The degree to which the mirror map affects the reflection. The default value is 1.0.
 
 
-.. seealso:: :ref:`Статическое отражение <reflection_static>`.
+.. seealso:: :ref:`Static reflection <reflection_static>`.
 
 
-.. index:: текстуры; небо, skydome
+.. index:: textures; sky, skydome
 
 .. _skydome_texture:
 
-Текстура неба (skydome)
-=======================
+Skydome
+=======
 
-Применяется для визуализации бесконечно удаленного окружения (например, небесного свода). Представляет собой :ref:`карту окружения <environment_map>`.
+A skydome is used to visualize an infinitely far environment (for example the sky). This is an :ref:`environment map <environment_map>`.
 
-Также может применяться для реализации одной из методик :ref:`освещения от окружающей среды <environment_lighting>`.
+Can be also used to implement one of the :ref:`environment lighting <environment_lighting>` methods.
 
-Активация
----------
+Activation
+----------
 
-Создать текстуру мира (world texture) с типом "Environment Map". Выбрать опцию ``Export Options > Sky Texture Usage > SKYDOME``, предварительно выставив опцию ``World > Render Sky`` на вкладке ``World``.
-
-.. note::
-
-    Поведение текстуры приближено к поведению рендера в Blender Internal. Поэтому, при стандартных настройках текстуры, она может не отображаться. Для отображения текстуры активируйте флаг в панели текстуры ``Influence > Horizon`` и установите значение ``Horizon`` равное 1.0.
+Create a world texture of ``Environment Map`` type. Select the ``Export Options > Sky Texture Usage > SKYDOME`` option. Enable ``World > Render Sky`` under the ``World`` tab.
 
 .. note::
 
-    Для имитации :ref:`освещения от окружающей среды <environment_lighting>` можно воспользоваться опцией ``Export Options > Sky Texture Usage > ENVIRONMENT_LIGHTING``. При этом необходимо также выбрать соответствующую опцию в настройках мира: ``Environment Lighting > Sky Texture``.
+    The behavior of the texture is intentionally made as close as possible to the Blender internal render. That's why the texture may not be displayed upon its default settings. In order to make the texture visible, enable the ``Influence > Horizon`` checkbox on its panel and set the ``Horizon`` value to 1.0.
 
-    Для создания обоих эффектов от одной текстуры необходимо выставить опцию ``Export Options > Sky Texture Usage > BOTH``.
+.. note::
+
+    To imitate :ref:`environment lighting <environment_lighting>` you can select the ``Export Options > Sky Texture Usage > ENVIRONMENT_LIGHTING`` option. Also, you should select the corresponding option in the world settings: ``Environment Lighting > Sky Texture``.
+
+    To use the world texture both for skydome and for environment lighting, select ``Export Options > Sky Texture Usage > BOTH``.
 
 
 .. image:: src_images/textures/skydome.png
    :align: center
    :width: 100%
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
-    Движком поддерживаются параметры вкладки ``Influence`` для настройки отображения неба.
-    Смешивание текстуры с цветом производится в зависимости от параметров ``World > Horizon Color`` (цвет горизонта) и ``World > Zenith Color`` (цвет зенита), а также флагов ``Paper Sky``, ``Blend Sky`` и ``Real Sky``.
-    Поддерживаются все типы смешивания (``Mix``, ``Add``, ``Multiply`` и т.д.).
+The engine also supports parameters from the world texture's ``Influence`` panel which are used for sky rendering. Mixing of the world texture with color depends on the ``World > Horizon Color`` and ``World > Zenith Color`` parameters, as well as on the ``Paper Sky``, ``Blend Sky`` and ``Real Sky`` options. All mixing options are supported (``Mix``, ``Add``, ``Multiply`` etc).
 
 .. image:: src_images/textures/skydome.png
    :align: center
    :width: 100%
 
 .. note::
-    Параметры вкладки ``Influence`` влияют только на отображение неба. Они не влияют на отображение :ref:`освещения от окружающей среды <environment_lighting>`.
+    The ``Influence`` panel parameters only affect the sky rendering. They do not affect :ref:`environment lighting <environment_lighting>` by any means.
 
 |
 
 
-.. index:: текстуры; рендеринг в, render-to-texture, RTT
+.. index:: textures; render to, render-to-texture, RTT
 
 
-Особые типы текстур
-===================
+Special Texture Types
+=====================
 
-Для использования особых типов текстур необходимо выставить тип текстуры ``None`` на панели ``Textures``.
+In order to use such textures, select ``None`` type under the ``Textures`` tab.
 
 .. image:: src_images/textures/type_none.png
    :align: center
 
 |
 
-В меню ``Textures > Export Options`` имеется возможность задать основные свойства для данного типа текстуры:
+On the ``Textures > Export Options`` panel, you can set up properties for these textures:
 
 *Export Options > Source Type*
-    Выбор особого типа текстуры: ``Scene`` - для рендеринга 3D сцены в текстуру, ``Canvas`` - использование HTML-элемента <canvas> и ``None`` - отсутствие текстуры.
+    Select texture type: ``Scene`` - for rendering a 3D scene into the texture, ``Canvas`` - for using <canvas> HTML element and ``None`` - for indicating of its absence.
 
 *Export Options > Source ID*
-    Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо идентификатор HTML-элемента <canvas> в случае Canvas-текстуры.
+    The name of the scene which will be rendered into the texture (for ``Scene``), or ID of the <canvas> HTML element (for ``Canvas``).
 
 *Export Options > Source Size*
-    Разрешение текстуры.
+    Texture resolution.
 
 *Export Options > Extension*
-    :ref:`Режим интерпретации текстурных координат <texture_extension>`. Значение по умолчанию ``Repeat``.
+    :ref:`Texture coordinates interpretation mode <texture_extension>`. Default is ``Repeat``.
 
 *Export Options > Enable Mipmapping*
-    Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено.
+    Enable mipmapping for the Canvas texture. Enabled by default.
 
 .. image:: src_images/textures/canvas_tex.png
    :align: center
 
 .. _render_to_texture_scene:
 
-3D сценa
+3D scene
 --------
 
-Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой ("главной") сцены.
+A 3D scene's real-time rendered image can be used as a texture by an object from another scene ("main" scene).
 
-#. Создать дополнительную сцену-источник, переименовать для удобства, создать ``World``, добавить нужные объекты, настроить вид из камеры.
-#. В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле ``Export Options > Source Type`` указать тип ``Scene``. В поле ``Export Options > Source ID`` указать название сцены-источника. В поле ``Export Options > Source Size`` указать размер текстуры в пикселях.
+#. Create an additional source scene.
+#. Rename it for convenience.
+#. Create a ``World``.
+#. Add the objects you need.
+#. Setup the camera view.
+#. Create a UV map for the target object in the main scene.
+#. Set the ``None`` type for a texture of the target object.
+#. Select the ``Scene`` type in the ``Export Options > Source Type`` menu.
+#. Specify the name of the source scene in the ``Export Options > Source ID`` field.
+#. Set the texture size in the ``Export Options > Source Size`` field (in pixels).
 
 .. image:: src_images/textures/textures_render_to_texture.png
    :align: center
@@ -470,11 +476,11 @@ Blender позволяет запекать сцену в карту окруж�
 
 |
 
-Также поддерживается циклическое отображение сцен друг в друга.
+The engine also supports the cyclic rendering of scenes to each other.
 
   .. note::
 
-    В проекте должна присутствовать хотя бы одна сцена, которую не отображают другие.
+    A project should contain at least one scene which is not rendered by any other scenes.
 
 
 .. _render_to_texture_canvas:
@@ -482,11 +488,11 @@ Blender позволяет запекать сцену в карту окруж�
 Canvas
 ------
 
-В качестве текстуры используется HTML-элемент <canvas>. Его редактирование осуществляется при помощи API.
+A <canvas> HTML element can be used as a texture. It can be modified via API.
 
-В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле ``Export Options > Source Type`` указать тип ``Canvas``. В поле ``Export Options > Source Size`` указать размер текстуры в пикселях.
+Set the ``None`` type for the texture of the target object on the main scene, and select the ``Canvas`` type in the ``Export Options > Source Type`` menu. Set the texture size in the ``Export Options > Source Size`` field (in pixels).
 
-Для работы с этими текстурами используется модуль ``textures``. Пример работы с ним описан ниже.
+Use the ``textures`` module to handle such textures. See the example below.
 
 .. code-block:: javascript
 
@@ -500,9 +506,8 @@ Canvas
     m_tex.update_canvas_ctx(obj, "TEXTURE_NAME");
 
 
-Для получения контекста используется функция ``get_canvas_ctx()``, куда передается объект и имя текстуры, задаваемое в Blender. После `преобразований с контекстом <http://www.w3.org/TR/2014/CR-2dcontext-20140821/>`_ вызывается функция ``update_canvas_ctx()``, которая осуществляет визуализацию изменений на указанном объекте, в указанной текстуре.
+Use ``get_canvas_texture_context()`` to obtain a context - this method requires the "canvas_id" identifier which should be defined in Blender. After `operations with the context <http://www.w3.org/TR/2014/CR-2dcontext-20140821/>`_, the ``update_canvas_ctx()`` function has to be called which will render modifications of the "canvas_id" element.
 
   .. note::
 
-    Если в Blender на разных объектах была назначена одна и та же текстура типа Canvas, то и после загрузки в движке будет одна общая текстура, а не несколько уникальных. 
-    Результат работы с ней будет заметен на всех использующих её объектах. Это может быть полезно с точки зрения оптимизации. Если же требуется противоположное поведение, то следует назначить разные текстуры ещё в Blender, либо использовать :ref:`глубокое копирование <mesh_copy>` уже непосредственно в приложении.
+    If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use :ref:`deep copy <mesh_copy>` after engine startup.

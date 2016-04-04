@@ -182,13 +182,6 @@ function create_render(type) {
         arm_rel_trans: null,
         arm_rel_quat: null,
 
-        mats_values: null,
-        mats_value_inds: null,
-        mats_anim_inds: null,
-        mats_rgbs: null,
-        mats_rgb_inds: null,
-        mats_rgb_anim_inds: null,
-
         // bounding volumes properties
         bb_original: null,
         bb_local: null,

@@ -115,8 +115,6 @@
  * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
  * <dt>wireframe_debug
  * <dd>Boolean, enable wireframe debug mode.
- * <dt>use_browser_distortion_cor
- * <dd>Boolean, use browser distortion correction.
  * </dl>
  * @module config
  * @local QualityProfile
@@ -130,7 +128,7 @@
  * @cc_externs precision quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs wireframe_debug use_browser_distortion_cor url_params stereo
+ * @cc_externs wireframe_debug url_params stereo
  */
 b4w.module["config"] = function(exports, require) {
 

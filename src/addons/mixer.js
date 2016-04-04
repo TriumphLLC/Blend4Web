@@ -35,6 +35,9 @@ var m_util   = require("util");
 var TIMER_SLOW_PERIOD = 0.15;
 var TIMER_FAST_PERIOD = 0.05;
 
+var MIXER_CONTROLS_MANIFOLD = ["SWITCH_STRIP", "SWITCH_STRIP_HOLD",
+        "SWITCH_PARAM", "INC_DEC", "INC_DEC_HOLD", "MUTE_SOLO"];
+
 var _mixer_strips = [];
 var _active_strip = 0;
 
@@ -156,6 +159,13 @@ exports.enable_mixer_controls = function() {
     });
 }
 
+/**
+ * Disable mixer controls.
+ */
+exports.disable_mixer_controls = function() {
+    for (var i = 0; MIXER_CONTROLS_MANIFOLD.length; i++)
+        m_ctl.remove_sensor_manifold(null, MIXER_CONTROLS_MANIFOLD[i]);
+}
 
 /**
  * Initialize mixer

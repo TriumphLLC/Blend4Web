@@ -1,21 +1,21 @@
 .. _developers_advanced:
 
-********************
-Разработчикам движка
-********************
+*********************
+For Engine Developers
+*********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
 .. _coding_style:
 
-Стиль оформления кода
-=====================
+Coding Style
+============
 
-В движке применяется структурное программирование. Код организуется в модули. Подходы ООП не используются, классы не определяются, наследование не осуществляется и т.п. 
+This engine uses structural programming. The code is organized in modules. OOP methods are not used, classes are not defined, inheritance is not performed and so on. 
 
-Используется `K&R стиль <http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_, за исключением того, что открывающая скобка для составного оператора ставится на той же строке, например:
+The `K&R style <http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_ is used except for the fact that the opening bracket for a compound operator is placed on the same line, for example:
 
 .. code-block:: javascript
 
@@ -27,32 +27,31 @@
         // ...
     } 
 
-Для выравнивания используются 4 пробела (табуляция запрещена).
+4 spaces are used for identation (no tabs allowed).
 
-Примеры
--------
+Examples
+--------
 
-В именах переменных и функций используется знак подчеркивания:
+The underscore symbol is used in function and variable names:
 
 .. code-block:: javascript
 
     var foo_bar = 123;  // correct
     var fooBar = 123;   // wrong
     
-Все глобальные переменные начинаются со знака подчеркивания:
+All global variables begin with an underscore:
 
 .. code-block:: javascript
 
     var _foo_bar = null;
 
-Константы пишутся прописными буквами и никогда не начинаются со знака подчеркивания:
+The constants are written in capital letters and never begin with an underscore:
 
 .. code-block:: javascript
 
     var FOO_BAR = 100;
 
-Для внешних API названия методов и свойств задаются через точку.
-Поля, требующие защиту от обфускации, помещаются в специальный тэг ``@cc_externs``:
+The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the ``@cc_externs`` tag:
 
 .. code-block:: javascript
 
@@ -79,200 +78,190 @@
         ...
     }
  
-Комментарии только на английском языке. Стиль комментирования - JSDoc.
+Commenting is in English only. Comment style - JSDoc.
 
 
-Сборка движка
-=============
+Building the Engine
+===================
 
-Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые
-зависимости, для чего следует свериться с :ref:`таблицей <dependencies>`.
+Before building please make sure that your system has all required dependencies installed (see the :ref:`table <dependencies>`).
 
-Для компиляции движка и входящих в SDK приложений достаточно выполнить команду
-из корневой директории SDK:
+To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):
 
 .. code-block:: bash
 
     make compile
 
-Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео),
-компиляцию и подготовку документации вызывается командой:
+The full building that includes converting the resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:
 
 .. code-block:: bash
 
     make build
 
-Сборка архивов с дистрибутивами:
+Building the archives with the distributions:
 
 .. code-block:: bash
 
     make dist
 
-Все вышеперечисленные операции могут быть выполнены одной командой:
+All above mentioned operations can be performed with a single command:
 
 .. code-block:: bash
 
     make all
 
-Сборка аддона
-=============
+Building the Addon
+==================
 
-Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: Linux x32/64, OS X x64, Windows x32/64.
-В то же время пользователи имеют возможность произвести сборку самостоятельно. 
+Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time users can compile the addon by themselves.
 
-Для этого необходимо наличие Python 3.x (желательно, чтобы версия была эквивалентна используемой в Blender) и компилятора языка C (в Linux достаточно установить пакеты python3-dev и build-essential).
+To do this Python 3.x (it's better if it's the same version as in Blender) and a C compiler are required. Under Linux it's enough to install the python3-dev and build-essential packages.
 
-Пути относительно корневой директории SDK:
-    - скрипт сборки: ``csrc/b4w_bin/build.py``
-    - аддон Blend4Web: ``blender_scripts/addons/blend4web/``
+Paths relative to the repository root:
+    - build script: ``csrc/b4w_bin/build.py``
+    - Blend4Web addon: ``blender_scripts/addons/blend4web/``
 
-Запуск сборки осуществляется следующим образом:
+The building process is started in the following way:
 
 .. code-block:: bash
     
     python3 ./csrc/b4w_bin/build.py
 
-Результатом сборки будет бинарный файл с именем:
+As a result of the building you'll get a binary file called:
 
-``b4w_bin_[ПЛАТФОРМА]_[АРХИТЕКТУРА].[СТАНДАРТНОЕ_РАСШИРЕНИЕ]``,
+``b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]``,
 
-размещенный в каталоге с аддоном. Пример: ``b4w_bin_Linux_64.so``. После этого аддон станет готовым к использованию на данной платформе.
+located in the same directory as the addon. Example: ``b4w_bin_Linux_64.so``. After this the addon is ready to use under this platform.
 
 
 
 .. _dependencies:
 
-Зависимости
-===========
+Dependencies
+============
 
-Для ведения эффективной разработки движка и приложений, необходим ряд сторонних
-программ (зависимостей). Большинство этих зависимостей находится в составе
-современных дистрибутивов GNU/Linux, таких как Ubuntu. В других Unix-подобных
-системах (Apple OS X, FreeBSD) их установка из исходных кодов или иных
-источников не представляет существенных проблем.
+To do this Python 3.x (it's better if it's the same version as in Blender) and a C compiler are required. Under Linux it's enough to install the python3-dev and build-essential packages.
 
-В таблице ниже перечислены все зависимости, в порядке убывания важности для
-разработки.
+All dependencies are listed in the table below in order of decreasing importance.
 
 +-------------------------------+-------------------------------+----------------------------+
-| Название                      | Пакет в дистрибутиве Ubuntu   | Назначение                 |
-|                               | 14.04                         |                            |
+| Name                          | Ubuntu 14.04 package          | Purpose                    |
+|                               |                               |                            |
 +===============================+===============================+============================+
-| Bash                          | в составе по умолчанию        | интерпретатор скриптов     |
+| Bash                          | Included by default           | interpretator for scripts  |
 +-------------------------------+-------------------------------+----------------------------+
-| Python 3                      | в составе по умолчанию        | интерпретатор скриптов     |
+| Python 3                      | Included by default           | interpretator for scripts  |
 +-------------------------------+-------------------------------+----------------------------+
-| NodeJS                        | nodejs                        | компиляция шейдеров        |
+| NodeJS                        | nodejs                        | compiling shaders          |
 +-------------------------------+-------------------------------+----------------------------+
-| Java                          | default-jre                   | компиляция и обфускация    |
-|                               |                               | модулей движка             |
+| Java                          | default-jre                   | compiling and obfuscating  |
+|                               |                               | the engine modules         |
 +-------------------------------+-------------------------------+----------------------------+
-| Emscripten                    | `из исходных текстов EMSDK`_  | сборка Uranium             |
+| Emscripten                    | `from EMSDK source code`_     | building Uranium           |
 +-------------------------------+-------------------------------+----------------------------+
-| ImageMagick                   | imagemagick                   | конвертация ресурсов       |
+| ImageMagick                   | imagemagick                   | converting the resources   |
 +-------------------------------+-------------------------------+----------------------------+
-| NVIDIA Texture Tools          | libnvtt-bin                   | конвертация ресурсов       |
+| NVIDIA Texture Tools          | libnvtt-bin                   | converting the resources   |
 +-------------------------------+-------------------------------+----------------------------+
-| NVIDIA Cg Toolkit             | nvidia-cg-toolkit             | отладка шейдеров           |
+| NVIDIA Cg Toolkit             | nvidia-cg-toolkit             | debugging shaders          |
 +-------------------------------+-------------------------------+----------------------------+
-| Libav                         | libav-tools                   | конвертация ресурсов       |
+| Libav                         | libav-tools                   | converting the resources   |
 +-------------------------------+-------------------------------+----------------------------+
-| Gnuplot                       | gnuplot                       | отладка                    |
+| Gnuplot                       | gnuplot                       | debugging                  |
 +-------------------------------+-------------------------------+----------------------------+
-| Graphviz                      | graphviz                      | отладка                    |
+| Graphviz                      | graphviz                      | debugging                  |
 +-------------------------------+-------------------------------+----------------------------+
-| xsel                          | xsel                          | отладка                    |
+| xsel                          | xsel                          | debugging                  |
 +-------------------------------+-------------------------------+----------------------------+
-| Sphinx                        | sphinx-doc                    | сборка документации        |
-|                               |                               | (HTML-версия)              |
+| Sphinx                        | sphinx-doc                    | building the manual        |
+|                               |                               | (HTML version)             |
 +-------------------------------+-------------------------------+----------------------------+
-| sphinx-intl                   | устанавливается с помощью PIP | сборка документации        |
-|                               |                               | (перевод)                  |
+| sphinx-intl                   | installed with PIP            | building the manual        |
+|                               |                               | (internationalization)     |
 +-------------------------------+-------------------------------+----------------------------+
-| TeX Live                      | texlive, texlive-latex-extra  | сборка документации        |
-|                               | texlive-lang-cyrillic         | (PDF-версия)               |
+| TeX Live                      | texlive, texlive-latex-extra  | building the manual        |
+|                               | texlive-lang-cyrillic         | (PDF version)              |
 +-------------------------------+-------------------------------+----------------------------+
-| JSDoc 3                       | `из исходных текстов JSDoc`_  | сборка документации        |
-|                               |                               | (документация на API)      |
+| JSDoc 3                       | `from JSDoc source code`_     | building the API           |
+|                               |                               | documentation              |
 +-------------------------------+-------------------------------+----------------------------+
-| PEG.js                        | `из исходных текстов PEG.js`_ | препроцессинг шейдеров     |
+| PEG.js                        | `from PEG.js source code`_    | shader preprocessing       |
 +-------------------------------+-------------------------------+----------------------------+
 
-.. _из исходных текстов EMSDK: http://kripken.github.io/emscripten-site/docs/building_from_source/index.html
-.. _из исходных текстов JSDoc: https://github.com/jsdoc3/jsdoc
-.. _из исходных текстов PEG.js: http://pegjs.majda.cz/
+.. _from EMSDK source code: http://kripken.github.io/emscripten-site/docs/building_from_source/index.html
+.. _from JSDoc source code: https://github.com/jsdoc3/jsdoc
+.. _from PEG.js source code: http://pegjs.majda.cz/
 
-Названия функций и переменных
-=============================
+Naming Functions and Variables
+==============================
 
-Рекомендуется при создании новых функций и переменных использовать следующие префиксы и суффиксы.
+When creating new functions and variables it is recommended to use the following prefixes and suffixes.
 
 *init_*
-    создание абстрактного объекта
+    create an abstract object
 
 *create_*
-    создание конкретного объекта
+    create a certain object
 
 *update_*
-    обновить состояние имеющегося объекта
+    update the state of an existing object
 
 *attach_/detach_*
-    добавить/удалить временное свойство к объекту
+    add/remove a temporary object property
 
 *append_/remove_*
-    добавить/удалить временное свойство к уже существующим подобного рода
+    add/remove a temporary property to the already existing properies of the same kind
 
 *insert_/pop_*
-    добавить/удалить элемент массива (доступ по индексу места)
+    add/remove an array element (accessed by index)
+
+*switch_*
+    switch flag's binary value
 
 *apply_/clear_*
-    операция с флагом, бинарной величиной или произвольным параметром
+    operation with flags, binary values or arbitrary parameters
 
 *set_/get_*
-    установить/получить значение свойства/переменной
+    set/get the property/variable value
 
 *_tmp*
-    глобальная переменная - кеш в виде простого объекта (массив, вектор)
+    global variable - cache in the form of a simple object (array, vector)
 
 *_cache*
-    глобальная переменная - кеш в виде сложного объекта
+    global variable - cache in the form of a complex object
 
 
 
 .. _debugging:
 
-Отладка
-=======
+Debugging
+=========
 
-Отладка движка производится с помощью методов модуля ``debug.js``.
+Engine debugging is performed with the ``debug.js`` module methods.
 
-Структура текущего рендер-графа может быть сохранена в формате DOT с помощью
-вызова ``b4w.debug.scenegraph_to_dot()``, например, в консоли браузера. После
-вызова данного метода содержимое консоли сохранить в файл с расширением .gv. Чтобы получить граф
-в графическом виде, необходим набор утилит `graphviz <http://www.graphviz.org/>`_.
-Преобразование в формат SVG выполняется с помощью вызова:
+The structure of the current render graph can be saved in the DOT format using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the browser console. After calling this method save the console's output into the file with the .gv extension. To get the graph in a visual form the `graphviz <http://www.graphviz.org/>`_ utilities are required. Converting to the SVG format is performed using the command:
 
 .. code-block:: bash
 
     > dot -Tsvg graph.gv -o graph.svg
 
-где ``graph.gv`` имя файла с сохранённым графом.
+where ``graph.gv`` is the name of the file with the saved graph.
 
 .. _shaders:
 
 
-.. index:: компиляция шейдеров
+.. index:: compiling shaders
 
-Компиляция шейдеров
-===================
+Shader Compilation
+==================
 
-Используемые в движке шейдеры подвергаются обработке компилятором. Kомпилятор выполняет 3 основных процедуры:
+All shaders used in the engine are processed by a compilator. The compilator performs the following three main procedures:
 
-* валидацию кода шейдеров,
-* обфускацию кода шейдеров,
-* оптимизацию кода шейдеров.
+* validation of the shader code,
+* its obfuscation and
+* optimization.
 
-Для запуска компиляции требуется выполнить одну из команд в корневой директории SDK:
+In order to run the compilator, execute one of the following commands in the SDK root:
 
 .. code-block:: bash
 
@@ -280,54 +269,52 @@
     > make verify_shaders
     
     
-* **make** *compile_shaders* - проверка, обфускация, оптимизация и экспорт скомпилированных шейдеров,
-* **make** *verify_shaders* - проверка, обфускация и оптимизация.
+* **make** *compile_shaders* - performs validation, obfuscation, optimization and finally, export of the compiled shaders,
+* **make** *verify_shaders* - performs only validation, obfuscation and optimization.
 
-В процессе компиляции сначала осуществляется синтаксический анализ (парсинг) 
-текста шейдера. Соответствующий парсер создается автоматически на основе грамматики с помощью генератора `PEG.js <http://pegjs.majda.cz/>`_. Далее по данным парсинга производится валидация, обфускация и оптимизация шейдеров, после чего шейдеры экспортируются в виде абстрактного синтаксического дерева (Abstract Syntax Tree, AST) для непосредственной загрузки движком.
+Syntax analysis (parsing) of the shader text is first performed during compilation. The corresponding parser is created automatically based on the grammar, using the `PEG.js <http://pegjs.majda.cz/>`_ generator. Then the shaders are validated, obfuscated and optimized according to the parser data, and after that the shaders are exported in the form of an abstract syntax tree (AST) for direct loading in the engine.
 
-Расположение основных файлов в репозитории:
+The location of the main files in the repository:
 
-* исходная грамматика - glsl_utils/pegjs/glsl_parser.pegjs
-* скрипт генерации парсера - glsl_utils/pegjs/gen_nodejs.sh
-* парсер - glsl_utils/compiler/glsl_parser.js
-
-
-.. index:: компиляция шейдеров; валидация
-
-Валидация
----------
-
-Компилятор шейдеров выполняет следующие процедуры, связанные с проверкой кода:
-
-* вывод сообщений о неиспользуемых переменных и функциях (dead code),
-* проверка синтаксиса шейдеров,
-* проверка шейдеров на соответствие import/export-механизма,
-* удаление лишних пробелов, переводов строк и повторяющихся символов ";".
+* initial grammar - glsl_utils/pegjs/glsl_parser.pegjs
+* parser generation script - glsl_utils/pegjs/gen_nodejs.sh
+* parser - glsl_utils/compiler/glsl_parser.js
 
 
-.. index:: компиляция шейдеров; обфускация
+.. index:: compiling shaders; validation
 
-Обфускация
+Validation
 ----------
 
-Обфускация служит для сокращения объема и затруднения понимания 
-GLSL-кода. На данный момент в нем реализована следующая процедура:
+The compilator performs the following procedures related to shader code validation:
 
-* замена пользовательских идентификаторов более короткими односимвольными, двухсимвольными и т.д. именами (с поддержкой import/export-механизма).
+* reporting about unused variables and functions (dead code),
+* checking the syntax of shaders,
+* checking the conformance of shaders to the import/export mechanism,
+* removing odd or repeatitive tokens: spaces, endlines and semicolons.
 
 
-.. index:: компиляция шейдеров; оптимизация
+.. index:: compiling shaders; obfuscation
 
-Оптимизация
+Obfuscation
 -----------
 
-Оптимизация заключается в выполнении следующих процедур:
+Obfuscation minifies the GLSL code and makes it diffucult to understand it. So far the following procedure is implemented:
 
-* удаление фигурных скобок, которые не несут функциональной нагрузки, но порождают новые области видимости (данный функционал полезен при обработке директив node/lamp),
-* внутрифункциональная оптимизация, связанная с использованием малого числа буферных локальных переменных взамен локальных переменных, заданных программистом.
+* replacing the user-defined identifiers with shorter single-symboled, two-symboled etc names (with support of the import/export mechanism).
 
-Примером удаления бесполезных фигурных скобок может служить замена кода
+
+.. index:: compiling shaders; optimization
+
+Optimization
+------------
+
+Optimization constitutes the following procedures:
+
+* removing curly brackets which are not useful in any ways except creating local scopes (this functionality is used for processing node/lamp directives),
+* optimization inside functions - creating shared local variables to replace ones originally created by the programmer.
+
+An example of removing unused curly brackets: replacing the following code
 
 .. code-block:: glsl
 
@@ -338,7 +325,7 @@ GLSL-кода. На данный момент в нем реализована �
         }
     }
 
-следующим кодом
+with this code
 
 .. code-block:: glsl
 
@@ -347,8 +334,7 @@ GLSL-кода. На данный момент в нем реализована �
         a = 1;
     }
 
-Использование малого числа буферных локальных переменных заключается в том, 
-что они повторно используются в разных контекстах. Например, следующий код
+Low number of temporary local variables is achieved by repetitively using them in different contexts. For example, the following code
 
 .. code-block:: glsl
 
@@ -358,7 +344,7 @@ GLSL-кода. На данный момент в нем реализована �
         return b;
     }
 
-будет заменен на
+will be replaced with
 
 .. code-block:: glsl
 
@@ -370,16 +356,15 @@ GLSL-кода. На данный момент в нем реализована �
 
 .. note::
 
-    Не производится оптимизация локальных переменных структур и переменных массивов.
+    Local variables for structures and arrays are not optimized this way.
 
 
-.. index:: компиляция шейдеров; директивы import/export
+.. index:: compiling shaders; import/export directives
 
-Директивы import/export
------------------------
+Import/Export Directives
+------------------------
 
-В целях упорядочивания, структурирования и повышения удобочитаемости кода шейдеров в include-файлах используются директивы import и export.
-Они указываются в начале файла и должны выглядеть примерно следующим образом:
+import/export directives are used to organize, structure and increase the readability of the shader code in the include file. They are specified in the beginning of the file and should look approximately like this:
 
 .. code-block:: glsl
 
@@ -388,42 +373,42 @@ GLSL-кода. На данный момент в нем реализована �
 
     #export skin
 
-Директива ``#import`` определяет набор идентификаторов, которые объявлены вне этого include-файла, но доступны для использования в нем. Имеется ограничение: такие идентификаторы должны быть обязательно объявлены где-либо выше места подключения include-файла.
+The ``#import`` directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.
 
-Директива ``#export`` определяет набор идентификаторов, доступных для использования вне данного файла. Такие идентификаторы должны быть обязательно объявлены в этом файле.
+The ``#export`` directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.
 
-Таким образом, шейдер, использующий include-файл, обязан до места подключения содержать объявления, необходимые для импорта, а после него может использовать экспортируемые идентификаторы.
+Therefore the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.
 
-Идентификаторами могут быть как имена переменных, так и имена функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними.
+Ids can be both variable names and function names. If there are no import/export directives it's considered by default that the include file does not use external declarations and does not allow the using of internal ones.
 
 
 
-.. index:: компиляция шейдеров; рекомендации и ограничения
+.. index:: compiling shaders; recommendations and limitations
 
-Рекомендации и ограничения
---------------------------
+Recommendations and Limitations
+-------------------------------
 
-В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации компилятора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:
+Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compilator's features - its possible to garantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:
 
-1. Обязательное использование специальной директивы ``#var`` для описания констант, определяемых движком в момент запуска. Например:
+1. In order to describe constants which are defined by the engine at run, it's neccessary to use the ``#var`` special directive. For example:
 
 .. code-block:: glsl
 
     #var AU_QUALIFIER uniform
     AU_QUALIFIER float a;
 
-Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, чтобы определяемое ею значение позволило распарсить исходный шейдер. Что это будет конкретно (например, 'uniform' или 'attribute' в примере выше), не важно, т.к. на этом этапе оно все равно неизвестно. Однако, желательно указывать более-менее подходящее описание, а не что-то совершенно произвольное.
+The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It's irrelevant what exactly it will be (e.g. 'uniform' or 'attribute' in the above example), because at this level it's unknown anyway. Nevertheless it's better to specify a more or less suitable description and not something arbitrary.
 
 .. note::
 
-    Для констант, используемых не в коде шейдера, а в выражениях препроцессинга, директива ``#var`` не обязательна.
+    The #var directive is not necessary for constants used not in the shader code but in the preprocessor expressions.
 
-2. Использование при необходимости директив import/export.
-3. Не следует перегружать встроенные функции, только пользовательские.
-4. Не следует объявлять переменные с именем одной из встроенных функций, либо main (даже если это не приводит к ошибке).
-5. Нельзя использовать директивы #var и #define для замены отдельных символов в таких операторах, как: "++", "--", "\*=", "/=", "+=", "-=", "==", "<=", ">=", "!=", "&&", "||", "^^".
+2. Using the import/export directives when needed.
+3. The built-in functions must not be overloaded - only the user ones.
+4. Variables should not be declared with names of the built-in functions, or main (even if it doesn't lead to errors).
+5. The #var and #define directives must not be used for replacing single symbols in such operators as: "++", "--", "\*=", "/=", "+=", "-=", "==", "<=", ">=", "!=", "&&", "||", "^^".
 
-Например:
+For example:
 
 .. code-block:: glsl
 
@@ -432,10 +417,10 @@ GLSL-кода. На данный момент в нем реализована �
     a *EQUAL b;
     ...
 
-6. Использование директивы #include, не должно приводить к неоднозначности при обфускации содержимого include-файла. Это может произойти в том случае, когда один и тот же файл включается в несколько разных шейдеров, и в каком-то из них могут повлиять определенные выше директивы, вроде #var или #define. Также не стоит использовать в include-файле необъявленные функции и переменные.
+6. The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also it's better not to use undeclared functions and variables in the include file.
 
-7. Использование вложенных include'ов или множественного включения одного и того же include'a в один и тот же шейдер не поддерживается.
-8. К неработоспособности шейдера может привести нетривиальное использование препроцессинга, например, создающее невалидный GLSL-код:
+7. Multi-level includes or multiple inclusion of the same include into the same shader is not supported.
+8. The shader's malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:
 
 .. code-block:: glsl
 
@@ -447,144 +432,152 @@ GLSL-кода. На данный момент в нем реализована �
         ...
     }
     
-9. Не следует объявлять переменные с именами вида ``node_[NODE_NAME]_var_[IN_OUT_NODE]``, где ``NODE_NAME`` --- название некоторой ноды, ``IN_OUT_NODE`` --- название одного из входов или выходов ноды.
+9. Do not declare variables with such names as ``node_[NODE_NAME]_var_[IN_OUT_NODE]``, where ``NODE_NAME`` --- name of some node, ``IN_OUT_NODE`` --- name of an input or an output of the node.
 
-10. Не разрешается множественное использование одной и той же директивы ``#nodes_main``, ``#nodes_global`` или ``#lamps_main`` в одном шейдере.
+10. Repetitive use of ``#nodes_main``, ``#nodes_global`` or ``#lamps_main`` directives is not permitted inside a single shader.
     
-11. Директивы ``#nodes_main``, ``#nodes_global`` и ``#lamps_main`` рекомендуется использовать в том же файле, в котором содержится описание шейдерных нод, например, в одном и том же include-файле - это необходимо для корректной валидации шейдеров.
+11. The ``#nodes_main``, ``#nodes_global`` and ``#lamps_main`` directives are recommended to use in the file, containing these shader nodes description, for example, in the same include-file. This is necessary for the correct shader validation.
 
-.. index:: компиляция шейдеров; расширения WebGL
+.. index:: compiling shaders; WebGL Extensions
 
-Поддержка расширений WebGL
---------------------------
+WebGL Extensions
+----------------
 
-Работа обфускатора может зависеть от используемых WebGL-расширений, если они каким-либо образом влияют на шейдерный язык.
-На данный момент поддерживаются следующие расширения:
+Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compilator:
 
     * OES_standard_derivatives
 
 
-.. index:: компиляция шейдеров; ошибки
+.. index:: compiling shaders; errors
 
-Ошибки компилятора
+Compilation Errors
 ------------------
 
-В случае ошибки компилятор выведет соответствующее сообщение в консоли.
+In case of an error the compilator will output the corresponding message in the console.
 
-Перечень возможных ошибок:
+Table of possible errors:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 +-------------------------------------+-------------------------------------------+
-| Сообщение об ошибке                 | Причина                                   |
+| Error message                       | Cause                                     |
 +=====================================+===========================================+
-| Error! Ambiguous obfuscation in     | Ошибка! Неоднозначная обфускация          |
-| include file 'FILE_NAME'.           | include-файла FILE_NAME.                  |
+| Error! Ambiguous obfuscation in     | Ambiguous obfuscation in the 'FILE_NAME'  |
+| include file 'FILE_NAME'.           | include file.                             |
 +-------------------------------------+-------------------------------------------+
-| Error! Bad preprocessing collision  | Ошибка в файле FILE_NAME. Невозможность   |
-| while obfuscation identifier:       | обфускации переменной с именем NAME из-за |
-| \'NAME'. Varying/uniform or         | переопределения при препроцессинге.       |
-| varying/attribute qualifiers        | Переопределение одной и той же переменной |
-| combination. File: 'FILE_NAME'.     | с разными квалификаторами. Недопустимые   |
-|                                     | комбинации: varying/uniform,              |
+| Error! Bad preprocessing collision  | Error in the FILE_NAME file. Its          |
+| while obfuscation identifier:       | impossible to obfuscate the NAME variable |
+| \'NAME'. Varying/uniform or         | because of redefining at preprocessing.   |
+| varying/attribute qualifiers        | Redefining the same variable with         |
+| combination. File: 'FILE_NAME'.     | different qualifiers. Unacceptable        |
+|                                     | combinations: varying/uniform,            |
 |                                     | varying/attribute.                        |
 +-------------------------------------+-------------------------------------------+
-| Error! Extension NAME is            | Ошибка! WebGL-расширение с именем NAME,   |
-| unsupported in obfuscator. File:    | использованное в файле FILE_NAME, не      |
-| 'FILE_NAME'.                        | поддерживается обфускатором.              |
+| Error! Extension NAME is            | The NAME WebGL extension used in the      |
+| unsupported in obfuscator. File:    | FILE_NAME file is not supported by the    |
+| 'FILE_NAME'.                        | obfuscator.                               |
 +-------------------------------------+-------------------------------------------+
-| Error! Include 'FILE_NAME' not      | Ошибка! При подключении не найден         |
-| found.                              | include-файл FILE_NAME.                   |
+| Error! Include 'FILE_NAME' not      | The FILE_NAME include file could not be   |
+| found.                              | found.                                    |
 +-------------------------------------+-------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.     | Ошибка в файле FILE_NAME. Необъявленный   |
-| File: 'FILE_NAME'.                  | идентификатор типа TYPE (переменная,      |
-|                                     | функция, структура, ...) с именем NAME.   |
+| Error! Undeclared TYPE: 'NAME'.     | Error in FILE_NAME file. Undeclared       |
+| File: 'FILE_NAME'.                  | identifier NAME of type TYPE (variable,   |
+|                                     | function, structure etc).                 |
 +-------------------------------------+-------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.     | Ошибка! Необъявленный идентификатор типа  |
-| Importing data missed. File:        | TYPE (переменная, функция, структура, ... |
-| 'FILE_NAME'.                        | ) с именем NAME. Отсутствует объявление   |
-|                                     | идентификатора, требуемого в              |
-|                                     | include-файле FILE_NAME согласно          |
-|                                     | директиве ``#import``.                    |
+| Error! Undeclared TYPE: 'NAME'.     | Undeclared identifier NAME of type TYPE   |
+| Importing data missed. File:        | (variable, function, structure etc).      |
+| 'FILE_NAME'.                        | Declaration missing for the identifier    |
+|                                     | required in the FILE_NAME include file    |
+|                                     | according to the ``#import`` directive.   |
 +-------------------------------------+-------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.     | Ошибка в файле FILE_NAME. Необъявленный   |
-| Possibly exporting needed in        | идентификатор типа TYPE (переменная,      |
-| include file 'INCLUDE_NAME'. File:  | функция, структура, ...) с именем NAME.   |
-| 'FILE_NAME'.                        | Возможно требуется разрешить его экспорт  |
-|                                     | в include-файле INCLUDE_NAME.             |
+| Error! Undeclared TYPE: 'NAME'.     | Error in FILE_NAME file. Undeclared       |
+| Possibly exporting needed in        | identifier NAME of type TYPE (variable,   |
+| include file 'INCLUDE_NAME'. File:  | function, structure etc). Possibly its    |
+| 'FILE_NAME'.                        | export into the INCLUDE_NAME include      |
+|                                     | file should be allowed.                   |
 +-------------------------------------+-------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.     | Ошибка! Необъявленный идентификатор типа  |
-| Possibly importing needed. File:    | TYPE (переменная, функция, структура, ... |
-| 'FILE_NAME'.                        | ) с именем NAME. Возможно требуется       |
-|                                     | указать его как импортируемый в           |
-|                                     | include-файле FILE_NAME.                  |
+| Error! Undeclared TYPE: 'NAME'.     | Undeclared identifier NAME of type TYPE   |
+| Possibly importing needed. File:    | (variable, function, structure etc).      |
+| 'FILE_NAME'.                        | Possibly it should be specified as        |
+|                                     | imported in the FILE_NAME include file.   |
 +-------------------------------------+-------------------------------------------+
-| Error! Unused export token 'NAME'   | Ошибка! В include-файле FILE_NAME         |
-| in include file 'FILE_NAME'.        | разрешен для экспорта необъявленный       |
-|                                     | идентификатор с именем NAME.              |
+| Error! Unused export token 'NAME'   | Undeclared identifier NAME is allowed     |
+| in include file 'FILE_NAME'.        | for export in the FILE_NAME include file. |
 +-------------------------------------+-------------------------------------------+
-
+| Error! Using reserved word in TYPE  | Error in FILE_NAME file. A reserved id    |
+| 'NAME'. File: 'FILE_NAME'.          | is used for declaring the identifier      |
+|                                     | NAME of type TYPE (variable, function,    |
+|                                     | structure etc).                           |
 +-------------------------------------+-------------------------------------------+
-| Error! Using reserved word in TYPE  | Ошибка в файле FILE_NAME. Использование   |
-| 'NAME'. File: 'FILE_NAME'.          | зарезервированного слова при объявлении   |
-|                                     | идентификатора типа TYPE (переменная,     |
-|                                     | функция, структура, ...) с именем NAME.   |
+| Error! 'all' extension cannot have  | The ``#extension`` directive specified    |
+| BEHAVIOR_TYPE behavior. File:       | for ``all`` WebGL extensions in the       |
+| 'FILE_NAME'.                        | FILE_NAME file does not support the       |
+|                                     | behavior BEHAVIOR_TYPE.                   |
 +-------------------------------------+-------------------------------------------+
-| Error! 'all' extension cannot have  | Ошибка! Директива ``#extension``,         |
-| BEHAVIOR_TYPE behavior. File:       | указанная для всех (``all``)              |
-| 'FILE_NAME'.                        | WebGL-расширений в файле FILE_NAME, не    |
-|                                     | поддерживает поведение BEHAVIOR_TYPE.     |
+| Syntax Error. ERROR_MESSAGE. File:  | Syntax error in line LINE_NUMBER column   |
+| FILE_NAME, line: LINE_NUMBER,       | COL_NUMBER during parsing the FILE_NAME   |
+| column: COL_NUMBER.                 | shader. The initial error description is  |
+|                                     | quoted in the ERROR_MESSAGE. The code     |
+|                                     | listing taken from around the             |
+|                                     | corresponding line is attached to the     |
+|                                     | message (note the peculiarity of pegjs    |
+|                                     | parser which specify the line which is    |
+|                                     | a little bit after the actual error.      |
 +-------------------------------------+-------------------------------------------+
-| Syntax Error. ERROR_MESSAGE. File:  | Ошибка синтаксиса в строке LINE_NUMBER,   |
-| FILE_NAME, line: LINE_NUMBER,       | столбце COL_NUMBER при парсинге шейдера   |
-| column: COL_NUMBER.                 | FILE_NAME. Исходное описание ошибки       |
-|                                     | приведено в ERROR_MESSAGE. В сообщении    |
-|                                     | прилагается листинг кода в окрестности    |
-|                                     | соответствующей строки (следует           |
-|                                     | учитывать особенность pegjs-парсеров,     |
-|                                     | указывающих чуть далее места, вызвавшего  |
-|                                     | ошибку).                                  |
-+-------------------------------------+-------------------------------------------+
-| Warning! Function 'NAME' is         | В файле FILE_NAME объявлена функция NAME, |
-| declared in [include ]file          | которая нигде не используется.            |
+| Warning! Function 'NAME' is         | An unused function NAME is declared in    |
+| declared in [include ]file          | the FILE_NAME file.                       |
 | FILE_NAME, but never used.          |                                           |
 +-------------------------------------+-------------------------------------------+
-| Warning! Include file 'FILE_NAME'   | Include-файл FILE_NAME не используется ни |
-| not used in any shader, would be    | в одном из шейдеров, поэтому будет        |
-| omitted!                            | исключен из закомпиленной версии.         |
+| Warning! Include file 'FILE_NAME'   | The FILE_NAME include file is not used    |
+| not used in any shader, would be    | in any of the shaders and so it will be   |
+| omitted!                            | excluded from the obfuscated version.     |
 +-------------------------------------+-------------------------------------------+
-| Warning! Unused import token 'NAME' | Идентификатор с именем NAME импортируется |
-| in include file 'FILE_NAME'.        | в include-файле FILE_NAME, но нигде не    |
-|                                     | используется.                             |
+| Warning! Unused import token 'NAME' | An unused id NAME is imported in the      |
+| in include file 'FILE_NAME'.        | FILE_NAME include file.                   |
 +-------------------------------------+-------------------------------------------+
-| Warning! Variable 'NAME' is         | В файле FILE_NAME объявлена переменная    |
-| declared in include file            | NAME, которая нигде не используется.      |
+| Warning! Variable 'NAME' is         | An unused variable NAME is declared in    |
+| declared in include file            | the FILE_NAME file.                       |
 | FILE_NAME, but never used.          |                                           |
 +-------------------------------------+-------------------------------------------+
 
 
-Обновление переводов аддона
-===========================
+Updating Add-on Translations
+============================
 
-При необходимости обновить все существующие .po файлы, запустите скрипт
-*translator.py* из директории SDK/scripts без параметра:
+If you need to update all existing .po files, run the script *translator.py* in the SDK/scripts directory without arguments:
 
 .. code-block:: bash
 
     > python3 translator.py
 
-Для обновления существующего .po файла необходимо вызвать скрипт с передачей ему
-одного из поддерживаемых языков:
+In order to update an existing .po file, run the script with a supported language code as an argument:
 
 .. code-block:: bash
 
     > python3 translator.py ru_RU
 
-Для просмотра списка поддерживаемых языков вызовите скрипт следующим образом:
+In order to view the list of supported languages, run the script as follows:
 
 .. code-block:: bash
 
     > python3 translator.py help
 
-При вызове скрипта в любом случае будет обновлен файл *empty.po*.
+In any case, the file *empty.po* will be updated upon running the script.
 
-После обновления .po файлы могут быть отредактированы/переведены.
+After updates, the .po files can be edited/translated as usual.
 

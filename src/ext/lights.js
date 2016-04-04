@@ -104,15 +104,15 @@ function get_sun_params() {
         var cur_dir = sun.light.direction;
 
         // sun azimuth
-        var angle_hor = Math.atan2(cur_dir[2], cur_dir[0]) * 180 / Math.PI + 90;
+        var angle_hor = m_util.rad_to_deg(Math.atan2(cur_dir[2], cur_dir[0])) + 90;
         if (angle_hor > 180)
             angle_hor -= 360;
 
         // sun altitude
-        var angle_vert = Math.atan2(
+        var angle_vert = m_util.rad_to_deg(Math.atan2(
                 cur_dir[1],
                 Math.sqrt(cur_dir[0]*cur_dir[0] + cur_dir[2]*cur_dir[2])
-                ) * 180 / Math.PI;
+                ));
 
         var sun_params = {};
         sun_params.hor_position  = angle_hor;
@@ -152,8 +152,8 @@ function set_sun_params(sun_params) {
     if (typeof sun_params.hor_position == "number" &&
         typeof sun_params.vert_position == "number") {
         // convert to radians
-        var angle_hor  =  ((180 - sun_params.hor_position)) / 180 * Math.PI;
-        var angle_vert =  ((90 - sun_params.vert_position)) / 180 * Math.PI;
+        var angle_hor  =  m_util.deg_to_rad(180 - sun_params.hor_position);
+        var angle_vert =  m_util.deg_to_rad(90 - sun_params.vert_position);
 
         var sun_render = sun.render;
 
@@ -408,8 +408,7 @@ function get_sun_coordinates (jul_date, days) {
     var g = 357.528 + 0.9856003 * n;
     g = g % 360;
 
-    // Convert to radians
-    g *= Math.PI / 180;
+    g = m_util.deg_to_rad(g);
 
     // Ecliptic longitude of the Sun
     var e_longitude = l + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g);

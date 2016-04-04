@@ -34,12 +34,14 @@ var m_cfg       = require("__config");
 var m_ctl       = require("__controls");
 var m_dds       = require("__dds");
 var m_ext       = require("__extensions");
+var m_input     = require("__input");
 var m_lights    = require("__lights");
 var m_loader    = require("__loader");
 var m_mat4      = require("__mat4");
 var m_md5       = require("__md5");
 var m_nla       = require("__nla");
 var m_lnodes    = require("__logic_nodes");
+var m_particles = require("__particles");
 var m_nodemat   = require("__nodemat");
 var m_obj       = require("__objects");
 var m_obj_util  = require("__obj_util");
@@ -1009,8 +1011,9 @@ function create_world_objects_from_bpy(bpy_data, bpy_worlds, data_id) {
     for (var i = 0; i < bpy_worlds.length; i++) {
         var bpy_world = bpy_worlds[i];
 
-        var world = m_obj_util.create_object(bpy_world["name"], "WORLD",
-                 bpy_world["name"]);
+        var meta_name = "%meta_world%" + bpy_world["name"];
+        var world = m_obj_util.create_object(meta_name, "WORLD",
+                 meta_name);
 
         for (var j = 0; j < bpy_world._scenes.length; j++)
             m_obj_util.append_scene_data(world, bpy_world._scenes[j]);
@@ -3435,7 +3438,6 @@ exports.unload = function(data_id) {
         m_print.error("Unable to unload data!");
         return;
     }
-
     // unload all data
     if (data_id == 0) {
         m_print.log("%cUNLOAD ALL", "color: #00a");
@@ -3446,17 +3448,20 @@ exports.unload = function(data_id) {
         m_nla.cleanup();
         m_scenes.cleanup();
         m_loader.cleanup();
+        // m_ctl.cleanup depends of m_phy.cleanup
+        m_ctl.cleanup();
         m_phy.cleanup();
         m_obj.cleanup();
         m_util.cleanup();
         m_render.cleanup();
         m_nodemat.cleanup();
         m_shaders.cleanup();
-        m_ctl.cleanup();
         m_ext.cleanup();
         m_assets.cleanup();
         m_tex.cleanup();
         m_lnodes.cleanup();
+        m_particles.cleanup();
+        m_input.cleanup();
 
         _all_objects_cache = null;
         _dupli_obj_id_overrides = {};
@@ -3493,6 +3498,9 @@ function prepare_object_unloading(scene, obj, clean_buffs) {
     if (m_anim.is_animated(obj))
         m_anim.remove(obj);
 
+    // particles cleanup
+    m_particles.remove_obj_from_cache(obj);
+
     // scenes cleanup
     m_obj.clear_outline_anim(obj);
 
@@ -3501,8 +3509,9 @@ function prepare_object_unloading(scene, obj, clean_buffs) {
         m_ctl.remove_sensor_manifold(obj);
 
     // physics cleanup
-    if (m_phy.obj_has_physics(obj))
-        m_phy.remove_bounding_object(obj);
+    if (m_phy.obj_has_physics(obj)) {
+        m_phy.remove_object(obj);
+    }
 
     // unload objects
     m_scenes.remove_object_bundles(scene, obj, clean_buffs);

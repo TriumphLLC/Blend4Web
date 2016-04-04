@@ -84,8 +84,6 @@ exports.defaults = {
 
     stereo                     : "NONE",
 
-    use_browser_distortion_cor : true,
-
     reflections                : true,
 
     refractions                : true,
@@ -249,6 +247,60 @@ exports.paths = {
 
     smaa_search_texture_path: "",
     smaa_area_texture_path: ""
+}
+
+exports.hmd_params = {
+    "oculus": {
+        distortion_coefs : [0.22, 0.28],
+        chromatic_aberration_coefs : [-0.015, 0.02, 0.025, 0.02]
+    },
+    "cardboard_1": {
+        inter_lens_dist: 0.060,
+        base_line_dist: 0.035,
+        screen_to_lens_dist: 0.042,
+        distortion_coefs: [0.441, 0.156],
+        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
+    },
+    "cardboard_2": {
+        inter_lens_dist: 0.064,
+        base_line_dist: 0.035,
+        screen_to_lens_dist: 0.039,
+        distortion_coefs: [0.34, 0.55],
+        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
+    },
+    "default": {
+        inter_lens_dist: 0.064,
+        base_line_dist: 0.035,
+        screen_to_lens_dist: 0.039,
+        distortion_coefs : [0.0, 0.0],
+        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
+    }
+}
+
+exports.devices_params = {
+    "Nexus6": {
+        expr_user_agent: /Nexus 6 /,
+        width_dist: 0.132,
+        height_dist: 0.074,
+        bevel_dist: 0.004
+    },
+    "GalaxyNote4": {
+        expr_user_agent: /SM-N910C/,
+        width_dist: 0.126,
+        height_dist: 0.071,
+        bevel_dist: 0.004
+    },
+    "YotaPhone2": {
+        expr_user_agent: /YD201/,
+        width_dist: 0.110,
+        height_dist: 0.062,
+        bevel_dist: 0.004
+    },
+    "default": {
+        width_dist: 0.110,
+        height_dist: 0.062,
+        bevel_dist: 0.004
+    }
 }
 
 // physics config
@@ -556,8 +608,6 @@ function set(prop, value) {
     case "stereo":
         exports.defaults.stereo = value;
         break;
-    case "use_browser_distortion_cor":
-        exports.defaults.use_browser_distortion_cor = value;
     case "media_auto_activation":
         exports.defaults.media_auto_activation = value;
         break;
@@ -661,8 +711,6 @@ exports.get = function(prop) {
         return exports.defaults.is_mobile_device;
     case "stereo":
         return exports.defaults.stereo;
-    case "use_browser_distortion_cor":
-        return exports.defaults.use_browser_distortion_cor;
     case "media_auto_activation":
         return exports.defaults.media_auto_activation;
     case "physics_enabled":

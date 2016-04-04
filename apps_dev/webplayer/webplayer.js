@@ -8,8 +8,9 @@ var m_cfg         = require("config");
 var m_cont        = require("container");
 var m_ctl         = require("controls");
 var m_data        = require("data");
-var m_main        = require("main");
 var m_hmd         = require("hmd");
+var m_input       = require("input");
+var m_main        = require("main");
 var m_scs         = require("scenes");
 var m_sfx         = require("sfx");
 var m_storage     = require("storage");
@@ -54,6 +55,7 @@ var _quality_buttons_container;
 var _stereo_buttons_container;
 var _help_info_container;
 var _help_button;
+var _hor_button_section;
 var _selected_object;
 
 var _player_buttons = [
@@ -191,8 +193,6 @@ function init_cb(canvas_element, success) {
 
     anim_logo(file);
 
-    m_app.enable_controls();
-
     window.addEventListener("resize", on_resize);
 
     on_resize();
@@ -245,6 +245,7 @@ function define_dom_elems() {
     _stereo_buttons_container = document.querySelector("#stereo_buttons_container");
     _help_info_container = document.querySelector("#help_info_container");
     _help_button = document.querySelector("#help_button");
+    _hor_button_section = document.querySelector("#hor_button_section");
 }
 
 function add_engine_version() {
@@ -308,6 +309,10 @@ function set_stereo_button() {
         break;
     case "HMD":
         _stereo_buttons_container.className = "control_panel_button hmd_mode_button";
+        if (m_input.can_use_device(m_input.DEVICE_HMD)) {
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+            m_input.register_device(device);
+        }
         break;
     }
 }
@@ -388,7 +393,7 @@ function search_file() {
         } else {
             report_app_error("Please specify a scene to load",
                              "For more info visit",
-                             "https://www.blend4web.com/troubleshooting");
+                             "https://www.blend4web.com/doc/en/web_player.html");
             return null;
         }
     }
@@ -537,12 +542,7 @@ function enter_fullscreen(e) {
     if (is_anim_in_process())
         return;
 
-    var hmd_dev;
-
-    if (m_cfg.get("stereo") == "HMD")
-        hmd_dev = m_hmd.get_hmd_device()
-
-    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb, hmd_dev);
+    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
 }
 
 function exit_fullscreen() {
@@ -638,6 +638,7 @@ function close_menu() {
                     _is_anim_left = false;
                     _is_panel_open_left = false;
                     check_anim_end();
+                    _hor_button_section.style.display = "";
                 }, 100);
 
                 return;
@@ -750,6 +751,8 @@ function open_menu() {
 
         m_app.css_animate(elem, "opacity", 0, 1, ANIM_ELEM_DELAY, "", "");
     }
+
+    _hor_button_section.style.display = "block";
 
     drop_left(hor_elem);
 
@@ -917,7 +920,7 @@ function open_stereo_menu(e, button) {
 
     var no_hmd = "";
 
-    if (!m_hmd.check_browser_support())
+    if (!m_input.can_use_device(m_input.DEVICE_HMD))
         no_hmd = "no_hmd";
 
     _stereo_buttons_container.className = "stereo_buttons_container " + no_hmd;
@@ -960,7 +963,7 @@ function loaded_callback(data_id, success) {
     if (!success) {
         report_app_error("Could not load the scene",
                 "For more info visit",
-                "https://www.blend4web.com/troubleshooting");
+                "https://www.blend4web.com/doc/en/web_player.html");
 
         return;
     }
@@ -1010,7 +1013,7 @@ function loaded_callback(data_id, success) {
 function check_hmd() {
     var hmd_mode_button = document.querySelector("#hmd_mode_button");
 
-    if (!m_hmd.check_browser_support()) {
+    if (!m_input.can_use_device(m_input.DEVICE_HMD)) {
         hmd_mode_button.parentElement.removeChild(hmd_mode_button);
 
         return;
@@ -1192,6 +1195,8 @@ function set_stereo_config() {
     var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
 
     m_cfg.set("stereo", stereo);
+    if (m_cfg.get("stereo") == "HMD")
+        m_cfg.set("gyro_use", true);
 }
 
 function report_app_error(text_message, link_message, link) {

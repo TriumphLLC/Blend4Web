@@ -73,8 +73,6 @@ function init_cb(canvas_elem, success) {
     // cache dom hover element
     _hover_panel_elem = document.querySelector("#hover_panel");
 
-    m_app.enable_controls();
-
     m_preloader.create_advanced_preloader({
         img_width: 165,
         preloader_width: 460,

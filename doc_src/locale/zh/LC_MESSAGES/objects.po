@@ -1,0 +1,1064 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../objects.rst:6
+msgid "Objects"
+msgstr ""
+
+#: ../objects.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../objects.rst:12
+msgid ""
+"Objects are intended to position components of different types (meshes, "
+"cameras, lamps etc) in a 3D scene space."
+msgstr ""
+
+#: ../objects.rst:15
+msgid "Types"
+msgstr ""
+
+#: ../objects.rst:17
+msgid "The engine supports objects of the following types:"
+msgstr ""
+
+#: ../objects.rst:19
+msgid ":ref:`meshes (mesh) <meshes>`"
+msgstr ""
+
+#: ../objects.rst:20
+msgid "camera"
+msgstr ""
+
+#: ../objects.rst:21
+msgid "lamp"
+msgstr ""
+
+#: ../objects.rst:22
+msgid "empty"
+msgstr ""
+
+#: ../objects.rst:23
+msgid "armature"
+msgstr ""
+
+#: ../objects.rst:24
+msgid "speaker"
+msgstr ""
+
+#: ../objects.rst:25
+msgid "curve"
+msgstr ""
+
+#: ../objects.rst:26
+msgid "text"
+msgstr ""
+
+#: ../objects.rst:27
+msgid "metaball"
+msgstr ""
+
+#: ../objects.rst:28
+msgid "surface"
+msgstr ""
+
+#: ../objects.rst:34
+msgid "Static and Dynamic Objects"
+msgstr ""
+
+#: ../objects.rst:36
+msgid ""
+"**Static objects** are objects which can be merged together if they have "
+"the same material."
+msgstr ""
+
+#: ../objects.rst:38
+msgid "**Dynamic objects** are objects which cannot be combined with each other."
+msgstr ""
+
+#: ../objects.rst:40
+msgid ""
+"Only ``MESH``, ``CAMERA`` and ``ARMATURE`` type objects can be dynamic. "
+"All other object types are static."
+msgstr ""
+
+#: ../objects.rst:42
+msgid ""
+"The objects which have animation, physics or a parent, which is a dynamic"
+" object, are considered dynamic."
+msgstr ""
+
+#: ../objects.rst:44
+msgid ""
+"Object movement via API is possible only for dynamic objects. In order to"
+" make the movement of the object without dynamic settings possible, it is"
+" necessary to activate ``Force Dynamic Object`` option in its settings."
+msgstr ""
+
+#: ../objects.rst:49
+msgid "Settings"
+msgstr ""
+
+#: ../objects.rst:51
+msgid ""
+"The following is supported for all types of objects: transform, data "
+"reference, parent object, group membership and a set of the Blend4Web’s "
+"special properties."
+msgstr ""
+
+#: ../objects.rst:54
+msgid "Object Tab"
+msgstr ""
+
+#: ../objects.rst:63
+msgid "*Transform > Location*"
+msgstr ""
+
+#: ../objects.rst:63
+msgid "Position coordinates."
+msgstr ""
+
+#: ../objects.rst:66
+msgid "*Transform > Rotation*"
+msgstr ""
+
+#: ../objects.rst:66
+msgid ""
+"Rotation angles. For the object rotation all available modes can be used "
+"(``Rotation Mode``). However only ``Quaternion (WXYZ)`` and ``XYZ Euler``"
+" are supported for :ref:`object animation <whole_object_anim>`."
+msgstr ""
+
+#: ../objects.rst:69
+msgid "*Transform > Scale*"
+msgstr ""
+
+#: ../objects.rst:69
+msgid ""
+"Scaling. All 3 components (x, y, z) should be the same. Scaling for "
+"physics objects is not supported."
+msgstr ""
+
+#: ../objects.rst:80
+msgid "*Relations > Parent*"
+msgstr ""
+
+#: ../objects.rst:72
+msgid "Reference to the parent object."
+msgstr ""
+
+#: ../objects.rst:74
+msgid ""
+"If the parent object is a camera, ``Viewport Alignment`` settings will be"
+" avalible."
+msgstr ""
+
+#: ../objects.rst:80
+msgid ""
+"The ``Alignment`` parameter specifies to what side of the viewport an "
+"object will be aligned (``Center`` by default). The ``Distance`` "
+"parameter specifies the distance between the aligned object and the "
+"camera (10 by default). The ``Fit to Camera`` button can be used to make "
+"the aligned object look in the Blender viewport same way it will look in "
+"the engine."
+msgstr ""
+
+#: ../objects.rst:84
+msgid "*Groups*"
+msgstr ""
+
+#: ../objects.rst:83
+msgid "Objects’ groups to which this object belongs."
+msgstr ""
+
+#: ../objects.rst:92
+msgid "*Levels of Detail > LOD Transition Ratio*"
+msgstr ""
+
+#: ../objects.rst:92
+msgid ""
+"Parameter for smoothing the switching between the LOD objects. It defines"
+" the additional distance at which the LOD objects are still rendered "
+"before getting replaced by the next LOD objects. Assigned for the main "
+"object. Measured in fractions of the object’s bounding sphere radius."
+msgstr ""
+
+#: ../objects.rst:95
+msgid "*Special Effects > Disable Fogging*"
+msgstr ""
+
+#: ../objects.rst:95
+msgid "Disable fog for the object."
+msgstr ""
+
+#: ../objects.rst:98
+msgid "*Special Effects > Caustics*"
+msgstr ""
+
+#: ../objects.rst:98
+msgid "The object will render caustics effects from the adjacent water."
+msgstr ""
+
+#: ../objects.rst:101
+msgid "*Export Options > Do Not Export*"
+msgstr ""
+
+#: ../objects.rst:101
+msgid "Do not export this object."
+msgstr ""
+
+#: ../objects.rst:106
+msgid "*Export Options > Apply Modifiers*"
+msgstr ""
+
+#: ../objects.rst:106
+msgid ""
+"Apply the object’s modifiers upon export. If the ``SKIN`` modifier is "
+"used we recommend to apply it before the export because it resets vertex "
+"color and UV layers which may result in errors."
+msgstr ""
+
+#: ../objects.rst:109
+msgid "*Export Options > Apply Scale and Modifiers*"
+msgstr ""
+
+#: ../objects.rst:109
+msgid "Upon export, apply scale and modifiers for the object."
+msgstr ""
+
+#: ../objects.rst:112
+msgid "*Export Options > Export Vertex Animation*"
+msgstr ""
+
+#: ../objects.rst:112
+msgid ""
+"Export previously created and saved vertex animation. Applicable for "
+"``MESH`` type objects only."
+msgstr ""
+
+#: ../objects.rst:115
+msgid "*Export Options > Export Shape Keys*"
+msgstr ""
+
+#: ../objects.rst:115
+msgid "Export shape keys. Applicable to ``MESH`` type objects only."
+msgstr ""
+
+#: ../objects.rst:119
+msgid ""
+"The following properties are mutually exclusive: *Apply Modifiers*, "
+"*Apply Scale and Modifiers*, *Export Vertex Animation* and *Export Shape "
+"Keys*."
+msgstr ""
+
+#: ../objects.rst:122
+msgid "*Animation > Apply Default Animation*"
+msgstr ""
+
+#: ../objects.rst:122
+msgid ""
+"Upon loading into the engine start playback of the animation assigned to "
+"the object."
+msgstr ""
+
+#: ../objects.rst:125
+msgid "*Animation > Animation Blending*"
+msgstr ""
+
+#: ../objects.rst:125
+msgid "Only for armature objects. Allows blending between skeletal animations."
+msgstr ""
+
+#: ../objects.rst:128
+msgid "*Animation > Behavior*"
+msgstr ""
+
+#: ../objects.rst:128
+msgid ""
+"Animation behavior when the last frame is reached: ``Finish Stop`` - "
+"stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat"
+" forever."
+msgstr ""
+
+#: ../objects.rst:131
+msgid "*Rendering Properties > Do Not Render*"
+msgstr ""
+
+#: ../objects.rst:131
+msgid "Disable object rendering (for example useful for a physics object)."
+msgstr ""
+
+#: ../objects.rst:134
+msgid "*Rendering Properties > Disable Frustum Culling*"
+msgstr ""
+
+#: ../objects.rst:134
+msgid "Disable frustum culling optimization."
+msgstr ""
+
+#: ../objects.rst:137
+msgid "*Rendering Properties > Force Dynamic Object*"
+msgstr ""
+
+#: ../objects.rst:137
+msgid ""
+"Force the object to become a :ref:`dynamic object "
+"<static_dynamic_objects>`."
+msgstr ""
+
+#: ../objects.rst:142
+msgid "*Rendering Properties > Dynamic Geometry*"
+msgstr ""
+
+#: ../objects.rst:142
+msgid "Allow overriding of the object’s geometry through Blend4Web API."
+msgstr ""
+
+#: ../objects.rst:145
+msgid "*Shadows > Cast*"
+msgstr ""
+
+#: ../objects.rst:145
+msgid "The object will cast shadows."
+msgstr ""
+
+#: ../objects.rst:148
+msgid "*Shadows> Cast Only*"
+msgstr ""
+
+#: ../objects.rst:148
+msgid ""
+"The object will cast shadows but will remain invisible itself. Becomes "
+"available after enabling ``Shadows > Cast``."
+msgstr ""
+
+#: ../objects.rst:151
+msgid "*Shadows > Receive*"
+msgstr ""
+
+#: ../objects.rst:151
+msgid "The object will receive shadows from other adjacent objects."
+msgstr ""
+
+#: ../objects.rst:154
+msgid "*Reflections > Reflexible*"
+msgstr ""
+
+#: ../objects.rst:154
+msgid "When enabled the object is reflected in the dynamic mirror surfaces."
+msgstr ""
+
+#: ../objects.rst:157
+msgid "*Reflections > Reflexible Only*"
+msgstr ""
+
+#: ../objects.rst:157
+msgid ""
+"The object will be reflected but will remain invisible itself. Becomes "
+"available after enabling ``Reflections > Reflexible``."
+msgstr ""
+
+#: ../objects.rst:160
+msgid "*Reflections > Reflective*"
+msgstr ""
+
+#: ../objects.rst:160
+msgid "When enabled the object surface reflects other objects."
+msgstr ""
+
+#: ../objects.rst:163
+msgid "*Reflections > Reflection Plane*"
+msgstr ""
+
+#: ../objects.rst:163
+msgid ""
+"Text field for name of an empty object which defines the reflection "
+"plane. Becomes available after enabling ``Reflections > Reflective``."
+msgstr ""
+
+#: ../objects.rst:166
+msgid "*Selection and Outlining > Selectable*"
+msgstr ""
+
+#: ../objects.rst:166
+msgid ""
+"Enable :ref:`object selection <mesh_selection>` with the mouse or another"
+" input device."
+msgstr ""
+
+#: ../objects.rst:169
+msgid "*Selection and Outlining > Enable Outlining*"
+msgstr ""
+
+#: ../objects.rst:169
+msgid "Enable :ref:`outline glow <outline>` for the object."
+msgstr ""
+
+#: ../objects.rst:184
+msgid "*Meta Tags*"
+msgstr ""
+
+#: ../objects.rst:172
+msgid "Interface for adding meta tags to the object:"
+msgstr ""
+
+#: ../objects.rst:175
+msgid "*Meta Tags > Title*"
+msgstr ""
+
+#: ../objects.rst:175
+msgid "Object's title."
+msgstr ""
+
+#: ../objects.rst:178
+msgid "*Meta Tags > Category*"
+msgstr ""
+
+#: ../objects.rst:178
+msgid "Object's category."
+msgstr ""
+
+#: ../objects.rst:181
+msgid "*Meta Tags > Description*"
+msgstr ""
+
+#: ../objects.rst:181
+msgid ""
+"Description for the object. Depending on ``Description Source``, this "
+"field accepts either description text itself, or the name of a file where"
+" this description is contained."
+msgstr ""
+
+#: ../objects.rst:184
+msgid "*Meta Tags > Description Source*"
+msgstr ""
+
+#: ../objects.rst:184
+msgid "Source type for the description: text or text file."
+msgstr ""
+
+#: ../objects.rst:198
+msgid "*Anchors > Enable Anchor*"
+msgstr ""
+
+#: ../objects.rst:189
+msgid ""
+"Available for ``EMPTY`` objects only. Interface for adding anchors (2D "
+"tags) to objects:"
+msgstr ""
+
+#: ../objects.rst:192
+msgid "*Anchors > Type*"
+msgstr ""
+
+#: ../objects.rst:192
+msgid ""
+"Anchor type. ``Annotation`` - the content is obtained from the meta tags "
+"assigned to the object and displayed in a collapsible window of standard "
+"design. ``Custom Element`` - arbitrary HTML element from the current web "
+"page is used as anchor. ``Generic`` - anchor’s position can be detected "
+"using ``anchors`` API module."
+msgstr ""
+
+#: ../objects.rst:195
+msgid "*Anchors > Detect Visibility*"
+msgstr ""
+
+#: ../objects.rst:195
+msgid ""
+"Detect whether the anchor object is overlapped by other objects. Turning "
+"this option on decreases performance and should be used only when "
+"necessary."
+msgstr ""
+
+#: ../objects.rst:198
+msgid "*Anchors > Max Width*"
+msgstr ""
+
+#: ../objects.rst:198
+msgid ""
+"Applicable to annotation anchors. This limits the expanding info window "
+"by a predefined value (measured in CSS pixels)."
+msgstr ""
+
+#: ../objects.rst:201
+msgid "*Wind Bending*"
+msgstr ""
+
+#: ../objects.rst:201
+msgid ""
+"Enables wind bending procedural animation. Thoroughly described at the "
+":ref:`outdoor rendering <wind_bending>` page."
+msgstr ""
+
+#: ../objects.rst:206
+msgid "*Billboard*"
+msgstr ""
+
+#: ../objects.rst:206
+msgid ""
+"Use the object as a billboard (i.e. automatically orient relative to the "
+"camera)."
+msgstr ""
+
+#: ../objects.rst:211
+msgid "*Billboard > Preserve Global Orientation and Scale*"
+msgstr ""
+
+#: ../objects.rst:211
+msgid ""
+"Take into account rotation and scale of the billboard object (in the "
+"world space). The object will be directed toward the camera with its side"
+" which is visible when viewing along the Y axis in Blender. Becomes "
+"available after enabling the ``Billboard`` checkbox."
+msgstr ""
+
+#: ../objects.rst:215
+msgid "*Billboard > Billboard Type*"
+msgstr ""
+
+#: ../objects.rst:214
+msgid ""
+"Billboard orientation mode. ``Spherical`` (by default) - the object is "
+"always oriented with one side toward the camera, regardless of view "
+"angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is "
+"limited to Blender’s world Z axis. Becomes available after enabling "
+"Billboard"
+msgstr ""
+
+#: ../objects.rst:218
+msgid "Physics Tab"
+msgstr ""
+
+#: ../objects.rst:227
+msgid "*Detect Collisions*"
+msgstr ""
+
+#: ../objects.rst:227
+msgid "Activate the object’s physics."
+msgstr ""
+
+#: ../objects.rst:230
+msgid "*Floating*"
+msgstr ""
+
+#: ../objects.rst:230
+msgid ""
+"Make the object floating. The settings for floating objects are described"
+" in detail in the :ref:`physics <physics>` section."
+msgstr ""
+
+#: ../objects.rst:233
+msgid "*Vehicle*"
+msgstr ""
+
+#: ../objects.rst:233
+msgid ""
+"Use the object as part of a vehicle. The vehicle settings are described "
+"in detail in the :ref:`physics <physics>` section."
+msgstr ""
+
+#: ../objects.rst:237
+msgid "*Character*"
+msgstr ""
+
+#: ../objects.rst:236
+msgid ""
+"Use the object for character physics. The character settings are "
+"described in detail in the :ref:`physics <physics>` section."
+msgstr ""
+
+#: ../objects.rst:242 ../objects.rst:239
+msgid "Object Transform API"
+msgstr ""
+
+#: ../objects.rst:246
+msgid ""
+"Make sure that the object you are trying to transform is a :ref:`dynamic "
+"object <static_dynamic_objects>`."
+msgstr ""
+
+#: ../objects.rst:248
+msgid ""
+"Use the following methods of the :b4wmod:`transform` module to move "
+"objects in the engine:"
+msgstr ""
+
+#: ../objects.rst:251
+msgid ":b4wref:`transform.get_translation()`"
+msgstr ""
+
+#: ../objects.rst:251
+msgid ""
+"Get the coordinates of the object’s center in world space. The method "
+"with a single argument returns a new vector (i.e. this is a non-optimized"
+" option) while the method with two arguments requires an additional "
+"vector to write the result down."
+msgstr ""
+
+#: ../objects.rst:254
+msgid ":b4wref:`transform.get_translation_rel()`"
+msgstr ""
+
+#: ../objects.rst:254
+msgid ""
+"Similar to the ``get_translation()`` method, but if this object has a "
+"parent, the obtained coordinates are measured in the parent’s space."
+msgstr ""
+
+#: ../objects.rst:257
+msgid ""
+":b4wref:`transform.set_translation()`, "
+":b4wref:`transform.set_translation_v()`"
+msgstr ""
+
+#: ../objects.rst:257
+msgid ""
+"Move the object’s center into the specified location. The first method "
+"takes separate coordinates as arguments while the second one takes a "
+"three-component vector (``Array`` or ``Float32Array``)."
+msgstr ""
+
+#: ../objects.rst:260
+msgid ""
+":b4wref:`transform.set_translation_rel()`, "
+":b4wref:`transform.set_translation_rel_v()`"
+msgstr ""
+
+#: ../objects.rst:260
+msgid ""
+"Similar to ``set_translation()`` and ``set_translation_v()``, but if this"
+" object has a parent, the set coordinates are measured in the parent’s "
+"space."
+msgstr ""
+
+#: ../objects.rst:263
+msgid ":b4wref:`transform.get_rotation()`"
+msgstr ""
+
+#: ../objects.rst:263
+msgid ""
+"Get the object’s rotation quaternion in world space. Similar to "
+"``get_translation()``, there are two options for calling this function."
+msgstr ""
+
+#: ../objects.rst:266
+msgid ":b4wref:`transform.get_rotation_rel()`"
+msgstr ""
+
+#: ../objects.rst:266
+msgid ""
+"Get the object’s rotation quaternion measured in its parent’s space. "
+"Similar to ``get_translation_rel()``, there are two options for calling "
+"this function."
+msgstr ""
+
+#: ../objects.rst:269
+msgid ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
+msgstr ""
+
+#: ../objects.rst:269
+msgid ""
+"Set the object’s rotation quaternion in world space. The first function "
+"takes separate coordinates as arguments while the second one takes a "
+"four-component vector (``Array`` or ``Float32Array``)."
+msgstr ""
+
+#: ../objects.rst:272
+msgid ""
+":b4wref:`transform.set_rotation_rel()`, "
+":b4wref:`transform.set_rotation_rel_v()`"
+msgstr ""
+
+#: ../objects.rst:272
+msgid ""
+"Set the object’s rotation quaternion measured in its parent’s space. The "
+"first function takes separate coordinates as arguments while the second "
+"one takes a four-component vector (``Array`` or ``Float32Array``)."
+msgstr ""
+
+#: ../objects.rst:275
+msgid ":b4wref:`transform.get_scale()`"
+msgstr ""
+
+#: ../objects.rst:275
+msgid "Get the object’s scale in world space."
+msgstr ""
+
+#: ../objects.rst:278
+msgid ":b4wref:`transform.get_scale_rel()`"
+msgstr ""
+
+#: ../objects.rst:278
+msgid "Get the object’s scale in its parent’s space."
+msgstr ""
+
+#: ../objects.rst:281
+msgid ":b4wref:`transform.set_scale()`"
+msgstr ""
+
+#: ../objects.rst:281
+msgid ""
+"Set the object’s scale in world space. Unity corresponds to the original "
+"scale of the object. Values less than unity mean scaling down, bigger "
+"than unity - scaling up. Note that not all objects can be scaled. "
+"Particularly, scaling is not allowed for physics objects."
+msgstr ""
+
+#: ../objects.rst:284
+msgid ":b4wref:`transform.set_scale_rel()`"
+msgstr ""
+
+#: ../objects.rst:284
+msgid "Set the object’s scale in its parent’s space."
+msgstr ""
+
+#: ../objects.rst:287
+msgid ""
+":b4wref:`transform.set_rotation_euler()`, "
+":b4wref:`transform.set_rotation_euler_v()`"
+msgstr ""
+
+#: ../objects.rst:287
+msgid ""
+"Set the object’s rotation using Euler angles. An **intrinsic** YZX "
+"rotation system is used (that means the angles follow in the YZX order "
+"and the origin of coordinates rotates and takes up a new position for "
+"every angle)."
+msgstr ""
+
+#: ../objects.rst:290
+msgid ""
+":b4wref:`transform.set_rotation_euler_rel()`, "
+":b4wref:`transform.set_rotation_euler_rel_v()`"
+msgstr ""
+
+#: ../objects.rst:290
+msgid ""
+"Set the object’s rotation using Euler angles measured in its parent’s "
+"space."
+msgstr ""
+
+#: ../objects.rst:293
+msgid ":b4wref:`transform.move_local()`"
+msgstr ""
+
+#: ../objects.rst:293
+msgid "Move the object relative to its original position (in local space)."
+msgstr ""
+
+#: ../objects.rst:296
+msgid ""
+":b4wref:`transform.rotate_x_local()`, "
+":b4wref:`transform.rotate_y_local()`, "
+":b4wref:`transform.rotate_z_local()`"
+msgstr ""
+
+#: ../objects.rst:296
+msgid "Rotate the object relative to its original position (in local space)."
+msgstr ""
+
+#: ../objects.rst:301
+msgid "Get object API"
+msgstr ""
+
+#: ../objects.rst:303
+msgid ""
+"To perform any operation with an object, you first need to get it (i.e. "
+"recieve the link to it). There are several API functions for doing this. "
+"A link to an object has ``Object3D`` type."
+msgstr ""
+
+#: ../objects.rst:312
+msgid ":b4wref:`scenes.get_object_by_name()`"
+msgstr ""
+
+#: ../objects.rst:306
+msgid "Get object by name."
+msgstr ""
+
+#: ../objects.rst:321
+msgid ":b4wref:`scenes.get_object_by_dupli_name()`"
+msgstr ""
+
+#: ../objects.rst:315
+msgid "Get the duplicated object by empty name and dupli name."
+msgstr ""
+
+#: ../objects.rst:330
+msgid ":b4wref:`scenes.get_object_by_dupli_name_list()`"
+msgstr ""
+
+#: ../objects.rst:324
+msgid ""
+"Get the duplicated object by empty name and dupli name list (an array of "
+"``String`` type elements)."
+msgstr ""
+
+#: ../objects.rst:340
+msgid ":b4wref:`scenes.get_object_name_hierarchy()`"
+msgstr ""
+
+#: ../objects.rst:333
+msgid ""
+"Returns the object names hierarchy array (from the highest parent to the "
+"object itself) for a given object."
+msgstr ""
+
+#: ../objects.rst:349
+msgid ":b4wref:`scenes.check_object_by_name()`"
+msgstr ""
+
+#: ../objects.rst:343
+msgid "Check if object with given name is present on scene."
+msgstr ""
+
+#: ../objects.rst:358
+msgid ":b4wref:`scenes.check_object_by_dupli_name()`"
+msgstr ""
+
+#: ../objects.rst:352
+msgid ""
+"Check if duplicated object is present on scene by empty name and dupli "
+"name."
+msgstr ""
+
+#: ../objects.rst:367
+msgid ":b4wref:`scenes.check_object_by_dupli_name_list()`"
+msgstr ""
+
+#: ../objects.rst:361
+msgid ""
+"Check if duplicated object is present on scene by empty name and dupli "
+"name list (an array of ``String`` type elements)."
+msgstr ""
+
+#: ../objects.rst:376
+msgid ":b4wref:`scenes.get_object_name()`"
+msgstr ""
+
+#: ../objects.rst:370
+msgid "Get the object’s name."
+msgstr ""
+
+#: ../objects.rst:381
+msgid "Quaternions"
+msgstr ""
+
+#: ../objects.rst:383
+msgid ""
+"Quaternion is a four-component vector used to perform rotating. "
+"Quaternions have a number of advantages over other rotation methods such "
+"as:"
+msgstr ""
+
+#: ../objects.rst:385
+msgid ""
+"A quaternion isn’t ambiguant and doesn’t depend on the rotation order as "
+"the Euler angles."
+msgstr ""
+
+#: ../objects.rst:386
+msgid ""
+"Quaternion’s memory usage is more effective (2-4 times less depending on "
+"the matrix used)."
+msgstr ""
+
+#: ../objects.rst:387
+msgid ""
+"Better computing efficiency than for matrices in case of a series of "
+"rotations."
+msgstr ""
+
+#: ../objects.rst:388
+msgid ""
+"Numeric stability - compensation for multiplication errors arising from "
+"float number inaccuracy."
+msgstr ""
+
+#: ../objects.rst:389
+msgid "Convenient interpolation method."
+msgstr ""
+
+#: ../objects.rst:393
+msgid "Quaternions have some drawbacks:"
+msgstr ""
+
+#: ../objects.rst:392
+msgid ""
+"Rotating a vector with a quaternion is more computationally expensive "
+"than rotating with a matrix."
+msgstr ""
+
+#: ../objects.rst:393
+msgid ""
+"It is difficult to use quaternions for non-rotation transformations (such"
+" as perspective or orthogonal projection)."
+msgstr ""
+
+#: ../objects.rst:395
+msgid ""
+"The engine has a number of functions to make it more convenient to work "
+"with quaternions:"
+msgstr ""
+
+#: ../objects.rst:398
+msgid "*quat.multiply*"
+msgstr ""
+
+#: ../objects.rst:398
+msgid ""
+"Quaternion multiplication. Note that left-multiplying A quaternion by B "
+"quaternion A*B is a rotation by A. I.e. the object already has some "
+"rotation B which we supplement with a new rotation by A."
+msgstr ""
+
+#: ../objects.rst:401
+msgid "*quat.setAxisAngle*"
+msgstr ""
+
+#: ../objects.rst:401
+msgid ""
+"A quaternion is an alternative presentation of rotation by an arbitrary "
+"angle relative to the arbitrary axis (vector). Positive direction of "
+"rotation is defined as anticlockwise when viewing from the vector’s end. "
+"For example the :code`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)` call"
+" forms a quaternion which can be used for rotating the object by 90 "
+"degrees (anticlockwise if viewing from the X axis’ end) relative to the X"
+" axis."
+msgstr ""
+
+#: ../objects.rst:404
+msgid "*quat.slerp*"
+msgstr ""
+
+#: ../objects.rst:404
+msgid ""
+"Spherical interpolation of quaternions. Used for smoothing the object’s "
+"rotation and animation."
+msgstr ""
+
+#: ../objects.rst:408
+msgid "*util.euler_to_quat, util.quat_to_euler*."
+msgstr ""
+
+#: ../objects.rst:407
+msgid "Conversion from Euler angles and back."
+msgstr ""
+
+#: ../objects.rst:411
+msgid "Quaternion Example"
+msgstr ""
+
+#: ../objects.rst:413
+msgid ""
+"We need to rotate the object by 60 degrees in a horizontal plane to the "
+"right. We have a model named “Cessna” in Blender."
+msgstr ""
+
+#: ../objects.rst:421
+msgid "Lets save a reference to the object in the **aircraft** variable:"
+msgstr ""
+
+#: ../objects.rst:428
+msgid "Lets rotate it:"
+msgstr ""
+
+#: ../objects.rst:430
+msgid ""
+"The orientation of coordinate axes is different in Blender and in the "
+"engine. Upon export there will be a transformation [X Y Z] (Blender) -> "
+"[X -Z Y] (the engine). Therefore we need to rotate the object relative to"
+" the Y axis and not the Z axis."
+msgstr ""
+
+#: ../objects.rst:431
+msgid ""
+"A clockwise rotation corresponds to the rotation to the right (i.e. in "
+"the negative direction)."
+msgstr ""
+
+#: ../objects.rst:432
+msgid "60 degrees = :math:`\\pi/3` radians."
+msgstr ""
+
+#: ../objects.rst:434
+msgid "As a result we get:"
+msgstr ""
+
+#: ../objects.rst:451
+msgid "The optimized version which does not create new objects:"
+msgstr ""
+
+#: ../objects.rst:470
+msgid "Differences Between Coordinate Systems of Blender and Blend4Web"
+msgstr ""
+
+#: ../objects.rst:472
+msgid ""
+"In Blender’s coordinate system the ``UP`` vector, which points upwards, "
+"is co-directional with the Z axis. Blend4Web uses Y axis for this "
+"purpose, as it is customary in OpenGL. Thus the engine’s coordinates are "
+"rotated by 90° around the X axis relative to Blender."
+msgstr ""
+
+#: ../objects.rst:479
+msgid ""
+"API methods use the engine’s coordinates, so they can work differently in"
+" comparison with setting Blender’s parameters."
+msgstr ""
+
+#: ../objects.rst:483
+msgid "Moving via TSR Vectors"
+msgstr ""
+
+#: ../objects.rst:485
+msgid ""
+"It is sometimes convenient to move objects using vectors of the following"
+" format:"
+msgstr ""
+
+#: ../objects.rst:487
+msgid ":math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`"
+msgstr ""
+
+#: ../objects.rst:489
+msgid ""
+"Here :math:`T_x, T_y, T_z` - the components of the translation vector, "
+":math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of "
+"the quaternion vector. Hence the name of this vector: TSR or TSR-8."
+msgstr ""
+
+#: ../objects.rst:491
+msgid ""
+"This vector can be operated via `tsr` module, as well as via "
+"`set_tsr()`/`get_tsr()` methods of the `transform` module."
+msgstr ""
+
+#: ../objects.rst:298
+msgid "get object"
+msgstr ""
+
+#: ../objects.rst:378
+msgid "quaternion"
+msgstr ""
+
+

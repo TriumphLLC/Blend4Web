@@ -229,7 +229,7 @@ def fill_global_paths(base_dir):
     if platform.system() == "Windows":
         _java_exec = normpath(join(base_dir, "tools", "java", "win",
                                    "openjdk-1.7.0", "bin", "java.exe"))
-    elif not check_dependencies(["java"]):
+    elif not check_dependencies(["java"], False):
         _java_exec = ""
 
     # path to closure compiler directory
@@ -1142,7 +1142,7 @@ def compile_html(**kwargs):
             meta_item += "\n    <meta "
 
             for i in item:
-                meta_item += i[0] + "=" + "'" + i[1] + "' "
+                meta_item += i[0] + "=" + '"' + i[1] + '" '
 
             meta_item += "/>"
 
@@ -1365,12 +1365,13 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
             normpath(join(_base_dir, "scripts", "compile_b4w.py"))]
 
     # closure compiler externs
-    EXTERNS = [normpath(join(_cc_dir, "extern_modules.js")),
-               normpath(join(_cc_dir, "extern_jquery-1.9.js")),
-               normpath(join(_cc_dir, "w3c_dom1.js")),
-               normpath(join(_cc_dir, "extern_fullscreen.js")),
-               normpath(join(_cc_dir, "extern_gl-matrix.js")),
-               normpath(join(_cc_dir, "extern_pointerlock.js"))]
+    if opt_level == "ADVANCED_OPTIMIZATIONS":
+        EXTERNS = [normpath(join(_cc_dir, "extern_modules.js")),
+                   normpath(join(_cc_dir, "extern_jquery-1.9.js")),
+                   normpath(join(_cc_dir, "w3c_dom1.js")),
+                   normpath(join(_cc_dir, "extern_fullscreen.js")),
+                   normpath(join(_cc_dir, "extern_gl-matrix.js")),
+                   normpath(join(_cc_dir, "extern_pointerlock.js"))]
 
     GLOBALS_PATH = normpath(join(_base_dir, "deploy", "globals_detect"))
 
@@ -1399,27 +1400,31 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
 
             js_adv_params = list.copy(_js_cc_params)
 
-            apps_dir = join(_base_dir, "apps_dev")
-
-            externs_gen_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False)
-
-            addons_path_obj = Path(join(_src_dir, "addons"))
-            ext_path_obj    = Path(join(_src_dir, "ext"))
-
-            addons = addons_path_obj.rglob('*.js')
-            ext    = ext_path_obj.rglob('*.js')
-
-            append_externs_items(addons, externs_gen_file)
-            append_externs_items(ext, externs_gen_file)
-
-
-            externs_gen_file.seek(0)
-
-            EXTERNS.append(externs_gen_file.name)
+            externs_gen_file = None
 
             if opt_level == "ADVANCED_OPTIMIZATIONS":
+                apps_dir = join(_base_dir, "apps_dev")
+
+                externs_gen_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False)
+
+                addons_path_obj = Path(join(_src_dir, "addons"))
+                ext_path_obj    = Path(join(_src_dir, "ext"))
+
+                addons = addons_path_obj.rglob('*.js')
+                ext    = ext_path_obj.rglob('*.js')
+
+                append_externs_items(addons, externs_gen_file)
+                append_externs_items(ext, externs_gen_file)
+
+                externs_gen_file.seek(0)
+
+                ext_adv = list.copy(EXTERNS)
+
+                ext_adv.append(externs_gen_file.name)
+
                 prepared_src_ext = ["--externs=" + join(apps_dir, x)
-                                               for x in EXTERNS]
+                                               for x in ext_adv]
+
                 js_adv_params.extend(prepared_src_ext)
 
             js_adv_params.extend(prepared_src_js)
@@ -1436,12 +1441,13 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
             if len(output):
                 print(output)
 
-            externs_gen_file.close()
+            if externs_gen_file:
+                externs_gen_file.close()
 
-            try:
-                os.remove(externs_gen_file.name)
-            except:
-                print("File ", externs_gen_file.name, " not found")
+                try:
+                    os.remove(externs_gen_file.name)
+                except:
+                    print("File ", externs_gen_file.name, " not found")
 
         for js in js_paths[parent]:
             _temporary_files.append(js)
@@ -1536,6 +1542,9 @@ def exist_js(included_files, files, app_path_name):
     processed_files = {}
 
     for item in included_files:
+        if not 'src' in item:
+            continue
+
         js_src = normpath(join(app_path_name, item["src"]))
 
         if "no_compile" in item:
@@ -1565,7 +1574,7 @@ def print_wrapper(output_path):
     print("    " + "-"*(len(output_path) + len("  Compiling : ")))
 
 
-def check_dependencies(dependencies):
+def check_dependencies(dependencies, do_print=True):
     missing_progs = get_missing_progs(dependencies)
     needed_progs = {}
 
@@ -1573,7 +1582,8 @@ def check_dependencies(dependencies):
         if dep == "java":
             needed_progs["Java"] = True
     for prog in needed_progs:
-        print("Couldn't find", prog)
+        if do_print:
+            print("Couldn't find", prog)
     if len(missing_progs) > 0:
         return False
     return True

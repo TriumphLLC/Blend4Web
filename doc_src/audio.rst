@@ -1,14 +1,14 @@
 .. _audio:
 
-****
-Звук
-****
+*****
+Audio
+*****
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Создание звуковых источников осуществляется в Blender'e. Используется стандартный объект ``Speaker``.
+Audio sources are created in Blender. The standard ``Speaker`` object is used.
 
 .. image:: src_images/audio/speaker.jpg
    :align: center
@@ -16,81 +16,69 @@
 
 |
 
-Настройка звуковых источников
-=============================
+Audio Source Settings
+=====================
 
-Настройки спикера выставляются в панели ``Properties`` на вкладке ``Object Data``.
+Speaker parameters can be set up on the ``Properties`` panel under the ``Object Data`` tab.
 
-Движком поддерживаются все стандартные для Blender параметры звука и некоторые специфические для движка опции.
+The engine supports all the standard Blender sound parameters and some engine-specific settings.
 
 *Speaker Behavior*:
 
-    Поведение звукового источника.
+    The behavior of the audio source.
 
-    ``Positional`` --- высококачественный звук, допускающий позиционирование и
-    имеющий направленность (конусность). Для рендеринга используется Web Audio
-    API. Воспроизведение подобных звуков обладает наименьшей производительностью,
-    поэтому их использовать целесообразно только для коротких сэмплов.
+    ``Positional`` --- high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.
 
-    ``Background Sound`` --- высококачественный всенаправленный звук без возможности
-    позиционирования в пространстве. Для рендеринга используется Web Audio API.
-    Более производителен, однако нецелесообразен для музыки.
+    ``Background Sound`` --- high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.
 
-    ``Background Music`` --- используется для воспроизведения музыки. Максимальная
-    производительность вследствие использования тега Audio, минимальная гибкость.
+    ``Background Music`` --- used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.
 
-На панели ``Sound`` доступны следующие настройки:
+The following options are available on the ``Sound`` panel:
 
 *Volume*
 
-    Громкость источника.
+    Speaker volume
 
 *Random Volume*
 
-    Дополнительная рандомизация громкости. Результирующее значение определяется
-    аналогично задержке.
+    Additional volume randomization. The resulting value is calculated as for the delay.
 
 *Pitch*
 
-    Скорость проигрывания (высота) звука. 
+    Sound playback velocity. 
 
 *Random Pitch*
 
-    Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
-    аналогично задержке.
+    Additional randomization of the sound playback speed. The resulting value is calculated as for the delay.
 
 
 *Fade-In*
 
-    Интервал плавного включения звука.
+    Fade-in time interval.
 
 *Fade-Out*
 
-    Интервал плавного выключения звука.
+    Fade-out time interval.
 
 *Disable Doppler*
 
-    Игнорировать смещение частоты источника при его перемещении.
+    Ignore source's frequency shift upon its moving.
 
 *Cyclic Play*
 
-    Зацикливать воспроизведение звука.
+    Loop the sound playback.
 
 *Delay*
 
-    Задержка в секундах перед началом проигрывания звука.
+    Delay before sound playback starts.
 
 *Random Delay*
 
-    Дополнительная рандомизация задержки, результирующее значение определяется
-    по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`.
+    Additional delay randomization. The resulting value is calculated according to the formula :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`.
 
 *Loop*
 
-    Зацикливать воспроизведение звука. Отличается от ``Cyclic Play``,
-    тем, что способен обеспечить нулевую задержку при повторении. Опция доступна
-    только для звуковых источников с поведением ``Positional`` или ``Background
-    Sound``.
+    Loop the sound playback. Contrary to the ``Cyclic play`` option it guarantees a zero delay upon repeat. The option is available only for sound sources with ``Positional`` or ``Background Sound`` behavior.
 
 .. image:: src_images/audio/speaker_settings.png
    :align: center
@@ -100,28 +88,25 @@
 
 ..
     *Loop count*
-        Не реализовано
+        Not implemented
     *Random loop count*
-        Не реализовано
+        Not implemented
     *Playlist ID*
-        Не реализовано
+        Not implemented
 
 
 .. _encoding:
 
-Обработка и кодирование
+Processing and Decoding
 =======================
 
-Поддерживаемые форматы (контейнеры):
-------------------------------------
+Supported formats (containers):
+-------------------------------
 
-* ogg, кодек Vorbis (Chrome, Firefox)
+* ogg, Vorbis codec (Chrome, Firefox)
 * mp3 (Chrome, Safari)
-* mp4, кодек AAC (Chrome, Safari)
+* mp4, AAC codec (Chrome, Safari)
 
-Рекомендуется использовать *Ogg*, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и
-совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется
-для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального
-сопровождения.
+It is recommended to use **Ogg** as it is an open standard, is widespread in browsers and provides good sound quality. The optimal format in respect to the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is used to store shot samples while two-channel sound (stereo) is used for music playback.
 
-Конвертация ресурсов в различные форматы описывается в :ref:`соответствующем разделе <converter>`.
+Converting resources between different formats is described in the :ref:`corresponding section <converter>`.

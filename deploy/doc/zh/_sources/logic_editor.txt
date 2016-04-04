@@ -1,0 +1,1305 @@
+
+Logic Nodes
+***********
+
+
+Table of Content
+^^^^^^^^^^^^^^^^
+
+* Logic Nodes
+
+  * Basics
+
+  * Control Flow
+
+  * Animation
+
+  * Camera
+
+  * Object
+
+  * Operations
+
+  * Sound
+
+  * Network
+
+  * Debug
+
+  * Layout
+
+  * Debugging
+
+
+Basics
+======
+
+Visual programming is performed by creating logic node tree in the
+node editor area in Blender. These nodes can extend the scene
+functionality significantly without any coding.
+
+[图片]
+
+To activate logic on the given scene set the "Logic Editor" property
+in the "Scene" tab and append/select active node tree.
+
+[图片]
+
+To edit logic tree go to the "Node Editor" area and select the
+"Blend4Web Logic" tree type:
+
+[图片]
+
+Then select the required node tree:
+
+[图片]
+
+
+
+Nodes are created by using standard Blender keyboard shortcut
+"Shift+A".
+
+The nodes themselves are logic blocks that are executed from the
+"Entry Point" node which has no inputs and only one output. All other
+nodes have both inputs and outputs, and can be inserted in any place
+of a logic tree. The exception is "Page Redirect" node, which can be
+inserted only to the end of the node tree. The nodes which have two
+outputs allow braching, thus the next leave is selected based on
+condition specified for such nodes.
+
+For implementing complicated logic there are numeric variables called
+registers. Each of 8 registers can store a single numeric value. The
+registers can be used for storing some scene state (e.g. this can be a
+counter of animation playbacks, character’s health points etc).
+
+Logic Editor usage example:
+
+[图片]
+
+All avalible nodes are described below.
+
+
+Control Flow
+============
+
+
+Entry Point
+-----------
+
+This is where the script starts. By using multple entry points you can
+create multi-threaded applications.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+None.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+None.
+
+
+Switch Select
+-------------
+
+Can be used to trace the selection of any object from the object list.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*<object name> Hit*
+   This parameter will pass the control to the next node if the user
+   selects (with a mouse or by touch) an object mentioned in the
+   parameter’s name. The "Switch Select" node has one such parameter
+   by default, but you can add new ones and remove existing ones (the
+   node can even have no such parameters).
+
+*Miss*
+   This parameter will pass the control to the next node if the user
+   hasn’t selected any of the objects specified in the "Switch Select"
+   node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   One of the objects that the user can select. These parameters are
+   automatically created and deleted when you create or delete a "Hit"
+   parameter. The number of such parameters is always equal to the
+   number of the "Hit" parameters.
+
+
+Delay
+-----
+
+Make a delay before going to the next node.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Value*
+   Time (in seconds) that will pass before the activation of the next
+   node. Set to zero by default. Can be set manually or through a
+   register (if the "Variable" parameter is enabled).
+
+
+Conditional Jump
+----------------
+
+Go to the specified node if the certain condition is met. The
+parameters (operands) can also be registers that are activated using
+the corresponding switches.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*True*
+   Condition is true.
+
+*False*
+   Condition is false.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Condition*
+   Logical condition. Can have one of the following types:
+
+   * *Equal* - first operand is equal to the second.
+
+   * *Not Equal* - frist operand is not equal to the second.
+
+   * *Less Than* - first operand is less than the second.
+
+   * *Greater Than* - first operan is greater than the second.
+
+   * *Less Than Or Equal* - first operand is less than or equal to
+     the second.
+
+   * *Greater Than Or Equal* - first operand is greater than or
+     equal to the second.
+
+*Operand1*
+   First operand of the logical condition. Should have a numeric
+   value. Can be specified in the node or can be a link to one of the
+   eight registers.
+
+*Operand2*
+   Second operand of the logical condition. Works the same way as the
+   first.
+
+
+Select (Deprecated)
+-------------------
+
+注解: Deprecated! Isn’t recommended to use. Instead, using a "Switch
+  Select" node is recommended.
+
+It is similar to the "Select & Play" node, except the transition
+happens instead of animation. This function allows to implement a
+complicated logic because in this case there is a possibility to
+identify the user selection results.
+
+
+Select & Play Timeline (Deprecated)
+-----------------------------------
+
+注解: Deprecated! Isn’t recommended to use. Instead, using a
+  combination of "Switch Select" and "Play Timeline" nodes is
+  recommended.
+
+Wait until the user selects an object (on desktops - with a mouse
+click, on mobile devices - with a touch). If the object, which is
+specified in this node, is selected - then start the animation similar
+to the "Play Timeline" node. If any other object is selected - then
+immediately transfer control to the next node.
+
+
+Select & Play Animation (Deprecated)
+------------------------------------
+
+注解: Deprecated! Isn’t recommended to use. Instead, using a
+  combination of "Switch Select" and "Play Timeline" nodes is
+  recommended.
+
+Wait until the user selects an object (on desktops - with a mouse
+click, on mobile devices - with a touch). If the object, which is
+specified in this node, is selected - then start the animation similar
+to the "Play Animation" node. If any other object is selected - then
+immediately transfer control to the next node.
+
+
+Animation
+=========
+
+
+Play Timeline and Stop Timeline
+-------------------------------
+
+Can be used to control NLA animations. The "Play Timeline" node plays
+NLA fragment starting with a frame specified by the marker. Animation
+plays until next marker is encounterd, or to the end of the scene’s
+timeline. After that, control passes on to the next node. The "Stop
+Timeline" node stops the playback.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Start Marker*
+   First frame of the animation. If not specified, an animation plays
+   from the start of the timeline and may not work correctly.
+
+*End Marker*
+   Last frame of the animation. If not specified, an animation plays
+   to the end of the timeline and may not work correctly.
+
+
+Get Timeline
+------------
+
+This node can be used to get the currect frame of an NLA animation or
+a timeline.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*NLA Timeline*
+   If this parameter is enabled, the node will return the current
+   frame of an NLA animation. If it is disabled, the node will return
+   the current frame of the timeline. Enabled by default.
+
+*Destination*
+   Specifies a register to store the number of the current frame. Set
+   to "R1" by default.
+
+
+Play Animation
+--------------
+
+Can be used to play object’s animation. An animation can be one of the
+following types:
+
+Regular Action:
+
+[图片]
+
+Shader Action:
+
+[图片]
+
+Particle system:
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   Name of the object, animation of which will be played.
+
+*Anim. Name*
+   Name of an animation to play. If not specified, the entire timeline
+   will be played.
+
+*Behavior*
+   Specifies animation behavior. Can have one of the following values:
+
+   * *Finish Stop* - animation will be played once.
+
+   * *Finish Reset* - animation will be played once, then the object
+     will return to the starting point.
+
+   * *Loop* - animation will be playing repeatedly until it is
+     stopped by the "Stop Animation" node.
+
+*Do Not Wait*
+   If this parameter is enabled, the "Play Animation" node will pass
+   the control to the next node on starting the animation playback. If
+   it isn’t, the control will be passed to the next node only after
+   playback is finished.
+
+
+Stop Animation
+--------------
+
+Can be used to stop an object’s animation.
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Set First Frame*
+   Go back to the first frame after the animation has been stopped.
+
+
+Camera
+======
+
+
+Move Camera
+-----------
+
+Can be used to move the camera, including smooth interpolation of its
+position.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Camera*
+   A camera that will be moved.
+
+*Location*
+   An object to which the camera will move. The camera’s coordinates
+   will be the same as the object’s after the movement is finished.
+
+*Target*
+   The camera will point in the direction of this object after being
+   moved.
+
+*Duration*
+   Time (in seconds) that the camera will spend being moved to a new
+   location. Set to zero by default (and in this case the camera
+   doesn’t actually move, it simply changes its position). It can be
+   specified manually or as a link to a register (if the "Variable"
+   parameter is enabled).
+
+
+Object
+======
+
+
+Show Object
+-----------
+
+Can be used to show 3D objects.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object to show.
+
+
+Hide Object
+-----------
+
+Can be used to hide 3D objects.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object to hide.
+
+
+Transform Object
+----------------
+
+Can be used to transform object’s location, size and rotation angles.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that needs to be translated.
+
+*Relative*
+   If this parameter is enabled, the transformation will be relative,
+   if it isn’t, it will be absolute.
+
+*Location*
+   How the object will move along the "X", "Y" and "Z" axes. By
+   default, all three parameters are set to zero. Values can be
+   specified in the node itself or through the regisers (if the
+   "Variable" option is enabled).
+
+*Rotation*
+   Object’s rotation around the "X", "Y" and "Z" axes. All three
+   valueas are set to zero by default. Can be specified directly in
+   the node or through the registers (if the "Variable" option is
+   enabled).
+
+*Scale*
+   Object’s size. Can be specified directly or through a register (if
+   the "Variable" parameter is enabled). Set to zero by default.
+
+*Duration*
+   Time (in seconds) that the transformation will take. It can be
+   specified both directly or with a register (to do this, the
+   "Variable" parameter should be enabled). Set to zero by default.
+
+
+Move To
+-------
+
+Can be used to move objects.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that you need to move.
+
+*Destination*
+   A target (another object or a light source, camera or anything
+   else) to which the selected object will move. The object’s
+   coordinated will be the same as the target’s after the movement is
+   finished.
+
+*Duration*
+   Time (in seconds) that the object will spend moving to the new
+   location. By default, this parameter is set to zero (and in this
+   case, the object doesn’t actually move, it just changes it’s
+   position in a moment). It can be set manually or with a register
+   (avalible only if the "Variable" parameter is enabled).
+
+
+Apply Shape Key
+---------------
+
+Set the Shape Key factor.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that needs to be transformed.
+
+*Shape Key*
+   Shape key that will be applied to the object.
+
+*Value*
+   How much the shape key will influence the object. This value can be
+   set in the node or in a register. The value should be between 0 and
+   1.
+
+
+Outline
+-------
+
+Controls object outlining effect.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   Any changes of the outline effect will be applied only to an object
+   specified by this parameter.
+
+*Operation*
+   Specifies an operation that will be done to the object’s outline.
+   This parameter can have one of the following values:
+
+   * *PLAY* enables outline animation
+
+   * *STOP* disables it
+
+   * *INTENSITY* can be used to set intensity of the object’s
+     outline
+
+*Intensity*
+   Outline intensity. This parameter is only avalible if the
+   "Operation" parameter is set to "INTENSITY". The value can be set
+   manually or via register (if the "Variable" parameter is enabled).
+
+
+Set Shader Node Param
+---------------------
+
+Can be used to set the value for the shader node. Currently, only
+"Value" and "RGB" nodes are supported.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Object*
+   An object that has material that needs to be edited.
+
+*Material*
+   Material that needs to be edited. It should use nodes.
+
+*Node*
+   A node that has parameters that can be changed. For now, only
+   "Value" and "RGB" nodes are supported.
+
+*Parameters*
+   Editable parameters of the selected node. They can be set in the
+   node itself or through the registers (if the "Variable" parameter
+   is enabled).
+
+
+Inherit Material
+----------------
+
+Copy attributes from one material to another.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Source*
+   An object that has a material that will be inherited.
+
+*Material*
+   The material to inherit.
+
+*Destination*
+   An object that will inherit selected material.
+
+*Material*
+   The material that will be replaced by the inherited one.
+
+
+Operations
+==========
+
+
+Variable Store
+--------------
+
+Saves numerical or string value to a variable.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Var. name.*
+   Name of the variable. Can be selected from the list of eight
+   registers or specified manually (if the "New variable" parameter is
+   enabled).
+
+*Var. type*
+   Variable’s type. This parameter can have one of two values:
+   "Number" (for numerical variables) and "String" (for string
+   variables).
+
+*New Variable*
+   If this parameter is enabled, you can manually input a variable’s
+   name and not just select one of the registers. This can be used to
+   transfer the data between the application and the server.
+
+*Global*
+   Enabling this parameter makes the variable global. Avalible only if
+   the "New Variable" parameter has been enabled.
+
+   [图片]
+
+*Num./Str.*
+   Numeric or string (depending on the "Var. type" parameter value)
+   value of the variable.
+
+
+Math Operation
+--------------
+
+Perform a math operation and save the result in the register. Any of
+parameters (operands) can be either a numeric value or a register.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Operation*
+   Mathematical operation. Can have one of the following types:
+
+   * *Random* generates random value greater than the first operand
+     and less than the second.
+
+   * *Add* sums the operands.
+
+   * *Multiply* multyplies the operands.
+
+   * *Subtract* subtracts the second operand from the first.
+
+   * *Divide* divides first operand by the second.
+
+*Operand1*
+   First operand. It can be specified in the node or it can be a link
+   to one of the registers (if the "Variable" parameter is enabled).
+
+*Operand2*
+   Second operand. Works the same way as the first.
+
+*Destination*
+   The result of the operation will be saved in the register specified
+   by this parameter.
+
+
+String Operation
+----------------
+
+Can be used to perform an operation with two strings and save the
+result to a register.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Operation*
+   An operation that you need to perform with two strings, which can
+   have one of the following values:
+
+   * *Join* - joins two strings into one.
+
+   * *Find* - writes the index of the first occurence of the second
+     string in the first string to the register. If there is no
+     occurences, the value of -1 will be written. It should be noted
+     that the first symbol of a string has an index of 0, not 1.
+
+   * *Replace* replaces first occurence of the second string in the
+     first string with the third one.
+
+   * *Split* splits the first string in two using the first
+     occurence of the second string as a splitting mark.
+
+   * *Compare* compares two strings. For this operation, you need to
+     specify a logical condition. If this condition is met, a value of
+     1 will be outputted to the "Destination" register, if it isn’t,
+     zero will be outputted.
+
+*Condition*
+   A logical condition to compare two strings. This parameter is
+   avalible only if the "Operation" parameter is set to "Compare".
+   Works the same way as the "Condition" parameter of the "Conditional
+   Jump" node.
+
+*Operand1*
+   The first string. Can be specified in the node itself or with a
+   register.
+
+*Operand2*
+   The second string. Works the same way as the first.
+
+*Operand3*
+   This parameter is avalible only if the "Operation" parameter is set
+   to "Replace". Can be used to specify the third string, which will
+   replace the first occurence of the second one.
+
+*Destination*
+   A register to save the operation’s result.
+
+*Destination2*
+   This parameter is avalible only if the "Operation" parameter is set
+   to "Split". Specifies the register to save the second half of the
+   string that has been split (the first half will be saved to the
+   register specified by the "Destination" parameter).
+
+
+Sound
+=====
+
+
+Play Sound
+----------
+
+Can be used to play speaker’s sound.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Speaker*
+   A speaker that will be enabled.
+
+*Do Not Wait*
+   If this parameter is enabled, the control will pass to the next
+   node right after sound playback starts. If it isn’t enabled, the
+   control will pass only when the playback is finished.
+
+
+Stop Sound
+----------
+
+Can be used to stop speaker’s sound.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Speaker*
+   A speaker that will be turned off.
+
+
+Network
+=======
+
+
+Send Request
+------------
+
+Send an HTTP GET request to the specified URL and save the respond’s
+fields a variable.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Method*
+   Method of the request. Can have one of two values:
+
+   * *GET* is used to request data from the server.
+
+   * *POST* is used to send data to the server.
+
+   Set to "GET" by default.
+
+*Url*
+   A web adress to send request to. Set to “https://www.blend4web.com”
+   by default.
+
+*Response Params*
+   Specifies the register to save the data recieved from the server.
+
+注解: The data recieved from the server should look like this:
+
+     {"var0": 1,
+     "var1": 10,
+     "var2": 144,
+     ...
+     }
+
+*Content-Type*
+   Indicates the media type of the message content. Consists of a type
+   and a subtype, for example: "text/plain". Set to "Auto" by default.
+   Can be used to reassign the title of the HTTP request.
+
+*Request Params*
+   Specifies the register that contains a JSON object that will be
+   sent to the server.  Avalible only if the "Method" parameter is set
+   to "POST". Default value is "R1".
+
+
+JSON
+----
+
+This node can be used to encode and decode complex JSON objects.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*JSON*
+   A link to a JSON object that you need to decode or encode. Set to
+   "R1" by default.
+
+*JSON Operation*
+   An operation you need to perform with the JSON object specified by
+   the "JSON" parameter. Can have one of two values: "ENCODE" to
+   encode the JSON object and "PARSE" to decode it. Set to "ENCODE" by
+   default.
+
+*Members*
+   A list of variables that will be used to either store the decoded
+   data or to encode a JSON object ( depending on the value of the
+   "JSON Operation" parameter). The variables always have names like
+   "var0", "var1" and so on, and their quantity can be adjusted.
+
+
+Page Param
+----------
+
+Allows to store any web page parameter in a given register.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Param Name*
+   The name of the web page parameter.
+
+*Destination*
+   A register that will be used to save the parameter.
+
+
+Page Redirect
+-------------
+
+Can be used to redirect the browser to another page. This node always
+marks the end of the node tree and doest’t have any output parameters.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+None.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Url*
+   Web adress of a page that will be opened. Set to
+   “https://www.blend4web.com” by default.
+
+
+Debug
+=====
+
+
+Console Print
+-------------
+
+This node prints variables’s values and additional text to the web
+browser console. It can be used for debug purposes.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node.
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+*Message*
+   A message that will be printed to the console along with the
+   values.
+
+<register name>
+   A register that will be printed to the console. By default, a
+   "Console Print" node has one such parameter, but you can add new
+   and delete existing ones (the node might not even have such
+   parameters at all).
+
+
+Layout
+======
+
+
+Reroute
+-------
+
+Logic Editor also has "Reroute" elements, the nodes that don’t do
+anything aside from passing the control to the next node or to the
+next "Reroute" element. Such elements can be used to create cyclic
+structures or to make the node tree easier to read and understand.
+
+[图片]
+
+注解: Output parameter can’t be connected to the same node’s input
+  parameter. If you need to do this (to make a cycle, for example),
+  you should use "Reroute" elements.
+
+
+Debugging
+=========
+
+For debugging purposes some nodes inside logic tree can be muted. To
+do that select the required node and press the "M" key. Muted nodes
+are not evaluated and simply pass control to the next ones. If the
+muted node has two outputs the execution continues from the output
+with negative result ("Miss", "False").

@@ -1,507 +1,429 @@
+.. _outdoor_rendering:
 
+***************
 Outdoor Effects
 ***************
 
+.. contents:: Table of Contents
+    :depth: 3
+    :backlinks: entry
 
-Table of Content
-^^^^^^^^^^^^^^^^
+Blend4Web has several environmental effects that can be useful for creating outdoor scenes.
 
-* Outdoor Effects
-
-  * Water
-
-    * Activation
-
-    * Basic Settings
-
-    * Waves Dynamics
-
-    * Surface Wetting
-
-    * Reflection and Fresnel Effect
-
-    * Shoreline Smoothing
-
-    * Color Gradient
-
-    * Refraction
-
-    * Foam
-
-    * Caustics and Chromatic Aberration
-
-    * Underwater Environment
-
-    * Volumetric Waves
-
-    * Settings for Surface Generation
-
-  * Atmosphere
-
-    * Scattering
-
-    * Fog
-
-    * Time of Day
-
-    * Stars
-
-  * Wind
-
-    * Activation
-
-    * Setting up
-
-    * Animation of Grass and Tree Leaves
-
-Blend4Web has several environmental effects that can be useful for
-creating outdoor scenes.
-
+.. _water:
 
 Water
 =====
 
-
 Activation
 ----------
 
-For the supposed water material activate the "Water" panel option
-under the "Material" tab.
+For the supposed water material activate the ``Water`` panel option under the ``Material`` tab. 
 
-[image]
-
+.. image:: src_images/outdoor_rendering/water_material_setup.png
+   :align: center
+   :width: 100%
 
 Basic Settings
 --------------
 
 *Transparency*
-   It is recommended to enable the gradient transparency "Transparency
-   > Alpha Blend" and to tweak the "Alpha" value.
+    It is recommended to enable the gradient transparency ``Transparency > Alpha Blend`` and to tweak the ``Alpha`` value. 
 
 *Lighting parameters*
-   Lighting parameters for the water material can be set up as
-   described in the Lighting Parameters section.
-
+    Lighting parameters for the water material can be set up as described in the :ref:`material_lighting_params` section.
 
 Waves Dynamics
 --------------
 
-Ripples on the water are simulated by normal maps with animated UVs
-(from 0 up to 4 pieces). For normal map the only shared image is used
-- the textures differs only by the "Mapping > Size" parameters. The
-water mesh must have a UV layer.
-
-
+Ripples on the water are simulated by normal maps with animated UVs (from 0 up to 4 pieces). For normal map the only shared image is used - the textures differs only by the ``Mapping > Size`` parameters. The water mesh must have a UV layer.
+   
 Surface Wetting
 ---------------
 
-Is carried out automatically. To turn the effect on activate the
-"Wettable" option on the needed materials "Rendering Options" panel.
+Is carried out automatically. To turn the effect on activate the ``Wettable`` option on the needed materials ``Rendering Options`` panel.
 
 
 Reflection and Fresnel Effect
 -----------------------------
 
-For the water material both static and dynamic reflection is supported
-as well as the Fresnel effect. See the Reflection section.
+For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the :ref:`material_mirror` section.
 
-[image]
 
+.. image:: src_images/outdoor_rendering/water_reflection_dynamic.jpg
+   :align: center
+   :width: 100%
 
 Shoreline Smoothing
 -------------------
 
-The effect affects the water near the shoreline - it becomes more
-transparent.
+The effect affects the water near the shoreline - it becomes more transparent.
 
 *Water > Shore Smoothing*
-   Enable smoothing.
+    Enable smoothing.
 
 *Water > Absorb Factor*
-   Light absorption coefficient for the water. The higher it is the
-   more transparent is the water.
+    Light absorption coefficient for the water. The higher it is the more transparent is the water.
 
 
 Color Gradient
 --------------
-
-For color gradient the water material must have a texture with the
-"Export Options > Shore Distance Map" option enabled. This texture can
-be generated using the script for baking shoreline parameters
+For color gradient the water material must have a texture with the ``Export Options > Shore Distance Map`` option enabled. This texture can be generated using the script for :ref:`baking shoreline parameters <shore_distance_bake>`.
 
 *Shallow Water > Color*
-   Shallow water color.
+    Shallow water color.
 
 *Shallow Water > Factor*
-   Shallow water color mixing factor.
+    Shallow water color mixing factor.
 
 *Shore Water > Color*
-   Water color just at the shore line.
+    Water color just at the shore line.
 
 *Shore Water > Factor*
-   Factor for mixing water color just near the shoreline.
-
+    Factor for mixing water color just near the shoreline.
 
 Refraction
 ----------
 
-Under the "Render" tab in the "Reflections and Refractions" panel set
-the "Refractions" option to "ON" or "AUTO".
+Under the ``Render`` tab in the ``Reflections and Refractions`` panel set the ``Refractions`` option to ``ON`` or ``AUTO``.
 
-[image]
-
+.. image:: src_images/outdoor_rendering/water_refraction.jpg
+   :align: center
+   :width: 100%
 
 Foam
 ----
 
-
 Activation
-~~~~~~~~~~
+..........
 
-For creating foam add a diffuse texture into the water material slot.
-Every RGB channel of this image must contain a BW foam texture in it.
-Then enable the "Water Foam" panel.
+For creating foam add a diffuse texture into the water material slot. Every RGB channel of this image must contain a BW foam texture in it. Then enable the ``Water Foam`` panel.
 
-[image]
+
+.. image:: src_images/outdoor_rendering/water_texture_setup_foam.png
+   :align: center
+   :width: 100%
 
 
 Setting up the Textures
-~~~~~~~~~~~~~~~~~~~~~~~
+.......................
 
 *Influence > Color*
-   Texture color influence factor. The default value is 1.0.
+    Texture color influence factor. The default value is 1.0.
 
 *Water Foam > UV Frequency*
-   Oscillation frequency of the animated UV coordinates. The default
-   value is (1.0, 1.0).
+    Oscillation frequency of the animated UV coordinates. The default value is (1.0, 1.0).
 
 *Water Foam > UV Magnitude*
-   Oscillation amplitude of the animated UV coordinates. The default
-   value is (1.0, 1.0).
+    Oscillation amplitude of the animated UV coordinates. The default value is (1.0, 1.0).
 
 
 Setting up the Material
-~~~~~~~~~~~~~~~~~~~~~~~
+.......................
 
 *Foam > Factor*
-   General influence factor for the foam. The default value is 0.5.
+    General influence factor for the foam. The default value is 0.5.
 
 
 Caustics and Chromatic Aberration
 ---------------------------------
 
-To create the caustics effect turn on the "Caustics" option on the
-water material. Also, there has to be at least one sun on the scene.
+To create the caustics effect turn on the ``Caustics`` option on the water material. Also, there has to be at least one ``Sun`` on the scene.
 
-[image]
+.. image:: src_images/outdoor_rendering/water_caustics.jpg
+   :align: center
+   :width: 100%
 
 *Scale*
-   Cell size for the procedural texture. The default value is 0.25.
+    Cell size for the procedural texture. The default value is 0.25.
 
 *Brightness*
-   Caustics influence factor. The default value is 0.5.
-
+    Caustics influence factor. The default value is 0.5.
 
 Underwater Environment
 ----------------------
 
-[image]
+.. image:: src_images/outdoor_rendering/underwater.jpg
+   :align: center
+   :width: 100%
 
-
-Visibility Settings ("fog")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Visibility Settings (“fog”)
+...........................
 
 *Underwater Fog > Color*
-   Fog color. The default value is (0.4, 0.6, 0.7).
+    Fog color. The default value is (0.4, 0.6, 0.7).
 
 *Underwater Fog > Density*
-   Exponential factor which affects the density and visibility
-   distance. The default value is 0.06.
+    Exponential factor which affects the density and visibility distance. The default value is 0.06.
 
-The god rays effect settings are also applied.
+The :ref:`god rays <god_rays>` effect settings are also applied.
 
-Note: The "Rendering Options > Backface culling" option must be
-  turned off for the correct water surface rendering.
 
-[image]
+.. note::
+    The ``Rendering Options > Backface Culling`` option must be turned off for the correct water surface rendering.
 
+.. image:: src_images/outdoor_rendering/water_border.jpg
+   :align: center
+   :width: 100%
+
+.. _water_volumetric_waves:
 
 Volumetric Waves
 ----------------
 
-
 Activation
-~~~~~~~~~~
+..........
 
-To enable procedural waves the "Waves" option must be turned on.
+To enable procedural waves the ``Waves`` option must be turned on.
 
-[image]
-
+.. image:: src_images/outdoor_rendering/water_waves.jpg
+   :align: center
+   :width: 100%
 
 Setting up
-~~~~~~~~~~
+..........
 
 *Wave Height*
-   Wave height. The default value is 0.0.
+    Wave height. The default value is 0.0.
 
 *Wave Length*
-   Wave length. The default value is 10.0.
+    Wave length. The default value is 10.0.
 
 *Noise Dist Scale 0*
-   Size of the first component of the open water waves.
+    Size of the first component of the open water waves.
 
 *Noise Dist Scale 1*
-   Size of the second component of the open water waves.
+    Size of the second component of the open water waves.
 
 *Noise Dist Freq 0*
-   Frequency of the first component of the open water waves.
+    Frequency of the first component of the open water waves.
 
 *Noise Dist Freq 1*
-   Frequency of the second component of the open water waves.
+    Frequency of the second component of the open water waves.
 
 *Min Dir Shore Fac*
-   Minimum height decrease coefficient of the shore waves.
+    Minimum height decrease coefficient of the shore waves.
 
 *Dir Frequency*
-   Frequency of the rolling of the shore waves.
+    Frequency of the rolling of the shore waves.
 
 *Noise Dir Scale*
-   Noise size for the shore waves.
+    Noise size for the shore waves.
 
 *Noise Dir Freq*
-   Noise frequency for the shore waves.
+    Noise frequency for the shore waves.
 
 *Min Dir Noise Fac*
-   Noise minimum for the shore waves.
-
+    Noise minimum for the shore waves.
+    
 *Min Dist Fac*
-   Minimum coefficient of mixing for open water waves.
+    Minimum coefficient of mixing for open water waves.
 
 *Horizontal Factor*
-   Coefficient that shows how much the shore waves are shifted in the
-   shoreline direction.
-
+    Coefficient that shows how much the shore waves are shifted in the shoreline direction.
 
 Settings for Surface Generation
 -------------------------------
 
 *Generate Mesh*
-   Enable generated surface.
+    Enable generated surface.
 
 *Cascades Number*
-   Number of cascades in the generated surface.
+    Number of cascades in the generated surface.
 
 *Subdivisions*
-   Generated mesh subdivisions.
+    Generated mesh subdivisions.
 
 *Detailed Distance*
-   Maximum distance from camera to the last cascades edge.
+    Maximum distance from camera to the last cascades edge.
 
+
+.. index:: shoreline data, shoreline
+
+.. _shore_distance_bake:
 
 Baking Shoreline Data to Texture
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+................................
 
-On the tools panel (hotkey "T") under the "Blend4Web" tab open the
-"Bake Shore Distance Map" panel. Set the parameters: maximum distance
-to shore ("Maximum Distance") and the resulting texture size ("Texture
-Size"). Select a landscape object (or multiple objects) first, and
-then - a water object. Click the "Bake" button.
+On the tools panel (hotkey “T”) under the ``Blend4Web`` tab open the ``Bake Shore Distance Map`` panel. Set the parameters: maximum distance to shore (``Maximum Distance``) and the resulting texture size (``Texture Size``). Select a landscape object (or multiple objects) first, and then - a water object. Click the ``Bake`` button.
+ 
+Depending on the texture size and the number of vertices in the processed meshes the execution time of the script may vary from a fraction of a second up to several minutes. Make sure that the texture named ``ShoreDistance`` is created for the water mesh.
 
-Depending on the texture size and the number of vertices in the
-processed meshes the execution time of the script may vary from a
-fraction of a second up to several minutes. Make sure that the texture
-named "ShoreDistance" is created for the water mesh.
+Upon script execution some system properties are saved in the water material. Therefore the scene must be saved after the script has finished working. 
 
-Upon script execution some system properties are saved in the water
-material. Therefore the scene must be saved after the script has
-finished working.
 
+.. _atmosphere:
 
 Atmosphere
 ==========
 
-
 Scattering
 ----------
 
-Enable "World > Render Sky", then activate "Procedural Sky" panel
-under the "World" tab. Please note, that if a static skydome texture
-is being used at the same time, it will be replaced.
+Enable ``World > Render Sky``, then activate ``Procedural Sky`` panel under the World tab. Please note, that if a :ref:`static skydome texture <skydome_texture>` is being used at the same time, it will be replaced.
 
-Note: Also, a procedural sky texture can be used to imitate
-  scattered environment lighting similar to the static skydome
-  texture. To do this, enable the "Procedural Sky > Use as Environment
-  Lighting" and "Environment Lighting > Sky Texture" options. If the
-  world texture for environment lighting already exists, it will be
-  replaced.
+.. note::
 
-[image]
+    Also, a procedural sky texture can be used to imitate scattered :ref:`environment lighting <environment_lighting>` similar to the :ref:`static skydome texture <skydome_texture>`. To do this, enable the ``Procedural Sky > Use as Environment Lighting`` and ``Environment Lighting > Sky Texture`` options. If the world texture for environment lighting already exists, it will be replaced.
 
 
+.. image:: src_images/outdoor_rendering/skydome_procedural.jpg
+   :align: center
+   :width: 100%
+
+|
 
 Supported settings:
 
 *Procedural Sky > Sky Color*
-   Base sky color. The default value is (0.087, 0.255, 0.6) (blue).
+     Base sky color. The default value is (0.087, 0.255, 0.6) (blue).
 
 *Procedural Sky > Rayleigh Brightness*
-   Rayleigh scattering brightness (i.e. scattering on small
-   particles). The default value is 3.3.
+     Rayleigh scattering brightness (i.e. scattering on small particles). The default value is 3.3.
 
 *Procedural Sky > Mie Brightness*
-   Mie scattering brightness (i.e. scattering on large particles). The
-   default value is 0.1.
+     Mie scattering brightness (i.e. scattering on large particles). The default value is 0.1.
 
 *Procedural Sky > Spot Brightness*
-   Sun spot brightness. The default value is 20.0.
+     Sun spot brightness. The default value is 20.0.
 
 *Procedural Sky > Scatter Strength*
-   Light scattering factor. The default value is 0.2.
+     Light scattering factor. The default value is 0.2.
 
 *Procedural Sky > Rayleigh Strength*
-   Rayleigh scattering factor. The default value is 0.2.
+     Rayleigh scattering factor. The default value is 0.2.
 
 *Procedural Sky > Mie Strength*
-   Mie scattering factor. The default value is 0.006.
+     Mie scattering factor. The default value is 0.006.
 
 *Procedural Sky > Rayleigh Collection Power*
-   Rayleigh scattering exponent. The default value is 0.35.
+     Rayleigh scattering exponent. The default value is 0.35.
 
 *Procedural Sky > Mie Collection Power*
-   Mie scattering exponent. The default value is 0.5.
+     Mie scattering exponent. The default value is 0.5.
 
 *Procedural Sky > Mie Distribution*
-   Mie scattering distribution. The default value is 0.4.
+     Mie scattering distribution. The default value is 0.4.
+
 
 
 Fog
 ---
 
-The engine supports standard parameters located on the "World > Mist"
-panel. Besides this, overriding fog color is possible.
+The engine supports standard parameters located on the ``World > Mist`` panel. Besides this, overriding fog color is possible.
 
 *Mist > Use Custom Color*
-   Apply the user-defined fog color instead of "World > Horizon"
-   color. Enabled by default.
+    Apply the user-defined fog color instead of ``World > Horizon`` color. Enabled by default.
 
 *Mist > Color*
-   Fog color. The default value is (0.5, 0.5, 0.5) (gray).
+    Fog color. The default value is (0.5, 0.5, 0.5) (gray).
 
-When a dynamic skydome is used the fog color is defined by the sky
-color.
+When a dynamic skydome is used the fog color is defined by the sky color.
 
 
 Time of Day
 -----------
 
-Enable the "Dynamic Intensity" options for the lamp.
+Enable the ``Dynamic Intensity`` options for the lamp.
 
-Time of day can be set by applications via API. Particularly time of
-day can be set using the "Lighting" interface of the Scene viewer.
+Time of day can be set by applications via API. Particularly time of day can be set using the ``Lighting`` interface of the :ref:`Scene viewer <viewer>`. 
 
-[image]
+.. image:: src_images/outdoor_rendering/sunset.jpg
+   :align: center
+   :width: 100%
 
 
 Stars
 -----
 
-Stars setup is described in the Halo Materials section.
+Stars setup is described in the :ref:`material_halo` section.
 
-[image]
+.. image:: src_images/outdoor_rendering/stars.jpg
+   :align: center
+   :width: 100%
 
+.. _wind:
 
 Wind
 ====
 
 Wind strength and direction affect:
-   * grass and tree leaves animation
-
-   * particle system dynamics
-
-   * water waves rolling frequency (at the moment only strength is
-     taken into account)
+    - :ref:`grass and tree leaves animation <wind_bending>`
+    - :ref:`particle system dynamics <particles_force_fields>`
+    - :ref:`water waves rolling frequency <water_volumetric_waves>` (at the moment only strength is taken into account)
 
 
 Activation
 ----------
 
-Add a force field object of the "Wind" type.
+Add a force field object of the ``Wind`` type.
 
 
 Setting up
 ----------
 
 *Direction*
-   Direction can be set by rotating the force field object.
+    Direction can be set by rotating the force field object.
 
 *Force Fields > Strength*
-   Wind strength. Located under the "Physics" tab. The default value
-   is 1.0.
+    Wind strength. Located under the ``Physics`` tab. The default value is 1.0.
 
+
+.. _wind_bending:
 
 Animation of Grass and Tree Leaves
 ----------------------------------
 
-Authoring resources for grass rendering is described in the Grass
-section.
+Authoring resources for grass rendering is described in the :ref:`particles_grass` section.
 
 
 Activation
-~~~~~~~~~~
+..........
 
-Enable the "Wind Bending" panel for the grass or tree object.object
+Enable the ``Wind Bending`` panel for the grass or tree object.
 
 
 Setting up
-~~~~~~~~~~
+..........
 
-The interface panel becomes visible after turning on the "Wind
-Bending" panel.
+The interface panel becomes visible after turning on the ``Wind Bending`` panel.
 
-[image]
+.. image:: src_images/outdoor_rendering/wind_bending_setup.jpg
+   :align: center
+   :width: 80%
 
-
+|
 
 *Main Bending > Angle*
-   Angle amplitude of the "main" deviation under the influence of wind
-   (in degrees). The default value is 10.0.
-
+    Angle amplitude of the “main” deviation under the influence of wind (in degrees). The default value is 10.0.
+    
 *Main Bending > Frequency*
-   Frequency of the "main" deviation under the influence of wind. The
-   default value is 0.25.
+    Frequency of the “main” deviation under the influence of wind. The default value is 0.25.
 
 *Main Bending > Main Stiffness (A)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the stiffness of the "main"
-   deviation. Can be left empty.
+    Text field for specifying the name of the vertex color layer which contains the information about the stiffness of the “main” deviation. Can be left empty. 
 
 *Detail Bending > Amplitude*
-   Angle amplitude of the "detail" deviation caused by the influence
-   of wind (in degrees). The default value is 0.1.
+    Angle amplitude of the “detail” deviation caused by the influence of wind (in degrees). The default value is 0.1.
 
 *Detail Bending > Branch Amplitude*
-   Angle amplitude of the branch deviation caused by the influence of
-   wind (in degrees). The default value is 0.3.
+    Angle amplitude of the branch deviation caused by the influence of wind (in degrees). The default value is 0.3.
 
 *Detail Bending > Bending Frequency*
-   Detail bendind frequency. The default value is 1.0.
+    Detail bendind frequency. The default value is 1.0.
 
 *Detail Bending > Leaves Stiffness (R)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the stiffness of leaves. Can be left
-   empty.
+    Text field for specifying the name of the vertex color layer which contains the information about the stiffness of leaves. Can be left empty. 
 
 *Detail Bending > Leaves Phase (G)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the phase of leaves deviation. Can
-   be left empty.
+    Text field for specifying the name of the vertex color layer which contains the information about the phase of leaves deviation. Can be left empty. 
 
 *Detail Bending > Overall Stiffness (B)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the overall stiffness of leaves. Can
-   be left empty.
+    Text field for specifying the name of the vertex color layer which contains the information about the overall stiffness of leaves. Can be left empty.
 
-Vertex color layers should be present in the mesh if their names are
-specified.
+Vertex color layers should be present in the mesh if their names are specified.
 
-[image]
+.. image:: src_images/outdoor_rendering/wind_bending_vcolors.jpg
+   :align: center
+   :width: 100%
+

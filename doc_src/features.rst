@@ -1,150 +1,149 @@
 
 .. _features:
 
-*****************
-Функционал движка
-*****************
+********
+Features
+********
 
-Общее
+General
+=======
+
+* effective rendering of 3D scenes of any complexity and size
+* data format designed to fit WebGL specifics and optimized for loading
+* convenient environment for authoring 3D content, provided by the Blender add-on
+
+Texturing
+=========
+
+* texture mapping i.e. applying of a flat image to a 3D object surface
+* multitexturing i.e. using multiple textures for an object
+* render-to-texture, RTT for displaying one scene in another and for postprocessing effects
+* anisotropic filtering, AF for enhancing the quality of surfaces at oblique viewing angles (standard WebGL extension is used)
+* texture compression support (S3TC/DXT format)
+* video textures - video can be loaded and played back, being layered as a texture
+* canvas textures - 2D Canvas API can be used to draw on textures
+
+Materials
+=========
+
+* materials transparency, sorting by depth if required (z-sorting)
+* enhanced detailing of relief surfaces with textures (parallax offset mapping method is used)
+* Fresnel effect - dependency of reflectivity on viewing angles
+* dynamic reflection
+* node materials support
+* halo material for rendering light sources and stars
+
+Lighting
+========
+
+* multiple light sources
+* light source types - directional, hemisphere, point, spot
+* diffuse lighting
+* ambient lighting aka environment lighting
+* specular lighting - light reflection from surface
+* environment mapping - surface reflects the environment
+* normal mapping - additional surface detailing by textures
+
+Shadows
+=======
+
+* static shadow mapping (light mapping)
+* dynamic shadow mapping
+* self-shadowing - objects cast shadows on themselves
+* cascaded shadow mapping, CSM for large scenes
+* soft shadows
+
+Particle System
+===============
+
+* particle system for implementing effects such as fire, smoke, splashes etc
+* particle system for instancing similar objects: grass, stones, tree leaves etc
+
+External Scenes Rendering
+=========================
+
+* fog
+* skydome for skies or environment
+* lens flares effect
+* water rendering
+
+Postprocessing Effects
+======================
+
+* motion blur
+* anti-aliasing - image edges enhancement (fast approximate anti-aliasing, FXAA method is used)
+* stereo (anaglyph method, 3D glasses required)
+* ambient occlusion (SSAO method is used)
+* depth of field, DOF
+* crepuscular rays (god rays)
+* bloom - bright light effect
+* object outlining
+
+
+Animation
+=========
+
+* skinning - object deformation with a system of bones
+* animating location, rotation and scale of objects, cameras and light sources
+* skeletal animation (e.g. for a character's body)
+* vertex animation (e.g. for cloth simulation)
+* procedural animation (e.g. foliage wind bending)
+* texture coordinates animation (e.g. for visualizing water waves)
+
+Optimization
+============
+
+* frustum culling - invisible objects are not rendered
+* batching, texture atlases - WebGL calls number are reduced
+* level of detail, LOD - far objects are less detailed
+
+Audio
 =====
 
-* эффективный рендеринг трёхмерных сцен любой сложности и размеров
-* формат хранения данных, учитывающий специфику работы WebGL и оптимизированный с целью минимизации времени загрузки
-* удобная среда разработки трёхмерного контента на основе плагина к Blender
+* audio engine based on the Web Audio API
+* various file formats support depending on browsers
+* flexible playback control, sound pause/resume
+* positioning sources in a three-dimensional space
+* Doppler effect for moving objects with a possibility to turn it off and with space jump compensation
+* flexible control of playback volume, speed and latency
+* fade-in, fade-out, duck
+* high quality sound looping
+* randomizing sound parameters to improve loop percepetion
+* cross-fader sound animation support
+* dynamic compressor
+* efficient long soundtrack storage and playback
+* tools for real-time mixing 
 
-Текстуры
-========
+Physics
+=======
 
-* текстурирование (texturing) - покрытие поверхности 3D объекта плоским изображением
-* мультитекстурирование (multitexturing) - использование для объекта нескольких текстур
-* рендеринг в текстуру (render-to-texture, RTT) для реализации вложения одной сцены в другую и постпроцессинговых эффектов
-* анизотропная фильтрация для улучшения качества обзора поверхности под косыми углами (anisotropic filtering, AF, использовано стандартное расширение WebGL)
-* поддержка текстурной компрессии (формат S3TC/DXT)
-* видео-текстуры - загрузка и воспроизведение видео на текстуре
-* Canvas-текстуры - возможность отрисовки двухмерной графики через Canvas API в текстуре
+* rigid body physics - collision detection, realistic movement, gravity, height detection, torsion
+* various constraints types - rigid, hinges, springs, pivots, sliding etc
+* ray tracing
+* floating and underwater movement physics
+* wheeled vehicles simulation
+* watercraft simulation
 
-Материалы
-=========
+Event-Driven Model
+==================
 
-* прозрачность материалов, сортировка по глубине при необходимости (z-sorting)
-* улучшенная детализация рельефных поверхностей текстурами (использован метод parallax offset mapping)
-* зависимость степени отражения от угла обзора - эффект Френеля (Fresnel)
-* динамическое отражение
-* поддержка нодовых материалов
-* гало материал для рендеринга источников света и звезд (Halo material)
+* asynchronous framework for application logic authoring
+* animation control and artificial intelligence of characters and animals
 
-Освещение
-=========
+Visual Programming
+==================
 
-* освещение несколькими источниками света
-* типы источников света - прямой (directional), полусферический (hemisphere), точечный (point), конический (spot)
-* диффузное (т.е. рассеянное) освещение объектов (diffuse lighting)
-* рассеянное освещение от окружающей среды (ambient lighting)
-* зеркальное отражение света от поверхности объектов (specular lighting)
-* зеркальное отражение окружающей среды (environment mapping)
-* дополнительная детализация картами нормалей к поверхности (normal mapping)
+* the Logic Editor tool allows to create interactive apps by constructing the logic chains from basic blocks
 
-Тени
-====
+Other
+=====
 
-* статические падающие тени (light mapping)
-* динамические падающие тени (использован метод shadow mapping)
-* собственные тени — объекты отбрасывают тени сами на себя (self-shadowing)
-* каскадные тени для больших сцен (cascaded shadow mapping, CSM)
-* мягкие тени
-
-Система частиц
-==============
-
-* система частиц (particle system) для реализации эффектов, таких как огонь, дым, брызги и т.д.
-* система частиц для расстановки (инстансинга) однородных объектов: трава, камни, листва деревьев и проч.
-
-Рендеринг наружных сцен
-=======================
-
-* туман (fog)
-* купол неба/окружающего пространства (skydome)
-* эффект линз при направлении камеры на источник света (lens flares)
-* рендеринг воды
-
-Постпроцессинговые эффекты
-==========================
-
-* размытие при движении (motion blur)
-* антиалиасинг - уменьшение зубчатости краев изображения в результате рендеринга в текстуру (использован метод fast approximate anti-aliasing, FXAA)
-* стерео-изображение (анаглифное, 3D очки)
-* рассеянное затенение от окружающей среды (ambient occlusion, используется метод SSAO)
-* глубина резкости для камеры (DOF)
-* сумеречные лучи (god rays)
-* эффект засветки ярких объектов (bloom)
-* подсветка контуров объектов (outlining)
-
-
-Анимация
-========
-
-* скиннинг (skinning) - деформация объекта с помощью системы костей
-* анимация перемещения, вращения, масштабирования объектов, камер и источников света
-* скелетная анимация (например, для тела персонажа)
-* вертексная анимация (например, для симуляции ткани)
-* процедурная анимация (например, изгибание растений на ветру)
-* анимация текстурных координат (например, для визуализации волн воды)
-
-Оптимизация
-===========
-
-* оптимизация отсечением по зоне видимости (frustum culling)
-* оптимизация уменьшением количества вызовов WebGL — батчинг, текстурные атласы (batching, texture atlases)
-* оптимизация уменьшением уровня детализации объектов на удалении (level of detail, LOD)
-
-Звук
-====
-
-* звуковой движок, основанный на Web Audio API
-* поддержка различных форматов файлов с учётом различий браузеров
-* гибкое управление воспроизведением, возможность приостановки звука
-* позиционирование источников в трёхмерном пространстве
-* эффект Допплера для движущихся объектов с возможностью отключения и
-  компенсацией скачков в пространстве
-* управление громкостью, скоростью и задержкой воспроизведения
-* эффекты плавного перехода громкости (fade-in, fade-out, duck)
-* качественное зацикливание звуков (looping)
-* рандомизация звуковых параметров для улучшения восприятия повторяющихся звуков
-* поддержка кроссфейдерной звуковой анимации
-* динамический компрессор
-* эффективное хранение и воспроизведение длинных музыкальных композиций
-* инструменты для сведения (микширования) звуковой картины в реальном времени 
-
-Физика
-======
-
-* физика жестких тел - определение столкновений, движение, гравитация, определение высоты, опрокидывание
-* система соединителей (ограничителей) - жёсткие, гибкие, пружинящие, поворотные, скользящие итд.
-* система трассировки лучей
-* физика плавания объектов и движения в толще воды
-* физика колёсных транспортных средств
-* физика плавучих транспортных средств
-
-Событийная модель
-=================
-
-* асинхронный фреймворк для написания логики приложений
-* управление анимацией и искусственный интеллект животных и персонажей
-
-Визуальное программирование
-===========================
-
-* инструмент NLA Script предоставляет возможность создавать интерактивные приложения, конструируя логические цепочки из простых блоков
-
-Прочее
-======
-
-* поддержка математических кривых для моделирования удлиненных объектов (дороги, провода, река)
-* выбор пользователем объектов на 3D сцене (picking)
-* минификация (уменьшение объема) и обфускация (сокрытие) кода, необходимые для коммерческого использования движка
-* модульная структура исходного кода
-* мощный шейдерный препроцессор с поддержкой модулей и функциональных блоков (нод)
-* удобная система для быстрого развертывания новых 3D приложений
-* опции для поддержки работы на широком спектре оборудования 
-* руководство пользователя и документация для программистов
-* взаимодействие с пользователем — управление камерой, персонажем, действиями
+* math curves support for modeling long objects (roads, wires, rivers)
+* picking objects on the 3D scene with the mouse
+* code minification and obfuscation for commercial use of the engine
+* module structure of source code
+* powerful shader preprocessor with modules and functional blocks (nodes) support
+* convenient system to deploy new 3D applications quickly
+* support options for a broad range of equipment
+* user manual and API documentation
+* user interaction - camera, character, actions control

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Node Materials &mdash; User Manual: Blend4Web vv16.02</title>
+  <title>Node Materials &mdash; Blend4Web 16.03 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="User Manual: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
         <link rel="next" title="Logic Nodes" href="logic_editor.html"/>
         <link rel="prev" title="Materials" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,76 +85,75 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Node Materials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#generic-node-materials">Standard Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Engine Specific Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#standard-nodes">Standard Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">Engine Specific Nodes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#replace-b4w-replace">Replace (B4W_REPLACE)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id6">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id7">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-parameters">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-parameters">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">Clamp (B4W_CLAMP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id8">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#time-b4w-time">Time (B4W_TIME)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id10">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id11">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#vector-view-b4w-vector-view">Vector View (B4W_VECTOR_VIEW)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#parallax-b4w-parallax">Parallax (B4W_PARALLAX)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id14">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id15">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#translucency-b4w-translucency">Translucency (B4W_TRANSLUCENCY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id16">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#refraction-b4w-refraction">Refraction (B4W_REFRACTION)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id18">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id19">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id21">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#smoothstep-b4w-smoothstep">Smoothstep (B4W_SMOOTHSTEP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id22">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id23">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">Output Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#glow-output-b4w-glow-output">Glow Output (B4W_GLOW_OUTPUT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id24">Input parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Input Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#reflect-b4w-reflect">Reflect (B4W_REFLECT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id25">Input parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id26">Output parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Output Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
 </ul>
 </li>
 </ul>
@@ -198,6 +197,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -217,35 +217,35 @@
            <div itemprop="articleBody">
             
   <div class="section" id="node-materials">
-<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id27">Node Materials</a><a class="headerlink" href="#node-materials" title="Permalink to this headline">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id21">Node Materials</a><a class="headerlink" href="#node-materials" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-content">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#node-materials" id="id27">Node Materials</a><ul>
-<li><a class="reference internal" href="#generic-node-materials" id="id28">Standard Nodes</a></li>
-<li><a class="reference internal" href="#custom-node-materials" id="id29">Engine Specific Nodes</a><ul>
-<li><a class="reference internal" href="#replace-b4w-replace" id="id30">Replace (B4W_REPLACE)</a></li>
-<li><a class="reference internal" href="#clamp-b4w-clamp" id="id31">Clamp (B4W_CLAMP)</a></li>
-<li><a class="reference internal" href="#time-b4w-time" id="id32">Time (B4W_TIME)</a></li>
-<li><a class="reference internal" href="#vector-view-b4w-vector-view" id="id33">Vector View (B4W_VECTOR_VIEW)</a></li>
-<li><a class="reference internal" href="#parallax-b4w-parallax" id="id34">Parallax (B4W_PARALLAX)</a></li>
-<li><a class="reference internal" href="#translucency-b4w-translucency" id="id35">Translucency (B4W_TRANSLUCENCY)</a></li>
-<li><a class="reference internal" href="#refraction-b4w-refraction" id="id36">Refraction (B4W_REFRACTION)</a></li>
-<li><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality" id="id37">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a></li>
-<li><a class="reference internal" href="#smoothstep-b4w-smoothstep" id="id38">Smoothstep (B4W_SMOOTHSTEP)</a></li>
-<li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id39">Glow Output (B4W_GLOW_OUTPUT)</a></li>
-<li><a class="reference internal" href="#reflect-b4w-reflect" id="id40">Reflect (B4W_REFLECT)</a></li>
-<li><a class="reference internal" href="#linear-to-srgb-srgb-to-linear-deprecated" id="id41">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
+<li><a class="reference internal" href="#node-materials" id="id21">Node Materials</a><ul>
+<li><a class="reference internal" href="#standard-nodes" id="id22">Standard Nodes</a></li>
+<li><a class="reference internal" href="#engine-specific-nodes" id="id23">Engine Specific Nodes</a><ul>
+<li><a class="reference internal" href="#replace-b4w-replace" id="id24">Replace (B4W_REPLACE)</a></li>
+<li><a class="reference internal" href="#clamp-b4w-clamp" id="id25">Clamp (B4W_CLAMP)</a></li>
+<li><a class="reference internal" href="#time-b4w-time" id="id26">Time (B4W_TIME)</a></li>
+<li><a class="reference internal" href="#vector-view-b4w-vector-view" id="id27">Vector View (B4W_VECTOR_VIEW)</a></li>
+<li><a class="reference internal" href="#parallax-b4w-parallax" id="id28">Parallax (B4W_PARALLAX)</a></li>
+<li><a class="reference internal" href="#translucency-b4w-translucency" id="id29">Translucency (B4W_TRANSLUCENCY)</a></li>
+<li><a class="reference internal" href="#refraction-b4w-refraction" id="id30">Refraction (B4W_REFRACTION)</a></li>
+<li><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality" id="id31">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a></li>
+<li><a class="reference internal" href="#smoothstep-b4w-smoothstep" id="id32">Smoothstep (B4W_SMOOTHSTEP)</a></li>
+<li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id33">Glow Output (B4W_GLOW_OUTPUT)</a></li>
+<li><a class="reference internal" href="#reflect-b4w-reflect" id="id34">Reflect (B4W_REFLECT)</a></li>
+<li><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated" id="id35">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<p>Shader nodes extend significantly the potential of Blender&#8217;s standard materials by means of presenting shading as a batch of basic transformations.</p>
+<p>Shader nodes extend significantly the potential of Blender’s standard materials by means of presenting shading as a batch of basic transformations.</p>
 <a class="reference internal image-reference" href="_images/node_materials_title.png"><img alt="_images/node_materials_title.png" class="align-center" src="_images/node_materials_title.png" style="width: 100%;" /></a>
-<div class="section" id="generic-node-materials">
-<span id="id3"></span><h2><a class="toc-backref" href="#id28">Standard Nodes</a><a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standard-nodes">
+<span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id22">Standard Nodes</a><a class="headerlink" href="#standard-nodes" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of <code class="docutils literal"><span class="pre">Geometry</span></code> and <code class="docutils literal"><span class="pre">Texture</span></code> nodes, is also not recommended.</p>
 <p>Cycles nodes are only partially supported: in most cases they will not work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using Cycles nodes will not cause instabilities in the application workflow.</p>
 <p id="node-performance">Standard node performance and degree of support is described in the table.</p>
@@ -257,232 +257,206 @@
 <col width="23%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Node&#8217;s name</p>
-</th>
-<th class="head"><p class="first last">Function</p>
-</th>
-<th class="head"><p class="first last">Support</p>
-</th>
-<th class="head"><p class="first last">Performance</p>
-</th>
+<tr class="row-odd"><th class="head">Node&#8217;s Name</th>
+<th class="head">Function</th>
+<th class="head">Support</th>
+<th class="head">Performance</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Camera Data</td>
-<td><p class="first last">Used to obtain data from an active camera</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to obtain data
+from an active camera</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>ColorRamp</td>
-<td><p class="first last">Used to generate gradient</p>
-</td>
-<td><p class="first last"><code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code> and <code class="docutils literal"><span class="pre">Ease</span></code> interpolation modes are not supported</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to generate
+gradient</td>
+<td><code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code>
+and <code class="docutils literal"><span class="pre">Ease</span></code> interpolation
+modes are not supported</td>
+<td>Average</td>
 </tr>
 <tr class="row-even"><td>Combine HSV</td>
-<td><p class="first last">Combines color from the given hue, saturation and value</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Combines a color from
+the given Hue, Value
+and Saturation</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>Combine RGB</td>
-<td><p class="first last">Combines color from the given red, green and blue channel values</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Combines a color from
+the given red, green
+and blue channel
+values</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-even"><td>Extended Material</td>
-<td><p class="first last">Used to add a material to the node program. Has more input and output channels than the basic <code class="docutils literal"><span class="pre">Material</span></code> node.</p>
-</td>
-<td><p class="first last">Ambient and SpecTra inputs are not supported. AO output is not supported.</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to add a material
+to the node program.
+Has more input and
+output channels than
+the basic <code class="docutils literal"><span class="pre">Material</span></code>
+node</td>
+<td><code class="docutils literal"><span class="pre">Ambient</span></code> and <code class="docutils literal"><span class="pre">SpecTra</span></code>
+inputs are not supported.
+<code class="docutils literal"><span class="pre">AO</span></code> output is not
+supported.</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>Gamma</td>
-<td><p class="first last">Used to set gamma of a given color.</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Used to set gamma
+of a given color</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-even"><td>Geometry</td>
-<td><p class="first last">Used to obtain information about object&#8217;s geometry.</p>
-</td>
-<td><p class="first last"><code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> output is not supported.</p>
-</td>
-<td><p class="first last">Using large numbers of these nodes is not recommended.</p>
-</td>
+<td>Used to obtain
+information about
+object&#8217;s geometry</td>
+<td><code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> output
+is not supported</td>
+<td>Using large numbers
+of these nodes is
+not recommended</td>
 </tr>
 <tr class="row-odd"><td>Hue/Saturation</td>
-<td><p class="first last">Used to control hue and saturation of a given color.</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Low</p>
-</td>
+<td>Used to control Hue and
+Saturation of a given
+color</td>
+<td>Full</td>
+<td>Low</td>
 </tr>
 <tr class="row-even"><td>Invert</td>
-<td><p class="first last">Inverts given color</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Inverts a given color</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>Lamp Data</td>
-<td><p class="first last">Used to obtain information from a given light source</p>
-</td>
-<td><p class="first last"><code class="docutils literal"><span class="pre">Shadow</span></code> output is not supported</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to obtain
+information from a
+given light source</td>
+<td><code class="docutils literal"><span class="pre">Shadow</span></code> output
+is not supported</td>
+<td>Average</td>
 </tr>
 <tr class="row-even"><td>Mapping</td>
-<td><p class="first last">Used to transform texture coordinates</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to transform
+texture coordinates</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>Material</td>
-<td><p class="first last">Used to add a standard material to the node program</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to add a standard
+material to the
+node program</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-even"><td>Math</td>
-<td><p class="first last">Used to perform mathematical operations with given values</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Used to perform
+mathematical operations
+with given values</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>MixRGB</td>
-<td><p class="first last">Mixes two given colors</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Low in the <code class="docutils literal"><span class="pre">Burn</span></code>, <code class="docutils literal"><span class="pre">Dodge</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, <code class="docutils literal"><span class="pre">Saturation</span></code>, <code class="docutils literal"><span class="pre">Hue</span></code> and <code class="docutils literal"><span class="pre">Color</span></code> modes. High in the rest of the modes.</p>
-</td>
+<td>Mixes two given colors</td>
+<td>Full</td>
+<td>Low in the
+<code class="docutils literal"><span class="pre">Burn</span></code>,
+<code class="docutils literal"><span class="pre">Dodge</span></code>,
+<code class="docutils literal"><span class="pre">Value</span></code>,
+<code class="docutils literal"><span class="pre">Saturation</span></code>,
+<code class="docutils literal"><span class="pre">Hue</span></code>
+and <code class="docutils literal"><span class="pre">Color</span></code> modes,
+high in the rest
+of the modes</td>
 </tr>
 <tr class="row-even"><td>Normal</td>
-<td><p class="first last">Used to generate a normal vector</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Used to generate a
+normal vector</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>Output</td>
-<td><p class="first last">Outputs the result of the node program</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Outputs the result
+of the node program</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-even"><td>Particle Info</td>
-<td><p class="first last">Used to obtain information about particle system</p>
-</td>
-<td><p class="first last">In the materails of the <code class="docutils literal"><span class="pre">Emitter</span></code> type particle systems.</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Used to obtain
+information about
+particle system</td>
+<td>In the materials of the
+<code class="docutils literal"><span class="pre">Emitter</span></code> type
+particle systems</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>RGB</td>
-<td><p class="first last">Generates an RGB color</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Generates an RGB color</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-even"><td>RGB Curves</td>
-<td><p class="first last">Sets a curve to modify a given color</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Sets a curve to modify
+a given color</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-odd"><td>RGB to BW</td>
-<td><p class="first last">Desaturates a given RGB color</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Desaturates a given
+RGB color</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-even"><td>Separate HSV</td>
-<td><p class="first last">Separates a given color into hue, saturation and value</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Separates a given color
+into Hue, Saturation
+and Value</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>Separave RGB</td>
-<td><p class="first last">Separates a given color into red, green and blue channels</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Separates a given color
+into red, green and
+blue channels</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-even"><td>Squeeze Value</td>
-<td><p class="first last">Squeezes given value</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Squeezes given value</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>Texture</td>
-<td><p class="first last">Sets a texture</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Using large numbers of these nodes is not recommended.</p>
-</td>
+<td>Sets a texture</td>
+<td>Full</td>
+<td>Using large numbers
+of these nodes is
+not recommended</td>
 </tr>
 <tr class="row-even"><td>Value</td>
-<td><p class="first last">Generates a numeric value</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Generates a numeric
+value</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 <tr class="row-odd"><td>Vector Curves</td>
-<td><p class="first last">Sets a curve to modify a given vector</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">Average</p>
-</td>
+<td>Sets a curve to modify
+a given vector</td>
+<td>Full</td>
+<td>Average</td>
 </tr>
 <tr class="row-even"><td>Vector Math</td>
-<td><p class="first last">Used to perform mathematical operations with two given vectors</p>
-</td>
-<td><p class="first last">Full</p>
-</td>
-<td><p class="first last">High</p>
-</td>
+<td>Used to perform
+mathematical operations
+with two given vectors</td>
+<td>Full</td>
+<td>High</td>
 </tr>
 </tbody>
 </table>
@@ -490,70 +464,64 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="custom-node-materials">
-<span id="id5"></span><h2><a class="toc-backref" href="#id29">Engine Specific Nodes</a><a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="engine-specific-nodes">
+<span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id23">Engine Specific Nodes</a><a class="headerlink" href="#engine-specific-nodes" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">Groups</span></code> or <code class="docutils literal"><span class="pre">Node</span> <span class="pre">Tree</span></code>) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.</p>
 <img alt="_images/node_materials_nodes.png" class="align-center" src="_images/node_materials_nodes.png" />
 <div class="section" id="replace-b4w-replace">
-<span id="node-replace"></span><h3><a class="toc-backref" href="#id30">Replace (B4W_REPLACE)</a><a class="headerlink" href="#replace-b4w-replace" title="Permalink to this headline">¶</a></h3>
+<span id="node-replace"></span><h3><a class="toc-backref" href="#id24">Replace (B4W_REPLACE)</a><a class="headerlink" href="#replace-b4w-replace" title="Permalink to this headline">¶</a></h3>
 <p>The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the <code class="docutils literal"><span class="pre">Color1</span></code> input is connected to the <code class="docutils literal"><span class="pre">Color</span></code> output and the <code class="docutils literal"><span class="pre">Color2</span></code> input is ignored. On the contrary when working in the engine the inputs are interchanged (the <code class="docutils literal"><span class="pre">Color1</span></code> one is ignored and the <code class="docutils literal"><span class="pre">Color2</span></code> one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.</p>
 <a class="reference internal image-reference" href="_images/node_materials_replace.png"><img alt="_images/node_materials_replace.png" class="align-center" src="_images/node_materials_replace.png" style="width: 100%;" /></a>
-<p>As a rule it is used for normal mapping. Blender&#8217;s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the <code class="docutils literal"><span class="pre">Material</span></code> nodes.</p>
-<div class="section" id="id6">
-<h4>Input parameters<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the <code class="docutils literal"><span class="pre">Material</span></code> nodes.</p>
+<div class="section" id="input-parameters">
+<h4>Input Parameters<a class="headerlink" href="#input-parameters" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color1</em></dt>
-<dd><p class="first last">Node setup that will be visible in the Blender viewport.</p>
-</dd>
+<dd>Node setup that will be visible in the Blender viewport.</dd>
 <dt><em>Color2</em></dt>
-<dd><p class="first last">Node setup that will be visible in the Blend4Web engine.</p>
-</dd>
+<dd>Node setup that will be visible in the Blend4Web engine.</dd>
 </dl>
 </div>
-<div class="section" id="id7">
-<h4>Output parameters<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="output-parameters">
+<h4>Output Parameters<a class="headerlink" href="#output-parameters" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Should be connected to the <code class="docutils literal"><span class="pre">Color</span></code> socket of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</p>
-</dd>
+<dd>Should be connected to the <code class="docutils literal"><span class="pre">Color</span></code> socket of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="clamp-b4w-clamp">
-<span id="node-clamp"></span><h3><a class="toc-backref" href="#id31">Clamp (B4W_CLAMP)</a><a class="headerlink" href="#clamp-b4w-clamp" title="Permalink to this headline">¶</a></h3>
+<span id="node-clamp"></span><h3><a class="toc-backref" href="#id25">Clamp (B4W_CLAMP)</a><a class="headerlink" href="#clamp-b4w-clamp" title="Permalink to this headline">¶</a></h3>
 <p>The node limits the output value. As a result all the output vector components take values from 0 to 1 inclusive.</p>
 <a class="reference internal image-reference" href="_images/node_materials_clamp.png"><img alt="_images/node_materials_clamp.png" class="align-center" src="_images/node_materials_clamp.png" style="width: 100%;" /></a>
-<div class="section" id="id8">
-<h4>Input parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id2">
+<h4>Input Parameters<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
-<dd><p class="first last">Incident vector.</p>
-</dd>
+<dd>Incident vector.</dd>
 </dl>
 </div>
-<div class="section" id="id9">
-<h4>Output parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id3">
+<h4>Output Parameters<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
-<dd><p class="first last">Clamped vector.</p>
-</dd>
+<dd>Clamped vector.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="time-b4w-time">
-<span id="node-time"></span><h3><a class="toc-backref" href="#id32">Time (B4W_TIME)</a><a class="headerlink" href="#time-b4w-time" title="Permalink to this headline">¶</a></h3>
+<span id="node-time"></span><h3><a class="toc-backref" href="#id26">Time (B4W_TIME)</a><a class="headerlink" href="#time-b4w-time" title="Permalink to this headline">¶</a></h3>
 <p>Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.</p>
 <img alt="_images/node_time.png" class="align-center" src="_images/node_time.png" />
-<div class="section" id="id10">
-<h4>Input parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id4">
+<h4>Input Parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <p>None.</p>
 </div>
-<div class="section" id="id11">
-<h4>Output parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id5">
+<h4>Output Parameters<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Time (in seconds) elapsed from the engine startup.</p>
-</dd>
+<dd>Time (in seconds) elapsed from the engine startup.</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -562,138 +530,119 @@
 </div>
 </div>
 <div class="section" id="vector-view-b4w-vector-view">
-<span id="node-vector-view"></span><h3><a class="toc-backref" href="#id33">Vector View (B4W_VECTOR_VIEW)</a><a class="headerlink" href="#vector-view-b4w-vector-view" title="Permalink to this headline">¶</a></h3>
-<p>The node transforms a vector into the camera&#8217;s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> nodes.</p>
+<span id="node-vector-view"></span><h3><a class="toc-backref" href="#id27">Vector View (B4W_VECTOR_VIEW)</a><a class="headerlink" href="#vector-view-b4w-vector-view" title="Permalink to this headline">¶</a></h3>
+<p>The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> nodes.</p>
 <a class="reference internal image-reference" href="_images/node_materials_vector_view.png"><img alt="_images/node_materials_vector_view.png" class="align-center" src="_images/node_materials_vector_view.png" style="width: 100%;" /></a>
-<div class="section" id="id12">
-<h4>Input parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id6">
+<h4>Input Parameters<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Vector coordinates in the world-space.</p>
-</dd>
+<dd>Vector coordinates in the world-space.</dd>
 </dl>
 </div>
-<div class="section" id="id13">
-<h4>Output parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id7">
+<h4>Output Parameters<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Vector coordinates in the camera-space.</p>
-</dd>
+<dd>Vector coordinates in the camera-space.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="parallax-b4w-parallax">
-<span id="node-parallax"></span><h3><a class="toc-backref" href="#id34">Parallax (B4W_PARALLAX)</a><a class="headerlink" href="#parallax-b4w-parallax" title="Permalink to this headline">¶</a></h3>
+<span id="node-parallax"></span><h3><a class="toc-backref" href="#id28">Parallax (B4W_PARALLAX)</a><a class="headerlink" href="#parallax-b4w-parallax" title="Permalink to this headline">¶</a></h3>
 <p>The node implements the texture coordinates offset using a height map.</p>
 <a class="reference internal image-reference" href="_images/node_materials_parallax.png"><img alt="_images/node_materials_parallax.png" class="align-center" src="_images/node_materials_parallax.png" style="width: 100%;" /></a>
-<div class="section" id="id14">
-<h4>Input parameters<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id8">
+<h4>Input Parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd><p class="first last">Source texture coordinates</p>
-</dd>
+<dd>Source texture coordinates.</dd>
 <dt><em>Height Map</em></dt>
-<dd><p class="first last">RGBA texture with a height map packed into the alpha channel.</p>
-</dd>
+<dd>RGBA texture with a height map packed into the alpha channel.</dd>
 <dt><em>Scale</em></dt>
-<dd><p class="first last">Texture coordinates offset factor</p>
-</dd>
+<dd>Texture coordinates offset factor.</dd>
 <dt><em>Steps</em></dt>
-<dd><p class="first last">The number of steps for iterative generation of texture coordinates offset. The bigger this value is the better is the final quality.</p>
-</dd>
+<dd>The number of steps for iterative generation of texture coordinates offset. The bigger this value is the better is the final quality.</dd>
 <dt><em>Lod Distance</em></dt>
-<dd><p class="first last">Maximum distance from camera at which the effect is observed.</p>
-</dd>
+<dd>Maximum distance from camera at which the effect is observed.</dd>
 </dl>
 </div>
-<div class="section" id="id15">
-<h4>Output parameters<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h4>Output Parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd><p class="first last">Resulting texture coordinates which are used as input for the texture nodes.</p>
-</dd>
+<dd>Resulting texture coordinates which are used as input for the texture nodes.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="translucency-b4w-translucency">
-<span id="node-translucency"></span><h3><a class="toc-backref" href="#id35">Translucency (B4W_TRANSLUCENCY)</a><a class="headerlink" href="#translucency-b4w-translucency" title="Permalink to this headline">¶</a></h3>
+<span id="node-translucency"></span><h3><a class="toc-backref" href="#id29">Translucency (B4W_TRANSLUCENCY)</a><a class="headerlink" href="#translucency-b4w-translucency" title="Permalink to this headline">¶</a></h3>
 <p>The node implements a translucency effect (with respect to light sources only) for thin objects such as cloth, leaves, paper etc. The effect consists of two parts: 1) brightening of the object side which is opposite to the light source and 2) appearance of a light spot right in the light source place.</p>
 <a class="reference internal image-reference" href="_images/node_materials_translucency.png"><img alt="_images/node_materials_translucency.png" class="align-center" src="_images/node_materials_translucency.png" style="width: 100%;" /></a>
-<div class="section" id="id16">
-<h4>Input parameters<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h4>Input Parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">One-channel texture which defines material heterogeneity - the white color denotes maximum translucency effect while the black color denotes its absence. White color is used by default.</p>
-</dd>
+<dd>One-channel texture which defines material heterogeneity - the white color denotes maximum translucency effect while the black color denotes its absence. White color is used by default.</dd>
 <dt><em>Backside Factor</em></dt>
 <dd><p class="first">Material color correction coefficient for the side which is opposite to the light source. It describes the color richness effect for the translucent areas.</p>
 <ul class="simple">
-<li><p class="first"><em>Backside Factor &lt; 1</em> - brightening</p>
-</li>
-<li><p class="first"><em>Backside Factor = 1</em> - no correction</p>
-</li>
-<li><p class="first"><em>Backside Factor &gt; 1</em> - darkening</p>
-</li>
+<li><em>Backside Factor &lt; 1</em> - brightening</li>
+<li><em>Backside Factor = 1</em> - no correction</li>
+<li><em>Backside Factor &gt; 1</em> - darkening</li>
 </ul>
 <p class="last">The default value is 1.</p>
 </dd>
 <dt><em>Spot Hardness</em></dt>
-<dd><p class="first last">Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.</p>
-</dd>
+<dd>Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.</dd>
 <dt><em>Spot Intensity</em></dt>
-<dd><p class="first last">Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.</p>
-</dd>
+<dd>Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.</dd>
 <dt><em>Spot Diffuse Factor</em></dt>
 <dd><p class="first">Material diffuse color influence on the light spot color.</p>
 <ul class="simple">
-<li><p class="first"><em>Spot Diffuse Factor = 0</em> - the light spot has the diffuse color</p>
-</li>
-<li><p class="first"><em>Spot Diffuse Factor = 1</em> - the light spot color is white</p>
-</li>
+<li><em>Spot Diffuse Factor = 0</em> - the light spot has the diffuse color</li>
+<li><em>Spot Diffuse Factor = 1</em> - the light spot color is white</li>
 </ul>
 <p class="last">The default value is 1.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id17">
-<h4>Output parameters<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id11">
+<h4>Output Parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Translucency</em></dt>
-<dd><p class="first last">The output should be connected to the <code class="docutils literal"><span class="pre">Translucency</span></code> input of the <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</p>
-</dd>
+<dd>The output should be connected to the <code class="docutils literal"><span class="pre">Translucency</span></code> input of the <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This node can work incorrectly, if the mesh <a class="reference internal" href="lighting.html#normals-editor"><span>normals were edited</span></a>.</p>
+<p class="last">This node can work incorrectly, if the <a class="reference internal" href="lighting.html#normals-editor"><span>mesh normals were edited</span></a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="refraction-b4w-refraction">
-<span id="node-refraction"></span><h3><a class="toc-backref" href="#id36">Refraction (B4W_REFRACTION)</a><a class="headerlink" href="#refraction-b4w-refraction" title="Permalink to this headline">¶</a></h3>
-<p>Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender&#8217;s viewport.</p>
+<span id="node-refraction"></span><h3><a class="toc-backref" href="#id30">Refraction (B4W_REFRACTION)</a><a class="headerlink" href="#refraction-b4w-refraction" title="Permalink to this headline">¶</a></h3>
+<p>Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.</p>
 <a class="reference internal image-reference" href="_images/node_materials_refraction.png"><img alt="_images/node_materials_refraction.png" class="align-center" src="_images/node_materials_refraction.png" style="width: 100%;" /></a>
-<div class="section" id="id18">
-<h4>Input parameters<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id12">
+<h4>Input Parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Normal</em></dt>
-<dd><p class="first last">Normal map for adding perturbations.</p>
-</dd>
+<dd>Normal map for adding perturbations.</dd>
 <dt><em>Refraction Bump</em></dt>
 <dd><p class="first">Value of perturbation strength.</p>
 <p class="last">The default value is 0.001.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id19">
-<h4>Output parameters<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id13">
+<h4>Output Parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Rendered texture behind object with perturbations.</p>
-</dd>
+<dd>Rendered texture behind object with perturbations.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">It&#8217;s neccessary to set the <code class="docutils literal"><span class="pre">Refractions</span></code> option from the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> panel to value <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>.  The object&#8217;s transparency type must be set to <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
+<p class="last">It’s neccessary to set the <code class="docutils literal"><span class="pre">Refractions</span></code> option from the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> panel to value <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>. The object’s transparency type must be set to <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -702,60 +651,52 @@
 </div>
 </div>
 <div class="section" id="levels-of-quality-b4w-levels-of-quality">
-<span id="node-quality"></span><h3><a class="toc-backref" href="#id37">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><a class="headerlink" href="#levels-of-quality-b4w-levels-of-quality" title="Permalink to this headline">¶</a></h3>
+<span id="node-quality"></span><h3><a class="toc-backref" href="#id31">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><a class="headerlink" href="#levels-of-quality-b4w-levels-of-quality" title="Permalink to this headline">¶</a></h3>
 <p>Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.</p>
 <a class="reference internal image-reference" href="_images/node_materials_levels_of_quality.png"><img alt="_images/node_materials_levels_of_quality.png" class="align-center" src="_images/node_materials_levels_of_quality.png" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
 </div>
-<div class="section" id="id20">
-<h4>Input parameters<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>Input Parameters<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>HIGH</em></dt>
-<dd><p class="first last">Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of high and maximum quality usage.</p>
-</dd>
+<dd>Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of high and maximum quality usage.</dd>
 <dt><em>LOW</em></dt>
-<dd><p class="first last">Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of low quality usage.</p>
-</dd>
+<dd>Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of low quality usage.</dd>
 <dt><em>Fac</em></dt>
-<dd><p class="first last">This value specifies what quality setting (<code class="docutils literal"><span class="pre">HIGH</span></code> or <code class="docutils literal"><span class="pre">LOW</span></code>) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the <code class="docutils literal"><span class="pre">HIGH</span></code> setting will be visible, if it is 0.5 or higher, the <code class="docutils literal"><span class="pre">LOW</span></code> setting will be visible.</p>
-</dd>
+<dd>This value specifies what quality setting (<code class="docutils literal"><span class="pre">HIGH</span></code> or <code class="docutils literal"><span class="pre">LOW</span></code>) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the <code class="docutils literal"><span class="pre">HIGH</span></code> setting will be visible, if it is 0.5 or higher, the <code class="docutils literal"><span class="pre">LOW</span></code> setting will be visible.</dd>
 </dl>
 </div>
-<div class="section" id="id21">
-<h4>Output parameters<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>Output Parameters<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Output color.</p>
-</dd>
+<dd>Output color.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="smoothstep-b4w-smoothstep">
-<span id="node-smoothstep"></span><h3><a class="toc-backref" href="#id38">Smoothstep (B4W_SMOOTHSTEP)</a><a class="headerlink" href="#smoothstep-b4w-smoothstep" title="Permalink to this headline">¶</a></h3>
+<span id="node-smoothstep"></span><h3><a class="toc-backref" href="#id32">Smoothstep (B4W_SMOOTHSTEP)</a><a class="headerlink" href="#smoothstep-b4w-smoothstep" title="Permalink to this headline">¶</a></h3>
 <p>Performs smooth interpolation between two input values based on first value.</p>
 <a class="reference internal image-reference" href="_images/node_materials_smoothstep.png"><img alt="_images/node_materials_smoothstep.png" class="align-center" src="_images/node_materials_smoothstep.png" style="width: 100%;" /></a>
-<div class="section" id="id22">
-<h4>Input parameters<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id16">
+<h4>Input Parameters<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Value which determines interpolation smoothness.</p>
-</dd>
+<dd>Value which determines interpolation smoothness.</dd>
 <dt><em>Edge0</em></dt>
-<dd><p class="first last">First interpolation value.</p>
-</dd>
+<dd>First interpolation value.</dd>
 <dt><em>Edge1</em></dt>
-<dd><p class="first last">Second interpolation value.</p>
-</dd>
+<dd>Second interpolation value.</dd>
 </dl>
 </div>
-<div class="section" id="id23">
-<h4>Output parameters<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h4>Output Parameters<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Interpolated value.</p>
-</dd>
+<dd>Interpolated value.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -764,57 +705,51 @@
 </div>
 </div>
 <div class="section" id="glow-output-b4w-glow-output">
-<span id="glow-output"></span><h3><a class="toc-backref" href="#id39">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="Permalink to this headline">¶</a></h3>
-<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span>Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em>.</p>
+<span id="glow-output"></span><h3><a class="toc-backref" href="#id33">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="Permalink to this headline">¶</a></h3>
+<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span>Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em> node.</p>
 <a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
-<div class="section" id="id24">
-<h4>Input parameters<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id18">
+<h4>Input Parameters<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Glow Color</em></dt>
-<dd><p class="first last">Glow color.</p>
-</dd>
+<dd>Glow color.</dd>
 <dt><em>Factor</em></dt>
 <dd><p class="first">Glow ratio. <em>Factor</em> <span class="math">\(\in [0, 1]\)</span>.</p>
 <ul class="last simple">
-<li><p class="first"><em>Factor = 0</em> - no glow.</p>
-</li>
-<li><p class="first"><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - there is a glow, colored with <em>Glow Color</em>.</p>
-</li>
+<li><em>Factor = 0</em> - no glow.</li>
+<li><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - there is a glow, colored with <em>Glow Color</em>.</li>
 </ul>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal"><span class="pre">Transparency-&gt;Type</span></code> parameters of the material don&#8217;t affect behavior of the glow effect. It always corresponds to the transparent material (not the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> type).</p>
+<p class="last">The <code class="docutils literal"><span class="pre">Transparency-&gt;Type</span></code> parameters of the material don’t affect behavior of the glow effect. It always corresponds to the transparent material (not the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> type).</p>
 </div>
 </div>
 </div>
 <div class="section" id="reflect-b4w-reflect">
-<span id="node-reflect"></span><h3><a class="toc-backref" href="#id40">Reflect (B4W_REFLECT)</a><a class="headerlink" href="#reflect-b4w-reflect" title="Permalink to this headline">¶</a></h3>
+<span id="node-reflect"></span><h3><a class="toc-backref" href="#id34">Reflect (B4W_REFLECT)</a><a class="headerlink" href="#reflect-b4w-reflect" title="Permalink to this headline">¶</a></h3>
 <p>Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.</p>
 <a class="reference internal image-reference" href="_images/node_materials_reflect.png"><img alt="_images/node_materials_reflect.png" class="align-center" src="_images/node_materials_reflect.png" style="width: 100%;" /></a>
-<div class="section" id="id25">
-<h4>Input parameters<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id19">
+<h4>Input Parameters<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Incident vector. Should be connected to the <code class="docutils literal"><span class="pre">View</span></code> socket of the <code class="docutils literal"><span class="pre">Geometry</span></code> node.</p>
-</dd>
+<dd>Incident vector. Should be connected to the <code class="docutils literal"><span class="pre">View</span></code> socket of the <code class="docutils literal"><span class="pre">Geometry</span></code> node.</dd>
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the <code class="docutils literal"><span class="pre">Normal</span></code> socket of the <em>Geometry</em> node.</p>
-</dd>
+<dd>Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the <code class="docutils literal"><span class="pre">Normal</span></code> socket of the <code class="docutils literal"><span class="pre">Geometry</span></code> node.</dd>
 </dl>
 </div>
-<div class="section" id="id26">
-<h4>Output parameters<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id20">
+<h4>Output Parameters<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Reflected vector. Should be connected to the <code class="docutils literal"><span class="pre">Vector</span></code> socket of the <code class="docutils literal"><span class="pre">Texture</span></code> node that contains the cubemap.</p>
-</dd>
+<dd>Reflected vector. Should be connected to the <code class="docutils literal"><span class="pre">Vector</span></code> socket of the <code class="docutils literal"><span class="pre">Texture</span></code> node that contains the cubemap.</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="linear-to-srgb-srgb-to-linear-deprecated">
-<span id="node-gamma"></span><h3><a class="toc-backref" href="#id41">Linear to SRGB and SRGB to Linear (Deprecated)</a><a class="headerlink" href="#linear-to-srgb-srgb-to-linear-deprecated" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linear-to-srgb-and-srgb-to-linear-deprecated">
+<span id="node-gamma"></span><h3><a class="toc-backref" href="#id35">Linear to SRGB and SRGB to Linear (Deprecated)</a><a class="headerlink" href="#linear-to-srgb-and-srgb-to-linear-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated sicne the version 15.04. In the newer versions, the native <code class="docutils literal"><span class="pre">Gamma</span></code> node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.</p>
 <img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
 <div class="admonition seealso">
@@ -845,11 +780,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-02-26.
+      Last updated on 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -867,7 +803,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -896,14 +832,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

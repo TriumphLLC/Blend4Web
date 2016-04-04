@@ -36,6 +36,7 @@ var m_debug    = require("__debug");
 var m_graph    = require("__graph");
 var m_obj_util = require("__obj_util");
 var m_render   = require("__renderer");
+var m_scs      = require("__scenes");
 var m_tex      = require("__textures");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
@@ -46,6 +47,7 @@ var cfg_out = m_cfg.outlining;
 var cfg_scs = m_cfg.scenes;
 
 var DEBUG_DISABLE_TEX_REUSE = false;
+var LEFT_ONLY_SUBS_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_CUBE_REFLECT"];
 
 function cam_copy(cam) {
 
@@ -554,7 +556,6 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     var soft_particles  = sc_render.soft_particles;
     var ssao            = sc_render.ssao;
     var god_rays        = sc_render.god_rays;
-    var mat_params      = sc_render.materials_params;
     var refl_params     = sc_render.reflection_params;
     var bloom_params    = sc_render.bloom_params;
     var motion_blur     = sc_render.motion_blur;
@@ -875,7 +876,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
         var subs_color_picking = null;
 
     // refraction subscene
-    if (mat_params.refractions && !rtt) {
+    if (refractions && !rtt) {
         if (!msaa) {
             var subs_refr = create_subs_copy();
             m_graph.append_node_attr(graph, subs_refr);
@@ -887,8 +888,7 @@ exports.create_rendering_graph = function(sc_render, cam_render,
     } else
         var subs_refr = null;
 
-    if (depth_tex && ((mat_params.refractions && refractions) ||
-            shore_smoothing || soft_particles)) {
+    if (depth_tex && (refractions || shore_smoothing || soft_particles)) {
 
         var cam_depth_pack = cam_copy(main_cam);
         cam_render.cameras.push(cam_depth_pack);
@@ -1732,9 +1732,6 @@ function assign_debug_subscene(graph, subs_to_debug) {
 }
 
 function make_stereo(graph, sc_render, cam_render) {
-
-    var LEFT_ONLY_SUBS_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_CUBE_REFLECT"];
-
     var cams = cam_render.cameras;
     var antialiasing = sc_render.antialiasing;
     var hmd_stereo_use = sc_render.hmd_stereo_use;
@@ -1887,32 +1884,47 @@ function make_stereo(graph, sc_render, cam_render) {
         m_graph.append_edge_attr(graph, left_clone, source_nodes_right[i], slink_order);
 
     // resize subs texture for hmd
-    if (hmd_stereo_use) {
-        var slink_list = [];
-        m_graph.traverse(graph, function(subs_id, subs) {
-            if (LEFT_ONLY_SUBS_TYPES.indexOf(subs.type) == -1 &&
-                    subs.slinks_internal.length &&
-                    has_lower_subs(graph, subs, "STEREO")) {
-                for (var i = 0; i < subs.slinks_internal.length; i++) {
-                    var slink = subs.slinks_internal[i];
-                    if (slink_list.indexOf(slink) == -1)
-                        slink_list.push(slink);
-                }
-            }
-        });
-        m_graph.traverse_edges(graph, function(node1, node2, slink) {
-            var subs1 = m_graph.get_node_attr(graph, node1);
-            var subs2 = m_graph.get_node_attr(graph, node2);
-            if (LEFT_ONLY_SUBS_TYPES.indexOf(subs1.type) == -1 &&
-                    has_lower_subs(graph, subs2, "STEREO")) {
+    if (hmd_stereo_use)
+        multiply_size_mult_by_graph(graph, 0.5, 1)
+}
+
+function multiply_size_mult_by_graph(graph, multiplier_x, multiplier_y) {
+    var slink_list = [];
+    m_graph.traverse(graph, function(subs_id, subs) {
+        if (LEFT_ONLY_SUBS_TYPES.indexOf(subs.type) == -1 &&
+                subs.slinks_internal.length &&
+                has_lower_subs(graph, subs, "STEREO")) {
+            for (var i = 0; i < subs.slinks_internal.length; i++) {
+                var slink = subs.slinks_internal[i];
                 if (slink_list.indexOf(slink) == -1)
                     slink_list.push(slink);
             }
-        });
-
-        for (var i = 0; i < slink_list.length; i++) {
-            slink_list[i].size_mult_x *= 0.5;
         }
+    });
+    m_graph.traverse_edges(graph, function(node1, node2, slink) {
+        var subs1 = m_graph.get_node_attr(graph, node1);
+        var subs2 = m_graph.get_node_attr(graph, node2);
+        if (LEFT_ONLY_SUBS_TYPES.indexOf(subs1.type) == -1 &&
+                has_lower_subs(graph, subs2, "STEREO")) {
+            if (slink_list.indexOf(slink) == -1)
+                slink_list.push(slink);
+        }
+    });
+
+    for (var i = 0; i < slink_list.length; i++) {
+        slink_list[i].size_mult_x *= multiplier_x;
+        slink_list[i].size_mult_y *= multiplier_y;
+    }
+}
+
+exports.multiply_size_mult = function(multiplier_x, multiplier_y) {
+    var scenes = m_scs.get_all_scenes();
+
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+        var graph = m_scs.get_graph(scene);
+
+        multiply_size_mult_by_graph(graph, multiplier_x, multiplier_y);
     }
 }
 
@@ -1936,7 +1948,7 @@ function create_subs_shadow_cast(csm_index, lamp_index, shadow_params, num_light
     case "SPOT":
     case "POINT":
         subs.camera = m_cam.create_camera(m_cam.TYPE_PERSP);
-        var fov  = shadow_params.spot_sizes[lamp_index] * 180 / Math.PI;
+        var fov  = m_util.rad_to_deg(shadow_params.spot_sizes[lamp_index]);
         var near = 0.1;
         // distance where light has half intensity -> multiply with "2"
         var far  = 2 * shadow_params.distances[lamp_index];
@@ -2112,8 +2124,8 @@ function init_subs(type) {
     subs.texel_mask[0] = 1;
     subs.texel_mask[1] = 1;
 
-    //NOTE: set distortion_scale = 1
-    subs.distortion_params[2] = 1;
+    subs.distortion_params[2] = 0.5;
+    subs.distortion_params[3] = 0.0;
 
     return subs;
 }

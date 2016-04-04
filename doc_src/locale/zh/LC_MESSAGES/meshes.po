@@ -1,0 +1,294 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../meshes.rst:6
+msgid "Meshes"
+msgstr ""
+
+#: ../meshes.rst
+msgid "Table of Content"
+msgstr ""
+
+#: ../meshes.rst:15
+msgid "Static and Dynamic Objects"
+msgstr ""
+
+#: ../meshes.rst:17
+msgid "All ``MESH`` objects can be divided into static and dynamic objects."
+msgstr ""
+
+#: ../meshes.rst:19
+msgid ""
+"**Static objects** are objects, the meshes of which can be merged "
+"together if they have the same material."
+msgstr ""
+
+#: ../meshes.rst:21
+msgid ""
+"**Dynamic objects** are objects, the meshes of which cannot be combined "
+"with each other."
+msgstr ""
+
+#: ../meshes.rst:23
+msgid ""
+"Merging of static objects - so called batching - is performed "
+"automatically when the scene is loaded in order to optimize the number of"
+" draw calls. The conversion is performed even if there is just one object"
+" in the scene. The center of the resulting mesh is located in the origin."
+msgstr ""
+
+#: ../meshes.rst:25
+msgid ""
+"The objects which have animation, physics or a parent, which is a dynamic"
+" object, are considered dynamic."
+msgstr ""
+
+#: ../meshes.rst:27
+msgid ""
+"Object movement via API is possible only for dynamic objects. In order to"
+" make the movement of the object without dynamic settings possible, it is"
+" necessary to activate ``Force Dynamic Object`` option in its settings."
+msgstr ""
+
+#: ../meshes.rst:32
+msgid "Settings"
+msgstr ""
+
+#: ../meshes.rst:34
+msgid ""
+"Meshes have all settings of the :ref:`objects <object_settings>` and "
+"several additional settings."
+msgstr ""
+
+#: ../meshes.rst:39
+msgid "Override Bounding Volumes"
+msgstr ""
+
+#: ../meshes.rst:41
+msgid ""
+"This section is used to override bounding volumes. Such volumes are used "
+"to check object’s visibility, to handle collisions and physics "
+"interaction. By editing them, you can achieve various effects."
+msgstr ""
+
+#: ../meshes.rst:47
+msgid ""
+"The ``Override Bounding Volumes`` section can be found on the "
+"``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.)."
+msgstr ""
+
+#: ../meshes.rst:49
+msgid "*Show Boundings*"
+msgstr ""
+
+#: ../meshes.rst:56
+msgid ""
+"Show the bounding volumes in the Blender viewport. This option works only"
+" if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
+"be rendered as a rectangular cuboid or as a combination of circles or "
+"ellises. More then one method of rendering can be active at the same time"
+" (even all three methods can be enabled simultaneously)."
+msgstr ""
+
+#: ../meshes.rst:59
+msgid ""
+"The selected rendering method does not affect the bounding volume shape, "
+"only the way it is represented in the viewport."
+msgstr ""
+
+#: ../meshes.rst:63
+msgid "*Override Mesh Boundings*"
+msgstr ""
+
+#: ../meshes.rst:70
+msgid ""
+"This button enables the override of the basic mesh boundings. The "
+"bounding volume always has the shape of a rectangular cuboid with a "
+"center in the object’s pivot point."
+msgstr ""
+
+#: ../meshes.rst:73
+msgid "*MinX and  MaxX*"
+msgstr ""
+
+#: ../meshes.rst:73
+msgid "The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1"
+msgstr ""
+
+#: ../meshes.rst:76
+msgid "*MinY and  MaxY*"
+msgstr ""
+
+#: ../meshes.rst:76
+msgid "The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1."
+msgstr ""
+
+#: ../meshes.rst:79
+msgid "*MinZ and  MaxZ*"
+msgstr ""
+
+#: ../meshes.rst:79
+msgid "The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1"
+msgstr ""
+
+#: ../meshes.rst:84
+msgid "Copying Objects (Instancing)"
+msgstr ""
+
+#: ../meshes.rst:86
+msgid ""
+"It is often required to copy (to make instances of) objects during "
+"application work."
+msgstr ""
+
+#: ../meshes.rst:91
+msgid "Copying objects has its limitations:"
+msgstr ""
+
+#: ../meshes.rst:89
+msgid "only ``MESH`` objects can be copied"
+msgstr ""
+
+#: ../meshes.rst:90
+msgid ""
+"the object should be :ref:`dynamic <static_dynamic_objects>` (enable "
+"``Rendering Properties > Force Dynamic Object``)"
+msgstr ""
+
+#: ../meshes.rst:91
+msgid "the source object should belong to the active scene"
+msgstr ""
+
+#: ../meshes.rst:94
+msgid "Making a Simple Copy"
+msgstr ""
+
+#: ../meshes.rst:96
+msgid ""
+"In case of simple copying the new object will share the mesh with the "
+"original object. Thus, if the the original object’s mesh is changed, the "
+"copied object’s mesh will be changed too. To make simple copying "
+"possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object``"
+" setting in the source object’s properties."
+msgstr ""
+
+#: ../meshes.rst:99
+msgid "Making a Deep Copy"
+msgstr ""
+
+#: ../meshes.rst:101
+msgid ""
+"In case of deep copying, the new object will have unique properties, "
+"namely it will have its own mesh. Thus, if the original object’s mesh is "
+"changed, the copied object’s mesh will not be changed. Also, the canvas "
+"textures on the copied objects are different textures and not one and the"
+" same like it is the case with the simple copying. To make deep copying "
+"possible, it is required to enable the :ref:`Rendering Properties > "
+"Dynamic Geometry <dynamic_geom>` checkbox for the source object. |"
+msgstr ""
+
+#: ../meshes.rst:104
+msgid ""
+"Copying objects in runtime can be performed with the ``copy`` method of "
+"the ``objects.js`` module. This method requires three arguments: the id "
+"of the source object, a unique name for the new object and the boolean "
+"value to specify the copy mode (i.e. simple or deep). By default simple "
+"copying will be performed."
+msgstr ""
+
+#: ../meshes.rst:106
+msgid ""
+"The newly created object should be added to the scene. This can be "
+"performed with the ``append_object`` method of the ``scenes.js`` module. "
+"The new object should be passed to it as an argument."
+msgstr ""
+
+#: ../meshes.rst:118
+msgid "Removing Objects"
+msgstr ""
+
+#: ../meshes.rst:119
+msgid ""
+"To remove objects, use the ``remove_object`` method of the ``scenes.js`` "
+"module. Pass the object to it as an argument. Dynamic mesh- and empty-"
+"type objects can be removed this way."
+msgstr ""
+
+#: ../meshes.rst:131
+msgid "Object Selection"
+msgstr ""
+
+#: ../meshes.rst:133
+msgid ""
+"In order to enable selection of a certain object, it is required to "
+"enable the ``Selectable`` checkbox on the ``Selection and Outlining`` "
+"panel."
+msgstr ""
+
+#: ../meshes.rst:136
+msgid ""
+"Make sure that the status on the ``Scene > Object Outlining`` panel is "
+"set to ``ON`` or ``AUTO``."
+msgstr ""
+
+#: ../meshes.rst:138
+msgid ""
+"Object selection is possible programmatically via API, for example, in "
+"the ``scenes.js`` module there is the ``pick_object`` function which "
+"selects an object based on canvas 2D coordinates,"
+msgstr ""
+
+#: ../meshes.rst:149
+msgid "or using the :ref:`NLA Script <nla_select_play>`."
+msgstr ""
+
+#: ../meshes.rst:151
+msgid ""
+"If the selectable object has enabled ``Enable Outlining`` and ``Outline "
+"on Select`` checkboxes on the ``Object > Selection`` and Outlining panel,"
+" then the ``pick_object`` function call will activate :ref:`outline glow "
+"animation <outline>`."
+msgstr ""
+
+#: ../meshes.rst:157
+msgid "Morphing"
+msgstr ""
+
+#: ../meshes.rst:159
+msgid ""
+"Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
+" interface."
+msgstr ""
+
+#: ../meshes.rst:166
+msgid "The engine supports all shape key options under the “Relative” type."
+msgstr ""
+
+#: ../meshes.rst:168
+msgid ""
+"To set a shape key value, use the ``apply_shape_key`` method of the "
+"``geometry.js`` module."
+msgstr ""
+
+#: ../meshes.rst:172
+msgid "The object must have ``Export Shape Keys`` parameter enabled."
+msgstr ""
+
+

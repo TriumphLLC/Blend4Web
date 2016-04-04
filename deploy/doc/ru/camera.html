@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Камера &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Камера &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Материалы" href="materials.html"/>
         <link rel="prev" title="Меши" href="meshes.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,29 +85,28 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Камера</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Режимы управления и общие настройки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Ограничения движения камеры</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#target">Камера типа Target</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#eye">Камера типа Eye</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hover">Камера типа Hover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#move-styles-and-general-settings">Режимы управления и общие настройки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limiting-the-camera-movement">Ограничения движения камеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#target-type-camera">Камера типа Target</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eye-type-camera">Камера типа Eye</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hover-type-camera">Камера типа Hover</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">Управление через API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#camera-move-style-change">Задание режима управления</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Перемещение и поворот</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Задание лимитов</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#camera-spherical-coordinates">Отсчет угловых координат</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#camera-controls-api">Управление через API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#control-mode-setup">Задание режима управления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#translation-and-rotation">Перемещение и поворот</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limit-setup">Задание лимитов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#angular-coordinates-count">Отсчет угловых координат</a></li>
 </ul>
 </li>
 </ul>
@@ -153,6 +152,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -172,31 +172,31 @@
            <div itemprop="articleBody">
             
   <div class="section" id="camera">
-<span id="id1"></span><h1><a class="toc-backref" href="#id9">Камера</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">Камера</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#camera" id="id9">Камера</a><ul>
-<li><a class="reference internal" href="#id3" id="id10">Режимы управления и общие настройки</a></li>
-<li><a class="reference internal" href="#id4" id="id11">Ограничения движения камеры</a><ul>
-<li><a class="reference internal" href="#target" id="id12">Камера типа Target</a></li>
-<li><a class="reference internal" href="#eye" id="id13">Камера типа Eye</a></li>
-<li><a class="reference internal" href="#hover" id="id14">Камера типа Hover</a></li>
+<li><a class="reference internal" href="#camera" id="id2">Камера</a><ul>
+<li><a class="reference internal" href="#move-styles-and-general-settings" id="id3">Режимы управления и общие настройки</a></li>
+<li><a class="reference internal" href="#limiting-the-camera-movement" id="id4">Ограничения движения камеры</a><ul>
+<li><a class="reference internal" href="#target-type-camera" id="id5">Камера типа Target</a></li>
+<li><a class="reference internal" href="#eye-type-camera" id="id6">Камера типа Eye</a></li>
+<li><a class="reference internal" href="#hover-type-camera" id="id7">Камера типа Hover</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#api" id="id15">Управление через API</a><ul>
-<li><a class="reference internal" href="#camera-move-style-change" id="id16">Задание режима управления</a></li>
-<li><a class="reference internal" href="#id6" id="id17">Перемещение и поворот</a></li>
-<li><a class="reference internal" href="#id7" id="id18">Задание лимитов</a></li>
-<li><a class="reference internal" href="#camera-spherical-coordinates" id="id19">Отсчет угловых координат</a></li>
+<li><a class="reference internal" href="#camera-controls-api" id="id8">Управление через API</a><ul>
+<li><a class="reference internal" href="#control-mode-setup" id="id9">Задание режима управления</a></li>
+<li><a class="reference internal" href="#translation-and-rotation" id="id10">Перемещение и поворот</a></li>
+<li><a class="reference internal" href="#limit-setup" id="id11">Задание лимитов</a></li>
+<li><a class="reference internal" href="#angular-coordinates-count" id="id12">Отсчет угловых координат</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2><a class="toc-backref" href="#id10">Режимы управления и общие настройки</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="move-styles-and-general-settings">
+<h2><a class="toc-backref" href="#id3">Режимы управления и общие настройки</a><a class="headerlink" href="#move-styles-and-general-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки камеры выставляются в панели <code class="docutils literal"><span class="pre">Properties</span></code> на вкладке <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">(Object</span> <span class="pre">Data)</span></code>.</p>
 <a class="reference internal image-reference" href="_images/camera_setup.png"><img alt="_images/camera_setup.png" class="align-center" src="_images/camera_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -233,73 +233,85 @@
 </ul>
 </dd>
 <dt><em>Look At Cursor &gt; Target Location</em></dt>
-<dd>Доступно в режиме <code class="docutils literal"><span class="pre">Target</span></code>. Позиция точки, относительно которой будет вращаться камера. Кнопка <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code> позволяет скопировать текущее положение курсора, а при нажатии на неё активная камера поворачивается в направлении указанной точки.</dd>
+<dd><p class="first last">Доступно в режиме <code class="docutils literal"><span class="pre">Target</span></code>. Позиция точки, относительно которой будет вращаться камера. Кнопка <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code> позволяет скопировать текущее положение курсора, а при нажатии на неё активная камера поворачивается в направлении указанной точки.</p>
+</dd>
 <dt><em>Depth of Field</em></dt>
-<dd>Описано в разделе <a class="reference internal" href="postprocessing_effects.html#dof"><span>Глубина резкости камеры</span></a>.</dd>
+<dd><p class="first last">Описано в разделе <a class="reference internal" href="postprocessing_effects.html#dof"><span>Глубина резкости камеры</span></a>.</p>
+</dd>
 </dl>
 <p id="camera-velocity">Для камеры доступны настройки скорости движения:</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Translation Velocity</em></dt>
-<dd>Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость перемещения камеры. Интервал значений: <span class="math">\(\left[0,\ \infty \right)\)</span>. Значение по умолчанию: 1.</dd>
+<dd><p class="first last">Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость перемещения камеры. Интервал значений: <span class="math">\(\left[0,\ \infty \right)\)</span>. Значение по умолчанию: 1.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Rotation Velocity</em></dt>
-<dd>Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость вращения камеры. Интервал значений: <span class="math">\(\left[0,\ \infty \right)\)</span>. Значение по умолчанию: 1.</dd>
+<dd><p class="first last">Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость вращения камеры. Интервал значений: <span class="math">\(\left[0,\ \infty \right)\)</span>. Значение по умолчанию: 1.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Zoom Velocity</em></dt>
-<dd>Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость приближения камеры к опорной точке. Интервал значений: <span class="math">\(\left[0,\ 0.99\right]\)</span>. Значение по умолчанию: 0.1.</dd>
+<dd><p class="first last">Актуально для режимов <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>. Задаёт скорость приближения камеры к опорной точке. Интервал значений: <span class="math">\(\left[0,\ 0.99\right]\)</span>. Значение по умолчанию: 0.1.</p>
+</dd>
 </dl>
 </div>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id11">Ограничения движения камеры</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="limiting-the-camera-movement">
+<h2><a class="toc-backref" href="#id4">Ограничения движения камеры</a><a class="headerlink" href="#limiting-the-camera-movement" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для камеры доступно несколько настроек, ограничивающих/изменяющих её движение тем или иным образом. Они объединены в группу <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Limits</span></code>.</p>
 <a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
 <p>Ограничители перемещения камеры могут отображаться непосредственно во вьюпорте Blender. Для этого нужно включить опцию <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="target">
-<h3><a class="toc-backref" href="#id12">Камера типа Target</a><a class="headerlink" href="#target" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="target-type-camera">
+<h3><a class="toc-backref" href="#id5">Камера типа Target</a><a class="headerlink" href="#target-type-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_target.png"><img alt="_images/camera_limits_target.png" class="align-center" src="_images/camera_limits_target.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
-<dd>Задание минимального и максимального расстояний от камеры до точки вращения. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Задание минимального и максимального расстояний от камеры до точки вращения. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img src="_images/distance_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Rotation Limits</em></dt>
-<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> по часовой стрелке. Значения по умолчанию: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Pivot Translation Limits</em></dt>
-<dd>Ограничение перемещения точки привязки камеры. Значения по умолчанию: <em>MinZ = 0</em>, <em>MaxZ = 10</em>. Не отображается во вьюпорте.</dd>
+<dd><p class="first last">Ограничение перемещения точки привязки камеры. Значения по умолчанию: <em>MinZ = 0</em>, <em>MaxZ = 10</em>. Не отображается во вьюпорте.</p>
+</dd>
 </dl>
 <dl class="docutils" id="panning-mode">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Panning Mode</em></dt>
-<dd>Разрешить панорамное перемещение камеры.</dd>
+<dd><p class="first last">Разрешить панорамное перемещение камеры.</p>
+</dd>
 </dl>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="eye">
-<h3><a class="toc-backref" href="#id13">Камера типа Eye</a><a class="headerlink" href="#eye" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="eye-type-camera">
+<h3><a class="toc-backref" href="#id6">Камера типа Eye</a><a class="headerlink" href="#eye-type-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_eye.png"><img alt="_images/camera_limits_eye.png" class="align-center" src="_images/camera_limits_eye.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Horizontal Rotation Limits</em></dt>
-<dd>Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> по часовой стрелке. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_eye.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Ограничение вертикального (вокруг локальной оси X камеры в Blender&#8217;е) вращения камеры относительно своего местоположения. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение горизонтального (вокруг мировой оси Z в Blender&#8217;е) вращения камеры относительно соответствующей точки. Вращение происходит по дуге окружности определяемой значениями <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> и <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code>. Дуга вращения соответствует движению из <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> в <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> против часовой стрелки. Значения по умолчанию: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_eye.svg" width="100%" /></div>
 </a>
@@ -307,27 +319,32 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="hover">
-<h3><a class="toc-backref" href="#id14">Камера типа Hover</a><a class="headerlink" href="#hover" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="hover-type-camera">
+<h3><a class="toc-backref" href="#id7">Камера типа Hover</a><a class="headerlink" href="#hover-type-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_hover.png"><img alt="_images/camera_limits_hover.png" class="align-center" src="_images/camera_limits_hover.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Translation Limits</em></dt>
-<dd>Ограничение перемещения опорной точки вдоль оси X в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinX = -10</em>, <em>MaxX = 10</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение перемещения опорной точки вдоль оси X в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinX = -10</em>, <em>MaxX = 10</em>. По умолчанию отключено.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Translation Limits</em></dt>
-<dd>Ограничение перемещения опорной точки вдоль оси Y в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinY = -10</em>, <em>MaxY = 10</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Ограничение перемещения опорной точки вдоль оси Y в мировых координатах в Blender&#8217;е. Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>MinY = -10</em>, <em>MaxY = 10</em>. По умолчанию отключено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Zooming</em></dt>
-<dd>Позволяет пользователю приближать и удалять камеру относительно опорной точки. При отключении этого параметра положение камеры относительно опорной точки будет фиксированным. По умолчанию отключено.</dd>
+<dd><p class="first last">Позволяет пользователю приближать и удалять камеру относительно опорной точки. При отключении этого параметра положение камеры относительно опорной точки будет фиксированным. По умолчанию отключено.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
-<dd>Задание минимального и максимального расстояний от камеры до точки пересечения (опорная точка) направления взгляда камеры с горизонтальной опорной плоскостью
-(по умолчанию с плоскостью XOY мировых координат в Blender&#8217;е). Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</dd>
+<dd><p class="first last">Задание минимального и максимального расстояний от камеры до точки пересечения (опорная точка) направления взгляда камеры с горизонтальной опорной плоскостью (по умолчанию с плоскостью XOY мировых координат в Blender&#8217;е). Допустимые значения: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Значения по умолчанию: <em>Min = 1</em>, <em>Max = 10</em>. По умолчанию отключено.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Ограничения угла подъема камеры (угла между направлением взгляда камеры и горизонтальной плоскостью). Допустимые значения: <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. Значения по умолчанию: <em>Down = 0°, Up = 90°</em>.</dd>
+<dd><p class="first last">Ограничения угла подъема камеры (угла между направлением взгляда камеры и горизонтальной плоскостью). Допустимые значения: <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. Значения по умолчанию: <em>Down = 0°, Up = 90°</em>.</p>
+</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Zero Level</em></dt>
-<dd>Расстояние от опорной плоскости камеры до центра координат. По умолчанию равно нулю.</dd>
+<dd><p class="first last">Расстояние от опорной плоскости камеры до центра координат. По умолчанию равно нулю.</p>
+</dd>
 </dl>
 <p id="hover-trajectory-figure">При включении настройки <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> лимиты по расстоянию и углу подъема будут действовать одновременно, задавая траекторию движения камеры в вертикальной плоскости.</p>
 <a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
@@ -335,7 +352,8 @@
 <p>Некорректное задание лимитов по расстоянию либо углу подъема приведет к отключению этой настройки.</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation</em></dt>
-<dd>Разрешить вращение камеры в плоскости XOY Blender&#8217;а относительно опорной точки. По умолчанию включено.</dd>
+<dd><p class="first last">Разрешить вращение камеры в плоскости XOY Blender&#8217;а относительно опорной точки. По умолчанию включено.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
 </a>
@@ -350,18 +368,22 @@
 </div>
 <p><strong>Особенности задания ограничений</strong></p>
 <ul class="simple">
-<li>Для EYE/TARGET камеры перемена мест значений <em>Left/Right</em> или <em>Down/Up</em> приводит к движению по противоположной дуге окружности вращения.</li>
+<li><p class="first">Для EYE/TARGET камеры перемена мест значений <em>Left/Right</em> или <em>Down/Up</em> приводит к движению по противоположной дуге окружности вращения.</p>
+</li>
 </ul>
 <a class="reference internal image-reference" href="_images/limits_inversion.svg"><div align="center" class="align-center"><img src="_images/limits_inversion.svg" width="100%" /></div>
 </a>
 <ul class="simple">
-<li>При ограничении горизонтального и вертикального вращения камеры можно выбрать пространство координат:</li>
+<li><p class="first">При ограничении горизонтального и вертикального вращения камеры можно выбрать пространство координат:</p>
+</li>
 </ul>
 <dl class="docutils">
 <dt><em>Camera Space</em></dt>
-<dd>Все углы отсчитываются относительно начального положения и ориентации камеры.</dd>
+<dd><p class="first last">Все углы отсчитываются относительно начального положения и ориентации камеры.</p>
+</dd>
 <dt><em>World Space</em></dt>
-<dd>Горизонтальные углы отсчитываются относительно направления оси Y в пространстве мировых координат, вертикальные - относительно плоскости XOY в мировом пространстве в Blender&#8217;е.</dd>
+<dd><p class="first last">Горизонтальные углы отсчитываются относительно направления оси Y в пространстве мировых координат, вертикальные - относительно плоскости XOY в мировом пространстве в Blender&#8217;е.</p>
+</dd>
 </dl>
 <p>Значение по умолчанию: <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Space</span></code>.</p>
 <p>Ограничения по горизонтали на примере TARGET камеры:</p>
@@ -372,16 +394,15 @@
 </a>
 </div>
 </div>
-<div class="section" id="api">
-<span id="camera-api-notes"></span><h2><a class="toc-backref" href="#id15">Управление через API</a><a class="headerlink" href="#api" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="camera-controls-api">
+<span id="camera-api-notes"></span><h2><a class="toc-backref" href="#id8">Управление через API</a><a class="headerlink" href="#camera-controls-api" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Подробная документация API модуля: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">ссылка</a>.</p>
-<p>Положение и ориентация камеры в пространстве определяются конкретным режимом управления. В режимах <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> и <code class="docutils literal"><span class="pre">HOVER</span></code> модель поведения накладывает ряд ограничений, например, таких как выравнивание вертикальной оси камеры вдоль мировой оси Y и постоянная ориентация камеры на опорную точку.
-Для <code class="docutils literal"><span class="pre">STATIC</span></code> камеры таких ограничений нет, поэтому она лучше подходит в случаях, когда нужен более полный контроль, например, при процедурной анимации.</p>
+<p>Положение и ориентация камеры в пространстве определяются конкретным режимом управления. В режимах <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> и <code class="docutils literal"><span class="pre">HOVER</span></code> модель поведения накладывает ряд ограничений, например, таких как выравнивание вертикальной оси камеры вдоль мировой оси Y и постоянная ориентация камеры на опорную точку. Для <code class="docutils literal"><span class="pre">STATIC</span></code> камеры таких ограничений нет, поэтому она лучше подходит в случаях, когда нужен более полный контроль, например, при процедурной анимации.</p>
 <p>Основные функции управления камерой находятся в модуле <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a>. Часть из них, относящаяся к конкретному режиму управления, начинается с соответствующих префиксов: <code class="docutils literal"><span class="pre">static_</span></code>, <code class="docutils literal"><span class="pre">eye_</span></code>, <code class="docutils literal"><span class="pre">target_</span></code> и <code class="docutils literal"><span class="pre">hover_</span></code>. Остальные методы применимы для всех режимов.</p>
-<div class="section" id="camera-move-style-change">
-<span id="id5"></span><h3><a class="toc-backref" href="#id16">Задание режима управления</a><a class="headerlink" href="#camera-move-style-change" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="control-mode-setup">
+<span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id9">Задание режима управления</a><a class="headerlink" href="#control-mode-setup" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для изменения режима и полного определения модели поведения камеры можно воспользоваться следующими методами: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. Они принимают объект, содержащий набор опциональных параметров, позволяющих задать положение камеры, поворот, наличие лимитов и т.д:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">LOOK_AT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
@@ -432,7 +453,7 @@
 </pre></div>
 </div>
 <p>Особенность камеры типа <code class="docutils literal"><span class="pre">HOVER</span></code> заключается в том, что лимиты, ограничивающие расстояние и угол подъёма, задают определённую <a class="reference internal" href="#hover-trajectory-figure"><span>траекторию</span></a> движения по направлению к опорной точке. Камера всегда будет находиться на данной траектории, поэтому её итоговая позиция может отличаться от той, что была передана в методе <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a> (по сути происходит её проекция на траекторию). Если необходимо, чтобы заданное положение камеры сразу находилось на некой траектории, то можно воспользоваться методом <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> для относительного задания лимитов.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">PIVOT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 
@@ -445,7 +466,7 @@
 </pre></div>
 </div>
 <p>Проверить текущий режим камеры можно, используя методы <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_static_camera">is_static_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_eye_camera">is_eye_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_target_camera">is_target_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_hover_camera">is_hover_camera()</a> или <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_move_style">get_move_style()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -461,10 +482,10 @@
 <p class="last">Если требуется изменить лишь некоторые аспекты поведения камеры, то стоит воспользоваться отдельными методами, описанными ниже.</p>
 </div>
 </div>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id17">Перемещение и поворот</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="translation-and-rotation">
+<h3><a class="toc-backref" href="#id10">Перемещение и поворот</a><a class="headerlink" href="#translation-and-rotation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для поворота STATIC камеры следует использовать методы <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_get_rotation">static_get_rotation()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_rotation">static_set_rotation()</a> - в них поворот описывается кватернионом:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -476,7 +497,7 @@
 </pre></div>
 </div>
 <p>Для EYE, TARGET и HOVER поворот осуществляется в <a class="reference internal" href="#camera-spherical-coordinates"><span>сферических координатах</span></a> с использованием методов <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -488,7 +509,7 @@
 </pre></div>
 </div>
 <p>Текущие сферические координаты камеры можно получить, используя метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles">get_camera_angles()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -500,7 +521,7 @@
 </pre></div>
 </div>
 <p>Доступ к позиции камеры предоставляют методы <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_translation">get_translation()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_translation">set_translation()</a>. При этом для режимов TARGET и HOVER перемещение означает параллельный перенос всей модели, включающей позицию камеры и опорную точку.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec3_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -515,17 +536,20 @@
 </div>
 <p>Дополнительные методы для перемещения камеры:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_trans_pivot">target_set_trans_pivot()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_translation">target_set_pivot_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_set_pivot_translation">hover_set_pivot_translation()</a> - одновременное задание позиции и опорной точки камеры;</li>
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance()</a> - смещение по расстоянию до опорной точки;</li>
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - одновременное задание позиции и точки взгляда камеры;</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_trans_pivot">target_set_trans_pivot()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_translation">target_set_pivot_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_set_pivot_translation">hover_set_pivot_translation()</a> - одновременное задание позиции и опорной точки камеры;</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance()</a> - смещение по расстоянию до опорной точки;</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - одновременное задание позиции и точки взгляда камеры;</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Т.к. камера является объектом сцены, то при необходимости можно использовать и методы модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a>. Однако, результат может не всегда соответствовать ожиданиям из-за вмешательства модели поведения камеры в каждом конкретном режиме.</p>
 </div>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id18">Задание лимитов</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="limit-setup">
+<h3><a class="toc-backref" href="#id11">Задание лимитов</a><a class="headerlink" href="#limit-setup" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Лимиты камеры присутствуют в режимах EYE, TARGET и HOVER. Для назначения конкретного лимита следует воспользоваться соответствующим методом:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -563,7 +587,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_limits_tmp</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
 
@@ -585,8 +609,10 @@
 <p class="first admonition-title">Примечание</p>
 <p>При выставлении лимитов перемещения для камеры типа <code class="docutils literal"><span class="pre">HOVER</span></code> значения лимитов будут соответствовать осям системы координат движка:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> - ось X</li>
-<li><code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> - ось Z</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> - ось X</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> - ось Z</p>
+</li>
 </ul>
 <a class="last reference internal image-reference" href="_images/b4w_hover_trans_limits.svg"><div align="center" class="align-center"><img src="_images/b4w_hover_trans_limits.svg" width="100%" /></div>
 </a>
@@ -596,8 +622,8 @@
 <p class="last">Присутствующие на камере лимиты могут влиять на её позицию и ориентацию, выставляемые через API.</p>
 </div>
 </div>
-<div class="section" id="camera-spherical-coordinates">
-<span id="id8"></span><h3><a class="toc-backref" href="#id19">Отсчет угловых координат</a><a class="headerlink" href="#camera-spherical-coordinates" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="angular-coordinates-count">
+<span id="camera-spherical-coordinates"></span><h3><a class="toc-backref" href="#id12">Отсчет угловых координат</a><a class="headerlink" href="#angular-coordinates-count" title="Ссылка на этот заголовок">¶</a></h3>
 <blockquote>
 <div><p>При работе с камерой через API (вращение, выставление ограничений) отсчет угловых координат ведется в <a class="reference internal" href="objects.html#b4w-blender-coordinates"><span>системе координат движка</span></a> следующим образом:</p>
 <p>Для типов <code class="docutils literal"><span class="pre">TARGET/HOVER</span></code>:</p>
@@ -631,11 +657,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -653,7 +680,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -683,14 +710,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

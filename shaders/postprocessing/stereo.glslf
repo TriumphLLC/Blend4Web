@@ -10,7 +10,7 @@ varying vec2 v_texcoord;
 uniform int u_enable_hmd_stereo;
 
 # if !DISABLE_DISTORTION_CORRECTION
-// u_distortion_params = [distortion_coef_1, distortion_coef_2, distortion_scale, distortion_offset]
+// u_distortion_params = [distortion_coef_1, distortion_coef_2, base_line_factor, inter_lens_factor]
 uniform vec4 u_distortion_params;
 uniform vec4 u_chromatic_aberration_coefs;
 
@@ -19,7 +19,7 @@ void hmd_distorsion(vec2 texcoord, vec2 center, sampler2D sampler) {
     float rsquare = theta.x * theta.x + theta.y * theta.y;
     vec2 rvector = theta * (1.0 + u_distortion_params[0] * rsquare
             + u_distortion_params[1] * rsquare * rsquare);
-    vec2 tc = rvector * 0.5 * u_distortion_params[2];
+    vec2 tc = rvector * 0.5 / (1.0 + u_distortion_params[0] + u_distortion_params[1]);
 
     if (length(u_chromatic_aberration_coefs) > 0.0) {
         vec2 tc_r = tc * (1.0 + u_chromatic_aberration_coefs[0] +
@@ -86,7 +86,7 @@ void main(void) {
 # if DISABLE_DISTORTION_CORRECTION
             gl_FragColor = texture2D(u_sampler_left, texcoord);
 # else
-            vec2 center = vec2(0.5 + u_distortion_params[3] * 0.5, 0.5);
+            vec2 center = vec2(0.5 - u_distortion_params[3], u_distortion_params[2]);
             hmd_distorsion(texcoord, center, u_sampler_left);
 # endif
         } else {
@@ -95,7 +95,7 @@ void main(void) {
 # if DISABLE_DISTORTION_CORRECTION
             gl_FragColor = texture2D(u_sampler_right, texcoord);
 # else
-            vec2 center = vec2(0.5 - u_distortion_params[3] * 0.5, 0.5);
+            vec2 center = vec2(0.5 + u_distortion_params[3], u_distortion_params[2]);
             hmd_distorsion(texcoord, center, u_sampler_right);
 # endif
         }

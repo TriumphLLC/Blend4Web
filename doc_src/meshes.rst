@@ -1,50 +1,50 @@
 
 .. _meshes:
 
-****
-Меши
-****
+******
+Meshes
+******
 
-.. contents:: Содержание
+.. contents:: Table of Content
     :depth: 3
     :backlinks: entry
 
 .. _static_dynamic_meshes:
 
-Статические и динамические объекты
-==================================
+Static and Dynamic Objects
+==========================
 
-Все объекты типа ``MESH`` можно разделить на статические и динамические.
+All ``MESH`` objects can be divided into static and dynamic objects.
 
-**Статические объекты** - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.
+**Static objects** are objects, the meshes of which can be merged together if they have the same material.
 
-**Динамические объекты** - объекты, меши которых не могут быть скомбинированы друг с другом.
+**Dynamic objects** are objects, the meshes of which cannot be combined with each other.
 
-Объединение статических объектов - т.н. батчинг (batching) - осуществляется автоматически при загрузке сцены в целях оптимизации количества вызовов отрисовки. Конвертация происходит, даже если на сцене присутствует всего один объект. Центр получившегося в результате конвертации меша находится в начале координат.
+Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.
 
-Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.
+The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.
 
-Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию ``Force Dynamic Object``.
+Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate ``Force Dynamic Object`` option in its settings.
 
 .. _mesh_settings:
 
-Настройка
-=========
+Settings
+========
 
-Меши обладают всеми параметрами :ref:`объектов <object_settings>`, а также некоторыми дополнительными параметрами.
+Meshes have all settings of the :ref:`objects <object_settings>` and several additional settings.
 
 .. _override_bounding_volumes:
 
 Override Bounding Volumes
 -------------------------
 
-Эта вкладка используется для настройки ограничивающих объёмов. Такие объёмы используются при определении видимости объекта, для рассчёта столкновений и физических взаимодействий. Манипулируя ими, можно добиться различных эффектов.
+This section is used to override bounding volumes. Such volumes are used to check object’s visibility, to handle collisions and physics interaction. By editing them, you can achieve various effects.
 
 .. image:: src_images/objects/objects_override_bounding_volumes.png
    :align: center
    :width: 100%
 
-Раздел ``Override Bounding Volumes`` расположен на панели иструментов ``Blend4Web`` (рядом с :ref:`редактором нормалей <normals_editor>`).
+The ``Override Bounding Volumes`` section can be found on the ``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.).
 
 *Show Boundings*
 
@@ -53,10 +53,10 @@ Override Bounding Volumes
        :align: center
        :width: 100%
 
-    Отобразить ограничивающий объём во вьюпорте Blender.  Работает только если активирована опция ``Override Mesh Boundings``. Объём может быть представлен в виде параллелепипеда либо в виде комбинации окружностей или эллипсов. Одновременно может работать более одного метода визуализации (в том числе все три).
+    Show the bounding volumes in the Blender viewport. This option works only if the ``Override Mesh Boundings`` parameter is enabled. The volume can be rendered as a rectangular cuboid or as a combination of circles or ellises. More then one method of rendering can be active at the same time (even all three methods can be enabled simultaneously).
 
 .. note::
-    Метод визуализации не влияет на форму ограничивающего объёма, только на его представление во вьюпорте.
+    The selected rendering method does not affect the bounding volume shape, only the way it is represented in the viewport.
 
 |
 
@@ -67,44 +67,43 @@ Override Bounding Volumes
        :align: center
        :width: 100%
 
-    Эта кнопка включает использование нестандартного ограничивающего объёма. Ограничивающий объём имеет форму параллелпипеда, центр которого совпадает с точкой привязки объекта.
+    This button enables the override of the basic mesh boundings. The bounding volume always has the shape of a rectangular cuboid with a center in the object’s pivot point.
 
-*MinX и MaxX*
-    Размеры ограничивающего объёма по оси X. По умолчанию *MinX* = -1, *MaxX* = 1.
+*MinX and  MaxX*
+    The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1
 
-*MinY и MaxY*
-    Размеры ограничивающего объёма по оси Y. По умолчанию *MinY* = -1, *MaxY* = 1.
+*MinY and  MaxY*
+    The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1.
 
-*MinZ и MaxZ*
-    Размеры ограничивающего объёма по оси Z. По умолчанию *MinZ* = -1, *MaxZ* = 1.
+*MinZ and  MaxZ*
+    The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1
 
 .. _mesh_copy:
 
-Копирование объектов (инстансинг)
-=================================
+Copying Objects (Instancing)
+============================
 
-Часто возникает необходимость копирования объектов (инстансинг) во время работы приложения.
+It is often required to copy (to make instances of) objects during application work.
 
-Существует ряд ограничений на копируемые объекты:
-    * тип объекта должен быть ``MESH``
-    * объект должен быть :ref:`динамическим <static_dynamic_objects>` (включить настройку ``Rendering Properties > Force Dynamic Object``)
-    * объект должен принадлежать активной сцене
+Copying objects has its limitations:
+    * only ``MESH`` objects can be copied
+    * the object should be :ref:`dynamic <static_dynamic_objects>` (enable ``Rendering Properties > Force Dynamic Object``)
+    * the source object should belong to the active scene
 
-Простое копирование
--------------------
-
-В случае простого копирования для объекта-копии будет использоваться геометрия объекта, с которого осуществлялось копирование. При изменении геометрии на исходном объекте, геометрия изменится и на объекте-копии.
-
-Глубокое копирование
+Making a Simple Copy
 --------------------
 
-При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Также при глубоком копировании canvas-текстуры на копиях - именно разные текстуры, в то время как при простом копировании - одна и та же. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию :ref:`Rendering Properties > Dynamic Geometry <dynamic_geom>`.
+In case of simple copying the new object will share the mesh with the original object. Thus, if the the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in the source object’s properties.
 
+Making a Deep Copy
+------------------
+
+In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the :ref:`Rendering Properties > Dynamic Geometry <dynamic_geom>` checkbox for the source object.
 |
 
-Для копирования объектов в модуле ``objects.js`` предусмотрена функция ``copy``, в которую надо передать идентификатор копируемого объекта, уникальное имя нового объекта и булеву переменную, определяющую тип копирования: ``true``- глубокое, ``false`` - простое. По умолчанию будет осуществлено простое копирование.
+Copying objects in runtime can be performed with the ``copy`` method of the ``objects.js`` module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default simple copying will be performed.
 
-Созданный при копировании объект необходимо добавить на сцену. Для этого в модуле ``scenes.js`` существует функция ``append_object``, куда нужно передать объект, полученный копированием.
+The newly created object should be added to the scene. This can be performed with the ``append_object`` method of the ``scenes.js`` module. The new object should be passed to it as an argument.
 
 .. code-block:: javascript
 
@@ -115,9 +114,9 @@ Override Bounding Volumes
     // ...
 
 
-Удаление объектов
------------------
-Для удаления объектов, в модуле ``scenes.js`` предусмотрена функция ``remove_object``, куда надо передать объект. Возможно удаление динамических mesh- и empty-объектов.
+Removing Objects
+----------------
+To remove objects, use the ``remove_object`` method of the ``scenes.js`` module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.
 
 .. code-block:: javascript
 
@@ -128,15 +127,15 @@ Override Bounding Volumes
 
 .. _mesh_selection:
 
-Выделение объектов
-==================
+Object Selection
+================
 
-Чтобы разрешить выделение конкретного объекта, необходимо установить флаг ``Selectable`` в панели ``Selection and Outlining``.
+In order to enable selection of a certain object, it is required to enable the ``Selectable`` checkbox on the ``Selection and Outlining`` panel.
 
 .. note::
-    Следует убедится в том, что в панели ``Scene > Object Outlining`` установлено состояние ``ON`` или ``AUTO``.
+    Make sure that the status on the ``Scene > Object Outlining`` panel is set to ``ON`` or ``AUTO``.
 
-Выделение объекта возможно программно через API, например, в модуле ``scenes.js`` имеется функция ``pick_object``, которая по координатам в canvas'е выделяет объект,
+Object selection is possible programmatically via API, for example, in the ``scenes.js`` module there is the ``pick_object`` function which selects an object based on canvas 2D coordinates,
 
 .. code-block:: javascript
 
@@ -147,30 +146,30 @@ Override Bounding Volumes
     var obj = m_scenes.pick_object(x, y);
     // ...
 
-или с использованием :ref:`NLA-скрипта <nla_select_play>`.
+or using the :ref:`NLA Script <nla_select_play>`.
 
-Если для выделяемого объекта в панели ``Object > Selection and Outlining`` установлены флаги ``Enable Outlining`` и ``Outline on Select``, то вызов функции ``pick_object`` приведет к активации :ref:`Outline-анимации <outline>`.
+If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
 
 
 .. _mesh_morphing:
 
-Морфинг
-=======
+Morphing
+========
 
-Для создания ключей деформации (опорных фигур) перейдите во вкладку ``Mesh > Shape keys``.
+Morph targets can be added using Blender’s standard ``Mesh > Shape keys`` interface.
 
 .. image:: src_images/objects/morphing.png
    :align: center
 
 |
 
-Движком поддерживаются все опции типа "Relative" для ключей деформации.
+The engine supports all shape key options under the “Relative” type.
 
-Для изменения значения ключа деформации, существует функция ``apply_shape_key`` в модуле ``geometry.js``.
+To set a shape key value, use the ``apply_shape_key`` method of the ``geometry.js`` module.
 
 .. note::
 
-    На объекте должно стоять свойство *Export Shape Keys*.
+    The object must have ``Export Shape Keys`` parameter enabled.
 
 .. code-block:: javascript
 

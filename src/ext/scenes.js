@@ -63,8 +63,8 @@ var m_vec4     = require("__vec4");
  * @property {Boolean} enable_hmd_stereo Enable hmd stereo
  * @property {Array} distortion_coefs Distortion coefficient list
  * @property {Array} chromatic_aberration_coefs Chromatic aberration coefficient list
- * @property {Number} distortion_scale Distortion scale
- * @property {Number} distortion_offset Distortion offset
+ * @property {Number} base_line_factor Distortion offset
+ * @property {Number} inter_lens_factor Distortion offset
  */
 
 /**
@@ -173,6 +173,21 @@ exports.get_object_by_dupli_name_list = function(name_list, data_id) {
 }
 
 /**
+ * Get world by name.
+ * @method module:scenes.get_world_by_name
+ * @param {String} name World name
+ * @param {Number} [data_id=0] ID of loaded data
+ * @returns {Object3D} Object 3D
+ */
+exports.get_world_by_name = function(name, data_id) {
+    var wrd = m_obj.get_world_by_name(name, data_id | 0);
+    if (wrd)
+        return wrd;
+    else
+        m_print.error("get object " + name + ": not found");
+}
+
+/**
  * Returns object data_id property.
  * @method module:scenes.get_object_data_id
  * @param {Object3D} obj Object 3D
@@ -209,7 +224,7 @@ exports.outlining_is_enabled = function(obj) {
  */
 exports.set_outline_intensity = function(obj, value) {
     if (obj && obj.render && obj.render.outlining)
-        obj.render.outline_intensity = value;
+        m_obj.set_outline_intensity(obj, value);
     else
         m_print.error("set_outline_intensity(): wrong object");
 }
@@ -296,7 +311,7 @@ exports.get_outline_color = function(dest) {
  * @method module:scenes.set_hmd_params
  * @param {HMDParams} hmd_params Head-mounted display params.
  * @cc_externs enable_hmd_stereo distortion_coefs chromatic_aberration_coefs
- * @cc_externs distortion_scale distortion_offset
+ * @cc_externs base_line_factor inter_lens_factor
  */
 exports.set_hmd_params = function(hmd_params) {
     if (!m_scenes.check_active()) {
@@ -307,40 +322,22 @@ exports.set_hmd_params = function(hmd_params) {
     if (!hmd_params)
         return;
 
-    var active_scene = m_scenes.get_active();
-    var subs_stereo = m_scenes.get_subs(active_scene, "STEREO");
+    if (hmd_params.distortion_coefs && !(hmd_params.distortion_coefs instanceof Array))
+        hmd_params.distortion_coefs = null;
 
-    if (!subs_stereo)
-        return;
+    if (hmd_params.chromatic_aberration_coefs && !(hmd_params.chromatic_aberration_coefs instanceof Array))
+        hmd_params.chromatic_aberration_coefs = null;
 
-    if (hmd_params.distortion_coefs && (hmd_params.distortion_coefs instanceof Array)) {
-        subs_stereo.distortion_params[0] = hmd_params.distortion_coefs[0];
-        subs_stereo.distortion_params[1] = hmd_params.distortion_coefs[1];
-        subs_stereo.need_perm_uniforms_update = true;
-    }
+    if (typeof hmd_params.base_line_factor != "number")
+        hmd_params.base_line_factor = null;
 
-    if (hmd_params.chromatic_aberration_coefs && (hmd_params.chromatic_aberration_coefs instanceof Array)) {
-        subs_stereo.chromatic_aberration_coefs[0] = hmd_params.chromatic_aberration_coefs[0];
-        subs_stereo.chromatic_aberration_coefs[1] = hmd_params.chromatic_aberration_coefs[1];
-        subs_stereo.chromatic_aberration_coefs[2] = hmd_params.chromatic_aberration_coefs[2];
-        subs_stereo.chromatic_aberration_coefs[3] = hmd_params.chromatic_aberration_coefs[3];
-        subs_stereo.need_perm_uniforms_update = true;
-    }
+    if (typeof hmd_params.inter_lens_factor != "number")
+        hmd_params.inter_lens_factor = null;
 
-    if (hmd_params.distortion_scale && (typeof hmd_params.distortion_scale == "number")) {
-        subs_stereo.distortion_params[2] = hmd_params.distortion_scale;
-        subs_stereo.need_perm_uniforms_update = true;
-    }
+    if (typeof hmd_params.enable_hmd_stereo != "boolean")
+        hmd_params.enable_hmd_stereo = null;
 
-    if (hmd_params.distortion_offset && (typeof hmd_params.distortion_offset == "number")) {
-        subs_stereo.distortion_params[3] = hmd_params.distortion_offset;
-        subs_stereo.need_perm_uniforms_update = true;
-    }
-
-    if (hmd_params.enable_hmd_stereo && (typeof hmd_params.enable_hmd_stereo == "boolean")) {
-        subs_stereo.enable_hmd_stereo = hmd_params.enable_hmd_stereo;
-        subs_stereo.need_perm_uniforms_update = true;
-    }
+    m_scenes.set_hmd_params(hmd_params);
 }
 
 /**

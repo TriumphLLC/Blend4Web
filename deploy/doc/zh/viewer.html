@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>场景预览器 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="网络播放器" href="web_player.html"/>
+        <link rel="prev" title="项目管理器" href="project_manager.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">场景预览器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-side-panel">侧面板</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order">控制元件列表中上到下依次</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#indicators">指标</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>场景预览器</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scene-viewer">
+<span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id1">场景预览器</a><a class="headerlink" href="#scene-viewer" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#scene-viewer" id="id1">场景预览器</a><ul>
+<li><a class="reference internal" href="#navigation" id="id2">导航</a></li>
+<li><a class="reference internal" href="#the-side-panel" id="id3">侧面板</a><ul>
+<li><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order" id="id4">控制元件列表中上到下依次</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indicators" id="id5">指标</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><a class="reference internal" href="setup.html#getting-started-launching-viewer"><span>运行场景预览器</span></a>.</p>
+<div class="section" id="navigation">
+<h2><a class="toc-backref" href="#id2">导航</a><a class="headerlink" href="#navigation" title="永久链接至标题">¶</a></h2>
+<p>为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> 键：前进，左，后，右，上，下。 箭头和 <code class="docutils literal"><span class="pre">numpad</span></code> 键也可以使用。在 <code class="docutils literal"><span class="pre">Target</span></code> 相机模式有可能集中使用所选对象 <code class="docutils literal"><span class="pre">Z</span></code> 或 <code class="docutils literal"><span class="pre">.(dot)</span></code> 键.</p>
+</div>
+<div class="section" id="the-side-panel">
+<h2><a class="toc-backref" href="#id3">侧面板</a><a class="headerlink" href="#the-side-panel" title="永久链接至标题">¶</a></h2>
+<p>侧面板由三个区域组成：信息板，基本控制按钮和下拉面板与功能区分额外的控制元素列表。</p>
+<a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="control-elements-list-in-top-to-bottom-order">
+<h3><a class="toc-backref" href="#id4">控制元件列表中上到下依次</a><a class="headerlink" href="#control-elements-list-in-top-to-bottom-order" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><strong>建立</strong></dt>
+<dd><p class="first last">引擎建立日期和时间。在开发者版本显示的页面加载时间。</p>
+</dd>
+<dt><strong>场景</strong></dt>
+<dd><p class="first last">从 <code class="docutils literal"><span class="pre">assets.json</span></code> 文件加载场景名称. 文件路径可以由鼠标悬停弹出。</p>
+</dd>
+<dt><strong>加载</strong></dt>
+<dd><p class="first last">加载进度和时间。</p>
+</dd>
+<dt><strong>重置</strong></dt>
+<dd><p class="first last">此按钮删除上次查看现场的保存名称和重新加载页面回显示默认场景。</p>
+</dd>
+<dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
+<dd><p class="first">下拉菜单中选择了引擎的显示质量配置方式。</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
+</div>
+</dd>
+<dt><strong>暂停</strong></dt>
+<dd><p class="first last">暂停渲染。</p>
+</dd>
+<dt><strong>恢复</strong></dt>
+<dd><p class="first last">恢复渲染。</p>
+</dd>
+<dt><strong>自动视图</strong></dt>
+<dd><p class="first last">激活自动场景切换模式;视图之间的延迟时间为1秒。</p>
+</dd>
+<dt><strong>场景</strong></dt>
+<dd><p class="first last">在 <code class="docutils literal"><span class="pre">assets.json</span></code> 文件中的分类和场景的双级列表.</p>
+</dd>
+<dt><strong>动画</strong></dt>
+<dd><p class="first last">动画控件。当观看动画模型时可以：选择一个对象，并使用下拉菜单切换的动画，循环切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。</p>
+</dd>
+<dt><strong>NLA</strong></dt>
+<dd><p class="first last">控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景的设置中启用。</p>
+</dd>
+<dt><strong>形键</strong></dt>
+<dd><p class="first last">形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物体的影响。</p>
+</dd>
+<dt><strong>材质</strong></dt>
+<dd><p class="first last">材质特性设置。材质可以使用下拉菜单中选择。此刻仅支持属性的有限范围。</p>
+</dd>
+<dt><strong>灯光</strong></dt>
+<dd><p class="first last">直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和阳光照明参数也可以调整该面板上。</p>
+</dd>
+<dt><strong>环境</strong></dt>
+<dd><p class="first last">环境照明的参数设置。改变颜色和半球环境模型的强度支持。</p>
+</dd>
+<dt><strong>阴影</strong></dt>
+<dd><p class="first last">阴影参数设置，包括影子瀑布和阴影边缘软化参数。</p>
+</dd>
+<dt><strong>天空</strong></dt>
+<dd><p class="first last">动态天空参数设置，如颜色，太阳的光散射参数等。</p>
+</dd>
+<dt><strong>海</strong></dt>
+<dd><p class="first last">水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学等。</p>
+</dd>
+<dt><strong>风</strong></dt>
+<dd><p class="first last">风参数设置，包括方向和强度。</p>
+</dd>
+<dt><strong>屏幕空间环境遮蔽</strong></dt>
+<dd><p class="first last">环境闭塞参数设置。</p>
+</dd>
+<dt><strong>神光芒</strong></dt>
+<dd><p class="first last">曙暮辉效果参数设置。</p>
+</dd>
+<dt><strong>盛开</strong></dt>
+<dd><p class="first last">明亮的光线效果参数设置。</p>
+</dd>
+<dt><strong>运动模糊</strong></dt>
+<dd><p class="first last">运动模糊效果设置。</p>
+</dd>
+<dt><strong>晕光材质</strong></dt>
+<dd><p class="first last">晕光材质效果设置。</p>
+</dd>
+<dt><strong>景深</strong></dt>
+<dd><p class="first last">景深效果的参数设置。</p>
+</dd>
+<dt><strong>色彩校正</strong></dt>
+<dd><p class="first last">颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。</p>
+</dd>
+<dt><strong>音频</strong></dt>
+<dd><p class="first last">有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。</p>
+</dd>
+<dt><strong>立体视图</strong></dt>
+<dd><p class="first last">有在面板上的立体模式的切换。</p>
+</dd>
+<dt><strong>陀螺仪</strong></dt>
+<dd><p class="first last">用于移动设备的陀螺仪设置可以从这个面板来控制。</p>
+</dd>
+<dt><strong>工具和调试</strong></dt>
+<dd><p class="first last">此面板包含了一系列的调试工具，包括线框模式和后处理阶段查看器开关。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="indicators">
+<h2><a class="toc-backref" href="#id5">指标</a><a class="headerlink" href="#indicators" title="永久链接至标题">¶</a></h2>
+<dl class="docutils">
+<dt><strong>每秒计数帧</strong></dt>
+<dd><p class="first last">这是位于右上角。这显示最后1.5秒的平均和四舍五入的值。</p>
+</dd>
+<dt><strong>视维</strong></dt>
+<dd><p class="first last">这是位于左上角。它显示像素视口的尺寸。</p>
+</dd>
+<dt><strong>选定的物体和控制物体</strong></dt>
+<dd><p class="first last">这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来执行。要直接控制的对象（通常为物理调试）按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击对象。物体的移动是与执行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> 键。要退出控制模式下，按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击一个空的空间。该指标也显示在Blender单位（米当量）所选对象的距离。</p>
+</dd>
+<dt><strong>场景复杂度指标</strong></dt>
+<dd><p class="first last">位于渲染区域的右上角。它显示的顶点，三角形的数目和主渲染场景的WebGL调用（比如，阴影渲染调用未包括）。</p>
+</dd>
+<dt><strong>显存指标</strong></dt>
+<dd><p class="first last">位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，并且还总的内存使用情况。</p>
+</dd>
+<dt><strong>场景加载错误指示器</strong></dt>
+<dd><p class="first last">位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - 警告，绿色表示该场景加载成功。</p>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="web_player.html" class="btn btn-neutral float-right" title="网络播放器" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="project_manager.html" class="btn btn-neutral" title="项目管理器" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

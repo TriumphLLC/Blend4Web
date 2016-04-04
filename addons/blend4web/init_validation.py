@@ -53,24 +53,6 @@ class B4WInitErrorMessage(bpy.types.Operator):
     def draw(self, context):
         self.layout.label(self.message, icon="ERROR")
 
-class B4WVersionMismatchMessage(bpy.types.Operator):
-    bl_idname = "b4w.version_mismatch_message"
-    bl_label = p_("Warning: Blender version mismatch.", "Operator")
-    bl_options = {"INTERNAL"}
-
-    message = StringProperty(name=_("Message string"))
-
-    def execute(self, context):
-        return {'FINISHED'}
-
-    def invoke(self, context, event):
-        wm = context.window_manager
-        context.window.cursor_set("DEFAULT")
-        return wm.invoke_props_dialog(self, 450)
-
-    def draw(self, context):
-        self.layout.label(self.message, icon="ERROR")
-
 class B4WDeprecatedPathToScriptsMessage(bpy.types.Operator):
     bl_idname = "b4w.deprecated_path_to_script"
     bl_label = p_("Warning: Deprecated path to scripts.", "Operator")
@@ -92,7 +74,7 @@ class B4WDeprecatedPathToScriptsMessage(bpy.types.Operator):
 
 @bpy.app.handlers.persistent
 def check_addon_dir(arg):
-    
+
     if check_addon_dir in bpy.app.handlers.scene_update_pre:
         bpy.app.handlers.scene_update_pre.remove(check_addon_dir)
 
@@ -108,20 +90,6 @@ def check_addon_dir(arg):
         bpy.ops.b4w.deprecated_path_to_script("INVOKE_DEFAULT", path=dir_name)
 
 @bpy.app.handlers.persistent
-def validate_version(arg):
-    if (bpy.app.version[0] != blend4web.bl_info["blender"][0]
-            or bpy.app.version[1] != blend4web.bl_info["blender"][1]):
-        message = "Blender " \
-                + ".".join(map(str, blend4web.bl_info["blender"][:-1])) \
-                + " is recommended for the Blend4Web addon. Current version is " \
-                + ".".join(map(str, bpy.app.version[:-1]))
-
-        # remove callback before another scene update aroused by init_error_message
-        if validate_version in bpy.app.handlers.scene_update_pre:
-            bpy.app.handlers.scene_update_pre.remove(validate_version)
-        bpy.ops.b4w.version_mismatch_message("INVOKE_DEFAULT", message=message)
-
-@bpy.app.handlers.persistent
 def bin_invalid_message(arg):
     # remove callback before another scene update aroused by init_error_message
     if bin_invalid_message in bpy.app.handlers.scene_update_pre:
@@ -135,7 +103,6 @@ def bin_invalid_message(arg):
 
 # NOTE: register class permanently to held it even after disabling an addon
 bpy.utils.register_class(B4WInitErrorMessage)
-bpy.utils.register_class(B4WVersionMismatchMessage)
 bpy.utils.register_class(B4WDeprecatedPathToScriptsMessage)
 
 def detect_sdk():
@@ -181,6 +148,3 @@ def detect_sdk():
         return None
 
     return result
-
-def register():
-    bpy.app.handlers.scene_update_pre.append(validate_version)

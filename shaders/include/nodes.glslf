@@ -2177,11 +2177,11 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 normal
     #node_out float value
 
-#node_if USE_OUT_value
+#node_if USE_OUT_color
     color[2] = color[1] = color[0] = ZERO_VALUE_NODES;
 #node_endif
 
-#node_if USE_OUT_value
+#node_if USE_OUT_normal
     normal[2] = normal[1] = normal[0] = ZERO_VALUE_NODES;
 #node_endif
 

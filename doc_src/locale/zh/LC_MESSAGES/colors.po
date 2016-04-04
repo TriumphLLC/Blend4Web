@@ -1,0 +1,406 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../colors.rst:5
+msgid "Color Management"
+msgstr ""
+
+#: ../colors.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../colors.rst:12
+msgid "Gamma Overview"
+msgstr ""
+
+#: ../colors.rst:14
+msgid ""
+"The essence of gamma correction is packing the image brightness channel "
+"into  8 bits of information."
+msgstr ""
+
+#: ../colors.rst:16
+msgid ""
+"Standard (non-HDR) images are always stored in non-linear color space "
+"where the darker components are encoded using more bits than the brighter"
+" ones. That means that a bigger RGB value corresponds to 0.5 of the real "
+"light intensity (a physical quantity called illuminance) - in a simplest"
+"  case this value equals to 0.5 ^ (1/2.2) = 0.73."
+msgstr ""
+
+#: ../colors.rst:18
+msgid ""
+"Overwise, 8 bit of information will not be enough to encode the light "
+"intensity. This will result in incorrect rendering of darker tones. For "
+"example, dark  gradients will look stepped."
+msgstr ""
+
+#: ../colors.rst:20
+msgid ""
+"Therefore, web browsers, as well as many other programs for viewing and "
+"manipulating images, work in non-linear space. However, 3D engines and "
+"renderers work in linear space, because it is the only correct way to "
+"represent light behavior in the real world. For example, the illuminance "
+"from two identical lamps exceeds the illuminance from one lamp exactly by"
+" two times."
+msgstr ""
+
+#: ../colors.rst:22
+msgid ""
+"Undoubtedly, 8 bit of information will not be enough in this case. This "
+"can be clearly seen from the table in which approximate illuminance "
+"values for some real light sources are shown."
+msgstr ""
+
+#: ../colors.rst:25
+msgid "Description"
+msgstr ""
+
+#: ../colors.rst:25
+msgid "Illuminance, lux"
+msgstr ""
+
+#: ../colors.rst:27
+msgid "Summer noon"
+msgstr ""
+
+#: ../colors.rst:27
+msgid "17 000"
+msgstr ""
+
+#: ../colors.rst:29
+msgid "Winter noon"
+msgstr ""
+
+#: ../colors.rst:29
+msgid "5 000"
+msgstr ""
+
+#: ../colors.rst:31
+msgid "Dull day"
+msgstr ""
+
+#: ../colors.rst:31
+msgid "1 000"
+msgstr ""
+
+#: ../colors.rst:33
+msgid "In a light room"
+msgstr ""
+
+#: ../colors.rst:33
+msgid "100"
+msgstr ""
+
+#: ../colors.rst:35
+msgid "Full moon by night"
+msgstr ""
+
+#: ../colors.rst:35
+msgid "0.2"
+msgstr ""
+
+#: ../colors.rst:37
+msgid "Moonless light"
+msgstr ""
+
+#: ../colors.rst:37
+msgid "0.001"
+msgstr ""
+
+#: ../colors.rst:42
+msgid ""
+"When the ``Color Management > Display Device > sRGB`` option is enabled "
+"for a scene, Blender works in a linear space. Material colors and lamp "
+"settings correspond to physical values. For texture images (except normal"
+" maps) it is required to select the ``Image > Input Color Space > sRGB`` "
+"option. In this case an automatic image unpacking (sRGB -> Linear) is "
+"performed at the time of rendering."
+msgstr ""
+
+#: ../colors.rst:46
+msgid "Human Vision and Monitors"
+msgstr ""
+
+#: ../colors.rst:48
+msgid ""
+"While the human vision is non-linear (a human recognizes the darker light"
+" tints better than the brighter ones), the light coming into the eye "
+"still obeys the physical laws (see the lamps example)."
+msgstr ""
+
+#: ../colors.rst:50
+msgid ""
+"In CRT monitors the brightness is dependent non-linearly upon the "
+"electric voltage applied to the monitor’s input (the voltage itself is "
+"determined by the color channel value in the video memory). LCD monitors "
+"mimic the same characteristics. Nevertheless the light emitted by such "
+"monitors obeys the physical laws. For example the addition of a second "
+"light source to a virtual scene should cause the brightness to double (in"
+" the perfect case)."
+msgstr ""
+
+#: ../colors.rst:52
+msgid ""
+"Therefore, the perception characteristics of the human eye are the reason"
+" due to which it is possible to pack color channels. At the same time, "
+"the technical characteristics of monitors have a secondary significance "
+"for gamma correction."
+msgstr ""
+
+#: ../colors.rst:56
+msgid "Gamma Formula"
+msgstr ""
+
+#: ../colors.rst:58
+msgid "Used in the following simplified formula:"
+msgstr ""
+
+#: ../colors.rst:60
+msgid "V\\ :sub:`out` = V\\ :sub:`in`\\ :sup:`γ`"
+msgstr ""
+
+#: ../colors.rst:62
+msgid ""
+"γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case "
+"1/2.2  and 2.2 values are used respectively. Hereinafter the "
+"\\“packing\\” (Linear -> sRGB) and \\“unpacking\\” (sRGB -> Linear) terms"
+" are used instead of \\“gamma correction\\”."
+msgstr ""
+
+#: ../colors.rst:72
+msgid "Gamma in Node Materials"
+msgstr ""
+
+#: ../colors.rst:75
+msgid "Nodes for Colouring"
+msgstr ""
+
+#: ../colors.rst:77
+msgid ""
+"Unpacking (sRGB -> Linear) is required when textures and vertex colors "
+"are used for colouring (not for masking). The texture node and Vertex "
+"Color output of Geometry node implement unpacking automatically."
+msgstr ""
+
+#: ../colors.rst:79
+msgid ""
+"Note that the alpha channel of a texture node is not corrected. Its "
+"values are in the linear space."
+msgstr ""
+
+#: ../colors.rst:82
+msgid "Nodes for Masking"
+msgstr ""
+
+#: ../colors.rst:84
+msgid ""
+"Textures and vertex colors can be used as masks i.e. input data for some "
+"mathematical operations. In such a case the packing operation is "
+"required."
+msgstr ""
+
+#: ../colors.rst:86
+msgid ""
+"Keep in mind that a texture node and `Vertex Color` output of `Geometry` "
+"node implement unpacking automatically. This results in necessity of the "
+"additional transformation back to the non-linear space, for which the "
+"`LINEAR_TO_SRGB` or `GAMMA` node with γ = 1/2.2 is used."
+msgstr ""
+
+#: ../colors.rst:89
+msgid ""
+"`LINEAR_TO_SRGB` and `SRGB_TO_LINEAR` nodes are deprecated. `GAMMA` node "
+"should be used instead."
+msgstr ""
+
+#: ../colors.rst:92
+msgid "Normal Maps"
+msgstr ""
+
+#: ../colors.rst:94
+msgid "No transformations are performed for normal maps."
+msgstr ""
+
+#: ../colors.rst:98
+msgid "Summary Table"
+msgstr ""
+
+#: ../colors.rst:102
+msgid "Use case"
+msgstr ""
+
+#: ../colors.rst:102
+msgid "Correction"
+msgstr ""
+
+#: ../colors.rst:104
+msgid "Texture for colouring"
+msgstr ""
+
+#: ../colors.rst:104
+msgid ""
+"implemented automatically in the texture node (the alpha channel is not "
+"corrected)"
+msgstr ""
+
+#: ../colors.rst:108
+msgid "Texture for masking"
+msgstr ""
+
+#: ../colors.rst:108 ../colors.rst:112
+msgid "GAMMA with γ = 0.45"
+msgstr ""
+
+#: ../colors.rst:110
+msgid "Vertex color for colouring"
+msgstr ""
+
+#: ../colors.rst:110
+msgid "implemented automatically"
+msgstr ""
+
+#: ../colors.rst:112
+msgid "Vertex color for masking"
+msgstr ""
+
+#: ../colors.rst:114
+msgid "Normal map"
+msgstr ""
+
+#: ../colors.rst:114
+msgid "not required"
+msgstr ""
+
+#: ../colors.rst:120
+msgid "Alpha Compositing"
+msgstr ""
+
+#: ../colors.rst:123
+msgid "Overview"
+msgstr ""
+
+#: ../colors.rst:125
+msgid ""
+"Physically correct alpha compositing is performed according to the "
+"formula [`source` "
+"<http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
+msgstr ""
+
+#: ../colors.rst:127
+msgid ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
+msgstr ""
+
+#: ../colors.rst:129
+msgid ""
+"This formula differs from the classic mix operation (aka convex "
+"combination) because it has the :math:`\\alpha_b` multiplier in the "
+"second summand. Therefore not only the :math:`\\alpha_a` value of the "
+"source pixel should be known for alpha compositing, but also the "
+":math:`\\alpha_b` value of the pixel over which the rendering is "
+"performed."
+msgstr ""
+
+#: ../colors.rst:131
+msgid ""
+"In case of preliminary multiplication of the :math:`\\alpha` values by "
+"the color channels (so called premultiplied alpha) the formula becomes as"
+" following:"
+msgstr ""
+
+#: ../colors.rst:133
+msgid ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
+msgstr ""
+
+#: ../colors.rst:135
+msgid ""
+"The last formula is used also to calculate the resulting "
+":math:`\\alpha_o` value:"
+msgstr ""
+
+#: ../colors.rst:137
+msgid ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
+msgstr ""
+
+#: ../colors.rst:139
+msgid ""
+"Preliminary multiplication of the color channels by the :math:`\\alpha`  "
+"values allows to save two multiplication operations. The more significant"
+" thing is that the derived formula can be used repeatedly without the "
+"need to divide the :math:`C_o` color by the αoαo value on each consequent"
+" iteration."
+msgstr ""
+
+#: ../colors.rst:143
+msgid "Implementation"
+msgstr ""
+
+#: ../colors.rst:145
+msgid "The blending function used in Blend4Web is the following:"
+msgstr ""
+
+#: ../colors.rst:151
+msgid ""
+"WebGL context initialization is performed using the premultipliedAlpha = "
+"true parameter (that is the default value). Also multiplication of all "
+"the color channels by the :math:`\\alpha` value is performed on the "
+"output of the shaders."
+msgstr ""
+
+#: ../colors.rst:158 ../colors.rst:153
+msgid "Color Correction"
+msgstr ""
+
+#: ../colors.rst:165
+msgid "Activation"
+msgstr ""
+
+#: ../colors.rst:167
+msgid "Activate the ``Color Correction`` panel under the ``Render`` tab."
+msgstr ""
+
+#: ../colors.rst:170
+msgid "Additional settings"
+msgstr ""
+
+#: ../colors.rst:173
+msgid "*Brightness*"
+msgstr ""
+
+#: ../colors.rst:173 ../colors.rst:176
+msgid "The default value is 0.0."
+msgstr ""
+
+#: ../colors.rst:176
+msgid "*Contrast*"
+msgstr ""
+
+#: ../colors.rst:179
+msgid "*Exposure*"
+msgstr ""
+
+#: ../colors.rst:179 ../colors.rst:182
+msgid "The default value is 1.0."
+msgstr ""
+
+#: ../colors.rst:186
+msgid "*Saturation*"
+msgstr ""
+

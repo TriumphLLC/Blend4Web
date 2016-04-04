@@ -12,6 +12,7 @@ var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_lights   = require("lights");
 var m_main     = require("main");
+var m_math     = require("math");
 var m_mouse    = require("mouse");
 var m_obj      = require("objects");
 var m_scs      = require("scenes");
@@ -62,6 +63,7 @@ var _quat_tmp          = new Float32Array(4);
 var _quat_tmp2         = new Float32Array(4);
 var _quat_tmp3         = new Float32Array(4);
 
+var _pline_tmp = m_math.create_pline();
 
 var FIREWORKS_INTERVAL        = 500;
 var FIREWORKS_QUANTITY        = 16;
@@ -183,8 +185,6 @@ function init_cb(canvas_elem, success) {
     }
 
     _canvas_elem = canvas_elem;
-
-    m_app.enable_controls();
 
     m_main.pause();
 
@@ -585,7 +585,8 @@ function create_new_rocket(x, y) {
 }
 
 function set_rocket_translation(x, y) {
-    var camera_ray   = m_cam.calc_ray(_cam, x, y, _vec3_tmp);
+    var pline = m_cam.calc_ray(_cam, x, y, _pline_tmp);
+    var camera_ray = m_math.get_pline_directional_vec(pline, _vec3_tmp)
     var camera_trans = m_trans.get_translation(_cam, _vec3_tmp2);
 
     var dist  = m_vec3.scale(camera_ray, ROCKET_DIST_FROM_CAMERA, _vec3_tmp3);
@@ -861,11 +862,11 @@ function action_firework_item(firework_num) {
     var set_tsr    = m_trans.set_tsr;
 
     var firework_1_copy   = copy_obj(_firework_1, "firework_" +
-                                     firework_num);
+                                     firework_num, true);
     var firework_2_1_copy = copy_obj(_firework_2_1, "firework_" +
-                                     firework_num + _rocket_num + 1);
+                                     firework_num + _rocket_num + 1, true);
     var firework_2_2_copy = copy_obj(_firework_2_2, "firework_" +
-                                     firework_num + _rocket_num + 2);
+                                     firework_num + _rocket_num + 2, true);
 
     show_obj(firework_1_copy);
     show_obj(firework_2_1_copy);

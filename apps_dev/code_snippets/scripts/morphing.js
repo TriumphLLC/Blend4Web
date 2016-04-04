@@ -26,8 +26,6 @@ function init_cb(canvas_elem, success) {
         console.log("b4w init failure");
         return;
     }
-
-    m_app.enable_controls();
     load();
 }
 

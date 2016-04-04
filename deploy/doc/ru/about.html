@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Общие сведения &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Общие сведения &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="#"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Функционал движка" href="features.html"/>
         <link rel="prev" title="Содержание" href="index.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -84,32 +84,31 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Общие сведения</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#blend4web">Что такое Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-engine">&#8220;Движок&#8221;</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-graphics-engine">Графический движок, трехмерный движок</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#webgl">Что такое WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#browser-webgl-support">Поддержка WebGL в браузерах</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Полная поддержка</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Экспериментальная поддержка</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Мобильные платформы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-blend4web">Что такое Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-engines">&#8220;Движок&#8221;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphics-engine-game-engine">Графический движок, трехмерный движок</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">Что такое WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webgl-browsers-support">Поддержка WebGL в браузерах</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#full-support">Полная поддержка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#experimental-support">Экспериментальная поддержка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mobile-platforms">Мобильные платформы</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#about-webgl-benefits">Преимущества WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#blender">Что такое Blender</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#d">3D моделирование</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-browser-tech">Браузерные технологии</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-interactive-graphics">Интерактивная графика</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-drivers-video-cards">Видео-карты и драйверы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advantages-of-webgl">Преимущества WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-blender">Что такое Blender</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d-modeling">3D моделирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#browser-technologies">Браузерные технологии</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-graphics">Интерактивная графика</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-cards-and-drivers">Видео-карты и драйверы</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -155,6 +154,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -173,41 +173,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="about">
-<span id="id1"></span><h1>Общие сведения<a class="headerlink" href="#about" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="blend4web">
-<span id="about-product"></span><span id="index-0"></span><h2>Что такое Blend4Web<a class="headerlink" href="#blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+  <div class="section" id="overview">
+<span id="about"></span><h1>Общие сведения<a class="headerlink" href="#overview" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="what-s-blend4web">
+<span id="about-product"></span><span id="index-0"></span><h2>Что такое Blend4Web<a class="headerlink" href="#what-s-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Blend4Web - это программная среда для подготовки и интерактивного отображения трехмерного аудиовизуального контента в браузерах, т.е. трехмерный «движок» (жаргонизм от англ. «engine»).</p>
 <p>Платформа предназначена для создания визуализаций, презентаций, интернет-магазинов, игр и других &#8220;насыщенных&#8221; web-приложений.</p>
 <p>Фреймворк Blend4Web имеет тесную интеграцию с пакетом 3D моделирования и анимации Blender (отсюда название). Отображение контента осуществляется средствами WebGL и других браузерных технологий, без использования плагинов.</p>
 <p>Технически Blend4Web представляет собой программную библиотеку, подключаемую в web-странице, аддон (дополнение) к программе Blender, а также инструменты для отладки и оптимизации.</p>
 <p>3D движок Blend4Web разрабатывается сотрудниками ООО «Триумф» с 2010 г. Первый релиз движка состоялся 28 марта 2014 г.</p>
 </div>
-<div class="section" id="about-engine">
-<span id="index-1"></span><span id="id2"></span><h2>&#8220;Движок&#8221;<a class="headerlink" href="#about-engine" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="about-engines">
+<span id="about-engine"></span><span id="index-1"></span><h2>&#8220;Движок&#8221;<a class="headerlink" href="#about-engines" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Движок - это обособленная часть программного кода, используемая внешними приложениями для реализации нужного им функционала.</p>
 <p>Типы движков: сайтовый движок, блоговый движок, движок интернет-магазина, wiki-движок, поисковый движок, игровой движок и т.д. Экономический смысл существования программных движков заключается в многократном использовании одного и того же функционала. Например, используя тот или иной движок, разработчики могут относительно дешево создавать интернет-магазины или игры.</p>
 </div>
-<div class="section" id="about-graphics-engine">
-<span id="index-2"></span><span id="id3"></span><h2>Графический движок, трехмерный движок<a class="headerlink" href="#about-graphics-engine" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="graphics-engine-game-engine">
+<span id="about-graphics-engine"></span><span id="index-2"></span><h2>Графический движок, трехмерный движок<a class="headerlink" href="#graphics-engine-game-engine" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Графический движок выполняет специализированные функции по отображению графики. Он является промежуточным звеном между:</p>
 <blockquote>
 <div><ul class="simple">
-<li>высокоуровневой прикладной частью (игровой логикой, бизнес-логикой) и</li>
-<li>низкоуровневой системной частью (например, графической библиотекой <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> и нижлежащими <a class="reference internal" href="#about-drivers-video-cards"><span>драйверами</span></a>).</li>
+<li><p class="first">высокоуровневой прикладной частью (игровой логикой, бизнес-логикой) и</p>
+</li>
+<li><p class="first">низкоуровневой системной частью (например, графической библиотекой <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> и нижлежащими <a class="reference internal" href="#about-drivers-video-cards"><span>драйверами</span></a>).</p>
+</li>
 </ul>
 </div></blockquote>
 <p>Графический движок может объединяться со звуковой системой, физическим движком, системой, реализующей искусственный интеллект, сетевой системой, а также редактором сцен и логики, образуя интегрированный инструментарий для создания 3D приложений - <strong>трехмерный движок</strong>.</p>
 </div>
-<div class="section" id="webgl">
-<span id="about-webgl"></span><span id="index-3"></span><h2>Что такое WebGL<a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="what-s-webgl">
+<span id="about-webgl"></span><span id="index-3"></span><h2>Что такое WebGL<a class="headerlink" href="#what-s-webgl" title="Ссылка на этот заголовок">¶</a></h2>
 <p>WebGL (Web Graphics Library, т.е. графическая библиотека для использования в веб-приложениях) - одна из современных браузерных технологий, позволяющая создавать трехмерные графические веб-приложения. Другими словами WebGL - это &#8220;3D в браузере&#8221;.</p>
 </div>
-<div class="section" id="browser-webgl-support">
-<span id="index-4"></span><span id="id4"></span><h2>Поддержка WebGL в браузерах<a class="headerlink" href="#browser-webgl-support" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="webgl-browsers-support">
+<span id="browser-webgl-support"></span><span id="index-4"></span><h2>Поддержка WebGL в браузерах<a class="headerlink" href="#webgl-browsers-support" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В настоящий момент технология WebGL в той или иной степени поддерживается во всех браузерах.</p>
-<div class="section" id="id5">
-<h3>Полная поддержка<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="full-support">
+<h3>Полная поддержка<a class="headerlink" href="#full-support" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="http://www.google.com/chrome">Chrome</a></li>
 <li><a class="reference external" href="http://browser.yandex.ru/">Yandex Browser</a></li>
@@ -216,15 +218,15 @@
 <li><a class="reference external" href="http://www.apple.com/safari/">Safari</a> 8+</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>Экспериментальная поддержка<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="experimental-support">
+<h3>Экспериментальная поддержка<a class="headerlink" href="#experimental-support" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a> 11</li>
 <li><a class="reference external" href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a></li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Мобильные платформы<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="mobile-platforms">
+<h3>Мобильные платформы<a class="headerlink" href="#mobile-platforms" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li>Android</li>
 <li>BlackBerry</li>
@@ -236,79 +238,114 @@
 </ul>
 </div>
 </div>
-<div class="section" id="about-webgl-benefits">
-<span id="index-5"></span><span id="id8"></span><h2>Преимущества WebGL<a class="headerlink" href="#about-webgl-benefits" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="advantages-of-webgl">
+<span id="about-webgl-benefits"></span><span id="index-5"></span><h2>Преимущества WebGL<a class="headerlink" href="#advantages-of-webgl" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>работает в браузерах без установки дополнительных программ (плагинов)</li>
-<li>кроссплатформенный, предназначен для работы во всех стационарных и мобильных системах</li>
-<li>является <a class="reference external" href="http://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82">открытым стандартом</a>, не требует лицензионных отчислений</li>
-<li>поддерживается ведущими участниками рынка IT (Google, Apple, Microsoft, Nvidia, Samsung, Adobe и др.)</li>
-<li>основан на знакомой разработчикам технологии OpenGL</li>
-<li>интегрируется с другими <a class="reference internal" href="#about-browser-tech"><span>браузерными технологиями</span></a></li>
+<li><p class="first">работает в браузерах без установки дополнительных программ (плагинов)</p>
+</li>
+<li><p class="first">кроссплатформенный, предназначен для работы во всех стационарных и мобильных системах</p>
+</li>
+<li><p class="first">является <a class="reference external" href="http://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82">открытым стандартом</a>, не требует лицензионных отчислений</p>
+</li>
+<li><p class="first">поддерживается ведущими участниками рынка IT (Google, Apple, Microsoft, Nvidia, Samsung, Adobe и др.)</p>
+</li>
+<li><p class="first">основан на знакомой разработчикам технологии OpenGL</p>
+</li>
+<li><p class="first">интегрируется с другими <a class="reference internal" href="#about-browser-tech"><span>браузерными технологиями</span></a></p>
+</li>
 </ul>
 </div>
-<div class="section" id="blender">
-<span id="about-blender"></span><span id="index-6"></span><h2>Что такое Blender<a class="headerlink" href="#blender" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="what-s-blender">
+<span id="about-blender"></span><span id="index-6"></span><h2>Что такое Blender<a class="headerlink" href="#what-s-blender" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Blender - это популярная программа для создания 3D-моделей и анимации, бесплатная и с открытым кодом. Подготовленные в программе модели и сцены могут быть отображены, например, с помощью <a class="reference internal" href="#about-graphics-engine"><span>трехмерного движка</span></a> на странице веб-сайта.</p>
 </div>
-<div class="section" id="d">
-<span id="about-modelling"></span><span id="index-7"></span><h2>3D моделирование<a class="headerlink" href="#d" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="d-modeling">
+<span id="about-modelling"></span><span id="index-7"></span><h2>3D моделирование<a class="headerlink" href="#d-modeling" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Создание графических ресурсов требует наличия подготовленных специалистов - 3D-художников.</p>
 <p>Типичный рабочий процесс может состоять из следующих этапов:</p>
 <ul class="simple">
-<li>подбор фотографий и/или создание концепта и скетчей (&#8220;спереди&#8221;-&#8220;сбоку&#8221;-&#8220;сверху&#8221;) будущей модели или сцены</li>
-<li>моделирование - создается трехмерная модель, состоящая из многоугольников (полигонов)</li>
-<li>текстурная развертка - на модели создается разметка для последующего наложения текстур (плоских изображений)</li>
-<li>текстурирование - на 3D-модель накладываются текстуры</li>
-<li>подбор материалов - назначение различным частям модели материалов и их настройка (например, деревянная дверь с металлической ручкой)</li>
-<li>риггинг (от англ. rigging, т.е. &#8220;оснастка&#8221;) - к модели прикрепляются управляющие элементы (&#8220;кости&#8221; &#8220;скелета&#8221;) с целью дальнейшей анимации</li>
-<li>анимация - модель приводится в движение с целью визуализации действий (например, персонажей)</li>
-<li>экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее конечном виде, например, на веб-странице</li>
+<li><p class="first">подбор фотографий и/или создание концепта и скетчей (&#8220;спереди&#8221;-&#8220;сбоку&#8221;-&#8220;сверху&#8221;) будущей модели или сцены</p>
+</li>
+<li><p class="first">моделирование - создается трехмерная модель, состоящая из многоугольников (полигонов)</p>
+</li>
+<li><p class="first">текстурная развертка - на модели создается разметка для последующего наложения текстур (плоских изображений)</p>
+</li>
+<li><p class="first">текстурирование - на 3D-модель накладываются текстуры</p>
+</li>
+<li><p class="first">подбор материалов - назначение различным частям модели материалов и их настройка (например, деревянная дверь с металлической ручкой)</p>
+</li>
+<li><p class="first">риггинг (от англ. rigging, т.е. &#8220;оснастка&#8221;) - к модели прикрепляются управляющие элементы (&#8220;кости&#8221; &#8220;скелета&#8221;) с целью дальнейшей анимации</p>
+</li>
+<li><p class="first">анимация - модель приводится в движение с целью визуализации действий (например, персонажей)</p>
+</li>
+<li><p class="first">экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее конечном виде, например, на веб-странице</p>
+</li>
 </ul>
 <p>Кроме того, в процессе создания 3D-моделей часто используются техники повышения реализма, требующие отдельных этапов:</p>
 <ul class="simple">
-<li>создание высокополигональной модели - создается детализированная версия модели</li>
-<li>&#8220;запекание&#8221; карты нормалей - детали из высокополигональной модели переносятся на основную модель в виде специальной текстуры (карты нормалей)</li>
-<li>создание карты отражения - различным частям модели назначается различный цвет и степень отражения света</li>
-<li>запекание карт окружения - производится с целью реализации эффекта отражения окружающей среды на поверхности модели</li>
-<li>настройка камеры и источников света на сцене</li>
-<li>настройка параметров физической симуляции - частицы, ткань</li>
+<li><p class="first">создание высокополигональной модели - создается детализированная версия модели</p>
+</li>
+<li><p class="first">&#8220;запекание&#8221; карты нормалей - детали из высокополигональной модели переносятся на основную модель в виде специальной текстуры (карты нормалей)</p>
+</li>
+<li><p class="first">создание карты отражения - различным частям модели назначается различный цвет и степень отражения света</p>
+</li>
+<li><p class="first">запекание карт окружения - производится с целью реализации эффекта отражения окружающей среды на поверхности модели</p>
+</li>
+<li><p class="first">настройка камеры и источников света на сцене</p>
+</li>
+<li><p class="first">настройка параметров физической симуляции - частицы, ткань</p>
+</li>
 </ul>
 <p>Затраты времени при изготовлении 3D-моделей и анимации зависят от их сложности и требуемого качества, и могут изменяться от 1-2 дней (например, игровой предмет) до 1-2 недель (например, детализованная модель самолета) и даже нескольких месяцев (реалистичные персонажи с наборами одежды, волос, лиц, с анимацией и настройкой пропорций фигуры).</p>
 </div>
-<div class="section" id="about-browser-tech">
-<span id="index-8"></span><span id="id10"></span><h2>Браузерные технологии<a class="headerlink" href="#about-browser-tech" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="browser-technologies">
+<span id="about-browser-tech"></span><span id="index-8"></span><h2>Браузерные технологии<a class="headerlink" href="#browser-technologies" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Браузер (от англ. &#8220;browser&#8221;, т.е. &#8220;просмотрщик&#8221;) - программа для воспроизведения содержимого сети Интернет. На заре развития интернет-технологий роль браузера сводилась к просмотру текстовых страниц с включениями статических изображений (&#8220;гипер-текст&#8221;). Современные браузеры представляют собой полнофункциональные платформы для создания мультимедийных веб-приложений.</p>
 <p>Среди реализованных и перспективных возможностей браузеров, используемых в <a class="reference internal" href="#about-product"><span>Blend4Web</span></a>, можно отметить следующие технологии:</p>
 <ul class="simple">
-<li>трехмерная графика, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></li>
-<li>типизированные массивы, <a class="reference external" href="https://www.khronos.org/registry/typedarray/specs/latest/">Typed Array</a></li>
-<li>временной контроль анимации (requestAnimationFrame), <a class="reference external" href="http://www.w3.org/TR/animation-timing/">Timing control for script-based animations</a></li>
-<li>двухмерная графика, <a class="reference external" href="http://www.w3.org/TR/2dcontext/">HTML Canvas 2D Context</a></li>
-<li>обработка звука, <a class="reference external" href="http://www.w3.org/TR/webaudio/">Web Audio API</a></li>
-<li>загрузка бинарных данных, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></li>
-<li>полноэкранный режим, <a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">Fullscreen</a></li>
-<li>захват курсора мыши, <a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">Pointer Lock</a></li>
-<li>многопоточные вычисления, <a class="reference external" href="http://www.w3.org/TR/workers/">Web Workers</a></li>
-<li>ориентация и перемещение мобильных устройств, <a class="reference external" href="http://www.w3.org/TR/orientation-event/">Device Orientation</a></li>
+<li><p class="first">трехмерная графика, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></p>
+</li>
+<li><p class="first">типизированные массивы, <a class="reference external" href="https://www.khronos.org/registry/typedarray/specs/latest/">Typed Array</a></p>
+</li>
+<li><p class="first">временной контроль анимации (requestAnimationFrame), <a class="reference external" href="http://www.w3.org/TR/animation-timing/">Timing control for script-based animations</a></p>
+</li>
+<li><p class="first">двухмерная графика, <a class="reference external" href="http://www.w3.org/TR/2dcontext/">HTML Canvas 2D Context</a></p>
+</li>
+<li><p class="first">обработка звука, <a class="reference external" href="http://www.w3.org/TR/webaudio/">Web Audio API</a></p>
+</li>
+<li><p class="first">загрузка бинарных данных, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></p>
+</li>
+<li><p class="first">полноэкранный режим, <a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">Fullscreen</a></p>
+</li>
+<li><p class="first">захват курсора мыши, <a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">Pointer Lock</a></p>
+</li>
+<li><p class="first">многопоточные вычисления, <a class="reference external" href="http://www.w3.org/TR/workers/">Web Workers</a></p>
+</li>
+<li><p class="first">ориентация и перемещение мобильных устройств, <a class="reference external" href="http://www.w3.org/TR/orientation-event/">Device Orientation</a></p>
+</li>
 </ul>
 <p>Другие перспективные технологии:</p>
 <ul class="simple">
-<li>векторная графика, <a class="reference external" href="http://www.w3.org/TR/SVG/">Scalable Vector Graphics (SVG)</a></li>
-<li>безопасный доступ к файлам, <a class="reference external" href="http://www.w3.org/TR/FileAPI/">File API</a>, <a class="reference external" href="http://www.w3.org/TR/file-system-api/">File API: Directories and System</a></li>
-<li>потоковое соединение между браузерами, <a class="reference external" href="http://dev.w3.org/2011/webrtc/editor/webrtc.html">WebRTC</a></li>
-<li>постоянное сетевое подключение, <a class="reference external" href="http://www.w3.org/TR/websockets/">The WebSocket API</a></li>
-<li>игровые пульты, <a class="reference external" href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">Gamepad</a></li>
+<li><p class="first">векторная графика, <a class="reference external" href="http://www.w3.org/TR/SVG/">Scalable Vector Graphics (SVG)</a></p>
+</li>
+<li><p class="first">безопасный доступ к файлам, <a class="reference external" href="http://www.w3.org/TR/FileAPI/">File API</a>, <a class="reference external" href="http://www.w3.org/TR/file-system-api/">File API: Directories and System</a></p>
+</li>
+<li><p class="first">потоковое соединение между браузерами, <a class="reference external" href="http://dev.w3.org/2011/webrtc/editor/webrtc.html">WebRTC</a></p>
+</li>
+<li><p class="first">постоянное сетевое подключение, <a class="reference external" href="http://www.w3.org/TR/websockets/">The WebSocket API</a></p>
+</li>
+<li><p class="first">игровые пульты, <a class="reference external" href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">Gamepad</a></p>
+</li>
 </ul>
 </div>
-<div class="section" id="about-interactive-graphics">
-<span id="index-9"></span><span id="id12"></span><h2>Интерактивная графика<a class="headerlink" href="#about-interactive-graphics" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="interactive-graphics">
+<span id="about-interactive-graphics"></span><span id="index-9"></span><h2>Интерактивная графика<a class="headerlink" href="#interactive-graphics" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Термин &#8220;интерактивный&#8221; в приложении к компьютерной графике означает, что пользователь имеет возможность взаимодействовать с постоянно меняющимся изображением. Например, пользователь может изменять направление взгляда в 3D сцене, перемещать объекты, инициировать анимацию и выполнять другие действия, обычно ассоциирующиеся с компьютерными играми.</p>
 <p>Интерактивность графики достигается за счет частой смены изображений, так что действие пользователя (например, движение курсора или нажатие кнопки) в промежутках между кадрами приводит к изменению изображения в следующем кадре. Изображения должны сменять друг друга так часто, чтобы человеческий глаз не был способен распознать их по отдельности (быстрее 30 кадров в секунду).</p>
 <p>Близким по смыслу термином является также &#8220;графика реального времени&#8221;, или &#8220;рендеринг реального времени&#8221; (от англ. rendering, т.е. &#8220;отображение&#8221;).</p>
 </div>
-<div class="section" id="about-drivers-video-cards">
-<span id="index-10"></span><span id="id13"></span><h2>Видео-карты и драйверы<a class="headerlink" href="#about-drivers-video-cards" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="video-cards-and-drivers">
+<span id="about-drivers-video-cards"></span><span id="index-10"></span><h2>Видео-карты и драйверы<a class="headerlink" href="#video-cards-and-drivers" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Интерактивная графика реализуется специализированной аппаратной частью современных компьютеров, называемой графическим процессором, который может быть выполнен в виде отдельного устройства (видео-карты) или как часть центрального процессора.</p>
 <p>Основные производители графических процессоров (в скобках указаны их торговые марки), для настольных компьютеров - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), для мобильных устройств - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno).</p>
 <p>Доступ программ к ресурсам графического процессора осуществляется через программу-посредника, называемого драйвером. Важным условием для корректной работы интерактивных графических программ является наличие в системе драйверов последней версии. Драйверы можно установить (или обновить), загрузив их с соответствующих сайтов производителей графических процессоров. Подробнее в разделе <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>Ошибка инициализации WebGL</span></a>.</p>
@@ -335,11 +372,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -357,7 +395,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -387,14 +425,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

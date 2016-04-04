@@ -52,19 +52,28 @@ exports.prerender_subs = function(subs) {
 
         for (var i = 0; i < bundles.length; i++) {
             var bundle = bundles[i];
+            var batch = bundle.batch;
             if (subs.type == "MAIN_CUBE_REFLECT") {
                 for (var j = 0; j < 6; j++) {
                     subs.camera.frustum_planes = subs.cube_cam_frustums[j];
                     bundle.do_render_cube[j] = prerender_bundle(bundle, subs);
-                    if (bundle.do_render_cube[j])
+                    if (bundle.do_render_cube[j]) {
                         has_render_bundles = true;
+                        update_particles_buffers(batch);
+                    }
                 }
             } else {
                 bundle.do_render = prerender_bundle(bundle, subs);
-                if (bundle.do_render)
+                if (bundle.do_render) {
                     has_render_bundles = true;
+                    update_particles_buffers(batch);
+                }
             }
+
+            if (subs.need_perm_uniforms_update)
+                batch.shader.need_uniforms_update = true;
         }
+        subs.need_perm_uniforms_update = false;
 
         switch (subs.type) {
         case "WIREFRAME":
@@ -83,6 +92,13 @@ exports.prerender_subs = function(subs) {
             }
             break;
         }
+    } else if (subs.need_perm_uniforms_update) {
+        var bundles = subs.bundles;
+        for (var i = 0; i < bundles.length; i++) {
+            if (subs.need_perm_uniforms_update)
+                bundles[i].batch.shader.need_uniforms_update = true;
+        }
+        subs.need_perm_uniforms_update = false;
     }
     if (subs.type == "MAIN_BLEND")
         zsort(subs);
@@ -141,18 +157,15 @@ function prerender_bundle(bundle, subs) {
 
     obj_render.is_visible = false;
 
+    if (obj_render.hide)
+        return false;
+
     var cam = subs.camera;
 
     if (subs.type == "SHADOW_CAST")
         var eye = cam.lod_eye;
     else
         var eye = m_tsr.get_trans_value(cam.world_tsr, _vec3_tmp);
-
-    if (!obj_render)
-        return false;
-
-    if (obj_render.hide)
-        return false;
 
     if (!is_lod_visible(obj_render, eye))
         return false;
@@ -179,21 +192,13 @@ function is_out_of_frustum(obj_render, planes) {
     if (obj_render.do_not_cull)
         return false;
 
-    if (obj_render.type === "STATIC") {
-        var bs = obj_render.bs_world;
-        var pt = bs.center;
-        var radius = bs.radius;
-        var is_out = m_util.sphere_is_out_of_frustum(pt, planes, radius);
-    } else {
-        var be = obj_render.be_world;
-        var pt = be.center;
-        var axis_x = be.axis_x;
-        var axis_y = be.axis_y;
-        var axis_z = be.axis_z;
-        var is_out = m_util.ellipsoid_is_out_of_frustum(pt, planes,
+    var be = obj_render.be_world;
+    var pt = be.center;
+    var axis_x = be.axis_x;
+    var axis_y = be.axis_y;
+    var axis_z = be.axis_z;
+    var is_out = m_util.ellipsoid_is_out_of_frustum(pt, planes,
                                                       axis_x, axis_y, axis_z);
-    }
-
     return is_out;
 }
 
@@ -214,6 +219,26 @@ function is_lod_visible(obj_render, eye) {
         return true;
     else
         return false;
+}
+
+function update_particles_buffers(batch) {
+    // NOTE: update buffers only for visible bundles
+    var pdata = batch.particles_data;
+    if (!(pdata && pdata.need_buffers_update))
+        return;
+
+    var pbuf = batch.bufs_data;
+    m_geom.make_dynamic(pbuf);
+    var vbo_array = pbuf.vbo_array;
+
+    var pointers = pbuf.pointers;
+    var pos_pointer = pointers["a_position"];
+    var norm_pointer = pointers["a_normal"];
+
+    vbo_array.set(pdata.positions_cache, pos_pointer.offset);
+    vbo_array.set(pdata.normals_cache, norm_pointer.offset);
+
+    m_geom.update_gl_buffers(pbuf);
 }
 
 }

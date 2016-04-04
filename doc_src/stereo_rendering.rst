@@ -1,21 +1,21 @@
  
-.. index:: анаглиф, стереоизображение
+.. index:: anaglyph
 
 .. _stereo:
 
-*****************
-Стереоизображение
-*****************
+****************
+Stereo Rendering
+****************
 
-.. contents:: Содержание
+.. contents:: TAble of Contents
     :depth: 3
     :backlinks: entry
 
-Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.
+The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.
 
-Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD (Head-mounted display, шлем виртуальной реальности).
+Blend4Web supports two techniques of the stereo image rendering - anagliph image and the HMD (head-mounted display).
 
-Анаглиф:
+Anaglyph:
 
 .. image:: src_images/postprocessing_effects/postprocessing_effects_anaglyph.png
    :align: center
@@ -27,30 +27,28 @@ HMD:
    :align: center
    :width: 100%
 
-HMD - экспериментальная возможность, она работает только с камерами типа ``Eye``.
+HMD is an experimental feature, for now it works only with the ``Eye`` type cameras.
 
-Активация
----------
+Activation
+----------
 
-Для работы стереорежима HMD нужно установить `runtime-утилиту <https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows и MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для Linux пользователю понадобится собирать из исходников самостоятельно.
+To use HMD stereo rendering, you need to install Oculus's `runtime utility <https://developer.oculus.com/downloads/>`_. Windows and MacOS versions can be found on the Oculus web site in binary format, while Linux version should be compiled from the source code.
 
-На сегодняшний день HMD поддерживается в экспериментальных сборках `Chromium <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ и в nightly build `Firefox <https://nightly.mozilla.org/>`_.
+For now, the HMD is supported by the `Chromium experimental builds <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ and in the `Firefox nightly builds <https://nightly.mozilla.org/>`_.
 
-`Настройки Chromium. <https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_
+`Chromium settings. <https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_
 
-`Настройки Firefox. <https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API>`_
+`Firefox settings. <https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API>`_
 
-Чтобы включить стереорежим, нужно выбрать соответствующий пункт в настройках приложения, в третьем столбце справа, как показано на иллюстрации.
+To turn the stereo rendering on, you need to choose certain option in the settings, in the third column from the right, as shown on the picture.
 
 .. image:: src_images/postprocessing_effects/postprocessing_effects_hmd.png
    :align: center
    :width: 100%
 
-Для корректной работы рекомендуется включить полноэкранный режим.
+For stereo rendering to work correctly, switching to the full screen mode is recommended.
 
-Дополнительные настройки
-------------------------
+Additional Settings
+-------------------
 
-Отсутствуют.
-
-
+None.

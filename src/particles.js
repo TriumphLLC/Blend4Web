@@ -40,8 +40,11 @@ var STDGRAVITY = 9.81;
 var DELAYRANDFACTOR = 10;
 
 var cfg_def = m_cfg.defaults;
-var tsr_tmp = new Float32Array(8);
-var vec3_tmp = new Float32Array(3);
+
+var _tsr_tmp = new Float32Array(8);
+var _vec3_tmp = new Float32Array(3);
+
+var _particles_objs_cache = [];
 
 function create_particles_data(name, type) {
     var pdata = {
@@ -87,6 +90,19 @@ function create_particles_data(name, type) {
 
 var _rand = function() {
     throw "_rand() undefined";
+}
+
+exports.update = function() {
+    for (var i = 0; i < _particles_objs_cache.length; i++) {
+        var obj = _particles_objs_cache[i];
+        var scenes_data = obj.scenes_data;
+        for (var j = 0; j < scenes_data.length; j++) {
+            var sc_data = scenes_data[j];
+            var batches = sc_data.batches;
+            //TODO: need to track every particle independently
+            update_emitter_transform(obj, batches);
+        }
+    }
 }
 
 exports.obj_has_particles = function(obj) {
@@ -344,31 +360,31 @@ function pose_emitter_world(pdata, positions, normals, tsr,
         if (need_emitter_pos)
             for (var k = 0; k < 8; k++) {
                 em_snapshots[8 * j + k]  = tsr[k];
-                tsr_tmp[k] = tsr[k];
+                _tsr_tmp[k] = tsr[k];
             }
         else
             for (var k = 0; k < 8; k++)
-                tsr_tmp[k] = em_snapshots[8 * j + k];
+                _tsr_tmp[k] = em_snapshots[8 * j + k];
 
         // positions
-        var pos = vec3_tmp;
+        var pos = _vec3_tmp;
         pos[0] = positions[3 * j];
         pos[1] = positions[3 * j + 1];
         pos[2] = positions[3 * j + 2];
 
-        m_tsr.transform_vec3(pos, tsr_tmp, pos);
+        m_tsr.transform_vec3(pos, _tsr_tmp, pos);
 
         positions_new[3 * j]     = pos[0];
         positions_new[3 * j + 1] = pos[1];
         positions_new[3 * j + 2] = pos[2];
 
         // normals
-        var norm = vec3_tmp;
+        var norm = _vec3_tmp;
         norm[0] = normals[3 * j];
         norm[1] = normals[3 * j + 1];
         norm[2] = normals[3 * j + 2];
 
-        m_tsr.transform_dir_vec3(norm, tsr_tmp, norm);
+        m_tsr.transform_dir_vec3(norm, _tsr_tmp, norm);
 
         normals_new[3 * j]     = norm[0];
         normals_new[3 * j + 1] = norm[1];
@@ -385,15 +401,13 @@ function pose_emitter_world(pdata, positions, normals, tsr,
     }
 }
 
-exports.update_emitter_transform = function(obj, batches) {
+function update_emitter_transform(obj, batches) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
         var pdata = batch.particles_data;
 
         if (!pdata || !pdata.use_world_space || batch.forked_batch)
             continue;
-
-        var pbuf = batch.bufs_data;
 
         var pcache = pdata.positions_cache;
         var ncache = pdata.normals_cache;
@@ -404,9 +418,7 @@ exports.update_emitter_transform = function(obj, batches) {
         pose_emitter_world(pdata, positions, normals, obj.render.world_tsr,
                      pcache, ncache);
 
-        m_geom.make_dynamic(pbuf);
-        m_geom.update_bufs_data_array(pbuf, "a_position", 3, pcache);
-        m_geom.update_bufs_data_array(pbuf, "a_normal", 3, ncache);
+        pdata.need_buffers_update = true;
     }
 }
 
@@ -671,7 +683,6 @@ exports.set_time = function(obj, psys_name, time) {
     }
 }
 
-
 /**
  * Prepare buffer for lens flare
  */
@@ -835,6 +846,21 @@ exports.update_particles_submesh = function(submesh, batch, pcount, material) {
             data.push(i, i, i, i);
         submesh.va_common[batch.part_node_data.name] = new Float32Array(data);
     }
+}
+
+exports.update_particles_objs_cache = function(obj) {
+    if (_particles_objs_cache.indexOf(obj) == -1)
+        _particles_objs_cache.push(obj);
+}
+
+exports.remove_obj_from_cache = function(obj) {
+    var ind = _particles_objs_cache.indexOf(obj);
+    if (ind != -1)
+        _particles_objs_cache.splice(ind, 1);
+}
+
+exports.cleanup = function() {
+    _particles_objs_cache.length = 0;
 }
 
 }

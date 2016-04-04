@@ -202,6 +202,7 @@ exports.append_object = function(obj, scene) {
             else
                 var phy = init_static_mesh_physics(obj, batch, worker);
 
+            obj.physics = phy;
             // physics bundle
             var pb = {
                 batch: batch,
@@ -671,7 +672,7 @@ function init_static_mesh_physics(obj, batch, worker) {
             indices, trans, friction, restitution, collision_id_num,
             collision_margin, collision_group, collision_mask);
 
-    var phy = init_physics(body_id);
+    var phy = init_physics(body_id, "STATIC_MESH");
     phy.collision_id = collision_id;
     phy.collision_id_num = collision_id_num;
     return phy;
@@ -687,9 +688,10 @@ function col_id_num(id) {
         return num;
 }
 
-function init_physics(body_id) {
+function init_physics(body_id, type) {
     var phy = {
         body_id: body_id,
+        type: type,
         mass: 0,
         is_ghost: false,
         simulated: true,
@@ -738,7 +740,7 @@ function init_ghost_mesh_physics(obj, batch, worker) {
             indices, trans, collision_id_num, collision_margin, collision_group,
             collision_mask);
 
-    var phy = init_physics(body_id);
+    var phy = init_physics(body_id, "STATIC_MESH");
     phy.is_ghost = true;
     phy.collision_id = collision_id;
     phy.collision_id_num = collision_id_num;
@@ -816,7 +818,7 @@ function init_bounding_physics(obj, compound_children, worker) {
     _bounding_objects[body_id] = obj;
     _bounding_objects_arr.push(obj);
 
-    var phy = init_physics(body_id);
+    var phy = init_physics(body_id, "BOUNDING");
     phy.type = physics_type;
     phy.mass = mass;
     phy.is_ghost = is_ghost;
@@ -2192,10 +2194,15 @@ exports.debug_workers = function() {
     }
 }
 
-exports.remove_bounding_object = function(obj) {
-    var ind = _bounding_objects_arr.indexOf(obj);
-    if (ind == -1)
-        m_print.error("Object " + obj.name + " doesn't have bounding physics");
+exports.remove_object = function(obj) {
+
+    if (obj.physics.type == "BOUNDING") {
+        var ind = _bounding_objects_arr.indexOf(obj);
+        if (ind == -1)
+            m_print.error("Object " + obj.name + " doesn't have bounding physics");
+        delete _bounding_objects[body_id];
+        _bounding_objects_arr.splice(ind, 1);
+    }
 
     var body_id = obj.physics.body_id
 
@@ -2206,9 +2213,6 @@ exports.remove_bounding_object = function(obj) {
 
     if (has_collision_impulse_test(obj))
         clear_collision_impulse_test(obj);
-
-    delete _bounding_objects[body_id];
-    _bounding_objects_arr.splice(ind, 1);
 
     var bundles = scene._physics.bundles;
 

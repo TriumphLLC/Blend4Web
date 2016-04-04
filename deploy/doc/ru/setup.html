@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
-        <link rel="prev" title="Экспресс-установка" href="first_steps.html"/> 
+        <link rel="prev" title="Функционал движка" href="features.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,20 +85,28 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Развёртывание среды разработки</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Распаковка архива</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Подключение аддона</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#blend4web">Профиль Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#local-development-server">Локальный сервер разработки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Запуск просмотрщика сцен и демо-приложений</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Установка и обновление</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation-order">Порядок установки</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-blender">Установка программы Blender</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unpacking-the-archive">Распаковка архива</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdk-installation-order">Порядок установки SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blend4web-mode">Профиль Blend4Web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-development-server">Локальный сервер разработки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-viewer-and-demos">Запуск просмотрщика сцен и демо-приложений</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#updating">Обновление</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">Обновление SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-and-viewing-scenes">Экспорт и просмотр сцены</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -144,13 +152,14 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Развёртывание среды разработки</li>
+    <li>Установка и обновление</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -162,60 +171,80 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="setup">
-<span id="id1"></span><h1><a class="toc-backref" href="#id8">Развёртывание среды разработки</a><a class="headerlink" href="#setup" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+  <div class="section" id="installing-and-updating">
+<span id="setup"></span><h1><a class="toc-backref" href="#id2">Установка и обновление</a><a class="headerlink" href="#installing-and-updating" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#setup" id="id8">Развёртывание среды разработки</a><ul>
-<li><a class="reference internal" href="#id4" id="id9">Распаковка архива</a></li>
-<li><a class="reference internal" href="#id5" id="id10">Подключение аддона</a></li>
-<li><a class="reference internal" href="#blend4web" id="id11">Профиль Blend4Web</a></li>
-<li><a class="reference internal" href="#local-development-server" id="id12">Локальный сервер разработки</a></li>
-<li><a class="reference internal" href="#getting-started-launching-viewer" id="id13">Запуск просмотрщика сцен и демо-приложений</a></li>
+<li><a class="reference internal" href="#installing-and-updating" id="id2">Установка и обновление</a><ul>
+<li><a class="reference internal" href="#installation-order" id="id3">Порядок установки</a><ul>
+<li><a class="reference internal" href="#installing-blender" id="id4">Установка программы Blender</a></li>
+<li><a class="reference internal" href="#unpacking-the-archive" id="id5">Распаковка архива</a></li>
+<li><a class="reference internal" href="#sdk-installation-order" id="id6">Порядок установки SDK</a></li>
+<li><a class="reference internal" href="#blend4web-mode" id="id7">Профиль Blend4Web</a></li>
+<li><a class="reference internal" href="#local-development-server" id="id8">Локальный сервер разработки</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id9">Запуск просмотрщика сцен и демо-приложений</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#updating" id="id10">Обновление</a><ul>
+<li><a class="reference internal" href="#updating-the-sdk" id="id11">Обновление SDK</a></li>
+<li><a class="reference internal" href="#exporting-and-viewing-scenes" id="id12">Экспорт и просмотр сцены</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-<p>Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установка</span></a>.</p>
 <p>Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно <a class="reference external" href="https://www.blend4web.com/downloads/">таблице</a>.</p>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id9">Распаковка архива</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Стабильные версии дистрибутива поставляются в виде архива
-(<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211;
-коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.</p>
+<div class="section" id="installation-order">
+<h2><a class="toc-backref" href="#id3">Порядок установки</a><a class="headerlink" href="#installation-order" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="installing-blender">
+<span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id4">Установка программы Blender</a><a class="headerlink" href="#installing-blender" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Создание 3D сцен осуществляется в графическом пакете <a class="reference external" href="http://ru.wikipedia.org/wiki/Blender">Blender</a>, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.</p>
+<p>Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с <a class="reference external" href="http://www.blender.org/download">официального сайта</a>.</p>
+<a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id5">
-<h2><a class="toc-backref" href="#id10">Подключение аддона</a><a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="unpacking-the-archive">
+<h3><a class="toc-backref" href="#id5">Распаковка архива</a><a class="headerlink" href="#unpacking-the-archive" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Стабильные версии дистрибутива поставляются в виде архива (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211; коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.</p>
+</div>
+<div class="section" id="sdk-installation-order">
+<h3><a class="toc-backref" href="#id6">Порядок установки SDK</a><a class="headerlink" href="#sdk-installation-order" title="Ссылка на этот заголовок">¶</a></h3>
+<ol class="arabic simple">
+<li><p class="first">Открыть Blender.</p>
+</li>
+<li><p class="first">Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
+</li>
+<li><p class="first">Открыть вкладку <code class="file docutils literal"><span class="pre">File</span></code>.</p>
+</li>
+<li><p class="first">В поле <code class="file docutils literal"><span class="pre">Scripts</span></code> прописать путь к директории SDK.</p>
+</li>
+<li><p class="first">Нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code></p>
+</li>
+<li><p class="first">Перезапустить Blender.</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/user_preferences_sdk_path.png"><img alt="_images/user_preferences_sdk_path.png" class="align-center" src="_images/user_preferences_sdk_path.png" style="width: 100%;" /></a>
+<p><em>To verify it worked:</em></p>
+<p>В меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> должны появиться опции <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установки</span></a>, то рекомендуется прежде его удалить.</p>
+<p>Если вы используете только редактор нормалей, вы можете использовать <a class="reference internal" href="addon.html#addon"><span>аддон Blend4Web</span></a> вместо SDK.</p>
+<p>The addon can only export scenes to <a class="reference internal" href="workflow.html#export-scene"><span>HTML format</span></a> and has limited functionality (for example, it doesn&#8217;t have the <a class="reference internal" href="project_manager.html#project-management"><span>project manger</span></a>, example scenes, user manual and so on), but still it has everything you might need to create a simple application.</p>
+<p class="last">Устанавливается так же, как любой другой <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on">аддон Blender</a>.</p>
 </div>
-<p>Запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-N</span></code>).
-Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Во вкладке  <code class="file docutils literal"><span class="pre">File</span></code> в поле  <code class="file docutils literal"><span class="pre">Scripts</span></code> выбрать путь к директории SDK.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_sdk_path.png"><img alt="_images/user_preferences_sdk_path.png" class="align-center" src="_images/user_preferences_sdk_path.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и <strong>перезапустить</strong> Blender.</p>
-<p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <code class="file docutils literal"><span class="pre">Addons</span></code> и выбрать категорию <code class="file docutils literal"><span class="pre">Import-Export</span></code>. Отметить галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_enable_addon.png"><img alt="_images/user_preferences_enable_addon.png" class="align-center" src="_images/user_preferences_enable_addon.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
 </div>
-<p>Нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code>. Перезапуск Blender не требуется.</p>
-<p><em>Для проверки:</em></p>
-<p>В меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> должны появиться опции <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>.</p>
-</div>
-<div class="section" id="blend4web">
-<h2><a class="toc-backref" href="#id11">Профиль Blend4Web</a><a class="headerlink" href="#blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="blend4web-mode">
+<h3><a class="toc-backref" href="#id7">Профиль Blend4Web</a><a class="headerlink" href="#blend4web-mode" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:</p>
 <a class="reference internal image-reference" href="_images/first_steps_selecting_engine.png"><img alt="_images/first_steps_selecting_engine.png" class="align-center" src="_images/first_steps_selecting_engine.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="local-development-server">
-<span id="id6"></span><h2><a class="toc-backref" href="#id12">Локальный сервер разработки</a><a class="headerlink" href="#local-development-server" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Настройки локального сервера разработки находятся в меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>).
-Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender&#8217;a: для этого достаточно включить опцию <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> в настройках аддона.</p>
+<span id="id1"></span><h3><a class="toc-backref" href="#id8">Локальный сервер разработки</a><a class="headerlink" href="#local-development-server" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки локального сервера разработки находятся в меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender&#8217;a: для этого достаточно включить опцию <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> в настройках аддона.</p>
 <a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -244,8 +273,8 @@
 <p>Кнопка <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> вызывает <a class="reference internal" href="viewer.html#viewer"><span>просмотрщик сцен</span></a> и загружает в него сцену, открытую в Blender на данный момент.</p>
 <p>Сервер может быть остановлен по нажатию на кнопку <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>. Сервер также прекращает работу при закрытии программы Blender.</p>
 </div>
-<div class="section" id="getting-started-launching-viewer">
-<span id="index-0"></span><span id="id7"></span><h2><a class="toc-backref" href="#id13">Запуск просмотрщика сцен и демо-приложений</a><a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="running-viewer-and-demos">
+<span id="getting-started-launching-viewer"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id9">Запуск просмотрщика сцен и демо-приложений</a><a class="headerlink" href="#running-viewer-and-demos" title="Ссылка на этот заголовок">¶</a></h3>
 <p>На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><span>браузер с поддержкой WebGL</span></a>.</p>
 <a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -254,6 +283,29 @@
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>Проблемы при запуске движка</span></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="updating">
+<h2><a class="toc-backref" href="#id10">Обновление</a><a class="headerlink" href="#updating" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="updating-the-sdk">
+<h3><a class="toc-backref" href="#id11">Обновление SDK</a><a class="headerlink" href="#updating-the-sdk" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Перед обновлением рекомендуется создать резервные копии всех разрабатываемых проектов с помощью <a class="reference internal" href="project_manager.html#export-projects"><span>средств экспорта</span></a>.</p>
+<p>Обновление может производиться одним из двух способов.</p>
+<p>Во-первых, вы можете полностью удалить каталог SDK, после чего распаковать каталог с новой версией и прописать путь к ней в настройках Blender, как если бы вы устанавливали SDK с нуля.</p>
+<p>Во-вторых, вы можете просто перезаписать устаревшие файлы SDK новыми. Этот подход считается менее &#8220;чистым&#8221;, но в большинстве случаев не должен приводить к проблемам.</p>
+<p>После того, как обновление выполнено, сохранённые проекты можно импортировать с помощью средств <a class="reference internal" href="project_manager.html#import-projects"><span>импорта проектов</span></a>.</p>
+</div>
+<div class="section" id="exporting-and-viewing-scenes">
+<span id="getting-started-export-viewer"></span><span id="index-1"></span><h3><a class="toc-backref" href="#id12">Экспорт и просмотр сцены</a><a class="headerlink" href="#exporting-and-viewing-scenes" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Созданную сцену можно экспортировать в форматы HTML и JSON. Для этого нужно выбрать опцию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> или <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и указать путь экспорта. Экспорт сцен подробно описан в <a class="reference internal" href="addon.html#addon"><span>отдельной главе</span></a>. Полученный файл можно открыть любым браузером, поддерживающим технологию WebGL.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>Поддержка WebGL в браузерах</span></a></p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 </div>
 </div>
@@ -268,7 +320,7 @@
         <a href="workflow.html" class="btn btn-neutral float-right" title="Рабочий процесс" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="first_steps.html" class="btn btn-neutral" title="Экспресс-установка" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="features.html" class="btn btn-neutral" title="Функционал движка" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -278,11 +330,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -300,7 +353,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -330,14 +383,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

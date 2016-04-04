@@ -38,10 +38,6 @@ function init_cb(canvas_elem, success) {
     _canvas_elem = canvas_elem;
 
     load_stuff();
-
-    m_ctl.register_mouse_events(canvas_elem, true, true);
-    m_ctl.register_wheel_events(canvas_elem);
-    m_ctl.register_touch_events(canvas_elem, true);
 }
 
 function load_stuff() {
@@ -64,8 +60,7 @@ function loaded_callback(data_id) {
     }
 
     _canvas_elem.style.display = "block";
-
-    m_app.enable_camera_controls(false, false, true);
+    m_app.enable_camera_controls(false, false, false, _canvas_elem, true);
 
     enable_timeout();
 

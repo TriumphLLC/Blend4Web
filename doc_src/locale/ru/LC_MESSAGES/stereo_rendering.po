@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-25 11:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../stereo_rendering.rst:8
+msgid "Stereo Rendering"
+msgstr "Стереоизображение"
+
+#: ../stereo_rendering.rst
+msgid "TAble of Contents"
+msgstr "Содержание"
+
+#: ../stereo_rendering.rst:14
+msgid ""
+"The stereoscopic rendering mode is intended for viewing the content using"
+" special glasses. It is activated by an application via API."
+msgstr ""
+"Режим стереоизображения предназначен для просмотра контента в специальных"
+" очках и активируется приложением."
+
+#: ../stereo_rendering.rst:16
+msgid ""
+"Blend4Web supports two techniques of the stereo image rendering - "
+"anagliph image and the HMD (head-mounted display)."
+msgstr ""
+"Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD "
+"(Head-mounted display, шлем виртуальной реальности)."
+
+#: ../stereo_rendering.rst:18
+msgid "Anaglyph:"
+msgstr "Анаглиф:"
+
+#: ../stereo_rendering.rst:24
+msgid "HMD:"
+msgstr ""
+
+#: ../stereo_rendering.rst:30
+msgid ""
+"HMD is an experimental feature, for now it works only with the ``Eye`` "
+"type cameras."
+msgstr ""
+"HMD - экспериментальная возможность, она работает только с камерами типа "
+"``Eye``."
+
+#: ../stereo_rendering.rst:33
+msgid "Activation"
+msgstr "Активация"
+
+#: ../stereo_rendering.rst:35
+msgid ""
+"To use HMD stereo rendering, you need to install Oculus's `runtime "
+"utility <https://developer.oculus.com/downloads/>`_. Windows and MacOS "
+"versions can be found on the Oculus web site in binary format, while "
+"Linux version should be compiled from the source code."
+msgstr ""
+"Для работы стереорежима HMD нужно установить `runtime-утилиту "
+"<https://developer.oculus.com/downloads/>`_ от Oculus. Версии для Windows"
+" и MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты "
+"для Linux пользователю понадобится собирать из исходников самостоятельно."
+
+#: ../stereo_rendering.rst:37
+msgid ""
+"For now, the HMD is supported by the `Chromium experimental builds "
+"<http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ and in "
+"the `Firefox nightly builds <https://nightly.mozilla.org/>`_."
+msgstr ""
+"На сегодняшний день HMD поддерживается в экспериментальных сборках "
+"`Chromium <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_"
+" и в nightly build `Firefox <https://nightly.mozilla.org/>`_."
+
+#: ../stereo_rendering.rst:39
+msgid ""
+"`Chromium settings. "
+"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+msgstr ""
+"`Настройки Chromium. "
+"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+
+#: ../stereo_rendering.rst:41
+msgid ""
+"`Firefox settings. <https://developer.mozilla.org/en-"
+"US/docs/Web/API/WebVR_API>`_"
+msgstr ""
+"`Настройки Firefox. <https://developer.mozilla.org/en-"
+"US/docs/Web/API/WebVR_API>`_"
+
+#: ../stereo_rendering.rst:43
+msgid ""
+"To turn the stereo rendering on, you need to choose certain option in the"
+" settings, in the third column from the right, as shown on the picture."
+msgstr ""
+"Чтобы включить стереорежим, нужно выбрать соответствующий пункт в "
+"настройках приложения, в третьем столбце справа, как показано на "
+"иллюстрации."
+
+#: ../stereo_rendering.rst:49
+msgid ""
+"For stereo rendering to work correctly, switching to the full screen mode"
+" is recommended."
+msgstr "Для корректной работы рекомендуется включить полноэкранный режим."
+
+#: ../stereo_rendering.rst:52
+msgid "Additional Settings"
+msgstr "Дополнительные настройки"
+
+#: ../stereo_rendering.rst:54
+msgid "None."
+msgstr "Отсутствуют."
+
+#: ../stereo_rendering.rst:2
+msgid "anaglyph"
+msgstr "анаглиф"
+

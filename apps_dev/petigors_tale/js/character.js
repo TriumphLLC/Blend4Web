@@ -36,6 +36,7 @@ var _char_attack_spk = null;
 var _char_hit_spk = null;
 var _char_land_spk = null;
 var _gem_pickup_spk = null;
+var _char_win_spk = null;
 var _char_jump_spks = [];
 var _char_voice_attack_spks = [];
 var _char_hurt_spks = [];
@@ -46,7 +47,8 @@ var _rotation_cb = null;
 var _char_attack_anims = [];
 var _char_death_anims = [];
 
-var _last_hurt_sound = -100;
+var _last_hurt_time = -100;
+var _cam_indicator = null;
 
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
@@ -82,16 +84,18 @@ exports.init_wrapper = function(level_conf, json_name) {
 
     m_scs.hide_object(_char_wrapper.foot_smoke);
 
-    if (_level_conf.LEVEL_NAME == "dungeon")
+    if (level_conf && level_conf.LEVEL_NAME == "dungeon")
         m_obj.set_nodemat_value(_char_wrapper.body,
                                 ["petigor", m_conf.CHAR_SWORD_SWITCHER],
                                 1);
+
+    cleanup_cache();
+    precache_speakers();
+    precache_animations();
+    setup_hurt_indicator();
 }
 
 exports.setup_controls = function (elapsed_sensor) {
-
-    precache_speakers();
-    precache_animations();
 
     if (_level_conf && _level_conf.LEVEL_NAME == "volcano")
         init_island_detection();
@@ -146,6 +150,12 @@ exports.setup_controls = function (elapsed_sensor) {
     m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
                         clamp_left, clamp_right, clamp_up, clamp_down);
     m_cam.eye_set_look_at(camobj, null, targ_pos);
+
+    if (_level_conf) {
+        _cam_indicator = m_scs.get_object_by_dupli_name_list(m_conf.CAMERA_INDICTAOR);
+        m_obj.set_nodemat_value(_cam_indicator,
+                                ["camera_indicator", m_conf.CAM_INDICATOR_VAL], 0);
+    }
 }
 
 exports.pointerlock_cb = pointerlock_cb;
@@ -169,7 +179,18 @@ function pointerlock_cb(e) {
 }
 
 
-exports.run_camera_victory_rotation = function() {
+exports.run_victory = function() {
+
+    _char_wrapper.state = m_conf.CH_VICTORY;
+
+    disable_controls();
+
+    m_anim.apply(_char_wrapper.rig, m_conf.CHAR_VICTORY_ANIM);
+    m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
+    m_anim.play(_char_wrapper.rig);
+
+    m_sfx.play_def(_char_win_spk);
+
     var camobj = m_scs.get_active_camera();
     m_cons.remove(camobj);
 
@@ -206,17 +227,29 @@ function setup_mouse_rotation() {
     canvas_elem.addEventListener("mouseup", pointerlock_cb, false);
 }
 
+function cleanup_cache() {
+    _char_jump_spks.length = 0;
+    _char_voice_attack_spks.length = 0;
+    _char_hurt_spks.length = 0;
+    _char_attack_anims.length = 0;
+    _char_death_anims.length = 0;
+}
+
 function precache_speakers() {
     _char_run_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                    m_conf.CHAR_RUN_SPEAKER);
     _char_attack_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
-                                                     m_conf.CHAR_ATTACK_SPEAKER);
+                                                      m_conf.CHAR_ATTACK_SPEAKER);
     _char_hit_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                    m_conf.CHAR_SWORD_SPEAKER);
     _char_land_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
-                                                     m_conf.CHAR_LANDING_SPEAKER);
+                                                    m_conf.CHAR_LANDING_SPEAKER);
+    _char_win_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
+                                                   m_conf.CHAR_WIN_SPEAKER);
     _gem_pickup_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
                                                      m_conf.GEM_PICKUP_SPEAKER);
+
+    m_sfx.cyclic(_char_win_spk, true);
     for (var i = 0; i < m_conf.CHAR_JUMP_SPKS.length; i++) {
         var jump_spk_name = m_conf.CHAR_JUMP_SPKS[i];
         var jump_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY, jump_spk_name);
@@ -518,7 +551,6 @@ function setup_attack(touch_attack, elapsed) {
         [elapsed], null, damage_enemies_cb);
 }
 
-exports.disable_controls = disable_controls;
 function disable_controls() {
     if (m_ctl.check_sensor_manifolds(_char_wrapper.phys_body))
         m_ctl.remove_sensor_manifold(_char_wrapper.phys_body);
@@ -543,12 +575,30 @@ exports.reset = function() {
         m_scs.hide_object(_char_wrapper.foot_smoke);
     }
 
+    m_sfx.stop(_char_win_spk);
     var camobj = m_scs.get_active_camera();
     if (m_ctl.check_sensor_manifold(camobj, "CAMERA_ROTATION"))
         m_ctl.remove_sensor_manifold(camobj, "CAMERA_ROTATION");
     m_cam.eye_setup(camobj);
+    setup_hurt_indicator();
 }
 
+function setup_hurt_indicator() {
+    var prev_ind_val = 0;
+    function char_hurt_cb() {
+        var indicator_val = Math.max(_last_hurt_time - m_time.get_timeline() + 1, 0);
+        if (indicator_val == prev_ind_val && prev_ind_val == 0) { // optimization
+            prev_ind_val = indicator_val;
+            return;
+        }
+        prev_ind_val = indicator_val;
+        m_obj.set_nodemat_value(_cam_indicator,
+                ["camera_indicator", m_conf.CAM_INDICATOR_VAL], indicator_val);
+    }
+
+    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "CHAR_HURT", m_ctl.CT_CONTINUOUS,
+        [m_ctl.create_elapsed_sensor()], null, char_hurt_cb);
+}
 
 exports.apply_hp_potion = function() {
     change_hp(m_conf.BONUS_HP_INCR);
@@ -596,10 +646,10 @@ function change_hp(amount) {
 
     var cur_time = m_time.get_timeline();
 
-    if (amount < 0 && _last_hurt_sound < cur_time - 0.5) {
+    if (amount < 0 && _last_hurt_time < cur_time - 0.5) {
         var id = Math.floor(_char_hurt_spks.length * Math.random());
         m_sfx.play_def(_char_hurt_spks[id]);
-        _last_hurt_sound = cur_time;
+        _last_hurt_time = cur_time;
     }
 
     _char_wrapper.hp += amount;
@@ -616,12 +666,11 @@ function kill() {
     disable_controls()
     if (_level_conf.MUSIC_SPEAKERS) {
         m_sfx.clear_playlist();
-        var intro_spk = m_scs.get_object_by_dupli_name("enviroment",
-                                                       _level_conf.MUSIC_INTRO_SPEAKER);
+        var intro_spk = m_scs.get_object_by_dupli_name_list(
+                                _level_conf.MUSIC_INTRO_SPEAKER);
+        var end_spk = m_scs.get_object_by_dupli_name_list(
+                                _level_conf.MUSIC_END_SPEAKER);
         m_sfx.stop(intro_spk);
-
-        var end_spk = m_scs.get_object_by_dupli_name("enviroment",
-                                                     _level_conf.MUSIC_END_SPEAKER);
         m_sfx.play_def(end_spk);
     }
 
@@ -645,6 +694,9 @@ function kill() {
 
     if (m_bonuses.lava_protect_time_left() > 0)
         remove_lava_protect();
+
+    m_obj.set_nodemat_value(_cam_indicator,
+            ["camera_indicator", m_conf.CAM_INDICATOR_VAL], 1.0);
 }
 
 exports.add_gem = function(gem_wrapper) {

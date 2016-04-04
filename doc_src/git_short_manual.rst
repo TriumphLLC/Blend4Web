@@ -2,44 +2,44 @@
 
 .. _git_short_manual:
 
-*************************************
-Работа в команде с использованием Git
-*************************************
+********************
+Team Work. Using Git
+********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
 .. _what_is_git:
 
-Общие сведения
-==============
+Overview
+========
 
-Для организации командной работы над проектом может быть использована система контроля версий файлов Git. Использование Git имеет ряд преимуществ перед другими способами организации совместной работы:
+In order to organize team work a Git version control system can be used. Using Git has a number of benifits as compared with other ways to collaborate:
 
-* сохранение полной истории изменений файлов с возможностью возврата к предыдущим версиям
-* синхронизация изменений между пользователями и автоматическое слияние изменений
-* возможность работы с бинарными файлами большого объёма
+* saving the history of changes with the possibility to roll back to prevoius versions
+* syncronizing changes between users and automatic merging of changes
+* working with large binary files is possible
 
-Git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное "общее" хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH.
+Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central ("shared") storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.
 
-Хотя для Git существует множество графических утилит, упрощающих работу начинающих пользователей, здесь мы рассмотрим работу со штатной консольной утилитой, вызываемой командой ``git``.
+Although there are many GUIs for Git beginners, here the work with the ``git`` standard console utility is explained.
 
 
 .. _git_pipeline:
 
-Типичный рабочий процесс
-========================
+Typical Workflow
+================
 
-#. В ходе работы в локальных репозиториях создаются, изменяются или удаляются файлы.
-#. По завершении некоторого логического этапа работы возникает необходимость фиксации изменений (коммит) и/или синхронизации с коллегами.
-#. Проводится подготовка файлов к коммиту - учет измененных, новых и удаленных файлов, а также сброс изменений.
-#. Осуществляется коммит.
-#. Локальные изменения загружаются в общее хранилище и становятся доступными для коллег.
+#. Files can be created, added or deleted during the work process in the local repositories.
+#. After a certain logical period of work is finished it is necessary to fix (commit) the changes and/or syncronize with your team mates.
+#. Files are prepared for commit i.e. the accounting of changed, new and deleted files and also the resetting of changes.
+#. Commit is performed.
+#. Local changes are uploaded into the shared storage and become available for the collegues.
 
-Далее описывается ограниченный набор команд Git, рекомендуемых к использованию при создании приложений и графических ресурсов.  
+A limited set of Git commands recommended for authoring applications and their graphical resources is described below. 
 
-Перед выполнением команд необходимо перейти в репозиторий, например:
+It's necessary to switch to the repository before executing the commands, e.g.:
 
 .. code-block:: bash
 
@@ -47,14 +47,14 @@ Git - распределенная система, и каждый разраб�
 
 
 
-.. index:: git; индивидуальные настройки 
+.. index:: git; individual settings 
 
 .. _git_config:
 
-Индивидуальные настройки
-========================
+Individual Settings
+===================
 
-Новый пользователь может устанавить имя и почтовый адрес командами:
+A new user can set up his name and email using the commands:
 
 .. code-block:: none
     
@@ -62,26 +62,26 @@ Git - распределенная система, и каждый разраб�
     > git config --global user.email ipetrov@blend4web.com
 
 
-Установленные данные будут использоваться в логе изменений.
+The set up data will be used in the changelog.
 
 
-.. index:: git; проверка статуса
+.. index:: git; checking the status
 
 .. _git_example_begin:
 
-Проверка статуса
-================
+Checking the Status
+===================
 
-Перед началом, в процессе или после выполнения любых операций рекомендуется проверять текущее состояние репозитория. 
+It's recommended to check the state of the repository before, in progress and after performing all the operations.
 
-Проверить статус можно командой:
+Use this command to check the status:
 
 .. code-block:: none
     
     > git status
 
 
-Результат команды ``git status``, если все коммиты проведены и нет новых файлов:
+The result of the ``git status`` command if all the commits were performed and there are no new files:
 
 .. code-block:: none
 
@@ -90,7 +90,7 @@ Git - распределенная система, и каждый разраб�
     # 
     nothing to commit (working directory clean) 
 
-Возможный результат команды ``git status``, если имеются изменения. Например, файлы :file:`apps_dev/firstperson/firstperson.js` и :file:`doc_src/git_short_manual.rst` изменены, и создан новый файл :file:`123.txt`:
+Possible result of ``git status`` if there are changes. For example the :file:`apps_dev/firstperson/firstperson.js` and :file:`doc_src/git_short_manual.rst` files are changed and a new file :file:`123.txt` is created:
 
 .. code-block:: none
 
@@ -109,31 +109,31 @@ Git - распределенная система, и каждый разраб�
     no changes added to commit (use "git add" and/or "git commit -a")
 
 
-.. index:: git; подготовка к коммиту
+.. index:: git; preparing for commit
 
 .. _git_example_prepare_to_commit:
 
-Перед коммитом
-==============
+Before the Commit
+=================
 
-Проверка изменений (текстовых файлов)
--------------------------------------
+Checking changes (of the text files)
+------------------------------------
 
-Перед совершением коммита в случае текстовых файлов рекомендуется просмотреть внесенные изменения. 
+In case of text files it is recommended to view the introduced changes before performing the commit.
 
-Проверить, что изменилось, во всей директории:
+Check what was changed in the whole directory:
 
 .. code-block:: none
 
     > git diff
 
-или только в определенном файле:
+or in a specific file only:
 
 .. code-block:: none
 
     > git diff apps_dev/firstperson/firstperson.js
 
-Возможный результат команды ``git diff`` для текстового файла:
+A possible result of the ``git diff`` command for a text file:
 
 .. code-block:: none
 
@@ -151,51 +151,51 @@ Git - распределенная система, и каждый разраб�
     +        }
          }
 
-Восстановление файлов
----------------------
+Rolling back files
+------------------
 
-Если файл был изменен или удален, но его необходимо восстановить (до состояния, зафиксированного последним коммитом), следует использовать команду:
+If the file was changed or deleted but it is necessary to recover it (to the latest commited state) use the command:
 
 .. code-block:: none
 
     > git checkout doc_src/git_short_manual.rst
     > git checkout 123.txt
 
-Внесенные изменения будут отменены, поэтому эту команду необходимо выполнять с осторожностью.
+The introduced changes will be cancelled - this is why this command should be performed with caution.
 
 
-Посторонние файлы
------------------
+Unwanted files
+--------------
 
-Если файл значится в списке ``Untracked files`` (команда ``git status``), но контроль версий для него не нужен, его следует удалить или переместить за пределы рабочей директории.
-
-
+If a file is listed in the ``Untracked files`` (``git status``), but version control is not needed for it, it should be deleted or moved beyond the working directory.
 
 
-.. index:: git; добавление и удаление файлов
+
+
+.. index:: git; adding and removing files
 
 .. _git_example_add_rm_commit:
 
-Подготовка к коммиту
+Preparing for Commit
 ====================
 
-Добавление файлов
------------------
+Adding files
+------------
 
-Если изменения устраивают, добавить нужные измененные и/или новые файлы для коммита:
+If you are happy with the changes, add the needed changed and/or new files for commit.
 
 .. code-block:: none
 
     > git add apps_dev/firstperson/firstperson.js
     > git add 123.txt
 
-Снова проверить статус:
+Check the status again:
 
 .. code-block:: none
     
     > git status
 
-Возможный результат команды ``git status`` после добавления некоторых файлов командой ``git add``:
+Possible result of the ``git status`` command after adding some files with the ``git add`` command:
 
 .. code-block:: none
 
@@ -213,12 +213,12 @@ Git - распределенная система, и каждый разраб�
     #	modified:   doc_src/git_short_manual.rst
     #
 
-Видно, что для коммита добавлены файлы :file:`apps_dev/firstperson/firstperson.js` и :file:`123.txt`, а файл :file:`doc_src/git_short_manual.rst` остался недобавленным. Для упрощения работы рекомендуется либо добавлять такие файлы для коммита, либо отбрасывать их изменения командой ``git checkout``.
+You can see that the :file:`apps_dev/firstperson/firstperson.js` and :file:`123.txt` files were added for commit and the :file:`doc_src/git_short_manual.rst` file was not added. To make things easier it is recommended to either add such files for commit or cancel their changes with the ``git checkout`` command.
 
-Удаление файлов
----------------
+Removing files
+--------------
 
-Некоторые файлы могут быть отмечены как удаленные из Git после выполнения команды ``git status``, например:
+Some files can be marked as deleted from Git after performing the ``git status`` command, for example:
 
 .. code-block:: none
 
@@ -233,29 +233,29 @@ Git - распределенная система, и каждый разраб�
     #
     no changes added to commit (use "git add" and/or "git commit -a")
 
-В таком случае, если удаление файла должно быть зафиксировано (т.е. войти в коммит), выполнить команду ``git rm``, например:
+In this case if deleting the file should be recorded (i.e. enter the commit), perform the ``git rm`` command, for example:
 
 .. code-block:: none
 
     > git rm 123.txt
 
-Если же файл был удален по ошибке, и его необходимо вернуть, нужно использовать команду ``git checkout``.
+If the file was deleted by accident and its necessary to recover it, use the ``git checkout`` command.
 
 
-.. index:: git; коммит
+.. index:: git; commit
 
 .. _git_commit:
 
-Коммит
+Commit
 ======
 
-Выполнить коммит командой:
+Perform commit with the command:
 
 .. code-block:: none
 
     > git commit
 
-Появится окно текстового редактора (например, **nano** или **vim**), в котором нужно ввести комментарий к коммиту на английском языке.
+A text editor window will show up (for example, **nano** or **vim**), in which it's nesessary to enter the commit comment in English.
 
 .. code-block:: none
 
@@ -281,35 +281,35 @@ Git - распределенная система, и каждый разраб�
     ^G Get Help               ^O WriteOut               ^R Read File              ^Y Prev Page
     ^X Exit                   ^J Justify                ^W Where Is               ^V Next Page
 
-Сохранить изменения и выйти из редактора (в **nano** Ctrl+O, затем Ctrl+X; в **vim** ZZ, или ESC :wq).
+Save the changes and quit the editor (in **nano** Ctrl+O, then Ctrl+X; in **vim** ZZ, or ESC :wq).
 
-После совершения коммита рекомендуется снова проверить статус. Коммит совершен правильно, если команда ``git status`` отображает ``nothing to commit, working directory clean``.
+After commit it's recommended to recheck the status. Commit is performed correctly if the ``git status`` command returns ``nothing to commit, working directory clean``.
 
 
 
-.. index:: git; синхронизация между репозиториями
+.. index:: git; synchronization between repositories
 
 .. _git_example_repo_sync:
 
-Синхронизация между репозиториями
-=================================
+Syncing Between Repositories
+============================
 
-Из удаленного - в локальный
----------------------------
+From the remote - to the local
+------------------------------
 
-После того как все коммиты сделаны, необходимо загрузить изменения из удаленного ("общего") репозитория в локальный:
+After all the commits are performed it's nesessary to load the changes from the remote ("shared") repository to the local one:
 
 .. code-block:: none
 
     > git pull
 
-Результат команды ``git pull``, если в удаленном репозитории нет изменений:
+Result of the ``git pull`` command if there are no changes in the remote repository:
 
 .. code-block:: none
 
     Already up-to-date.
 
-Результат команды ``git pull``, если в удаленном репозитории были изменения, и синхронизация прошла успешно:
+Result of the ``git pull`` command if the remote repository contains changes and syncing was successful:
 
 .. code-block:: none
 
@@ -331,23 +331,23 @@ Git - распределенная система, и каждый разраб�
      19 files changed, 1452 insertions(+), 2767 deletions(-) 
      create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png 
 
-При желании можно посмотреть, какие изменения были внесены коллегами, командой:
+If you wish it's possible to look up the changes made by your collegues using the following command:
 
 .. code-block:: none
 
     > git diff dbf3877..9f9700c
 
-Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между какими именно коммитами просматриваются изменения. Этот параметр удобно выделить в результатах команды ``git pull`` и вставить щелчком мыши (средняя кнопка) в консоли в нужном месте. 
+The parameter of this command - in this case dbf3877..9f9700c - shows between which commits exactly the changes were made. This parameter can be conveniently selected in the console in the ``git pull`` results and pasted with a mouse click (middle button) where you need.
 
 
-Также можно просмотреть лог изменений:
+You can also view the changelog:
 
 .. code-block:: none
 
     > git log
 
 
-Команда ``git pull`` не всегда приводит в успешной синхронизации. Результат команды ``git pull`` в случае наличия конфликтов:
+The ``git pull`` command does not always lead to a successful synchronization. The result of ``git pull`` when there are conflicts:
 
 .. code-block:: none
 
@@ -364,26 +364,26 @@ Git - распределенная система, и каждый разраб�
     Automatic merge failed; fix conflicts and then commit the result.
     
 
-Порядок действий при возникновении конфликтов описан далее.
+The steps to be taken at conflicts are described below.
 
 
 
-Из локального - в удаленный
----------------------------
+From the local - to the remote
+------------------------------
 
-Затем нужно загрузить изменения из локального репозитория в удаленный ("общий"), чтобы локальные изменения стали доступными для коллег.
+After that the changes should be uploaded from the local repository to the remote ("shared") one to make the changes available for team mates.
 
 .. code-block:: none
 
     > git push
 
-Результат команды ``git push``, если в удаленном репозитории уже есть все локальные изменения:
+The result of the ``git push`` command if the remote repository already contains all the local changes:
 
 .. code-block:: none
 
     Everything up-to-date 
 
-Результат команды ``git push``, если синхронизация прошла успешно:
+The result of the ``git push`` command if synchronization was successful:
 
 .. code-block:: none
 
@@ -395,7 +395,7 @@ Git - распределенная система, и каждый разраб�
     To gfxteam@lixer:blend4web.git 
        9f9700c..fa1d6ac  master -> master
 
-Результат команды ``git push``, если синхронизация не прошла, потому что сначала не была выполнена команда ``git pull``:
+The result of the ``git push`` command if synchronization was not successful because the ``git pull`` command was not executed first:
 
 .. code-block:: none
 
@@ -406,40 +406,40 @@ Git - распределенная система, и каждый разраб�
     Merge the remote changes (e.g. 'git pull') before pushing again.  See the 
     'Note about fast-forwards' section of 'git push --help' for details. 
 
-Необходимо выполнить команду ``git pull``.
+You should execute the ``git pull`` command.
 
-Изменения, загруженные в центральный репозиторий, могут быть получены другими участниками разработки с помощью команды ``git pull``.
-
-
-
-.. index:: git; разрешение конфликтов
-
-Разрешение конфликтов
-=====================
-
-Общие сведения
---------------
-
-Конфликты синхронизации происходят, если выполнены оба условия
-
-#. один и тот же файл был изменен как в локальном, так и в удаленном репозитории, и
-#. автоматическое слияние изменений не произошло, поскольку изменения находятся в одном и том же месте файла.
-
-Типичные случаи: 
-
-#. бинарный файл (текстура, blend-файл) независимо изменен двумя участниками разработки 
-#. в текстовой файл в одной и той же строке были внесены разные изменения
-#. один участник разработки изменил файл, а другой - переместил его и т.п.
-
-Хотя конфликты синхронизации - нормальное явление, слишком частое их возникновение замедляет работу. Рекомендуется ставить коллег в известность о начале работ с общими бинарными файлами, а также чаще проводить синхронизацию. Необходимо эффективно распределять работу между участниками разработки, чтобы таких общих файлов было как можно меньше. Этого можно добиться, в частности, подключением всех ресурсов сцены (linking) из отдельных blend-файлов в один мастер-файл.
+The changes uploaded into the central repository can be received by other developers with the ``git pull`` command.
 
 
-Порядок действий
-----------------
 
-Не рекомендуется производить какие-либо действия с файлами (изменять, удалять), пока репозиторий находится в конфликтном состоянии.
+.. index:: git; resolving conflicts
 
-Первое что необходимо сделать - выполнить команду ``git status``.
+Resolving Conflicts
+===================
+
+Overview
+--------
+
+Synchronization conflicts occur if both conditions are met
+
+#. the same file was changed both in the local and remote repositories, and
+#. automatic merging of the changes didn't occur because the changes are in the same place of the file.
+
+Typical cases: 
+
+#. a binary file (texture, blend file) was independently changed by two developers
+#. different changes were introduced to the same line of the same text file
+#. one developer has changed the file while the other has moved it and so on.
+
+Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is nesessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene's resources from the separate blend files into the master file.
+
+
+The steps to be taken
+---------------------
+
+It's not recommended to perform any files operations (modifying, deleting) while the repository is in a conflict state.
+
+The first thing to do is to perform the ``git status`` command.
 
 .. code-block:: none
 
@@ -454,44 +454,44 @@ Git - распределенная система, и каждый разраб�
     #
     no changes added to commit (use "git add" and/or "git commit -a")
 
-Список конфликтующих файлов отображен в разделе ``Unmerged paths``. 
+A list of conflicting files can be found in the ``Unmerged paths`` section. 
 
-Дальнейший порядок действий различен для бинарных и текстовых файлов. 
+The order of the following steps is different for binary and text files. 
 
-Бинарные файлы
---------------
+Binary files
+------------
 
-На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации. Файлы полностью функциональны (например, открываются графическими редакторами).
+At this stage the conflicting binary files are in the same state as they were in the local repository before the synchronization attempt. The files are fully functional (for example they can be opened by graphics editors).
 
-В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой ``git checkout``.
+In case of conflicting binary files it's necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the ``git checkout`` command.
 
-Выбрать локальную версию файла (**- -ours**). Его можно открыть и убедиться в этом.
+Select the local version of the file (**- -ours**). To make sure that it's local you can open it.
 
 .. code-block:: none
 
     > git checkout --ours blender/landscape_objects/Fallen_tree.blend
     
-Выбрать удаленную версию файла (**- -theirs**). Его можно открыть и убедиться в этом.
+Select the remote version of the file (**- -theirs**). To make sure that it's remote you can open it.
     
 .. code-block:: none
 
     > git checkout --theirs blender/landscape_objects/Fallen_tree.blend
 
-Снова выбрать локальную версию файла (**- -ours**).
+Select the local version of the file again (**- -ours**).
 
 .. code-block:: none
 
     > git checkout --ours blender/landscape_objects/Fallen_tree.blend
  
-В итоге необходимо остановиться на нужной версии файла. При угрозе потери работы можно сохранить отбрасываемую версию файла вне репозитория.
+Eventually you have to stick to the right version of the file. In case there is a threat of loosing the work you may save the discarded file outside the repository.
 
 
-Текстовые файлы
----------------
+Text files
+----------
 
-На данном этапе в конфликтующие текстовые файлы Git'ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны.
+At this stage Git introduces both local and remote changes to the conflicting text files, in a special format. Such text files are not workable as a rule
 
-Пример. Один участник разработки изменил имя сцены с "Blue Lizard" на "Green Lizard" в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке "Blue Lizard" на "Red Lizard", совершил коммит и выполнил команду ``git pull``. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки: 
+Example. One developer changed the scene name from "Blue Lizard" to "Green Lizard" in the application file and uploaded the changes into the central repository. Another developer changed "Blue Lizard" to "Red Lizard" in the same line, performed commit and executed the ``git pull`` command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:
 
 .. code-block:: none
 
@@ -501,20 +501,20 @@ Git - распределенная система, и каждый разраб�
                     "name": "Green Lizard",
     >>>>>>> 81bf4e2d5610d500ad4d2a2605ee7e61f759f201
 
-В случае конфликта текстовых файлов можно поступить следующим образом. Файлы, содержащие исходный код, необходимо отредактировать с учетом или без учета внесенных обеими сторонами изменений. В то же время экспортированные текстовые файлы сцен (заканчивающиеся на **.json**) проще повторно экспортировать.
+In case of conflicting text files the following steps can be taken. Files with source code should be edited with or without respect to the changes introduced by both parties. On the other hand, it is easier to reexport the exported scene text files (ending with **.json**).
 
 
-Корректирующий коммит
----------------------
+Correcting commit
+-----------------
 
-После выбора нужных файлов или редактирования изменений, добавить их для коммита:
+After selecting the required files or editing the changes, add them for commit:
 
 .. code-block:: none
 
     > git add blender/landscape_objects/Fallen_tree.blend
     > git status
 
-Возможный результат выполнения ``git status`` после добавления конфликтующих файлов для коммита:
+Possible result of ``git status`` command after adding the conflicting files for commit:
 
 .. code-block:: none
 
@@ -524,7 +524,7 @@ Git - распределенная система, и каждый разраб�
     #
     nothing to commit (working directory clean)
 
-Выполнить коммит, комментарий рекомендуется оставить предложенный по умолчанию:
+Perform commit. It is recommended to leave the default comment:
 
 .. code-block:: none
 
@@ -538,72 +538,72 @@ Git - распределенная система, и каждый разраб�
     #
     nothing to commit (working directory clean)
 
-Конфликты разрешены, изменения из удаленного репозитория успешно применены в локальном репозитории. Теперь изменения в локальном репозитории, - включающие только что разрешенный конфликт, - можно загрузить в удаленный репозиторий командой ``git push``.
+Conflicts are resolved, the changes from the remote repository are successfully applied in the local repository. Now the changes in the local repository - including the just resolved conflict - can be uploaded to the remote repository with the ``git push`` command.
 
 
 
-.. index:: git; тэги
+.. index:: git; tags
 
 .. _git_tags:
 
-Тэги
+Tags
 ====
 
-Тэги (метки) предназначены для указания на определенный коммит, например, с целью обозначения стабилизированной версии продукта.
+Tags are intended for pointing at a certain commit, for example, to specify a stable product version.
 
-Просмотреть список тэгов:
+View the list of tags:
 
 .. code-block:: none
 
     > git tag
 
 
-Создать тэг для релиза от 3 июня 2013 г., указывающий на коммит со стабильной версией проекта:
+Create a tag for the release from June 3, 2013, pointing to the commit with a stable product version:
 
 .. code-block:: none
 
     > git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
 
 
-Просмотреть информацию о коммите тэга:
+Check the commit tag information:
 
 .. code-block:: none
 
     > git show --shortstat R130603
 
 
-Перейти к тэгу...
+Roll back to the tag...
 
 .. code-block:: none
 
     > git checkout R130603
 
 
-...и вернуться:
+...and return:
 
 .. code-block:: none
 
     > git checkout master
 
 
-Синхронизировать тэги с удаленным репозиторием:
+Synchronize the tags with the remote repository:
 
 .. code-block:: none
 
     > git push --tags
 
 
-Удалить тэг (при ошибочном создании):
+Delete the tag (if created by mistake):
 
 .. code-block:: none
 
     > git tag -d R130603
 
 
-Другие полезные команды
-=======================
+Other Useful Commands
+=====================
 
-Просмотреть лог за январь 2012 г, показывать имена файлов, без коммитов слияния:
+Check the log for January, 2012, show file names without merging commits:
 
 .. code-block:: none
 

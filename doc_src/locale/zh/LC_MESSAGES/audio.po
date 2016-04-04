@@ -1,0 +1,231 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 10:49+0300\n"
+"PO-Revision-Date: 2016-03-28 16:33+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.8.7\n"
+
+#: ../audio.rst:5
+msgid "Audio"
+msgstr "音频"
+
+#: ../audio.rst
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../audio.rst:11
+msgid ""
+"Audio sources are created in Blender. The standard ``Speaker`` object is "
+"used."
+msgstr "在Blender中创建音频源。使用标准的扬声器物体。"
+
+#: ../audio.rst:20
+msgid "Audio Source Settings"
+msgstr "音源设置"
+
+#: ../audio.rst:22
+msgid ""
+"Speaker parameters can be set up on the ``Properties`` panel under the "
+"``Object Data`` tab."
+msgstr "扬声器参数可以在 ``属性`` 面板的 ``物体数据``  选项卡下设置。"
+
+#: ../audio.rst:24
+msgid ""
+"The engine supports all the standard Blender sound parameters and some "
+"engine-specific settings."
+msgstr "引擎支持标准的所有Blender声音参数和一些引擎特定设置。"
+
+#: ../audio.rst:26
+msgid "*Speaker Behavior*:"
+msgstr "*扬声器行为*:"
+
+#: ../audio.rst:28
+msgid "The behavior of the audio source."
+msgstr "音频源的行为。"
+
+#: ../audio.rst:30
+msgid ""
+"``Positional`` --- high-quality sound with spatial positioning and "
+"directivity (conicity). The Web Audio API is used for sound rendering. "
+"Playback performance of such sounds is the least and so use them only "
+"for short samples."
+msgstr ""
+"``Positional`` --- 高质量的声音指向性 （锥度） 与空间定位。用Web 音频 "
+"API 进行声音渲染。这种声音的播放性能是最小，所以只在短的样品里使用。"
+
+#: ../audio.rst:32
+msgid ""
+"``Background Sound`` --- high-quality omnidirectional sound without "
+"spatial positioning. The Web Audio API is used for sound rendering. It "
+"is more performant but is not effective for music."
+msgstr ""
+"``Background Sound`` --- 高质量全方位声音没有空间定位。用Web 音频 API 进"
+"行声音渲染。它是更好的性能，但对音乐不是有效。"
+
+#: ../audio.rst:34
+msgid ""
+"``Background Music`` --- used for music playback. It has maximum "
+"performance due to the use of the Audio HTML tag, but has minimum "
+"flexibility."
+msgstr ""
+"``Background Music`` --- 用来播放音乐。最大的性能，因为使用的音频 HTML 标"
+"记，但具有最低限度的灵活性。"
+
+#: ../audio.rst:36
+msgid "The following options are available on the ``Sound`` panel:"
+msgstr "下列可用选项在  ``Sound``  面板上 ︰"
+
+#: ../audio.rst:38
+msgid "*Volume*"
+msgstr "*音量*"
+
+#: ../audio.rst:40
+msgid "Speaker volume"
+msgstr "扬声器音量"
+
+#: ../audio.rst:42
+msgid "*Random Volume*"
+msgstr "*随机音量*"
+
+#: ../audio.rst:44
+msgid ""
+"Additional volume randomization. The resulting value is calculated as "
+"for the delay."
+msgstr "添加随机音量。所得到的值延迟播放。"
+
+#: ../audio.rst:46
+msgid "*Pitch*"
+msgstr "*音速*"
+
+#: ../audio.rst:48
+msgid "Sound playback velocity."
+msgstr "声音播放速度。"
+
+#: ../audio.rst:50
+msgid "*Random Pitch*"
+msgstr "*随机音速*"
+
+#: ../audio.rst:52
+msgid ""
+"Additional randomization of the sound playback speed. The resulting "
+"value is calculated as for the delay."
+msgstr "声音播放速度的附加随机化。所得到的值被延迟计算。"
+
+#: ../audio.rst:55
+msgid "*Fade-In*"
+msgstr "*淡入*"
+
+#: ../audio.rst:57
+msgid "Fade-in time interval."
+msgstr "淡入的时间间隔。"
+
+#: ../audio.rst:59
+msgid "*Fade-Out*"
+msgstr "*淡出*"
+
+#: ../audio.rst:61
+msgid "Fade-out time interval."
+msgstr "淡出的时间间隔。"
+
+#: ../audio.rst:63
+msgid "*Disable Doppler*"
+msgstr "*禁用多普勒*"
+
+#: ../audio.rst:65
+msgid "Ignore source's frequency shift upon its moving."
+msgstr "忽略移动源时的频移。"
+
+#: ../audio.rst:67
+msgid "*Cyclic Play*"
+msgstr "*循环播放*"
+
+#: ../audio.rst:69
+msgid "Loop the sound playback."
+msgstr "循环的声音播放功能。"
+
+#: ../audio.rst:71
+msgid "*Delay*"
+msgstr "*延迟*"
+
+#: ../audio.rst:73
+msgid "Delay before sound playback starts."
+msgstr "声音播放开始前的延迟。"
+
+#: ../audio.rst:75
+msgid "*Random Delay*"
+msgstr "*随机延迟*"
+
+#: ../audio.rst:77
+msgid ""
+"Additional delay randomization. The resulting value is calculated "
+"according to the formula :math:`Delay_{result} = Delay + Delay_{random} "
+"* Random_{[0-1]}`."
+msgstr ""
+"额外的延迟随机化。根据公式计算所得的值 :math:`Delay_{result} = Delay + "
+"Delay_{random} * Random_{[0-1]}`."
+
+#: ../audio.rst:79
+msgid "*Loop*"
+msgstr "*循环*"
+
+#: ../audio.rst:81
+msgid ""
+"Loop the sound playback. Contrary to the ``Cyclic play`` option it "
+"guarantees a zero delay upon repeat. The option is available only for "
+"sound sources with ``Positional`` or ``Background Sound`` behavior."
+msgstr ""
+"循环的声音播放功能。与 ``Cyclic play`` 选项相反，它保证零延迟后重复。选项"
+"仅可用于声源的 ``Positional`` 或 ``Background Sound`` 的行为。"
+
+#: ../audio.rst:101
+msgid "Processing and Decoding"
+msgstr "处理和解码"
+
+#: ../audio.rst:104
+msgid "Supported formats (containers):"
+msgstr "支持的格式 （容器） ︰"
+
+#: ../audio.rst:106
+msgid "ogg, Vorbis codec (Chrome, Firefox)"
+msgstr "ogg Vorbis 编码解码器 （Chrome、 火狐浏览器）"
+
+#: ../audio.rst:107
+msgid "mp3 (Chrome, Safari)"
+msgstr "mp3 （Chrome，Safari）"
+
+#: ../audio.rst:108
+msgid "mp4, AAC codec (Chrome, Safari)"
+msgstr "mp4、 AAC 编码解码器 （Chrome，Safari）"
+
+#: ../audio.rst:110
+msgid ""
+"It is recommended to use **Ogg** as it is an open standard, is "
+"widespread in browsers and provides good sound quality. The optimal "
+"format in respect to the quality and compatibility is 48kHz/16bit. "
+"Single-channel sound (mono) is used to store shot samples while two-"
+"channel sound (stereo) is used for music playback."
+msgstr ""
+"这推荐使用 **Ogg** ，它是一个开放式标准，在浏览器常见并提供好音质。在质量"
+"和兼容性方面的最佳格式是 48 kHz/16 位。单声道声音 （单声道） 用于存储拍摄"
+"的样本，而双声道音响（立体声）用于音乐播放。"
+
+#: ../audio.rst:112
+msgid ""
+"Converting resources between different formats is described in the :ref:"
+"`corresponding section <converter>`."
+msgstr "不同格式之间的资源转换的描述在 :ref:`相应章节 <converter>`."

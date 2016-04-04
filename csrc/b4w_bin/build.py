@@ -1,11 +1,16 @@
 #! /usr/bin/env python3
 
+# use B4W_BLEND_VER environment variable to specify path where to store result binary
+# using env to keep passing all cmd arguments into setup script
+# example: B4W_BLEND_VER=2_76  python3 build.py
+
 from distutils.core import setup, Extension
 from distutils import sysconfig
 import os
 import sys
+import re
 
-B4W_PATH = os.path.join("..", "..","blender_scripts", "addons", \
+B4W_PATH = os.path.join("..", "..", "addons", \
         "blend4web")
 sys.path.append(B4W_PATH)
 import b4w_bin_suffix
@@ -28,7 +33,7 @@ def get_compiled_ext_path(extension_name, debug_mode):
     else:
         return extension_name + ext_suffix
 
-def build():
+def build(path):
     DEBUG_MODE = False
     EXTENSION_NAME = "b4w_bin"
     PL_SUFFIX = b4w_bin_suffix.get_platform_suffix()
@@ -54,10 +59,10 @@ def build():
 
     # NOTE: workaround for bug: http://bugs.python.org/issue16754
     dst_suffix = get_ext_suffix()
-    dst_suffix = ".so" if dst_suffix == ".cpython-33m.so" or dst_suffix == ".cpython-34m.so" else dst_suffix
+    dst_suffix = ".so" if dst_suffix == ".cpython-33m.so" or dst_suffix == ".cpython-34m.so" or "linux" in dst_suffix or "darwin" in dst_suffix else dst_suffix
 
-    src = get_compiled_ext_path(EXTENSION_NAME, DEBUG_MODE)    
-    dst = os.path.join(B4W_PATH, EXTENSION_NAME) + PL_SUFFIX + dst_suffix
+    src = get_compiled_ext_path(EXTENSION_NAME, DEBUG_MODE)
+    dst = os.path.join(B4W_PATH, "bin", path, EXTENSION_NAME) + PL_SUFFIX + dst_suffix
 
     # HACK: workaround when file already exists
     try:
@@ -67,4 +72,16 @@ def build():
 
     os.rename(src, dst)
 
-build()
+if __name__ == "__main__":
+    # get current blender version from addon module descriptor
+    # for case if path to binary is not specified
+    file = open(os.path.join(B4W_PATH, "__init__.py"))
+    content = file.read()
+    regex = '(?<=\"blender\":\s)\(.*\)'
+    m = re.search(regex, content)
+    from ast import literal_eval as make_tuple
+    bl_version = make_tuple(m.group(0))
+
+    path = "%s_%s" % (bl_version[0], bl_version[1])
+    path = os.getenv('B4W_BLEND_VER', path)
+    build(path)

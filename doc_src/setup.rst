@@ -1,64 +1,76 @@
 .. _setup:
 
-******************************
-Развёртывание среды разработки
-******************************
+***********************
+Installing and Updating
+***********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее :ref:`экспресс-установка <quick_install>`.
+Before installation, please download and install the compatible Blender version, according to this `table <https://www.blend4web.com/downloads/>`_.
 
-Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_.
-
-
-Распаковка архива
-=================
-
-Стабильные версии дистрибутива поставляются в виде архива
-(``blend4web_sdk_free_YY_MM.zip`` -- бесплатный SDK, ``blend4web_sdk_pro_YY_MM.zip`` --
-коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.
-
-
-Подключение аддона
+Installation Order
 ==================
 
-.. note::
+.. _getting_started_install_blender:
 
-   Если аддон ранее был установлен с помощью :ref:`экспресс-установки <quick_install>`, то рекомендуется прежде его удалить.
+Installing Blender
+------------------
 
-Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие клавиши :file:`Ctrl-N`).
-Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории SDK.
+Authoring 3D scenes is carried out directly in `Blender <http://en.wikipedia.org/wiki/Blender_(software)>`_ which is open source software and is distributed free of charge.
+
+A current stable version of Blender should be used. It can be downloaded from the `official site <http://www.blender.org/download>`_.
+
+.. image:: src_images/first_steps/blender_first_run.png
+   :align: center
+   :width: 100%
+
+
+Unpacking the Archive
+---------------------
+
+Stable versions of the distribution are available as an archive (``blend4web_sdk_free_YY_MM.zip`` -- free SDK, ``blend4web_sdk_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this archive somewhere.
+
+SDK Installation Order
+----------------------
+
+#. Open Blender.
+
+#. Open the User Preferences panel :file:`File > User Preferences...`.
+
+#. Open the :file:`File` tab.
+
+#. Set the path to the SDK directory in the :file:`Scripts` field.
+
+#. Click the :file:`Save User Settings` button.
+
+#. Restart Blender.
 
 .. image:: src_images/setup/user_preferences_sdk_path.png
    :align: center
    :width: 100%
 
+*To verify it worked:*
+
+In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and :file:`Blend4Web (.html)` options should appear.
+
+.. note::
+
+    If you are planning to use only the normal editor, you might consider installing the :ref:`Blend4Web addon <addon>` instead of the SDK.
+
+    The addon can only export scenes to :ref:`HTML format <export_scene>` and has limited functionality (for example, it doesn't have the :ref:`project manger <project_management>`, example scenes, user manual and so on), but still it has everything you might need to create a simple application.
+
+    It can be installed the same way as any other `Blender addon <https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on>`_.
+
+
 |
 
-Нажать :file:`Save User Settings` и **перезапустить** Blender.
 
+Blend4Web Mode
+--------------
 
-Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Отметить галочку напротив :file:`Import-Export: Blend4Web`.
-
-.. image:: src_images/setup/user_preferences_enable_addon.png
-   :align: center
-   :width: 100%
-
-|
-
-Нажать :file:`Save User Settings`. Перезапуск Blender не требуется.
-
-*Для проверки:*
-
-В меню :file:`File > Export` должны появиться опции :file:`Blend4Web (.json)` и :file:`Blend4Web (.html)`.
-
-
-Профиль Blend4Web
-=================
-
-Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:
+To reveal the engine settings, select Blend4Web from the upper panel menu:
 
 .. image:: src_images/first_steps/first_steps_selecting_engine.png
    :align: center
@@ -67,11 +79,10 @@
 
 .. _local_development_server:
 
-Локальный сервер разработки
-===========================
+Local Development Server
+------------------------
 
-Настройки локального сервера разработки находятся в меню :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`).
-Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender'a: для этого достаточно включить опцию ``Run on Startup`` в настройках аддона.
+Settings for the local development server can be found in :file:`File > User Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable ``Run on Startup`` option in the add-on settings.
 
 .. image:: src_images/setup/server_setup.png
    :align: center
@@ -79,11 +90,11 @@
 
 |
 
-После изменения настроек локального сервера разработчика требуется перезапуск Blender'a.
+After changing local development server settings in it required to restart Blender.
 
-Имеется возможность сделать локальный сервер доступным из внешней сети. Для этого достаточно включить свойство ``Enable External Requests``.
+It is possible for the local server to process external requests. To do that enable the option ``Enable External Requests``.
 
-Если не был настроен автоматический запуск сервера, то его можно стартовать вручную по кнопке ``Start Server`` во вкладке ``Render->Developement Server``:
+If you chose not to start the server automatically, you can always do it manually: go to the ``Render`` tab and press the ``Start Server`` button on the ``Development Server`` panel:
 
 .. image:: src_images/setup/server_start.png
    :align: center
@@ -93,16 +104,16 @@
 
 .. note::
 
-    Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки ``Start Server`` будет выведено соответствующее сообщение.
+    If the path to the Blend4Web SDK is not specified, the local development server cannot be launched. In this case the corresponding message will be displayed instead of the ``Start Server`` button.
 
-    В случае ошибки запуска сервера будет показано окно с описанием причины:
+    If the server is failed to run, an error message will be shown describing the reason:
 
     .. image:: src_images/setup/error.png
        :align: center
 
-    Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже используется другим приложением.
+    This error can arise if the server port is already used by some other application.
 
-Нажмите кнопку ``SDK Index`` для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу http://localhost:6687.
+Press the ``SDK Index`` button to open the index web page of the Blend4Web SDK in the browser. This page is available at http://localhost:6687.
 
 .. image:: src_images/setup/server_open.png
    :align: center
@@ -110,23 +121,23 @@
 
 |
 
-При этом будет автоматически запущен браузер, используемой в операционной системе по умолчанию.
+As a result, the default browser for your operating system will be launched.
 
-Кнопка ``Project Manager`` открывает :ref:`менеджер проектов <project_management>`.
+The ``Project Manager`` button can be used to open :ref:`project manager <project_management>`.
 
-Кнопка ``Fast Preview`` вызывает :ref:`просмотрщик сцен <viewer>` и загружает в него сцену, открытую в Blender на данный момент.
+The ``Fast Preview`` button loads the scene that is currently open in Blender, into the :ref:`viewer <viewer>`.
 
-Сервер может быть остановлен по нажатию на кнопку ``Stop Server``. Сервер также прекращает работу при закрытии программы Blender.
+The server can be stopped by pressing the ``Stop Server`` button. It also stops when Blender is closed.
 
 
-.. index:: просмотрщик; запуск
+.. index:: viewer; launch
 
 .. _getting_started_launching_viewer:
 
-Запуск просмотрщика сцен и демо-приложений
-==========================================
+Running Viewer and Demos
+------------------------
 
-На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL <browser_webgl_support>`.
+The index page contains links for launching the scene viewer and the demo applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is required to run these apps.
 
 .. image:: src_images/setup/setup_sdk_index.png
    :align: center
@@ -136,4 +147,36 @@
 
 .. note::
 
-   Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе :ref:`renderer_not_working`.
+   If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the :ref:`renderer_not_working` section.
+
+Updating
+========
+
+Updating the SDK
+----------------
+
+Before updating, we recommend to backup all projects in development using the :ref:`project export <export_projects>` tools.
+
+There are two methods to update the SDK.
+
+Firstly, you can completely delete the SDK folder and, after that, extract the new version folder and set the path to it in the Blender settings, as if you were installing the SDK for the first time.
+
+Secondly, you can simply overwrite the outdated SDK files with the new ones. This method is considered less "pure", but in most cases it should not cause any problems.
+
+After updating is complete, you can import all saved projects using the :ref:`project import <import_projects>` tools.
+
+.. index:: export
+
+.. _getting_started_export_viewer:
+
+Exporting and Viewing Scenes
+----------------------------
+
+The created scenes can be exported in HTML format. To do this use the :file:`File > Export > Blend4Web (.html)` or :file:`File > Export > Blend4Web (.json)` menu option and choose the export filepath. Scene export is described thoroughly in :ref:`its own chapter <addon>`. The resulting HTML file can be opened with any browser with WebGL support.
+
+.. seealso:: :ref:`browser_webgl_support`
+
+
+
+|
+

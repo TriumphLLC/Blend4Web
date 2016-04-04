@@ -1,243 +1,243 @@
 .. _project_management:
 
-********************
-Управление проектами
-********************
+***************
+Project Manager
+***************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Начиная с версии 15.09, SDK включает систему управления проектами, которая позволяет:
+Since version 15.09, the SDK includes a project managment feature, which makes it possible to:
 
-    * просматривать список и внутреннюю структуру имеющихся проектов;
+    * browse the full list and file structure of the projects;
 
-    * запускать приложения, просматривать сцены в программе-просмотрщике, загружать исходные файлы сцен в Blender;
+    * launch apps, run exported scenes in the Viewer, open source blend files in Blender;
 
-    * создавать и конфигурировать новые приложения, в том числе на основе готовых шаблонов;
+    * create and configure new apps, including those based on ready-made templates;
 
-    * осуществлять сборку приложения и его конверсию в форму, удобную для последующего размещения на сервере;
+    * build apps and pack them to be conveniently deployed on a remote server;
 
-    * конвертировать ресурсы приложения (текстуры, звуковые и видео-файлы) в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности;
+    * convert app resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance;
 
-    * автоматизировать повторный экспорт всех сцен из состава приложения, включая файлы в формате JSON и HTML.
+    * automatically re-export all scenes of an app, including export to JSON and HTML formats;
 
-    * удалять проекты.
+    * remove projects.
 
 Project Manager
 ---------------
 
-Приложение *Project Manager* доступно из раздела *Tools* главной страницы SDK. При запуске приложение выводит список из всех проектов, находящихся в установленном SDK. 
+The *Project Manager* app can be run from the *Tools* section of the SDK’s index page. Upon launching, the app outputs a list of all current projects in the SDK.
 
-Команды для управления проектами находятся в верхней части страницы.
+The commands for project management are located at the top of the page.
 
     .. image:: src_images/project_manager/project_manager_actions.png
        :align: center
        :width: 100%
 
 *Back to Index*
-    Возвращает на индексную страницу Blend4Web SDK.
+    Returns to the Blend4Web SDK index page.
 
 *Create New Project*
-    Открывает мастер :ref:`создания новых проектов <create_new_project>`.
+    Opens the :ref:`project creation <create_new_project>` wizard.
 
 *Import Project(s)*
-    Открывает диалог :ref:`импорта проектов <import_projects>`.
+    Opens the :ref:`project import <import_projects>` dialogue.
 
 *Export Project(s)*
-    Открывает страницу :ref:`экспорта проектов <export_projects>`.
+    Opens the :ref:`project export <export_projects>` page.
 
 *Hide Stock Projects*
-    Позволяет скрыть стоковые проекты. Если они уже скрыты, место этой команды занимает команда ``Show Stock Projects``.
+   Can be used to hide stock projects. If such projects are already hidden, this command is replaced with the ``Show Stock Projects`` command.
 
 *Help*
-    Вызывает :ref:`справку <app_building>`.
+    Opens the :ref:`Help file <app_building>`.
 
 
-Команды управления конкретным проектом находятся справа от него
+Commands for managing a specific project is located at its right.
 
     .. image:: src_images/project_manager/project_manager_commands.png
        :align: center
 
-1) Компиляция проекта (недоступно для типов проекта WebPlayer JSON и WebPlayer HTML).
-2) Реэкспорт блендеровских сцен в проекте.
-3) Конвертация медиа ресурсов.
-4) Экспортирование и дальнейшая загрузка проекта.
-5) Удаление проекта со всеми зависимостями.
+1) Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).
+2) Re-export blend files from the project.
+3) Convert media resources.
+4) Export and download a project archive.
+5) Remove the project.
 
 .. note::
 
-    Все пути берутся из конфигурационного файла .b4w_project.
+    All project paths are retreived from its .b4w_project file.
 
-Рядом с именем проекта находится ссылка на :ref:`информацию о нём <project_info>`. Там же указан тип приложения. Приложение может иметь один из следующих типов:
+Beside the project's name, a link to the :ref:`project information page  <project_info>` is located. The application type is also specified there. An application can have one of the following types:
 
 *Player*
-    Приложение запускается при помощи веб-плейера.
+    The application can be played using the Web Player.
 
 *Dev*
-    Приложение для разработки
+    Application for development.
 
 *Build*
-    Скомпилированное приложение.
+    Compiled application.
 
 
 .. _create_new_project:
 
-Мастер создания проектов
-------------------------
+Project Creation Wizard
+-----------------------
 
-Мастер создания новых проектов входит в состав приложения Project Manager и вызывается по ссылке ``[Create New Project]`` на главной странице этого приложения.
+The tool for creating new projects is included in the Project Management app and executed by the ``[Create New Project]`` button on the main page of this app.
 
     .. image:: src_images/project_manager/project_manager_create_project.png
        :align: center
        :width: 100%
 
-Кнопка ``[Back to Projects]`` используется для возвращения на главную страницу менеджера проектов, а кнопка ``[Help]`` :ref:`вызывает справку <create_new_project>`.
+The ``[Back to Projects]`` button can be used to return to the Project Manager's main page, while the ``[Help]`` button can be used to access the :ref:`Help file <create_new_project>`.
 
-1) Имя проекта. Текущим именем будут названы директории в "apps_dev/имя_проекта", "deploy/assets/имя_проекта", "blender/имя_проекта" и "deploy/apps/имя_проекта". Для лучшей совместимости рекомендуется использовать буквы и нижнее подчеркивание.
-2) Название проекта. Это имя будет показываться в заголовке веб-браузера.
-3) Имя автора проекта.
-4) Добавить шаблоны приложения. В директорию проекта "apps_dev/имя_проекта" будут добавлены стандартные шаблоны приложения: html-файл, css-файл, js-файл.
-5) Добавить шаблоны сцены. В директорию "deploy/assets/имя_проекта" будет добавлен стандартный json-файл; в директорию "blender/имя_проекта" - blend-файл.
-6) Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован в директорию проекта.
-7) Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступен только тип проекта - "update".
-8) Тип собираемого проекта. Здесь возможны варианты:
+1) Project name is used to name project directories such as "apps_dev/project_name", "deploy/assets/project_name", "blender/project_name" and "deploy/apps/project_name".
+2) Project title as shown in the browser.
+3) Project author’s name.
+4) Add application templates. Standard application templates: html file, css file, js file will be added to the project directory "apps_dev/project_name".
+5) Add scene templates. Standard json file will be added to the "deploy/assets/project_name" directory; blend file will be added to the "blender/project_name" directory.
+6) Copy project manager script. The project.py script will be copied to the project directory.
+7) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only "update" project type is available for this option.
+8) Project’s type. Several options are available:
 
-    * "External" - движок берется из директории "deploy/apps/common/". Компилируются только файлы приложения;
-    * "Copy" - движок копируется в директорию собранного приложения. Компилируются только файлы приложения;
-    * "Compile" - исходники движка компилируются вместе со скриптами приложения;
-    * "Update" - заменяется движок в директории проекта;
-    * "Webplayer JSON" - json-файл, находящийся в проекте, запускается при помощи веб-плеера в составе SDK;
-    * "Webplayer HTML" - проект состоит из html-файла, внутри которого находятся все необходимые ресурсы.
+    * "External" - engine will be taken from the "deploy/apps/common/" directory. Only application files will be compiled;
+    * "Copy" - engine is copied into the compiled application directory. Only application files are compiled;
+    * "Compile" - engine sources are compiled with application scripts;
+    * "Update" - engine inside the project directory will be replaced;
+    * "Webplayer JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
+    * "Webplayer HTML" - project is packed into single html-file, containing all required resources.
 
-9) Уровень оптимизации javascript.
+9) Javascript optimization level.
 
-    * "Simple" - в коде заменяются имена переменных;
-    * "Advanced" - призводится оптимизация кода;
-    * "Whitespace Only" - в коде удаляются только пробелы.
+    * "Simple" - variable names are replaced in the code;
+    * "Advanced" - code optimization is performed;
+    * "Whitespace Only" - only whitespaces are removed from the code.
 
 .. _project_info:
 
-Информация о проекте
---------------------
+Project Information
+-------------------
 
-Эта страница содержит информацию о выбранном проекте и доступна по ссылке ``[info]`` рядом с его названием.
+This page contains information regarding the selected project and can be viewed by the ``[info]`` link beside the project's title.
 
     .. image:: src_images/project_manager/project_manager_info.png
        :align: center
        :width: 100%
 
-Команды
-.......
+Commands
+........
 
 *Back to Projects*
-    Возвращает на главную страницу менеджера проектов.
+    Returns to the Project Manager's main page.
 
 *Help*
-    Вызывает :ref:`справку <project_info>`.
+    Opens the :ref:`Help file <project_info>`.
 
-Параметры проекта
-.................
+Project Parameters
+..................
 
 *Project Name*
-    Имя проекта
+    The name of the project.
 
 *Project Title*
-    Название проекта. Это имя будет показываться в заголовке веб-браузера.
+    Project title as shown in the browser.
 
 *Project Author / Company*
-    Имя автора проекта или название компании-разработчика проекта.
+    The name of the project's author or the title of the developer company.
 
 *Project Icon*
-    Пиктограмма проекта.
+    The icon of the project.
 
 *Application*
-    Главный JSON-файл приложения.
+    Application's main JSON file.
 
 *Engine Binding Type*
-    Тип собираемого проекта.
+    The type of the project.
 
 *Project Path (Development Directory)*
-    Каталог проекта.
+    Project's directory.
 
 *Project Config*
-    Конфигурационный файл проекта.
+    Project's config file.
 
 *Build Directory*
-    Директория сборки проекта.
+    Project build folder.
 
 *Blend Directory(s)*
-    Каталоги, в которых располагаются blend-файлы проекта.
+    Directories where project's blend files are located.
 
 *Assets Directory(s)*
-    Каталоги, в которых располагаются медиаресурсы проекта.
+    Directories where project's media assets are located.
 
 *URL Params*
-    :ref:`URL-параметры <webplayer_attributes>`, применяемые при запуске приложения.
+    The list of :ref:`URL parameters <webplayer_attributes>` used to start the application.
 
 *JavaScript Obfuscation Level*
-    Уровень оптимизации JavaScript.
+    JavaScript optimization level.
 
 *JavaScript Compilation Ignore List*
-    Список исключений для компиляции скриптов проекта.
+    The list of exceptions for the project's script compilation.
 
 *CSS Compilation Ignore List*
-    Список исключений для компиляции таблиц стилей проекта.
+    The list of exceptions for the projects style sheets compilation.
 
 *Deployment Directory Assets Prefix*
-    Директория с ресурсами сцены в развёрнутом приложении.
+    The scene resource folder in the deployed application.
 
 .. _import_projects:
 
-Импорт проектов
----------------
+Project Import
+--------------
 
-Средства импорта проектов вызываются по ссылке ``[Import Project(s)]``.
+Tools for importing projects are avalible by the ``[Import Project(s)]`` link.
 
-Нажатие на эту ссылку вызывает стандартный диалог открытия файла, где можно выбрать файл проекта, который требуется импортировать.
+Clicking this link opens standard Open File dialog where you can select the project you need to import.
 
 .. _export_projects:
 
-Экспорт проектов
-----------------
+Project Export
+--------------
 
-Окно экспорта проекта вызывается по ссылке ``[Export Project(s)]``.
+Project exporting window can be accessed by the ``[Export Project(s)]`` link.
 
     .. image:: src_images/project_manager/project_manager_export.png
        :align: center
        :width: 100%
 
-Команды
-.......
+Commands
+........
 
 *Back to Projects*
-    Возвращает на главную страницу менеджера проектов.
+    Returns to the Project Manager’s main page.
 
 *Hide Stock Projects*
-    Скрывает стоковые проекты. Если они уже скрыты, место этой команды занимает команда ``[Show Stock Projects]``.
+    Hides stock projects. If such projects are already hidden, this command is replaced with the ``[Show Stock Projects]`` command.
 
 *Help*
-    Вызывает справку.
+    Shows the Help page.
 
 *Export Project(s)*
-    Экспортировать выбранные проекты.
+    Can be used to export selected projects.
 
-Параметры проектов
+Project Parameters
 ..................
 
 *Select*
-    Демонстрирует, выбран ли проект для экспорта.
+    Shows if the project is selected for export.
 
 *Name*
-    Имя каталога проекта.
+    The name of the project's directory.
 
 *Title*
-    Заголовок проекта.
+    Project's title.
 
 *Author*
-    Имя автора проекта.
+   Project author’s name.
 
 *Archive Name*
-    Имя архива, в который будут запакованы экспортируемые проекты.
+    The name of an archive to which exported projects are packed.
 
 

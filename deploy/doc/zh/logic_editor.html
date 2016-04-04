@@ -1,0 +1,1420 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Logic Nodes &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+        <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
+        <link rel="prev" title="Node Materials" href="node_materials.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Logic Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control-flow">Control Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#input-parameters">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-parameters">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#internal-parameters">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#switch-select">Switch Select</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#select-deprecated">Select (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline-deprecated">Select &amp; Play Timeline (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-play-animation-deprecated">Select &amp; Play Animation (Deprecated)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#animation">Animation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#play-timeline-and-stop-timeline">Play Timeline and Stop Timeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get-timeline">Get Timeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stop-animation">Stop Animation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#camera">Camera</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-camera">Move Camera</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#object">Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#show-object">Show Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id25">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hide-object">Hide Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id28">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transform-object">Transform Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id31">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#move-to">Move To</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id34">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id35">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id37">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id40">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id43">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id46">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id49">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id52">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#string-operation">String Operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id55">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sound">Sound</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#play-sound">Play Sound</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id58">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id59">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id60">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stop-sound">Stop Sound</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id61">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id62">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id63">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id64">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id65">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id66">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id67">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id70">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id71">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id72">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id73">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#debug">Debug</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#console-print">Console Print</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id76">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reroute">Reroute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Logic Nodes</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="logic-nodes">
+<span id="logic-editor"></span><h1><a class="toc-backref" href="#id79">Logic Nodes</a><a class="headerlink" href="#logic-nodes" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-content">
+<p class="topic-title first">Table of Content</p>
+<ul class="simple">
+<li><a class="reference internal" href="#logic-nodes" id="id79">Logic Nodes</a><ul>
+<li><a class="reference internal" href="#basics" id="id80">Basics</a></li>
+<li><a class="reference internal" href="#control-flow" id="id81">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id82">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id83">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id84">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id85">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id86">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id87">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id88">Debug</a></li>
+<li><a class="reference internal" href="#layout" id="id89">Layout</a></li>
+<li><a class="reference internal" href="#debugging" id="id90">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="basics">
+<h2><a class="toc-backref" href="#id80">Basics</a><a class="headerlink" href="#basics" title="永久链接至标题">¶</a></h2>
+<p>Visual programming is performed by creating logic node tree in the node editor area in Blender. These nodes can extend the scene functionality significantly without any coding.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_app_example.jpg"><img alt="_images/logic_editor_app_example.jpg" class="align-center" src="_images/logic_editor_app_example.jpg" style="width: 100%;" /></a>
+<p>To activate logic on the given scene set the <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> property in the <code class="docutils literal"><span class="pre">Scene</span></code> tab and append/select active node tree.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_activation.png"><img alt="_images/logic_editor_activation.png" class="align-center" src="_images/logic_editor_activation.png" style="width: 100%;" /></a>
+<p>To edit logic tree go to the <code class="docutils literal"><span class="pre">Node</span> <span class="pre">Editor</span></code> area and select the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Logic</span></code> tree type:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_tree_type.png"><img alt="_images/logic_editor_tree_type.png" class="align-center" src="_images/logic_editor_tree_type.png" style="width: 100%;" /></a>
+<p>Then select the required node tree:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_select_tree.png"><img alt="_images/logic_editor_select_tree.png" class="align-center" src="_images/logic_editor_select_tree.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Nodes are created by using standard Blender keyboard shortcut <code class="docutils literal"><span class="pre">Shift+A</span></code>.</p>
+<p>The nodes themselves are logic blocks that are executed from the <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node which has no inputs and only one output. All other nodes have both inputs and outputs, and can be inserted in any place of a logic tree. The exception is <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code> node, which can be inserted only to the end of the node tree. The nodes which have two outputs allow braching, thus the next leave is selected based on condition specified for such nodes.</p>
+<p>For implementing complicated logic there are numeric variables called registers. Each of 8 registers can store a single numeric value. The registers can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character’s health points etc).</p>
+<p>Logic Editor usage example:</p>
+<a class="reference internal image-reference" href="_images/logic_editor_example.png"><img alt="_images/logic_editor_example.png" class="align-center" src="_images/logic_editor_example.png" style="width: 100%;" /></a>
+<p>All avalible nodes are described below.</p>
+</div>
+<div class="section" id="control-flow">
+<h2><a class="toc-backref" href="#id81">Control Flow</a><a class="headerlink" href="#control-flow" title="永久链接至标题">¶</a></h2>
+<div class="section" id="entry-point">
+<span id="nla-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="永久链接至标题">¶</a></h3>
+<p>This is where the script starts. By using multple entry points you can create multi-threaded applications.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_entry.png"><img alt="_images/logic_editor_entry.png" class="align-center" src="_images/logic_editor_entry.png" style="width: 100%;" /></a>
+<div class="section" id="input-parameters">
+<h4>Input Parameters<a class="headerlink" href="#input-parameters" title="永久链接至标题">¶</a></h4>
+<p>None.</p>
+</div>
+<div class="section" id="output-parameters">
+<h4>Output Parameters<a class="headerlink" href="#output-parameters" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="internal-parameters">
+<h4>Internal Parameters<a class="headerlink" href="#internal-parameters" title="永久链接至标题">¶</a></h4>
+<p>None.</p>
+</div>
+</div>
+<div class="section" id="switch-select">
+<span id="nla-switch-select"></span><h3>Switch Select<a class="headerlink" href="#switch-select" title="永久链接至标题">¶</a></h3>
+<p>Can be used to trace the selection of any object from the object list.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_switch_select.png"><img alt="_images/logic_editor_switch_select.png" class="align-center" src="_images/logic_editor_switch_select.png" style="width: 100%;" /></a>
+<div class="section" id="id1">
+<h4>Input Parameters<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id2">
+<h4>Output Parameters<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>&lt;object name&gt; Hit</em></dt>
+<dd>This parameter will pass the control to the next node if the user selects (with a mouse or by touch) an object mentioned in the parameter’s name. The <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).</dd>
+<dt><em>Miss</em></dt>
+<dd>This parameter will pass the control to the next node if the user hasn’t selected any of the objects specified in the <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node.</dd>
+</dl>
+</div>
+<div class="section" id="id3">
+<h4>Internal Parameters<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>One of the objects that the user can select. These parameters are automatically created and deleted when you create or delete a <code class="docutils literal"><span class="pre">Hit</span></code> parameter. The number of such parameters is always equal to the number of the <code class="docutils literal"><span class="pre">Hit</span></code> parameters.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="delay">
+<span id="nla-delay"></span><h3>Delay<a class="headerlink" href="#delay" title="永久链接至标题">¶</a></h3>
+<p>Make a delay before going to the next node.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
+<div class="section" id="id4">
+<h4>Input Parameters<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id5">
+<h4>Output Parameters<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id6">
+<h4>Internal Parameters<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Value</em></dt>
+<dd>Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a register (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="conditional-jump">
+<span id="nla-jump"></span><h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="永久链接至标题">¶</a></h3>
+<p>Go to the specified node if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
+<div class="section" id="id7">
+<h4>Input Parameters<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id8">
+<h4>Output Parameters<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>True</em></dt>
+<dd>Condition is true.</dd>
+<dt><em>False</em></dt>
+<dd>Condition is false.</dd>
+</dl>
+</div>
+<div class="section" id="id9">
+<h4>Internal Parameters<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Condition</em></dt>
+<dd><p class="first">Logical condition. Can have one of the following types:</p>
+<ul class="last simple">
+<li><em>Equal</em> - first operand is equal to the second.</li>
+<li><em>Not Equal</em> - frist operand is not equal to the second.</li>
+<li><em>Less Than</em> - first operand is less than the second.</li>
+<li><em>Greater Than</em> - first operan is greater than the second.</li>
+<li><em>Less Than Or Equal</em> - first operand is less than or equal to the second.</li>
+<li><em>Greater Than Or Equal</em> - first operand is greater than or equal to the second.</li>
+</ul>
+</dd>
+<dt><em>Operand1</em></dt>
+<dd>First operand of the logical condition. Should have a numeric value. Can be specified in the node or can be a link to one of the eight registers.</dd>
+<dt><em>Operand2</em></dt>
+<dd>Second operand of the logical condition. Works the same way as the first.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="select-deprecated">
+<h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="永久链接至标题">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Deprecated! Isn’t recommended to use. Instead, using a <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node is recommended.</p>
+</div>
+<p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
+</div>
+<div class="section" id="select-play-timeline-deprecated">
+<h3>Select &amp; Play Timeline (Deprecated)<a class="headerlink" href="#select-play-timeline-deprecated" title="永久链接至标题">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Deprecated! Isn’t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
+</div>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
+</div>
+<div class="section" id="select-play-animation-deprecated">
+<h3>Select &amp; Play Animation (Deprecated)<a class="headerlink" href="#select-play-animation-deprecated" title="永久链接至标题">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Deprecated! Isn’t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
+</div>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
+</div>
+</div>
+<div class="section" id="animation">
+<h2><a class="toc-backref" href="#id82">Animation</a><a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h2>
+<div class="section" id="play-timeline-and-stop-timeline">
+<span id="nla-play-timeline"></span><h3>Play Timeline and Stop Timeline<a class="headerlink" href="#play-timeline-and-stop-timeline" title="永久链接至标题">¶</a></h3>
+<p>Can be used to control NLA animations. The <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encounterd, or to the end of the scene’s timeline. After that, control passes on to the next node. The <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node stops the playback.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_timeline.png"><img alt="_images/logic_editor_timeline.png" class="align-center" src="_images/logic_editor_timeline.png" style="width: 100%;" /></a>
+<div class="section" id="id10">
+<h4>Input Parameters<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id11">
+<h4>Output Parameters<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id12">
+<h4>Internal Parameters<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Start Marker</em></dt>
+<dd>First frame of the animation. If not specified, an animation plays from the start of the timeline and may not work correctly.</dd>
+<dt><em>End Marker</em></dt>
+<dd>Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="get-timeline">
+<span id="nla-get-timeline"></span><h3>Get Timeline<a class="headerlink" href="#get-timeline" title="永久链接至标题">¶</a></h3>
+<p>This node can be used to get the currect frame of an NLA animation or a timeline.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_get_timeline.png"><img alt="_images/logic_editor_get_timeline.png" class="align-center" src="_images/logic_editor_get_timeline.png" style="width: 100%;" /></a>
+<div class="section" id="id13">
+<h4>Input Parameters<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id14">
+<h4>Output Parameters<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id15">
+<h4>Internal Parameters<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>NLA Timeline</em></dt>
+<dd>If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.</dd>
+<dt><em>Destination</em></dt>
+<dd>Specifies a register to store the number of the current frame. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="play-animation">
+<span id="nla-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="永久链接至标题">¶</a></h3>
+<p>Can be used to play object’s animation. An animation can be one of the following types:</p>
+<p>Regular Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
+<p>Shader Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
+<p>Particle system:</p>
+<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
+<div class="section" id="id16">
+<h4>Input Parameters<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id17">
+<h4>Output Parameters<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id18">
+<h4>Internal Parameters<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>Name of the object, animation of which will be played.</dd>
+<dt><em>Anim. Name</em></dt>
+<dd>Name of an animation to play. If not specified, the entire timeline will be played.</dd>
+<dt><em>Behavior</em></dt>
+<dd><p class="first">Specifies animation behavior. Can have one of the following values:</p>
+<ul class="last simple">
+<li><em>Finish Stop</em> - animation will be played once.</li>
+<li><em>Finish Reset</em> - animation will be played once, then the object will return to the starting point.</li>
+<li><em>Loop</em> - animation will be playing repeatedly until it is stopped by the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code> node.</li>
+</ul>
+</dd>
+<dt><em>Do Not Wait</em></dt>
+<dd>If this parameter is enabled, the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> node will pass the control to the next node on starting the animation playback. If it isn’t, the control will be passed to the next node only after playback is finished.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="stop-animation">
+<span id="nla-stop-anim"></span><h3>Stop Animation<a class="headerlink" href="#stop-animation" title="永久链接至标题">¶</a></h3>
+<p>Can be used to stop an object’s animation.</p>
+<div class="section" id="id19">
+<h4>Input Parameters<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id20">
+<h4>Output Parameters<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id21">
+<h4>Internal Parameters<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Set First Frame</em></dt>
+<dd>Go back to the first frame after the animation has been stopped.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="camera">
+<h2><a class="toc-backref" href="#id83">Camera</a><a class="headerlink" href="#camera" title="永久链接至标题">¶</a></h2>
+<div class="section" id="move-camera">
+<span id="nla-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="永久链接至标题">¶</a></h3>
+<p>Can be used to move the camera, including smooth interpolation of its position.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
+<div class="section" id="id22">
+<h4>Input Parameters<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id23">
+<h4>Output Parameters<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id24">
+<h4>Internal Parameters<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Camera</em></dt>
+<dd>A camera that will be moved.</dd>
+<dt><em>Location</em></dt>
+<dd>An object to which the camera will move. The camera’s coordinates will be the same as the object’s after the movement is finished.</dd>
+<dt><em>Target</em></dt>
+<dd>The camera will point in the direction of this object after being moved.</dd>
+<dt><em>Duration</em></dt>
+<dd>Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a register (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="object">
+<h2><a class="toc-backref" href="#id84">Object</a><a class="headerlink" href="#object" title="永久链接至标题">¶</a></h2>
+<div class="section" id="show-object">
+<span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="永久链接至标题">¶</a></h3>
+<p>Can be used to show 3D objects.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
+<div class="section" id="id25">
+<h4>Input Parameters<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id26">
+<h4>Output Parameters<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id27">
+<h4>Internal Parameters<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object to show.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="hide-object">
+<span id="nla-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="永久链接至标题">¶</a></h3>
+<p>Can be used to hide 3D objects.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
+<div class="section" id="id28">
+<h4>Input Parameters<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id29">
+<h4>Output Parameters<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id30">
+<h4>Internal Parameters<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object to hide.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="transform-object">
+<h3>Transform Object<a class="headerlink" href="#transform-object" title="永久链接至标题">¶</a></h3>
+<p>Can be used to transform object’s location, size and rotation angles.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
+<div class="section" id="id31">
+<h4>Input Parameters<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id32">
+<h4>Output Parameters<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id33">
+<h4>Internal Parameters<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that needs to be translated.</dd>
+<dt><em>Relative</em></dt>
+<dd>If this parameter is enabled, the transformation will be relative, if it isn’t, it will be absolute.</dd>
+<dt><em>Location</em></dt>
+<dd>How the object will move along the <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> and <code class="docutils literal"><span class="pre">Z</span></code> axes. By default, all three parameters are set to zero. Values can be specified in the node itself or through the regisers (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</dd>
+<dt><em>Rotation</em></dt>
+<dd>Object’s rotation around the <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> and <code class="docutils literal"><span class="pre">Z</span></code> axes. All three valueas are set to zero by default. Can be specified directly in the node or through the registers (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</dd>
+<dt><em>Scale</em></dt>
+<dd>Object’s size. Can be specified directly or through a register (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled). Set to zero by default.</dd>
+<dt><em>Duration</em></dt>
+<dd>Time (in seconds) that the transformation will take. It can be specified both directly or with a register (to do this, the <code class="docutils literal"><span class="pre">Variable</span></code> parameter should be enabled). Set to zero by default.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="move-to">
+<span id="nla-move-to"></span><h3>Move To<a class="headerlink" href="#move-to" title="永久链接至标题">¶</a></h3>
+<p>Can be used to move objects.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
+<div class="section" id="id34">
+<h4>Input Parameters<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id35">
+<h4>Output Parameters<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id36">
+<h4>Internal Parameters<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that you need to move.</dd>
+<dt><em>Destination</em></dt>
+<dd>A target (another object or a light source, camera or anything else) to which the selected object will move. The object’s coordinated will be the same as the target’s after the movement is finished.</dd>
+<dt><em>Duration</em></dt>
+<dd>Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes it’s position in a moment). It can be set manually or with a register (avalible only if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="apply-shape-key">
+<span id="nla-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="永久链接至标题">¶</a></h3>
+<p>Set the Shape Key factor.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
+<div class="section" id="id37">
+<h4>Input Parameters<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id38">
+<h4>Output Parameters<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id39">
+<h4>Internal Parameters<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that needs to be transformed.</dd>
+<dt><em>Shape Key</em></dt>
+<dd>Shape key that will be applied to the object.</dd>
+<dt><em>Value</em></dt>
+<dd>How much the shape key will influence the object. This value can be set in the node or in a register. The value should be between 0 and 1.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="outline">
+<span id="nla-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="永久链接至标题">¶</a></h3>
+<p>Controls object outlining effect.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
+<div class="section" id="id40">
+<h4>Input Parameters<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id41">
+<h4>Output Parameters<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id42">
+<h4>Internal Parameters<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>Any changes of the outline effect will be applied only to an object specified by this parameter.</dd>
+<dt><em>Operation</em></dt>
+<dd><p class="first">Specifies an operation that will be done to the object’s outline. This parameter can have one of the following values:</p>
+<ul class="last simple">
+<li><em>PLAY</em> enables outline animation</li>
+<li><em>STOP</em> disables it</li>
+<li><em>INTENSITY</em> can be used to set intensity of the object’s outline</li>
+</ul>
+</dd>
+<dt><em>Intensity</em></dt>
+<dd>Outline intensity. This parameter is only avalible if the <code class="docutils literal"><span class="pre">Operation</span></code> parameter is set to <code class="docutils literal"><span class="pre">INTENSITY</span></code>. The value can be set manually or via register (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="set-shader-node-param">
+<span id="nla-shader-node"></span><h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="永久链接至标题">¶</a></h3>
+<p>Can be used to set the value for the shader node. Currently, only <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
+<div class="section" id="id43">
+<h4>Input Parameters<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id44">
+<h4>Output Parameters<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id45">
+<h4>Internal Parameters<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that has material that needs to be edited.</dd>
+<dt><em>Material</em></dt>
+<dd>Material that needs to be edited. It should use nodes.</dd>
+<dt><em>Node</em></dt>
+<dd>A node that has parameters that can be changed. For now, only <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported.</dd>
+<dt><em>Parameters</em></dt>
+<dd>Editable parameters of the selected node. They can be set in the node itself or through the registers (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="inherit-material">
+<span id="nla-inherit-material"></span><h3>Inherit Material<a class="headerlink" href="#inherit-material" title="永久链接至标题">¶</a></h3>
+<p>Copy attributes from one material to another.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
+<div class="section" id="id46">
+<h4>Input Parameters<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id47">
+<h4>Output Parameters<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id48">
+<h4>Internal Parameters<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Source</em></dt>
+<dd>An object that has a material that will be inherited.</dd>
+<dt><em>Material</em></dt>
+<dd>The material to inherit.</dd>
+<dt><em>Destination</em></dt>
+<dd>An object that will inherit selected material.</dd>
+<dt><em>Material</em></dt>
+<dd>The material that will be replaced by the inherited one.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="operations">
+<h2><a class="toc-backref" href="#id85">Operations</a><a class="headerlink" href="#operations" title="永久链接至标题">¶</a></h2>
+<div class="section" id="variable-store">
+<span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="永久链接至标题">¶</a></h3>
+<p>Saves numerical or string value to a variable.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
+<div class="section" id="id49">
+<h4>Input Parameters<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id50">
+<h4>Output Parameters<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id51">
+<h4>Internal Parameters<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Var. name.</em></dt>
+<dd>Name of the variable. Can be selected from the list of eight registers or specified manually (if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> parameter is enabled).</dd>
+<dt><em>Var. type</em></dt>
+<dd>Variable’s type. This parameter can have one of two values: <code class="docutils literal"><span class="pre">Number</span></code> (for numerical variables) and <code class="docutils literal"><span class="pre">String</span></code> (for string variables).</dd>
+<dt><em>New Variable</em></dt>
+<dd>If this parameter is enabled, you can manually input a variable’s name and not just select one of the registers. This can be used to transfer the data between the application and the server.</dd>
+<dt><em>Global</em></dt>
+<dd><p class="first">Enabling this parameter makes the variable global. Avalible only if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">Variable</span></code> parameter has been enabled.</p>
+<a class="last reference internal image-reference" href="_images/logic_editor_variable_global.png"><img alt="_images/logic_editor_variable_global.png" class="align-center" src="_images/logic_editor_variable_global.png" style="width: 100%;" /></a>
+</dd>
+<dt><em>Num./Str.</em></dt>
+<dd>Numeric or string (depending on the <code class="docutils literal"><span class="pre">Var.</span> <span class="pre">type</span></code> parameter value) value of the variable.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="math-operation">
+<span id="nla-math"></span><h3>Math Operation<a class="headerlink" href="#math-operation" title="永久链接至标题">¶</a></h3>
+<p>Perform a math operation and save the result in the register. Any of parameters (operands) can be either a numeric value or a register.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
+<div class="section" id="id52">
+<h4>Input Parameters<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id53">
+<h4>Output Parameters<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id54">
+<h4>Internal Parameters<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Operation</em></dt>
+<dd><p class="first">Mathematical operation. Can have one of the following types:</p>
+<ul class="last simple">
+<li><em>Random</em> generates random value greater than the first operand and less than the second.</li>
+<li><em>Add</em> sums the operands.</li>
+<li><em>Multiply</em> multyplies the operands.</li>
+<li><em>Subtract</em> subtracts the second operand from the first.</li>
+<li><em>Divide</em> divides first operand by the second.</li>
+</ul>
+</dd>
+<dt><em>Operand1</em></dt>
+<dd>First operand. It can be specified in the node or it can be a link to one of the registers (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+<dt><em>Operand2</em></dt>
+<dd>Second operand. Works the same way as the first.</dd>
+<dt><em>Destination</em></dt>
+<dd>The result of the operation will be saved in the register specified by this parameter.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="string-operation">
+<span id="nla-string"></span><h3>String Operation<a class="headerlink" href="#string-operation" title="永久链接至标题">¶</a></h3>
+<p>Can be used to perform an operation with two strings and save the result to a register.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
+<div class="section" id="id55">
+<h4>Input Parameters<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id56">
+<h4>Output Parameters<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id57">
+<h4>Internal Parameters<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Operation</em></dt>
+<dd><p class="first">An operation that you need to perform with two strings, which can have one of the following values:</p>
+<ul class="last simple">
+<li><em>Join</em> - joins two strings into one.</li>
+<li><em>Find</em> - writes the index of the first occurence of the second string in the first string to the register. If there is no occurences, the value of -1 will be written. It should be noted that the first symbol of a string has an index of 0, not 1.</li>
+<li><em>Replace</em> replaces first occurence of the second string in the first string with the third one.</li>
+<li><em>Split</em> splits the first string in two using the first occurence of the second string as a splitting mark.</li>
+<li><em>Compare</em> compares two strings. For this operation, you need to specify a logical condition. If this condition is met, a value of 1 will be outputted to the <code class="docutils literal"><span class="pre">Destination</span></code> register, if it isn’t, zero will be outputted.</li>
+</ul>
+</dd>
+<dt><em>Condition</em></dt>
+<dd>A logical condition to compare two strings. This parameter is avalible only if the <code class="docutils literal"><span class="pre">Operation</span></code> parameter is set to <code class="docutils literal"><span class="pre">Compare</span></code>. Works the same way as the <code class="docutils literal"><span class="pre">Condition</span></code> parameter of the <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code> node.</dd>
+<dt><em>Operand1</em></dt>
+<dd>The first string. Can be specified in the node itself or with a register.</dd>
+<dt><em>Operand2</em></dt>
+<dd>The second string. Works the same way as the first.</dd>
+<dt><em>Operand3</em></dt>
+<dd>This parameter is avalible only if the <code class="docutils literal"><span class="pre">Operation</span></code> parameter is set to <code class="docutils literal"><span class="pre">Replace</span></code>. Can be used to specify the third string, which will replace the first occurence of the second one.</dd>
+<dt><em>Destination</em></dt>
+<dd>A register to save the operation’s result.</dd>
+<dt><em>Destination2</em></dt>
+<dd>This parameter is avalible only if the <code class="docutils literal"><span class="pre">Operation</span></code> parameter is set to <code class="docutils literal"><span class="pre">Split</span></code>. Specifies the register to save the second half of the string that has been split (the first half will be saved to the register specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter).</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="sound">
+<h2><a class="toc-backref" href="#id86">Sound</a><a class="headerlink" href="#sound" title="永久链接至标题">¶</a></h2>
+<div class="section" id="play-sound">
+<span id="nla-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="永久链接至标题">¶</a></h3>
+<p>Can be used to play speaker’s sound.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id58">
+<h4>Input Parameters<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id59">
+<h4>Output Parameters<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id60">
+<h4>Internal Parameters<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Speaker</em></dt>
+<dd>A speaker that will be enabled.</dd>
+<dt><em>Do Not Wait</em></dt>
+<dd>If this parameter is enabled, the control will pass to the next node right after sound playback starts. If it isn’t enabled, the control will pass only when the playback is finished.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="stop-sound">
+<span id="nla-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="永久链接至标题">¶</a></h3>
+<p>Can be used to stop speaker’s sound.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id61">
+<h4>Input Parameters<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id62">
+<h4>Output Parameters<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id63">
+<h4>Internal Parameters<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Speaker</em></dt>
+<dd>A speaker that will be turned off.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id87">Network</a><a class="headerlink" href="#network" title="永久链接至标题">¶</a></h2>
+<div class="section" id="send-request">
+<span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="永久链接至标题">¶</a></h3>
+<p>Send an HTTP GET request to the specified URL and save the respond’s fields a variable.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
+<div class="section" id="id64">
+<h4>Input Parameters<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id65">
+<h4>Output Parameters<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id66">
+<h4>Internal Parameters<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Method</em></dt>
+<dd><p class="first">Method of the request. Can have one of two values:</p>
+<ul class="simple">
+<li><em>GET</em> is used to request data from the server.</li>
+<li><em>POST</em> is used to send data to the server.</li>
+</ul>
+<p class="last">Set to <code class="docutils literal"><span class="pre">GET</span></code> by default.</p>
+</dd>
+<dt><em>Url</em></dt>
+<dd>A web adress to send request to. Set to “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>” by default.</dd>
+<dt><em>Response Params</em></dt>
+<dd>Specifies the register to save the data recieved from the server.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>The data recieved from the server should look like this:</p>
+<div class="last highlight-json"><div class="highlight"><pre><span></span>{&quot;var0&quot;: 1,
+&quot;var1&quot;: 10,
+&quot;var2&quot;: 144,
+...
+}
+</pre></div>
+</div>
+</div>
+<dl class="docutils">
+<dt><em>Content-Type</em></dt>
+<dd>Indicates the media type of the message content. Consists of a type and a subtype, for example: <code class="docutils literal"><span class="pre">text/plain</span></code>. Set to <code class="docutils literal"><span class="pre">Auto</span></code> by default. Can be used to reassign the title of the HTTP request.</dd>
+<dt><em>Request Params</em></dt>
+<dd>Specifies the register that contains a JSON object that will be sent to the server.  Avalible only if the <code class="docutils literal"><span class="pre">Method</span></code> parameter is set to <code class="docutils literal"><span class="pre">POST</span></code>. Default value is <code class="docutils literal"><span class="pre">R1</span></code>.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="json">
+<span id="nla-json"></span><h3>JSON<a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
+<p>This node can be used to encode and decode complex JSON objects.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_json.png"><img alt="_images/logic_editor_json.png" class="align-center" src="_images/logic_editor_json.png" style="width: 100%;" /></a>
+<div class="section" id="id67">
+<h4>Input Parameters<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id68">
+<h4>Output Parameters<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id69">
+<h4>Internal Parameters<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>JSON</em></dt>
+<dd>A link to a JSON object that you need to decode or encode. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
+<dt><em>JSON Operation</em></dt>
+<dd>An operation you need to perform with the JSON object specified by the <code class="docutils literal"><span class="pre">JSON</span></code> parameter. Can have one of two values: <code class="docutils literal"><span class="pre">ENCODE</span></code> to encode the JSON object and <code class="docutils literal"><span class="pre">PARSE</span></code> to decode it. Set to <code class="docutils literal"><span class="pre">ENCODE</span></code> by default.</dd>
+<dt><em>Members</em></dt>
+<dd>A list of variables that will be used to either store the decoded data or to encode a JSON object ( depending on the value of the <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> parameter). The variables always have names like <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and so on, and their quantity can be adjusted.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="page-param">
+<span id="nla-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="永久链接至标题">¶</a></h3>
+<p>Allows to store any web page parameter in a given register.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
+<div class="section" id="id70">
+<h4>Input Parameters<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id71">
+<h4>Output Parameters<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id72">
+<h4>Internal Parameters<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Param Name</em></dt>
+<dd>The name of the web page parameter.</dd>
+<dt><em>Destination</em></dt>
+<dd>A register that will be used to save the parameter.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="page-redirect">
+<span id="nla-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="永久链接至标题">¶</a></h3>
+<p>Can be used to redirect the browser to another page. This node always marks the end of the node tree and doest’t have any output parameters.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
+<div class="section" id="id73">
+<h4>Input Parameters<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id74">
+<h4>Output Parameters<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h4>
+<p>None.</p>
+</div>
+<div class="section" id="id75">
+<h4>Internal Parameters<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Url</em></dt>
+<dd>Web adress of a page that will be opened. Set to “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>” by default.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id88">Debug</a><a class="headerlink" href="#debug" title="永久链接至标题">¶</a></h2>
+<div class="section" id="console-print">
+<span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="永久链接至标题">¶</a></h3>
+<p>This node prints variables’s values and additional text to the web browser console. It can be used for debug purposes.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
+<div class="section" id="id76">
+<h4>Input Parameters<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id77">
+<h4>Output Parameters<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id78">
+<h4>Internal Parameters<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Message</em></dt>
+<dd>A message that will be printed to the console along with the values.</dd>
+<dt>&lt;register name&gt;</dt>
+<dd>A register that will be printed to the console. By default, a <code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="layout">
+<h2><a class="toc-backref" href="#id89">Layout</a><a class="headerlink" href="#layout" title="永久链接至标题">¶</a></h2>
+<div class="section" id="reroute">
+<span id="nla-reroute"></span><h3>Reroute<a class="headerlink" href="#reroute" title="永久链接至标题">¶</a></h3>
+<p>Logic Editor also has <code class="docutils literal"><span class="pre">Reroute</span></code> elements, the nodes that don’t do anything aside from passing the control to the next node or to the next <code class="docutils literal"><span class="pre">Reroute</span></code> element. Such elements can be used to create cyclic structures or to make the node tree easier to read and understand.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_reroute.png"><img alt="_images/logic_editor_reroute.png" class="align-center" src="_images/logic_editor_reroute.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Output parameter can’t be connected to the same node’s input parameter. If you need to do this (to make a cycle, for example), you should use <code class="docutils literal"><span class="pre">Reroute</span></code> elements.</p>
+</div>
+</div>
+</div>
+<div class="section" id="debugging">
+<span id="nla-debug"></span><h2><a class="toc-backref" href="#id90">Debugging</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
+<p>For debugging purposes some nodes inside logic tree can be muted. To do that select the required node and press the <code class="docutils literal"><span class="pre">M</span></code> key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lighting.html" class="btn btn-neutral float-right" title="Lighting, Shadows and Background" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="node_materials.html" class="btn btn-neutral" title="Node Materials" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

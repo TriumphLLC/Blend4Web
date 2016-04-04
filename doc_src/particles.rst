@@ -1,16 +1,16 @@
 .. _particles:
 
-.. index:: система частиц; флюиды
+.. index:: particle system; fluids
 
-**********************
-Система частиц. Флюиды
-**********************
+***********************
+Particle System. Fluids
+***********************
 
-.. contents:: Содержание
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
-Система частиц предназначена для визуализации явлений, обусловленных движением множественных малых объектов, таких как дым, огонь, брызги воды и др.
+The particle system is intended to visualize phenomena which are caused by the movement of numerous small objects such as smoke, fire, water splashes and other.
 
 .. image:: src_images/particles/particles_smoke.jpg
    :align: center
@@ -18,204 +18,204 @@
 
 |
 
-Необходимым элементом системы частиц является эмиттер - объект, определяющий местоположение и направление исходящего потока частиц.
+A particle system requires an emitter - an object which defines the location and the direction of the outgoing particles flow.
 
 
-Использование
-=============
+Usage
+=====
 
-Необходимые этапы
------------------
+Necessary steps
+---------------
 
-#. Добавить на сцену меш - эмиттер.
-#. Создать на эмиттере материал для частиц, например типа ``Halo``. Поддерживается также материал типа ``Surface`` с обязательной диффузной текстурой.
-#. Добавить на эмиттере систему частиц.
-#. Инициализировать воспроизведение в движке. Возможны два варианта:
+#. Add a mesh emitter to the scene.
+#. Create a material for particles on the emitter, for example of the ``Halo`` type. The ``Surface`` material type with a mandatory diffuse texture is also supported.
+#. Add a particle system on the emitter.
+#. Initiate the engine playback. Two options are available:
 
-    - "циклическое испускание" - для системы частиц выставить опцию ``Emission > Cyclic emission``, для эмиттера - ``Animation > Apply Default Animation``.
-    - "нециклическая анимация" - для эмиттера выставить опцию ``Animation > Apply Default Animation``.
+    - "cyclic emission" - enable the ``Emission > Cyclic emission`` option for the particle system and the ``Animation > Apply Default Animation`` for the emitter.
+    - "non-cyclic animation" - enable the ``Animation > Apply Default Animation`` option for the emitter.
 
 
-Рекомендуемые дополнительные настройки
---------------------------------------
+Recommended additional settings
+-------------------------------
 
-#. Для материала частиц выставить тип прозрачности ``Add``.
-#. Если отображение эмиттера на сцене не требуется, отключить опцию ``Particles > Render > Emitter``.
-#. Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно выбрать  материал частиц ``Particles > Render > Material``.
-#. В случае использования для частиц материала типа ``Surface``, к материалу необходимо подключить диффузную текстуру (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш эмиттера имеет развертку.
+#. Set the ``Add`` transparency type for the particles' material.
+#. Disable emitter rendering if needed using the ``Particles > Render > Emitter`` checkbox.
+#. If an emitter is required on a scene use additional materials for it. In this case select the particles' material in the ``Particles > Render > Material`` menu on the particles settings panel.
+#. If the ``Surface`` material type is used it is required to add a diffuse texture (normally with the alpha channel) to this material. Select  ``UV`` in the ``Mapping > Coordinates`` menu.  Make sure that the emitter's mesh has a UV layer.
 
 .. image:: src_images/particles/particles_first_steps.jpg
    :align: center
    :width: 100%
 
-Настройка
-=========
+Setup
+=====
 
-Параметры системы частиц настраиваются во вкладке ``Particles``. Поддерживается несколько систем частиц на одном эмиттере.
+The particle system parameters can be set up under the ``Particles`` tab. Multiple particle systems per emitter are supported.
 
 .. image:: src_images/particles/particles_settings_panel.jpg
    :align: center
    :width: 100%
 
 
-Общие настройки
----------------
+Basic settings
+--------------
 
 *Name*
-    Название системы частиц. Значение по умолчанию "ParticleSystem".
+    Particle system name. The default name is "ParticleSystem".
 
 *Settings*
-    Ссылка на блок данных с настройками системы частиц. Блоки данных с настройками могут быть общими для разных систем частиц.
+    Reference to the settings datablock of the particle system. The datablock settings can be shared between different particle systems.
 
 *Type*
-    Тип системы частиц: ``Emitter`` или ``Hair``. Системы частиц типа ``Hair`` используются для создания множественных копий (инстансинга) объектов. Значение по умолчанию ``Emitter``.
+    Particle system type: ``Emitter`` or ``Hair``. ``Hair`` particle systems can be used to create numerous copies of an object (so called instancing). The default is ``Emitter``.
 
 *Seed*
-     Индекс в таблице случайных чисел, используемых для генерации системы частиц. Значение по умолчанию 0.
+     Index in the table of random numbers which are used for particle system generation. The default value is 0.
 
 
-Настройки испускания
---------------------
+Emission settings
+-----------------
 
 *Emission > Number*
-     Количество частиц. Значение по умолчанию 1000.
+     Number of particles. The default value is 1000.
 
 *Emission > Start*
-    Первый кадр, после которого начинается испускание частиц. Значение по умолчанию 1.0.
+    The first frame after which the emission of particles starts. The default value is 1.0.
 
 *Emission > End*
-    Последний кадр, после которого прекращается испускание частиц. Значение по умолчанию 200.0.
+    The last frame after which the emission of particles ends. The default value is 200.0.	
 
 *Emission > Lifetime*
-    Время жизни частиц в кадрах. Значение по умолчанию 50.0.
+    The life time of particles measured in frames. The default value is 50.0.
 
 *Emission > Lifetime > Random*
-    Фактор случайности для времени жизни. Значение по умолчанию 0.0.
+    The random factor for the life time. The default value is 0.0.
 
 *Emission > Emit From*
-    Источник испускания. Поддерживаются вершины ``Verts``, грани ``Faces``. Значение по умолчанию ``Faces``.
+    Emission source type. The following types are supported: ``Verts`` (emit from vertices), ``Faces`` (emit from polygons). The default is ``Faces``.
 
 *Emission > Cyclic emission*
-    Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение ``Emission > Start``. По умолчанию выключено.
+    The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the ``Emission > Start`` value to zero. Disabled by default.
 
 *Emission > Random Delay*
-    Опция устанавливает случайный характер времени испускания частиц. По умолчанию выключено.
+    The option enables a random emission time for particles. Disabled by default.
 
 *Emission > Emit From > Distribution*
-    Настройки распределения испускания: ``Jittered``, ``Random``, ``Grid``. Игнорируются движком. Всегда используется случайное распределение (``Random``). Значение по умолчанию ``Jittered``.
+    Emission distribution settings: ``Jittered``, ``Random``, ``Grid``. Ignored by the engine. Internally the engine always uses ``Random`` distribution. The default is ``Jittered``.
 
 .. image:: src_images/particles/particles_settings.jpg
    :align: center
    :width: 100%
 
-Настройки направления
----------------------
-
-*Velocity > Emitter Geometry > Normal*
-    Фактор влияния на испускание вдоль нормалей меша эмиттера. Значение по умолчанию 1.0.
-
-*Velocity > Other > Random*
-    Фактор случайности для направления испускания. Значение по умолчанию 0.0.
-
-
-Настройки вращения
+Direction settings
 ------------------
 
+*Velocity > Emitter Geometry > Normal*
+    Factor influencing the emission along the emitter's mesh normals. The default value is 1.0.
+
+*Velocity > Other > Random*
+    Factor of randomization for emission direction. The default value is 0.0.
+
+
+Rotation settings
+-----------------
+
 *Rotation > Angular Velocity > Mode*
-    Режим собственного вращения биллбордов частиц. Система частиц типа ``Hair`` поддерживает все типы вращения, а система частиц типа ``Emitter`` только ``Velocity``
+    Mode for particle billboards self-rotating. ``Hair`` particle system supports all the types of rotation and ``Emitter`` supports only ``Velocity``.
 
 *Rotation > Angular Velocity > Factor*
-    Фактор скорости собственного вращения биллбордов частиц. Значение по умолчанию 0.0.
+    Factor of rotation velocity for particle billboards. The default value is 0.0.
 
 
-Настройки физики
+Physics settings
 ----------------
 
 *Physics > Type*
-    Тип расчетов физики: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, ``Fluid``. Игнорируется движком. Всегда используется физика Ньютона (``Newtonian``). Значение по умолчанию ``Newtonian``.
+    Physics calculation type: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, ``Fluid``. Ignored by the engine. ``Newtonian`` physics is always used. The default is ``Newtonian``.
 
 *Physics > Size*
-    Размер частиц. Значение по умолчанию 0.05.
+    Particle size. The default value is 0.05.
 
 *Physics > Mass*
-    Масса частиц. Влияет на взаимодействие с силовыми полями (в частности, с ветром). Значение по умолчанию 1.0.
+    Particle mass. Affects interaction with force fields (such as wind). The default value is 1.0.
 
 *Physics > Forces > Brownian*
-    Экспортируется, но не используется движком.
+    Exported but not used by the engine.
 
 .. image:: src_images/particles/particles_settings2.jpg
    :align: center
    :width: 100%
 
-Настройки отображения
----------------------
+Rendering settings
+------------------
 
 *Render > Material*
-    Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию ``Default Material``.
+    Menu for selecting the particle's material. Used for referencing to the particle' material in case multiple materials are used by the emitter. The default value is ``Default Material``.
 
 *Render > Emitter*
-    Опция включения отображения эмиттера на сцене. По умолчанию включено.
+    Enables emitter rendering on the scene. Enabled by default.
 
 *Render > Type*
-    Режим отображения частиц: ``None``, ``Halo``, ``Line``, ``Path``, ``Object``, ``Group``, ``Billboard``. Движком различаются режимы ``Object`` и ``Group``, использующиеся для инстансинга объектов и групп объектов, соответственно. Другие режимы игнорируются. Для удобства отображения биллбордов рекомендуется включать режим ``Billboard``. Значение по умолчанию ``Halo``.
+    Particle rendering mode: ``None``, ``Halo``, ``Line``, ``Path``, ``Object``, ``Group``, ``Billboard``. The engine supports the ``Object`` and the ``Group`` modes which are used for objects and groups instancing respectively. Other modes are ignored. It is recommended to use the ``Billboard`` mode for convenient display of billboards. The default is ``Halo``.
 
 *Render > Billboard Align*
-    Способ ориентирования биллбордов: ``View`` - поворачивать к камере, ``XY plane``, ``YZ plane``, ``ZX plane`` - ориентировать в соответствующей плоскости (в мировой системе координат Blender'a). Значение по умолчанию ``View``.
+    The way billboards are oriented: ``View`` - follow the camera, ``XY plane``, ``YZ plane``, ``ZX plane`` - align to the corresponding plane (in the world coordinate system of Blender). The default is ``View``.
 
-*Render > Dissolve Intervals > Fade-in* и *Fade-out*
-    Начальный и конечный интервалы (в кадрах) для постепенного увеличения и уменьшения прозрачности частиц.
+Render > Dissolve intervals > Fade-in* and *Fade-out*
+    Starting and ending intervals (measured in frames) for gradually increasing and decreasing the particles' transparency.
 
 *Render > Coordinate System*
-    Система координат испускаемых частиц: ``Local`` - использовать локальную систему координат эмиттера, ``World`` - использовать мировую систему координат.
+    Coordinate system of emitting particles: ``Local`` - use local coordinate system of the emitter object, ``World`` - use world coordinate system.
 
 *Render > Soft Particles*
-    Включает так называемые "Мягкие частицы" билборды которых плавно растворяются при соприкосновении с поверхностями. С помощью слайдера Particle Softness настраивается степень проявленности этого эффекта.
+    Support for soft particles, billboards of which smoothly dissolve when contacting with surfaces. Use the ``Particle Softness`` slider to tweak this effect.
 
 .. _particles_force_fields:
 
-Настройки влияния силовых полей
--------------------------------
+Supported settings for force fields influence
+---------------------------------------------
 
 *Field Weights > Gravity*
-    Фактор влияния гравитационного поля (земное притяжение). Значение по умолчанию 1.0.
+    Gravity influence factor (Earth's attraction). The default value is 1.0.
 
 *Field Weights > Wind*
-    Фактор влияния ветра. Необходимо присутствие объекта силового поля (добавляется ``Add > Force Field``) типа ``Wind`` (ветер). На систему частиц оказывают также настройки направления и силы ветра. Значение по умолчанию 1.0.
+    Wind influence factor. A ``Wind`` force field source should be present (can be added using ``Add > Force Field``). A particle system is also influenced by the wind direction and strength. The default value is 1.0.
 
 
-Специальные настройки движка
-----------------------------
+Engine specific settings
+------------------------
 
 *Export Options > Do not export*
-    Не экспортировать.
+    Don't export.
 
 
 .. _particles_textures:
 
-Текстуры в системах частиц
-==========================
+Textures in Particle Systems
+============================
 
-Системы частиц поддерживают как стандартные, так и нодовые материалы типа ``Surface`` и ``Halo``. При использовании материала типа ``Halo`` также поддерживаются все его дополнительные настройки, такие как ``Rings``, ``Lines`` и ``Star Tips``.
+Particle systems support both standard and node materials. Supported  material types are ``Surface`` and ``Halo``. All additional settings of the ``Halo`` type materilas, such as ``Rings``, ``Lines`` and ``Star Tips``, are also supported.
 
-Текстуры материала частиц
--------------------------
+Textures of the particle's material
+-----------------------------------
 
-В материалах частиц типа ``Surface`` **необходимо** наличие диффузной текстуры (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш эмиттера имеет развертку.
+For the ``Surface`` particle's materials it is **required** to have a diffuse texture (normally with an alpha-channel). In the ``Mapping > Coordinates`` menu choose the ``UV`` option.  Make sure that the emitter's mesh has a UV layer.
 
-В материалах частиц типа ``Halo`` **возможно** использование текстуры типа ``Blend`` с линейным (``Linear``) градиентом. В меню ``Mapping > Coordinates`` выбрать ``Strand / Particle``. На текстуре необходимо включить использование рампы (``Ramp``).
+For the ``Halo`` particle's materials it is **possible** to use a ``Blend`` texture with a ``Linear`` gradient. In the ``Mapping > Coordinates`` menu choose the ``Strand / Particle`` option. It is required to enable ``Ramp`` on a texture.
 
 .. image:: src_images/particles/particles_settings_ramp_color.jpg
    :align: center
    :width: 100%
 
-Текстуры системы частиц
------------------------
+Textures of particle systems
+----------------------------
 
-Для настройки поведения системы частиц могут быть использованы текстуры. В отличие от текстур, используемых материалами частиц, такие текстуры относятся к блоку данных (datablock) системы частиц, а не к блоку данных материала. Чтобы создать текстуру системы частиц, необходимо **из вкладки** ``Particles`` перейти во вкладку ``Textures``, после чего нажать ``New``.
+Textures can also be used for setting up the behaviour of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go **from** the ``Particles`` tab to the ``Textures`` tab and then to click the ``New`` button.
 
-Поддерживаются только текстуры типа ``Blend`` с линейным (``Linear``) градиентом. На текстуре необходимо включить использование рампы (``Ramp``). Допускается использование до 4 контрольных точек градиента.
+The only supported type of textures is ``Blend`` with a ``Linear`` gradient. ``Ramp`` should be enabled on the texture. Up to 4 gradient control points are supported.
 
-На панели ``Influence`` необходимо выбрать параметр, на который воздействует текстура. В настоящий момент поддерживается только ``Size`` (размер).
+On the ``Influence`` panel choose the parameter which is influenced by the texture. At the moment the only supported parameter is ``Size``.
 
 .. image:: src_images/particles/particles_settings_ramp_size.jpg
    :align: center
@@ -223,11 +223,11 @@
 
 |
 
-Результат применения текстур градиента для материала частиц и для системы частиц:
+The result of using gradient textures on the particle material and the particle system:
 
 .. image:: src_images/particles/particles_gun.jpg
    :align: center
    :width: 100%
 
 
-`Ссылка на модель <http://www.blendswap.com/blends/view/13977>`_
+`The original model was taken from here <http://www.blendswap.com/blends/view/13977>`_

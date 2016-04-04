@@ -17,6 +17,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 RUOPT = -D language='ru' -c conf_ru
 ENOPT = -D language='en' -c conf_en
+ZHOPT = -D language='zh' -c conf_zh
 FROPT = -D language='fr' -c conf_fr
 
 .PHONY: help clean html latexpdf gettext text
@@ -36,6 +37,7 @@ clean:
 html:
 	$(SPHINXBUILD) -b html $(RUOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/ru
 	$(SPHINXBUILD) -b html $(ENOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/en
+	$(SPHINXBUILD) -b html $(ZHOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/zh
 	#$(SPHINXBUILD) -b html $(FROPT) $(ALLSPHINXOPTS) $(BUILDDIR)/fr
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
@@ -63,17 +65,28 @@ latexpdf:
 	@echo "pdflatex finished; the PDF files are in latex."
 	mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_en.pdf
 
+	#rm -r latex/*
+
+	#$(SPHINXBUILD) -b latex $(ZHOPT) $(ALLSPHINXOPTS) latex
+	#sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 
+	#mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex  
+	#@echo "Running LaTeX files through pdflatex..."
+	#make -C latex all-pdf
+	#@echo "pdflatex finished; the PDF files are in latex."
+	#mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_zh.pdf
+
 gettext:
-	$(SPHINXBUILD) -b gettext $(RUOPT) $(I18NSPHINXOPTS) locale
+	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale
 	@echo
 	@echo "Build finished. The message catalogs are in locale."
 
 gettext_update:
-	sphinx-intl -c conf_ru/conf.py update -l en -p locale -d locale 
-	#sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale 
+	sphinx-intl -c conf_en/conf.py update -l ru -p locale -d locale
+	sphinx-intl -c conf_en/conf.py update -l zh -p locale -d locale
+	#sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale
 
 gettext_build:
-	sphinx-intl -c conf_ru/conf.py build -d locale
+	sphinx-intl -c conf_en/conf.py build -d locale
 	mkdir -p $(BUILDDIR)
 	cp -rv locale $(BUILDDIR)
 
@@ -81,7 +94,9 @@ sorttext:
 	python3 ../scripts/sort_doc_texts.py
 
 text:
-	$(SPHINXBUILD) -b text -c conf_en . ../deploy/doc/en/_sources/
-	@echo "Build en search pages."
+	$(SPHINXBUILD) -b text -c conf_ru . ../deploy/doc/ru/_sources/
+	@echo "Build ru search pages."
+	$(SPHINXBUILD) -b text -c conf_zh . ../deploy/doc/zh/_sources/
+	@echo "Build zh search pages."
 	#$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
 	#@echo "Build fr search pages."

@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-30 17:24+0300\n"
+"PO-Revision-Date: 2016-03-26 16:43+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../problems_and_solutions.rst:5
+msgid "Problems and Solutions"
+msgstr "存在的问题及解决方案"
+
+#: ../problems_and_solutions.rst
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../problems_and_solutions.rst:14
+msgid "Problems Upon Startup"
+msgstr "启动时的问题"
+
+#: ../problems_and_solutions.rst:16
+msgid "*1. The \"Browser could not initialize WebGL\" message is shown*."
+msgstr "*1. \"浏览器无法初始化 WebGL\" 消息显示*."
+
+#: ../problems_and_solutions.rst:22
+msgid "Follow the instructions listed in the :ref:`webgl_not_working` section."
+msgstr "请按照 :ref:`webgl_not_working` 章节列出的说明."
+
+#: ../problems_and_solutions.rst:24
+msgid ""
+"*2. The user interface or background is shown but the default scene is "
+"not rendered. At the same time the* http://get.webgl.org/ *site and other"
+" WebGL applications are working correctly.*"
+msgstr ""
+"*2. 用户界面和背景显示但是默认场景没有渲染出来。同时 * http://get.webgl.org/ * 网站和其他 WebGL "
+"应用正常工作.*"
+
+#: ../problems_and_solutions.rst:26
+msgid "Possible causes:"
+msgstr "可能的原因："
+
+#: ../problems_and_solutions.rst:28
+msgid ""
+"A local web server is not used or the browser is not set up for loading "
+"local resources. See the :ref:`browser_for_local_loading` section."
+msgstr "本地Web服务器未使用或浏览器没有设置加载本地资源。请参阅  :ref:`browser_for_local_loading`  部分。"
+
+#: ../problems_and_solutions.rst:30
+msgid "The engine tries to load resource files which were moved or deleted."
+msgstr "该引擎尝试加载移动或删除的资源文件。"
+
+#: ../problems_and_solutions.rst:32
+msgid "You are using the old versions of video drivers."
+msgstr "您正在使用旧版本的视频驱动程序。"
+
+#: ../problems_and_solutions.rst:34
+msgid "You are using open source drivers which do not fully support WebGL."
+msgstr "您正在使用不完全支持WebGL的开源驱动。"
+
+#: ../problems_and_solutions.rst:36
+msgid ""
+"For Linux users - due to incomplete OpenGL implementation in open source "
+"drivers at the moment it is recommended to use current versions of "
+"proprietary drivers for Nvidia and AMD video cards."
+msgstr "对于Linux用户 - 由于目前的开源驱动程序不完整的OpenGL实现，建议使用Nvidia和AMD显卡的专用的驱动程序最新版本。"
+
+#: ../problems_and_solutions.rst:38
+msgid "You are using an outdated operating system, such as Windows XP."
+msgstr "您正在使用过时的操作系统，如Windows XP。"
+
+#: ../problems_and_solutions.rst:44
+msgid "WebGL Failed to Init"
+msgstr "WebGL的无法初始化"
+
+#: ../problems_and_solutions.rst:46
+msgid ""
+"The http://get.webgl.org/ page tells about problems when viewing it in "
+"recent Chrome or Firefox. What can I do?"
+msgstr "使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我能做什么？"
+
+#: ../problems_and_solutions.rst:49
+msgid ""
+"Install the latest updates for your system (for MS Windows see `the guide"
+" <http://support.microsoft.com/kb/311047>`_). In case of MS Windows "
+"install the latest `DirectX runtime <http://www.microsoft.com/en-"
+"us/download/details.aspx?id=35>`_. Reboot."
+msgstr ""
+"安装适用于您的系统的最新更新（用于MS Windows见 `指南 "
+"<http://support.microsoft.com/kb/311047>`_). 在微软Windows下安装最新的  `DirectX "
+"运行时 <http://www.microsoft.com/en-us/download/details.aspx?id=35>`_ 。重新启动。"
+
+#: ../problems_and_solutions.rst:51
+msgid ""
+"It is recommended to timely update video card drivers. To detect your "
+"video card and its vendor please type **about:gpu** (or **chrome://gpu**)"
+" to the address bar of Chrome browser..."
+msgstr ""
+"建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 **about:gpu** (或 **chrome://gpu**) "
+"，在Chrome浏览器的地址栏中..."
+
+#: ../problems_and_solutions.rst:59
+msgid "or Firefox..."
+msgstr "或Firefox ..."
+
+#: ../problems_and_solutions.rst:67
+msgid "For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**."
+msgstr "对于Windows，您可以运行DirectX诊断工具叫  **dxdiag**."
+
+#: ../problems_and_solutions.rst:76
+msgid ""
+"Download the drivers from the corresponding support center (for example "
+"`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
+"<http://support.amd.com/en-us/download>`_). Reboot the system after the "
+"drivers are installed."
+msgstr ""
+"下载驱动程序从相应的支持中心（例如  `Intel "
+"<http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
+"<http://support.amd.com/en-us/download>`_）。安装驱动程序后，重新启动系统。"
+
+#: ../problems_and_solutions.rst:78
+msgid ""
+"If the measures described above did not help to initialize rendering (or "
+"there is no possibility to update the system) try to change the browser "
+"settings."
+msgstr "如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览器设置。"
+
+#: ../problems_and_solutions.rst:80
+msgid "*For Chrome*:"
+msgstr "*对于Chrome*："
+
+#: ../problems_and_solutions.rst:82
+msgid ""
+"Enter **about:flags** (or **chrome://flags**) into the browser's address "
+"bar, click :file:`Enable` under the :file:`Override software rendering "
+"list` option and restart the browser."
+msgstr ""
+"输入  **about:flags** （或者 **chrome://flags**）到浏览器的地址栏中，单击 :file:`Enable` 下 "
+":file:`Override software rendering list` 选项，并重启浏览器。"
+
+#: ../problems_and_solutions.rst:92
+msgid "*For Firefox*:"
+msgstr "*对于Firefox*："
+
+#: ../problems_and_solutions.rst:94
+msgid ""
+"Enter **about:config** into the browser's address bar, search for the "
+"``webgl.force-enabled`` parameter and double-click on it to switch from "
+"``false`` to ``true``."
+msgstr ""
+"输入 **about:config**  到浏览器的地址栏，搜索 ``webgl.force-enabled`` 参数，并在其上双击从 "
+"``false`` 切换到值为 ``True`` 。"
+
+#: ../problems_and_solutions.rst:104
+msgid "Known Issues"
+msgstr "已知问题"
+
+#: ../problems_and_solutions.rst:106
+msgid "Problems with updating of the add-on."
+msgstr "更新插件时候的问题。"
+
+#: ../problems_and_solutions.rst:108
+msgid ""
+"It’s strongly adviced to restart Blender after installing a newer version"
+" of Addon/SDK."
+msgstr "强烈地建议安装插件/ SDK的更新版本后重新启动Blender。"
+
+#: ../problems_and_solutions.rst:110
+msgid "NVIDIA 331 driver in Linux can cause WebGL errors."
+msgstr "NVIDIA驱动程序331在Linux中可引起WebGL的错误。"
+
+#: ../problems_and_solutions.rst:112
+msgid "Changed texture filtering on some platforms."
+msgstr "在一些平台上的改变纹理过滤。"
+
+#: ../problems_and_solutions.rst:114
+msgid ""
+"An incorrect texture filtering was disabled on iPad and Internet Explorer"
+" for materials with Alpha Clip type of transparency."
+msgstr "在ipad和IE浏览器上屏蔽了一个不正确的纹理滤镜，为了让材质带alpha clip类型的透明类型。"
+
+#: ../problems_and_solutions.rst:116
+msgid ""
+"Some devices with Mail GPU require manual WebGL activation in browser "
+"settings."
+msgstr "使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。"
+
+#: ../problems_and_solutions.rst:118
+msgid ""
+"For the local developement server to work on Apple OS X and Blender 2.76,"
+" you may need to install `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`. This is due to a"
+" bug in Blender https://developer.blender.org/T46623. This bug has been "
+"fixed in Blender 2.76b, so updating it is advised."
+msgstr ""
+"对于本地开发服务器在苹果OS X和Blender2.76时，您可能需要安装   `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`.  这是由于在Blender "
+"https://developer.blender.org/T46623 "
+"的错误。此错误已在Blender2.76b修复，所以建议更新Blender。"
+
+#: ../problems_and_solutions.rst:120
+msgid "Skeletal animation may work incorrectly while using Nouveau drivers."
+msgstr "使用Nouveau 驱动时骨骼动画可能工作不正确。"
+
+#: ../problems_and_solutions.rst:122
+msgid ""
+"Transparent textures may not render correctly in the IE11 and Microsoft "
+"Edge web browsers and on iPad."
+msgstr "透明纹理可能不能够在IE11和微软Edge Web浏览器和iPad上正确显示。"
+
+#: ../problems_and_solutions.rst:124
+msgid ""
+"The problem is relevant for the :ref:`transparent materials "
+"<alpha_blend>`. Image artifacts are visible in the areas where alpha "
+"channel value is close or equal to zero. To fix this issue, it is "
+"recommended to increase the value of the alpha channel until artifact are"
+" no longer visible (increasing it by value from 0.01 to 0.05 should be "
+"enough in the most cases)."
+msgstr ""
+"问题是关于 :ref:`transparent materials <alpha_blend>`.  "
+"图像错误在alpha通道值接近或等于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01增加它0.05应足以在大多数情况下）。"
+
+#: ../problems_and_solutions.rst:126
+msgid ""
+"WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs "
+"with drivers later than 355."
+msgstr ""
+
+#: ../problems_and_solutions.rst:128
+msgid ""
+"This issue is caused by incompatibility of Chromium sandbox and NVIDIA's "
+"latest drivers. The solution is to downgrade drivers to the 340xx "
+"version."
+msgstr ""
+

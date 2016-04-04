@@ -32,6 +32,7 @@ var m_cons     = require("__constraints");
 var m_cont     = require("__container");
 var m_mat3     = require("__mat3");
 var m_mat4     = require("__mat4");
+var m_math     = require("__math");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
@@ -47,6 +48,10 @@ var cfg_ctl = m_cfg.controls;
 var cfg_def = m_cfg.defaults;
 
 // constants
+var TYPE_STEREO_LEFT = 70;
+var TYPE_STEREO_RIGHT = 80;
+var TYPE_HMD_LEFT = 90;
+var TYPE_HMD_RIGHT = 100;
 
 exports.TYPE_NONE = 10;
 exports.TYPE_PERSP = 20;
@@ -54,10 +59,10 @@ exports.TYPE_ORTHO = 30;
 exports.TYPE_PERSP_ASPECT = 40;
 exports.TYPE_ORTHO_ASPECT = 50;
 exports.TYPE_ORTHO_ASYMMETRIC = 60;
-exports.TYPE_STEREO_LEFT = 70;
-exports.TYPE_STEREO_RIGHT = 80;
-exports.TYPE_HMD_LEFT = 90;
-exports.TYPE_HMD_RIGHT = 100;
+exports.TYPE_STEREO_LEFT = TYPE_STEREO_LEFT;
+exports.TYPE_STEREO_RIGHT = TYPE_STEREO_RIGHT;
+exports.TYPE_HMD_LEFT = TYPE_HMD_LEFT;
+exports.TYPE_HMD_RIGHT = TYPE_HMD_RIGHT;
 
 // contolled by low-level set_look_at()
 exports.MS_STATIC = 0;
@@ -87,7 +92,7 @@ var DEF_PERSP_FOV   = 40;
 var DEF_PERSP_NEAR  = 0.1;
 var DEF_PERSP_FAR   = 1000;
 
-var MAX_HOVER_INIT_ANGLE = (Math.PI/180) / 2; 
+var MAX_HOVER_INIT_ANGLE = m_util.deg_to_rad(0.5);
 
 // for internal usage
 var _vec2_tmp = new Float32Array(2);
@@ -103,6 +108,8 @@ var _mat4_tmp = new Float32Array(16);
 
 var _frustum_corners_tmp = new Float32Array(24);
 
+var _pline_tmp = new Float32Array(6);
+
 /**
  * Create camera from bpy camera object
  * uses _vec3_tmp2
@@ -117,7 +124,7 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
         var cam = create_camera(exports.TYPE_PERSP);
         // NOTE: expect some issues with camera sensor fit
         if (camobj_data["angle_y"])
-            var fov = camobj_data["angle_y"] / Math.PI * 180;
+            var fov = m_util.rad_to_deg(camobj_data["angle_y"]);
 
         set_frustum(cam, fov, camobj_data["clip_start"],
                 camobj_data["clip_end"]);
@@ -393,8 +400,11 @@ function init_hover_pivot(camobj, zero_level, dest) {
     var theta = get_camera_angles(camobj, _vec2_tmp)[1];
 
     var view_vector = m_util.quat_to_dir(quat, m_util.AXIS_MY, _vec3_tmp);
+
+    m_math.set_pline_initial_point(_pline_tmp, trans);
+    m_math.set_pline_directional_vec(_pline_tmp, view_vector);
     var res = m_util.line_plane_intersect(normal_plane_oxy, 
-            -zero_level, trans, view_vector, dest);
+            -zero_level, _pline_tmp, dest);
 
     // NOTE: It is used to check parallel line and plane
     if (!res || Math.abs(theta) < MAX_HOVER_INIT_ANGLE) {
@@ -1666,7 +1676,7 @@ exports.get_angular_diameter  = function(camobj) {
     case exports.TYPE_PERSP_ASPECT:
     case exports.TYPE_STEREO_LEFT:
     case exports.TYPE_STEREO_RIGHT:
-        return (Math.PI * cam.fov / 180);
+        return m_util.deg_to_rad(cam.fov);
     default:
         m_print.error("get_angular_diameter(): Unsupported camera type: " + cam.type);
         return 0;
@@ -1688,7 +1698,7 @@ function set_projection(cam, aspect, keep_proj_view) {
         cam.aspect = aspect;
         // continue
     case exports.TYPE_PERSP_ASPECT:
-        m_mat4.perspective(m_util.rad(cam.fov), cam.aspect, cam.near, cam.far,
+        m_mat4.perspective(m_util.deg_to_rad(cam.fov), cam.aspect, cam.near, cam.far,
                 cam.proj_matrix);
         break;
 
@@ -1774,10 +1784,10 @@ function set_projection_hmd(cam, aspect) {
     var subs_stereo = m_scenes.get_subs(active_scene, "STEREO");
     if (subs_stereo && subs_stereo.enable_hmd_stereo) {
         // VR mode
-        var up_fov_tan    = Math.tan(m_util.rad(cam.hmd_fov[0]) / 2);
-        var right_fov_tan = Math.tan(m_util.rad(cam.hmd_fov[1]) / 2);
-        var down_fov_tan  = Math.tan(m_util.rad(cam.hmd_fov[2]) / 2);
-        var left_fov_tan  = Math.tan(m_util.rad(cam.hmd_fov[3]) / 2);
+        var up_fov_tan    = Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]) / 2);
+        var right_fov_tan = Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]) / 2);
+        var down_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]) / 2);
+        var left_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]) / 2);
 
         // NOTE: save for extraction
         cam.top    = cam.near * up_fov_tan;
@@ -1792,7 +1802,7 @@ function set_projection_hmd(cam, aspect) {
         if (!aspect)
             aspect = cam.aspect;
 
-        m_mat4.perspective(m_util.rad(cam.fov), aspect, cam.near, cam.far,
+        m_mat4.perspective(m_util.deg_to_rad(cam.fov), aspect, cam.near, cam.far,
                 cam.proj_matrix);
     }
 }
@@ -2155,7 +2165,7 @@ exports.get_edge = function(cam, edge_type) {
     case exports.TYPE_PERSP_ASPECT:
     case exports.TYPE_STEREO_LEFT:
     case exports.TYPE_STEREO_RIGHT:
-        var top_1m = Math.tan(m_util.rad(cam.fov) / 2);
+        var top_1m = Math.tan(m_util.deg_to_rad(cam.fov) / 2);
         switch (edge_type) {
         case "LEFT":
             return -top_1m * cam.aspect;
@@ -2196,13 +2206,13 @@ exports.get_edge = function(cam, edge_type) {
     case exports.TYPE_HMD_RIGHT:
         switch (edge_type) {
         case "LEFT":
-            return Math.tan(m_util.rad(cam.hmd_fov[3]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]) / 2);
         case "RIGHT":
-            return Math.tan(m_util.rad(cam.hmd_fov[1]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]) / 2);
         case "TOP":
-            return Math.tan(m_util.rad(cam.hmd_fov[0]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]) / 2);
         case "BOTTOM":
-            return Math.tan(m_util.rad(cam.hmd_fov[2]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]) / 2);
         }
         break;
     default:
@@ -2228,7 +2238,7 @@ exports.get_fov = function(cam, is_horizontal) {
     case exports.TYPE_PERSP_ASPECT:
     case exports.TYPE_STEREO_LEFT:
     case exports.TYPE_STEREO_RIGHT:
-        var vfov = m_util.rad(cam.fov);
+        var vfov = m_util.deg_to_rad(cam.fov);
         if (is_horizontal)
             return vfov * cam.aspect;
         else
@@ -2341,6 +2351,41 @@ exports.wipe_move_style = function(camobj) {
     render.pivot_limits = null;
 
     render.enable_hover_hor_rotation = true;
+}
+
+exports.set_eye_distance = function(camobj, eye_dist) {
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+        if (cam.type == TYPE_STEREO_LEFT ||
+                cam.type == TYPE_STEREO_RIGHT ||
+                cam.type == TYPE_HMD_LEFT ||
+                cam.type == TYPE_HMD_RIGHT)
+            set_stereo_params(cam, cam.stereo_conv_dist, eye_dist);
+    }
+}
+
+exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
+    var cameras = camobj.render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+
+        if (cam.type == TYPE_HMD_LEFT ||
+                cam.type == TYPE_HMD_RIGHT) {
+
+            if (cam.type == TYPE_HMD_LEFT)
+                m_vec4.copy(hmd_left_fov, cam.hmd_fov);
+
+            if (cam.type == TYPE_HMD_RIGHT)
+                m_vec4.copy(hmd_right_fov, cam.hmd_fov);
+
+            if (!cam.reflection_plane)
+                set_projection(cam);
+
+            calc_view_proj_inverse(cam);
+            calc_sky_vp_inverse(cam);
+        }
+    }
 }
 
 }

@@ -10,9 +10,11 @@ var m_anim  = require("animation");
 var m_app   = require("app");
 var m_main  = require("main");
 var m_data  = require("data");
+var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_phy   = require("physics");
 var m_cons  = require("constraints");
+var m_input = require("input");
 var m_scs   = require("scenes");
 var m_trans = require("transform");
 var m_cfg   = require("config");
@@ -62,8 +64,6 @@ function init_cb(canvas_elem, success) {
         console.log("b4w init failure");
         return;
     }
-
-    m_app.enable_controls(canvas_elem);
 
     window.addEventListener("resize", on_resize);
 

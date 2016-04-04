@@ -8,7 +8,6 @@ b4w.register("start_menu", function(exports, require) {
 
 var m_main   = require("main");
 var m_app    = require("app");
-var m_cam_anim = require("camera_anim");
 var m_cam    = require("camera");
 var m_data   = require("data");
 var m_ctl    = require("controls");
@@ -21,6 +20,9 @@ var m_assets = require("assets");
 var m_obj    = require("objects");
 var m_cont   = require("container");
 var m_util   = require("util");
+var m_nla    = require("nla");
+var m_trans  = require("transform");
+var m_version = require("version");
 
 var m_vec3  = require("vec3");
 var m_quat  = require("quat");
@@ -28,6 +30,9 @@ var m_quat  = require("quat");
 var m_conf = require("game_config");
 
 var game_main = require("game_main");
+
+var _hq_loaded = false;
+var _button_clicked = false;
 
 var _selected_obj = null;
 var _buttons_info = {};
@@ -40,20 +45,17 @@ var _end_spk = null;
 var _canvas_elem = null;
 var _mouse_x = 0;
 var _mouse_y = 0;
+
 var _default_cam_rot = new Float32Array(2);
-var _default_cam_pivot = new Float32Array(3);
+var _cam_dist = null;
+var _cam_pivot = new Float32Array(3);
 var _cam_rot_fac = 0;
 
-var _env_start_anim_delay;
-var _env_anim_length;
-var _env_energy_final;
-var _env_horizon_final; 
-var _env_zenith_final;
+var _vec3_tmp = new Float32Array(3);
 
 var _lang = "en";
 
 var _back_to_menu_button = null;
-var _screen_saver_obj = null;
 
 var _vec2_tmp = new Float32Array(2);
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
@@ -69,10 +71,9 @@ function init_cb(canvas_elem, success) {
     }
 
     _canvas_elem = canvas_elem;
-    m_app.enable_controls(canvas_elem);
 
     var preloader_cont = document.getElementById("preloader_cont");
-    preloader_cont.style.visibility = "visible";
+    preloader_cont.style.visibility = "visible"
 
     //var level_name = "level_01";
     //var json_path = ASSETS_PATH + level_name + ".json";
@@ -91,22 +92,34 @@ function init_cb(canvas_elem, success) {
 
 function load_cb(data_id) {
 
+    _hq_loaded = false;
+    _button_clicked = false;
+    _selected_obj = null;
+
     _mouse_x = _canvas_elem.width / 2;
     _mouse_y = _canvas_elem.height / 2;
 
-    var camobj = m_scs.get_active_camera();
-    m_cam.get_camera_angles(camobj, _default_cam_rot);
-    m_cam.target_get_pivot(camobj, _default_cam_pivot);
     m_assets.enqueue([["config", m_assets.AT_JSON, "js/intro_config.json"]],
             process_config, null);
 
-    _canvas_elem.addEventListener("mousemove", main_canvas_mouse_move, false);
-    _canvas_elem.addEventListener("mousedown", main_canvas_click, false);
+    var camobj = m_scs.get_active_camera();
+    m_cam.get_camera_angles(camobj, _default_cam_rot);
+
 
     setTimeout(function(){
             var canvas_cont = m_cont.get_container();
             canvas_cont.style.opacity = 1;
         }, 1000);
+    
+    if (!m_main.detect_mobile()) {
+        _canvas_elem.addEventListener("mousedown", main_canvas_click, false);
+        _canvas_elem.addEventListener("mousemove", main_canvas_mouse_move, false);
+        setTimeout(function() {
+            if (!_hq_loaded && !_button_clicked)
+                load_HQ_elements();
+        }, 10000)
+    } else
+        _canvas_elem.addEventListener("touchstart", main_canvas_touch, false);
 }
 
 function setup_language(config) {
@@ -123,7 +136,6 @@ function setup_language(config) {
 
     if (!m_main.detect_mobile()) {
         _back_to_menu_button = m_scs.get_object_by_name(config["back_to_menu_obj_name"]);
-        _screen_saver_obj = m_scs.get_object_by_name(config["screen_saver_obj_name"]);
         m_obj.set_nodemat_value(_back_to_menu_button,
                                 ["back_to_main_menu", "back_button_language"],
                                 lang_val);
@@ -135,13 +147,13 @@ function process_config(data, uri, type, path) {
     setup_music(data);
     setup_language(data);
 
-    _cam_rot_fac = data["camera_rotation_fac"];
+    var camobj = m_scs.get_active_camera();
 
-    _env_start_anim_delay = data["environment_start_anim_delay"];
-    _env_anim_length = data["environment_anim_length"];
-    _env_energy_final = data["environment_energy_final"];
-    _env_horizon_final = data["environment_horizon_final"];
-    _env_zenith_final = data["environment_zenith_final"];
+    _cam_rot_fac = data["camera_rotation_fac"];
+    m_vec3.copy(data["camera_pivot"], _cam_pivot);
+
+    m_trans.get_translation(camobj, _vec3_tmp);
+    _cam_dist = m_vec3.distance(_cam_pivot, _vec3_tmp);
 }
 
 function setup_buttons(config) {
@@ -192,7 +204,6 @@ function init_button_info(binfo) {
         min_outline_value:  binfo["min_outline_value"],
         max_outline_value:  binfo["max_outline_value"],
         outline_curr_value: binfo["min_outline_value"],
-        stop_playlist:      binfo["stop_playlist_onclick"]
     };
 }
 
@@ -276,11 +287,13 @@ function button_glow_cb(obj, id, pulse) {
 
 function rotate_cam_cb(obj, id, pulse) {
 
-    var camobj = m_scs.get_active_camera();
-    if (!m_cam.is_target_camera(camobj))
+    if (m_nla.is_play())
         return;
 
-    var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+    if (_cam_dist === null)
+        return;
+
+    var camobj = m_scs.get_active_camera();
 
     var default_x = _canvas_elem.width / 2;
     var default_y = _canvas_elem.height / 2;
@@ -291,9 +304,14 @@ function rotate_cam_cb(obj, id, pulse) {
     var dx = (default_x - _mouse_x) / _canvas_elem.width * _cam_rot_fac;
     var dy = (default_y - _mouse_y) / _canvas_elem.height * _cam_rot_fac;
     var x = _default_cam_rot[0] - dx;
-    var y = _default_cam_rot[1] - dy;
+    var y = -_default_cam_rot[1] - dy;
 
-    m_cam.target_rotate(camobj, x, y, true, true);
+    _vec3_tmp[0] = _cam_pivot[0] + _cam_dist * Math.sin(x);
+    _vec3_tmp[1] = _cam_pivot[1] + _cam_dist * Math.sin(y);
+    _vec3_tmp[2] = _cam_pivot[2] + _cam_dist * Math.cos(x);
+
+    m_cam.static_set_look_at(camobj, _vec3_tmp, _cam_pivot);
+    m_cam.correct_up(camobj);
 }
 
 function main_canvas_mouse_move(e) {
@@ -320,42 +338,78 @@ function main_canvas_mouse_move(e) {
     _mouse_y = y;
 }
 
-function main_canvas_click(e) {
-
+function main_canvas_touch(e) {
     if (e.preventDefault)
         e.preventDefault();
+    var touches = e.changedTouches;
+    var touch = touches[0];
+    var x = touch.clientX;
+    var y = touch.clientY;
+    process_screen_click(x, y);
+}
 
+function main_canvas_click(e) {
+    if (e.preventDefault)
+        e.preventDefault();
     var x = e.clientX;
     var y = e.clientY;
+    process_screen_click(x, y);
+}
 
+function process_screen_click(x, y) {
     var obj = m_scs.pick_object(x, y);
-
     if (obj) {
-        var obj_name = m_scs.get_object_name(obj)
-        var camobj = m_scs.get_active_camera();
-        if (obj == _screen_saver_obj)
-            m_cam.static_setup(camobj);
-
-        if (obj == _back_to_menu_button)
-            m_cam.target_setup(camobj, {pivot: _default_cam_pivot});
-
         if (_buttons_info[obj.name]) {
             var binfo = _buttons_info[obj.name];
 
-            if (binfo.stop_playlist)
-                play_ending_speaker();
-
-            if (binfo.level_name)
+            if (binfo.level_name) {
+                cleanup_events();
                 setTimeout(function() {load_level(binfo.level_name)},
                            1000 * m_conf.LEVEL_LOAD_DELAY);
-            else
-                m_cam.static_setup(camobj);
-
-            _canvas_elem.removeEventListener("mouseup", main_canvas_click);
-            _canvas_elem.removeEventListener("touchscreen", main_canvas_click);
-            _canvas_elem.removeEventListener("mousemove", main_canvas_mouse_move);
+            } else if (!m_main.detect_mobile()) {
+                play_ending_speaker();
+                cleanup_events();
+                start_intro();
+            }
         }
     }
+}
+
+function cleanup_events() {
+    _button_clicked = true;
+    if (m_main.detect_mobile())
+        _canvas_elem.removeEventListener("touchstart", main_canvas_touch, false);
+    else {
+        _canvas_elem.removeEventListener("mousedown", main_canvas_click);
+        _canvas_elem.removeEventListener("mousemove", main_canvas_mouse_move);
+    }
+}
+
+function start_intro() {
+
+    if (!_hq_loaded)
+        load_HQ_elements();
+
+    m_ctl.remove_sensor_manifold(null, "ROT_CAMERA");
+    m_ctl.create_sensor_manifold(null, "TIMELINE_CHECK",
+                 m_ctl.CT_SHOT,
+                [m_ctl.create_elapsed_sensor()],
+                function(s) {return m_nla.get_frame() >= m_nla.get_frame_end()},
+                function(){load_level("level_01")});
+}
+
+function load_HQ_elements() {
+    m_sfx.duck(null, 0, 1);
+    var LQ_obj = m_scs.get_object_by_name("environment_LQ");
+
+    var preloader_cont = document.getElementById("preloader_cont");
+    preloader_cont.style.visibility = "visible"
+
+    m_data.load(ASSETS_PATH + "intro_HQ_environment.json", function() {
+            m_scs.hide_object(LQ_obj);
+            m_sfx.duck(null, 1, 1);
+            _hq_loaded = true;
+        }, preloader_cb, true, false);
 }
 
 function play_ending_speaker(speaker) {
@@ -376,10 +430,10 @@ function play_ending_speaker(speaker) {
 function load_level(level_name) {
     var json_path = ASSETS_PATH + level_name + ".json";
 
-    m_data.unload();
+    m_data.unload(m_data.DATA_ID_ALL);
 
     var preloader_cont = document.getElementById("preloader_cont");
-    preloader_cont.style.visibility = "visible";
+    preloader_cont.style.visibility = "visible"
     m_data.load(json_path,
                 function(data_id) {
                     game_main.level_load_cb(data_id, level_name, preloader_cb,
@@ -404,7 +458,10 @@ function preloader_cb(percentage) {
 
 function remove_preloader() {
     var preloader_cont = document.getElementById("preloader_cont");
-    preloader_cont.style.visibility = "hidden"
+
+    setTimeout(function(){
+            preloader_cont.style.visibility = "hidden"
+        }, 1000);
 }
 
 function menu_initialization() {
@@ -417,9 +474,13 @@ function menu_initialization() {
     var qual_elem_low = document.getElementById("low_qual");
     var qual_elem_high = document.getElementById("high_qual");
     var body_elem = document.body;
+    var brand = document.getElementsByClassName("brand")[0];
+    var soc = document.getElementsByClassName("soc")[0];
 
     menu_elem.style.display = "block";
     menu_elem.style.opacity = 1;
+
+    document.location.hash = "quality=high";
 
     function switch_lang(lang) {
         body_elem.setAttribute("lang", lang);
@@ -429,6 +490,7 @@ function menu_initialization() {
 
     function init_app() {
         var is_mobile = m_main.detect_mobile();
+        var is_debug = m_version.type() == "DEBUG";
 
         var quality_elem = document.getElementById("quality");
         var qual_kind = quality_elem.getAttribute("quality");
@@ -441,27 +503,43 @@ function menu_initialization() {
         m_app.init({
             canvas_container_id: "canvas3d",
             callback: init_cb,
-            physics_enabled: true,
             quality: quality,
+            physics_enabled: true,
             console_verbose: true,
-            show_fps: true,
             alpha: false,
             physics_use_workers: !is_mobile,
-            show_fps: true,
+            show_fps: is_debug,
             autoresize: true
         });
     }
 
     function switch_qual(qual) {
         quality_elem.setAttribute("quality", qual);
+        document.location.hash = "quality=" + qual;
     }
 
     function show_start_btn_glow() {
         start_glow.style.display = "inline-block";
     }
 
+    function show_brand_glow() {
+        brand.className = "brand hover";
+    }
+
+    function show_soc_glow() {
+        soc.className = "soc hover";
+    }
+
     function hide_start_btn_glow() {
         start_glow.style.display = "";
+    }
+
+    function hide_brand_glow() {
+        brand.className = "brand";
+    }
+
+    function hide_soc_glow() {
+        soc.className = "soc";
     }
 
     lang_elem_ru.addEventListener("click", function() {switch_lang("ru")}, false);
@@ -473,10 +551,25 @@ function menu_initialization() {
     if (m_main.detect_mobile()) {
         start_elem.addEventListener("touchstart", show_start_btn_glow);
         start_elem.addEventListener("touchend", hide_start_btn_glow);
+
+        brand.addEventListener("touchstart", show_brand_glow);
+        brand.addEventListener("touchend", hide_brand_glow);
+
+        soc.addEventListener("touchstart", show_soc_glow);
+        soc.addEventListener("touchend", hide_soc_glow);
+        switch_qual("low");
     } else {
         start_elem.addEventListener("mousedown", show_start_btn_glow);
         start_elem.addEventListener("mouseup", hide_start_btn_glow);
         start_elem.addEventListener("mouseleave", hide_start_btn_glow);
+
+        brand.addEventListener("mousedown", show_brand_glow);
+        brand.addEventListener("mouseup", hide_brand_glow);
+        brand.addEventListener("mouseleave", hide_brand_glow);
+
+        soc.addEventListener("mousedown", show_soc_glow);
+        soc.addEventListener("mouseup", hide_soc_glow);
+        soc.addEventListener("mouseleave", hide_soc_glow);
     }
 
     start_elem.addEventListener("click",

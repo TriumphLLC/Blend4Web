@@ -44,7 +44,6 @@ function load() {
  * callback executed when the scene is loaded
  */
 function load_cb(data_id) {
-    m_app.enable_controls();
     m_app.enable_camera_controls();
 
     // place your code here

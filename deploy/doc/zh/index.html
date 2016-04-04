@@ -1,0 +1,566 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>目录 &mdash; Blend4Web 16.03 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.03 用户手册" href="#"/>
+        <link rel="next" title="概述" href="about.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="#" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.03
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>目录</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="table-of-contents">
+<h1>目录<a class="headerlink" href="#table-of-contents" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#what-s-blend4web">什么是 Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#about-engines">&#8220;关于引擎&#8221;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#graphics-engine-game-engine">图形引擎，游戏引擎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#what-s-webgl">什么是WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#webgl-browsers-support">WebGL的浏览器支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#advantages-of-webgl">WebGL的优势</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#what-s-blender">什么是Blender</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#d-modeling">三维建模</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#browser-technologies">浏览器技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#interactive-graphics">交互式图形</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#video-cards-and-drivers">显卡和驱动程序</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features.html#general">通用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#texturing">纹理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#materials">材质</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#lighting">照明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#shadows">阴影</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#particle-system">粒子系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#external-scenes-rendering">额外场景渲染</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#postprocessing-effects">后处理效果</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#animation">动画</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#optimization">优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#audio">音频</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#physics">物理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#event-driven-model">事件驱动模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#visual-programming">可视化编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#other">其他</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#installation-order">安装顺序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#updating">更新</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#authoring-scenes">创作场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#exporting-scenes">导出场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#displaying-scenes-in-the-viewer">在浏览器显示场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">应用程序开发</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#id1">项目管理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-creation-wizard">项目创建向导</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-information">项目信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-import">项目导入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-export">项目导出</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html#navigation">导航</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html#the-side-panel">侧面板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html#indicators">指标</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#usage">用法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#navigation">导航</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#control-panel">控制面板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#attributes">属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#scene-name-as-title">场景名称为标题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#scene-errors">场景错误</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-formats">输出格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-options">导出选项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#index-1">初始化错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#compatibility-errors">兼容性错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#critical-export-errors">关键导出错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#non-critical-export-errors">非致命导出的错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#other-messages">其他消息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#add-on-translations">插件翻译</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#render-panel">渲染面板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#scene-panel">场景面板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scene_settings.html#world-panel">世界环境面板</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#types">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-transform-api">Object Transform API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">Get object API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">Quaternions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#differences-between-coordinate-systems-of-blender-and-blend4web">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">Moving via TSR Vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#copying-objects-instancing">Copying Objects (Instancing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#object-selection">Object Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#morphing">Morphing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#move-styles-and-general-settings">Move Styles and General Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#limiting-the-camera-movement">Limiting the Camera Movement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#camera-controls-api">Camera Controls API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#lighting-parameters">Lighting Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#transparency">Transparency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#reflection">Reflection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#rendering-properties">Rendering Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#viewport-properties">Viewport Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#engine-specific-parameters">Engine Specific Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#halo-materials">Halo Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="node_materials.html#standard-nodes">Standard Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">Engine Specific Nodes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#basics">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#control-flow">Control Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#animation">Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#camera">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#object">Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#operations">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#sound">Sound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#network">Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">Debug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#shading-types">Shading Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#normal-editor">Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#lighting-with-light-sources">Lighting with Light Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#environment-lighting-ambient">Environment Lighting (Ambient)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#shadows">Shadows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#background">Background</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#motion-blur">Motion Blur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#depth-of-field">Depth of Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#screen-space-ambient-occlusion">Screen-Space Ambient Occlusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#god-rays">God Rays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#bloom">Bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#outlining">Outlining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#glow">Glow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#anti-aliasing">Anti-Aliasing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#activation">激活</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#additional-settings">附加设置</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#texture-types">Texture Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#generic-settings">Generic Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-4">Diffuse Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-5">Specular Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Normal Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-8">Stencil Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#video-textures">Video Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-9">Environment Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#mirror-map">Mirror Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#skydome">Skydome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#special-texture-types">Special Texture Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="particles.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particles.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particles.html#textures-in-particle-systems">Textures in Particle Systems</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#particle-system-setup">Particle System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#grass">Grass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#tree-leaves">Tree Leaves</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#animation-control">Animation Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#object-animation">Object Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#skinning-and-skeletal-animation">Skinning and Skeletal Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#vertex-animation">Vertex Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#default-animation">Default Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#non-linear-animation">Non-Linear Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#audio-source-parametrization">Audio Source Parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#animation-of-value-and-rgb-nodes">Animation of Value and RGB Nodes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#water">Water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#atmosphere">Atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Wind</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#gamma-overview">Gamma Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#human-vision-and-monitors">Human Vision and Monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#gamma-formula">Gamma Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#gamma-in-node-materials">Gamma in Node Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#alpha-compositing">Alpha Compositing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colors.html#color-correction">Color Correction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#audio-source-settings">音源设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#processing-and-decoding">处理和解码</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#preparing-for-use">Preparing for Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#static-physics-type">Static Physics Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#dynamic-physics-type">Dynamic Physics Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#constraints">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#wheeled-vehicles">Wheeled Vehicles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#floating-objects">Floating Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#floating-vehicles-aka-watercrafts">Floating Vehicles aka Watercrafts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#use-in-applications">Use in Applications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#project-management">Project Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#advanced-project-management">Advanced Project Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#application-programming">Application Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Resource Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#code-examples">Code Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#event-driven-model">Event-Driven Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk-file-structure">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#loading-local-resources">Loading Local Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#quality-profiles">Quality Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#non-fullscreen-web-apps">Non-FullScreen Web Apps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#coding-style">Coding Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-engine">Building the Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-addon">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#naming-functions-and-variables">Naming Functions and Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#shader-compilation">Shader Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#updating-add-on-translations">Updating Add-on Translations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#typical-workflow">Typical Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#individual-settings">Individual Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#checking-the-status">Checking the Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#before-the-commit">Before the Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#preparing-for-commit">Preparing for Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#commit">Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#syncing-between-repositories">Syncing Between Repositories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#resolving-conflicts">Resolving Conflicts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#tags">Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#other-useful-commands">Other Useful Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#problems-upon-startup">启动时的问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-failed-to-init">WebGL的无法初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#known-issues">已知问题</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-03">v16.03</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-02">v16.02</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-01">v16.01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-12">v15.12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-11">v15.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-10">v15.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-09">v15.09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-08">v15.08</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-07">v15.07</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-06">v15.06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-05">v15.05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-04">v15.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-03">v15.03</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-02">v15.02</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-01">v15.01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-12">v14.12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-11">v14.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-10">v14.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-09">v14.09</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>索引</span></a></li>
+<li><a class="reference internal" href="search.html"><span>搜索页面</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="about.html" class="btn btn-neutral float-right" title="概述" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-03-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.03',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

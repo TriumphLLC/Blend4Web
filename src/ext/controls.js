@@ -76,7 +76,7 @@ var m_print = require("__print");
  * Collision sensor payload.
  * @callback CollisionPayload
  * @param {?Object3D} coll_obj The target collision object, i.e the object
- * the source object collides with (null for no collision or when this object 
+ * the source object collides with (null for no collision or when this object
  * is represented by collision material).
  * @param {?Vec3} coll_pos Position of collision point.
  * @param {?Vec3} coll_norm Normal of collision point.
@@ -94,7 +94,7 @@ var m_print = require("__print");
  * @param {Vec3} hit_norm Hit normal in world space.
  */
 /**
- * Special callback for callback-sensor. It's executed every frame and 
+ * Special callback for callback-sensor. It's executed every frame and
  * its return value is copied into the sensor value. Should return a numeric value.
  * @callback SensorCallback
  */
@@ -620,6 +620,7 @@ exports.create_custom_sensor = m_ctl.create_custom_sensor;
  * Create a keyboard sensor.
  * @method module:controls.create_keyboard_sensor
  * @param {Number} key Sensor key KEY_*
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
@@ -695,6 +696,7 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
 /**
  * Create a mouse click sensor.
  * @method module:controls.create_mouse_click_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
@@ -703,6 +705,7 @@ exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
  * Create a mouse wheel sensor.
  * The sensor's value is 1 for a single wheel notch scrolled away from the user.
  * @method module:controls.create_mouse_wheel_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
@@ -713,6 +716,7 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * coordinate(s).
  * @method module:controls.create_mouse_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
@@ -722,6 +726,7 @@ exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
  * The sensor's value is a number of pixels.
  * @method module:controls.create_touch_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
@@ -730,6 +735,7 @@ exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
  * Create a touch zoom sensor.
  * The sensor's value is the distance difference in pixels.
  * @method module:controls.create_touch_zoom_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
@@ -738,9 +744,19 @@ exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
  * Create a touch rotate sensor.
  * The sensor's value is the angle from -PI to PI.
  * @method module:controls.create_touch_rotate_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
 exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
+
+/**
+ * Create a touch click sensor.
+ * The sensor's value is 1 for a touched fouchscreen.
+ * @method module:controls.create_touch_click_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @returns {Sensor} Sensor object
+ */
+exports.create_touch_click_sensor = m_ctl.create_touch_click_sensor;
 
 /**
  * Create a motion sensor.
@@ -793,6 +809,14 @@ exports.create_gyro_quat_sensor = m_ctl.create_gyro_quat_sensor;
  * @returns {Sensor} Sensor object
  */
 exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;
+
+/**
+ * Create a HMD quaternion sensor.
+ * The sensor's payload stores the quaternion of orientation of a HMD.
+ * @method module:controls.create_hmd_quat_sensor
+ * @returns {Sensor} Sensor object
+ */
+exports.create_hmd_quat_sensor = m_ctl.create_hmd_quat_sensor;
 
 /**
  * Create a timer sensor.
@@ -993,8 +1017,11 @@ exports.reset = m_ctl.reset;
  * @param {Boolean} prevent_default Prevent browsers' default actions for
  * registered events.
  * @method module:controls.register_keyboard_events
+ * @deprecated Not needed anymore.
  */
-exports.register_keyboard_events = m_ctl.register_keyboard_events;
+exports.register_keyboard_events = function(){
+    m_print.error_once("controls.register_keyboard_events() deprecated");
+};
 
 /**
  * Add mouse event listeners (mousedown, mouseup, mousemove and mouseout) to
@@ -1006,12 +1033,11 @@ exports.register_keyboard_events = m_ctl.register_keyboard_events;
  * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element
  * @method module:controls.register_mouse_events
+ * @deprecated Not needed anymore.
  */
-exports.register_mouse_events = function(element, prevent_default,
-                                         allow_element_exit) {
-
-    m_ctl.register_mouse_events(element, prevent_default, !!allow_element_exit);
-}
+exports.register_mouse_events = function(){
+    m_print.error_once("controls.register_mouse_events() deprecated");
+};
 
 /**
  * Add mouse wheel event listeners (mousewheel and DOMMouseScroll) to
@@ -1020,8 +1046,11 @@ exports.register_mouse_events = function(element, prevent_default,
  * @param {Boolean} prevent_default Prevent browser default actions for
  * registered events.
  * @method module:controls.register_wheel_events
+ * @deprecated Not needed anymore.
  */
-exports.register_wheel_events = m_ctl.register_wheel_events;
+exports.register_wheel_events = function(){
+    m_print.error_once("controls.register_wheel_events() deprecated");
+};
 
 /**
  * Add touch event listeners (touchstart and touchmove) to the HTML element.
@@ -1030,51 +1059,72 @@ exports.register_wheel_events = m_ctl.register_wheel_events;
  * @param {Boolean} prevent_default Prevent browser default actions for
  * registered events.
  * @method module:controls.register_touch_events
+ * @deprecated Not needed anymore.
  */
-exports.register_touch_events = m_ctl.register_touch_events;
+exports.register_touch_events = function(){
+    m_print.error_once("controls.register_touch_events() deprecated");
+};
 
 /**
  * Add device orientation event listener (deviceorientation) to the DOM window.
  * @method module:controls.register_device_orientation
+ * @deprecated Not needed anymore.
  */
-exports.register_device_orientation = m_ctl.register_device_orientation;
+exports.register_device_orientation = function(){
+    m_print.error_once("controls.register_device_orientation() deprecated");
+};
 
 /**
  * Remove keyboard event listeners (keydown and keyup) from the HTML element.
  * @param {HTMLElement} element HTML element to remove event listeners from
  * @method module:controls.unregister_keyboard_events
+ * @deprecated Not needed anymore.
  */
-exports.unregister_keyboard_events = m_ctl.unregister_keyboard_events;
+exports.unregister_keyboard_events = function(){
+    m_print.error_once("controls.unregister_keyboard_events() deprecated");
+};
 
 /**
  * Remove mouse event listeners (mousedown, mouseup, mousemove and mouseout)
  * from the HTML element.
  * @param {HTMLElement} element HTML element to remove event listeners from
  * @method module:controls.unregister_mouse_events
+ * @deprecated Not needed anymore.
  */
-exports.unregister_mouse_events = m_ctl.unregister_mouse_events;
+exports.unregister_mouse_events = function(){
+    m_print.error_once("controls.unregister_mouse_events() deprecated");
+};
 
 /**
  * Remove mouse wheel event listeners (mousewheel and DOMMouseScroll) from
  * the HTML element.
  * @param {HTMLElement} element HTML element to remove event listeners from
  * @method module:controls.unregister_wheel_events
+ * @deprecated Not needed anymore.
  */
-exports.unregister_wheel_events = m_ctl.unregister_wheel_events;
+exports.unregister_wheel_events = function(){
+    m_print.error_once("controls.unregister_wheel_events() deprecated");
+};
 
 /**
  * Remove touch event listeners (touchstart and touchmove) from the HTML
  * element.
  * @param {HTMLElement} element HTML element to remove event listeners from
  * @method module:controls.unregister_touch_events
+ * @deprecated Not needed anymore.
  */
-exports.unregister_touch_events = m_ctl.unregister_touch_events;
+exports.unregister_touch_events = function(){
+    m_print.error_once("controls.unregister_touch_events() deprecated");
+};
 
 /**
  * Remove device orientation event listener (deviceorientation) from
  * the DOM window.
  * @method module:controls.unregister_device_orientation
+ * @deprecated Not needed anymore.
  */
-exports.unregister_device_orientation = m_ctl.unregister_device_orientation;
+exports.unregister_device_orientation = function(){
+    m_print.error_once("controls.unregister_device_orientation() deprecated");
+};
 
 }

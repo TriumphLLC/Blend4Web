@@ -1,27 +1,27 @@
-.. index:: сцена
+.. index:: scene
 
 .. _scene_settings:
 
-***************
-Параметры сцены
-***************
+**************
+Scene Settings
+**************
 
-.. contents:: Содержание
+.. contents:: Table of Content
     :depth: 3
     :backlinks: entry
 
-Все параметры, определяющие вид и поведение сцены (а не отдельных объектов), находятся на трёх вкладках: ``Render``, ``Scene`` и ``World``.
+All the parameters that define the look and behavior of the whole scene (and not just a single object) are found on the three panels: the ``Render`` panel, the ``Scene`` panel and the ``World`` panel.
 
 .. _render_settings:
 
-Вкладка Render
-==============
+Render Panel
+============
 
 .. image:: src_images/scene_settings/render.png
    :align: center
    :width: 100%
 
-На этой вкладке находятся параметры сцены, связанные с рендерингом изображения.
+All scene parameters that concern the image rendering are found on this panel.
 
 
 .. _render_reflections:
@@ -29,27 +29,27 @@
 Reflections and Refractions
 ---------------------------
 
-Настройка эффектов отражения и преломления.
+Reflection and refraction effect settings.
 
 .. image:: src_images/scene_settings/render_reflections_and_refractions.png
    :align: center
    :width: 100%
 
 *Reflection*
-    Настройки эффекта отражения. Может иметь значения ``ON`` и ``OFF``. Значение по умолчанию - ``ON``.
+    Reflection effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. Set to ``ON`` by default.
 
 *Refraction*
-    Настройки эффекта преломления. Может иметь значения ``ON``, ``OFF`` и ``AUTO``. Значение по умолчанию - ``AUTO``.
+    Refraction effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. Set to ``AUTO`` by default.
 
 *Quality*
-    Настройки качества эффекта отражения (и преломления?). Может иметь значения ``HIGH`` (высокое качество), ``MEDIUM`` (среднее) и ``LOW`` (низкое). Значение по умолчанию - ``MEDIUM``.
+    Quality settings for the reflection effect. Can be set to ``HIGH`` (highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` (lowest quality). Set to ``MEDIUM`` by default.
 
 .. _render_motion_blur:
 
 Motion Blur
 -----------
 
-Настройки эффекта размытия изображения при быстром движении. Подробно описаны в :ref:`соответствующем разделе <motion_blur>`.
+Motion blur settings. Described thoroughly :ref:`in its own section <motion_blur>`.
 
 .. image:: src_images/scene_settings/render_motion_blur.png
    :align: center
@@ -61,7 +61,7 @@ Motion Blur
 Bloom
 -----
 
-Настройки эффекта засветки. Подробно описаны в :ref:`соответствующем разделе <bloom>`.
+Bloom effect settings. Described thoroughly in :ref:`its own section <bloom>`.
 
 .. image:: src_images/scene_settings/render_bloom.png
    :align: center
@@ -73,7 +73,7 @@ Bloom
 Color Correction
 ----------------
 
-Настройки цветокоррекции. Подробно описаны в :ref:`соответствующем разделе <color_correction>`.
+Color correction settings. Described throughly in :ref:`its own section <color_correction>`.
 
 .. image:: src_images/scene_settings/render_color_correction.png
    :align: center
@@ -85,7 +85,7 @@ Color Correction
 Glow Materials
 --------------
 
-Настройки эффекта свечения материалов. Подробно описаны в :ref:`соответствующем разделе <glow>`.
+Glow Material effect settings. Described thoroughly in :ref:`its own section <glow>`.
 
 .. image:: src_images/scene_settings/render_glow_materials.png
    :align: center
@@ -97,7 +97,7 @@ Glow Materials
 Object Outlining
 ----------------
 
-Настройки эффекта обводки. Подробно описаны в :ref:`соответствующем разделе <outline>`.
+Outlining effect settings. Described thoroughly in :ref:`its own section<outline>`.
 
 .. image:: src_images/scene_settings/render_object_outlining.png
    :align: center
@@ -109,7 +109,7 @@ Object Outlining
 Ambient Occlusion (SSAO)
 ------------------------
 
-Настройки эффекта взаимного затенения (SSAO). Подробно описаны в :ref:`соответствующем разделе <ssao>`.
+Screen-space ambient occlusion (SSAO) settings. Described thoroughly in :ref:`its own section <ssao>`.
 
 .. image:: src_images/scene_settings/render_ambient_occlusion.png
    :align: center
@@ -121,7 +121,7 @@ Ambient Occlusion (SSAO)
 God Rays
 --------
 
-Настройки эффекта "сумеречных лучей". Подробно описаны в :ref:`соответствующем разделе <god_rays>`.
+God Rays effect settings. Described thoroughly in :ref:`its own section <god_rays>`.
 
 .. image:: src_images/scene_settings/render_god_rays.png
    :align: center
@@ -133,7 +133,7 @@ God Rays
 Anti-Aliasing
 -------------
 
-Настройки сглаживания изображения (anti-aliasing). Подробно описаны в :ref:`соответствующем разделе <antialiasing>`.
+Anti-Aliasing settings. Described thoroughly in :ref:`its own section<antialiasing>`.
 
 .. image:: src_images/scene_settings/render_anti_aliasing.png
    :align: center
@@ -145,7 +145,7 @@ Anti-Aliasing
 Shadows
 -------
 
-Настройки теней. Подробно описаны в :ref:`соответствующем разделе <shadows>`.
+Shadows settings. Described thoroughly in :ref:`its own section<shadows>`.
 
 .. image:: src_images/scene_settings/render_shadows.png
    :align: center
@@ -156,7 +156,7 @@ Shadows
 Development Server
 ------------------
 
-Настройки сервера разработки. Подробно описаны в :ref:`соответствующем разделе <local_development_server>`.
+Development Server settings. Described thoroughly in :ref:`its own section <local_development_server>`.
 
 .. image:: src_images/scene_settings/render_development_server.png
    :align: center
@@ -167,52 +167,52 @@ Development Server
 Timeline
 --------
 
-Настройки таймлайна.
+Timeline settings.
 
 .. image:: src_images/scene_settings/render_timeline.png
    :align: center
    :width: 100%
 
 *Start Frame*
-    Первый кадр таймлайна. По умолчанию 1.
+    The first frame of the timeline. Set to 1 by default.
 
 *End Frame*
-    Последний кадр таймлайна. По умолчанию 250.
+    The last frame of the timeline. Set to 250 by default.
 
 *Frame Rate*
-    Количество кадров в секунду. По умолчанию 24. Этот параметр определяет скорость воспроизведения анимации (но не скорость работы самой сцены).
+    Number of the frames per second. Set to 24 by default. This parameter only affect the animation playback speed (not the scene itself).
 
 .. _scene:
 
-Вкладка Scene
-=============
+Scene Panel
+===========
 
 .. image:: src_images/scene_settings/scene.png
    :align: center
    :width: 100%
 
-На этой вкладке находятся настройки, связанные с поведением сцены, в том числе настройки звука, физики, анимации и пр.
+The settings that concern scene behavior, including audio, physics and animation settings, are found on this panel.
 
 .. _scene_scene:
 
 Scene
 -----
 
-Настройки сцены.
+Scene settings.
 
 .. image:: src_images/scene_settings/scene_scene.png
    :align: center
    :width: 100%
 
 *Camera*
-    Камера, используемая для воспроизведения сцены.
+    A camera that is used to render the scene.
 
 .. _scene_units:
 
 Units
 -----
 
-Настройки единиц измерения, используемых в сцене.
+Sets the measurement units used in the scene.
 
 .. image:: src_images/scene_settings/scene_units.png
    :align: center
@@ -223,168 +223,168 @@ Units
 Audio
 -----
 
-Настройки звука. Включены по умолчанию.
+Audio settings. Enabled by default.
 
 .. image:: src_images/scene_settings/scene_audio.png
    :align: center
    :width: 100%
 
 *Dynamic Compressor*
-    Сжатие динамического диапазона звукового сигнала. Применяется для того, чтобы сделать звучание более насыщенным и более равномерым по громкости. По умолчанию отключено.
+    Compress audio signal's dynamic range. This feature can be used to make the sound more rich and even. Disabled by default.
 
 *Treshold*
-    Значение входного сигнала, при превышении которого включается компрессор. По умолчанию равно -24.
+    If the amplitude of the audio signal exceeds the value specified by this parameter, the compressor will reduce its level. Set to -24 dB by default.
 
 *Knee*
-    Интервал над порогом (``Treshold``), где кривая громкости переходит в режим затухания. По умолчанию равен 30.
+    The interval below the threshold where the responce curve switches to the decreasing mode. Set to 30 by default.
 
 *Ratio*
-    Фактор затухания компрессора. Значение по умолчанию равно 12.
+    Amount of gain reduction. Set to 12 by default.
 
 *Attack*
-    Время (в секундах) для затухания громкости на 10 дБ. По умолчанию равно 0.003.
+    Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set to 0.003 by default.
 
 *Release*
-    Время (в секундах) для повышения громкости на 10 дБ. По умолчанию равно 0.25.
+    Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by defaault.
 
 .. _scene_logic_editor:
 
 Logic Editor
 ------------
 
-Настройки использования логических деревьев (создаваемых в :ref:`редакторе логики <logic_editor>`) при воспроизведении сцены. По умолчанию отключено.
+Settings for the use of the logic node trees (created in the :ref:`logic editor <logic_editor>`) in the scene. Disabled by default.
 
 .. image:: src_images/scene_settings/scene_logic_editor.png
    :align: center
    :width: 100%
 
 *Active Node Tree*
-    Дерево логики, используемое при воспроизведении сцены.
+    Node tree that is used in the scene's playback.
 
 .. _scene_nla:
 
 NLA
 ---
 
-Настройки использования нелинейной анимации при воспроизведении сцены. По умолчанию отключено.
+Non-Linear Animation playback settings. Disabled by default.
 
 .. image:: src_images/scene_settings/scene_nla.png
    :align: center
    :width: 100%
 
 *Cyclic NLA*
-    При активации этого параметра нелинейная анимацие будет зациклена.
+    If this parameter is enabled, NLA animation will be repeated after it is finished.
 
 .. _scene_meta_tags:
 
 Meta Tags
 ---------
 
-Мета-теги приложения.
+Application's meta tags.
 
 .. image:: src_images/scene_settings/scene_meta_tags.png
    :align: center
    :width: 100%
 
 *Title*
-    Заголовок приложения.
+    The title of the application.
 
 *Description*
-    Описание приложения. Может быть текстовым или представлять собой ссылку на файл (если параметр ``Description Source`` имеет значение ``File``).
+    The description of the application. Can be a simple text or a link to a text file (if the ``Description Source`` parameter is set to the ``File`` value).
 
 *Description Source*
-    Источник описания приложения. Описание может быть взято из файла или задано непосредственно в поле ``Description``. Доступные значения - ``Text`` и ``File``. Значение по умолчанию - ``Text``.
+    The source of the application's description. The description can be loaded from a file or specified directly in the ``Description`` field. This parameter can have one of the two values, ``Text`` and ``File``, and it is set to ``Text`` by default.
 
 .. _scene_physics:
 
 Physics
 -------
 
-Настройки использования физики.
+Physics settings.
 
 .. image:: src_images/scene_settings/scene_physics.png
    :align: center
    :width: 100%
 
 *Enable Physics*
-    Использовать физику в приложении. Включено по умолчанию.
+    Allow using physics in the application. Enabled by default.
 
 .. _scene_batching:
 
 Batching
 --------
 
-Здесь задаётся размер сетки, используемой для объединения объектов с одинаковыми материалами. Этот параметр применяется для оптимизации.
+The size of the grid used to batch the object with the same materials can be specified here. This parameter can be used for optimization purposes.
 
 .. image:: src_images/scene_settings/scene_batching.png
    :align: center
    :width: 100%
 
 *Batch Grid Size*
-    Размер сетки (в метрах). По умолчанию это значение равно 0 (в таком случае сетка не используется).
+    The size of the grid in meters. Set to zero by default (in such case, the grid isn't used).
 
 .. _scene_objects_selection:
 
 Objects Selection
 -----------------
 
-Настройки параметров выбора объектов с помощью функции API :b4wref:`scenes.pick_object()` и :ref:`нодовой логики <logic_editor>`.
+Object selection settings. Objects can be selected both with the API function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes <logic_editor>`.
 
 .. note::
-    В :ref:`просмотрщике сцен <viewer>` выделение включено по умолчанию. Отключить его можно в разделе ``Tools & Debug``.
+    In the :ref:`scene viewer <viewer>`, selection is enabled by default. You can turn it off in the ``Tools & Debug`` panel.
 
 .. image:: src_images/scene_settings/scene_objects_selection.png
    :align: center
    :width: 100%
 
 *Enable*
-    Параметр, который определяет, могут ли объекты быть выбраны. Может иметь значения ``ON``, ``OFF`` и ``AUTO``. По умолчанию имеет значение ``AUTO``.
+    The parameter that defines if the object can or can't be selected. It can have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default.
 
 .. _scene_anchors:
 
 Anchors
 -------
 
-Настройки определения видимости :ref:`якорей <objects_anchors>`.
+:ref:`Anchor <objects_anchors>` visibility detection settings.
 
 .. image:: src_images/scene_settings/scene_anchors.png
    :align: center
    :width: 100%
 
 *Detect Anchors Visibility*
-    Параметр определения видимости якорей. Возможные значения: ``ON``, ``OFF`` и ``AUTO``. Значение по умолчанию - ``AUTO``.
+    Anchor visibility detection parameter. Can have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default.
 
 .. _scene_export_options:
 
 Export Options
 --------------
 
-Параметры экспорта настроек сцены.
+Scene settings export parameters.
 
 .. image:: src_images/scene_settings/scene_export_options.png
    :align: center
    :width: 100%
 
 *Do Not Export*
-    Игнорировать настройки сцены при экспорте приложения.
+    If this parameter is enabled, scene settings will be ignored during export.
 
 .. _world_settings:
 
-Вкладка World
-=============
+World Panel
+===========
 
 .. image:: src_images/scene_settings/world.png
    :align: center
    :width: 100%
 
-На этой вкладке находятся параметры окружающей среды, такие, как настройки неба, тумана и т.п.
+Environment settings such as settings for sky, mist and such are found on this panel.
 
 .. _world_preview:
 
 Preview
 -------
 
-Предварительный просмотр окружения.
+Environment preview.
 
 .. image:: src_images/scene_settings/world_preview.png
    :align: center
@@ -395,45 +395,45 @@ Preview
 World
 -----
 
-Настройки параметров неба.
+Sky settings.
 
 .. image:: src_images/scene_settings/world_world.png
    :align: center
    :width: 100%
 
 *Render Sky*
-    Отображение неба.
+    If this parameter is enabled, the engine will render sky in the scene.
 
 *Paper Sky*
-    Если эта опция включена, градиент неба всегда будет отрисовываться сверху вниз относительно кадра независимо от угла наклона камеры.
+    If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regargless of the camera's position and angles.
 
 *Blend Sky*
-    Плавный переход от цвета горизонта к цвету неба в зените.
+    Smooth transition between the horizon and zenith colors.
 
 *Real Sky*
-    Визуализация неба с горизонтом, зависящим от угла наклона камеры.
+    Sky rendering with the horizon affected by the camera angle.
 
 *Horizon Color*
-    Цвет неба у горизонта.
+    Sky color at the horizon.
 
 *Zenith Color*
-    Цвет неба в зените.
+    Sky color in the zenith.
 
 *Ambient Color*
-    Цвет окружающего освещения.
+    The color of the ambient lighting.
 
 *Reflect World*
-    Отображать небо при рассчёте отражений.
+    Render the sky while rendering reflections.
 
 *Render Only Reflection*
-    Отображать небо *только* при рассчёте отражений.
+    Render the sky *only* while rendering reflections.
 
 .. _world_environment_lighting:
 
 Environment Lighting
 --------------------
 
-Настройки параметров освещения от окружающей среды. Подробно описаны в :ref:`соответствующем разделе <environment_lighting>`.
+Environment lighting settings. Described thoroughly in :ref:`their own section <environment_lighting>`.
 
 .. image:: src_images/scene_settings/world_environment_lighting.png
    :align: center
@@ -445,39 +445,39 @@ Environment Lighting
 Mist
 ----
 
-Настройки параметров тумана.
+Mist settings.
 
 .. image:: src_images/scene_settings/world_mist.png
    :align: center
    :width: 100%
 
 *Minimum*
-    Минимальная интенсивность тумана. По умолчанию равна 0.
+    Minimum intensity of the mist. Set to zero by default.
 
 *Depth*
-    Расстояние от камеры, на котором эффект тумана достигает наибольшей интенсивности. По умолчанию равно 25.
+    At this distance from the camera the mist effect reaches maximum intesity. Set to 25 by default.
 
 *Start*
-    Расстояние от камеры, на котором начинает проявляться эффект тумана. По умолчанию равно 5.
+    The mist effect starts to appear at this distance from the camera. Set to 5 by default.
 
 *Height*
-    Определяет, насколько быстро плотность тумана падает с ростом высоты. По умолчанию равно 0.
+    This parameter specifies how fast mist intensity decreases as the the camera's altitude increases. Set to 0 by default.
 
 *Fall Out*
-    Правило, по которому возрастает интенсивность тумана между его границами (определяются параметрами ``Start`` и ``Depth``). Доступные значения: ``Quadratic``, ``Linear``, ``Inverse Quadratic``. Значение по умолчанию - ``Quadratic``.
+    This parameter specifies the rule, according to which the density of the mist changes between the borders (specified by the ``Start`` and ``Depth`` parameters). Can have one of the following values: ``Quadratic``, ``Linear``,  ``Inverse Quadratic``. Set to ``Quadratic`` by default.
 
 *Use Custom Colors*
-    Позволяет задать цвет тумана. По умолчанию включено. Если отключено, будет использоваться стандартный цвет 0.5, 0.5, 0.5.
+    Can be used to set the color of the mist. Enabled by default. If this parameter is disabled, standard (0.5, 0.5, 0.5) color will be used.
 
 *Fog Color*
-    Цвет тумана. Может быть настроен, если активирована опция ``Use custom colors``. По умолчанию установлен светло-серый цвет (0.5, 0.5, 0.5).
+    The color of the mist. Can be changed, if the ``Use custom colors`` parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by default.
 
 .. _world_procedural_sky:
 
 Procedural Sky
 --------------
 
-    Настройки процедурного неба. Подробно описаны в :ref:`соответствующем разделе <atmosphere>`.
+    Procedural sky settings. Described thoroughly in :ref:`their own section<atmosphere>`.
 
 .. image:: src_images/scene_settings/world_procedural_sky.png
    :align: center
@@ -489,12 +489,11 @@ Procedural Sky
 Export Options
 --------------
 
-Настройки экспорта параметров окружения.
+Environment parameters export settings.
 
 .. image:: src_images/scene_settings/world_export_options.png
    :align: center
    :width: 100%
 
 *Do Not Export*
-    Игнорировать настройки окружения при экспорте приложения.
-
+    If this parameter is enabled, environment settings will be ignored during the export.

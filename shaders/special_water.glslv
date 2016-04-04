@@ -180,10 +180,9 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 
 #if GENERATED_MESH
     // high resolution geometric noise waves
-    vec2 coords21 = 2.0 * (pos.xz - 0.1 * time);
-    vec2 coords22 = 1.3 * (pos.zx + 0.03  * time);
-    float small_waves = 
-        cellular2x2(0.5 * coords21).x + cellular2x2(0.5 * coords22).x - 1.0;
+    vec2 coords21 = 2.0 * (pos.xz - 0.1  * time);
+    vec2 coords22 = 1.3 * (pos.zx + 0.03 * time);
+    float small_waves = cellular2x2(0.5 * (coords21 + coords22)).x - 0.5;
 
 #  if SHORE_PARAMS
     pos.xz += hor_offset;
@@ -209,21 +208,24 @@ void main(void) {
         v_barycentric = vec3(0.0, 0.0, 1.0);
 #endif
     
-    vec3 position = a_position;
 #if GENERATED_MESH
+    vec3 position = a_position;
     float casc_step = abs(position.y);
     vec2 step_xz = u_camera_eye.xz - mod(u_camera_eye.xz, casc_step);
     position.y = WATER_LEVEL;
     position.xz += step_xz;// + vec2(15.0, -15.0);
-#elif NUM_NORMALMAPS > 0 || FOAM
+    vec3 world_pos = position;
+#else
+# if NUM_NORMALMAPS > 0 || FOAM
     v_texcoord = a_texcoord;
+# endif
+    vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
+                            vec3(0.0), model_mat);
+    vec3 world_pos = world.position;
 #endif
 
-    vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), 
-            vec3(0.0), model_mat);
-
 #if SHORE_PARAMS
-    v_shore_params = extract_shore_params(world.position.xz);
+    v_shore_params = extract_shore_params(world_pos.xz);
 #endif
 
 #if DYNAMIC
@@ -234,35 +236,39 @@ void main(void) {
 # if GENERATED_MESH
     float vertex_delta = casc_step;
     // generate two neighbour vertices
-    vec3 neighbour1 = world.position + vec3(vertex_delta, 0.0, 0.0);
-    vec3 neighbour2 = world.position + vec3(0.0, 0.0, vertex_delta);
+    vec3 neighbour1 = world_pos + vec3(vertex_delta, 0.0, 0.0);
+    vec3 neighbour2 = world_pos + vec3(0.0, 0.0, vertex_delta);
 #  if NUM_NORMALMAPS > 0 || FOAM
-    v_calm_pos_world = world.position;
+    v_calm_pos_world = world_pos;
 #  endif
 # else
-    vec3 neighbour1 = world.position + vec3(0.05, 0.0, 0.0);
-    vec3 neighbour2 = world.position + vec3(0.0, 0.0, 0.05);
+    vec3 neighbour1 = world_pos + vec3(0.05, 0.0, 0.0);
+    vec3 neighbour2 = world_pos + vec3(0.0, 0.0, 0.05);
 # endif // GENERATED_MESH
 # if SHORE_PARAMS
     vec3 shore_params_n1 = extract_shore_params(neighbour1.xz);
     vec3 shore_params_n2 = extract_shore_params(neighbour2.xz);
     offset(neighbour1,     w_time, shore_params_n1);
     offset(neighbour2,     w_time, shore_params_n2);
-    offset(world.position, w_time, v_shore_params);
+    offset(world_pos, w_time, v_shore_params);
 # else
     offset(neighbour1, w_time, vec3(0.0));
     offset(neighbour2, w_time, vec3(0.0));
-    offset(world.position, w_time, vec3(0.0));
+    offset(world_pos, w_time, vec3(0.0));
 # endif
+
+# if GENERATED_MESH
     // Last cascad needs to be flat and a bit lower than others
     if (a_position.y < 0.0) {
-        world.position.y = WATER_LEVEL - 1.0;
-        neighbour1.y = world.position.y;
-        neighbour2.y = world.position.y;
+        world_pos.y = WATER_LEVEL - 1.0;
+        neighbour1.y = world_pos.y;
+        neighbour2.y = world_pos.y;
     }
+# endif
+
     // calculate all surface vectors based on 3 positions
-    vec3 bitangent = normalize(neighbour1 - world.position);
-    vec3 tangent   = normalize(neighbour2 - world.position);
+    vec3 bitangent = normalize(neighbour1 - world_pos);
+    vec3 tangent   = normalize(neighbour2 - world_pos);
     v_normal       = normalize(cross(tangent, bitangent));
 
     // NOTE: protect mesh from extreme normal values
@@ -281,10 +287,10 @@ void main(void) {
     v_binormal = cross(v_normal, v_tangent);
 #endif // NUM_NORMALMAPS > 0
 
-    v_pos_world = world.position;
-    v_eye_dir = u_camera_eye - world.position;
+    v_pos_world = world_pos;
+    v_eye_dir = u_camera_eye - world_pos;
 
-    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = view_matrix * vec4(world_pos, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view; 
 
 #if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Рабочий процесс &mdash; Руководство пользователя: Blend4Web vv16.02</title>
+  <title>Рабочий процесс &mdash; Руководство пользователя Blend4Web 16.03</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя: Blend4Web vv16.02" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.03" href="index.html"/>
         <link rel="next" title="Управление проектами" href="project_manager.html"/>
-        <link rel="prev" title="Развёртывание среды разработки" href="setup.html"/> 
+        <link rel="prev" title="Установка и обновление" href="setup.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.02
+              v16.03
             </div>
           
         
@@ -85,22 +85,21 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Рабочий процесс</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authoring-scenes">Подготовка сцен</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#export-scene">Экспорт сцен</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#assets-json">Отображение сцен в просмотрщике</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Пример</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exporting-scenes">Экспорт сцен</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">Отображение сцен в просмотрщике</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Пример</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Разработка приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-development">Разработка приложения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
@@ -146,6 +145,7 @@
         <div id="lang_cont">
           <a href="#">RU</a>
           <a href="#">EN</a>
+          <a href="#">ZH</a>
         </div>
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
@@ -164,51 +164,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="working-process-stages">
-<span id="id1"></span><h1><a class="toc-backref" href="#id8">Рабочий процесс</a><a class="headerlink" href="#working-process-stages" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="contents topic" id="id2">
+  <div class="section" id="workflow">
+<span id="working-process-stages"></span><h1><a class="toc-backref" href="#id2">Рабочий процесс</a><a class="headerlink" href="#workflow" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#working-process-stages" id="id8">Рабочий процесс</a><ul>
-<li><a class="reference internal" href="#authoring-scenes" id="id9">Подготовка сцен</a></li>
-<li><a class="reference internal" href="#export-scene" id="id10">Экспорт сцен</a></li>
-<li><a class="reference internal" href="#assets-json" id="id11">Отображение сцен в просмотрщике</a><ul>
-<li><a class="reference internal" href="#id6" id="id12">Пример</a></li>
+<li><a class="reference internal" href="#workflow" id="id2">Рабочий процесс</a><ul>
+<li><a class="reference internal" href="#authoring-scenes" id="id3">Подготовка сцен</a></li>
+<li><a class="reference internal" href="#exporting-scenes" id="id4">Экспорт сцен</a></li>
+<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id5">Отображение сцен в просмотрщике</a><ul>
+<li><a class="reference internal" href="#example" id="id6">Пример</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id7" id="id13">Разработка приложения</a></li>
+<li><a class="reference internal" href="#application-development" id="id7">Разработка приложения</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<p>Создание любого продукта является творческим процессом, в котором могут
-участвовать множество людей, с различными навыками и опытом. Однако вне
-зависимости от его сложности и конечного результата, всегда можно выделить
-стадию производства, на которой создаётся основной объём ресурсов (ассетов) и
-исходного кода.</p>
-<p>При использовании Blend4Web, производственный процесс можно представить
-следующим образом:</p>
+<p>Создание любого продукта является творческим процессом, в котором могут участвовать множество людей, с различными навыками и опытом. Однако вне зависимости от его сложности и конечного результата, всегда можно выделить стадию производства, на которой создаётся основной объём ресурсов (ассетов) и исходного кода.</p>
+<p>При использовании Blend4Web, производственный процесс можно представить следующим образом:</p>
 <ol class="arabic simple">
-<li>Подготовка трёхмерных сцен в программе Blender.</li>
-<li>Экспорт сцен.</li>
-<li>Запуск, настройка и отладка сцены в программе-просмотрщике.</li>
-<li>Создание целевого веб-приложения.</li>
+<li><p class="first">Подготовка трёхмерных сцен в программе Blender.</p>
+</li>
+<li><p class="first">Экспорт сцен.</p>
+</li>
+<li><p class="first">Запуск, настройка и отладка сцены в программе-просмотрщике.</p>
+</li>
+<li><p class="first">Создание целевого веб-приложения.</p>
+</li>
 </ol>
 <div class="section" id="authoring-scenes">
-<span id="id3"></span><h2><a class="toc-backref" href="#id9">Подготовка сцен</a><a class="headerlink" href="#authoring-scenes" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Помимо обычных операций по моделированию, текстурированию, анимации и т.д.
-должна быть осуществлена подготовка сцены для работы в движке.</p>
+<span id="id1"></span><h2><a class="toc-backref" href="#id3">Подготовка сцен</a><a class="headerlink" href="#authoring-scenes" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Помимо обычных операций по моделированию, текстурированию, анимации и т.д. должна быть осуществлена подготовка сцены для работы в движке.</p>
 <p>Общие рекомендации:</p>
 <ol class="arabic simple">
-<li>Настоятельно рекомендуется сохранять blend-файлы в директории <code class="docutils literal"><span class="pre">blender/имя_проекта</span></code>. Там же должны находиться вспомогательные файлы, не предназначенные для загрузки в приложение (например, референсы).</li>
-<li>Изображения и медиа-файлы должны быть внешними и находиться в директории <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</li>
-<li>Файл, из которого будет осуществляться экспорт, должен содержать только необходимые в разрабатываемом приложении ресурсы (объекты, материалы, текстуры, анимацию и т.д.)</li>
-<li>Составные части сцен должны иметь отличающие названия. Они не должны называться &#8220;Cube.001&#8221;, &#8220;Material&#8221;, &#8220;Armature&#8221;.</li>
-<li>Рекомендуется практиковать добавление по ссылке (linking) компонентов из других файлов (библиотек).</li>
+<li><p class="first">Настоятельно рекомендуется сохранять blend-файлы в директории <code class="docutils literal"><span class="pre">blender/имя_проекта</span></code>. Там же должны находиться вспомогательные файлы, не предназначенные для загрузки в приложение (например, референсы).</p>
+</li>
+<li><p class="first">Изображения и медиа-файлы должны быть внешними и находиться в директории <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</p>
+</li>
+<li><p class="first">Файл, из которого будет осуществляться экспорт, должен содержать только необходимые в разрабатываемом приложении ресурсы (объекты, материалы, текстуры, анимацию и т.д.).</p>
+</li>
+<li><p class="first">Составные части сцен должны иметь отличающие названия. Они не должны называться “Cube.001”, “Material”, “Armature”.</p>
+</li>
+<li><p class="first">Рекомендуется практиковать добавление по ссылке (linking) компонентов из других файлов (библиотек).</p>
+</li>
 </ol>
 </div>
-<div class="section" id="export-scene">
-<span id="index-0"></span><span id="id4"></span><h2><a class="toc-backref" href="#id10">Экспорт сцен</a><a class="headerlink" href="#export-scene" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="exporting-scenes">
+<span id="export-scene"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">Экспорт сцен</a><a class="headerlink" href="#exporting-scenes" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Процедура экспорта преобразует данные сцены из формата, понятного Blender, в формат, понятный Blend4Web.</p>
 <a class="reference internal image-reference" href="_images/workflow_export_scheme.png"><img alt="_images/workflow_export_scheme.png" class="align-center" src="_images/workflow_export_scheme.png" style="width: 100%;" /></a>
 <p>Экспорт может осуществляться в два формата: JSON и HTML.</p>
@@ -220,8 +223,8 @@
 </div>
 <p>Опции экспорта подробно описаны в <a class="reference internal" href="addon.html#export-opts"><span>соответствующем разделе</span></a>.</p>
 </div>
-<div class="section" id="assets-json">
-<span id="index-1"></span><span id="id5"></span><h2><a class="toc-backref" href="#id11">Отображение сцен в просмотрщике</a><a class="headerlink" href="#assets-json" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="displaying-scenes-in-the-viewer">
+<span id="assets-json"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Отображение сцен в просмотрщике</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При использовании <a class="reference internal" href="setup.html#local-development-server"><span>локального сервера разработки</span></a> возможно сделать предварительный просмотр сцены используя кнопку <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code>, расположенную на панели <code class="docutils literal"><span class="pre">Scene-&gt;Development</span> <span class="pre">Server</span></code> в Blender. В этом случае будет произведён автоматический экспорт сцены во временное хранилище с последующей загрузкой в просмотрщике.</p>
 <p>Другой способ это использовать опцию экспорта сцены <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a>. В этом случая сцена показывается в просмотрщике сразу после экспорта.</p>
 <p>При необходимости долгосрочного хранения сцены в списке сцен просмотрщика, нужно вручную добавить запись в текстовой файл <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code>, который доступен при открытии Blender&#8217;a при использовании Blend4Web SDK.</p>
@@ -236,32 +239,32 @@
 <div class="line"><br /></div>
 </div>
 <p>Для добавления новой сцены нужно знать категорию, в которой она должна отображаться. Категория обычно соответствует названию проекта и имени директории, где хранятся соответствующие файлы.</p>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id12">Пример</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="example">
+<h3><a class="toc-backref" href="#id6">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Ниже приведена примерная часть файла <code class="docutils literal"><span class="pre">assets.json</span></code>, в которой находятся два проекта &#8220;Capri&#8221; и &#8220;Fridge&#8221; с соответствующими сценами в каждом проекте:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Capri&quot;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Capri&quot;</span><span class="p">,</span>
     <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Baken&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;capri/props/baken/baken.json&quot;</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Baken&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/props/baken/baken.json&quot;</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Terrain&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;capri/landscape/terrain/terrain.json&quot;</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Terrain&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/landscape/terrain/terrain.json&quot;</span>
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">},</span>
 <span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Fridge&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Fridge&quot;</span><span class="p">,</span>
     <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Apple&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;fridge/fruits/apple/apple.json&quot;</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Apple&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/apple/apple.json&quot;</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Mango&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s">&quot;fridge/fruits/mango/mango.json&quot;</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Mango&quot;</span><span class="p">,</span>
+            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/mango/mango.json&quot;</span>
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">}</span>
@@ -272,8 +275,8 @@
 <a class="reference internal image-reference" href="_images/workflow_viewer_apple.png"><img alt="_images/workflow_viewer_apple.png" class="align-center" src="_images/workflow_viewer_apple.png" style="width: 100%;" /></a>
 </div>
 </div>
-<div class="section" id="id7">
-<h2><a class="toc-backref" href="#id13">Разработка приложения</a><a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="application-development">
+<h2><a class="toc-backref" href="#id7">Разработка приложения</a><a class="headerlink" href="#application-development" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На этой стадии создаётся приложение, в котором на языке JavaScript пишется логика по загрузке сцены и взаимодействию с ней пользователя. Документация для разработчиков приложений приведена в <a class="reference internal" href="developers.html#developers"><span>соответствующем разделе</span></a>.</p>
 </div>
 </div>
@@ -288,7 +291,7 @@
         <a href="project_manager.html" class="btn btn-neutral float-right" title="Управление проектами" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="setup.html" class="btn btn-neutral" title="Развёртывание среды разработки" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="setup.html" class="btn btn-neutral" title="Установка и обновление" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -298,11 +301,12 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-02-26.
+      Обновлено: 2016-03-31.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
 
 </footer>
 
@@ -320,7 +324,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.02',
+            VERSION:'v16.03',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -350,14 +354,28 @@
 
           var link_ru = links[0];
           var link_en = links[1];
+          var link_zh = links[2];
 
           var loc = document.location.href;
 
-          var href_ru = loc.replace("/en/", "/ru/");
-          var href_en = loc.replace("/ru/", "/en/");
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
 
           link_ru.href = href_ru;
           link_en.href = href_en;
+          link_zh.href = href_zh;
 
           lang_cont.css("display", "inline-block")
       });

@@ -1,0 +1,1226 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.03.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 12:33+0300\n"
+"PO-Revision-Date: 2016-03-24 11:54+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../developers_advanced.rst:5
+msgid "For Engine Developers"
+msgstr "Разработчикам движка"
+
+#: ../developers_advanced.rst
+msgid "Table of Contents"
+msgstr "Содержание"
+
+#: ../developers_advanced.rst:14
+msgid "Coding Style"
+msgstr "Стиль оформления кода"
+
+#: ../developers_advanced.rst:16
+msgid ""
+"This engine uses structural programming. The code is organized in "
+"modules. OOP methods are not used, classes are not defined, inheritance "
+"is not performed and so on."
+msgstr ""
+"В движке применяется структурное программирование. Код организуется в "
+"модули. Подходы ООП не используются, классы не определяются, наследование"
+" не осуществляется и т.п."
+
+#: ../developers_advanced.rst:18
+msgid ""
+"The `K&R style "
+"<http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_ is used "
+"except for the fact that the opening bracket for a compound operator is "
+"placed on the same line, for example:"
+msgstr ""
+"Используется `K&R стиль "
+"<http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_, за "
+"исключением того, что открывающая скобка для составного оператора "
+"ставится на той же строке, например:"
+
+#: ../developers_advanced.rst:30
+msgid "4 spaces are used for identation (no tabs allowed)."
+msgstr "Для выравнивания используются 4 пробела (табуляция запрещена)."
+
+#: ../developers_advanced.rst:33
+msgid "Examples"
+msgstr "Примеры"
+
+#: ../developers_advanced.rst:35
+msgid "The underscore symbol is used in function and variable names:"
+msgstr "В именах переменных и функций используется знак подчеркивания:"
+
+#: ../developers_advanced.rst:42
+msgid "All global variables begin with an underscore:"
+msgstr "Все глобальные переменные начинаются со знака подчеркивания:"
+
+#: ../developers_advanced.rst:48
+msgid ""
+"The constants are written in capital letters and never begin with an "
+"underscore:"
+msgstr ""
+"Константы пишутся прописными буквами и никогда не начинаются со знака "
+"подчеркивания:"
+
+#: ../developers_advanced.rst:54
+msgid ""
+"The names of external API methods and properties are written after a "
+"point. To avoid obfuscation of fields they must be listed with the "
+"``@cc_externs`` tag:"
+msgstr ""
+"Для внешних API названия методов и свойств задаются через точку. Поля, "
+"требующие защиту от обфускации, помещаются в специальный тэг "
+"``@cc_externs``:"
+
+#: ../developers_advanced.rst:81
+msgid "Commenting is in English only. Comment style - JSDoc."
+msgstr "Комментарии только на английском языке. Стиль комментирования - JSDoc."
+
+#: ../developers_advanced.rst:85
+msgid "Building the Engine"
+msgstr "Сборка движка"
+
+#: ../developers_advanced.rst:87
+msgid ""
+"Before building please make sure that your system has all required "
+"dependencies installed (see the :ref:`table <dependencies>`)."
+msgstr ""
+"Перед сборкой необходимо убедиться, что в системе присутствуют все "
+"необходимые зависимости, для чего следует свериться с :ref:`таблицей "
+"<dependencies>`."
+
+#: ../developers_advanced.rst:89
+msgid ""
+"To compile the engine and the applications included into the SDK please "
+"execute the following command (in the SDK root):"
+msgstr ""
+"Для компиляции движка и входящих в SDK приложений достаточно выполнить "
+"команду из корневой директории SDK:"
+
+#: ../developers_advanced.rst:95
+msgid ""
+"The full building that includes converting the resources (textures, "
+"sounds and videos), compilation and converting the docs, can be performed"
+" with the following command:"
+msgstr ""
+"Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео),"
+" компиляцию и подготовку документации вызывается командой:"
+
+#: ../developers_advanced.rst:101
+msgid "Building the archives with the distributions:"
+msgstr "Сборка архивов с дистрибутивами:"
+
+#: ../developers_advanced.rst:107
+msgid "All above mentioned operations can be performed with a single command:"
+msgstr "Все вышеперечисленные операции могут быть выполнены одной командой:"
+
+#: ../developers_advanced.rst:114
+msgid "Building the Addon"
+msgstr "Сборка аддона"
+
+#: ../developers_advanced.rst:116
+msgid ""
+"Binary Blend4Web addon builds are available for the following platforms: "
+"Linux x32/64, OS X x64, Windows x32/64. At the same time users can "
+"compile the addon by themselves."
+msgstr ""
+"Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: "
+"Linux x32/64, OS X x64, Windows x32/64. В то же время пользователи имеют "
+"возможность произвести сборку самостоятельно."
+
+#: ../developers_advanced.rst:118 ../developers_advanced.rst:143
+msgid ""
+"To do this Python 3.x (it's better if it's the same version as in "
+"Blender) and a C compiler are required. Under Linux it's enough to "
+"install the python3-dev and build-essential packages."
+msgstr ""
+"Для этого необходимо наличие Python 3.x (желательно, чтобы версия была "
+"эквивалентна используемой в Blender) и компилятора языка C (в Linux "
+"достаточно установить пакеты python3-dev и build-essential)."
+
+#: ../developers_advanced.rst:122
+msgid "Paths relative to the repository root:"
+msgstr "Пути относительно корневой директории SDK:"
+
+#: ../developers_advanced.rst:121
+msgid "build script: ``csrc/b4w_bin/build.py``"
+msgstr "скрипт сборки: ``csrc/b4w_bin/build.py``"
+
+#: ../developers_advanced.rst:122
+msgid "Blend4Web addon: ``blender_scripts/addons/blend4web/``"
+msgstr "аддон Blend4Web: ``blender_scripts/addons/blend4web/``"
+
+#: ../developers_advanced.rst:124
+msgid "The building process is started in the following way:"
+msgstr "Запуск сборки осуществляется следующим образом:"
+
+#: ../developers_advanced.rst:130
+msgid "As a result of the building you'll get a binary file called:"
+msgstr "Результатом сборки будет бинарный файл с именем:"
+
+#: ../developers_advanced.rst:132
+msgid "``b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]``,"
+msgstr "``b4w_bin_[ПЛАТФОРМА]_[АРХИТЕКТУРА].[СТАНДАРТНОЕ_РАСШИРЕНИЕ]``,"
+
+#: ../developers_advanced.rst:134
+msgid ""
+"located in the same directory as the addon. Example: "
+"``b4w_bin_Linux_64.so``. After this the addon is ready to use under this "
+"platform."
+msgstr ""
+"размещенный в каталоге с аддоном. Пример: ``b4w_bin_Linux_64.so``. После "
+"этого аддон станет готовым к использованию на данной платформе."
+
+#: ../developers_advanced.rst:141
+msgid "Dependencies"
+msgstr "Зависимости"
+
+#: ../developers_advanced.rst:145
+msgid ""
+"All dependencies are listed in the table below in order of decreasing "
+"importance."
+msgstr ""
+"В таблице ниже перечислены все зависимости, в порядке убывания важности "
+"для разработки."
+
+#: ../developers_advanced.rst:148
+msgid "Name"
+msgstr "Название"
+
+#: ../developers_advanced.rst:148
+msgid "Ubuntu 14.04 package"
+msgstr ""
+
+#: ../developers_advanced.rst:148
+msgid "Purpose"
+msgstr "Назначение"
+
+#: ../developers_advanced.rst:151
+msgid "Bash"
+msgstr ""
+
+#: ../developers_advanced.rst:151 ../developers_advanced.rst:153
+msgid "Included by default"
+msgstr "в составе по умолчанию"
+
+#: ../developers_advanced.rst:151 ../developers_advanced.rst:153
+msgid "interpretator for scripts"
+msgstr "интерпретатор скриптов"
+
+#: ../developers_advanced.rst:153
+msgid "Python 3"
+msgstr ""
+
+#: ../developers_advanced.rst:155
+msgid "NodeJS"
+msgstr ""
+
+#: ../developers_advanced.rst:155
+msgid "nodejs"
+msgstr ""
+
+#: ../developers_advanced.rst:155 ../developers_advanced.rst:253
+#: ../developers_advanced.rst:284 ../developers_advanced.rst:297
+#: ../developers_advanced.rst:307 ../developers_advanced.rst:362
+#: ../developers_advanced.rst:386 ../developers_advanced.rst:441
+#: ../developers_advanced.rst:451
+#, fuzzy
+msgid "compiling shaders"
+msgstr "отладка шейдеров"
+
+#: ../developers_advanced.rst:157
+msgid "Java"
+msgstr ""
+
+#: ../developers_advanced.rst:157
+msgid "default-jre"
+msgstr ""
+
+#: ../developers_advanced.rst:157
+msgid "compiling and obfuscating the engine modules"
+msgstr "компиляция и обфускация модулей движка"
+
+#: ../developers_advanced.rst:160
+msgid "Emscripten"
+msgstr ""
+
+#: ../developers_advanced.rst:160
+msgid "`from EMSDK source code`_"
+msgstr "`из исходных текстов EMSDK`_"
+
+#: ../developers_advanced.rst:160
+msgid "building Uranium"
+msgstr "сборка Uranium"
+
+#: ../developers_advanced.rst:162
+msgid "ImageMagick"
+msgstr ""
+
+#: ../developers_advanced.rst:162
+msgid "imagemagick"
+msgstr ""
+
+#: ../developers_advanced.rst:162 ../developers_advanced.rst:164
+#: ../developers_advanced.rst:168
+msgid "converting the resources"
+msgstr "конвертация ресурсов"
+
+#: ../developers_advanced.rst:164
+msgid "NVIDIA Texture Tools"
+msgstr ""
+
+#: ../developers_advanced.rst:164
+msgid "libnvtt-bin"
+msgstr ""
+
+#: ../developers_advanced.rst:166
+msgid "NVIDIA Cg Toolkit"
+msgstr ""
+
+#: ../developers_advanced.rst:166
+msgid "nvidia-cg-toolkit"
+msgstr ""
+
+#: ../developers_advanced.rst:166
+msgid "debugging shaders"
+msgstr "отладка шейдеров"
+
+#: ../developers_advanced.rst:168
+msgid "Libav"
+msgstr ""
+
+#: ../developers_advanced.rst:168
+msgid "libav-tools"
+msgstr ""
+
+#: ../developers_advanced.rst:170
+msgid "Gnuplot"
+msgstr ""
+
+#: ../developers_advanced.rst:170
+msgid "gnuplot"
+msgstr ""
+
+#: ../developers_advanced.rst:170 ../developers_advanced.rst:172
+#: ../developers_advanced.rst:174
+msgid "debugging"
+msgstr "отладка"
+
+#: ../developers_advanced.rst:172
+msgid "Graphviz"
+msgstr ""
+
+#: ../developers_advanced.rst:172
+msgid "graphviz"
+msgstr ""
+
+#: ../developers_advanced.rst:174
+msgid "xsel"
+msgstr ""
+
+#: ../developers_advanced.rst:176
+msgid "Sphinx"
+msgstr ""
+
+#: ../developers_advanced.rst:176
+msgid "sphinx-doc"
+msgstr ""
+
+#: ../developers_advanced.rst:176
+msgid "building the manual (HTML version)"
+msgstr "сборка документации (HTML-версия)"
+
+#: ../developers_advanced.rst:179
+msgid "sphinx-intl"
+msgstr ""
+
+#: ../developers_advanced.rst:179
+msgid "installed with PIP"
+msgstr "устанавливается с помощью PIP"
+
+#: ../developers_advanced.rst:179
+msgid "building the manual (internationalization)"
+msgstr "сборка документации (перевод)"
+
+#: ../developers_advanced.rst:182
+msgid "TeX Live"
+msgstr ""
+
+#: ../developers_advanced.rst:182
+msgid "texlive, texlive-latex-extra texlive-lang-cyrillic"
+msgstr ""
+
+#: ../developers_advanced.rst:182
+msgid "building the manual (PDF version)"
+msgstr "сборка документации (PDF-версия)"
+
+#: ../developers_advanced.rst:185
+msgid "JSDoc 3"
+msgstr ""
+
+#: ../developers_advanced.rst:185
+msgid "`from JSDoc source code`_"
+msgstr "`из исходных текстов JSDoc`_"
+
+#: ../developers_advanced.rst:185
+msgid "building the API documentation"
+msgstr "сборка документации (документация на API)"
+
+#: ../developers_advanced.rst:188
+msgid "PEG.js"
+msgstr ""
+
+#: ../developers_advanced.rst:188
+msgid "`from PEG.js source code`_"
+msgstr "`из исходных текстов PEG.js`_"
+
+#: ../developers_advanced.rst:188
+msgid "shader preprocessing"
+msgstr "препроцессинг шейдеров"
+
+#: ../developers_advanced.rst:196
+msgid "Naming Functions and Variables"
+msgstr "Названия функций и переменных"
+
+#: ../developers_advanced.rst:198
+msgid ""
+"When creating new functions and variables it is recommended to use the "
+"following prefixes and suffixes."
+msgstr ""
+"Рекомендуется при создании новых функций и переменных использовать "
+"следующие префиксы и суффиксы."
+
+#: ../developers_advanced.rst:201
+msgid "*init_*"
+msgstr ""
+
+#: ../developers_advanced.rst:201
+msgid "create an abstract object"
+msgstr "создание абстрактного объекта"
+
+#: ../developers_advanced.rst:204
+msgid "*create_*"
+msgstr ""
+
+#: ../developers_advanced.rst:204
+msgid "create a certain object"
+msgstr "создание конкретного объекта"
+
+#: ../developers_advanced.rst:207
+msgid "*update_*"
+msgstr ""
+
+#: ../developers_advanced.rst:207
+msgid "update the state of an existing object"
+msgstr "обновить состояние имеющегося объекта"
+
+#: ../developers_advanced.rst:210
+msgid "*attach_/detach_*"
+msgstr ""
+
+#: ../developers_advanced.rst:210
+msgid "add/remove a temporary object property"
+msgstr "добавить/удалить временное свойство к объекту"
+
+#: ../developers_advanced.rst:213
+msgid "*append_/remove_*"
+msgstr ""
+
+#: ../developers_advanced.rst:213
+msgid ""
+"add/remove a temporary property to the already existing properies of the "
+"same kind"
+msgstr "добавить/удалить временное свойство к уже существующим подобного рода"
+
+#: ../developers_advanced.rst:216
+msgid "*insert_/pop_*"
+msgstr ""
+
+#: ../developers_advanced.rst:216
+msgid "add/remove an array element (accessed by index)"
+msgstr "добавить/удалить элемент массива (доступ по индексу места)"
+
+#: ../developers_advanced.rst:219
+msgid "*switch_*"
+msgstr ""
+
+#: ../developers_advanced.rst:219
+msgid "switch flag's binary value"
+msgstr ""
+
+#: ../developers_advanced.rst:222
+msgid "*apply_/clear_*"
+msgstr ""
+
+#: ../developers_advanced.rst:222
+msgid "operation with flags, binary values or arbitrary parameters"
+msgstr "операция с флагом, бинарной величиной или произвольным параметром"
+
+#: ../developers_advanced.rst:225
+msgid "*set_/get_*"
+msgstr ""
+
+#: ../developers_advanced.rst:225
+msgid "set/get the property/variable value"
+msgstr "установить/получить значение свойства/переменной"
+
+#: ../developers_advanced.rst:228
+msgid "*_tmp*"
+msgstr ""
+
+#: ../developers_advanced.rst:228
+msgid "global variable - cache in the form of a simple object (array, vector)"
+msgstr "глобальная переменная - кеш в виде простого объекта (массив, вектор)"
+
+#: ../developers_advanced.rst:233
+msgid "*_cache*"
+msgstr ""
+
+#: ../developers_advanced.rst:231
+msgid "global variable - cache in the form of a complex object"
+msgstr "глобальная переменная - кеш в виде сложного объекта"
+
+#: ../developers_advanced.rst:238
+msgid "Debugging"
+msgstr "Отладка"
+
+#: ../developers_advanced.rst:240
+msgid "Engine debugging is performed with the ``debug.js`` module methods."
+msgstr "Отладка движка производится с помощью методов модуля ``debug.js``."
+
+#: ../developers_advanced.rst:242
+msgid ""
+"The structure of the current render graph can be saved in the DOT format "
+"using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the "
+"browser console. After calling this method save the console's output into"
+" the file with the .gv extension. To get the graph in a visual form the "
+"`graphviz <http://www.graphviz.org/>`_ utilities are required. Converting"
+" to the SVG format is performed using the command:"
+msgstr ""
+"Структура текущего рендер-графа может быть сохранена в формате DOT с "
+"помощью вызова ``b4w.debug.scenegraph_to_dot()``, например, в консоли "
+"браузера. После вызова данного метода содержимое консоли сохранить в файл"
+" с расширением .gv. Чтобы получить граф в графическом виде, необходим "
+"набор утилит `graphviz <http://www.graphviz.org/>`_. Преобразование в "
+"формат SVG выполняется с помощью вызова:"
+
+#: ../developers_advanced.rst:248
+msgid "where ``graph.gv`` is the name of the file with the saved graph."
+msgstr "где ``graph.gv`` имя файла с сохранённым графом."
+
+#: ../developers_advanced.rst:256
+msgid "Shader Compilation"
+msgstr "Компиляция шейдеров"
+
+#: ../developers_advanced.rst:258
+msgid ""
+"All shaders used in the engine are processed by a compilator. The "
+"compilator performs the following three main procedures:"
+msgstr ""
+"Используемые в движке шейдеры подвергаются обработке компилятором. "
+"Kомпилятор выполняет 3 основных процедуры:"
+
+#: ../developers_advanced.rst:260
+msgid "validation of the shader code,"
+msgstr "валидацию кода шейдеров,"
+
+#: ../developers_advanced.rst:261
+msgid "its obfuscation and"
+msgstr "обфускацию кода шейдеров,"
+
+#: ../developers_advanced.rst:262
+msgid "optimization."
+msgstr "оптимизацию кода шейдеров."
+
+#: ../developers_advanced.rst:264
+msgid ""
+"In order to run the compilator, execute one of the following commands in "
+"the SDK root:"
+msgstr ""
+"Для запуска компиляции требуется выполнить одну из команд в корневой "
+"директории SDK:"
+
+#: ../developers_advanced.rst:272
+msgid ""
+"**make** *compile_shaders* - performs validation, obfuscation, "
+"optimization and finally, export of the compiled shaders,"
+msgstr ""
+"**make** *compile_shaders* - проверка, обфускация, оптимизация и экспорт "
+"скомпилированных шейдеров,"
+
+#: ../developers_advanced.rst:273
+msgid ""
+"**make** *verify_shaders* - performs only validation, obfuscation and "
+"optimization."
+msgstr "**make** *verify_shaders* - проверка, обфускация и оптимизация."
+
+#: ../developers_advanced.rst:275
+msgid ""
+"Syntax analysis (parsing) of the shader text is first performed during "
+"compilation. The corresponding parser is created automatically based on "
+"the grammar, using the `PEG.js <http://pegjs.majda.cz/>`_ generator. Then"
+" the shaders are validated, obfuscated and optimized according to the "
+"parser data, and after that the shaders are exported in the form of an "
+"abstract syntax tree (AST) for direct loading in the engine."
+msgstr ""
+"В процессе компиляции сначала осуществляется синтаксический анализ "
+"(парсинг) текста шейдера. Соответствующий парсер создается автоматически "
+"на основе грамматики с помощью генератора `PEG.js "
+"<http://pegjs.majda.cz/>`_. Далее по данным парсинга производится "
+"валидация, обфускация и оптимизация шейдеров, после чего шейдеры "
+"экспортируются в виде абстрактного синтаксического дерева (Abstract "
+"Syntax Tree, AST) для непосредственной загрузки движком."
+
+#: ../developers_advanced.rst:277
+msgid "The location of the main files in the repository:"
+msgstr "Расположение основных файлов в репозитории:"
+
+#: ../developers_advanced.rst:279
+msgid "initial grammar - glsl_utils/pegjs/glsl_parser.pegjs"
+msgstr "исходная грамматика - glsl_utils/pegjs/glsl_parser.pegjs"
+
+#: ../developers_advanced.rst:280
+msgid "parser generation script - glsl_utils/pegjs/gen_nodejs.sh"
+msgstr "скрипт генерации парсера - glsl_utils/pegjs/gen_nodejs.sh"
+
+#: ../developers_advanced.rst:281
+msgid "parser - glsl_utils/compiler/glsl_parser.js"
+msgstr "парсер - glsl_utils/compiler/glsl_parser.js"
+
+#: ../developers_advanced.rst:287
+msgid "Validation"
+msgstr "Валидация"
+
+#: ../developers_advanced.rst:289
+msgid ""
+"The compilator performs the following procedures related to shader code "
+"validation:"
+msgstr ""
+"Компилятор шейдеров выполняет следующие процедуры, связанные с проверкой "
+"кода:"
+
+#: ../developers_advanced.rst:291
+msgid "reporting about unused variables and functions (dead code),"
+msgstr "вывод сообщений о неиспользуемых переменных и функциях (dead code),"
+
+#: ../developers_advanced.rst:292
+msgid "checking the syntax of shaders,"
+msgstr "проверка синтаксиса шейдеров,"
+
+#: ../developers_advanced.rst:293
+msgid "checking the conformance of shaders to the import/export mechanism,"
+msgstr "проверка шейдеров на соответствие import/export-механизма,"
+
+#: ../developers_advanced.rst:294
+msgid "removing odd or repeatitive tokens: spaces, endlines and semicolons."
+msgstr "удаление лишних пробелов, переводов строк и повторяющихся символов \";\"."
+
+#: ../developers_advanced.rst:300
+msgid "Obfuscation"
+msgstr "Обфускация"
+
+#: ../developers_advanced.rst:302
+msgid ""
+"Obfuscation minifies the GLSL code and makes it diffucult to understand "
+"it. So far the following procedure is implemented:"
+msgstr ""
+"Обфускация служит для сокращения объема и затруднения понимания "
+"GLSL-кода. На данный момент в нем реализована следующая процедура:"
+
+#: ../developers_advanced.rst:304
+msgid ""
+"replacing the user-defined identifiers with shorter single-symboled, two-"
+"symboled etc names (with support of the import/export mechanism)."
+msgstr ""
+"замена пользовательских идентификаторов более короткими односимвольными, "
+"двухсимвольными и т.д. именами (с поддержкой import/export-механизма)."
+
+#: ../developers_advanced.rst:310
+msgid "Optimization"
+msgstr "Оптимизация"
+
+#: ../developers_advanced.rst:312
+msgid "Optimization constitutes the following procedures:"
+msgstr "Оптимизация заключается в выполнении следующих процедур:"
+
+#: ../developers_advanced.rst:314
+msgid ""
+"removing curly brackets which are not useful in any ways except creating "
+"local scopes (this functionality is used for processing node/lamp "
+"directives),"
+msgstr ""
+"удаление фигурных скобок, которые не несут функциональной нагрузки, но "
+"порождают новые области видимости (данный функционал полезен при "
+"обработке директив node/lamp),"
+
+#: ../developers_advanced.rst:315
+msgid ""
+"optimization inside functions - creating shared local variables to "
+"replace ones originally created by the programmer."
+msgstr ""
+"внутрифункциональная оптимизация, связанная с использованием малого числа"
+" буферных локальных переменных взамен локальных переменных, заданных "
+"программистом."
+
+#: ../developers_advanced.rst:317
+msgid "An example of removing unused curly brackets: replacing the following code"
+msgstr "Примером удаления бесполезных фигурных скобок может служить замена кода"
+
+#: ../developers_advanced.rst:328
+msgid "with this code"
+msgstr "следующим кодом"
+
+#: ../developers_advanced.rst:337
+msgid ""
+"Low number of temporary local variables is achieved by repetitively using"
+" them in different contexts. For example, the following code"
+msgstr ""
+"Использование малого числа буферных локальных переменных заключается в "
+"том, что они повторно используются в разных контекстах. Например, "
+"следующий код"
+
+#: ../developers_advanced.rst:347
+msgid "will be replaced with"
+msgstr "будет заменен на"
+
+#: ../developers_advanced.rst:359
+msgid "Local variables for structures and arrays are not optimized this way."
+msgstr ""
+"Не производится оптимизация локальных переменных структур и переменных "
+"массивов."
+
+#: ../developers_advanced.rst:365
+msgid "Import/Export Directives"
+msgstr "Директивы import/export"
+
+#: ../developers_advanced.rst:367
+msgid ""
+"import/export directives are used to organize, structure and increase the"
+" readability of the shader code in the include file. They are specified "
+"in the beginning of the file and should look approximately like this:"
+msgstr ""
+"В целях упорядочивания, структурирования и повышения удобочитаемости кода"
+" шейдеров в include-файлах используются директивы import и export. Они "
+"указываются в начале файла и должны выглядеть примерно следующим образом:"
+
+#: ../developers_advanced.rst:376
+msgid ""
+"The ``#import`` directive defines a set of ids which are declared outside"
+" the include file but can be accessed from inside it. There is a "
+"limitation though: such ids must necessarily be declared somewhere above "
+"the place where the include file is linked."
+msgstr ""
+"Директива ``#import`` определяет набор идентификаторов, которые объявлены"
+" вне этого include-файла, но доступны для использования в нем. Имеется "
+"ограничение: такие идентификаторы должны быть обязательно объявлены "
+"где-либо выше места подключения include-файла."
+
+#: ../developers_advanced.rst:378
+msgid ""
+"The ``#export`` directive defines a set of ids which can be accessed from"
+" outside this file. Such ids must necessarily be declared in this file."
+msgstr ""
+"Директива ``#export`` определяет набор идентификаторов, доступных для "
+"использования вне данного файла. Такие идентификаторы должны быть "
+"обязательно объявлены в этом файле."
+
+#: ../developers_advanced.rst:380
+msgid ""
+"Therefore the shader which uses the include file must have all the "
+"declarations necessary for import before the place of linking, and can "
+"use the exported ids after it."
+msgstr ""
+"Таким образом, шейдер, использующий include-файл, обязан до места "
+"подключения содержать объявления, необходимые для импорта, а после него "
+"может использовать экспортируемые идентификаторы."
+
+#: ../developers_advanced.rst:382
+msgid ""
+"Ids can be both variable names and function names. If there are no "
+"import/export directives it's considered by default that the include file"
+" does not use external declarations and does not allow the using of "
+"internal ones."
+msgstr ""
+"Идентификаторами могут быть как имена переменных, так и имена функций. По"
+" умолчанию при отсутствии директив import/export считается, что "
+"include-файл не использует внешние объявления и не предоставляет "
+"пользование внутренними."
+
+#: ../developers_advanced.rst:389
+msgid "Recommendations and Limitations"
+msgstr "Рекомендации и ограничения"
+
+#: ../developers_advanced.rst:391
+msgid ""
+"Because of the following reasons: preprocessing, the need to process "
+"multiple shaders and include files and due to the compilator's features -"
+" its possible to garantee the work of the output code only if a number of"
+" rules and limitations are respected with regard to the shader source "
+"code:"
+msgstr ""
+"В связи с наличием препроцессинга, необходимостью совместной обработки "
+"нескольких шейдеров и include-файлов, а также особенностями реализации "
+"компилятора гарантировать работоспособность полученного на выходе кода "
+"можно только при соблюдении ряда правил или ограничений на текст исходных"
+" шейдеров:"
+
+#: ../developers_advanced.rst:393
+msgid ""
+"In order to describe constants which are defined by the engine at run, "
+"it's neccessary to use the ``#var`` special directive. For example:"
+msgstr ""
+"Обязательное использование специальной директивы ``#var`` для описания "
+"констант, определяемых движком в момент запуска. Например:"
+
+#: ../developers_advanced.rst:400
+msgid ""
+"The syntax here is similar to the #define directive. The point of the "
+"#var directive is that the value which it defines allows to parse the "
+"initial shader. It's irrelevant what exactly it will be (e.g. 'uniform' "
+"or 'attribute' in the above example), because at this level it's unknown "
+"anyway. Nevertheless it's better to specify a more or less suitable "
+"description and not something arbitrary."
+msgstr ""
+"Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, "
+"чтобы определяемое ею значение позволило распарсить исходный шейдер. Что "
+"это будет конкретно (например, 'uniform' или 'attribute' в примере выше),"
+" не важно, т.к. на этом этапе оно все равно неизвестно. Однако, "
+"желательно указывать более-менее подходящее описание, а не что-то "
+"совершенно произвольное."
+
+#: ../developers_advanced.rst:404
+msgid ""
+"The #var directive is not necessary for constants used not in the shader "
+"code but in the preprocessor expressions."
+msgstr ""
+"Для констант, используемых не в коде шейдера, а в выражениях "
+"препроцессинга, директива ``#var`` не обязательна."
+
+#: ../developers_advanced.rst:406
+msgid "Using the import/export directives when needed."
+msgstr "Использование при необходимости директив import/export."
+
+#: ../developers_advanced.rst:407
+msgid "The built-in functions must not be overloaded - only the user ones."
+msgstr "Не следует перегружать встроенные функции, только пользовательские."
+
+#: ../developers_advanced.rst:408
+msgid ""
+"Variables should not be declared with names of the built-in functions, or"
+" main (even if it doesn't lead to errors)."
+msgstr ""
+"Не следует объявлять переменные с именем одной из встроенных функций, "
+"либо main (даже если это не приводит к ошибке)."
+
+#: ../developers_advanced.rst:409
+msgid ""
+"The #var and #define directives must not be used for replacing single "
+"symbols in such operators as: \"++\", \"--\", \"\\*=\", \"/=\", \"+=\", "
+"\"-=\", \"==\", \"<=\", \">=\", \"!=\", \"&&\", \"||\", \"^^\"."
+msgstr ""
+"Нельзя использовать директивы #var и #define для замены отдельных "
+"символов в таких операторах, как: \"++\", \"--\", \"\\*=\", \"/=\", "
+"\"+=\", \"-=\", \"==\", \"<=\", \">=\", \"!=\", \"&&\", \"||\", \"^^\"."
+
+#: ../developers_advanced.rst:411
+msgid "For example:"
+msgstr "Например:"
+
+#: ../developers_advanced.rst:420
+msgid ""
+"The usage of the #include directive should not lead to ambiguity during "
+"the obfuscation of the include file. This can happen when multiple "
+"shaders are included into the same file and the above defined directives "
+"(like #var or #define) can have influence on any of them. Also it's "
+"better not to use undeclared functions and variables in the include file."
+msgstr ""
+"Использование директивы #include, не должно приводить к неоднозначности "
+"при обфускации содержимого include-файла. Это может произойти в том "
+"случае, когда один и тот же файл включается в несколько разных шейдеров, "
+"и в каком-то из них могут повлиять определенные выше директивы, вроде "
+"#var или #define. Также не стоит использовать в include-файле "
+"необъявленные функции и переменные."
+
+#: ../developers_advanced.rst:422
+msgid ""
+"Multi-level includes or multiple inclusion of the same include into the "
+"same shader is not supported."
+msgstr ""
+"Использование вложенных include'ов или множественного включения одного и "
+"того же include'a в один и тот же шейдер не поддерживается."
+
+#: ../developers_advanced.rst:423
+msgid ""
+"The shader's malfunction can also be caused by nontrivial using of "
+"preprocessing, for example, creating an invalid GLSL code:"
+msgstr ""
+"К неработоспособности шейдера может привести нетривиальное использование "
+"препроцессинга, например, создающее невалидный GLSL-код:"
+
+#: ../developers_advanced.rst:435
+msgid ""
+"Do not declare variables with such names as "
+"``node_[NODE_NAME]_var_[IN_OUT_NODE]``, where ``NODE_NAME`` --- name of "
+"some node, ``IN_OUT_NODE`` --- name of an input or an output of the node."
+msgstr ""
+"Не следует объявлять переменные с именами вида "
+"``node_[NODE_NAME]_var_[IN_OUT_NODE]``, где ``NODE_NAME`` --- название "
+"некоторой ноды, ``IN_OUT_NODE`` --- название одного из входов или выходов"
+" ноды."
+
+#: ../developers_advanced.rst:437
+msgid ""
+"Repetitive use of ``#nodes_main``, ``#nodes_global`` or ``#lamps_main`` "
+"directives is not permitted inside a single shader."
+msgstr ""
+"Не разрешается множественное использование одной и той же директивы "
+"``#nodes_main``, ``#nodes_global`` или ``#lamps_main`` в одном шейдере."
+
+#: ../developers_advanced.rst:439
+msgid ""
+"The ``#nodes_main``, ``#nodes_global`` and ``#lamps_main`` directives are"
+" recommended to use in the file, containing these shader nodes "
+"description, for example, in the same include-file. This is necessary for"
+" the correct shader validation."
+msgstr ""
+"Директивы ``#nodes_main``, ``#nodes_global`` и ``#lamps_main`` "
+"рекомендуется использовать в том же файле, в котором содержится описание "
+"шейдерных нод, например, в одном и том же include-файле - это необходимо "
+"для корректной валидации шейдеров."
+
+#: ../developers_advanced.rst:444 ../developers_advanced.rst:441
+msgid "WebGL Extensions"
+msgstr "расширения WebGL"
+
+#: ../developers_advanced.rst:446
+msgid ""
+"Compilation may depend on WebGL extensions being used if they somehow "
+"influence the shading language. At the moment the following extensions "
+"are supported by the compilator:"
+msgstr ""
+"Работа обфускатора может зависеть от используемых WebGL-расширений, если "
+"они каким-либо образом влияют на шейдерный язык. На данный момент "
+"поддерживаются следующие расширения:"
+
+#: ../developers_advanced.rst:448
+msgid "OES_standard_derivatives"
+msgstr ""
+
+#: ../developers_advanced.rst:454
+msgid "Compilation Errors"
+msgstr "Ошибки компилятора"
+
+#: ../developers_advanced.rst:456
+msgid ""
+"In case of an error the compilator will output the corresponding message "
+"in the console."
+msgstr "В случае ошибки компилятор выведет соответствующее сообщение в консоли."
+
+#: ../developers_advanced.rst:458
+msgid "Table of possible errors:"
+msgstr "Перечень возможных ошибок:"
+
+#: ../developers_advanced.rst:478
+msgid "Error message"
+msgstr "Сообщение об ошибке"
+
+#: ../developers_advanced.rst:478
+msgid "Cause"
+msgstr "Причина"
+
+#: ../developers_advanced.rst:480
+msgid "Error! Ambiguous obfuscation in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:480
+msgid "Ambiguous obfuscation in the 'FILE_NAME' include file."
+msgstr "Ошибка! Неоднозначная обфускация include-файла FILE_NAME."
+
+#: ../developers_advanced.rst:483
+msgid ""
+"Error! Bad preprocessing collision while obfuscation identifier: "
+"\\'NAME'. Varying/uniform or varying/attribute qualifiers combination. "
+"File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:483
+msgid ""
+"Error in the FILE_NAME file. Its impossible to obfuscate the NAME "
+"variable because of redefining at preprocessing. Redefining the same "
+"variable with different qualifiers. Unacceptable combinations: "
+"varying/uniform, varying/attribute."
+msgstr ""
+"Ошибка в файле FILE_NAME. Невозможность обфускации переменной с именем "
+"NAME из-за переопределения при препроцессинге. Переопределение одной и "
+"той же переменной с разными квалификаторами. Недопустимые комбинации: "
+"varying/uniform, varying/attribute."
+
+#: ../developers_advanced.rst:491
+msgid "Error! Extension NAME is unsupported in obfuscator. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:491
+msgid ""
+"The NAME WebGL extension used in the FILE_NAME file is not supported by "
+"the obfuscator."
+msgstr ""
+"Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME,"
+" не поддерживается обфускатором."
+
+#: ../developers_advanced.rst:495
+msgid "Error! Include 'FILE_NAME' not found."
+msgstr ""
+
+#: ../developers_advanced.rst:495
+msgid "The FILE_NAME include file could not be found."
+msgstr "Ошибка! При подключении не найден include-файл FILE_NAME."
+
+#: ../developers_advanced.rst:498
+msgid "Error! Undeclared TYPE: 'NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:498
+msgid ""
+"Error in FILE_NAME file. Undeclared identifier NAME of type TYPE "
+"(variable, function, structure etc)."
+msgstr ""
+"Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE "
+"(переменная, функция, структура, ...) с именем NAME."
+
+#: ../developers_advanced.rst:502
+msgid "Error! Undeclared TYPE: 'NAME'. Importing data missed. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:502
+msgid ""
+"Undeclared identifier NAME of type TYPE (variable, function, structure "
+"etc). Declaration missing for the identifier required in the FILE_NAME "
+"include file according to the ``#import`` directive."
+msgstr ""
+"Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, "
+"структура, ... ) с именем NAME. Отсутствует объявление идентификатора, "
+"требуемого в include-файле FILE_NAME согласно директиве ``#import``."
+
+#: ../developers_advanced.rst:508
+msgid ""
+"Error! Undeclared TYPE: 'NAME'. Possibly exporting needed in include file"
+" 'INCLUDE_NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:508
+msgid ""
+"Error in FILE_NAME file. Undeclared identifier NAME of type TYPE "
+"(variable, function, structure etc). Possibly its export into the "
+"INCLUDE_NAME include file should be allowed."
+msgstr ""
+"Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE "
+"(переменная, функция, структура, ...) с именем NAME. Возможно требуется "
+"разрешить его экспорт в include-файле INCLUDE_NAME."
+
+#: ../developers_advanced.rst:514
+msgid ""
+"Error! Undeclared TYPE: 'NAME'. Possibly importing needed. File: "
+"'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:514
+msgid ""
+"Undeclared identifier NAME of type TYPE (variable, function, structure "
+"etc). Possibly it should be specified as imported in the FILE_NAME "
+"include file."
+msgstr ""
+"Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, "
+"структура, ... ) с именем NAME. Возможно требуется указать его как "
+"импортируемый в include-файле FILE_NAME."
+
+#: ../developers_advanced.rst:519
+msgid "Error! Unused export token 'NAME' in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:519
+msgid ""
+"Undeclared identifier NAME is allowed for export in the FILE_NAME include"
+" file."
+msgstr ""
+"Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный "
+"идентификатор с именем NAME."
+
+#: ../developers_advanced.rst:522
+msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:522
+msgid ""
+"Error in FILE_NAME file. A reserved id is used for declaring the "
+"identifier NAME of type TYPE (variable, function, structure etc)."
+msgstr ""
+"Ошибка в файле FILE_NAME. Использование зарезервированного слова при "
+"объявлении идентификатора типа TYPE (переменная, функция, структура, ...)"
+" с именем NAME."
+
+#: ../developers_advanced.rst:527
+msgid ""
+"Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: "
+"'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:527
+msgid ""
+"The ``#extension`` directive specified for ``all`` WebGL extensions in "
+"the FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
+msgstr ""
+"Ошибка! Директива ``#extension``, указанная для всех (``all``) "
+"WebGL-расширений в файле FILE_NAME, не поддерживает поведение "
+"BEHAVIOR_TYPE."
+
+#: ../developers_advanced.rst:532
+msgid ""
+"Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: "
+"COL_NUMBER."
+msgstr ""
+
+#: ../developers_advanced.rst:532
+msgid ""
+"Syntax error in line LINE_NUMBER column COL_NUMBER during parsing the "
+"FILE_NAME shader. The initial error description is quoted in the "
+"ERROR_MESSAGE. The code listing taken from around the corresponding line "
+"is attached to the message (note the peculiarity of pegjs parser which "
+"specify the line which is a little bit after the actual error."
+msgstr ""
+"Ошибка синтаксиса в строке LINE_NUMBER, столбце COL_NUMBER при парсинге "
+"шейдера FILE_NAME. Исходное описание ошибки приведено в ERROR_MESSAGE. В "
+"сообщении прилагается листинг кода в окрестности соответствующей строки "
+"(следует учитывать особенность pegjs-парсеров, указывающих чуть далее "
+"места, вызвавшего ошибку)."
+
+#: ../developers_advanced.rst:542
+msgid ""
+"Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but "
+"never used."
+msgstr ""
+
+#: ../developers_advanced.rst:542
+msgid "An unused function NAME is declared in the FILE_NAME file."
+msgstr "В файле FILE_NAME объявлена функция NAME, которая нигде не используется."
+
+#: ../developers_advanced.rst:546
+msgid ""
+"Warning! Include file 'FILE_NAME' not used in any shader, would be "
+"omitted!"
+msgstr ""
+
+#: ../developers_advanced.rst:546
+msgid ""
+"The FILE_NAME include file is not used in any of the shaders and so it "
+"will be excluded from the obfuscated version."
+msgstr ""
+"Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому "
+"будет исключен из закомпиленной версии."
+
+#: ../developers_advanced.rst:550
+msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers_advanced.rst:550
+msgid "An unused id NAME is imported in the FILE_NAME include file."
+msgstr ""
+"Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но "
+"нигде не используется."
+
+#: ../developers_advanced.rst:553
+msgid ""
+"Warning! Variable 'NAME' is declared in include file FILE_NAME, but never"
+" used."
+msgstr ""
+
+#: ../developers_advanced.rst:553
+msgid "An unused variable NAME is declared in the FILE_NAME file."
+msgstr ""
+"В файле FILE_NAME объявлена переменная NAME, которая нигде не "
+"используется."
+
+#: ../developers_advanced.rst:560
+msgid "Updating Add-on Translations"
+msgstr "Обновление переводов аддона"
+
+#: ../developers_advanced.rst:562
+msgid ""
+"If you need to update all existing .po files, run the script "
+"*translator.py* in the SDK/scripts directory without arguments:"
+msgstr ""
+"При необходимости обновить все существующие .po файлы, запустите скрипт "
+"*translator.py* из директории SDK/scripts без параметра:"
+
+#: ../developers_advanced.rst:568
+msgid ""
+"In order to update an existing .po file, run the script with a supported "
+"language code as an argument:"
+msgstr ""
+"Для обновления существующего .po файла необходимо вызвать скрипт с "
+"передачей ему одного из поддерживаемых языков:"
+
+#: ../developers_advanced.rst:574
+msgid ""
+"In order to view the list of supported languages, run the script as "
+"follows:"
+msgstr ""
+"Для просмотра списка поддерживаемых языков вызовите скрипт следующим "
+"образом:"
+
+#: ../developers_advanced.rst:580
+msgid "In any case, the file *empty.po* will be updated upon running the script."
+msgstr "При вызове скрипта в любом случае будет обновлен файл *empty.po*."
+
+#: ../developers_advanced.rst:582
+msgid "After updates, the .po files can be edited/translated as usual."
+msgstr "После обновления .po файлы могут быть отредактированы/переведены."
+
+#: ../developers_advanced.rst:284
+msgid "validation"
+msgstr "валидация"
+
+#: ../developers_advanced.rst:297
+msgid "obfuscation"
+msgstr "обфускация"
+
+#: ../developers_advanced.rst:307
+msgid "optimization"
+msgstr "оптимизация"
+
+#: ../developers_advanced.rst:362
+msgid "import/export directives"
+msgstr "директивы import/export"
+
+#: ../developers_advanced.rst:386
+msgid "recommendations and limitations"
+msgstr "рекомендации и ограничения"
+
+#: ../developers_advanced.rst:451
+msgid "errors"
+msgstr "ошибки"
+
+#~ msgid ""
+#~ msgstr "компиляция шейдеров"
+
+#~ msgid "Ubuntu 14.04 package"
+#~ msgstr "Пакет в дистрибутиве Ubuntu 14.04"
+
+#~ msgid "Пакет в дистрибутиве Ubuntu 14.04"
+#~ msgstr ""
+
+#~ msgid "изменить значение флага, бинарной величины (переключить)"
+#~ msgstr ""
+

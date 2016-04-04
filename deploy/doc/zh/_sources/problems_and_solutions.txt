@@ -1,0 +1,134 @@
+
+存在的问题及解决方案
+********************
+
+
+目录
+^^^^
+
+* 存在的问题及解决方案
+
+  * 启动时的问题
+
+  * WebGL的无法初始化
+
+  * 已知问题
+
+
+启动时的问题
+============
+
+*1. "浏览器无法初始化 WebGL" 消息显示*.
+
+[图片]
+
+请按照 WebGL的无法初始化 章节列出的说明.
+
+*2. 用户界面和背景显示但是默认场景没有渲染出来。同时 *
+http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.*
+
+   可能的原因：
+
+   * 本地Web服务器未使用或浏览器没有设置加载本地资源。请参阅
+     Loading Local Resources  部分。
+
+   * 该引擎尝试加载移动或删除的资源文件。
+
+   * 您正在使用旧版本的视频驱动程序。
+
+   * 您正在使用不完全支持WebGL的开源驱动。
+
+        对于Linux用户 - 由于目前的开源驱动程序不完整的OpenGL实现，建议
+        使用Nvidia和AMD显卡的专用的驱动程序最新版本。
+
+   * 您正在使用过时的操作系统，如Windows XP。
+
+
+WebGL的无法初始化
+=================
+
+使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我
+能做什么？
+
+1. 安装适用于您的系统的最新更新（用于MS Windows见 指南). 在微软
+   Windows 下安装最新的  DirectX 运行时 。重新启动。
+
+2. 建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入
+   **about:gpu** (或 **chrome://gpu**) ，在Chrome浏览器的地址栏中...
+
+[图片]
+
+
+
+或Firefox ...
+
+[图片]
+
+
+
+对于Windows，您可以运行DirectX诊断工具叫  **dxdiag**.
+
+[图片]
+
+
+
+下载驱动程序从相应的支持中心（例如  Intel, Nvidia, AMD/ATI）。安装驱动
+程序后，重新启动系统。
+
+3. 如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览
+   器 设置。
+
+*对于Chrome*：
+
+输入  **about:flags** （或者 **chrome://flags**）到浏览器的地址栏中，
+单击 "Enable" 下 "Override software rendering list" 选项，并重启浏览器
+。
+
+
+ [图片]
+
+
+
+*对于Firefox*：
+
+输入 **about:config**  到浏览器的地址栏，搜索 "webgl.force-enabled" 参
+数，并在其上双击从 "false" 切换到值为 "True" 。
+
+[图片]
+
+
+已知问题
+========
+
+* 更新插件时候的问题。
+
+     强烈地建议安装插件/ SDK的更新版本后重新启动Blender。
+
+* NVIDIA驱动程序331在Linux中可引起WebGL的错误。
+
+* 在一些平台上的改变纹理过滤。
+
+     在ipad和IE浏览器上屏蔽了一个不正确的纹理滤镜，为了让材质带alpha
+     clip类型的透明类型。
+
+* 使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。
+
+* 对于本地开发服务器在苹果OS X和Blender2.76时，您可能需要安装
+  *Python 3.4 <https://www.python.org/downloads/release/python-343/>*.
+  这是由于在Blender https://developer.blender.org/T46623 的错误。此错
+  误已在Blender2.76b修复，所以建议更新Blender。
+
+* 使用Nouveau 驱动时骨骼动画可能工作不正确。
+
+* 透明纹理可能不能够在IE11和微软Edge Web浏览器和iPad上正确显示。
+
+     问题是关于 transparent materials.  图像错误在alpha通道值接近或等
+     于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误
+     不再可见（按价值0.01增加它0.05应足以在大多数情况下）。
+
+* WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series
+  GPUs with drivers later than 355.
+
+     This issue is caused by incompatibility of Chromium sandbox and
+     NVIDIA's latest drivers. The solution is to downgrade drivers to
+     the 340xx version.

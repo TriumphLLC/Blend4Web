@@ -27,6 +27,7 @@ b4w.module["__util"] = function(exports, require) {
 
 var m_mat3  = require("__mat3");
 var m_mat4  = require("__mat4");
+var m_math  = require("__math");
 var m_print = require("__print");
 var m_tsr   = require("__tsr");
 var m_quat  = require("__quat");
@@ -35,6 +36,8 @@ var m_vec4  = require("__vec4");
 
 var _unique_counter = 0;
 var _unique_name_counters = {};
+
+var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
 
 // for internal usage
 var _vec3_tmp = new Float32Array(3);
@@ -382,8 +385,6 @@ exports.ordered_angles_to_quat = function(angles, order, quat){
     var s2 = Math.sin(beta  / 2);
     var s3 = Math.sin(gamma / 2);
 
-    var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
-
     if (PROPER_EULER_ANGLES_LIST.indexOf(order) > -1) {
         var c13  = Math.cos((alpha + gamma) / 2);
         var s13  = Math.sin((alpha + gamma) / 2);
@@ -469,6 +470,82 @@ exports.ordered_angles_to_quat = function(angles, order, quat){
     }
 
     return quat;
+}
+
+/**
+ * Translate quaternion to Euler angles in the intrinsic rotation sequence
+ * Source: Appendix A of http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770024290.pdf
+ * quat must be normalized
+ */
+exports.quat_to_ordered_angles = function(q, order, angles) {
+    var x = q[0], y = q[1], z = q[2], w = q[3];
+
+    switch(order) {
+    case XYX:
+        angles[0] = Math.atan2(x * y + z * w, y * w - x * z);
+        angles[1] = Math.acos(1 - 2 * (y * y + z * z));
+        angles[2] = Math.atan2(x * y - z * w, x * z + y * w);
+        break;
+    case YZY:
+        angles[0] = Math.atan2(x * w + y * z, z * w - x * y);
+        angles[1] = Math.acos(1 - 2 * (x * x + z * z));
+        angles[2] = Math.atan2(y * z - x * w, x * y + z * w);
+        break;
+    case ZXZ:
+        angles[0] = Math.atan2(x * z + y * w, x * w - y * z);
+        angles[1] = Math.acos(1 - 2 * (x * x + y * y));
+        angles[2] = Math.atan2(x * z - y * w, x * w + y * z);
+        break;
+    case XZX:
+        angles[0] = Math.atan2(x * z - y * w, x * y + z * w);
+        angles[1] = Math.acos(1 - 2 * (y * y + z * z));
+        angles[2] = Math.atan2(x * z + y * w, z * w - x * y);
+        break;
+    case YXY:
+        angles[0] = Math.atan2(x * y - z * w, x * w + y * z);
+        angles[1] = Math.acos(1 - 2 * (x * x + z * z));
+        angles[2] = Math.atan2(x * y + z * w, x * w - y * z);
+        break;
+    case ZYZ:
+        angles[0] = Math.atan2(y * z - x * w, x * z + y * w);
+        angles[1] = Math.acos(1 - 2 * (x * x + y * y));
+        angles[2] = Math.atan2(x * w + y * z, y * w - x * z);
+        break;
+    case XYZ:
+        angles[0] = Math.atan2(2 * (x * w - y * z), 1 - 2 * (x * x + y * y));
+        angles[1] = Math.asin(2 * (x * z + y * w));
+        angles[2] = Math.atan2(2 * (z * w - x * y), 1 - 2 * (y * y + z * z));
+        break;
+    case YZX:
+        angles[0] = Math.atan2(2 * (y * w - x * z), 1 - 2 * (y * y + z * z));
+        angles[1] = Math.asin(2 * (x * y + z * w));
+        angles[2] = Math.atan2(2 * (x * w - y * z), 1 - 2 * (x * x + z * z));
+        break;
+    case ZXY:
+        angles[0] = Math.atan2(2 * (z * w - x * y), 1 - 2 * (x * x + z * z));
+        angles[1] = Math.asin(2 * (x * w + y * z));
+        angles[2] = Math.atan2(2 * (y * w - x * z), 1 - 2 * (x * x + y * y));
+        break;
+    case XZY:
+        angles[0] = Math.atan2(2 * (x * w + y * z), 1 - 2 * (x * x + z * z));
+        angles[1] = Math.asin(2 * (z * w - x * y));
+        angles[2] = Math.atan2(2 * (x * z + y * w), 1 - 2 * (y * y + z * z));
+        break;
+    case YXZ:
+        angles[0] = Math.atan2(2 * (x * z + y * w), 1 - 2 * (x * x + y * y));
+        angles[1] = Math.asin(2 * (x * w - y * z));
+        angles[2] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (x * x + z * z));
+        break;
+    case ZYX:
+        angles[0] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (y * y + z * z));
+        angles[1] = Math.asin(2 * (y * w - x * z));
+        angles[2] = Math.atan2(2 * (x * w + y * z), 1 - 2 * (x * x + y * y));
+        break;
+    }
+    // TODO: add check the orientation is far a singularity.
+    // In case of order in {XYZ, YZX, ZXY, XZY, YXZ, ZYX} singularity is angles[1] resides in {-PI/2, PI/2}.
+    // In case of order in {XYX, YZY, ZXZ, XZX, YXY, ZYZ} singularity is angles[1] resides in {0, PI}.
+    return angles;
 }
 
  /**
@@ -946,12 +1023,12 @@ function normalize_plane(plane) {
  */
 exports.sphere_is_out_of_frustum = function(pt, planes, radius) {
 
-    if (radius < -point_plane_dist(pt, planes.left) ||
-        radius < -point_plane_dist(pt, planes.right) ||
-        radius < -point_plane_dist(pt, planes.top) ||
-        radius < -point_plane_dist(pt, planes.bottom) ||
-        radius < -point_plane_dist(pt, planes.near) ||
-        radius < -point_plane_dist(pt, planes.far))
+    if (radius < -m_math.point_plane_dist(pt, planes.left) ||
+        radius < -m_math.point_plane_dist(pt, planes.right) ||
+        radius < -m_math.point_plane_dist(pt, planes.top) ||
+        radius < -m_math.point_plane_dist(pt, planes.bottom) ||
+        radius < -m_math.point_plane_dist(pt, planes.near) ||
+        radius < -m_math.point_plane_dist(pt, planes.far))
         return true;
     else
         return false;
@@ -970,8 +1047,8 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     var r_far = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
 
     // near and far effective radiuses coincide (far is parallel to near)
-    if (r_far   < -point_plane_dist(pt, planes.near) ||
-        r_far   < -point_plane_dist(pt, planes.far)) {
+    if (r_far   < -m_math.point_plane_dist(pt, planes.near) ||
+        r_far   < -m_math.point_plane_dist(pt, planes.far)) {
         return true;
     }
 
@@ -980,7 +1057,7 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     var dot_ny = m_vec3.dot(axis_y, planes.left);
     var dot_nz = m_vec3.dot(axis_z, planes.left);
     var r_left = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
-    if (r_left  < -point_plane_dist(pt, planes.left)) {
+    if (r_left  < -m_math.point_plane_dist(pt, planes.left)) {
         return true;
     }
 
@@ -989,7 +1066,7 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     dot_ny = m_vec3.dot(axis_y, planes.right);
     dot_nz = m_vec3.dot(axis_z, planes.right);
     var r_right = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
-    if (r_right < -point_plane_dist(pt, planes.right)) {
+    if (r_right < -m_math.point_plane_dist(pt, planes.right)) {
         return true;
     }
 
@@ -998,7 +1075,7 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     dot_ny = m_vec3.dot(axis_y, planes.top);
     dot_nz = m_vec3.dot(axis_z, planes.top);
     var r_top = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
-    if (r_top < -point_plane_dist(pt, planes.top)) {
+    if (r_top < -m_math.point_plane_dist(pt, planes.top)) {
         return true;
     }
 
@@ -1007,20 +1084,12 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     dot_ny = m_vec3.dot(axis_y, planes.bottom);
     dot_nz = m_vec3.dot(axis_z, planes.bottom);
     var r_bott = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
-    if (r_bott < -point_plane_dist(pt, planes.bottom)) {
+    if (r_bott < -m_math.point_plane_dist(pt, planes.bottom)) {
         return true;
     }
 
     return false;
 }
-
-/**
- * Calculate distance from point to plane.
- */
-function point_plane_dist(pt, plane) {
-    return plane[0] * pt[0] + plane[1] * pt[1] + plane[2] * pt[2] + plane[3];
-}
-
 
 /**
  * Translate positions by matrix
@@ -1254,7 +1323,7 @@ exports.transform_mat4 = function(matrix, scale, quat, trans, dest) {
 exports.transform_vec3 = function(vec, scale, quat, trans, dest) {
     if (!dest)
         var dest = new Float32Array(3);
-    
+
     var m1 = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
     if (scale !== 1) {
         var m2 = m_mat4.identity(_mat4_tmp2);
@@ -1530,11 +1599,11 @@ exports.trunc = function(x) {
     return isNaN(x) || typeof x == "undefined" ? NaN : x | 0;
 }
 
-exports.rad = function(x) {
+exports.deg_to_rad = function(x) {
     return x * Math.PI / 180;
 }
 
-exports.deg = function(x) {
+exports.rad_to_deg = function(x) {
     return x * 180 / Math.PI;
 }
 
@@ -2159,7 +2228,7 @@ exports.gen_color_id = function(counter) {
     return color_id;
 }
 
-exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
+exports.line_plane_intersect = function(pn, p_dist, pline, dest) {
     // four-dimensional representation of a plane
     var plane = _vec4_tmp;
     plane.set(pn);
@@ -2167,7 +2236,10 @@ exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
 
     // four-dimensional representation of line direction vector
     var line_dir = _vec4_tmp2;
-    line_dir.set(l_dir);
+    _vec3_tmp[0] = pline[3];
+    _vec3_tmp[1] = pline[4];
+    _vec3_tmp[2] = pline[5];
+    line_dir.set(_vec3_tmp);
     line_dir[3] = 0;
 
     var denominator = m_vec4.dot(plane, line_dir);
@@ -2178,7 +2250,8 @@ exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
 
     // four-dimensional representation of line point
     var line_point = _vec4_tmp2;
-    line_point.set(lp);
+    m_vec3.copy(pline, _vec3_tmp);
+    line_point.set(_vec3_tmp);
     line_point[3] = 1;
 
     var numerator = m_vec4.dot(plane, line_point);
@@ -2186,9 +2259,9 @@ exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     var t = - numerator / denominator;
 
     // point of intersection
-    dest[0] = lp[0] + t * l_dir[0];
-    dest[1] = lp[1] + t * l_dir[1];
-    dest[2] = lp[2] + t * l_dir[2];
+    dest[0] = pline[0] + t * pline[3];
+    dest[1] = pline[1] + t * pline[4];
+    dest[2] = pline[2] + t * pline[5];
 
     return dest;
 }
@@ -2338,7 +2411,7 @@ exports.version_cmp = function(ver1, ver2) {
 }
 
 /**
- * It doesn't worry about leading zeros; unappropriate for date 
+ * It doesn't worry about leading zeros; unappropriate for date
  * (month, hour, minute, ...) values.
  */
 exports.version_to_str = function(ver) {

@@ -36,6 +36,7 @@ var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_data  = require("data");
 var m_dbg   = require("debug");
+var m_input = require("input");
 var m_main  = require("main");
 var m_phy   = require("physics");
 var m_print = require("print");
@@ -540,11 +541,15 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * @param {Boolean} [disable_letter_controls=false] Disable keyboard letter controls
  * (only arrow keys will be used to control the camera)
  * @param {Boolean} [disable_zoom=false] Disable zoom
+ * @param {HTMLElement} [element=Canvas container element] HTML element to add event listeners to
+ * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
+ * even when the mouse is leaving the HTML element
  */
+
 exports.enable_camera_controls = enable_camera_controls;
 
-function enable_camera_controls(disable_default_pivot,
-                                disable_letter_controls, disable_zoom) {
+function enable_camera_controls(disable_default_pivot, disable_letter_controls,
+                                disable_zoom, element, allow_element_exit) {
 
     _disable_default_pivot = disable_default_pivot;
     _disable_letter_controls = disable_letter_controls;
@@ -814,11 +819,11 @@ function enable_camera_controls(disable_default_pivot,
     if (!disable_zoom) {
         // mouse wheel: camera zooming and translation speed adjusting
         var dest_zoom_mouse = 0;
-        var mouse_wheel = m_ctl.create_mouse_wheel_sensor();
+        var mouse_wheel = m_ctl.create_mouse_wheel_sensor(element);
 
         // camera zooming with touch
         var dest_zoom_touch = 0;
-        var touch_zoom = m_ctl.create_touch_zoom_sensor();
+        var touch_zoom = m_ctl.create_touch_zoom_sensor(element);
 
         var mouse_wheel_cb = function(obj, id, pulse) {
             if (pulse == 1) {
@@ -899,10 +904,6 @@ function enable_camera_controls(disable_default_pivot,
     var dest_pan_x_mouse = 0;
     var dest_pan_y_mouse = 0;
 
-    var mouse_move_x = m_ctl.create_mouse_move_sensor("X");
-    var mouse_move_y = m_ctl.create_mouse_move_sensor("Y");
-    var mouse_down = m_ctl.create_mouse_click_sensor();
-
     var mouse_cb = function(obj, id, pulse, param) {
         if (pulse == 1) {
             var value = m_ctl.get_sensor_value(obj, id, 1);
@@ -926,10 +927,37 @@ function enable_camera_controls(disable_default_pivot,
             }
         }
     }
-    m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_LEVEL,
-            [mouse_down, mouse_move_x], null, mouse_cb, "X");
-    m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_LEVEL,
-            [mouse_down, mouse_move_y], null, mouse_cb, "Y");
+
+    if (allow_element_exit) {
+        var mouse_move_x = m_ctl.create_mouse_move_sensor("X", window);
+        var mouse_move_y = m_ctl.create_mouse_move_sensor("Y", window);
+        var mouse_down_c = m_ctl.create_mouse_click_sensor(element);
+        var mouse_down_w = m_ctl.create_mouse_click_sensor(window);
+
+        var element_exit_state = false;
+        var element_exit_logic = function(s) {
+            if (s[2])
+                element_exit_state = true;
+            else if (!s[0])
+                element_exit_state = false;
+            return element_exit_state && s[0];
+        }
+        m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_POSITIVE,
+                [mouse_down_w, mouse_move_x, mouse_down_c], element_exit_logic, mouse_cb, "X");
+        m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_POSITIVE,
+                [mouse_down_w, mouse_move_y, mouse_down_c], element_exit_logic, mouse_cb, "Y");
+
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, window);
+        m_input.switch_prevent_default(device, false);
+    } else {
+        var mouse_move_x = m_ctl.create_mouse_move_sensor("X", element);
+        var mouse_move_y = m_ctl.create_mouse_move_sensor("Y", element);
+        var mouse_down = m_ctl.create_mouse_click_sensor(element);
+        m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_LEVEL,
+                [mouse_down, mouse_move_x], null, mouse_cb, "X");
+        m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_LEVEL,
+                [mouse_down, mouse_move_y], null, mouse_cb, "Y");
+    }
 
     // camera rotation and translation with touch
     var dest_x_touch = 0;
@@ -939,8 +967,8 @@ function enable_camera_controls(disable_default_pivot,
     var dest_pan_x_touch = 0;
     var dest_pan_y_touch = 0;
 
-    var touch_move_x = m_ctl.create_touch_move_sensor("X");
-    var touch_move_y = m_ctl.create_touch_move_sensor("Y");
+    var touch_move_x = m_ctl.create_touch_move_sensor("X", element);
+    var touch_move_y = m_ctl.create_touch_move_sensor("Y", element);
 
     var touch_cb = function(obj, id, pulse, param) {
         if (pulse == 1) {
@@ -1134,8 +1162,9 @@ exports.set_camera_move_style = function(move_style) {
 /**
  * Assign some controls to the non-camera object.
  * @param {Object3D} obj Object 3D
+ * @param {HTMLElement} [element=Canvas container element] HTML element
  */
-exports.enable_object_controls = function(obj) {
+exports.enable_object_controls = function(obj, element) {
     var trans_speed = 1;
 
     var is_vehicle = m_phy.is_vehicle_chassis(obj) ||
@@ -1235,34 +1264,18 @@ exports.disable_object_controls = function(obj) {
  * using register_* functions from {@link module:controls}.
  * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element.
+ * @deprecated Not need anymore.
  */
 exports.enable_controls = function(allow_element_exit) {
-    var elem = m_cont.get_container();
-
-    allow_element_exit = allow_element_exit || false;
-
-    m_ctl.register_keyboard_events(document, false);
-
-    m_ctl.register_mouse_events(elem, true, allow_element_exit);
-    m_ctl.register_wheel_events(elem, true);
-    m_ctl.register_touch_events(elem, true);
-
-    m_ctl.register_device_orientation();
+    m_print.error_once("app.enable_controls() deprecated");
 }
 
 /**
  * Disable engine controls.
+ * @deprecated Not need anymore.
  */
 exports.disable_controls = function() {
-    var elem = m_cont.get_container();
-
-    m_ctl.unregister_keyboard_events(document);
-
-    m_ctl.unregister_mouse_events(elem);
-    m_ctl.unregister_wheel_events(elem);
-    m_ctl.unregister_touch_events(elem);
-
-    m_ctl.unregister_device_orientation();
+    m_print.error_once("app.disable_controls() deprecated");
 }
 
 /**
@@ -1292,9 +1305,8 @@ exports.request_fullscreen = request_fullscreen;
  * @param {HTMLElement} elem Element
  * @param {FullscreenEnabledCallback} enabled_cb Enabled callback
  * @param {FullscreenDisabledCallback} disabled_cb Disabled callback
- * @param {HMDVRDevice} vr_display Target device displaying fullscreen
  */
-function request_fullscreen(elem, enabled_cb, disabled_cb, vr_display) {
+function request_fullscreen(elem, enabled_cb, disabled_cb) {
 
     enabled_cb = enabled_cb || function() {};
     disabled_cb = disabled_cb || function() {};
@@ -1330,14 +1342,7 @@ function request_fullscreen(elem, enabled_cb, disabled_cb, vr_display) {
             elem.webkitRequestFullScreen || elem.mozRequestFullScreen
             || elem.msRequestFullscreen;
 
-    var request_obj = null;
-    if (vr_display && elem.requestFullScreen != elem.mozRequestFullScreen)
-        request_obj = {
-            "vrDisplay": vr_display,
-            "vrDistortion": m_cfg.get("use_browser_distortion_cor")
-        };
-
-    elem.requestFullScreen(request_obj);
+    elem.requestFullScreen();
 }
 
 exports.exit_fullscreen = exit_fullscreen;

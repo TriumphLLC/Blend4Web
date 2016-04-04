@@ -4,9 +4,11 @@ b4w.register("cartoon_interior", function(exports, require) {
 
 var m_app    = require("app");
 var m_cam    = require("camera");
+var m_cont   = require("container");
 var m_ctl    = require("controls");
 var m_data   = require("data");
 var m_mouse  = require("mouse");
+var m_math   = require("math");
 var m_obj    = require("objects");
 var m_phy    = require("physics");
 var m_scenes = require("scenes");
@@ -32,6 +34,7 @@ var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
+var _pline_tmp = m_math.create_pline();
 
 var _drag_mode = false;
 var _enable_camera_controls = true;
@@ -55,10 +58,6 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    m_ctl.register_mouse_events(canvas_elem, true);
-    m_ctl.register_wheel_events(canvas_elem, true);
-    m_ctl.register_touch_events(canvas_elem, true);
-
     canvas_elem.addEventListener("mousedown", main_canvas_down);
     canvas_elem.addEventListener("touchstart", main_canvas_down);
 
@@ -78,7 +77,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, m_cont.get_canvas());
     init_controls();
 
     var spawner = m_scenes.get_object_by_name("spawner");
@@ -283,12 +282,15 @@ function main_canvas_move(e) {
                 y -= _obj_delta_xy[1];
 
                 // emit ray from the camera
-                var camera_ray = m_cam.calc_ray(cam, x, y, _vec3_tmp);
+                var pline = m_cam.calc_ray(cam, x, y, _pline_tmp);
+                var camera_ray = m_math.get_pline_directional_vec(pline, _vec3_tmp);
 
                 // calculate ray/floor_plane intersection point
                 var cam_trans = m_trans.get_translation(cam, _vec3_tmp2);
-                var point = m_util.line_plane_intersect(FLOOR_PLANE_NORMAL, 0,
-                        cam_trans, camera_ray, _vec3_tmp3);
+                m_math.set_pline_initial_point(_pline_tmp, cam_trans);
+                m_math.set_pline_directional_vec(_pline_tmp, camera_ray);
+                var point = m_math.line_plane_intersect(FLOOR_PLANE_NORMAL, 0,
+                        _pline_tmp, _vec3_tmp3);
 
                 // do not process the parallel case and intersections behind the camera
                 if (point && camera_ray[1] < 0) {

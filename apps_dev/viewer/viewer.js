@@ -15,6 +15,7 @@ var m_data     = require("data");
 var m_debug    = require("debug");
 var m_geom     = require("geometry");
 var m_gyro     = require("gyroscope");
+var m_input    = require("input");
 var m_lights   = require("lights");
 var m_main     = require("main");
 var m_hmd      = require("hmd");
@@ -121,8 +122,6 @@ function init_cb(canvas_elem, success) {
         return false;
     };
 
-    m_app.enable_controls();
-
     window.addEventListener("resize", on_resize, false);
 
     var tmp_event = document.createEvent("CustomEvent");
@@ -220,7 +219,7 @@ function enable_camera_controls() {
     _controlled_object = obj;
     set_object_info();
 
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, m_cont.get_container(), true);
     m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q,
             function(obj, id, value, pulse) {
                 _controlled_object = null;
@@ -679,8 +678,11 @@ function loaded_callback(data_id) {
     if (m_cfg.get("gyro_use"))
         m_gyro.enable_camera_rotation();
 
-    if (m_cfg.get("stereo") == "HMD")
+    if (m_cfg.get("stereo") == "HMD") {
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+        m_input.register_device(device);
         m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+    }
 
     m_main.set_render_callback(render_callback);
 
@@ -1160,7 +1162,7 @@ function set_mix_mode_and_reload(value) {
 function refresh_stereo_view_ui() {
     var st_type = m_storage.get("stereo") || "NONE";
 
-    if (!m_hmd.check_browser_support()) {
+    if (!m_input.can_use_device(m_input.DEVICE_HMD)) {
         document.getElementById("stereo").options[2].setAttribute('disabled', 'disabled');
 
         $("#stereo").selectmenu("refresh");

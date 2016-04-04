@@ -1,8 +1,8 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 2, 0),
-    "blender": (2, 76, 0),
+    "version": (16, 3, 0),
+    "blender": (2, 77, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
@@ -44,6 +44,7 @@ b4w_modules = [
     "camera_target_copier",
     "viewport_align",
     "vertex_normals",
+    "viewport_settings",
     "vertex_groups_to_materials",
     "shore_distance_baker",
     "remove_unused_vgroups",
@@ -65,6 +66,9 @@ from bpy.props import StringProperty, IntProperty, BoolProperty
 PATH_TO_ASSETS = "apps_dev/viewer"
 ASSETS_NAME = "assets.json"
 NODE_TREE_BLEND = "b4w_nodes.blend"
+
+# addon initialization messages
+init_mess = []
 
 @bpy.app.handlers.persistent
 def add_asset_file(arg):
@@ -186,6 +190,13 @@ def index_by_var_name(collection, name):
     return -1
 
 @bpy.app.handlers.persistent
+def update_animated_glsl_mat(arg):
+    if(bpy.context.window_manager.b4w_viewport_settings.update_material_animation):
+        for m in bpy.data.materials:
+            m.diffuse_color[0] = m.diffuse_color[0]
+        bpy.context.scene.update()
+
+@bpy.app.handlers.persistent
 def logic_nodetree_reform(arg):
     nla_slots_to_nodetree_convert()
     for tree in bpy.data.node_groups:
@@ -305,6 +316,51 @@ def logic_nodetree_reform(arg):
                             node.strings.add()
                             node.strings[-1].name = "ct"
 
+                    if node.type == "PAGEPARAM":
+                        if not "hsh" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "hsh"
+
+                    if node.type == "REGSTORE":
+                        if not "gl" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "gl"
+
+                    # moving old properties to variables_names
+                    if node.type in ["MATH", "CONDJUMP", "PAGEPARAM", "REGSTORE"]:
+                        if not "v1" in node.variables_names:
+                            node.variables_names.add()
+                            node.variables_names[-1].name = "v1"
+                            var = "R1" if "param_var1" not in node else node["param_var1"]
+                            node.variables_names[-1].variable = var
+                            if "param_var1" in node:
+                                del node["param_var1"]
+                        if not "v2" in node.variables_names:
+                            node.variables_names.add()
+                            node.variables_names[-1].name = "v2"
+                            var = "R1" if "param_var2" not in node else node["param_var2"]
+                            node.variables_names[-1].variable = var
+                            if "param_var2" in node:
+                                del node["param_var2"]
+                        if not "vd" in node.variables_names:
+                            node.variables_names.add()
+                            node.variables_names[-1].name = "vd"
+                            var = "R1" if "param_var_dest" not in node else node["param_var_dest"]
+                            node.variables_names[-1].variable = var
+                            if "param_var_dest" in node:
+                                del node["param_var_dest"]
+
+                    if node.type == "GET_TIMELINE":
+                        if not "nla" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "nla"
+                            node.bools[-1].bool = True
+
+                    if node.type in ["PLAY_ANIM", "STOP_ANIM"]:
+                        if not "env" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "env"
+
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences
     if p.b4w_autodetect_sdk_path == "":
@@ -329,6 +385,7 @@ def register():
     vertex_normals.register()
     vertex_anim_baker.register()
     boundings_draw.register()
+    viewport_settings.register()
     shore_distance_baker.register()
     anim_baker.register()
 
@@ -337,7 +394,6 @@ def register():
     bgl_camera_limits.register()
     render_engine.register()
     custom_nodeitems_builtins.register()
-    init_validation.register()
     server.register()
     translator.register()
     interface.register()
@@ -351,6 +407,8 @@ def register():
     bpy.app.handlers.scene_update_pre.append(init_validation.check_addon_dir)
     bpy.app.handlers.load_post.append(old_edited_normals_convert)
     bpy.app.handlers.load_post.append(logic_nodetree_reform)
+    # tweak for viewport
+    bpy.app.handlers.frame_change_post.append(update_animated_glsl_mat)
 
 def unregister():
 
@@ -369,6 +427,7 @@ def unregister():
     vertex_normals.unregister()
     shore_distance_baker.unregister()
     boundings_draw.unregister()
+    viewport_settings.unregister()
     server.B4WLocalServer.shutdown()
     update_checker.unregister()
     interface.unregister()

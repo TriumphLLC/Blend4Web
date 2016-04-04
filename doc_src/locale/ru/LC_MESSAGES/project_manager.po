@@ -1,0 +1,611 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 12:33+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../project_manager.rst:5 ../project_manager.rst:28
+msgid "Project Manager"
+msgstr "Управление проектами"
+
+#: ../project_manager.rst
+msgid "Table of Contents"
+msgstr "Содержание"
+
+#: ../project_manager.rst:11
+msgid ""
+"Since version 15.09, the SDK includes a project managment feature, which "
+"makes it possible to:"
+msgstr ""
+"Начиная с версии 15.09, SDK включает систему управления проектами, "
+"которая позволяет:"
+
+#: ../project_manager.rst:13
+msgid "browse the full list and file structure of the projects;"
+msgstr "просматривать список и внутреннюю структуру имеющихся проектов;"
+
+#: ../project_manager.rst:15
+msgid ""
+"launch apps, run exported scenes in the Viewer, open source blend files "
+"in Blender;"
+msgstr ""
+"запускать приложения, просматривать сцены в программе-просмотрщике, "
+"загружать исходные файлы сцен в Blender;"
+
+#: ../project_manager.rst:17
+msgid ""
+"create and configure new apps, including those based on ready-made "
+"templates;"
+msgstr ""
+"создавать и конфигурировать новые приложения, в том числе на основе "
+"готовых шаблонов;"
+
+#: ../project_manager.rst:19
+msgid "build apps and pack them to be conveniently deployed on a remote server;"
+msgstr ""
+"осуществлять сборку приложения и его конверсию в форму, удобную для "
+"последующего размещения на сервере;"
+
+#: ../project_manager.rst:21
+msgid ""
+"convert app resources (textures, audio and video files) into alternative "
+"formats to ensure cross-browser and cross-platform performance;"
+msgstr ""
+"конвертировать ресурсы приложения (текстуры, звуковые и видео-файлы) в "
+"альтернативные форматы для обеспечения кроссбраузерности и "
+"кроссплатформенности;"
+
+#: ../project_manager.rst:23
+msgid ""
+"automatically re-export all scenes of an app, including export to JSON "
+"and HTML formats;"
+msgstr ""
+"автоматизировать повторный экспорт всех сцен из состава приложения, "
+"включая файлы в формате JSON и HTML."
+
+#: ../project_manager.rst:25
+msgid "remove projects."
+msgstr "удалять проекты."
+
+#: ../project_manager.rst:30
+msgid ""
+"The *Project Manager* app can be run from the *Tools* section of the "
+"SDK’s index page. Upon launching, the app outputs a list of all current "
+"projects in the SDK."
+msgstr ""
+"Приложение *Project Manager* доступно из раздела *Tools* главной страницы"
+" SDK. При запуске приложение выводит список из всех проектов, находящихся"
+" в установленном SDK."
+
+#: ../project_manager.rst:32
+msgid "The commands for project management are located at the top of the page."
+msgstr "Команды для управления проектами находятся в верхней части страницы."
+
+#: ../project_manager.rst:39
+msgid "*Back to Index*"
+msgstr ""
+
+#: ../project_manager.rst:39
+msgid "Returns to the Blend4Web SDK index page."
+msgstr "Возвращает на индексную страницу Blend4Web SDK."
+
+#: ../project_manager.rst:42
+msgid "*Create New Project*"
+msgstr ""
+
+#: ../project_manager.rst:42
+msgid "Opens the :ref:`project creation <create_new_project>` wizard."
+msgstr "Открывает мастер :ref:`создания новых проектов <create_new_project>`."
+
+#: ../project_manager.rst:45
+msgid "*Import Project(s)*"
+msgstr ""
+
+#: ../project_manager.rst:45
+msgid "Opens the :ref:`project import <import_projects>` dialogue."
+msgstr "Открывает диалог :ref:`импорта проектов <import_projects>`."
+
+#: ../project_manager.rst:48 ../project_manager.rst:223
+msgid "*Export Project(s)*"
+msgstr ""
+
+#: ../project_manager.rst:48
+msgid "Opens the :ref:`project export <export_projects>` page."
+msgstr "Открывает страницу :ref:`экспорта проектов <export_projects>`."
+
+#: ../project_manager.rst:51 ../project_manager.rst:217
+msgid "*Hide Stock Projects*"
+msgstr ""
+
+#: ../project_manager.rst:51
+msgid ""
+"Can be used to hide stock projects. If such projects are already hidden, "
+"this command is replaced with the ``Show Stock Projects`` command."
+msgstr ""
+"Позволяет скрыть стоковые проекты. Если они уже скрыты, место этой "
+"команды занимает команда ``Show Stock Projects``."
+
+#: ../project_manager.rst:55 ../project_manager.rst:137
+#: ../project_manager.rst:220
+msgid "*Help*"
+msgstr ""
+
+#: ../project_manager.rst:54
+msgid "Opens the :ref:`Help file <app_building>`."
+msgstr "Вызывает :ref:`справку <app_building>`."
+
+#: ../project_manager.rst:57
+msgid "Commands for managing a specific project is located at its right."
+msgstr "Команды управления конкретным проектом находятся справа от него"
+
+#: ../project_manager.rst:62
+msgid ""
+"Compile project (not available for WebPlayer JSON and WebPlayer HTML "
+"projects)."
+msgstr ""
+"Компиляция проекта (недоступно для типов проекта WebPlayer JSON и "
+"WebPlayer HTML)."
+
+#: ../project_manager.rst:63
+msgid "Re-export blend files from the project."
+msgstr "Реэкспорт блендеровских сцен в проекте."
+
+#: ../project_manager.rst:64
+msgid "Convert media resources."
+msgstr "Конвертация медиа ресурсов."
+
+#: ../project_manager.rst:65
+msgid "Export and download a project archive."
+msgstr "Экспортирование и дальнейшая загрузка проекта."
+
+#: ../project_manager.rst:66
+msgid "Remove the project."
+msgstr "Удаление проекта со всеми зависимостями."
+
+#: ../project_manager.rst:70
+msgid "All project paths are retreived from its .b4w_project file."
+msgstr "Все пути берутся из конфигурационного файла .b4w_project."
+
+#: ../project_manager.rst:72
+msgid ""
+"Beside the project's name, a link to the :ref:`project information page  "
+"<project_info>` is located. The application type is also specified there."
+" An application can have one of the following types:"
+msgstr ""
+"Рядом с именем проекта находится ссылка на :ref:`информацию о нём "
+"<project_info>`. Там же указан тип приложения. Приложение может иметь "
+"один из следующих типов:"
+
+#: ../project_manager.rst:75
+msgid "*Player*"
+msgstr ""
+
+#: ../project_manager.rst:75
+msgid "The application can be played using the Web Player."
+msgstr "Приложение запускается при помощи веб-плейера."
+
+#: ../project_manager.rst:78
+msgid "*Dev*"
+msgstr ""
+
+#: ../project_manager.rst:78
+msgid "Application for development."
+msgstr "Приложение для разработки"
+
+#: ../project_manager.rst:82
+msgid "*Build*"
+msgstr ""
+
+#: ../project_manager.rst:81
+msgid "Compiled application."
+msgstr "Скомпилированное приложение."
+
+#: ../project_manager.rst:87
+msgid "Project Creation Wizard"
+msgstr "Мастер создания проектов"
+
+#: ../project_manager.rst:89
+msgid ""
+"The tool for creating new projects is included in the Project Management "
+"app and executed by the ``[Create New Project]`` button on the main page "
+"of this app."
+msgstr ""
+"Мастер создания новых проектов входит в состав приложения Project Manager"
+" и вызывается по ссылке ``[Create New Project]`` на главной странице "
+"этого приложения."
+
+#: ../project_manager.rst:95
+msgid ""
+"The ``[Back to Projects]`` button can be used to return to the Project "
+"Manager's main page, while the ``[Help]`` button can be used to access "
+"the :ref:`Help file <create_new_project>`."
+msgstr ""
+"Кнопка ``[Back to Projects]`` используется для возвращения на главную "
+"страницу менеджера проектов, а кнопка ``[Help]`` :ref:`вызывает справку "
+"<create_new_project>`."
+
+#: ../project_manager.rst:97
+msgid ""
+"Project name is used to name project directories such as "
+"\"apps_dev/project_name\", \"deploy/assets/project_name\", "
+"\"blender/project_name\" and \"deploy/apps/project_name\"."
+msgstr ""
+"Имя проекта. Текущим именем будут названы директории в "
+"\"apps_dev/имя_проекта\", \"deploy/assets/имя_проекта\", "
+"\"blender/имя_проекта\" и \"deploy/apps/имя_проекта\". Для лучшей "
+"совместимости рекомендуется использовать буквы и нижнее подчеркивание."
+
+#: ../project_manager.rst:98 ../project_manager.rst:146
+msgid "Project title as shown in the browser."
+msgstr "Название проекта. Это имя будет показываться в заголовке веб-браузера."
+
+#: ../project_manager.rst:99 ../project_manager.rst:238
+msgid "Project author’s name."
+msgstr "Имя автора проекта."
+
+#: ../project_manager.rst:100
+msgid ""
+"Add application templates. Standard application templates: html file, css"
+" file, js file will be added to the project directory "
+"\"apps_dev/project_name\"."
+msgstr ""
+"Добавить шаблоны приложения. В директорию проекта "
+"\"apps_dev/имя_проекта\" будут добавлены стандартные шаблоны приложения: "
+"html-файл, css-файл, js-файл."
+
+#: ../project_manager.rst:101
+msgid ""
+"Add scene templates. Standard json file will be added to the "
+"\"deploy/assets/project_name\" directory; blend file will be added to the"
+" \"blender/project_name\" directory."
+msgstr ""
+"Добавить шаблоны сцены. В директорию \"deploy/assets/имя_проекта\" будет "
+"добавлен стандартный json-файл; в директорию \"blender/имя_проекта\" - "
+"blend-файл."
+
+#: ../project_manager.rst:102
+msgid ""
+"Copy project manager script. The project.py script will be copied to the "
+"project directory."
+msgstr ""
+"Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован"
+" в директорию проекта."
+
+#: ../project_manager.rst:103
+msgid ""
+"All project files will be located in the same directory. It is preferable"
+" to use this option in small projects, such as lessons and examples. Only"
+" \"update\" project type is available for this option."
+msgstr ""
+"Все файлы проекта будут находиться в одной директории. Предпочтительно "
+"использовать для маленьких проектов, таких как уроки и примеры. Для "
+"данной опции доступен только тип проекта - \"update\"."
+
+#: ../project_manager.rst:104
+msgid "Project’s type. Several options are available:"
+msgstr "Тип собираемого проекта. Здесь возможны варианты:"
+
+#: ../project_manager.rst:106
+msgid ""
+"\"External\" - engine will be taken from the \"deploy/apps/common/\" "
+"directory. Only application files will be compiled;"
+msgstr ""
+"\"External\" - движок берется из директории \"deploy/apps/common/\". "
+"Компилируются только файлы приложения;"
+
+#: ../project_manager.rst:107
+msgid ""
+"\"Copy\" - engine is copied into the compiled application directory. Only"
+" application files are compiled;"
+msgstr ""
+"\"Copy\" - движок копируется в директорию собранного приложения. "
+"Компилируются только файлы приложения;"
+
+#: ../project_manager.rst:108
+msgid "\"Compile\" - engine sources are compiled with application scripts;"
+msgstr ""
+"\"Compile\" - исходники движка компилируются вместе со скриптами "
+"приложения;"
+
+#: ../project_manager.rst:109
+msgid "\"Update\" - engine inside the project directory will be replaced;"
+msgstr "\"Update\" - заменяется движок в директории проекта;"
+
+#: ../project_manager.rst:110
+msgid ""
+"\"Webplayer JSON\" - json-file placed inside the project is run with the "
+"help of web-player inside SDK;"
+msgstr ""
+"\"Webplayer JSON\" - json-файл, находящийся в проекте, запускается при "
+"помощи веб-плеера в составе SDK;"
+
+#: ../project_manager.rst:111
+msgid ""
+"\"Webplayer HTML\" - project is packed into single html-file, containing "
+"all required resources."
+msgstr ""
+"\"Webplayer HTML\" - проект состоит из html-файла, внутри которого "
+"находятся все необходимые ресурсы."
+
+#: ../project_manager.rst:113
+msgid "Javascript optimization level."
+msgstr "Уровень оптимизации javascript."
+
+#: ../project_manager.rst:115
+msgid "\"Simple\" - variable names are replaced in the code;"
+msgstr "\"Simple\" - в коде заменяются имена переменных;"
+
+#: ../project_manager.rst:116
+msgid "\"Advanced\" - code optimization is performed;"
+msgstr "\"Advanced\" - призводится оптимизация кода;"
+
+#: ../project_manager.rst:117
+msgid "\"Whitespace Only\" - only whitespaces are removed from the code."
+msgstr "\"Whitespace Only\" - в коде удаляются только пробелы."
+
+#: ../project_manager.rst:122
+msgid "Project Information"
+msgstr "Информация о проекте"
+
+#: ../project_manager.rst:124
+msgid ""
+"This page contains information regarding the selected project and can be "
+"viewed by the ``[info]`` link beside the project's title."
+msgstr ""
+"Эта страница содержит информацию о выбранном проекте и доступна по ссылке"
+" ``[info]`` рядом с его названием."
+
+#: ../project_manager.rst:131 ../project_manager.rst:211
+msgid "Commands"
+msgstr "Команды"
+
+#: ../project_manager.rst:134 ../project_manager.rst:214
+msgid "*Back to Projects*"
+msgstr ""
+
+#: ../project_manager.rst:134
+msgid "Returns to the Project Manager's main page."
+msgstr "Возвращает на главную страницу менеджера проектов."
+
+#: ../project_manager.rst:137
+msgid "Opens the :ref:`Help file <project_info>`."
+msgstr "Вызывает :ref:`справку <project_info>`."
+
+#: ../project_manager.rst:140 ../project_manager.rst:226
+msgid "Project Parameters"
+msgstr "Параметры проекта"
+
+#: ../project_manager.rst:143
+msgid "*Project Name*"
+msgstr ""
+
+#: ../project_manager.rst:143
+msgid "The name of the project."
+msgstr "Имя проекта"
+
+#: ../project_manager.rst:146
+msgid "*Project Title*"
+msgstr ""
+
+#: ../project_manager.rst:149
+msgid "*Project Author / Company*"
+msgstr ""
+
+#: ../project_manager.rst:149
+msgid "The name of the project's author or the title of the developer company."
+msgstr "Имя автора проекта или название компании-разработчика проекта."
+
+#: ../project_manager.rst:152
+msgid "*Project Icon*"
+msgstr ""
+
+#: ../project_manager.rst:152
+msgid "The icon of the project."
+msgstr "Пиктограмма проекта."
+
+#: ../project_manager.rst:155
+msgid "*Application*"
+msgstr ""
+
+#: ../project_manager.rst:155
+msgid "Application's main JSON file."
+msgstr "Главный JSON-файл приложения."
+
+#: ../project_manager.rst:158
+msgid "*Engine Binding Type*"
+msgstr ""
+
+#: ../project_manager.rst:158
+msgid "The type of the project."
+msgstr "Тип собираемого проекта."
+
+#: ../project_manager.rst:161
+msgid "*Project Path (Development Directory)*"
+msgstr ""
+
+#: ../project_manager.rst:161
+msgid "Project's directory."
+msgstr "Каталог проекта."
+
+#: ../project_manager.rst:164
+msgid "*Project Config*"
+msgstr ""
+
+#: ../project_manager.rst:164
+msgid "Project's config file."
+msgstr "Конфигурационный файл проекта."
+
+#: ../project_manager.rst:167
+msgid "*Build Directory*"
+msgstr ""
+
+#: ../project_manager.rst:167
+msgid "Project build folder."
+msgstr "Директория сборки проекта."
+
+#: ../project_manager.rst:170
+msgid "*Blend Directory(s)*"
+msgstr ""
+
+#: ../project_manager.rst:170
+msgid "Directories where project's blend files are located."
+msgstr "Каталоги, в которых располагаются blend-файлы проекта."
+
+#: ../project_manager.rst:173
+msgid "*Assets Directory(s)*"
+msgstr ""
+
+#: ../project_manager.rst:173
+msgid "Directories where project's media assets are located."
+msgstr "Каталоги, в которых располагаются медиаресурсы проекта."
+
+#: ../project_manager.rst:176
+msgid "*URL Params*"
+msgstr ""
+
+#: ../project_manager.rst:176
+msgid ""
+"The list of :ref:`URL parameters <webplayer_attributes>` used to start "
+"the application."
+msgstr ""
+":ref:`URL-параметры <webplayer_attributes>`, применяемые при запуске "
+"приложения."
+
+#: ../project_manager.rst:179
+msgid "*JavaScript Obfuscation Level*"
+msgstr ""
+
+#: ../project_manager.rst:179
+msgid "JavaScript optimization level."
+msgstr "Уровень оптимизации javascript."
+
+#: ../project_manager.rst:182
+msgid "*JavaScript Compilation Ignore List*"
+msgstr ""
+
+#: ../project_manager.rst:182
+msgid "The list of exceptions for the project's script compilation."
+msgstr "Список исключений для компиляции скриптов проекта."
+
+#: ../project_manager.rst:185
+msgid "*CSS Compilation Ignore List*"
+msgstr ""
+
+#: ../project_manager.rst:185
+msgid "The list of exceptions for the projects style sheets compilation."
+msgstr "Список исключений для компиляции таблиц стилей проекта."
+
+#: ../project_manager.rst:188
+msgid "*Deployment Directory Assets Prefix*"
+msgstr ""
+
+#: ../project_manager.rst:188
+msgid "The scene resource folder in the deployed application."
+msgstr "Директория с ресурсами сцены в развёрнутом приложении."
+
+#: ../project_manager.rst:193
+msgid "Project Import"
+msgstr "Импорт проектов"
+
+#: ../project_manager.rst:195
+msgid ""
+"Tools for importing projects are avalible by the ``[Import Project(s)]`` "
+"link."
+msgstr "Средства импорта проектов вызываются по ссылке ``[Import Project(s)]``."
+
+#: ../project_manager.rst:197
+msgid ""
+"Clicking this link opens standard Open File dialog where you can select "
+"the project you need to import."
+msgstr ""
+"Нажатие на эту ссылку вызывает стандартный диалог открытия файла, где "
+"можно выбрать файл проекта, который требуется импортировать."
+
+#: ../project_manager.rst:202
+msgid "Project Export"
+msgstr "Экспорт проектов"
+
+#: ../project_manager.rst:204
+msgid ""
+"Project exporting window can be accessed by the ``[Export Project(s)]`` "
+"link."
+msgstr "Окно экспорта проекта вызывается по ссылке ``[Export Project(s)]``."
+
+#: ../project_manager.rst:214
+msgid "Returns to the Project Manager’s main page."
+msgstr "Возвращает на главную страницу менеджера проектов."
+
+#: ../project_manager.rst:217
+msgid ""
+"Hides stock projects. If such projects are already hidden, this command "
+"is replaced with the ``[Show Stock Projects]`` command."
+msgstr ""
+"Скрывает стоковые проекты. Если они уже скрыты, место этой команды "
+"занимает команда ``[Show Stock Projects]``."
+
+#: ../project_manager.rst:220
+msgid "Shows the Help page."
+msgstr "Вызывает справку."
+
+#: ../project_manager.rst:223
+msgid "Can be used to export selected projects."
+msgstr "Экспортировать выбранные проекты."
+
+#: ../project_manager.rst:229
+msgid "*Select*"
+msgstr ""
+
+#: ../project_manager.rst:229
+msgid "Shows if the project is selected for export."
+msgstr "Демонстрирует, выбран ли проект для экспорта."
+
+#: ../project_manager.rst:232
+msgid "*Name*"
+msgstr ""
+
+#: ../project_manager.rst:232
+msgid "The name of the project's directory."
+msgstr "Имя каталога проекта."
+
+#: ../project_manager.rst:235
+msgid "*Title*"
+msgstr ""
+
+#: ../project_manager.rst:235
+msgid "Project's title."
+msgstr "Заголовок проекта."
+
+#: ../project_manager.rst:238
+msgid "*Author*"
+msgstr ""
+
+#: ../project_manager.rst:242
+msgid "*Archive Name*"
+msgstr ""
+
+#: ../project_manager.rst:241
+msgid "The name of an archive to which exported projects are packed."
+msgstr "Имя архива, в который будут запакованы экспортируемые проекты."
+
+#~ msgid "JavaScript optimization level."
+#~ msgstr "Уровень оптимизации JavaScript."
+
+#~ msgid "Уровень оптимизации JavaScript."
+#~ msgstr ""
+
+#~ msgid "Возвращает на главную страницу менеджера проектов."
+#~ msgstr ""
+

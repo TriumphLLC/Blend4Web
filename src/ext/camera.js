@@ -39,6 +39,7 @@
  * @local HorizontalTranslationLimits
  * @local PivotLimits
  * @local VelocityParams
+ * @local FrustumPlanes
  */
 b4w.module["camera"] = function(exports, require) {
 
@@ -48,6 +49,7 @@ var m_cons     = require("__constraints");
 var m_cont     = require("__container");
 var m_mat3     = require("__mat3");
 var m_mat4     = require("__mat4");
+var m_math     = require("__math");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
@@ -235,6 +237,18 @@ var _limits_tmp2 = {};
  * 0.5 (by default) - the given camera position is in the middle of the given 
  * intervals and can be zoomed equally in both directions.
  * @cc_externs pos pivot dist_interval angle_interval t
+ */
+
+ /**
+ * Camera frustum planes object.
+ * @typedef {Object} FrustumPlanes
+ * @property {Plane} Left frustum plane.
+ * @property {Plane} Right frustum plane.
+ * @property {Plane} Top frustum plane.
+ * @property {Plane} Bottom frustum plane.
+ * @property {Plane} Near frustum plane.
+ * @property {Plane} Far frustum plane.
+ * @cc_externs left right top bottom near far
  */
 
 /**
@@ -1771,16 +1785,9 @@ exports.set_eye_distance = function(camobj, eye_dist) {
         return;
     }
 
-    var cameras = camobj.render.cameras;
-    for (var i = 0; i < cameras.length; i++) {
-        var cam = cameras[i];
-        if (cam.type == m_cam.TYPE_STEREO_LEFT ||
-                cam.type == m_cam.TYPE_STEREO_RIGHT ||
-                cam.type == m_cam.TYPE_HMD_LEFT ||
-                cam.type == m_cam.TYPE_HMD_RIGHT)
-            m_cam.set_stereo_params(cam, cam.stereo_conv_dist, eye_dist);
-    }
+    m_cam.set_eye_distance(camobj, eye_dist);
 }
+
 /**
  * Get the distance between eyes of the stereoscopic camera.
  * @method module:camera.get_eye_distance
@@ -1918,7 +1925,7 @@ exports.get_fov = function(camobj) {
         return 0;
     }
 
-    return m_util.rad(camobj.render.cameras[0].fov);
+    return m_util.deg_to_rad(camobj.render.cameras[0].fov);
 }
 
 /**
@@ -1937,7 +1944,7 @@ exports.set_fov = function(camobj, fov) {
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 
-        cam.fov = m_util.deg(fov);
+        cam.fov = m_util.rad_to_deg(fov);
 
         // see comments in translate_view()
         if (!cam.reflection_plane)
@@ -1964,33 +1971,14 @@ exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
     if (!hmd_left_fov || !hmd_right_fov)
         return;
 
-    var cameras = camobj.render.cameras;
-    for (var i = 0; i < cameras.length; i++) {
-        var cam = cameras[i];
-
-        if (cam.type == m_cam.TYPE_HMD_LEFT ||
-                cam.type == m_cam.TYPE_HMD_RIGHT) {
-
-            if (cam.type == m_cam.TYPE_HMD_LEFT)
-                m_vec4.copy(hmd_left_fov, cam.hmd_fov);
-
-            if (cam.type == m_cam.TYPE_HMD_RIGHT)
-                m_vec4.copy(hmd_right_fov, cam.hmd_fov);
-
-            if (!cam.reflection_plane)
-                m_cam.set_projection(cam);
-
-            m_cam.calc_view_proj_inverse(cam);
-            m_cam.calc_sky_vp_inverse(cam);
-        }
-    }
+    m_cam.set_hmd_fov(camobj, hmd_left_fov, hmd_right_fov);
 }
 
 /**
  * Correct the UP vector of the camera.
  * @method module:camera.correct_up
  * @param {Object3D} camobj Camera 3D-object.
- * @param {Vec3} y_axis Axis vector.
+ * @param {Vec3} [y_axis=util.AXIS_Y] Axis vector.
  * @param {Boolean} [strict=false] Align camera exactly with the direction of 
  * the given axis vector (never with the opposite direction).
  */
@@ -2073,8 +2061,8 @@ exports.is_ortho_camera = function(camobj) {
  * @param {Object3D} camobj Camera 3D-object.
  * @param {Number} canvas_x X Canvas coordinate.
  * @param {Number} canvas_y Y Canvas coordinate.
- * @param {?Vec3} [dest=new Float32Array(3);] Destination vector.
- * @returns {?Vec3} Destination vector.
+ * @param {?ParametricLine} [dest=new Float32Array(6);] Destination parametric line.
+ * @returns {?ParametricLine} Destination parametric line.
  */
 exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
     if (!m_obj_util.is_camera(camobj)) {
@@ -2082,9 +2070,13 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
         return null;
     }
 
-    dest = dest || new Float32Array(3);
-
     var cam = camobj.render.cameras[0];
+    // NOTE: It's for compatibility.
+    if (dest && dest.length == 3)
+        m_print.error_once("dest parameter in the function \"calc_ray\" " +
+                "should be type of parametric line.");
+    else
+        dest = dest || new Float32Array(6);
 
     switch (cam.type) {
     case m_cam.TYPE_PERSP:
@@ -2106,12 +2098,34 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
 
         m_tsr.transform_dir_vec3(dir, camobj.render.world_tsr, dir);
 
-        dest[0] = dir[0];
-        dest[1] = dir[1];
-        dest[2] = dir[2];
+        m_vec3.normalize(dir, dir);
 
-        m_vec3.normalize(dest, dest);
+        if (dest.length == 3)
+            m_vec3.copy(dir, dest);
+        else {
+            var cam_eye = m_trans.get_translation(camobj, _vec3_tmp2);
+            m_math.set_pline_initial_point(dest, cam_eye);
+            m_math.set_pline_directional_vec(dest, dir);
+        }
 
+        return dest;
+    case m_cam.TYPE_ORTHO:
+
+        var dir = _vec3_tmp;
+        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
+                _vec2_tmp, cam);
+
+        dir[0] = (2.0 * viewport_xy[0] / cam.width - 1.0) * cam.top * cam.aspect;
+        dir[1] = 0;
+        dir[2] = (2.0 * viewport_xy[1] / cam.height - 1.0) * cam.top;
+
+        m_tsr.transform_vec3(dir, camobj.render.world_tsr, dir);
+        m_vec3.copy(dir, dest);
+
+        var quat = m_tsr.get_quat_view(camobj.render.world_tsr, _vec4_tmp);
+        m_vec3.transformQuat(m_util.AXIS_MY, quat, dir);
+
+        m_math.set_pline_directional_vec(dest, dir);
         return dest;
     default:
         m_print.error("calc_ray(): Non-compatible camera");
@@ -2922,6 +2936,28 @@ exports.get_horizontal_limits = function(camobj, dest) {
         }
     }
     return null;
+}
+/**
+ * Get camera frustum planes.
+ * @method module:camera.get_frustum_planes
+ * @param {Object3D} camobj Camera object.
+ * @param {FrustumPlanes} planes Frustum planes object.
+ * @returns {?FrustumPlanes} Frustum planes object.
+ */
+exports.get_frustum_planes = function(camobj, planes) {
+    if (!m_obj_util.is_camera(camobj)) {
+        m_print.error("get_frustum_planes(): Wrong camera object");
+        return null;
+    }
+    var fr_planes = camobj.render.cameras[0].frustum_planes;
+    m_vec4.copy(fr_planes.left, planes.left);
+    m_vec4.copy(fr_planes.right, planes.right);
+    m_vec4.copy(fr_planes.top, planes.top);
+    m_vec4.copy(fr_planes.bottom, planes.bottom);
+    m_vec4.copy(fr_planes.near, planes.near);
+    m_vec4.copy(fr_planes.far, planes.far);
+
+    return planes;
 }
 
 }

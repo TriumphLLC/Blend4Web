@@ -198,7 +198,8 @@ typedef struct bPoseChannel {
 	short agrp_index;               /* index of action-group this bone belongs to (0 = default/no group) */
 	char constflag;                 /* for quick detecting which constraints affect this channel */
 	char selectflag;                /* copy of bone flag, so you can work with library armatures, not for runtime use */
-	char pad0[6];
+	char drawflag;
+	char pad0[5];
 
 	struct Bone         *bone;      /* set on read file or rebuild pose */
 	struct bPoseChannel *parent;    /* set on read file or rebuild pose */
@@ -212,6 +213,9 @@ typedef struct bPoseChannel {
 	struct bPoseChannel *custom_tx; /* odd feature, display with another bones transform.
 	                                 * needed in rare cases for advanced rigs,
 	                                 * since the alternative is highly complicated - campbell */
+	float custom_scale;
+
+	char pad1[4];
 
 	/* transforms - written in by actions or transform */
 	float loc[3];
@@ -305,6 +309,14 @@ typedef enum ePchan_IkFlag {
 	BONE_IK_NO_YDOF_TEMP = (1 << 11),
 	BONE_IK_NO_ZDOF_TEMP = (1 << 12)
 } ePchan_IkFlag;
+
+/* PoseChannel->drawflag */
+typedef enum ePchan_DrawFlag {
+	PCHAN_DRAW_NO_CUSTOM_BONE_SIZE = (1 << 0),
+} ePchan_DrawFlag;
+
+#define PCHAN_CUSTOM_DRAW_SIZE(pchan) \
+	(pchan)->custom_scale * (((pchan)->drawflag & PCHAN_DRAW_NO_CUSTOM_BONE_SIZE) ? 1.0f : (pchan)->bone->length)
 
 /* PoseChannel->rotmode and Object->rotmode */
 typedef enum eRotationModes {
@@ -583,6 +595,9 @@ typedef enum eDopeSheet_FilterFlag {
 	ADS_FILTER_INCL_HIDDEN      = (1 << 26),  /* include 'hidden' channels too (i.e. those from hidden Objects/Bones) */
 	ADS_FILTER_BY_FCU_NAME      = (1 << 27),  /* for F-Curves, filter by the displayed name (i.e. to isolate all Location curves only) */
 	ADS_FILTER_ONLY_ERRORS		= (1 << 28),  /* show only F-Curves which are disabled/have errors - for debugging drivers */
+	
+	/* GPencil Mode */
+	ADS_FILTER_GP_3DONLY        = (1 << 29),  /* GP Mode - Only show datablocks used in the scene */
 	
 	/* combination filters (some only used at runtime) */
 	ADS_FILTER_NOOBDATA = (ADS_FILTER_NOCAM | ADS_FILTER_NOMAT | ADS_FILTER_NOLAM | ADS_FILTER_NOCUR | ADS_FILTER_NOPART | ADS_FILTER_NOARM | ADS_FILTER_NOSPK | ADS_FILTER_NOMODIFIERS)

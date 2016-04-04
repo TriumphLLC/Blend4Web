@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: util</title>
+    <title>Module: util | Blend4Web API Reference</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -238,6 +238,10 @@
 
         
             
+<li> <a href="#.deg_to_rad">deg_to_rad<span class="signature">(degrees)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
 <li> <a href="#.euler_to_quat">euler_to_quat<span class="signature">(euler, quat)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
@@ -282,7 +286,7 @@
 
         
             
-<li> <a href="#.ordered_angles_to_quat">ordered_angles_to_quat<span class="signature">(euler, order, quat)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+<li> <a href="#.ordered_angles_to_quat">ordered_angles_to_quat<span class="signature">(angles, order, quat)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
@@ -295,6 +299,14 @@
         
             
 <li> <a href="#.quat_to_euler">quat_to_euler<span class="signature">(quat, euler)</span><span class="type-signature"> &rarr; {Euler}</span></a></li>
+
+        
+            
+<li> <a href="#.quat_to_ordered_angles">quat_to_ordered_angles<span class="signature">(quat, order, euler)</span><span class="type-signature"> &rarr; {Euler}</span></a></li>
+
+        
+            
+<li> <a href="#.rad_to_deg">rad_to_deg<span class="signature">(radians)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -388,7 +400,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line30">line 30</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -465,7 +477,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line35">line 35</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -542,7 +554,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line40">line 40</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -619,7 +631,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line15">line 15</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -696,7 +708,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line20">line 20</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -773,7 +785,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line25">line 25</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -850,7 +862,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line52">line 52</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -927,7 +939,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line82">line 82</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -1004,7 +1016,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line67">line 67</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -1081,7 +1093,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line97">line 97</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -1158,7 +1170,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line72">line 72</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -1235,7 +1247,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line102">line 102</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -1312,7 +1324,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line87">line 87</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -1389,7 +1401,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line57">line 57</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -1466,7 +1478,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line92">line 92</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -1543,7 +1555,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line62">line 62</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -1620,7 +1632,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line107">line 107</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -1697,7 +1709,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line77">line 77</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -1862,7 +1874,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line364">line 364</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -2065,7 +2077,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line372">line 372</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -2200,7 +2212,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line123">line 123</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -2400,7 +2412,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line244">line 244</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line261">line 261</a>
     </li></ul></dd>
     
 
@@ -2603,7 +2615,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line213">line 213</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -2761,7 +2773,164 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line312">line 312</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line329">line 329</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".deg_to_rad">deg_to_rad<span class="signature">(degrees)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Convert degrees to radians.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>degrees</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Angle in degrees.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Angle in radians.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line430">line 430</a>
     </li></ul></dd>
     
 
@@ -2791,7 +2960,7 @@
 <div class="item_description">
 
 <div class="description">
-    Convert euler rotation in the YZX intrinsic system to rotation quaternion.
+    Convert euler angles in the YZX intrinsic system to quaternion.
 </div>
 
 
@@ -2867,7 +3036,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
 
             
 
-            <td class="description last">Destination quaternion vector</td>
+            <td class="description last">Destination quaternion vector.</td>
         </tr>
 
     
@@ -2891,7 +3060,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
 
         
 <div class="param-desc">
-    Quaternion vector
+    Quaternion vector.
 </div>
 
 
@@ -2942,7 +3111,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line160">line 160</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -3105,7 +3274,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line118">line 118</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -3285,7 +3454,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line233">line 233</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -3444,7 +3613,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line352">line 352</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line380">line 380</a>
     </li></ul></dd>
     
 
@@ -3603,7 +3772,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line340">line 340</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -3815,7 +3984,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line303">line 303</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line320">line 320</a>
     </li></ul></dd>
     
 
@@ -4018,7 +4187,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line130">line 130</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -4221,7 +4390,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line140">line 140</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -4424,7 +4593,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line392">line 392</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line420">line 420</a>
     </li></ul></dd>
     
 
@@ -4661,6 +4830,8 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-math.html#.line_plane_intersect">math.line_plane_intersect</a> instead.</li></ul></dd>
+    
 
     
 
@@ -4673,7 +4844,7 @@ an angle of the rotation around the y axis, an angle of the rotation around the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line326">line 326</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line343">line 343</a>
     </li></ul></dd>
     
 
@@ -4838,7 +5009,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line150">line 150</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -4860,7 +5031,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
 
     
 
-    <h4 class="name" id=".ordered_angles_to_quat">ordered_angles_to_quat<span class="signature">(euler, order, quat)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+    <h4 class="name" id=".ordered_angles_to_quat">ordered_angles_to_quat<span class="signature">(angles, order, quat)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -4868,7 +5039,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
 <div class="item_description">
 
 <div class="description">
-    Convert euler rotation in the ordered intrinsic system to quaternion rotation.
+    Convert Euler angles in the ordered intrinsic system to quaternion.
 </div>
 
 
@@ -4904,7 +5075,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
 
         <tr>
             
-                <td class="name"><code>euler</code></td>
+                <td class="name"><code>angles</code></td>
             
 
             <td class="type">
@@ -4921,7 +5092,7 @@ Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane</li>
             
 
             <td class="description last">Ordered Euler angles. Euler angles have the same order as
-the intrinsic rotation sequence</td>
+the intrinsic rotation sequence.</td>
         </tr>
 
     
@@ -4944,7 +5115,7 @@ the intrinsic rotation sequence</td>
 
             
 
-            <td class="description last">Intrinsic rotation sequence</td>
+            <td class="description last">Intrinsic rotation sequence.</td>
         </tr>
 
     
@@ -4967,7 +5138,7 @@ the intrinsic rotation sequence</td>
 
             
 
-            <td class="description last">Destination quaternion vector</td>
+            <td class="description last">Destination quaternion vector.</td>
         </tr>
 
     
@@ -4991,7 +5162,7 @@ the intrinsic rotation sequence</td>
 
         
 <div class="param-desc">
-    Quaternion vector
+    Quaternion vector.
 </div>
 
 
@@ -5042,7 +5213,7 @@ the intrinsic rotation sequence</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line175">line 175</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -5360,7 +5531,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line255">line 255</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -5591,7 +5762,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line223">line 223</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -5771,7 +5942,368 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line191">line 191</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".quat_to_ordered_angles">quat_to_ordered_angles<span class="signature">(quat, order, euler)</span><span class="type-signature"> &rarr; {<a href="global.html#Euler">Euler</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Convert quaternion to Euler angles in the ordered intrinsic system.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>quat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Quaternion vector.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">RotationSequence</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Intrinsic rotation sequence.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>euler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination Euler angles vector. Euler angles have the same order as
+the intrinsic rotation sequence.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Euler angles vector.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".rad_to_deg">rad_to_deg<span class="signature">(radians)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Convert radians to degrees.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>radians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Angle in radians.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Angle in degrees.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line438">line 438</a>
     </li></ul></dd>
     
 
@@ -5928,7 +6460,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line205">line 205</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -6154,7 +6686,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line280">line 280</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line297">line 297</a>
     </li></ul></dd>
     
 
@@ -6357,7 +6889,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line382">line 382</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -6650,7 +7182,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line291">line 291</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -6730,7 +7262,7 @@ identity quaternion in a plane.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line46">line 46</a>
+        <a href="ext_util.js.html">ext/util.js</a>, <a href="ext_util.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -6762,13 +7294,14 @@ identity quaternion in a plane.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 26 2016 15:16:12 GMT+0300 (MSK)
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Mar 31 2016 11:41:55 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,0 +1,393 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-28 14:19+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../meshes.rst:6
+msgid "Meshes"
+msgstr "Меши"
+
+#: ../meshes.rst
+msgid "Table of Content"
+msgstr "Содержание"
+
+#: ../meshes.rst:15
+msgid "Static and Dynamic Objects"
+msgstr "Статические и динамические объекты"
+
+#: ../meshes.rst:17
+msgid "All ``MESH`` objects can be divided into static and dynamic objects."
+msgstr "Все объекты типа ``MESH`` можно разделить на статические и динамические."
+
+#: ../meshes.rst:19
+msgid ""
+"**Static objects** are objects, the meshes of which can be merged "
+"together if they have the same material."
+msgstr ""
+"**Статические объекты** - объекты, меши которых могут быть объединены "
+"друг с другом, если они имеют одинаковый материал."
+
+#: ../meshes.rst:21
+msgid ""
+"**Dynamic objects** are objects, the meshes of which cannot be combined "
+"with each other."
+msgstr ""
+"**Динамические объекты** - объекты, меши которых не могут быть "
+"скомбинированы друг с другом."
+
+#: ../meshes.rst:23
+msgid ""
+"Merging of static objects - so called batching - is performed "
+"automatically when the scene is loaded in order to optimize the number of"
+" draw calls. The conversion is performed even if there is just one object"
+" in the scene. The center of the resulting mesh is located in the origin."
+msgstr ""
+"Объединение статических объектов - т.н. батчинг (batching) - "
+"осуществляется автоматически при загрузке сцены в целях оптимизации "
+"количества вызовов отрисовки. Конвертация происходит, даже если на сцене "
+"присутствует всего один объект. Центр получившегося в результате "
+"конвертации меша находится в начале координат."
+
+#: ../meshes.rst:25
+msgid ""
+"The objects which have animation, physics or a parent, which is a dynamic"
+" object, are considered dynamic."
+msgstr ""
+"Объекты, имеющие анимацию, физику или родителя, являющегося динамическим "
+"объектом, рассматриваются как динамические."
+
+#: ../meshes.rst:27
+msgid ""
+"Object movement via API is possible only for dynamic objects. In order to"
+" make the movement of the object without dynamic settings possible, it is"
+" necessary to activate ``Force Dynamic Object`` option in its settings."
+msgstr ""
+"Перемещение посредством API возможно только в случае динамических "
+"объектов. Чтобы обеспечить движение объекта, не имеющего настроек "
+"динамического объекта, в его настройках следует активировать опцию "
+"``Force Dynamic Object``."
+
+#: ../meshes.rst:32
+msgid "Settings"
+msgstr "Настройка"
+
+#: ../meshes.rst:34
+msgid ""
+"Meshes have all settings of the :ref:`objects <object_settings>` and "
+"several additional settings."
+msgstr ""
+"Меши обладают всеми параметрами :ref:`объектов <object_settings>`, а "
+"также некоторыми дополнительными параметрами."
+
+#: ../meshes.rst:39
+msgid "Override Bounding Volumes"
+msgstr ""
+
+#: ../meshes.rst:41
+msgid ""
+"This section is used to override bounding volumes. Such volumes are used "
+"to check object’s visibility, to handle collisions and physics "
+"interaction. By editing them, you can achieve various effects."
+msgstr ""
+"Эта вкладка используется для настройки ограничивающих объёмов. Такие "
+"объёмы используются при определении видимости объекта, для рассчёта "
+"столкновений и физических взаимодействий. Манипулируя ими, можно добиться"
+" различных эффектов."
+
+#: ../meshes.rst:47
+msgid ""
+"The ``Override Bounding Volumes`` section can be found on the "
+"``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.)."
+msgstr ""
+"Раздел ``Override Bounding Volumes`` расположен на панели иструментов "
+"``Blend4Web`` (рядом с :ref:`редактором нормалей <normals_editor>`)."
+
+#: ../meshes.rst:49
+msgid "*Show Boundings*"
+msgstr ""
+
+#: ../meshes.rst:56
+msgid ""
+"Show the bounding volumes in the Blender viewport. This option works only"
+" if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
+"be rendered as a rectangular cuboid or as a combination of circles or "
+"ellises. More then one method of rendering can be active at the same time"
+" (even all three methods can be enabled simultaneously)."
+msgstr ""
+"Отобразить ограничивающий объём во вьюпорте Blender.  Работает только "
+"если активирована опция ``Override Mesh Boundings``. Объём может быть "
+"представлен в виде параллелепипеда либо в виде комбинации окружностей или"
+" эллипсов. Одновременно может работать более одного метода визуализации "
+"(в том числе все три)."
+
+#: ../meshes.rst:59
+msgid ""
+"The selected rendering method does not affect the bounding volume shape, "
+"only the way it is represented in the viewport."
+msgstr ""
+"Метод визуализации не влияет на форму ограничивающего объёма, только на "
+"его представление во вьюпорте."
+
+#: ../meshes.rst:63
+msgid "*Override Mesh Boundings*"
+msgstr ""
+
+#: ../meshes.rst:70
+msgid ""
+"This button enables the override of the basic mesh boundings. The "
+"bounding volume always has the shape of a rectangular cuboid with a "
+"center in the object’s pivot point."
+msgstr ""
+"Эта кнопка включает использование нестандартного ограничивающего объёма. "
+"Ограничивающий объём имеет форму параллелпипеда, центр которого совпадает"
+" с точкой привязки объекта."
+
+#: ../meshes.rst:73
+msgid "*MinX and  MaxX*"
+msgstr "*MinX и  MaxX*"
+
+#: ../meshes.rst:73
+msgid "The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1"
+msgstr ""
+"Размеры ограничивающего объёма по оси Z. По умолчанию *MinZ* = -1, *MaxZ*"
+" = 1."
+
+#: ../meshes.rst:76
+msgid "*MinY and  MaxY*"
+msgstr "*MinY и  MaxY*"
+
+#: ../meshes.rst:76
+msgid "The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1."
+msgstr ""
+"Размеры ограничивающего объёма по оси Y. По умолчанию *MinY* = -1, *MaxY*"
+" = 1."
+
+#: ../meshes.rst:79
+msgid "*MinZ and  MaxZ*"
+msgstr "*MinZ и  MaxZ*"
+
+#: ../meshes.rst:79
+msgid "The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1"
+msgstr ""
+"Размеры ограничивающего объёма по оси Z. По умолчанию *MinZ* = -1, *MaxZ*"
+" = 1."
+
+#: ../meshes.rst:84
+msgid "Copying Objects (Instancing)"
+msgstr "Копирование объектов (инстансинг)"
+
+#: ../meshes.rst:86
+msgid ""
+"It is often required to copy (to make instances of) objects during "
+"application work."
+msgstr ""
+"Часто возникает необходимость копирования объектов (инстансинг) во время "
+"работы приложения."
+
+#: ../meshes.rst:91
+msgid "Copying objects has its limitations:"
+msgstr "Существует ряд ограничений на копируемые объекты:"
+
+#: ../meshes.rst:89
+msgid "only ``MESH`` objects can be copied"
+msgstr "тип объекта должен быть ``MESH``"
+
+#: ../meshes.rst:90
+msgid ""
+"the object should be :ref:`dynamic <static_dynamic_objects>` (enable "
+"``Rendering Properties > Force Dynamic Object``)"
+msgstr ""
+"объект должен быть :ref:`динамическим <static_dynamic_objects>` (включить"
+" настройку ``Rendering Properties > Force Dynamic Object``)"
+
+#: ../meshes.rst:91
+msgid "the source object should belong to the active scene"
+msgstr "объект должен принадлежать активной сцене"
+
+#: ../meshes.rst:94
+msgid "Making a Simple Copy"
+msgstr "Простое копирование"
+
+#: ../meshes.rst:96
+msgid ""
+"In case of simple copying the new object will share the mesh with the "
+"original object. Thus, if the the original object’s mesh is changed, the "
+"copied object’s mesh will be changed too. To make simple copying "
+"possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object``"
+" setting in the source object’s properties."
+msgstr ""
+"В случае простого копирования для объекта-копии будет использоваться "
+"геометрия объекта, с которого осуществлялось копирование. При изменении "
+"геометрии на исходном объекте, геометрия изменится и на объекте-копии."
+
+#: ../meshes.rst:99
+msgid "Making a Deep Copy"
+msgstr "Глубокое копирование"
+
+#: ../meshes.rst:101
+msgid ""
+"In case of deep copying, the new object will have unique properties, "
+"namely it will have its own mesh. Thus, if the original object’s mesh is "
+"changed, the copied object’s mesh will not be changed. Also, the canvas "
+"textures on the copied objects are different textures and not one and the"
+" same like it is the case with the simple copying. To make deep copying "
+"possible, it is required to enable the :ref:`Rendering Properties > "
+"Dynamic Geometry <dynamic_geom>` checkbox for the source object. |"
+msgstr ""
+"При глубоком копировании новый объект будет обладать уникальными для него"
+" свойствами, а именно, он будет иметь свою собственную геометрию. То есть"
+" при изменении геометрии на объекте-оригинале у объекта-копии геометрия "
+"изменяться не будет. Также при глубоком копировании canvas-текстуры на "
+"копиях - именно разные текстуры, в то время как при простом копировании -"
+" одна и та же. Для такого типа копирования на исходном объекте нужно "
+"дополнительно выставить опцию :ref:`Rendering Properties > Dynamic "
+"Geometry <dynamic_geom>`."
+
+#: ../meshes.rst:104
+msgid ""
+"Copying objects in runtime can be performed with the ``copy`` method of "
+"the ``objects.js`` module. This method requires three arguments: the id "
+"of the source object, a unique name for the new object and the boolean "
+"value to specify the copy mode (i.e. simple or deep). By default simple "
+"copying will be performed."
+msgstr ""
+"Для копирования объектов в модуле ``objects.js`` предусмотрена функция "
+"``copy``, в которую надо передать идентификатор копируемого объекта, "
+"уникальное имя нового объекта и булеву переменную, определяющую тип "
+"копирования: ``true``- глубокое, ``false`` - простое. По умолчанию будет "
+"осуществлено простое копирование."
+
+#: ../meshes.rst:106
+msgid ""
+"The newly created object should be added to the scene. This can be "
+"performed with the ``append_object`` method of the ``scenes.js`` module. "
+"The new object should be passed to it as an argument."
+msgstr ""
+"Созданный при копировании объект необходимо добавить на сцену. Для этого "
+"в модуле ``scenes.js`` существует функция ``append_object``, куда нужно "
+"передать объект, полученный копированием."
+
+#: ../meshes.rst:118
+msgid "Removing Objects"
+msgstr "Удаление объектов"
+
+#: ../meshes.rst:119
+msgid ""
+"To remove objects, use the ``remove_object`` method of the ``scenes.js`` "
+"module. Pass the object to it as an argument. Dynamic mesh- and empty-"
+"type objects can be removed this way."
+msgstr ""
+"Для удаления объектов, в модуле ``scenes.js`` предусмотрена функция "
+"``remove_object``, куда надо передать объект. Возможно удаление "
+"динамических mesh- и empty-объектов."
+
+#: ../meshes.rst:131
+msgid "Object Selection"
+msgstr "Выделение объектов"
+
+#: ../meshes.rst:133
+msgid ""
+"In order to enable selection of a certain object, it is required to "
+"enable the ``Selectable`` checkbox on the ``Selection and Outlining`` "
+"panel."
+msgstr ""
+"Чтобы разрешить выделение конкретного объекта, необходимо установить флаг"
+" ``Selectable`` в панели ``Selection and Outlining``."
+
+#: ../meshes.rst:136
+msgid ""
+"Make sure that the status on the ``Scene > Object Outlining`` panel is "
+"set to ``ON`` or ``AUTO``."
+msgstr ""
+"Следует убедится в том, что в панели ``Scene > Object Outlining`` "
+"установлено состояние ``ON`` или ``AUTO``."
+
+#: ../meshes.rst:138
+msgid ""
+"Object selection is possible programmatically via API, for example, in "
+"the ``scenes.js`` module there is the ``pick_object`` function which "
+"selects an object based on canvas 2D coordinates,"
+msgstr ""
+"Выделение объекта возможно программно через API, например, в модуле "
+"``scenes.js`` имеется функция ``pick_object``, которая по координатам в "
+"canvas'е выделяет объект,"
+
+#: ../meshes.rst:149
+msgid "or using the :ref:`NLA Script <nla_select_play>`."
+msgstr "или с использованием :ref:`NLA-скрипта <nla_select_play>`."
+
+#: ../meshes.rst:151
+msgid ""
+"If the selectable object has enabled ``Enable Outlining`` and ``Outline "
+"on Select`` checkboxes on the ``Object > Selection`` and Outlining panel,"
+" then the ``pick_object`` function call will activate :ref:`outline glow "
+"animation <outline>`."
+msgstr ""
+"Если для выделяемого объекта в панели ``Object > Selection and "
+"Outlining`` установлены флаги ``Enable Outlining`` и ``Outline on "
+"Select``, то вызов функции ``pick_object`` приведет к активации "
+":ref:`Outline-анимации <outline>`."
+
+#: ../meshes.rst:157
+msgid "Morphing"
+msgstr "Морфинг"
+
+#: ../meshes.rst:159
+msgid ""
+"Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
+" interface."
+msgstr ""
+"Для создания ключей деформации (опорных фигур) перейдите во вкладку "
+"``Mesh > Shape keys``."
+
+#: ../meshes.rst:166
+msgid "The engine supports all shape key options under the “Relative” type."
+msgstr "Движком поддерживаются все опции типа \"Relative\" для ключей деформации."
+
+#: ../meshes.rst:168
+msgid ""
+"To set a shape key value, use the ``apply_shape_key`` method of the "
+"``geometry.js`` module."
+msgstr ""
+"Для изменения значения ключа деформации, существует функция "
+"``apply_shape_key`` в модуле ``geometry.js``."
+
+#: ../meshes.rst:172
+msgid "The object must have ``Export Shape Keys`` parameter enabled."
+msgstr "На объекте должно стоять свойство *Export Shape Keys*."
+
+#~ msgid "*MinX and MaxX*"
+#~ msgstr ""
+
+#~ msgid "The volume's X dimensions. By default, *MinX* = -1, *MaxX* = 1"
+#~ msgstr ""
+
+#~ msgid "*MinY and MaxY*"
+#~ msgstr ""
+
+#~ msgid "*MinZ and MaxZ*"
+#~ msgstr ""
+
+#~ msgid "*MinX и MaxX*"
+#~ msgstr ""
+
+#~ msgid "*MinY и MaxY*"
+#~ msgstr ""
+
+#~ msgid "*MinZ и MaxZ*"
+#~ msgstr ""
+
